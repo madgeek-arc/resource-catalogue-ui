@@ -1,0 +1,36 @@
+.breadcrumbs {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: rgba(103,118,144,0.04);
+}
+
+.uk-breadcrumb {
+    margin-bottom: 0px;
+}
+
+.uk-breadcrumb li a {
+    font-size: 13px;
+    font-weight: bold;
+    color: #2B4371;
+    letter-spacing: 0;
+}
+
+.uk-breadcrumb li span {
+    font-size: 13px;
+    color: #4D586A;
+    letter-spacing: 0;
+}
+
+.uk-breadcrumb > :nth-child(n+2):not(.uk-first-column)::before {
+    content: ">";
+    display: inline-block;
+    margin: 0 10px;
+    color: #2B4371;
+}
+
+.goBackLink {
+    font-size: 15px;
+    color: #0047BA;
+    letter-spacing: 0.36px;
+    font-weight: 700;
+}

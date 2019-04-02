@@ -10,7 +10,7 @@ import {ResourceService} from '../../services/resource.service';
 import {SearchResults} from '../../domain/search-results';
 
 @Component({
-    selector: 'home',
+    selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css']
 })

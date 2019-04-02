@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+/*UiKit css*/
+@import "../node_modules/uikit/dist/css/uikit-rtl.min.css";
+@import "../node_modules/uikit/dist/css/uikit-core.min.css";
+@import "../node_modules/uikit/dist/css/uikit-core-rtl.min.css";
+@import "../node_modules/uikit/dist/css/uikit.min.css";
+
+/*Global theme css???*/
+@import "css/custom.css";
+/*@import "css/eInfra website theme_2017.css";*/
+@import "css/ie8.css";
+/*@import "css/theme.css";*/
+/*@import "css/theme.rtl.css";*/
+@import "css/theme.update.css";
+/*@import "css/theme-bak.css";*/
+@import "css/wk-styles.css";

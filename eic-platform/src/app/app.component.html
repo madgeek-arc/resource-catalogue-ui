@@ -1,10 +1,10 @@
 <div class="uk-offcanvas-content">
-<!--  <top-menu *ngIf="!isLoginOrRegister"></top-menu>-->
-<!--  <breadcrumbs *ngIf="router.url != '/home' && router.url != '/'"></breadcrumbs>-->
+  <app-top-menu *ngIf="!isLoginOrRegister"></app-top-menu>
+  <app-breadcrumbs *ngIf="router.url != '/home' && router.url != '/'"></app-breadcrumbs>
   <div style="min-height: 80px">
     <router-outlet></router-outlet>
   </div>
-<!--  <feedback></feedback>-->
-<!--  <footer></footer>-->
+  <app-feedback></app-feedback>
+  <app-footer></app-footer>
 </div>
 
