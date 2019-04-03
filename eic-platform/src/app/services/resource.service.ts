@@ -82,8 +82,9 @@ export class ResourceService {
     searchQuery.delete('to');
     const questionMark = urlParameters.length > 0 ? '?' : '';
     /*return this.http.get(`/service/all${questionMark}${searchQuery.toString()}`).map(res => <SearchResults<Service>> <any> res);*/
-    return this.http.get(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`)
-      .subscribe(res => <SearchResults<RichService>><any>res);
+    return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`).pipe(
+      catchError(this.handleError)
+    );
     // return this.http.get(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`).map(res => <SearchResults<RichService>><any>res);
   }
 
@@ -125,15 +126,26 @@ export class ResourceService {
 
   getSelectedServices(ids: string[]) {
     /*return this.getSome("service", ids).map(res => <Service[]> <any> res);*/
-    return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
+    // return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
+    return this.http.get<RichService[]>(this.base + `/service/rich/byID/${ids.toString()}/`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   getServicesByCategories() {
-    return this.getBy('service', 'category').subscribe(res => <BrowseResults><any>res);
+    // return this.getBy('service', 'category').subscribe(res => <BrowseResults><any>res);
+
+    return this.http.get<BrowseResults>(this.base + '/service/by/category/').pipe(
+      catchError(this.handleError)
+    );
   }
+
   // TODO fix this
-  getServicesOfferedByProvider(id: string): Observable<Service[]> {
-    // return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).subscribe(res => Object.values(res.results));
+  // getServicesOfferedByProvider(id: string): Observable<Service[]> {
+  //   return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).subscribe(res => Object.values(res.results));
+  // }
+
+  getServicesOfferedByProvider(id: string) {
     return null;
   }
 
@@ -259,6 +271,8 @@ export class ResourceService {
   uploadService(service: Service, shouldPut: boolean) {
     return this.http[shouldPut ? 'put' : 'post']('/service', service).subscribe(res => <Service><any>res);
   }
+
+  /* TODO: Fix this*/
 
   // recordEvent(service: any, type: any, value?: any) {
   //   const event = Object.assign({

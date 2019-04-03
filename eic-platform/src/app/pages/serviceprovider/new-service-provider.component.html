@@ -1,0 +1,149 @@
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
+    <div class="uk-container">
+        <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+            <div class="uk-width-1-1@m uk-first-column">
+
+                <h1 class="uk-h3">
+                    <a (click)="showLogoUrlModal()" title="Click to add the url with the Service Provider Logo">
+                        <img class="el-image uk-border-rounded"
+                             src="{{(newProviderForm && newProviderForm.get('logo').value) ? newProviderForm.get('logo').value : 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
+                             width="70">
+                    </a>Add New Service Provider
+                </h1>
+
+                <!-- TOP HELP CONTENT -->
+                <help-content #topHelperContent [position]="'top'"
+                              [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                </help-content>
+
+                <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+                    <div class="uk-grid">
+
+                        <!-- LEFT HELP CONTENT -->
+                        <aside-help-content #leftHelperContent [position]="'left'"
+                                            [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+                        </aside-help-content>
+
+
+                        <!-- MIDDLE -->
+                        <div class=" uk-width-expand@m">
+
+                            <div class="middle-box animated fadeInDown ">
+                                <div class="uk-padding-small uk-border-rounded uk-margin-large-bottom uk-width-2-3" style="border: 1px solid gray;">
+                                <!--<div class="uk-margin-bottom uk-width-2-3">-->
+                                    <div class="uk-margin-small-bottom">
+                                        <h5>An administrator will be added using your user information</h5>
+                                    </div>
+                                    <div class="uk-grid uk-grid-margin-small uk-child-width-1-2@m gridView">
+                                        <div class="serviceDetails uk-margin-small-bottom">
+                                            <label class="uk-form-label">{{ firstNameDesc.label }}:</label>
+                                        </div>
+                                        <div class="serviceDetails uk-margin-small-bottom">
+                                            <span>{{ userInfo.given_name }}</span>
+                                        </div>
+                                        <div class="serviceDetails uk-margin-small-bottom">
+                                            <label class="uk-form-label">{{ lastNameDesc.label }}:</label>
+                                        </div>
+                                        <div class="serviceDetails uk-margin-small-bottom">
+                                            <span>{{ userInfo.family_name }}</span>
+                                        </div>
+                                        <div class="serviceDetails">
+                                            <label class="uk-form-label">{{ emailDesc.label }}:</label>
+                                        </div>
+                                        <div class="serviceDetails">
+                                            <span>{{ userInfo.email }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
+
+                                <div [formGroup]="newProviderForm" class="uk-form">
+                                    <div class="uk-margin-medium-bottom">
+                                        <label class="uk-form-label" for="name">{{ organizationNameDesc.label }} (*)</label>
+                                        <input id="name" class="uk-input" type="text" formControlName="name"
+                                               [ngClass]="{'uk-form-danger': !newProviderForm.get('name').valid && newProviderForm.get('name').dirty}">
+                                    </div>
+                                    <div class="uk-margin-medium-bottom">
+                                        <label class="uk-form-label" for="id">{{ organizationIdDesc.label }} (*)</label>
+                                        <input id="id" class="uk-input" type="text" formControlName="id"
+                                               [ngClass]="{'uk-form-danger': !newProviderForm.get('id').valid && newProviderForm.get('id').dirty}">
+                                        <div class="form-group">
+                                            <div><i><small>{{organizationIdDesc.desc}}</small></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-margin-medium-bottom">
+                                        <label class="uk-form-label" for="logo">{{ logoUrlDesc.label }}</label>
+                                        <input id="logo" class="uk-input" type="text" formControlName="logo"
+                                               [ngClass]="{'uk-form-danger': !newProviderForm.get('logo').valid && newProviderForm.get('logo').dirty}">
+                                        <div class="form-group">
+                                            <div><i><small>{{logoUrlDesc.desc}}</small></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-margin-medium-bottom">
+                                        <label class="uk-form-label" for="contactInformation">{{ phoneNumberDesc.label }}</label>
+                                        <input id="contactInformation" class="uk-input" type="text" formControlName="contactInformation"
+                                               [ngClass]="{'uk-form-danger': !newProviderForm.get('contactInformation').valid && newProviderForm.get('contactInformation').dirty}">
+                                    </div>
+                                    <div class="uk-margin-medium-bottom">
+                                        <label class="uk-form-label" for="website">
+                                            {{ organizationWebsiteDesc.label }} (*)</label>
+                                        <input id="website" class="uk-input" type="text" formControlName="website"
+                                               [ngClass]="{'uk-form-danger': !newProviderForm.get('website').valid && newProviderForm.get('website').dirty}">
+                                        <div class="form-group">
+                                            <div><i><small>{{organizationWebsiteDesc.desc}}</small></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-margin-medium-bottom">
+                                        <label class="uk-form-label" for="catalogueOfResources">{{ catalogueOfResourcesDesc.label }}</label>
+                                        <input id="catalogueOfResources" class="uk-input" type="text" formControlName="catalogueOfResources"
+                                               [ngClass]="{'uk-form-danger': !newProviderForm.get('catalogueOfResources').valid && newProviderForm.get('catalogueOfResources').dirty}">
+                                    </div>
+                                    <div class="uk-margin-medium-bottom">
+                                        <label class="uk-form-label" for="publicDescOfResources">{{ publicDescOfResourcesDesc.label }}</label>
+                                        <input id="publicDescOfResources" class="uk-input" type="text" formControlName="publicDescOfResources"
+                                               [ngClass]="{'uk-form-danger': !newProviderForm.get('publicDescOfResources').valid && newProviderForm.get('publicDescOfResources').dirty}">
+                                    </div>
+                                    <div class="uk-margin-medium-bottom">
+                                        <label class="uk-form-label" for="additionalInfo">{{ additionalInfoDesc.label }} (*)</label>
+                                        <textarea id="additionalInfo" class="uk-input" type="text" formControlName="additionalInfo"
+                                                  [ngClass]="{'uk-form-danger': !newProviderForm.get('additionalInfo').valid && newProviderForm.get('additionalInfo').dirty}">
+
+                                        </textarea>
+                                    </div>
+
+                                    <div>
+                                        <button class="uk-button uk-bu uk-button-blue" type="submit" (click)="registerProvider()">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- RIGHT HELP CONTENT -->
+                            <aside-help-content #rightHelperContent [position]="'right'"
+                                                [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+                            </aside-help-content>
+
+                        </div>
+                    </div>
+
+
+                    <!-- BOTTOM HELP CONTENT -->
+                    <help-content #bottomHelperContent [position]="'bottom'"
+                                  [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                    </help-content>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="logoUrlModal" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <label for="newLogo" class="uk-form-label">new logo url</label>
+        <input type="text" #newLogo id="newLogo" class="uk-input uk-margin-bottom" value="{{logoUrl}}">
+        <button class="uk-button uk-button-primary" type="button" (click)="addLogoUrl(newLogo.value)">Add</button>
+        <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    </div>
+</div>

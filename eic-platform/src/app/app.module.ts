@@ -7,7 +7,7 @@ import {DatePipe} from '@angular/common';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './pages/home/home.component';
 import {SharedModule} from './shared/shared.module';
-import {appRoutingProviders, routing} from './app.routing';
+import {AppRoutingModule} from './app.routing';
 import {AuthenticationService} from './services/authentication.service';
 import {CanActivateViaAuthGuard} from './services/can-activate-auth-guard.service';
 import {NavigationService} from './services/navigation.service';
@@ -17,15 +17,28 @@ import {FooterComponent} from './shared/footer/footer.component';
 import {TopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BreadcrumbsComponent} from './shared/breadcrumbs/breadcrumbs.component';
 import {FeedbackComponent} from './shared/feedback/feedback.component';
+import {AngularFontAwesomeModule} from "angular-font-awesome";
+import {NewServiceProviderComponent} from "./pages/serviceprovider/new-service-provider.component";
+import {MyServiceProvidersComponent} from "./pages/serviceprovider/my-service-providers.component";
+import {AddFirstServiceComponent} from "./pages/serviceprovider/add-first-service.component";
+import {ServiceProviderInfoComponent} from "./pages/serviceprovider/service-provider-info.component";
+import {UpdateServiceProviderComponent} from "./pages/serviceprovider/update-service-provider.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    //PERSISTENT
     TopMenuComponent,
     BreadcrumbsComponent,
     FooterComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    //SERVICE PROVIDER ADMIN
+    NewServiceProviderComponent,
+    ServiceProviderInfoComponent,
+    UpdateServiceProviderComponent,
+    AddFirstServiceComponent,
+    MyServiceProvidersComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +52,6 @@ import {FeedbackComponent} from './shared/feedback/feedback.component';
     ReactiveFormsModule,
     // ReusableComponentsModule,
     // ResourceRegistrationModule,
-    routing,
     SharedModule,
     // StarRatingModule.forRoot(),
     // SupportModule,
@@ -47,10 +59,10 @@ import {FeedbackComponent} from './shared/feedback/feedback.component';
     // UserModule,
     // CKEditorModule,
     // ChartModule,
-    routing
+    AngularFontAwesomeModule,
+    AppRoutingModule
   ],
   providers: [
-    appRoutingProviders,
     AuthenticationService,
     // ComparisonService,
     CanActivateViaAuthGuard,

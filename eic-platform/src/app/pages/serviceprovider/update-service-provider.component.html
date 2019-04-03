@@ -1,0 +1,178 @@
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
+    <div class="uk-container">
+        <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+            <div class="uk-width-1-1@m uk-first-column">
+
+                <h1 class="uk-h3">
+                    <a (click)="showLogoUrlModal()" title="Click to add the url with the Service Provider Logo">
+                        <img class="el-image uk-border-rounded"
+                             src="{{(updateProviderForm && updateProviderForm.get('logo').value) ? updateProviderForm.get('logo').value : 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
+                             width="70">
+                    </a>Update Service Provider
+                </h1>
+
+                <!-- TOP HELP CONTENT -->
+                <help-content #topHelperContent [position]="'top'"
+                              [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                </help-content>
+
+                <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+                    <div class="uk-grid">
+
+                        <!-- LEFT HELP CONTENT -->
+                        <aside-help-content #leftHelperContent [position]="'left'"
+                                            [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+                        </aside-help-content>
+
+
+                        <!-- MIDDLE -->
+                        <div class=" uk-width-expand@m">
+                            <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
+
+                            <div [formGroup]="updateProviderForm" class="uk-form">
+                                <div class="uk-margin-medium-bottom">
+                                    <label class="uk-form-label" for="name">{{ organizationNameDesc.label }} (*)</label>
+                                    <input id="name" class="uk-input" type="text" formControlName="name"
+                                           [ngClass]="{'uk-form-danger': !updateProviderForm.get('name').valid && updateProviderForm.get('name').dirty}">
+                                </div>
+                                <div class="uk-margin-medium-bottom">
+                                    <label class="uk-form-label" for="id">{{ organizationIdDesc.label }} (*)</label>
+                                    <input id="id" class="uk-input" type="text" formControlName="id"
+                                           [ngClass]="{'uk-form-danger': !updateProviderForm.get('id').valid && updateProviderForm.get('id').dirty}">
+                                    <div class="form-group">
+                                        <div><i>
+                                            <small>{{organizationIdDesc.desc}}</small>
+                                        </i></div>
+                                    </div>
+                                </div>
+                                <div class="uk-margin-medium-bottom">
+                                    <label class="uk-form-label" for="logo">{{ logoUrlDesc.label }}</label>
+                                    <input id="logo" class="uk-input" type="text" formControlName="logo"
+                                           [ngClass]="{'uk-form-danger': !updateProviderForm.get('logo').valid && updateProviderForm.get('logo').dirty}">
+                                    <div class="form-group">
+                                        <div><i>
+                                            <small>{{logoUrlDesc.desc}}</small>
+                                        </i></div>
+                                    </div>
+                                </div>
+                                <div class="uk-margin-medium-bottom">
+                                    <label class="uk-form-label" for="contactInformation">{{ phoneNumberDesc.label
+                                        }}</label>
+                                    <input id="contactInformation" class="uk-input" type="text"
+                                           formControlName="contactInformation"
+                                           [ngClass]="{'uk-form-danger': !updateProviderForm.get('contactInformation').valid && updateProviderForm.get('contactInformation').dirty}">
+                                </div>
+                                <div class="uk-margin-medium-bottom">
+                                    <label class="uk-form-label" for="website">
+                                        {{ organizationWebsiteDesc.label }} (*)</label>
+                                    <input id="website" class="uk-input" type="text" formControlName="website"
+                                           [ngClass]="{'uk-form-danger': !updateProviderForm.get('website').valid && updateProviderForm.get('website').dirty}">
+                                    <div class="form-group">
+                                        <div><i>
+                                            <small>{{organizationWebsiteDesc.desc}}</small>
+                                        </i></div>
+                                    </div>
+                                </div>
+                                <div class="uk-margin-medium-bottom">
+                                    <label class="uk-form-label" for="catalogueOfResources">{{
+                                        catalogueOfResourcesDesc.label }}</label>
+                                    <input id="catalogueOfResources" class="uk-input" type="text"
+                                           formControlName="catalogueOfResources"
+                                           [ngClass]="{'uk-form-danger': !updateProviderForm.get('catalogueOfResources').valid && updateProviderForm.get('catalogueOfResources').dirty}">
+                                </div>
+                                <div class="uk-margin-medium-bottom">
+                                    <label class="uk-form-label" for="publicDescOfResources">{{
+                                        publicDescOfResourcesDesc.label }}</label>
+                                    <input id="publicDescOfResources" class="uk-input" type="text"
+                                           formControlName="publicDescOfResources"
+                                           [ngClass]="{'uk-form-danger': !updateProviderForm.get('publicDescOfResources').valid && updateProviderForm.get('publicDescOfResources').dirty}">
+                                </div>
+                                <div class="uk-margin-medium-bottom">
+                                    <label class="uk-form-label" for="additionalInfo">{{ additionalInfoDesc.label }}
+                                        (*)</label>
+                                    <textarea id="additionalInfo" class="uk-input" type="text"
+                                              formControlName="additionalInfo"
+                                              [ngClass]="{'uk-form-danger': !updateProviderForm.get('additionalInfo').valid && updateProviderForm.get('additionalInfo').dirty}">
+
+                                        </textarea>
+                                </div>
+                            </div>
+                            <div class="uk-margin-small-bottom">
+                                <h5>PROVIDER ADMINS</h5>
+                            </div>
+                            <div *ngIf="provider" class="">
+                                <div *ngFor="let user of updateProviderForm.controls['users'].controls">
+                                    <div class="uk-padding-small uk-margin-small-bottom">
+                                        <div class="uk-grid" [formGroup]="user">
+                                            <!--<div class="serviceDetails uk-margin-small-bottom">-->
+                                            <!--<label class="uk-form-label">{{ firstNameDesc.label }}:</label>-->
+                                            <!--</div>-->
+                                            <div class="serviceDetails uk-width-1-5@m">
+                                                <input type="text" class="uk-input" formControlName="name"
+                                                       [ngClass]="{'uk-form-danger': !user.get('name').valid && user.get('name').dirty}">
+                                            </div>
+                                            <!--<div class="serviceDetails uk-margin-small-bottom">-->
+                                            <!--<label class="uk-form-label">{{ lastNameDesc.label }}:</label>-->
+                                            <!--</div>-->
+                                            <div class="serviceDetails uk-width-1-5@m">
+                                                <input type="text" class="uk-input" formControlName="surname"
+                                                       [ngClass]="{'uk-form-danger': !user.get('surname').valid && user.get('surname').dirty}">
+                                            </div>
+                                            <!--<div class="serviceDetails">-->
+                                            <!--<label class="uk-form-label">{{ emailDesc.label }}:</label>-->
+                                            <!--</div>-->
+                                            <div class="serviceDetails  uk-width-2-5@m">
+                                                <input type="text" class="uk-input" formControlName="email"
+                                                       [ngClass]="{'uk-form-danger': !user.get('email').valid && user.get('email').dirty}">
+                                            </div>
+                                            <div class="uk-width-1-5@m">
+                                                <a class=""
+                                                   (click)="deleteUser(user)"><i class="fa fa-times"
+                                                                                 aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-margin-small-bottom uk-width-1-1@m uk-float-right">
+                                    <a class="" (click)="addUser()"><i class="fa fa-plus" aria-hidden="true"></i>
+                                        New Admin Provider</a>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="uk-button uk-button-blue" type="submit"
+                                        (click)="updateProvider()">Submit
+                                </button>
+                            </div>
+                            <!-- RIGHT HELP CONTENT -->
+                            <aside-help-content #rightHelperContent [position]="'right'"
+                                                [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+                            </aside-help-content>
+
+                        </div>
+                    </div>
+
+
+                    <!-- BOTTOM HELP CONTENT -->
+                    <help-content #bottomHelperContent [position]="'bottom'"
+                                  [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                    </help-content>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div>-->
+    <!--form value: {{updateProviderForm.value | json}}-->
+<!--</div>-->
+
+<div id="logoUrlModal" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <label for="newLogo" class="uk-form-label">new logo url</label>
+        <input type="text" #newLogo id="newLogo" class="uk-input uk-margin-bottom" value="{{logoUrl}}">
+        <button class="uk-button uk-button-primary" type="button" (click)="addLogoUrl(newLogo.value)">Add</button>
+        <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    </div>
+</div>

@@ -155,17 +155,17 @@ const appRoutes: Routes = [
     // }
 ];
 
-// @NgModule({
-//   imports: [
-//     CommonModule,
-//     RouterModule.forRoot(appRoutes)
-//   ],
-//   declarations: [],
-//   exports: [RouterModule]
-// })
-//
-// export class AppRoutingModule {
-// }
+@NgModule({
+  imports: [
+    CommonModule,
+    RouterModule.forRoot(appRoutes)
+  ],
+  declarations: [],
+  exports: [RouterModule]
+})
 
-export const appRoutingProviders: any[] = [];
-export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
+export class AppRoutingModule {
+}
+
+// export const appRoutingProviders: any[] = [];
+// export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

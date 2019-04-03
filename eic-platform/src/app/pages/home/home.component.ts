@@ -3,91 +3,103 @@
  */
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import { Service, Vocabulary } from '../../domain/eic-model';
+import {Service, Vocabulary} from '../../domain/eic-model';
 import {SearchQuery} from '../../domain/search-query';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {SearchResults} from '../../domain/search-results';
 
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.css']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
 
-    public searchForm: FormGroup;
-    public categoriesResults: SearchResults<Vocabulary> = null;
-    public categories: Vocabulary = null;
-    public baseIconURI = './assets/images/icons/';
+  public searchForm: FormGroup;
+  public categoriesResults: SearchResults<Vocabulary> = null;
+  public categories: Vocabulary = null;
+  public baseIconURI = './assets/images/icons/';
 
-    public featuredServices: Service[] = null;
-    public viewServices: Service[] = [];
-    private step = 4;
-    private index = 0;
+  public featuredServices: Service[] = null;
+  public viewServices: Service[] = [];
+  private step = 4;
+  private index = 0;
 
 
-    constructor(public fb: FormBuilder, public router: NavigationService, public resourceService: ResourceService) {
-        this.searchForm = fb.group({'query': ['']});
-    }
+  constructor(public fb: FormBuilder, public router: NavigationService, public resourceService: ResourceService) {
+    this.searchForm = fb.group({'query': ['']});
+  }
 
-    ngOnInit() {
+  ngOnInit() {
 
-        this.resourceService.getVocabulariesByType('CATEGORIES').subscribe(
-            suc => {
-                this.categoriesResults = suc;
-                this.categories = this.categoriesResults.results[0];
-            }
-        );
+    this.resourceService.getVocabulariesByType('CATEGORIES').subscribe(
+      suc => {
+        this.categoriesResults = suc;
+        this.categories = this.categoriesResults.results[0];
+      }
+    );
 
-        // this.resourceService.getVocabulariesRaw("Category").subscribe(suc => {
-        //     this.categories = suc.results
-        //     .map(e => Object.assign(e, {extras: e.extras || ["no_icon.svg", "no_icon.svg"]}))
-        //     .filter(e => e.id !== "Category-Other" && e.extras && e.extras.length && e.extras.length === 2);
-        // });
+    // this.resourceService.getVocabulariesRaw("Category").subscribe(suc => {
+    //     this.categories = suc.results
+    //     .map(e => Object.assign(e, {extras: e.extras || ["no_icon.svg", "no_icon.svg"]}))
+    //     .filter(e => e.id !== "Category-Other" && e.extras && e.extras.length && e.extras.length === 2);
+    // });
 
-        this.resourceService.getFeaturedServices().subscribe(
-            res => {this.featuredServices = res; },
-            error => {console.log(error); },
-            () => {this.updateServiceList(); }
-            );
-    }
+    this.resourceService.getFeaturedServices().subscribe(
+      res => {
+        this.featuredServices = res;
+      },
+      error => {
+        console.log(error);
+      },
+      () => {
+        this.updateServiceList();
+      }
+    );
+  }
 
-    onSubmit(searchValue: SearchQuery) {
-        return this.router.search({query: searchValue.query});
-    }
+  onSubmit(searchValue: SearchQuery) {
+    return this.router.search({query: searchValue.query});
+  }
 
-    signUpAndRegisterAservice() {
-        sessionStorage.setItem('forward_url', '/newServiceProvider');
-        this.router.router.navigateByUrl('/newServiceProvider');
-    }
+  signUpAndRegisterAservice() {
+    sessionStorage.setItem('forward_url', '/newServiceProvider');
+    this.router.router.navigateByUrl('/newServiceProvider');
+  }
 
-    updateServiceList() {
-        let tempService: Service;
-        this.viewServices = [];
+  updateServiceList() {
+    let tempService: Service;
+    this.viewServices = [];
 
-        if (this.featuredServices.length > this.step) {
-            for (let i = 0; i < this.step; i++) {
-                if (this.index === this.featuredServices.length) { this.index = 0; }
-                tempService = this.featuredServices[this.index];
-                this.viewServices.push(tempService);
-                this.index++;
-                if (this.index === this.featuredServices.length) { this.index = 0; }
-            }
+    if (this.featuredServices.length > this.step) {
+      for (let i = 0; i < this.step; i++) {
+        if (this.index === this.featuredServices.length) {
+          this.index = 0;
         }
-        // console.log(this.viewServices);
-        // console.log(this.index);
+        tempService = this.featuredServices[this.index];
+        this.viewServices.push(tempService);
+        this.index++;
+        if (this.index === this.featuredServices.length) {
+          this.index = 0;
+        }
+      }
+    }
+    // console.log(this.viewServices);
+    // console.log(this.index);
+  }
+
+  next() {
+    this.updateServiceList();
+  }
+
+  previous() {
+    this.index = this.index - this.step * 2;
+    if (this.index < 0) {
+      this.index = this.featuredServices.length + this.index;
     }
 
-    next() {
-        this.updateServiceList();
-    }
-
-    previous() {
-        this.index = this.index - this.step * 2;
-        if (this.index < 0) {this.index = this.featuredServices.length + this.index; }
-
-        this.updateServiceList();
-    }
+    this.updateServiceList();
+  }
 }
 
