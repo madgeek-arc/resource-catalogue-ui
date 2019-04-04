@@ -12,21 +12,21 @@
                 </h1>
 
                 <!-- TOP HELP CONTENT -->
-                <help-content #topHelperContent [position]="'top'"
+                <app-help-content #topHelperContent [position]="'top'"
                               [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-                </help-content>
+                </app-help-content>
 
                 <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
                     <div class="uk-grid">
 
                         <!-- LEFT HELP CONTENT -->
-                        <aside-help-content #leftHelperContent [position]="'left'"
+                        <app-aside-help-content #leftHelperContent [position]="'left'"
                                             [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-                        </aside-help-content>
+                        </app-aside-help-content>
 
 
                         <!-- MIDDLE -->
-                        <div class=" uk-width-expand@m">
+                        <div class="uk-width-expand@m">
 
                             <div class="middle-box animated fadeInDown ">
                                 <div class="uk-padding-small uk-border-rounded uk-margin-large-bottom uk-width-2-3" style="border: 1px solid gray;">
@@ -119,18 +119,18 @@
                             </div>
 
                             <!-- RIGHT HELP CONTENT -->
-                            <aside-help-content #rightHelperContent [position]="'right'"
+                            <app-aside-help-content #rightHelperContent [position]="'right'"
                                                 [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-                            </aside-help-content>
+                            </app-aside-help-content>
 
                         </div>
                     </div>
 
 
                     <!-- BOTTOM HELP CONTENT -->
-                    <help-content #bottomHelperContent [position]="'bottom'"
+                    <app-help-content #bottomHelperContent [position]="'bottom'"
                                   [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-                    </help-content>
+                    </app-help-content>
 
 
                 </div>

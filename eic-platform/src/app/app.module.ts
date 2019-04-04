@@ -3,7 +3,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
 import {DatePipe} from '@angular/common';
-
 import {AppComponent} from './app.component';
 import {HomeComponent} from './pages/home/home.component';
 import {SharedModule} from './shared/shared.module';
@@ -17,27 +16,29 @@ import {FooterComponent} from './shared/footer/footer.component';
 import {TopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BreadcrumbsComponent} from './shared/breadcrumbs/breadcrumbs.component';
 import {FeedbackComponent} from './shared/feedback/feedback.component';
-import {AngularFontAwesomeModule} from "angular-font-awesome";
-import {NewServiceProviderComponent} from "./pages/serviceprovider/new-service-provider.component";
-import {MyServiceProvidersComponent} from "./pages/serviceprovider/my-service-providers.component";
-import {AddFirstServiceComponent} from "./pages/serviceprovider/add-first-service.component";
-import {ServiceProviderInfoComponent} from "./pages/serviceprovider/service-provider-info.component";
-import {UpdateServiceProviderComponent} from "./pages/serviceprovider/update-service-provider.component";
+import {AngularFontAwesomeModule} from 'angular-font-awesome';
+import {NewServiceProviderComponent} from './pages/serviceprovider/new-service-provider.component';
+import {MyServiceProvidersComponent} from './pages/serviceprovider/my-service-providers.component';
+// import {AddFirstServiceComponent} from './pages/serviceprovider/add-first-service.component';
+import {ServiceProviderInfoComponent} from './pages/serviceprovider/service-provider-info.component';
+import {UpdateServiceProviderComponent} from './pages/serviceprovider/update-service-provider.component';
+import {ReusableComponentsModule} from './shared/reusablecomponents/reusable-components.module';
+import {ServiceProviderService} from './services/service-provider.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    //PERSISTENT
+    // PERSISTENT
     TopMenuComponent,
     BreadcrumbsComponent,
     FooterComponent,
     FeedbackComponent,
-    //SERVICE PROVIDER ADMIN
+    // SERVICE PROVIDER ADMIN
     NewServiceProviderComponent,
     ServiceProviderInfoComponent,
     UpdateServiceProviderComponent,
-    AddFirstServiceComponent,
+    // AddFirstServiceComponent,
     MyServiceProvidersComponent
   ],
   imports: [
@@ -50,7 +51,7 @@ import {UpdateServiceProviderComponent} from "./pages/serviceprovider/update-ser
     // JsonpModule,
     // OAuthModule.forRoot(),
     ReactiveFormsModule,
-    // ReusableComponentsModule,
+    ReusableComponentsModule,
     // ResourceRegistrationModule,
     SharedModule,
     // StarRatingModule.forRoot(),
@@ -70,7 +71,7 @@ import {UpdateServiceProviderComponent} from "./pages/serviceprovider/update-ser
     NavigationService,
     ResourceService,
     // UserService,
-    // ServiceProviderService,
+    ServiceProviderService,
     // {
     //   provide: HighchartsStatic,
     //   useFactory: highchartsFactory

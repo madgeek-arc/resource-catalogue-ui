@@ -1,7 +1,3 @@
-/**
- * Created by stefania on 8/31/16.
- */
-
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
 import {AuthenticationService} from './authentication.service';

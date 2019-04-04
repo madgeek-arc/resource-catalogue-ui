@@ -7,14 +7,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { CommonModule } from '@angular/common';
 // import { SearchComponent } from './pages/search/search.component';
-// import { CanActivateViaAuthGuard } from './services/can-activate-auth-guard.service';
+import { CanActivateViaAuthGuard } from './services/can-activate-auth-guard.service';
 // import { ServiceLandingPageComponent } from './pages/landingpages/service/service-landing-page.component';
-// import { NewServiceProviderComponent } from './pages/serviceprovider/new-service-provider.component';
+import { NewServiceProviderComponent } from './pages/serviceprovider/new-service-provider.component';
 // import { ServiceProvidersListComponent } from './pages/admin/service-providers-list.component';
 // import { AddFirstServiceComponent } from './pages/serviceprovider/add-first-service.component';
-// import { MyServiceProvidersComponent } from './pages/serviceprovider/my-service-providers.component';
-// import { UpdateServiceProviderComponent } from './pages/serviceprovider/update-service-provider.component';
-// import { ServiceProviderInfoComponent } from './pages/serviceprovider/service-provider-info.component';
+import { MyServiceProvidersComponent } from './pages/serviceprovider/my-service-providers.component';
+import { UpdateServiceProviderComponent } from './pages/serviceprovider/update-service-provider.component';
+import { ServiceProviderInfoComponent } from './pages/serviceprovider/service-provider-info.component';
 // import { MyFavouritesComponent } from './pages/user/favourites/my-favourites.component';
 // import { FundersDashboardComponent } from './pages/funders/funders-dashboard.component';
 
@@ -82,30 +82,30 @@ const appRoutes: Routes = [
     //         breadcrumb : 'Edit'
     //     }
     // },
-    // {
-    //     path: 'newServiceProvider',
-    //     component: NewServiceProviderComponent,
-    //     canActivate: [CanActivateViaAuthGuard],
-    //     data: {
-    //         breadcrumb : 'New Service Provider'
-    //     }
-    // },
-    // {
-    //     path: 'serviceProviderInfo/:id',
-    //     component: ServiceProviderInfoComponent,
-    //     canActivate: [CanActivateViaAuthGuard],
-    //     data: {
-    //         breadcrumb : 'Service Provider Info'
-    //     }
-    // },
-    // {
-    //     path: 'updateServiceProvider/:id',
-    //     component: UpdateServiceProviderComponent,
-    //     canActivate: [CanActivateViaAuthGuard],
-    //     data: {
-    //         breadcrumb : 'Update Service Provider'
-    //     }
-    // },
+    {
+        path: 'newServiceProvider',
+        component: NewServiceProviderComponent,
+        canActivate: [CanActivateViaAuthGuard],
+        data: {
+            breadcrumb : 'New Service Provider'
+        }
+    },
+    {
+        path: 'serviceProviderInfo/:id',
+        component: ServiceProviderInfoComponent,
+        canActivate: [CanActivateViaAuthGuard],
+        data: {
+            breadcrumb : 'Service Provider Info'
+        }
+    },
+    {
+        path: 'updateServiceProvider/:id',
+        component: UpdateServiceProviderComponent,
+        canActivate: [CanActivateViaAuthGuard],
+        data: {
+            breadcrumb : 'Update Service Provider'
+        }
+    },
     // {
     //     path: 'newServiceProvider/:id/addFirstService',
     //     component: AddFirstServiceComponent,
@@ -122,14 +122,14 @@ const appRoutes: Routes = [
     //         breadcrumb : 'Edit First Service'
     //     }
     // },
-    // {
-    //     path: 'myServiceProviders',
-    //     component: MyServiceProvidersComponent,
-    //     canActivate: [CanActivateViaAuthGuard],
-    //     data: {
-    //         breadcrumb : 'My Service Providers'
-    //     }
-    // },
+    {
+        path: 'myServiceProviders',
+        component: MyServiceProvidersComponent,
+        canActivate: [CanActivateViaAuthGuard],
+        data: {
+            breadcrumb : 'My Service Providers'
+        }
+    },
     // {
     //     path: 'myFavourites',
     //     component: MyFavouritesComponent,

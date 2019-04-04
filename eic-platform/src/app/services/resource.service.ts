@@ -2,18 +2,17 @@
  * Created by stefania on 9/6/16.
  */
 import {Injectable} from '@angular/core';
-import {RequestOptions, Response, URLSearchParams} from '@angular/http';
-import {Observable} from 'rxjs';
+import {Response, URLSearchParams} from '@angular/http';
+import {Observable, throwError} from 'rxjs';
 import {BrowseResults} from '../domain/browse-results';
 import {Measurement, RichService, Service, ServiceHistory, Vocabulary} from '../domain/eic-model';
 import {SearchResults} from '../domain/search-results';
 import {URLParameter} from '../domain/url-parameter';
 import {AuthenticationService} from './authentication.service';
-// import {HTTPWrapper} from './http-wrapper.service';
 // import {stringify} from 'querystring';
 import {shareReplay} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {catchError} from 'rxjs/internal/operators/catchError';
 
 declare var UIkit: any;
@@ -297,18 +296,21 @@ export class ResourceService {
     return this.http.get(this.base + `/service/history/${serviceId}`).subscribe(res => <SearchResults<ServiceHistory>><any>res);
   }
 
-  public handleError(error: Response) {
+  public handleError(error: HttpErrorResponse) {
     let message = 'Server error';
-    try {
-      if (JSON.parse(error.text()).error) {
-        message = JSON.parse(error.text()).error;
-      }
-
-    } catch (e) {
-      console.error('resource.service', e);
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
     }
+    // return an observable with a user-facing error message
     UIkit.notification.closeAll();
     UIkit.notification({message: message, status: 'danger', pos: 'top-center', timeout: 5000});
-    return Observable.throw(error);
+    return throwError(error);
   }
 }
