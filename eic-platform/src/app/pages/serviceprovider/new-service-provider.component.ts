@@ -26,12 +26,12 @@ declare var UIkit: any;
   templateUrl: './new-service-provider.component.html'
 })
 export class NewServiceProviderComponent implements OnInit {
-  errorMessage: string = '';
-  logoError: boolean = false;
-  logoUrlWorks: boolean = false;
+  errorMessage = '';
+  logoError = false;
+  logoUrlWorks = false;
   userInfo = {family_name: '', given_name: '', email: ''};
   newProviderForm: FormGroup;
-  logoUrl: string = '';
+  logoUrl = '';
 
   readonly formDefinition = {
     id: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-z][a-zA-Z0-9-_]{1,}$/)])],

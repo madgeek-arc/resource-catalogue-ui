@@ -1,8 +1,8 @@
+import {NgModule} from '@angular/core';
+import {DatePipe} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
-import {NgModule} from '@angular/core';
-import {DatePipe} from '@angular/common';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './pages/home/home.component';
 import {SharedModule} from './shared/shared.module';
@@ -24,22 +24,66 @@ import {ServiceProviderInfoComponent} from './pages/serviceprovider/service-prov
 import {UpdateServiceProviderComponent} from './pages/serviceprovider/update-service-provider.component';
 import {ReusableComponentsModule} from './shared/reusablecomponents/reusable-components.module';
 import {ServiceProviderService} from './services/service-provider.service';
+import {ServiceProvidersListComponent} from './pages/admin/service-providers-list.component';
+import {FundersDashboardComponent} from './pages/funders/funders-dashboard.component';
+import {HighchartsStatic} from 'angular2-highcharts/dist/HighchartsService';
+import {ChartModule} from 'angular2-highcharts';
+import {FunderService} from './services/funder.service';
+import {SupportModule} from './pages/support/support.module';
+import {ServiceDashboardComponent} from './pages/user/dashboard/service-dashboard.component';
+import {MyFavouritesComponent} from './pages/user/favourites/my-favourites.component';
+import {DashboardComponent} from './pages/user/dashboard/dashboard.component';
+import {UserService} from './services/user.service';
+import {ComparisonService} from './services/comparison.service';
+import {UserModule} from './pages/user/user.module';
+import { StarRatingModule } from 'angular-star-rating';
+import {ServiceLandingPageComponent} from './pages/landingpages/service/service-landing-page.component';
+
+
+declare var require: any;
+
+export function highchartsFactory() {
+  const hc = require('highcharts');
+  require('highcharts/modules/heatmap')(hc);
+  require('highcharts/modules/map')(hc);
+  require('../js/europe.js')(hc);
+  require('../js/world.js')(hc);
+  require('highcharts/modules/drilldown')(hc);
+  require('highcharts/modules/exporting')(hc);
+  require('highcharts/modules/offline-exporting')(hc);
+  require('highcharts/modules/export-data')(hc);
+  return hc;
+}
 
 @NgModule({
   declarations: [
+    // MAIN
     AppComponent,
+    // BrowseCategoriesComponent,
+    // CompareServicesComponent,
     HomeComponent,
+    // SearchComponent,
+    ServiceLandingPageComponent,
     // PERSISTENT
     TopMenuComponent,
     BreadcrumbsComponent,
     FooterComponent,
     FeedbackComponent,
+    // USER
+    // ActivateComponent,
+    DashboardComponent,
+    MyFavouritesComponent,
+    ServiceDashboardComponent,
     // SERVICE PROVIDER ADMIN
     NewServiceProviderComponent,
     ServiceProviderInfoComponent,
     UpdateServiceProviderComponent,
     // AddFirstServiceComponent,
-    MyServiceProvidersComponent
+    MyServiceProvidersComponent,
+    // ADMIN
+    ServiceProvidersListComponent,
+    // FUNDERS
+    FundersDashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,31 +98,32 @@ import {ServiceProviderService} from './services/service-provider.service';
     ReusableComponentsModule,
     // ResourceRegistrationModule,
     SharedModule,
-    // StarRatingModule.forRoot(),
-    // SupportModule,
+    StarRatingModule.forRoot(),
+    SupportModule,
     // TabsModule,
-    // UserModule,
+    UserModule,
     // CKEditorModule,
-    // ChartModule,
+    ChartModule,
     AngularFontAwesomeModule,
     AppRoutingModule
   ],
   providers: [
     AuthenticationService,
-    // ComparisonService,
+    ComparisonService,
     CanActivateViaAuthGuard,
     CanActivateViaPubGuard,
     NavigationService,
     ResourceService,
-    // UserService,
+    UserService,
     ServiceProviderService,
-    // {
-    //   provide: HighchartsStatic,
-    //   useFactory: highchartsFactory
-    // },
+    {
+      provide: HighchartsStatic,
+      useFactory: highchartsFactory
+    },
     DatePipe,
-    // FunderService
+    FunderService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

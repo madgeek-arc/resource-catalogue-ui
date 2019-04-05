@@ -1,0 +1,26 @@
+.service {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.service a:hover {
+    text-decoration: none;
+}
+
+.service a:hover h3 {
+    color: #12387D !important;
+}
+
+.serviceTitle {
+    padding-left: 5px !important;
+}
+
+.serviceTitle h3, .serviceTitle .uk-h6 {
+    text-transform: none;
+}
+
+chart {
+    display: block;
+}

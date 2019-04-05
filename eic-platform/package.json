@@ -20,6 +20,8 @@
     "@angular/platform-browser": "^6.1.0",
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
+    "angular-star-rating": "3.0.3",
+    "angular2-highcharts": "^0.5.5",
     "angular-font-awesome": "^3.1.2",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",

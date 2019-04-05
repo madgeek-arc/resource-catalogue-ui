@@ -1,0 +1,142 @@
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
+    <div class="uk-container">
+        <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+            <div class="uk-width-1-1@m uk-first-column">
+                <h2 class="uk-h2 uk-text-center">Developer Information</h2>
+                <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+                    <div class="uk-grid">
+                        <div class=" uk-width-expand@m">
+                           ﻿<div>
+                                <div id="api-endpoints" class="section">
+                                    <h1>API endpoints</h1>
+                                    <p>This is a lightweight web service with a REST interface, which provides easy access to the eInfraCentral Service Catalogue. An API (Application programming interface) is a protocol intended to be used as an interface by software components to communicate with each other. The complete <a href="/openapi">eInfraCentral API documentation</a> is a living document, generated using frameworks compliant with OpenAPI Specification 2.0.</p>
+                                    <p>If you find a bug, have any questions or suggestions, please <a class="reference external" href="https://docs.google.com/forms/d/1WOQDx2wRZRiw9jlA8l1A54tMki8FwUV8fs9iXO_kcmg">get in touch with us</a>.</p>
+                                    <div id="list-resources" class="section">
+                                        <h2>List resources</h2>
+                                        <p>Searches and Lists through all the available service resources in the registry. Can sort, filter, and search the results. The listing methods can be customized as follows. </p>
+                                        <ul>
+                                            <li>Returns a list of service resources, given name-value parameters.</li>
+                                            <li>Returns a list of service resources, organized by a given field, e.g., list all services by category.</li>
+                                            <li>Returns a list of service resources given a set of serviceIDs. If a resource isn't found, null is returned instead.</li>
+                                        </ul>
+                                        <div id="example" class="section">
+                                            <div class="highlight-bash">
+                                                <div class="highlight">
+                                                    <h2>Service Resource detail</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="resource-detail" class="section">
+                                        <p>Obtains information about a single service resource.</p>
+                                    </div>
+                                    <!--<div id="list-resource-versions" class="section">-->
+                                        <!--<h2>List resource versions</h2>-->
+                                        <!--<p><a href="_top">Obtains</a> information about avaliable versions of a single resource.</p>-->
+                                    <!--</div>-->
+                                    <!--<div id="resource-version-detail" class="section">-->
+                                        <!--<h2>Resource version detail</h2>-->
+                                        <!--<p><a href="_top">Obtains</a> information about a specified version of a single resource.</p>-->
+                                    <!--</div>-->
+                                    <div id="register-a-resource" class="section">
+                                        <h2>Register a new service resource</h2>
+                                        <p>Registers a new service resource in the eInfraCentral Catalogue.</p>
+                                        <div class="admonition note">
+                                            <p class="first admonition-title"><span style="text-decoration: underline;"><strong>Note</strong></span></p>
+                                            <p class="last">This method requires the user to be authenticated. Learn how to <a class="reference internal" (click)="scrollTo('#login')"><span class="std std-ref">obtain and use API token</span></a>.</p>
+                                        </div>
+                                        <!--<div id="id9" class="section">-->
+                                            <!--<div class="admonition note">-->
+                                                <!--<p class="first admonition-title"><strong><span style="text-decoration: underline;">Note</span></strong></p>-->
+                                                <!--<p class="last">It is possible to create multiple versions of the same resource. Learn how to use <a href="_top"><span class="std std-ref">Resource versioning</span></a>.</p>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    </div>
+                                    <h2 id="validate-registering-a-resource" class="section">Update a resource</h2>
+                                    <div id="update-a-resource" class="section">
+                                        <p>Updates a service resource description.</p>
+                                        <div class="admonition note">
+                                            <p class="first admonition-title"><strong><span style="text-decoration: underline;">Note</span></strong></p>
+                                            <p class="last">This method requires the user to be authenticated. Learn how to <a class="reference internal" (click)="scrollTo('#login')"><span class="std std-ref">obtain and use API token</span></a>.</p>
+                                        </div>
+                                    </div>
+                                    <div id="validate-updating-a-resource" class="section">
+                                        <h2>Validate registering \ updating a resource</h2>
+                                        <p class="first admonition-title">Validates registering or updating a service resource without it actually being added \ modified in the registry.</p>
+                                        <p class="first admonition-title"><strong><span style="text-decoration: underline;">Note</span></strong></p>
+                                        <div class="admonition note">
+                                            <p class="last">This method requires the user to be authenticated. Learn how to <a class="reference internal" (click)="scrollTo('#login')"><span class="std std-ref">obtain and use API token</span></a>.</p>
+                                        </div>
+                                    </div>
+                                    <!--<div id="resource-versioning" class="section">-->
+                                        <!--<h2>Resource versioning</h2>-->
+                                        <!--<p style="text-align: justify;">All service resources can have a specified version assigned to them. This allows for example new versions of resources to be registered while keeping an older version of the resource intact. The creation of a new version of a service resource is handled implicitly by the Update API call, based on the version information provided. A new version is created if the version number is different from what it is currently stored in the catalogue. All changes (generating a new version or not) are also logged in the revision history of the service.</p>-->
+                                    <!--</div>-->
+                                    <!--<div id="delete-a-resource" class="section">-->
+                                        <!--<h2>Delete a resource</h2>-->
+                                        <!--<p><a href="_top">Removes</a> a service resource from the registry.</p>-->
+                                        <!--<div class="admonition note">-->
+                                            <!--<p class="first admonition-title"><strong><span style="text-decoration: underline;">Note</span></strong></p>-->
+                                            <!--<p class="last">This method requires the user to be authenticated. Learn how to <a class="reference internal" (click)="scrollTo('#login')"><span class="std std-ref">Log in / obtain token</span></a>.</p>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <div id="list-used-terms" class="section">
+                                        <h2 id="login">Obtain and Use API Token</h2>
+                                        <p>You can obtain an API token for the secured methods <a href="https://aai.eosc-portal.eu/eic-api/token.php" target="_blank">here</a>.<br>
+                                        The obtained token can be used in a bearer authorization header like this: 'Authorization: Bearer [token]'<br>
+                                        To use the token in the <a href="../openapi">api page</a>, you must click 'Authorize' and fill in the apiKey field with the following: 'Bearer [token]'.</p>
+                                        <!--<p>Logs the user in and returns an authentication token. To use edit methods of the REST API, one needs an account with eInfraCentral. A subsequent POST request to {{this.getModifiedURL(8080)}}/login with a JSON body containing fields email and password issues a jwt cookie. Any subsequent request to the API using that cookie, is authenticated.</p>-->
+                                        <!--<h2>Log out</h2>-->
+                                        <!--<div class="admonition note">-->
+                                            <!--<p class="first admonition-title"><a href="_top">Logs out the current user</a> and destroys the session</p>-->
+                                            <!--<p class="first admonition-title"><strong><span style="text-decoration: underline;">Note</span></strong></p>-->
+                                            <!--<p class="last">This method requires the user to be authenticated. Learn how to <a class="reference internal" (click)="scrollTo('#login')"><span class="std std-ref">Log in / obtain token</span></a>.</p>-->
+                                        <!--</div>-->
+                                        <!--<h2>-&#45;&#45;To Add later</h2>-->
+                                        <!--<h2>List service categories</h2>-->
+                                        <!--<p>Obtains a list of all service categories used in the registry</p>-->
+                                        <!--<div id="id31" class="section">&nbsp;</div>-->
+                                    </div>
+                                    <!--<div id="create-a-user-account" class="section">-->
+                                        <!--<h2>Create a user account</h2>-->
+                                        <!--<p>Creates a user account and emails a verification email.</p>-->
+                                    <!--</div>-->
+                                    <!--<div id="verify-a-user-account" class="section">-->
+                                        <!--<h2>Verify a user account</h2>-->
+                                        <!--<p>Verifies a user account based on the emailed verification key.</p>-->
+                                    <!--</div>-->
+                                    <!--<div id="log-in-obtain-token" class="section">&nbsp;</div>-->
+                                    <!--<div id="get-user-information" class="section">-->
+                                        <!--<h2>Get user information</h2>-->
+                                        <!--<p>Returns information about the logged in user account, including a list of registered resource (name, id, version, additionDate, lastUpdate)</p>-->
+                                        <!--<div class="admonition note">-->
+                                            <!--<p class="first admonition-title"><strong><span style="text-decoration: underline;">Note</span></strong></p>-->
+                                            <!--<p class="last">This method requires the user to be authenticated. Learn how to <a class="reference internal" (click)="scrollTo('#login')"><span class="std std-ref">Log in / obtain token</span></a>.</p>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div id="log-out" class="section">-->
+                                        <!--<div class="admonition note">-->
+                                            <!--<p class="last">&nbsp;</p>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div id="reset-user-password" class="section">-->
+                                        <!--<h2>Reset user password</h2>-->
+                                        <!--<p>Sends a password reset email.</p>-->
+                                    <!--</div>-->
+                                    <!--<div id="confirm-password-reset" class="section">-->
+                                        <!--<h2>Confirm password reset</h2>-->
+                                        <!--<p>Confirms a password reset using uid and token from a password reset email.</p>-->
+                                    <!--</div>-->
+                                    <!--<div id="stats" class="section">-->
+                                        <!--<h2>Stats</h2>-->
+                                        <!--<p>Compiles stats about the registry.</p>-->
+                                    <!--</div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

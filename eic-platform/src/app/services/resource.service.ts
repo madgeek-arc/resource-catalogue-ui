@@ -14,6 +14,8 @@ import {shareReplay} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {catchError} from 'rxjs/internal/operators/catchError';
+import {from} from 'rxjs/internal/observable/from';
+import {IndicatorsPage, MeasurementsPage} from "../domain/indicators";
 
 declare var UIkit: any;
 
@@ -49,6 +51,15 @@ export class ResourceService {
     params = params.append('from', '0');
     params = params.append('quantity', '10000');
     return this.http.get(this.base + `/${resourceType}/all`, {params}).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getAllIndicators(resourceType: string) {
+    let params = new HttpParams();
+    params = params.append('from', '0');
+    params = params.append('quantity', '10000');
+    return this.http.get<IndicatorsPage>(this.base + `/${resourceType}/all`, {params}).pipe(
       catchError(this.handleError)
     );
   }
@@ -181,7 +192,7 @@ export class ResourceService {
   }
 
   getLatestServiceMeasurement(id: string) {
-    return this.get('measurement/latest/service', id);
+    return this.http.get<MeasurementsPage>(this.base + `measurement/latest/service${id}`);
   }
 
   getIndicators(id: string) {
@@ -273,19 +284,20 @@ export class ResourceService {
 
   /* TODO: Fix this*/
 
-  // recordEvent(service: any, type: any, value?: any) {
-  //   const event = Object.assign({
-  //     instant: Date.now(),
-  //     user: (this.authenticationService.user || {id: ''}).id
-  //   }, {service, type, value});
-  //   const isVisit = ['INTERNAL', 'EXTERNAL'].indexOf(event.type) > 0;
-  //   if ((isVisit && sessionStorage.getItem(type + '-' + service) !== 'aye') || !isVisit) {
-  //     sessionStorage.setItem(type + '-' + service, 'aye');
-  //     return this.http.post('/event', event);
-  //   } else {
-  //     return Observable.from(['k']);
-  //   }
-  // }
+  recordEvent(service: any, type: any, value?: any) {
+    const event = Object.assign({
+      instant: Date.now(),
+      user: (this.authenticationService.user || {id: ''}).id
+    }, {service, type, value});
+    const isVisit = ['INTERNAL', 'EXTERNAL'].indexOf(event.type) > 0;
+    if ((isVisit && sessionStorage.getItem(type + '-' + service) !== 'aye') || !isVisit) {
+      sessionStorage.setItem(type + '-' + service, 'aye');
+      return this.http.post('/event', event);
+    } else {
+      // return Observable.from(['k']);
+      return from(['k']);
+    }
+  }
 
   getFeaturedServices() {
     // return this.http.get(this.base + `/service/featured/all`).subscribe(res => <Service[]><any>res);
@@ -293,11 +305,11 @@ export class ResourceService {
   }
 
   getServiceHistory(serviceId: string) {
-    return this.http.get(this.base + `/service/history/${serviceId}`).subscribe(res => <SearchResults<ServiceHistory>><any>res);
+    return this.http.get<SearchResults<ServiceHistory>>(this.base + `/service/history/${serviceId}`);
   }
 
   public handleError(error: HttpErrorResponse) {
-    let message = 'Server error';
+    const message = 'Server error';
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
