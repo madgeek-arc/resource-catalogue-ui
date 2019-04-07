@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Observable, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {Provider, RichService, Vocabulary} from '../../../domain/eic-model';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
@@ -10,7 +10,8 @@ import {ServiceProviderService} from '../../../services/service-provider.service
 import {IndicatorsPage, MeasurementsPage} from '../../../domain/indicators';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SearchResults} from '../../../domain/search-results';
-import {mergeMap} from 'rxjs/operators';
+import {flatMap, mergeMap} from 'rxjs/operators';
+import {zip} from 'rxjs/internal/observable/zip';
 
 declare var UIkit: any;
 
@@ -73,7 +74,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
     if (this.authenticationService.isLoggedIn()) {
       this.sub = this.route.params.subscribe(params => {
-        Observable.zip(
+        zip(
           this.resourceService.getEU(),
           this.resourceService.getWW(),
           // this.resourceService.getSelectedServices([params["id"]]),
@@ -82,12 +83,12 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           this.resourceService.getLatestServiceMeasurement(params['id'])
           // this.resourceService.recordEvent(params["id"], "INTERNAL"),
         ).subscribe(suc => {
-          this.EU = suc[0];
-          this.WW = suc[1];
-          this.service = suc[2];
+          this.EU = <string[]>suc[0];
+          this.WW = <string[]>suc[1];
+          this.service = <RichService>suc[2];
           this.myProviders = suc[3];
           this.measurements = suc[4];
-          this.indicators = suc[5];
+          this.indicators = <IndicatorsPage>suc[5];
           this.getIndicatorIds();
           this.getLocations();
           this.router.breadcrumbs = this.service.name;
@@ -111,16 +112,16 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
       });
     } else {
       this.sub = this.route.params.subscribe(params => {
-        Observable.zip(
+        zip(
           this.resourceService.getEU(),
           this.resourceService.getWW(),
           this.resourceService.getRichService(params['id']),
           this.resourceService.getLatestServiceMeasurement(params['id'])
           // this.resourceService.recordEvent(params["id"], "INTERNAL"),
         ).subscribe(suc => {
-          this.EU = suc[0];
-          this.WW = suc[1];
-          this.service = suc[2];
+          this.EU = <string[]>suc[0];
+          this.WW = <string[]>suc[1];
+          this.service = <RichService>suc[2];
           this.measurements = suc[3];
           this.getIndicatorIds();
           this.router.breadcrumbs = this.service.name;
@@ -190,7 +191,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
   addToFavourites() {
     this.userService.addFavourite(this.service.id, !this.service.isFavourite).pipe(
-      mergeMap(e => this.resourceService.getSelectedServices([e.service])))
+      flatMap(e => this.resourceService.getSelectedServices([e.service])))
       .subscribe(
         res => {
           Object.assign(this.service, res[0]);
@@ -202,7 +203,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
   rateService(rating: number) {
     this.userService.rateService(this.service.id, rating).pipe(
-      mergeMap(e => this.resourceService.getSelectedServices([e.service])))
+      flatMap(e => this.resourceService.getSelectedServices([e.service])))
       .subscribe(
         res => {
           Object.assign(this.service, res[0]);
@@ -213,7 +214,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   }
 
   getPrettyService(id) {
-    return (this.services || []).find(e => e.id == id) || {id, name: 'Name not found!'};
+    return (this.services || []).find(e => e.id === id) || {id, name: 'Name not found!'};
   }
 
   visit() {
@@ -245,7 +246,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
     this.newMeasurementForm.get('time').disable();
     if (event.target.value != null) {
       for (let i = 0; i < this.indicators.results.length; i++) {
-        if (this.indicators.results[i].id == event.target.value) {
+        if (this.indicators.results[i].id === event.target.value) {
           // console.log(this.indicators.results[i].dimensions);
           this.indicatorDesc = this.indicators.results[i].description;
           for (let j = 0; j < this.indicators.results[i].dimensions.length; j++) {
@@ -261,7 +262,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
   setUnit(indicatorId: string): string {
     for (let i = 0; this.indicators.results.length; i++) {
-      if (this.indicators.results[i].id == indicatorId) {
+      if (this.indicators.results[i].id === indicatorId) {
         return this.indicators.results[i].unitName;
       }
     }
@@ -270,7 +271,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
   getIndicatorName(id: string): string {
     for (let i = 0; i < this.indicators.results.length; i++) {
-      if (this.indicators.results[i].id == id) {
+      if (this.indicators.results[i].id === id) {
         return this.indicators.results[i].name;
       }
     }

@@ -38,6 +38,7 @@ import {ComparisonService} from './services/comparison.service';
 import {UserModule} from './pages/user/user.module';
 import { StarRatingModule } from 'angular-star-rating';
 import {ServiceLandingPageComponent} from './pages/landingpages/service/service-landing-page.component';
+import {BrowseCategoriesComponent} from './pages/browsecategories/browse-categories.component';
 
 
 declare var require: any;
@@ -59,7 +60,7 @@ export function highchartsFactory() {
   declarations: [
     // MAIN
     AppComponent,
-    // BrowseCategoriesComponent,
+    BrowseCategoriesComponent,
     // CompareServicesComponent,
     HomeComponent,
     // SearchComponent,

@@ -8,6 +8,8 @@ import {Observable} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ServiceProviderService } from '../../../services/service-provider.service';
 import { isNullOrUndefined } from 'util';
+import {map} from 'rxjs/operators';
+import {zip} from 'rxjs/internal/observable/zip';
 
 declare var require: any;
 
@@ -44,14 +46,14 @@ export class DashboardComponent implements OnInit {
     ngOnInit() {
         this.providerId = this.route.snapshot.paramMap.get('provider');
         if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
-            Observable.zip(
+            zip(
                 this.resourceService.getEU(),
                 this.resourceService.getWW(),
                 this.providerService.getServiceProviderById(this.providerId)
                 /*this.resourceService.getProvidersNames()*/
             ).subscribe(suc => {
-                this.EU = suc[0];
-                this.WW = suc[1];
+                this.EU = <string[]>suc[0];
+                this.WW = <string[]>suc[1];
                 this.provider = suc[2];
                 this.getDataForProvider();
             });
@@ -59,14 +61,14 @@ export class DashboardComponent implements OnInit {
             this.providerService.getMyServiceProviders().subscribe(
                 res => {
                         this.providerId = res[0].id;
-                        Observable.zip(
+                        zip(
                             this.resourceService.getEU(),
                             this.resourceService.getWW(),
                             this.providerService.getServiceProviderById(this.providerId)
                             /*this.resourceService.getProvidersNames()*/
                         ).subscribe(suc => {
-                            this.EU = suc[0];
-                            this.WW = suc[1];
+                            this.EU = <string[]>suc[0];
+                            this.WW = <string[]>suc[1];
                             this.provider = suc[2];
                             this.getDataForProvider();
                         });
@@ -92,44 +94,48 @@ export class DashboardComponent implements OnInit {
             }
         });
 
-        this.resourceService.getVisitsForProvider(this.providerId).map(data => {
+        this.resourceService.getVisitsForProvider(this.providerId).pipe(
+          map(data => {
             // THESE 3 weird lines should be deleted when pgl makes everything ok :)
             return Object.entries(data).map((d) => {
                 return [new Date(d[0]).getTime(), d[1]];
             }).sort((l, r) => l[0] - r[0]);
-        }).subscribe(
+        })).subscribe(
             data => this.setVisitsForProvider(data),
             // error => this.handleError(<any>error)
         );
 
-        this.resourceService.getFavouritesForProvider(this.providerId).map(data => {
+        this.resourceService.getFavouritesForProvider(this.providerId).pipe(
+          map(data => {
             // THESE 3 weird lines should be deleted when pgl makes everything ok :)
             return Object.entries(data).map((d) => {
                 return [new Date(d[0]).getTime(), d[1]];
             }).sort((l, r) => l[0] - r[0]);
-        }).subscribe(
+        })).subscribe(
             data => this.setFavouritesForProvider(data),
             // error => this.handleError(<any>error)
         );
 
-        this.resourceService.getRatingsForProvider(this.providerId).map(data => {
+        this.resourceService.getRatingsForProvider(this.providerId).pipe(
+          map(data => {
             // THESE 3 weird lines should be deleted when pgl makes everything ok :)
             return Object.entries(data).map((d) => {
                 return [new Date(d[0]).getTime(), d[1]];
             }).sort((l, r) => l[0] - r[0]);
-        }).subscribe(
+        })).subscribe(
             data => this.setRatingsForProvider(data),
             // error => this.handleError(<any>error)
         );
 
-        this.resourceService.getVisitationPercentageForProvider(this.providerId).map(data => {
+        this.resourceService.getVisitationPercentageForProvider(this.providerId).pipe(
+          map(data => {
             // THESE 3 weird lines should be deleted when pgl makes everything ok :)
             return Object.entries(data).map((d) => {
                 if (d[1] !== 'NaN') {
                     return {name : d[0], y : d[1]};
                 }
             });
-        }).subscribe(
+        })).subscribe(
             data => this.setVisitationsForProvider(data),
             // error => this.handleError(<any>error)
         );

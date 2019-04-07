@@ -1,8 +1,5 @@
-/**
- * Created by stefania on 9/6/16.
- */
 import {Injectable} from '@angular/core';
-import {Response, URLSearchParams} from '@angular/http';
+import {URLSearchParams} from '@angular/http';
 import {Observable, throwError} from 'rxjs';
 import {BrowseResults} from '../domain/browse-results';
 import {Measurement, RichService, Service, ServiceHistory, Vocabulary} from '../domain/eic-model';
@@ -10,12 +7,12 @@ import {SearchResults} from '../domain/search-results';
 import {URLParameter} from '../domain/url-parameter';
 import {AuthenticationService} from './authentication.service';
 // import {stringify} from 'querystring';
-import {shareReplay} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {catchError} from 'rxjs/internal/operators/catchError';
 import {from} from 'rxjs/internal/observable/from';
-import {IndicatorsPage, MeasurementsPage} from "../domain/indicators";
+import {IndicatorsPage, MeasurementsPage} from '../domain/indicators';
 
 declare var UIkit: any;
 
@@ -23,6 +20,7 @@ declare var UIkit: any;
 @Injectable()
 export class ResourceService {
   private base = environment.API_ENDPOINT;
+  private options = {withCredentials: true};
 
   constructor(public http: HttpClient, public authenticationService: AuthenticationService) {
   }
@@ -77,7 +75,8 @@ export class ResourceService {
   }
 
   get(resourceType: string, id: string) {
-    return this.http.get(this.base + `/${resourceType}/${id}/`).pipe(
+    console.log(this.base + `/${resourceType}/${id}/`);
+    return this.http.get(this.base + `/${resourceType}/${id}/`, this.options).pipe(
       catchError(this.handleError)
     );
   }
@@ -126,18 +125,20 @@ export class ResourceService {
 
   getService(id: string, version?: string) {
     // if version becomes optional this should be reconsidered
-    return this.get('service', version === undefined ? id : [id, version].join('/'));
+    return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options)
+      .pipe(catchError(this.handleError));
   }
 
   getRichService(id: string, version?: string) {
     // if version becomes optional this should be reconsidered
-    return this.get('service/rich', version === undefined ? id : [id, version].join('/'));
+    return this.http.get<RichService>(this.base + `/service/rich/${version === undefined ? id : [id, version].join('/')}/`, this.options)
+      .pipe(catchError(this.handleError));
   }
 
   getSelectedServices(ids: string[]) {
     /*return this.getSome("service", ids).map(res => <Service[]> <any> res);*/
     // return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
-    return this.http.get<RichService[]>(this.base + `/service/rich/byID/${ids.toString()}/`).pipe(
+    return this.http.get<RichService[]>(this.base + `/service/rich/byID/${ids.toString()}/`, this.options).pipe(
       catchError(this.handleError)
     );
   }
@@ -150,13 +151,10 @@ export class ResourceService {
     );
   }
 
-  // TODO fix this
-  // getServicesOfferedByProvider(id: string): Observable<Service[]> {
-  //   return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).subscribe(res => Object.values(res.results));
-  // }
-
-  getServicesOfferedByProvider(id: string) {
-    return null;
+  getServicesOfferedByProvider(id: string): Observable<Service[]> {
+    return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).pipe(
+      map(res => Object.values(res.results))
+    );
   }
 
   getVisitsForProvider(provider: string, type?: string) {
@@ -192,7 +190,7 @@ export class ResourceService {
   }
 
   getLatestServiceMeasurement(id: string) {
-    return this.http.get<MeasurementsPage>(this.base + `measurement/latest/service${id}`);
+    return this.http.get<MeasurementsPage>(this.base + `/measurement/latest/service/${id}`);
   }
 
   getIndicators(id: string) {
@@ -236,11 +234,11 @@ export class ResourceService {
   }
 
   getEU() {
-    return this.http.get('/vocabulary/countries/EU');
+    return this.http.get(this.base + '/vocabulary/countries/EU');
   }
 
   getWW() {
-    return this.http.get('/vocabulary/countries/WW');
+    return this.http.get(this.base + '/vocabulary/countries/WW');
   }
 
   // this should be somewhere else, I think

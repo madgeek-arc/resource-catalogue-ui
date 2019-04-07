@@ -5,12 +5,13 @@ import {AuthenticationService} from './authentication.service';
 import {NavigationService} from './navigation.service';
 import {ResourceService} from './resource.service';
 import {HttpClient} from '@angular/common/http';
-import {environment} from "../../environments/environment";
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class UserService {
 
   private base = environment.API_ENDPOINT;
+  private options = {withCredentials: true};
 
   constructor(public http: HttpClient, public router: NavigationService, public authenticationService: AuthenticationService,
               public resourceService: ResourceService) {
@@ -20,7 +21,7 @@ export class UserService {
     if (this.authenticationService.isLoggedIn()) {
       /*return this.http.put(`/event/favourite/service/${serviceID}`,{});*/
       // new addFavourite method
-      return this.http.post<EicEvent>(`/event/favourite/service/${serviceID}?value=${value}`, {});
+      return this.http.post<EicEvent>(this.base + `/event/favourite/service/${serviceID}?value=${value}`, {}, this.options);
     } else {
       this.authenticationService.login();
     }
@@ -28,7 +29,7 @@ export class UserService {
 
   public getFavouritesOfUser() {
     if (this.authenticationService.isLoggedIn()) {
-      return this.http.get<RichService[]>(this.base + `/userEvents/favourites`);
+      return this.http.get<RichService[]>(this.base + `/userEvents/favourites`, this.options);
     } else {
       return null;
     }
@@ -58,7 +59,7 @@ export class UserService {
 
   public rateService(serviceID: string, rating: number): Observable<EicEvent> {
     if (this.authenticationService.isLoggedIn()) {
-      return this.http.post<EicEvent>(`/event/rating/service/${serviceID}?rating=${rating}`, {});
+      return this.http.post<EicEvent>(this.base + `/event/rating/service/${serviceID}?rating=${rating}`, {}, this.options);
       // return this.resourceService.recordEvent(serviceID, "RATING", value).subscribe(console.log);
     } else {
       this.authenticationService.login();

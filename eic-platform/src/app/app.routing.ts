@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-// import { BrowseCategoriesComponent } from './pages/browsecategories/browse-categories.component';
+import {BrowseCategoriesComponent} from './pages/browsecategories/browse-categories.component';
 // import { CompareServicesComponent } from './pages/compare/compare-services.component';
 // import { ServiceEditComponent } from './pages/eInfraServices/service-edit.component';
 // import { ServiceUploadComponent } from './pages/eInfraServices/service-upload.component';
@@ -8,7 +8,7 @@ import {HomeComponent} from './pages/home/home.component';
 import {CommonModule} from '@angular/common';
 // import { SearchComponent } from './pages/search/search.component';
 import {CanActivateViaAuthGuard} from './services/can-activate-auth-guard.service';
-// import { ServiceLandingPageComponent } from './pages/landingpages/service/service-landing-page.component';
+import { ServiceLandingPageComponent } from './pages/landingpages/service/service-landing-page.component';
 import {NewServiceProviderComponent} from './pages/serviceprovider/new-service-provider.component';
 import {ServiceProvidersListComponent} from './pages/admin/service-providers-list.component';
 // import { AddFirstServiceComponent } from './pages/serviceprovider/add-first-service.component';
@@ -45,27 +45,27 @@ const appRoutes: Routes = [
   //         breadcrumb : 'Compare'
   //     }
   // },
-  // {
-  //     path: 'browseCategories',
-  //     component: BrowseCategoriesComponent,
-  //     data: {
-  //         breadcrumb : 'Browse'
-  //     }
-  // },
-  // {
-  //     path: 'service/:id',
-  //     component: ServiceLandingPageComponent,
-  //     data: {
-  //         breadcrumb : 'Service'
-  //     }
-  // },
-  // {
-  //     path: 'service/:id/:version',
-  //     component: ServiceLandingPageComponent,
-  //     data: {
-  //         breadcrumb : 'Service'
-  //     }
-  // },
+  {
+    path: 'browseCategories',
+    component: BrowseCategoriesComponent,
+    data: {
+      breadcrumb: 'Browse'
+    }
+  },
+  {
+    path: 'service/:id',
+    component: ServiceLandingPageComponent,
+    data: {
+      breadcrumb: 'Service'
+    }
+  },
+  {
+    path: 'service/:id/:version',
+    component: ServiceLandingPageComponent,
+    data: {
+      breadcrumb: 'Service'
+    }
+  },
   // {
   //     path: 'upload',
   //     component: ServiceUploadComponent,

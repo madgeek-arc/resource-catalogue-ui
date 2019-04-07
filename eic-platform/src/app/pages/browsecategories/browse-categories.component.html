@@ -1,0 +1,61 @@
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
+    <div class="uk-container">
+        <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+            <div class="uk-width-1-1@m uk-first-column">
+
+                <h1 class="uk-h3">Browse service categories</h1>
+
+                <!-- TOP HELP CONTENT -->
+                <app-help-content #topHelperContent [position]="'top'"
+                              [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                </app-help-content>
+
+                <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+                    <div class="uk-grid">
+
+                        <!-- LEFT HELP CONTENT -->
+                        <app-aside-help-content #leftHelperContent [position]="'left'"
+                                            [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+                        </app-aside-help-content>
+
+
+                        <!-- MIDDLE -->
+                        <div class=" uk-width-expand@m">
+
+                            <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
+
+                            <div *ngIf="browseResultsColumns" class="browseResults uk-grid">
+
+                                <div *ngFor="let browseResultsColumn of browseResultsColumns" class="uk-width-1-3@m">
+                                    <dl *ngFor="let categoryServices of browseResultsColumn.data | keys" class="uk-description-list">
+                                        <dt>{{ categoryServices }}</dt>
+                                        <dd *ngFor="let service of browseResultsColumn.data[categoryServices]">
+                                            <!--<a (click)="this.router.service(service.id)">{{service.name}}</a>-->
+                                            <a [routerLink]="['/service/' + service.id]">{{service.name}}</a>
+                                        </dd>
+                                    </dl>
+                                </div>
+
+
+                            </div>
+
+                            <!-- RIGHT HELP CONTENT -->
+                            <app-aside-help-content #rightHelperContent [position]="'right'"
+                                                [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+                            </app-aside-help-content>
+
+                        </div>
+                    </div>
+
+
+                    <!-- BOTTOM HELP CONTENT -->
+                    <app-help-content #bottomHelperContent [position]="'bottom'"
+                                  [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                    </app-help-content>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
