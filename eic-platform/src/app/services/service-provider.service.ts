@@ -1,12 +1,12 @@
-/**
- * Created by myrto on 9/19/18.
- */
 import {Injectable} from '@angular/core';
 import {AuthenticationService} from './authentication.service';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Provider, Service} from '../domain/eic-model';
-import {Observable} from "rxjs";
+import {Observable, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+
+declare var UIkit: any;
 
 @Injectable()
 export class ServiceProviderService {
@@ -33,19 +33,27 @@ export class ServiceProviderService {
   }
 
   createNewServiceProvider(newProvider: any) {
-    return this.http.post(this.base + '/provider', newProvider, this.options);
+    return this.http.post(this.base + '/provider', newProvider, this.options).pipe(
+      catchError(this.handleError)
+    );
   }
 
   updateServiceProvider(updatedFields: any): Observable<Provider> {
-    return this.http.put<Provider>(this.base + '/provider', updatedFields, this.options);
+    return this.http.put<Provider>(this.base + '/provider', updatedFields, this.options).pipe(
+      catchError(this.handleError)
+    );
   }
 
   verifyServiceProvider(id: string, active: boolean, status: string) {
-    return this.http.patch(`/provider/verifyProvider/${id}?active=${active}&status=${status}`, {});
+    return this.http.patch(`/provider/verifyProvider/${id}?active=${active}&status=${status}`, {}).pipe(
+      catchError(this.handleError)
+    );
   }
 
   getMyServiceProviders() {
-    return this.http.get<Provider[]>(this.base + '/provider/getMyServiceProviders', this.options);
+    return this.http.get<Provider[]>(this.base + '/provider/getMyServiceProviders', this.options).pipe(
+      catchError(this.handleError)
+    );
   }
 
   // getMyServiceProviders() {
@@ -53,15 +61,39 @@ export class ServiceProviderService {
   // }
 
   getServiceProviderById(id: string) {
-    return this.http.get<Provider>(this.base + `/provider/${id}`, this.options);
+    return this.http.get<Provider>(this.base + `/provider/${id}`, this.options).pipe(
+      catchError(this.handleError)
+    );
   }
 
   getServicesOfProvider(id: string) {
-    return this.http.get<Service[]>(this.base + `/provider/services/${id}`);
+    return this.http.get<Service[]>(this.base + `/provider/services/${id}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   getPendingServicesOfProvider(id: string) {
-    return this.http.get<Service[]>(this.base + `/provider/services/pending/${id}`);
+    return this.http.get<Service[]>(this.base + `/provider/services/pending/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    const message = 'Server error';
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    // return an observable with a user-facing error message
+    UIkit.notification.closeAll();
+    UIkit.notification({message: message, status: 'danger', pos: 'top-center', timeout: 5000});
+    return throwError(error);
   }
 
 }

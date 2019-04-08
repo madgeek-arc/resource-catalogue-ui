@@ -217,9 +217,9 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
     return (this.services || []).find(e => e.id === id) || {id, name: 'Name not found!'};
   }
 
-  visit() {
-    this.resourceService.recordEvent(this.service.id, 'EXTERNAL').subscribe(suc => this.router.goOffsite(this.service.url.toString()));
-  }
+  // visit() {
+  //   this.resourceService.recordEvent(this.service.id, 'EXTERNAL').subscribe(suc => this.router.goOffsite(this.service.url.toString()));
+  // }
 
   handleError(error) {
     this.errorMessage = 'System error loading service (Server responded: ' + error + ')';

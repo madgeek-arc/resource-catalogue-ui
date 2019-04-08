@@ -6,7 +6,7 @@ import {BrowseCategoriesComponent} from './pages/browsecategories/browse-categor
 // import { ServiceUploadComponent } from './pages/eInfraServices/service-upload.component';
 import {HomeComponent} from './pages/home/home.component';
 import {CommonModule} from '@angular/common';
-// import { SearchComponent } from './pages/search/search.component';
+import { SearchComponent } from './pages/search/search.component';
 import {CanActivateViaAuthGuard} from './services/can-activate-auth-guard.service';
 import { ServiceLandingPageComponent } from './pages/landingpages/service/service-landing-page.component';
 import {NewServiceProviderComponent} from './pages/serviceprovider/new-service-provider.component';
@@ -31,13 +31,13 @@ const appRoutes: Routes = [
       breadcrumb: 'Home'
     }
   },
-  // {
-  //     path: 'search',
-  //     component: SearchComponent,
-  //     data: {
-  //         breadcrumb : 'Search'
-  //     }
-  // },
+  {
+      path: 'search',
+      component: SearchComponent,
+      data: {
+          breadcrumb : 'Search'
+      }
+  },
   // {
   //     path: 'compare',
   //     component: CompareServicesComponent,

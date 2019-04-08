@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {DatePipe} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './pages/home/home.component';
 import {SharedModule} from './shared/shared.module';
@@ -39,6 +39,7 @@ import {UserModule} from './pages/user/user.module';
 import { StarRatingModule } from 'angular-star-rating';
 import {ServiceLandingPageComponent} from './pages/landingpages/service/service-landing-page.component';
 import {BrowseCategoriesComponent} from './pages/browsecategories/browse-categories.component';
+import {SearchComponent} from './pages/search/search.component';
 
 
 declare var require: any;
@@ -63,7 +64,7 @@ export function highchartsFactory() {
     BrowseCategoriesComponent,
     // CompareServicesComponent,
     HomeComponent,
-    // SearchComponent,
+    SearchComponent,
     ServiceLandingPageComponent,
     // PERSISTENT
     TopMenuComponent,
@@ -95,6 +96,7 @@ export function highchartsFactory() {
     // HttpModule,
     // JsonpModule,
     // OAuthModule.forRoot(),
+    FormsModule,
     ReactiveFormsModule,
     ReusableComponentsModule,
     // ResourceRegistrationModule,

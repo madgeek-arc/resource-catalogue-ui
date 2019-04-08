@@ -2,11 +2,10 @@ import {Injectable} from '@angular/core';
 import {URLSearchParams} from '@angular/http';
 import {Observable, throwError} from 'rxjs';
 import {BrowseResults} from '../domain/browse-results';
-import {Measurement, RichService, Service, ServiceHistory, Vocabulary} from '../domain/eic-model';
+import {Measurement, Provider, RichService, Service, ServiceHistory, Vocabulary} from '../domain/eic-model';
 import {SearchResults} from '../domain/search-results';
 import {URLParameter} from '../domain/url-parameter';
 import {AuthenticationService} from './authentication.service';
-// import {stringify} from 'querystring';
 import {map} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
@@ -91,10 +90,10 @@ export class ResourceService {
     searchQuery.delete('to');
     const questionMark = urlParameters.length > 0 ? '?' : '';
     /*return this.http.get(`/service/all${questionMark}${searchQuery.toString()}`).map(res => <SearchResults<Service>> <any> res);*/
-    return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`).pipe(
+    return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}/`, this.options)
+      .pipe(
       catchError(this.handleError)
     );
-    // return this.http.get(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`).map(res => <SearchResults<RichService>><any>res);
   }
 
   getVocabularies() {
@@ -218,8 +217,20 @@ export class ResourceService {
   }
   // TODO fix this!!!!
   // getProvidersNames() {
-  //   return this.getAll('provider').subscribe(e => e.results.reduce(this.idToName, {}));
+  //   return this.getAll('provider')
+  //     .pipe(
+  //       map(e => e.results.reduce(this.idToName, {}))
+  //     );
   // }
+
+  getProvidersNames() {
+    let params = new HttpParams();
+    params = params.append('from', '0');
+    params = params.append('quantity', '10000');
+    return this.http.get<Provider[]>(this.base + `/provider/all/`, {params}).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   getProviders(from: string, quantity: string) {
     // const params: RequestOptions = new RequestOptions();
@@ -299,11 +310,11 @@ export class ResourceService {
 
   getFeaturedServices() {
     // return this.http.get(this.base + `/service/featured/all`).subscribe(res => <Service[]><any>res);
-    return this.http.get<Service[]>(this.base + `/service/featured/all`).pipe( catchError(this.handleError));
+    return this.http.get<Service[]>(this.base + `/service/featured/all/`).pipe( catchError(this.handleError));
   }
 
   getServiceHistory(serviceId: string) {
-    return this.http.get<SearchResults<ServiceHistory>>(this.base + `/service/history/${serviceId}`);
+    return this.http.get<SearchResults<ServiceHistory>>(this.base + `/service/history/${serviceId}/`);
   }
 
   public handleError(error: HttpErrorResponse) {
