@@ -1,0 +1,251 @@
+<div id="tm-main" class="tm-main uk-section uk-section-default" uk-height-viewport="expand: true"
+     style="box-sizing: border-box;">
+  <div class="uk-container uk-container-expand">
+
+    <!-- TOP HELP CONTENT -->
+    <app-help-content #topHelperContent [position]="'top'"
+                      [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+    </app-help-content>
+
+    <div id="myGrid" class="uk-grid" uk-grid="">
+
+      <div class="uk-width-1-1">
+
+        <table id="myTable" class="uk-table uk-text-left">
+          <thead class="uk-width-1-1 uk-margin-bottom tablehead" style="">
+          <!--<thead class="header uk-width-1-1 uk-margin-bottom">-->
+          <tr>
+            <th class="uk-width-1-4"></th>
+            <th *ngFor="let service of services; let i = index;" class="uk-width-1-4" [ngClass]="{evenColumn: i%2==1}">
+              <div class="uk-margin-bottom uk-margin-top">
+                <a (click)="this.comparisonService.addOrRemove(service,true)" title="Remove from comparison list"
+                   uk-tooltip="delay: 500">
+                  <img src="../../../assets/images/icons/ic_remove.svg">
+                  <span class="removeLink uk-margin-small-left">Remove</span>
+                </a>
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <th class="uk-width-1-4"></th>
+            <th *ngFor="let service of services; let i = index;" class="uk-width-1-4" [ngClass]="{evenColumn: i%2==1}">
+              <div class="uk-margin-bottom">
+                <img [src]="service.symbol|| nologo" style="max-height: 60px; width: auto;">
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <th class="uk-width-1-4">
+            </th>
+            <th *ngFor="let service of services; let i = index;" class="uk-width-1-4" [ngClass]="{evenColumn: i%2==1}">
+              <div class="serviceBrandName">
+                {{service.name}}
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <th class="uk-width-1-4"></th>
+            <th *ngFor="let service of services; let i = index;" class="uk-width-1-4" [ngClass]="{evenColumn: i%2==1}">
+              <div class="tagLine uk-margin-bottom">
+                "{{service.tagline}}"
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <th class="uk-width-1-4"></th>
+            <th *ngFor="let service of services; let i = index;" class="uk-width-1-4" [ngClass]="{evenColumn: i%2==1}">
+              <div class="uk-margin-bottom">
+                <star-rating-comp #rating (click)="rateService(i, rating.rating)"
+                                  [starType]="'svg'" [rating]="service.hasRate" [step]="1"
+                                  [showHalfStars]="true" [readOnly]=!this.authenticationService.isLoggedIn()
+                                  [size]="'medium'"
+                                  [staticColor]="'ok'" class="uk-inline starRating"
+                                  labelText="{{service.hasRate}} ({{ service.ratings }})" [labelVisible]="true"
+                                  [labelPosition]="'right'"
+                                  [hoverEnabled]="true">
+                </star-rating-comp>
+                <span class="uk-margin-medium-left">
+                    <img src="../../../../assets/images/icons/ic_visit_icon.svg">
+                    <span class="statsNumbers">&nbsp;&nbsp;({{ service.views }})</span>
+                </span>
+              </div>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td class="uk-width-1-4 fieldName">Options</td>
+            <td *ngFor="let service of services; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+              <ng-template [ngIf]="service.options && service.options!=''">
+                {{service.options}}
+              </ng-template>
+              <ng-template [ngIf]="!service.options || service.options==''">
+                /
+              </ng-template>
+            </td>
+          </tr>
+          <tr>
+            <td class="uk-width-1-4 fieldName">Target Users</td>
+            <td *ngFor="let service of services; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+              <ng-template [ngIf]="service.targetUsers && service.targetUsers!=''">
+                {{service.targetUsers}}
+              </ng-template>
+              <ng-template [ngIf]="!service.targetUsers || service.targetUsers==''">
+                /
+              </ng-template>
+            </td>
+          </tr>
+          <tr>
+            <td class="uk-width-1-4 fieldName">User Value</td>
+            <td *ngFor="let service of services; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+              <ng-template [ngIf]="service.userValue && service.userValue!=''">
+                {{service.userValue}}
+              </ng-template>
+              <ng-template [ngIf]="!service.userValue || service.userValue==''">
+                /
+              </ng-template>
+            </td>
+          </tr>
+          <tr>
+            <td class="uk-width-1-4 fieldName">User Base</td>
+            <td *ngFor="let service of services; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+              <ng-template [ngIf]="service.userBase && service.userBase!=''">
+                {{service.userBase}}
+              </ng-template>
+              <ng-template [ngIf]="!service.userBase || service.userBase==''">
+                /
+              </ng-template>
+            </td>
+          </tr>
+          <tr>
+            <td class="uk-width-1-4 fieldName">Funding</td>
+            <td *ngFor="let service of services; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+              <ng-template [ngIf]="service.funding && service.funding!=''">
+                {{service.funding}}
+              </ng-template>
+              <ng-template [ngIf]="!service.funding || service.funding==''">
+                /
+              </ng-template>
+            </td>
+          </tr>
+          <tr>
+            <td class="uk-width-1-4 fieldName">Version</td>
+            <td *ngFor="let service of services; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+              <ng-template [ngIf]="service.version && service.version!=''">
+                {{service.version}}
+              </ng-template>
+              <ng-template [ngIf]="!service.version || service.version==''">
+                /
+              </ng-template>
+            </td>
+          </tr>
+          <tr>
+            <td class="uk-width-1-4 fieldName">Lifecycle Status</td>
+            <td *ngFor="let service of services; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+              <ng-template [ngIf]="service.lifeCycleStatusName && service.lifeCycleStatusName!=''">
+                {{service.lifeCycleStatusName}}
+              </ng-template>
+              <ng-template [ngIf]="!service.lifeCycleStatusName || service.lifeCycleStatusName==''">
+                /
+              </ng-template>
+            </td>
+          </tr>
+          <tr>
+            <td class="uk-width-1-4 fieldName">TRL</td>
+            <td *ngFor="let service of services; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+              <ng-template [ngIf]="service.trlName && service.trlName!=''">
+                {{service.trlName}}
+              </ng-template>
+              <ng-template [ngIf]="!service.trlName || service.trlName==''">
+                /
+              </ng-template>
+            </td>
+          </tr>
+          <tr>
+            <td class="uk-width-1-4 fieldName">Category</td>
+            <td *ngFor="let service of services; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+              <ng-template [ngIf]="service.categoryName && service.categoryName!=''">
+                {{service.categoryName}}
+              </ng-template>
+              <ng-template [ngIf]="!service.categoryName || service.categoryName==''">
+                /
+              </ng-template>
+            </td>
+          </tr>
+          <tr>
+            <td class="uk-width-1-4 fieldName">Subcategory</td>
+            <td *ngFor="let service of services; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+              <ng-template [ngIf]="service.subCategoryName && service.subCategoryName!=''">
+                {{service.subCategoryName}}
+              </ng-template>
+              <ng-template [ngIf]="!service.subCategoryName || service.subCategoryName==''">
+                /
+              </ng-template>
+            </td>
+          </tr>
+          <tr>
+            <td class="uk-width-1-4 fieldName">Places</td>
+            <td *ngFor="let service of services; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+              <ng-template [ngIf]="service.placeNames && service.placeNames!=''">
+                {{service.placeNames | join:", "}}
+              </ng-template>
+              <ng-template [ngIf]="!service.placeNames || service.placeNames==''">
+                /
+              </ng-template>
+            </td>
+          </tr>
+          <tr>
+            <td class="uk-width-1-4 fieldName">Languages</td>
+            <td *ngFor="let service of services; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+              <ng-template [ngIf]="service.languageNames && service.languageNames!=''">
+                {{service.languageNames | join:", "}}
+              </ng-template>
+              <ng-template [ngIf]="!service.languageNames || service.languageNames==''">
+                /
+              </ng-template>
+            </td>
+          </tr>
+          <tr class="noBorderTop">
+            <td class="uk-width-1-4"></td>
+            <td *ngFor="let service of services; let i = index;" class="uk-width-1-4" [ngClass]="{evenColumn: i%2==1}">
+              <button (click)="addToFavourites(i)"
+                      class="uk-button uk-button-default uk-width-1-1 favoriteButton" title="Favourites"
+                      uk-tooltip="delay: 500">
+                <i [ngClass]="service.isFavourite?'fa fa-heart':'fa fa-heart-o'"></i>
+                <!--<span> ({{ service.favourites }})</span>-->
+                &nbsp; Favorite
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <!-- RIGHT HELP CONTENT -->
+      <app-aside-help-content #rightHelperContent [position]="'right'"
+                              [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+      </app-aside-help-content>
+
+    </div>
+
+    <!-- BOTTOM HELP CONTENT -->
+    <app-help-content #bottomHelperContent [position]="'bottom'"
+                      [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+    </app-help-content>
+
+  </div>
+</div>
+

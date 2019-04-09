@@ -81,19 +81,19 @@ export class ResourceService {
   }
 
   search(urlParameters: URLParameter[]) {
-    const searchQuery = new URLSearchParams();
+    let searchQuery = new HttpParams();
     for (const urlParameter of urlParameters) {
       for (const value of urlParameter.values) {
-        searchQuery.append(urlParameter.key, value);
+        searchQuery = searchQuery.append(urlParameter.key, value);
       }
     }
     searchQuery.delete('to');
     const questionMark = urlParameters.length > 0 ? '?' : '';
     /*return this.http.get(`/service/all${questionMark}${searchQuery.toString()}`).map(res => <SearchResults<Service>> <any> res);*/
-    return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}/`, this.options)
+    return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`, this.options)
       .pipe(
-      catchError(this.handleError)
-    );
+        catchError(this.handleError)
+      );
   }
 
   getVocabularies() {
@@ -215,6 +215,7 @@ export class ResourceService {
       return servicesGroupedByPlace;
     });
   }
+
   // TODO fix this!!!!
   // getProvidersNames() {
   //   return this.getAll('provider')
@@ -288,7 +289,10 @@ export class ResourceService {
   }
 
   uploadService(service: Service, shouldPut: boolean) {
-    return this.http[shouldPut ? 'put' : 'post']('/service', service).subscribe(res => <Service><any>res);
+    return this.http[shouldPut ? 'put' : 'post']<Service>('/service', service)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   /* TODO: Fix this*/
@@ -310,7 +314,7 @@ export class ResourceService {
 
   getFeaturedServices() {
     // return this.http.get(this.base + `/service/featured/all`).subscribe(res => <Service[]><any>res);
-    return this.http.get<Service[]>(this.base + `/service/featured/all/`).pipe( catchError(this.handleError));
+    return this.http.get<Service[]>(this.base + `/service/featured/all/`).pipe(catchError(this.handleError));
   }
 
   getServiceHistory(serviceId: string) {

@@ -19,7 +19,7 @@ import {FeedbackComponent} from './shared/feedback/feedback.component';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {NewServiceProviderComponent} from './pages/serviceprovider/new-service-provider.component';
 import {MyServiceProvidersComponent} from './pages/serviceprovider/my-service-providers.component';
-// import {AddFirstServiceComponent} from './pages/serviceprovider/add-first-service.component';
+import {AddFirstServiceComponent} from './pages/serviceprovider/add-first-service.component';
 import {ServiceProviderInfoComponent} from './pages/serviceprovider/service-provider-info.component';
 import {UpdateServiceProviderComponent} from './pages/serviceprovider/update-service-provider.component';
 import {ReusableComponentsModule} from './shared/reusablecomponents/reusable-components.module';
@@ -40,6 +40,10 @@ import { StarRatingModule } from 'angular-star-rating';
 import {ServiceLandingPageComponent} from './pages/landingpages/service/service-landing-page.component';
 import {BrowseCategoriesComponent} from './pages/browsecategories/browse-categories.component';
 import {SearchComponent} from './pages/search/search.component';
+import {AccordionComponent} from './pages/eInfraServices/accordion-section.component';
+import {CompareServicesComponent} from './pages/compare/compare-services.component';
+import {ServiceFormComponent} from './pages/eInfraServices/service-form.component';
+import {ServiceUploadComponent} from './pages/eInfraServices/service-upload.component';
 
 
 declare var require: any;
@@ -62,7 +66,7 @@ export function highchartsFactory() {
     // MAIN
     AppComponent,
     BrowseCategoriesComponent,
-    // CompareServicesComponent,
+    CompareServicesComponent,
     HomeComponent,
     SearchComponent,
     ServiceLandingPageComponent,
@@ -80,12 +84,17 @@ export function highchartsFactory() {
     NewServiceProviderComponent,
     ServiceProviderInfoComponent,
     UpdateServiceProviderComponent,
-    // AddFirstServiceComponent,
+    AddFirstServiceComponent,
     MyServiceProvidersComponent,
     // ADMIN
     ServiceProvidersListComponent,
     // FUNDERS
     FundersDashboardComponent,
+    // FORMS
+    // ServiceEditComponent,
+    ServiceFormComponent,
+    ServiceUploadComponent,
+    AccordionComponent,
   ],
   imports: [
     BrowserModule,

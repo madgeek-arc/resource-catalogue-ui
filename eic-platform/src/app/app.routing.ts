@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {BrowseCategoriesComponent} from './pages/browsecategories/browse-categories.component';
-// import { CompareServicesComponent } from './pages/compare/compare-services.component';
+import { CompareServicesComponent } from './pages/compare/compare-services.component';
 // import { ServiceEditComponent } from './pages/eInfraServices/service-edit.component';
-// import { ServiceUploadComponent } from './pages/eInfraServices/service-upload.component';
+import { ServiceUploadComponent } from './pages/eInfraServices/service-upload.component';
 import {HomeComponent} from './pages/home/home.component';
 import {CommonModule} from '@angular/common';
 import { SearchComponent } from './pages/search/search.component';
@@ -11,7 +11,7 @@ import {CanActivateViaAuthGuard} from './services/can-activate-auth-guard.servic
 import { ServiceLandingPageComponent } from './pages/landingpages/service/service-landing-page.component';
 import {NewServiceProviderComponent} from './pages/serviceprovider/new-service-provider.component';
 import {ServiceProvidersListComponent} from './pages/admin/service-providers-list.component';
-// import { AddFirstServiceComponent } from './pages/serviceprovider/add-first-service.component';
+import { AddFirstServiceComponent } from './pages/serviceprovider/add-first-service.component';
 import {MyServiceProvidersComponent} from './pages/serviceprovider/my-service-providers.component';
 import {UpdateServiceProviderComponent} from './pages/serviceprovider/update-service-provider.component';
 import {ServiceProviderInfoComponent} from './pages/serviceprovider/service-provider-info.component';
@@ -38,13 +38,13 @@ const appRoutes: Routes = [
           breadcrumb : 'Search'
       }
   },
-  // {
-  //     path: 'compare',
-  //     component: CompareServicesComponent,
-  //     data: {
-  //         breadcrumb : 'Compare'
-  //     }
-  // },
+  {
+      path: 'compare',
+      component: CompareServicesComponent,
+      data: {
+          breadcrumb : 'Compare'
+      }
+  },
   {
     path: 'browseCategories',
     component: BrowseCategoriesComponent,
@@ -66,14 +66,14 @@ const appRoutes: Routes = [
       breadcrumb: 'Service'
     }
   },
-  // {
-  //     path: 'upload',
-  //     component: ServiceUploadComponent,
-  //     canActivate: [CanActivateViaAuthGuard],
-  //     data: {
-  //         breadcrumb : 'Upload'
-  //     }
-  // },
+  {
+      path: 'upload',
+      component: ServiceUploadComponent,
+      canActivate: [CanActivateViaAuthGuard],
+      data: {
+          breadcrumb : 'Upload'
+      }
+  },
   // {
   //     path: 'edit/:id',
   //     component: ServiceEditComponent,
@@ -106,22 +106,22 @@ const appRoutes: Routes = [
       breadcrumb: 'Update Service Provider'
     }
   },
-  // {
-  //     path: 'newServiceProvider/:id/addFirstService',
-  //     component: AddFirstServiceComponent,
-  //     canActivate: [CanActivateViaAuthGuard],
-  //     data: {
-  //         breadcrumb : 'First Service Form'
-  //     }
-  // },
-  // {
-  //     path: 'newServiceProvider/:id/editFirstService/:serviceId',
-  //     component: AddFirstServiceComponent,
-  //     canActivate: [CanActivateViaAuthGuard],
-  //     data: {
-  //         breadcrumb : 'Edit First Service'
-  //     }
-  // },
+  {
+      path: 'newServiceProvider/:id/addFirstService',
+      component: AddFirstServiceComponent,
+      canActivate: [CanActivateViaAuthGuard],
+      data: {
+          breadcrumb : 'First Service Form'
+      }
+  },
+  {
+      path: 'newServiceProvider/:id/editFirstService/:serviceId',
+      component: AddFirstServiceComponent,
+      canActivate: [CanActivateViaAuthGuard],
+      data: {
+          breadcrumb : 'Edit First Service'
+      }
+  },
   {
     path: 'myServiceProviders',
     component: MyServiceProvidersComponent,

@@ -15,7 +15,7 @@ export class FunderService {
   }
 
   getAllFunders(quantity: string) {
-    return this.http.get<FundersPage>(this.base + `/funder/all?quantity=${quantity}/`).pipe(catchError(this.handleError));
+    return this.http.get<FundersPage>(this.base + `/funder/all?quantity=${quantity}`).pipe(catchError(this.handleError));
   }
 
   getFunderStats(funderId: string) {
