@@ -1,17 +1,16 @@
 import {Injectable} from '@angular/core';
-import {URLSearchParams} from '@angular/http';
-import {Observable, throwError} from 'rxjs';
-import {BrowseResults} from '../domain/browse-results';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import {AuthenticationService} from './authentication.service';
+import {environment} from '../../environments/environment';
 import {Measurement, Provider, RichService, Service, ServiceHistory, Vocabulary} from '../domain/eic-model';
+import {IndicatorsPage, MeasurementsPage} from '../domain/indicators';
+import {BrowseResults} from '../domain/browse-results';
 import {SearchResults} from '../domain/search-results';
 import {URLParameter} from '../domain/url-parameter';
-import {AuthenticationService} from './authentication.service';
-import {map} from 'rxjs/operators';
-import {environment} from '../../environments/environment';
-import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/internal/operators/catchError';
 import {from} from 'rxjs/internal/observable/from';
-import {IndicatorsPage, MeasurementsPage} from '../domain/indicators';
+import {map} from 'rxjs/operators';
 
 declare var UIkit: any;
 

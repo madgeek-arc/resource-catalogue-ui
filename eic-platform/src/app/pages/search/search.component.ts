@@ -60,7 +60,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.resourceService.getProvidersNames(),
     ).subscribe(suc => {
       this.providers = suc[0];
-      console.log(this.providers);
+      // console.log(this.providers);
       this.sub = this.route.params.subscribe(params => {
         this.urlParameters.splice(0, this.urlParameters.length);
         this.foundResults = true;
@@ -86,7 +86,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         return this.resourceService.search(this.urlParameters).subscribe(
           searchResults => this.updateSearchResults(searchResults),
           error => {},
-          () => console.log(this.searchResults)
+          // () => console.log(this.searchResults)
         );
 
       });
@@ -99,7 +99,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   toggleListGrid(show: string) {
-    console.log('boom');
     if (show === 'list') {
       this.listViewActive = true;
       this.pageSize = 10;
@@ -270,7 +269,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       }
       map[urlParameter.key] = concatValue;
     }
-    console.log(map);
+    // console.log(map);
     return this.router.search(map);
   }
 
