@@ -3,8 +3,6 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ReusableComponentsModule} from '../../shared/reusablecomponents/reusable-components.module';
 import {SharedModule} from '../../shared/shared.module';
-// import {LoginComponent} from './login/login.component';
-// import {SignUpComponent} from './register/sign-up.component';
 import {UserRouting} from './user.routing';
 
 @NgModule({
@@ -16,10 +14,7 @@ import {UserRouting} from './user.routing';
         UserRouting,
         ReusableComponentsModule
     ],
-    declarations: [
-        // LoginComponent,
-        // SignUpComponent
-    ]
+    declarations: []
 })
 export class UserModule {
 }

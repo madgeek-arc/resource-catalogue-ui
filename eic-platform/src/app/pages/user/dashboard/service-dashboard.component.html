@@ -1,215 +1,149 @@
 <div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
-    <div class="uk-container">
-        <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
-            <div class="uk-width-1-1@m uk-first-column">
+  <div class="uk-container">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
 
-                <h1 *ngIf="service" class="uk-h3">{{service.name}}
-                    <!--<i style="margin-left: 10px" class="fa fa-pencil fa-2x" aria-hidden="true"></i>-->
-                </h1>
+        <h1 *ngIf="service" class="uk-h3">{{service.name}}
+          <!--<i style="margin-left: 10px" class="fa fa-pencil fa-2x" aria-hidden="true"></i>-->
+        </h1>
 
-                <!-- TOP HELP CONTENT -->
-                <app-help-content #topHelperContent [position]="'top'"
-                              [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-                </app-help-content>
+        <!-- TOP HELP CONTENT -->
+        <app-help-content #topHelperContent [position]="'top'"
+                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </app-help-content>
 
-                <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
-                    <div class="uk-grid">
+        <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+          <div class="uk-grid">
 
-                        <!-- LEFT HELP CONTENT -->
-                        <app-aside-help-content #leftHelperContent [position]="'left'"
-                                            [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-                        </app-aside-help-content>
+            <!-- LEFT HELP CONTENT -->
+            <app-aside-help-content #leftHelperContent [position]="'left'"
+                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
 
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m">
 
-                        <!-- MIDDLE -->
-                        <div class=" uk-width-expand@m">
+              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
-                            <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
+              <div *ngIf="service" class="uk-grid">
+                <div class="uk-width-1-1">
+                  <div class="uk-float-right" *ngIf="canEditService">
+                    <a href="/edit/{{service.id}}" class="uk-button uk-button-secondary uk-display-block"
+                       style="width: 170px">Update</a>
+                  </div>
+                </div>
+              </div>
 
-                            <div *ngIf="service" class="uk-grid">
-                                <div class="uk-width-1-1">
-                                    <div class="uk-float-right" *ngIf="canEditService">
-                                        <a href="/edit/{{service.id}}" class="uk-button uk-button-secondary uk-display-block"
-                                           style="width: 170px">Update</a>
-                                    </div>
-                                </div>
-                            </div>
+              <div *ngIf="service" class="uk-grid">
 
-                            <div *ngIf="service" class="uk-grid">
+                <div class="uk-width-3-5@m">
 
-                                <div class="uk-width-3-5@m">
-
-                                    <div class="uk-grid uk-margin-bottom">
-                                        <div class="uk-width-1-1@m">
-                                            <div style="width:100%" *ngIf="serviceFavouritesOptions">
-                                                <chart [options]="serviceFavouritesOptions"></chart>
-                                            </div>
-                                            <!--<img src="/assets/images/noOfFavsOverTime_copy.jpeg"-->
-                                                 <!--class="el-image uk-border-rounded" alt="">-->
-                                        </div>
-                                    </div>
-
-                                    <div class="uk-grid uk-margin-bottom">
-                                        <div class="uk-width-1-1@m">
-                                            <div style="width:100%" *ngIf="serviceRatingsOptions">
-                                                <chart [options]="serviceRatingsOptions"></chart>
-                                            </div>
-                                            <!--<img src="/assets/images/ratingsOverTime_copy.jpeg"-->
-                                                 <!--class="el-image uk-border-rounded" alt="">-->
-                                        </div>
-                                    </div>
-
-                                    <div class="uk-grid uk-margin-bottom">
-                                        <div class="uk-width-1-1@m">
-                                            <div style="width:100%" *ngIf="serviceVisitsOptions">
-                                                <chart [options]="serviceVisitsOptions"></chart>
-                                            </div>
-                                            <!--<img src="/assets/images/visitsOverTime_copy.jpeg"-->
-                                                 <!--class="el-image uk-border-rounded" alt="">-->
-                                        </div>
-                                    </div>
-
-                                    <div class="uk-grid uk-margin-bottom">
-                                        <div class="uk-width-1-1">
-                                            <div style="width:100%" *ngIf="serviceMapOptions">
-                                                <chart type="Map" [options]="serviceMapOptions"></chart>
-                                            </div>
-                                                <!--<img src="/assets/images/europe-map.png"-->
-                                                     <!--class="el-image uk-border-rounded" alt="">-->
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="uk-width-2-5@m">
-
-
-                                    <section class="section md-bg-blue-grey-700">
-                                        <div class="uk-container uk-container-center">
-                                            <div class="al_timeline">
-
-                                                <ng-container *ngIf="serviceHistory?.results?.length>0">
-                                                    <ng-container *ngFor="let history of serviceHistory.results">
-
-                                                        <div *ngIf="history.versionChange" class="al_timeline_block versionChange">
-                                                            <div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">
-                                                            </div>
-                                                            <div class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-left">
-                                                                <h3>Version {{history.version}}</h3>
-                                                                <p>Updated to this version on {{history.modifiedAt | date:'shortDate'}} by {{history.modifiedBy}}</p>
-                                                                <a class="md-btn md-btn-primary" [routerLink]="['/service/',service.id,history.version]">View version details</a>
-                                                            </div>
-                                                        </div>
-
-                                                        <div *ngIf="!history.versionChange" class="al_timeline_block update">
-                                                            <div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">
-                                                            </div>
-                                                            <div class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">
-                                                                <h3>Updated</h3>
-                                                                <p>on {{history.modifiedAt | date:'shortDate'}} by {{history.modifiedBy}}</p>
-                                                            </div>
-                                                        </div>
-
-                                                    </ng-container>
-
-
-
-                                                </ng-container>
-
-                                                <!--<div class="al_timeline_block versionChange">-->
-                                                    <!--<div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">-->
-                                                    <!--</div>-->
-                                                    <!--<div class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-left">-->
-                                                        <!--<h3>Version 3</h3>-->
-                                                        <!--<p>Updated to this version on 08/08/17 by Antonis Lempesis</p>-->
-                                                        <!--<a class="md-btn md-btn-primary" href="#">View version details</a>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="al_timeline_block update">-->
-                                                    <!--<div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">-->
-                                                    <!--</div>-->
-                                                    <!--<div class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">-->
-                                                        <!--<h3>Updated</h3>-->
-                                                        <!--<p>on 07/06/17 by George Papastefanatos</p>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="al_timeline_block update">-->
-                                                    <!--<div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">-->
-                                                    <!--</div>-->
-                                                    <!--<div class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">-->
-                                                        <!--<h3>Updated</h3>-->
-                                                        <!--<p>on 05/06/17 by Antonis Lempesis</p>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="al_timeline_block versionChange">-->
-                                                    <!--<div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">-->
-                                                    <!--</div>-->
-                                                    <!--<div class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">-->
-                                                        <!--<h3>Version 2</h3>-->
-                                                        <!--<p>Updated to this version by Stefania Martziou</p>-->
-                                                        <!--<a class="md-btn md-btn-primary" href="#">View version details</a>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="al_timeline_block update">-->
-                                                    <!--<div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">-->
-                                                    <!--</div>-->
-                                                    <!--<div class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">-->
-                                                        <!--<h3>Updated</h3>-->
-                                                        <!--<p>on 07/06/17 by George Papastefanatos</p>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="al_timeline_block update">-->
-                                                    <!--<div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">-->
-                                                    <!--</div>-->
-                                                    <!--<div class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">-->
-                                                        <!--<h3>Updated</h3>-->
-                                                        <!--<p>on 07/06/17 by Panagiotis Lampropoulos</p>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="al_timeline_block update">-->
-                                                    <!--<div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">-->
-                                                    <!--</div>-->
-                                                    <!--<div class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-left">-->
-                                                        <!--<h3>Updated</h3>-->
-                                                        <!--<p>on 07/06/17 by Stefania Martziou</p>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="al_timeline_block versionChange">-->
-                                                    <!--<div class="al_timeline_image">-->
-                                                    <!--</div>-->
-                                                    <!--<div class="al_timeline_content">-->
-                                                        <!--<h3>Version 1</h3>-->
-                                                        <!--<p>Updated to this version on 01/01/2017 by George Papastefanatos</p>-->
-                                                        <!--<a class="md-btn md-btn-primary" href="#">View version details</a>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-
-
-                                            </div>
-                                        </div>
-                                    </section>
-
-
-                                </div>
-
-                            </div>
-
-                            <!-- RIGHT HELP CONTENT -->
-                            <app-aside-help-content #rightHelperContent [position]="'right'"
-                                                [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-                            </app-aside-help-content>
-
-                        </div>
+                  <div class="uk-grid uk-margin-bottom">
+                    <div class="uk-width-1-1@m">
+                      <div style="width:100%" *ngIf="serviceFavouritesOptions">
+                        <chart [options]="serviceFavouritesOptions"></chart>
+                      </div>
+                      <!--<img src="/assets/images/noOfFavsOverTime_copy.jpeg"-->
+                      <!--class="el-image uk-border-rounded" alt="">-->
                     </div>
+                  </div>
 
+                  <div class="uk-grid uk-margin-bottom">
+                    <div class="uk-width-1-1@m">
+                      <div style="width:100%" *ngIf="serviceRatingsOptions">
+                        <chart [options]="serviceRatingsOptions"></chart>
+                      </div>
+                      <!--<img src="/assets/images/ratingsOverTime_copy.jpeg"-->
+                      <!--class="el-image uk-border-rounded" alt="">-->
+                    </div>
+                  </div>
 
-                    <!-- BOTTOM HELP CONTENT -->
-                    <app-help-content #bottomHelperContent [position]="'bottom'"
-                                  [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-                    </app-help-content>
+                  <div class="uk-grid uk-margin-bottom">
+                    <div class="uk-width-1-1@m">
+                      <div style="width:100%" *ngIf="serviceVisitsOptions">
+                        <chart [options]="serviceVisitsOptions"></chart>
+                      </div>
+                      <!--<img src="/assets/images/visitsOverTime_copy.jpeg"-->
+                      <!--class="el-image uk-border-rounded" alt="">-->
+                    </div>
+                  </div>
 
+                  <div class="uk-grid uk-margin-bottom">
+                    <div class="uk-width-1-1">
+                      <div style="width:100%" *ngIf="serviceMapOptions">
+                        <chart type="Map" [options]="serviceMapOptions"></chart>
+                      </div>
+                      <!--<img src="/assets/images/europe-map.png"-->
+                      <!--class="el-image uk-border-rounded" alt="">-->
+                    </div>
+                  </div>
 
                 </div>
+                <div class="uk-width-2-5@m">
+
+
+                  <section class="section md-bg-blue-grey-700">
+                    <div class="uk-container uk-container-center">
+                      <div class="al_timeline">
+
+                        <ng-container *ngIf="serviceHistory?.results?.length>0">
+                          <ng-container *ngFor="let history of serviceHistory.results">
+
+                            <div *ngIf="history.versionChange" class="al_timeline_block versionChange">
+                              <div
+                                class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">
+                              </div>
+                              <div
+                                class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-left">
+                                <h3>Version {{history.version}}</h3>
+                                <p>Updated to this version on {{history.modifiedAt | date:'shortDate'}}
+                                  by {{history.modifiedBy}}</p>
+                                <a class="md-btn md-btn-primary"
+                                   [routerLink]="['/service/',service.id,history.version]">View version details</a>
+                              </div>
+                            </div>
+
+                            <div *ngIf="!history.versionChange" class="al_timeline_block update">
+                              <div
+                                class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">
+                              </div>
+                              <div
+                                class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">
+                                <h3>Updated</h3>
+                                <p>on {{history.modifiedAt | date:'shortDate'}} by {{history.modifiedBy}}</p>
+                              </div>
+                            </div>
+
+                          </ng-container>
+
+
+                        </ng-container>
+
+                      </div>
+                    </div>
+                  </section>
+
+                </div>
+
+              </div>
+
+              <!-- RIGHT HELP CONTENT -->
+              <app-aside-help-content #rightHelperContent [position]="'right'"
+                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+              </app-aside-help-content>
+
             </div>
+          </div>
+
+
+          <!-- BOTTOM HELP CONTENT -->
+          <app-help-content #bottomHelperContent [position]="'bottom'"
+                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+          </app-help-content>
+
+
         </div>
+      </div>
     </div>
+  </div>
 </div>

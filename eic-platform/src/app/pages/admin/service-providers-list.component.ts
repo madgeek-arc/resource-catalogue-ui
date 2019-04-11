@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
-import {Provider} from '../../domain/eic-model';
-import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
 import {ServiceProviderService} from '../../services/service-provider.service';
+import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
+import {Provider} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 

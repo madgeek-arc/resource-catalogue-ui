@@ -2,15 +2,15 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription, timer} from 'rxjs';
-import {SearchQuery} from '../../domain/search-query';
+import {RichService, Service} from '../../domain/eic-model';
 import {SearchResults} from '../../domain/search-results';
+import {URLParameter} from '../../domain/url-parameter';
+import {SearchQuery} from '../../domain/search-query';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ComparisonService} from '../../services/comparison.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {UserService} from '../../services/user.service';
-import {URLParameter} from '../../domain/url-parameter';
-import {RichService, Service} from '../../domain/eic-model';
 import {zip} from 'rxjs/internal/observable/zip';
 import {flatMap} from 'rxjs/operators';
 

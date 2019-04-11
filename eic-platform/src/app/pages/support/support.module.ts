@@ -13,20 +13,20 @@ import {OpenAPIComponent} from './openapi/openapi.component';
 import {SupportRouting} from './support.routing';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        SupportRouting,
-        ReusableComponentsModule,
-        SharedModule,
-    ],
-    declarations: [
-        DevelopersComponent,
-        FAQsComponent,
-        OpenAPIComponent
-    ],
-    providers: [
-        FAQService
-    ]
+  imports: [
+    CommonModule,
+    SupportRouting,
+    ReusableComponentsModule,
+    SharedModule,
+  ],
+  declarations: [
+    DevelopersComponent,
+    FAQsComponent,
+    OpenAPIComponent
+  ],
+  providers: [
+    FAQService
+  ]
 })
 export class SupportModule {
 }

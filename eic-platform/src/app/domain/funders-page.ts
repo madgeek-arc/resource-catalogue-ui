@@ -1,5 +1,5 @@
-import {Funder} from "./eic-model";
-import {Facet} from "./facet";
+import {Funder, Provider} from './eic-model';
+import {Facet} from './facet';
 
 
 export class FundersPage {
@@ -9,4 +9,12 @@ export class FundersPage {
     results: Funder[];
     facets: Facet[];
 
+}
+
+export class ProvidersPage {
+  total: number;
+  from: number;
+  to: number;
+  results: Provider[];
+  facets: Facet[];
 }

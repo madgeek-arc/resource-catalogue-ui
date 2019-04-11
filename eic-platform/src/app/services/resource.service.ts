@@ -11,6 +11,7 @@ import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/internal/operators/catchError';
 import {from} from 'rxjs/internal/observable/from';
 import {map} from 'rxjs/operators';
+import {ProvidersPage} from "../domain/funders-page";
 
 declare var UIkit: any;
 
@@ -73,7 +74,6 @@ export class ResourceService {
   }
 
   get(resourceType: string, id: string) {
-    console.log(this.base + `/${resourceType}/${id}/`);
     return this.http.get(this.base + `/${resourceType}/${id}/`, this.options).pipe(
       catchError(this.handleError)
     );
@@ -118,7 +118,9 @@ export class ResourceService {
   }
 
   getServices() {
-    return this.getBy('service', 'id');
+    return this.http.get(this.base + '/service/by/id/').pipe(
+      catchError(this.handleError)
+    );
   }
 
   getService(id: string, version?: string) {
@@ -227,7 +229,7 @@ export class ResourceService {
     let params = new HttpParams();
     params = params.append('from', '0');
     params = params.append('quantity', '10000');
-    return this.http.get<Provider[]>(this.base + `/provider/all/`, {params}).pipe(
+    return this.http.get<ProvidersPage>(this.base + `/provider/all/`, {params, withCredentials: true}).pipe(
       catchError(this.handleError)
     );
   }

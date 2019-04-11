@@ -36,7 +36,7 @@ import {DashboardComponent} from './pages/user/dashboard/dashboard.component';
 import {UserService} from './services/user.service';
 import {ComparisonService} from './services/comparison.service';
 import {UserModule} from './pages/user/user.module';
-import { StarRatingModule } from 'angular-star-rating';
+import {StarRatingModule} from 'angular-star-rating';
 import {ServiceLandingPageComponent} from './pages/landingpages/service/service-landing-page.component';
 import {BrowseCategoriesComponent} from './pages/browsecategories/browse-categories.component';
 import {SearchComponent} from './pages/search/search.component';
@@ -44,6 +44,7 @@ import {AccordionComponent} from './pages/eInfraServices/accordion-section.compo
 import {CompareServicesComponent} from './pages/compare/compare-services.component';
 import {ServiceFormComponent} from './pages/eInfraServices/service-form.component';
 import {ServiceUploadComponent} from './pages/eInfraServices/service-upload.component';
+import {CKEditorModule} from 'ng2-ckeditor';
 
 
 declare var require: any;
@@ -114,7 +115,7 @@ export function highchartsFactory() {
     SupportModule,
     // TabsModule,
     UserModule,
-    // CKEditorModule,
+    CKEditorModule,
     ChartModule,
     AngularFontAwesomeModule,
     AppRoutingModule

@@ -69,7 +69,7 @@ export class UserService {
 
   public rateService(serviceID: string, rating: number): Observable<EicEvent> {
     if (this.authenticationService.isLoggedIn()) {
-      return this.http.post<EicEvent>(this.base + `/event/rating/service/${serviceID}?rating=${rating}/`, {}, this.options)
+      return this.http.post<EicEvent>(this.base + `/event/rating/service/${serviceID}?rating=${rating}`, {}, this.options)
         .pipe(
           catchError(this.handleError)
         );

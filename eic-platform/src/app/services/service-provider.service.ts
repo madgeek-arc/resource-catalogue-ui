@@ -45,7 +45,7 @@ export class ServiceProviderService {
   }
 
   verifyServiceProvider(id: string, active: boolean, status: string) {
-    return this.http.patch(`/provider/verifyProvider/${id}?active=${active}&status=${status}`, {}).pipe(
+    return this.http.patch(this.base + `/provider/verifyProvider/${id}?active=${active}&status=${status}`, {}, this.options).pipe(
       catchError(this.handleError)
     );
   }

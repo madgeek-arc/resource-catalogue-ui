@@ -1,6 +1,6 @@
 import {Component, Injector, OnInit, Type, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Service, Vocabulary} from '../../domain/eic-model';
+import {Provider, Service, Vocabulary} from '../../domain/eic-model';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {UserService} from '../../services/user.service';
@@ -16,6 +16,7 @@ import * as sd from './services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {SearchResults} from '../../domain/search-results';
 import {zip} from 'rxjs/internal/observable/zip';
+import {ProvidersPage} from "../../domain/funders-page";
 
 @Component({
   selector: 'app-service-form',
@@ -31,6 +32,7 @@ export class ServiceFormComponent implements OnInit {
   logoError = false;
   logoUrlWorks = true;
   successMessage: string = null;
+  weights: string[] = [];
   fb: FormBuilder = this.injector.get(FormBuilder);
   submitted = false;
   readonly urlDesc: sd.Description = sd.urlDesc;
@@ -107,16 +109,16 @@ export class ServiceFormComponent implements OnInit {
     ], Validators.required),
     // tags is defined in component
     'tags': this.fb.array([
-      this.fb.control('', Validators.required)
-    ], Validators.required),
+      this.fb.control('')
+    ]),
     // requiredServices is defined in component
     'requiredServices': this.fb.array([
-      this.fb.control('', Validators.required)
-    ], Validators.required),
+      this.fb.control('')
+    ]),
     // relatedServices is defined in component
     'relatedServices': this.fb.array([
-      this.fb.control('', Validators.required)
-    ], Validators.required),
+      this.fb.control('')
+    ]),
     'order': ['', Validators.compose([Validators.required, URLValidator])],
     'helpdesk': ['', URLValidator],
     'userManual': ['', URLValidator],
@@ -126,11 +128,13 @@ export class ServiceFormComponent implements OnInit {
     'serviceLevelAgreement': ['', Validators.compose([Validators.required, URLValidator])],
     // TOS is defined in component
     'termsOfUse': this.fb.array([
-      this.fb.control('', Validators.required)
-    ], Validators.required),
+      this.fb.control('', URLValidator)
+    ]),
     'funding': ['']
   };
-  providers: any = null;
+  providersPage: ProvidersPage;
+  requiredServices: any;
+  relatedServices: any;
   vocabularies: SearchResults<Vocabulary> = null;
   resourceService: ResourceService = this.injector.get(ResourceService);
 
@@ -145,12 +149,13 @@ export class ServiceFormComponent implements OnInit {
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
-              ) {
+  ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(FormBuilder);
     this.router = this.injector.get(NavigationService);
     this.userService = this.injector.get(UserService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
+    this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
   transformVocabularies(vocabularies) {
@@ -240,18 +245,24 @@ export class ServiceFormComponent implements OnInit {
   ngOnInit() {
     zip(
       this.resourceService.getProvidersNames(),
-      this.resourceService.getVocabularies()
+      this.resourceService.getVocabularies(),
+      this.resourceService.getServices()
     ).subscribe(suc => {
-      // console.log(priceDesc);
-      this.providers = suc[0];
-      this.vocabularies = <SearchResults<Vocabulary>>suc[1];
+        // console.log(priceDesc);
+        this.providersPage = <ProvidersPage>suc[0];
+        this.vocabularies = <SearchResults<Vocabulary>>suc[1];
+        this.requiredServices = this.transformInput(suc[2]);
+        this.relatedServices = this.requiredServices;
 
-      this.lifeCycleStatusVocabulary = this.vocabularies.results.filter(x => x.id === 'lifecyclestatus')[0];
-      this.trlVocabulary = this.vocabularies.results.filter(x => x.id === 'trl')[0];
-      this.categoriesVocabulary = this.vocabularies.results.filter(x => x.id === 'categories')[0];
-      this.placesVocabulary = this.vocabularies.results.filter(x => x.id === 'places')[0];
-      this.languagesVocabulary = this.vocabularies.results.filter(x => x.id === 'languages')[0];
-    });
+        this.lifeCycleStatusVocabulary = this.vocabularies.results.filter(x => x.id === 'lifecyclestatus')[0];
+        this.trlVocabulary = this.vocabularies.results.filter(x => x.id === 'trl')[0];
+        this.categoriesVocabulary = this.vocabularies.results.filter(x => x.id === 'categories')[0];
+        this.placesVocabulary = this.vocabularies.results.filter(x => x.id === 'places')[0];
+        this.languagesVocabulary = this.vocabularies.results.filter(x => x.id === 'languages')[0];
+      },
+      error => {
+      },
+      () => this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1)));
 
     this.serviceForm.get('subcategory').disable();
     let subscription = this.serviceForm.get('category').valueChanges.subscribe(() => {
@@ -287,6 +298,35 @@ export class ServiceFormComponent implements OnInit {
         }
       }
     });
+  }
+
+  getFieldAsFormArray(field: string) {
+    return this.serviceForm.get(field) as FormArray;
+  }
+
+  push(field: string, required: boolean, url?: boolean) {
+    if (required) {
+      if (url) {
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
+      } else {
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
+      }
+    } else if (url) {
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
+    } else {
+      this.getFieldAsFormArray(field).push(this.fb.control(''));
+    }
+  }
+
+  remove(field: string, i: number) {
+    this.getFieldAsFormArray(field).removeAt(i);
+  }
+
+  transformInput(input) {
+    return Object.keys(input).reduce((accumulator, value) => {
+      accumulator[value] = input[value][0].providers[0] + ' - ' + input[value][0].name;
+      return accumulator;
+    }, {});
   }
 
   static checkUrl(url: string) {

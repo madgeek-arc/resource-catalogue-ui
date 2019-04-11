@@ -5,27 +5,27 @@ import {FAQsComponent} from './faqs/faqs.component';
 import {OpenAPIComponent} from './openapi/openapi.component';
 
 const supportRoutes: Routes = [
-    {
-        path: 'support/faqs',
-        component: FAQsComponent,
-        data: {
-            breadcrumb : 'FAQs'
-        }
-    },
-    {
-        path: 'developers',
-        component: DevelopersComponent,
-        data: {
-            breadcrumb : 'Developers'
-        }
-    },
-    {
-        path: 'openapi',
-        component: OpenAPIComponent,
-        data: {
-            breadcrumb : 'Open API'
-        }
+  {
+    path: 'support/faqs',
+    component: FAQsComponent,
+    data: {
+      breadcrumb: 'FAQs'
     }
+  },
+  {
+    path: 'developers',
+    component: DevelopersComponent,
+    data: {
+      breadcrumb: 'Developers'
+    }
+  },
+  {
+    path: 'openapi',
+    component: OpenAPIComponent,
+    data: {
+      breadcrumb: 'Open API'
+    }
+  }
 ];
 
 @NgModule({
@@ -33,4 +33,5 @@ const supportRoutes: Routes = [
   exports: [RouterModule]
 })
 
-export class SupportRouting {}
+export class SupportRouting {
+}
