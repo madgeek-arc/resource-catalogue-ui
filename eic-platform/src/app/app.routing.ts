@@ -17,6 +17,7 @@ import {UpdateServiceProviderComponent} from './pages/serviceprovider/update-ser
 import {ServiceProviderInfoComponent} from './pages/serviceprovider/service-provider-info.component';
 import {FundersDashboardComponent} from './pages/funders/funders-dashboard.component';
 import {MyFavouritesComponent} from './pages/user/favourites/my-favourites.component';
+import {ServiceEditComponent} from "./pages/eInfraServices/service-edit.component";
 
 const appRoutes: Routes = [
   {
@@ -74,14 +75,14 @@ const appRoutes: Routes = [
           breadcrumb : 'Upload'
       }
   },
-  // {
-  //     path: 'edit/:id',
-  //     component: ServiceEditComponent,
-  //     canActivate: [CanActivateViaAuthGuard],
-  //     data: {
-  //         breadcrumb : 'Edit'
-  //     }
-  // },
+  {
+      path: 'edit/:id',
+      component: ServiceEditComponent,
+      canActivate: [CanActivateViaAuthGuard],
+      data: {
+          breadcrumb : 'Edit'
+      }
+  },
   {
     path: 'newServiceProvider',
     component: NewServiceProviderComponent,

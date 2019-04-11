@@ -420,11 +420,6 @@
                             <i><small>{{orderDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <!--                        <form-inline [description]="orderDesc" [params]="'inline'"-->
-                        <!--                                     [valid]="serviceForm.get('order').valid && serviceForm.get('order').dirty">-->
-                        <!--                          <input class="uk-input" type="text" formControlName="order"-->
-                        <!--                                 [ngClass]="{'uk-form-danger': !serviceForm.get('order').valid && serviceForm.get('order').dirty}">-->
-                        <!--                        </form-inline>-->
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
                             {{helpdeskDesc.label + (helpdeskDesc.mandatory ? ' (*)' : '')}}
@@ -435,11 +430,6 @@
                             <i><small>{{helpdeskDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <!--                        <form-inline [description]="helpdeskDesc" [params]="'inline'"-->
-                        <!--                                     [valid]="serviceForm.get('helpdesk').valid && serviceForm.get('helpdesk').dirty">-->
-                        <!--                          <input class="uk-input" type="text" formControlName="helpdesk"-->
-                        <!--                                 [ngClass]="{'uk-form-danger': !serviceForm.get('helpdesk').valid && serviceForm.get('helpdesk').dirty}">-->
-                        <!--                        </form-inline>-->
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
                             {{userManualDesc.label + (userManualDesc.mandatory ? ' (*)' : '')}}
@@ -450,11 +440,6 @@
                             <i><small>{{userManualDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <!--                        <form-inline [description]="userManualDesc" [params]="'inline'"-->
-                        <!--                                     [valid]="serviceForm.get('userManual').valid && serviceForm.get('userManual').dirty">-->
-                        <!--                          <input class="uk-input" type="text" formControlName="userManual"-->
-                        <!--                                 [ngClass]="{'uk-form-danger': !serviceForm.get('userManual').valid && serviceForm.get('userManual').dirty}">-->
-                        <!--                        </form-inline>-->
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
                             {{trainingInformationDesc.label + (trainingInformationDesc.mandatory ? ' (*)' : '')}}
@@ -465,11 +450,6 @@
                             <i><small>{{trainingInformationDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <!--                        <form-inline [description]="trainingInformationDesc" [params]="'inline'"-->
-                        <!--                                     [valid]="serviceForm.get('trainingInformation').valid && serviceForm.get('trainingInformation').dirty">-->
-                        <!--                          <input class="uk-input" type="text" formControlName="trainingInformation"-->
-                        <!--                                 [ngClass]="{'uk-form-danger': !serviceForm.get('trainingInformation').valid && serviceForm.get('trainingInformation').dirty}">-->
-                        <!--                        </form-inline>-->
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
                             {{feedbackDesc.label + (feedbackDesc.mandatory ? ' (*)' : '')}}
@@ -480,13 +460,7 @@
                             <i><small>{{feedbackDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <!--                        <form-inline [description]="feedbackDesc" [params]="'inline'"-->
-                        <!--                                     [valid]="serviceForm.get('feedback').valid && serviceForm.get('feedback').dirty">-->
-                        <!--                          <input class="uk-input" type="text" formControlName="feedback"-->
-                        <!--                                 [ngClass]="{'uk-form-danger': !serviceForm.get('feedback').valid && serviceForm.get('feedback').dirty}">-->
-                        <!--                        </form-inline>-->
                       </li>
-{{serviceForm.value | json}}
                       <li accordionSection class="uk-margin-large-bottom" [title]="'Contractual Information'">
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
@@ -498,11 +472,6 @@
                             <i><small>{{priceDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <!--                        <form-inline [description]="priceDesc" [params]="'inline'"-->
-                        <!--                                     [valid]="serviceForm.get('price').valid && serviceForm.get('price').dirty">-->
-                        <!--                          <input class="uk-input" type="text" formControlName="price"-->
-                        <!--                                 [ngClass]="{'uk-form-danger': !serviceForm.get('price').valid && serviceForm.get('price').dirty}">-->
-                        <!--                        </form-inline>-->
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
                             {{serviceLevelAgreementDesc.label + (serviceLevelAgreementDesc.mandatory ? ' (*)' : '')}}
@@ -513,11 +482,6 @@
                             <i><small>{{serviceLevelAgreementDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <!--                        <form-inline [description]="serviceLevelAgreementDesc" [params]="'inline'"-->
-                        <!--                                     [valid]="serviceForm.get('serviceLevelAgreement').valid && serviceForm.get('serviceLevelAgreement').dirty">-->
-                        <!--                          <input class="uk-input" type="text" formControlName="serviceLevelAgreement"-->
-                        <!--                                 [ngClass]="{'uk-form-danger': !serviceForm.get('serviceLevelAgreement').valid && serviceForm.get('serviceLevelAgreement').dirty}">-->
-                        <!--                        </form-inline>-->
                         <div formArrayName="termsOfUse" class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-flex-first uk-form-label uk-text-right">
                             {{termsOfUseDesc.label + (termsOfUseDesc.mandatory ? ' (*)' : '')}}
@@ -539,10 +503,6 @@
                             <i><small>{{termsOfUseDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <!--                        <form-repeat-inline [component]="termsOfUseComponent" [parentGroup]="serviceForm"-->
-                        <!--                                            [name]="'termsOfUse'" [required]="true"-->
-                        <!--                                            [description]="termsOfUseDesc">-->
-                        <!--                        </form-repeat-inline>-->
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
                             {{fundingDesc.label + (fundingDesc.mandatory ? ' (*)' : '')}}
@@ -553,11 +513,6 @@
                             <i><small>{{fundingDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <!--                        <form-inline [description]="fundingDesc" [params]="'inline'"-->
-                        <!--                                     [valid]="serviceForm.get('funding').valid && serviceForm.get('funding').dirty">-->
-                        <!--                          <input class="uk-input" type="text" formControlName="funding"-->
-                        <!--                                 [ngClass]="{'uk-form-danger': !serviceForm.get('funding').valid && serviceForm.get('funding').dirty}">-->
-                        <!--                        </form-inline>-->
                       </li>
                     </ul>
 

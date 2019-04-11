@@ -45,6 +45,7 @@ import {CompareServicesComponent} from './pages/compare/compare-services.compone
 import {ServiceFormComponent} from './pages/eInfraServices/service-form.component';
 import {ServiceUploadComponent} from './pages/eInfraServices/service-upload.component';
 import {CKEditorModule} from 'ng2-ckeditor';
+import {ServiceEditComponent} from "./pages/eInfraServices/service-edit.component";
 
 
 declare var require: any;
@@ -92,7 +93,7 @@ export function highchartsFactory() {
     // FUNDERS
     FundersDashboardComponent,
     // FORMS
-    // ServiceEditComponent,
+    ServiceEditComponent,
     ServiceFormComponent,
     ServiceUploadComponent,
     AccordionComponent,
