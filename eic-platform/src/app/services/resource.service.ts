@@ -144,8 +144,6 @@ export class ResourceService {
   }
 
   getServicesByCategories() {
-    // return this.getBy('service', 'category').subscribe(res => <BrowseResults><any>res);
-
     return this.http.get<BrowseResults>(this.base + '/service/by/category/').pipe(
       catchError(this.handleError)
     );
@@ -198,7 +196,7 @@ export class ResourceService {
   }
 
   postMeasurement(measurement: Measurement) {
-    return this.http.post('/measurement', measurement);
+    return this.http.post(this.base + '/measurement', measurement, this.options);
   }
 
   groupServicesOfProviderPerPlace(id: string) {
@@ -235,8 +233,6 @@ export class ResourceService {
   }
 
   getProviders(from: string, quantity: string) {
-    // const params: RequestOptions = new RequestOptions();
-    // params.params = new URLSearchParams();
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
@@ -314,7 +310,6 @@ export class ResourceService {
   }
 
   getFeaturedServices() {
-    // return this.http.get(this.base + `/service/featured/all`).subscribe(res => <Service[]><any>res);
     return this.http.get<Service[]>(this.base + `/service/featured/all/`).pipe(catchError(this.handleError));
   }
 
