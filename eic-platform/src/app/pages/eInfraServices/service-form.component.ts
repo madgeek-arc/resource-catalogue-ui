@@ -218,7 +218,8 @@ export class ServiceFormComponent implements OnInit {
     /** if valid submit **/
     if (isValid && !this.logoError && this.logoUrlWorks) {
       console.log(service);
-      this.resourceService.uploadService(this.toServer(service), this.editMode)
+      // this.resourceService.uploadService(this.toServer(service), this.editMode)
+      this.resourceService.uploadService(service, this.editMode)
         .subscribe(service => this.router.service(service.id));
     } else {
       window.scrollTo(0, 0);
@@ -265,7 +266,7 @@ export class ServiceFormComponent implements OnInit {
       () => this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1)));
 
     this.serviceForm.get('subcategory').disable();
-    let subscription = this.serviceForm.get('category').valueChanges.subscribe(() => {
+    const subscription = this.serviceForm.get('category').valueChanges.subscribe(() => {
       this.serviceForm.get('subcategory').enable();
       subscription.unsubscribe();
     });

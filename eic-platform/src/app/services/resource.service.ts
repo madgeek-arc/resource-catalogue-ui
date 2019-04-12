@@ -6,12 +6,12 @@ import {Measurement, Provider, RichService, Service, ServiceHistory, Vocabulary}
 import {IndicatorsPage, MeasurementsPage} from '../domain/indicators';
 import {BrowseResults} from '../domain/browse-results';
 import {SearchResults} from '../domain/search-results';
+import {ProvidersPage} from '../domain/funders-page';
 import {URLParameter} from '../domain/url-parameter';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/internal/operators/catchError';
 import {from} from 'rxjs/internal/observable/from';
 import {map} from 'rxjs/operators';
-import {ProvidersPage} from "../domain/funders-page";
 
 declare var UIkit: any;
 
@@ -290,7 +290,7 @@ export class ResourceService {
   }
 
   uploadService(service: Service, shouldPut: boolean) {
-    return this.http[shouldPut ? 'put' : 'post']<Service>('/service', service)
+    return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + '/service', service, this.options)
       .pipe(
         catchError(this.handleError)
       );

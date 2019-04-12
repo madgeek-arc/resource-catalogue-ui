@@ -154,8 +154,7 @@
                       <li accordionSection class="uk-margin-large-bottom" [title]="'Classification Information'">
 
                         <!--IF NOT IN THE AddFirstService PAGE - SHOW THE LIST OF PROVIDERS-->
-                        <div *ngIf="!firstServiceForm" formArrayName="providers"
-                             class="uk-form-horizontal uk-margin-bottom">
+                        <div *ngIf="!firstServiceForm" formArrayName="providers" class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-flex-first uk-form-label uk-text-right">
                             {{providersDesc.label + (providersDesc.mandatory ? ' (*)' : '')}}
                           </label>
@@ -186,7 +185,7 @@
                             {{providersDesc.label + (providersDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
-                            <span class="uk-input">{{ providerId }}</span>
+                            <span class="uk-input">{{ getFieldAsFormArray('providers').get([0]).value }}</span>
                             <i><small>{{providersDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -409,6 +408,7 @@
                           </div>
                         </div>
                       </li>
+
                       <li accordionSection class="uk-margin-large-bottom" [title]="'Support Information'">
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
@@ -519,6 +519,7 @@
                     <button type="submit" class="btn btn-primary block full-width m-b">{{editMode ? "Update" : "Add"}}
                     </button>
                   </form>
+                  {{serviceForm.value | json}}
                   <pre *ngIf="this.userService.isDev()">
                       {{serviceForm.value | json}}
                   </pre>
