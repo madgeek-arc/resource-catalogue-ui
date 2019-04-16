@@ -33,7 +33,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
         this.formPrepare(service);
         this.serviceForm.patchValue(service);
         for ( const i in this.serviceForm.controls) {
-          console.log(this.serviceForm.controls[i].value);
           if (this.serviceForm.controls[i].value === null) {
             this.serviceForm.controls[i].setValue('');
           }

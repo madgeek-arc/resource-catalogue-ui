@@ -12,6 +12,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SearchResults} from '../../../domain/search-results';
 import {flatMap, mergeMap} from 'rxjs/operators';
 import {zip} from 'rxjs/internal/observable/zip';
+import {ValuesPipe} from '../../../shared/pipes/getValues.pipe';
 
 declare var UIkit: any;
 
@@ -42,6 +43,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   // rangeValue: boolean = false;
   canEditService = false;
   placesVocabulary: Vocabulary = null;
+  placesVocIdArray: string[] = [];
   places: SearchResults<Vocabulary> = null;
   newMeasurementForm: FormGroup;
 
@@ -295,8 +297,10 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   getLocations() {
     this.resourceService.getVocabulariesByType('PLACES').subscribe(
       suc => {
+        const valuesPipe = new ValuesPipe();
         this.places = suc;
         this.placesVocabulary = this.places.results[0];
+        this.placesVocIdArray = valuesPipe.transform(this.placesVocabulary.entries);
       }
     );
   }

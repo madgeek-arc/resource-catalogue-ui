@@ -236,7 +236,7 @@
                           <div class="uk-width-4-5 uk-form-controls">
                             <select formControlName="lifeCycleStatus" class="uk-select"
                                     [ngClass]="{'uk-form-danger': !serviceForm.get('lifeCycleStatus').valid && serviceForm.get('lifeCycleStatus').dirty}">
-                              <option *ngFor="let entry of lifeCycleStatusVocabulary.entries | values | sort" value="{{entry}}">
+                              <option *ngFor="let entry of lifeCycleStatusVocIdArray | sort" value="{{lifeCycleStatusVocabulary.entries[entry].id}}">
                                 {{lifeCycleStatusVocabulary.entries[entry].name}}
                               </option>
                             </select>
@@ -250,7 +250,7 @@
                           <div class="uk-width-4-5 uk-form-controls">
                             <select formControlName="trl" class="uk-select"
                                     [ngClass]="{'uk-form-danger': !serviceForm.get('trl').valid && serviceForm.get('trl').dirty}">
-                              <option *ngFor="let entry of trlVocabulary.entries | values | sort" value="{{entry}}">
+                              <option *ngFor="let entry of trlVocIdArray | sort" value="{{trlVocabulary.entries[entry].id}}">
                                 {{trlVocabulary.entries[entry].name}}
                               </option>
                             </select>
@@ -264,7 +264,7 @@
                           <div class="uk-width-4-5 uk-form-controls">
                             <select formControlName="category" class="uk-select"
                                     [ngClass]="{'uk-form-danger': !serviceForm.get('category').valid && serviceForm.get('category').dirty}">
-                              <option *ngFor="let entry of categoriesVocabulary.entries | values | sort" value="{{entry}}">
+                              <option *ngFor="let entry of categoriesVocIdArray | sort" value="{{categoriesVocabulary.entries[entry].id}}">
                                 {{categoriesVocabulary.entries[entry].name}}
                               </option>
                             </select>
@@ -296,7 +296,7 @@
                             <div *ngFor="let provider of getFieldAsFormArray('places').controls; let i=index">
                               <select *ngIf="providersPage" class="uk-select uk-width-5-6" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('places').get([i]).valid && getFieldAsFormArray('places').get([i]).dirty}">
-                                <option *ngFor="let entry of placesVocabulary.entries | values | premiumsort:['EU', 'WW']" value="{{entry}}">
+                                <option *ngFor="let entry of placesVocIdArray | premiumsort:['EU', 'WW']" value="{{placesVocabulary.entries[entry].id}}">
                                   {{placesVocabulary.entries[entry].name}}
                                 </option>
                               </select>
@@ -321,7 +321,7 @@
                             <div *ngFor="let provider of getFieldAsFormArray('languages').controls; let i=index">
                               <select *ngIf="providersPage" class="uk-select uk-width-5-6" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('languages').get([i]).valid && getFieldAsFormArray('languages').get([i]).dirty}">
-                                <option *ngFor="let entry of languagesVocabulary.entries | values | premiumsort:['english']" value="{{entry}}">
+                                <option *ngFor="let entry of languagesVocIdArray | premiumsort:['english']" value="{{languagesVocabulary.entries[entry].id}}">
                                   {{languagesVocabulary.entries[entry].name}}
                                 </option>
                               </select>
@@ -519,7 +519,6 @@
                     <button type="submit" class="btn btn-primary block full-width m-b">{{editMode ? "Update" : "Add"}}
                     </button>
                   </form>
-                  {{serviceForm.value | json}}
                   <pre *ngIf="this.userService.isDev()">
                       {{serviceForm.value | json}}
                   </pre>

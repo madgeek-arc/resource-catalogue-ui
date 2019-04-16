@@ -83,14 +83,14 @@ export class NewServiceProviderComponent implements OnInit {
 
     if (this.newProviderForm.valid && !this.logoError && this.logoUrlWorks) {
 
-      let newProvider = Object.assign(
+      const newProvider = Object.assign(
         this.newProviderForm.value
       );
-      console.log(JSON.stringify(newProvider));
-      console.log(JSON.stringify(this.newProviderForm.value));
+      // console.log(JSON.stringify(newProvider));
+      // console.log(JSON.stringify(this.newProviderForm.value));
 
       this.serviceProviderService.createNewServiceProvider(newProvider).subscribe(
-        res => console.log(res),
+        res => {},
         err => {
           console.log(err);
           this.errorMessage = 'Something went wrong.';

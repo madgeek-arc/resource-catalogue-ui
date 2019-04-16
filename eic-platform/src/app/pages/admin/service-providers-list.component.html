@@ -1,212 +1,189 @@
 <div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
-    <div class="uk-container">
-        <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
-            <div class="uk-width-1-1@m uk-first-column">
+  <div class="uk-container">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
 
-                <div class="uk-grid ">
-                <h1 class="uk-h3 uk-width-2-3@m">Service Providers</h1>
-                    <div class="uk-width-1-3@m">
-                        <div class="uk-inline uk-float-right">
-                            <button class="uk-button" type="button">Export to csv</button>
-                            <div uk-dropdown="mode: click">
-                                <ul class="uk-nav uk-dropdown-nav">
-                                    <li class="" (click)="DownloadProvidersCSV()"><a>Providers</a></li>
-                                    <!--<li class="uk-nav-divider"></li>-->
-                                    <li class="" (click)="DownloadServicesCSV()"><a>Services</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- TOP HELP CONTENT -->
-                <app-help-content #topHelperContent [position]="'top'"
-                              [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-                </app-help-content>
+        <div class="uk-grid ">
+          <h1 class="uk-h3 uk-width-2-3@m">Service Providers</h1>
+          <div class="uk-width-1-3@m">
+            <div class="uk-inline uk-float-right">
+              <button class="uk-button" type="button">Export to csv</button>
+              <div uk-dropdown="mode: click">
+                <ul class="uk-nav uk-dropdown-nav">
+                  <li class="" (click)="DownloadProvidersCSV()"><a>Providers</a></li>
+                  <!--<li class="uk-nav-divider"></li>-->
+                  <li class="" (click)="DownloadServicesCSV()"><a>Services</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- TOP HELP CONTENT -->
+        <app-help-content #topHelperContent [position]="'top'"
+                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </app-help-content>
 
-                <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
-                    <div class="uk-grid">
+        <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+          <div class="uk-grid">
 
-                        <!-- LEFT HELP CONTENT -->
-                        <app-aside-help-content #leftHelperContent [position]="'left'"
-                                            [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-                        </app-aside-help-content>
+            <!-- LEFT HELP CONTENT -->
+            <app-aside-help-content #leftHelperContent [position]="'left'"
+                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
 
 
-                        <!-- MIDDLE -->
-                        <div class=" uk-width-expand@m">
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m">
 
-                            <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
+              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
-                            <div class="middle-box animated fadeInDown">
+              <div class="middle-box animated fadeInDown">
 
-                                <div *ngIf="providers && (providers.length>0)" id="serviceForm">
+                <div *ngIf="providers && (providers.length>0)" id="serviceForm">
 
-                                    <ul class="uk-pagination uk-flex-center" uk-margin>
-                                        <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
-                                        <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
-                                            <div *ngIf="i !== currentPage; else deactivate_link">
-                                                <a (click)="goToPage(i)">{{i}}</a>
-                                            </div>
-                                            <ng-template #deactivate_link><span>{{i}}</span></ng-template>
-                                        </li>
-                                        <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
-                                    </ul>
+                  <ul class="uk-pagination uk-flex-center" uk-margin>
+                    <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+                    <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
+                      <div *ngIf="i !== currentPage; else deactivate_link">
+                        <a (click)="goToPage(i)">{{i}}</a>
+                      </div>
+                      <ng-template #deactivate_link><span>{{i}}</span></ng-template>
+                    </li>
+                    <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                  </ul>
 
-                                    <table class="uk-table uk-table-small uk-table-striped uk-table-middle">
-                                        <thead>
-                                            <tr>
-                                                <th class="uk-text-center">Logo</th>
-                                                <th class="uk-text-center">Name</th>
-                                                <th class="uk-text-center">Current Status</th>
-                                                <th class="uk-text-center">Info</th>
-                                                <th class="uk-text-center">Active</th>
-                                                <th class="uk-text-center">service template</th>
-                                                <th class="uk-text-center">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let provider of providers">
-                                                <td class=" uk-table-shrink">
-                                                    <img class="el-image uk-border-rounded"
-                                                         src="{{ provider.logo ? provider.logo : 'http://fvtelibrary.com/img/user/NoLogo.png' }}">
-                                                </td>
-                                                <td class="uk-width-1-5@m uk-text-center">
-                                                    <span data-uk-tooltip
-                                                          title="{{(provider.status !== 'approved') ?
-                                                                'The service provider is not yet active, therefore you cannot access its monitoring dashboard':
-                                                                'Go to the service provider monitoring dashboard'}}">
-                                                        <a [routerLink]="['/dashboard',provider.id]"
-                                                           class="{{(provider.status !== 'approved') ? 'uk-disabled':''}}">
-                                                            {{ provider.name }}
-                                                            <!--Enable this if provider names are to long-->
-                                                            <!--{{ provider.name.length > 20 ? provider.name.slice(0,20)+'...' : provider.name }}-->
-                                                        </a>
-                                                    </span>
-                                                </td>
-                                                <td class="uk-width-1-5@m uk-text-center">
-                                                    <!--<span class="{{ (provider.status === 'pending initial approval') ? 'uk-badge uk-badge-danger' :
-                                                                   ((provider.status === 'pending service template approval') ? 'uk-badge uk-badge-warning' : 'uk-badge uk-badge-success') }}">-->
-                                                        <!--<i class="fa {{ (provider.status === 'pending initial approval') ? 'fa-times' :
-                                                                   ((provider.status === 'pending service template approval') ? 'fa-exclamation' : 'fa-check') }}"></i>-->
-                                                        {{ provider.status }}
-                                                    <!--</span>-->
-                                                </td>
-                                                <td class="uk-text-center">
-                                                    <a [routerLink]="['/serviceProviderInfo',provider.id]">
-                                                    <i aria-hidden="true" class="fa fa-info uk-margin-small-right"></i>
-                                                    </a>
-                                                </td>
-                                                <td class="uk-text-center">
-                                                    <i class="fa fa-{{ provider.active ? 'check':'close' }}"></i>
-                                                </td>
-                                                <td class="uk-text-center">
-                                                    <a *ngIf="hasCreatedFirstService(provider.id)"
-                                                       routerLink="{{ getLinkToFirstService(provider.id) }}">
-                                                        <i class="fa fa-eye"></i> View
-                                                    </a>
-                                                    &nbsp;&nbsp;
-                                                    <a *ngIf="hasCreatedFirstService(provider.id)"
-                                                       routerLink="{{ getLinkToEditFirstService(provider.id) }}">
-                                                        <i class="fa fa-pencil"></i> Edit
-                                                    </a>
-                                                </td>
-                                                <td class="uk-grid">
-                                                    <!--<button *ngIf="(provider.status === 'pending initial approval') ||
-                                                                   ((provider.status === 'pending service template approval') &&
-                                                                     hasCreatedFirstService(provider.id))"
-                                                            class="uk-button uk-button-blue"
-                                                            (click)="approveStatusChange(provider)">Approve</button>
-                                                    <button *ngIf="provider.status !== 'approved'"
-                                                            class="uk-button uk-button-blue" style="background-color: #c14136!important;"
-                                                            (click)="showVerifyModal(provider)">Reject</button>
-                                                    <a *ngIf="provider.status === 'approved'" class="uk-link uk-text-uppercase"
-                                                       (click)="showVerifyModal(provider)">Deactivate</a>-->
-                                                    <div class="uk-width-1-2@m">
-                                                         <div *ngIf="((provider.status !== 'pending service template approval') &&
+                  <table class="uk-table uk-table-small uk-table-striped uk-table-middle">
+                    <thead>
+                    <tr>
+                      <th class="uk-text-center">Logo</th>
+                      <th class="uk-text-center">Name</th>
+                      <th class="uk-text-center">Current Status</th>
+                      <th class="uk-text-center">Info</th>
+                      <th class="uk-text-center">Active</th>
+                      <th class="uk-text-center">service template</th>
+                      <th class="uk-text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let provider of providers">
+                      <td class=" uk-table-shrink">
+                        <img class="el-image uk-border-rounded"
+                             src="{{ provider.logo ? provider.logo : 'http://fvtelibrary.com/img/user/NoLogo.png' }}">
+                      </td>
+                      <td class="uk-width-1-5@m uk-text-center">
+                        <span data-uk-tooltip
+                              title="{{(provider.status !== 'approved') ?
+                                    'The service provider is not yet active, therefore you cannot access its monitoring dashboard':
+                                    'Go to the service provider monitoring dashboard'}}">
+                            <a [routerLink]="['/dashboard',provider.id]"
+                               class="{{(provider.status !== 'approved') ? 'uk-disabled':''}}">
+                                {{ provider.name }}
+                              <!--Enable this if provider names are to long-->
+                              <!--{{ provider.name.length > 20 ? provider.name.slice(0,20)+'...' : provider.name }}-->
+                            </a>
+                        </span>
+                      </td>
+                      <td class="uk-width-1-5@m uk-text-center">
+                        {{ provider.status }}
+                      </td>
+                      <td class="uk-text-center">
+                        <a [routerLink]="['/serviceProviderInfo',provider.id]">
+                          <i aria-hidden="true" class="fa fa-info uk-margin-small-right"></i>
+                        </a>
+                      </td>
+                      <td class="uk-text-center">
+                        <i class="fa fa-{{ provider.active ? 'check':'close' }}"></i>
+                      </td>
+                      <td class="uk-text-center">
+                        <a *ngIf="hasCreatedFirstService(provider.id)"
+                           routerLink="{{ getLinkToFirstService(provider.id) }}">
+                          <i class="fa fa-eye"></i> View
+                        </a>
+                        &nbsp;&nbsp;
+                        <a *ngIf="hasCreatedFirstService(provider.id)"
+                           routerLink="{{ getLinkToEditFirstService(provider.id) }}">
+                          <i class="fa fa-pencil"></i> Edit
+                        </a>
+                      </td>
+                      <td class="uk-grid uk-text-center">
+                        <div class="uk-width-1-2 uk-padding-remove-left">
+                          <div *ngIf="((provider.status !== 'pending service template approval') &&
                                                                  (provider.status !== 'rejected service template')) ||
                                                                  (hasCreatedFirstService(provider.id))">
-                                                            <a *ngIf="adminActionsMap[provider.status] && adminActionsMap[provider.status].appButtonTitle"
-                                                               class="uk-margin-right"
-                                                               (click)="showActionModal(provider, adminActionsMap[provider.status].onApprove, true)">
-                                                                <i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>
-                                                                {{ adminActionsMap[provider.status].appButtonTitle }}
-                                                            </a>
-                                                            <a *ngIf="(provider.status === 'approved') && (!provider.active)"
-                                                               class="uk-margin-right"
-                                                               (click)="showActionModal(provider, 'approved', true)">
-                                                                <i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>
-                                                                Activate
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="uk-width-1-2@m">
-                                                        <a *ngIf="((provider.status === 'approved') && (provider.active)) ||
-                                                                  ((provider.status !== 'approved') && (adminActionsMap[provider.status] && adminActionsMap[provider.status].rejButtonTitle))"
-                                                           (click)="showActionModal(provider, adminActionsMap[provider.status].onReject, false)">
-                                                            <i class="fa fa-thumbs-down uk-margin-small-right" aria-hidden="true"></i>
-                                                            {{ adminActionsMap[provider.status].rejButtonTitle }}
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <ul class="uk-pagination uk-flex-center" uk-margin>
-                                        <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
-                                        <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
-                                            <div *ngIf="i !== currentPage; else deactivate_link">
-                                                <a (click)="goToPage(i)">{{i}}</a>
-                                            </div>
-                                            <ng-template #deactivate_link><span>{{i}}</span></ng-template>
-                                        </li>
-                                        <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
-                                    </ul>
-
-                                </div>
-                            </div>
-
-                            <!-- RIGHT HELP CONTENT -->
-                            <app-aside-help-content #rightHelperContent [position]="'right'"
-                                                [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-                            </app-aside-help-content>
-
+                            <a *ngIf="adminActionsMap[provider.status] && adminActionsMap[provider.status].appButtonTitle"
+                              (click)="showActionModal(provider, adminActionsMap[provider.status].onApprove, true)">
+                              <i aria-hidden="true" class="fa fa-thumbs-up"></i>
+                              {{ adminActionsMap[provider.status].appButtonTitle }}
+                            </a>
+                            <a *ngIf="(provider.status === 'approved') && (!provider.active)"
+                               class="uk-margin-right"
+                               (click)="showActionModal(provider, 'approved', true)">
+                              <i aria-hidden="true" class="fa fa-thumbs-up"></i> Activate
+                            </a>
+                          </div>
                         </div>
-                    </div>
+                        <div class="uk-width-1-2 uk-padding-remove-left uk-text-nowrap">
+                          <a *ngIf="((provider.status === 'approved') && (provider.active)) ||
+                                                                  ((provider.status !== 'approved') && (adminActionsMap[provider.status] && adminActionsMap[provider.status].rejButtonTitle))"
+                             class="uk-margin-right"
+                             (click)="showActionModal(provider, adminActionsMap[provider.status].onReject, false)">
+                            <i class="fa fa-thumbs-down " aria-hidden="true"></i>
+                            {{ adminActionsMap[provider.status].rejButtonTitle }}
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
 
-
-                    <!-- BOTTOM HELP CONTENT -->
-                    <app-help-content #bottomHelperContent [position]="'bottom'"
-                                  [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-                    </app-help-content>
-
+                  <ul class="uk-pagination uk-flex-center" uk-margin>
+                    <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+                    <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
+                      <div *ngIf="i !== currentPage; else deactivate_link">
+                        <a (click)="goToPage(i)">{{i}}</a>
+                      </div>
+                      <ng-template #deactivate_link><span>{{i}}</span></ng-template>
+                    </li>
+                    <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                  </ul>
 
                 </div>
+              </div>
+
+              <!-- RIGHT HELP CONTENT -->
+              <app-aside-help-content #rightHelperContent [position]="'right'"
+                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+              </app-aside-help-content>
+
             </div>
+          </div>
+
+
+          <!-- BOTTOM HELP CONTENT -->
+          <app-help-content #bottomHelperContent [position]="'bottom'"
+                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+          </app-help-content>
+
+
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
-<!--<div id="approveModal" uk-modal>
-    <div class="uk-modal-dialog uk-modal-body">
-        <h4>Approve the change of status?</h4>
-        <button class="uk-button uk-button-primary" type="button" (click)="updateSelectedProvider()">OK</button>
-        <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
-    </div>
-</div>-->
-
 <div id="actionModal" uk-modal>
-    <div class="uk-modal-dialog uk-modal-body">
-        <div *ngIf="selectedProvider">
-            <h6>Proceed with changing the status of "{{ selectedProvider.name }}"</h6>
-            <p *ngIf="selectedProvider.status !== newStatus">The status will change from "{{ selectedProvider.status }}" to "{{ newStatus }}"</p>
-            <p *ngIf="selectedProvider.status === newStatus">
-                {{ ((selectedProvider.status === 'approved') && !pushedApprove) ? 'The service provider will be deactivated.':
-                    (((selectedProvider.status === 'approved') && pushedApprove) ? 'The service provider will be activated.':
-                    'The sp will be prompted to update the service template.')}}
-            </p>
-        </div>
-        <button class="uk-button uk-button-primary" type="button" (click)="statusChangeAction()">Proceed</button>
-        <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+  <div class="uk-modal-dialog uk-modal-body">
+    <div *ngIf="selectedProvider">
+      <h6>Proceed with changing the status of "{{ selectedProvider.name }}"</h6>
+      <p *ngIf="selectedProvider.status !== newStatus">The status will change from "{{ selectedProvider.status }}" to
+        "{{ newStatus }}"</p>
+      <p *ngIf="selectedProvider.status === newStatus">
+        {{ ((selectedProvider.status === 'approved') && !pushedApprove) ? 'The service provider will be deactivated.' :
+        (((selectedProvider.status === 'approved') && pushedApprove) ? 'The service provider will be activated.' :
+          'The sp will be prompted to update the service template.')}}
+      </p>
     </div>
+    <button class="uk-button uk-button-primary" type="button" (click)="statusChangeAction()">Proceed</button>
+    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+  </div>
 </div>

@@ -96,7 +96,7 @@ export class ResourceService {
   }
 
   getVocabularies() {
-    return this.http.get(this.base + `/vocabulary/all?from=0&quantity=1000`);
+    return this.http.get<SearchResults<Vocabulary>>(this.base + `/vocabulary/all?from=0&quantity=1000`);
   }
 
   getVocabulariesByType(type: string) {

@@ -16,7 +16,8 @@ import * as sd from './services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {SearchResults} from '../../domain/search-results';
 import {zip} from 'rxjs/internal/observable/zip';
-import {ProvidersPage} from "../../domain/funders-page";
+import {ProvidersPage} from '../../domain/funders-page';
+import {ValuesPipe} from '../../shared/pipes/getValues.pipe';
 
 @Component({
   selector: 'app-service-form',
@@ -142,10 +143,15 @@ export class ServiceFormComponent implements OnInit {
   userService: UserService = this.injector.get(UserService);
 
   public lifeCycleStatusVocabulary: Vocabulary = null;
+  public lifeCycleStatusVocIdArray: string[] = [];
   public trlVocabulary: Vocabulary = null;
+  public trlVocIdArray: string[] = [];
   public categoriesVocabulary: Vocabulary = null;
+  public categoriesVocIdArray: string[] = [];
   public placesVocabulary: Vocabulary = null;
+  public placesVocIdArray: string[] = [];
   public languagesVocabulary: Vocabulary = null;
+  public languagesVocIdArray: string[] = [];
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -249,17 +255,21 @@ export class ServiceFormComponent implements OnInit {
       this.resourceService.getVocabularies(),
       this.resourceService.getServices()
     ).subscribe(suc => {
-        // console.log(priceDesc);
+        const valuesPipe = new ValuesPipe();
         this.providersPage = <ProvidersPage>suc[0];
         this.vocabularies = <SearchResults<Vocabulary>>suc[1];
         this.requiredServices = this.transformInput(suc[2]);
         this.relatedServices = this.requiredServices;
-
         this.lifeCycleStatusVocabulary = this.vocabularies.results.filter(x => x.id === 'lifecyclestatus')[0];
         this.trlVocabulary = this.vocabularies.results.filter(x => x.id === 'trl')[0];
         this.categoriesVocabulary = this.vocabularies.results.filter(x => x.id === 'categories')[0];
         this.placesVocabulary = this.vocabularies.results.filter(x => x.id === 'places')[0];
         this.languagesVocabulary = this.vocabularies.results.filter(x => x.id === 'languages')[0];
+        this.lifeCycleStatusVocIdArray = valuesPipe.transform(this.lifeCycleStatusVocabulary.entries);
+        this.trlVocIdArray = valuesPipe.transform(this.trlVocabulary.entries);
+        this.categoriesVocIdArray = valuesPipe.transform(this.categoriesVocabulary.entries);
+        this.placesVocIdArray = valuesPipe.transform(this.placesVocabulary.entries);
+        this.languagesVocIdArray = valuesPipe.transform(this.languagesVocabulary.entries);
       },
       error => {
       },
@@ -283,7 +293,7 @@ export class ServiceFormComponent implements OnInit {
   private setAsTouched_(form: FormGroup, ret: any) {
     Object.keys(form.controls).forEach(control => {
       let control_ = form.controls[control];
-      console.log(control, control_);
+      // console.log(control, control_);
       if (!control_.valid) {
         ret[control] = {};
         if (control_.hasOwnProperty('controls')) {

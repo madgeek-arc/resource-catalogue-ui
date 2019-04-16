@@ -180,7 +180,7 @@
                                                             <select class="uk-select uk-width-5-6@m" [formControlName]="i"
                                                                     [ngClass]="{'uk-form-danger': !locations.get([i]).valid && locations.get([i]).dirty}">
                                                                 <ng-container *ngIf="placesVocabulary">
-                                                                    <option *ngFor="let placeEntry of placesVocabulary.entries | values | premiumsort:weights" value="{{placeEntry}}">
+                                                                    <option *ngFor="let placeEntry of placesVocIdArray | premiumsort:weights" value="{{placesVocabulary.entries[placeEntry].id}}">
                                                                         {{placesVocabulary.entries[placeEntry].name}}
                                                                     </option>
                                                                 </ng-container>
