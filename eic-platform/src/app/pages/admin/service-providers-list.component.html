@@ -105,27 +105,25 @@
                           <i class="fa fa-pencil"></i> Edit
                         </a>
                       </td>
-                      <td class="uk-grid uk-text-center">
-                        <div class="uk-width-1-2 uk-padding-remove-left">
-                          <div *ngIf="((provider.status !== 'pending service template approval') &&
+                      <td class="uk-text-center">
+                        <div class="uk-grid">
+                          <div class="uk-width-1-2">
+                            <div *ngIf="((provider.status !== 'pending service template approval') &&
                                                                  (provider.status !== 'rejected service template')) ||
                                                                  (hasCreatedFirstService(provider.id))">
-                            <a *ngIf="adminActionsMap[provider.status] && adminActionsMap[provider.status].appButtonTitle"
-                              (click)="showActionModal(provider, adminActionsMap[provider.status].onApprove, true)">
-                              <i aria-hidden="true" class="fa fa-thumbs-up"></i>
-                              {{ adminActionsMap[provider.status].appButtonTitle }}
-                            </a>
-                            <a *ngIf="(provider.status === 'approved') && (!provider.active)"
-                               class="uk-margin-right"
-                               (click)="showActionModal(provider, 'approved', true)">
-                              <i aria-hidden="true" class="fa fa-thumbs-up"></i> Activate
-                            </a>
+                              <a *ngIf="adminActionsMap[provider.status] && adminActionsMap[provider.status].appButtonTitle"
+                                (click)="showActionModal(provider, adminActionsMap[provider.status].onApprove, true)">
+                                <i aria-hidden="true" class="fa fa-thumbs-up"></i>
+                                {{ adminActionsMap[provider.status].appButtonTitle }}
+                              </a>
+                              <a class="uk-margin-right" *ngIf="(provider.status === 'approved') && (!provider.active)"
+                                 (click)="showActionModal(provider, 'approved', true)">
+                                <i aria-hidden="true" class="fa fa-thumbs-up"></i> Activate
+                              </a>
+                            </div>
                           </div>
-                        </div>
-                        <div class="uk-width-1-2 uk-padding-remove-left uk-text-nowrap">
-                          <a *ngIf="((provider.status === 'approved') && (provider.active)) ||
+                          <a class="uk-text-right" *ngIf="((provider.status === 'approved') && (provider.active)) ||
                                                                   ((provider.status !== 'approved') && (adminActionsMap[provider.status] && adminActionsMap[provider.status].rejButtonTitle))"
-                             class="uk-margin-right"
                              (click)="showActionModal(provider, adminActionsMap[provider.status].onReject, false)">
                             <i class="fa fa-thumbs-down " aria-hidden="true"></i>
                             {{ adminActionsMap[provider.status].rejButtonTitle }}
