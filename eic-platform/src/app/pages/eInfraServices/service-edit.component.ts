@@ -1,12 +1,10 @@
-import {DatePipe, Location} from '@angular/common';
 import {Component, Injector, OnInit} from '@angular/core';
+import {DatePipe} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {Service} from '../../domain/eic-model';
 import {AuthenticationService} from '../../services/authentication.service';
-import {ResourceService} from '../../services/resource.service';
 import {ServiceFormComponent} from './service-form.component';
-import {forEach} from '@angular/router/src/utils/collection';
+import {Service} from '../../domain/eic-model';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-service-edit',
@@ -17,7 +15,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
   private serviceID: string;
 
   constructor(public route: ActivatedRoute, public authenticationService: AuthenticationService,
-              public location: Location, protected injector: Injector, public datePipe: DatePipe) {
+              protected injector: Injector, public datePipe: DatePipe) {
     super(injector, authenticationService);
     this.editMode = true;
   }
@@ -79,22 +77,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     for (let i = 0; i < service.termsOfUse.length - 1; i++) {
       this.push('termsOfUse', false, true);
     }
-  }
-
-  toForms(service: Service) {
-    const ret = {};
-    Object.entries(service).forEach(([name, values]) => {
-      let newValues = [];
-      if (Array.isArray(values)) {
-        values.forEach(entry => {
-          newValues.push({entry});
-        });
-      } else {
-        newValues = values;
-      }
-      ret[name] = newValues;
-    });
-    return <Service>ret;
   }
 
   onSuccess(service) {

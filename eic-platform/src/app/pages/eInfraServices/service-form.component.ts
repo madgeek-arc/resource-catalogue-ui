@@ -1,23 +1,16 @@
-import {Component, Injector, OnInit, Type, ViewChild} from '@angular/core';
+import {Component, Injector, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Provider, Service, Vocabulary} from '../../domain/eic-model';
+import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {UserService} from '../../services/user.service';
-import {URLValidator} from '../../shared/validators/generic.validator';
-// import {LanguagesComponent} from './multivalue-components/languages.component';
-// import {PlacesComponent} from './multivalue-components/places.component';
-// import {ProvidersComponent} from './multivalue-components/providers.component';
-// import {RelatedServicesComponent} from './multivalue-components/relatedServices.component';
-// import {RequiredServicesComponent} from './multivalue-components/requiredServices.component';
-// import {TagsComponent} from './multivalue-components/tags.component';
-// import {TermsOfUseComponent} from './multivalue-components/termsOfUse.component';
 import * as sd from './services.description';
-import {AuthenticationService} from '../../services/authentication.service';
+import {Service, Vocabulary} from '../../domain/eic-model';
 import {SearchResults} from '../../domain/search-results';
-import {zip} from 'rxjs/internal/observable/zip';
 import {ProvidersPage} from '../../domain/funders-page';
+import {URLValidator} from '../../shared/validators/generic.validator';
 import {ValuesPipe} from '../../shared/pipes/getValues.pipe';
+import {zip} from 'rxjs/internal/observable/zip';
 
 @Component({
   selector: 'app-service-form',
@@ -70,13 +63,6 @@ export class ServiceFormComponent implements OnInit {
   readonly termsOfUseDesc: sd.Description = sd.termsOfUseDesc;
   readonly fundingDesc: sd.Description = sd.fundingDesc;
 
-  // placesComponent: Type<PlacesComponent> = PlacesComponent;
-  // languagesComponent: Type<LanguagesComponent> = LanguagesComponent;
-  // providersComponent: Type<ProvidersComponent> = ProvidersComponent;
-  // tagsComponent: Type<TagsComponent> = TagsComponent;
-  // requiredServicesComponent: Type<RequiredServicesComponent> = RequiredServicesComponent;
-  // relatedServicesComponent: Type<RelatedServicesComponent> = RelatedServicesComponent;
-  // termsOfUseComponent: Type<TermsOfUseComponent> = TermsOfUseComponent;
   formGroupMeta = {
     'url': ['', Validators.compose([Validators.required, URLValidator])],
     'name': ['', Validators.required],
@@ -100,23 +86,18 @@ export class ServiceFormComponent implements OnInit {
     'trl': ['', Validators.compose([Validators.required])],
     'category': ['', Validators.required],
     'subcategory': ['', Validators.required],
-    // place is defined in component
     'places': this.fb.array([
       this.fb.control('', Validators.required)
     ], Validators.required),
-    // lang is defined in component
     'languages': this.fb.array([
       this.fb.control('', Validators.required)
     ], Validators.required),
-    // tags is defined in component
     'tags': this.fb.array([
       this.fb.control('')
     ]),
-    // requiredServices is defined in component
     'requiredServices': this.fb.array([
       this.fb.control('')
     ]),
-    // relatedServices is defined in component
     'relatedServices': this.fb.array([
       this.fb.control('')
     ]),
@@ -162,16 +143,6 @@ export class ServiceFormComponent implements OnInit {
     this.userService = this.injector.get(UserService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
-  }
-
-  transformVocabularies(vocabularies) {
-    let ret = {};
-    // TODO: maybe fix this if needed
-    // Object.entries(vocabularies).forEach(([key, value]) => {
-    //   ret[value.type] = ret[value.type] || {};
-    //   ret[value.type][key] = value.name;
-    // });
-    return ret;
   }
 
   toServer(service: Service): Service {

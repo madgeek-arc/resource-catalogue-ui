@@ -17,7 +17,6 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {Router} from '@angular/router';
 import {URLValidator} from '../../shared/validators/generic.validator';
-import {Provider, Service} from '../../domain/eic-model';
 
 declare var UIkit: any;
 
@@ -90,7 +89,8 @@ export class NewServiceProviderComponent implements OnInit {
       // console.log(JSON.stringify(this.newProviderForm.value));
 
       this.serviceProviderService.createNewServiceProvider(newProvider).subscribe(
-        res => {},
+        res => {
+        },
         err => {
           console.log(err);
           this.errorMessage = 'Something went wrong.';

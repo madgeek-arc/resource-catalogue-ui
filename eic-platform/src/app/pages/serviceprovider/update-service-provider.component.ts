@@ -45,7 +45,6 @@ export class UpdateServiceProviderComponent implements OnInit {
     additionalInfo: ['', Validators.required]
   };
 
-
   organizationIdDesc: Description = organizationIdDesc;
   organizationNameDesc: Description = organizationNameDesc;
   phoneNumberDesc: Description = phoneNumberDesc;
@@ -54,7 +53,6 @@ export class UpdateServiceProviderComponent implements OnInit {
   publicDescOfResourcesDesc: Description = publicDescOfResourcesDesc;
   additionalInfoDesc: Description = additionalInfoDesc;
   logoUrlDesc: Description = logoUrlDesc;
-
 
   constructor(private fb: FormBuilder,
               private authService: AuthenticationService,
@@ -99,8 +97,10 @@ export class UpdateServiceProviderComponent implements OnInit {
     // this.updateProviderForm.get('logo').setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('logo').value));
     this.updateProviderForm.get('logo').setValue(this.logoCheckUrl(this.updateProviderForm.get('logo').value));
     this.updateProviderForm.get('website').setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('website').value));
-    this.updateProviderForm.get('catalogueOfResources').setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('catalogueOfResources').value));
-    this.updateProviderForm.get('publicDescOfResources').setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('publicDescOfResources').value));
+    this.updateProviderForm.get('catalogueOfResources')
+      .setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('catalogueOfResources').value));
+    this.updateProviderForm.get('publicDescOfResources')
+      .setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('publicDescOfResources').value));
     this.updateProviderForm.get('id').enable();
 
     this.logoUrlWorks = this.imageExists(this.updateProviderForm.get('logo').value);
@@ -108,13 +108,7 @@ export class UpdateServiceProviderComponent implements OnInit {
 
     if (this.updateProviderForm.valid && !this.logoError && this.logoUrlWorks) {
 
-      // console.log(JSON.stringify(this.updateProviderForm.value));
-      const updatedProvider = Object.assign(
-        this.updateProviderForm.value
-      );
-      // console.log(JSON.stringify(updatedProvider));
-
-      this.serviceProviderService.updateServiceProvider(updatedProvider).subscribe(
+      this.serviceProviderService.updateServiceProvider(this.updateProviderForm.value).subscribe(
         res => console.log(res),
         err => {
           console.log(err);
@@ -130,10 +124,11 @@ export class UpdateServiceProviderComponent implements OnInit {
       this.updateProviderForm.updateValueAndValidity();
       for (const i in this.updateProviderForm.controls) {
         this.updateProviderForm.controls[i].markAsDirty();
+        this.updateProviderForm.controls[i].updateValueAndValidity();
       }
       this.users.markAsDirty();
       this.users.updateValueAndValidity();
-      for (let i in this.users.controls) {
+      for (const i in this.users.controls) {
         this.users.controls[i].get('surname').markAsDirty();
         this.users.controls[i].get('surname').updateValueAndValidity();
         // console.log(this.users.controls[i].get('surname').value);
@@ -143,20 +138,20 @@ export class UpdateServiceProviderComponent implements OnInit {
         this.users.controls[i].get('name').markAsDirty();
         this.users.controls[i].get('name').updateValueAndValidity();
         // console.log(this.users.controls[i].get('name').value);
-
       }
       window.scrollTo(0, 0);
       if (!this.updateProviderForm.valid) {
-        this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
+        this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format' +
+          ' in fields underlined with a red colour.';
       }
       if (this.logoError) {
         this.updateProviderForm.get('logo').setErrors({'incorrect': true});
         this.logoError = false;
-        this.errorMessage += ' Logo url must have https:// prefix.'
+        this.errorMessage += ' Logo url must have https:// prefix.';
       }
       if (!this.logoUrlWorks) {
         this.updateProviderForm.get('logo').setErrors({'incorrect': true});
-        this.errorMessage += ' Logo url doesn\'t point to a valid image.'
+        this.errorMessage += ' Logo url doesn\'t point to a valid image.';
       }
     }
   }
@@ -180,8 +175,8 @@ export class UpdateServiceProviderComponent implements OnInit {
         this.updateProviderForm.patchValue(this.provider);
         // let users: User[] = [];
         for (let i = 0; i < this.provider.users.length; i++) {
-          this.users.push(this.user(this.provider.users[i].email.trim(), this.provider.users[i].id,
-            this.provider.users[i].name.trim(), this.provider.users[i].surname.trim()));
+          this.users.push(this.user(this.provider.users[i].email, this.provider.users[i].id,
+            this.provider.users[i].name, this.provider.users[i].surname));
           // console.log(this.provider.users[i]);
 
           // this.user.patchValue(this.provider.users[i]);
@@ -256,13 +251,22 @@ export class UpdateServiceProviderComponent implements OnInit {
         url = 'https://' + url;
       }
     }
-    console.log(url);
+    // console.log(url);
     return url;
   }
 
   trimFormWhiteSpaces() {
-    for (let i in this.updateProviderForm.controls) {
-      if (this.updateProviderForm.controls[i].value && this.updateProviderForm.controls[i].value.constructor !== Array) {
+    for (const i in this.updateProviderForm.controls) {
+      if (this.updateProviderForm.controls[i].value && this.updateProviderForm.controls[i].value.constructor === Array) {
+        for (let j = 0; j < this.updateProviderForm.controls[i].value.length; j++) {
+          this.updateProviderForm.controls[i].value[j].email = this.updateProviderForm.controls[i].value[j].email
+            .trim().replace(/\s\s+/g, ' ');
+          this.updateProviderForm.controls[i].value[j].name = this.updateProviderForm.controls[i].value[j].name
+            .trim().replace(/\s\s+/g, ' ');
+          this.updateProviderForm.controls[i].value[j].surname = this.updateProviderForm.controls[i].value[j].surname
+            .trim().replace(/\s\s+/g, ' ');
+        }
+      } else if (this.updateProviderForm.controls[i].value) {
         this.updateProviderForm.controls[i].setValue(this.updateProviderForm.controls[i].value.trim().replace(/\s\s+/g, ' '));
       }
     }

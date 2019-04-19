@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {AuthenticationService} from './authentication.service';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {environment} from '../../environments/environment';
+import {AuthenticationService} from './authentication.service';
 import {Provider, Service} from '../domain/eic-model';
+import {environment} from '../../environments/environment';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
@@ -55,10 +55,6 @@ export class ServiceProviderService {
       catchError(this.handleError)
     );
   }
-
-  // getMyServiceProviders() {
-  //     return this.http.get(`/provider/getMyServiceProviders?email=${this.authenticationService.getUserProperty('email')}`);
-  // }
 
   getServiceProviderById(id: string) {
     return this.http.get<Provider>(this.base + `/provider/${id}`, this.options).pipe(
