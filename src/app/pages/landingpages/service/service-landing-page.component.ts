@@ -10,7 +10,7 @@ import {ServiceProviderService} from '../../../services/service-provider.service
 import {IndicatorsPage, MeasurementsPage} from '../../../domain/indicators';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SearchResults} from '../../../domain/search-results';
-import {flatMap, mergeMap} from 'rxjs/operators';
+import {flatMap} from 'rxjs/operators';
 import {zip} from 'rxjs/internal/observable/zip';
 import {ValuesPipe} from '../../../shared/pipes/getValues.pipe';
 
@@ -218,10 +218,6 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   getPrettyService(id) {
     return (this.services || []).find(e => e.id === id) || {id, name: 'Name not found!'};
   }
-
-  // visit() {
-  //   this.resourceService.recordEvent(this.service.id, 'EXTERNAL').subscribe(suc => this.router.goOffsite(this.service.url.toString()));
-  // }
 
   handleError(error) {
     this.errorMessage = 'System error loading service (Server responded: ' + error + ')';

@@ -40,12 +40,6 @@ export class HomeComponent implements OnInit {
       }
     );
 
-    // this.resourceService.getVocabulariesRaw("Category").subscribe(suc => {
-    //     this.categories = suc.results
-    //     .map(e => Object.assign(e, {extras: e.extras || ["no_icon.svg", "no_icon.svg"]}))
-    //     .filter(e => e.id !== "Category-Other" && e.extras && e.extras.length && e.extras.length === 2);
-    // });
-
     this.resourceService.getFeaturedServices().subscribe(
       res => {
         this.featuredServices = res;
@@ -85,8 +79,6 @@ export class HomeComponent implements OnInit {
         }
       }
     }
-    // console.log(this.viewServices);
-    // console.log(this.index);
   }
 
   next() {
