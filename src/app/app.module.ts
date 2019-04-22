@@ -45,7 +45,7 @@ import {CompareServicesComponent} from './pages/compare/compare-services.compone
 import {ServiceFormComponent} from './pages/eInfraServices/service-form.component';
 import {ServiceUploadComponent} from './pages/eInfraServices/service-upload.component';
 import {CKEditorModule} from 'ng2-ckeditor';
-import {ServiceEditComponent} from "./pages/eInfraServices/service-edit.component";
+import {ServiceEditComponent} from './pages/eInfraServices/service-edit.component';
 
 
 declare var require: any;
@@ -54,8 +54,8 @@ export function highchartsFactory() {
   const hc = require('highcharts');
   require('highcharts/modules/heatmap')(hc);
   require('highcharts/modules/map')(hc);
-  require('../js/europe.js')(hc);
-  require('../js/world.js')(hc);
+  require('../assets/js/europe.js')(hc);
+  require('../assets/js/world.js')(hc);
   require('highcharts/modules/drilldown')(hc);
   require('highcharts/modules/exporting')(hc);
   require('highcharts/modules/offline-exporting')(hc);
