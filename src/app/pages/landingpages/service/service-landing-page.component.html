@@ -47,7 +47,7 @@
                       <span class="statsNumbers">{{service.favourites || 0}}</span>
                   </span>
                   <span class="uk-margin-medium-left">
-                      <img src="../../../../assets/images/icons/ic_visit_icon.svg">
+                      <img src="../../../../assets/imgs/icons/ic_visit_icon.svg">
                       <span class="statsNumbers">{{service.views || 0}}</span>
                   </span>
                 </div>
@@ -318,27 +318,27 @@
           <div class="uk-card uk-card-body uk-card-custom sideInfo">
             <!--<div *ngIf="service.request" class="uk-margin-small-bottom">-->
             <!--<a class="uk-margin-small-right" target="_blank" href="{{service.request}}">Service order</a>-->
-            <!--<img src="../../../../assets/images/icons/ic_link_arrow_right.svg">-->
+            <!--<img src="../../../../assets/imgs/icons/ic_link_arrow_right.svg">-->
             <!--</div>-->
             <div *ngIf="service.price" class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" target="_blank" href="{{service.price}}">Price</a>
-              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+              <img src="../../../../assets/imgs/icons/ic_link_arrow_right.svg">
             </div>
             <div *ngIf="service.serviceLevelAgreement" class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" target="_blank" href="{{service.serviceLevelAgreement}}">Service level
                 agreement</a>
-              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+              <img src="../../../../assets/imgs/icons/ic_link_arrow_right.svg">
             </div>
             <ng-container *ngIf="service.termsOfUse && service.termsOfUse.length > 0">
               <div *ngIf="service.termsOfUse.length==1" class="uk-margin-small-bottom">
                 <a class="uk-margin-small-right" target="_blank" href="{{service.termsOfUse[0]}}">Terms of use</a>
-                <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+                <img src="../../../../assets/imgs/icons/ic_link_arrow_right.svg">
               </div>
               <ng-container *ngIf="service.termsOfUse.length>1">
                 <div *ngFor="let term of service.termsOfUse; let i = index;" class="uk-margin-small-bottom">
                   <a class="uk-margin-small-right" target="_blank" href="{{service.termsOfUse[i]}}">Terms of
                     use {{i + 1}}</a>
-                  <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+                  <img src="../../../../assets/imgs/icons/ic_link_arrow_right.svg">
                 </div>
               </ng-container>
             </ng-container>
@@ -348,24 +348,24 @@
           <div class="uk-card uk-card-body uk-card-custom sideInfo">
             <div *ngIf="service.helpdesk" class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" target="_blank" href="{{service.helpdesk}}">Helpdesk</a>
-              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+              <img src="../../../../assets/imgs/icons/ic_link_arrow_right.svg">
             </div>
             <div *ngIf="service.userManual" class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" target="_blank" href="{{service.userManual}}">User manual</a>
-              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+              <img src="../../../../assets/imgs/icons/ic_link_arrow_right.svg">
             </div>
             <div *ngIf="service.feedback" class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" target="_blank" href="{{service.feedback}}">Feedback</a>
-              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+              <img src="../../../../assets/imgs/icons/ic_link_arrow_right.svg">
             </div>
             <div *ngIf="service.trainingInformation" class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" target="_blank" href="{{service.trainingInformation}}">Training
                 information</a>
-              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+              <img src="../../../../assets/imgs/icons/ic_link_arrow_right.svg">
             </div>
             <div *ngIf="service.multimediaURL" class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" target="_blank" href="{{service.multimediaURL}}">Multimedia</a>
-              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+              <img src="../../../../assets/imgs/icons/ic_link_arrow_right.svg">
             </div>
           </div>
 

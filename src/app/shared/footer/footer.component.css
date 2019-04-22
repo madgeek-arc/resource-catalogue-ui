@@ -30,66 +30,66 @@
 .facebook {
     width: 24px;
     height: 20px;
-    background-image: url("../../../assets/images/icons/ic_Facebook.svg");
+    background-image: url("../../../assets/imgs/icons/ic_Facebook.svg");
     background-repeat: no-repeat;
     background-size: contain;
-    /*background: transparent url("../../../assets/images/icons/ic_Facebook.svg") center top no-repeat;*/
+    /*background: transparent url("../../../assets/imgs/icons/ic_Facebook.svg") center top no-repeat;*/
 }
 
 .facebook:hover {
-    background-image: url("../../../assets/images/icons/ic_Facebook_active.svg");
+    background-image: url("../../../assets/imgs/icons/ic_Facebook_active.svg");
 }
 
 .twitter {
     width: 24px;
     height: 20px;
-    background-image: url("../../../assets/images/icons/ic_Twitter.svg");
+    background-image: url("../../../assets/imgs/icons/ic_Twitter.svg");
     background-repeat: no-repeat;
     background-size: contain;
-    /*background: transparent url("../../../assets/images/icons/ic_Facebook.svg") center top no-repeat;*/
+    /*background: transparent url("../../../assets/imgs/icons/ic_Facebook.svg") center top no-repeat;*/
 }
 
 .twitter:hover {
-    background-image: url("../../../assets/images/icons/ic_Twitter_active.svg");
+    background-image: url("../../../assets/imgs/icons/ic_Twitter_active.svg");
 }
 
 .linkedin {
     width: 24px;
     height: 20px;
-    background-image: url("../../../assets/images/icons/ic_Linkedin.svg");
+    background-image: url("../../../assets/imgs/icons/ic_Linkedin.svg");
     background-repeat: no-repeat;
     background-size: contain;
-    /*background: transparent url("../../../assets/images/icons/ic_Facebook.svg") center top no-repeat;*/
+    /*background: transparent url("../../../assets/imgs/icons/ic_Facebook.svg") center top no-repeat;*/
 }
 
 .linkedin:hover {
-    background-image: url("../../../assets/images/icons/ic_Linkedin_active.svg");
+    background-image: url("../../../assets/imgs/icons/ic_Linkedin_active.svg");
 }
 
 .share {
     width: 24px;
     height: 20px;
-    background-image: url("../../../assets/images/icons/ic_share.svg");
+    background-image: url("../../../assets/imgs/icons/ic_share.svg");
     background-repeat: no-repeat;
     background-size: contain;
-    /*background: transparent url("../../../assets/images/icons/ic_Facebook.svg") center top no-repeat;*/
+    /*background: transparent url("../../../assets/imgs/icons/ic_Facebook.svg") center top no-repeat;*/
 }
 
 .share:hover {
-    background-image: url("../../../assets/images/icons/ic_share_Active.svg");
+    background-image: url("../../../assets/imgs/icons/ic_share_Active.svg");
 }
 
 .vimeo {
     width: 24px;
     height: 20px;
-    background-image: url("../../../assets/images/icons/ic_Vimeo.svg");
+    background-image: url("../../../assets/imgs/icons/ic_Vimeo.svg");
     background-repeat: no-repeat;
     background-size: contain;
-    /*background: transparent url("../../../assets/images/icons/ic_Facebook.svg") center top no-repeat;*/
+    /*background: transparent url("../../../assets/imgs/icons/ic_Facebook.svg") center top no-repeat;*/
 }
 
 .vimeo:hover {
-    background-image: url("../../../assets/images/icons/ic_Vimeo_active.svg");
+    background-image: url("../../../assets/imgs/icons/ic_Vimeo_active.svg");
 }
 
 .fundedBy {
