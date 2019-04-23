@@ -13,7 +13,7 @@ export class ComparisonService {
     this.servicesToCompare = JSON.parse(sessionStorage.getItem('compareServices') || '[]');
   }
 
-  addOrRemove(service: Service, go: boolean) {
+  addOrRemove(service: Service, go?: boolean) {
     const idx = this.servicesToCompare.map(s => s.id).indexOf(service.id);
     if (idx > -1) {
       this.servicesToCompare.splice(idx, 1);

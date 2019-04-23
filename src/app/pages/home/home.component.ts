@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   public searchForm: FormGroup;
   public categoriesResults: SearchResults<Vocabulary> = null;
   public categories: Vocabulary = null;
-  public baseIconURI = './assets/imgs/icons/';
+  public baseIconURI = './assets/images/icons/';
 
   public featuredServices: Service[] = null;
   public viewServices: Service[] = [];
