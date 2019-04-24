@@ -11,6 +11,7 @@ import {ProvidersPage} from '../../domain/funders-page';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {ValuesPipe} from '../../shared/pipes/getValues.pipe';
 import {zip} from 'rxjs/internal/observable/zip';
+import {IndicatorsPage} from "../../domain/indicators";
 
 @Component({
   selector: 'app-service-form',
@@ -28,7 +29,13 @@ export class ServiceFormComponent implements OnInit {
   successMessage: string = null;
   weights: string[] = [];
   fb: FormBuilder = this.injector.get(FormBuilder);
-  submitted = false;
+
+  measurementForm: FormGroup;
+  places: SearchResults<Vocabulary> = null;
+  public indicators: IndicatorsPage;
+  public indicatorDesc = '';
+  public idArray: string[] = [];
+
   readonly urlDesc: sd.Description = sd.urlDesc;
   readonly nameDesc: sd.Description = sd.nameDesc;
   readonly taglineDesc: sd.Description = sd.taglineDesc;
@@ -114,6 +121,15 @@ export class ServiceFormComponent implements OnInit {
     ]),
     'funding': ['']
   };
+
+  multiMeasurementForm = {
+    measurements: this.fb.array(
+      [
+        this.createMeasurementField()
+      ]
+    )
+  };
+
   providersPage: ProvidersPage;
   requiredServices: any;
   relatedServices: any;
@@ -142,6 +158,7 @@ export class ServiceFormComponent implements OnInit {
     this.router = this.injector.get(NavigationService);
     this.userService = this.injector.get(UserService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
+    this.measurementForm = this.fb.group(this.multiMeasurementForm);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
@@ -231,6 +248,8 @@ export class ServiceFormComponent implements OnInit {
         this.vocabularies = <SearchResults<Vocabulary>>suc[1];
         this.requiredServices = this.transformInput(suc[2]);
         this.relatedServices = this.requiredServices;
+        this.getIndicatorIds();
+        this.getLocations();
         this.lifeCycleStatusVocabulary = this.vocabularies.results.filter(x => x.id === 'lifecyclestatus')[0];
         this.trlVocabulary = this.vocabularies.results.filter(x => x.id === 'trl')[0];
         this.categoriesVocabulary = this.vocabularies.results.filter(x => x.id === 'categories')[0];
@@ -310,6 +329,108 @@ export class ServiceFormComponent implements OnInit {
       return accumulator;
     }, {});
   }
+
+  /** INDICATORS **/
+  createMeasurementField(): FormGroup {
+    return this.fb.group({
+      indicatorId: ['', Validators.required],
+      serviceId: ['', Validators.required],
+      time: ['', Validators.required],
+      locations: this.fb.array([
+        this.fb.control('', Validators.required)
+      ], Validators.required),
+      valueIsRange: ['false', Validators.required],
+      value: ['', Validators.required],
+      rangeValue: this.fb.group({
+        fromValue: ['', Validators.required],
+        toValue: ['', Validators.required]
+      })
+    });
+  }
+
+  get measurements() {
+    return this.measurementForm.get('measurements') as FormArray;
+  }
+
+  get locations() {
+    return this.measurementForm.get('locations') as FormArray;
+  }
+
+  pushToLocations() {
+    this.locations.push(this.fb.control('', Validators.required));
+  }
+
+  removeFromLocations(i: number) {
+    this.locations.removeAt(i);
+  }
+
+  // showFormFields() {
+  //   this.showForm = !this.showForm;
+  // }
+
+  onIndicatorSelect(event) {
+    this.measurementForm.get('locations').disable();
+    this.measurementForm.get('time').disable();
+    if (event.target.value != null) {
+      for (let i = 0; i < this.indicators.results.length; i++) {
+        if (this.indicators.results[i].id === event.target.value) {
+          // console.log(this.indicators.results[i].dimensions);
+          this.indicatorDesc = this.indicators.results[i].description;
+          for (let j = 0; j < this.indicators.results[i].dimensions.length; j++) {
+            // console.log(this.indicators.results[i].dimensions[j]);
+            this.measurementForm.get(this.indicators.results[i].dimensions[j]).enable();
+          }
+          return;
+        }
+      }
+      this.indicatorDesc = '';
+    }
+  }
+
+  setUnit(indicatorId: string): string {
+    for (let i = 0; this.indicators.results.length; i++) {
+      if (this.indicators.results[i].id === indicatorId) {
+        return this.indicators.results[i].unitName;
+      }
+    }
+    return '';
+  }
+
+  getIndicatorName(id: string): string {
+    for (let i = 0; i < this.indicators.results.length; i++) {
+      if (this.indicators.results[i].id === id) {
+        return this.indicators.results[i].name;
+      }
+    }
+  }
+
+  getIndicatorIds() {
+    this.resourceService.getAllIndicators('indicator').subscribe(
+      indicatorPage => this.indicators = indicatorPage,
+      error => this.errorMessage = error,
+      () => {
+        this.idArray = [];
+        for (let i = 0; i < this.indicators.results.length; i++) {
+          this.idArray.push(this.indicators.results[i].id);
+        }
+        this.idArray.sort((a, b) => 0 - (a > b ? -1 : 1));
+        // console.log(this.indicators);
+      }
+    );
+  }
+
+  getLocations() {
+    this.resourceService.getVocabulariesByType('PLACES').subscribe(
+      suc => {
+        const valuesPipe = new ValuesPipe();
+        this.places = suc;
+        this.placesVocabulary = this.places.results[0];
+        this.placesVocIdArray = valuesPipe.transform(this.placesVocabulary.entries);
+      }
+    );
+  }
+
+  /** **/
 
   static checkUrl(url: string) {
     if (url !== '') {

@@ -514,13 +514,101 @@
                           </div>
                         </div>
                       </li>
+                      <li accordionSection class="uk-margin-large-bottom" [title]="'Indicators'">
+
+                        <form class="uk-form-horizontal uk-margin-small-bottom" role="form" [formGroup]="measurementForm">
+                          <div formArrayName="measurements">
+<!--                          <div *ngFor="let measurement of measurementForm['controls'].measurements['controls']; let i=index">-->
+<!--                            <div class="uk-margin">-->
+<!--                              <label class="uk-form-label" for="indicatorId">Indicator name: </label>-->
+<!--                              <div class="uk-form-controls">-->
+<!--                                <select *ngIf="indicators" class="uk-select" id="indicatorId"-->
+<!--                                        (change)="onIndicatorSelect($event)" [formControlName]=""-->
+<!--                                        [ngClass]="{'uk-form-danger': !measurement.get('indicatorId').valid && measurement.get('indicatorId').dirty}">-->
+<!--                                  <option value="" selected>&#45;&#45;select indicator&#45;&#45;</option>-->
+<!--                                  <option *ngFor="let indicator of indicators.results" title="{{indicator.description}}"-->
+<!--                                          value="{{indicator.id}}">{{indicator.name}}</option>-->
+<!--                                </select>-->
+<!--                              </div>-->
+<!--                              <div class="uk-width-3-5@m uk-align-right">-->
+<!--                                <i>{{indicatorDesc}}</i>-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                            <div *ngIf="measurement.get('locations').status != 'DISABLED'" formArrayName="locations">-->
+<!--                              <div class="uk-margin">-->
+<!--                                <label class="uk-form-label">Choose Locations: </label>-->
+<!--                                <div *ngFor="let location of locations.controls; let i=index" class="uk-form-controls">-->
+<!--                                  <select class="uk-select uk-width-5-6@m" [formControlName]="i"-->
+<!--                                          [ngClass]="{'uk-form-danger': !locations.get([i]).valid && locations.get([i]).dirty}">-->
+<!--                                    <ng-container *ngIf="placesVocabulary">-->
+<!--                                      <option *ngFor="let placeEntry of placesVocIdArray | premiumsort:weights"-->
+<!--                                              value="{{placesVocabulary.entries[placeEntry].id}}">-->
+<!--                                        {{placesVocabulary.entries[placeEntry].name}}-->
+<!--                                      </option>-->
+<!--                                    </ng-container>-->
+<!--                                  </select>-->
+<!--                                  <a *ngIf="locations.length > 1" class="uk-padding-small" (click)="removeFromLocations(i)">-->
+<!--                                    <i class="fa fa-times" aria-hidden="true"></i>-->
+<!--                                  </a>-->
+<!--                                </div>-->
+<!--                                <div class="uk-text-center">-->
+<!--                                  <a class="" (click)="pushToLocations()" style="font-weight: unset">-->
+<!--                                    <i class="fa fa-plus" aria-hidden="true"></i> Add location-->
+<!--                                  </a>-->
+<!--                                </div>-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                            <div *ngIf="measurement.get('time').status != 'DISABLED'" class="uk-margin">-->
+<!--                              <label class="uk-form-label" for="date">Date: </label>-->
+<!--                              <div class="uk-form-controls">-->
+<!--                                <input class="uk-input" id="date" type="date" formControlName="time"-->
+<!--                                       [ngClass]="{'uk-form-danger': !measurement.get('time').valid && measurement.get('time').dirty}">-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                            <div class="uk-margin">-->
+<!--                              <div class="uk-form-label">Value Type:</div>-->
+<!--                              <div class="uk-form-controls uk-form-controls-text">-->
+<!--                                <label><input class="uk-radio" type="radio" name="radio" value="single" checked="checked"-->
+<!--                                              (change)="handleChange($event)"> Single</label><br>-->
+<!--                                <label><input class="uk-radio" type="radio" name="radio" value="range"-->
+<!--                                              (change)="handleChange($event)"> Range</label>-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                            <div *ngIf="this.measurement.get('valueIsRange').value == 'false'" class="uk-margin">-->
+<!--                              <label class="uk-form-label" for="value">Value: </label>-->
+<!--                              <div class="uk-form-controls">-->
+<!--                                <input class="uk-input" id="value" type="text" formControlName="value"-->
+<!--                                       [ngClass]="{'uk-form-danger': !measurement.get('value').valid && measurement.get('value').dirty}">-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                            <div *ngIf="measurement.get('valueIsRange').value == 'true'" formGroupName="rangeValue">-->
+<!--                              <div class="uk-margin">-->
+<!--                                <label class="uk-form-label" for="from">From: </label>-->
+<!--                                <div class="uk-form-controls">-->
+<!--                                  <input class="uk-input" id="from" type="text" formControlName="fromValue"-->
+<!--                                         [ngClass]="{'uk-form-danger': !measurement.get('rangeValue.fromValue').valid && measurement.get('rangeValue.fromValue').dirty}">-->
+<!--                                </div>-->
+<!--                              </div>-->
+<!--                              <div class="uk-margin">-->
+<!--                                <label class="uk-form-label" for="to">To: </label>-->
+<!--                                <div class="uk-form-controls">-->
+<!--                                  <input class="uk-input" id="to" type="text" formControlName="toValue"-->
+<!--                                         [ngClass]="{'uk-form-danger': !measurement.get('rangeValue.toValue').valid && measurement.get('rangeValue.toValue').dirty}">-->
+<!--                                </div>-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                          </div>-->
+                          </div>
+                        </form>
+                        {{measurementForm.value | json}}
+                      </li>
                     </ul>
 
                     <button type="submit" class="btn btn-primary block full-width m-b">{{editMode ? "Update" : "Add"}}
                     </button>
                   </form>
                   <pre *ngIf="this.userService.isDev()">
-                      {{serviceForm.value | json}}
+                    {{serviceForm.value | json}}
                   </pre>
                 </div>
               </div>
