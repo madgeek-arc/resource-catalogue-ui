@@ -191,12 +191,16 @@ export class ResourceService {
     return this.http.get<MeasurementsPage>(this.base + `/measurement/latest/service/${id}`);
   }
 
-  getIndicators(id: string) {
-    return this.get('indicator', id);
+  getServiceMeasurements(id: string) {
+    return this.http.get<MeasurementsPage>(this.base + `/measurement/service/${id}`);
   }
 
   postMeasurement(measurement: Measurement) {
     return this.http.post(this.base + '/measurement', measurement, this.options);
+  }
+
+  postMeasurementUpdateAll(measurement: Measurement[]) {
+    return this.http.post(this.base + '/measurement/updateAll', measurement, this.options);
   }
 
   groupServicesOfProviderPerPlace(id: string) {

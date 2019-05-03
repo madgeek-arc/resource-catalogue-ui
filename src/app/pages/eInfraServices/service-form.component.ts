@@ -6,12 +6,12 @@ import {ResourceService} from '../../services/resource.service';
 import {UserService} from '../../services/user.service';
 import * as sd from './services.description';
 import {Service, Vocabulary} from '../../domain/eic-model';
-import {SearchResults} from '../../domain/search-results';
+import {IndicatorsPage} from '../../domain/indicators';
 import {ProvidersPage} from '../../domain/funders-page';
+import {SearchResults} from '../../domain/search-results';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {ValuesPipe} from '../../shared/pipes/getValues.pipe';
 import {zip} from 'rxjs/internal/observable/zip';
-import {IndicatorsPage} from "../../domain/indicators";
 
 @Component({
   selector: 'app-service-form',
@@ -125,7 +125,7 @@ export class ServiceFormComponent implements OnInit {
   multiMeasurementForm = {
     measurements: this.fb.array(
       [
-        this.createMeasurementField()
+        // this.createMeasurementField()
       ]
     )
   };
@@ -163,7 +163,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   toServer(service: Service): Service {
-    let ret = {};
+    const ret = {};
     Object.entries(service).forEach(([name, values]) => {
       let newValues = values;
       if (Array.isArray(values)) {
@@ -211,10 +211,24 @@ export class ServiceFormComponent implements OnInit {
 
     /** if valid submit **/
     if (isValid && !this.logoError && this.logoUrlWorks) {
-      console.log(service);
-      // this.resourceService.uploadService(this.toServer(service), this.editMode)
+    //   console.log(service);
+      this.resourceService.uploadService(this.toServer(service), this.editMode);
       this.resourceService.uploadService(service, this.editMode)
-        .subscribe(service => this.router.service(service.id));
+        .subscribe(_service => {
+          if (this.measurements.length > 0) {
+            for (let i = 0; i < this.measurements.length; i++) {
+              this.measurements.controls[i].get('serviceId').setValue(_service.id);
+            }
+            if (this.measurementForm.valid) {
+              this.resourceService.postMeasurementUpdateAll(this.measurementForm.value);
+            } else {
+              this.validateMeasurements();
+            }
+          }
+        },
+        error => console.error(error),
+        () => this.router.service(service.id)
+      );
     } else {
       window.scrollTo(0, 0);
       this.serviceForm.markAsDirty();
@@ -261,8 +275,7 @@ export class ServiceFormComponent implements OnInit {
         this.placesVocIdArray = valuesPipe.transform(this.placesVocabulary.entries);
         this.languagesVocIdArray = valuesPipe.transform(this.languagesVocabulary.entries);
       },
-      error => {
-      },
+      error => {},
       () => this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1)));
 
     this.serviceForm.get('subcategory').disable();
@@ -270,11 +283,10 @@ export class ServiceFormComponent implements OnInit {
       this.serviceForm.get('subcategory').enable();
       subscription.unsubscribe();
     });
-
   }
 
   public setAsTouched() {
-    let ret = {};
+    const ret = {};
     console.log(this.serviceForm);
     this.setAsTouched_(this.serviceForm, ret);
     console.log(ret);
@@ -282,7 +294,7 @@ export class ServiceFormComponent implements OnInit {
 
   private setAsTouched_(form: FormGroup, ret: any) {
     Object.keys(form.controls).forEach(control => {
-      let control_ = form.controls[control];
+      const control_ = form.controls[control];
       // console.log(control, control_);
       if (!control_.valid) {
         ret[control] = {};
@@ -352,25 +364,36 @@ export class ServiceFormComponent implements OnInit {
     return this.measurementForm.get('measurements') as FormArray;
   }
 
-  get locations() {
-    return this.measurementForm.get('locations') as FormArray;
+  pushToMeasurements() {
+    this.measurements.push(this.createMeasurementField());
+    this.measurements.controls[this.measurements.length - 1].get('time').disable();
+    this.measurements.controls[this.measurements.length - 1].get('locations').disable();
+    this.measurements.controls[this.measurements.length - 1].get('rangeValue').disable();
   }
 
-  pushToLocations() {
-    this.locations.push(this.fb.control('', Validators.required));
+  removeFroMeasurements(index: number) {
+    this.measurements.removeAt(index);
   }
 
-  removeFromLocations(i: number) {
-    this.locations.removeAt(i);
+  locations(i: number) {
+    return this.measurements.controls[i].get('locations') as FormArray;
   }
 
-  // showFormFields() {
-  //   this.showForm = !this.showForm;
-  // }
+  pushToLocations(i: number) {
+    this.locations(i).push(this.fb.control('', Validators.required));
+  }
 
-  onIndicatorSelect(event) {
-    this.measurementForm.get('locations').disable();
-    this.measurementForm.get('time').disable();
+  removeFromLocations(i: number, locIndex: number) {
+    this.locations(i).removeAt(locIndex);
+  }
+
+  onIndicatorSelect(event, index: number) {
+    // this.measurementForm.get('locations').disable();
+    // this.measurementForm.get('time').disable();
+    this.measurements.controls[index].get('locations').disable();
+    this.measurements.controls[index].get('time').disable();
+    // console.log(this.measurements);
+    // console.log(this.measurements.controls[index].get('indicatorId').value);
     if (event.target.value != null) {
       for (let i = 0; i < this.indicators.results.length; i++) {
         if (this.indicators.results[i].id === event.target.value) {
@@ -378,7 +401,7 @@ export class ServiceFormComponent implements OnInit {
           this.indicatorDesc = this.indicators.results[i].description;
           for (let j = 0; j < this.indicators.results[i].dimensions.length; j++) {
             // console.log(this.indicators.results[i].dimensions[j]);
-            this.measurementForm.get(this.indicators.results[i].dimensions[j]).enable();
+            this.measurements.controls[index].get(this.indicators.results[i].dimensions[j]).enable();
           }
           return;
         }
@@ -430,6 +453,44 @@ export class ServiceFormComponent implements OnInit {
     );
   }
 
+  handleChange(event, index: number) {
+    if (event.target.value === 'false') {
+      this.measurements.controls[index].get('rangeValue').disable();
+      this.measurements.controls[index].get('value').enable();
+      // this.measurements.controls[index].get('valueIsRange').setValue('false');
+    } else {
+      this.measurements.controls[index].get('rangeValue').enable();
+      this.measurements.controls[index].get('value').disable();
+      // this.measurements.controls[index].get('valueIsRange').setValue('true');
+    }
+  }
+
+  validateMeasurements() {
+    // console.log(this.measurements.controls.length);
+    for (let i = 0; i < this.measurements.controls.length; i++) {
+      // console.log(this.measurements.controls[i]);
+      for (const j in this.measurements.controls[i].value) {
+        if (this.measurements.controls[i].value.hasOwnProperty(j)) {
+          // console.log(this.measurements.controls[i].get(j).value);
+          if (this.measurements.controls[i].get(j).value.constructor !== Array) {
+            this.measurements.controls[i].get(j).markAsDirty();
+            this.measurements.controls[i].get(j).updateValueAndValidity();
+          }
+        }
+      }
+      for (const j in this.locations(i).controls) {
+        this.locations(i).controls[j].markAsDirty();
+        this.locations(i).controls[j].updateValueAndValidity();
+      }
+      if (this.measurements.controls[i].get('valueIsRange').value) {
+        this.measurements.controls[i].get('rangeValue.fromValue').markAsDirty();
+        this.measurements.controls[i].get('rangeValue.fromValue').updateValueAndValidity();
+        this.measurements.controls[i].get('rangeValue.toValue').markAsDirty();
+        this.measurements.controls[i].get('rangeValue.toValue').updateValueAndValidity();
+      }
+    }
+  }
+
   /** **/
 
   static checkUrl(url: string) {
@@ -442,7 +503,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   imageExists(url) {
-    let image = new Image();
+    const image = new Image();
     image.src = url;
     if (!image.complete) {
       return false;

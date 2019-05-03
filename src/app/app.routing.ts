@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {BrowseCategoriesComponent} from './pages/browsecategories/browse-categories.component';
 import { CompareServicesComponent } from './pages/compare/compare-services.component';
-// import { ServiceEditComponent } from './pages/eInfraServices/service-edit.component';
 import { ServiceUploadComponent } from './pages/eInfraServices/service-upload.component';
 import {HomeComponent} from './pages/home/home.component';
 import {CommonModule} from '@angular/common';
@@ -17,7 +16,7 @@ import {UpdateServiceProviderComponent} from './pages/serviceprovider/update-ser
 import {ServiceProviderInfoComponent} from './pages/serviceprovider/service-provider-info.component';
 import {FundersDashboardComponent} from './pages/funders/funders-dashboard.component';
 import {MyFavouritesComponent} from './pages/user/favourites/my-favourites.component';
-import {ServiceEditComponent} from "./pages/eInfraServices/service-edit.component";
+import {ServiceEditComponent} from './pages/eInfraServices/service-edit.component';
 
 const appRoutes: Routes = [
   {

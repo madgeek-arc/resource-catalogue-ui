@@ -49,6 +49,34 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
         }*/
       });
     });
+    // fill measurements just about here
+    this.resourceService.getServiceMeasurements(this.serviceID).subscribe(measurements => {
+      for (let i = 0; i < measurements.results.length; i++) {
+        this.pushToMeasurements();
+        for (const j in measurements.results[i]) {
+          // console.log(j);
+          // console.log(measurements.results[i][j]);
+          if (measurements.results[i][j] !== null && j !== 'id') {
+            this.measurements.controls[i].get(j).enable();
+            if (this.measurements.controls[i].get(j).value.constructor === Array) {
+              // console.log(this.measurements.controls[i].get(j).value);
+              for (let k = 0; k < measurements.results[i][j].length - 1; k++) {
+                this.pushToLocations(i);
+              }
+            }
+            if (j === 'valueIsRange') {
+              this.measurements.controls[i].get(j).setValue(measurements.results[i][j] + '');
+            } else {
+              this.measurements.controls[i].get(j).setValue(measurements.results[i][j]);
+            }
+          }
+        }
+        const time = new Date(this.measurements.controls[i].get('time').value);
+        const date = this.datePipe.transform(time, 'yyyy-MM-dd');
+        this.measurements.controls[i].get('time').setValue(date);
+      }
+      // console.log(measurements.results);
+    });
   }
 
   ngOnDestroy(): void {
