@@ -196,7 +196,8 @@ export class ResourceService {
   }
 
   postMeasurement(measurement: Measurement) {
-    return this.http.post(this.base + '/measurement', measurement, this.options);
+    return this.http.post(this.base + '/measurement', measurement, this.options)
+      .pipe(catchError(this.handleError));
   }
 
   postMeasurementUpdateAll(measurement: Measurement[]) {

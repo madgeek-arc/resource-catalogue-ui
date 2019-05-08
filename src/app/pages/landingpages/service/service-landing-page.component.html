@@ -22,9 +22,9 @@
                   {{service.name || "Not Available"}}
 
                   <span class="uk-margin-left" *ngIf="canEditService">
-                                        <a (click)="this.router.edit(service.id)" routerLinkActive="active"><i
-                                          class="fa fa-pencil"></i></a>
-                                    </span>
+                      <a (click)="this.router.edit(service.id)" routerLinkActive="active"><i
+                        class="fa fa-pencil"></i></a>
+                  </span>
                 </h2>
                 <div *ngIf="service.tagline && (service.tagline.length>0)" class="tagLine">
                   {{service.tagline}}

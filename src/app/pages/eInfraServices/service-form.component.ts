@@ -71,6 +71,7 @@ export class ServiceFormComponent implements OnInit {
   readonly fundingDesc: sd.Description = sd.fundingDesc;
 
   formGroupMeta = {
+    'id': '',
     'url': ['', Validators.compose([Validators.required, URLValidator])],
     'name': ['', Validators.required],
     'tagline': [''],
@@ -162,29 +163,6 @@ export class ServiceFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  toServer(service: Service): Service {
-    const ret = {};
-    Object.entries(service).forEach(([name, values]) => {
-      let newValues = values;
-      if (Array.isArray(values)) {
-        newValues = [];
-        values.forEach(e => {
-          if (e.entry !== '') {
-            newValues.push(e.entry.trim().replace(/\s\s+/g, ' '));
-          }
-        });
-      } else {
-        newValues = newValues.trim().replace(/\s\s+/g, ' ');
-      }
-      ret[name] = newValues;
-    });
-    if ((this.firstServiceForm === true) && this.providerId) {
-      ret['providers'] = [];
-      ret['providers'].push(this.providerId);
-    }
-    return <Service>ret;
-  }
-
   onSubmit(service: Service, isValid: boolean) {
     this.errorMessage = '';
 
@@ -216,18 +194,25 @@ export class ServiceFormComponent implements OnInit {
               this.measurements.controls[i].get('serviceId').setValue(_service.id);
             }
             if (this.measurementForm.valid) {
-              console.log(this.measurements.value);
               this.resourceService.postMeasurementUpdateAll(this.measurements.value)
                 .subscribe(
-                  error => console.log(error),
+                  res => this.router.service(_service.id),
+                  error => { // on measurement post error
+                    window.scrollTo(0, 0);
+                    this.errorMessage = error.error.error;
+                    this.serviceForm.get('id').setValue(_service.id);
+                    this.editMode = true;
+                  },
                 );
             } else {
               this.validateMeasurements();
             }
           }
         },
-        error => console.error(error),
-        () => this.router.service(service.id)
+        error => {
+          window.scrollTo(0, 0);
+          this.errorMessage = error.error.error;
+        },
       );
     } else {
       window.scrollTo(0, 0);
@@ -411,23 +396,6 @@ export class ServiceFormComponent implements OnInit {
     }
   }
 
-  setUnit(indicatorId: string): string {
-    for (let i = 0; this.indicators.results.length; i++) {
-      if (this.indicators.results[i].id === indicatorId) {
-        return this.indicators.results[i].unitName;
-      }
-    }
-    return '';
-  }
-
-  getIndicatorName(id: string): string {
-    for (let i = 0; i < this.indicators.results.length; i++) {
-      if (this.indicators.results[i].id === id) {
-        return this.indicators.results[i].name;
-      }
-    }
-  }
-
   getIndicatorIds() {
     this.resourceService.getAllIndicators('indicator').subscribe(
       indicatorPage => this.indicators = indicatorPage,
@@ -494,7 +462,7 @@ export class ServiceFormComponent implements OnInit {
 
   /** **/
 
-  static checkUrl(url: string) {
+  checkUrl(url: string) {
     if (url !== '') {
       if (!url.match(/^(https?:\/\/.+)?$/)) {
         url = 'http://' + url;

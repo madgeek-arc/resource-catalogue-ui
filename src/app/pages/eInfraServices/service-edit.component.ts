@@ -1,11 +1,11 @@
 import {Component, Injector, OnInit} from '@angular/core';
-import {DatePipe} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
-import {AuthenticationService} from '../../services/authentication.service';
+import {DatePipe} from '@angular/common';
 import {ServiceFormComponent} from './service-form.component';
-import {Service} from '../../domain/eic-model';
+import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
-import {MeasurementsPage} from "../../domain/indicators";
+import {Service} from '../../domain/eic-model';
+import {MeasurementsPage} from '../../domain/indicators';
 
 @Component({
   selector: 'app-service-edit',
@@ -31,7 +31,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
         // ResourceService.removeNulls(service);
         this.formPrepare(service);
         this.serviceForm.patchValue(service);
-        for ( const i in this.serviceForm.controls) {
+        for (const i in this.serviceForm.controls) {
           if (this.serviceForm.controls[i].value === null) {
             this.serviceForm.controls[i].setValue('');
           }
@@ -54,10 +54,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     this.resourceService.getServiceMeasurements(this.serviceID).subscribe(measurements => {
       this.measurementsFormPatch(measurements);
     });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 
   formPrepare(service: Service) {
@@ -84,7 +80,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     }
   }
 
-  measurementsFormPatch( measurements: MeasurementsPage) {
+  measurementsFormPatch(measurements: MeasurementsPage) {
     for (let i = 0; i < measurements.results.length; i++) {
       this.pushToMeasurements();
       for (const j in measurements.results[i]) {
