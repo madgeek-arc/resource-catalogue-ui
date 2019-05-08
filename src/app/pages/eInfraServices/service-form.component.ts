@@ -206,13 +206,9 @@ export class ServiceFormComponent implements OnInit {
     // this.logoUrlWorks = this.imageExists(service.symbol);
 
     this.setAsTouched();
-
-    console.log('description validity ' + this.serviceForm.controls['description'].valid);
-
     /** if valid submit **/
     if (isValid && !this.logoError && this.logoUrlWorks) {
-    //   console.log(service);
-      this.resourceService.uploadService(this.toServer(service), this.editMode);
+      // console.log(service);
       this.resourceService.uploadService(service, this.editMode)
         .subscribe(_service => {
           if (this.measurements.length > 0) {
@@ -220,7 +216,11 @@ export class ServiceFormComponent implements OnInit {
               this.measurements.controls[i].get('serviceId').setValue(_service.id);
             }
             if (this.measurementForm.valid) {
-              this.resourceService.postMeasurementUpdateAll(this.measurementForm.value);
+              console.log(this.measurements.value);
+              this.resourceService.postMeasurementUpdateAll(this.measurements.value)
+                .subscribe(
+                  error => console.log(error),
+                );
             } else {
               this.validateMeasurements();
             }
@@ -287,9 +287,9 @@ export class ServiceFormComponent implements OnInit {
 
   public setAsTouched() {
     const ret = {};
-    console.log(this.serviceForm);
+    // console.log(this.serviceForm);
     this.setAsTouched_(this.serviceForm, ret);
-    console.log(ret);
+    // console.log(ret);
   }
 
   private setAsTouched_(form: FormGroup, ret: any) {
@@ -345,6 +345,7 @@ export class ServiceFormComponent implements OnInit {
   /** INDICATORS **/
   createMeasurementField(): FormGroup {
     return this.fb.group({
+      id: '',
       indicatorId: ['', Validators.required],
       serviceId: ['', Validators.required],
       time: ['', Validators.required],

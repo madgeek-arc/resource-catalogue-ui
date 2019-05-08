@@ -597,8 +597,16 @@
                         <form class="uk-form-horizontal uk-margin-small-bottom" [formGroup]="measurementForm">
                           <div formArrayName="measurements">
                             <div *ngFor="let measurement of measurementForm['controls'].measurements['controls']; let i=index">
-                              <div formGroupName="{{i}}" class="uk-margin-small-bottom" style="border-style: dotted">
-                                <a class="uk-width-4-5 uk-align-right uk-padding-small" (click)="removeFroMeasurements(i)">Measurement <i class="fa fa-times" aria-hidden="true"></i></a>
+                              <div formGroupName="{{i}}" class="uk-margin-small-bottom" style="border: 1px dashed #cccccc; padding: 15px">
+                                <div uk-grid>
+                                  <div class="uk-width-1-5"></div>
+                                  <div class="uk-width-4-5 uk-form-controls">
+                                    <label style="color: #214C9C; letter-spacing: 1.5px; font-size: 15px"> Measurement
+                                      <a class="" (click)="removeFroMeasurements(i)"> <i class="fa fa-times"
+                                                                                         aria-hidden="true"></i></a>
+                                    </label>
+                                  </div>
+                                </div>
                                 <div class="uk-form-horizontal uk-margin-bottom">
                                   <label class="uk-width-1-5 uk-form-label uk-text-right" for="indicatorId">Indicator
                                     name: </label>
@@ -694,10 +702,14 @@
                               </div>
                             </div>
                           </div>
-                          <div class="">
-                            <a class="add-new-element" (click)="pushToMeasurements()">
-                              <i class="fa fa-plus" aria-hidden="true"></i> Add measurement
-                            </a>
+                          <div uk-grid>
+                            <div class="uk-width-1-5"></div>
+                            <div class="uk-width-4-5 uk-form-controls">
+                              <a class="add-new-element" (click)="pushToMeasurements()"
+                                 style="color: #214C9C; letter-spacing: 1.5px; font-size: 15px">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add measurement
+                              </a>
+                            </div>
                           </div>
                         </form>
 <!--                        <pre>{{measurementForm.value | json}}</pre>-->

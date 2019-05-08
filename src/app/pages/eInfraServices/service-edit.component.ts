@@ -5,6 +5,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceFormComponent} from './service-form.component';
 import {Service} from '../../domain/eic-model';
 import {Subscription} from 'rxjs';
+import {MeasurementsPage} from "../../domain/indicators";
 
 @Component({
   selector: 'app-service-edit',
@@ -51,31 +52,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     });
     // fill measurements just about here
     this.resourceService.getServiceMeasurements(this.serviceID).subscribe(measurements => {
-      for (let i = 0; i < measurements.results.length; i++) {
-        this.pushToMeasurements();
-        for (const j in measurements.results[i]) {
-          // console.log(j);
-          // console.log(measurements.results[i][j]);
-          if (measurements.results[i][j] !== null && j !== 'id') {
-            this.measurements.controls[i].get(j).enable();
-            if (this.measurements.controls[i].get(j).value.constructor === Array) {
-              // console.log(this.measurements.controls[i].get(j).value);
-              for (let k = 0; k < measurements.results[i][j].length - 1; k++) {
-                this.pushToLocations(i);
-              }
-            }
-            if (j === 'valueIsRange') {
-              this.measurements.controls[i].get(j).setValue(measurements.results[i][j] + '');
-            } else {
-              this.measurements.controls[i].get(j).setValue(measurements.results[i][j]);
-            }
-          }
-        }
-        const time = new Date(this.measurements.controls[i].get('time').value);
-        const date = this.datePipe.transform(time, 'yyyy-MM-dd');
-        this.measurements.controls[i].get('time').setValue(date);
-      }
-      // console.log(measurements.results);
+      this.measurementsFormPatch(measurements);
     });
   }
 
@@ -105,6 +82,34 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     for (let i = 0; i < service.termsOfUse.length - 1; i++) {
       this.push('termsOfUse', false, true);
     }
+  }
+
+  measurementsFormPatch( measurements: MeasurementsPage) {
+    for (let i = 0; i < measurements.results.length; i++) {
+      this.pushToMeasurements();
+      for (const j in measurements.results[i]) {
+        // console.log(j);
+        // console.log(measurements.results[i][j]);
+        if (measurements.results[i][j] !== null) {
+          this.measurements.controls[i].get(j).enable();
+          if (this.measurements.controls[i].get(j).value.constructor === Array) {
+            // console.log(this.measurements.controls[i].get(j).value);
+            for (let k = 0; k < measurements.results[i][j].length - 1; k++) {
+              this.pushToLocations(i);
+            }
+          }
+          if (j === 'valueIsRange') { // forms/html cooperate better with strings instead of boolean
+            this.measurements.controls[i].get(j).setValue(measurements.results[i][j] + '');
+          } else {
+            this.measurements.controls[i].get(j).setValue(measurements.results[i][j]);
+          }
+        }
+      }
+      const time = new Date(this.measurements.controls[i].get('time').value);
+      const date = this.datePipe.transform(time, 'yyyy-MM-dd');
+      this.measurements.controls[i].get('time').setValue(date);
+    }
+    // console.log(measurements.results);
   }
 
   onSuccess(service) {
