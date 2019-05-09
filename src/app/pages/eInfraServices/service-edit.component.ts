@@ -4,8 +4,8 @@ import {DatePipe} from '@angular/common';
 import {ServiceFormComponent} from './service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
-import {Service} from '../../domain/eic-model';
 import {MeasurementsPage} from '../../domain/indicators';
+import {Service} from '../../domain/eic-model';
 
 @Component({
   selector: 'app-service-edit',
@@ -13,7 +13,7 @@ import {MeasurementsPage} from '../../domain/indicators';
 })
 export class ServiceEditComponent extends ServiceFormComponent implements OnInit {
   private sub: Subscription;
-  private serviceID: string;
+  // private serviceID: string;
 
   constructor(public route: ActivatedRoute, public authenticationService: AuthenticationService,
               protected injector: Injector, public datePipe: DatePipe) {
@@ -50,7 +50,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
         }*/
       });
     });
-    // fill measurements just about here
     this.resourceService.getServiceMeasurements(this.serviceID).subscribe(measurements => {
       this.measurementsFormPatch(measurements);
     });
@@ -99,6 +98,8 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
           } else {
             this.measurements.controls[i].get(j).setValue(measurements.results[i][j]);
           }
+        } else {
+          this.measurements.controls[i].get(j).disable();
         }
       }
       const time = new Date(this.measurements.controls[i].get('time').value);
@@ -114,7 +115,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
   }
 
   onSubmit(service: Service, isValid: boolean) {
-    service.id = this.serviceID;
+    // service.id = this.serviceID;
 
     /** For feature use if admin changes the values **/
     // for ( const i in this.serviceForm.controls) {

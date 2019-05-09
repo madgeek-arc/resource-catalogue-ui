@@ -304,11 +304,14 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   handleChange(event) {
     if (event.target.value === 'single') {
       this.newMeasurementForm.get('rangeValue').disable();
+      this.newMeasurementForm.get('rangeValue.toValue').reset();
+      this.newMeasurementForm.get('rangeValue.fromValue').reset();
       this.newMeasurementForm.get('value').enable();
       this.newMeasurementForm.get('valueIsRange').setValue('false');
     } else {
       this.newMeasurementForm.get('rangeValue').enable();
       this.newMeasurementForm.get('value').disable();
+      this.newMeasurementForm.get('value').reset();
       this.newMeasurementForm.get('valueIsRange').setValue('true');
     }
   }

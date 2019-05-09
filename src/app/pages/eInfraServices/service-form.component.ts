@@ -1,5 +1,5 @@
-import {Component, Injector, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
@@ -22,7 +22,9 @@ export class ServiceFormComponent implements OnInit {
   providerId: string;
   editMode: boolean;
   serviceForm: FormGroup;
+  private servicePostSuccess = false;
   service: Service;
+  serviceID: string;
   errorMessage = '';
   logoError = false;
   logoUrlWorks = true;
@@ -183,39 +185,28 @@ export class ServiceFormComponent implements OnInit {
     // }
     // this.logoUrlWorks = this.imageExists(service.symbol);
 
-    this.setAsTouched();
+
     /** if valid submit **/
     if (isValid && !this.logoError && this.logoUrlWorks) {
       // console.log(service);
-      this.resourceService.uploadService(service, this.editMode)
-        .subscribe(_service => {
-          if (this.measurements.length > 0) {
-            for (let i = 0; i < this.measurements.length; i++) {
-              this.measurements.controls[i].get('serviceId').setValue(_service.id);
-            }
-            if (this.measurementForm.valid) {
-              this.resourceService.postMeasurementUpdateAll(this.measurements.value)
-                .subscribe(
-                  res => this.router.service(_service.id),
-                  error => { // on measurement post error
-                    window.scrollTo(0, 0);
-                    this.errorMessage = error.error.error;
-                    this.serviceForm.get('id').setValue(_service.id);
-                    this.editMode = true;
-                  },
-                );
-            } else {
-              this.validateMeasurements();
-            }
-          }
-        },
-        error => {
-          window.scrollTo(0, 0);
-          this.errorMessage = error.error.error;
-        },
-      );
+      if (this.servicePostSuccess) {
+        this.postMeasurement(this.serviceID);
+      } else {
+        this.resourceService.uploadService(service, this.editMode)
+          .subscribe(_service => {
+              this.serviceID = _service.id;
+              this.servicePostSuccess = true;
+              this.postMeasurement(_service.id);
+            },
+            error => {
+              window.scrollTo(0, 0);
+              this.errorMessage = error.error.error;
+            },
+          );
+      }
     } else {
       window.scrollTo(0, 0);
+      this.setAsTouched();
       this.serviceForm.markAsDirty();
       this.serviceForm.updateValueAndValidity();
       if (!isValid) {
@@ -354,6 +345,7 @@ export class ServiceFormComponent implements OnInit {
     this.measurements.push(this.createMeasurementField());
     this.measurements.controls[this.measurements.length - 1].get('time').disable();
     this.measurements.controls[this.measurements.length - 1].get('locations').disable();
+    // this.measurements.controls[this.measurements.length - 1].get('value').disable();
     this.measurements.controls[this.measurements.length - 1].get('rangeValue').disable();
   }
 
@@ -425,11 +417,16 @@ export class ServiceFormComponent implements OnInit {
   handleChange(event, index: number) {
     if (event.target.value === 'false') {
       this.measurements.controls[index].get('rangeValue').disable();
+      this.measurements.controls[index].get('rangeValue.fromValue').reset();
+      this.measurements.controls[index].get('rangeValue.fromValue').disable();
+      this.measurements.controls[index].get('rangeValue.toValue').reset();
+      this.measurements.controls[index].get('rangeValue.toValue').disable();
       this.measurements.controls[index].get('value').enable();
       // this.measurements.controls[index].get('valueIsRange').setValue('false');
     } else {
       this.measurements.controls[index].get('rangeValue').enable();
       this.measurements.controls[index].get('value').disable();
+      this.measurements.controls[index].get('value').reset();
       // this.measurements.controls[index].get('valueIsRange').setValue('true');
     }
   }
@@ -457,6 +454,33 @@ export class ServiceFormComponent implements OnInit {
         this.measurements.controls[i].get('rangeValue.toValue').markAsDirty();
         this.measurements.controls[i].get('rangeValue.toValue').updateValueAndValidity();
       }
+    }
+  }
+
+  postMeasurement(serviceId: string) {
+    if (this.measurements.length > 0) {
+      for (let i = 0; i < this.measurements.length; i++) {
+        this.measurements.controls[i].get('serviceId').setValue(serviceId);
+      }
+      // console.log(this.measurementForm.controls);
+      if (this.measurementForm.valid) {
+        this.resourceService.postMeasurementUpdateAll(this.measurements.value)
+          .subscribe(
+            res => this.router.service(serviceId),
+            error => { // on measurement post error
+              window.scrollTo(0, 0);
+              this.errorMessage = error.error.error;
+              this.serviceForm.get('id').setValue(serviceId);
+              this.editMode = true;
+            },
+          );
+      } else {
+        this.validateMeasurements();
+        window.scrollTo(0, 0);
+        this.errorMessage = 'Please fill in all underlined fields at Indicator section';
+      }
+    } else {
+      this.router.service(serviceId);
     }
   }
 
