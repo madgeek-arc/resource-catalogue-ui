@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="7px" height="13px" viewBox="0 0 7 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>arrow_category_link</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Homepage" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Dropdown_Clicked_Categories" transform="translate(-293.000000, -180.000000)" fill="#2B4371">
+            <g id="Group-4" transform="translate(0.000000, 60.000000)">
+                <g id="Group-3">
+                    <g id="Group" transform="translate(0.000000, 36.000000)">
+                        <g id="arrow_category_link" transform="translate(293.000000, 84.000000)">
+                            <path d="M0.64155,12.99675 C0.50855,12.99675 0.3752,12.94475 0.273,12.8411111 C0.0665,12.6313056 0.06405,12.28825 0.2674,12.0748333 L5.439,6.65455556 L0.2674,1.23427778 C0.06405,1.02122222 0.0665,0.678166667 0.273,0.468361111 C0.47985,0.258555556 0.81235,0.261444444 1.01535,0.474138889 L6.5499,6.27466667 C6.7508,6.48555556 6.7508,6.82355556 6.5499,7.03444444 L1.01535,12.8349722 C0.9128,12.9425833 0.777,12.99675 0.64155,12.99675" id="6A"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

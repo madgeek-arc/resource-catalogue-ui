@@ -1,0 +1,158 @@
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
+  <div class="uk-container">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+
+        <!--<h1 class="uk-h3">Browse service categories</h1>-->
+
+        <!-- TOP HELP CONTENT -->
+        <app-help-content #topHelperContent [position]="'top'"
+                      [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </app-help-content>
+
+        <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+          <div class="uk-grid">
+
+            <!-- LEFT HELP CONTENT -->
+            <app-aside-help-content #leftHelperContent [position]="'left'"
+                                [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
+
+
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m">
+
+              <div class="region region-content">
+                <div id="block-system-main" class="block block-system">
+
+                  <div class="content">
+
+                    <div id="node-197" class="node node-page node-full" about="/for-providers"
+                         typeof="foaf:Document">
+
+
+                                            <span property="dc:title" content="For providers"
+                                                  class="rdf-meta element-hidden"></span><span
+                      property="sioc:num_replies" content="0" datatype="xsd:integer"
+                      class="rdf-meta element-hidden"></span>
+
+                      <div class="content clearfix">
+
+                        <div class="field field-name-body field-type-text-with-summary field-label-hidden">
+                          <div>
+                            <div property="content:encoded"><p style="text-align:center"><a
+                              (click)="signUpAndRegisterAservice()"><img alt=""
+                                                                         src="https://www.eosc-portal.eu/sites/default/files/header-become-provider.jpg"
+                                                                         style="width: 100%;"></a></p>
+                              <p class="rtejustify"><span
+                                id="docs-internal-guid-1d945db6-7fff-d547-713d-7acedfa35adb"
+                                style="font-size:11pt;font-family:Arial;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">EOSC welcomes the participation of service providers that will contribute to develop EOSC into a rich environment offering a wide range of services and resources for researchers.</span>
+                              </p>
+                              <p class="rtejustify">The EOSC will be Europe’s virtual
+                                environment for all researchers to store, manage,
+                                analyse and re-use data for research, innovation and
+                                educational purposes. EOSC is intended to set off the
+                                ground by federating existing scientific data
+                                infrastructures and digital infrastructures for data
+                                exploitation that are now spread across disciplines and
+                                EU member states. This will make access to scientific
+                                data and other scientific outputs easier and more
+                                efficient.</p>
+                              <h3>Why join as a provider?</h3>
+                              <p class="rtejustify">By contributing your services and
+                                resources to the EOSC portal, you can:</p>
+                              <ul>
+                                <li class="rtejustify">Choose to advertise them on the
+                                  EOSC Portal and promote their adoption outside your
+                                  traditional user groups, reaching a wider user base.
+                                </li>
+                                <li class="rtejustify">Get statistics about access
+                                  requests and customer feedback
+                                </li>
+                                <li class="rtejustify">Get a free online platform where
+                                  you can manage service requests, interact with users
+                                  and provide support to them, and agree the most
+                                  suitable service levels.
+                                </li>
+                                <li class="rtejustify">Allow users to authenticate with
+                                  their own credentials to access your services and
+                                  resources and get support to enable this.
+                                </li>
+                                <li class="rtejustify">Contribute to the definition and
+                                  maintenance of EOSC service provisioning policies
+                                  and the portfolio roadmap.
+                                </li>
+                                <li class="rtejustify">Join the group of providers that
+                                  meet EOSC quality standards.
+                                </li>
+                              </ul>
+                              <h3 class="rtejustify">Service requirements</h3>
+                              <p class="rtejustify">Services and resources of the EOSC
+                                Portal are provided and maintained by different
+                                providers under a variety of licenses. To become a
+                                provider we require that:</p>
+                              <ul>
+                                <li class="rtejustify">The service is accessible by
+                                  users outside its original community.
+                                </li>
+                                <li class="rtejustify">The service is described through
+                                  a common template focused on value proposition and
+                                  functional capabilities.
+                                </li>
+                                <li class="rtejustify">At least one service instance is
+                                  running in a production environment available to the
+                                  user community.
+                                </li>
+                                <li class="rtejustify">Publish Research data is
+                                  Findable, Accessible, Interoperable and Reusable
+                                  [reference to FAIR].
+                                </li>
+                                <li class="rtejustify">Release notes and sufficient
+                                  documentation are available.
+                                </li>
+                                <li class="rtejustify">Helpdesk channels are available
+                                  for support, bug reporting and requirements
+                                  gathering.
+                                </li>
+                              </ul>
+                              <h3 class="rtejustify">Interested?</h3>
+                              <ul>
+                                <li class="rtejustify"><a (click)="signUpAndRegisterAservice()">Fill the
+                                  online application form</a></li>
+                              </ul>
+                              <p class="rtejustify">&nbsp;</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="clearfix">
+                        <div class="links"></div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RIGHT HELP CONTENT -->
+              <app-aside-help-content #rightHelperContent [position]="'right'"
+                                  [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+              </app-aside-help-content>
+
+            </div>
+          </div>
+
+
+          <!-- BOTTOM HELP CONTENT -->
+          <app-help-content  #bottomHelperContent [position]="'bottom'"
+                        [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+          </app-help-content>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

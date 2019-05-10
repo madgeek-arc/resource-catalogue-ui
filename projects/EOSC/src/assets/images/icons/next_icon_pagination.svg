@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="7px" height="14px" viewBox="0 0 7 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>next_icon_pagination</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="UI--Category_Rearch-Result-Page-Copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="VS01_Open-category" transform="translate(-996.000000, -837.000000)" fill="#0047BA">
+            <g id="Group-14" transform="translate(745.000000, 823.000000)">
+                <g id="next_icon_pagination" transform="translate(231.000000, 0.000000)">
+                    <polygon id="Next-Arrow" transform="translate(20.000000, 21.000000) scale(-1, -1) rotate(45.000000) translate(-20.000000, -21.000000) " points="15 16 25 26 15 26"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

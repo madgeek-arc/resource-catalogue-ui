@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="20px" viewBox="0 0 18 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>ic_share_Active</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Homepage" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="UI_default" transform="translate(-869.000000, -2905.000000)" fill="#FFFFFF">
+            <g id="Group-6" transform="translate(0.000000, 2746.000000)">
+                <path d="M884,173.08 C883.24,173.08 882.56,173.38 882.04,173.85 L874.91,169.7 C874.96,169.47 875,169.24 875,169 C875,168.76 874.96,168.53 874.91,168.3 L881.96,164.19 C882.5,164.69 883.21,165 884,165 C885.66,165 887,163.66 887,162 C887,160.34 885.66,159 884,159 C882.34,159 881,160.34 881,162 C881,162.24 881.04,162.47 881.09,162.7 L874.04,166.81 C873.5,166.31 872.79,166 872,166 C870.34,166 869,167.34 869,169 C869,170.66 870.34,172 872,172 C872.79,172 873.5,171.69 874.04,171.19 L881.16,175.35 C881.11,175.56 881.08,175.78 881.08,176 C881.08,177.61 882.39,178.92 884,178.92 C885.61,178.92 886.92,177.61 886.92,176 C886.92,174.39 885.61,173.08 884,173.08 L884,173.08 Z" id="ic_share_Active"></path>
+            </g>
+        </g>
+    </g>
+</svg>

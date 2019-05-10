@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="14px" viewBox="0 0 17 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>check_filters</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="UI--Category_Rearch-Result-Page-Copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="VS01-Filters-Applied" transform="translate(-473.000000, -178.000000)" fill="#D13239">
+            <g id="check_filters" transform="translate(473.000000, 178.000000)">
+                <path d="M14.091,0.479 L5.1,9.359 L2.649,6.559 C2.104,5.933 1.155,5.871 0.532,6.417 C-0.091,6.963 -0.154,7.91 0.391,8.533 L3.891,12.533 C4.164,12.845 4.552,13.03 4.965,13.045 C4.984,13.046 5.002,13.046 5.02,13.046 C5.414,13.046 5.793,12.891 6.074,12.613 L16.199,2.613 C16.789,2.031 16.794,1.081 16.212,0.492 C15.63,-0.099 14.681,-0.103 14.091,0.479" id="2C"></path>
+            </g>
+        </g>
+    </g>
+</svg>

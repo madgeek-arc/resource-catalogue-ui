@@ -126,6 +126,130 @@
           }
         }
       }
+    },
+    "EOSC": {
+      "root": "projects/EOSC/",
+      "sourceRoot": "projects/EOSC/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/EOSC",
+            "index": "projects/EOSC/src/index.html",
+            "main": "projects/EOSC/src/main.ts",
+            "polyfills": "projects/EOSC/src/polyfills.ts",
+            "tsConfig": "projects/EOSC/tsconfig.app.json",
+            "assets": [
+              "projects/EOSC/src/assets"
+            ],
+            "styles": [
+              "projects/EOSC/src/styles.css",
+              "node_modules/font-awesome/css/font-awesome.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/uikit/dist/js/uikit.min.js",
+              "node_modules/uikit/dist/js/uikit-icons.min.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/EOSC/src/environments/environment.ts",
+                  "with": "projects/EOSC/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "EOSC:build",
+            "port": 4000
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "EOSC:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "EOSC:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/EOSC/src/test.ts",
+            "polyfills": "projects/EOSC/src/polyfills.ts",
+            "tsConfig": "projects/EOSC/tsconfig.spec.json",
+            "karmaConfig": "projects/EOSC/karma.conf.js",
+            "styles": [
+              "projects/EOSC/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/EOSC/src/favicon.ico",
+              "projects/EOSC/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/EOSC/tsconfig.app.json",
+              "projects/EOSC/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "EOSC-e2e": {
+      "root": "projects/EOSC-e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/EOSC-e2e/protractor.conf.js",
+            "devServerTarget": "EOSC:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "EOSC:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/EOSC-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "eic-platform"

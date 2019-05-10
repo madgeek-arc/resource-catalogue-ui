@@ -99,8 +99,6 @@ export function highchartsFactory() {
   ],
   imports: [
     BrowserModule,
-    SharedModule,
-    BrowserModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,

@@ -1,0 +1,287 @@
+.footer > .uk-container {
+    padding-left: 80px;
+    padding-right: 80px;
+}
+
+.ue-flag {
+    color: #839295;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.footer {
+    background: #52636B;
+    color: #A6AEB1;
+}
+.footer {
+    margin-top: 100px;
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+.footer svg {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -96px;
+    margin-top: -50px;
+}
+
+.footer svg path {
+    fill: #52636B;
+}
+
+.footer a {
+    color: #FFF !important;
+}
+
+.btn--top .btn__arrow {
+    display: block;
+    position: absolute;
+    left: 50%;
+    height: 10px;
+    width: 10px;
+    border-left: 2px solid white;
+    border-top: 2px solid white;
+    -webkit-transform: translateX(-50%) rotate(45deg);
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.btn--top .arrow--top {
+    top: 2px;
+}
+
+.btn--top .arrow--bottom {
+    top: 8px;
+}
+
+.nopadding {
+    padding: 0;
+}
+
+.pdt30 {
+    padding-top: 30px !important;
+}
+
+.line {
+    height: 1px;
+    background: #A6AEB1;
+    width: 100%;
+}
+
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+p {
+    margin: 0 0 1.2em;
+}
+
+.uk-grid > * {
+    padding-left: 0px;
+}
+
+#footer-sitemap {
+    margin: 0;
+}
+
+#footer-sitemap ul {
+    margin: 0;
+    padding: 0;
+}
+
+#footer-sitemap ul li {
+    float: left;
+    list-style: none;
+}
+
+#footer-sitemap ul li {
+    margin-right: 30px;
+    margin-top: 15px;
+}
+
+#footer-sitemap ul li a, #footer-sitemap ul li span, #footer-sitemap ul li span.nolink {
+    font-size: .8em;
+    font-weight: 200;
+}
+
+#footer-sitemap ul li span.fs-root-link.nolink {
+    text-transform: uppercase !important;
+    font-weight: 700;
+}
+
+#footer-sitemap ul li ul {
+    margin: 0;
+    padding: 0;
+}
+
+#footer-sitemap ul li li {
+    float: none;
+    margin: 0;
+    padding: 0;
+}
+
+#footer-sitemap ul li ul li a {
+    text-transform: inherit;
+    font-weight: inherit;
+}
+
+#footer-sitemap a.fs-root-link {
+    font-size: 1em;
+    line-height: 1.5em;
+}
+
+.footer i {
+    color: #52636B;
+    background: #FFF;
+    border-radius: 50%;
+    padding: 8px;
+    width: 21px;
+    height: 21px;
+    text-align: center;
+    font-size: 18px !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.color-secondary {
+    background: #bfcdde;
+}
+
+.margin-bottom-20px {
+    margin-bottom: 20px;
+}
+
+.margin-top-20px {
+    margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+
+.uk-section-footer {
+    background: #52636B;
+    color: #A6AEB1;
+}
+
+.uk-block-secondary {
+    background: #003D8C none repeat scroll 0 0;
+}
+
+.uk-block-secondary:not(.tm-block-texture) {
+    border-color: #003D8C;
+}
+
+.tm-bottom-d {
+    color: #ffffff;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.uk-subnav li a {
+    font-size: 15px;
+    letter-spacing: 0.36px;
+}
+
+.followAndSubscribe {
+    margin-top: 55px !important;
+}
+
+.followAndSubscribe div div div {
+    margin-bottom: 15px !important;
+    font-size: 16px;
+}
+
+.facebook {
+    width: 24px;
+    height: 20px;
+    background-image: url("../../../assets/images/icons/ic_Facebook.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    /*background: transparent url("../../../assets/images/icons/ic_Facebook.svg") center top no-repeat;*/
+}
+
+.facebook:hover {
+    background-image: url("../../../assets/images/icons/ic_Facebook_active.svg");
+}
+
+.twitter {
+    width: 24px;
+    height: 20px;
+    background-image: url("../../../assets/images/icons/ic_Twitter.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    /*background: transparent url("../../../assets/images/icons/ic_Facebook.svg") center top no-repeat;*/
+}
+
+.twitter:hover {
+    background-image: url("../../../assets/images/icons/ic_Twitter_active.svg");
+}
+
+.linkedin {
+    width: 24px;
+    height: 20px;
+    background-image: url("../../../assets/images/icons/ic_Linkedin.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    /*background: transparent url("../../../assets/images/icons/ic_Facebook.svg") center top no-repeat;*/
+}
+
+.linkedin:hover {
+    background-image: url("../../../assets/images/icons/ic_Linkedin_active.svg");
+}
+
+.share {
+    width: 24px;
+    height: 20px;
+    background-image: url("../../../assets/images/icons/ic_share.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    /*background: transparent url("../../../assets/images/icons/ic_Facebook.svg") center top no-repeat;*/
+}
+
+.share:hover {
+    background-image: url("../../../assets/images/icons/ic_share_Active.svg");
+}
+
+.vimeo {
+    width: 24px;
+    height: 20px;
+    background-image: url("../../../assets/images/icons/ic_Vimeo.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    /*background: transparent url("../../../assets/images/icons/ic_Facebook.svg") center top no-repeat;*/
+}
+
+.vimeo:hover {
+    background-image: url("../../../assets/images/icons/ic_Vimeo_active.svg");
+}
+
+.fundedBy {
+    font-size: 13px;
+    margin-top: 25px !important;
+    margin-bottom: 30px !important;
+}
+
+.uk-grid {
+    margin-left: 0px;
+}
