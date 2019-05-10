@@ -44,6 +44,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
           const validForDate = this.datePipe.transform(validFor, 'yyyy-MM-dd');
           this.serviceForm.get('validFor').setValue(validForDate);
         }
+        this.serviceForm.markAsPristine();
 
         /*} else {
             this.location.back();

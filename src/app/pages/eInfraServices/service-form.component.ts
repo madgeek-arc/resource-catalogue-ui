@@ -189,13 +189,15 @@ export class ServiceFormComponent implements OnInit {
     /** if valid submit **/
     if (isValid && !this.logoError && this.logoUrlWorks) {
       // console.log(service);
-      if (this.servicePostSuccess) {
+      console.log('pristine: ' + this.serviceForm.pristine);
+      if (this.servicePostSuccess && this.serviceForm.pristine) {
         this.postMeasurement(this.serviceID);
       } else {
         this.resourceService.uploadService(service, this.editMode)
           .subscribe(_service => {
               this.serviceID = _service.id;
               this.servicePostSuccess = true;
+              this.serviceForm.markAsPristine();
               this.postMeasurement(_service.id);
             },
             error => {
@@ -471,6 +473,7 @@ export class ServiceFormComponent implements OnInit {
               window.scrollTo(0, 0);
               this.errorMessage = error.error.error;
               this.serviceForm.get('id').setValue(serviceId);
+              this.serviceForm.markAsPristine();
               this.editMode = true;
             },
           );
