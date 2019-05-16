@@ -131,6 +131,7 @@ export class ServiceProvidersListComponent implements OnInit {
         },
         err => console.log(err),
         () => {
+          UIkit.modal('#actionModal').hide();
         }
       );
   }

@@ -16,6 +16,7 @@ export class FundersDashboardComponent implements OnInit {
   errorMessage: string;
   funder: FundersPage;
   selectedFunder: Funder;
+  loading: boolean;
 
   chartStats: any[] = [];
 
@@ -58,6 +59,7 @@ export class FundersDashboardComponent implements OnInit {
   }
 
   getChartData(funderId: string) {
+    this.loading = true;
     this.funderService.getFunderStats(funderId).pipe(map(data => {
       return Object.entries(data).map((key) => {
         Object.entries(key).map((innerKey) => {
@@ -69,6 +71,7 @@ export class FundersDashboardComponent implements OnInit {
       });
     })).subscribe(
       data => {
+        this.loading = false;
         for (let i = 0; i < data.length; i++) {
           const pieChartData: any[] = [];
           Object.entries(data[i][1]).forEach(entry => {

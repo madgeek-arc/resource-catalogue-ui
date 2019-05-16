@@ -155,16 +155,29 @@ export class ResourceService {
     );
   }
 
+  /** STATS **/
   getVisitsForProvider(provider: string, type?: string) {
     return this.get(`stats/provider/${type || 'visits'}`, provider);
   }
 
-  getFavouritesForProvider(provider: string) {
-    return this.get('stats/provider/favourites', provider);
+  getFavouritesForProvider(provider: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/provider/favourites/${provider}`, {params});
+    } else {
+      return this.http.get(this.base + `/stats/provider/favourites/${provider}`);
+    }
   }
 
-  getRatingsForProvider(provider: string) {
-    return this.get('stats/provider/ratings', provider);
+  getRatingsForProvider(provider: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/provider/ratings/${provider}`, {params});
+    } else {
+      return this.http.get(this.base + `/stats/provider/ratings/${provider}`);
+    }
   }
 
   getVisitationPercentageForProvider(provider: string) {
@@ -186,7 +199,9 @@ export class ResourceService {
   getRatingsForService(service: string) {
     return this.get('stats/service/ratings', service);
   }
+  /** STATS **/
 
+  /** Service Measurements **/
   getLatestServiceMeasurement(id: string) {
     return this.http.get<MeasurementsPage>(this.base + `/measurement/latest/service/${id}`);
   }
@@ -203,6 +218,7 @@ export class ResourceService {
   postMeasurementUpdateAll(measurement: Measurement[]) {
     return this.http.post(this.base + '/measurement/updateAll', measurement, this.options);
   }
+  /** Service Measurements **/
 
   groupServicesOfProviderPerPlace(id: string) {
     return this.getServicesOfferedByProvider(id).subscribe(res => {

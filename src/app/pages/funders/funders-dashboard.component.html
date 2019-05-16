@@ -24,17 +24,14 @@
 
               <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
-              <div class="uk-grid uk-grid-divider">
+              <div class="uk-grid uk-grid-divider" uk-height-match="row: false">
 
                 <div *ngIf="funder" class="uk-width-1-5@m uk-first-column uk-margin-remove uk-padding-remove-left">
                   <div class="uk-card uk-card-hover service" [ngClass]="{'uk-card-default': marcSelection('all')}">
                     <a (click)="getFunder()" class="el-link">
-                      <div
-                        class="uk-margin uk-grid-match uk-child-width-1-1 uk-grid-small uk-grid-divider uk-grid uk-scrollspy-inview uk-animation-slide-top-medium uk-grid-stack">
+                      <div class="uk-margin uk-grid-match uk-child-width-1-1 uk-grid-small uk-grid-divider uk-grid uk-scrollspy-inview uk-animation-slide-top-medium uk-grid-stack">
                         <div class="uk-first-column">
-                          <div uk-scrollspy-class=""
-                               class="el-item uk-panel uk-scrollspy-inview uk-animation-slide-top-medium"
-                               style="">
+                          <div uk-scrollspy-class="" class="el-item uk-panel uk-scrollspy-inview uk-animation-slide-top-medium">
                             <div class="uk-child-width-expand uk-grid-medium uk-flex-middle uk-grid uk-grid-stack"
                                  uk-grid="">
                               <div class="uk-width-1-2@m uk-first-column">
@@ -53,22 +50,16 @@
                     </a>
                   </div>
 
-                  <div *ngFor="let funder of funder.results"
-                       class="uk-card uk-card-hover service"
+                  <div *ngFor="let funder of funder.results" class="uk-card uk-card-hover service"
                        [ngClass]="{'uk-card-default': marcSelection(funder.name)}">
                     <a (click)="getFunder(funder)" class="el-link">
-                      <div
-                        class="uk-margin uk-grid-match uk-child-width-1-1 uk-grid-small uk-grid-divider uk-grid uk-scrollspy-inview uk-animation-slide-top-medium uk-grid-stack">
+                      <div class="uk-margin uk-grid-match uk-child-width-1-1 uk-grid-small uk-grid-divider uk-grid uk-scrollspy-inview uk-animation-slide-top-medium uk-grid-stack">
                         <div class="uk-first-column">
-                          <div uk-scrollspy-class=""
-                               class="el-item uk-panel uk-scrollspy-inview uk-animation-slide-top-medium"
-                               style="">
-                            <div class="uk-child-width-expand uk-grid-medium uk-flex-middle uk-grid uk-grid-stack"
-                                 uk-grid="">
+                          <div uk-scrollspy-class="" class="el-item uk-panel uk-scrollspy-inview uk-animation-slide-top-medium">
+                            <div class="uk-child-width-expand uk-grid-medium uk-flex-middle uk-grid uk-grid-stack" uk-grid="">
                               <div class="uk-width-1-2@m uk-first-column">
                                 <img src="{{funder.logo || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
-                                     class="el-image uk-border-rounded"
-                                     alt="">
+                                     class="el-image uk-border-rounded" alt="">
                               </div>
                               <div class="uk-width-1-2@m uk-padding-remove serviceTitle">
                                 <h3 class="el-title uk-margin uk-h6 uk-margin-remove-adjacent">
@@ -83,16 +74,19 @@
                   </div>
                 </div>
 
-                <div class="uk-width-4-5@m uk-grid">
-
-                  <div class="uk-width-1-1@m">
-                    <div class="uk-grid">
-                      <div *ngFor="let chart of chartStats" class="uk-width-1-2@m uk-margin-bottom">
-                        <div style="width:100%" *ngIf="chart">
-                          <chart [options]="chart"></chart>
-                        </div>
+                <div *ngIf="!loading" class="uk-width-4-5">
+                  <div class="uk-width-1-1 uk-grid">
+                    <div *ngFor="let chart of chartStats" class="uk-width-1-2@m uk-margin-bottom">
+                      <div style="width:100%" *ngIf="chart">
+                        <chart [options]="chart"></chart>
                       </div>
                     </div>
+                  </div>
+                </div>
+                <div *ngIf="loading" class="uk-width-4-5@m uk-card uk-card-default uk-card-body"
+                     style="background-color: rgba(0, 0, 0, 0.05)">
+                  <div class="" uk-sticky="offset: 100; bottom: #top">
+                    <div class="uk-position-top-center uk-padding-large" uk-spinner="ratio: 3" style="color: rgb(33, 76, 156)"></div>
                   </div>
                 </div>
               </div>
@@ -105,12 +99,10 @@
             </div>
           </div>
 
-
           <!-- BOTTOM HELP CONTENT -->
           <app-help-content #bottomHelperContent [position]="'bottom'"
                             [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
           </app-help-content>
-
 
         </div>
       </div>

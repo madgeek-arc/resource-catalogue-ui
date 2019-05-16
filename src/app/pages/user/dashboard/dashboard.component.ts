@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
   providerServices: Service[] = [];
   providerServicesGroupedByPlace: any;
   providerCoverage: string[];
+  statisticPeriod: string;
   public errorMessage: string;
 
   public EU: string[];
@@ -43,6 +44,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.statisticPeriod = 'MONTH';
     this.providerId = this.route.snapshot.paramMap.get('provider');
     if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
       zip(
@@ -54,7 +56,7 @@ export class DashboardComponent implements OnInit {
         this.EU = <string[]>suc[0];
         this.WW = <string[]>suc[1];
         this.provider = suc[2];
-        this.getDataForProvider();
+        this.getDataForProvider(this.statisticPeriod);
       });
     } else {
       this.providerService.getMyServiceProviders().subscribe(
@@ -69,7 +71,7 @@ export class DashboardComponent implements OnInit {
             this.EU = <string[]>suc[0];
             this.WW = <string[]>suc[1];
             this.provider = suc[2];
-            this.getDataForProvider();
+            this.getDataForProvider(this.statisticPeriod);
           });
         },
         err => {
@@ -80,7 +82,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  getDataForProvider() {
+  getDataForProvider(period: string) {
 
     this.providerService.getServicesOfProvider(this.providerId)
       .subscribe(res => {
@@ -104,7 +106,7 @@ export class DashboardComponent implements OnInit {
       // error => this.handleError(<any>error)
     );
 
-    this.resourceService.getFavouritesForProvider(this.providerId).pipe(
+    this.resourceService.getFavouritesForProvider(this.providerId, period).pipe(
       map(data => {
         // THESE 3 weird lines should be deleted when pgl makes everything ok :)
         return Object.entries(data).map((d) => {
@@ -115,7 +117,7 @@ export class DashboardComponent implements OnInit {
       // error => this.handleError(<any>error)
     );
 
-    this.resourceService.getRatingsForProvider(this.providerId).pipe(
+    this.resourceService.getRatingsForProvider(this.providerId, period).pipe(
       map(data => {
         // THESE 3 weird lines should be deleted when pgl makes everything ok :)
         return Object.entries(data).map((d) => {
