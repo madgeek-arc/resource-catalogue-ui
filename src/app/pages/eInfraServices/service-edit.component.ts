@@ -6,6 +6,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
 import {MeasurementsPage} from '../../domain/indicators';
 import {Service} from '../../domain/eic-model';
+import {ResourceService} from '../../services/resource.service';
 
 @Component({
   selector: 'app-service-edit',
@@ -28,7 +29,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
       this.resourceService.getService(this.serviceID).subscribe(service => {
 
         /*if (this.userService.canEditService(service)) {*/
-        // ResourceService.removeNulls(service);
+        ResourceService.removeNulls(service);
         this.formPrepare(service);
         this.serviceForm.patchValue(service);
         for (const i in this.serviceForm.controls) {
@@ -66,17 +67,25 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     for (let i = 0; i < service.languages.length - 1; i++) {
       this.push('languages', true);
     }
-    for (let i = 0; i < service.tags.length - 1; i++) {
-      this.push('tags', false);
+    if (service.tags) {
+      for (let i = 0; i < service.tags.length - 1; i++) {
+        this.push('tags', false);
+      }
     }
-    for (let i = 0; i < service.requiredServices.length - 1; i++) {
-      this.push('requiredServices', false);
+    if (service.requiredServices) {
+      for (let i = 0; i < service.requiredServices.length - 1; i++) {
+        this.push('requiredServices', false);
+      }
     }
-    for (let i = 0; i < service.relatedServices.length - 1; i++) {
-      this.push('relatedServices', false);
+    if (service.relatedServices) {
+      for (let i = 0; i < service.relatedServices.length - 1; i++) {
+        this.push('relatedServices', false);
+      }
     }
-    for (let i = 0; i < service.termsOfUse.length - 1; i++) {
-      this.push('termsOfUse', false, true);
+    if (service.termsOfUse) {
+      for (let i = 0; i < service.termsOfUse.length - 1; i++) {
+        this.push('termsOfUse', false, true);
+      }
     }
   }
 
