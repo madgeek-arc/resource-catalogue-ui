@@ -10,6 +10,7 @@ import {zip} from 'rxjs/internal/observable/zip';
 import {map} from 'rxjs/operators';
 import {isNullOrUndefined} from 'util';
 
+
 declare var require: any;
 
 @Component({
@@ -82,20 +83,23 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  getDataForProvider(period: string) {
+  getDataForProvider(period: string, dontGetServices?: boolean) {
 
-    this.providerService.getServicesOfProvider(this.providerId)
-      .subscribe(res => {
-        this.providerServices = res;
-        this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices);
-        if (this.providerServicesGroupedByPlace) {
-          this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
+    if (dontGetServices) {
+    } else {
+      this.providerService.getServicesOfProvider(this.providerId)
+        .subscribe(res => {
+          this.providerServices = res;
+          this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices);
+          if (this.providerServicesGroupedByPlace) {
+            this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
 
-          this.setCountriesForProvider(this.providerCoverage);
-        }
-      });
+            this.setCountriesForProvider(this.providerCoverage);
+          }
+        });
+    }
 
-    this.resourceService.getVisitsForProvider(this.providerId).pipe(
+    this.resourceService.getVisitsForProvider(this.providerId, period).pipe(
       map(data => {
         // THESE 3 weird lines should be deleted when pgl makes everything ok :)
         return Object.entries(data).map((d) => {
@@ -128,21 +132,29 @@ export class DashboardComponent implements OnInit {
       // error => this.handleError(<any>error)
     );
 
-    this.resourceService.getVisitationPercentageForProvider(this.providerId).pipe(
-      map(data => {
-        // THESE 3 weird lines should be deleted when pgl makes everything ok :)
-        return Object.entries(data).map((d) => {
-          if (d[1] !== 'NaN') {
-            return {name: d[0], y: d[1]};
-          }
-        });
-      })).subscribe(
-      data => this.setVisitationsForProvider(data),
-      // error => this.handleError(<any>error)
-    );
+    if (dontGetServices) {
+    } else {
+      this.resourceService.getVisitationPercentageForProvider(this.providerId).pipe(
+        map(data => {
+          // THESE 3 weird lines should be deleted when pgl makes everything ok :)
+          return Object.entries(data).map((d) => {
+            if (d[1] !== 'NaN') {
+              return {name: d[0], y: d[1]};
+            }
+          });
+        })).subscribe(
+        data => this.setVisitationsForProvider(data),
+        // error => this.handleError(<any>error)
+      );
+    }
 
     // console.log('Places', this.resourceService.getPlacesForProvider(this.provider));
 
+  }
+
+  onPeriodChange(event) {
+    this.statisticPeriod = event.target.value;
+    this.getDataForProvider(this.statisticPeriod, true);
   }
 
   groupServicesOfProviderPerPlace(services: Service[]) {

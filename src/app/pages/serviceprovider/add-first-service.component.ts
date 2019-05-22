@@ -4,8 +4,8 @@ import {DatePipe} from '@angular/common';
 import {ServiceFormComponent} from '../eInfraServices/service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ResourceService} from '../../services/resource.service';
+import {MeasurementsPage} from '../../domain/indicators';
 import {Service} from '../../domain/eic-model';
-import {MeasurementsPage} from "../../domain/indicators";
 
 @Component({
   selector: 'app-add-first-service',

@@ -19,6 +19,7 @@ export class FundersDashboardComponent implements OnInit {
   loading: boolean;
 
   chartStats: any[] = [];
+  barChartStats: any[] = [];
 
   constructor(private funderService: FunderService) {
   }
@@ -50,7 +51,7 @@ export class FundersDashboardComponent implements OnInit {
     }
   }
 
-  marcSelection(name: string) {
+  markSelection(name: string) {
     if (this.selectedFunder) {
       return this.selectedFunder.name === name;
     } else {
@@ -59,6 +60,7 @@ export class FundersDashboardComponent implements OnInit {
   }
 
   getChartData(funderId: string) {
+    // this.setCategoriesStats(funderId); // get bar charts, optimize this for deploy
     this.loading = true;
     this.funderService.getFunderStats(funderId).pipe(map(data => {
       return Object.entries(data).map((key) => {
@@ -81,6 +83,60 @@ export class FundersDashboardComponent implements OnInit {
         }
       }
     );
+  }
+
+  setCategoriesStats(funderId: string) {
+    let data: any;
+    let barNames = [];
+    let values = [];
+    this.funderService.getFunderStats(funderId).subscribe(
+      res => data = res,
+      er => {},
+      () => {
+        barNames = Object.keys(data.Categories);
+        values = Object.values(data.Categories);
+        this.setBarChartStats(barNames, values, 0);
+      }
+    );
+
+  }
+
+  setBarChartStats(barNames, values, position) {
+    this.barChartStats[position] = {
+      chart: {
+        type: 'bar'
+      },
+      title: {
+        text: 'Categories'
+      },
+      xAxis: {
+        categories: barNames,
+        title: {
+          text: null
+        }
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Number of services per category',
+          align: 'high'
+        },
+        labels: {
+          overflow: 'justify'
+        }
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      series: [{
+        name: 'Services',
+        data: values
+      }]
+    };
   }
 
   setChartStats(data: any, position: number, title: string) {

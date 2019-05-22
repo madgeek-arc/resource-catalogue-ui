@@ -27,7 +27,7 @@
               <div class="uk-grid uk-grid-divider" uk-height-match="row: false">
 
                 <div *ngIf="funder" class="uk-width-1-5@m uk-first-column uk-margin-remove uk-padding-remove-left">
-                  <div class="uk-card uk-card-hover service" [ngClass]="{'uk-card-default': marcSelection('all')}">
+                  <div class="uk-card uk-card-hover service" [ngClass]="{'uk-card-default': markSelection('all')}">
                     <a (click)="getFunder()" class="el-link">
                       <div class="uk-margin uk-grid-match uk-child-width-1-1 uk-grid-small uk-grid-divider uk-grid uk-scrollspy-inview uk-animation-slide-top-medium uk-grid-stack">
                         <div class="uk-first-column">
@@ -51,7 +51,7 @@
                   </div>
 
                   <div *ngFor="let funder of funder.results" class="uk-card uk-card-hover service"
-                       [ngClass]="{'uk-card-default': marcSelection(funder.name)}">
+                       [ngClass]="{'uk-card-default': markSelection(funder.name)}">
                     <a (click)="getFunder(funder)" class="el-link">
                       <div class="uk-margin uk-grid-match uk-child-width-1-1 uk-grid-small uk-grid-divider uk-grid uk-scrollspy-inview uk-animation-slide-top-medium uk-grid-stack">
                         <div class="uk-first-column">
@@ -81,10 +81,15 @@
                         <chart [options]="chart"></chart>
                       </div>
                     </div>
+                    <div class="uk-width-1-2@m uk-margin-bottom">
+                      <div *ngIf="barChartStats[0]">
+                        <chart [options]="barChartStats[0]"></chart>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div *ngIf="loading" class="uk-width-4-5@m uk-card uk-card-default uk-card-body"
-                     style="background-color: rgba(0, 0, 0, 0.05)">
+                     style="background-color: rgba(0, 0, 0, 0.075)">
                   <div class="" uk-sticky="offset: 100; bottom: #top">
                     <div class="uk-position-top-center uk-padding-large" uk-spinner="ratio: 3" style="color: rgb(33, 76, 156)"></div>
                   </div>

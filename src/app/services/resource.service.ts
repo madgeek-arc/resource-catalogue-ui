@@ -156,8 +156,14 @@ export class ResourceService {
   }
 
   /** STATS **/
-  getVisitsForProvider(provider: string, type?: string) {
-    return this.get(`stats/provider/${type || 'visits'}`, provider);
+  getVisitsForProvider(provider: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/provider/visits/${provider}`, {params});
+    } else {
+      return this.http.get(this.base + `/stats/provider/visits/${provider}`);
+    }
   }
 
   getFavouritesForProvider(provider: string, period?: string) {
@@ -284,22 +290,6 @@ export class ResourceService {
       places.push(...ww);
     }
     return places;
-  }
-
-  getExternalsForProvider(provider: string) {
-    return this.getVisitsForProvider(provider, 'externals');
-  }
-
-  getExternalsForService(service: string, type?: string) {
-    return this.getVisitsForService(service, 'externals');
-  }
-
-  getInternalsForService(service: string, type?: string) {
-    return this.getVisitsForService(service, 'internals');
-  }
-
-  getInternalsForProvider(provider: string) {
-    return this.getVisitsForProvider(provider, 'internals');
   }
 
   activateUserAccount(id: any) {
