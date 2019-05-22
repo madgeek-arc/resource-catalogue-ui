@@ -160,7 +160,7 @@
               "fileReplacements": [
                 {
                   "replace": "projects/EOSC/src/environments/environment.ts",
-                  "with": "projects/EOSC/src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
