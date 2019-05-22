@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  FAQ_ENDPOINT: 'http://beta.einfracentral.eu/faq/api',
+  API_ENDPOINT: 'http://localhost:8080/eic-registry'
 };
 
 /*

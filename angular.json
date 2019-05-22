@@ -160,7 +160,7 @@
               "fileReplacements": [
                 {
                   "replace": "projects/EOSC/src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "projects/EOSC/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -179,7 +179,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "EOSC:build",
-            "port": 3000
+            "port": 4000
           },
           "configurations": {
             "production": {
