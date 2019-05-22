@@ -18,7 +18,7 @@ declare var UIkit: any;
 
 @Injectable()
 export class ResourceService {
-  private base = environment.API_ENDPOINT;
+  base = environment.API_ENDPOINT;
   private options = {withCredentials: true};
 
   constructor(public http: HttpClient, public authenticationService: AuthenticationService) {

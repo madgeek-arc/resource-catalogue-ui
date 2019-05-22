@@ -9,10 +9,10 @@ import {ResourceServiceExtended} from '../../services/resource.service.extended'
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './home-eosc.component.html',
+  styleUrls: ['./home.eosc.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeEoscComponent implements OnInit {
 
   public searchForm: FormGroup;
   public categoriesResults: SearchResults<Vocabulary> = null;
@@ -47,22 +47,10 @@ export class HomeComponent implements OnInit {
       suc => this.info = suc
     );
 
-    // this.resourceService.getVocabulariesRaw("Category").subscribe(suc => {
-    //     this.categories = suc.results
-    //     .map(e => Object.assign(e, {extras: e.extras || ["no_icon.svg", "no_icon.svg"]}))
-    //     .filter(e => e.id !== "Category-Other" && e.extras && e.extras.length && e.extras.length === 2);
-    // });
-
     this.resourceService.getFeaturedServices().subscribe(
-      res => {
-        this.featuredServices = res;
-      },
-      error => {
-        console.log(error);
-      },
-      () => {
-        this.updateServiceList();
-      }
+      res => this.featuredServices = res,
+      error => console.log(error),
+      () => this.updateServiceList()
     );
   }
 
@@ -105,7 +93,6 @@ export class HomeComponent implements OnInit {
     if (this.index < 0) {
       this.index = this.featuredServices.length + this.index;
     }
-
     this.updateServiceList();
   }
 }
