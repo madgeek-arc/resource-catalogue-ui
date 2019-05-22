@@ -3,8 +3,22 @@ import { Routes, RouterModule } from '@angular/router';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 import {SearchExtendedComponent} from './pages/search/search.extended.component';
 import {ServiceLandingPageExtendedComponent} from './pages/landingpages/service/service-landing-page.extended.component';
+import {HomeEoscComponent} from "./pages/home/home-eosc.component";
+
 
 const routes: Routes = [
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    component: HomeEoscComponent,
+    data: {
+      breadcrumb: 'Home'
+    }
+  },
   {
     path: 'becomeAProvider',
     component: BecomeAProviderComponent,

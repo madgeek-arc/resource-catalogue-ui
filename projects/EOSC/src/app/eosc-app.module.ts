@@ -3,7 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {EoscAppComponent} from './eosc-app.component';
-import {HomeComponent} from './pages/home/home.component';
+import {HomeEoscComponent} from './pages/home/home-eosc.component';
 import {ResourceServiceExtended} from './services/resource.service.extended';
 import {FooterComponent} from './shared/footer/footer.component';
 import {BreadcrumbsComponent} from './shared/breadcrumbs/breadcrumbs.component';
@@ -22,7 +22,7 @@ import {ChartModule} from 'angular2-highcharts';
 @NgModule({
   declarations: [
     EoscAppComponent,
-    HomeComponent,
+    HomeEoscComponent,
     BecomeAProviderComponent,
     SearchExtendedComponent,
     ServiceLandingPageExtendedComponent,
