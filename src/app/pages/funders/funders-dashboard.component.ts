@@ -19,7 +19,7 @@ export class FundersDashboardComponent implements OnInit {
   loading: boolean;
 
   chartStats: any[] = [];
-  barChartStats: any[] = [];
+  displayWidth: any[] = [];
 
   constructor(private funderService: FunderService) {
   }
@@ -85,62 +85,86 @@ export class FundersDashboardComponent implements OnInit {
     );
   }
 
-  setCategoriesStats(funderId: string) {
-    let data: any;
-    let barNames = [];
-    let values = [];
-    this.funderService.getFunderStats(funderId).subscribe(
-      res => data = res,
-      er => {},
-      () => {
-        barNames = Object.keys(data.Categories);
-        values = Object.values(data.Categories);
-        this.setBarChartStats(barNames, values, 0);
-      }
-    );
-
-  }
-
-  setBarChartStats(barNames, values, position) {
-    this.barChartStats[position] = {
-      chart: {
-        type: 'bar'
-      },
-      title: {
-        text: 'Categories'
-      },
-      xAxis: {
-        categories: barNames,
-        title: {
-          text: null
-        }
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: 'Number of services per category',
-          align: 'high'
-        },
-        labels: {
-          overflow: 'justify'
-        }
-      },
-      plotOptions: {
-        bar: {
-          dataLabels: {
-            enabled: true
-          }
-        }
-      },
-      series: [{
-        name: 'Services',
-        data: values
-      }]
-    };
-  }
+  // setCategoriesStats(funderId: string) {
+  //   let data: any;
+  //   let barNames = [];
+  //   let values = [];
+  //   this.funderService.getFunderStats(funderId).subscribe(
+  //     res => data = res,
+  //     er => {},
+  //     () => {
+  //       barNames = Object.keys(data.Categories);
+  //       values = Object.values(data.Categories);
+  //       console.log(barNames);
+  //       console.log(values);
+  //       this.setBarChartStats(barNames, values, 0);
+  //       barNames = Object.keys(data.Subcategories);
+  //       values = Object.values(data.Subcategories);
+  //       this.setBarChartStats(barNames, values, 1);
+  //     }
+  //   );
+  // }
 
   setChartStats(data: any, position: number, title: string) {
-    if (data) {
+    this.displayWidth[position] = true;
+    if (title === 'Categories' || title === 'Subcategories' || title === 'Providers') {
+      const barNames = [];
+      const values = [];
+      for (const i in data) {
+        barNames.push(data[i].name);
+        values.push(data[i].y);
+      }
+      // console.log(barNames);
+      // console.log(values);
+      let type = 'bar';
+      if (title === 'Subcategories' || title === 'Providers') {
+        type = 'column';
+        if (barNames.length >= 15) {
+          this.displayWidth[position] = false;
+        }
+      }
+
+      this.chartStats[position] = {
+        chart: {
+          type: type
+        },
+        title: {
+          text: title
+        },
+        xAxis: {
+          categories: barNames,
+          title: {
+            text: null
+          }
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: 'Number of services per category',
+            align: 'high'
+          },
+          labels: {
+            overflow: 'justify'
+          }
+        },
+        plotOptions: {
+          bar: {
+            dataLabels: {
+              enabled: true
+            },
+            pointWidth: 10,
+          },
+          column: {
+            pointWidth: 10,
+          }
+        },
+        series: [{
+          name: 'Services',
+          data: values
+        }]
+      };
+
+    } else if (data) {
       this.chartStats[position] = {
         chart: {
           plotBackgroundColor: null,
