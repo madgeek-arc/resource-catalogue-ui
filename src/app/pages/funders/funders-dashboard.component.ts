@@ -35,7 +35,7 @@ export class FundersDashboardComponent implements OnInit {
       res => this.funder = res,
       err => {
         this.errorMessage = 'Something went wrong';
-        console.log(err);
+        // console.log(err);
       }
     );
   }
@@ -85,26 +85,6 @@ export class FundersDashboardComponent implements OnInit {
     );
   }
 
-  // setCategoriesStats(funderId: string) {
-  //   let data: any;
-  //   let barNames = [];
-  //   let values = [];
-  //   this.funderService.getFunderStats(funderId).subscribe(
-  //     res => data = res,
-  //     er => {},
-  //     () => {
-  //       barNames = Object.keys(data.Categories);
-  //       values = Object.values(data.Categories);
-  //       console.log(barNames);
-  //       console.log(values);
-  //       this.setBarChartStats(barNames, values, 0);
-  //       barNames = Object.keys(data.Subcategories);
-  //       values = Object.values(data.Subcategories);
-  //       this.setBarChartStats(barNames, values, 1);
-  //     }
-  //   );
-  // }
-
   setChartStats(data: any, position: number, title: string) {
     this.displayWidth[position] = true;
     if (title === 'Categories' || title === 'Subcategories' || title === 'Providers') {
@@ -140,7 +120,7 @@ export class FundersDashboardComponent implements OnInit {
         yAxis: {
           min: 0,
           title: {
-            text: 'Number of services per category',
+            text: 'Number of services',
             align: 'high'
           },
           labels: {

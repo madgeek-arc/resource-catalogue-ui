@@ -76,23 +76,12 @@
 
                 <div *ngIf="!loading" class="uk-width-4-5">
                   <div class="uk-width-1-1 uk-grid">
-<!--                    <div *ngFor="let chart of chartStats" class="uk-width-1-1@m uk-margin-bottom">-->
-                    <div *ngFor="let chart of chartStats; let i=index" [ngClass]="{'uk-width-1-2@m': displayWidth[i], 'uk-width-1-1@m': !displayWidth[i]}" class="uk-margin-bottom">
-                      {{displayWidth[i]}}
+                    <div *ngFor="let chart of chartStats; let i=index" class="uk-margin-bottom"
+                         [ngClass]="{'uk-width-1-2@m': displayWidth[i], 'uk-width-1-1@m': !displayWidth[i]}">
                       <div style="width:100%; height: max-content" *ngIf="chart">
                         <chart [options]="chart"></chart>
                       </div>
                     </div>
-<!--                    <div *ngFor="let chart of chartStats" class="uk-width-1-2@m uk-margin-bottom">-->
-<!--                      <div style="width:100%" *ngIf="chart">-->
-<!--                        <chart [options]="chart"></chart>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                    <div class="uk-width-1-2@m uk-margin-bottom">-->
-<!--                      <div *ngIf="barChartStats[0]">-->
-<!--                        <chart [options]="barChartStats[0]"></chart>-->
-<!--                      </div>-->
-<!--                    </div>-->
                   </div>
                 </div>
                 <div *ngIf="loading" class="uk-width-4-5@m uk-card uk-card-default uk-card-body"
