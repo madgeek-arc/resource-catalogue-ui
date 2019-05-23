@@ -323,7 +323,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
       this.resourceService.postMeasurement(this.newMeasurementForm.value).subscribe(
         res => {
         },
-        err => this.errorMessage = 'Something went wrong',
+        err => this.formError = err.error.error,
         () => {
           this.resourceService.getLatestServiceMeasurement(this.newMeasurementForm.get('serviceId').value).subscribe(
             res => this.measurements = res
