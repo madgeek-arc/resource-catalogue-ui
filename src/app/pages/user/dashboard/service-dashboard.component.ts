@@ -34,12 +34,15 @@ export class ServiceDashboardComponent implements OnInit {
   myProviders: Provider[] = [];
   canEditService = false;
 
+  statisticPeriod: string;
+
   constructor(private route: ActivatedRoute, private router: NavigationService, private resourceService: ResourceService,
               private authenticationService: AuthenticationService, private userService: UserService,
               private providerService: ServiceProviderService) {
   }
 
   ngOnInit() {
+    this.statisticPeriod = 'MONTH';
     this.sub = this.route.params.subscribe(params => {
       zip(
         this.resourceService.getEU(),
@@ -51,7 +54,7 @@ export class ServiceDashboardComponent implements OnInit {
         this.WW = <string[]>suc[1];
         this.service = <Service>suc[2];
         this.myProviders = suc[3];
-        this.getDataForService(this.service);
+        this.getDataForService(this.statisticPeriod);
 
         /* check if the current user can edit the service */
         this.canEditService = this.myProviders.some(p => this.service.providers.some(x => x === p.id));
@@ -59,11 +62,11 @@ export class ServiceDashboardComponent implements OnInit {
     });
   }
 
-  getDataForService(service) {
+  getDataForService(period: string, dontGetServices?: boolean) {
 
     this.setCountriesForService(this.service.places);
 
-    this.resourceService.getVisitsForService(this.service.id).pipe(
+    this.resourceService.getVisitsForService(this.service.id, period).pipe(
       map(data => {
         // THESE 3 weird lines should be deleted when pgl makes everything ok :)
         return Object.entries(data).map((d) => {
@@ -74,7 +77,7 @@ export class ServiceDashboardComponent implements OnInit {
       // error => this.handleError(<any>error)
     );
 
-    this.resourceService.getFavouritesForService(this.service.id).pipe(
+    this.resourceService.getFavouritesForService(this.service.id, period).pipe(
       map(data => {
       // THESE 3 weird lines should be deleted when pgl makes everything ok :)
       return Object.entries(data).map((d) => {
@@ -85,7 +88,7 @@ export class ServiceDashboardComponent implements OnInit {
       // error => this.handleError(<any>error)
     );
 
-    this.resourceService.getRatingsForService(this.service.id).pipe(
+    this.resourceService.getRatingsForService(this.service.id, period).pipe(
       map(data => {
       // console.log('Ratings', data);
       // THESE 3 weird lines should be deleted when pgl makes everything ok :)
@@ -97,10 +100,17 @@ export class ServiceDashboardComponent implements OnInit {
       // error => this.handleError(<any>error)
     );
 
+    if (dontGetServices) {
+    } else {
+      this.resourceService.getServiceHistory(this.service.id).subscribe(
+        searchResults => this.serviceHistory = searchResults,
+        error => this.handleError(<any>error));
+    }
+  }
 
-    this.resourceService.getServiceHistory(this.service.id).subscribe(
-      searchResults => this.serviceHistory = searchResults,
-      error => this.handleError(<any>error));
+  onPeriodChange(event) {
+    this.statisticPeriod = event.target.value;
+    this.getDataForService(this.statisticPeriod, true);
   }
 
   setVisitsForService(data: any) {

@@ -194,16 +194,31 @@ export class ResourceService {
     return this.getServicesOfferedByProvider(provider);
   }
 
-  getVisitsForService(service: string, type?: string) {
-    return this.get(`stats/service/${type || 'visits'}`, service);
+  getVisitsForService(service: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/service/visits/${service}`, {params});
+    }
+    return this.http.get(this.base + `/stats/service/visits/${service}`);
   }
 
-  getFavouritesForService(service: string) {
-    return this.get('stats/service/favourites', service);
+  getFavouritesForService(service: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/service/favourites/${service}`, {params});
+    }
+    return this.http.get(this.base + `/stats/service/favourites/${service}`);
   }
 
-  getRatingsForService(service: string) {
-    return this.get('stats/service/ratings', service);
+  getRatingsForService(service: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/service/ratings/${service}`, {params});
+    }
+    return this.http.get(this.base + `/stats/service/ratings/${service}`);
   }
   /** STATS **/
 

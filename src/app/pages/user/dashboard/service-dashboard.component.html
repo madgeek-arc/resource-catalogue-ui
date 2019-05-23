@@ -38,6 +38,20 @@
 
                 <div class="uk-width-3-5@m">
 
+                  <div class="uk-grid uk-margin-bottom" uk-height-match>
+                    <div class="uk-width-4-5 uk-text-right">
+                      <span style="vertical-align: middle;">Choose period</span>
+                    </div>
+                    <div class="uk-width-1-5">
+                      <select title="Change the period of the displayed statistics" (change)="onPeriodChange($event)">
+                        <option value="DAY">Day</option>
+                        <option value="WEEK">Week</option>
+                        <option value="MONTH" selected>Month</option>
+                        <option value="YEAR">Year</option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div class="uk-grid uk-margin-bottom">
                     <div class="uk-width-1-1@m">
                       <div style="width:100%" *ngIf="serviceFavouritesOptions">
@@ -73,7 +87,6 @@
                 </div>
                 <div class="uk-width-2-5@m">
 
-
                   <section class="section md-bg-blue-grey-700">
                     <div class="uk-container uk-container-center">
                       <div class="al_timeline">
@@ -107,8 +120,6 @@
                             </div>
 
                           </ng-container>
-
-
                         </ng-container>
 
                       </div>
