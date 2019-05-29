@@ -13,6 +13,7 @@ import {ResourceService} from '../../services/resource.service';
 import {UserService} from '../../services/user.service';
 import {zip} from 'rxjs/internal/observable/zip';
 import {flatMap} from 'rxjs/operators';
+import {PremiumSortFacetsPipe, PremiumSortPipe} from "../../shared/pipes/premium-sort.pipe";
 
 declare var UIkit: any;
 
@@ -123,6 +124,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   updateSearchResults(searchResults: SearchResults<RichService>) {
 
     // INITIALISATIONS
+    const sortLanguages = new PremiumSortFacetsPipe();
     this.errorMessage = null;
     this.searchResults = searchResults;
     this.isFirstPageDisabled = false;
@@ -131,6 +133,14 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.isNextPageDisabled = false;
     if (this.searchResults.results.length === 0) {
       this.foundResults = false;
+    } else {
+      for (let i = 0; i < this.searchResults.facets.length; i++) {
+        if (this.searchResults.facets[i].label === 'Language') {
+          sortLanguages.transform(this.searchResults.facets[i].values, ['English']);
+        } else {
+          this.searchResults.facets[i].values.sort((a, b) => 0 - (a.label > b.label ? -1 : 1));
+        }
+      }
     }
     this.orderFacets();
     // update form values using URLParameters

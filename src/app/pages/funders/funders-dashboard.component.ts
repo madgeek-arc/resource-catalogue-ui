@@ -3,6 +3,7 @@ import {FunderService} from '../../services/funder.service';
 import {FundersPage} from '../../domain/funders-page';
 import {Funder} from '../../domain/eic-model';
 import {map} from 'rxjs/operators';
+import {PremiumSortFundersPipe} from "../../shared/pipes/premium-sort.pipe";
 
 
 @Component({
@@ -16,6 +17,7 @@ export class FundersDashboardComponent implements OnInit {
   errorMessage: string;
   funder: FundersPage;
   selectedFunder: Funder;
+  sortFunders = new PremiumSortFundersPipe();
   loading: boolean;
 
   chartStats: any[] = [];
@@ -32,7 +34,10 @@ export class FundersDashboardComponent implements OnInit {
   getAllFunders() {
     const quantity = '10000';
     this.funderService.getAllFunders(quantity).subscribe(
-      res => this.funder = res,
+      res => {
+        this.funder = res;
+        this.sortFunders.transform(this.funder.results, ['ec']);
+        },
       err => {
         this.errorMessage = 'Something went wrong';
         // console.log(err);
