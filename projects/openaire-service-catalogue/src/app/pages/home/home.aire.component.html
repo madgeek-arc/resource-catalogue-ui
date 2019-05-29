@@ -1,0 +1,109 @@
+<div class="image-front-topbar uk-section-default" tm-header-transparent="light" uk-scrollspy="{&quot;target&quot;:&quot;[uk-scrollspy-class]&quot;,&quot;cls&quot;:&quot;uk-animation-fade&quot;,&quot;delay&quot;:false}">
+    <div style="background-image: url('https://dl119.madgik.di.uoa.gr/templates/yootheme/cache/handsinair_3-f4940f92.png'); background-color: rgb(255, 255, 255); box-sizing: border-box; min-height: calc(100vh - 229.5px);" class="uk-background-norepeat uk-background-cover uk-background-fixed uk-section uk-padding-remove-bottom uk-flex uk-flex-middle" uk-height-viewport="offset-top: true;offset-bottom: 20">
+        <!--<div class="uk-position-cover" style="background-color: rgba(31, 55, 97, 0.53);"></div>-->
+        <div class="uk-width-1-1">
+            <div class="uk-position-relative">
+                <div class="uk-container uk-margin-large">
+                    <div class="search_box_bg uk-grid-large uk-flex-middle uk-grid uk-grid-stack" uk-grid="">
+                        <div class="uk-width-1-1@m uk-first-column">
+                            <h2 class="uk-margin-large uk-margin-remove-top uk-text-center uk-h2 uk-scrollspy-inview uk-animation-fade" uk-scrollspy-class="" style="">
+                                Your Gateway for European E-Infrastructures</h2>
+                            <div>
+                                <div class="search_box_bg" style="text-align:center">
+                                    <form [formGroup]="searchForm" (ngSubmit)="this.onSubmit(searchForm.value)">
+                                        <input aria-describedby="sizing-addon2" class="uk-input uk-width-1-2 ng-pristine ng-valid ng-touched uk-comment uk-comment-meta"
+                                               name="keyword" placeholder="Search our service catalogue..." type="text"
+                                               formControlName="query">
+                                        <button class=" uk-button uk-button-default" type="submit">Search</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="uk-section-default uk-section">-->
+    <!--<div class="uk-container serviceicon">-->
+        <!--<div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">-->
+            <!--<div class="uk-width-1-1@m uk-first-column">-->
+                <!--<h1 class="uk-margin-medium uk-text-center uk-h2">-->
+                    <!--<span class="uk-text-background">Explore services</span>-->
+                <!--</h1>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">-->
+            <!--<div *ngFor="let c of this.categories" class="uk-width-1-5@m" (click)="this.router.search({category:c.value})">-->
+                <!--<div class="wk-panel wk-overlay-hover" style="min-height: 100px;">-->
+                    <!--&lt;!&ndash;<a class="wk-position-cover wk-position-z-index" ></a>&ndash;&gt;-->
+                    <!--<div class="wk-text-center wk-margin wk-margin-top-remove">-->
+                        <!--<div class="wk-overlay">-->
+                            <!--<img src="./imgs/Icons/{{c.icon}}" alt="{{c.value}}" width="64">-->
+                            <!--<img src="./imgs/Icons/{{c.hover}}" class=" wk-overlay-panel wk-overlay-image wk-overlay-fade" alt="{{c.alt}}" width="64">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<h3 class="wk-h4 wk-margin-top-remove uk-text-center">-->
+                        <!--&lt;!&ndash;<a class="wk-link-reset" href="#{{c.anchor}}">&ndash;&gt;-->
+                        <!--&lt;!&ndash;{{c.value}}&ndash;&gt;-->
+                        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+
+
+                        <!--&lt;!&ndash;uk-toggle="target: {{c.value}}; animation: uk-animation-fade;" this can't go in the <a> for some reason&ndash;&gt;-->
+                        <!--<a class="wk-link-reset" type="button">-->
+                            <!--{{c.value}}-->
+                        <!--</a>-->
+                    <!--</h3>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">-->
+            <!--<div class="uk-width-1-1@m uk-first-column">-->
+                <!--<div class="uk-margin uk-text-center">-->
+                    <!--<a class="el-content uk-button uk-button-default" [routerLink]="['/browseCategories']" title="Explore More" uk-scroll="">-->
+                        <!--View all-->
+                    <!--</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--<div class="uk-section-muted uk-section-overlap uk-position-relative" uk-scrollspy="{&quot;target&quot;:&quot;[uk-scrollspy-class]&quot;,&quot;cls&quot;:&quot;uk-animation-fade&quot;,&quot;delay&quot;:false}">-->
+    <!--<div style="background-image: url('https://dl119.madgik.di.uoa.gr/templates/yootheme/cache/handsinair_3-f4940f92.png');" class="uk-background-norepeat uk-background-cover uk-background-center-center uk-background-fixed uk-section uk-section-large">-->
+        <!--<div class="uk-position-cover" style="background-color: rgba(31, 55, 97, 0.53);"></div>-->
+        <!--<div class="uk-container uk-container-large uk-position-relative">-->
+            <!--<div class="uk-container uk-container-large uk-grid-margin-large">-->
+                <!--<div class="uk-grid-large uk-grid-divider uk-grid" uk-grid="">-->
+                    <!--<div class="uk-width-expand@m">-->
+                        <!--<h1 class="uk-text-center uk-h2 uk-scrollspy-inview uk-animation-fade" uk-scrollspy-class="" style="">-->
+                            <!--<span style="color:#fff">Are you a service provider?</span>    </h1>-->
+                        <!--<div class="uk-margin uk-text-center uk-text-lead uk-scrollspy-inview uk-animation-fade" uk-scrollspy-class="" style="">-->
+                            <!--<div style="color:#fefefe"><p>Use our platform to register your services, make them available to the public and monitor their usage statistics</p></div></div>-->
+                    <!--</div>-->
+                    <!--<div class="uk-width-expand@m uk-first-column">-->
+                        <!--<h1 class="uk-text-center uk-h2 uk-scrollspy-inview uk-animation-fade" uk-scrollspy-class="" style="">-->
+                            <!--<span style="color:#fff">Are you a service consumer?</span>    </h1>-->
+                        <!--<div class="uk-margin uk-text-center uk-text-lead uk-scrollspy-inview uk-animation-fade" uk-scrollspy-class="" style="">-->
+                            <!--<div style="color:#fefefe"><p>Use our platform to browse through e-infra services, compare them, view metrics and much more information about the ones that are of interest to you</p></div></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">-->
+                <!--<div class="uk-width-1-1@m uk-first-column">-->
+                    <!--<div class="uk-margin-large uk-margin-remove-bottom uk-text-center uk-scrollspy-inview uk-animation-fade" uk-scrollspy-class="" style="">-->
+                        <!--<a class="el-content uk-button uk-button-secondary" href="http://einfracentral.eu/basic-page/about-einfracentral">-->
+                            <!--Learn more-->
+                        <!--</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+
