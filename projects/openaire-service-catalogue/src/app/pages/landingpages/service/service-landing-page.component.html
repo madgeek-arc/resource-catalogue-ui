@@ -1,0 +1,419 @@
+<div id="tm-main" class="tm-main uk-section uk-section-default" uk-height-viewport="expand: true"
+     style="box-sizing: border-box;">
+  <div class="uk-container uk-container-large">
+    <div class="tm-header-placeholder uk-margin-remove-adjacent" style="height: 84px;"></div>
+    <div class="uk-grid" uk-grid="">
+
+      <ng-template [ngIf]="errorMessage">
+        <div class="uk-width-expand@m uk-first-column">
+          <div data-uk-alert="" class="uk-alert uk-alert-danger">
+            <p>{{errorMessage}}</p>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template [ngIf]="service && !errorMessage">
+
+        <div class="uk-width-1-1 uk-row-first uk-clearfix">
+
+          <div class="uk-grid">
+            <div class="uk-width-3-4@m">
+              <div class="uk-display-inline-block uk-vertical-align-top">
+                <h2 class="uk-h2 uk-inline" style="margin-bottom: 5px">
+                  {{service.name || "Not Available"}}
+                  <span class="uk-margin-left" *ngIf="canAddOrEditService">
+                                        <a (click)="this.router.edit(service.id)" routerLinkActive="active"><i
+                                          class="fa fa-pencil"></i></a>
+                                    </span>
+                </h2>
+                <div *ngIf="service.tagline && (service.tagline.length>0)" class="tagLine">
+                  {{service.tagline}}
+                </div>
+                <!--<div>-->
+                <!--<star-rating-comp (click)="this.userService.rateService(service.id)" [starType]="'svg'" [rating]="this.getShownRating()" [step]="1"-->
+                <!--[showHalfStars]="true" [readOnly]=!this.authenticationService.isLoggedIn() [size]="'medium'"-->
+                <!--[staticColor]="'ok'" class="uk-inline starRating"></star-rating-comp>-->
+                <!--<span class="uk-margin-medium-left">-->
+                <!--<img src="../../../../assets/images/icons/ic_love_icon.svg">-->
+                <!--<span class="statsNumbers">{{stats.favourite || 0}}</span>-->
+                <!--</span>-->
+                <!--<span class="uk-margin-medium-left">-->
+                <!--<img src="../../../../assets/images/icons/ic_visit_icon.svg">-->
+                <!--<span class="statsNumbers">{{stats.visits || 0}}</span>-->
+                <!--</span>-->
+                <!--</div>-->
+              </div>
+            </div>
+            <div class="uk-width-1-4@m">
+
+              <div class="uk-card uk-card-body uk-card-custom providerCard">
+                <img src="{{service.symbol || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
+                     style="max-width: 67px;">
+                <!--<span class="provider">{{service.providers[0] | uppercase}}</span>-->
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="uk-width-expand@m uk-first-column">
+          <!--<div class="uk-width-expand@m uk-first-column uk-grid-margin-medium">-->
+
+          <div class="serviceDescription" *ngIf="service.description">
+            <p [innerHTML]="service.description">
+            </p>
+          </div>
+
+          <div class="tags" *ngIf="service.tags && service.tags.length>0">
+            <span *ngFor="let tag of service.tags" class="uk-label">{{tag}}</span>
+          </div>
+
+          <div>
+            <a class="uk-button uk-button-primary visitButton" href="{{service.url}}" target="_blank"
+               routerLinkActive="active">
+              <!--<button class="uk-button uk-button-primary visitButton" (click)="visit()" routerLinkActive="active">-->
+              <strong>Homepage Service</strong>
+            </a>
+          </div>
+
+
+          <div class="uk-grid-collapse uk-grid uk-width-1-1 uk-margin-large-top">
+
+            <div class="uk-width-1-2@m uk-margin-right">
+              <!--USAGE-->
+              <div class="uk-card uk-card-body uk-card-basic-info uk-margin-bottom">
+                <h2 class="uk-h2">Usage</h2>
+                <dl class="uk-description-list">
+                  <div *ngIf="service.trlName" class="uk-margin-small-bottom">
+                    <dt class="uk-margin-small-right uk-inline">Technology readiness level</dt>
+                    <dd class="uk-inline">{{service.trlName }}</dd>
+                  </div>
+                  <div *ngIf="service.lifeCycleStatusName" class="uk-margin-small-bottom">
+                    <dt class="uk-margin-small-right uk-inline">Lifecycle Status</dt>
+                    <dd class="uk-inline">{{service.lifeCycleStatusName}}</dd>
+                  </div>
+                </dl>
+                <hr class="customDivider">
+                <dl class="uk-description-list">
+                  <ng-container *ngIf="service.options">
+                    <dt class="uk-margin-small-bottom">Options</dt>
+                    <dd>{{service.options}}</dd>
+                  </ng-container>
+                  <ng-container *ngIf="service.targetUsers">
+                    <dt class="uk-margin-small-bottom">Target Users</dt>
+                    <dd>{{service.targetUsers}}</dd>
+                  </ng-container>
+                  <ng-container *ngIf="service.userValue">
+                    <dt class="uk-margin-small-bottom">User value</dt>
+                    <dd>{{service.userValue}}</dd>
+                  </ng-container>
+                  <ng-container *ngIf="service.userBase">
+                    <dt class="uk-margin-small-bottom">User base</dt>
+                    <dd>{{service.userBase}}</dd>
+                  </ng-container>
+                </dl>
+              </div>
+              <!--INDICATORS-->
+              <div class="uk-card uk-card-body uk-card-basic-info">
+                <h2 class="uk-h2">Indicators</h2>
+                <dl class="uk-description-list">
+                  <ng-container *ngIf="measurements.results">
+                    <div class="uk-margin-small-bottom uk-width-1-1@m uk-text-right">
+                      <a class="" href="#add-measurement" uk-toggle
+                         *ngIf="authenticationService.isLoggedIn() && canEditService"
+                         style="font-size: 11px; text-transform: none">
+                        <i class="fa fa-plus"></i> Add new measurement</a></div>
+                    <dd *ngIf="measurements.results.length > 0"
+                        class="uk-grid uk-padding uk-padding-remove-bottom uk-padding-remove-top uk-padding-remove-right">
+                      <table *ngIf="indicators" class="uk-table uk-table-small uk-table-justify">
+                        <thead>
+                        <tr>
+                          <th class="uk-padding-remove-top uk-padding-remove-bottom">Indicator Name</th>
+                          <th class="uk-padding-remove-top uk-padding-remove-bottom">Value</th>
+                          <th class="uk-padding-remove-top uk-padding-remove-bottom">Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="" *ngFor="let measurement of measurements.results">
+                          <td class="uk-padding-remove-bottom">{{getIndicatorName(measurement.indicatorId)}}</td>
+                          <td
+                            class="uk-padding-remove-bottom">{{measurement.valueIsRange ? (measurement.rangeValue.fromValue + ' - ' + measurement.rangeValue.toValue + ' ' + setUnit(measurement.indicatorId)) : (measurement.value + ' ' + setUnit(measurement.indicatorId))}}</td>
+                          <td
+                            class="uk-padding-remove-bottom">{{measurement.time ? (measurement.time | date) : '-'}}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </dd>
+                    <dd *ngIf="measurements.results.length == 0">
+                      -
+                    </dd>
+                  </ng-container>
+                </dl>
+              </div>
+              <!-- Add measurement modal -->
+              <div id="add-measurement" uk-modal="bg-close: false">
+                <div class="uk-modal-dialog uk-modal-body">
+                  <ng-container>
+                    <dt class="uk-margin-bottom">New Measurement</dt>
+                    <div *ngIf="formError" data-uk-alert="" class="uk-alert uk-alert-danger">
+                      <p>{{formError}}</p>
+                    </div>
+                    <dd>
+                      <form *ngIf="authenticationService.isLoggedIn() && canEditService"
+                            class="uk-form-horizontal uk-margin-small-bottom" role="form"
+                            [formGroup]="newMeasurementForm">
+                        <div class="uk-margin">
+                          <label class="uk-form-label" for="indicatorId">Indicator name: </label>
+                          <div class="uk-form-controls">
+                            <select *ngIf="indicators" class="uk-select" id="indicatorId"
+                                    (change)="onIndicatorSelect($event)" formControlName="indicatorId"
+                                    [ngClass]="{'uk-form-danger': !newMeasurementForm.get('indicatorId').valid && newMeasurementForm.get('indicatorId').dirty}">
+                              <option value="" selected>--select indicator--</option>
+                              <option *ngFor="let indicator of indicators.results" title="{{indicator.description}}"
+                                      value="{{indicator.id}}">{{indicator.name}}</option>
+                            </select>
+                          </div>
+                          <div class="uk-width-3-5@m uk-align-right">
+                            <i>{{indicatorDesc}}</i>
+                          </div>
+                        </div>
+                        <div *ngIf="newMeasurementForm.get('locations').status != 'DISABLED'" formArrayName="locations">
+                          <div class="uk-margin">
+                            <label class="uk-form-label">Choose Locations: </label>
+                            <div *ngFor="let location of locations.controls; let i=index" class="uk-form-controls">
+                              <select class="uk-select uk-width-5-6@m" [formControlName]="i"
+                                      [ngClass]="{'uk-form-danger': !locations.get([i]).valid && locations.get([i]).dirty}">
+                                <ng-container *ngIf="placesVocabulary">
+                                  <option *ngFor="let placeEntry of placesVocIdArray | premiumsort:weights"
+                                          value="{{placesVocabulary.entries[placeEntry].id}}">
+                                    {{placesVocabulary.entries[placeEntry].name}}
+                                  </option>
+                                </ng-container>
+                              </select>
+                              <a *ngIf="locations.length > 1" class="uk-padding-small" (click)="removeFromLocations(i)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </a>
+                            </div>
+                            <div class="uk-text-center">
+                              <a class="" (click)="pushToLocations()" style="font-weight: unset">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add location
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="newMeasurementForm.get('time').status != 'DISABLED'" class="uk-margin">
+                          <label class="uk-form-label" for="date">Date: </label>
+                          <div class="uk-form-controls">
+                            <input class="uk-input" id="date" type="date" formControlName="time"
+                                   [ngClass]="{'uk-form-danger': !newMeasurementForm.get('time').valid && newMeasurementForm.get('time').dirty}">
+                          </div>
+                        </div>
+                        <div class="uk-margin">
+                          <div class="uk-form-label">Value Type:</div>
+                          <div class="uk-form-controls uk-form-controls-text">
+                            <label><input class="uk-radio" type="radio" name="radio" value="single" checked="checked"
+                                          (change)="handleChange($event)"> Single</label><br>
+                            <label><input class="uk-radio" type="radio" name="radio" value="range"
+                                          (change)="handleChange($event)"> Range</label>
+                          </div>
+                        </div>
+                        <div *ngIf="newMeasurementForm.get('valueIsRange').value == 'false'" class="uk-margin">
+                          <label class="uk-form-label" for="value">Value: </label>
+                          <div class="uk-form-controls">
+                            <input class="uk-input" id="value" type="text" formControlName="value"
+                                   [ngClass]="{'uk-form-danger': !newMeasurementForm.get('value').valid && newMeasurementForm.get('value').dirty}">
+                          </div>
+                        </div>
+                        <div *ngIf="newMeasurementForm.get('valueIsRange').value == 'true'" formGroupName="rangeValue">
+                          <div class="uk-margin">
+                            <label class="uk-form-label" for="from">From: </label>
+                            <div class="uk-form-controls">
+                              <input class="uk-input" id="from" type="text" formControlName="fromValue"
+                                     [ngClass]="{'uk-form-danger': !newMeasurementForm.get('rangeValue.fromValue').valid && newMeasurementForm.get('rangeValue.fromValue').dirty}">
+                            </div>
+                          </div>
+                          <div class="uk-margin">
+                            <label class="uk-form-label" for="to">To: </label>
+                            <div class="uk-form-controls">
+                              <input class="uk-input" id="to" type="text" formControlName="toValue"
+                                     [ngClass]="{'uk-form-danger': !newMeasurementForm.get('rangeValue.toValue').valid && newMeasurementForm.get('rangeValue.toValue').dirty}">
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                      <!--{{newMeasurementForm.value | json}}-->
+                    </dd>
+                  </ng-container>
+                  <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                    <button class="uk-button uk-button-primary" type="button" (click)="submitMeasurement()">Submit
+                    </button>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="uk-width-expand@m">
+              <!--SERVICE COVERAGE-->
+              <div class="uk-card uk-card-body uk-card-basic-info uk-margin-bottom">
+                <h2 class="uk-h2">Service coverage</h2>
+                <div style="width:100%" *ngIf="serviceMapOptions">
+                  <chart type="Map" [options]="serviceMapOptions"></chart>
+                </div>
+                <dl class="uk-description-list">
+                  <ng-container *ngIf="service.placeNames && service.placeNames.length>0">
+                    <dt class="uk-margin-small-bottom">Places</dt>
+                    <dd>
+                      <span>{{service.placeNames | join:", "}}</span>
+                    </dd>
+                  </ng-container>
+                  <ng-container *ngIf="service.languageNames && service.languageNames.length>0">
+                    <dt class="uk-margin-small-bottom">Languages</dt>
+                    <dd>
+                      <span>{{service.languageNames | join:", "}}</span>
+                    </dd>
+                  </ng-container>
+                </dl>
+              </div>
+              <!--FUNDING-->
+              <div *ngIf="service.funding" class="uk-card uk-card-body uk-card-basic-info">
+                <h2 class="uk-h2">Funding</h2>
+                <dl class="uk-description-list">
+                  <!--<dt class="uk-margin-small-bottom">Funding sources</dt>-->
+                  <dd>{{service.funding}}</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <!--SIDEBAR-->
+        <div class="tm-sidebar uk-width-1-4@m">
+
+          <h4 class="uk-h4 sidebarHeaders uk-margin-large-top">Contractual Info</h4>
+          <div class="uk-card uk-card-body uk-card-custom sideInfo">
+            <div *ngIf="service.request" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.request}}">Service order</a>
+              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+            <div *ngIf="service.price" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.price}}">Price</a>
+              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+            <div *ngIf="service.serviceLevelAgreement" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.serviceLevelAgreement}}">Service level
+                agreement</a>
+              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+            <ng-container *ngIf="service.termsOfUse && service.termsOfUse.length > 0">
+              <div *ngIf="service.termsOfUse.length==1" class="uk-margin-small-bottom">
+                <a class="uk-margin-small-right" target="_blank" href="{{service.termsOfUse[0]}}">Terms of use</a>
+                <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+              </div>
+              <ng-container *ngIf="service.termsOfUse.length>1">
+                <div *ngFor="let term of service.termsOfUse; let i = index;" class="uk-margin-small-bottom">
+                  <a class="uk-margin-small-right" target="_blank" href="{{service.termsOfUse[i]}}">Terms of
+                    use {{i + 1}}</a>
+                  <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+
+          <h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">Support</h4>
+          <div class="uk-card uk-card-body uk-card-custom sideInfo">
+            <div *ngIf="service.helpdesk" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.helpdesk}}">Helpdesk</a>
+              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+            <div *ngIf="service.userManual" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.userManual}}">User manual</a>
+              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+            <div *ngIf="service.feedback" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.feedback}}">Feedback</a>
+              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+            <div *ngIf="service.trainingInformation" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.trainingInformation}}">Training
+                information</a>
+              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+            <div *ngIf="service.multimediaURL" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.multimediaURL}}">Multimedia</a>
+              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+          </div>
+
+          <h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">Version</h4>
+          <hr class="customDivider">
+          <div>
+            <div *ngIf="service.version" class="uk-margin-small-bottom">
+              <span class="infoTitle uk-margin-small-right">Version</span>
+              <span class="infoDescription">{{service.version}}</span>
+            </div>
+            <div *ngIf="service.lastUpdate" class="uk-margin-small-bottom">
+              <span class="infoTitle uk-margin-small-right">Last update</span>
+              <span class="infoDescription">{{service.lastUpdate | date:'longDate' }}</span>
+            </div>
+            <div *ngIf="service.changeLog" class="uk-margin-small-bottom">
+              <span class="infoTitle uk-margin-small-right">What's new</span>
+              <span class="infoDescription">{{service.changeLog}}</span>
+            </div>
+            <div *ngIf="service.validFor" class="uk-margin-small-bottom">
+              <span class="infoTitle uk-margin-small-right">Validity</span>
+              <span class="infoDescription">Until {{service.validFor | date:'longDate' }}</span>
+            </div>
+            <div *ngIf="service.availability" class="uk-margin-small-bottom">
+              <span class="infoTitle uk-margin-small-right">Availability</span>
+              <span class="infoDescription">{{service.availability}}</span>
+            </div>
+          </div>
+
+          <h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">See also</h4>
+          <hr class="customDivider">
+          <ng-container *ngIf="service.requiredServices && (service.requiredServices.length > 0)">
+            <dt class="infoTitle uk-margin-small-right">Required services</dt>
+            <!--<dt class="uk-margin-small-bottom">Required services</dt>-->
+            <dd *ngFor="let requiredService of service.requiredServices">
+              <a (click)="this.router.service(getPrettyService(requiredService).id)">{{getPrettyService(requiredService).name}}</a>
+            </dd>
+          </ng-container>
+          <ng-container *ngIf="!service.requiredServices || service.requiredServices.length == 0">
+            <dt class="infoTitle uk-margin-small-right">Required services</dt>
+            <dd>
+              None
+            </dd>
+          </ng-container>
+          <ng-container *ngIf="service.relatedServices && service.relatedServices.length>0">
+            <dt class="infoTitle uk-margin-small-right">Related services</dt>
+            <dd *ngFor="let relatedService of service.relatedServices">
+              <a (click)="this.router.service(getPrettyService(relatedService).id)">{{getPrettyService(relatedService).name}}</a>
+            </dd>
+          </ng-container>
+          <ng-container *ngIf="!service.relatedServices || service.relatedServices.length == 0">
+            <dt class="infoTitle uk-margin-small-right">Related services</dt>
+            <dd>
+              None
+            </dd>
+          </ng-container>
+
+        </div>
+
+      </ng-template>
+
+    </div>
+  </div>
+</div>
+
+<div *ngIf="canAddOrEditService" class="uk-float-right"
+     style="z-index: 100; bottom: 45px; position: fixed; right: 45px;">
+  <a [routerLink]="['/upload']" style="padding: 30px;" class="uk-icon-button uk-button-secondary">
+    <i class="fa fa-plus"></i>
+    <!--<span class="uk-icon" uk-icon="icon: plus; ratio: 1.5">-->
+    <!--</span>-->
+  </a>
+</div>
