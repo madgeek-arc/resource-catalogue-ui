@@ -13,7 +13,7 @@ import {ResourceService} from '../../services/resource.service';
 import {UserService} from '../../services/user.service';
 import {zip} from 'rxjs/internal/observable/zip';
 import {flatMap} from 'rxjs/operators';
-import {PremiumSortFacetsPipe, PremiumSortPipe} from "../../shared/pipes/premium-sort.pipe";
+import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
 
 declare var UIkit: any;
 

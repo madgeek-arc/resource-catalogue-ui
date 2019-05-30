@@ -12,9 +12,6 @@ const routes: Routes = [
   {
     path: 'search',
     component: SearchAireComponent,
-    data: {
-      breadcrumb: 'Home'
-    }
   },
   {
     path: 'service/:id',
