@@ -9,6 +9,7 @@
     "build": "ng build",
     "build:prod": "ng build --prod",
     "build:prod:eosc": "ng build --prod --project EOSC",
+    "build:prod:aire": "ng build --prod --project openaire-service-catalogue",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
