@@ -65,6 +65,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.sub = this.route.params.subscribe(params => {
         this.urlParameters.splice(0, this.urlParameters.length);
         this.foundResults = true;
+        let foundParamQuantity = false;
         for (const obj in params) {
           if (params.hasOwnProperty(obj)) {
             const urlParameter: URLParameter = {
@@ -73,6 +74,7 @@ export class SearchComponent implements OnInit, OnDestroy {
             };
             this.urlParameters.push(urlParameter);
             if (urlParameter.key === 'quantity') {
+              foundParamQuantity = true;
               this.pageSize = +urlParameter.values;
               if (this.pageSize % 3 === 0) {
                 this.listViewActive = false;
@@ -80,8 +82,12 @@ export class SearchComponent implements OnInit, OnDestroy {
             }
           }
         }
+        if (!foundParamQuantity) {
+          this.urlParameters.push({key: 'quantity', values: [this.pageSize.toString() ]});
+        }
 
-        this.navigationService.paramsObservable.next(this.urlParameters);
+        // if something breaks uncomment the following line
+        // this.navigationService.paramsObservable.next(this.urlParameters);
 
         // request results from the registry
         return this.resourceService.search(this.urlParameters).subscribe(
