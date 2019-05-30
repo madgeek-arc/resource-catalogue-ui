@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "eosc": "ng serve --project EOSC",
+    "aire": "ng serve --project openaire-service-catalogue",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "build:prod:eosc": "ng build --prod --project EOSC",

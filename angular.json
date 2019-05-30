@@ -250,6 +250,130 @@
           }
         }
       }
+    },
+    "openaire-service-catalogue": {
+      "root": "projects/openaire-service-catalogue/",
+      "sourceRoot": "projects/openaire-service-catalogue/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/openaire-service-catalogue",
+            "index": "projects/openaire-service-catalogue/src/index.html",
+            "main": "projects/openaire-service-catalogue/src/main.ts",
+            "polyfills": "projects/openaire-service-catalogue/src/polyfills.ts",
+            "tsConfig": "projects/openaire-service-catalogue/tsconfig.app.json",
+            "assets": [
+              "projects/openaire-service-catalogue/src/favicon.ico",
+              "projects/openaire-service-catalogue/src/assets"
+            ],
+            "styles": [
+              "projects/openaire-service-catalogue/src/styles.css",
+              "node_modules/font-awesome/css/font-awesome.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/uikit/dist/js/uikit.min.js",
+              "node_modules/uikit/dist/js/uikit-icons.min.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/openaire-service-catalogue/src/environments/environment.ts",
+                  "with": "projects/openaire-service-catalogue/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "openaire-service-catalogue:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "openaire-service-catalogue:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "openaire-service-catalogue:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/openaire-service-catalogue/src/test.ts",
+            "polyfills": "projects/openaire-service-catalogue/src/polyfills.ts",
+            "tsConfig": "projects/openaire-service-catalogue/tsconfig.spec.json",
+            "karmaConfig": "projects/openaire-service-catalogue/karma.conf.js",
+            "styles": [
+              "projects/openaire-service-catalogue/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/openaire-service-catalogue/src/favicon.ico",
+              "projects/openaire-service-catalogue/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/openaire-service-catalogue/tsconfig.app.json",
+              "projects/openaire-service-catalogue/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "openaire-service-catalogue-e2e": {
+      "root": "projects/openaire-service-catalogue-e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/openaire-service-catalogue-e2e/protractor.conf.js",
+            "devServerTarget": "openaire-service-catalogue:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "openaire-service-catalogue:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/openaire-service-catalogue-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "eic-platform"

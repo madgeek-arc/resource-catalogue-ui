@@ -397,7 +397,8 @@ padding-right:0px;
   -ms-transform: skew(-25deg);
   -webkit-transform: skew(-25deg);
   transform: skew(-25deg); 
-  font-family:Roboto:900!important;
+  /*font-family: Roboto:900!important;*/
+  font-family: Roboto !important;
   text-transform:uppercase!important;
   font-size:13px!important;
   opacity:1!important;

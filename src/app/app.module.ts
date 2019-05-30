@@ -128,6 +128,9 @@ export function highchartsFactory() {
     DatePipe,
     FunderService
   ],
+  exports: [
+    FooterComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

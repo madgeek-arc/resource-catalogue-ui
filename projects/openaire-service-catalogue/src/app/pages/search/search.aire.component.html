@@ -64,9 +64,9 @@
   <div class="uk-container uk-container-large">
 
     <!-- TOP HELP CONTENT -->
-    <help-content #topHelperContent [position]="'top'"
+    <app-help-content #topHelperContent [position]="'top'"
                   [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-    </help-content>
+    </app-help-content>
 
 
     <div *ngIf="listViewActive" class="uk-grid" uk-grid="">
@@ -298,11 +298,11 @@
 
                       <div class="">
                         <a (click)="this.router.service(resourceInfo.id)">
-                                                    <span>
-                                                        <img
-                                                          src="{{resourceInfo.symbol || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
-                                                          style="max-width: 90px;">
-                                                    </span>
+                          <span>
+                              <img
+                                src="{{resourceInfo.symbol || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
+                                style="max-width: 90px;">
+                          </span>
                         </a>
                       </div>
                       <!--<div class="uk-margin-small-top">-->
@@ -349,9 +349,9 @@
       </div>
 
       <!-- RIGHT HELP CONTENT -->
-      <aside-help-content #rightHelperContent [position]="'right'"
+      <app-aside-help-content #rightHelperContent [position]="'right'"
                           [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-      </aside-help-content>
+      </app-aside-help-content>
 
     </div>
 
@@ -482,10 +482,10 @@
 
                     <!--TODO add category and persona tag-->
                     <div class="categoryTags uk-margin-top" *ngIf="resourceInfo.category || resourceInfo.targetUsers">
-                                            <span class="uk-label uk-label-primary">
-                                                {{resourceInfo.categoryName}}
-                                              <!--{{this.vocabularies[resourceInfo.category].name}}-->
-                                            </span>
+                      <span class="uk-label uk-label-primary">
+                          {{resourceInfo.categoryName}}
+                        <!--{{this.vocabularies[resourceInfo.category].name}}-->
+                      </span>
                       <!--<span *ngFor="let a of resourceInfo.targetUsers.split(',')" class="uk-label uk-label-primary uk-margin-small-right">{{a}}</span>-->
                     </div>
 
@@ -513,11 +513,9 @@
                   <div class="symbolAndProvider uk-card-body uk-text-center">
 
                     <a (click)="this.router.service(resourceInfo.id)">
-                                            <span>
-                                                <img
-                                                  src="{{resourceInfo.symbol || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
-                                                  style="height: 51px;">
-                                            </span>
+                      <span>
+                        <img src="{{resourceInfo.symbol || 'http://fvtelibrary.com/img/user/NoLogo.png'}}" style="height: 51px;">
+                      </span>
                     </a>
                     <!--<span class="provider">{{resourceInfo.providers[0] | uppercase}}</span>-->
                   </div>
@@ -559,22 +557,21 @@
       </div>
 
       <!-- RIGHT HELP CONTENT -->
-      <aside-help-content #rightHelperContent [position]="'right'"
+      <app-aside-help-content #rightHelperContent [position]="'right'"
                           [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-      </aside-help-content>
+      </app-aside-help-content>
 
     </div>
 
     <!-- BOTTOM HELP CONTENT -->
-    <help-content #bottomHelperContent [position]="'bottom'"
+    <app-help-content #bottomHelperContent [position]="'bottom'"
                   [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-    </help-content>
+    </app-help-content>
 
   </div>
 </div>
 
-<div *ngIf="canAddOrEditService" class="uk-float-right"
-     style="z-index: 100; bottom: 45px; position: fixed; right: 45px;">
+<div *ngIf="canAddOrEditService" class="uk-float-right" style="z-index: 100; bottom: 45px; position: fixed; right: 45px;">
   <a [routerLink]="['/upload']" style="padding: 30px;" class="uk-icon-button uk-button-secondary">
     <i class="fa fa-plus"></i>
     <!--<span class="uk-icon" uk-icon="icon: plus; ratio: 1.5">-->

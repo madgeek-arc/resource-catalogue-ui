@@ -1,12 +1,9 @@
-/**
- * Created by stefania on 1/19/17.
- */
-import {Component} from "@angular/core";
+import {Component} from '@angular/core';
 
 @Component({
-    selector: "footer",
-    templateUrl: "./footer.component.html",
-    styleUrls: ["./footer.component.css"]
+  selector: 'app-footer-aire',
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.css']
 })
 export class FooterComponent {
 }

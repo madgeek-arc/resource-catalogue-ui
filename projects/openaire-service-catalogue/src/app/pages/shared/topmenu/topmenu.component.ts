@@ -1,74 +1,71 @@
-/**
- * Created by stefania on 7/5/16.
- */
-import { Component, ViewEncapsulation } from "@angular/core";
-import { AuthenticationService } from "../../services/authentication.service";
-import { Router } from "@angular/router";
-import {Subscription} from "rxjs/Subscription";
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {AuthenticationService} from '../../../../../../../src/app/services/authentication.service';
+import {Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
-    selector: "top-menu",
-    templateUrl: "./topmenu.component.html",
-    styles: [`
-        .uk-navbar-nav > li > a.loginLink {
-            color: #214c9c;
-        }
-    `],
-    encapsulation: ViewEncapsulation.None
+  selector: 'app-top-menu-aire',
+  templateUrl: './topmenu.component.html',
+  styles: [`
+    .uk-navbar-nav > li > a.loginLink {
+      color: #214c9c;
+    }
+  `],
+  encapsulation: ViewEncapsulation.None
 })
-export class TopMenuComponent {
+export class TopMenuComponent implements OnInit, OnDestroy {
 
-    private sub: Subscription;
+  private sub: Subscription;
 
-    constructor(public authenticationService: AuthenticationService, public route: Router) {
+  constructor(public authenticationService: AuthenticationService, public route: Router) {
+  }
+
+  ngOnInit(): void {
+    this.isLoggedIn();
+    this.getUsername();
+    this.getUsersurname();
+  }
+
+  ngOnDestroy(): void {
+    if (this.authenticationService.isLoggedIn()) {
+      this.sub.unsubscribe();
     }
+  }
 
-    ngOnInit(): void {
-        this.isLoggedIn();
-        this.getUsername();
-        this.getUsersurname();
-    }
+  goToLoginAAI(): void {
+    this.authenticationService.login();
+  }
 
-    ngOnDestroy(): void {
-        if (this.authenticationService.isLoggedIn()) {
-            this.sub.unsubscribe();
-        }
-    }
+  isLoggedIn() {
+    return this.authenticationService.isLoggedIn();
+  }
 
-    goToLoginAAI(): void {
-        this.authenticationService.login();
+  getUsername() {
+    if (this.authenticationService.isLoggedIn()) {
+      return this.authenticationService.getUserProperty('given_name');
     }
+  }
 
-    isLoggedIn() {
-        return this.authenticationService.isLoggedIn();
+  getUsersurname() {
+    if (this.authenticationService.isLoggedIn()) {
+      return this.authenticationService.getUserProperty('family_name');
     }
+  }
 
-    getUsername() {
-        if (this.authenticationService.isLoggedIn()) {
-            return this.authenticationService.getUserProperty('given_name');
-        }
-    }
+  isProvider() {
+    return this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_PROVIDER');
+  }
 
-    getUsersurname() {
-        if (this.authenticationService.isLoggedIn()) {
-            return this.authenticationService.getUserProperty('family_name');
-        }
-    }
+  isAdmin() {
+    return this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN');
+  }
 
-    isProvider() {
-        return this.authenticationService.getUserProperty('roles').some(x => x === "ROLE_PROVIDER");
-    }
+  get isHome() {
+    return this.route.url === '/home';
+  }
 
-    isAdmin() {
-        return this.authenticationService.getUserProperty('roles').some(x => x === "ROLE_ADMIN");
-    }
-
-    get isHome() {
-        return this.route.url == '/home';
-    }
-
-    onClick(id: string) {
-        var el: HTMLElement = document.getElementById(id);
-        el.classList.remove("uk-open");
-    }
+  onClick(id: string) {
+    const el: HTMLElement = document.getElementById(id);
+    el.classList.remove('uk-open');
+  }
 }

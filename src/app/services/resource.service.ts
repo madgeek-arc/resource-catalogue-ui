@@ -284,6 +284,10 @@ export class ResourceService {
     // return this.getAll("provider");
   }
 
+  getMyServiceProviders() {
+    return this.http.get<Provider[]>(this.base + '/provider/getMyServiceProviders');
+  }
+
   getEU() {
     return this.http.get(this.base + '/vocabulary/countries/EU');
   }
