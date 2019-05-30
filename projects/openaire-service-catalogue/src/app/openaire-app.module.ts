@@ -14,6 +14,10 @@ import {StarRatingModule} from 'angular-star-rating';
 import {ChartModule} from 'angular2-highcharts';
 import {FooterComponent} from './pages/shared/footer/footer.component';
 import {ServiceLandingPageExtendedComponent} from './pages/landingpages/service/service-landing-page-extended.component';
+import {ServiceUploadExtendedComponent} from './pages/eInfraServices/service-upload-extended.component';
+import {ServiceEditExtendedComponent} from './pages/eInfraServices/service-edit-extended.component';
+import {CKEditorModule} from 'ng2-ckeditor';
+import {AccordionSectionAireComponent} from './pages/eInfraServices/accordion-section-aire.component';
 
 @NgModule({
   declarations: [
@@ -21,9 +25,13 @@ import {ServiceLandingPageExtendedComponent} from './pages/landingpages/service/
     HomeAireComponent,
     SearchAireComponent,
     ServiceLandingPageExtendedComponent,
+    ServiceUploadExtendedComponent,
+    ServiceEditExtendedComponent,
     // PERSISTENT
     FooterComponent,
-    TopMenuComponent
+    TopMenuComponent,
+    // FORMS
+    AccordionSectionAireComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +42,8 @@ import {ServiceLandingPageExtendedComponent} from './pages/landingpages/service/
     ReusableComponentsModule,
     SharedModule,
     StarRatingModule.forRoot(),
-    ChartModule
+    ChartModule,
+    CKEditorModule,
   ],
   providers: [],
   bootstrap: [OpenaireAppComponent]
