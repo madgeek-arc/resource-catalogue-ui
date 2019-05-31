@@ -168,24 +168,6 @@ export class ServiceFormComponent implements OnInit {
   onSubmit(service: Service, isValid: boolean) {
     this.errorMessage = '';
 
-    /** Pre submit check and clean **/
-    // service.url = ServiceFormComponent.checkUrl(this.serviceForm.get('url').value);
-    // service.symbol = this.logoCheckUrl(this.serviceForm.get('symbol').value);
-    // this.serviceForm.get('symbol').setValue(service.symbol); // update field in order for logo to display properly
-    // service.multimediaURL = ServiceFormComponent.checkUrl(this.serviceForm.get('multimediaURL').value);
-    // service.order = ServiceFormComponent.checkUrl(this.serviceForm.get('order').value);
-    // service.helpdesk = ServiceFormComponent.checkUrl(this.serviceForm.get('helpdesk').value);
-    // service.userManual = ServiceFormComponent.checkUrl(this.serviceForm.get('userManual').value);
-    // service.trainingInformation = ServiceFormComponent.checkUrl(this.serviceForm.get('trainingInformation').value);
-    // service.feedback = ServiceFormComponent.checkUrl(this.serviceForm.get('feedback').value);
-    // service.serviceLevelAgreement = ServiceFormComponent.checkUrl(this.serviceForm.get('serviceLevelAgreement').value);
-    // service.price = ServiceFormComponent.checkUrl(this.serviceForm.get('price').value);
-    // for (let i = 0; i < service['termsOfUse'].length; i++) {
-    //     service['termsOfUse'][i]['entry'] = ServiceFormComponent.checkUrl(service['termsOfUse'][i]['entry']);
-    // }
-    // this.logoUrlWorks = this.imageExists(service.symbol);
-
-
     /** if valid submit **/
     if (isValid && !this.logoError && this.logoUrlWorks) {
       // console.log(service);
@@ -395,12 +377,7 @@ export class ServiceFormComponent implements OnInit {
       indicatorPage => this.indicators = indicatorPage,
       error => this.errorMessage = error,
       () => {
-        this.idArray = [];
-        for (let i = 0; i < this.indicators.results.length; i++) {
-          this.idArray.push(this.indicators.results[i].id);
-        }
-        this.idArray.sort((a, b) => 0 - (a > b ? -1 : 1));
-        // console.log(this.indicators);
+        this.indicators.results.sort((a, b) => 0 - (a.id > b.id ? -1 : 1));
       }
     );
   }

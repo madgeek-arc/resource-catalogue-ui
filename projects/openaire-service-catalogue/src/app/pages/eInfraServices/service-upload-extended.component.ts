@@ -6,6 +6,6 @@ import {ServiceUploadComponent} from '../../../../../../src/app/pages/eInfraServ
   templateUrl: 'service-form.component.html'
 })
 
-export class ServiceUploadExtendedComponent extends ServiceUploadComponent {
+export class  ServiceUploadExtendedComponent extends ServiceUploadComponent {
 
 }

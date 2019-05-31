@@ -280,12 +280,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
       indicatorPage => this.indicators = indicatorPage,
       error => this.errorMessage = error,
       () => {
-        this.idArray = [];
-        for (let i = 0; i < this.indicators.results.length; i++) {
-          this.idArray.push(this.indicators.results[i].id);
-        }
-        this.idArray.sort((a, b) => 0 - (a > b ? -1 : 1));
-        // console.log(this.indicators);
+        this.indicators.results.sort((a, b) => 0 - (a.id > b.id ? -1 : 1));
       }
     );
   }
