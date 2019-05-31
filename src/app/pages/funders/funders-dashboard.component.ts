@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
+import {PremiumSortFundersPipe} from '../../shared/pipes/premium-sort.pipe';
 import {FunderService} from '../../services/funder.service';
 import {FundersPage} from '../../domain/funders-page';
 import {Funder} from '../../domain/eic-model';
 import {map} from 'rxjs/operators';
-import {PremiumSortFundersPipe} from "../../shared/pipes/premium-sort.pipe";
 
 
 @Component({
@@ -22,6 +22,7 @@ export class FundersDashboardComponent implements OnInit {
 
   chartStats: any[] = [];
   displayWidth: any[] = [];
+  showGraphicCharts: any[] = [];
 
   constructor(private funderService: FunderService) {
   }
@@ -65,7 +66,6 @@ export class FundersDashboardComponent implements OnInit {
   }
 
   getChartData(funderId: string) {
-    // this.setCategoriesStats(funderId); // get bar charts, optimize this for deploy
     this.loading = true;
     this.funderService.getFunderStats(funderId).pipe(map(data => {
       return Object.entries(data).map((key) => {
@@ -92,85 +92,97 @@ export class FundersDashboardComponent implements OnInit {
 
   setChartStats(data: any, position: number, title: string) {
     this.displayWidth[position] = true;
-    if (title === 'Categories' || title === 'Subcategories' || title === 'Providers') {
-      const barNames = [];
-      const values = [];
-      for (const i in data) {
-        barNames.push(data[i].name);
-        values.push(data[i].y);
-      }
-      // console.log(barNames);
-      // console.log(values);
-      let type = 'bar';
-      if (title === 'Subcategories' || title === 'Providers') {
-        type = 'column';
-        if (barNames.length >= 15) {
-          this.displayWidth[position] = false;
+    // if (data.length > 2) {
+    //   this.showGraphicCharts[position] = ['true'];
+      if (title === 'Categories' || title === 'Subcategories' || title === 'Providers') {
+        const barNames = [];
+        const values = [];
+        for (const i in data) {
+          if (data.hasOwnProperty(i)) {
+            barNames.push(data[i].name);
+            values.push(data[i].y);
+          }
         }
-      }
+        let type = 'bar';
+        if (title === 'Subcategories' || title === 'Providers') {
+          type = 'column';
+          if (barNames.length >= 15) {
+            this.displayWidth[position] = false;
+          }
+        }
 
-      this.chartStats[position] = {
-        chart: {
-          type: type
-        },
-        title: {
-          text: title
-        },
-        xAxis: {
-          categories: barNames,
-          title: {
-            text: null
-          }
-        },
-        yAxis: {
-          min: 0,
-          title: {
-            text: 'Number of services',
-            align: 'high'
-          },
-          labels: {
-            overflow: 'justify'
-          }
-        },
-        plotOptions: {
-          bar: {
-            dataLabels: {
-              enabled: true
+        this.chartStats[position] = {
+          chart: {
+            style: {
+              fontFamily: '',
             },
-            pointWidth: 10,
+            type: type
           },
-          column: {
-            pointWidth: 10,
-          }
-        },
-        series: [{
-          name: 'Services',
-          data: values
-        }]
-      };
+          title: {
+            text: title
+          },
+          xAxis: {
+            categories: barNames,
+            title: {
+              text: null
+            }
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: 'Number of services',
+              align: 'high'
+            },
+            labels: {
+              overflow: 'justify'
+            }
+          },
+          plotOptions: {
+            bar: {
+              dataLabels: {
+                enabled: true
+              },
+              pointWidth: 10,
+            },
+            column: {
+              pointWidth: 10,
+            }
+          },
+          series: [{
+            name: 'Services',
+            data: values
+          }]
+        };
 
-    } else if (data) {
-      this.chartStats[position] = {
-        chart: {
-          plotBackgroundColor: null,
-          plotBorderWidth: null,
-          plotShadow: false,
-          type: 'pie'
-        },
-        plotOptions: {
-          pie: {
-            size: '75%'
-          }
-        },
-        title: {
-          text: title
-        },
-        series: [{
-          name: title + ' of funded services',
-          data: data
-        }]
-      };
-    }
+      } else if (data) {
+        this.chartStats[position] = {
+          chart: {
+            plotBackgroundColor: null,
+            style: {
+              fontFamily: '',
+            },
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+          },
+          plotOptions: {
+            pie: {
+              size: '75%'
+            }
+          },
+          title: {
+            text: title
+          },
+          series: [{
+            name: title + ' of funded services',
+            data: data
+          }]
+        };
+      }
+    // } else {
+    //   this.showGraphicCharts[position] = ['false', title];
+    //   this.chartStats[position] = data;
+    // }
   }
 
 }

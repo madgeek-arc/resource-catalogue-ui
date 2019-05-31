@@ -35,7 +35,6 @@
                             <div class="uk-child-width-expand uk-grid-medium uk-flex-middle uk-grid uk-grid-stack"
                                  uk-grid="">
                               <div class="uk-width-1-2@m uk-first-column">
-                                <!--<img src="{{funder.logo || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"-->
                                 <img src="../../../assets/images/Funders.png" class="el-image uk-border-rounded">
                               </div>
                               <div class="uk-width-1-2@m uk-padding-remove serviceTitle">
@@ -77,10 +76,15 @@
                 <div *ngIf="!loading" class="uk-width-4-5">
                   <div class="uk-width-1-1 uk-grid">
                     <div *ngFor="let chart of chartStats; let i=index" class="uk-margin-bottom"
-                         [ngClass]="{'uk-width-1-2@m': displayWidth[i], 'uk-width-1-1@m': !displayWidth[i]}">
-                      <div style="width:100%; height: max-content" *ngIf="chart">
+                         [ngClass]="{'uk-width-1-2': displayWidth[i], 'uk-width-1-1': !displayWidth[i]}">
+
+                      <div *ngIf="chart" style="width:100%; height: max-content">
                         <chart [options]="chart"></chart>
                       </div>
+<!--                      <div *ngIf="showGraphicCharts[i][0] === 'false'">-->
+<!--                        <h4 >{{showGraphicCharts[i][1]}}</h4>-->
+<!--                        {{chart | json}}-->
+<!--                      </div>-->
                     </div>
                   </div>
                 </div>

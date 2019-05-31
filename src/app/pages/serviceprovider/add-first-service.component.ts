@@ -29,6 +29,7 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
     this.firstServiceForm = true;
     this.providerId = this.route.snapshot.paramMap.get('id');
     this.serviceId = this.route.snapshot.paramMap.get('serviceId');
+    console.log(this.serviceId);
     this.getFieldAsFormArray('providers').get([0]).setValue(this.providerId);
     if (this.serviceId) {
       this.editMode = true;
@@ -50,8 +51,11 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
             this.location.back();
         }*/
       });
-      this.resourceService.getServiceMeasurements(this.serviceID).subscribe(measurements => {
+      this.resourceService.getServiceMeasurements(this.serviceId).subscribe(measurements => {
         this.measurementsFormPatch(measurements);
+        if (this.measurements.length === 0) {
+          this.pushToMeasurements();
+        }
       });
     }
   }

@@ -169,16 +169,16 @@ export class ServiceFormComponent implements OnInit {
     this.errorMessage = '';
 
     /** if valid submit **/
-    if (isValid && !this.logoError && this.logoUrlWorks) {
+    if (isValid) {
       // console.log(service);
       console.log('pristine: ' + this.serviceForm.pristine);
-      if (this.servicePostSuccess && this.serviceForm.pristine) {
+      if (this.serviceForm.pristine) {
         this.postMeasurement(this.serviceID);
       } else {
         this.resourceService.uploadService(service, this.editMode)
           .subscribe(_service => {
               this.serviceID = _service.id;
-              this.servicePostSuccess = true;
+              // this.servicePostSuccess = true;
               this.serviceForm.markAsPristine();
               this.postMeasurement(_service.id);
             },
@@ -262,11 +262,11 @@ export class ServiceFormComponent implements OnInit {
           this.setAsTouched_(control_ as FormGroup, ret[control]);
         } else {
           if (control_.enabled && !control_.valid) {
-            console.log(control);
+            // console.log(control);
             ret[control] = control_.valid;
             (control_ as FormGroup).markAsDirty();
             (control_ as FormGroup).markAsTouched();
-            console.log(control, form.controls[control].valid);
+            // console.log(control, form.controls[control].valid);
           }
         }
       }
@@ -439,6 +439,11 @@ export class ServiceFormComponent implements OnInit {
   postMeasurement(serviceId: string) {
     if (this.measurements.length > 0) {
       for (let i = 0; i < this.measurements.length; i++) {
+        console.log(i + ' = ' + this.measurements.controls[i].untouched);
+        if (this.measurements.controls[i].untouched && this.measurements.controls[i].get('indicatorId').value === '') {
+          this.removeFroMeasurements(i);
+          continue;
+        }
         this.measurements.controls[i].get('serviceId').setValue(serviceId);
       }
       // console.log(this.measurementForm.controls);
@@ -464,7 +469,7 @@ export class ServiceFormComponent implements OnInit {
     }
   }
 
-  /** **/
+  /** INDICATORS **/
 
   checkUrl(url: string) {
     if (url !== '') {

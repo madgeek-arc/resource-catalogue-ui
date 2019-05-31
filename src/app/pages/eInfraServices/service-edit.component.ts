@@ -54,6 +54,9 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     });
     this.resourceService.getServiceMeasurements(this.serviceID).subscribe(measurements => {
       this.measurementsFormPatch(measurements);
+      if (this.measurements.length === 0) {
+        this.pushToMeasurements();
+      }
     });
   }
 
