@@ -391,7 +391,6 @@
             "polyfills": "projects/catris/src/polyfills.ts",
             "tsConfig": "projects/catris/tsconfig.app.json",
             "assets": [
-              "projects/catris/src/favicon.ico",
               "projects/catris/src/assets"
             ],
             "styles": [
