@@ -171,7 +171,8 @@ export class ServiceFormComponent implements OnInit {
     /** if valid submit **/
     if (isValid) {
       // console.log(service);
-      console.log('pristine: ' + this.serviceForm.pristine);
+      // console.log('pristine: ' + this.serviceForm.pristine);
+      // console.log('dirty: ' + this.serviceForm.dirty);
       if (this.serviceForm.pristine) {
         this.postMeasurement(this.serviceID);
       } else {
@@ -437,7 +438,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   postMeasurement(serviceId: string) {
-    if (this.measurements.length > 0) {
+    // if (this.measurements.length > 0) {
       for (let i = 0; i < this.measurements.length; i++) {
         console.log(i + ' = ' + this.measurements.controls[i].untouched);
         if (this.measurements.controls[i].untouched && this.measurements.controls[i].get('indicatorId').value === '') {
@@ -448,7 +449,7 @@ export class ServiceFormComponent implements OnInit {
       }
       // console.log(this.measurementForm.controls);
       if (this.measurementForm.valid) {
-        this.resourceService.postMeasurementUpdateAll(this.measurements.value)
+        this.resourceService.postMeasurementUpdateAll(serviceId, this.measurements.value)
           .subscribe(
             res => this.router.service(serviceId),
             error => { // on measurement post error
@@ -462,11 +463,11 @@ export class ServiceFormComponent implements OnInit {
       } else {
         this.validateMeasurements();
         window.scrollTo(0, 0);
-        this.errorMessage = 'Please fill in all underlined fields at Indicator section';
+        this.errorMessage = 'Please fill all underlined fields at Indicator section';
       }
-    } else {
-      this.router.service(serviceId);
-    }
+    // } else {
+    //   this.router.service(serviceId);
+    // }
   }
 
   /** INDICATORS **/

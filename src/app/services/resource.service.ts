@@ -236,8 +236,11 @@ export class ResourceService {
       .pipe(catchError(this.handleError));
   }
 
-  postMeasurementUpdateAll(measurement: Measurement[]) {
-    return this.http.post(this.base + '/measurement/updateAll', measurement, this.options);
+  postMeasurementUpdateAll(id: string, measurement: Measurement[]) {
+    let params = new HttpParams();
+    params = params.append('serviceId', id);
+    // const options = {params, withCredentials: true};
+    return this.http.post(this.base + '/measurement/updateAll', measurement, {params, withCredentials: true});
   }
   /** Service Measurements **/
 
