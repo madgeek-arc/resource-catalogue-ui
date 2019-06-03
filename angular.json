@@ -374,6 +374,131 @@
           }
         }
       }
+    },
+    "catris": {
+      "root": "projects/catris/",
+      "sourceRoot": "projects/catris/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/catris",
+            "index": "projects/catris/src/index.html",
+            "main": "projects/catris/src/main.ts",
+            "polyfills": "projects/catris/src/polyfills.ts",
+            "tsConfig": "projects/catris/tsconfig.app.json",
+            "assets": [
+              "projects/catris/src/favicon.ico",
+              "projects/catris/src/assets"
+            ],
+            "styles": [
+              "projects/catris/src/styles.css",
+              "node_modules/font-awesome/css/font-awesome.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/uikit/dist/js/uikit.min.js",
+              "node_modules/uikit/dist/js/uikit-icons.min.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/catris/src/environments/environment.ts",
+                  "with": "projects/catris/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "catris:build",
+            "port": 3000
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "catris:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "catris:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/catris/src/test.ts",
+            "polyfills": "projects/catris/src/polyfills.ts",
+            "tsConfig": "projects/catris/tsconfig.spec.json",
+            "karmaConfig": "projects/catris/karma.conf.js",
+            "styles": [
+              "projects/catris/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/catris/src/favicon.ico",
+              "projects/catris/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/catris/tsconfig.app.json",
+              "projects/catris/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "catris-e2e": {
+      "root": "projects/catris-e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/catris-e2e/protractor.conf.js",
+            "devServerTarget": "catris:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "catris:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/catris-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "eic-platform"

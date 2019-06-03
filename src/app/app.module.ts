@@ -129,7 +129,10 @@ export function highchartsFactory() {
     FunderService
   ],
   exports: [
-    FooterComponent
+    FooterComponent,
+    TopMenuComponent,
+    BreadcrumbsComponent,
+    FeedbackComponent
   ],
   bootstrap: [AppComponent]
 })

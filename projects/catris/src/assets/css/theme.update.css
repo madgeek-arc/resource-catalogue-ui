@@ -1,0 +1,78 @@
+/*
+ * Version 1.3.9
+ */
+
+.tm-header-transparent {
+    position: absolute;
+    z-index: 980;
+    width: 100%;
+}
+
+.uk-sticky-fixed {
+    z-index: 980;
+    box-sizing: border-box;
+    margin: 0 !important;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+/*
+ * Version 1.5.0
+ */
+
+.uk-offcanvas-reveal {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    overflow: hidden;
+    clip: auto;
+    -webkit-transform: none;
+    transform: none;
+    -webkit-transition: width .3s ease-out;
+    transition: width .3s ease-out;
+}
+
+.uk-offcanvas-reveal .uk-offcanvas-bar {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+}
+
+.uk-open > .uk-offcanvas-reveal {
+    clip: auto;
+    width: 270px;
+}
+
+.uk-offcanvas-flip .uk-offcanvas-reveal {
+    right: 0;
+    left: auto;
+}
+
+.uk-offcanvas-close {
+    position: absolute;
+    z-index: 1000;
+    top: 20px;
+    right: 20px;
+    padding: 5px;
+}
+
+.uk-offcanvas-container, .uk-offcanvas-page { overflow-x: hidden; }
+
+.uk-offcanvas-container-overlay { overflow: hidden; }
+
+.uk-offcanvas-container .uk-offcanvas-content {
+    position: relative;
+    left: 0;
+    -webkit-transition: left .3s ease-out;
+    transition: left .3s ease-out;
+    -webkit-overflow-scrolling: touch;
+}
+
+.uk-offcanvas-overlay .uk-offcanvas-content { overflow-y: hidden; }
+
+:not(.uk-offcanvas-flip) > .uk-offcanvas-content-animation { left: 270px; }
+.uk-offcanvas-flip > .uk-offcanvas-content-animation { left: -270px; }
+
+.uk-margin-auto-top { margin-top: auto !important; }
+.uk-margin-auto-bottom { margin-bottom: auto !important; }
