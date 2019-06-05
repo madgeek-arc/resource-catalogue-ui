@@ -123,7 +123,14 @@
             </div>
             <div *ngIf="listViewActive" class="uk-grid-margin-small">
 
-              <ng-container *ngFor="let resourceInfo of searchResults.results; let i = index">
+              <div *ngIf="loading" class="uk-card-body uk-animation-fade">
+                <div class="uk-text-center serviceDetails">
+                  <div class="uk-padding-large" uk-spinner="ratio: 3" style="color: rgb(33, 76, 156)"></div>
+                </div>
+              </div>
+
+              <div *ngIf="!loading">
+                <ng-container *ngFor="let resourceInfo of searchResults.results; let i = index">
 
                 <div class="serviceDetails uk-margin-small-bottom">
 
@@ -204,6 +211,8 @@
                   </div>
                 </div>
               </ng-container>
+              </div>
+
             </div>
 
             <div class="uk-width-1-1 uk-row-first">

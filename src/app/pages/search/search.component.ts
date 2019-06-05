@@ -40,6 +40,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   foundResults = true;
   advanced = false;
   providers: any;
+  loading = false;
 
   listViewActive = true;
 
@@ -87,10 +88,15 @@ export class SearchComponent implements OnInit, OnDestroy {
         // this.navigationService.paramsObservable.next(this.urlParameters);
 
         // request results from the registry
+        console.log('Search started!');
+        this.loading = true;
         return this.resourceService.search(this.urlParameters).subscribe(
           searchResults => this.updateSearchResults(searchResults),
           error => {},
-          // () => console.log(this.searchResults)
+          () => {
+            this.loading = false;
+            console.log('Search finished');
+          }
         );
 
       });
