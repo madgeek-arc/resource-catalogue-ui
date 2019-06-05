@@ -40,11 +40,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   foundResults = true;
   advanced = false;
   providers: any;
-  // vocabularies: any;
 
   listViewActive = true;
-
-  obsTimer = timer(1000);
 
   constructor(public fb: FormBuilder, public router: NavigationService, public route: ActivatedRoute,
               public userService: UserService, public resourceService: ResourceService,
