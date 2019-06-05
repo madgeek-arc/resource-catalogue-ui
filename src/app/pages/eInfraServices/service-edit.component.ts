@@ -46,7 +46,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
           this.serviceForm.get('validFor').setValue(validForDate);
         }
         this.serviceForm.markAsPristine();
-
         /*} else {
             this.location.back();
         }*/
@@ -58,6 +57,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
         this.pushToMeasurements();
       }
     });
+    this.serviceForm.markAsPristine();
   }
 
   formPrepare(service: Service) {
