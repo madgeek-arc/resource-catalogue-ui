@@ -172,7 +172,6 @@ export class ServiceFormComponent implements OnInit {
     if (isValid) {
       // console.log(service);
       // console.log('pristine: ' + this.serviceForm.pristine);
-      // console.log('dirty: ' + this.serviceForm.dirty);
       if (this.serviceForm.pristine) {
         this.postMeasurement(this.serviceID);
       } else {
@@ -180,12 +179,12 @@ export class ServiceFormComponent implements OnInit {
           .subscribe(_service => {
               this.serviceID = _service.id;
               // this.servicePostSuccess = true;
-              this.serviceForm.markAsPristine();
               this.postMeasurement(_service.id);
             },
             error => {
               window.scrollTo(0, 0);
               this.errorMessage = error.error.error;
+              this.serviceForm.markAsPristine();
             },
           );
       }
@@ -237,7 +236,10 @@ export class ServiceFormComponent implements OnInit {
         this.languagesVocIdArray = valuesPipe.transform(this.languagesVocabulary.entries);
       },
       error => {},
-      () => this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1)));
+      () => {
+        this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
+      }
+    );
 
     this.serviceForm.get('subcategory').disable();
     const subscription = this.serviceForm.get('category').valueChanges.subscribe(() => {
@@ -440,7 +442,7 @@ export class ServiceFormComponent implements OnInit {
   postMeasurement(serviceId: string) {
     // if (this.measurements.length > 0) {
       for (let i = 0; i < this.measurements.length; i++) {
-        console.log(i + ' = ' + this.measurements.controls[i].untouched);
+        // console.log(i + ' = ' + this.measurements.controls[i].untouched);
         if (this.measurements.controls[i].untouched && this.measurements.controls[i].get('indicatorId').value === '') {
           this.removeFroMeasurements(i);
           continue;
@@ -456,9 +458,9 @@ export class ServiceFormComponent implements OnInit {
               window.scrollTo(0, 0);
               this.errorMessage = error.error.error;
               this.serviceForm.get('id').setValue(serviceId);
-              this.serviceForm.markAsPristine();
               this.editMode = true;
             },
+            () => {}
           );
       } else {
         this.validateMeasurements();
