@@ -5,9 +5,6 @@
       <div class="uk-width-1-1@m uk-first-column">
         <!--<h1 class="uk-h2">FAQs</h1>-->
         <!--<h3 class="uk-h2">{{editMode ? "Edit":"Add"}} an eInfraCentral service</h3>-->
-        <h2 class="uk-text-center uk-h2 uk-scrollspy-inview uk-animation-slide-bottom-small" uk-scrollspy-class="" style="">
-          {{editMode ? "Edit an":"Add a new"}} OpenAIRE service
-        </h2>
         <!--<hr class="uk-divider-icon uk-scrollspy-inview uk-animation-slide-bottom-small" uk-scrollspy-class="" style="">-->
         <!--<hr class="uk-divider-small">-->
 
@@ -16,6 +13,9 @@
                           [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
         </app-help-content>
         <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+          <h2 class="uk-text-center uk-h2 uk-scrollspy-inview uk-animation-slide-bottom-small" uk-scrollspy-class="" style="">
+            {{editMode ? "Edit an":"Add a new"}} OpenAIRE service
+          </h2>
           <div class="uk-grid">
             <!-- LEFT HELP CONTENT -->
             <app-aside-help-content #leftHelperContent [position]="'left'"
