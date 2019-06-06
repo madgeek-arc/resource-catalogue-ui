@@ -389,6 +389,7 @@
               <span class="infoDescription">{{service.availability}}</span>
             </div>
           </div>
+
           <h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">See also</h4>
           <hr class="customDivider">
           <!--<dl class="uk-description-list">-->
@@ -396,7 +397,11 @@
             <dt class="infoTitle uk-margin-small-right">Required services</dt>
             <!--<dt class="uk-margin-small-bottom">Required services</dt>-->
             <dd *ngFor="let requiredService of service.requiredServices">
-              <a (click)="this.router.service(getPrettyService(requiredService).id)">{{getPrettyService(requiredService).name}}</a>
+              <div *ngIf="getPrettyService(requiredService).name === 'Name not found!'">
+                <a> {{requiredService}}</a>
+              </div>
+              <a *ngIf="getPrettyService(requiredService).name !== 'Name not found!'"
+                 (click)="this.router.service(getPrettyService(requiredService).id)">{{getPrettyService(requiredService).name}}</a>
             </dd>
           </ng-container>
           <ng-container *ngIf="!service.requiredServices || service.requiredServices.length == 0">
@@ -408,7 +413,11 @@
           <ng-container *ngIf="service.relatedServices && service.relatedServices.length>0">
             <dt class="infoTitle uk-margin-small-right">Related services</dt>
             <dd *ngFor="let relatedService of service.relatedServices">
-              <a (click)="this.router.service(getPrettyService(relatedService).id)">{{getPrettyService(relatedService).name}}</a>
+              <div *ngIf="getPrettyService(relatedService).name === 'Name not found!'">
+                <a> {{relatedService}}</a>
+              </div>
+              <a *ngIf="getPrettyService(relatedService).name !== 'Name not found!'"
+                 (click)="this.router.service(getPrettyService(relatedService).id)">{{getPrettyService(relatedService).name}}</a>
             </dd>
           </ng-container>
           <ng-container *ngIf="!service.relatedServices || service.relatedServices.length == 0">

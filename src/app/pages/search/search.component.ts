@@ -88,14 +88,12 @@ export class SearchComponent implements OnInit, OnDestroy {
         // this.navigationService.paramsObservable.next(this.urlParameters);
 
         // request results from the registry
-        console.log('Search started!');
         this.loading = true;
         return this.resourceService.search(this.urlParameters).subscribe(
           searchResults => this.updateSearchResults(searchResults),
           error => {},
           () => {
             this.loading = false;
-            console.log('Search finished');
           }
         );
 
