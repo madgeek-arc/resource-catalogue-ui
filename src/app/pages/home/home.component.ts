@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   public viewServices: Service[] = [];
   private step = 4;
   private index = 0;
+  private slideRight: boolean;
 
 
   constructor(public fb: FormBuilder, public router: NavigationService, public resourceService: ResourceService) {
@@ -82,10 +83,12 @@ export class HomeComponent implements OnInit {
   }
 
   next() {
+    this.slideRight = true;
     this.updateServiceList();
   }
 
   previous() {
+    this.slideRight = false;
     this.index = this.index - this.step * 2;
     if (this.index < 0) {
       this.index = this.featuredServices.length + this.index;
