@@ -165,29 +165,74 @@ export class ServiceFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  onSubmit(service: Service, isValid: boolean) {
-    this.errorMessage = '';
+  // onSubmit(service: Service, isValid: boolean) {
+  //   this.errorMessage = '';
+  //
+  //   /** if valid submit **/
+  //   if (isValid) {
+  //     // console.log(service);
+  //     // console.log('pristine: ' + this.serviceForm.pristine);
+  //     if (this.serviceForm.pristine) {
+  //       this.postMeasurement(this.serviceID);
+  //     } else {
+  //       this.resourceService.uploadService(service, this.editMode)
+  //         .subscribe(_service => {
+  //             this.serviceID = _service.id;
+  //             // this.servicePostSuccess = true;
+  //             this.postMeasurement(_service.id);
+  //           },
+  //           error => {
+  //             window.scrollTo(0, 0);
+  //             this.errorMessage = error.error.error;
+  //             this.serviceForm.markAsPristine();
+  //           },
+  //         );
+  //     }
+  //   } else {
+  //     window.scrollTo(0, 0);
+  //     this.setAsTouched();
+  //     this.serviceForm.markAsDirty();
+  //     this.serviceForm.updateValueAndValidity();
+  //     if (!isValid) {
+  //       this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
+  //       if (!this.serviceForm.controls['description'].valid) {
+  //         this.errorMessage += ' Description is an mandatory field.';
+  //       }
+  //     }
+  //     if (this.logoError) {
+  //       this.logoError = false;
+  //       this.serviceForm.controls['symbol'].setErrors({'incorrect': true});
+  //       this.errorMessage += ' Logo url must have https:// prefix.';
+  //     }
+  //     if (!this.logoUrlWorks) {
+  //       this.serviceForm.controls['symbol'].setErrors({'incorrect': true});
+  //       this.errorMessage += ' Logo url doesn\'t point to a valid image.';
+  //     }
+  //   }
+  // }
 
-    /** if valid submit **/
-    if (isValid) {
-      // console.log(service);
-      // console.log('pristine: ' + this.serviceForm.pristine);
-      if (this.serviceForm.pristine) {
-        this.postMeasurement(this.serviceID);
-      } else {
-        this.resourceService.uploadService(service, this.editMode)
-          .subscribe(_service => {
-              this.serviceID = _service.id;
-              // this.servicePostSuccess = true;
-              this.postMeasurement(_service.id);
-            },
-            error => {
-              window.scrollTo(0, 0);
-              this.errorMessage = error.error.error;
-              this.serviceForm.markAsPristine();
-            },
-          );
+  onSubmit (service: Service, isValid: boolean) {
+    this.errorMessage = '';
+    for (let i = 0; i < this.measurements.length; i++) {
+      // console.log(i + ' = ' + this.measurements.controls[i].untouched);
+      if (this.measurements.controls[i].untouched && this.measurements.controls[i].get('indicatorId').value === '') {
+        this.removeFroMeasurements(i);
+        continue;
       }
+      this.measurements.controls[i].get('serviceId').setValue(service.id);
+    }
+    if (isValid) {
+      this.resourceService.uploadServiceWithMeasurements(service, this.measurements.value).subscribe(
+        _service => {
+          console.log(_service);
+          this.router.service(_service.id);
+        },
+        er => {
+          window.scrollTo(0, 0);
+          this.errorMessage = er.error.error;
+          console.log(er);
+        }
+      );
     } else {
       window.scrollTo(0, 0);
       this.setAsTouched();
@@ -198,15 +243,6 @@ export class ServiceFormComponent implements OnInit {
         if (!this.serviceForm.controls['description'].valid) {
           this.errorMessage += ' Description is an mandatory field.';
         }
-      }
-      if (this.logoError) {
-        this.logoError = false;
-        this.serviceForm.controls['symbol'].setErrors({'incorrect': true});
-        this.errorMessage += ' Logo url must have https:// prefix.';
-      }
-      if (!this.logoUrlWorks) {
-        this.serviceForm.controls['symbol'].setErrors({'incorrect': true});
-        this.errorMessage += ' Logo url doesn\'t point to a valid image.';
       }
     }
   }

@@ -325,6 +325,10 @@ export class ResourceService {
       );
   }
 
+  uploadServiceWithMeasurements(service: Service, measurements: Measurement[]) {
+    return this.http.put<Service>(this.base + '/service/serviceWithMeasurements', {service, measurements}, this.options);
+  }
+
   /* TODO: Fix this*/
 
   recordEvent(service: any, type: any, value?: any) {

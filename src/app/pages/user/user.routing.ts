@@ -5,16 +5,6 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {ServiceDashboardComponent} from './dashboard/service-dashboard.component';
 
 const userRoutes: Routes = [
-  /*    {
-          path: "signIn",
-          component: LoginComponent,
-          canActivate: [CanActivateViaPubGuard]
-      },
-      {
-          path: "signUp",
-          component: SignUpComponent,
-          canActivate: [CanActivateViaPubGuard]
-      },*/
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -29,12 +19,7 @@ const userRoutes: Routes = [
     path: 'dashboard/:provider/:id',
     component: ServiceDashboardComponent,
     canActivate: [CanActivateViaAuthGuard]
-  },
-  /*    {
-          path: "activate/:id",
-          component: ActivateComponent,
-          canActivate: [CanActivateViaPubGuard]
-      }*/
+  }
 ];
 
 @NgModule({
