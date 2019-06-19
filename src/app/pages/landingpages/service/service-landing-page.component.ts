@@ -1,3 +1,4 @@
+import {IndicatorsPage, MeasurementsPage} from '../../../domain/indicators';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
@@ -7,7 +8,6 @@ import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
 import {UserService} from '../../../services/user.service';
 import {ServiceProviderService} from '../../../services/service-provider.service';
-import {IndicatorsPage, MeasurementsPage} from '../../../domain/indicators';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SearchResults} from '../../../domain/search-results';
 import {flatMap} from 'rxjs/operators';

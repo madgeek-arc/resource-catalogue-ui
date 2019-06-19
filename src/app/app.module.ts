@@ -46,6 +46,8 @@ import {ServiceFormComponent} from './pages/eInfraServices/service-form.componen
 import {ServiceUploadComponent} from './pages/eInfraServices/service-upload.component';
 import {CKEditorModule} from 'ng2-ckeditor';
 import {ServiceEditComponent} from './pages/eInfraServices/service-edit.component';
+import {MeasurementsComponent} from './pages/indicators/measurements.component';
+import {IndicatorFromComponent} from './pages/indicators/indicator-from.component';
 
 
 declare var require: any;
@@ -91,6 +93,9 @@ export function highchartsFactory() {
     ServiceProvidersListComponent,
     // FUNDERS
     FundersDashboardComponent,
+    // INDICATORS
+    MeasurementsComponent,
+    IndicatorFromComponent,
     // FORMS
     ServiceEditComponent,
     ServiceFormComponent,
