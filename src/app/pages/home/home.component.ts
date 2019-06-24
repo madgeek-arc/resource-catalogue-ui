@@ -3,11 +3,10 @@
  */
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Service, Vocabulary} from '../../domain/eic-model';
+import {NewVocabulary, Service, VocabularyType} from '../../domain/eic-model';
 import {SearchQuery} from '../../domain/search-query';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
-import {SearchResults} from '../../domain/search-results';
 
 @Component({
   selector: 'app-home',
@@ -17,8 +16,7 @@ import {SearchResults} from '../../domain/search-results';
 export class HomeComponent implements OnInit {
 
   public searchForm: FormGroup;
-  public categoriesResults: SearchResults<Vocabulary> = null;
-  public categories: Vocabulary = null;
+  public categories: NewVocabulary[] = null;
   public baseIconURI = './assets/images/icons/';
 
   public featuredServices: Service[] = null;
@@ -34,10 +32,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.resourceService.getVocabulariesByType('CATEGORIES').subscribe(
+    this.resourceService.getNewVocabulariesByType(VocabularyType.CATEGORY).subscribe(
       suc => {
-        this.categoriesResults = suc;
-        this.categories = this.categoriesResults.results[0];
+        this.categories = suc;
       }
     );
 

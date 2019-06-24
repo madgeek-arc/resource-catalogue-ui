@@ -154,6 +154,25 @@ export class VocabularyEntry {
     name: string;
 }
 
+export class NewVocabulary implements Identifiable {
+  id: string;
+  name: string;
+  description: string;
+  parentId: string;
+  type: string;
+  extras: { [index: string]: string };
+}
+
+export enum VocabularyType {
+  SUPERCATEGORY = "SUPERCATEGORY",
+  CATEGORY = "CATEGORY",
+  SUBCATEGORY = "SUBCATEGORY",
+  LANGUAGE = "LANGUAGE",
+  PLACE = "PLACE",
+  TRL = "TRL",
+  LCS = "LCS"
+}
+
 export class URL implements Serializable {
 }
 

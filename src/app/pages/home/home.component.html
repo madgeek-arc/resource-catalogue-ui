@@ -86,22 +86,22 @@
     </div>
 
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
-      <ng-container *ngFor="let entry of categories.entries | values">
-        <div *ngIf="entry!='other'" class="uk-width-1-6@m" (click)="this.router.search({category:entry})">
+      <ng-container *ngFor="let entry of categories">
+        <div *ngIf="entry.id!='other-other'" class="uk-width-1-6@m" (click)="this.router.search({category:entry.id})">
           <div class="wk-panel wk-overlay-hover" style="min-height: 100px;">
 
             <div class="wk-text-center wk-margin wk-margin-top-remove">
               <div class="wk-overlay">
-                <img src="{{baseIconURI+categories.entries[entry].extras['icon']}}"
-                     alt="{{categories.entries[entry].name}}" height="70" style="max-width:70px">
-                <img src="{{baseIconURI+categories.entries[entry].extras['icon_active']}}"
-                     alt="{{categories.entries[entry].name}}" height="70" style="max-width:70px"
+                <img src="{{baseIconURI+entry.extras['icon']}}"
+                     alt="{{entry.name}}" height="70" style="max-width:70px">
+                <img src="{{baseIconURI+entry.extras['icon_active']}}"
+                     alt="{{entry.name}}" height="70" style="max-width:70px"
                      class="wk-overlay-panel wk-overlay-image wk-overlay-fade">
               </div>
             </div>
             <h3 class="wk-h4 wk-margin-top-remove uk-text-center">
               <a class="wk-link-reset" type="button">
-                {{categories.entries[entry].name}}
+                {{entry.name}}
               </a>
             </h3>
           </div>

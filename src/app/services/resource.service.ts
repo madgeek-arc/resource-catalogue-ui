@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
-import {Measurement, Provider, RichService, Service, ServiceHistory, Vocabulary} from '../domain/eic-model';
+import {Measurement, NewVocabulary, Provider, RichService, Service, ServiceHistory, Vocabulary, VocabularyType} from '../domain/eic-model';
 import {IndicatorsPage, MeasurementsPage} from '../domain/indicators';
 import {BrowseResults} from '../domain/browse-results';
 import {SearchResults} from '../domain/search-results';
@@ -99,6 +99,13 @@ export class ResourceService {
     return this.http.get<SearchResults<Vocabulary>>(this.base + `/vocabulary/all?from=0&quantity=1000`);
   }
 
+  getAllVocabulariesByType() {
+    return this.http.get<Map<VocabularyType, Vocabulary[]>>(this.base + `/newVocabulary/byType`);
+  }
+
+  getNewVocabulariesByType(type: string) {
+    return this.http.get<NewVocabulary[]>(this.base + `/newVocabulary/byType/${type}`);
+  }
   getVocabulariesByType(type: string) {
     return this.http.get<SearchResults<Vocabulary>>(this.base + `/vocabulary?type=${type}`);
   }

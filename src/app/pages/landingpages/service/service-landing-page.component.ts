@@ -2,7 +2,7 @@ import {IndicatorsPage, MeasurementsPage} from '../../../domain/indicators';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {Provider, RichService, Vocabulary} from '../../../domain/eic-model';
+import {NewVocabulary, Provider, RichService, Vocabulary, VocabularyType} from '../../../domain/eic-model';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
@@ -42,9 +42,9 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   showForm = false;
   // rangeValue: boolean = false;
   canEditService = false;
-  placesVocabulary: Vocabulary = null;
+  // placesVocabulary: Vocabulary = null;
   placesVocIdArray: string[] = [];
-  places: SearchResults<Vocabulary> = null;
+  places: NewVocabulary[] = null;
   newMeasurementForm: FormGroup;
 
   measurementForm = {
@@ -286,14 +286,16 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   }
 
   getLocations() {
-    this.resourceService.getVocabulariesByType('PLACES').subscribe(
+    this.resourceService.getNewVocabulariesByType(VocabularyType.PLACE).subscribe(
       suc => {
-        const valuesPipe = new ValuesPipe();
         this.places = suc;
-        this.placesVocabulary = this.places.results[0];
-        this.placesVocIdArray = valuesPipe.transform(this.placesVocabulary.entries);
+        this.placesVocIdArray = this.places.map(place => place.id);
       }
     );
+  }
+
+  getPlace(placeId: string) {
+    return this.places.find(value => value.id === placeId);
   }
 
   handleChange(event) {
