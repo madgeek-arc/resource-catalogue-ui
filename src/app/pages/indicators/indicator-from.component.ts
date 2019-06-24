@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ResourceService} from '../../services/resource.service';
 
 @Component({
   selector: 'app-indicator-form',
@@ -11,7 +12,7 @@ export class IndicatorFromComponent implements OnInit {
     id: ['', Validators.required],
     name: ['', Validators.required],
     description: ['', Validators.required],
-    dimension: this.fb.array([
+    dimensions: this.fb.array([
       // this.fb.control('', Validators.required)
     ], Validators.required),
     unit: ['', Validators.required],
@@ -21,14 +22,15 @@ export class IndicatorFromComponent implements OnInit {
   indicatorForm: FormGroup;
   public errorMessage: string;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,
+              private resourceService: ResourceService) {}
 
   ngOnInit(): void {
     this.indicatorForm = this.fb.group(this.formPrepare);
   }
 
   get dimensions() {
-    return this.indicatorForm.get('dimension') as FormArray;
+    return this.indicatorForm.get('dimensions') as FormArray;
   }
 
   handleCheckbox(event) {
@@ -44,13 +46,35 @@ export class IndicatorFromComponent implements OnInit {
     // console.log(this.dimensions.controls);
   }
 
+  handleDropDown(event) {
+    console.log(event.target.value);
+    if (event.target.value === 'boolean') {
+      this.indicatorForm.get('unitName').reset();
+      this.indicatorForm.get('unitName').disable();
+    } else if (event.target.value === 'percentage') {
+      this.indicatorForm.get('unitName').reset();
+      this.indicatorForm.get('unitName').setValue('%');
+      this.indicatorForm.get('unitName').disable();
+    } else {
+      this.indicatorForm.get('unitName').reset();
+      this.indicatorForm.get('unitName').enable();
+    }
+  }
+
   submitIndicator() {
     this.errorMessage = '';
+    this.indicatorForm.get('unitName').enable();
     if (this.indicatorForm.valid) {
-
+      return this.resourceService.postIndicator(this.indicatorForm.value).subscribe(
+        suc => console.log(suc),
+        er => console.log(er),
+      );
     } else {
       window.scroll(0, 0);
       this.errorMessage = 'Please fill in all required fields';
+      if (this.indicatorForm.get('dimensions').invalid) {
+        this.errorMessage = this.errorMessage + '. You should pick at least one dimension';
+      }
       for (const control in this.indicatorForm.controls) {
         // console.log(control);
         this.indicatorForm.get(control).markAsDirty();

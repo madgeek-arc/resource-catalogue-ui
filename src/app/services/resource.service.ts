@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
-import {Measurement, Provider, RichService, Service, ServiceHistory, Vocabulary} from '../domain/eic-model';
+import {Indicator, Measurement, Provider, RichService, Service, ServiceHistory, Vocabulary} from '../domain/eic-model';
 import {IndicatorsPage, MeasurementsPage} from '../domain/indicators';
 import {BrowseResults} from '../domain/browse-results';
 import {SearchResults} from '../domain/search-results';
@@ -102,10 +102,6 @@ export class ResourceService {
   getVocabulariesByType(type: string) {
     return this.http.get<SearchResults<Vocabulary>>(this.base + `/vocabulary?type=${type}`);
   }
-
-  // getVocabulariesUsingGroupBy(type?: string) {
-  //   return this.http.get(this.base + `/vocabulary/by/type`).filter(e => type ? e && e.type && e.type === type : true);
-  // }
 
   idToName(acc: any, v: any) {
     acc[v.id] = v.name;
@@ -244,6 +240,14 @@ export class ResourceService {
   }
   /** Service Measurements **/
 
+  /** Indicators **/
+  postIndicator(indicator: Indicator) {
+    return this.http.post(this.base + '/indicator', indicator, this.options).pipe(
+      catchError(this.handleError)
+    );
+  }
+  /** Indicators **/
+
   groupServicesOfProviderPerPlace(id: string) {
     return this.getServicesOfferedByProvider(id).subscribe(res => {
       const servicesGroupedByPlace = {};
@@ -259,14 +263,6 @@ export class ResourceService {
       return servicesGroupedByPlace;
     });
   }
-
-  // TODO fix this!!!!
-  // getProvidersNames() {
-  //   return this.getAll('provider')
-  //     .pipe(
-  //       map(e => e.results.reduce(this.idToName, {}))
-  //     );
-  // }
 
   getProvidersNames() {
     let params = new HttpParams();
@@ -312,10 +308,6 @@ export class ResourceService {
       places.push(...ww);
     }
     return places;
-  }
-
-  activateUserAccount(id: any) {
-    return this.http.get(this.base + `/user/activate/${id}`);
   }
 
   uploadService(service: Service, shouldPut: boolean) {
