@@ -170,7 +170,7 @@ export enum VocabularyType {
   LANGUAGE = "LANGUAGE",
   PLACE = "PLACE",
   TRL = "TRL",
-  LCS = "LCS"
+  PHASE = "PHASE"
 }
 
 export class URL implements Serializable {

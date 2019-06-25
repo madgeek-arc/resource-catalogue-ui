@@ -140,6 +140,7 @@ export class ServiceFormComponent implements OnInit {
   router: NavigationService = this.injector.get(NavigationService);
   userService: UserService = this.injector.get(UserService);
 
+  // TODO: rename to 'phaseVocabulary'
   public lifeCycleStatusVocabulary: NewVocabulary[] = null;
   public trlVocabulary: NewVocabulary[] = null;
   public superCategoriesVocabulary: NewVocabulary[] = null;
@@ -256,7 +257,7 @@ export class ServiceFormComponent implements OnInit {
         this.relatedServices = this.requiredServices;
         this.getIndicatorIds();
         this.getLocations();
-        this.lifeCycleStatusVocabulary = this.vocabularies[VocabularyType.LCS];
+        this.lifeCycleStatusVocabulary = this.vocabularies[VocabularyType.PHASE];
         this.trlVocabulary = this.vocabularies[VocabularyType.TRL];
         this.superCategoriesVocabulary = this.vocabularies[VocabularyType.SUPERCATEGORY];
         this.categoriesVocabulary = this.vocabularies[VocabularyType.CATEGORY];
