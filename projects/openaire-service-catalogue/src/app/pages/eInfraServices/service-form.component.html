@@ -268,9 +268,9 @@
                           <div class="uk-width-4-5 uk-form-controls">
                             <select formControlName="lifeCycleStatus" class="uk-select"
                                     [ngClass]="{'uk-form-danger': !serviceForm.get('lifeCycleStatus').valid && serviceForm.get('lifeCycleStatus').dirty}">
-                              <option *ngFor="let entry of lifeCycleStatusVocIdArray | sort"
-                                      value="{{lifeCycleStatusVocabulary.entries[entry].id}}">
-                                {{lifeCycleStatusVocabulary.entries[entry].name}}
+                              <option *ngFor="let entry of sortVocabulariesByName(lifeCycleStatusVocabulary)"
+                                      value="{{entry.id}}">
+                                {{entry.name}}
                               </option>
                             </select>
                             <i>
@@ -285,9 +285,9 @@
                           <div class="uk-width-4-5 uk-form-controls">
                             <select formControlName="trl" class="uk-select"
                                     [ngClass]="{'uk-form-danger': !serviceForm.get('trl').valid && serviceForm.get('trl').dirty}">
-                              <option *ngFor="let entry of trlVocIdArray | sort"
-                                      value="{{trlVocabulary.entries[entry].id}}">
-                                {{trlVocabulary.entries[entry].name}}
+                              <option *ngFor="let entry of sortVocabulariesByName(trlVocabulary)"
+                                      value="{{entry.id}}">
+                                {{entry.name}}
                               </option>
                             </select>
                             <i>
@@ -302,9 +302,9 @@
                           <div class="uk-width-4-5 uk-form-controls">
                             <select formControlName="category" class="uk-select"
                                     [ngClass]="{'uk-form-danger': !serviceForm.get('category').valid && serviceForm.get('category').dirty}">
-                              <option *ngFor="let entry of categoriesVocIdArray | sort"
-                                      value="{{categoriesVocabulary.entries[entry].id}}">
-                                {{categoriesVocabulary.entries[entry].name}}
+                              <option *ngFor="let entry of sortVocabulariesByName(categoriesVocabulary)"
+                                      value="{{entry.id}}">
+                                {{entry.name}}
                               </option>
                             </select>
                             <i>
@@ -322,7 +322,7 @@
                               <option *ngIf="!serviceForm.get('category').value">-- no category selected --</option>
                               <ng-container *ngIf="serviceForm.get('category').value">
                                 <option
-                                  *ngFor="let entry of categoriesVocabulary.entries[serviceForm.get('category').value].children"
+                                  *ngFor="let entry of getSortedChildrenCategories(subCategoriesVocabulary, serviceForm.get('category').value)"
                                   value="{{entry.id}}">
                                   {{entry.name}}
                                 </option>
@@ -342,8 +342,8 @@
                               <select *ngIf="providersPage" class="uk-select uk-width-5-6" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('places').get([i]).valid && getFieldAsFormArray('places').get([i]).dirty}">
                                 <option *ngFor="let entry of placesVocIdArray | premiumsort:['EU', 'WW']"
-                                        value="{{placesVocabulary.entries[entry].id}}">
-                                  {{placesVocabulary.entries[entry].name}}
+                                        value="{{getVocabularyById(placesVocabulary, entry).id}}">
+                                  {{getVocabularyById(placesVocabulary, entry).name}}
                                 </option>
                               </select>
                               <a *ngIf="getFieldAsFormArray('places').length > 1"
@@ -370,8 +370,8 @@
                               <select *ngIf="providersPage" class="uk-select uk-width-5-6" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('languages').get([i]).valid && getFieldAsFormArray('languages').get([i]).dirty}">
                                 <option *ngFor="let entry of languagesVocIdArray | premiumsort:['english']"
-                                        value="{{languagesVocabulary.entries[entry].id}}">
-                                  {{languagesVocabulary.entries[entry].name}}
+                                        value="{{getVocabularyById(languagesVocabulary, entry).id}}">
+                                  {{getVocabularyById(languagesVocabulary, entry).name}}
                                 </option>
                               </select>
                               <a *ngIf="getFieldAsFormArray('languages').length > 1"
@@ -633,8 +633,8 @@
                                           <ng-container *ngIf="placesVocabulary">
                                             <option
                                               *ngFor="let placeEntry of placesVocIdArray | premiumsort:['EU','WW']"
-                                              value="{{placesVocabulary.entries[placeEntry].id}}">
-                                              {{placesVocabulary.entries[placeEntry].name}}
+                                              value="{{getVocabularyById(placesVocabulary, placeEntry).id}}">
+                                              {{getVocabularyById(placesVocabulary, placeEntry).name}}
                                             </option>
                                           </ng-container>
                                         </select>

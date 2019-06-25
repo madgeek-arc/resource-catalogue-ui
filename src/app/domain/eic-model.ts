@@ -141,18 +141,18 @@ export class User implements Identifiable {
     surname: string;
 }
 
-export class Vocabulary implements Identifiable {
-    id: string;
-    name: string;
-    entries: { [index: string]: VocabularyEntry };
-}
+// export class Vocabulary implements Identifiable {
+//     id: string;
+//     name: string;
+//     entries: { [index: string]: VocabularyEntry };
+// }
 
-export class VocabularyEntry {
-    children: VocabularyEntry[];
-    extras: { [index: string]: string };
-    id: string;
-    name: string;
-}
+// export class VocabularyEntry {
+//     children: VocabularyEntry[];
+//     extras: { [index: string]: string };
+//     id: string;
+//     name: string;
+// }
 
 export class NewVocabulary implements Identifiable {
   id: string;
@@ -179,9 +179,9 @@ export class URL implements Serializable {
 export class XMLGregorianCalendar implements Cloneable {
 }
 
-export class GenericMap {
-    entries: GenericMapEntry[];
-}
+// export class GenericMap {
+//     entries: GenericMapEntry[];
+// }
 
 export class ExtrasMap {
     entries: Extras[];
@@ -193,10 +193,10 @@ export interface Serializable {
 export interface Cloneable {
 }
 
-export class GenericMapEntry {
-    key: string;
-    value: VocabularyEntry;
-}
+// export class GenericMapEntry {
+//     key: string;
+//     value: VocabularyEntry;
+// }
 
 export class Extras {
     key: string;

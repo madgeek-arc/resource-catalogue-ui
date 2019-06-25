@@ -2,17 +2,15 @@ import {IndicatorsPage, MeasurementsPage} from '../../../domain/indicators';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {NewVocabulary, Provider, RichService, Vocabulary, VocabularyType} from '../../../domain/eic-model';
+import {NewVocabulary, Provider, RichService, VocabularyType} from '../../../domain/eic-model';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
 import {UserService} from '../../../services/user.service';
 import {ServiceProviderService} from '../../../services/service-provider.service';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {SearchResults} from '../../../domain/search-results';
 import {flatMap} from 'rxjs/operators';
 import {zip} from 'rxjs/internal/observable/zip';
-import {ValuesPipe} from '../../../shared/pipes/getValues.pipe';
 
 declare var UIkit: any;
 
