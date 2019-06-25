@@ -47,7 +47,6 @@ export class IndicatorFromComponent implements OnInit {
   }
 
   handleDropDown(event) {
-    console.log(event.target.value);
     if (event.target.value === 'boolean') {
       this.indicatorForm.get('unitName').reset();
       this.indicatorForm.get('unitName').disable();
@@ -61,6 +60,11 @@ export class IndicatorFromComponent implements OnInit {
     }
   }
 
+  unCheck(id: string) {
+    const x = <HTMLInputElement>document.getElementById(id);
+    x.checked = false;
+  }
+
   submitIndicator() {
     this.errorMessage = '';
     this.indicatorForm.get('unitName').enable();
@@ -68,6 +72,12 @@ export class IndicatorFromComponent implements OnInit {
       return this.resourceService.postIndicator(this.indicatorForm.value).subscribe(
         suc => console.log(suc),
         er => console.log(er),
+        () => {
+          this.indicatorForm.reset();
+          this.indicatorForm.get('unit').setValue('');
+          this.unCheck('time');
+          this.unCheck('locations');
+        }
       );
     } else {
       window.scroll(0, 0);
