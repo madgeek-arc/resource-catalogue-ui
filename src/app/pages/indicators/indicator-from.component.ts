@@ -71,7 +71,7 @@ export class IndicatorFromComponent implements OnInit {
     if (this.indicatorForm.valid) {
       return this.resourceService.postIndicator(this.indicatorForm.value).subscribe(
         suc => console.log(suc),
-        er => console.log(er),
+        er => this.errorMessage = er.error.error,
         () => {
           this.indicatorForm.reset();
           this.indicatorForm.get('unit').setValue('');
@@ -92,4 +92,5 @@ export class IndicatorFromComponent implements OnInit {
       }
     }
   }
+
 }
