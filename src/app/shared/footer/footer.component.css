@@ -92,3 +92,12 @@
     margin-top: 25px !important;
     margin-bottom: 30px !important;
 }
+
+.newsletter {
+  color: rgba(255, 255, 255, 0.7) !important;
+  text-decoration: none;
+}
+
+.newsletter:hover {
+  color: #FFFFFF !important;
+}
