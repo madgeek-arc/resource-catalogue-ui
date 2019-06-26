@@ -43,4 +43,18 @@ _The build artifacts will be stored in the `dist/` directory._
 ```
 This should create a duplicate of `eInfraCentral`. <br/>
 
-___In order to display UiKit, FontAwesome, css theme and images correctly, the assets folder of the main project is needed.___
+___In order to display properly the UiKit, FontAwesome, CSS themes and images, do the following:___
+
+1. The assets folder of the main project is needed.
+2. To add  UiKit and FontAwesome to the sub project, insert the following lines at your sub project in the `angular.json` file
+```
+"styles": [
+  "projects/youSubProjecName/src/styles.css",
+  "node_modules/font-awesome/css/font-awesome.css"
+],
+"scripts": [
+  "node_modules/jquery/dist/jquery.min.js",
+  "node_modules/uikit/dist/js/uikit.min.js",
+  "node_modules/uikit/dist/js/uikit-icons.min.js"
+]
+``` 
