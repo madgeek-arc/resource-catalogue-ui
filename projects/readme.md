@@ -1,28 +1,35 @@
-# How to create a new sub project
+# How to create a new Subproject
 
 ## Create
 
-Clone or download repository, navigate to root directory eic-platform-angular6  run `ng generate application yourAppName --routing`. 
+1. Clone or download the repository.
+2. Navigate to the root directory 'eic-platform-angular6' and execute: <br/> 
+`ng generate application yourAppName --routing` <br/>
 This will create a new application, residing right next to the default application.
+
  
 ## Development server
 
-Run `ng serve --project yourAppName` for a dev server. 
-Angular sets the default port to `4200` this can be set by adding the parameter `--port` followed by the desired port number.
-`ng serve --project yourAppName --port 3000`
+* For a dev server, execute: `ng serve --project yourAppName`
+
+ _Angular sets the default port to_ `4200`. _You can set another port using the parameter_ `--port` _followed by the desired port number
+(e.g. `ng serve --project yourAppName --port 3000`)._
 
 ## Build
 
-Run `ng build --project yourAppName` to build the project. The build artifacts will be stored in the `dist/` directory. 
-Use the `--prod` flag for a production build.
+* To build the application, execute: `ng build --project yourAppName`
+* For a production build use the `--prod` flag.
+
+_The build artifacts will be stored in the `dist/` directory._
 
 ## First steps
 
-Firstly the files `app.module.ts` and `app.component.ts` should be renamed in order to avoid conflicts with the respective files in the main application.
-Then import `AppModule` from the main application to the sub projects `renamed.module.ts`. 
-Also extend the `renamed.component.ts` like so `export class RenamedComponent extends AppComponent { }`
+1. Rename the files `app.module.ts` and `app.component.ts` in order to avoid conflicts with the respective files in the main application.
+2. Import `AppModule` from the main application to the subproject's `renamed.module.ts`. 
+3. Open the `renamed.component.ts` file and replace `export class RenamedComponent { ... }`
+ with `export class RenamedComponent extends AppComponent { ... }`.
 
-Now the html can be added. To test that everything has worked so far, replace the content of the `app.component.html` with:
+4. To test that everything has worked so far, replace the content of the `app.component.html` of your subproject with the following code:
 ```
 <div class="uk-offcanvas-content">
  <app-top-menu *ngIf="!isLoginOrRegister"></app-top-menu>
@@ -34,5 +41,6 @@ Now the html can be added. To test that everything has worked so far, replace th
  <app-footer></app-footer>
 </div>
 ```
-This should create an duplicate of `eInfraCentral`, in order to display correctly UiKit, FontAwesome, theme css and images from assets folder are needed.
+This should create a duplicate of `eInfraCentral`. <br/>
 
+___In order to display UiKit, FontAwesome, css theme and images correctly, the assets folder of the main project is needed.___
