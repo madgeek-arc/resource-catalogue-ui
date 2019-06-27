@@ -278,13 +278,13 @@
                   <ng-container *ngIf="service.placeNames && service.placeNames.length>0">
                     <dt class="uk-margin-small-bottom">Places</dt>
                     <dd>
-                      <span>{{service.placeNames | join:", "}}</span>
+                      <span>{{service.placeNames | sort | join:", "}}</span>
                     </dd>
                   </ng-container>
                   <ng-container *ngIf="service.languageNames && service.languageNames.length>0">
                     <dt class="uk-margin-small-bottom">Languages</dt>
                     <dd>
-                      <span>{{service.languageNames | join:", "}}</span>
+                      <span>{{service.languageNames | sort | join:", "}}</span>
                     </dd>
                   </ng-container>
                 </dl>

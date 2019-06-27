@@ -13,12 +13,18 @@ const userRoutes: Routes = [
   {
     path: 'dashboard/:provider',
     component: DashboardComponent,
-    canActivate: [CanActivateViaAuthGuard]
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Provider dashboard'
+    }
   },
   {
     path: 'dashboard/:provider/:id',
     component: ServiceDashboardComponent,
-    canActivate: [CanActivateViaAuthGuard]
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Service dashboard'
+    }
   }
 ];
 
