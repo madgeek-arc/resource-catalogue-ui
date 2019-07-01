@@ -1,17 +1,17 @@
 <div class="tm-header-placeholder uk-margin-remove-adjacent" style="height: 84px;"></div>
 <div class="breadcrumbs">
-    <div class="uk-container uk-container-expand">
-        <div *ngIf="breadcrumbs">
-            <a class="goBackLink" [routerLink]="['/search']" *ngIf="goBack">
-                <img src="../../../assets/images/icons/ic_back_arrow_link.svg" class="uk-margin-small-right">Go Back to Services
-            </a>
-            <ul *ngIf="!goBack" class="uk-breadcrumb">
-                <li *ngFor="let breadcrumb of breadcrumbs; let isLast = last; let i = index;">
-                    <a [routerLink]="[breadcrumb.url, breadcrumb.params]" *ngIf="!isLast" href="">{{breadcrumb.label}}</a>
-                    <span *ngIf="isLast">{{breadcrumb.label}}</span>
-                </li>
-            </ul>
-        </div>
+  <div class="uk-container uk-container-expand">
+    <div *ngIf="breadcrumbs">
+      <a class="goBackLink" [routerLink]="['/search']" *ngIf="goBack">
+        <img src="../../../assets/images/icons/ic_back_arrow_link.svg" class="uk-margin-small-right">Go Back to Services
+      </a>
+      <ul *ngIf="!goBack" class="uk-breadcrumb">
+        <li *ngFor="let breadcrumb of breadcrumbs; let isLast = last; let i = index;">
+          <a [routerLink]="[breadcrumb.url, breadcrumb.params]" *ngIf="!isLast" href="">{{breadcrumb.label}}</a>
+          <span *ngIf="isLast">{{breadcrumb.label}}</span>
+        </li>
+      </ul>
     </div>
+  </div>
 </div>
 
