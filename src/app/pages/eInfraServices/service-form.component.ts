@@ -92,6 +92,7 @@ export class ServiceFormComponent implements OnInit {
     'validFor': [''],
     'lifeCycleStatus': ['', Validators.compose([Validators.required])],
     'trl': ['', Validators.compose([Validators.required])],
+    'supercategory': ['', Validators.required],
     'category': ['', Validators.required],
     'subcategory': ['', Validators.required],
     'places': this.fb.array([
@@ -274,11 +275,17 @@ export class ServiceFormComponent implements OnInit {
       }
     );
 
+    this.serviceForm.get('category').disable();
     this.serviceForm.get('subcategory').disable();
-    const subscription = this.serviceForm.get('category').valueChanges.subscribe(() => {
-      this.serviceForm.get('subcategory').enable();
-      subscription.unsubscribe();
+    const categorySubscription = this.serviceForm.get('supercategory').valueChanges.subscribe(() => {
+      this.serviceForm.get('category').enable();
+      const subCategorySubscription = this.serviceForm.get('category').valueChanges.subscribe(() => {
+        this.serviceForm.get('subcategory').enable();
+        subCategorySubscription.unsubscribe();
+        categorySubscription.unsubscribe();
+      });
     });
+
   }
 
   public setAsTouched() {
