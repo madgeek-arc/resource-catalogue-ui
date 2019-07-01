@@ -53,6 +53,7 @@ export class ServiceFormComponent implements OnInit {
   readonly validForDesc: sd.Description = sd.validForDesc;
   readonly lifeCycleStatusDesc: sd.Description = sd.lifeCycleStatusDesc;
   readonly trlDesc: sd.Description = sd.trlDesc;
+  readonly superCategoryDesc: sd.Description = sd.superCategoryDesc;
   readonly categoryDesc: sd.Description = sd.categoryDesc;
   readonly subcategoryDesc: sd.Description = sd.subcategoryDesc;
   readonly placesDesc: sd.Description = sd.placesDesc;

@@ -300,7 +300,7 @@
                         </div>
                         <div *ngIf="superCategoriesVocabulary" class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
-                            {{'Supercategory' + (categoryDesc.mandatory ? ' (*)' : '')}}
+                            {{superCategoryDesc.label + (superCategoryDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
                             <select formControlName="supercategory" class="uk-select"
@@ -311,7 +311,7 @@
                               </option>
                             </select>
                             <i>
-                              <small>{{categoryDesc.desc}}</small>
+                              <small>{{superCategoryDesc.desc}}</small>
                             </i>
                           </div>
                         </div>
