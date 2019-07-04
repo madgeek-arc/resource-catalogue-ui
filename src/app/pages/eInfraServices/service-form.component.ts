@@ -93,9 +93,12 @@ export class ServiceFormComponent implements OnInit {
     'validFor': [''],
     'lifeCycleStatus': ['', Validators.compose([Validators.required])],
     'trl': ['', Validators.compose([Validators.required])],
-    'supercategory': ['', Validators.required],
-    'category': ['', Validators.required],
-    'subcategory': ['', Validators.required],
+    'categorize': this.fb.array([
+      // this.newCategory()
+    ]),
+    // 'supercategory': ['', Validators.required],
+    // 'category': ['', Validators.required],
+    // 'subcategory': ['', Validators.required],
     'places': this.fb.array([
       this.fb.control('', Validators.required)
     ], Validators.required),
@@ -276,16 +279,20 @@ export class ServiceFormComponent implements OnInit {
       }
     );
 
-    this.serviceForm.get('category').disable();
-    this.serviceForm.get('subcategory').disable();
-    const categorySubscription = this.serviceForm.get('supercategory').valueChanges.subscribe(() => {
-      this.serviceForm.get('category').enable();
-      const subCategorySubscription = this.serviceForm.get('category').valueChanges.subscribe(() => {
-        this.serviceForm.get('subcategory').enable();
-        subCategorySubscription.unsubscribe();
-        categorySubscription.unsubscribe();
-      });
-    });
+    // this.serviceForm.get('category').disable();
+    // this.serviceForm.get('subcategory').disable();
+    // const categorySubscription = this.serviceForm.get('supercategory').valueChanges.subscribe(() => {
+    //   this.serviceForm.get('category').enable();
+    //   const subCategorySubscription = this.serviceForm.get('category').valueChanges.subscribe(() => {
+    //     this.serviceForm.get('subcategory').enable();
+    //     subCategorySubscription.unsubscribe();
+    //     categorySubscription.unsubscribe();
+    //   });
+    // });
+
+    // this.pushCategory();
+    // this.pushCategory();
+    this.pushCategory();
 
   }
 
@@ -345,6 +352,44 @@ export class ServiceFormComponent implements OnInit {
       return accumulator;
     }, {});
   }
+
+  /** Categorization **/
+
+  newCategory(): FormGroup {
+    return this.fb.group({
+      supercategory: ['', Validators.required],
+      category: ['', Validators.required],
+      subcategory: ['', Validators.required]
+    });
+  }
+
+  get categoryArray() {
+    return this.serviceForm.get('categorize') as FormArray;
+  }
+
+  pushCategory() {
+    this.categoryArray.push(this.newCategory());
+    this.categoryArray.controls[this.categoryArray.length - 1].get('category').disable();
+    this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').disable();
+  }
+
+  removeCategory(index: number) {
+    this.categoryArray.removeAt(index);
+  }
+
+  onSuperCategoryChange(index: number) {
+    this.categoryArray.controls[index].get('category').enable();
+    this.categoryArray.controls[index].get('category').reset();
+    this.categoryArray.controls[index].get('subcategory').reset();
+    this.categoryArray.controls[index].get('subcategory').disable();
+  }
+
+  onCategoryChange(index: number) {
+    this.categoryArray.controls[index].get('subcategory').enable();
+    this.categoryArray.controls[index].get('subcategory').reset();
+  }
+
+  /** Categorization **/
 
   /** INDICATORS **/
   createMeasurementField(): FormGroup {
