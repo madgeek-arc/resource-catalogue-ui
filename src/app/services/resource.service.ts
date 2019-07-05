@@ -318,7 +318,10 @@ export class ResourceService {
   }
 
   uploadServiceWithMeasurements(service: Service, measurements: Measurement[]) {
-    return this.http.put<Service>(this.base + '/service/serviceWithMeasurements', {service, measurements}, this.options);
+    return this.http.put<Service>(this.base + '/service/serviceWithMeasurements', {service, measurements}, this.options)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   /* TODO: Fix this*/
