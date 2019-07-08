@@ -80,7 +80,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           this.resourceService.getEU(),
           this.resourceService.getWW(),
           // this.resourceService.getSelectedServices([params["id"]]),
-          this.resourceService.getRichService(params['id']),
+          this.resourceService.getRichService(params['id'], params['version']),
           this.providerService.getMyServiceProviders(),
           this.resourceService.getLatestServiceMeasurement(params['id'])
           // this.resourceService.recordEvent(params["id"], "INTERNAL"),
@@ -99,7 +99,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           this.newMeasurementForm.get('locations').disable();
           this.newMeasurementForm.get('time').disable();
           this.newMeasurementForm.get('rangeValue').disable();
-          this.newMeasurementForm.get('serviceId').setValue(params['id']);
+          this.newMeasurementForm.get('serviceId').setValue(params['id'], params['version']);
 
           /* check if the current user can edit the service */
           this.canEditService = this.myProviders.some(p => this.service.providers.some(x => x === p.id));
