@@ -19,6 +19,7 @@ import {MyFavouritesComponent} from './pages/user/favourites/my-favourites.compo
 import {ServiceEditComponent} from './pages/eInfraServices/service-edit.component';
 import {MeasurementsComponent} from './pages/indicators/measurements.component';
 import {IndicatorFromComponent} from './pages/indicators/indicator-from.component';
+import {ForbiddenPageComponent} from './shared/forbidden-page/forbidden-page.component';
 
 const appRoutes: Routes = [
   {
@@ -160,6 +161,13 @@ const appRoutes: Routes = [
     component: MeasurementsComponent,
     data: {
       breadcrumb: 'Service Measurements'
+    }
+  },
+  {
+    path: 'forbidden',
+    component: ForbiddenPageComponent,
+    data: {
+      breadcrumb: 'Forbidden'
     }
   },
   {
