@@ -20,6 +20,7 @@ import {ServiceEditComponent} from './pages/eInfraServices/service-edit.componen
 import {MeasurementsComponent} from './pages/indicators/measurements.component';
 import {IndicatorFromComponent} from './pages/indicators/indicator-from.component';
 import {ForbiddenPageComponent} from './shared/forbidden-page/forbidden-page.component';
+import {NotFoundPageComponent} from './shared/not-found-page/not-found-page.component';
 
 const appRoutes: Routes = [
   {
@@ -164,6 +165,13 @@ const appRoutes: Routes = [
     }
   },
   {
+    path: 'newIndicator',
+    component: IndicatorFromComponent,
+    data: {
+      breadcrumb: 'New Indicator'
+    }
+  },
+  {
     path: 'forbidden',
     component: ForbiddenPageComponent,
     data: {
@@ -171,10 +179,10 @@ const appRoutes: Routes = [
     }
   },
   {
-    path: 'newIndicator',
-    component: IndicatorFromComponent,
+    path: 'notFound',
+    component: NotFoundPageComponent,
     data: {
-      breadcrumb: 'New Indicator'
+      breadcrumb: 'Not Found'
     }
   }
 ];
