@@ -184,6 +184,14 @@ const appRoutes: Routes = [
     data: {
       breadcrumb: 'Not Found'
     }
+  },
+  {
+    path: '**',
+    redirectTo: 'notFound',
+    pathMatch: 'full',
+    data: {
+      breadcrumb: 'Not Found'
+    }
   }
 ];
 

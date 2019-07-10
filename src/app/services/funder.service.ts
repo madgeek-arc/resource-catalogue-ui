@@ -15,11 +15,11 @@ export class FunderService {
   }
 
   getAllFunders(quantity: string) {
-    return this.http.get<FundersPage>(this.base + `/funder/all?quantity=${quantity}`).pipe(catchError(this.handleError));
+    return this.http.get<FundersPage>(this.base + `/funder/all?quantity=${quantity}`);
   }
 
   getFunderStats(funderId: string) {
-    return this.http.get(this.base + `/funder/funderStats/${funderId}/`).pipe(catchError(this.handleError));
+    return this.http.get(this.base + `/funder/funderStats/${funderId}/`);
   }
 
   private handleError(error: HttpErrorResponse) {
