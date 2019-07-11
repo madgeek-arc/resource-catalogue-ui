@@ -211,11 +211,9 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
       .subscribe(
         res => {
           Object.assign(this.service, res[0]);
-          console.log(this.service.isFavourite);
         },
         err => {
-          console.log(err.error);
-          this.errorMessage = err.error;
+          this.errorMessage = 'Could not add service to favourites. ' + err.error;
         }
       );
   }
@@ -226,11 +224,9 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
       .subscribe(
         res => {
           Object.assign(this.service, res[0]);
-          console.log(this.service.isFavourite);
         },
         err => {
-          console.log(err.error);
-          this.errorMessage = err.error;
+          this.errorMessage = 'Could not add a rating to this service. ' + err.error;
         }
       );
   }
@@ -298,7 +294,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   getIndicatorIds() {
     this.resourceService.getAllIndicators('indicator').subscribe(
       indicatorPage => this.indicators = indicatorPage,
-      error => this.errorMessage = error.error,
+      error => this.errorMessage = 'Could not retrieve Indicators from server. ' + error.error,
       () => {
         this.indicators.results.sort((a, b) => 0 - (a.id > b.id ? -1 : 1));
       }
@@ -314,7 +310,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
         this.placesVocIdArray = valuesPipe.transform(this.placesVocabulary.entries);
       },
       err => {
-        this.errorMessage = err.error;
+        this.errorMessage = 'Could not retrieve Places from server. ' + err.error;
       }
     );
   }

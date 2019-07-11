@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit {
         },
         err => {
           console.log(err);
-          this.errorMessage = 'An error occurred!';
+          this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
         }
       );
     }
@@ -96,7 +96,11 @@ export class DashboardComponent implements OnInit {
 
             this.setCountriesForProvider(this.providerCoverage);
           }
-        });
+        },
+        err => {
+          this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
+        }
+      );
     }
 
     this.resourceService.getVisitsForProvider(this.providerId, period).pipe(
@@ -107,7 +111,9 @@ export class DashboardComponent implements OnInit {
         }).sort((l, r) => l[0] - r[0]);
       })).subscribe(
       data => this.setVisitsForProvider(data),
-      // error => this.handleError(<any>error)
+      err => {
+        this.errorMessage = 'An error occurred while retrieving visits for this provider. ' + err.error;
+      }
     );
 
     this.resourceService.getFavouritesForProvider(this.providerId, period).pipe(
@@ -118,7 +124,9 @@ export class DashboardComponent implements OnInit {
         }).sort((l, r) => l[0] - r[0]);
       })).subscribe(
       data => this.setFavouritesForProvider(data),
-      // error => this.handleError(<any>error)
+      err => {
+        this.errorMessage = 'An error occurred while retrieving favourites for this provider. ' + err.error;
+      }
     );
 
     this.resourceService.getRatingsForProvider(this.providerId, period).pipe(
@@ -129,7 +137,9 @@ export class DashboardComponent implements OnInit {
         }).sort((l, r) => l[0] - r[0]);
       })).subscribe(
       data => this.setRatingsForProvider(data),
-      // error => this.handleError(<any>error)
+      err => {
+        this.errorMessage = 'An error occurred while retrieving ratings for this provider. ' + err.error;
+      }
     );
 
     if (dontGetServices) {
@@ -144,7 +154,9 @@ export class DashboardComponent implements OnInit {
           });
         })).subscribe(
         data => this.setVisitationsForProvider(data),
-        // error => this.handleError(<any>error)
+        err => {
+          this.errorMessage = 'An error occurred while retrieving service visitation percentages for this provider. ' + err.error;
+        }
       );
     }
 

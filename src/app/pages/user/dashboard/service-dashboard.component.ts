@@ -60,8 +60,7 @@ export class ServiceDashboardComponent implements OnInit {
         this.canEditService = this.myProviders.some(p => this.service.providers.some(x => x === p.id));
       },
         err => {
-          console.log(err.error);
-          this.errorMessage = err.error;
+          this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
         }
       );
     });
@@ -79,7 +78,9 @@ export class ServiceDashboardComponent implements OnInit {
         }).sort((l, r) => l[0] - r[0]);
       })).subscribe(
       data => this.setVisitsForService(data),
-      // error => this.handleError(<any>error)
+      err => {
+        this.errorMessage = 'An error occurred while retrieving visits for this service. ' + err.error;
+      }
     );
 
     this.resourceService.getFavouritesForService(this.service.id, period).pipe(
@@ -90,7 +91,9 @@ export class ServiceDashboardComponent implements OnInit {
       }).sort((l, r) => l[0] - r[0]);
     })).subscribe(
       data => this.setFavouritesForService(data),
-      // error => this.handleError(<any>error)
+      err => {
+        this.errorMessage = 'An error occurred while retrieving favourites for this service. ' + err.error;
+      }
     );
 
     this.resourceService.getRatingsForService(this.service.id, period).pipe(
@@ -102,14 +105,19 @@ export class ServiceDashboardComponent implements OnInit {
       }).sort((l, r) => l[0] - r[0]);
     })).subscribe(
       data => this.setRatingsForService(data),
-      // error => this.handleError(<any>error)
+      err => {
+        this.errorMessage = 'An error occurred while retrieving ratings for this service. ' + err.error;
+      }
     );
 
     if (dontGetServices) {
     } else {
       this.resourceService.getServiceHistory(this.service.id).subscribe(
         searchResults => this.serviceHistory = searchResults,
-        error => this.handleError(<any>error));
+        err => {
+          this.errorMessage = 'An error occurred while retrieving the history of this service. ' + err.error;
+        }
+      );
     }
   }
 
