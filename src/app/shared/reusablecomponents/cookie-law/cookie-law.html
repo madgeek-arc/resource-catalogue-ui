@@ -1,0 +1,25 @@
+<div class="cookie-law-wrapper"
+    [ngStyle]="currentStyles"
+    *ngIf="!cookieLawSeen"
+    [@state]="animation"
+    (@state.done)="afterDismissAnimation($event)">
+
+  <div class="copy">
+    <span #ref><ng-content></ng-content></span>
+    <span *ngIf="ref.childNodes.length == 0">
+      By continuing to browse the site, you're agreeing to our use of cookies.
+      <span *ngIf="learnMore">
+        Learn more in our <a [href]="learnMore" [target]="target">privacy policy</a>.
+      </span>
+    </span>
+
+    <a href="#" role="button" class="dismiss" (click)="dismiss($event)">
+      <span class="clickable uk-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" icon="close" ratio="1">
+          <path fill="none" stroke="#000" stroke-width="1.06" d="M16,16 L4,4"></path>
+          <path fill="none" stroke="#000" stroke-width="1.06" d="M16,4 L4,16"></path>
+        </svg>
+      </span>
+    </a>
+  </div>
+</div>

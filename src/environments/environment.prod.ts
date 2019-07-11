@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  FAQ_ENDPOINT: 'http://beta.einfracentral.eu/faq/api',
+  FAQ_ENDPOINT: 'https://beta.einfracentral.eu/faq',
   API_ENDPOINT: '/api'
 };

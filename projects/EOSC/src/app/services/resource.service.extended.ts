@@ -7,8 +7,6 @@ import {catchError} from 'rxjs/operators';
 export class ResourceServiceExtended extends ResourceService {
 
   getInfo() {
-    return this.http.get<Info>(this.base + `/info/all`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<Info>(this.base + `/info/all`);
   }
 }
