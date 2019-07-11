@@ -49,6 +49,7 @@ import {ServiceEditComponent} from './pages/eInfraServices/service-edit.componen
 import {MeasurementsComponent} from './pages/indicators/measurements.component';
 import {IndicatorFromComponent} from './pages/indicators/indicator-from.component';
 import {AuthenticationInterceptor} from './services/authentication-interceptor';
+import {CookieLawModule} from './shared/reusablecomponents/cookie-law/cookie-law.module';
 
 
 declare var require: any;
@@ -102,6 +103,7 @@ export function highchartsFactory() {
     ServiceFormComponent,
     ServiceUploadComponent,
     AccordionComponent,
+    // COOKIE
   ],
   imports: [
     BrowserModule,
@@ -116,7 +118,8 @@ export function highchartsFactory() {
     CKEditorModule,
     ChartModule,
     AngularFontAwesomeModule,
-    AppRoutingModule
+    CookieLawModule,
+    AppRoutingModule,
   ],
   providers: [
     {

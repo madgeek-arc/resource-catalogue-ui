@@ -58,7 +58,12 @@ export class ServiceDashboardComponent implements OnInit {
 
         /* check if the current user can edit the service */
         this.canEditService = this.myProviders.some(p => this.service.providers.some(x => x === p.id));
-      });
+      },
+        err => {
+          console.log(err.error);
+          this.errorMessage = err.error;
+        }
+      );
     });
   }
 

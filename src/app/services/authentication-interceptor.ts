@@ -17,10 +17,14 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((response: HttpErrorResponse) => {
         let errorMessage: string;
-        if (response.error.error) {
-          errorMessage = response.error.error;
+        if (response.error.message) {
+          errorMessage = response.error.message;
         } else {
-          errorMessage = response.error;
+          // if (response.error.length > 100) {
+          //   errorMessage = 'Server error';
+          // } else {
+            errorMessage = response.error;
+          // }
         }
         const message = errorMessage;
         if (response.error instanceof ErrorEvent) {
@@ -39,8 +43,9 @@ export class AuthenticationInterceptor implements HttpInterceptor {
             `body was: ${errorMessage}`);
         }
         // return an observable with a user-facing error message
-        UIkit.notification.closeAll();
-        UIkit.notification({message: message, status: 'danger', pos: 'top-center', timeout: 5000});
+        // Uncomment to enable modal errors
+        // UIkit.notification.closeAll();
+        // UIkit.notification({message: message, status: 'danger', pos: 'top-center', timeout: 5000});
         return throwError(response);
       })
     );

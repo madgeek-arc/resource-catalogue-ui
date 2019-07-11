@@ -107,10 +107,17 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           const serviceIDs = (this.service.requiredServices || []).concat(this.service.relatedServices || [])
             .filter((e, i, a) => a.indexOf(e) === i);
           if (serviceIDs.length > 0) {
-            this.resourceService.getSelectedServices(serviceIDs)
-              .subscribe(services => this.services = services);
+            this.resourceService.getSelectedServices(serviceIDs).subscribe(
+              services => this.services = services,
+              err => {
+                console.log(err.error);
+                this.errorMessage = err.error;
+              });
           }
-        });
+        },
+          err => {
+            this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
+          });
       });
     } else {
       this.sub = this.route.params.subscribe(params => {
@@ -133,9 +140,16 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
             .filter((e, i, a) => a.indexOf(e) === i);
           if (serviceIDs.length > 0) {
             this.resourceService.getSelectedServices(serviceIDs)
-              .subscribe(services => this.services = services);
+              .subscribe(services => this.services = services,
+                err => {
+                  console.log(err.error);
+                  this.errorMessage = err.error;
+                });
           }
-        });
+        },
+          err => {
+            this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
+          });
       });
     }
   }
@@ -199,7 +213,10 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           Object.assign(this.service, res[0]);
           console.log(this.service.isFavourite);
         },
-        err => console.log(err)
+        err => {
+          console.log(err.error);
+          this.errorMessage = err.error;
+        }
       );
   }
 
@@ -211,7 +228,10 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           Object.assign(this.service, res[0]);
           console.log(this.service.isFavourite);
         },
-        err => console.log(err)
+        err => {
+          console.log(err.error);
+          this.errorMessage = err.error;
+        }
       );
   }
 
@@ -278,7 +298,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   getIndicatorIds() {
     this.resourceService.getAllIndicators('indicator').subscribe(
       indicatorPage => this.indicators = indicatorPage,
-      error => this.errorMessage = error,
+      error => this.errorMessage = error.error,
       () => {
         this.indicators.results.sort((a, b) => 0 - (a.id > b.id ? -1 : 1));
       }
@@ -292,6 +312,9 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
         this.places = suc;
         this.placesVocabulary = this.places.results[0];
         this.placesVocIdArray = valuesPipe.transform(this.placesVocabulary.entries);
+      },
+      err => {
+        this.errorMessage = err.error;
       }
     );
   }
@@ -318,10 +341,13 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
       this.resourceService.postMeasurement(this.newMeasurementForm.value).subscribe(
         res => {
         },
-        err => this.formError = err.error.error,
+        err => this.formError = err.error,
         () => {
           this.resourceService.getLatestServiceMeasurement(this.newMeasurementForm.get('serviceId').value).subscribe(
-            res => this.measurements = res
+            res => this.measurements = res,
+            err => {
+              this.errorMessage = 'An error occurred while retrieving measurements. ' + err.error;
+            }
           );
           this.newMeasurementForm.get('indicatorId').setValue('');
           this.newMeasurementForm.get('indicatorId').markAsUntouched();
