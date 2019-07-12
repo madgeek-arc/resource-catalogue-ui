@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ResourceService} from '../../services/resource.service';
-import {Measurement, NewVocabulary, VocabularyType} from '../../domain/eic-model';
+import {Measurement, Vocabulary, VocabularyType} from '../../domain/eic-model';
 import {IndicatorsPage} from '../../domain/indicators';
 
 @Component({
@@ -14,8 +14,8 @@ export class MeasurementsComponent implements OnInit {
   measurements: Measurement[] = [];
   indicators: IndicatorsPage;
   serviceId: string;
-  places: NewVocabulary[] = null;
-  placesVocabulary: NewVocabulary[] = null;
+  places: Vocabulary[] = null;
+  placesVocabulary: Vocabulary[] = null;
 
   constructor(private resourceService: ResourceService,
               private route: ActivatedRoute) {

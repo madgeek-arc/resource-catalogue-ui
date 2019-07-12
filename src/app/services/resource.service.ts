@@ -2,14 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
-import {Indicator, Measurement, Provider, RichService, Service, ServiceHistory, NewVocabulary, VocabularyType} from '../domain/eic-model';
+import {Indicator, Measurement, Provider, RichService, Service, ServiceHistory, Vocabulary, VocabularyType} from '../domain/eic-model';
 import {IndicatorsPage, MeasurementsPage} from '../domain/indicators';
 import {BrowseResults} from '../domain/browse-results';
 import {SearchResults} from '../domain/search-results';
 import {ProvidersPage} from '../domain/funders-page';
 import {URLParameter} from '../domain/url-parameter';
 import {Observable, throwError} from 'rxjs';
-import {catchError} from 'rxjs/internal/operators/catchError';
 import {map} from 'rxjs/operators';
 
 declare var UIkit: any;
@@ -83,11 +82,11 @@ export class ResourceService {
   }
 
   getAllVocabulariesByType() {
-    return this.http.get<Map<VocabularyType, NewVocabulary[]>>(this.base + `/newVocabulary/byType`);
+    return this.http.get<Map<VocabularyType, Vocabulary[]>>(this.base + `/vocabulary/byType`);
   }
 
   getNewVocabulariesByType(type: string) {
-    return this.http.get<NewVocabulary[]>(this.base + `/newVocabulary/byType/${type}`);
+    return this.http.get<Vocabulary[]>(this.base + `/vocabulary/byType/${type}`);
   }
 
   idToName(acc: any, v: any) {

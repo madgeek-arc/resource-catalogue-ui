@@ -5,7 +5,7 @@ import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {UserService} from '../../services/user.service';
 import * as sd from './services.description';
-import {NewVocabulary, Service, VocabularyType} from '../../domain/eic-model';
+import {Vocabulary, Service, VocabularyType} from '../../domain/eic-model';
 import {IndicatorsPage} from '../../domain/indicators';
 import {ProvidersPage} from '../../domain/funders-page';
 import {URLValidator} from '../../shared/validators/generic.validator';
@@ -20,21 +20,17 @@ export class ServiceFormComponent implements OnInit {
   providerId: string;
   editMode: boolean;
   serviceForm: FormGroup;
-  private servicePostSuccess = false;
   service: Service;
   serviceID: string;
   errorMessage = '';
-  logoError = false;
-  logoUrlWorks = true;
   successMessage: string = null;
   weights: string[] = [];
   fb: FormBuilder = this.injector.get(FormBuilder);
 
   measurementForm: FormGroup;
-  places: NewVocabulary[] = null;
+  places: Vocabulary[] = null;
   public indicators: IndicatorsPage;
   public indicatorDesc = '';
-  public idArray: string[] = [];
 
   readonly urlDesc: sd.Description = sd.urlDesc;
   readonly nameDesc: sd.Description = sd.nameDesc;
@@ -139,21 +135,21 @@ export class ServiceFormComponent implements OnInit {
   providersPage: ProvidersPage;
   requiredServices: any;
   relatedServices: any;
-  vocabularies: Map<string, NewVocabulary[]> = null;
+  vocabularies: Map<string, Vocabulary[]> = null;
   resourceService: ResourceService = this.injector.get(ResourceService);
 
   router: NavigationService = this.injector.get(NavigationService);
   userService: UserService = this.injector.get(UserService);
 
   // TODO: rename to 'phaseVocabulary'
-  public lifeCycleStatusVocabulary: NewVocabulary[] = null;
-  public trlVocabulary: NewVocabulary[] = null;
-  public superCategoriesVocabulary: NewVocabulary[] = null;
-  public categoriesVocabulary: NewVocabulary[] = null;
-  public subCategoriesVocabulary: NewVocabulary[] = null;
-  public placesVocabulary: NewVocabulary[] = [];
+  public lifeCycleStatusVocabulary: Vocabulary[] = null;
+  public trlVocabulary: Vocabulary[] = null;
+  public superCategoriesVocabulary: Vocabulary[] = null;
+  public categoriesVocabulary: Vocabulary[] = null;
+  public subCategoriesVocabulary: Vocabulary[] = null;
+  public placesVocabulary: Vocabulary[] = [];
   public placesVocIdArray: string[] = [];
-  public languagesVocabulary: NewVocabulary[] = null;
+  public languagesVocabulary: Vocabulary[] = null;
   public languagesVocIdArray: string[] = [];
 
   constructor(protected injector: Injector,
@@ -167,52 +163,6 @@ export class ServiceFormComponent implements OnInit {
     this.measurementForm = this.fb.group(this.multiMeasurementForm);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
-
-  // onSubmit(service: Service, isValid: boolean) {
-  //   this.errorMessage = '';
-  //
-  //   /** if valid submit **/
-  //   if (isValid) {
-  //     // console.log(service);
-  //     // console.log('pristine: ' + this.serviceForm.pristine);
-  //     if (this.serviceForm.pristine) {
-  //       this.postMeasurement(this.serviceID);
-  //     } else {
-  //       this.resourceService.uploadService(service, this.editMode)
-  //         .subscribe(_service => {
-  //             this.serviceID = _service.id;
-  //             // this.servicePostSuccess = true;
-  //             this.postMeasurement(_service.id);
-  //           },
-  //           error => {
-  //             window.scrollTo(0, 0);
-  //             this.errorMessage = error.error.error;
-  //             this.serviceForm.markAsPristine();
-  //           },
-  //         );
-  //     }
-  //   } else {
-  //     window.scrollTo(0, 0);
-  //     this.setAsTouched();
-  //     this.serviceForm.markAsDirty();
-  //     this.serviceForm.updateValueAndValidity();
-  //     if (!isValid) {
-  //       this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
-  //       if (!this.serviceForm.controls['description'].valid) {
-  //         this.errorMessage += ' Description is an mandatory field.';
-  //       }
-  //     }
-  //     if (this.logoError) {
-  //       this.logoError = false;
-  //       this.serviceForm.controls['symbol'].setErrors({'incorrect': true});
-  //       this.errorMessage += ' Logo url must have https:// prefix.';
-  //     }
-  //     if (!this.logoUrlWorks) {
-  //       this.serviceForm.controls['symbol'].setErrors({'incorrect': true});
-  //       this.errorMessage += ' Logo url doesn\'t point to a valid image.';
-  //     }
-  //   }
-  // }
 
   onSubmit(service: Service, isValid: boolean) {
     this.errorMessage = '';
@@ -256,7 +206,7 @@ export class ServiceFormComponent implements OnInit {
       this.resourceService.getServices()
     ).subscribe(suc => {
         this.providersPage = <ProvidersPage>suc[0];
-        this.vocabularies = <Map<string, NewVocabulary[]>>suc[1];
+        this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
         this.requiredServices = this.transformInput(suc[2]);
         this.relatedServices = this.requiredServices;
         this.getIndicatorIds();
@@ -353,7 +303,7 @@ export class ServiceFormComponent implements OnInit {
     }, {});
   }
 
-  /** Categorization **/
+  /** Categorization --> **/
 
   newCategory(): FormGroup {
     return this.fb.group({
@@ -389,9 +339,9 @@ export class ServiceFormComponent implements OnInit {
     this.categoryArray.controls[index].get('subcategory').reset();
   }
 
-  /** Categorization **/
+  /** <-- Categorization **/
 
-  /** INDICATORS **/
+  /** INDICATORS --> **/
   createMeasurementField(): FormGroup {
     return this.fb.group({
       id: '',
@@ -476,21 +426,21 @@ export class ServiceFormComponent implements OnInit {
       suc => {
         this.places = suc;
         this.placesVocabulary = this.places;
-        this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id)
+        this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
       },
       error => this.errorMessage = 'Could not get places vocabulary. ' + error.error,
     );
   }
 
-  getVocabularyById(vocabularies: NewVocabulary[], id: string) {
+  getVocabularyById(vocabularies: Vocabulary[], id: string) {
     return vocabularies.find(entry => entry.id === id);
   }
 
-  getSortedChildrenCategories(childrenCategory: NewVocabulary[], parentId: string) {
+  getSortedChildrenCategories(childrenCategory: Vocabulary[], parentId: string) {
     return this.sortVocabulariesByName(childrenCategory.filter(entry => entry.parentId === parentId));
   }
 
-  sortVocabulariesByName(vocabularies: NewVocabulary[]): NewVocabulary[] {
+  sortVocabulariesByName(vocabularies: Vocabulary[]): Vocabulary[] {
     return vocabularies.sort((vocabulary1, vocabulary2) => {
       if (vocabulary1.name > vocabulary2.name) {
         return 1;
@@ -547,74 +497,6 @@ export class ServiceFormComponent implements OnInit {
     }
   }
 
-  postMeasurement(serviceId: string) {
-    // if (this.measurements.length > 0) {
-    for (let i = 0; i < this.measurements.length; i++) {
-      // console.log(i + ' = ' + this.measurements.controls[i].untouched);
-      if (this.measurements.controls[i].untouched && this.measurements.controls[i].get('indicatorId').value === '') {
-        this.removeFroMeasurements(i);
-        continue;
-      }
-      this.measurements.controls[i].get('serviceId').setValue(serviceId);
-    }
-    // console.log(this.measurementForm.controls);
-    if (this.measurementForm.valid) {
-      this.resourceService.postMeasurementUpdateAll(serviceId, this.measurements.value)
-        .subscribe(
-          res => this.router.service(serviceId),
-          error => { // on measurement post error
-            window.scrollTo(0, 0);
-            this.errorMessage = error.error.error;
-            this.serviceForm.get('id').setValue(serviceId);
-            this.editMode = true;
-          },
-          () => {
-          }
-        );
-    } else {
-      this.validateMeasurements();
-      window.scrollTo(0, 0);
-      this.errorMessage = 'Please fill all underlined fields at Indicator section';
-    }
-    // } else {
-    //   this.router.service(serviceId);
-    // }
-  }
-
-  /** INDICATORS **/
-
-  checkUrl(url: string) {
-    if (url !== '') {
-      if (!url.match(/^(https?:\/\/.+)?$/)) {
-        url = 'http://' + url;
-      }
-    }
-    return url;
-  }
-
-  imageExists(url) {
-    const image = new Image();
-    image.src = url;
-    if (!image.complete) {
-      return false;
-    } else if (image.height === 0) {
-      return false;
-    }
-
-    return true;
-  }
-
-  logoCheckUrl(url: string) {
-    if (url !== '') {
-      if (url.match(/^(http:\/\/.+)?$/)) {
-        this.serviceForm.controls['symbol'].setErrors({'incorrect': true});
-        this.logoError = true;
-      } else if (!url.match(/^(https:\/\/.+)?$/)) {
-        url = 'https://' + url;
-      }
-    }
-    console.log(url);
-    return url;
-  }
+  /** <-- INDICATORS **/
 
 }

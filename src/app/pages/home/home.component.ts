@@ -3,7 +3,7 @@
  */
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {NewVocabulary, Service, VocabularyType} from '../../domain/eic-model';
+import {Vocabulary, Service, VocabularyType} from '../../domain/eic-model';
 import {SearchQuery} from '../../domain/search-query';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
@@ -16,7 +16,7 @@ import {ResourceService} from '../../services/resource.service';
 export class HomeComponent implements OnInit {
 
   public searchForm: FormGroup;
-  public categories: NewVocabulary[] = null;
+  public categories: Vocabulary[] = null;
   public baseIconURI = './assets/images/icons/';
 
   public featuredServices: Service[] = null;

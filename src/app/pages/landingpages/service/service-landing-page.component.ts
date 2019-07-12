@@ -2,7 +2,7 @@ import {IndicatorsPage, MeasurementsPage} from '../../../domain/indicators';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {NewVocabulary, Provider, RichService, VocabularyType} from '../../../domain/eic-model';
+import {Vocabulary, Provider, RichService, VocabularyType} from '../../../domain/eic-model';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
@@ -42,7 +42,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   canEditService = false;
   // placesVocabulary: Vocabulary = null;
   placesVocIdArray: string[] = [];
-  places: NewVocabulary[] = null;
+  places: Vocabulary[] = null;
   newMeasurementForm: FormGroup;
 
   measurementForm = {

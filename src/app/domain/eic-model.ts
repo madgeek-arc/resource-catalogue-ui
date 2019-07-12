@@ -141,20 +141,7 @@ export class User implements Identifiable {
     surname: string;
 }
 
-// export class Vocabulary implements Identifiable {
-//     id: string;
-//     name: string;
-//     entries: { [index: string]: VocabularyEntry };
-// }
-
-// export class VocabularyEntry {
-//     children: VocabularyEntry[];
-//     extras: { [index: string]: string };
-//     id: string;
-//     name: string;
-// }
-
-export class NewVocabulary implements Identifiable {
+export class Vocabulary implements Identifiable {
   id: string;
   name: string;
   description: string;
@@ -170,7 +157,14 @@ export enum VocabularyType {
   LANGUAGE = "LANGUAGE",
   PLACE = "PLACE",
   TRL = "TRL",
-  PHASE = "PHASE"
+  PHASE = "PHASE",
+  SCIENTIFIC_DOMAIN = "SCIENTIFIC_DOMAIN",
+  SCIENTIFIC_SUBDOMAIN = "SCIENTIFIC_SUBDOMAIN",
+  TARGET_USERS = "TARGET_USERS",
+  ACCESS_TYPE = "ACCESS_TYPE",
+  ACCESS_MODE = "ACCESS_MODE",
+  FUNDED_BY = "FUNDED_BY",
+  ORDER_TYPE = "ORDER_TYPE"
 }
 
 export class URL implements Serializable {
@@ -178,10 +172,6 @@ export class URL implements Serializable {
 
 export class XMLGregorianCalendar implements Cloneable {
 }
-
-// export class GenericMap {
-//     entries: GenericMapEntry[];
-// }
 
 export class ExtrasMap {
     entries: Extras[];
@@ -192,11 +182,6 @@ export interface Serializable {
 
 export interface Cloneable {
 }
-
-// export class GenericMapEntry {
-//     key: string;
-//     value: VocabularyEntry;
-// }
 
 export class Extras {
     key: string;

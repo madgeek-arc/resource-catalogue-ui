@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Service, NewVocabulary, VocabularyType} from '../../../../../../src/app/domain/eic-model';
+import {Service, Vocabulary, VocabularyType} from '../../../../../../src/app/domain/eic-model';
 import {SearchQuery} from '../../../../../../src/app/domain/search-query';
 import {NavigationService} from '../../../../../../src/app/services/navigation.service';
-import {SearchResults} from '../../../../../../src/app/domain/search-results';
 import {Info} from '../../domain/info';
 import {ResourceServiceExtended} from '../../services/resource.service.extended';
 
@@ -15,7 +14,7 @@ import {ResourceServiceExtended} from '../../services/resource.service.extended'
 export class HomeEoscComponent implements OnInit {
 
   public searchForm: FormGroup;
-  public categories: NewVocabulary[] = null;
+  public categories: Vocabulary[] = null;
   public baseIconURI = './assets/images/icons/';
 
   public featuredServices: Service[] = null;
