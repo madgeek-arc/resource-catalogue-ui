@@ -40,7 +40,7 @@ export class FundersDashboardComponent implements OnInit {
         this.sortFunders.transform(this.funder.results, ['ec']);
         },
       err => {
-        this.errorMessage = 'Something went wrong';
+        this.errorMessage = 'Could not get the data for the funders. ' + err.error;
         // console.log(err);
       }
     );

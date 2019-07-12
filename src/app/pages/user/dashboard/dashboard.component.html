@@ -55,16 +55,16 @@
                     <a (click)="goToServiceDashboard(providerService.id)" class="el-link">
                       <div
                         class="uk-margin uk-grid-match uk-child-width-1-1 uk-grid-small uk-grid-divider uk-grid uk-scrollspy-inview uk-animation-slide-top-medium uk-grid-stack">
-                        <div class="uk-first-column">
+                        <div class="uk-first-column uk-padding-remove-left">
                           <div class="">
                             <div uk-scrollspy-class=""
                                  class="el-item uk-panel uk-scrollspy-inview uk-animation-slide-top-medium" style="">
                               <div class="uk-child-width-expand uk-grid-medium uk-flex-middle uk-grid uk-grid-stack"
                                    uk-grid="">
-                                <div class="uk-width-3-5@m uk-first-column">
+                                <div class="uk-width-3-5@m uk-first-column ">
 
                                   <img src="{{providerService.symbol || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
-                                       class="el-image uk-border-rounded" width="70%" alt="">
+                                       class="el-image uk-border-rounded uk-padding-small" width="70%" alt="">
 
                                 </div>
                                 <div class="uk-padding-remove serviceTitle">
@@ -83,17 +83,18 @@
                 </div>
                 <div class="uk-width-4-5@m">
 
-                  <div class="uk-grid uk-margin-bottom" uk-height-match>
-                    <div class="uk-width-4-5 uk-text-right">
-                      <span style="vertical-align: middle;">Choose period</span>
-                    </div>
-                    <div class="uk-width-1-5">
-                      <select title="Change the period of the displayed statistics" (change)="onPeriodChange($event)">
-                        <option value="DAY">Day</option>
-                        <option value="WEEK">Week</option>
-                        <option value="MONTH" selected>Month</option>
-                        <option value="YEAR">Year</option>
-                      </select>
+                  <div class="uk-grid uk-margin-bottom">
+                    <div class="uk-width-1-1">
+                      <div class="uk-float-right uk-width-1-5">
+                        <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
+                                (change)="onPeriodChange($event)">
+                          <option value="DAY">Daily</option>
+                          <option value="WEEK">Weekly</option>
+                          <option value="MONTH" selected>Monthly</option>
+                          <option value="YEAR">Yearly</option>
+                        </select>
+                        <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
+                      </div>
                     </div>
                   </div>
 

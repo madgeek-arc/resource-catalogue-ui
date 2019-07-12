@@ -33,49 +33,36 @@ export class ServiceProviderService {
   }
 
   createNewServiceProvider(newProvider: any) {
-    return this.http.post(this.base + '/provider', newProvider, this.options).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.post(this.base + '/provider', newProvider, this.options);
   }
 
   updateServiceProvider(updatedFields: any): Observable<Provider> {
-    return this.http.put<Provider>(this.base + '/provider', updatedFields, this.options).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.put<Provider>(this.base + '/provider', updatedFields, this.options);
   }
 
   verifyServiceProvider(id: string, active: boolean, status: string) {
-    return this.http.patch(this.base + `/provider/verifyProvider/${id}?active=${active}&status=${status}`, {}, this.options).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.patch(this.base + `/provider/verifyProvider/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
   getMyServiceProviders() {
-    return this.http.get<Provider[]>(this.base + '/provider/getMyServiceProviders', this.options).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<Provider[]>(this.base + '/provider/getMyServiceProviders', this.options);
   }
 
   getServiceProviderById(id: string) {
-    return this.http.get<Provider>(this.base + `/provider/${id}`, this.options).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<Provider>(this.base + `/provider/${id}`, this.options);
   }
 
   getServicesOfProvider(id: string) {
-    return this.http.get<Service[]>(this.base + `/provider/services/${id}`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<Service[]>(this.base + `/provider/services/${id}`);
   }
 
   getPendingServicesOfProvider(id: string) {
-    return this.http.get<Service[]>(this.base + `/provider/services/pending/${id}`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<Service[]>(this.base + `/provider/services/pending/${id}`);
   }
 
   private handleError(error: HttpErrorResponse) {
-    const message = 'Server error';
+    // const message = 'Server error';
+    const message = error.error.error;
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);

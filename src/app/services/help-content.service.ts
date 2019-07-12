@@ -16,7 +16,7 @@ export class HelpContentService {
   getActivePageContent(route: string) {
     // console.log(this._helpServiceUrl + "/page/route?q=" + route);
     return this.http.get<PageContent>(this._helpServiceUrl + '/page/route?q=' + route)
-      .pipe(catchError(this.handleError));
+      ;
   }
 
   private handleError(error: HttpErrorResponse) {

@@ -1,3 +1,4 @@
+import {IndicatorsPage, MeasurementsPage} from '../../../domain/indicators';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
@@ -7,7 +8,6 @@ import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
 import {UserService} from '../../../services/user.service';
 import {ServiceProviderService} from '../../../services/service-provider.service';
-import {IndicatorsPage, MeasurementsPage} from '../../../domain/indicators';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SearchResults} from '../../../domain/search-results';
 import {flatMap} from 'rxjs/operators';
@@ -80,7 +80,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           this.resourceService.getEU(),
           this.resourceService.getWW(),
           // this.resourceService.getSelectedServices([params["id"]]),
-          this.resourceService.getRichService(params['id']),
+          this.resourceService.getRichService(params['id'], params['version']),
           this.providerService.getMyServiceProviders(),
           this.resourceService.getLatestServiceMeasurement(params['id'])
           // this.resourceService.recordEvent(params["id"], "INTERNAL"),
@@ -99,7 +99,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           this.newMeasurementForm.get('locations').disable();
           this.newMeasurementForm.get('time').disable();
           this.newMeasurementForm.get('rangeValue').disable();
-          this.newMeasurementForm.get('serviceId').setValue(params['id']);
+          this.newMeasurementForm.get('serviceId').setValue(params['id'], params['version']);
 
           /* check if the current user can edit the service */
           this.canEditService = this.myProviders.some(p => this.service.providers.some(x => x === p.id));
@@ -107,10 +107,17 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           const serviceIDs = (this.service.requiredServices || []).concat(this.service.relatedServices || [])
             .filter((e, i, a) => a.indexOf(e) === i);
           if (serviceIDs.length > 0) {
-            this.resourceService.getSelectedServices(serviceIDs)
-              .subscribe(services => this.services = services);
+            this.resourceService.getSelectedServices(serviceIDs).subscribe(
+              services => this.services = services,
+              err => {
+                console.log(err.error);
+                this.errorMessage = err.error;
+              });
           }
-        });
+        },
+          err => {
+            this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
+          });
       });
     } else {
       this.sub = this.route.params.subscribe(params => {
@@ -133,9 +140,16 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
             .filter((e, i, a) => a.indexOf(e) === i);
           if (serviceIDs.length > 0) {
             this.resourceService.getSelectedServices(serviceIDs)
-              .subscribe(services => this.services = services);
+              .subscribe(services => this.services = services,
+                err => {
+                  console.log(err.error);
+                  this.errorMessage = err.error;
+                });
           }
-        });
+        },
+          err => {
+            this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
+          });
       });
     }
   }
@@ -197,9 +211,10 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
       .subscribe(
         res => {
           Object.assign(this.service, res[0]);
-          console.log(this.service.isFavourite);
         },
-        err => console.log(err)
+        err => {
+          this.errorMessage = 'Could not add service to favourites. ' + err.error;
+        }
       );
   }
 
@@ -209,9 +224,10 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
       .subscribe(
         res => {
           Object.assign(this.service, res[0]);
-          console.log(this.service.isFavourite);
         },
-        err => console.log(err)
+        err => {
+          this.errorMessage = 'Could not add a rating to this service. ' + err.error;
+        }
       );
   }
 
@@ -278,7 +294,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   getIndicatorIds() {
     this.resourceService.getAllIndicators('indicator').subscribe(
       indicatorPage => this.indicators = indicatorPage,
-      error => this.errorMessage = error,
+      error => this.errorMessage = 'Could not retrieve Indicators from server. ' + error.error,
       () => {
         this.indicators.results.sort((a, b) => 0 - (a.id > b.id ? -1 : 1));
       }
@@ -292,6 +308,9 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
         this.places = suc;
         this.placesVocabulary = this.places.results[0];
         this.placesVocIdArray = valuesPipe.transform(this.placesVocabulary.entries);
+      },
+      err => {
+        this.errorMessage = 'Could not retrieve Places from server. ' + err.error;
       }
     );
   }
@@ -318,10 +337,13 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
       this.resourceService.postMeasurement(this.newMeasurementForm.value).subscribe(
         res => {
         },
-        err => this.formError = err.error.error,
+        err => this.formError = err.error,
         () => {
           this.resourceService.getLatestServiceMeasurement(this.newMeasurementForm.get('serviceId').value).subscribe(
-            res => this.measurements = res
+            res => this.measurements = res,
+            err => {
+              this.errorMessage = 'An error occurred while retrieving measurements. ' + err.error;
+            }
           );
           this.newMeasurementForm.get('indicatorId').setValue('');
           this.newMeasurementForm.get('indicatorId').markAsUntouched();

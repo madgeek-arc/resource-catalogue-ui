@@ -1,22 +1,26 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {BrowseCategoriesComponent} from './pages/browsecategories/browse-categories.component';
-import { CompareServicesComponent } from './pages/compare/compare-services.component';
-import { ServiceUploadComponent } from './pages/eInfraServices/service-upload.component';
+import {CompareServicesComponent} from './pages/compare/compare-services.component';
+import {ServiceUploadComponent} from './pages/eInfraServices/service-upload.component';
 import {HomeComponent} from './pages/home/home.component';
 import {CommonModule} from '@angular/common';
-import { SearchComponent } from './pages/search/search.component';
+import {SearchComponent} from './pages/search/search.component';
 import {CanActivateViaAuthGuard} from './services/can-activate-auth-guard.service';
-import { ServiceLandingPageComponent } from './pages/landingpages/service/service-landing-page.component';
+import {ServiceLandingPageComponent} from './pages/landingpages/service/service-landing-page.component';
 import {NewServiceProviderComponent} from './pages/serviceprovider/new-service-provider.component';
 import {ServiceProvidersListComponent} from './pages/admin/service-providers-list.component';
-import { AddFirstServiceComponent } from './pages/serviceprovider/add-first-service.component';
+import {AddFirstServiceComponent} from './pages/serviceprovider/add-first-service.component';
 import {MyServiceProvidersComponent} from './pages/serviceprovider/my-service-providers.component';
 import {UpdateServiceProviderComponent} from './pages/serviceprovider/update-service-provider.component';
 import {ServiceProviderInfoComponent} from './pages/serviceprovider/service-provider-info.component';
 import {FundersDashboardComponent} from './pages/funders/funders-dashboard.component';
 import {MyFavouritesComponent} from './pages/user/favourites/my-favourites.component';
 import {ServiceEditComponent} from './pages/eInfraServices/service-edit.component';
+import {MeasurementsComponent} from './pages/indicators/measurements.component';
+import {IndicatorFromComponent} from './pages/indicators/indicator-from.component';
+import {ForbiddenPageComponent} from './shared/forbidden-page/forbidden-page.component';
+import {NotFoundPageComponent} from './shared/not-found-page/not-found-page.component';
 
 const appRoutes: Routes = [
   {
@@ -32,18 +36,18 @@ const appRoutes: Routes = [
     }
   },
   {
-      path: 'search',
-      component: SearchComponent,
-      data: {
-          breadcrumb : 'Search'
-      }
+    path: 'search',
+    component: SearchComponent,
+    data: {
+      breadcrumb: 'Search'
+    }
   },
   {
-      path: 'compare',
-      component: CompareServicesComponent,
-      data: {
-          breadcrumb : 'Compare'
-      }
+    path: 'compare',
+    component: CompareServicesComponent,
+    data: {
+      breadcrumb: 'Compare'
+    }
   },
   {
     path: 'browseCategories',
@@ -67,20 +71,20 @@ const appRoutes: Routes = [
     }
   },
   {
-      path: 'upload',
-      component: ServiceUploadComponent,
-      canActivate: [CanActivateViaAuthGuard],
-      data: {
-          breadcrumb : 'Upload'
-      }
+    path: 'upload',
+    component: ServiceUploadComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Upload'
+    }
   },
   {
-      path: 'edit/:id',
-      component: ServiceEditComponent,
-      canActivate: [CanActivateViaAuthGuard],
-      data: {
-          breadcrumb : 'Edit'
-      }
+    path: 'edit/:id',
+    component: ServiceEditComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Edit'
+    }
   },
   {
     path: 'newServiceProvider',
@@ -107,20 +111,20 @@ const appRoutes: Routes = [
     }
   },
   {
-      path: 'newServiceProvider/:id/addFirstService',
-      component: AddFirstServiceComponent,
-      canActivate: [CanActivateViaAuthGuard],
-      data: {
-          breadcrumb : 'First Service Form'
-      }
+    path: 'newServiceProvider/:id/addFirstService',
+    component: AddFirstServiceComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'First Service Form'
+    }
   },
   {
-      path: 'newServiceProvider/:id/editFirstService/:serviceId',
-      component: AddFirstServiceComponent,
-      canActivate: [CanActivateViaAuthGuard],
-      data: {
-          breadcrumb : 'Edit First Service'
-      }
+    path: 'newServiceProvider/:id/editFirstService/:serviceId',
+    component: AddFirstServiceComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Edit First Service'
+    }
   },
   {
     path: 'myServiceProviders',
@@ -151,6 +155,42 @@ const appRoutes: Routes = [
     component: FundersDashboardComponent,
     data: {
       breadcrumb: 'Funders Dashboard'
+    }
+  },
+  {
+    path: 'measurements/service/:id',
+    component: MeasurementsComponent,
+    data: {
+      breadcrumb: 'Service Measurements'
+    }
+  },
+  {
+    path: 'newIndicator',
+    component: IndicatorFromComponent,
+    data: {
+      breadcrumb: 'New Indicator'
+    }
+  },
+  {
+    path: 'forbidden',
+    component: ForbiddenPageComponent,
+    data: {
+      breadcrumb: 'Forbidden'
+    }
+  },
+  {
+    path: 'notFound',
+    component: NotFoundPageComponent,
+    data: {
+      breadcrumb: 'Not Found'
+    }
+  },
+  {
+    path: '**',
+    redirectTo: 'notFound',
+    pathMatch: 'full',
+    data: {
+      breadcrumb: 'Not Found'
     }
   }
 ];
