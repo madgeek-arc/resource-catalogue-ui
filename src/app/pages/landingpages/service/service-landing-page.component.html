@@ -194,10 +194,10 @@
                             <div *ngFor="let location of locations.controls; let i=index" class="uk-form-controls">
                               <select class="uk-select uk-width-5-6@m" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !locations.get([i]).valid && locations.get([i]).dirty}">
-                                <ng-container *ngIf="placesVocabulary">
-                                  <option *ngFor="let placeEntry of placesVocIdArray | premiumsort:weights"
-                                          value="{{placesVocabulary.entries[placeEntry].id}}">
-                                    {{placesVocabulary.entries[placeEntry].name}}
+                                <ng-container *ngIf="places">
+                                  <option *ngFor="let placeEntryId of placesVocIdArray | premiumsort:weights"
+                                          value="{{ getPlace(placeEntryId).name }}">
+                                    {{ getPlace(placeEntryId).name }}
                                   </option>
                                 </ng-container>
                               </select>

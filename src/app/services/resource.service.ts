@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
-import {Indicator, Measurement, Provider, RichService, Service, ServiceHistory, Vocabulary} from '../domain/eic-model';
+import {Indicator, Measurement, Provider, RichService, Service, ServiceHistory, NewVocabulary, VocabularyType} from '../domain/eic-model';
 import {IndicatorsPage, MeasurementsPage} from '../domain/indicators';
 import {BrowseResults} from '../domain/browse-results';
 import {SearchResults} from '../domain/search-results';
@@ -10,7 +10,6 @@ import {ProvidersPage} from '../domain/funders-page';
 import {URLParameter} from '../domain/url-parameter';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/internal/operators/catchError';
-import {from} from 'rxjs/internal/observable/from';
 import {map} from 'rxjs/operators';
 
 declare var UIkit: any;
@@ -26,7 +25,7 @@ export class ResourceService {
 
   static removeNulls(obj) {
     const isArray = obj instanceof Array;
-    for (const k in obj) {
+    for (const k of obj) {
       if (obj[k] === null || obj[k] === '') {
         isArray ? obj.splice(k, 1) : delete obj[k];
       } else if (typeof obj[k] === 'object') {
@@ -83,12 +82,12 @@ export class ResourceService {
       ;
   }
 
-  getVocabularies() {
-    return this.http.get<SearchResults<Vocabulary>>(this.base + `/vocabulary/all?from=0&quantity=1000`);
+  getAllVocabulariesByType() {
+    return this.http.get<Map<VocabularyType, NewVocabulary[]>>(this.base + `/newVocabulary/byType`);
   }
 
-  getVocabulariesByType(type: string) {
-    return this.http.get<SearchResults<Vocabulary>>(this.base + `/vocabulary?type=${type}`);
+  getNewVocabulariesByType(type: string) {
+    return this.http.get<NewVocabulary[]>(this.base + `/newVocabulary/byType/${type}`);
   }
 
   idToName(acc: any, v: any) {
@@ -295,23 +294,6 @@ export class ResourceService {
   uploadServiceWithMeasurements(service: Service, measurements: Measurement[]) {
     return this.http.put<Service>(this.base + '/service/serviceWithMeasurements', {service, measurements}, this.options)
       ;
-  }
-
-  /* TODO: Fix this*/
-
-  recordEvent(service: any, type: any, value?: any) {
-    const event = Object.assign({
-      instant: Date.now(),
-      user: (this.authenticationService.user || {id: ''}).id
-    }, {service, type, value});
-    const isVisit = ['INTERNAL', 'EXTERNAL'].indexOf(event.type) > 0;
-    if ((isVisit && sessionStorage.getItem(type + '-' + service) !== 'aye') || !isVisit) {
-      sessionStorage.setItem(type + '-' + service, 'aye');
-      return this.http.post('/event', event);
-    } else {
-      // return Observable.from(['k']);
-      return from(['k']);
-    }
   }
 
   getFeaturedServices() {

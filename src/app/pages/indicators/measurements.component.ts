@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ResourceService} from '../../services/resource.service';
-import {Measurement, Vocabulary} from '../../domain/eic-model';
+import {Measurement, NewVocabulary, VocabularyType} from '../../domain/eic-model';
 import {IndicatorsPage} from '../../domain/indicators';
-import {SearchResults} from '../../domain/search-results';
 
 @Component({
   selector: 'app-measurements',
@@ -15,11 +14,12 @@ export class MeasurementsComponent implements OnInit {
   measurements: Measurement[] = [];
   indicators: IndicatorsPage;
   serviceId: string;
-  places: SearchResults<Vocabulary> = null;
-  placesVocabulary: Vocabulary = null;
+  places: NewVocabulary[] = null;
+  placesVocabulary: NewVocabulary[] = null;
 
   constructor(private resourceService: ResourceService,
-              private route: ActivatedRoute) {}
+              private route: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.serviceId = this.route.snapshot.paramMap.get('id');
@@ -32,10 +32,10 @@ export class MeasurementsComponent implements OnInit {
   }
 
   getLocations() {
-    this.resourceService.getVocabulariesByType('PLACES').subscribe(
+    this.resourceService.getNewVocabulariesByType(VocabularyType.PLACE).subscribe(
       suc => {
         this.places = suc;
-        this.placesVocabulary = this.places.results[0];
+        this.placesVocabulary = this.places;
       }
     );
   }

@@ -5,12 +5,10 @@ import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {UserService} from '../../services/user.service';
 import * as sd from './services.description';
-import {Service, Vocabulary} from '../../domain/eic-model';
+import {NewVocabulary, Service, VocabularyType} from '../../domain/eic-model';
 import {IndicatorsPage} from '../../domain/indicators';
 import {ProvidersPage} from '../../domain/funders-page';
-import {SearchResults} from '../../domain/search-results';
 import {URLValidator} from '../../shared/validators/generic.validator';
-import {ValuesPipe} from '../../shared/pipes/getValues.pipe';
 import {zip} from 'rxjs/internal/observable/zip';
 
 @Component({
@@ -33,7 +31,7 @@ export class ServiceFormComponent implements OnInit {
   fb: FormBuilder = this.injector.get(FormBuilder);
 
   measurementForm: FormGroup;
-  places: SearchResults<Vocabulary> = null;
+  places: NewVocabulary[] = null;
   public indicators: IndicatorsPage;
   public indicatorDesc = '';
   public idArray: string[] = [];
@@ -55,6 +53,7 @@ export class ServiceFormComponent implements OnInit {
   readonly validForDesc: sd.Description = sd.validForDesc;
   readonly lifeCycleStatusDesc: sd.Description = sd.lifeCycleStatusDesc;
   readonly trlDesc: sd.Description = sd.trlDesc;
+  readonly superCategoryDesc: sd.Description = sd.superCategoryDesc;
   readonly categoryDesc: sd.Description = sd.categoryDesc;
   readonly subcategoryDesc: sd.Description = sd.subcategoryDesc;
   readonly placesDesc: sd.Description = sd.placesDesc;
@@ -94,8 +93,12 @@ export class ServiceFormComponent implements OnInit {
     'validFor': [''],
     'lifeCycleStatus': ['', Validators.compose([Validators.required])],
     'trl': ['', Validators.compose([Validators.required])],
-    'category': ['', Validators.required],
-    'subcategory': ['', Validators.required],
+    'categorize': this.fb.array([
+      // this.newCategory()
+    ]),
+    // 'supercategory': ['', Validators.required],
+    // 'category': ['', Validators.required],
+    // 'subcategory': ['', Validators.required],
     'places': this.fb.array([
       this.fb.control('', Validators.required)
     ], Validators.required),
@@ -136,21 +139,21 @@ export class ServiceFormComponent implements OnInit {
   providersPage: ProvidersPage;
   requiredServices: any;
   relatedServices: any;
-  vocabularies: SearchResults<Vocabulary> = null;
+  vocabularies: Map<string, NewVocabulary[]> = null;
   resourceService: ResourceService = this.injector.get(ResourceService);
 
   router: NavigationService = this.injector.get(NavigationService);
   userService: UserService = this.injector.get(UserService);
 
-  public lifeCycleStatusVocabulary: Vocabulary = null;
-  public lifeCycleStatusVocIdArray: string[] = [];
-  public trlVocabulary: Vocabulary = null;
-  public trlVocIdArray: string[] = [];
-  public categoriesVocabulary: Vocabulary = null;
-  public categoriesVocIdArray: string[] = [];
-  public placesVocabulary: Vocabulary = null;
+  // TODO: rename to 'phaseVocabulary'
+  public lifeCycleStatusVocabulary: NewVocabulary[] = null;
+  public trlVocabulary: NewVocabulary[] = null;
+  public superCategoriesVocabulary: NewVocabulary[] = null;
+  public categoriesVocabulary: NewVocabulary[] = null;
+  public subCategoriesVocabulary: NewVocabulary[] = null;
+  public placesVocabulary: NewVocabulary[] = [];
   public placesVocIdArray: string[] = [];
-  public languagesVocabulary: Vocabulary = null;
+  public languagesVocabulary: NewVocabulary[] = null;
   public languagesVocIdArray: string[] = [];
 
   constructor(protected injector: Injector,
@@ -211,7 +214,7 @@ export class ServiceFormComponent implements OnInit {
   //   }
   // }
 
-  onSubmit (service: Service, isValid: boolean) {
+  onSubmit(service: Service, isValid: boolean) {
     this.errorMessage = '';
     for (let i = 0; i < this.measurements.length; i++) {
       // console.log(i + ' = ' + this.measurements.controls[i].untouched);
@@ -249,40 +252,48 @@ export class ServiceFormComponent implements OnInit {
   ngOnInit() {
     zip(
       this.resourceService.getProvidersNames(),
-      this.resourceService.getVocabularies(),
+      this.resourceService.getAllVocabulariesByType(),
       this.resourceService.getServices()
     ).subscribe(suc => {
-        const valuesPipe = new ValuesPipe();
         this.providersPage = <ProvidersPage>suc[0];
-        this.vocabularies = <SearchResults<Vocabulary>>suc[1];
+        this.vocabularies = <Map<string, NewVocabulary[]>>suc[1];
         this.requiredServices = this.transformInput(suc[2]);
         this.relatedServices = this.requiredServices;
         this.getIndicatorIds();
         this.getLocations();
-        this.lifeCycleStatusVocabulary = this.vocabularies.results.filter(x => x.id === 'lifecyclestatus')[0];
-        this.trlVocabulary = this.vocabularies.results.filter(x => x.id === 'trl')[0];
-        this.categoriesVocabulary = this.vocabularies.results.filter(x => x.id === 'categories')[0];
-        this.placesVocabulary = this.vocabularies.results.filter(x => x.id === 'places')[0];
-        this.languagesVocabulary = this.vocabularies.results.filter(x => x.id === 'languages')[0];
-        this.lifeCycleStatusVocIdArray = valuesPipe.transform(this.lifeCycleStatusVocabulary.entries);
-        this.trlVocIdArray = valuesPipe.transform(this.trlVocabulary.entries);
-        this.categoriesVocIdArray = valuesPipe.transform(this.categoriesVocabulary.entries);
-        this.placesVocIdArray = valuesPipe.transform(this.placesVocabulary.entries);
-        this.languagesVocIdArray = valuesPipe.transform(this.languagesVocabulary.entries);
+        this.lifeCycleStatusVocabulary = this.vocabularies[VocabularyType.PHASE];
+        this.trlVocabulary = this.vocabularies[VocabularyType.TRL];
+        this.superCategoriesVocabulary = this.vocabularies[VocabularyType.SUPERCATEGORY];
+        this.categoriesVocabulary = this.vocabularies[VocabularyType.CATEGORY];
+        this.subCategoriesVocabulary = this.vocabularies[VocabularyType.SUBCATEGORY];
+        this.placesVocabulary = this.vocabularies[VocabularyType.PLACE];
+        this.languagesVocabulary = this.vocabularies[VocabularyType.LANGUAGE];
+        this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
+        this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
       },
       error => {
-      this.errorMessage = 'Something went bad while getting the data for page initialization. ' + error.error;
+        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + error.error;
       },
       () => {
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
       }
     );
 
-    this.serviceForm.get('subcategory').disable();
-    const subscription = this.serviceForm.get('category').valueChanges.subscribe(() => {
-      this.serviceForm.get('subcategory').enable();
-      subscription.unsubscribe();
-    });
+    // this.serviceForm.get('category').disable();
+    // this.serviceForm.get('subcategory').disable();
+    // const categorySubscription = this.serviceForm.get('supercategory').valueChanges.subscribe(() => {
+    //   this.serviceForm.get('category').enable();
+    //   const subCategorySubscription = this.serviceForm.get('category').valueChanges.subscribe(() => {
+    //     this.serviceForm.get('subcategory').enable();
+    //     subCategorySubscription.unsubscribe();
+    //     categorySubscription.unsubscribe();
+    //   });
+    // });
+
+    // this.pushCategory();
+    // this.pushCategory();
+    this.pushCategory();
+
   }
 
   public setAsTouched() {
@@ -341,6 +352,44 @@ export class ServiceFormComponent implements OnInit {
       return accumulator;
     }, {});
   }
+
+  /** Categorization **/
+
+  newCategory(): FormGroup {
+    return this.fb.group({
+      supercategory: ['', Validators.required],
+      category: ['', Validators.required],
+      subcategory: ['', Validators.required]
+    });
+  }
+
+  get categoryArray() {
+    return this.serviceForm.get('categorize') as FormArray;
+  }
+
+  pushCategory() {
+    this.categoryArray.push(this.newCategory());
+    this.categoryArray.controls[this.categoryArray.length - 1].get('category').disable();
+    this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').disable();
+  }
+
+  removeCategory(index: number) {
+    this.categoryArray.removeAt(index);
+  }
+
+  onSuperCategoryChange(index: number) {
+    this.categoryArray.controls[index].get('category').enable();
+    this.categoryArray.controls[index].get('category').reset();
+    this.categoryArray.controls[index].get('subcategory').reset();
+    this.categoryArray.controls[index].get('subcategory').disable();
+  }
+
+  onCategoryChange(index: number) {
+    this.categoryArray.controls[index].get('subcategory').enable();
+    this.categoryArray.controls[index].get('subcategory').reset();
+  }
+
+  /** Categorization **/
 
   /** INDICATORS **/
   createMeasurementField(): FormGroup {
@@ -423,15 +472,36 @@ export class ServiceFormComponent implements OnInit {
   }
 
   getLocations() {
-    this.resourceService.getVocabulariesByType('PLACES').subscribe(
+    this.resourceService.getNewVocabulariesByType(VocabularyType.PLACE).subscribe(
       suc => {
-        const valuesPipe = new ValuesPipe();
         this.places = suc;
-        this.placesVocabulary = this.places.results[0];
-        this.placesVocIdArray = valuesPipe.transform(this.placesVocabulary.entries);
+        this.placesVocabulary = this.places;
+        this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id)
       },
       error => this.errorMessage = 'Could not get places vocabulary. ' + error.error,
     );
+  }
+
+  getVocabularyById(vocabularies: NewVocabulary[], id: string) {
+    return vocabularies.find(entry => entry.id === id);
+  }
+
+  getSortedChildrenCategories(childrenCategory: NewVocabulary[], parentId: string) {
+    return this.sortVocabulariesByName(childrenCategory.filter(entry => entry.parentId === parentId));
+  }
+
+  sortVocabulariesByName(vocabularies: NewVocabulary[]): NewVocabulary[] {
+    return vocabularies.sort((vocabulary1, vocabulary2) => {
+      if (vocabulary1.name > vocabulary2.name) {
+        return 1;
+      }
+
+      if (vocabulary1.name < vocabulary2.name) {
+        return -1;
+      }
+
+      return 0;
+    });
   }
 
   handleChange(event, index: number) {
@@ -479,32 +549,33 @@ export class ServiceFormComponent implements OnInit {
 
   postMeasurement(serviceId: string) {
     // if (this.measurements.length > 0) {
-      for (let i = 0; i < this.measurements.length; i++) {
-        // console.log(i + ' = ' + this.measurements.controls[i].untouched);
-        if (this.measurements.controls[i].untouched && this.measurements.controls[i].get('indicatorId').value === '') {
-          this.removeFroMeasurements(i);
-          continue;
-        }
-        this.measurements.controls[i].get('serviceId').setValue(serviceId);
+    for (let i = 0; i < this.measurements.length; i++) {
+      // console.log(i + ' = ' + this.measurements.controls[i].untouched);
+      if (this.measurements.controls[i].untouched && this.measurements.controls[i].get('indicatorId').value === '') {
+        this.removeFroMeasurements(i);
+        continue;
       }
-      // console.log(this.measurementForm.controls);
-      if (this.measurementForm.valid) {
-        this.resourceService.postMeasurementUpdateAll(serviceId, this.measurements.value)
-          .subscribe(
-            res => this.router.service(serviceId),
-            error => { // on measurement post error
-              window.scrollTo(0, 0);
-              this.errorMessage = error.error.error;
-              this.serviceForm.get('id').setValue(serviceId);
-              this.editMode = true;
-            },
-            () => {}
-          );
-      } else {
-        this.validateMeasurements();
-        window.scrollTo(0, 0);
-        this.errorMessage = 'Please fill all underlined fields at Indicator section';
-      }
+      this.measurements.controls[i].get('serviceId').setValue(serviceId);
+    }
+    // console.log(this.measurementForm.controls);
+    if (this.measurementForm.valid) {
+      this.resourceService.postMeasurementUpdateAll(serviceId, this.measurements.value)
+        .subscribe(
+          res => this.router.service(serviceId),
+          error => { // on measurement post error
+            window.scrollTo(0, 0);
+            this.errorMessage = error.error.error;
+            this.serviceForm.get('id').setValue(serviceId);
+            this.editMode = true;
+          },
+          () => {
+          }
+        );
+    } else {
+      this.validateMeasurements();
+      window.scrollTo(0, 0);
+      this.errorMessage = 'Please fill all underlined fields at Indicator section';
+    }
     // } else {
     //   this.router.service(serviceId);
     // }
