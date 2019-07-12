@@ -49,14 +49,18 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
         /*} else {
             this.location.back();
         }*/
-      });
+      },
+        err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error
+      );
     });
     this.resourceService.getServiceMeasurements(this.serviceID).subscribe(measurements => {
       this.measurementsFormPatch(measurements);
       if (this.measurements.length === 0) {
         this.pushToMeasurements();
       }
-    });
+    },
+      err => this.errorMessage = 'Could not get the measurements for this service. ' + err.error
+    );
     this.serviceForm.markAsPristine();
   }
 

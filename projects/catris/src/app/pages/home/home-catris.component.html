@@ -1,0 +1,200 @@
+<div class="tm-header-placeholder uk-margin-remove-adjacent" style="height: 120px;"></div>
+<div class="uk-section-secondary uk-position-relative"
+     uk-scrollspy="{&quot;target&quot;:&quot;[uk-scrollspy-class]&quot;,&quot;cls&quot;:&quot;uk-animation-fade&quot;,&quot;delay&quot;:false}">
+  <div
+    style="background-image: url('https://project.catris.eu/uploads/servicos/servicos_5cb0c35192a24.jpg'); background-color: rgb(255, 255, 255); box-sizing: border-box; min-height: calc(100vh - 229.5px);"
+    class="uk-background-norepeat uk-background-cover uk-background-fixed uk-section uk-padding-remove-bottom uk-flex uk-flex-middle"
+    uk-height-viewport="offset-top: true;offset-bottom: 20">
+    <div class="uk-position-cover" style=""></div>
+    <div class="uk-width-1-1">
+      <div class="uk-position-relative">
+        <div class="uk-container uk-margin-large">
+          <div class="search_box_bg uk-grid-large uk-flex-middle uk-grid uk-grid-stack" uk-grid="">
+            <div class="uk-width-1-2@m uk-first-column">
+              <div style="background-color: rgba(0,0,0,0.40); padding: 30px">
+                <h2
+                  class="uk-margin-large uk-margin-remove-top uk-text-center uk-h2 uk-scrollspy-inview uk-animation-fade"
+                  uk-scrollspy-class="" style="">
+                  Your Network for Research Infrastructure Services
+                </h2>
+                <div>
+                  <div class="search_box_bg" style="text-align:center">
+                    <form [formGroup]="searchForm" (ngSubmit)="this.onSubmit(searchForm.value)">
+                      <input aria-describedby="sizing-addon2" class="uk-input uk-width-1-2 ng-pristine
+                                        ng-valid ng-touched uk-comment uk-comment-meta uk-search-field"
+                             name="keyword" placeholder="Which service are you looking for?" type="text"
+                             formControlName="query">
+                      <button class=" uk-button uk-button-default" type="submit">Search</button>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="uk-section-default uk-section">
+  <div class="uk-container uk-margin-large-bottom">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+        <h1 class="uk-margin-medium uk-text-center uk-h2">
+          <span class="uk-text-background">Highlighted Services</span>
+        </h1>
+      </div>
+    </div>
+
+    <div *ngIf="featuredServices"
+         class="uk-grid-margin uk-grid uk-grid-stack uk-child-width-expand@s featuredServicesContainer uk-margin-medium-top"
+         uk-grid="">
+
+      <button class="nav-buttons" (click)="previous()"><i aria-hidden="true" class="fa fa-angle-left fa-4x"></i>
+      </button>
+
+      <div *ngFor="let featuredService of viewServices"
+           class="uk-card uk-card-body uk-card-gray uk-margin-small-left uk-margin-small-right limitRows featuredService">
+        <a (click)="this.router.service(featuredService.id)">
+          <h3
+            class="uk-text-center">{{featuredService.name.length > 25 ? featuredService.name.slice(0, 22) + '...' : featuredService.name}}</h3>
+          <p class="uk-text-center"
+             *ngIf="featuredService.tagline">{{featuredService.tagline.length > 40 ? featuredService.tagline.slice(0, 37) + '...' : featuredService.tagline}}</p>
+          <div class="symbolAndProvider">
+            <img src="{{featuredService.symbol || 'https://fvtelibrary.com/img/user/NoLogo.png'}}" class="serviceSymbol">
+            <span class="provider">{{featuredService.providers[0] | uppercase}}</span>
+          </div>
+        </a>
+      </div>
+      <button class="nav-buttons" (click)="next()"><i aria-hidden="true" class="fa fa-angle-right fa-4x"></i></button>
+    </div>
+  </div>
+  <div *ngIf="categories" class="uk-container serviceicon">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+        <h1 class="uk-margin-medium uk-text-center uk-h2">
+          <span class="uk-text-background">Explore services by Category</span>
+        </h1>
+      </div>
+    </div>
+
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <ng-container *ngFor="let entry of categories.entries | values">
+        <div *ngIf="entry!='other'" class="uk-width-1-6@m" (click)="this.router.search({category:entry})">
+          <div class="wk-panel wk-overlay-hover" style="min-height: 100px;">
+
+            <div class="wk-text-center wk-margin wk-margin-top-remove">
+              <div class="wk-overlay">
+                <img src="{{baseIconURI+categories.entries[entry].extras['icon']}}"
+                     alt="{{categories.entries[entry].name}}" height="70" style="max-width:70px">
+                <img src="{{baseIconURI+categories.entries[entry].extras['icon_active']}}"
+                     alt="{{categories.entries[entry].name}}" height="70" style="max-width:70px"
+                     class="wk-overlay-panel wk-overlay-image wk-overlay-fade">
+              </div>
+            </div>
+            <h3 class="wk-h4 wk-margin-top-remove uk-text-center">
+              <a class="wk-link-reset" type="button">
+                {{categories.entries[entry].name}}
+              </a>
+            </h3>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+        <div class="uk-margin uk-text-center">
+          <a class="el-content uk-button uk-button-default" [routerLink]="['/browseCategories']" title="Explore More"
+             uk-scroll="">
+            View all
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="uk-section-muted uk-section-overlap uk-position-relative"
+     uk-scrollspy="{&quot;target&quot;:&quot;[uk-scrollspy-class]&quot;,&quot;cls&quot;:&quot;uk-animation-fade&quot;,&quot;delay&quot;:false}">
+  <div style="background-image: url('https://project.catris.eu/uploads/servicos/servicos_5cb0c35192a24.jpg');"
+       class="uk-background-norepeat uk-background-cover uk-background-center-center uk-background-fixed uk-section uk-section-medium">
+    <div class="uk-position-cover" style="background-color: rgba(31, 55, 97, 0.53);"></div>
+    <div class="uk-container uk-container-large uk-position-relative">
+
+      <div class="uk-grid uk-width-1-1">
+        <div class="uk-width-3-5@m firstColumn">
+          <div class="aboutUs">
+            <h3>
+              About us
+            </h3>
+            <p>
+              e-Infrastructures address the needs of European researchers for digital services in terms of
+              networking, computing and data management by fostering the emergence of Open Science. In the
+              context of the European open science agenda there is a need to capitalise on past e-infrastructure
+              investments and develop an e-infrastructure commons.
+            </p>
+            <div class="">
+              <div class="uk-text-right">
+                <a class="uk-flex-right uk-margin-small-right" target="_blank"
+                   href="http://einfracentral.eu/basic-page/about-einfracentral">Read all
+                  <img src="../../../assets/images/icons/ic_link_arrow_right.svg">
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="registerService personas">
+            <h3>
+              I would like to register a service
+            </h3>
+            <div class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" (click)="signUpAndRegisterAservice()">Sign up and register a service</a>
+              <img src="../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+          </div>
+        </div>
+        <div class="uk-width-2-5@m uk-padding-remove-left">
+          <div class="needService personas">
+            <h3>
+              I need a service to
+            </h3>
+            <div class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" [routerLink]="['/search', {category : 'networking,compute,security'}]">Use
+                network, computing and security resources</a>
+              <img src="../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+            <div class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" [routerLink]="['/search', {category : 'storage,data,aggregator'}]">Store,
+                share and analyze data</a>
+              <img src="../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+            <div class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" [routerLink]="['/search', {category : 'software,aggregator'}]">Use and
+                share software</a>
+              <img src="../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+          </div>
+          <div class="research personas">
+            <h3>
+              I am interested in research
+            </h3>
+            <div class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" [routerLink]="['/search', {category : 'training'}]">Administration and
+                training services</a>
+              <img src="../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+            <div class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" [routerLink]="['/search', {category : 'operations'}]">Monitoring and
+                funding</a>
+              <img src="../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

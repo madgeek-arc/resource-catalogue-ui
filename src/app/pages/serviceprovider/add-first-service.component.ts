@@ -50,13 +50,16 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
         /*} else {
             this.location.back();
         }*/
-      });
+      },
+      err => this.errorMessage = 'Something went bad, server responded: ' + err.error);
       this.resourceService.getServiceMeasurements(this.serviceId).subscribe(measurements => {
         this.measurementsFormPatch(measurements);
         if (this.measurements.length === 0) {
           this.pushToMeasurements();
         }
-      });
+      },
+        err => this.errorMessage = 'Could not get the measurements for this service. ' + err.error
+      );
     }
   }
 

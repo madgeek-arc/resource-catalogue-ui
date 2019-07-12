@@ -19,6 +19,8 @@ import {MyFavouritesComponent} from './pages/user/favourites/my-favourites.compo
 import {ServiceEditComponent} from './pages/eInfraServices/service-edit.component';
 import {MeasurementsComponent} from './pages/indicators/measurements.component';
 import {IndicatorFromComponent} from './pages/indicators/indicator-from.component';
+import {ForbiddenPageComponent} from './shared/forbidden-page/forbidden-page.component';
+import {NotFoundPageComponent} from './shared/not-found-page/not-found-page.component';
 
 const appRoutes: Routes = [
   {
@@ -167,6 +169,28 @@ const appRoutes: Routes = [
     component: IndicatorFromComponent,
     data: {
       breadcrumb: 'New Indicator'
+    }
+  },
+  {
+    path: 'forbidden',
+    component: ForbiddenPageComponent,
+    data: {
+      breadcrumb: 'Forbidden'
+    }
+  },
+  {
+    path: 'notFound',
+    component: NotFoundPageComponent,
+    data: {
+      breadcrumb: 'Not Found'
+    }
+  },
+  {
+    path: '**',
+    redirectTo: 'notFound',
+    pathMatch: 'full',
+    data: {
+      breadcrumb: 'Not Found'
     }
   }
 ];

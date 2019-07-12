@@ -17,6 +17,7 @@ import {ReusableComponentsModule} from '../../../../src/app/shared/reusablecompo
 import {SharedModule} from '../../../../src/app/shared/shared.module';
 import {StarRatingModule} from 'angular-star-rating';
 import {ChartModule} from 'angular2-highcharts';
+import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/cookie-law/cookie-law.module';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import {ChartModule} from 'angular2-highcharts';
     ReusableComponentsModule,
     SharedModule,
     StarRatingModule.forRoot(),
-    ChartModule
+    ChartModule,
+    CookieLawModule
   ],
   providers: [
     ResourceServiceExtended

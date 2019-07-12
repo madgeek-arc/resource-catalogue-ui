@@ -1,0 +1,65 @@
+.uk-navbar-nav > li > a , .uk-navbar-nav > li > a:focus, .uk-navbar-nav > li > a:active{
+  color: #232323;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.uk-navbar-nav > li > a:hover {
+  color: #000;
+}
+
+/*.uk-navbar-dropdown-nav > li > a, .uk-navbar-dropdown-nav > li > a:focus, .uk-navbar-dropdown-nav > li > a:active {*/
+  /*color: #0047BA;*/
+  /*font-size: 16px;*/
+/*}*/
+
+/*.uk-navbar-dropdown-nav > li > a:hover {*/
+  /*color: #D1303A;*/
+/*}*/
+
+.signUp {
+  border: 1px solid #0047BA;
+  height: 40px !important;
+  margin-top: 20px;
+}
+
+.signUp:hover, .signUp:focus {
+  border: 1px solid #D1303A;
+}
+
+/*TODO remove when we enable signUp*/
+a.signUp, a:hover.signUp {
+  color: #4D586A !important;
+  cursor:not-allowed !important;
+  border: 1px solid #4D586A;
+}
+
+.uk-navbar-container > .uk-container .uk-navbar-right, .uk-navbar-container > .container .uk-navbar-right {
+  margin-right: 0px;
+}
+
+.uk-navbar-right > .uk-navbar-nav > li > a {
+  white-space: nowrap;
+}
+
+.uk-navbar-container {
+  padding: 20px;
+}
+
+.uk-navbar-dropdown, .navbar .nav > li > .dropdown-menu {
+  /*display: none;*/
+  /*position: absolute;*/
+  /*z-index: 1020;*/
+  /*box-sizing: border-box;*/
+  /*width: 200px;*/
+  /*padding: 25px;*/
+  background: #37833F;
+  color: #fff;
+  /*box-shadow: 0 2px 8px rgba(0,0,0,0.08);*/
+}
+
+.uk-navbar-dropdown-nav > li > a {
+  color: #fff;
+  font-size: 14px;
+}

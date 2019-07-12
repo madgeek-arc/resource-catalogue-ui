@@ -23,7 +23,7 @@
             <!-- MIDDLE -->
             <div class=" uk-width-expand@m">
 
-              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
+              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
 
               <div *ngIf="service" class="uk-grid">
                 <div class="uk-width-1-1@m">
@@ -121,7 +121,7 @@
                               </div>
                               <div
                                 class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">
-                                <h3>Updated</h3>
+                                <h3>Updated Version {{history.version}}</h3>
                                 <p>on {{history.modifiedAt | date:'shortDate'}} by {{history.modifiedBy}}</p>
                               </div>
                             </div>

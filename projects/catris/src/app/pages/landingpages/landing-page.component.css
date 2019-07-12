@@ -1,0 +1,337 @@
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+h2.uk-h2 {
+    font-size: 28px !important;
+    font-family: 'Teko', sans-serif;
+    font-weight: 600;
+    color: #444;
+    /*font-size: 27px;*/
+    /*color: #2B4371;*/
+    /*letter-spacing: 0.61px;*/
+    /*font-family: 'Montserrat Light';*/
+}
+
+.tagLine {
+    font-size: 16px;
+    /*color: #0047BA;*/
+    color: rgb(55, 131, 63);
+    letter-spacing: 0;
+    line-height: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.uk-section {
+    padding-top: 50px;
+}
+
+.statsNumbers {
+    font-size: 16px;
+    color: #4D586A;
+    letter-spacing: 0;
+    margin-left: 5px;
+}
+
+.starRating {
+    margin-top: 4px;
+    margin-left: -5px;
+}
+
+.uk-card-custom {
+    background: #EFF1F3;
+    background: #fff;
+    border-radius: 2px;
+}
+
+.providerCard.uk-card-custom {
+    padding: 19px 22px;
+    border-radius: 50%;
+    height: 100%;
+    position: relative;
+}
+
+.providerCard img {
+  max-width: 37%;
+  max-height: 40%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.provider {
+  font-size: 15px;
+  color: #545454;
+  letter-spacing: 0.36px;
+  line-height: 23px;
+  margin-left: 20px;
+  position: absolute;
+  top: 70%;
+  left: 28%;
+  font-weight: bold;
+}
+
+.serviceDescription {
+    font-size: 15px;
+    /*color: #4D586A;*/
+    letter-spacing: 0.32px;
+    line-height: 22.4px;
+}
+
+.uk-grid + .uk-grid, .uk-grid > .uk-grid-margin, * + .uk-grid-margin {
+    margin-top: 30px;
+}
+
+.tags .uk-label {
+    background: #EFF1F3;
+    border-radius: 2px;
+    font-size: 12px;
+    color: #2B4371;
+    text-align: center;
+    border: none;
+    padding: 3px 12px;
+    margin-right: 7px;
+}
+
+/*.uk-button-blue {*/
+    /*background: #0047BA;*/
+    /*border-radius: 2px;*/
+    /*color: #fff;*/
+/*}*/
+
+.visitButton {
+    background: #0047BA;
+    border-radius: 2px;
+    font-weight: bold;
+    font-size: 15px;
+    color: #FFFFFF;
+    letter-spacing: 0.36px;
+    text-align: center;
+    /*width: 261px;*/
+    height: 50px;
+}
+
+.visitButton:hover {
+    background-color: #254190;
+    border-color: #254190;
+    color: #fff;
+}
+
+.sidebarHeaders {
+    font-size: 28px;
+    color: #2B4371;
+    letter-spacing: 0;
+}
+
+a, .uk-link {
+    font-weight: bold;
+    font-size: 15px;
+    color: #0047BA;
+    letter-spacing: 0.36px;
+}
+
+a:hover, .uk-link:hover {
+    color: #d1303a;
+}
+
+.sideInfo {
+    padding: 41px 29px;
+}
+
+.customDivider {
+    opacity: 0.17;
+    border: 2px solid #4D586A;
+}
+
+.infoTitle {
+    font-weight: 400;
+    font-size: 15px;
+    color: #4D586A;
+    letter-spacing: 0;
+}
+
+.infoDescription {
+    font-size: 15px;
+    color: #4D586A;
+    letter-spacing: 0.36px;
+    line-height: 23px;
+}
+
+.uk-card-basic-info {
+    /*background: rgba(103,118,144,0.05);*/
+    background: #f9f9f9;
+    border-radius: 2px;
+    padding: 44px 42px;
+}
+
+.uk-card-basic-info .uk-h2 {
+    font-size: 27px;
+    color: #2B4371;
+    letter-spacing: 0.61px;
+}
+
+.uk-description-list dt {
+    font-size: 15px;
+    color: #424242;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+}
+
+.uk-description-list dd {
+    font-size: 15px;
+    color: #424242;
+    letter-spacing: 0.36px;
+    line-height: 23px;
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+}
+
+.uk-card-primary .uk-description-list dt {
+  color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.uk-vertical-align-top {
+    vertical-align: top;
+}
+
+
+
+
+.tags {
+    margin-bottom: 20px;
+    margin-top: 15px;
+}
+
+.tags .uk-label-primary {
+    background: #214c9c none repeat scroll 0 0;
+    color: #fff;
+    border-color: #254190;
+}
+
+
+
+/*.tagLine {*/
+    /*margin-bottom: 15px;*/
+    /*color: #D1303A;*/
+/*}*/
+
+
+.uk-tab > * > a:hover, .uk-tab > * > a:focus {
+    color: #214c9c;
+}
+
+.uk-tab > * > a, .nav-tabs > li > a {
+    color: #524f4f;
+}
+
+.uk-tab > .uk-active > a, .nav-tabs > .active > a {
+    border-color: #214c9c;
+    color: #214c9c;
+}
+
+.comma-element::before {
+    content: ', ';
+}
+
+.comma-element:first-child::before {
+    content: '';
+}
+
+.contractualInfo {
+    padding: 30px;
+    box-shadow: 0 6px 50px rgba(33,76,156,.4);
+}
+
+.contractualInfo h4 {
+    margin: 0 0 5px 0;
+    font-size: 15px;
+}
+
+chart {
+    display: block;
+}
+
+.uk-section-secondary h2.uk-h2 {
+  color: #424242 !important;
+}
+
+.section-heading.uk-h2 {
+  padding-bottom: 15px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  /*position: relative;*/
+  line-height: 140%;
+  /*font-size: 24px;*/
+  font-family: 'Montserrat', sans-serif;
+  color: #232323;
+  letter-spacing: 0;
+}
+
+.section-heading.uk-h2::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 2px;
+  background: #37833F;
+  margin-top: 7px;
+}
+
+.uk-section {
+  padding-top: 40px;
+  padding-bottom: 45px;
+}
+
+.uk-card-primary {
+  background: #37833F;
+}
+
+.uk-card-primary .uk-h2 {
+  padding-bottom: 15px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  /*position: relative;*/
+  line-height: 140%;
+  /*font-size: 24px;*/
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+  letter-spacing: 0;
+}
+
+.uk-card-primary .uk-h2::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 2px;
+  background: #fff;
+  margin-top: 7px;
+}
+
+.badges .uk-badge {
+  padding: 13px;
+  background-color: transparent;
+  border: 1px solid #dedede;
+}

@@ -26,9 +26,7 @@ export class UserService {
       /*return this.http.put(`/event/favourite/service/${serviceID}`,{});*/
       // new addFavourite method
       return this.http.post<EicEvent>(this.base + `/event/favourite/service/${serviceID}?value=${value}`, {}, this.options)
-        .pipe(
-          catchError(this.handleError)
-        );
+        ;
     } else {
       this.authenticationService.login();
     }
@@ -37,9 +35,7 @@ export class UserService {
   public getFavouritesOfUser() {
     if (this.authenticationService.isLoggedIn()) {
       return this.http.get<RichService[]>(this.base + `/userEvents/favourites/`, this.options)
-        .pipe(
-          catchError(this.handleError)
-        );
+        ;
     } else {
       return null;
     }
@@ -70,9 +66,7 @@ export class UserService {
   public rateService(serviceID: string, rating: number): Observable<EicEvent> {
     if (this.authenticationService.isLoggedIn()) {
       return this.http.post<EicEvent>(this.base + `/event/rating/service/${serviceID}?rating=${rating}`, {}, this.options)
-        .pipe(
-          catchError(this.handleError)
-        );
+        ;
       // return this.resourceService.recordEvent(serviceID, "RATING", value).subscribe(console.log);
     } else {
       this.authenticationService.login();
