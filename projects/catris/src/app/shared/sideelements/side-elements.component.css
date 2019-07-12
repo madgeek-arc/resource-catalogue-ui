@@ -1,0 +1,32 @@
+.side_newsletter {
+  position: fixed;
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px;
+  margin-left: 150px;
+  color: white;
+  cursor: pointer;
+  background: rgb(55, 131, 63) none repeat scroll 0% 0%;
+  width: 175px;
+  height: auto;
+  padding: 10px 0px 10px 15px;
+}
+
+.side_newsletter.newsletter {
+  margin-top: 0px;
+}
+
+.side_newsletter.contact {
+  margin-top: 50px;
+}
+
+.side_newsletter.twitter {
+  margin-top: 100px;
+}
+
+.side_newsletter.linkedin {
+  margin-top: 150px;
+}
+
+.side_newsletter:hover {
+  margin-left: 45px;
+}

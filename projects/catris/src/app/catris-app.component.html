@@ -1,9 +1,10 @@
 <div class="uk-offcanvas-content">
-  <app-top-menu *ngIf="!isLoginOrRegister"></app-top-menu>
-  <app-breadcrumbs *ngIf="router.url != '/home' && router.url != '/'"></app-breadcrumbs>
+  <app-side-elements></app-side-elements>
+  <app-top-menu-catris *ngIf="!isLoginOrRegister"></app-top-menu-catris>
+  <app-breadcrumbs-catris *ngIf="router.url != '/home' && router.url != '/'"></app-breadcrumbs-catris>
   <div style="min-height: 80px">
     <router-outlet></router-outlet>
   </div>
-  <app-feedback></app-feedback>
-  <app-footer></app-footer>
+  <app-footer-catris></app-footer-catris>
+  <!--<a (click)="scrollToTop()" class="scroll-to-top" style="display: block;"><i class="fa fa-angle-up" aria-hidden="true"></i></a>-->
 </div>
