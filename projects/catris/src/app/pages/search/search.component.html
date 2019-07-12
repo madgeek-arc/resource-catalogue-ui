@@ -1,0 +1,723 @@
+<div id="tm-main" class="tm-main uk-section uk-section-default" uk-height-viewport="expand: true"
+     style="box-sizing: border-box;">
+  <div class="uk-container">
+
+    <!-- TOP HELP CONTENT -->
+    <app-help-content #topHelperContent [position]="'top'"
+                  [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+    </app-help-content>
+
+
+    <div *ngIf="listViewActive" class="uk-grid" uk-grid="">
+
+
+      <aside id="tm-sidebar" class="tm-sidebar uk-width-1-5@m">
+
+        <div *ngIf="searchResults != null" class="sidemenu refines">
+
+          <div class="">
+            <!--<h2 class="uk-h2">Category</h2>-->
+
+            <!--TODO remove hardcoded-->
+            <div class="refineCategory uk-grid-margin">
+              <read-more [maxHeight]="265">
+                <h2 class="uk-h2">Supercategory</h2>
+                <!--<span>{{facet.label}}</span>-->
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Access Physical & e-Infrastructures
+                  <span>(50)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Sharing & Discovery
+                  <span>(34)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Processing & Analysis
+                  <span>(29)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Security & Operations
+                  <span>(23)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Training & Support
+                  <span>(12)</span>
+                </div>
+              </read-more>
+            </div>
+
+            <ng-template ngFor let-facet [ngForOf]="searchResults.facets">
+              <!--<ng-template [ngIf]="facet.field=='category'">-->
+              <div *ngIf="facet.field=='category'" class="refineCategory uk-grid-margin">
+                <read-more [maxHeight]="235">
+                  <h2 class="uk-h2">{{facet.label}}</h2>
+                  <!--<span>{{facet.label}}</span>-->
+                  <div class="refineOption" *ngFor="let facetValue of facet.values">
+                    <input type="checkbox" name="vehicle" value="Bike" data-md-icheck
+                           (change)="this.onSelection($event, facet.field, facetValue.value)"
+                           [checked]="facetValue.isChecked">
+                    {{facetValue.label}}
+                    <span>({{facetValue.count}})</span>
+                  </div>
+                </read-more>
+              </div>
+              <!--</ng-template>-->
+            </ng-template>
+
+            <ng-template ngFor let-facet [ngForOf]="searchResults.facets">
+              <!--<ng-template [ngIf]="facet.field=='category'">-->
+              <div *ngIf="facet.field=='subcategory'" class="refineCategory uk-grid-margin">
+                <read-more [maxHeight]="235">
+                  <h2 class="uk-h2">{{facet.label}}</h2>
+                  <!--<span>{{facet.label}}</span>-->
+                  <div class="refineOption" *ngFor="let facetValue of facet.values">
+                    <input type="checkbox" name="vehicle" value="Bike" data-md-icheck
+                           (change)="this.onSelection($event, facet.field, facetValue.value)"
+                           [checked]="facetValue.isChecked">
+                    {{facetValue.label}}
+                    <span>({{facetValue.count}})</span>
+                  </div>
+                </read-more>
+              </div>
+              <!--</ng-template>-->
+            </ng-template>
+
+            <div class="refineCategory uk-grid-margin">
+              <read-more [maxHeight]="235">
+                <h2 class="uk-h2">Target Users</h2>
+                <!--<span>{{facet.label}}</span>-->
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Researchers
+                  <span>(43)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Innovators
+                  <span>(36)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Providers
+                  <span>(25)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Funders
+                  <span>(21)</span>
+                </div>
+              </read-more>
+            </div>
+
+            <div class="refineCategory uk-grid-margin">
+              <read-more [maxHeight]="210">
+                <h2 class="uk-h2">Scientific domain</h2>
+                <!--<span>{{facet.label}}</span>-->
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Natural Sciences
+                  <span>(52)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Engineering & Technology
+                  <span>(48)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Medical & Health Sciences
+                  <span>(35)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Agricultural Sciences
+                  <span>(21)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Social Sciences
+                  <span>(17)</span>
+                </div>
+              </read-more>
+            </div>
+
+            <div class="refineCategory uk-grid-margin">
+              <read-more [maxHeight]="210">
+                <h2 class="uk-h2">Scientific subdomain</h2>
+                <!--<span>{{facet.label}}</span>-->
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Computer sciences
+                  <span>(35)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Earth sciences
+                  <span>(23)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Aerospace engineering
+                  <span>(21)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Environmental engineering
+                  <span>(14)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Clinical medicine
+                  <span>(8)</span>
+                </div>
+              </read-more>
+            </div>
+
+            <div class="refineCategory uk-grid-margin">
+              <read-more [maxHeight]="235">
+                <h2 class="uk-h2">Access type</h2>
+                <!--<span>{{facet.label}}</span>-->
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Remote
+                  <span>(35)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Physical
+                  <span>(23)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Virtual
+                  <span>(21)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Mail-in
+                  <span>(14)</span>
+                </div>
+              </read-more>
+            </div>
+
+            <div class="refineCategory uk-grid-margin">
+              <read-more [maxHeight]="235">
+                <h2 class="uk-h2">Access mode</h2>
+                <!--<span>{{facet.label}}</span>-->
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Excellence driven
+                  <span>(35)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Market driven
+                  <span>(23)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Wide access
+                  <span>(21)</span>
+                </div>
+                <div class="refineOption">
+                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
+                  Other
+                  <span>(14)</span>
+                </div>
+              </read-more>
+            </div>
+
+            <ng-template ngFor let-facet [ngForOf]="searchResults.facets">
+              <!--<ng-template [ngIf]="facet.field=='category'">-->
+                <div *ngIf="facet.field!='resourceType'" class="refineCategory uk-grid-margin">
+                  <read-more [maxHeight]="235">
+                    <h2 class="uk-h2">{{facet.label}}</h2>
+                    <!--<span>{{facet.label}}</span>-->
+                    <div class="refineOption" *ngFor="let facetValue of facet.values">
+                      <input type="checkbox" name="vehicle" value="Bike" data-md-icheck
+                             (change)="this.onSelection($event, facet.field, facetValue.value)"
+                             [checked]="facetValue.isChecked">
+                      {{facetValue.label}}
+                      <span>({{facetValue.count}})</span>
+                    </div>
+                  </read-more>
+                </div>
+              <!--</ng-template>-->
+            </ng-template>
+          </div>
+
+
+        </div>
+
+      </aside>
+
+      <div class="uk-width-expand@m uk-first-column">
+
+        <div *ngIf="errorMessage" class="">
+          <div data-uk-alert="" class="uk-alert uk-alert-danger">
+            <p>{{errorMessage}}</p>
+          </div>
+        </div>
+
+        <div *ngIf="!errorMessage && searchResults != null" class="">
+
+          <div *ngIf="!foundResults">
+            <div data-uk-alert="" class="uk-alert uk-alert-warning">
+              <p>No results found</p>
+            </div>
+          </div>
+
+          <div *ngIf="searchResults.results != null && searchResults.results.length>0">
+
+            <!--<div class="uk-width-1-1 uk-row-first uk-margin-bottom">-->
+
+              <!--<nav *ngIf="searchResults.facets" class="uk-inline" style="margin-left: -10px;" uk-navbar>-->
+
+                <!--<div class="uk-navbar-left">-->
+
+                  <!--<ul class="uk-navbar-nav uk-nav-parent-icon filters">-->
+
+                    <!--<ng-container *ngFor="let facet of searchResults.facets">-->
+                      <!--<ng-container *ngIf="facet.field!='category' && facet.field!='resourceType'">-->
+                        <!--<li class="uk-parent uk-margin-small-right">-->
+                          <!--<a href="#">{{facet.label}}</a>-->
+                          <!--<div class="uk-navbar-dropdown">-->
+                            <!--<ul class="uk-nav uk-navbar-dropdown-nav">-->
+                              <!--<li *ngFor="let facetValue of facet.values">-->
+                                <!--<a (click)="this.selectFacet(facet.field, facetValue.value)">-->
+                                  <!--{{facetValue.label}}-->
+                                  <!--<span>({{facetValue.count}})</span>-->
+                                <!--</a>-->
+                              <!--</li>-->
+                            <!--</ul>-->
+                          <!--</div>-->
+                        <!--</li>-->
+                      <!--</ng-container>-->
+                    <!--</ng-container>-->
+
+                  <!--</ul>-->
+
+                <!--</div>-->
+              <!--</nav>-->
+
+              <!--<div class="uk-inline uk-float-right">-->
+                <!--<a *ngIf="listViewActive" (click)="toggleListGrid('grid')">-->
+                  <!--<img src="../../../assets/images/icons/switch_view_list_active.svg">-->
+                <!--</a>-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <div *ngIf="urlParameters && urlParameters.length>0" class="uk-width-1-1 uk-row-first uk-margin-bottom">
+              <ul class="facets-selected cf">
+                <ng-template ngFor let-urlParameter [ngForOf]="urlParameters">
+                  <ng-template
+                    [ngIf]="urlParameter.key!='from' && urlParameter.key!='quantity' && urlParameter.values!=''">
+                    <li *ngFor="let facet of urlParameter.values" class="search-tag">
+                      <span class="title">{{urlParameter.key}}:</span> {{facet | uppercase}}
+                      <a (click)="this.deselectFacet(urlParameter.key, facet)" data-role="remove"></a>
+                    </li>
+                  </ng-template>
+                </ng-template>
+              </ul>
+            </div>
+
+            <div class="uk-grid uk-row-first uk-margin-bottom">
+              <div class="uk-width-3-5">
+                <span>Showing {{searchResults.from + 1}} - {{searchResults.to}} of {{searchResults.total}}
+                  results</span>
+              </div>
+              <div class="uk-width-1-5 uk-text-right">
+                <label for="pageSize">Items per page: </label>
+              </div>
+              <div class="uk-width-1-5">
+                <select id="pageSize" [ngModel]="pageSize" (change)="onPageSizeChange($event)" style="height: auto">
+                  <option value="10">10</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                  <option value="10000">All</option>
+                </select>
+              </div>
+            </div>
+
+            <div *ngIf="listViewActive" class="uk-grid-margin-small">
+
+              <ng-container *ngFor="let resourceInfo of searchResults.results; let i = index">
+
+                <div class="serviceDetails uk-margin-small-bottom">
+
+                  <div class="uk-grid" uk-grid="">
+
+                    <div class="uk-width-4-5@m uk-first-column uk-card-body serviceInfo">
+                      <div>
+                        <h2
+                          class="uk-margin-remove uk-text-left@m uk-text-center uk-h3 uk-scrollspy-inview uk-animation-fade uk-inline"
+                          uk-scrollspy-class="" style="">
+                          <a [routerLink]="['/service/' + resourceInfo.id]">
+                            {{resourceInfo.name || "Not Available"}}
+                          </a>
+                        </h2>
+                        <span class="uk-inline uk-float-right" style="margin-top:5px;">
+                          <star-rating-comp #rating (click)="rateService(i, rating.rating)"
+                                            [starType]="'svg'" [rating]="resourceInfo.hasRate"
+                                            [step]="1"
+                                            [showHalfStars]="true"
+                                            [readOnly]=!this.authenticationService.isLoggedIn()
+                                            [size]="'medium'"
+                                            [staticColor]="'ok'" title="Rate this service"
+                                            uk-tooltip="delay: 500"
+                                            labelText="{{resourceInfo.hasRate}} ({{ resourceInfo.ratings }})"
+                                            [labelVisible]="true" [labelPosition]="'right'"
+                                            [hoverEnabled]="true">
+                          </star-rating-comp>
+                        </span>
+                      </div>
+                      <div class="uk-margin-small-top serviceTagLine" style="">
+                        "{{resourceInfo.tagline}}"
+                      </div>
+                      <div class="uk-margin-small-top uk-scrollspy-inview uk-animation-fade serviceDescription"
+                           uk-scrollspy-class="" style="">
+                        <read-more-text [text]="resourceInfo.description" [maxHeight]="45">
+                        </read-more-text>
+                      </div>
+
+                      <div class="addenda uk-margin-small-top">
+                        <span class="uk-margin-medium-right">
+                            <a (click)="addToFavourites(i)">
+                                <i
+                                  [ngClass]="resourceInfo.isFavourite?'fa fa-heart fa-lg':'fa fa-heart-o fa-lg'"></i>
+                            </a>
+                            <span
+                              class="statsNumbers">&nbsp;{{ resourceInfo.favourites }}</span>
+                        </span>
+                        <span class="uk-margin-medium-right">
+                            <input type="checkbox" class="uk-margin-small-right"
+                                   [checked]="isSelected(resourceInfo)"
+                                   (change)="comparisonService.addOrRemove(resourceInfo)">
+                            <a>{{isSelected(resourceInfo) ? 'Added' : 'Add to compare'}}</a>
+                        </span>
+                        <span class="uk-float-right">
+                            <img src="../../../../assets/images/icons/ic_visit_icon.svg">
+                            <span class="statsNumbers">&nbsp;{{ resourceInfo.views }}</span>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="uk-width-1-5@m symbolAndProvider uk-card-body uk-text-center">
+
+                      <div class="">
+                        <a (click)="this.router.service(resourceInfo.id)">
+                          <span>
+                            <img src="{{resourceInfo.symbol || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
+                              style="max-width: 90px;">
+                          </span>
+                        </a>
+                      </div>
+                      <div class="uk-margin-small-top">
+                        <span class="provider">{{resourceInfo.providers[0] | uppercase}}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!--<hr uk-scrollspy-class="" style="" class="uk-scrollspy-inview uk-animation-slide-top-medium">-->
+
+              </ng-container>
+            </div>
+
+            <div class="uk-width-1-1 uk-row-first">
+              <ul class="uk-pagination">
+
+                <li class="uk-disabled" *ngIf="isPreviousPageDisabled">
+                  <a class="uk-disabled" href="#">
+                    <span class="uk-margin-small-right" uk-pagination-previous></span> Previous
+                  </a>
+                </li>
+                <li *ngIf="!isPreviousPageDisabled">
+                  <a (click)="this.goToPreviousPage()">
+                    <span class="uk-margin-small-right" uk-pagination-previous></span> Previous
+                  </a>
+                </li>
+
+                <li class="uk-margin-auto-left uk-disabled" *ngIf="isNextPageDisabled">
+                  <a class="uk-disabled" href="#">Next
+                    <span class="uk-margin-small-left" uk-pagination-next></span>
+                  </a>
+                </li>
+                <li class="uk-margin-auto-left" *ngIf="!isNextPageDisabled">
+                  <a (click)="this.goToNextPage()">Next
+                    <span class="uk-margin-small-left" uk-pagination-next></span>
+                  </a>
+                </li>
+              </ul>
+              <div class="resultsPageLabel">page {{currentPage}} of {{totalPages}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT HELP CONTENT -->
+      <app-aside-help-content #rightHelperContent [position]="'right'"
+                          [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+      </app-aside-help-content>
+
+    </div>
+
+    <div *ngIf="!listViewActive" class="uk-grid" uk-grid="">
+
+      <div class="uk-width-expand@m uk-first-column">
+
+        <div *ngIf="errorMessage" class="">
+          <div data-uk-alert="" class="uk-alert uk-alert-danger">
+            <p>{{errorMessage}}</p>
+          </div>
+        </div>
+
+        <div *ngIf="!errorMessage && searchResults != null" class="">
+
+          <div *ngIf="!foundResults">
+            <div data-uk-alert="" class="uk-alert uk-alert-warning">
+              <p>No results found</p>
+            </div>
+          </div>
+
+          <div *ngIf="searchResults.results != null && searchResults.results.length>0">
+
+            <div class="uk-width-1-1 uk-row-first uk-margin-bottom">
+
+              <nav *ngIf="searchResults.facets" class="uk-inline" style="margin-left: -10px;" uk-navbar>
+                <div class="uk-navbar-left">
+
+                  <ul class="uk-navbar-nav uk-nav-parent-icon filters">
+
+                    <ng-container *ngFor="let facet of searchResults.facets">
+                      <ng-container *ngIf="facet.field=='category'">
+                        <li class="uk-parent uk-margin-medium-right">
+                          <a href="#">{{facet.label}}</a>
+                          <div class="uk-navbar-dropdown">
+                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                              <li *ngFor="let facetValue of facet.values">
+                                <a (click)="this.selectFacet(facet.field, facetValue.value)">
+                                  {{facetValue.label}}
+                                  <span>({{facetValue.count}})</span>
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                      </ng-container>
+                      <ng-container *ngIf="facet.field!='category' && facet.field!='resourceType'">
+                        <li class="uk-parent uk-margin-medium-right">
+                          <a href="#">{{facet.label == 'TRL' ? 'Technology Readiness' : facet.label}}</a>
+                          <div class="uk-navbar-dropdown">
+                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                              <li *ngFor="let facetValue of facet.values">
+                                <a (click)="this.selectFacet(facet.field, facetValue.value)">
+                                  {{facetValue.label}}
+                                  <span>({{facetValue.count}})</span>
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                      </ng-container>
+                    </ng-container>
+
+                  </ul>
+
+                </div>
+              </nav>
+
+              <div class="uk-inline uk-float-right">
+                <a (click)="toggleListGrid('list')">
+                  <img src="../../../assets/images/icons/switch_view_grid_active.svg">
+                </a>
+              </div>
+
+            </div>
+
+            <div *ngIf="urlParameters && urlParameters.length>0" class="uk-width-1-1 uk-row-first uk-margin-bottom">
+              <ul class="facets-selected cf">
+                <ng-template ngFor let-urlParameter [ngForOf]="urlParameters">
+                  <ng-template
+                    [ngIf]="urlParameter.key!='from' && urlParameter.key!='quantity' && urlParameter.values!=''">
+                    <li *ngFor="let facet of urlParameter.values" class="search-tag">
+                      <span class="title">{{urlParameter.key}}:</span> {{facet | uppercase}}
+                      <a (click)="this.deselectFacet(urlParameter.key, facet)" data-role="remove"></a>
+                    </li>
+                  </ng-template>
+                </ng-template>
+              </ul>
+            </div>
+
+            <div class="uk-grid uk-row-first uk-margin-bottom">
+              <div class="uk-width-3-5">
+                <span>Showing {{searchResults.from + 1}} - {{searchResults.to}} of {{searchResults.total}}
+                  results</span>
+              </div>
+              <div class="uk-width-1-5 uk-text-right">
+                <label for="pageSizeList">Items per page: </label>
+              </div>
+              <div class="uk-width-1-5">
+                <select id="pageSizeList" [ngModel]="pageSize" (change)="onPageSizeChange($event)" style="height: auto">
+                  <option value="9">9</option>
+                  <option value="48">48</option>
+                  <option value="99">99</option>
+                  <option value="10000">All</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="uk-grid uk-grid-margin-small uk-child-width-1-3@m gridView">
+
+              <ng-container *ngFor="let resourceInfo of searchResults.results; let i = index">
+
+                <div class="serviceDetails uk-margin-small-bottom">
+
+                  <div class="uk-first-column uk-card-body serviceInfo">
+                    <div style="position: relative">
+                      <div style="position: absolute;left: -5px;height: 20px;">
+                        <star-rating-comp #rating2 (click)="rateService(i, rating2.rating)" [starType]="'svg'"
+                                          [rating]="resourceInfo.hasRate" [step]="1"
+                                          [showHalfStars]="true" [readOnly]=!this.authenticationService.isLoggedIn()
+                                          [size]="'medium'"
+                                          [staticColor]="'ok'" title="Rate this service" uk-tooltip="delay: 500"
+                                          labelText="{{resourceInfo.hasRate}} ({{ resourceInfo.ratings }})"
+                                          [labelVisible]="true" [labelPosition]="'right'"
+                                          [hoverEnabled]="true">
+                        </star-rating-comp>
+                      </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                      <h2 class="uk-margin-remove uk-h3 uk-scrollspy-inview uk-animation-fade uk-inline serviceName"
+                          uk-scrollspy-class="">
+                        <a [routerLink]="['/service/' + resourceInfo.id]">
+                          {{resourceInfo.name || "Not Available"}}
+                        </a>
+                      </h2>
+                    </div>
+
+                    <div class="uk-margin-small-top serviceTagLine">
+                      "{{resourceInfo.tagline}}"
+                    </div>
+                    <div class="uk-margin-small-top uk-scrollspy-inview uk-animation-fade" uk-scrollspy-class="">
+                      <!--<read-more-text [text]="resourceInfo.description" [maxHeight]="38">-->
+                      <!--</read-more-text>-->
+                      <div class="serviceDescription" [innerHTML]="resourceInfo.description"></div>
+                      <a [routerLink]="['/service/' + resourceInfo.id]">View more...</a>
+                    </div>
+
+
+                    <div class="addenda uk-margin-small-top">
+                      <span class="uk-margin-medium-right">
+                          <a (click)="addToFavourites(i)">
+                              <i
+                                [ngClass]="resourceInfo.isFavourite?'fa fa-heart fa-lg':'fa fa-heart-o fa-lg'"></i>
+                          </a>
+                          <span class="statsNumbers">&nbsp;{{ resourceInfo.favourites }}</span>
+                      </span>
+                      <span class="uk-margin-medium-right">
+                          <input type="checkbox" class="uk-margin-small-right"
+                                 [checked]="isSelected(resourceInfo)"
+                                 (change)="comparisonService.addOrRemove(resourceInfo)">
+                          <a>{{isSelected(resourceInfo) ? 'Added' : 'Add to compare'}}</a>
+                      </span>
+                      <span class="uk-float-right">
+                          <img src="../../../../assets/images/icons/ic_visit_icon.svg">
+                          <span class="statsNumbers">&nbsp;{{ resourceInfo.views }}</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="symbolAndProvider uk-card-body uk-text-left">
+
+                    <a (click)="this.router.service(resourceInfo.id)">
+                      <span>
+                        <img src="{{resourceInfo.symbol || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
+                          style="height: 51px;">
+                      </span>
+                    </a>
+                    <span class="provider">{{resourceInfo.providers[0] | uppercase}}</span>
+                  </div>
+
+                </div>
+
+                <!--<hr uk-scrollspy-class="" style="" class="uk-scrollspy-inview uk-animation-slide-top-medium">-->
+
+              </ng-container>
+            </div>
+
+            <div class="uk-width-1-1 uk-row-first">
+              <ul class="uk-pagination">
+
+                <li class="uk-disabled" *ngIf="isPreviousPageDisabled">
+                  <a class="uk-disabled" href="#">
+                    <span class="uk-margin-small-right" uk-pagination-previous></span> Previous
+                  </a>
+                </li>
+                <li *ngIf="!isPreviousPageDisabled">
+                  <a (click)="this.goToPreviousPage()">
+                    <span class="uk-margin-small-right" uk-pagination-previous></span> Previous
+                  </a>
+                </li>
+
+                <li class="uk-margin-auto-left uk-disabled" *ngIf="isNextPageDisabled">
+                  <a class="uk-disabled" href="#">Next
+                    <span class="uk-margin-small-left" uk-pagination-next></span>
+                  </a>
+                </li>
+                <li class="uk-margin-auto-left" *ngIf="!isNextPageDisabled">
+                  <a (click)="this.goToNextPage()">Next
+                    <span class="uk-margin-small-left" uk-pagination-next></span>
+                  </a>
+                </li>
+              </ul>
+              <div class="resultsPageLabel">page {{currentPage}} of {{totalPages}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT HELP CONTENT -->
+      <app-aside-help-content #rightHelperContent [position]="'right'"
+                          [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+      </app-aside-help-content>
+
+    </div>
+
+    <!-- BOTTOM HELP CONTENT -->
+    <app-help-content #bottomHelperContent [position]="'bottom'"
+                  [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+    </app-help-content>
+
+  </div>
+</div>
+
+<div *ngIf="this.comparisonService.servicesToCompare && this.comparisonService.servicesToCompare.length>0"
+     class="compareWrapper">
+  <div class="uk-grid uk-margin-top uk-margin-medium-left">
+    <div *ngFor="let serviceToCompare of this.comparisonService.servicesToCompare"
+         class="uk-width-1-5 serviceToCompareCard uk-margin-right">
+      <div class="">
+        <div class="removeService uk-text-right">
+          <a (click)="this.comparisonService.addOrRemove(serviceToCompare)"><i class="fa fa-times"
+                                                                               aria-hidden="true"></i></a>
+        </div>
+        <div class="uk-margin-small-bottom">{{serviceToCompare.name}}</div>
+        <div>
+          {{serviceToCompare.tagline}}
+        </div>
+      </div>
+    </div>
+    <div class="actions uk-float-right">
+      <a (click)="comparisonService.clearAll()" class="clearAllLink uk-margin-right">Clear all</a>
+      <button (click)="this.comparisonService.go()" class="uk-button uk-button-white">Compare</button>
+    </div>
+
+  </div>
+</div>
+
