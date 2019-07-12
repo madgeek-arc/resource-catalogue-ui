@@ -16,6 +16,7 @@ import {ChartModule} from 'angular2-highcharts';
 import {StarRatingModule} from 'angular-star-rating';
 import {SearchExtendedComponent} from './pages/search/search.extended.component';
 import {ReusableComponentsModule} from '../../../../src/app/shared/reusablecomponents/reusable-components.module';
+import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/cookie-law/cookie-law.module';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {ReusableComponentsModule} from '../../../../src/app/shared/reusablecompo
     ReactiveFormsModule,
     ReusableComponentsModule,
     StarRatingModule.forRoot(),
-    ChartModule
+    ChartModule,
+    CookieLawModule
   ],
   providers: [],
   bootstrap: [CatrisAppComponent]
