@@ -64,6 +64,11 @@
                     <label class="uk-form-label" for="name">{{ organizationNameDesc.label }} (*)</label>
                     <input id="name" class="uk-input" type="text" formControlName="name"
                            [ngClass]="{'uk-form-danger': !newProviderForm.get('name').valid && newProviderForm.get('name').dirty}">
+                    <div class="form-group">
+                      <div><i>
+                        <small>{{organizationNameDesc.desc}}</small>
+                      </i></div>
+                    </div>
                   </div>
                   <div class="uk-margin-medium-bottom">
                     <label class="uk-form-label" for="id">{{ organizationIdDesc.label }} (*)</label>
@@ -76,7 +81,7 @@
                     </div>
                   </div>
                   <div class="uk-margin-medium-bottom">
-                    <label class="uk-form-label" for="logo">{{ logoUrlDesc.label }}</label>
+                    <label class="uk-form-label" for="logo">{{ logoUrlDesc.label }}  (*)</label>
                     <input id="logo" class="uk-input" type="text" formControlName="logo"
                            [ngClass]="{'uk-form-danger': !newProviderForm.get('logo').valid && newProviderForm.get('logo').dirty}">
                     <div class="form-group">
@@ -86,13 +91,7 @@
                     </div>
                   </div>
                   <div class="uk-margin-medium-bottom">
-                    <label class="uk-form-label" for="contactInformation">{{ phoneNumberDesc.label }}</label>
-                    <input id="contactInformation" class="uk-input" type="text" formControlName="contactInformation"
-                           [ngClass]="{'uk-form-danger': !newProviderForm.get('contactInformation').valid && newProviderForm.get('contactInformation').dirty}">
-                  </div>
-                  <div class="uk-margin-medium-bottom">
-                    <label class="uk-form-label" for="website">
-                      {{ organizationWebsiteDesc.label }} (*)</label>
+                    <label class="uk-form-label" for="website">{{ organizationWebsiteDesc.label }} (*)</label>
                     <input id="website" class="uk-input" type="text" formControlName="website"
                            [ngClass]="{'uk-form-danger': !newProviderForm.get('website').valid && newProviderForm.get('website').dirty}">
                     <div class="form-group">
@@ -102,23 +101,45 @@
                     </div>
                   </div>
                   <div class="uk-margin-medium-bottom">
-                    <label class="uk-form-label" for="catalogueOfResources">{{ catalogueOfResourcesDesc.label }}</label>
-                    <input id="catalogueOfResources" class="uk-input" type="text" formControlName="catalogueOfResources"
-                           [ngClass]="{'uk-form-danger': !newProviderForm.get('catalogueOfResources').valid && newProviderForm.get('catalogueOfResources').dirty}">
+                    <label class="uk-form-label" for="contactInformation">{{ providerDescriptionDesc.label }} (*)</label>
+                    <input id="contactInformation" class="uk-input" type="text" formControlName="description"
+                           [ngClass]="{'uk-form-danger': !newProviderForm.get('description').valid && newProviderForm.get('description').dirty}">
+                    <div class="form-group">
+                      <div><i>
+                        <small>{{providerDescriptionDesc.desc}}</small>
+                      </i></div>
+                    </div>
+                  </div>
+                  <div class="uk-margin-medium-bottom">
+                    <label class="uk-form-label" for="catalogueOfResources">{{ contactNameDesc.label }} (*)</label>
+                    <input id="catalogueOfResources" class="uk-input" type="text" formControlName="contactName"
+                           [ngClass]="{'uk-form-danger': !newProviderForm.get('contactName').valid && newProviderForm.get('contactName').dirty}">
+                    <div class="form-group">
+                      <div><i>
+                        <small>{{contactNameDesc.desc}}</small>
+                      </i></div>
+                    </div>
                   </div>
                   <div class="uk-margin-medium-bottom">
                     <label class="uk-form-label"
-                           for="publicDescOfResources">{{ publicDescOfResourcesDesc.label }}</label>
-                    <input id="publicDescOfResources" class="uk-input" type="text"
-                           formControlName="publicDescOfResources"
-                           [ngClass]="{'uk-form-danger': !newProviderForm.get('publicDescOfResources').valid && newProviderForm.get('publicDescOfResources').dirty}">
+                           for="publicDescOfResources">{{ contactEmailDesc.label }} (*)</label>
+                    <input id="publicDescOfResources" class="uk-input" type="text" formControlName="contactEmail"
+                           [ngClass]="{'uk-form-danger': !newProviderForm.get('contactEmail').valid && newProviderForm.get('contactEmail').dirty}">
+                    <div class="form-group">
+                      <div><i>
+                        <small>{{contactEmailDesc.desc}}</small>
+                      </i></div>
+                    </div>
                   </div>
                   <div class="uk-margin-medium-bottom">
-                    <label class="uk-form-label" for="additionalInfo">{{ additionalInfoDesc.label }} (*)</label>
-                    <textarea id="additionalInfo" class="uk-input" type="text" formControlName="additionalInfo"
-                              [ngClass]="{'uk-form-danger': !newProviderForm.get('additionalInfo').valid && newProviderForm.get('additionalInfo').dirty}">
-
-                                        </textarea>
+                    <label class="uk-form-label" for="additionalInfo">{{ contactTelDesc.label }} (*)</label>
+                    <input id="additionalInfo" class="uk-input" type="text" formControlName="contactTel"
+                              [ngClass]="{'uk-form-danger': !newProviderForm.get('contactTel').valid && newProviderForm.get('contactTel').dirty}">
+                    <div class="form-group">
+                      <div><i>
+                        <small>{{contactTelDesc.desc}}</small>
+                      </i></div>
+                    </div>
                   </div>
 
                   <div>

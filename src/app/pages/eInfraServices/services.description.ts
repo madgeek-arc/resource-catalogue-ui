@@ -40,15 +40,14 @@ export const termsOfUseDesc = {label: 'terms Of Use', mandatory: false, desc: 'U
 export const fundingDesc = {label: 'funding Sources', mandatory: false, desc: 'Sources of funding for the development and operation of the service'};
 
 // new service provider form fields
-export const organizationNameDesc = {label: 'Name of your service provider', mandatory: true, desc: ''};
+export const organizationNameDesc = {label: 'Name of your service provider', mandatory: true, desc: 'Name of the service/resource provider.'};
 export const organizationIdDesc = {label: 'Choose an id for your service provider, this cannot be changed later', mandatory: true, desc: 'e.g. openaire, egi etc (a short id without spaces).'};
+export const organizationWebsiteDesc = {label: 'The website of your organisation', mandatory: true, desc: 'Webpage with information about the service/resource provider. Note, Include \'http://\' or \'https://\' to the url.'};
+export const providerDescriptionDesc = {label: 'Description', mandatory: true, desc: 'The description of the service/resource provider.'};
+export const contactTelDesc = {label: 'Provide a telephone number', mandatory: true, desc: 'Telephone of the main contact person of the service/resource provider.'};
+export const contactNameDesc = {label: 'Provide a contact name', mandatory: true, desc: 'Name of the main contact person of the service/resource provider.'};
+export const contactEmailDesc = {label: 'Provide a contact email', mandatory: true, desc: 'Email of the main contact person of the service/resource provider.'};
+export const logoUrlDesc = {label: 'Logo Url', mandatory: true, desc: 'Link to the logo/visual identity of the service/resource provider. Note, Include \'https://\' to the url.'};
 export const firstNameDesc = {label: 'First name', mandatory: true, desc: ''};
 export const lastNameDesc = {label: 'Last name', mandatory: true, desc: ''};
 export const emailDesc = {label: 'Email address', mandatory: true, desc: ''};
-export const phoneNumberDesc = {label: 'Contact information (phone number)', mandatory: false, desc: ''};
-export const organizationWebsiteDesc = {label: 'The website of your organisation', mandatory: true, desc: 'note. Include \'http://\' or \'https://\' to the url.'};
-export const catalogueOfResourcesDesc = {label: 'Do you have a public catalogue of resources (services, data, apps, software, etc.) you are providing/offering? If yes, what is its public URL? If not publicly available, can you send us a link to the catalogue in any form?', mandatory: false, desc: ''};
-export const publicDescOfResourcesDesc = {label: 'Do you maintain publicly a detailed description of resources (services, data, apps, software, etc.) you are providing/offering? If yes, what is its public URL? If not publicly available, can you send us a link to a description of a service or resource in any form?', mandatory: false, desc: ''};
-export const additionalInfoDesc = {label: 'Would you like to provide us with any additional information about your organisation or the services/resources your provide/offer?', mandatory: true, desc: ''};
-export const logoUrlDesc = {label: 'Logo Url', mandatory: false, desc: 'note. Include \'https://\' to the url.'};
-/*export const logoUrlDesc = {label: 'Logo Url', mandatory: false, desc: 'Please enter a valid url address and make sure that the maximum size of the uploaded image is width=360px, height=240px'};*/

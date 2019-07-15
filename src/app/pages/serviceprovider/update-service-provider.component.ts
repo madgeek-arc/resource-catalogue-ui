@@ -2,19 +2,23 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Component, OnInit} from '@angular/core';
 import {
-  additionalInfoDesc,
-  catalogueOfResourcesDesc,
+  providerDescriptionDesc,
+  contactEmailDesc,
+  contactNameDesc,
+  contactTelDesc,
   Description,
+  emailDesc,
+  firstNameDesc,
+  lastNameDesc,
   logoUrlDesc,
   organizationIdDesc,
   organizationNameDesc,
   organizationWebsiteDesc,
-  phoneNumberDesc,
-  publicDescOfResourcesDesc
 } from '../eInfraServices/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {Provider} from '../../domain/eic-model';
+import {URLValidator} from '../../shared/validators/generic.validator';
 
 declare var UIkit: any;
 
@@ -32,26 +36,29 @@ export class UpdateServiceProviderComponent implements OnInit {
   provider: Provider;
 
   formDefinition = {
-    id: ['', Validators.required],
+    id: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-z][a-zA-Z0-9-_]{1,}$/)])],
     name: ['', Validators.required],
-    logo: [''],
-    contactInformation: [''],
+    logo: ['', URLValidator],
+    description: ['', Validators.required],
+    website: ['', Validators.compose([Validators.required, URLValidator])],
+    contactEmail: ['', Validators.compose([Validators.required, Validators.email])],
+    contactName: ['', Validators.required],
+    contactTel: ['', Validators.required],
     users: this.fb.array([
       // this.user()
-    ]),
-    website: ['', [Validators.required]],
-    catalogueOfResources: [''],
-    publicDescOfResources: [''],
-    additionalInfo: ['', Validators.required]
+    ])
   };
 
+  firstNameDesc: Description = firstNameDesc;
+  lastNameDesc: Description = lastNameDesc;
+  emailDesc: Description = emailDesc;
   organizationIdDesc: Description = organizationIdDesc;
   organizationNameDesc: Description = organizationNameDesc;
-  phoneNumberDesc: Description = phoneNumberDesc;
+  contactTelDesc: Description = contactTelDesc;
   organizationWebsiteDesc: Description = organizationWebsiteDesc;
-  catalogueOfResourcesDesc: Description = catalogueOfResourcesDesc;
-  publicDescOfResourcesDesc: Description = publicDescOfResourcesDesc;
-  additionalInfoDesc: Description = additionalInfoDesc;
+  contactNameDesc: Description = contactNameDesc;
+  contactEmailDesc: Description = contactEmailDesc;
+  providerDescriptionDesc: Description = providerDescriptionDesc;
   logoUrlDesc: Description = logoUrlDesc;
 
   constructor(private fb: FormBuilder,
@@ -81,38 +88,38 @@ export class UpdateServiceProviderComponent implements OnInit {
   updateProvider() {
     this.trimFormWhiteSpaces();
 
-    if (!this.updateProviderForm.get('logo').value) {
-      this.updateProviderForm.get('logo').setValue('');
-    }
-    if (!this.updateProviderForm.get('contactInformation').value) {
-      this.updateProviderForm.get('contactInformation').setValue('');
-    }
-    if (!this.updateProviderForm.get('publicDescOfResources').value) {
-      this.updateProviderForm.get('publicDescOfResources').setValue('');
-    }
-    if (!this.updateProviderForm.get('catalogueOfResources').value) {
-      this.updateProviderForm.get('catalogueOfResources').setValue('');
-    }
+    // if (!this.updateProviderForm.get('logo').value) {
+    //   this.updateProviderForm.get('logo').setValue('');
+    // }
+    // if (!this.updateProviderForm.get('contactInformation').value) {
+    //   this.updateProviderForm.get('contactInformation').setValue('');
+    // }
+    // if (!this.updateProviderForm.get('publicDescOfResources').value) {
+    //   this.updateProviderForm.get('publicDescOfResources').setValue('');
+    // }
+    // if (!this.updateProviderForm.get('catalogueOfResources').value) {
+    //   this.updateProviderForm.get('catalogueOfResources').setValue('');
+    // }
 
     // this.updateProviderForm.get('logo').setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('logo').value));
-    this.updateProviderForm.get('logo').setValue(this.logoCheckUrl(this.updateProviderForm.get('logo').value));
-    this.updateProviderForm.get('website').setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('website').value));
-    this.updateProviderForm.get('catalogueOfResources')
-      .setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('catalogueOfResources').value));
-    this.updateProviderForm.get('publicDescOfResources')
-      .setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('publicDescOfResources').value));
+    // this.updateProviderForm.get('logo').setValue(this.logoCheckUrl(this.updateProviderForm.get('logo').value));
+    // this.updateProviderForm.get('website').setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('website').value));
+    // this.updateProviderForm.get('catalogueOfResources')
+    //   .setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('catalogueOfResources').value));
+    // this.updateProviderForm.get('publicDescOfResources')
+    //   .setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('publicDescOfResources').value));
     this.updateProviderForm.get('id').enable();
 
-    this.logoUrlWorks = this.imageExists(this.updateProviderForm.get('logo').value);
+    // this.logoUrlWorks = this.imageExists(this.updateProviderForm.get('logo').value);
     this.errorMessage = '';
 
-    if (this.updateProviderForm.valid && !this.logoError && this.logoUrlWorks) {
+    if (this.updateProviderForm.valid) {
 
       this.serviceProviderService.updateServiceProvider(this.updateProviderForm.value).subscribe(
-        res => console.log(res),
+        res => {},
         err => {
           console.log(err);
-          this.errorMessage = 'Something went wrong.';
+          this.errorMessage = 'Something went wrong. ' + err.error;
         },
         () => {
           this.router.navigate(['/myServiceProviders']);
@@ -144,15 +151,15 @@ export class UpdateServiceProviderComponent implements OnInit {
         this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format' +
           ' in fields underlined with a red colour.';
       }
-      if (this.logoError) {
-        this.updateProviderForm.get('logo').setErrors({'incorrect': true});
-        this.logoError = false;
-        this.errorMessage += ' Logo url must have https:// prefix.';
-      }
-      if (!this.logoUrlWorks) {
-        this.updateProviderForm.get('logo').setErrors({'incorrect': true});
-        this.errorMessage += ' Logo url doesn\'t point to a valid image.';
-      }
+      // if (this.logoError) {
+      //   this.updateProviderForm.get('logo').setErrors({'incorrect': true});
+      //   this.logoError = false;
+      //   this.errorMessage += ' Logo url must have https:// prefix.';
+      // }
+      // if (!this.logoUrlWorks) {
+      //   this.updateProviderForm.get('logo').setErrors({'incorrect': true});
+      //   this.errorMessage += ' Logo url doesn\'t point to a valid image.';
+      // }
     }
   }
 

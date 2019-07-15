@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
 
   public searchForm: FormGroup;
   public categories: Vocabulary[] = null;
+  public scientificDomain: Vocabulary[] = null;
   public baseIconURI = './assets/images/icons/';
 
   public featuredServices: Service[] = null;
@@ -32,9 +33,14 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.resourceService.getNewVocabulariesByType(VocabularyType.CATEGORY).subscribe(
+    this.resourceService.getNewVocabulariesByType(VocabularyType.SUPERCATEGORY).subscribe(
       suc => {
         this.categories = suc;
+      }
+    );
+    this.resourceService.getNewVocabulariesByType(VocabularyType.SCIENTIFIC_DOMAIN).subscribe(
+      suc => {
+        this.scientificDomain = suc;
       }
     );
 
