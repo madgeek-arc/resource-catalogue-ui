@@ -68,7 +68,7 @@
           <p class="uk-text-center"
              *ngIf="featuredService.tagline">{{featuredService.tagline.length > 40 ? featuredService.tagline.slice(0, 37) + '...' : featuredService.tagline}}</p>
           <div class="symbolAndProvider">
-            <img src="{{featuredService.symbol || 'https://fvtelibrary.com/img/user/NoLogo.png'}}" class="serviceSymbol">
+            <img src="{{featuredService.logo || 'https://fvtelibrary.com/img/user/NoLogo.png'}}" class="serviceSymbol">
             <span class="provider">{{featuredService.providers[0] | uppercase}}</span>
           </div>
         </a>
@@ -87,7 +87,7 @@
 
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <ng-container *ngFor="let entry of categories">
-        <div *ngIf="entry.id!='other-other'" class="uk-width-1-6@m" (click)="this.router.search({category:entry.id})">
+        <div *ngIf="entry.id!='other-other'" class="uk-width-1-4@m" (click)="this.router.search({category:entry.id})">
           <div class="wk-panel wk-overlay-hover" style="min-height: 100px;">
 
             <div class="wk-text-center wk-margin wk-margin-top-remove">

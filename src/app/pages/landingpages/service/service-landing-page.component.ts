@@ -71,7 +71,6 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.canEditService = false;
-    console.log('skataaaaaaaaaaaaaaaaaaa!!!');
 
     if (this.authenticationService.isLoggedIn()) {
       this.sub = this.route.params.subscribe(params => {
