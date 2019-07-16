@@ -124,7 +124,7 @@ export class ResourceService {
     return this.http.get<BrowseResults>(this.base + '/service/by/category/');
   }
 
-  getServicesOfferedByProvider(id: string): Observable<Service[]> {
+  getServicesOfferedByProvider(id: string): Observable<RichService[]> {
     return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).pipe(
       map(res => Object.values(res.results))
     );
@@ -225,21 +225,21 @@ export class ResourceService {
   }
   /** Indicators **/
 
-  groupServicesOfProviderPerPlace(id: string) {
-    return this.getServicesOfferedByProvider(id).subscribe(res => {
-      const servicesGroupedByPlace = {};
-      for (const service of res) {
-        for (const place of service.places) {
-          if (servicesGroupedByPlace[place]) {
-            servicesGroupedByPlace[place].push(res);
-          } else {
-            servicesGroupedByPlace[place] = [];
-          }
-        }
-      }
-      return servicesGroupedByPlace;
-    });
-  }
+  // groupServicesOfProviderPerPlace(id: string) {
+  //   return this.getServicesOfferedByProvider(id).subscribe(res => {
+  //     const servicesGroupedByPlace = {};
+  //     for (const service of res) {
+  //       for (const place of service.places) {
+  //         if (servicesGroupedByPlace[place]) {
+  //           servicesGroupedByPlace[place].push(res);
+  //         } else {
+  //           servicesGroupedByPlace[place] = [];
+  //         }
+  //       }
+  //     }
+  //     return servicesGroupedByPlace;
+  //   });
+  // }
 
   getProvidersNames() {
     let params = new HttpParams();

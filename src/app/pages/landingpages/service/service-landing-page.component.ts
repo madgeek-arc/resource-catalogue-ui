@@ -22,7 +22,7 @@ declare var UIkit: any;
 export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
   services: RichService[];
-  public service: RichService;
+  public richService: RichService;
   public errorMessage: string;
   public EU: string[];
   public WW: string[];
@@ -71,6 +71,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.canEditService = false;
+    console.log('skataaaaaaaaaaaaaaaaaaa!!!');
 
     if (this.authenticationService.isLoggedIn()) {
       this.sub = this.route.params.subscribe(params => {
@@ -85,14 +86,14 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
         ).subscribe(suc => {
           this.EU = <string[]>suc[0];
           this.WW = <string[]>suc[1];
-          this.service = <RichService>suc[2];
+          this.richService = <RichService>suc[2];
           this.myProviders = suc[3];
           this.measurements = suc[4];
           this.indicators = <IndicatorsPage>suc[5];
           this.getIndicatorIds();
           this.getLocations();
-          this.router.breadcrumbs = this.service.name;
-          this.setCountriesForService(this.service.places);
+          this.router.breadcrumbs = this.richService.service.name;
+          this.setCountriesForService(this.richService.service.places);
           this.newMeasurementForm = this.fb.group(this.measurementForm);
           this.newMeasurementForm.get('locations').disable();
           this.newMeasurementForm.get('time').disable();
@@ -100,9 +101,9 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           this.newMeasurementForm.get('serviceId').setValue(params['id'], params['version']);
 
           /* check if the current user can edit the service */
-          this.canEditService = this.myProviders.some(p => this.service.providers.some(x => x === p.id));
+          this.canEditService = this.myProviders.some(p => this.richService.service.providers.some(x => x === p.id));
 
-          const serviceIDs = (this.service.requiredServices || []).concat(this.service.relatedServices || [])
+          const serviceIDs = (this.richService.service.requiredServices || []).concat(this.richService.service.relatedServices || [])
             .filter((e, i, a) => a.indexOf(e) === i);
           if (serviceIDs.length > 0) {
             this.resourceService.getSelectedServices(serviceIDs).subscribe(
@@ -114,7 +115,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           }
         },
           err => {
-            this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
+            this.errorMessage = 'An error occurred while retrieving data for this richService. ' + err.error;
           });
       });
     } else {
@@ -128,13 +129,13 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
         ).subscribe(suc => {
           this.EU = <string[]>suc[0];
           this.WW = <string[]>suc[1];
-          this.service = <RichService>suc[2];
+          this.richService = <RichService>suc[2];
           this.measurements = suc[3];
           this.getIndicatorIds();
-          this.router.breadcrumbs = this.service.name;
-          this.setCountriesForService(this.service.places);
+          this.router.breadcrumbs = this.richService.service.name;
+          this.setCountriesForService(this.richService.service.places);
 
-          const serviceIDs = (this.service.requiredServices || []).concat(this.service.relatedServices || [])
+          const serviceIDs = (this.richService.service.requiredServices || []).concat(this.richService.service.relatedServices || [])
             .filter((e, i, a) => a.indexOf(e) === i);
           if (serviceIDs.length > 0) {
             this.resourceService.getSelectedServices(serviceIDs)
@@ -146,7 +147,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           }
         },
           err => {
-            this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
+            this.errorMessage = 'An error occurred while retrieving data for this richService. ' + err.error;
           });
       });
     }
@@ -157,7 +158,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   }
 
   setCountriesForService(data: any) {
-    if (this.service) {
+    if (this.richService) {
       const places = this.resourceService.expandRegion(JSON.parse(JSON.stringify(data || [])), this.EU, this.WW);
 
       let map = 'custom/europe';
@@ -174,7 +175,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           // borderWidth: 1
         },
         title: {
-          text: 'Countries serviced by ' + this.service.name
+          text: 'Countries serviced by ' + this.richService.service.name
         },
         // subtitle: {
         //     text: 'Demo of drawing all areas in the map, only highlighting partial data'
@@ -204,37 +205,37 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   }
 
   addToFavourites() {
-    this.userService.addFavourite(this.service.id, !this.service.isFavourite).pipe(
+    this.userService.addFavourite(this.richService.service.id, !this.richService.isFavourite).pipe(
       flatMap(e => this.resourceService.getSelectedServices([e.service])))
       .subscribe(
         res => {
-          Object.assign(this.service, res[0]);
+          Object.assign(this.richService, res[0]);
         },
         err => {
-          this.errorMessage = 'Could not add service to favourites. ' + err.error;
+          this.errorMessage = 'Could not add richService to favourites. ' + err.error;
         }
       );
   }
 
   rateService(rating: number) {
-    this.userService.rateService(this.service.id, rating).pipe(
+    this.userService.rateService(this.richService.service.id, rating).pipe(
       flatMap(e => this.resourceService.getSelectedServices([e.service])))
       .subscribe(
         res => {
-          Object.assign(this.service, res[0]);
+          Object.assign(this.richService, res[0]);
         },
         err => {
-          this.errorMessage = 'Could not add a rating to this service. ' + err.error;
+          this.errorMessage = 'Could not add a rating to this richService. ' + err.error;
         }
       );
   }
 
   getPrettyService(id) {
-    return (this.services || []).find(e => e.id === id) || {id, name: 'Name not found!'};
+    return (this.services || []).find(e => e.service.id === id) || {id, name: 'Name not found!'};
   }
 
   handleError(error) {
-    this.errorMessage = 'System error loading service (Server responded: ' + error + ')';
+    this.errorMessage = 'System error loading richService (Server responded: ' + error + ')';
   }
 
   get locations() {

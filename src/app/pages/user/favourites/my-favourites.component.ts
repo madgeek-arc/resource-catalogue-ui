@@ -44,8 +44,8 @@ export class MyFavouritesComponent implements OnInit {
   }
 
   addToFavourites(i: number) {
-    const service = this.searchResults[i];
-    this.userService.addFavourite(service.id, !service.isFavourite).pipe(
+    const richService = this.searchResults[i];
+    this.userService.addFavourite(richService.service.id, !richService.isFavourite).pipe(
         mergeMap(e => this.resourceService.getSelectedServices([e.service])))
       .subscribe(
         s => Object.assign(this.searchResults[i], s[0]),
@@ -56,8 +56,8 @@ export class MyFavouritesComponent implements OnInit {
   }
 
   rateService(i: number, rating: number) {
-    const service = this.searchResults[i];
-    this.userService.rateService(service.id, rating).pipe(
+    const richService = this.searchResults[i];
+    this.userService.rateService(richService.service.id, rating).pipe(
       mergeMap(e => this.resourceService.getSelectedServices([e.service])))
       .subscribe(
         s => Object.assign(this.searchResults[i], s[0]),

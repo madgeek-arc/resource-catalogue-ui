@@ -19,7 +19,7 @@ import {flatMap} from 'rxjs/operators';
 export class CompareServicesComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
 
-  services: RichService[] = [];
+  richServices: RichService[] = [];
 
   public errorMessage: string;
   ids: string[] = [];
@@ -39,7 +39,7 @@ export class CompareServicesComponent implements OnInit, OnDestroy {
       this.ids = (params.services || '').split(',');
       if (this.ids.length > 1) {
         this.resourceService.getSelectedServices(this.ids).subscribe(
-          services => this.services = services
+          services => this.richServices = services
         );
       } else {
         this.router.search({});
@@ -56,41 +56,41 @@ export class CompareServicesComponent implements OnInit, OnDestroy {
   }
 
   addToFavourites(i: number) {
-    this.userService.addFavourite(this.services[i].id, !this.services[i].isFavourite)
+    this.userService.addFavourite(this.richServices[i].service.id, !this.richServices[i].isFavourite)
       .pipe(
         flatMap(e => this.resourceService.getSelectedServices([e.service]))
       ).subscribe(
       res => {
-        Object.assign(this.services[i], res[0]);
-        console.log(this.services[i].isFavourite);
+        Object.assign(this.richServices[i], res[0]);
+        console.log(this.richServices[i].isFavourite);
       },
       err => console.log(err)
     );
   }
 
   rateService(i: number, rating: number) {
-    this.userService.rateService(this.services[i].id, rating)
+    this.userService.rateService(this.richServices[i].service.id, rating)
       .pipe(
         flatMap(e => this.resourceService.getSelectedServices([e.service]))
       ).subscribe(
       res => {
-        Object.assign(this.services[i], res[0]);
-        console.log(this.services[i].hasRate);
+        Object.assign(this.richServices[i], res[0]);
+        console.log(this.richServices[i].hasRate);
       },
       err => console.log(err)
     );
   }
 
   getIsFavourite(i: number) {
-    return this.services[i].isFavourite;
+    return this.richServices[i].isFavourite;
   }
 
   getHasRate(i: number) {
-    return this.services[i].hasRate;
+    return this.richServices[i].hasRate;
   }
 
   getRatings(i: number) {
-    return this.services[i].ratings;
+    return this.richServices[i].ratings;
   }
 
 

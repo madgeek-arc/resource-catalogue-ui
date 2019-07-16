@@ -141,8 +141,8 @@
                         <h3
                           class="uk-margin-remove uk-text-left@m uk-text-center uk-h3 uk-scrollspy-inview uk-animation-fade uk-inline"
                           uk-scrollspy-class="" style="">
-                          <a [routerLink]="['/service/' + resourceInfo.id]">
-                            {{resourceInfo.name || "Not Available"}}
+                          <a [routerLink]="['/service/' + resourceInfo.service.id]">
+                            {{resourceInfo.service.name || "Not Available"}}
                           </a>
                         </h3>
                         <span class="uk-inline uk-float-right" style="margin-top:5px;">
@@ -162,11 +162,11 @@
                       </div>
 
                       <div class="uk-margin-small-top serviceTagLine" style="">
-                        "{{resourceInfo.tagline}}"
+                        "{{resourceInfo.service.tagline}}"
                       </div>
                       <div class="uk-margin-small-top uk-scrollspy-inview uk-animation-fade serviceDescription"
                            uk-scrollspy-class="" style="">
-                        <read-more-text [text]="resourceInfo.description" [maxHeight]="38">
+                        <read-more-text [text]="resourceInfo.service.description" [maxHeight]="38">
                         </read-more-text>
                       </div>
 
@@ -182,8 +182,8 @@
                         <span class="uk-margin-medium-right">
                             <input type="checkbox" class="uk-margin-small-right"
                                    [checked]="isSelected(resourceInfo)"
-                                   (change)="comparisonService.addOrRemove(resourceInfo)">
-                            <a>{{isSelected(resourceInfo) ? 'Added' : 'Add to compare'}}</a>
+                                   (change)="comparisonService.addOrRemove(resourceInfo.service)">
+                            <a>{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
                         </span>
                         <span class="uk-float-right"><img src="../../../../assets/images/icons/ic_visit_icon.svg">
                           <span class="statsNumbers">&nbsp;{{ resourceInfo.views }}</span>
@@ -196,16 +196,16 @@
                     <div class="uk-width-1-5@m symbolAndProvider uk-card-body uk-text-center">
 
                       <div class="">
-                        <a (click)="this.router.service(resourceInfo.id)">
+                        <a (click)="this.router.service(resourceInfo.service.id)">
                           <span>
                               <img
-                                src="{{resourceInfo.symbol || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
+                                src="{{resourceInfo.service.symbol || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
                                 style="max-width: 90px;">
                           </span>
                         </a>
                       </div>
                       <div class="uk-margin-small-top">
-                        <span class="provider">{{resourceInfo.providers[0] | uppercase}}</span>
+                        <span class="provider">{{resourceInfo.service.providers[0] | uppercase}}</span>
                       </div>
                     </div>
                   </div>
@@ -387,20 +387,20 @@
                       <div style="margin-top: 20px;">
                         <h3 class="uk-margin-remove uk-h3 uk-scrollspy-inview uk-animation-fade uk-inline serviceName"
                             uk-scrollspy-class="">
-                          <a [routerLink]="['/service/' + resourceInfo.id]">
-                            {{resourceInfo.name || "Not Available"}}
+                          <a [routerLink]="['/service/' + resourceInfo.service.id]">
+                            {{resourceInfo.service.name || "Not Available"}}
                           </a>
                         </h3>
                       </div>
 
                       <div class="uk-margin-small-top serviceTagLine">
-                        "{{resourceInfo.tagline}}"
+                        "{{resourceInfo.service.tagline}}"
                       </div>
                       <div class="uk-margin-small-top uk-scrollspy-inview uk-animation-fade" uk-scrollspy-class="">
-                        <!--<read-more-text [text]="resourceInfo.description" [maxHeight]="38">-->
+                        <!--<read-more-text [text]="resourceInfo.service.description" [maxHeight]="38">-->
                         <!--</read-more-text>-->
-                        <div class="serviceDescription" [innerHTML]="resourceInfo.description"></div>
-                        <a [routerLink]="['/service/' + resourceInfo.id]">View more...</a>
+                        <div class="serviceDescription" [innerHTML]="resourceInfo.service.description"></div>
+                        <a [routerLink]="['/service/' + resourceInfo.service.id]">View more...</a>
                       </div>
 
 
@@ -415,8 +415,8 @@
                         <span class="uk-margin-medium-right">
                                                 <input type="checkbox" class="uk-margin-small-right"
                                                        [checked]="isSelected(resourceInfo)"
-                                                       (change)="comparisonService.addOrRemove(resourceInfo)">
-                                                <a>{{isSelected(resourceInfo) ? 'Added' : 'Add to compare'}}</a>
+                                                       (change)="comparisonService.addOrRemove(resourceInfo.service)">
+                                                <a>{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
                           <!--<a *ngIf="comparisonService.servicesToCompare.indexOf(resourceInfo) > -1">Added</a>-->
                                             </span>
                         <span class="uk-float-right">
@@ -430,14 +430,14 @@
 
                     <div class="symbolAndProvider uk-card-body uk-text-left">
 
-                      <a (click)="this.router.service(resourceInfo.id)">
+                      <a (click)="this.router.service(resourceInfo.service.id)">
                                             <span>
                                                 <img
-                                                  src="{{resourceInfo.symbol || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
+                                                  src="{{resourceInfo.service.logo || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
                                                   style="height: 51px;">
                                             </span>
                       </a>
-                      <span class="provider">{{resourceInfo.providers[0] | uppercase}}</span>
+                      <span class="provider">{{resourceInfo.service.providers[0] | uppercase}}</span>
                     </div>
 
                   </div>

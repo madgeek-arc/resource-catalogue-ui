@@ -89,11 +89,11 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
         this.push('relatedServices', false);
       }
     }
-    if (service.termsOfUse) {
-      for (let i = 0; i < service.termsOfUse.length - 1; i++) {
-        this.push('termsOfUse', false, true);
-      }
-    }
+    // if (service.termsOfUse) {
+    //   for (let i = 0; i < service.termsOfUse.length - 1; i++) {
+    //     this.push('termsOfUse', false, true);
+    //   }
+    // }
   }
 
   measurementsFormPatch(measurements: MeasurementsPage) {

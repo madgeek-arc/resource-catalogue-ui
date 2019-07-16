@@ -366,8 +366,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   addToFavourites(i: number) {
-    const service = this.searchResults.results[i];
-    this.userService.addFavourite(service.id, !service.isFavourite).pipe(
+    const richService = this.searchResults.results[i];
+    this.userService.addFavourite(richService.service.id, !richService.isFavourite).pipe(
       flatMap(e => this.resourceService.getSelectedServices([e.service])))
       .subscribe(
         s => Object.assign(this.searchResults.results[i], s[0]),
@@ -377,8 +377,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   rateService(i: number, rating: number) {
-    const service = this.searchResults.results[i];
-    this.userService.rateService(service.id, rating).pipe(
+    const richService = this.searchResults.results[i];
+    this.userService.rateService(richService.service.id, rating).pipe(
       flatMap(e => this.resourceService.getSelectedServices([e.service])))
       .subscribe(
         s => Object.assign(this.searchResults.results[i], s[0]),

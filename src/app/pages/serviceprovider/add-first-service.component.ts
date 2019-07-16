@@ -35,7 +35,7 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
       this.editMode = true;
       this.resourceService.getService(this.serviceId).subscribe(service => {
 
-        /*if (this.userService.canEditService(service)) {*/
+        /*if (this.userService.canEditService(richService)) {*/
         ResourceService.removeNulls(service);
         this.formPrepare(service);
         this.serviceForm.patchValue(service);
@@ -58,7 +58,7 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
           this.pushToMeasurements();
         }
       },
-        err => this.errorMessage = 'Could not get the measurements for this service. ' + err.error
+        err => this.errorMessage = 'Could not get the measurements for this richService. ' + err.error
       );
     }
   }
@@ -92,11 +92,11 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
         this.push('relatedServices', false);
       }
     }
-    if (service.termsOfUse) {
-      for (let i = 0; i < service.termsOfUse.length - 1; i++) {
-        this.push('termsOfUse', false, true);
-      }
-    }
+    // if (service.termsOfUse) {
+    //   for (let i = 0; i < service.termsOfUse.length - 1; i++) {
+    //     this.push('termsOfUse', false, true);
+    //   }
+    // }
   }
 
   measurementsFormPatch(measurements: MeasurementsPage) {

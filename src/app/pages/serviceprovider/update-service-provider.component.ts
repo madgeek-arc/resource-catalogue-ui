@@ -87,27 +87,6 @@ export class UpdateServiceProviderComponent implements OnInit {
 
   updateProvider() {
     this.trimFormWhiteSpaces();
-
-    // if (!this.updateProviderForm.get('logo').value) {
-    //   this.updateProviderForm.get('logo').setValue('');
-    // }
-    // if (!this.updateProviderForm.get('contactInformation').value) {
-    //   this.updateProviderForm.get('contactInformation').setValue('');
-    // }
-    // if (!this.updateProviderForm.get('publicDescOfResources').value) {
-    //   this.updateProviderForm.get('publicDescOfResources').setValue('');
-    // }
-    // if (!this.updateProviderForm.get('catalogueOfResources').value) {
-    //   this.updateProviderForm.get('catalogueOfResources').setValue('');
-    // }
-
-    // this.updateProviderForm.get('logo').setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('logo').value));
-    // this.updateProviderForm.get('logo').setValue(this.logoCheckUrl(this.updateProviderForm.get('logo').value));
-    // this.updateProviderForm.get('website').setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('website').value));
-    // this.updateProviderForm.get('catalogueOfResources')
-    //   .setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('catalogueOfResources').value));
-    // this.updateProviderForm.get('publicDescOfResources')
-    //   .setValue(ServiceProviderService.checkUrl(this.updateProviderForm.get('publicDescOfResources').value));
     this.updateProviderForm.get('id').enable();
 
     // this.logoUrlWorks = this.imageExists(this.updateProviderForm.get('logo').value);
@@ -151,15 +130,6 @@ export class UpdateServiceProviderComponent implements OnInit {
         this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format' +
           ' in fields underlined with a red colour.';
       }
-      // if (this.logoError) {
-      //   this.updateProviderForm.get('logo').setErrors({'incorrect': true});
-      //   this.logoError = false;
-      //   this.errorMessage += ' Logo url must have https:// prefix.';
-      // }
-      // if (!this.logoUrlWorks) {
-      //   this.updateProviderForm.get('logo').setErrors({'incorrect': true});
-      //   this.errorMessage += ' Logo url doesn\'t point to a valid image.';
-      // }
     }
   }
 
@@ -180,20 +150,12 @@ export class UpdateServiceProviderComponent implements OnInit {
       },
       () => {
         this.updateProviderForm.patchValue(this.provider);
-        // let users: User[] = [];
         for (let i = 0; i < this.provider.users.length; i++) {
           this.users.push(this.user(this.provider.users[i].email, this.provider.users[i].id,
             this.provider.users[i].name, this.provider.users[i].surname));
-          // console.log(this.provider.users[i]);
-
-          // this.user.patchValue(this.provider.users[i]);
-          // console.log(this.user.value);
-          // this.users.push(this.User);
-          // console.log(this.users.value);
         }
         this.updateProviderForm.get('id').disable();
         this.updateProviderForm.updateValueAndValidity();
-        // console.log(this.updateProviderForm.value);
       }
     );
   }
@@ -231,35 +193,6 @@ export class UpdateServiceProviderComponent implements OnInit {
     this.logoUrl = logoUrl;
     this.updateProviderForm.get('logo').setValue(logoUrl);
     this.updateProviderForm.get('logo').updateValueAndValidity();
-  }
-
-  imageExists(url) {
-    if (url === '') {// image is not required for providers
-      return true;
-    }
-    const image = new Image();
-    image.src = url;
-    if (!image.complete) {
-      return false;
-    } else if (image.height === 0) {
-      return false;
-    }
-
-    return true;
-  }
-
-  logoCheckUrl(url: string) {
-    if (url !== '') {
-      if (url.match(/^(http:\/\/.+)?$/)) {
-        this.updateProviderForm.controls['logo'].setErrors({'incorrect': true});
-        this.updateProviderForm.get('logo').setErrors({'incorrect': true});
-        this.logoError = true;
-      } else if (!url.match(/^(https:\/\/.+)?$/)) {
-        url = 'https://' + url;
-      }
-    }
-    // console.log(url);
-    return url;
   }
 
   trimFormWhiteSpaces() {
