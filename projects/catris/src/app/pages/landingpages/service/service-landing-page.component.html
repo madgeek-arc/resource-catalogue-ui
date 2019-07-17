@@ -1,10 +1,7 @@
-<div *ngIf="errorMessage" class="tm-main uk-section uk-section-default" uk-height-viewport="expand: true"
-     style="box-sizing: border-box;">
+<div *ngIf="errorMessage" class="tm-main uk-section uk-section-default" uk-height-viewport="expand: true" style="box-sizing: border-box;">
   <div class="uk-container uk-container">
-    <div class="uk-width-expand@m uk-first-column">
-      <div data-uk-alert="" class="uk-alert uk-alert-danger">
-        <p>{{errorMessage}}</p>
-      </div>
+    <div data-uk-alert="" class="uk-alert uk-alert-danger">
+      <p>{{errorMessage}}</p>
     </div>
   </div>
 </div>
