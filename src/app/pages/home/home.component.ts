@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
 
   public featuredServices: Service[] = null;
   public viewServices: Service[] = [];
-  private step = 4;
+  public step = 4;
   private index = 0;
   private slideRight: boolean;
 

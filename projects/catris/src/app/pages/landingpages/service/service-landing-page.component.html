@@ -35,16 +35,16 @@
                                 [labelVisible]="true" [labelPosition]="'right'"
                                 [hoverEnabled]="true">
               </star-rating-comp>
+                <span class="uk-margin-medium-left">
+                  <a (click)="addToFavourites()" style="color: rgb(55, 131, 63)">
+                    <i [ngClass]="richService.isFavourite ? 'fa fa-heart' : 'fa fa-heart-o'"></i>
+                  </a>
+                <span class="statsNumbers">{{richService.favourites || 0}}</span>
+              </span>
               <span class="uk-margin-medium-left">
-                    <a (click)="addToFavourites()">
-                        <i [ngClass]="richService.isFavourite?'fa fa-heart':'fa fa-heart-o'"></i>
-                    </a>
-                    <span class="statsNumbers">{{richService.favourites || 0}}</span>
-                  </span>
-              <span class="uk-margin-medium-left">
-                      <img src="../../../../assets/images/icons/ic_visit_icon.svg">
-                      <span class="statsNumbers">{{richService.views || 0}}</span>
-                  </span>
+                <img src="../../../../assets/images/icons/ic_visit_icon.svg">
+                <span class="statsNumbers">{{richService.views || 0}}</span>
+              </span>
             </div>
             <div class="tags" *ngIf="richService.superCategoryName && richService.categoryName && richService.subCategoryNames !== []">
               <span><strong>Categorization: </strong></span>

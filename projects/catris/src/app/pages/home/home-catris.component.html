@@ -81,7 +81,7 @@
       </div>
     </div>
 
-    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+    <div class="uk-grid-margin uk-grid uk-grid-stack uk-margin" uk-grid="">
       <ng-container *ngFor="let entry of categories">
         <div *ngIf="entry.id!='other'" class="uk-width-1-4@m" (click)="this.router.search({category:entry.id})">
           <div class="wk-panel wk-overlay-hover" style="min-height: 100px;">
