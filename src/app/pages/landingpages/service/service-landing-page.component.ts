@@ -114,7 +114,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           }
         },
           err => {
-            this.errorMessage = 'An error occurred while retrieving data for this richService. ' + err.error;
+            this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
           });
       });
     } else {
@@ -146,7 +146,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           }
         },
           err => {
-            this.errorMessage = 'An error occurred while retrieving data for this richService. ' + err.error;
+            this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
           });
       });
     }
@@ -211,7 +211,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           Object.assign(this.richService, res[0]);
         },
         err => {
-          this.errorMessage = 'Could not add richService to favourites. ' + err.error;
+          this.errorMessage = 'Could not add service to favourites. ' + err.error;
         }
       );
   }
@@ -224,7 +224,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           Object.assign(this.richService, res[0]);
         },
         err => {
-          this.errorMessage = 'Could not add a rating to this richService. ' + err.error;
+          this.errorMessage = 'Could not add a rating to this service. ' + err.error;
         }
       );
   }
@@ -234,7 +234,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   }
 
   handleError(error) {
-    this.errorMessage = 'System error loading richService (Server responded: ' + error + ')';
+    this.errorMessage = 'System error loading service (Server responded: ' + error + ')';
   }
 
   get locations() {

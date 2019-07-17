@@ -43,7 +43,7 @@
 </div>
 
 <div class="uk-section-default uk-section">
-  <div class="uk-container uk-margin-large-bottom">
+  <div *ngIf="featuredServices.length >= step"  class="uk-container uk-margin-large-bottom">
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
         <h1 class="uk-margin-medium uk-text-center uk-h2">
@@ -52,8 +52,7 @@
       </div>
     </div>
 
-    <div *ngIf="featuredServices"
-         class="uk-grid-margin uk-grid uk-grid-stack uk-child-width-expand@s featuredServicesContainer uk-margin-medium-top"
+    <div class="uk-grid-margin uk-grid uk-grid-stack uk-child-width-expand@s featuredServicesContainer uk-margin-medium-top"
          uk-grid="">
 
       <button class="nav-buttons" (click)="previous()"><i aria-hidden="true" class="fa fa-angle-left fa-4x"></i>
