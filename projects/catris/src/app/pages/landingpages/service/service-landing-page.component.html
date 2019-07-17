@@ -102,8 +102,6 @@
       <div class="uk-grid" uk-grid="">
         <div class="uk-width-2-3">
 
-
-
           <!--USAGE-->
           <div>
             <h2 class="section-heading uk-h2">Usage</h2>
@@ -112,24 +110,24 @@
                 <dt class="uk-margin-small-right">Technology readiness level</dt>
                 <dd class="">{{richService.trlName}}</dd>
               </div>
-              <div *ngIf="richService.service.phase" class="uk-margin-bottom">
+              <div *ngIf="richService.phaseName" class="uk-margin-bottom">
                 <dt class="uk-margin-small-right">Lifecycle Status</dt>
-                <dd class="">{{richService.service.phase}}</dd>
+                <dd class="">{{richService.phaseName}}</dd>
               </div>
             </dl>
             <!--<hr class="customDivider">-->
             <dl class="uk-description-list">
               <dt class="">Access type</dt>
-              <dd>{{richService.service.accessTypes}}</dd>
+              <dd>{{richService.accessTypeNames}}</dd>
               <dt class="">Access mode</dt>
-              <dd>{{richService.service.accessModes}}</dd>
+              <dd>{{richService.accessModeNames}}</dd>
               <ng-container *ngIf="richService.service.options">
                 <dt class="">Options</dt>
                 <dd>{{richService.service.options}}</dd>
               </ng-container>
-              <ng-container *ngIf="richService.service.targetUsers">
+              <ng-container *ngIf="richService.targetUsersNames">
                 <dt class="">Target Users</dt>
-                <dd>{{richService.service.targetUsers}}</dd>
+                <dd>{{richService.targetUsersNames}}</dd>
               </ng-container>
               <ng-container *ngIf="richService.service.userValue">
                 <dt class="">User value</dt>
@@ -173,14 +171,13 @@
           </div>
 
           <!--FUNDING-->
-          <div *ngIf="richService.service.funders" class="uk-margin-medium-top">
+          <div *ngIf="richService.fundedByNames" class="uk-margin-medium-top">
             <h2 class="section-heading uk-h2">Funding</h2>
             <dl class="uk-description-list">
               <!--<dt class="uk-margin-small-bottom">Funding sources</dt>-->
-              <dd>{{richService.service.funders}}</dd>
+              <dd>{{richService.fundedByNames}}</dd>
             </dl>
           </div>
-
 
         </div>
         <div class="uk-width-1-3">

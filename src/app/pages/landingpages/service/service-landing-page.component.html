@@ -99,7 +99,7 @@
                     <dt class="uk-margin-small-right uk-inline">Technology readiness level</dt>
                     <dd class="uk-inline">{{richService.trlName}}</dd>
                   </div>
-                  <div *ngIf="richService.service.phase" class="uk-margin-small-bottom">
+                  <div *ngIf="richService.phaseName" class="uk-margin-small-bottom">
                     <dt class="uk-margin-small-right uk-inline">Lifecycle Status</dt>
                     <dd class="uk-inline">{{richService.phaseName}}</dd>
                   </div>
@@ -110,9 +110,9 @@
                     <dt class="uk-margin-small-bottom">Options</dt>
                     <dd>{{richService.service.options}}</dd>
                   </ng-container>
-                  <ng-container *ngIf="richService.service.targetUsers">
+                  <ng-container *ngIf="richService.targetUsersNames">
                     <dt class="uk-margin-small-bottom">Target Users</dt>
-                    <dd>{{richService.service.targetUsers}}</dd>
+                    <dd>{{richService.targetUsersNames}}</dd>
                   </ng-container>
                   <ng-container *ngIf="richService.service.userValue">
                     <dt class="uk-margin-small-bottom">User value</dt>
@@ -287,11 +287,11 @@
                 </dl>
               </div>
               <!--FUNDING-->
-              <div *ngIf="richService.service.funders" class="uk-card uk-card-body uk-card-basic-info">
+              <div *ngIf="richService.fundedByNames" class="uk-card uk-card-body uk-card-basic-info">
                 <h2 class="uk-h2">Funding</h2>
                 <dl class="uk-description-list">
                   <!--<dt class="uk-margin-small-bottom">Funding sources</dt>-->
-                  <dd>{{richService.service.funders}}</dd>
+                  <dd>{{richService.fundedByNames}}</dd>
                 </dl>
               </div>
             </div>
@@ -398,11 +398,11 @@
             <dt class="infoTitle uk-margin-small-right">Required services</dt>
             <!--<dt class="uk-margin-small-bottom">Required richServices</dt>-->
             <dd *ngFor="let requiredService of richService.service.requiredServices">
-              <div *ngIf="getPrettyService(requiredService).name === 'Name not found!'">
+              <div *ngIf="getPrettyService(requiredService).service.name === 'Name not found!'">
                 <a> {{requiredService}}</a>
               </div>
-              <a *ngIf="getPrettyService(requiredService).name !== 'Name not found!'"
-                 (click)="this.router.service(getPrettyService(requiredService).id)">{{getPrettyService(requiredService).name}}</a>
+              <a *ngIf="getPrettyService(requiredService).service.name !== 'Name not found!'"
+                 (click)="this.router.service(getPrettyService(requiredService).service.id)">{{getPrettyService(requiredService).service.name}}</a>
             </dd>
           </ng-container>
           <ng-container *ngIf="!richService.service.requiredServices || richService.service.requiredServices.length == 0">
@@ -414,11 +414,11 @@
           <ng-container *ngIf="richService.service.relatedServices && richService.service.relatedServices.length>0">
             <dt class="infoTitle uk-margin-small-right">Related services</dt>
             <dd *ngFor="let relatedService of richService.service.relatedServices">
-              <div *ngIf="getPrettyService(relatedService).name === 'Name not found!'">
+              <div *ngIf="getPrettyService(relatedService).service.name === 'Name not found!'">
                 <a> {{relatedService}}</a>
               </div>
-              <a *ngIf="getPrettyService(relatedService).name !== 'Name not found!'"
-                 (click)="this.router.service(getPrettyService(relatedService).id)">{{getPrettyService(relatedService).name}}</a>
+              <a *ngIf="getPrettyService(relatedService).service.name !== 'Name not found!'"
+                 (click)="this.router.service(getPrettyService(relatedService).service.id)">{{getPrettyService(relatedService).service.name}}</a>
             </dd>
           </ng-container>
           <ng-container *ngIf="!richService.service.relatedServices || richService.service.relatedServices.length == 0">

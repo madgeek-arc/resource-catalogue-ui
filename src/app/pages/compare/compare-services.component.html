@@ -89,10 +89,10 @@
             <td class="uk-width-1-4 fieldName">Target Users</td>
             <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
                 [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.service.targetUsers && richService.service.targetUsers !== []">
-                {{richService.service.targetUsers}}
+              <ng-template [ngIf]="richService.targetUsersNames && richService.targetUsersNames !== []">
+                {{richService.targetUsersNames}}
               </ng-template>
-              <ng-template [ngIf]="!richService.service.targetUsers || richService.service.targetUsers === []">
+              <ng-template [ngIf]="!richService.targetUsersNames || richService.targetUsersNames === []">
                 /
               </ng-template>
             </td>
@@ -125,10 +125,10 @@
             <td class="uk-width-1-4 fieldName">Funding</td>
             <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
                 [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.service.funders && richService.service.funders !== []">
-                {{richService.service.funders}}
+              <ng-template [ngIf]="richService.fundedByNames && richService.fundedByNames !== []">
+                {{richService.fundedByNames}}
               </ng-template>
-              <ng-template [ngIf]="!richService.service.funders || richService.service.funders === []">
+              <ng-template [ngIf]="!richService.fundedByNames || richService.fundedByNames === []">
                 /
               </ng-template>
             </td>
