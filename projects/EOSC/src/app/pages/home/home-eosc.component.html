@@ -28,12 +28,6 @@
 
                 </div>
               </div>
-              <!--TODO uncomment this when I have time to fix it properly-->
-              <!--<div class="uk-margin-medium-top">-->
-              <!--<div class="trendingSearches">-->
-              <!--Trending searches: <span>network, security resources, share, analyze data</span>-->
-              <!--</div>-->
-              <!--</div>-->
             </div>
           </div>
         </div>
@@ -58,7 +52,7 @@
 </div>
 
 <div class="uk-section-default uk-section">
-  <div class="uk-container uk-margin-large-bottom">
+  <div *ngIf="featuredServices && featuredServices.length >= step" class="uk-container uk-margin-large-bottom">
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
         <h1 class="uk-margin-medium uk-text-center uk-h2">
@@ -67,8 +61,7 @@
       </div>
     </div>
 
-    <div *ngIf="featuredServices"
-         class="uk-grid-margin uk-grid uk-grid-stack uk-child-width-expand@s featuredServicesContainer uk-margin-medium-top"
+    <div class="uk-grid-margin uk-grid uk-grid-stack uk-child-width-expand@s featuredServicesContainer uk-margin-medium-top"
          uk-grid="">
 
       <button class="nav-buttons" (click)="previous()"><i aria-hidden="true" class="fa fa-angle-left fa-4x"></i>
@@ -77,12 +70,13 @@
       <div *ngFor="let featuredService of viewServices"
            class="uk-card uk-card-body uk-card-gray uk-margin-small-left uk-margin-small-right limitRows featuredService">
         <a (click)="this.router.service(featuredService.id)">
-          <h3
-            class="uk-text-center">{{featuredService.name.length > 25 ? featuredService.name.slice(0, 22) + '...' : featuredService.name}}</h3>
+          <h3 class="uk-text-center">
+            {{featuredService.name.length > 25 ? featuredService.name.slice(0, 22) + '...' : featuredService.name}}
+          </h3>
           <p class="uk-text-center"
              *ngIf="featuredService.tagline">{{featuredService.tagline.length > 40 ? featuredService.tagline.slice(0, 37) + '...' : featuredService.tagline}}</p>
           <div class="symbolAndProvider">
-            <img src="{{featuredService.symbol || 'http://fvtelibrary.com/img/user/NoLogo.png'}}" class="serviceSymbol">
+            <img src="{{featuredService.logo || 'http://fvtelibrary.com/img/user/NoLogo.png'}}" class="serviceSymbol">
             <span class="provider">{{featuredService.providers[0] | uppercase}}</span>
           </div>
         </a>
