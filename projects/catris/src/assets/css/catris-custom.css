@@ -48,6 +48,7 @@ body {
 .butn.theme {
   background: #37833F;
   color: #fff;
+  font-size: 15px;
 }
 
 .butn.theme:hover {
@@ -63,4 +64,43 @@ body {
 .uk-section-secondary {
   background: #FAFAFA;
   color: #424242 !important;
+}
+
+.section-heading h1, .section-heading h2, .section-heading h3, .section-heading h4, .section-heading h5, .section-heading h6 {
+  position: relative;
+  padding-bottom: 10px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  position: relative;
+  line-height: 140%;
+  font-family: 'Montserrat', sans-serif;
+  color: #232323;
+  text-transform: none;
+}
+
+.section-heading h1::after, .section-heading h2::after, .section-heading h3::after, .section-heading h4::after, .section-heading h5::after, .section-heading h6::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 2px;
+  background: #37833F;
+  margin: 0 auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.section-heading h3 {
+  font-size: 32px;
+}
+
+a {
+  color: #37833F;
+  text-decoration: underline;
+}
+
+a:hover, a:focus {
+  color: #37833F;
+  text-decoration: underline;
 }

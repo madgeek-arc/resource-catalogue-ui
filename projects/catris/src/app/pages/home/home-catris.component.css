@@ -23,33 +23,33 @@ h2 {
     /*color: #677690;*/
 /*}*/
 
-/*.uk-search-field {*/
-    /*!*color: #fff !important;*!*/
-/*}*/
+.uk-search-field {
+    color: #fff !important;
+}
 
-/*.uk-search-field::-webkit-input-placeholder {*/
+.uk-search-field::-webkit-input-placeholder {
     /*opacity: 0.5;*/
     /*font-size: 20px;*/
-    /*color: #677690;*/
-/*}*/
+    color: #fff;
+}
 
-/*.uk-search-field:-moz-placeholder {*/
+.uk-search-field:-moz-placeholder {
     /*opacity: 0.5;*/
     /*font-size: 20px;*/
-    /*color: #677690;*/
-/*}*/
+    color: #fff;
+}
 
-/*.uk-search-field::-moz-placeholder {*/
+.uk-search-field::-moz-placeholder {
     /*opacity: 0.5;*/
     /*font-size: 20px;*/
-    /*color: #677690;*/
-/*}*/
+    color: #fff;
+}
 
-/*.uk-search-field:-ms-input-placeholder {*/
+.uk-search-field:-ms-input-placeholder {
     /*opacity: 0.5;*/
     /*font-size: 20px;*/
-    /*color: #677690;*/
-/*}*/
+    color: #fff;
+}
 
 .limitRows {
     height: 250px;
@@ -253,6 +253,10 @@ a.serviceLink {
 
 a.serviceLink:hover {
     /*color: #D1303A;*/
+}
+
+.wk-h4 {
+  color: #000;
 }
 
 
