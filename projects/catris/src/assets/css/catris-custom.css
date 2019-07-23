@@ -91,8 +91,22 @@ body {
   bottom: 0;
 }
 
+.section-heading.left h1::after, .section-heading.left h2::after, .section-heading.left h3::after, .section-heading.left h4::after, .section-heading.left h5::after, .section-heading.left h6::after {
+  margin: 0;
+  left: 0;
+}
+
 .section-heading h3 {
   font-size: 32px;
+}
+
+.section-heading h2 {
+  font-size: 34px;
+}
+
+.section-heading.left {
+  text-align: left;
+  margin-bottom: 30px;
 }
 
 a {
@@ -103,4 +117,9 @@ a {
 a:hover, a:focus {
   color: #37833F;
   text-decoration: underline;
+}
+
+p {
+  margin: 0 0 20px;
+  word-spacing: 1px;
 }
