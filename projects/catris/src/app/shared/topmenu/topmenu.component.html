@@ -22,16 +22,16 @@
               <li class="uk-nav-header" [routerLinkActive]="['uk-active']">
                 <a [routerLink]="['/search']" routerLinkActive="uk-active" class="uk-offcanvas-close offcanvas-close">Catalogue</a>
               </li>
-              <li class="uk-nav-header uk-parent" [routerLinkActive]="['uk-active']">Dashboard
-                <ul class="uk-nav-sub">
-                  <li><a [routerLink]="['/fundersDashboard']" routerLinkActive="uk-active"
-                         class="uk-offcanvas-close offcanvas-close">Funder</a></li>
-                  <li *ngIf="isLoggedIn() && (isProvider() || isAdmin())">
-                    <a [routerLink]="['/myServiceProviders']" routerLinkActive="uk-active"
-                       class="uk-offcanvas-close offcanvas-close">Providers</a>
-                  </li>
-                </ul>
-              </li>
+              <!--<li class="uk-nav-header uk-parent" [routerLinkActive]="['uk-active']">Dashboard-->
+                <!--<ul class="uk-nav-sub">-->
+                  <!--<li><a [routerLink]="['/fundersDashboard']" routerLinkActive="uk-active"-->
+                         <!--class="uk-offcanvas-close offcanvas-close">Funder</a></li>-->
+                  <!--<li *ngIf="isLoggedIn() && (isProvider() || isAdmin())">-->
+                    <!--<a [routerLink]="['/myServiceProviders']" routerLinkActive="uk-active"-->
+                       <!--class="uk-offcanvas-close offcanvas-close">Providers</a>-->
+                  <!--</li>-->
+                <!--</ul>-->
+              <!--</li>-->
               <li class="uk-nav-header uk-parent" [routerLinkActive]="['uk-active']">Support
                 <ul class="uk-nav-sub">
                   <li><a [routerLink]="['/developers']" routerLinkActive="uk-active"
@@ -107,23 +107,23 @@
                 Catalogue
               </a>
             </li>
-            <li class="uk-parent" [routerLinkActive]="['uk-active']">
-              <a href="#" class="" aria-expanded="false">
-                Dashboard <img class="uk-margin-small-left" src="../../../assets/images/icons/ic_arrow_down.svg">
-              </a>
-              <div class="uk-navbar-dropdown uk-navbar-dropdown-bottom-left" style="top: 80px; left: 106.55px;" id="dashboard" (click)="onClick('dashboard')">
-                <div class="uk-navbar-dropdown-grid uk-child-width-1-1 uk-grid uk-grid-stack" uk-grid="">
-                  <div class="uk-first-column">
-                    <ul class="uk-nav uk-navbar-dropdown-nav">
-                      <li><a [routerLink]="['/fundersDashboard']" routerLinkActive="uk-active">Funder</a></li>
-                      <li *ngIf="isLoggedIn() && (isProvider() || isAdmin())">
-                        <a [routerLink]="['/myServiceProviders']" routerLinkActive="uk-active">Providers</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </li>
+            <!--<li class="uk-parent" [routerLinkActive]="['uk-active']">-->
+              <!--<a href="#" class="" aria-expanded="false">-->
+                <!--Dashboard <img class="uk-margin-small-left" src="../../../assets/images/icons/ic_arrow_down.svg">-->
+              <!--</a>-->
+              <!--<div class="uk-navbar-dropdown uk-navbar-dropdown-bottom-left" style="top: 80px; left: 106.55px;" id="dashboard" (click)="onClick('dashboard')">-->
+                <!--<div class="uk-navbar-dropdown-grid uk-child-width-1-1 uk-grid uk-grid-stack" uk-grid="">-->
+                  <!--<div class="uk-first-column">-->
+                    <!--<ul class="uk-nav uk-navbar-dropdown-nav">-->
+                      <!--<li><a [routerLink]="['/fundersDashboard']" routerLinkActive="uk-active">Funder</a></li>-->
+                      <!--<li *ngIf="isLoggedIn() && (isProvider() || isAdmin())">-->
+                        <!--<a [routerLink]="['/myServiceProviders']" routerLinkActive="uk-active">Providers</a>-->
+                      <!--</li>-->
+                    <!--</ul>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</li>-->
             <li class="uk-parent" [routerLinkActive]="['uk-active']">
               <a href="#" class="" aria-expanded="false">
                 Support <img class="uk-margin-small-left" src="../../../assets/images/icons/ic_arrow_down.svg">
