@@ -172,16 +172,14 @@
 
                       <div class="addenda uk-margin-small-top">
                         <span class="uk-margin-medium-right">
-                            <a (click)="addToFavourites(i)">
-                                <i
-                                  [ngClass]="resourceInfo.isFavourite?'fa fa-heart':'fa fa-heart-o'"></i>
-                            </a>
-                            <span
-                              class="statsNumbers">&nbsp;{{ resourceInfo.favourites }}</span>
+                          <a (click)="addToFavourites(i)">
+                            <i [ngClass]="resourceInfo.isFavourite?'fa fa-heart':'fa fa-heart-o'"></i>
+                          </a>
+                          <span class="statsNumbers">&nbsp;{{ resourceInfo.favourites }}</span>
                         </span>
                         <span class="uk-margin-medium-right">
                             <input type="checkbox" class="uk-margin-small-right"
-                                   [checked]="isSelected(resourceInfo)"
+                                   [checked]="isSelected(resourceInfo.service)"
                                    (change)="comparisonService.addOrRemove(resourceInfo.service)">
                             <a>{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
                         </span>
@@ -199,7 +197,7 @@
                         <a (click)="this.router.service(resourceInfo.service.id)">
                           <span>
                               <img
-                                src="{{resourceInfo.service.symbol || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
+                                src="{{resourceInfo.service.logo || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
                                 style="max-width: 90px;">
                           </span>
                         </a>
@@ -405,24 +403,23 @@
 
 
                       <div class="addenda uk-margin-small-top">
-                                            <span class="uk-margin-medium-right">
-                                                <a (click)="addToFavourites(i)">
-                                                    <i
-                                                      [ngClass]="resourceInfo.isFavourite?'fa fa-heart':'fa fa-heart-o'"></i>
-                                                </a>
-                                                <span class="statsNumbers">&nbsp;{{ resourceInfo.favourites }}</span>
-                                            </span>
                         <span class="uk-margin-medium-right">
-                                                <input type="checkbox" class="uk-margin-small-right"
-                                                       [checked]="isSelected(resourceInfo)"
-                                                       (change)="comparisonService.addOrRemove(resourceInfo.service)">
-                                                <a>{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
+                          <a (click)="addToFavourites(i)">
+                            <i [ngClass]="resourceInfo.isFavourite?'fa fa-heart':'fa fa-heart-o'"></i>
+                          </a>
+                          <span class="statsNumbers">&nbsp;{{ resourceInfo.favourites }}</span>
+                        </span>
+                        <span class="uk-margin-medium-right">
+                          <input type="checkbox" class="uk-margin-small-right"
+                                 [checked]="isSelected(resourceInfo.service)"
+                                 (change)="comparisonService.addOrRemove(resourceInfo.service)">
+                          <a>{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
                           <!--<a *ngIf="comparisonService.servicesToCompare.indexOf(resourceInfo) > -1">Added</a>-->
-                                            </span>
+                        </span>
                         <span class="uk-float-right">
-                                                <img src="../../../../assets/images/icons/ic_visit_icon.svg">
-                                                <span class="statsNumbers">&nbsp;{{ resourceInfo.views }}</span>
-                                            </span>
+                          <img src="../../../../assets/images/icons/ic_visit_icon.svg">
+                          <span class="statsNumbers">&nbsp;{{ resourceInfo.views }}</span>
+                        </span>
                       </div>
 
                     </div>
@@ -431,11 +428,11 @@
                     <div class="symbolAndProvider uk-card-body uk-text-left">
 
                       <a (click)="this.router.service(resourceInfo.service.id)">
-                                            <span>
-                                                <img
-                                                  src="{{resourceInfo.service.logo || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
-                                                  style="height: 51px;">
-                                            </span>
+                        <span>
+                          <img
+                            src="{{resourceInfo.service.logo || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
+                            style="height: 51px;">
+                        </span>
                       </a>
                       <span class="provider">{{resourceInfo.service.providers[0] | uppercase}}</span>
                     </div>

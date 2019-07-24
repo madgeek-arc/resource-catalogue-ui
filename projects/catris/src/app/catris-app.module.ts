@@ -17,6 +17,7 @@ import {StarRatingModule} from 'angular-star-rating';
 import {SearchExtendedComponent} from './pages/search/search.extended.component';
 import {ReusableComponentsModule} from '../../../../src/app/shared/reusablecomponents/reusable-components.module';
 import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/cookie-law/cookie-law.module';
+import {TreeviewModule} from 'ngx-treeview';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/coo
     ReactiveFormsModule,
     ReusableComponentsModule,
     StarRatingModule.forRoot(),
+    TreeviewModule.forRoot(),
     ChartModule,
     CookieLawModule
   ],

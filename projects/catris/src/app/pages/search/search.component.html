@@ -16,221 +16,29 @@
         <div *ngIf="searchResults != null" class="sidemenu refines">
 
           <div class="">
-            <!--<h2 class="uk-h2">Category</h2>-->
+            <h2 class="uk-h2">Category</h2>
 
-            <!--TODO remove hardcoded-->
-            <div class="refineCategory uk-grid-margin">
-              <read-more [maxHeight]="265">
-                <h2 class="uk-h2">Supercategory</h2>
-                <!--<span>{{facet.label}}</span>-->
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Access Physical & e-Infrastructures
-                  <span>(50)</span>
+            <ng-template #itemTemplate let-item="item" let-onCollapseExpand="onCollapseExpand" let-onCheckedChange="onCheckedChange">
+<!--              {{item | json}}-->
+              <div class="form-inline row-item">
+                <i *ngIf="item.children" (click)="onCollapseExpand()" aria-hidden="true" class="fa" [class.fa-caret-right]="item.collapsed"
+                   [class.fa-caret-down]="!item.collapsed"></i>
+                <div class="uk-inline form-check">
+                  <input type="checkbox" class="form-check-input" [(ngModel)]="item.checked" (ngModelChange)="onCheckedChange()" [disabled]="item.disabled"
+                         [indeterminate]="item.indeterminate" />
+                  <label class="form-check-label" (click)="item.checked = !item.checked; onCheckedChange()">
+                    &nbsp;{{item.text}}
+                  </label>
                 </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Sharing & Discovery
-                  <span>(34)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Processing & Analysis
-                  <span>(29)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Security & Operations
-                  <span>(23)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Training & Support
-                  <span>(12)</span>
-                </div>
-              </read-more>
-            </div>
-
-            <ng-template ngFor let-facet [ngForOf]="searchResults.facets">
-              <!--<ng-template [ngIf]="facet.field=='category'">-->
-              <div *ngIf="facet.field=='category'" class="refineCategory uk-grid-margin">
-                <read-more [maxHeight]="235">
-                  <h2 class="uk-h2">{{facet.label}}</h2>
-                  <!--<span>{{facet.label}}</span>-->
-                  <div class="refineOption" *ngFor="let facetValue of facet.values">
-                    <input type="checkbox" name="vehicle" value="Bike" data-md-icheck
-                           (change)="this.onSelection($event, facet.field, facetValue.value)"
-                           [checked]="facetValue.isChecked">
-                    {{facetValue.label}}
-                    <span>({{facetValue.count}})</span>
-                  </div>
-                </read-more>
               </div>
-              <!--</ng-template>-->
             </ng-template>
 
-            <ng-template ngFor let-facet [ngForOf]="searchResults.facets">
-              <!--<ng-template [ngIf]="facet.field=='category'">-->
-              <div *ngIf="facet.field=='subcategory'" class="refineCategory uk-grid-margin">
-                <read-more [maxHeight]="235">
-                  <h2 class="uk-h2">{{facet.label}}</h2>
-                  <!--<span>{{facet.label}}</span>-->
-                  <div class="refineOption" *ngFor="let facetValue of facet.values">
-                    <input type="checkbox" name="vehicle" value="Bike" data-md-icheck
-                           (change)="this.onSelection($event, facet.field, facetValue.value)"
-                           [checked]="facetValue.isChecked">
-                    {{facetValue.label}}
-                    <span>({{facetValue.count}})</span>
-                  </div>
-                </read-more>
-              </div>
-              <!--</ng-template>-->
-            </ng-template>
-
-            <div class="refineCategory uk-grid-margin">
-              <read-more [maxHeight]="235">
-                <h2 class="uk-h2">Target Users</h2>
-                <!--<span>{{facet.label}}</span>-->
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Researchers
-                  <span>(43)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Innovators
-                  <span>(36)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Providers
-                  <span>(25)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Funders
-                  <span>(21)</span>
-                </div>
-              </read-more>
-            </div>
-
-            <div class="refineCategory uk-grid-margin">
-              <read-more [maxHeight]="210">
-                <h2 class="uk-h2">Scientific domain</h2>
-                <!--<span>{{facet.label}}</span>-->
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Natural Sciences
-                  <span>(52)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Engineering & Technology
-                  <span>(48)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Medical & Health Sciences
-                  <span>(35)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Agricultural Sciences
-                  <span>(21)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Social Sciences
-                  <span>(17)</span>
-                </div>
-              </read-more>
-            </div>
-
-            <div class="refineCategory uk-grid-margin">
-              <read-more [maxHeight]="210">
-                <h2 class="uk-h2">Scientific subdomain</h2>
-                <!--<span>{{facet.label}}</span>-->
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Computer sciences
-                  <span>(35)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Earth sciences
-                  <span>(23)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Aerospace engineering
-                  <span>(21)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Environmental engineering
-                  <span>(14)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Clinical medicine
-                  <span>(8)</span>
-                </div>
-              </read-more>
-            </div>
-
-            <div class="refineCategory uk-grid-margin">
-              <read-more [maxHeight]="235">
-                <h2 class="uk-h2">Access type</h2>
-                <!--<span>{{facet.label}}</span>-->
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Remote
-                  <span>(35)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Physical
-                  <span>(23)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Virtual
-                  <span>(21)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Mail-in
-                  <span>(14)</span>
-                </div>
-              </read-more>
-            </div>
-
-            <div class="refineCategory uk-grid-margin">
-              <read-more [maxHeight]="235">
-                <h2 class="uk-h2">Access mode</h2>
-                <!--<span>{{facet.label}}</span>-->
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Excellence driven
-                  <span>(35)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Market driven
-                  <span>(23)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Wide access
-                  <span>(21)</span>
-                </div>
-                <div class="refineOption">
-                  <input type="checkbox" name="vehicle" value="Bike" data-md-icheck>
-                  Other
-                  <span>(14)</span>
-                </div>
-              </read-more>
-            </div>
+            <ngx-treeview
+              [config]="config"
+              [items]="items"
+              [itemTemplate]="itemTemplate"
+              (selectedChange)="onSelectedChange($event)">
+            </ngx-treeview>
 
             <ng-template ngFor let-facet [ngForOf]="searchResults.facets">
               <!--<ng-template [ngIf]="facet.field=='category'">-->
@@ -396,9 +204,9 @@
                         </span>
                         <span class="uk-margin-medium-right">
                             <input type="checkbox" class="uk-margin-small-right"
-                                   [checked]="isSelected(resourceInfo)"
-                                   (change)="comparisonService.addOrRemove(resourceInfo)">
-                            <a>{{isSelected(resourceInfo) ? 'Added' : 'Add to compare'}}</a>
+                                   [checked]="isSelected(resourceInfo.service)"
+                                   (change)="comparisonService.addOrRemove(resourceInfo.service)">
+                            <a>{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
                         </span>
                         <span class="uk-float-right">
                             <img src="../../../../assets/images/icons/ic_visit_icon.svg">
@@ -595,7 +403,7 @@
                     <div style="margin-top: 20px;">
                       <h2 class="uk-margin-remove uk-h3 uk-scrollspy-inview uk-animation-fade uk-inline serviceName"
                           uk-scrollspy-class="">
-                        <a [routerLink]="['/service/' + resourceInfo.id]">
+                        <a [routerLink]="['/service/' + resourceInfo.service.id]">
                           {{resourceInfo.service.name || "Not Available"}}
                         </a>
                       </h2>
@@ -622,9 +430,9 @@
                       </span>
                       <span class="uk-margin-medium-right">
                           <input type="checkbox" class="uk-margin-small-right"
-                                 [checked]="isSelected(resourceInfo)"
-                                 (change)="comparisonService.addOrRemove(resourceInfo)">
-                          <a>{{isSelected(resourceInfo) ? 'Added' : 'Add to compare'}}</a>
+                                 [checked]="isSelected(resourceInfo.service)"
+                                 (change)="comparisonService.addOrRemove(resourceInfo.service)">
+                          <a>{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
                       </span>
                       <span class="uk-float-right">
                           <img src="../../../../assets/images/icons/ic_visit_icon.svg">

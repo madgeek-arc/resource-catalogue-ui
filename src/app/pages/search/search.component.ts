@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Injectable, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription, timer} from 'rxjs';
@@ -14,15 +14,39 @@ import {UserService} from '../../services/user.service';
 import {zip} from 'rxjs/internal/observable/zip';
 import {flatMap} from 'rxjs/operators';
 import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
+import {
+  DownlineTreeviewItem, OrderDownlineTreeviewEventParser,
+  TreeviewConfig, TreeviewEventParser, TreeviewItem
+} from 'ngx-treeview';
+import {text} from '@angular/core/src/render3/instructions';
 
 declare var UIkit: any;
 
+class CheckBoxTree {
+  id: string;
+  name: string;
+  count: number;
+  type: CheckBoxTree[];
+}
+
 @Component({
   selector: 'app-search',
+  styleUrls: ['./search.component.css'],
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  providers: [
+    { provide: TreeviewEventParser, useClass: OrderDownlineTreeviewEventParser },
+  ]
 })
+
 export class SearchComponent implements OnInit, OnDestroy {
+  config = TreeviewConfig.create({
+    hasAllCheckBox: false,
+    hasFilter: false,
+    hasCollapseExpand: false,
+    decoupleChildFromParent: false,
+    maxHeight: 500
+  });
+  items: TreeviewItem[] = [];
 
   searchForm: FormGroup;
   errorMessage: string;
@@ -49,6 +73,20 @@ export class SearchComponent implements OnInit, OnDestroy {
               public authenticationService: AuthenticationService, public comparisonService: ComparisonService,
               public navigationService: NavigationService) {
     this.searchForm = fb.group({'query': ['']});
+  }
+
+  onSelectedChange(subcategories: string[]) {
+    let paramIndex = 0;
+    for (const urlParameter of this.urlParameters) {
+      if (urlParameter.key === 'subcategories') {
+        this.urlParameters.splice(paramIndex, 1);
+      }
+      paramIndex++;
+    }
+    for (let i = 0; i < subcategories.length; i++) {
+      this.addParameterToURL('subcategories', subcategories[i]);
+    }
+    return this.navigateUsingParameters();
   }
 
   ngOnInit() {
@@ -90,7 +128,121 @@ export class SearchComponent implements OnInit, OnDestroy {
         // request results from the registry
         this.loading = true;
         return this.resourceService.search(this.urlParameters).subscribe(
-          searchResults => this.updateSearchResults(searchResults),
+          searchResults => {
+            this.updateSearchResults(searchResults);
+            // console.log(searchResults.results);
+            if (this.items.length === 0) {
+              const tree: CheckBoxTree[] = []; // TODO: This data should be provided from backend
+              for (const res of searchResults.results) {
+                // console.log(res.service.name);
+                let foundSuper = false;
+                for (const i of tree) {
+                  // console.log('super name  = ' + res.superCategoryName);
+                  if (i.name === res.superCategoryName) {
+                    // console.log('super ' + res.superCategoryName + ' already exists');
+                    foundSuper = true;
+                    i.count++;
+                    let foundCategory = false;
+                    for (const j of i.type) {
+                      // console.log('cat name = ' + res.categoryName);
+                      if (j.name === res.categoryName) {
+                        // console.log('cat ' + res.categoryName + ' already exists');
+                        foundCategory = true;
+                        j.count++;
+                        for (let l = 0; l < res.subCategoryNames.length; l++) {
+                          let foundSubCategory = false;
+                          for (const k of j.type) {
+                            // console.log('subCat = ' + res.subCategoryNames[l]);
+                            if (k.name === res.subCategoryNames[l]) {
+                              // console.log('subCat ' + res.subCategoryNames[l] + ' already exists');
+                              foundSubCategory = true;
+                              k.count++;
+                            }
+                          }
+                          if (!foundSubCategory) {
+                            const subCategory: CheckBoxTree = {
+                              id: res.service.subcategories[l],
+                              name: res.subCategoryNames[l],
+                              count: 1,
+                              type: null
+                            };
+                            j.type.push(subCategory);
+                          }
+                        }
+                      }
+                    }
+                    if (!foundCategory) {
+                      const category: CheckBoxTree = {id: res.service.category, name: res.categoryName, count: 1, type: []};
+                      for (let l = 0; l < res.subCategoryNames.length; l++) {
+                        const subCategory: CheckBoxTree = {
+                          id: res.service.subcategories[l],
+                          name: res.subCategoryNames[l],
+                          count: 1,
+                          type: null
+                        };
+                        category.type.push(subCategory);
+                        // category.count++;
+                      }
+                      i.type.push(category);
+                      // i.count++;
+                    }
+                  }
+                }
+                if (!foundSuper) {
+                  const category: CheckBoxTree = {id: res.service.category, name: res.categoryName, count: 1, type: []};
+                  for (let i = 0; i < res.subCategoryNames.length; i++) {
+                    const subCategory: CheckBoxTree = {
+                      id: res.service.subcategories[i],
+                      name: res.subCategoryNames[i],
+                      count: 1,
+                      type: null
+                    };
+                    category.type.push(subCategory);
+                    // category.count++;
+                  }
+                  const temp: CheckBoxTree = {id: res.service.supercategory, name: res.superCategoryName, count: 1, type: [category]};
+                  tree.push(temp);
+                }
+                // for (let i = 0; i < tree.length; i++) {
+                //   console.log(tree[i]);
+                // }
+              }
+              console.log(tree);
+              /** Checkbox structure!!! ->**/
+              this.items = [];
+              for (let i = 0; i < tree.length; i++) {
+                const categories: TreeviewItem[] = [];
+
+                for (let j = 0; j < tree[i].type.length; j++) {
+
+                  const subCategories: TreeviewItem[] = [];
+                  for (let k = 0; k < tree[i].type[j].type.length; k++) {
+                    subCategories.push(new TreeviewItem({
+                        text: tree[i].type[j].type[k].name + ` (${tree[i].type[j].type[k].count})`,
+                        value: tree[i].type[j].type[k].id,
+                        checked: false,
+                        collapsed: true
+                      }
+                    ));
+                  }
+                  // console.log(subCategories);
+                  categories.push(new TreeviewItem({
+                      text: tree[i].type[j].name + ` (${tree[i].type[j].count})`,
+                      value: tree[i].type[j].id,
+                      children: subCategories,
+                      checked: false,
+                      collapsed: true
+                    }
+                  ));
+                }
+                this.items.push(new TreeviewItem({
+                    text: tree[i].name + ` (${tree[i].count})`, value: tree[i].id, children: categories, checked: false, collapsed: true
+                  }
+                ));
+              }
+              /** <- Checkbox structure!!! **/
+            }
+          },
           error => {},
           () => {
             this.loading = false;
