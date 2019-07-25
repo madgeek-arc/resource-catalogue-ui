@@ -44,9 +44,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     hasFilter: false,
     hasCollapseExpand: false,
     decoupleChildFromParent: false,
-    maxHeight: 500
+    maxHeight: 300
   });
   items: TreeviewItem[] = [];
+  scientificDomain: TreeviewItem[] = [];
 
   searchForm: FormGroup;
   errorMessage: string;
@@ -75,18 +76,19 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.searchForm = fb.group({'query': ['']});
   }
 
-  onSelectedChange(subcategories: string[]) {
+  onSelectedChange(urlParams: string[], param) {
     let paramIndex = 0;
     for (const urlParameter of this.urlParameters) {
-      if (urlParameter.key === 'subcategories') {
+      if (urlParameter.key === param) {
         this.urlParameters.splice(paramIndex, 1);
+        break;
       }
       paramIndex++;
     }
-    for (let i = 0; i < subcategories.length; i++) {
-      this.addParameterToURL('subcategories', subcategories[i]);
+    for (let i = 0; i < urlParams.length; i++) {
+      this.addParameterToURL(param, urlParams[i]);
     }
-    return this.navigateUsingParameters();
+    this.navigateUsingParameters();
   }
 
   ngOnInit() {
@@ -207,8 +209,7 @@ export class SearchComponent implements OnInit, OnDestroy {
                 //   console.log(tree[i]);
                 // }
               }
-              console.log(tree);
-              /** Checkbox structure!!! ->**/
+              /** Checkbox Category structure!!!-->**/
               this.items = [];
               for (let i = 0; i < tree.length; i++) {
                 const categories: TreeviewItem[] = [];
@@ -240,7 +241,37 @@ export class SearchComponent implements OnInit, OnDestroy {
                   }
                 ));
               }
-              /** <- Checkbox structure!!! **/
+              /** <--Checkbox Category structure!!!**/
+              /** Checkbox Scientific Domain structure!!!-->**/
+              // console.log(tree);
+              // console.log(searchResults.facets[5]);
+              // console.log(searchResults.facets[10]);
+              // for (let i = 0; i < searchResults.facets[5].values.length; i++) {
+              for (const domainValue of searchResults.facets[5].values) {
+                const domainId = domainValue.value.split('-')[1];
+                // console.log(domainId);
+                const subDomain: TreeviewItem[] = [];
+                for (const subDomainValue of searchResults.facets[10].values) {
+                  const subDomainId = subDomainValue.value.split('-')[1];
+                  // console.log(subDomainId);
+                  if (domainId === subDomainId) {
+                    subDomain.push(new TreeviewItem({
+                      text: subDomainValue.label + ` (${subDomainValue.count})`,
+                      value: subDomainValue.value,
+                      checked: false,
+                      collapsed: true
+                    }));
+                  }
+                }
+                this.scientificDomain.push(new TreeviewItem({
+                  text: domainValue.label + ` (${domainValue.count})`,
+                  value: domainValue.value,
+                  children: subDomain,
+                  checked: false,
+                  collapsed: true
+                }));
+              }
+              /** <--Checkbox Scientific Domain structure!!!**/
             }
           },
           error => {},

@@ -145,13 +145,13 @@
                         </div>
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
-                            {{symbolDesc.label + (symbolDesc.mandatory ? ' (*)' : '')}}
+                            {{logoDesc.label + (logoDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
                             <input class="uk-input" type="text" formControlName="symbol"
                                    [ngClass]="{'uk-form-danger': !serviceForm.get('symbol').valid && serviceForm.get('symbol').dirty}">
                             <i>
-                              <small>{{symbolDesc.desc}}</small>
+                              <small>{{logoDesc.desc}}</small>
                             </i>
                           </div>
                         </div>

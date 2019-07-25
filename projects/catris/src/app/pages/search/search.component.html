@@ -16,7 +16,6 @@
         <div *ngIf="searchResults != null" class="sidemenu refines">
 
           <div class="">
-            <h2 class="uk-h2">Category</h2>
 
             <ng-template #itemTemplate let-item="item" let-onCollapseExpand="onCollapseExpand" let-onCheckedChange="onCheckedChange">
 <!--              {{item | json}}-->
@@ -33,16 +32,26 @@
               </div>
             </ng-template>
 
+            <h2 class="uk-h2">Category</h2>
             <ngx-treeview
               [config]="config"
               [items]="items"
               [itemTemplate]="itemTemplate"
-              (selectedChange)="onSelectedChange($event)">
+              (selectedChange)="onSelectedChange($event, 'subcategories')">
+            </ngx-treeview>
+
+            <h2 class="uk-h2">Scientific Domain</h2>
+            <ngx-treeview
+              [config]="config"
+              [items]="scientificDomain"
+              [itemTemplate]="itemTemplate"
+              (selectedChange)="onSelectedChange($event, 'scientific_subdomains')">
             </ngx-treeview>
 
             <ng-template ngFor let-facet [ngForOf]="searchResults.facets">
               <!--<ng-template [ngIf]="facet.field=='category'">-->
-                <div *ngIf="facet.field!='resourceType'" class="refineCategory uk-grid-margin">
+              <div *ngIf="facet.field!='resourceType' && facet.field!='category' && facet.field!='subcategories' && facet.field!='supercategory' && facet.field!='name' && facet.field!='scientific_domains' && facet.field!='scientific_subdomains'"
+                     class="refineCategory uk-grid-margin">
                   <read-more [maxHeight]="235">
                     <h2 class="uk-h2">{{facet.label}}</h2>
                     <!--<span>{{facet.label}}</span>-->
