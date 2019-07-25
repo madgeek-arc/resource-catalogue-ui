@@ -113,10 +113,10 @@
             <td class="uk-width-1-4 fieldName">User Base</td>
             <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
                 [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.service.userBases && richService.service.userBases !== []">
-                {{richService.service.userBases}}
+              <ng-template [ngIf]="richService.service.userBaseList && richService.service.userBaseList !== []">
+                {{richService.service.userBaseList}}
               </ng-template>
-              <ng-template [ngIf]="!richService.service.userBases || richService.service.userBases === []">
+              <ng-template [ngIf]="!richService.service.userBaseList || richService.service.userBaseList === []">
                 /
               </ng-template>
             </td>

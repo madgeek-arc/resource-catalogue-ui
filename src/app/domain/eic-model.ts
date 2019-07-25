@@ -57,7 +57,7 @@ export class Service implements Identifiable {
   logo: URL;
   tagline: string;
   userValue: string;
-  userBases: string[];
+  userBaseList: string[];
   useCases: string[];
   multimediaUrls: URL[];
   options: string[];
