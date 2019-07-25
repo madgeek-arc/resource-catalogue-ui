@@ -261,20 +261,20 @@
                             </i>
                           </div>
                         </div>
-                        <div *ngIf="lifeCycleStatusVocabulary" class="uk-form-horizontal uk-margin-bottom">
+                        <div *ngIf="phaseVocabulary" class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
-                            {{lifeCycleStatusDesc.label + (lifeCycleStatusDesc.mandatory ? ' (*)' : '')}}
+                            {{phaseDesc.label + (phaseDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
                             <select formControlName="lifeCycleStatus" class="uk-select"
                                     [ngClass]="{'uk-form-danger': !serviceForm.get('lifeCycleStatus').valid && serviceForm.get('lifeCycleStatus').dirty}">
-                              <option *ngFor="let entry of sortVocabulariesByName(lifeCycleStatusVocabulary)"
+                              <option *ngFor="let entry of sortVocabulariesByName(phaseVocabulary)"
                                       value="{{entry.id}}">
                                 {{entry.name}}
                               </option>
                             </select>
                             <i>
-                              <small>{{lifeCycleStatusDesc.desc}}</small>
+                              <small>{{phaseDesc.desc}}</small>
                             </i>
                           </div>
                         </div>
