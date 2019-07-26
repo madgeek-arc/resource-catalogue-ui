@@ -493,51 +493,51 @@
                         </div>
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
-                            {{userManualDesc.label + (userManualDesc.mandatory ? ' (*)' : '')}}
+                            {{manualDesc.label + (manualDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
                             <input class="uk-input" type="text" formControlName="userManual"
                                    [ngClass]="{'uk-form-danger': !serviceForm.get('userManual').valid && serviceForm.get('userManual').dirty}">
                             <i>
-                              <small>{{userManualDesc.desc}}</small>
+                              <small>{{manualDesc.desc}}</small>
                             </i>
                           </div>
                         </div>
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
-                            {{trainingInformationDesc.label + (trainingInformationDesc.mandatory ? ' (*)' : '')}}
+                            {{trainingDesc.label + (trainingDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
                             <input class="uk-input" type="text" formControlName="trainingInformation"
                                    [ngClass]="{'uk-form-danger': !serviceForm.get('trainingInformation').valid && serviceForm.get('trainingInformation').dirty}">
                             <i>
-                              <small>{{trainingInformationDesc.desc}}</small>
+                              <small>{{trainingDesc.desc}}</small>
                             </i>
                           </div>
                         </div>
-                        <div class="uk-form-horizontal uk-margin-bottom">
-                          <label class="uk-width-1-5 uk-form-label uk-text-right">
-                            {{feedbackDesc.label + (feedbackDesc.mandatory ? ' (*)' : '')}}
-                          </label>
-                          <div class="uk-width-4-5 uk-form-controls">
-                            <input class="uk-input" type="text" formControlName="feedback"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('feedback').valid && serviceForm.get('feedback').dirty}">
-                            <i>
-                              <small>{{feedbackDesc.desc}}</small>
-                            </i>
-                          </div>
-                        </div>
+<!--                        <div class="uk-form-horizontal uk-margin-bottom">-->
+<!--                          <label class="uk-width-1-5 uk-form-label uk-text-right">-->
+<!--                            {{feedbackDesc.label + (feedbackDesc.mandatory ? ' (*)' : '')}}-->
+<!--                          </label>-->
+<!--                          <div class="uk-width-4-5 uk-form-controls">-->
+<!--                            <input class="uk-input" type="text" formControlName="feedback"-->
+<!--                                   [ngClass]="{'uk-form-danger': !serviceForm.get('feedback').valid && serviceForm.get('feedback').dirty}">-->
+<!--                            <i>-->
+<!--                              <small>{{feedbackDesc.desc}}</small>-->
+<!--                            </i>-->
+<!--                          </div>-->
+<!--                        </div>-->
                       </li>
                       <li app-accordion-section class="uk-margin-large-bottom" [title]="'Contractual Information'">
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
-                            {{priceDesc.label + (priceDesc.mandatory ? ' (*)' : '')}}
+                            {{pricingDesc.label + (pricingDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
                             <input class="uk-input" type="text" formControlName="price"
                                    [ngClass]="{'uk-form-danger': !serviceForm.get('price').valid && serviceForm.get('price').dirty}">
                             <i>
-                              <small>{{priceDesc.desc}}</small>
+                              <small>{{pricingDesc.desc}}</small>
                             </i>
                           </div>
                         </div>
