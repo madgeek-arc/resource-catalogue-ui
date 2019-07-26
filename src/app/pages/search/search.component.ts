@@ -134,113 +134,74 @@ export class SearchComponent implements OnInit, OnDestroy {
             this.updateSearchResults(searchResults);
             // console.log(searchResults.results);
             if (this.items.length === 0) {
-              const tree: CheckBoxTree[] = []; // TODO: This data should be provided from backend
-              for (const res of searchResults.results) {
-                // console.log(res.service.name);
-                let foundSuper = false;
-                for (const i of tree) {
-                  // console.log('super name  = ' + res.superCategoryName);
-                  if (i.name === res.superCategoryName) {
-                    // console.log('super ' + res.superCategoryName + ' already exists');
-                    foundSuper = true;
-                    i.count++;
-                    let foundCategory = false;
-                    for (const j of i.type) {
-                      // console.log('cat name = ' + res.categoryName);
-                      if (j.name === res.categoryName) {
-                        // console.log('cat ' + res.categoryName + ' already exists');
-                        foundCategory = true;
-                        j.count++;
-                        for (let l = 0; l < res.subCategoryNames.length; l++) {
-                          let foundSubCategory = false;
-                          for (const k of j.type) {
-                            // console.log('subCat = ' + res.subCategoryNames[l]);
-                            if (k.name === res.subCategoryNames[l]) {
-                              // console.log('subCat ' + res.subCategoryNames[l] + ' already exists');
-                              foundSubCategory = true;
-                              k.count++;
-                            }
-                          }
-                          if (!foundSubCategory) {
-                            const subCategory: CheckBoxTree = {
-                              id: res.service.subcategories[l],
-                              name: res.subCategoryNames[l],
-                              count: 1,
-                              type: null
-                            };
-                            j.type.push(subCategory);
-                          }
-                        }
-                      }
-                    }
-                    if (!foundCategory) {
-                      const category: CheckBoxTree = {id: res.service.category, name: res.categoryName, count: 1, type: []};
-                      for (let l = 0; l < res.subCategoryNames.length; l++) {
-                        const subCategory: CheckBoxTree = {
-                          id: res.service.subcategories[l],
-                          name: res.subCategoryNames[l],
-                          count: 1,
-                          type: null
-                        };
-                        category.type.push(subCategory);
-                        // category.count++;
-                      }
-                      i.type.push(category);
-                      // i.count++;
-                    }
-                  }
-                }
-                if (!foundSuper) {
-                  const category: CheckBoxTree = {id: res.service.category, name: res.categoryName, count: 1, type: []};
-                  for (let i = 0; i < res.subCategoryNames.length; i++) {
-                    const subCategory: CheckBoxTree = {
-                      id: res.service.subcategories[i],
-                      name: res.subCategoryNames[i],
-                      count: 1,
-                      type: null
-                    };
-                    category.type.push(subCategory);
-                    // category.count++;
-                  }
-                  const temp: CheckBoxTree = {id: res.service.supercategory, name: res.superCategoryName, count: 1, type: [category]};
-                  tree.push(temp);
-                }
-                // for (let i = 0; i < tree.length; i++) {
-                //   console.log(tree[i]);
-                // }
-              }
               /** Checkbox Category structure!!!-->**/
-              this.items = [];
-              for (let i = 0; i < tree.length; i++) {
+              // this.items = [];
+              for (const superCategory of searchResults.facets[3].values) {
+                const superCat = superCategory.value.split('-')[1];
+                console.log(superCat);
                 const categories: TreeviewItem[] = [];
-
-                for (let j = 0; j < tree[i].type.length; j++) {
-
-                  const subCategories: TreeviewItem[] = [];
-                  for (let k = 0; k < tree[i].type[j].type.length; k++) {
-                    subCategories.push(new TreeviewItem({
-                        text: tree[i].type[j].type[k].name + ` (${tree[i].type[j].type[k].count})`,
-                        value: tree[i].type[j].type[k].id,
-                        checked: false,
-                        collapsed: true
+                for (const category of searchResults.facets[11].values) {
+                  if (superCat === category.value.split('-')[1]) {
+                    console.log(superCat);
+                    const catId = category.value.split('-')[2];
+                    console.log(catId);
+                    const subCategories: TreeviewItem[] = [];
+                    for (const subCategory of searchResults.facets[12].values) {
+                      if (catId === subCategory.value.split('-')[2]) {
+                        console.log(catId);
+                        subCategories.push(new TreeviewItem({
+                          text: subCategory.label + ` (${subCategory.count})`, value: subCategory.value, collapsed: true, checked: false
+                        }));
                       }
-                    ));
-                  }
-                  // console.log(subCategories);
-                  categories.push(new TreeviewItem({
-                      text: tree[i].type[j].name + ` (${tree[i].type[j].count})`,
-                      value: tree[i].type[j].id,
-                      children: subCategories,
-                      checked: false,
-                      collapsed: true
                     }
-                  ));
+                    categories.push(new TreeviewItem({
+                      text: category.label + ` (${category.count})`,
+                      value: category.value,
+                      children: subCategories,
+                      collapsed: true,
+                      checked: false
+                    }));
+                  }
                 }
                 this.items.push(new TreeviewItem({
-                    text: tree[i].name + ` (${tree[i].count})`, value: tree[i].id, children: categories, checked: false, collapsed: true
-                  }
-                ));
+                  text: superCategory.label + ` (${superCategory.count})`,
+                  value: superCategory.value,
+                  children: categories,
+                  collapsed: true,
+                  checked: false
+                }));
               }
+
+              // for (let i = 0; i < tree.length; i++) {
+              //   const categories: TreeviewItem[] = [];
+              //
+              //   for (let j = 0; j < tree[i].type.length; j++) {
+              //
+              //     const subCategories: TreeviewItem[] = [];
+              //     for (let k = 0; k < tree[i].type[j].type.length; k++) {
+              //       subCategories.push(new TreeviewItem({
+              //           text: tree[i].type[j].type[k].name + ` (${tree[i].type[j].type[k].count})`,
+              //           value: tree[i].type[j].type[k].id,
+              //           checked: false,
+              //           collapsed: true
+              //         }
+              //       ));
+              //     }
+              //     // console.log(subCategories);
+              //     categories.push(new TreeviewItem({
+              //         text: tree[i].type[j].name + ` (${tree[i].type[j].count})`,
+              //         value: tree[i].type[j].id,
+              //         children: subCategories,
+              //         checked: false,
+              //         collapsed: true
+              //       }
+              //     ));
+              //   }
+              //   this.items.push(new TreeviewItem({
+              //       text: tree[i].name + ` (${tree[i].count})`, value: tree[i].id, children: categories, checked: false, collapsed: true
+              //     }
+              //   ));
+              // }
               /** <--Checkbox Category structure!!!**/
               /** Checkbox Scientific Domain structure!!!-->**/
               // console.log(tree);
