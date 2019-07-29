@@ -140,13 +140,13 @@ export class SearchComponent implements OnInit, OnDestroy {
                 const superCat = superCategory.value.split('-')[1];
                 console.log(superCat);
                 const categories: TreeviewItem[] = [];
-                for (const category of searchResults.facets[11].values) {
+                for (const category of searchResults.facets[12].values) {
                   if (superCat === category.value.split('-')[1]) {
                     console.log(superCat);
                     const catId = category.value.split('-')[2];
                     console.log(catId);
                     const subCategories: TreeviewItem[] = [];
-                    for (const subCategory of searchResults.facets[12].values) {
+                    for (const subCategory of searchResults.facets[11].values) {
                       if (catId === subCategory.value.split('-')[2]) {
                         console.log(catId);
                         subCategories.push(new TreeviewItem({
