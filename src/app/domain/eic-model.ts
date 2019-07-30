@@ -60,15 +60,12 @@ export class Service implements Identifiable {
   userBaseList: string[];
   useCases: string[];
   multimediaUrls: URL[];
-  options: string[];
+  options: ServiceOption[];
   requiredServices: string[];
   relatedServices: string[];
   providers: string[];
-  scientificDomains: string[];
   scientificSubdomains: string[];
-  category: string;
   subcategories: string[];
-  supercategory: string;
   targetUsers: string[];
   languages: string[];
   places: string[];
