@@ -10,6 +10,7 @@ import {IndicatorsPage} from '../../domain/indicators';
 import {ProvidersPage} from '../../domain/funders-page';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs/internal/observable/zip';
+import {hasOwnProperty} from 'tslint/lib/utils';
 
 @Component({
   selector: 'app-service-form',
@@ -37,18 +38,25 @@ export class ServiceFormComponent implements OnInit {
   readonly taglineDesc: sd.Description = sd.taglineDesc;
   readonly descriptionDesc: sd.Description = sd.descriptionDesc;
   readonly optionsDesc: sd.Description = sd.optionsDesc;
+  readonly optionsNameDesc: sd.Description = sd.optionsNameDesc;
+  readonly optionsDescriptionDesc: sd.Description = sd.optionsDescriptionDesc;
+  readonly optionsURLDesc: sd.Description = sd.optionsURLDesc;
+  readonly optionsLogoDesc: sd.Description = sd.optionsLogoDesc;
   readonly targetUsersDesc: sd.Description = sd.targetUsersDesc;
   readonly userValueDesc: sd.Description = sd.userValueDesc;
   readonly userBaseDesc: sd.Description = sd.userBaseDesc;
-  readonly symbolDesc: sd.Description = sd.symbolDesc;
+  readonly useCasesDesc: sd.Description = sd.useCasesDesc;
+  readonly logoDesc: sd.Description = sd.logoDesc;
   readonly multimediaURLDesc: sd.Description = sd.multimediaURLDesc;
   readonly providersDesc: sd.Description = sd.providersDesc;
   readonly versionDesc: sd.Description = sd.versionDesc;
   readonly lastUpdateDesc: sd.Description = sd.lastUpdateDesc;
   readonly changeLogDesc: sd.Description = sd.changeLogDesc;
   readonly validForDesc: sd.Description = sd.validForDesc;
-  readonly lifeCycleStatusDesc: sd.Description = sd.lifeCycleStatusDesc;
+  readonly phaseDesc: sd.Description = sd.phaseDesc;
   readonly trlDesc: sd.Description = sd.trlDesc;
+  readonly scientificDomainDesc: sd.Description = sd.scientificDomainDesc;
+  readonly scientificSubDomainDesc: sd.Description = sd.scientificSubDomainDesc;
   readonly superCategoryDesc: sd.Description = sd.superCategoryDesc;
   readonly categoryDesc: sd.Description = sd.categoryDesc;
   readonly subcategoryDesc: sd.Description = sd.subcategoryDesc;
@@ -57,71 +65,90 @@ export class ServiceFormComponent implements OnInit {
   readonly tagsDesc: sd.Description = sd.tagsDesc;
   readonly requiredServicesDesc: sd.Description = sd.requiredServicesDesc;
   readonly relatedServicesDesc: sd.Description = sd.relatedServicesDesc;
+  readonly orderTypeDesc: sd.Description = sd.orderTypeDesc;
   readonly orderDesc: sd.Description = sd.orderDesc;
   readonly helpdeskDesc: sd.Description = sd.helpdeskDesc;
-  readonly userManualDesc: sd.Description = sd.userManualDesc;
-  readonly trainingInformationDesc: sd.Description = sd.trainingInformationDesc;
-  readonly feedbackDesc: sd.Description = sd.feedbackDesc;
-  readonly priceDesc: sd.Description = Object.assign({mandatory: false}, sd.priceDesc);
+  readonly manualDesc: sd.Description = sd.manualDesc;
+  readonly trainingDesc: sd.Description = sd.trainingDesc;
+  readonly monitoringDesc: sd.Description = sd.monitoringDesc;
+  readonly maintenanceDesc: sd.Description = sd.maintenanceDesc;
+  readonly pricingDesc: sd.Description = sd.pricingDesc;
   readonly serviceLevelAgreementDesc: sd.Description = sd.serviceLevelAgreementDesc;
   readonly termsOfUseDesc: sd.Description = sd.termsOfUseDesc;
+  readonly privacyPolicyDesc: sd.Description = sd.privacyPolicyDesc;
+  readonly accessPolicyDesc: sd.Description = sd.accessPolicyDesc;
+  readonly paymentModelDesc: sd.Description = sd.paymentModelDesc;
   readonly fundingDesc: sd.Description = sd.fundingDesc;
+  readonly accessTypesDesc: sd.Description = sd.accessTypesDesc;
+  readonly accessModesDesc: sd.Description = sd.accessModesDesc;
+  readonly fundersDesc: sd.Description = sd.fundersDesc;
+  readonly certificationsDesc: sd.Description = sd.certificationsDesc;
+  readonly standardsDesc: sd.Description = sd.standardsDesc;
+  readonly ownerNameDesc: sd.Description = sd.ownerNameDesc;
+  readonly ownerContactDesc: sd.Description = sd.ownerContactDesc;
+  readonly supportNameDesc: sd.Description = sd.supportNameDesc;
+  readonly supportContactDesc: sd.Description = sd.supportContactDesc;
+  readonly securityNameDesc: sd.Description = sd.securityNameDesc;
+  readonly securityContactDesc: sd.Description = sd.securityContactDesc;
 
   formGroupMeta = {
     'id': '',
-    'url': ['', Validators.compose([Validators.required, URLValidator])],
     'name': ['', Validators.required],
-    'tagline': [''],
+    'url': ['', Validators.compose([Validators.required, URLValidator])],
     'description': ['', Validators.required],
-    'options': [''],
-    'targetUsers': [''],
+    'logo': ['', Validators.compose([Validators.required, URLValidator])],
+    'tagline': [''],
     'userValue': [''],
-    'userBase': [''],
-    'symbol': ['', Validators.compose([Validators.required, URLValidator])],
-    'multimediaURL': ['', URLValidator],
-    // providers is defined in component
-    'providers': this.fb.array([
-      this.fb.control('', Validators.required)
-    ], Validators.required),
-    'version': ['', Validators.required],
-    'lastUpdate': ['', Validators.required],
-    'changeLog': [''],
-    'validFor': [''],
-    'lifeCycleStatus': ['', Validators.compose([Validators.required])],
+    'userBaseList': this.fb.array([ this.fb.control('') ]),
+    'useCases': this.fb.array([ this.fb.control('') ]),
+    'multimediaURL': this.fb.array([ this.fb.control('', URLValidator) ]),
+    'options': this.fb.array([/*this.newOption()*/]),
+    'requiredServices': this.fb.array([ this.fb.control('') ]),
+    'relatedServices': this.fb.array([ this.fb.control('') ]),
+    'providers': this.fb.array([ this.fb.control('', Validators.required)], Validators.required),
+    // 'scientificDomains': this.fb.array([ this.fb.control('', Validators.required)], Validators.required),
+    'scientificSubdomains': this.fb.array([]),
+    // 'category': [''],
+    'subcategories': this.fb.array([]),
+    // 'supercategory': [''],
+    'targetUsers': this.fb.array([ this.fb.control('', Validators.required) ], Validators.required),
+    'languages': this.fb.array([ this.fb.control('', Validators.required) ], Validators.required),
+    'places': this.fb.array([ this.fb.control('', Validators.required) ], Validators.required),
+    'accessTypes':  this.fb.array([ this.fb.control('') ]),
+    'accessModes':  this.fb.array([ this.fb.control('') ]),
+    'funders': this.fb.array([ this.fb.control('') ]),
+    'tags': this.fb.array([ this.fb.control('') ]),
+    'phase': ['', Validators.compose([Validators.required])],
     'trl': ['', Validators.compose([Validators.required])],
+    'version': [''],
+    'lastUpdate': [''],
+    'changeLog': [''],
+    'certifications':  this.fb.array([ this.fb.control('') ]),
+    'standards':  this.fb.array([ this.fb.control('') ]),
+    'orderType': ['', Validators.required],
+    'order': ['', URLValidator],
+    'sla': ['', Validators.compose([Validators.required, URLValidator])],
+    'termsOfUse': ['', URLValidator],
+    'privacyPolicy': ['', URLValidator],
+    'accessPolicy': ['', URLValidator],
+    'paymentModel': ['', URLValidator],
+    'pricing': ['', URLValidator],
+    'manual': ['', URLValidator],
+    'training': ['', URLValidator],
+    'helpdesk': ['', URLValidator],
+    'monitoring': ['', URLValidator],
+    'maintenance': ['', URLValidator],
+    'ownerName': [''],
+    'ownerContact': ['', Validators.email],
+    'supportName': [''],
+    'supportContact': ['', Validators.email],
+    'securityName': [''],
+    'securityContact': ['', Validators.email],
+
     'categorize': this.fb.array([
       // this.newCategory()
-    ]),
-    // 'supercategory': ['', Validators.required],
-    // 'category': ['', Validators.required],
-    // 'subcategory': ['', Validators.required],
-    'places': this.fb.array([
-      this.fb.control('', Validators.required)
     ], Validators.required),
-    'languages': this.fb.array([
-      this.fb.control('', Validators.required)
-    ], Validators.required),
-    'tags': this.fb.array([
-      this.fb.control('')
-    ]),
-    'requiredServices': this.fb.array([
-      this.fb.control('')
-    ]),
-    'relatedServices': this.fb.array([
-      this.fb.control('')
-    ]),
-    'order': ['', Validators.compose([Validators.required, URLValidator])],
-    'helpdesk': ['', URLValidator],
-    'userManual': ['', URLValidator],
-    'trainingInformation': ['', URLValidator],
-    'feedback': ['', URLValidator],
-    'price': ['', URLValidator],
-    'serviceLevelAgreement': ['', Validators.compose([Validators.required, URLValidator])],
-    // TOS is defined in component
-    'termsOfUse': this.fb.array([
-      this.fb.control('', URLValidator)
-    ]),
-    'funding': ['']
+    'scientificCategorization': this.fb.array([], Validators.required)
   };
 
   multiMeasurementForm = {
@@ -141,12 +168,18 @@ export class ServiceFormComponent implements OnInit {
   router: NavigationService = this.injector.get(NavigationService);
   userService: UserService = this.injector.get(UserService);
 
-  // TODO: rename to 'phaseVocabulary'
-  public lifeCycleStatusVocabulary: Vocabulary[] = null;
+  public targetUsers: Vocabulary[] = null;
+  public accessTypesVocabulary: Vocabulary[] = null;
+  public accessModesVocabulary: Vocabulary[] = null;
+  public fundersVocabulary: Vocabulary[] = null;
+  public orderTypeVocabulary: Vocabulary[] = null;
+  public phaseVocabulary: Vocabulary[] = null;
   public trlVocabulary: Vocabulary[] = null;
   public superCategoriesVocabulary: Vocabulary[] = null;
   public categoriesVocabulary: Vocabulary[] = null;
   public subCategoriesVocabulary: Vocabulary[] = null;
+  public scientificDomainVocabulary: Vocabulary[] = null;
+  public scientificSubDomainVocabulary: Vocabulary[] = null;
   public placesVocabulary: Vocabulary[] = [];
   public placesVocIdArray: string[] = [];
   public languagesVocabulary: Vocabulary[] = null;
@@ -174,29 +207,44 @@ export class ServiceFormComponent implements OnInit {
       }
       this.measurements.controls[i].get('serviceId').setValue(service.id);
     }
-    if (isValid) {
-      this.resourceService.uploadServiceWithMeasurements(service, this.measurements.value).subscribe(
-        _service => {
-          // console.log(_service);
-          this.router.service(_service.id);
-        },
-        err => {
-          window.scrollTo(0, 0);
-          this.errorMessage = 'Something went bad, server responded: ' + err.error;
-        }
-      );
-    } else {
-      window.scrollTo(0, 0);
-      this.setAsTouched();
-      this.serviceForm.markAsDirty();
-      this.serviceForm.updateValueAndValidity();
-      if (!isValid) {
-        this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
-        if (!this.serviceForm.controls['description'].valid) {
-          this.errorMessage += ' Description is an mandatory field.';
-        }
+    // if (isValid && this.measurementForm.valid) {
+    //   this.resourceService.uploadServiceWithMeasurements(service, this.measurements.value).subscribe(
+    //     _service => {
+    //       // console.log(_service);
+    //       this.router.service(_service.id);
+    //     },
+    //     err => {
+    //       window.scrollTo(0, 0);
+    //       this.errorMessage = 'Something went bad, server responded: ' + err.error;
+    //     }
+    //   );
+    // } else {
+    //   window.scrollTo(0, 0);
+    //   this.setAsTouched();
+    //   this.serviceForm.markAsDirty();
+    //   this.serviceForm.updateValueAndValidity();
+    //   this.validateMeasurements();
+    //   if (!isValid) {
+    //     this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
+    //     if (!this.serviceForm.controls['description'].valid) {
+    //       this.errorMessage += ' Description is an mandatory field.';
+    //     }
+    //   }
+    // }
+    for (const category of this.categoryArray.controls) {
+      if (category.get('subcategory').value) {
+        this.getFieldAsFormArray('subcategories').push(this.fb.control(category.get('subcategory').value));
       }
     }
+    this.categoryArray.disable();
+    for (const scientificDomain of this.scientificDomainArray.controls) {
+      if (scientificDomain.get('scientificSubDomain').value) {
+        this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(scientificDomain.get('scientificSubDomain').value));
+      }
+    }
+    this.scientificDomainArray.disable();
+    console.log(this.serviceForm.get('options').valid);
+    console.log(this.serviceForm.value);
   }
 
   ngOnInit() {
@@ -211,11 +259,18 @@ export class ServiceFormComponent implements OnInit {
         this.relatedServices = this.requiredServices;
         this.getIndicatorIds();
         this.getLocations();
-        this.lifeCycleStatusVocabulary = this.vocabularies[VocabularyType.PHASE];
+        this.targetUsers = this.vocabularies[VocabularyType.TARGET_USERS];
+        this.accessTypesVocabulary = this.vocabularies[VocabularyType.ACCESS_TYPE];
+        this.accessModesVocabulary = this.vocabularies[VocabularyType.ACCESS_MODE];
+        this.fundersVocabulary = this.vocabularies[VocabularyType.FUNDED_BY];
+        this.orderTypeVocabulary = this.vocabularies[VocabularyType.ORDER_TYPE];
+        this.phaseVocabulary = this.vocabularies[VocabularyType.PHASE];
         this.trlVocabulary = this.vocabularies[VocabularyType.TRL];
         this.superCategoriesVocabulary = this.vocabularies[VocabularyType.SUPERCATEGORY];
         this.categoriesVocabulary = this.vocabularies[VocabularyType.CATEGORY];
         this.subCategoriesVocabulary = this.vocabularies[VocabularyType.SUBCATEGORY];
+        this.scientificDomainVocabulary = this.vocabularies[VocabularyType.SCIENTIFIC_DOMAIN];
+        this.scientificSubDomainVocabulary = this.vocabularies[VocabularyType.SCIENTIFIC_SUBDOMAIN];
         this.placesVocabulary = this.vocabularies[VocabularyType.PLACE];
         this.languagesVocabulary = this.vocabularies[VocabularyType.LANGUAGE];
         this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
@@ -240,10 +295,8 @@ export class ServiceFormComponent implements OnInit {
     //   });
     // });
 
-    // this.pushCategory();
-    // this.pushCategory();
     this.pushCategory();
-
+    this.pushScientificDomain();
   }
 
   public setAsTouched() {
@@ -303,7 +356,7 @@ export class ServiceFormComponent implements OnInit {
     }, {});
   }
 
-  /** Categorization --> **/
+  /** Categorization & Scientific Domain--> **/
 
   newCategory(): FormGroup {
     return this.fb.group({
@@ -339,7 +392,49 @@ export class ServiceFormComponent implements OnInit {
     this.categoryArray.controls[index].get('subcategory').reset();
   }
 
-  /** <-- Categorization **/
+  newScientificDomain(): FormGroup {
+    return this.fb.group({
+      scientificDomain: ['', Validators.required],
+      scientificSubDomain: ['', Validators.required]
+    });
+  }
+
+  get scientificDomainArray() {
+    return this.serviceForm.get('scientificCategorization') as FormArray;
+  }
+
+  pushScientificDomain() {
+    this.scientificDomainArray.push(this.newScientificDomain());
+    this.scientificDomainArray.controls[this.scientificDomainArray.length - 1].get('scientificSubDomain').disable();
+  }
+
+  removeScientificDomain(index: number) {
+    this.categoryArray.removeAt(index);
+  }
+
+  onScientificDomainChange(index: number) {
+    this.scientificDomainArray.controls[index].get('scientificSubDomain').enable();
+    this.scientificDomainArray.controls[index].get('scientificSubDomain').reset();
+  }
+
+  /** <-- Categorization & Scientific Domain**/
+
+  /** Options-->**/
+  newOption(): FormGroup {
+    return this.fb.group({
+      id: [''],
+      name: ['', Validators.required],
+      url: ['', Validators.compose([Validators.required, URLValidator])],
+      description: ['', Validators.required],
+      logo: ['', URLValidator]
+    });
+  }
+
+  pushOption() {
+    this.getFieldAsFormArray('options').push(this.newOption());
+  }
+
+  /** <--Options**/
 
   /** INDICATORS --> **/
   createMeasurementField(): FormGroup {
@@ -389,11 +484,8 @@ export class ServiceFormComponent implements OnInit {
   }
 
   onIndicatorSelect(event, index: number) {
-    // this.measurementForm.get('locations').disable();
-    // this.measurementForm.get('time').disable();
     this.measurements.controls[index].get('locations').disable();
     this.measurements.controls[index].get('time').disable();
-    // console.log(this.measurements);
     // console.log(this.measurements.controls[index].get('indicatorId').value);
     if (event.target.value != null) {
       for (let i = 0; i < this.indicators.results.length; i++) {
