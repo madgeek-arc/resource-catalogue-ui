@@ -7,14 +7,4 @@ import {ServiceLandingPageComponent} from '../../../../../../../src/app/pages/la
   styleUrls: ['../landing-page.component.css']
 })
 
-export class ServiceLandingPageExtendedComponent extends ServiceLandingPageComponent implements OnInit {
-  canAddOrEditService = false;
-
-  ngOnInit() {
-    this.canAddOrEditService = false;
-    super.ngOnInit();
-    if (this.myProviders && this.myProviders.length > 0) {
-      this.canAddOrEditService = this.myProviders.some( p => this.service.providers.some(x => x === p.id) );
-    }
-  }
-}
+export class ServiceLandingPageExtendedComponent extends ServiceLandingPageComponent implements OnInit {}
