@@ -101,7 +101,7 @@ export class ServiceFormComponent implements OnInit {
     'userValue': [''],
     'userBaseList': this.fb.array([ this.fb.control('') ]),
     'useCases': this.fb.array([ this.fb.control('') ]),
-    'multimediaURL': this.fb.array([ this.fb.control('', URLValidator) ]),
+    'multimediaUrls': this.fb.array([ this.fb.control('', URLValidator) ]),
     'options': this.fb.array([/*this.newOption()*/]),
     'requiredServices': this.fb.array([ this.fb.control('') ]),
     'relatedServices': this.fb.array([ this.fb.control('') ]),
@@ -127,7 +127,7 @@ export class ServiceFormComponent implements OnInit {
     'standards':  this.fb.array([ this.fb.control('') ]),
     'orderType': ['', Validators.required],
     'order': ['', URLValidator],
-    'sla': ['', Validators.compose([Validators.required, URLValidator])],
+    'sla': ['', URLValidator],
     'termsOfUse': ['', URLValidator],
     'privacyPolicy': ['', URLValidator],
     'accessPolicy': ['', URLValidator],
@@ -145,10 +145,8 @@ export class ServiceFormComponent implements OnInit {
     'securityName': [''],
     'securityContact': ['', Validators.email],
 
-    'categorize': this.fb.array([
-      // this.newCategory()
-    ], Validators.required),
-    'scientificCategorization': this.fb.array([], Validators.required)
+    'categorize': this.fb.array([ ], Validators.required),
+    'scientificCategorization': this.fb.array([ ], Validators.required)
   };
 
   multiMeasurementForm = {
@@ -207,36 +205,14 @@ export class ServiceFormComponent implements OnInit {
       }
       this.measurements.controls[i].get('serviceId').setValue(service.id);
     }
-    // if (isValid && this.measurementForm.valid) {
-    //   this.resourceService.uploadServiceWithMeasurements(service, this.measurements.value).subscribe(
-    //     _service => {
-    //       // console.log(_service);
-    //       this.router.service(_service.id);
-    //     },
-    //     err => {
-    //       window.scrollTo(0, 0);
-    //       this.errorMessage = 'Something went bad, server responded: ' + err.error;
-    //     }
-    //   );
-    // } else {
-    //   window.scrollTo(0, 0);
-    //   this.setAsTouched();
-    //   this.serviceForm.markAsDirty();
-    //   this.serviceForm.updateValueAndValidity();
-    //   this.validateMeasurements();
-    //   if (!isValid) {
-    //     this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
-    //     if (!this.serviceForm.controls['description'].valid) {
-    //       this.errorMessage += ' Description is an mandatory field.';
-    //     }
-    //   }
-    // }
+    this.getFieldAsFormArray('subcategories').reset();
     for (const category of this.categoryArray.controls) {
       if (category.get('subcategory').value) {
         this.getFieldAsFormArray('subcategories').push(this.fb.control(category.get('subcategory').value));
       }
     }
     this.categoryArray.disable();
+    this.getFieldAsFormArray('scientificSubdomains').reset();
     for (const scientificDomain of this.scientificDomainArray.controls) {
       if (scientificDomain.get('scientificSubDomain').value) {
         this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(scientificDomain.get('scientificSubDomain').value));
@@ -245,6 +221,34 @@ export class ServiceFormComponent implements OnInit {
     this.scientificDomainArray.disable();
     console.log(this.serviceForm.get('options').valid);
     console.log(this.serviceForm.value);
+    if (isValid && this.measurementForm.valid) {
+      this.resourceService.uploadServiceWithMeasurements(this.serviceForm.value, this.measurements.value).subscribe(
+        _service => {
+          // console.log(_service);
+          this.router.service(_service.id);
+        },
+        err => {
+          window.scrollTo(0, 0);
+          this.categoryArray.enable();
+          this.scientificDomainArray.enable();
+          this.errorMessage = 'Something went bad, server responded: ' + err.error;
+        }
+      );
+    } else {
+      window.scrollTo(0, 0);
+      this.categoryArray.enable();
+      this.scientificDomainArray.enable();
+      this.setAsTouched();
+      this.serviceForm.markAsDirty();
+      this.serviceForm.updateValueAndValidity();
+      this.validateMeasurements();
+      if (!isValid) {
+        this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
+        if (!this.serviceForm.controls['description'].valid) {
+          this.errorMessage += ' Description is an mandatory field.';
+        }
+      }
+    }
   }
 
   ngOnInit() {
@@ -381,8 +385,8 @@ export class ServiceFormComponent implements OnInit {
   }
 
   onSuperCategoryChange(index: number) {
+    this.categoryArray.controls[index].get('category').reset('');
     this.categoryArray.controls[index].get('category').enable();
-    this.categoryArray.controls[index].get('category').reset();
     this.categoryArray.controls[index].get('subcategory').reset();
     this.categoryArray.controls[index].get('subcategory').disable();
   }
@@ -409,7 +413,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   removeScientificDomain(index: number) {
-    this.categoryArray.removeAt(index);
+    this.scientificDomainArray.removeAt(index);
   }
 
   onScientificDomainChange(index: number) {

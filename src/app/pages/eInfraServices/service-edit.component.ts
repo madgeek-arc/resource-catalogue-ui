@@ -5,7 +5,7 @@ import {ServiceFormComponent} from './service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
 import {MeasurementsPage} from '../../domain/indicators';
-import {Service} from '../../domain/eic-model';
+import {RichService, Service} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 
 @Component({
@@ -26,29 +26,24 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     super.ngOnInit();
     this.sub = this.route.params.subscribe(params => {
       this.serviceID = params['id'];
-      this.resourceService.getService(this.serviceID).subscribe(service => {
-
-        /*if (this.userService.canEditService(service)) {*/
-        ResourceService.removeNulls(service);
-        this.formPrepare(service);
-        this.serviceForm.patchValue(service);
+      // this.resourceService.getService(this.serviceID).subscribe(service => {
+      this.resourceService.getRichService(this.serviceID).subscribe(richService => {
+        ResourceService.removeNulls(richService.service);
+        this.formPrepare(richService);
+        this.serviceForm.patchValue(richService.service);
         for (const i in this.serviceForm.controls) {
           if (this.serviceForm.controls[i].value === null) {
             this.serviceForm.controls[i].setValue('');
           }
         }
         const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
-        const date = this.datePipe.transform(lastUpdate, 'yyyy-MM-dd');
-        this.serviceForm.get('lastUpdate').setValue(date);
-        if (this.serviceForm.get('validFor').value) {
-          const validFor = new Date(this.serviceForm.get('validFor').value);
-          const validForDate = this.datePipe.transform(validFor, 'yyyy-MM-dd');
-          this.serviceForm.get('validFor').setValue(validForDate);
-        }
-        this.serviceForm.markAsPristine();
-        /*} else {
-            this.location.back();
-        }*/
+        // const date = this.datePipe.transform(lastUpdate, 'yyyy-MM-dd');
+        this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
+        // if (this.serviceForm.get('validFor').value) {
+        //   const validFor = new Date(this.serviceForm.get('validFor').value);
+        //   const validForDate = this.datePipe.transform(validFor, 'yyyy-MM-dd');
+        //   this.serviceForm.get('validFor').setValue(validForDate);
+        // }
       },
         err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error
       );
@@ -61,39 +56,98 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     },
       err => this.errorMessage = 'Could not get the measurements for this service. ' + err.error
     );
-    this.serviceForm.markAsPristine();
   }
 
-  formPrepare(service: Service) {
-    for (let i = 0; i < service.providers.length - 1; i++) {
+  formPrepare(richService: RichService) {
+
+    this.removeCategory(0);
+    for (let i = 0; i < richService.service.subcategories.length; i++) {
+      this.categoryArray.push(this.newCategory());
+      this.categoryArray.controls[this.categoryArray.length - 1].get('supercategory').setValue(richService.categories[i].superCategory.id);
+      this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.categories[i].category.id);
+      this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.categories[i].subCategory.id);
+      console.log(richService.categories);
+    }
+    this.removeScientificDomain(0);
+    for (let i = 0; i < richService.service.scientificSubdomains.length; i++) {
+      this.scientificDomainArray.push(this.newScientificDomain());
+      this.scientificDomainArray.controls[this.scientificDomainArray.length - 1].get('scientificDomain').setValue(richService.domains[i].domain.id);
+      this.scientificDomainArray.controls[this.scientificDomainArray.length - 1].get('scientificSubDomain').setValue(richService.domains[i].subdomain.id);
+      console.log(richService.domains);
+    }
+
+    for (let i = 0; i < richService.service.providers.length - 1; i++) {
       this.push('providers', true);
     }
-    for (let i = 0; i < service.places.length - 1; i++) {
+    for (let i = 0; i < richService.service.targetUsers.length - 1; i++) {
+      this.push('targetUsers', true);
+    }
+    for (let i = 0; i < richService.service.places.length - 1; i++) {
       this.push('places', true);
     }
-    for (let i = 0; i < service.languages.length - 1; i++) {
+    for (let i = 0; i < richService.service.languages.length - 1; i++) {
       this.push('languages', true);
     }
-    if (service.tags) {
-      for (let i = 0; i < service.tags.length - 1; i++) {
-        this.push('tags', false);
+    if (richService.service.userBaseList) {
+      for (let i = 0; i < richService.service.userBaseList.length - 1; i++) {
+        this.push('userBaseList', false);
       }
     }
-    if (service.requiredServices) {
-      for (let i = 0; i < service.requiredServices.length - 1; i++) {
+    if (richService.service.useCases) {
+      for (let i = 0; i < richService.service.useCases.length - 1; i++) {
+        this.push('useCases', false);
+      }
+    }
+    if (richService.service.multimediaUrls) {
+      for (let i = 0; i < richService.service.multimediaUrls.length - 1; i++) {
+        this.push('multimediaUrls', false);
+      }
+    }
+    if (richService.service.options) {
+      for (let i = 0; i < richService.service.options.length - 1; i++) {
+        this.pushOption();
+      }
+    }
+    if (richService.service.requiredServices) {
+      for (let i = 0; i < richService.service.requiredServices.length - 1; i++) {
         this.push('requiredServices', false);
       }
     }
-    if (service.relatedServices) {
-      for (let i = 0; i < service.relatedServices.length - 1; i++) {
+    if (richService.service.relatedServices) {
+      for (let i = 0; i < richService.service.relatedServices.length - 1; i++) {
         this.push('relatedServices', false);
       }
     }
-    // if (service.termsOfUse) {
-    //   for (let i = 0; i < service.termsOfUse.length - 1; i++) {
-    //     this.push('termsOfUse', false, true);
-    //   }
-    // }
+    if (richService.service.accessTypes) {
+      for (let i = 0; i < richService.service.accessTypes.length - 1; i++) {
+        this.push('accessTypes', false);
+      }
+    }
+    if (richService.service.accessModes) {
+      for (let i = 0; i < richService.service.accessModes.length - 1; i++) {
+        this.push('accessModes', false);
+      }
+    }
+    if (richService.service.funders) {
+      for (let i = 0; i < richService.service.funders.length - 1; i++) {
+        this.push('funders', false);
+      }
+    }
+    if (richService.service.tags) {
+      for (let i = 0; i < richService.service.tags.length - 1; i++) {
+        this.push('tags', false);
+      }
+    }
+    if (richService.service.certifications) {
+      for (let i = 0; i < richService.service.certifications.length - 1; i++) {
+        this.push('certifications', false);
+      }
+    }
+    if (richService.service.standards) {
+      for (let i = 0; i < richService.service.standards.length - 1; i++) {
+        this.push('standards', false);
+      }
+    }
   }
 
   measurementsFormPatch(measurements: MeasurementsPage) {
@@ -126,28 +180,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     // console.log(measurements.results);
   }
 
-  onSuccess(service) {
-    this.successMessage = 'Service edited successfully!';
-    this.router.service(service.id);
-  }
-
   onSubmit(service: Service, isValid: boolean) {
-    // service.id = this.serviceID;
-
-    /** For feature use if admin changes the values **/
-    // for ( const i in this.serviceForm.controls) {
-    //     if (this.serviceForm.controls[i].dirty) {
-    //         console.log('There was a change in field ' + i);
-    //         if (this.serviceForm.controls[i].value.constructor === Array) {
-    //             for (let j = 0; j < this.serviceForm.controls[i].value.length; j++) {
-    //                 let str = JSON.stringify(this.serviceForm.controls[i].value[j]).split(':', -1);
-    //                 str = str[1].split('"', -1);
-    //                 console.log(str[1]);
-    //             }
-    //         } else { console.log(this.serviceForm.controls[i].value); }
-    //     }
-    // }
-    /** **/
     super.onSubmit(service, isValid);
   }
 }

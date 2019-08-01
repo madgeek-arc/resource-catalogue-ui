@@ -169,21 +169,21 @@
                             </i>
                           </div>
                         </div>
-                        <div formArrayName="multimediaURL" class="uk-form-horizontal uk-margin-bottom">
+                        <div formArrayName="multimediaUrls" class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
                             {{multimediaURLDesc.label + (multimediaURLDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
-                            <div *ngFor="let provider of getFieldAsFormArray('multimediaURL').controls; let i=index">
+                            <div *ngFor="let provider of getFieldAsFormArray('multimediaUrls').controls; let i=index">
                               <input class="uk-input uk-width-5-6" type="text" [formControlName]="i"
-                                     [ngClass]="{'uk-form-danger': !getFieldAsFormArray('multimediaURL').get([i]).valid && getFieldAsFormArray('multimediaURL').get([i]).dirty}">
-                              <a *ngIf="getFieldAsFormArray('multimediaURL').length > 1"
-                                 class="remove-element uk-padding-small" (click)="remove('multimediaURL', i)">
+                                     [ngClass]="{'uk-form-danger': !getFieldAsFormArray('multimediaUrls').get([i]).valid && getFieldAsFormArray('multimediaUrls').get([i]).dirty}">
+                              <a *ngIf="getFieldAsFormArray('multimediaUrls').length > 1"
+                                 class="remove-element uk-padding-small" (click)="remove('multimediaUrls', i)">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                               </a>
                             </div>
                             <div class="uk-width-1-1">
-                              <a class="add-new-element" (click)="push('multimediaURL', false, false)">
+                              <a class="add-new-element" (click)="push('multimediaUrls', false, false)">
                                 <i class="fa fa-plus" aria-hidden="true"></i> Add {{multimediaURLDesc.label}}
                               </a>
                             </div>
@@ -431,7 +431,6 @@
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
                             <div formArrayName="categorize" *ngFor="let category of categoryArray.controls; let i = index">
-                              <!--                              <br>-->
                               <div [formGroupName]="i" class="uk-margin-small-bottom" style="border: 1px dashed #cccccc; padding-right: 10px">
                                 <a *ngIf="categoryArray.length > 1" class="remove-element uk-padding-small"
                                    (click)="removeCategory(i)">
@@ -463,6 +462,7 @@
                                     <select formControlName="category" class="uk-select" (change)="onCategoryChange(i)"
                                             [ngClass]="{'uk-form-danger': !categoryArray.controls[i].get('category').valid && categoryArray.controls[i].get('category').dirty}">
                                       <ng-container *ngIf="categoryArray.controls[i].get('supercategory').value">
+                                        <option value="">--Choose Category--</option>
                                         <option
                                           *ngFor="let entry of getSortedChildrenCategories(categoriesVocabulary, categoryArray.controls[i].get('supercategory').value)"
                                           value="{{entry.id}}">

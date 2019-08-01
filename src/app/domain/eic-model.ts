@@ -141,15 +141,10 @@ export class RangeValue {
 export class RichService {
   service: Service;
   serviceMetadata: ServiceMetadata;
-  superCategoryName: string;
-  categoryName: string;
-  subCategoryNames: string[];
   languageNames: string[];
   placeNames: string[];
   trlName: string;
   phaseName: string;
-  scientificDomainNames: string[];
-  scientificSubDomainNames: string[];
   targetUsersNames: string[];
   accessTypeNames: string[];
   accessModeNames: string[];
@@ -161,6 +156,20 @@ export class RichService {
   hasRate: number;
   favourites: number;
   isFavourite: boolean;
+
+  categories: Category[];
+  domains: ScientificDomain[];
+}
+
+export class Category {
+  superCategory: Vocabulary;
+  category: Vocabulary;
+  subCategory: Vocabulary;
+}
+
+export class ScientificDomain {
+  domain: Vocabulary;
+  subdomain: Vocabulary;
 }
 
 export class ServiceMetadata {
