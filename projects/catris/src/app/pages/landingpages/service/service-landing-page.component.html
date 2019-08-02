@@ -10,7 +10,7 @@
   <div class="tm-main uk-section uk-section-secondary" uk-height-viewport="expand: true" style="box-sizing: border-box;">
     <div class="uk-container">
       <div class="uk-grid" uk-grid="">
-        <div class="uk-width-2-3">
+        <div class="uk-width-3-4">
           <div class="uk-display-inline-block uk-vertical-align-top">
             <h2 class="uk-h2 uk-inline" style="margin-bottom: 5px">
               {{richService.service.name || "Not Available"}}
@@ -23,74 +23,162 @@
             <div *ngIf="richService.service.tagline && (richService.service.tagline.length > 0)" class="tagLine">
               {{richService.service.tagline}}
             </div>
-            <div>
-              <star-rating-comp #rating (click)="rateService(rating.rating)"
-                                [starType]="'svg'" [rating]="richService.hasRate" [step]="1"
-                                [showHalfStars]="true"
-                                [readOnly]=!this.authenticationService.isLoggedIn()
-                                [size]="'medium'"
-                                [staticColor]="'ok'" title="Rate this service"
-                                uk-tooltip="delay: 500" class="uk-inline starRating"
-                                labelText="{{richService.hasRate}} ({{ richService.ratings }})"
-                                [labelVisible]="true" [labelPosition]="'right'"
-                                [hoverEnabled]="true">
-              </star-rating-comp>
-                <span class="uk-margin-medium-left">
-                  <a (click)="addToFavourites()" style="color: rgb(55, 131, 63)">
-                    <i [ngClass]="richService.isFavourite ? 'fa fa-heart' : 'fa fa-heart-o'"></i>
-                  </a>
-                <span class="statsNumbers">{{richService.favourites || 0}}</span>
-              </span>
-              <span class="uk-margin-medium-left">
-                <img src="../../../../assets/images/icons/ic_visit_icon.svg">
-                <span class="statsNumbers">{{richService.views || 0}}</span>
-              </span>
-            </div>
-            <div class="tags" *ngIf="richService.superCategoryName && richService.categoryName && richService.subCategoryNames !== []">
-              <span><strong>Categorization: </strong></span>
-              <span class="uk-label">{{richService.superCategoryName}}</span>
-              <span> --> </span>
-              <span class="uk-label">{{richService.categoryName}}</span>
-              <span> --> </span>
-              <span class="uk-label">{{richService.subCategoryNames}}</span>
+
+            <div class="uk-grid">
+
+              <div class="uk-width-1-1 summaryInfo uk-margin-medium-top uk-margin-medium-bottom">
+
+                <div class="divider-bottom">
+                  <span><strong>Provided by: </strong></span>
+                  <span class="" *ngFor="let provider of richService.service.providers; let i = index">
+                    <span *ngIf="i > 0">, </span>{{ provider | uppercase }}
+                  </span>
+                </div>
+
+                <div class="divider-bottom uk-margin-small-top categories" *ngIf="richService.categories && richService.categories.length>0">
+                  <span><strong>Categorization: </strong></span>
+                  <ng-container *ngFor="let category of richService.categories">
+                    <span class="uk-label">{{category.superCategory.name}}</span>
+                    <span> > </span>
+                    <span class="uk-label">{{category.category.name}}</span>
+                    <span> > </span>
+                    <span class="uk-label">{{category.subCategory.name}}</span>
+                    <br>
+                  </ng-container>
+                </div>
+
+                <!--<hr class="uk-divider">-->
+
+                <div class="divider-bottom uk-margin-small-top domains" *ngIf="richService.domains && richService.domains.length>0">
+                  <span><strong>Scientific Categorization: </strong></span>
+                  <ng-container *ngFor="let domain of richService.domains">
+                    <span class="uk-label">{{domain.domain.name}}</span>
+                    <span> > </span>
+                    <span class="uk-label">{{domain.subdomain.name}}</span>
+                    <br>
+                  </ng-container>
+                </div>
+
+                <!--<hr class="uk-divider">-->
+
+                <div class="divider-bottom uk-margin-small-top" *ngIf="richService.targetUsersNames && richService.targetUsersNames.length>0">
+                  <span><strong>Offered to: </strong></span>
+                  <span class="" *ngFor="let targetUserName of richService.targetUsersNames; let i = index">
+                    <span *ngIf="i > 0">, </span>{{ targetUserName }}
+                  </span>
+                </div>
+
+                <div class="uk-margin-small-bottom uk-margin-small-top">
+                  <star-rating-comp #rating (click)="rateService(rating.rating)"
+                                    [starType]="'svg'" [rating]="richService.hasRate" [step]="1"
+                                    [showHalfStars]="true"
+                                    [readOnly]=!this.authenticationService.isLoggedIn()
+                                    [size]="'medium'"
+                                    [staticColor]="'ok'" title="Rate this service"
+                                    uk-tooltip="delay: 500" class="uk-inline starRating"
+                                    labelText="{{richService.hasRate}} ({{ richService.ratings }})"
+                                    [labelVisible]="true" [labelPosition]="'right'"
+                                    [hoverEnabled]="true">
+                  </star-rating-comp>
+                  <span class="uk-margin-medium-left">
+                    <a (click)="addToFavourites()" style="color: rgb(55, 131, 63)">
+                      <i [ngClass]="richService.isFavourite ? 'fa fa-heart' : 'fa fa-heart-o'"></i>
+                    </a>
+                    <span class="statsNumbers">{{richService.favourites || 0}}</span>
+                  </span>
+                  <span class="uk-margin-medium-left">
+                    <img src="../../../../assets/images/icons/ic_visit_icon.svg">
+                    <span class="statsNumbers">{{richService.views || 0}}</span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="uk-width-1-1 leftColumn">
+                <div class="serviceDescription" *ngIf="richService.service.description">
+                  <p [innerHTML]="richService.service.description">
+                  </p>
+                </div>
+
+                <div class="badges uk-margin-bottom">
+                  <span *ngFor="let tag of richService.service.tags" class="uk-badge uk-margin-small-right">{{tag}}</span>
+                </div>
+              </div>
+
             </div>
 
-            <div class="tags" *ngIf="richService.scientificDomainNames && richService.scientificSubDomainNames">
-              <span><strong>Scientific Categorization: </strong></span>
-              <span class="uk-label">{{richService.scientificDomainNames}}</span>
-              <span> --> </span>
-              <span class="uk-label">{{richService.scientificSubDomainNames}}</span>
-            </div>
 
-            <div class="serviceDescription" *ngIf="richService.service.description">
-              <p [innerHTML]="richService.service.description">
-              </p>
-            </div>
+            <!--<div class="tags" *ngIf="richService.superCategoryName && richService.categoryName && richService.subCategoryNames !== []">-->
+              <!--<span><strong>Categorization: </strong></span>-->
+              <!--<span class="uk-label">{{richService.superCategoryName}}</span>-->
+              <!--<span> &ndash;&gt; </span>-->
+              <!--<span class="uk-label">{{richService.categoryName}}</span>-->
+              <!--<span> &ndash;&gt; </span>-->
+              <!--<span class="uk-label">{{richService.subCategoryNames}}</span>-->
+            <!--</div>-->
 
-            <div class="badges uk-margin-bottom">
-              <span *ngFor="let tag of richService.service.tags" class="uk-badge uk-margin-small-right">{{tag}}</span>
-            </div>
+            <!--<div class="tags" *ngIf="richService.scientificDomainNames && richService.scientificSubDomainNames">-->
+              <!--<span><strong>Scientific Categorization: </strong></span>-->
+              <!--<span class="uk-label">{{richService.scientificDomainNames}}</span>-->
+              <!--<span> &ndash;&gt; </span>-->
+              <!--<span class="uk-label">{{richService.scientificSubDomainNames}}</span>-->
+            <!--</div>-->
 
-            <div>
-              <a class="uk-button butn theme" href="{{richService.service.url}}" target="_blank"
+            <!--<div class="uk-margin-small-bottom">-->
+              <!--<star-rating-comp #rating (click)="rateService(rating.rating)"-->
+                                <!--[starType]="'svg'" [rating]="richService.hasRate" [step]="1"-->
+                                <!--[showHalfStars]="true"-->
+                                <!--[readOnly]=!this.authenticationService.isLoggedIn()-->
+                                <!--[size]="'medium'"-->
+                                <!--[staticColor]="'ok'" title="Rate this service"-->
+                                <!--uk-tooltip="delay: 500" class="uk-inline starRating"-->
+                                <!--labelText="{{richService.hasRate}} ({{ richService.ratings }})"-->
+                                <!--[labelVisible]="true" [labelPosition]="'right'"-->
+                                <!--[hoverEnabled]="true">-->
+              <!--</star-rating-comp>-->
+              <!--<span class="uk-margin-medium-left">-->
+                  <!--<a (click)="addToFavourites()" style="color: rgb(55, 131, 63)">-->
+                    <!--<i [ngClass]="richService.isFavourite ? 'fa fa-heart' : 'fa fa-heart-o'"></i>-->
+                  <!--</a>-->
+                <!--<span class="statsNumbers">{{richService.favourites || 0}}</span>-->
+              <!--</span>-->
+              <!--<span class="uk-margin-medium-left">-->
+                <!--<img src="../../../../assets/images/icons/ic_visit_icon.svg">-->
+                <!--<span class="statsNumbers">{{richService.views || 0}}</span>-->
+              <!--</span>-->
+            <!--</div>-->
+
+            <!--<div class="serviceDescription" *ngIf="richService.service.description">-->
+              <!--<p [innerHTML]="richService.service.description">-->
+              <!--</p>-->
+            <!--</div>-->
+
+            <!--<div class="badges uk-margin-bottom">-->
+              <!--<span *ngFor="let tag of richService.service.tags" class="uk-badge uk-margin-small-right">{{tag}}</span>-->
+            <!--</div>-->
+
+          </div>
+        </div>
+        <div class="uk-width-1-4">
+          <div class="uk-card uk-card-body uk-card-custom providerCard">
+            <img src="{{(richService.service.logo) ? richService.service.logo : 'http://fvtelibrary.com/img/user/NoLogo.png'}}">
+            <!--<span class="provider" *ngFor="let provider of richService.service.providers; let i = index">-->
+              <!--<br *ngIf="i > 0">{{ provider | uppercase }}-->
+            <!--</span>-->
+          </div>
+          <div class="uk-margin-top">
+            <div class="uk-width-1-1">
+              <a class="uk-button butn theme uk-width-1-1" href="{{richService.service.url}}" target="_blank"
                  routerLinkActive="active">
                 <!--<a class="uk-width-1-1 uk-button uk-button-primary visitButton" href="{{richService.url}}" target="_blank" routerLinkActive="active">-->
                 <strong>Service Homepage</strong>
               </a>
-              <a *ngIf="richService.service.order" class="uk-button butn theme uk-margin-left"
+            </div>
+            <div class="uk-width-1-1 uk-margin-top">
+              <a *ngIf="richService.service.order" class="uk-button butn theme uk-width-1-1"
                  href="{{richService.service.order}}" routerLinkActive="active" target="_blank">
                 <strong>Service order</strong>
               </a>
             </div>
-
-          </div>
-        </div>
-        <div class="uk-width-1-3">
-          <div class="uk-card uk-card-body uk-card-custom providerCard">
-            <img src="{{(richService.service.logo) ? richService.service.logo : 'http://fvtelibrary.com/img/user/NoLogo.png'}}">
-            <span class="provider" *ngFor="let provider of richService.service.providers; let i = index">
-              <br *ngIf="i > 0">{{ provider | uppercase }}
-            </span>
           </div>
         </div>
       </div>
@@ -100,7 +188,7 @@
        style="box-sizing: border-box;">
     <div class="uk-container">
       <div class="uk-grid" uk-grid="">
-        <div class="uk-width-2-3">
+        <div class="uk-width-3-4">
 
           <!--USAGE-->
           <div>
@@ -125,20 +213,6 @@
                 <dt class="">Options</dt>
                 <dd>{{richService.service.options}}</dd>
               </ng-container>
-              <ng-container *ngIf="richService.targetUsersNames">
-                <dt class="">Target Users</dt>
-                <dd>{{richService.targetUsersNames}}</dd>
-              </ng-container>
-              <ng-container *ngIf="richService.service.userValue">
-                <dt class="">User value</dt>
-                <dd>{{richService.service.userValue}}</dd>
-              </ng-container>
-              <ng-container *ngIf="richService.service.userBaseList">
-                <dt class="">User base</dt>
-                <dd>{{richService.service.userBaseList}}</dd>
-              </ng-container>
-                <dt class="">Use cases</dt>
-                <dd>{{richService.service.useCases}}</dd>
             </dl>
           </div>
 
@@ -170,6 +244,21 @@
             </div>
           </div>
 
+          <div class="uk-margin-top">
+            <dl class="uk-description-list">
+              <ng-container *ngIf="richService.service.userValue">
+                <dt class="">Value for users</dt>
+                <dd><read-more [maxHeight]="90">{{richService.service.userValue}}</read-more></dd>
+              </ng-container>
+              <ng-container *ngIf="richService.service.userBases">
+                <dt class="">User base</dt>
+                <dd><read-more [maxHeight]="90">{{richService.service.userBases}}</read-more></dd>
+              </ng-container>
+              <dt class="">Use cases</dt>
+              <dd><read-more [maxHeight]="90">{{richService.service.useCases}}</read-more></dd>
+            </dl>
+          </div>
+
           <!--FUNDING-->
           <div *ngIf="richService.fundedByNames" class="uk-margin-medium-top">
             <h2 class="section-heading uk-h2">Funding</h2>
@@ -180,7 +269,7 @@
           </div>
 
         </div>
-        <div class="uk-width-1-3">
+        <div class="uk-width-1-4">
 
           <div class="uk-card uk-card-body uk-card-primary sideInfo">
             <h2 class="uk-h2 sidebarHeaders">Contractual Info</h2>

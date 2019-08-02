@@ -52,7 +52,7 @@ h2.uk-h2 {
 .providerCard.uk-card-custom {
     padding: 19px 22px;
     border-radius: 50%;
-    height: 100%;
+    height: 50%;
     position: relative;
 }
 
@@ -86,6 +86,7 @@ h2.uk-h2 {
     /*color: #4D586A;*/
     letter-spacing: 0.32px;
     line-height: 22.4px;
+    text-align: justify;
 }
 
 .uk-grid + .uk-grid, .uk-grid > .uk-grid-margin, * + .uk-grid-margin {
@@ -223,7 +224,7 @@ a:hover, .uk-link:hover {
 
 .tags {
     margin-bottom: 20px;
-    margin-top: 15px;
+    /*margin-top: 15px;*/
 }
 
 .tags .uk-label-primary {
@@ -334,4 +335,28 @@ chart {
   padding: 13px;
   background-color: transparent;
   border: 1px solid #dedede;
+}
+
+.leftColumn {
+  /*padding-right: 30px;*/
+}
+
+.summaryInfo {
+  border-left: 1px solid #ccc;
+  padding-left: 25px;
+  margin-left: 40px;
+}
+
+.divider-bottom {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ccc;
+}
+
+.categories .uk-label, .domains .uk-label {
+  color: #383d41;
+  background-color: #e2e3e5;
+  border-color: #d6d8db;
+  padding: .35rem 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: .25rem;
 }
