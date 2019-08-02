@@ -102,7 +102,7 @@ export class ServiceFormComponent implements OnInit {
     'userBaseList': this.fb.array([ this.fb.control('') ]),
     'useCases': this.fb.array([ this.fb.control('') ]),
     'multimediaUrls': this.fb.array([ this.fb.control('', URLValidator) ]),
-    'options': this.fb.array([/*this.newOption()*/]),
+    'options': this.fb.array([this.newOption()]),
     'requiredServices': this.fb.array([ this.fb.control('') ]),
     'relatedServices': this.fb.array([ this.fb.control('') ]),
     'providers': this.fb.array([ this.fb.control('', Validators.required)], Validators.required),
@@ -205,6 +205,7 @@ export class ServiceFormComponent implements OnInit {
       }
       this.measurements.controls[i].get('serviceId').setValue(service.id);
     }
+    /** Fill subcategory string array**/
     this.getFieldAsFormArray('subcategories').reset();
     for (const category of this.categoryArray.controls) {
       if (category.get('subcategory').value) {
@@ -212,16 +213,19 @@ export class ServiceFormComponent implements OnInit {
       }
     }
     this.categoryArray.disable();
+    /** Fill scientific subdomain string array**/
     this.getFieldAsFormArray('scientificSubdomains').reset();
     for (const scientificDomain of this.scientificDomainArray.controls) {
       if (scientificDomain.get('scientificSubDomain').value) {
         this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(scientificDomain.get('scientificSubDomain').value));
       }
     }
+    /** remove empty options in order to avoid validation conflict **/
+    if (this.getFieldAsFormArray('options').length === 1) {
+      // check if needs to be removed
+    }
     this.scientificDomainArray.disable();
-    console.log(this.serviceForm.get('options').valid);
-    console.log(this.serviceForm.value);
-    if (isValid && this.measurementForm.valid) {
+    if (this.serviceForm.valid && this.measurementForm.valid) {
       this.resourceService.uploadServiceWithMeasurements(this.serviceForm.value, this.measurements.value).subscribe(
         _service => {
           // console.log(_service);
@@ -242,7 +246,7 @@ export class ServiceFormComponent implements OnInit {
       this.serviceForm.markAsDirty();
       this.serviceForm.updateValueAndValidity();
       this.validateMeasurements();
-      if (!isValid) {
+      if (!this.serviceForm.valid) {
         this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
         if (!this.serviceForm.controls['description'].valid) {
           this.errorMessage += ' Description is an mandatory field.';
@@ -385,15 +389,15 @@ export class ServiceFormComponent implements OnInit {
   }
 
   onSuperCategoryChange(index: number) {
-    this.categoryArray.controls[index].get('category').reset('');
+    this.categoryArray.controls[index].get('category').reset();
     this.categoryArray.controls[index].get('category').enable();
     this.categoryArray.controls[index].get('subcategory').reset();
     this.categoryArray.controls[index].get('subcategory').disable();
   }
 
   onCategoryChange(index: number) {
-    this.categoryArray.controls[index].get('subcategory').enable();
     this.categoryArray.controls[index].get('subcategory').reset();
+    this.categoryArray.controls[index].get('subcategory').enable();
   }
 
   newScientificDomain(): FormGroup {

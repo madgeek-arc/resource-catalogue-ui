@@ -199,7 +199,7 @@
                           <div class="uk-width-4-5 uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('options').controls; let i=index">
                               <div [formGroupName]="i" class="uk-margin-small-bottom" style="border: 1px dashed #cccccc; padding-right: 10px">
-                                <a *ngIf="getFieldAsFormArray('options').controls.length > 1" class="remove-element uk-padding-small"
+                                <a class="remove-element uk-padding-small"
                                    (click)="remove('options', i)">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
@@ -376,7 +376,7 @@
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
 
-                                <div *ngIf="superCategoriesVocabulary" class="uk-form-horizontal uk-margin-bottom">
+                                <div *ngIf="scientificDomainVocabulary" class="uk-form-horizontal uk-margin-bottom">
                                   <label class="uk-width-1-5 uk-form-label uk-text-right">
                                     {{scientificDomainDesc.label + (scientificDomainDesc.mandatory ? ' (*)' : '')}}
                                   </label>
@@ -393,7 +393,7 @@
                                   </div>
                                 </div>
 
-                                <div *ngIf="categoriesVocabulary" class="uk-form-horizontal uk-margin-bottom">
+                                <div *ngIf="scientificSubDomainVocabulary" class="uk-form-horizontal uk-margin-bottom">
                                   <label class="uk-width-1-5 uk-form-label uk-text-right">
                                     {{scientificSubDomainDesc.label + (scientificSubDomainDesc.mandatory ? ' (*)' : '')}}
                                   </label>
@@ -401,6 +401,7 @@
                                     <select formControlName="scientificSubDomain" class="uk-select"
                                             [ngClass]="{'uk-form-danger': !scientificDomainArray.controls[i].get('scientificSubDomain').valid && scientificDomainArray.controls[i].get('scientificSubDomain').dirty}">
                                       <ng-container *ngIf="scientificDomainArray.controls[i].get('scientificDomain').value">
+                                        <option value="">--Choose Scientific Subdomain--</option>
                                         <option
                                           *ngFor="let entry of getSortedChildrenCategories(scientificSubDomainVocabulary, scientificDomainArray.controls[i].get('scientificDomain').value)"
                                           value="{{entry.id}}">
@@ -484,6 +485,7 @@
                                     <select formControlName="subcategory" class="uk-select"
                                             [ngClass]="{'uk-form-danger': !categoryArray.controls[i].get('subcategory').valid && categoryArray.controls[i].get('subcategory').dirty}">
                                       <ng-container *ngIf="categoryArray.controls[i].get('category').value">
+                                        <option value="">--Choose subcategory--</option>
                                         <option
                                           *ngFor="let entry of getSortedChildrenCategories(subCategoriesVocabulary, categoryArray.controls[i].get('category').value)"
                                           value="{{entry.id}}">
