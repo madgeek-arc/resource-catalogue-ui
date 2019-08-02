@@ -250,9 +250,9 @@
                 <dt class="">Value for users</dt>
                 <dd><read-more [maxHeight]="90">{{richService.service.userValue}}</read-more></dd>
               </ng-container>
-              <ng-container *ngIf="richService.service.userBases">
+              <ng-container *ngIf="richService.service.userBaseList">
                 <dt class="">User base</dt>
-                <dd><read-more [maxHeight]="90">{{richService.service.userBases}}</read-more></dd>
+                <dd><read-more [maxHeight]="90">{{richService.service.userBaseList}}</read-more></dd>
               </ng-container>
               <dt class="">Use cases</dt>
               <dd><read-more [maxHeight]="90">{{richService.service.useCases}}</read-more></dd>
@@ -415,7 +415,7 @@
           <!--<hr class="customDivider">-->
           <h2 class="uk-h2 sidebarHeaders section-heading uk-margin-medium-top">See also</h2>
           <!--<dl class="uk-description-list">-->
-          <ng-container *ngIf="richService.service.requiredServices && (richService.service.requiredServices.length > 0)">
+          <ng-container *ngIf="richService.service.requiredServices && (richService.service.requiredServices.length > 0) && services">
             <dt class="infoTitle uk-margin-small-right">Required services</dt>
             <!--<dt class="uk-margin-small-bottom">Required richServices</dt>-->
             <dd *ngFor="let requiredService of richService.service.requiredServices">
@@ -428,7 +428,7 @@
               None
             </dd>
           </ng-container>
-          <ng-container *ngIf="richService.service.relatedServices && richService.service.relatedServices.length>0">
+          <ng-container *ngIf="richService.service.relatedServices && richService.service.relatedServices.length>0 && services">
             <dt class="infoTitle uk-margin-small-right">Related services</dt>
             <dd *ngFor="let relatedService of richService.service.relatedServices">
               <a (click)="this.router.service(getPrettyService(relatedService).service.id)">{{getPrettyService(relatedService).service.name}}</a>
