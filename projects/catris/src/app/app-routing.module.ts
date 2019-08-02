@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeCatrisComponent } from './pages/home/home-catris.component';
 import { ServiceLandingPageExtendedComponent } from './pages/landingpages/service/service-landing-page.extended.component';
 import { SearchExtendedComponent } from './pages/search/search.extended.component';
+import {CompareServicesComponent} from '../../../../src/app/pages/compare/compare-services.component';
+import {CompareServicesExtendedComponent} from './pages/compare/compare-services.extended.component';
 
 const routes: Routes = [
   {
@@ -17,13 +19,6 @@ const routes: Routes = [
       breadcrumb: 'Home'
     }
   },
-  // {
-  //   path: 'becomeAProvider',
-  //   component: BecomeAProviderComponent,
-  //   data: {
-  //     breadcrumb : 'Become A Provider'
-  //   }
-  // },
   {
     path: 'search',
     component: SearchExtendedComponent,
@@ -38,13 +33,13 @@ const routes: Routes = [
       breadcrumb : 'Service'
     }
   },
-  // {
-  //   path: 'service/:id/:version',
-  //   component: ServiceLandingPageExtendedComponent,
-  //   data: {
-  //     breadcrumb : 'Service'
-  //   }
-  // },
+  {
+    path: 'compare',
+    component: CompareServicesExtendedComponent,
+    data: {
+      breadcrumb: 'Compare'
+    }
+  },
 ];
 
 @NgModule({

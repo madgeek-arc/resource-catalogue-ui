@@ -18,6 +18,7 @@ import {SearchExtendedComponent} from './pages/search/search.extended.component'
 import {ReusableComponentsModule} from '../../../../src/app/shared/reusablecomponents/reusable-components.module';
 import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/cookie-law/cookie-law.module';
 import {TreeviewModule} from 'ngx-treeview';
+import {CompareServicesExtendedComponent} from './pages/compare/compare-services.extended.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {TreeviewModule} from 'ngx-treeview';
     FooterComponent,
     HomeCatrisComponent,
     ServiceLandingPageExtendedComponent,
-    SearchExtendedComponent
+    SearchExtendedComponent,
+    CompareServicesExtendedComponent
   ],
   imports: [
     BrowserModule,
