@@ -138,17 +138,13 @@ export class SearchComponent implements OnInit, OnDestroy {
               // this.items = [];
               for (const superCategory of searchResults.facets[3].values) {
                 const superCat = superCategory.value.split('-')[1];
-                console.log(superCat);
                 const categories: TreeviewItem[] = [];
                 for (const category of searchResults.facets[12].values) {
                   if (superCat === category.value.split('-')[1]) {
-                    console.log(superCat);
                     const catId = category.value.split('-')[2];
-                    console.log(catId);
                     const subCategories: TreeviewItem[] = [];
                     for (const subCategory of searchResults.facets[11].values) {
                       if (catId === subCategory.value.split('-')[2]) {
-                        console.log(catId);
                         subCategories.push(new TreeviewItem({
                           text: subCategory.label + ` (${subCategory.count})`, value: subCategory.value, collapsed: true, checked: false
                         }));
@@ -293,7 +289,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         }
       }
     }
-    this.orderFacets();
+    // this.orderFacets();
     // update form values using URLParameters
     for (const urlParameter of this.urlParameters) {
       if (urlParameter.key === 'query') {
