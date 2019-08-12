@@ -165,7 +165,9 @@
             <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
                 [ngClass]="{evenColumn: i%2==1}">
               <ng-template [ngIf]="richService.service.options && richService.service.options !== []">
-                {{richService.service.options}}
+                <div *ngFor="let option of richService.service.options">
+                {{option.name}}
+                </div>
               </ng-template>
               <ng-template [ngIf]="!richService.service.options || richService.service.options === []">
                 /

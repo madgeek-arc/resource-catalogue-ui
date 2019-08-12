@@ -14,10 +14,10 @@
           <div class="uk-display-inline-block uk-vertical-align-top">
             <h2 class="uk-h2 uk-inline" style="margin-bottom: 5px">
               {{richService.service.name || "Not Available"}}
-
+              {{canEditService}}
               <span class="uk-margin-left" *ngIf="canEditService">
                 <a (click)="this.router.edit(richService.service.id)" routerLinkActive="active">
-                  <i class="fa fa-pencil"></i></a>
+                  <i class="fa fa-pencil" style="color: rgb(55, 131, 63)"></i></a>
               </span>
             </h2>
             <div *ngIf="richService.service.tagline && (richService.service.tagline.length > 0)" class="tagLine">

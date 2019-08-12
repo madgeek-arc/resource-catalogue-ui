@@ -70,11 +70,16 @@
 
         <div class="uk-width-expand@m uk-first-column uk-grid-margin-medium">
 
-          <div class="tags" *ngIf="richService.categoryName || richService.subCategoryNames">
+          <div class="tags" *ngIf="richService.categories && richService.categories.length>0">
             <span><strong>Categorization: </strong></span>
-            <span *ngIf="richService.categoryName" class="uk-label">{{richService.categoryName}}</span>
-            <span> --> </span>
-            <span *ngIf="richService.subCategoryNames" class="uk-label">{{richService.subCategoryNames}}</span>
+            <ng-container *ngFor="let category of richService.categories">
+              <span class="uk-label">{{category.superCategory.name}}</span>
+              <span> > </span>
+              <span class="uk-label">{{category.category.name}}</span>
+              <span> > </span>
+              <span class="uk-label">{{category.subCategory.name}}</span>
+              <br>
+            </ng-container>
           </div>
 
           <div class="serviceDescription" *ngIf="richService.service.description">
