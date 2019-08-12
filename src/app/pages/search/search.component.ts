@@ -136,14 +136,14 @@ export class SearchComponent implements OnInit, OnDestroy {
             if (this.items.length === 0) {
               /** Checkbox Category structure!!!-->**/
               // this.items = [];
-              for (const superCategory of searchResults.facets[3].values) {
+              for (const superCategory of searchResults.facets[0].values) {
                 const superCat = superCategory.value.split('-')[1];
                 const categories: TreeviewItem[] = [];
-                for (const category of searchResults.facets[12].values) {
+                for (const category of searchResults.facets[1].values) {
                   if (superCat === category.value.split('-')[1]) {
                     const catId = category.value.split('-')[2];
                     const subCategories: TreeviewItem[] = [];
-                    for (const subCategory of searchResults.facets[11].values) {
+                    for (const subCategory of searchResults.facets[3].values) {
                       if (catId === subCategory.value.split('-')[2]) {
                         subCategories.push(new TreeviewItem({
                           text: subCategory.label + ` (${subCategory.count})`, value: subCategory.value, collapsed: true, checked: false
@@ -151,7 +151,7 @@ export class SearchComponent implements OnInit, OnDestroy {
                       }
                     }
                     categories.push(new TreeviewItem({
-                      text: category.label + ` (${category.count})`,
+                      text: category.label /*+ ` (${category.count})`*/,
                       value: category.value,
                       children: subCategories,
                       collapsed: true,
@@ -160,7 +160,7 @@ export class SearchComponent implements OnInit, OnDestroy {
                   }
                 }
                 this.items.push(new TreeviewItem({
-                  text: superCategory.label + ` (${superCategory.count})`,
+                  text: superCategory.label /*+ ` (${superCategory.count})`*/,
                   value: superCategory.value,
                   children: categories,
                   collapsed: true,
@@ -204,11 +204,11 @@ export class SearchComponent implements OnInit, OnDestroy {
               // console.log(searchResults.facets[5]);
               // console.log(searchResults.facets[10]);
               // for (let i = 0; i < searchResults.facets[5].values.length; i++) {
-              for (const domainValue of searchResults.facets[5].values) {
+              for (const domainValue of searchResults.facets[2].values) {
                 const domainId = domainValue.value.split('-')[1];
                 // console.log(domainId);
                 const subDomain: TreeviewItem[] = [];
-                for (const subDomainValue of searchResults.facets[10].values) {
+                for (const subDomainValue of searchResults.facets[5].values) {
                   const subDomainId = subDomainValue.value.split('-')[1];
                   // console.log(subDomainId);
                   if (domainId === subDomainId) {
@@ -221,7 +221,7 @@ export class SearchComponent implements OnInit, OnDestroy {
                   }
                 }
                 this.scientificDomain.push(new TreeviewItem({
-                  text: domainValue.label + ` (${domainValue.count})`,
+                  text: domainValue.label /*+ ` (${domainValue.count})`*/,
                   value: domainValue.value,
                   children: subDomain,
                   checked: false,
