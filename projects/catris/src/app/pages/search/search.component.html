@@ -18,7 +18,6 @@
           <div class="">
 
             <ng-template #itemTemplate let-item="item" let-onCollapseExpand="onCollapseExpand" let-onCheckedChange="onCheckedChange">
-<!--              {{item | json}}-->
               <div class="form-inline row-item">
                 <i *ngIf="item.children" (click)="onCollapseExpand()" aria-hidden="true" class="fa" [class.fa-caret-right]="item.collapsed"
                    [class.fa-caret-down]="!item.collapsed"></i>
@@ -68,7 +67,6 @@
             </ng-template>
           </div>
 
-
         </div>
 
       </aside>
@@ -89,47 +87,9 @@
             </div>
           </div>
 
-          <div *ngIf="searchResults.results != null && searchResults.results.length>0">
+          <div *ngIf="searchResults.results != null && searchResults.results.length > 0">
 
-            <!--<div class="uk-width-1-1 uk-row-first uk-margin-bottom">-->
-
-              <!--<nav *ngIf="searchResults.facets" class="uk-inline" style="margin-left: -10px;" uk-navbar>-->
-
-                <!--<div class="uk-navbar-left">-->
-
-                  <!--<ul class="uk-navbar-nav uk-nav-parent-icon filters">-->
-
-                    <!--<ng-container *ngFor="let facet of searchResults.facets">-->
-                      <!--<ng-container *ngIf="facet.field!='category' && facet.field!='resourceType'">-->
-                        <!--<li class="uk-parent uk-margin-small-right">-->
-                          <!--<a href="#">{{facet.label}}</a>-->
-                          <!--<div class="uk-navbar-dropdown">-->
-                            <!--<ul class="uk-nav uk-navbar-dropdown-nav">-->
-                              <!--<li *ngFor="let facetValue of facet.values">-->
-                                <!--<a (click)="this.selectFacet(facet.field, facetValue.value)">-->
-                                  <!--{{facetValue.label}}-->
-                                  <!--<span>({{facetValue.count}})</span>-->
-                                <!--</a>-->
-                              <!--</li>-->
-                            <!--</ul>-->
-                          <!--</div>-->
-                        <!--</li>-->
-                      <!--</ng-container>-->
-                    <!--</ng-container>-->
-
-                  <!--</ul>-->
-
-                <!--</div>-->
-              <!--</nav>-->
-
-              <!--<div class="uk-inline uk-float-right">-->
-                <!--<a *ngIf="listViewActive" (click)="toggleListGrid('grid')">-->
-                  <!--<img src="../../../assets/images/icons/switch_view_list_active.svg">-->
-                <!--</a>-->
-              <!--</div>-->
-            <!--</div>-->
-
-            <div *ngIf="urlParameters && urlParameters.length>0" class="uk-width-1-1 uk-row-first uk-margin-bottom">
+            <div *ngIf="urlParameters && urlParameters.length > 0" class="uk-width-1-1 uk-row-first uk-margin-bottom">
               <ul class="facets-selected cf">
                 <ng-template ngFor let-urlParameter [ngForOf]="urlParameters">
                   <ng-template
@@ -212,13 +172,62 @@
                               class="statsNumbers">&nbsp;{{ resourceInfo.favourites }}</span>
                         </span>
                         <span class="uk-margin-medium-right">
-                            <input type="checkbox" class="uk-margin-small-right"
-                                   [checked]="isSelected(resourceInfo.service)"
-                                   (change)="comparisonService.addOrRemove(resourceInfo.service)">
-                            <a>{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
+                          <input type="checkbox" class="uk-margin-small-right"
+                                 [checked]="isSelected(resourceInfo.service)"
+                                 (change)="comparisonService.addOrRemove(resourceInfo.service)">
+                          <a>{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
                         </span>
+                        <span class="uk-margin-medium-right">
+                          <input type="checkbox" class="uk-margin-small-right"
+                                 [checked]="isChecked(resourceInfo.service.id)"
+                                 (change)="addOrRemove(resourceInfo.service.id)">
+                          <a>{{isChecked(resourceInfo.service.id) ? 'Selected' : 'Ask for info'}}</a>
+                        </span>
+                        <span *ngIf="isChecked(resourceInfo.service.id)">
+                          <button class="uk-button butn theme uk-margin-small-right" type="button"
+                                  uk-toggle="target: #email-modal">Open</button>
+                        </span>
+                        <!--Email modal-->
+                        <div id="email-modal" class="uk-modal-container" uk-modal="bg-close: false">
+                          <div class="uk-modal-dialog uk-modal-body">
+                            <form class="uk-form-horizontal uk-margin-large" [formGroup]="emailForm">
+
+                              <div class="uk-margin">
+                                <label class="uk-form-label" for="email">Email</label>
+                                <div class="uk-form-controls">
+                                  <input class="uk-input" id="email" type="email" placeholder="An email to contact you"
+                                         formControlName="email"
+                                         [ngClass]="{'uk-form-danger': !emailForm.get('email').valid && emailForm.get('email').dirty}">
+                                </div>
+                              </div>
+
+                              <div class="uk-margin">
+                                <label class="uk-form-label" for="subject">Subject</label>
+                                <div class="uk-form-controls">
+                                  <input class="uk-input" id="subject" type="text" placeholder="Quick description of your question"
+                                         formControlName="subject"
+                                         [ngClass]="{'uk-form-danger': !emailForm.get('subject').valid && emailForm.get('subject').dirty}">
+                                </div>
+                              </div>
+
+                              <div class="uk-margin">
+                                <label class="uk-form-label" for="textarea" >Text</label>
+                                <div class="uk-form-controls">
+                                  <textarea class="uk-textarea" id="textarea" rows="4" formControlName="text"
+                                            [ngClass]="{'uk-form-danger': !emailForm.get('text').valid && emailForm.get('text').dirty}">
+                                  </textarea>
+                                </div>
+                              </div>
+
+                            </form>
+                            <div class="uk-float-right">
+                              <button class="uk-button butn theme uk-modal-close" type="button" (click)="resetForm()">Cancel</button>
+                              <button class="uk-button butn theme uk-margin-small-left" type="button">Send</button>
+                            </div>
+                          </div>
+                        </div>
                         <span class="uk-float-right">
-                            <img src="../../../../assets/images/icons/ic_visit_icon.svg">
+                            <img src="../../../assets/images/icons/ic_visit_icon.svg">
                             <span class="statsNumbers">&nbsp;{{ resourceInfo.views }}</span>
                         </span>
                       </div>
