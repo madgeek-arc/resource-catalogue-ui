@@ -29,33 +29,32 @@
             <div class="uk-width-expand@m">
 
               <div class="middle-box animated fadeInDown ">
-                <div class="uk-padding-small uk-border-rounded uk-margin-large-bottom uk-width-2-3"
-                     style="border: 1px solid gray;">
-                  <!--<div class="uk-margin-bottom uk-width-2-3">-->
-                  <div class="uk-margin-small-bottom">
-                    <h5>An administrator will be added using your user information</h5>
-                  </div>
-                  <div class="uk-grid uk-grid-margin-small uk-child-width-1-2@m gridView">
-                    <div class="serviceDetails uk-margin-small-bottom">
-                      <label class="uk-form-label">{{ firstNameDesc.label }}:</label>
-                    </div>
-                    <div class="serviceDetails uk-margin-small-bottom">
-                      <span>{{ userInfo.given_name }}</span>
-                    </div>
-                    <div class="serviceDetails uk-margin-small-bottom">
-                      <label class="uk-form-label">{{ lastNameDesc.label }}:</label>
-                    </div>
-                    <div class="serviceDetails uk-margin-small-bottom">
-                      <span>{{ userInfo.family_name }}</span>
-                    </div>
-                    <div class="serviceDetails">
-                      <label class="uk-form-label">{{ emailDesc.label }}:</label>
-                    </div>
-                    <div class="serviceDetails">
-                      <span>{{ userInfo.email }}</span>
-                    </div>
-                  </div>
-                </div>
+<!--                <div class="uk-padding-small uk-border-rounded uk-margin-large-bottom uk-width-2-3" style="border: 1px solid gray;">-->
+<!--                  &lt;!&ndash;<div class="uk-margin-bottom uk-width-2-3">&ndash;&gt;-->
+<!--                  <div class="uk-margin-small-bottom">-->
+<!--                    <h5>An administrator will be added using your user information</h5>-->
+<!--                  </div>-->
+<!--                  <div class="uk-grid uk-grid-margin-small uk-child-width-1-2@m gridView">-->
+<!--                    <div class="serviceDetails uk-margin-small-bottom">-->
+<!--                      <label class="uk-form-label">{{ firstNameDesc.label }}:</label>-->
+<!--                    </div>-->
+<!--                    <div class="serviceDetails uk-margin-small-bottom">-->
+<!--                      <span>{{ userInfo.given_name }}</span>-->
+<!--                    </div>-->
+<!--                    <div class="serviceDetails uk-margin-small-bottom">-->
+<!--                      <label class="uk-form-label">{{ lastNameDesc.label }}:</label>-->
+<!--                    </div>-->
+<!--                    <div class="serviceDetails uk-margin-small-bottom">-->
+<!--                      <span>{{ userInfo.family_name }}</span>-->
+<!--                    </div>-->
+<!--                    <div class="serviceDetails">-->
+<!--                      <label class="uk-form-label">{{ emailDesc.label }}:</label>-->
+<!--                    </div>-->
+<!--                    <div class="serviceDetails">-->
+<!--                      <span>{{ userInfo.email }}</span>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
 
                 <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
@@ -141,9 +140,41 @@
                       </i></div>
                     </div>
                   </div>
+                  <div class="uk-margin-small-bottom">
+                    <h5>PROVIDER ADMINS</h5>
+                  </div>
+                  <div>
+                    <div *ngFor="let user of newProviderForm.controls['users'].controls">
+                      <div class="uk-padding-small uk-margin-small-bottom">
+                        <div class="uk-grid" [formGroup]="user">
+                          <div class="serviceDetails uk-width-1-5@m">
+                            <input type="text" class="uk-input" formControlName="name"
+                                   [ngClass]="{'uk-form-danger': !user.get('name').valid && user.get('name').dirty}">
+                          </div>
+                          <div class="serviceDetails uk-width-1-5@m">
+                            <input type="text" class="uk-input" formControlName="surname"
+                                   [ngClass]="{'uk-form-danger': !user.get('surname').valid && user.get('surname').dirty}">
+                          </div>
+                          <div class="serviceDetails  uk-width-2-5@m">
+                            <input type="text" class="uk-input" formControlName="email"
+                                   [ngClass]="{'uk-form-danger': !user.get('email').valid && user.get('email').dirty}">
+                          </div>
+                          <div class="uk-width-1-5@m">
+                            <a class=""
+                               (click)="deleteUser(user)"><i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="uk-margin-small-bottom uk-width-1-1@m uk-float-right">
+                      <a class="" (click)="addUser()"><i class="fa fa-plus" aria-hidden="true"></i>
+                        New Admin Provider</a>
+                    </div>
+                  </div>
 
                   <div>
-                    <button class="uk-button uk-bu uk-button-blue" type="submit" (click)="registerProvider()">Submit
+                    <button class="uk-button butn theme" type="submit" (click)="registerProvider()">Submit
                     </button>
                   </div>
                 </div>

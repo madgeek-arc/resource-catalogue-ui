@@ -119,31 +119,21 @@
                 <div *ngFor="let user of updateProviderForm.controls['users'].controls">
                   <div class="uk-padding-small uk-margin-small-bottom">
                     <div class="uk-grid" [formGroup]="user">
-                      <!--<div class="serviceDetails uk-margin-small-bottom">-->
-                      <!--<label class="uk-form-label">{{ firstNameDesc.label }}:</label>-->
-                      <!--</div>-->
                       <div class="serviceDetails uk-width-1-5@m">
                         <input type="text" class="uk-input" formControlName="name"
                                [ngClass]="{'uk-form-danger': !user.get('name').valid && user.get('name').dirty}">
                       </div>
-                      <!--<div class="serviceDetails uk-margin-small-bottom">-->
-                      <!--<label class="uk-form-label">{{ lastNameDesc.label }}:</label>-->
-                      <!--</div>-->
                       <div class="serviceDetails uk-width-1-5@m">
                         <input type="text" class="uk-input" formControlName="surname"
                                [ngClass]="{'uk-form-danger': !user.get('surname').valid && user.get('surname').dirty}">
                       </div>
-                      <!--<div class="serviceDetails">-->
-                      <!--<label class="uk-form-label">{{ emailDesc.label }}:</label>-->
-                      <!--</div>-->
                       <div class="serviceDetails  uk-width-2-5@m">
                         <input type="text" class="uk-input" formControlName="email"
                                [ngClass]="{'uk-form-danger': !user.get('email').valid && user.get('email').dirty}">
                       </div>
                       <div class="uk-width-1-5@m">
                         <a class=""
-                           (click)="deleteUser(user)"><i class="fa fa-times"
-                                                         aria-hidden="true"></i>
+                           (click)="deleteUser(user)"><i class="fa fa-times" aria-hidden="true"></i>
                         </a>
                       </div>
                     </div>
@@ -155,7 +145,7 @@
                 </div>
               </div>
               <div>
-                <button class="uk-button uk-button-blue" type="submit" (click)="updateProvider()">Submit</button>
+                <button class="uk-button butn theme" type="submit" (click)="updateProvider()">Submit</button>
               </div>
               <!-- RIGHT HELP CONTENT -->
               <app-aside-help-content #rightHelperContent [position]="'right'"

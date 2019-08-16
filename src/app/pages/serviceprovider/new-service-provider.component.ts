@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {
   providerDescriptionDesc,
   contactEmailDesc,
@@ -37,15 +37,14 @@ export class NewServiceProviderComponent implements OnInit {
     id: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-z][a-zA-Z0-9-_]{1,}$/)])],
     name: ['', Validators.required],
     logo: ['', URLValidator],
-    // contactInformation: [''],
     description: ['', Validators.required],
     website: ['', Validators.compose([Validators.required, URLValidator])],
     contactEmail: ['', Validators.compose([Validators.required, Validators.email])],
     contactName: ['', Validators.required],
     contactTel: ['', Validators.required],
-    // catalogueOfResources: ['', URLValidator],
-    // publicDescOfResources: ['', URLValidator],
-    // additionalInfo: ['', Validators.required]
+    users: this.fb.array([
+      this.user()
+    ])
   };
   organizationIdDesc: Description = organizationIdDesc;
   organizationNameDesc: Description = organizationNameDesc;
@@ -71,6 +70,18 @@ export class NewServiceProviderComponent implements OnInit {
     this.userInfo.given_name = this.authService.getUserProperty('given_name');
     this.userInfo.family_name = this.authService.getUserProperty('family_name');
     this.userInfo.email = this.authService.getUserProperty('email');
+    this.users.controls[0].get('email').setValue(this.userInfo.email);
+    this.users.controls[0].get('name').setValue(this.userInfo.given_name);
+    this.users.controls[0].get('surname').setValue(this.userInfo.family_name);
+  }
+
+  user(): FormGroup {
+    return this.fb.group({
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      id: [''],
+      name: ['', Validators.required],
+      surname: ['', Validators.required]
+    });
   }
 
   registerProvider() {
@@ -78,10 +89,6 @@ export class NewServiceProviderComponent implements OnInit {
     this.trimFormWhiteSpaces();
 
     if (this.newProviderForm.valid) {
-      const newProvider = Object.assign(
-        this.newProviderForm.value
-      );
-
       this.serviceProviderService.createNewServiceProvider(this.newProviderForm.value).subscribe(
         res => {},
         err => {
@@ -111,6 +118,31 @@ export class NewServiceProviderComponent implements OnInit {
       //   this.newProviderForm.get('logo').setErrors({'incorrect': true});
       //   this.errorMessage += ' Logo url doesn\'t point to a valid image';
       // }
+    }
+  }
+
+  get users() { // return form resource types as array
+    return this.newProviderForm.get('users') as FormArray;
+  }
+
+  addUser() {
+    this.users.push(this.user());
+  }
+
+  deleteUser(index) {
+    if (this.users.length === 1) {
+      this.errorMessage = 'There must be at least one provider!';
+      window.scrollTo(0, 0);
+      return;
+    }
+    let i = 0;
+    // console.log(index.value);
+    while (i < this.users.length) {
+      if (this.users.value[i] === index.value) {
+        this.users.removeAt(i);
+        break;
+      }
+      i++;
     }
   }
 
