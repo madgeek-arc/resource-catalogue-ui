@@ -19,6 +19,7 @@ import {
   TreeviewConfig, TreeviewEventParser, TreeviewItem
 } from 'ngx-treeview';
 import {text} from '@angular/core/src/render3/instructions';
+import {EmailService} from "../../../../projects/catris/src/app/pages/services/email.service";
 
 declare var UIkit: any;
 
@@ -72,7 +73,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   constructor(public fb: FormBuilder, public router: NavigationService, public route: ActivatedRoute,
               public userService: UserService, public resourceService: ResourceService,
               public authenticationService: AuthenticationService, public comparisonService: ComparisonService,
-              public navigationService: NavigationService) {
+              public navigationService: NavigationService, public emailService: EmailService) {
     this.searchForm = fb.group({'query': ['']});
   }
 

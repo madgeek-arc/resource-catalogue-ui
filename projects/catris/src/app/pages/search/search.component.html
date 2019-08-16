@@ -181,11 +181,8 @@
                           <input type="checkbox" class="uk-margin-small-right"
                                  [checked]="isChecked(resourceInfo.service.id)"
                                  (change)="addOrRemove(resourceInfo.service.id)">
-                          <a>{{isChecked(resourceInfo.service.id) ? 'Selected' : 'Ask for info'}}</a>
-                        </span>
-                        <span *ngIf="isChecked(resourceInfo.service.id)">
-                          <button class="uk-button butn theme uk-margin-small-right" type="button"
-                                  uk-toggle="target: #email-modal">Open</button>
+                          <a *ngIf="!isChecked(resourceInfo.service.id)">Ask for info</a>
+                          <a *ngIf="isChecked(resourceInfo.service.id)" href="#email-modal" uk-toggle>Click to sent mail</a>
                         </span>
                         <!--Email modal-->
                         <div id="email-modal" class="uk-modal-container" uk-modal="bg-close: false">
@@ -222,7 +219,7 @@
                             </form>
                             <div class="uk-float-right">
                               <button class="uk-button butn theme uk-modal-close" type="button" (click)="resetForm()">Cancel</button>
-                              <button class="uk-button butn theme uk-margin-small-left" type="button">Send</button>
+                              <button class="uk-button butn theme uk-margin-small-left" type="button" (click)="sendMail()">Send</button>
                             </div>
                           </div>
                         </div>

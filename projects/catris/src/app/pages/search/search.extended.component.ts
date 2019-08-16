@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SearchComponent} from '../../../../../../src/app/pages/search/search.component';
-import {FormGroup, Validators} from '@angular/forms';
-
+import {Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-search',
@@ -27,11 +26,14 @@ export class SearchExtendedComponent extends SearchComponent implements OnInit, 
     } else {
       this.serviceIdsArray.push(serviceId);
     }
-    console.log(this.serviceIdsArray);
   }
 
   resetForm() {
     this.emailForm.reset('');
+  }
+
+  sendMail() {
+    return this.emailService.sendMail(this.serviceIdsArray, this.emailForm);
   }
 
 }
