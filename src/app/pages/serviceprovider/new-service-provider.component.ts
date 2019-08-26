@@ -170,7 +170,16 @@ export class NewServiceProviderComponent implements OnInit {
 
   trimFormWhiteSpaces() {
     for (const i in this.newProviderForm.controls) {
-      if (this.newProviderForm.controls[i].value !== '') {
+      if (this.newProviderForm.controls[i].value && this.newProviderForm.controls[i].value.constructor === Array) {
+        for (let j = 0; j < this.newProviderForm.controls[i].value.length; j++) {
+          this.newProviderForm.controls[i].value[j].email = this.newProviderForm.controls[i].value[j].email
+            .trim().replace(/\s\s+/g, ' ');
+          this.newProviderForm.controls[i].value[j].name = this.newProviderForm.controls[i].value[j].name
+            .trim().replace(/\s\s+/g, ' ');
+          this.newProviderForm.controls[i].value[j].surname = this.newProviderForm.controls[i].value[j].surname
+            .trim().replace(/\s\s+/g, ' ');
+        }
+      } else if (this.newProviderForm.controls[i].value) {
         this.newProviderForm.controls[i].setValue(this.newProviderForm.controls[i].value.trim().replace(/\s\s+/g, ' '));
       }
     }
