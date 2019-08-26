@@ -70,9 +70,9 @@ export class NewServiceProviderComponent implements OnInit {
     this.userInfo.given_name = this.authService.getUserProperty('given_name');
     this.userInfo.family_name = this.authService.getUserProperty('family_name');
     this.userInfo.email = this.authService.getUserProperty('email');
-    this.users.controls[0].get('email').setValue(this.userInfo.email);
-    this.users.controls[0].get('name').setValue(this.userInfo.given_name);
-    this.users.controls[0].get('surname').setValue(this.userInfo.family_name);
+    this.usersArray.controls[0].get('email').setValue(this.userInfo.email);
+    this.usersArray.controls[0].get('name').setValue(this.userInfo.given_name);
+    this.usersArray.controls[0].get('surname').setValue(this.userInfo.family_name);
   }
 
   user(): FormGroup {
@@ -121,29 +121,22 @@ export class NewServiceProviderComponent implements OnInit {
     }
   }
 
-  get users() { // return form resource types as array
+  get usersArray() { // return form resource types as array
     return this.newProviderForm.get('users') as FormArray;
   }
 
   addUser() {
-    this.users.push(this.user());
+    this.usersArray.push(this.user());
   }
 
   deleteUser(index) {
-    if (this.users.length === 1) {
+    if (this.usersArray.length === 1) {
       this.errorMessage = 'There must be at least one provider!';
       window.scrollTo(0, 0);
       return;
     }
-    let i = 0;
-    // console.log(index.value);
-    while (i < this.users.length) {
-      if (this.users.value[i] === index.value) {
-        this.users.removeAt(i);
-        break;
-      }
-      i++;
-    }
+    console.log(index);
+    this.usersArray.removeAt(index);
   }
 
   showLogoUrlModal() {

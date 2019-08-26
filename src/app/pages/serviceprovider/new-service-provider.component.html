@@ -29,11 +29,11 @@
             <div class="uk-width-expand@m">
 
               <div class="middle-box animated fadeInDown ">
-<!--                <div class="uk-padding-small uk-border-rounded uk-margin-large-bottom uk-width-2-3" style="border: 1px solid gray;">-->
-<!--                  &lt;!&ndash;<div class="uk-margin-bottom uk-width-2-3">&ndash;&gt;-->
-<!--                  <div class="uk-margin-small-bottom">-->
-<!--                    <h5>An administrator will be added using your user information</h5>-->
-<!--                  </div>-->
+                <div class="uk-padding-small uk-border-rounded uk-margin-large-bottom uk-width-2-3" style="border: 1px solid gray;">
+                  <!--<div class="uk-margin-bottom uk-width-2-3">-->
+                  <div class="">
+                    <h5>An administrator will be added using your user information</h5>
+                  </div>
 <!--                  <div class="uk-grid uk-grid-margin-small uk-child-width-1-2@m gridView">-->
 <!--                    <div class="serviceDetails uk-margin-small-bottom">-->
 <!--                      <label class="uk-form-label">{{ firstNameDesc.label }}:</label>-->
@@ -54,7 +54,7 @@
 <!--                      <span>{{ userInfo.email }}</span>-->
 <!--                    </div>-->
 <!--                  </div>-->
-<!--                </div>-->
+                </div>
 
                 <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
@@ -143,25 +143,25 @@
                   <div class="uk-margin-small-bottom">
                     <h5>PROVIDER ADMINS</h5>
                   </div>
-                  <div>
-                    <div *ngFor="let user of newProviderForm.controls['users'].controls">
+                  <div *ngIf="newProviderForm.get('users').value">
+                    <div formArrayName="users" *ngFor="let user of usersArray.controls; let i = index">
                       <div class="uk-padding-small uk-margin-small-bottom">
-                        <div class="uk-grid" [formGroup]="user">
+                        <div class="uk-grid" [formGroupName]="i">
                           <div class="serviceDetails uk-width-1-5@m">
                             <input type="text" class="uk-input" formControlName="name"
-                                   [ngClass]="{'uk-form-danger': !user.get('name').valid && user.get('name').dirty}">
+                                   [ngClass]="{'uk-form-danger': !usersArray.controls[i].get('name').valid && usersArray.controls[i].get('name').dirty}">
                           </div>
                           <div class="serviceDetails uk-width-1-5@m">
                             <input type="text" class="uk-input" formControlName="surname"
-                                   [ngClass]="{'uk-form-danger': !user.get('surname').valid && user.get('surname').dirty}">
+                                   [ngClass]="{'uk-form-danger': !usersArray.controls[i].get('surname').valid && usersArray.controls[i].get('surname').dirty}">
                           </div>
                           <div class="serviceDetails  uk-width-2-5@m">
                             <input type="text" class="uk-input" formControlName="email"
-                                   [ngClass]="{'uk-form-danger': !user.get('email').valid && user.get('email').dirty}">
+                                   [ngClass]="{'uk-form-danger': !usersArray.controls[i].get('email').valid && usersArray.controls[i].get('email').dirty}">
                           </div>
                           <div class="uk-width-1-5@m">
                             <a class=""
-                               (click)="deleteUser(user)"><i class="fa fa-times" aria-hidden="true"></i>
+                               (click)="deleteUser(i)"><i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                           </div>
                         </div>
