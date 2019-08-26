@@ -50,6 +50,7 @@ import {MeasurementsComponent} from './pages/indicators/measurements.component';
 import {IndicatorFromComponent} from './pages/indicators/indicator-from.component';
 import {AuthenticationInterceptor} from './services/authentication-interceptor';
 import {CookieLawModule} from './shared/reusablecomponents/cookie-law/cookie-law.module';
+import {EmailService} from '../../projects/catris/src/app/pages/services/email.service';
 
 
 declare var require: any;
@@ -135,12 +136,13 @@ export function highchartsFactory() {
     ResourceService,
     UserService,
     ServiceProviderService,
+    FunderService,
+    EmailService,
     {
       provide: HighchartsStatic,
       useFactory: highchartsFactory
     },
-    DatePipe,
-    FunderService
+    DatePipe
   ],
   exports: [
     FooterComponent,

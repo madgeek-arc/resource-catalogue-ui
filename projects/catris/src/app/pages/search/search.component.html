@@ -49,7 +49,7 @@
 
             <ng-template ngFor let-facet [ngForOf]="searchResults.facets">
               <!--<ng-template [ngIf]="facet.field=='category'">-->
-              <div *ngIf="facet.field!='resourceType' && facet.field!='category' && facet.field!='subcategories' && facet.field!='supercategory' && facet.field!='name' && facet.field!='scientific_domains' && facet.field!='scientific_subdomains'"
+              <div *ngIf="facet.field!='resourceType' && facet.field!='categories' && facet.field!='subcategories' && facet.field!='supercategories' && facet.field!='name' && facet.field!='scientific_domains' && facet.field!='scientific_subdomains'"
                      class="refineCategory uk-grid-margin">
                   <read-more [maxHeight]="235">
                     <h2 class="uk-h2">{{facet.label}}</h2>

@@ -9,6 +9,7 @@ export class EmailService {
   constructor(private http: HttpClient) {}
 
   sendMail(serviceIds: string[], emailForm) {
-    return this.http.post(this.base + `/contact/service/${serviceIds}/support?email=${emailForm.get('email').value}`, emailForm.get('text').value, {withCredentials: true});
+    return this.http.post(this.base + `/contact/service/${serviceIds}/support?email=${emailForm.get('email').value}`,
+                          emailForm.get('text').value, {withCredentials: true});
   }
 }
