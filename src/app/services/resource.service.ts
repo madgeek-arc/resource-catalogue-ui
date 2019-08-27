@@ -10,6 +10,7 @@ import {ProvidersPage} from '../domain/funders-page';
 import {URLParameter} from '../domain/url-parameter';
 import {Observable, throwError} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {optionsDesc} from '../pages/eInfraServices/services.description';
 
 declare var UIkit: any;
 
@@ -24,7 +25,7 @@ export class ResourceService {
 
   static removeNulls(obj) {
     const isArray = obj instanceof Array;
-    for (const k of obj) {
+    for (const k in obj) {
       if (obj[k] === null || obj[k] === '') {
         isArray ? obj.splice(k, 1) : delete obj[k];
       } else if (typeof obj[k] === 'object') {
@@ -37,6 +38,12 @@ export class ResourceService {
       }
       if (obj[k] instanceof Array && obj[k].length === 0) {
         delete obj[k];
+      } else if (obj[k] instanceof Array) {
+        for (const l in obj[k]) {
+          if (obj[k][l] === null || obj[k][l] === '') {
+            delete obj[k][l];
+          }
+        }
       }
     }
   }

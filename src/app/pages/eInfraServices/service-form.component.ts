@@ -10,13 +10,13 @@ import {IndicatorsPage} from '../../domain/indicators';
 import {ProvidersPage} from '../../domain/funders-page';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs/internal/observable/zip';
-import {hasOwnProperty} from 'tslint/lib/utils';
 
 @Component({
   selector: 'app-service-form',
   templateUrl: './service-form.component.html'
 })
 export class ServiceFormComponent implements OnInit {
+  serviceName = 'eInfraCentral';
   firstServiceForm = false;
   providerId: string;
   editMode: boolean;
@@ -206,15 +206,17 @@ export class ServiceFormComponent implements OnInit {
       this.measurements.controls[i].get('serviceId').setValue(service.id);
     }
     /** Fill subcategory string array**/
-    this.getFieldAsFormArray('subcategories').reset();
-    for (const category of this.categoryArray.controls) {
-      if (category.get('subcategory').value) {
-        this.getFieldAsFormArray('subcategories').push(this.fb.control(category.get('subcategory').value));
+    this.getFieldAsFormArray('subcategories').controls = [];
+    // this.getFieldAsFormArray('subcategories').reset('');
+    for (const category in this.categoryArray.controls) {
+      if (this.categoryArray.controls[category].get('subcategory').value) {
+        this.getFieldAsFormArray('subcategories').push(this.fb.control(this.categoryArray.controls[category].get('subcategory').value));
       }
     }
     this.categoryArray.disable();
     /** Fill scientific subdomain string array**/
-    this.getFieldAsFormArray('scientificSubdomains').reset();
+    this.getFieldAsFormArray('scientificSubdomains').controls = [];
+    this.getFieldAsFormArray('scientificSubdomains').reset('');
     for (const scientificDomain of this.scientificDomainArray.controls) {
       if (scientificDomain.get('scientificSubDomain').value) {
         this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(scientificDomain.get('scientificSubDomain').value));

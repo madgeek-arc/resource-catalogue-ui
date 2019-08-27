@@ -9,7 +9,7 @@
           <img class="el-image uk-border-rounded"
                src="{{(serviceForm && serviceForm.get('logo').value) ? serviceForm.get('logo').value : 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
                width="50">
-          {{editMode ? "Edit" : "Add"}} a CatRIS service
+          {{editMode ? "Edit" : "Add"}} a {{serviceName}} service
         </h2>
         <!--<hr class="uk-divider-icon uk-scrollspy-inview uk-animation-slide-bottom-small" uk-scrollspy-class="" style="">-->
         <!--<hr class="uk-divider-small">-->
@@ -197,7 +197,7 @@
                             {{optionsDesc.label + (optionsDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
-                            <div *ngFor="let provider of getFieldAsFormArray('options').controls; let i=index">
+                            <div *ngFor="let option of getFieldAsFormArray('options').controls; let i=index">
                               <div [formGroupName]="i" class="uk-margin-small-bottom" style="border: 1px dashed #cccccc; padding-right: 10px">
                                 <a class="remove-element uk-padding-small"
                                    (click)="remove('options', i)">
@@ -253,7 +253,6 @@
                                     </i>
                                   </div>
                                 </div>
-
                               </div>
                             </div>
                             <div class="uk-width-1-1">
@@ -897,18 +896,6 @@
                         </div>
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
-                            {{accessPolicyDesc.label + (accessPolicyDesc.mandatory ? ' (*)' : '')}}
-                          </label>
-                          <div class="uk-width-4-5 uk-form-controls">
-                            <input class="uk-input" type="text" formControlName="accessPolicy"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('accessPolicy').valid && serviceForm.get('accessPolicy').dirty}">
-                            <i>
-                              <small>{{accessPolicyDesc.desc}}</small>
-                            </i>
-                          </div>
-                        </div>
-                        <div class="uk-form-horizontal uk-margin-bottom">
-                          <label class="uk-width-1-5 uk-form-label uk-text-right">
                             {{paymentModelDesc.label + (paymentModelDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
@@ -1193,13 +1180,11 @@
                       </li>
                     </ul>
 
-                    <button type="submit" class="btn btn-primary block full-width m-b">{{editMode ? "Update" : "Add"}}
+                    <button type="submit" class="btn btn-primary butn theme block full-width m-b">{{editMode ? "Update" : "Add"}}
                     </button>
                   </form>
 
-                  <pre *ngIf="this.userService.isDev()">
-                    {{serviceForm.value | json}}
-                  </pre>
+<!--                  <pre>{{serviceForm.value | json}}</pre>-->
                 </div>
               </div>
               <!-- RIGHT HELP CONTENT -->

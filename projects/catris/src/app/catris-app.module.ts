@@ -19,6 +19,10 @@ import {ReusableComponentsModule} from '../../../../src/app/shared/reusablecompo
 import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/cookie-law/cookie-law.module';
 import {TreeviewModule} from 'ngx-treeview';
 import {CompareServicesExtendedComponent} from './pages/compare/compare-services.extended.component';
+import {ServiceUploadExtendedComponent} from './pages/catrisService/service-upload-extended.component';
+import {CKEditorModule} from 'ng2-ckeditor';
+import {ServiceEditExtendedComponent} from './pages/catrisService/service-edit-extended.component';
+import {AccordionSectionCatrisComponent} from './pages/catrisService/accordion-section-catris.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,10 @@ import {CompareServicesExtendedComponent} from './pages/compare/compare-services
     HomeCatrisComponent,
     ServiceLandingPageExtendedComponent,
     SearchExtendedComponent,
-    CompareServicesExtendedComponent
+    CompareServicesExtendedComponent,
+    AccordionSectionCatrisComponent,
+    ServiceUploadExtendedComponent,
+    ServiceEditExtendedComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +50,8 @@ import {CompareServicesExtendedComponent} from './pages/compare/compare-services
     StarRatingModule.forRoot(),
     TreeviewModule.forRoot(),
     ChartModule,
-    CookieLawModule
+    CookieLawModule,
+    CKEditorModule,
   ],
   providers: [],
   bootstrap: [CatrisAppComponent]

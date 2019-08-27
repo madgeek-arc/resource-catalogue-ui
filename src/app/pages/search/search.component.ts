@@ -14,12 +14,8 @@ import {UserService} from '../../services/user.service';
 import {zip} from 'rxjs/internal/observable/zip';
 import {flatMap} from 'rxjs/operators';
 import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
-import {
-  DownlineTreeviewItem, OrderDownlineTreeviewEventParser,
-  TreeviewConfig, TreeviewEventParser, TreeviewItem
-} from 'ngx-treeview';
-import {text} from '@angular/core/src/render3/instructions';
-import {EmailService} from "../../../../projects/catris/src/app/pages/services/email.service";
+import {OrderDownlineTreeviewEventParser, TreeviewConfig, TreeviewEventParser, TreeviewItem} from 'ngx-treeview';
+import {EmailService} from '../../../../projects/catris/src/app/services/email.service';
 
 declare var UIkit: any;
 
@@ -243,7 +239,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
     this.navigationService.paramsObservable.next(null);
   }
 

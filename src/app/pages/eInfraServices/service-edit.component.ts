@@ -164,7 +164,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               this.pushToLocations(i);
             }
           }
-          if (j === 'valueIsRange') { // forms/html cooperate better with strings instead of boolean
+          if (j === 'valueIsRange') { // forms/html cooperates better with strings instead of boolean
             this.measurements.controls[i].get(j).setValue(measurements.results[i][j] + '');
           } else {
             this.measurements.controls[i].get(j).setValue(measurements.results[i][j]);

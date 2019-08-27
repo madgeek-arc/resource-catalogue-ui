@@ -3,8 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeCatrisComponent } from './pages/home/home-catris.component';
 import { ServiceLandingPageExtendedComponent } from './pages/landingpages/service/service-landing-page.extended.component';
 import { SearchExtendedComponent } from './pages/search/search.extended.component';
-import {CompareServicesComponent} from '../../../../src/app/pages/compare/compare-services.component';
 import {CompareServicesExtendedComponent} from './pages/compare/compare-services.extended.component';
+import {CanActivateViaAuthGuard} from '../../../../src/app/services/can-activate-auth-guard.service';
+import {ServiceUploadExtendedComponent} from './pages/catrisService/service-upload-extended.component';
+import {ServiceEditExtendedComponent} from './pages/catrisService/service-edit-extended.component';
 
 const routes: Routes = [
   {
@@ -38,6 +40,22 @@ const routes: Routes = [
     component: CompareServicesExtendedComponent,
     data: {
       breadcrumb: 'Compare'
+    }
+  },
+  {
+    path: 'upload',
+    component: ServiceUploadExtendedComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Upload'
+    }
+  },
+  {
+    path: 'edit/:id',
+    component: ServiceEditExtendedComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Edit'
     }
   },
 ];
