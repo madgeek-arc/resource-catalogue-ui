@@ -5,6 +5,14 @@ export interface Identifiable {
     id: string;
 }
 
+export class EmailMessage {
+  recipientEmail: string;
+  senderEmail: string;
+  senderName: string;
+  subject: string;
+  message: string;
+}
+
 export class Event implements Identifiable {
   id: string;
   instant: number;
