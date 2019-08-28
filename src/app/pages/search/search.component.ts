@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription, timer} from 'rxjs';
@@ -89,7 +89,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     this.listViewActive = true;
 
     zip(
@@ -164,43 +163,8 @@ export class SearchComponent implements OnInit, OnDestroy {
                   checked: false
                 }));
               }
-
-              // for (let i = 0; i < tree.length; i++) {
-              //   const categories: TreeviewItem[] = [];
-              //
-              //   for (let j = 0; j < tree[i].type.length; j++) {
-              //
-              //     const subCategories: TreeviewItem[] = [];
-              //     for (let k = 0; k < tree[i].type[j].type.length; k++) {
-              //       subCategories.push(new TreeviewItem({
-              //           text: tree[i].type[j].type[k].name + ` (${tree[i].type[j].type[k].count})`,
-              //           value: tree[i].type[j].type[k].id,
-              //           checked: false,
-              //           collapsed: true
-              //         }
-              //       ));
-              //     }
-              //     // console.log(subCategories);
-              //     categories.push(new TreeviewItem({
-              //         text: tree[i].type[j].name + ` (${tree[i].type[j].count})`,
-              //         value: tree[i].type[j].id,
-              //         children: subCategories,
-              //         checked: false,
-              //         collapsed: true
-              //       }
-              //     ));
-              //   }
-              //   this.items.push(new TreeviewItem({
-              //       text: tree[i].name + ` (${tree[i].count})`, value: tree[i].id, children: categories, checked: false, collapsed: true
-              //     }
-              //   ));
-              // }
               /** <--Checkbox Category structure!!!**/
               /** Checkbox Scientific Domain structure!!!-->**/
-              // console.log(tree);
-              // console.log(searchResults.facets[5]);
-              // console.log(searchResults.facets[10]);
-              // for (let i = 0; i < searchResults.facets[5].values.length; i++) {
               for (const domainValue of searchResults.facets[2].values) {
                 const domainId = domainValue.value.split('-')[1];
                 // console.log(domainId);

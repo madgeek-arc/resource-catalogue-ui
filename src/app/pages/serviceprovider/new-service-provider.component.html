@@ -29,11 +29,11 @@
             <div class="uk-width-expand@m">
 
               <div class="middle-box animated fadeInDown ">
-                <div class="uk-padding-small uk-border-rounded uk-margin-large-bottom uk-width-2-3" style="border: 1px solid gray;">
-                  <!--<div class="uk-margin-bottom uk-width-2-3">-->
-                  <div class="">
-                    <h5>An administrator will be added using your user information</h5>
-                  </div>
+<!--                <div class="uk-padding-small uk-border-rounded uk-margin-large-bottom uk-width-2-3" style="border: 1px solid gray;">-->
+<!--                  &lt;!&ndash;<div class="uk-margin-bottom uk-width-2-3">&ndash;&gt;-->
+<!--                  <div class="">-->
+<!--                    <h5>An administrator will be added using your user information</h5>-->
+<!--                  </div>-->
 <!--                  <div class="uk-grid uk-grid-margin-small uk-child-width-1-2@m gridView">-->
 <!--                    <div class="serviceDetails uk-margin-small-bottom">-->
 <!--                      <label class="uk-form-label">{{ firstNameDesc.label }}:</label>-->
@@ -54,7 +54,7 @@
 <!--                      <span>{{ userInfo.email }}</span>-->
 <!--                    </div>-->
 <!--                  </div>-->
-                </div>
+<!--                </div>-->
 
                 <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
@@ -142,6 +142,7 @@
                   </div>
                   <div class="uk-margin-small-bottom">
                     <h5>PROVIDER ADMINS</h5>
+                    <i>An administrator will be added using your user information</i>
                   </div>
                   <div *ngIf="newProviderForm.get('users').value">
                     <div formArrayName="users" *ngFor="let user of usersArray.controls; let i = index">

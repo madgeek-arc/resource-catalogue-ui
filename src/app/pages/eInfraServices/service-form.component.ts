@@ -224,7 +224,11 @@ export class ServiceFormComponent implements OnInit {
     }
     /** remove empty options in order to avoid validation conflict **/
     if (this.getFieldAsFormArray('options').length === 1) {
-      // check if needs to be removed
+      if (this.getFieldAsFormArray('options').controls[0].get('name').value === ''
+          && this.getFieldAsFormArray('options').controls[0].get('url').value === ''
+          && this.getFieldAsFormArray('options').controls[0].get('description').value === '') {
+        this.remove('options', 0);
+      }
     }
     this.scientificDomainArray.disable();
     if (this.serviceForm.valid && this.measurementForm.valid) {
@@ -294,19 +298,9 @@ export class ServiceFormComponent implements OnInit {
       }
     );
 
-    // this.serviceForm.get('category').disable();
-    // this.serviceForm.get('subcategory').disable();
-    // const categorySubscription = this.serviceForm.get('supercategory').valueChanges.subscribe(() => {
-    //   this.serviceForm.get('category').enable();
-    //   const subCategorySubscription = this.serviceForm.get('category').valueChanges.subscribe(() => {
-    //     this.serviceForm.get('subcategory').enable();
-    //     subCategorySubscription.unsubscribe();
-    //     categorySubscription.unsubscribe();
-    //   });
-    // });
-
     this.pushCategory();
     this.pushScientificDomain();
+    this.pushToMeasurements();
   }
 
   public setAsTouched() {

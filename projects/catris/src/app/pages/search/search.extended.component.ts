@@ -9,8 +9,10 @@ import {Validators} from '@angular/forms';
 })
 export class SearchExtendedComponent extends SearchComponent implements OnInit, OnDestroy {
   public serviceIdsArray: string[] = [];
+
   emailForm = this.fb.group({
     email: ['', Validators.compose([Validators.required, Validators.email])],
+    name: ['', Validators.required],
     subject: ['', Validators.required],
     text: ['', Validators.required],
   });
@@ -26,10 +28,16 @@ export class SearchExtendedComponent extends SearchComponent implements OnInit, 
     } else {
       this.serviceIdsArray.push(serviceId);
     }
+    if (this.authenticationService.isLoggedIn()) {
+      this.emailForm.get('name').setValue(this.authenticationService.getUserProperty('given_name')
+        + ' ' + this.authenticationService.getUserProperty('family_name'));
+      this.emailForm.get('email').setValue(this.authenticationService.getUserProperty('email'));
+    }
   }
 
   resetForm() {
-    this.emailForm.reset('');
+    this.emailForm.get('subject').reset('');
+    this.emailForm.get('text').reset('');
   }
 
   sendMail() {
