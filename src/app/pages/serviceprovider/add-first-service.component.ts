@@ -5,7 +5,7 @@ import {ServiceFormComponent} from '../eInfraServices/service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ResourceService} from '../../services/resource.service';
 import {MeasurementsPage} from '../../domain/indicators';
-import {Service} from '../../domain/eic-model';
+import {RichService, Service} from '../../domain/eic-model';
 
 @Component({
   selector: 'app-add-first-service',
@@ -29,27 +29,24 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
     this.firstServiceForm = true;
     this.providerId = this.route.snapshot.paramMap.get('id');
     this.serviceId = this.route.snapshot.paramMap.get('serviceId');
-    console.log(this.serviceId);
+    // console.log(this.serviceId);
     this.getFieldAsFormArray('providers').get([0]).setValue(this.providerId);
     if (this.serviceId) {
       this.editMode = true;
-      this.resourceService.getService(this.serviceId).subscribe(service => {
+      this.resourceService.getRichService(this.serviceId).subscribe(richService => {
 
-        /*if (this.userService.canEditService(richService)) {*/
-        ResourceService.removeNulls(service);
-        this.formPrepare(service);
-        this.serviceForm.patchValue(service);
-        const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
-        const date = this.datePipe.transform(lastUpdate, 'yyyy-MM-dd');
-        this.serviceForm.get('lastUpdate').setValue(date);
-        if (this.serviceForm.get('validFor').value) {
-          const validFor = new Date(this.serviceForm.get('validFor').value);
-          const validForDate = this.datePipe.transform(validFor, 'yyyy-MM-dd');
-          this.serviceForm.get('validFor').setValue(validForDate);
+        ResourceService.removeNulls(richService.service);
+        this.formPrepare(richService);
+        this.serviceForm.patchValue(richService.service);
+        for (const i in this.serviceForm.controls) {
+          if (this.serviceForm.controls[i].value === null) {
+            this.serviceForm.controls[i].setValue('');
+          }
         }
-        /*} else {
-            this.location.back();
-        }*/
+        if (this.serviceForm.get('lastUpdate').value) {
+          const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
+          this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
+        }
       },
       err => this.errorMessage = 'Something went bad, server responded: ' + err.error);
       this.resourceService.getServiceMeasurements(this.serviceId).subscribe(measurements => {
@@ -67,36 +64,96 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
     this.successMessage = 'Service uploaded successfully!';
   }
 
-  formPrepare(service: Service) {
-    for (let i = 0; i < service.providers.length - 1; i++) {
+  formPrepare(richService: RichService) {
+
+    this.removeCategory(0);
+    for (let i = 0; i < richService.service.subcategories.length; i++) {
+      this.categoryArray.push(this.newCategory());
+      this.categoryArray.controls[this.categoryArray.length - 1].get('supercategory').setValue(richService.categories[i].superCategory.id);
+      this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.categories[i].category.id);
+      this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.categories[i].subCategory.id);
+    }
+    this.removeScientificDomain(0);
+    for (let i = 0; i < richService.service.scientificSubdomains.length; i++) {
+      this.scientificDomainArray.push(this.newScientificDomain());
+      this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
+        .get('scientificDomain').setValue(richService.domains[i].domain.id);
+      this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
+        .get('scientificSubDomain').setValue(richService.domains[i].subdomain.id);
+    }
+
+    for (let i = 0; i < richService.service.providers.length - 1; i++) {
       this.push('providers', true);
     }
-    for (let i = 0; i < service.places.length - 1; i++) {
+    for (let i = 0; i < richService.service.targetUsers.length - 1; i++) {
+      this.push('targetUsers', true);
+    }
+    for (let i = 0; i < richService.service.places.length - 1; i++) {
       this.push('places', true);
     }
-    for (let i = 0; i < service.languages.length - 1; i++) {
+    for (let i = 0; i < richService.service.languages.length - 1; i++) {
       this.push('languages', true);
     }
-    if (service.tags) {
-      for (let i = 0; i < service.tags.length - 1; i++) {
-        this.push('tags', false);
+    if (richService.service.userBaseList) {
+      for (let i = 0; i < richService.service.userBaseList.length - 1; i++) {
+        this.push('userBaseList', false);
       }
     }
-    if (service.requiredServices) {
-      for (let i = 0; i < service.requiredServices.length - 1; i++) {
+    if (richService.service.useCases) {
+      for (let i = 0; i < richService.service.useCases.length - 1; i++) {
+        this.push('useCases', false);
+      }
+    }
+    if (richService.service.multimediaUrls) {
+      for (let i = 0; i < richService.service.multimediaUrls.length - 1; i++) {
+        this.push('multimediaUrls', false);
+      }
+    }
+    if (richService.service.options) {
+      for (let i = 0; i < richService.service.options.length - 1; i++) {
+        this.pushOption();
+      }
+    }
+    if (richService.service.requiredServices) {
+      for (let i = 0; i < richService.service.requiredServices.length - 1; i++) {
         this.push('requiredServices', false);
       }
     }
-    if (service.relatedServices) {
-      for (let i = 0; i < service.relatedServices.length - 1; i++) {
+    if (richService.service.relatedServices) {
+      for (let i = 0; i < richService.service.relatedServices.length - 1; i++) {
         this.push('relatedServices', false);
       }
     }
-    // if (service.termsOfUse) {
-    //   for (let i = 0; i < service.termsOfUse.length - 1; i++) {
-    //     this.push('termsOfUse', false, true);
-    //   }
-    // }
+    if (richService.service.accessTypes) {
+      for (let i = 0; i < richService.service.accessTypes.length - 1; i++) {
+        this.push('accessTypes', false);
+      }
+    }
+    if (richService.service.accessModes) {
+      for (let i = 0; i < richService.service.accessModes.length - 1; i++) {
+        this.push('accessModes', false);
+      }
+    }
+    if (richService.service.funders) {
+      for (let i = 0; i < richService.service.funders.length - 1; i++) {
+        this.push('funders', false);
+      }
+    }
+    if (richService.service.tags) {
+      for (let i = 0; i < richService.service.tags.length - 1; i++) {
+        this.push('tags', false);
+      }
+    }
+    if (richService.service.certifications) {
+      for (let i = 0; i < richService.service.certifications.length - 1; i++) {
+        this.push('certifications', false);
+      }
+    }
+    if (richService.service.standards) {
+      for (let i = 0; i < richService.service.standards.length - 1; i++) {
+        this.push('standards', false);
+      }
+    }
   }
 
   measurementsFormPatch(measurements: MeasurementsPage) {
