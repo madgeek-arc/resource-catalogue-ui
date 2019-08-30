@@ -210,8 +210,8 @@
 
             </div>
 
-            <div *ngIf="serviceIdsArray.length > 0" class="" style="position: fixed; background: transparent none repeat scroll 0% 0%; width: 195px; height: 250px; right: 0px; top: calc(80% ); z-index: 100; display: block;">
-              <a  href="#email-modal" uk-toggle><i class="fa fa-share fa-4x" aria-hidden="true"></i></a>
+            <div *ngIf="serviceIdsArray.length > 0" class="uk-float-right " style="z-index: 100; bottom: 25px; position: fixed; right: 25px;">
+              <button class="uk-button butn theme" href="#email-modal" uk-toggle>Ask for info <i class="fa fa-comment fa-2x" aria-hidden="true"></i></button>
             </div>
 
             <div class="uk-width-1-1 uk-row-first">
@@ -510,48 +510,55 @@
 
 <!--Email modal-->
 <div id="email-modal" class="uk-modal-container" uk-modal="bg-close: false">
-  <div class="uk-modal-dialog uk-modal-body">
-    <form class="uk-form-horizontal uk-margin-large" [formGroup]="emailForm">
+  <div class="uk-modal-dialog">
+    <div *ngIf="emailErrorMessage" class="uk-modal-header uk-alert-danger">
+      {{emailErrorMessage}}
+    </div>
+    <div class="uk-modal-body">
+      <form class="uk-form-horizontal uk-margin-large" [formGroup]="emailForm">
 
-      <div class="uk-margin">
-        <label class="uk-form-label" for="email">Email</label>
-        <div class="uk-form-controls">
-          <input class="uk-input" id="email" type="text" placeholder="An email to contact you" formControlName="email"
-                 [ngClass]="{'uk-form-danger': !emailForm.get('email').valid && emailForm.get('email').dirty}">
+        <div class="uk-margin">
+          <label class="uk-form-label" for="email">Email</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="email" type="text" placeholder="An email to contact you"
+                   formControlName="senderEmail"
+                   [ngClass]="{'uk-form-danger': !emailForm.get('senderEmail').valid && emailForm.get('senderEmail').dirty}">
+          </div>
         </div>
-      </div>
 
-      <div class="uk-margin">
-        <label class="uk-form-label" for="name">Name</label>
-        <div class="uk-form-controls">
-          <input class="uk-input" id="name" type="text" placeholder="Your name" formControlName="name"
-                 [ngClass]="{'uk-form-danger': !emailForm.get('name').valid && emailForm.get('name').dirty}">
+        <div class="uk-margin">
+          <label class="uk-form-label" for="name">Name</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="name" type="text" placeholder="Your name" formControlName="senderName"
+                   [ngClass]="{'uk-form-danger': !emailForm.get('senderName').valid && emailForm.get('senderName').dirty}">
+          </div>
         </div>
-      </div>
 
-      <div class="uk-margin">
-        <label class="uk-form-label" for="subject">Subject</label>
-        <div class="uk-form-controls">
-          <input class="uk-input" id="subject" type="text" placeholder="Quick description of your question"
-                 formControlName="subject"
-                 [ngClass]="{'uk-form-danger': !emailForm.get('subject').valid && emailForm.get('subject').dirty}">
+        <div class="uk-margin">
+          <label class="uk-form-label" for="subject">Subject</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="subject" type="text" placeholder="Quick description of your question"
+                   formControlName="subject"
+                   [ngClass]="{'uk-form-danger': !emailForm.get('subject').valid && emailForm.get('subject').dirty}">
+          </div>
         </div>
-      </div>
 
-      <div class="uk-margin">
-        <label class="uk-form-label" for="textarea">Text</label>
-        <div class="uk-form-controls">
-          <textarea class="uk-textarea" id="textarea" rows="4" formControlName="text"
-                    [ngClass]="{'uk-form-danger': !emailForm.get('text').valid && emailForm.get('text').dirty}">
+        <div class="uk-margin">
+          <label class="uk-form-label" for="textarea">Text</label>
+          <div class="uk-form-controls">
+          <textarea class="uk-textarea" id="textarea" rows="4" formControlName="message"
+                    [ngClass]="{'uk-form-danger': !emailForm.get('message').valid && emailForm.get('message').dirty}">
           </textarea>
+          </div>
         </div>
-      </div>
 
-    </form>
-<!--    <pre>{{emailForm.value | json}}</pre>-->
-    <div class="uk-float-right">
-      <button class="uk-button butn theme uk-modal-close" type="button" (click)="resetForm()">Cancel</button>
-      <button class="uk-button butn theme uk-margin-small-left" type="button" (click)="sendMail()">Send</button>
+      </form>
+      <!--    <pre>{{emailForm.value | json}}</pre>-->
+      <div class="uk-float-right">
+        <button class="uk-button butn theme uk-modal-close" type="button" (click)="resetForm()">Cancel</button>
+        <button class="uk-button butn theme uk-margin-small-left" type="button" (click)="sendMail()">Send</button>
+      </div>
     </div>
   </div>
 </div>
+<!--Email modal end-->

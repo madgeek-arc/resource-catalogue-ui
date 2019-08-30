@@ -10,7 +10,6 @@ import {ProvidersPage} from '../domain/funders-page';
 import {URLParameter} from '../domain/url-parameter';
 import {Observable, throwError} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {optionsDesc} from '../pages/eInfraServices/services.description';
 
 declare var UIkit: any;
 
@@ -293,13 +292,11 @@ export class ResourceService {
   }
 
   uploadService(service: Service, shouldPut: boolean) {
-    return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + '/service', service, this.options)
-      ;
+    return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + '/service', service, this.options);
   }
 
   uploadServiceWithMeasurements(service: Service, measurements: Measurement[]) {
-    return this.http.put<Service>(this.base + '/service/serviceWithMeasurements', {service, measurements}, this.options)
-      ;
+    return this.http.put<Service>(this.base + '/service/serviceWithMeasurements', {service, measurements}, this.options);
   }
 
   getFeaturedServices() {
