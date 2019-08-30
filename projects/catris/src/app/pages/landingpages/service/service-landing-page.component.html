@@ -69,17 +69,17 @@
                 </div>
 
                 <div class="uk-margin-small-bottom uk-margin-small-top">
-                  <star-rating-comp #rating (click)="rateService(rating.rating)"
-                                    [starType]="'svg'" [rating]="richService.hasRate" [step]="1"
-                                    [showHalfStars]="true"
-                                    [readOnly]=!this.authenticationService.isLoggedIn()
-                                    [size]="'medium'"
-                                    [staticColor]="'ok'" title="Rate this service"
-                                    uk-tooltip="delay: 500" class="uk-inline starRating"
-                                    labelText="{{richService.hasRate}} ({{ richService.ratings }})"
-                                    [labelVisible]="true" [labelPosition]="'right'"
-                                    [hoverEnabled]="true">
-                  </star-rating-comp>
+<!--                  <star-rating-comp #rating (click)="rateService(rating.rating)"-->
+<!--                                    [starType]="'svg'" [rating]="richService.hasRate" [step]="1"-->
+<!--                                    [showHalfStars]="true"-->
+<!--                                    [readOnly]=!this.authenticationService.isLoggedIn()-->
+<!--                                    [size]="'medium'"-->
+<!--                                    [staticColor]="'ok'" title="Rate this service"-->
+<!--                                    uk-tooltip="delay: 500" class="uk-inline starRating"-->
+<!--                                    labelText="{{richService.hasRate}} ({{ richService.ratings }})"-->
+<!--                                    [labelVisible]="true" [labelPosition]="'right'"-->
+<!--                                    [hoverEnabled]="true">-->
+<!--                  </star-rating-comp>-->
                   <span class="uk-margin-medium-left">
                     <a (click)="addToFavourites()" style="color: rgb(55, 131, 63)">
                       <i [ngClass]="richService.isFavourite ? 'fa fa-heart' : 'fa fa-heart-o'"></i>

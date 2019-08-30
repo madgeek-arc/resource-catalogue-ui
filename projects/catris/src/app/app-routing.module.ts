@@ -7,6 +7,7 @@ import {CompareServicesExtendedComponent} from './pages/compare/compare-services
 import {CanActivateViaAuthGuard} from '../../../../src/app/services/can-activate-auth-guard.service';
 import {ServiceUploadExtendedComponent} from './pages/catrisService/service-upload-extended.component';
 import {ServiceEditExtendedComponent} from './pages/catrisService/service-edit-extended.component';
+import {AddFistServiceExtendedComponent} from './pages/catrisService/add-fist-service-extended.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,22 @@ const routes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit'
+    }
+  },
+  {
+    path: 'newServiceProvider/:id/addFirstService',
+    component: AddFistServiceExtendedComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'First Service Form'
+    }
+  },
+  {
+    path: 'newServiceProvider/:id/editFirstService/:serviceId',
+    component: AddFistServiceExtendedComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Edit First Service'
     }
   },
 ];

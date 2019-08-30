@@ -54,15 +54,15 @@
             <th class="uk-width-1-4"></th>
             <th *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4" [ngClass]="{evenColumn: i%2==1}">
               <div class="uk-margin-bottom">
-                <star-rating-comp #rating (click)="rateService(i, rating.rating)"
-                                  [starType]="'svg'" [rating]="richService.hasRate" [step]="1"
-                                  [showHalfStars]="true" [readOnly]=!this.authenticationService.isLoggedIn()
-                                  [size]="'medium'"
-                                  [staticColor]="'ok'" class="uk-inline starRating"
-                                  labelText="{{richService.hasRate}} ({{ richService.ratings }})" [labelVisible]="true"
-                                  [labelPosition]="'right'"
-                                  [hoverEnabled]="true">
-                </star-rating-comp>
+<!--                <star-rating-comp #rating (click)="rateService(i, rating.rating)"-->
+<!--                                  [starType]="'svg'" [rating]="richService.hasRate" [step]="1"-->
+<!--                                  [showHalfStars]="true" [readOnly]=!this.authenticationService.isLoggedIn()-->
+<!--                                  [size]="'medium'"-->
+<!--                                  [staticColor]="'ok'" class="uk-inline starRating"-->
+<!--                                  labelText="{{richService.hasRate}} ({{ richService.ratings }})" [labelVisible]="true"-->
+<!--                                  [labelPosition]="'right'"-->
+<!--                                  [hoverEnabled]="true">-->
+<!--                </star-rating-comp>-->
                 <span class="uk-margin-medium-left">
                     <img src="../../../assets/images/icons/ic_visit_icon.svg">
                     <span class="statsNumbers">&nbsp;&nbsp;({{ richService.views }})</span>
