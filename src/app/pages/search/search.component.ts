@@ -129,9 +129,16 @@ export class SearchComponent implements OnInit, OnDestroy {
           searchResults => {
             this.updateSearchResults(searchResults);
             // console.log(searchResults.results);
-            if (this.items.length === 0) {
+            // if (this.items.length === 0) {
               /** Checkbox Category structure!!!-->**/
-              // this.items = [];
+              let subCategoriesArray: string[] = [];
+              for (const param of this.urlParameters) {
+                if (param.key === 'subcategories') {
+                  subCategoriesArray = param.values;
+                  break;
+                }
+              }
+              this.items = [];
               for (const superCategory of searchResults.facets[0].values) {
                 const superCat = superCategory.value.split('-')[1];
                 const categories: TreeviewItem[] = [];
@@ -141,8 +148,15 @@ export class SearchComponent implements OnInit, OnDestroy {
                     const subCategories: TreeviewItem[] = [];
                     for (const subCategory of searchResults.facets[3].values) {
                       if (catId === subCategory.value.split('-')[2]) {
+                        let checked = false;
+                        for (let i = 0; i < subCategoriesArray.length; i++) {
+                          if (subCategoriesArray[i] === subCategory.value) {
+                            checked = true;
+                            break;
+                          }
+                        }
                         subCategories.push(new TreeviewItem({
-                          text: subCategory.label + ` (${subCategory.count})`, value: subCategory.value, collapsed: true, checked: false
+                          text: subCategory.label + ` (${subCategory.count})`, value: subCategory.value, collapsed: true, checked: checked
                         }));
                       }
                     }
@@ -165,18 +179,33 @@ export class SearchComponent implements OnInit, OnDestroy {
               }
               /** <--Checkbox Category structure!!!**/
               /** Checkbox Scientific Domain structure!!!-->**/
+              let subScientificDomainArray: string[] = [];
+              for (const param of this.urlParameters) {
+                if (param.key === 'scientific_subdomains') {
+                  subScientificDomainArray = param.values;
+                  break;
+                }
+              }
+              this.scientificDomain = [];
               for (const domainValue of searchResults.facets[2].values) {
                 const domainId = domainValue.value.split('-')[1];
                 // console.log(domainId);
                 const subDomain: TreeviewItem[] = [];
                 for (const subDomainValue of searchResults.facets[5].values) {
                   const subDomainId = subDomainValue.value.split('-')[1];
+                  let checked = false;
+                  for (let i = 0; i < subScientificDomainArray.length; i++) {
+                    if (subScientificDomainArray[i] === subDomainValue.value) {
+                      checked = true;
+                      break;
+                    }
+                  }
                   // console.log(subDomainId);
                   if (domainId === subDomainId) {
                     subDomain.push(new TreeviewItem({
                       text: subDomainValue.label + ` (${subDomainValue.count})`,
                       value: subDomainValue.value,
-                      checked: false,
+                      checked: checked,
                       collapsed: true
                     }));
                   }
@@ -190,7 +219,7 @@ export class SearchComponent implements OnInit, OnDestroy {
                 }));
               }
               /** <--Checkbox Scientific Domain structure!!!**/
-            }
+            // }
           },
           error => {},
           () => {
@@ -336,6 +365,19 @@ export class SearchComponent implements OnInit, OnDestroy {
           }
         }
       }
+      // if (category === 'subcategories') {
+      //   // console.log(this.items);
+      //   for (const i of this.items) {
+      //     for (const j of i.children ) {
+      //       for (const k of j.children ) {
+      //         if (k.value === value) {
+      //           k.checked = false;
+      //         }
+      //       }
+      //     }
+      //     i.correctChecked();
+      //   }
+      // } // redundant at this point.
       categoryIndex++;
       if (category === 'query') {
         this.searchForm.get('query').setValue('');

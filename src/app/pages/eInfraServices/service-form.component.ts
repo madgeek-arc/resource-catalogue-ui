@@ -207,7 +207,6 @@ export class ServiceFormComponent implements OnInit {
     }
     /** Fill subcategory string array**/
     this.getFieldAsFormArray('subcategories').controls = [];
-    // this.getFieldAsFormArray('subcategories').reset('');
     for (const category in this.categoryArray.controls) {
       if (this.categoryArray.controls[category].get('subcategory').value) {
         this.getFieldAsFormArray('subcategories').push(this.fb.control(this.categoryArray.controls[category].get('subcategory').value));
@@ -216,7 +215,6 @@ export class ServiceFormComponent implements OnInit {
     this.categoryArray.disable();
     /** Fill scientific subdomain string array**/
     this.getFieldAsFormArray('scientificSubdomains').controls = [];
-    this.getFieldAsFormArray('scientificSubdomains').reset('');
     for (const scientificDomain of this.scientificDomainArray.controls) {
       if (scientificDomain.get('scientificSubDomain').value) {
         this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(scientificDomain.get('scientificSubDomain').value));
