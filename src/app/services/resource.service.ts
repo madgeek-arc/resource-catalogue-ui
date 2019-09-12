@@ -12,6 +12,7 @@ import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/internal/operators/catchError';
 import {from} from 'rxjs/internal/observable/from';
 import {map} from 'rxjs/operators';
+import {Info} from '../../../projects/EOSC/src/app/domain/info';
 
 declare var UIkit: any;
 
@@ -345,6 +346,12 @@ export class ResourceService {
 
   getServiceHistory(serviceId: string) {
     return this.http.get<SearchResults<ServiceHistory>>(this.base + `/service/history/${serviceId}/`);
+  }
+
+  getInfo() {
+    return this.http.get<Info>(this.base + `/info/all`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   public handleError(error: HttpErrorResponse) {

@@ -37,6 +37,21 @@
             </div>
           </div>
         </div>
+        <div class="uk-container uk-margin-medium">
+          <div class="search_box_bg uk-grid-collapse uk-grid uk-grid-stack" uk-grid="">
+            <div class="uk-width-1-1@m uk-first-column">
+              <h1 class="el-title uk-margin uk-h1 uk-text-primary uk-text-center"
+                  style="color: #fff !important; font-size: 40px; text-transform: initial;">
+                <span *ngIf="info && info.services">{{info.services}}</span>
+                <span *ngIf="!info || !info.services">N/A</span>
+                services and resources offered by
+                <span *ngIf="info && info.providers">{{info.providers}}</span>
+                <span *ngIf="!info || !info.providers">N/A</span>
+                SPs from the public and private sector.
+              </h1>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

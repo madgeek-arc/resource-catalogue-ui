@@ -4,7 +4,6 @@ import {NgModule} from '@angular/core';
 
 import {EoscAppComponent} from './eosc-app.component';
 import {HomeEoscComponent} from './pages/home/home-eosc.component';
-import {ResourceServiceExtended} from './services/resource.service.extended';
 import {FooterComponent} from './shared/footer/footer.component';
 import {BreadcrumbsComponent} from './shared/breadcrumbs/breadcrumbs.component';
 import {TopMenuComponent} from './shared/topmenu/topmenu.component';
@@ -17,6 +16,7 @@ import {ReusableComponentsModule} from '../../../../src/app/shared/reusablecompo
 import {SharedModule} from '../../../../src/app/shared/shared.module';
 import {StarRatingModule} from 'angular-star-rating';
 import {ChartModule} from 'angular2-highcharts';
+import {ResourceService} from '../../../../src/app/services/resource.service';
 
 
 @NgModule({
@@ -42,8 +42,8 @@ import {ChartModule} from 'angular2-highcharts';
     StarRatingModule.forRoot(),
     ChartModule
   ],
-  providers: [
-    ResourceServiceExtended
+  providers: [ // this can be removed
+    ResourceService
   ],
   bootstrap: [EoscAppComponent]
 })

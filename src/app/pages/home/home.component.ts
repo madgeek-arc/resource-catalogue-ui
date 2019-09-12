@@ -8,6 +8,7 @@ import {SearchQuery} from '../../domain/search-query';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {SearchResults} from '../../domain/search-results';
+import {Info} from '../../../../projects/EOSC/src/app/domain/info';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
   private step = 4;
   private index = 0;
 
+  public info: Info;
 
   constructor(public fb: FormBuilder, public router: NavigationService, public resourceService: ResourceService) {
     this.searchForm = fb.group({'query': ['']});
@@ -38,6 +40,10 @@ export class HomeComponent implements OnInit {
         this.categoriesResults = suc;
         this.categories = this.categoriesResults.results[0];
       }
+    );
+
+    this.resourceService.getInfo().subscribe(
+      suc => this.info = suc
     );
 
     this.resourceService.getFeaturedServices().subscribe(

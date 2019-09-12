@@ -5,7 +5,7 @@ import {SearchQuery} from '../../../../../../src/app/domain/search-query';
 import {NavigationService} from '../../../../../../src/app/services/navigation.service';
 import {SearchResults} from '../../../../../../src/app/domain/search-results';
 import {Info} from '../../domain/info';
-import {ResourceServiceExtended} from '../../services/resource.service.extended';
+import {ResourceService} from '../../../../../../src/app/services/resource.service';
 
 @Component({
   selector: 'app-home',
@@ -26,11 +26,10 @@ export class HomeEoscComponent implements OnInit {
 
   public info: Info;
 
-
   constructor(
     public fb: FormBuilder,
     public router: NavigationService,
-    public resourceService: ResourceServiceExtended) {
+    public resourceService: ResourceService) {
     this.searchForm = fb.group({'query': ['']});
   }
 
