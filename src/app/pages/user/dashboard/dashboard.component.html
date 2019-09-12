@@ -37,8 +37,10 @@
                   <div *ngIf="provider && (provider.status === 'pending service template approval')"
                        class="uk-float-right">
                     <button routerLink="{{ '/newServiceProvider/' + providerId + '/addFirstService' }}"
-                            class="uk-button uk-button-secondary">Add first service
-                    </button>
+                            class="uk-button uk-button-secondary">Add first service</button>
+                  </div>
+                  <div *ngIf="provider && (provider.status === 'approved')" class="uk-float-right uk-margin-right">
+                    <button routerLink="{{'/messages/' + provider.id}}" class="uk-button uk-button-secondary">Messages</button>
                   </div>
                 </div>
               </div>

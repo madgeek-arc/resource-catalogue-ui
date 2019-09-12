@@ -129,7 +129,7 @@ export class SearchComponent implements OnInit, OnDestroy {
           searchResults => {
             this.updateSearchResults(searchResults);
             // console.log(searchResults.results);
-            // if (this.items.length === 0) {
+            if (searchResults.facets.length !== 0) {
               /** Checkbox Category structure!!!-->**/
               let subCategoriesArray: string[] = [];
               for (const param of this.urlParameters) {
@@ -219,7 +219,7 @@ export class SearchComponent implements OnInit, OnDestroy {
                 }));
               }
               /** <--Checkbox Scientific Domain structure!!!**/
-            // }
+            }
           },
           error => {},
           () => {
