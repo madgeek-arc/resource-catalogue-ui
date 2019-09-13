@@ -1,0 +1,830 @@
+<div *ngIf="errorMessage" class="tm-main uk-section uk-section-default" uk-height-viewport="expand: true"
+     style="box-sizing: border-box;">
+  <div class="uk-container uk-container">
+    <div class="uk-width-expand@m uk-first-column">
+      <div data-uk-alert="" class="uk-alert uk-alert-danger">
+        <p>{{errorMessage}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="service && !errorMessage">
+  <div class="tm-main uk-section uk-section-secondary" uk-height-viewport="expand: true"
+       style="box-sizing: border-box;">
+    <div class="uk-container">
+      <div class="uk-grid" uk-grid="">
+        <div class="uk-width-2-3">
+          <div class="uk-display-inline-block uk-vertical-align-top">
+            <h2 class="uk-h2 uk-inline" style="margin-bottom: 5px">
+              {{service.name || "Not Available"}}
+
+              <span class="uk-margin-left" *ngIf="canEditService">
+                                        <a (click)="this.router.edit(service.id)" routerLinkActive="active"><i
+                                          class="fa fa-pencil"></i></a>
+                                    </span>
+            </h2>
+            <div *ngIf="service.tagline && (service.tagline.length>0)" class="tagLine">
+              {{service.tagline}}
+            </div>
+            <div>
+              <star-rating-comp #rating (click)="rateService(rating.rating)"
+                                [starType]="'svg'" [rating]="service.hasRate" [step]="1"
+                                [showHalfStars]="true"
+                                [readOnly]=!this.authenticationService.isLoggedIn()
+                                [size]="'medium'"
+                                [staticColor]="'ok'" title="Rate this service"
+                                uk-tooltip="delay: 500" class="uk-inline starRating"
+                                labelText="{{service.hasRate}} ({{ service.ratings }})"
+                                [labelVisible]="true" [labelPosition]="'right'"
+                                [hoverEnabled]="true">
+              </star-rating-comp>
+              <span class="uk-margin-medium-left">
+                    <a (click)="addToFavourites()">
+                        <i [ngClass]="service.isFavourite?'fa fa-heart':'fa fa-heart-o'"></i>
+                    </a>
+                    <span class="statsNumbers">{{service.favourites || 0}}</span>
+                  </span>
+              <span class="uk-margin-medium-left">
+                      <img src="../../../../assets/images/icons/ic_visit_icon.svg">
+                      <span class="statsNumbers">{{service.views || 0}}</span>
+                  </span>
+            </div>
+            <div class="tags" *ngIf="service.categoryName || service.subCategoryName">
+              <span><strong>Categorization: </strong></span>
+              <!--TODO remove as hardcoded-->
+              <span class="uk-label">Sharing & Discovery</span>
+              <span> --> </span>
+              <span class="uk-label">Aggregators & Integrators</span>
+              <span> --> </span>
+              <span class="uk-label">Software & Data</span>
+              <!--<span *ngIf="service.categoryName" class="uk-label">{{service.categoryName}}</span>-->
+              <!--<span> &ndash;&gt; </span>-->
+              <!--<span *ngIf="service.subCategoryName" class="uk-label">{{service.subCategoryName}}</span>-->
+            </div>
+
+            <!--TODO remove as hardcoded-->
+            <div class="tags">
+              <span><strong>Scientific Categorization: </strong></span>
+              <!--TODO remove as hardcoded-->
+              <span class="uk-label">Interdisciplinary</span>
+              <span> --> </span>
+              <span class="uk-label">Interdisciplinary</span>
+              <!--<span *ngIf="service.categoryName" class="uk-label">{{service.categoryName}}</span>-->
+              <!--<span> &ndash;&gt; </span>-->
+              <!--<span *ngIf="service.subCategoryName" class="uk-label">{{service.subCategoryName}}</span>-->
+            </div>
+
+            <div class="serviceDescription" *ngIf="service.description">
+              <p [innerHTML]="service.description">
+              </p>
+            </div>
+
+            <!--TODO remove as hardcoded-->
+            <div class="badges uk-margin-bottom">
+              <span class="uk-badge uk-margin-small-right">Open Science</span>
+              <span class="uk-badge uk-margin-small-right">data</span>
+              <span class="uk-badge uk-margin-small-right">dataset</span>
+              <span class="uk-badge uk-margin-small-right">data archive</span>
+              <span class="uk-badge uk-margin-small-right">library</span>
+              <span class="uk-badge uk-margin-small-right">repository</span>
+            </div>
+
+            <div>
+              <a class="uk-button butn theme" href="{{service.url}}" target="_blank"
+                 routerLinkActive="active">
+                <!--<a class="uk-width-1-1 uk-button uk-button-primary visitButton" href="{{service.url}}" target="_blank" routerLinkActive="active">-->
+                <strong>Service Homepage</strong>
+              </a>
+              <a *ngIf="service.order" class="uk-button butn theme uk-margin-left"
+                 href="{{service.order}}" routerLinkActive="active" target="_blank">
+                <strong>Service order</strong>
+              </a>
+            </div>
+
+          </div>
+        </div>
+        <div class="uk-width-1-3">
+          <div class="uk-card uk-card-body uk-card-custom providerCard">
+            <img src="{{(service.symbol) ? service.symbol : 'http://fvtelibrary.com/img/user/NoLogo.png'}}">
+            <!--TODO remove as hardcoded-->
+            <span class="provider"> OpenAIRE, CERN</span>
+            <!--<span class="provider" *ngFor="let provider of service.providers; let i = index">-->
+                    <!--<br *ngIf="i > 0">{{ provider | uppercase }}-->
+                <!--</span>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tm-main uk-section uk-section-default" uk-height-viewport="expand: true"
+       style="box-sizing: border-box;">
+    <div class="uk-container">
+      <div class="uk-grid" uk-grid="">
+        <div class="uk-width-2-3">
+
+
+
+          <!--USAGE-->
+          <div>
+            <h2 class="section-heading uk-h2">Usage</h2>
+            <dl class="uk-description-list">
+              <div *ngIf="service.trl" class="uk-margin-bottom">
+                <dt class="uk-margin-small-right">Technology readiness level</dt>
+                <dd class="">{{service.trlName}}</dd>
+              </div>
+              <div *ngIf="service.lifeCycleStatus" class="uk-margin-bottom">
+                <dt class="uk-margin-small-right">Lifecycle Status</dt>
+                <dd class="">{{service.lifeCycleStatusName}}</dd>
+              </div>
+            </dl>
+            <!--<hr class="customDivider">-->
+            <dl class="uk-description-list">
+              <!--TODO remove as hardcoded-->
+              <dt class="">Access type</dt>
+              <dd>Virtual</dd>
+              <dt class="">Access mode</dt>
+              <dd>Wide access</dd>
+              <!--<ng-container *ngIf="service.options">-->
+                <!--<dt class="">Options</dt>-->
+                <!--<dd>{{service.options}}</dd>-->
+              <!--</ng-container>-->
+              <ng-container *ngIf="service.targetUsers">
+                <dt class="">Target Users</dt>
+                <dd>{{service.targetUsers}}</dd>
+              </ng-container>
+              <ng-container *ngIf="service.userValue">
+                <dt class="">User value</dt>
+                <dd>{{service.userValue}}</dd>
+              </ng-container>
+              <ng-container *ngIf="service.userBase">
+                <dt class="">User base</dt>
+                <dd>{{service.userBase}}</dd>
+              </ng-container>
+              <!--TODO remove as hardcoded-->
+                <dt class="">Use cases</dt>
+                <dd>FP7 and H2020 Outputs, Outputs from or related to the Confederation of Open Access Repositories (COAR), Helix Nebula, etc.</dd>
+            </dl>
+          </div>
+
+          <!--SERVICE COVERAGE-->
+          <div class="uk-margin-medium-top">
+            <h2 class="section-heading uk-h2">Service coverage</h2>
+            <div class="uk-grid">
+              <div class="uk-width-3-5">
+                <div style="width:100%; border: 1px solid #dedede" *ngIf="serviceMapOptions">
+                  <chart type="Map" [options]="serviceMapOptions"></chart>
+                </div>
+              </div>
+              <div class="uk-width-2-5">
+                <dl class="uk-description-list">
+                  <ng-container *ngIf="service.placeNames && service.placeNames.length>0">
+                    <dt class="">Places</dt>
+                    <dd>
+                      <span>{{service.placeNames | join:", "}}</span>
+                    </dd>
+                  </ng-container>
+                  <ng-container *ngIf="service.languageNames && service.languageNames.length>0">
+                    <dt class="">Languages</dt>
+                    <dd>
+                      <span>{{service.languageNames | join:", "}}</span>
+                    </dd>
+                  </ng-container>
+                </dl>
+              </div>
+            </div>
+          </div>
+
+          <!--FUNDING-->
+          <div *ngIf="service.funding" class="uk-margin-medium-top">
+            <h2 class="section-heading uk-h2">Funding</h2>
+            <dl class="uk-description-list">
+              <!--<dt class="uk-margin-small-bottom">Funding sources</dt>-->
+              <!--TODO remove as hardcoded-->
+              <dd>Zenodo is funded by: a) European Commission via the OpenAIRE projects: FP7: OpenAIRE (246686), OpenAIREplus (283595), Horizon 2020: OpenAIRE2020 (643410), OpenAIRE-Connect (731011) and OpenAIRE-Advance (777541), b) CERN,
+                c) Alfred P. Sloan Foundation, d) Donations via CERN & Society Foundation. Zenodo is developed and supported as a marginal activity, and hosted on top of existing infrastructure and services at CERN, in order to reduce operational costs and rely on existing efforts for High Energy Physics. CERN has some of the world’s top experts in running large scale research data infrastructures and digital repositories that we rely on in order to deliver a trusted digital repository.</dd>
+              <!--<dd>{{service.funding}}</dd>-->
+            </dl>
+          </div>
+
+
+        </div>
+        <div class="uk-width-1-3">
+
+          <div class="uk-card uk-card-body uk-card-primary sideInfo">
+            <h2 class="uk-h2 sidebarHeaders">Contractual Info</h2>
+            <!--TODO remove hardcoded-->
+            <div class="uk-margin-bottom" style="font-size: 17px">
+              Fully open Access
+            </div>
+            <!--<div *ngIf="service.price" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{service.price}}">-->
+                <!--Price <i class="fa fa-long-arrow-right"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+            <div *ngIf="service.serviceLevelAgreement" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.serviceLevelAgreement}}">
+                Service level agreement <i class="fa fa-long-arrow-right"></i>
+              </a>
+            </div>
+            <ng-container *ngIf="service.termsOfUse && service.termsOfUse.length > 0">
+              <div *ngIf="service.termsOfUse.length==1" class="uk-margin-small-bottom">
+                <a class="uk-margin-small-right" target="_blank" href="{{service.termsOfUse[0]}}">
+                  Terms of use <i class="fa fa-long-arrow-right"></i>
+                </a>
+              </div>
+              <ng-container *ngIf="service.termsOfUse.length>1">
+                <div *ngFor="let term of service.termsOfUse; let i = index;"
+                     class="uk-margin-small-bottom">
+                  <a class="uk-margin-small-right" target="_blank" href="{{service.termsOfUse[i]}}">
+                    Terms of use {{i + 1}} <i class="fa fa-long-arrow-right"></i>
+                  </a>
+                </div>
+              </ng-container>
+            </ng-container>
+            <!--TODO remove hardcoded-->
+            <div class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.serviceLevelAgreement}}">
+                Privacy policy <i class="fa fa-long-arrow-right"></i>
+              </a>
+            </div>
+            <!--TODO remove hardcoded-->
+            <div class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.serviceLevelAgreement}}">
+                Access policy <i class="fa fa-long-arrow-right"></i>
+              </a>
+            </div>
+            <!--TODO remove hardcoded-->
+            <div class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.serviceLevelAgreement}}">
+                Payment model <i class="fa fa-long-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="uk-card uk-card-body uk-card-primary sideInfo uk-margin-top">
+            <h2 class="uk-h2 sidebarHeaders">Support</h2>
+            <div *ngIf="service.userManual" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.userManual}}">
+                Manual <i class="fa fa-long-arrow-right"></i>
+              </a>
+            </div>
+            <div *ngIf="service.trainingInformation" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.trainingInformation}}">
+                Training <i class="fa fa-long-arrow-right"></i>
+              </a>
+            </div>
+            <div *ngIf="service.helpdesk" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.helpdesk}}">
+                Helpdesk <i class="fa fa-long-arrow-right"></i>
+              </a>
+            </div>
+            <!--<div *ngIf="service.feedback" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{service.feedback}}">-->
+                <!--Feedback <i class="fa fa-long-arrow-right"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+            <!--TODO remove hardcoded-->
+            <div *ngIf="service.feedback" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.feedback}}">
+                Monitoring <i class="fa fa-long-arrow-right"></i>
+              </a>
+            </div>
+            <!--TODO remove hardcoded-->
+            <div *ngIf="service.feedback" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{service.feedback}}">
+                Maintenance <i class="fa fa-long-arrow-right"></i>
+              </a>
+            </div>
+            <!--TODO remove hardcoded-->
+            <div class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank"
+                 href="{{service.feedback}}">
+                Multimedia <i class="fa fa-long-arrow-right"></i>
+              </a>
+            </div>
+            <!--<div *ngIf="service.multimediaURL" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank"-->
+                 <!--href="{{service.multimediaURL}}">-->
+                <!--Multimedia <i class="fa fa-long-arrow-right"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+          </div>
+
+          <!--TODO remove hardcoded-->
+          <div class="uk-card uk-card-body uk-card-primary sideInfo uk-margin-top">
+            <h2 class="uk-h2 sidebarHeaders">Contact</h2>
+            <dl class="uk-description-list">
+              <!--<ng-container *ngIf="service.placeNames && service.placeNames.length>0">-->
+                <dt class="">Owner</dt>
+                <dd>
+                  <a class="uk-margin-small-right" target="_blank" href="{{service.userManual}}">
+                    Jose Benito Gonzales Lopez <i class="fa fa-envelope"></i>
+                  </a>
+                </dd>
+              <!--</ng-container>-->
+            </dl>
+          </div>
+
+          <!--<h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">Version</h4>-->
+          <!--<hr class="customDivider">-->
+          <div class="uk-margin-top">
+            <div *ngIf="service.version" class="">
+              <span class="infoTitle uk-margin-small-right">Version</span>
+              <span class="infoDescription">{{service.version}}</span>
+            </div>
+            <div *ngIf="service.lastUpdate" class="">
+              <span class="infoTitle uk-margin-small-right">Last update</span>
+              <span class="infoDescription">{{ service.lastUpdate | date }}</span>
+            </div>
+            <!--TODO remove hardcoded-->
+            <div class="">
+              <span class="infoDescription">
+                The changelog and roadmap are maintained at <a href="https://help.zenodo.org/whatsnew/">https://help.zenodo.org/whatsnew/</a> and
+                <a href="https://about.zenodo.org/roadmap/">https://about.zenodo.org/roadmap/</a>
+              </span>
+            </div>
+            <!--<div *ngIf="service.changeLog" class="">-->
+              <!--<span class="infoTitle uk-margin-small-right">What's new</span>-->
+              <!--<span class="infoDescription">{{service.changeLog}}</span>-->
+            <!--</div>-->
+            <div *ngIf="service.validFor" class="">
+              <span class="infoTitle uk-margin-small-right">Validity</span>
+              <span class="infoDescription">Until {{ service.validFor | date }}</span>
+            </div>
+            <div *ngIf="service.availability" class="">
+              <span class="infoTitle uk-margin-small-right">Availability</span>
+              <span class="infoDescription">{{service.availability}}</span>
+            </div>
+          </div>
+
+          <!--<h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">See also</h4>-->
+          <!--<hr class="customDivider">-->
+          <h2 class="uk-h2 sidebarHeaders section-heading uk-margin-medium-top">See also</h2>
+          <!--<dl class="uk-description-list">-->
+          <ng-container *ngIf="service.requiredServices && (service.requiredServices.length > 0)">
+            <dt class="infoTitle uk-margin-small-right">Required services</dt>
+            <!--<dt class="uk-margin-small-bottom">Required services</dt>-->
+            <dd *ngFor="let requiredService of service.requiredServices">
+              <a (click)="this.router.service(getPrettyService(requiredService).id)">{{getPrettyService(requiredService).name}}</a>
+            </dd>
+          </ng-container>
+          <ng-container *ngIf="!service.requiredServices || service.requiredServices.length == 0">
+            <dt class="infoTitle uk-margin-small-right">Required services</dt>
+            <dd>
+              None
+            </dd>
+          </ng-container>
+          <ng-container *ngIf="service.relatedServices && service.relatedServices.length>0">
+            <dt class="infoTitle uk-margin-small-right">Related services</dt>
+            <dd *ngFor="let relatedService of service.relatedServices">
+              <a (click)="this.router.service(getPrettyService(relatedService).id)">{{getPrettyService(relatedService).name}}</a>
+            </dd>
+          </ng-container>
+          <ng-container *ngIf="!service.relatedServices || service.relatedServices.length == 0">
+            <dt class="infoTitle uk-margin-small-right">Related services</dt>
+            <dd>
+              None
+            </dd>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--<div id="tm-main" class="tm-main uk-section uk-section-default" uk-height-viewport="expand: true"-->
+     <!--style="box-sizing: border-box;">-->
+  <!--<div class="uk-container uk-container">-->
+    <!--<div class="uk-grid" uk-grid="">-->
+
+      <!--<ng-template [ngIf]="errorMessage">-->
+        <!--<div class="uk-width-expand@m uk-first-column">-->
+          <!--<div data-uk-alert="" class="uk-alert uk-alert-danger">-->
+            <!--<p>{{errorMessage}}</p>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</ng-template>-->
+
+      <!--<ng-template [ngIf]="service && !errorMessage">-->
+
+        <!--<div class="uk-width-1-1 uk-row-first uk-clearfix">-->
+
+          <!--<div class="uk-grid">-->
+            <!--<div class="uk-width-3-4@m">-->
+              <!--<div class="uk-display-inline-block uk-vertical-align-top">-->
+                <!--<h2 class="uk-h2 uk-inline" style="margin-bottom: 5px">-->
+                  <!--{{service.name || "Not Available"}}-->
+
+                  <!--<span class="uk-margin-left" *ngIf="canEditService">-->
+                                        <!--<a (click)="this.router.edit(service.id)" routerLinkActive="active"><i-->
+                                          <!--class="fa fa-pencil"></i></a>-->
+                                    <!--</span>-->
+                <!--</h2>-->
+                <!--<div *ngIf="service.tagline && (service.tagline.length>0)" class="tagLine">-->
+                  <!--{{service.tagline}}-->
+                <!--</div>-->
+                <!--<div>-->
+                  <!--<star-rating-comp #rating (click)="rateService(rating.rating)"-->
+                                    <!--[starType]="'svg'" [rating]="service.hasRate" [step]="1"-->
+                                    <!--[showHalfStars]="true"-->
+                                    <!--[readOnly]=!this.authenticationService.isLoggedIn()-->
+                                    <!--[size]="'medium'"-->
+                                    <!--[staticColor]="'ok'" title="Rate this service"-->
+                                    <!--uk-tooltip="delay: 500" class="uk-inline starRating"-->
+                                    <!--labelText="{{service.hasRate}} ({{ service.ratings }})"-->
+                                    <!--[labelVisible]="true" [labelPosition]="'right'"-->
+                                    <!--[hoverEnabled]="true">-->
+                  <!--</star-rating-comp>-->
+                  <!--<span class="uk-margin-medium-left">-->
+                    <!--<a (click)="addToFavourites()">-->
+                        <!--<i [ngClass]="service.isFavourite?'fa fa-heart':'fa fa-heart-o'"></i>-->
+                    <!--</a>-->
+                    <!--<span class="statsNumbers">{{service.favourites || 0}}</span>-->
+                  <!--</span>-->
+                  <!--<span class="uk-margin-medium-left">-->
+                      <!--<img src="../../../../assets/images/icons/ic_visit_icon.svg">-->
+                      <!--<span class="statsNumbers">{{service.views || 0}}</span>-->
+                  <!--</span>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="uk-width-1-4@m">-->
+
+              <!--<div class="uk-card uk-card-body uk-card-custom providerCard">-->
+                <!--<img src="{{(service.symbol) ? service.symbol : 'http://fvtelibrary.com/img/user/NoLogo.png'}}"-->
+                     <!--style="max-width: 67px;">-->
+                <!--<span class="provider" *ngFor="let provider of service.providers; let i = index">-->
+                    <!--<br *ngIf="i > 0">{{ provider | uppercase }}-->
+                <!--</span>-->
+              <!--</div>-->
+            <!--</div>-->
+
+          <!--</div>-->
+
+        <!--</div>-->
+
+        <!--<div class="uk-width-expand@m uk-first-column uk-grid-margin-medium">-->
+
+          <!--<div class="tags" *ngIf="service.categoryName || service.subCategoryName">-->
+            <!--<span><strong>Categorization: </strong></span>-->
+            <!--<span *ngIf="service.categoryName" class="uk-label">{{service.categoryName}}</span>-->
+            <!--<span> &ndash;&gt; </span>-->
+            <!--<span *ngIf="service.subCategoryName" class="uk-label">{{service.subCategoryName}}</span>-->
+          <!--</div>-->
+
+          <!--<div class="serviceDescription" *ngIf="service.description">-->
+            <!--<p [innerHTML]="service.description">-->
+            <!--</p>-->
+          <!--</div>-->
+
+          <!--<div class="tags" *ngIf="service.tags && service.tags.length>0">-->
+            <!--<span><strong>Tags: </strong></span>-->
+            <!--<span *ngFor="let tag of service.tags" class="uk-label">{{tag}}</span>-->
+          <!--</div>-->
+
+
+          <!--<div class="uk-grid-collapse uk-grid uk-width-1-1 uk-margin-large-top">-->
+
+            <!--<div class="uk-width-1-2@m uk-margin-right">-->
+              <!--&lt;!&ndash;USAGE&ndash;&gt;-->
+              <!--<div class="uk-card uk-card-body uk-card-basic-info uk-margin-bottom">-->
+                <!--<h2 class="uk-h2">Usage</h2>-->
+                <!--<dl class="uk-description-list">-->
+                  <!--<div *ngIf="service.trl" class="uk-margin-small-bottom">-->
+                    <!--<dt class="uk-margin-small-right uk-inline">Technology readiness level</dt>-->
+                    <!--<dd class="uk-inline">{{service.trlName}}</dd>-->
+                  <!--</div>-->
+                  <!--<div *ngIf="service.lifeCycleStatus" class="uk-margin-small-bottom">-->
+                    <!--<dt class="uk-margin-small-right uk-inline">Lifecycle Status</dt>-->
+                    <!--<dd class="uk-inline">{{service.lifeCycleStatusName}}</dd>-->
+                  <!--</div>-->
+                <!--</dl>-->
+                <!--<hr class="customDivider">-->
+                <!--<dl class="uk-description-list">-->
+                  <!--<ng-container *ngIf="service.options">-->
+                    <!--<dt class="uk-margin-small-bottom">Options</dt>-->
+                    <!--<dd>{{service.options}}</dd>-->
+                  <!--</ng-container>-->
+                  <!--<ng-container *ngIf="service.targetUsers">-->
+                    <!--<dt class="uk-margin-small-bottom">Target Users</dt>-->
+                    <!--<dd>{{service.targetUsers}}</dd>-->
+                  <!--</ng-container>-->
+                  <!--<ng-container *ngIf="service.userValue">-->
+                    <!--<dt class="uk-margin-small-bottom">User value</dt>-->
+                    <!--<dd>{{service.userValue}}</dd>-->
+                  <!--</ng-container>-->
+                  <!--<ng-container *ngIf="service.userBase">-->
+                    <!--<dt class="uk-margin-small-bottom">User base</dt>-->
+                    <!--<dd>{{service.userBase}}</dd>-->
+                  <!--</ng-container>-->
+                <!--</dl>-->
+              <!--</div>-->
+              <!--&lt;!&ndash;INDICATORS&ndash;&gt;-->
+              <!--<div class="uk-card uk-card-body uk-card-basic-info">-->
+                <!--<h2 class="uk-h2">INDICATORS</h2>-->
+                <!--<dl class="uk-description-list">-->
+                  <!--<ng-container *ngIf="measurements.results">-->
+                    <!--<div class="uk-margin-small-bottom uk-width-1-1@m uk-text-right">-->
+                      <!--<a class="" href="#add-measurement" uk-toggle-->
+                         <!--*ngIf="authenticationService.isLoggedIn() && canEditService"-->
+                         <!--style="font-size: 11px; text-transform: none"><i class="fa fa-plus"></i> Add new measurement-->
+                      <!--</a>-->
+                    <!--</div>-->
+                    <!--<dd *ngIf="measurements.results.length > 0"-->
+                        <!--class="uk-grid uk-padding uk-padding-remove-bottom uk-padding-remove-top uk-padding-remove-right">-->
+                      <!--<table *ngIf="indicators" class="uk-table uk-table-small uk-table-justify">-->
+                        <!--<thead>-->
+                        <!--<tr>-->
+                          <!--<th class="uk-padding-remove-top uk-padding-remove-bottom">Indicator Name</th>-->
+                          <!--<th class="uk-padding-remove-top uk-padding-remove-bottom">Value</th>-->
+                          <!--<th class="uk-padding-remove-top uk-padding-remove-bottom">Date</th>-->
+                        <!--</tr>-->
+                        <!--</thead>-->
+                        <!--<tbody>-->
+                        <!--<tr class="" *ngFor="let measurement of measurements.results">-->
+                          <!--<td class="uk-padding-remove-bottom">{{getIndicatorName(measurement.indicatorId)}}</td>-->
+                          <!--<td-->
+                            <!--class="uk-padding-remove-bottom">{{measurement.valueIsRange ? (measurement.rangeValue.fromValue + ' - ' + measurement.rangeValue.toValue + ' ' + setUnit(measurement.indicatorId)) : (measurement.value + ' ' + setUnit(measurement.indicatorId))}}</td>-->
+                          <!--<td-->
+                            <!--class="uk-padding-remove-bottom">{{measurement.time ? (measurement.time | date) : '-'}}</td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                      <!--</table>-->
+                    <!--</dd>-->
+                    <!--<dd *ngIf="measurements.results.length == 0">-->
+                        <!-- - -->
+                    <!--</dd>-->
+                  <!--</ng-container>-->
+                <!--</dl>-->
+              <!--</div>-->
+              <!--&lt;!&ndash; Add measurement modal &ndash;&gt;-->
+              <!--<div id="add-measurement" uk-modal="bg-close: false">-->
+                <!--<div class="uk-modal-dialog uk-modal-body">-->
+                  <!--<ng-container>-->
+                    <!--<dt class="uk-margin-bottom">New Measurement</dt>-->
+                    <!--<div *ngIf="formError" data-uk-alert="" class="uk-alert uk-alert-danger">-->
+                      <!--<p>{{formError}}</p>-->
+                    <!--</div>-->
+                    <!--<dd>-->
+                      <!--<form *ngIf="authenticationService.isLoggedIn() && canEditService"-->
+                            <!--class="uk-form-horizontal uk-margin-small-bottom" role="form"-->
+                            <!--[formGroup]="newMeasurementForm">-->
+                        <!--<div class="uk-margin">-->
+                          <!--<label class="uk-form-label" for="indicatorId">Indicator name: </label>-->
+                          <!--<div class="uk-form-controls">-->
+                            <!--<select *ngIf="indicators" class="uk-select" id="indicatorId"-->
+                                    <!--(change)="onIndicatorSelect($event)" formControlName="indicatorId"-->
+                                    <!--[ngClass]="{'uk-form-danger': !newMeasurementForm.get('indicatorId').valid && newMeasurementForm.get('indicatorId').dirty}">-->
+                              <!--<option value="" selected>&#45;&#45;select indicator&#45;&#45;</option>-->
+                              <!--<option *ngFor="let indicator of indicators.results" title="{{indicator.description}}"-->
+                                      <!--value="{{indicator.id}}">{{indicator.name}}</option>-->
+                            <!--</select>-->
+                          <!--</div>-->
+                          <!--<div class="uk-width-3-5@m uk-align-right">-->
+                            <!--<i>{{indicatorDesc}}</i>-->
+                          <!--</div>-->
+                        <!--</div>-->
+                        <!--<div *ngIf="newMeasurementForm.get('locations').status != 'DISABLED'" formArrayName="locations">-->
+                          <!--<div class="uk-margin">-->
+                            <!--<label class="uk-form-label">Choose Locations: </label>-->
+                            <!--<div *ngFor="let location of locations.controls; let i=index" class="uk-form-controls">-->
+                              <!--<select class="uk-select uk-width-5-6@m" [formControlName]="i"-->
+                                      <!--[ngClass]="{'uk-form-danger': !locations.get([i]).valid && locations.get([i]).dirty}">-->
+                                <!--<ng-container *ngIf="placesVocabulary">-->
+                                  <!--<option-->
+                                    <!--*ngFor="let placeEntry of placesVocabulary.entries | values | premiumsort:weights"-->
+                                    <!--value="{{placeEntry}}">-->
+                                    <!--{{placesVocabulary.entries[placeEntry].name}}-->
+                                  <!--</option>-->
+                                <!--</ng-container>-->
+                              <!--</select>-->
+                              <!--<a *ngIf="locations.length > 1" class="uk-padding-small" (click)="removeFromLocations(i)">-->
+                                <!--<i class="fa fa-times" aria-hidden="true"></i>-->
+                              <!--</a>-->
+                            <!--</div>-->
+                            <!--<div class="uk-text-center">-->
+                              <!--<a class="" (click)="pushToLocations()" style="font-weight: unset">-->
+                                <!--<i class="fa fa-plus" aria-hidden="true"></i> Add location-->
+                              <!--</a>-->
+                            <!--</div>-->
+                          <!--</div>-->
+                        <!--</div>-->
+                        <!--<div *ngIf="newMeasurementForm.get('time').status != 'DISABLED'" class="uk-margin">-->
+                          <!--<label class="uk-form-label" for="date">Date: </label>-->
+                          <!--<div class="uk-form-controls">-->
+                            <!--<input class="uk-input" id="date" type="date" formControlName="time"-->
+                                   <!--[ngClass]="{'uk-form-danger': !newMeasurementForm.get('time').valid && newMeasurementForm.get('time').dirty}">-->
+                          <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="uk-margin">-->
+                          <!--<div class="uk-form-label">Value Type:</div>-->
+                          <!--<div class="uk-form-controls uk-form-controls-text">-->
+                            <!--<label><input class="uk-radio" type="radio" name="radio" value="single" checked="checked"-->
+                                          <!--(change)="handleChange($event)"> Single</label><br>-->
+                            <!--<label><input class="uk-radio" type="radio" name="radio" value="range"-->
+                                          <!--(change)="handleChange($event)"> Range</label>-->
+                          <!--</div>-->
+                        <!--</div>-->
+                        <!--<div *ngIf="this.newMeasurementForm.get('valueIsRange').value == 'false'" class="uk-margin">-->
+                          <!--<label class="uk-form-label" for="value">Value: </label>-->
+                          <!--<div class="uk-form-controls">-->
+                            <!--<input class="uk-input" id="value" type="text" formControlName="value"-->
+                                   <!--[ngClass]="{'uk-form-danger': !newMeasurementForm.get('value').valid && newMeasurementForm.get('value').dirty}">-->
+                          <!--</div>-->
+                        <!--</div>-->
+                        <!--<div *ngIf="newMeasurementForm.get('valueIsRange').value == 'true'" formGroupName="rangeValue">-->
+                          <!--<div class="uk-margin">-->
+                            <!--<label class="uk-form-label" for="from">From: </label>-->
+                            <!--<div class="uk-form-controls">-->
+                              <!--<input class="uk-input" id="from" type="text" formControlName="fromValue"-->
+                                     <!--[ngClass]="{'uk-form-danger': !newMeasurementForm.get('rangeValue.fromValue').valid && newMeasurementForm.get('rangeValue.fromValue').dirty}">-->
+                            <!--</div>-->
+                          <!--</div>-->
+                          <!--<div class="uk-margin">-->
+                            <!--<label class="uk-form-label" for="to">To: </label>-->
+                            <!--<div class="uk-form-controls">-->
+                              <!--<input class="uk-input" id="to" type="text" formControlName="toValue"-->
+                                     <!--[ngClass]="{'uk-form-danger': !newMeasurementForm.get('rangeValue.toValue').valid && newMeasurementForm.get('rangeValue.toValue').dirty}">-->
+                            <!--</div>-->
+                          <!--</div>-->
+                        <!--</div>-->
+                      <!--</form>-->
+                      <!--&lt;!&ndash;{{newMeasurementForm.value | json}}&ndash;&gt;-->
+                    <!--</dd>-->
+                  <!--</ng-container>-->
+                  <!--<p class="uk-text-right">-->
+                    <!--<button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>-->
+                    <!--<button class="uk-button uk-button-primary" type="button" (click)="submitMeasurement()">Submit-->
+                    <!--</button>-->
+                  <!--</p>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="uk-width-expand@m">-->
+              <!--&lt;!&ndash;SERVICE COVERAGE&ndash;&gt;-->
+              <!--<div class="uk-card uk-card-body uk-card-basic-info uk-margin-bottom">-->
+                <!--<h2 class="uk-h2">Service coverage</h2>-->
+                <!--<div style="width:100%" *ngIf="serviceMapOptions">-->
+                  <!--<chart type="Map" [options]="serviceMapOptions"></chart>-->
+                <!--</div>-->
+                <!--<dl class="uk-description-list">-->
+                  <!--<ng-container *ngIf="service.placeNames && service.placeNames.length>0">-->
+                    <!--<dt class="uk-margin-small-bottom">Places</dt>-->
+                    <!--<dd>-->
+                      <!--<span>{{service.placeNames | join:", "}}</span>-->
+                    <!--</dd>-->
+                  <!--</ng-container>-->
+                  <!--<ng-container *ngIf="service.languageNames && service.languageNames.length>0">-->
+                    <!--<dt class="uk-margin-small-bottom">Languages</dt>-->
+                    <!--<dd>-->
+                      <!--<span>{{service.languageNames | join:", "}}</span>-->
+                    <!--</dd>-->
+                  <!--</ng-container>-->
+                <!--</dl>-->
+              <!--</div>-->
+              <!--&lt;!&ndash;FUNDING&ndash;&gt;-->
+              <!--<div *ngIf="service.funding" class="uk-card uk-card-body uk-card-basic-info">-->
+                <!--<h2 class="uk-h2">Funding</h2>-->
+                <!--<dl class="uk-description-list">-->
+                  <!--&lt;!&ndash;<dt class="uk-margin-small-bottom">Funding sources</dt>&ndash;&gt;-->
+                  <!--<dd>{{service.funding}}</dd>-->
+                <!--</dl>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+
+        <!--</div>-->
+
+        <!--&lt;!&ndash;SIDEBAR&ndash;&gt;-->
+        <!--<div class="tm-sidebar uk-width-1-4@m">-->
+
+          <!--<div>-->
+            <!--<a class="uk-width-1-1 uk-button butn theme" href="{{service.url}}" target="_blank"-->
+               <!--routerLinkActive="active">-->
+              <!--&lt;!&ndash;<a class="uk-width-1-1 uk-button uk-button-primary visitButton" href="{{service.url}}" target="_blank" routerLinkActive="active">&ndash;&gt;-->
+              <!--<strong>Service Homepage</strong>-->
+            <!--</a>-->
+            <!--<a *ngIf="service.order" class="uk-width-1-1 uk-button butn theme uk-margin-top"-->
+               <!--href="{{service.order}}" routerLinkActive="active" target="_blank">-->
+              <!--<strong>Service order</strong>-->
+            <!--</a>-->
+          <!--</div>-->
+
+          <!--<h4 class="uk-h4 sidebarHeaders uk-margin-large-top">Contractual Info</h4>-->
+          <!--<div class="uk-card uk-card-body uk-card-custom sideInfo">-->
+            <!--<div *ngIf="service.price" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{service.price}}">Price</a>-->
+              <!--<img src="../../../../assets/images/icons/ic_link_arrow_right.svg">-->
+            <!--</div>-->
+            <!--<div *ngIf="service.serviceLevelAgreement" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{service.serviceLevelAgreement}}">-->
+                <!--Service level agreement</a>-->
+              <!--<img src="../../../../assets/images/icons/ic_link_arrow_right.svg">-->
+            <!--</div>-->
+            <!--<ng-container *ngIf="service.termsOfUse && service.termsOfUse.length > 0">-->
+              <!--<div *ngIf="service.termsOfUse.length==1" class="uk-margin-small-bottom">-->
+                <!--<a class="uk-margin-small-right" target="_blank" href="{{service.termsOfUse[0]}}">Terms of use</a>-->
+                <!--<img src="../../../../assets/images/icons/ic_link_arrow_right.svg">-->
+              <!--</div>-->
+              <!--<ng-container *ngIf="service.termsOfUse.length>1">-->
+                <!--<div *ngFor="let term of service.termsOfUse; let i = index;"-->
+                     <!--class="uk-margin-small-bottom">-->
+                  <!--<a class="uk-margin-small-right" target="_blank" href="{{service.termsOfUse[i]}}">Terms-->
+                    <!--of use {{i + 1}}</a>-->
+                  <!--<img src="../../../../assets/images/icons/ic_link_arrow_right.svg">-->
+                <!--</div>-->
+              <!--</ng-container>-->
+            <!--</ng-container>-->
+          <!--</div>-->
+
+          <!--<h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">Support</h4>-->
+          <!--<div class="uk-card uk-card-body uk-card-custom sideInfo">-->
+            <!--<div *ngIf="service.helpdesk" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{service.helpdesk}}">Helpdesk</a>-->
+              <!--<img src="../../../../assets/images/icons/ic_link_arrow_right.svg">-->
+            <!--</div>-->
+            <!--<div *ngIf="service.userManual" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{service.userManual}}">User-->
+                <!--manual</a>-->
+              <!--<img src="../../../../assets/images/icons/ic_link_arrow_right.svg">-->
+            <!--</div>-->
+            <!--<div *ngIf="service.feedback" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{service.feedback}}">Feedback</a>-->
+              <!--<img src="../../../../assets/images/icons/ic_link_arrow_right.svg">-->
+            <!--</div>-->
+            <!--<div *ngIf="service.trainingInformation" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{service.trainingInformation}}">Training-->
+                <!--information</a>-->
+              <!--<img src="../../../../assets/images/icons/ic_link_arrow_right.svg">-->
+            <!--</div>-->
+            <!--<div *ngIf="service.multimediaURL" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank"-->
+                 <!--href="{{service.multimediaURL}}">Multimedia</a>-->
+              <!--<img src="../../../../assets/images/icons/ic_link_arrow_right.svg">-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">Version</h4>-->
+          <!--<hr class="customDivider">-->
+          <!--<div>-->
+            <!--<div *ngIf="service.version" class="uk-margin-small-bottom">-->
+              <!--<span class="infoTitle uk-margin-small-right">Version</span>-->
+              <!--<span class="infoDescription">{{service.version}}</span>-->
+            <!--</div>-->
+            <!--<div *ngIf="service.lastUpdate" class="uk-margin-small-bottom">-->
+              <!--<span class="infoTitle uk-margin-small-right">Last update</span>-->
+              <!--<span class="infoDescription">{{ service.lastUpdate | date }}</span>-->
+            <!--</div>-->
+            <!--<div *ngIf="service.changeLog" class="uk-margin-small-bottom">-->
+              <!--<span class="infoTitle uk-margin-small-right">What's new</span>-->
+              <!--<span class="infoDescription">{{service.changeLog}}</span>-->
+            <!--</div>-->
+            <!--<div *ngIf="service.validFor" class="uk-margin-small-bottom">-->
+              <!--<span class="infoTitle uk-margin-small-right">Validity</span>-->
+              <!--<span class="infoDescription">Until {{ service.validFor | date }}</span>-->
+            <!--</div>-->
+            <!--<div *ngIf="service.availability" class="uk-margin-small-bottom">-->
+              <!--<span class="infoTitle uk-margin-small-right">Availability</span>-->
+              <!--<span class="infoDescription">{{service.availability}}</span>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">See also</h4>-->
+          <!--<hr class="customDivider">-->
+          <!--&lt;!&ndash;<dl class="uk-description-list">&ndash;&gt;-->
+          <!--<ng-container *ngIf="service.requiredServices && (service.requiredServices.length > 0)">-->
+            <!--<dt class="infoTitle uk-margin-small-right">Required services</dt>-->
+            <!--&lt;!&ndash;<dt class="uk-margin-small-bottom">Required services</dt>&ndash;&gt;-->
+            <!--<dd *ngFor="let requiredService of service.requiredServices">-->
+              <!--<a (click)="this.router.service(getPrettyService(requiredService).id)">{{getPrettyService(requiredService).name}}</a>-->
+            <!--</dd>-->
+          <!--</ng-container>-->
+          <!--<ng-container *ngIf="!service.requiredServices || service.requiredServices.length == 0">-->
+            <!--<dt class="infoTitle uk-margin-small-right">Required services</dt>-->
+            <!--<dd>-->
+              <!--None-->
+            <!--</dd>-->
+          <!--</ng-container>-->
+          <!--<ng-container *ngIf="service.relatedServices && service.relatedServices.length>0">-->
+            <!--<dt class="infoTitle uk-margin-small-right">Related services</dt>-->
+            <!--<dd *ngFor="let relatedService of service.relatedServices">-->
+              <!--<a (click)="this.router.service(getPrettyService(relatedService).id)">{{getPrettyService(relatedService).name}}</a>-->
+            <!--</dd>-->
+          <!--</ng-container>-->
+          <!--<ng-container *ngIf="!service.relatedServices || service.relatedServices.length == 0">-->
+            <!--<dt class="infoTitle uk-margin-small-right">Related services</dt>-->
+            <!--<dd>-->
+              <!--None-->
+            <!--</dd>-->
+          <!--</ng-container>-->
+
+        <!--</div>-->
+
+      <!--</ng-template>-->
+
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->

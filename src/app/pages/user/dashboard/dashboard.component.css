@@ -13,9 +13,9 @@
     color: #12387D !important;
 }
 
-.serviceTitle {
-    padding-left: 15px !important;
-}
+/*.serviceTitle {*/
+/*    padding-left: 15px !important;*/
+/*}*/
 
 .serviceTitle h3, .serviceTitle .uk-h5 {
     text-transform: none;

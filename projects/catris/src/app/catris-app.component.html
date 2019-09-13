@@ -1,9 +1,16 @@
 <div class="uk-offcanvas-content">
-  <app-top-menu *ngIf="!isLoginOrRegister"></app-top-menu>
-  <app-breadcrumbs *ngIf="router.url != '/home' && router.url != '/'"></app-breadcrumbs>
+  <app-side-elements></app-side-elements>
+  <app-top-menu-catris *ngIf="!isLoginOrRegister"></app-top-menu-catris>
+  <app-breadcrumbs-catris *ngIf="router.url != '/home' && router.url != '/'"></app-breadcrumbs-catris>
   <div style="min-height: 80px">
     <router-outlet></router-outlet>
   </div>
-  <app-feedback></app-feedback>
-  <app-footer></app-footer>
+  <app-footer-catris></app-footer-catris>
+  <cookie-law position="bottom">
+    CatRIS uses cookies in order to function properly.<br>
+    Cookies are small pieces of data that websites store in your browser to allow us to give you the best browsing experience possible.
+    By using the CatRIS portal you accept our use of cookies. <a href="http://ec.europa.eu/ipg/basics/legal/cookies/index_en.htm" target="_blank" style="color: #6a9eeb"> Read more<span class="uk-icon">
+    <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" icon="chevron-right" ratio="1"><polyline fill="none" stroke="#000" stroke-width="1.03" points="7 4 13 10 7 16"></polyline></svg>
+    </span></a>
+  </cookie-law>
 </div>

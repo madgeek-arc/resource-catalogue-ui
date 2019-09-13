@@ -136,7 +136,7 @@
                       <i class="fa fa-plus"></i> Add new measurement</a></div>
                     <dd *ngIf="measurements.results.length > 0"
                         class="uk-grid uk-padding uk-padding-remove-bottom uk-padding-remove-top uk-padding-remove-right">
-                      <table *ngIf="indicators" class="uk-table uk-table-small uk-table-justify">
+                      <table *ngIf="indicators" class="uk-table uk-table-small uk-table-justify uk-table-responsive">
                         <thead>
                         <tr>
                           <th class="uk-padding-remove-top uk-padding-remove-bottom">Indicator Name</th>
@@ -275,13 +275,13 @@
                   <ng-container *ngIf="service.placeNames && service.placeNames.length>0">
                     <dt class="uk-margin-small-bottom">Places</dt>
                     <dd>
-                      <span>{{service.placeNames | join:", "}}</span>
+                      <span>{{service.placeNames | sort | join:", "}}</span>
                     </dd>
                   </ng-container>
                   <ng-container *ngIf="service.languageNames && service.languageNames.length>0">
                     <dt class="uk-margin-small-bottom">Languages</dt>
                     <dd>
-                      <span>{{service.languageNames | join:", "}}</span>
+                      <span>{{service.languageNames | sort | join:", "}}</span>
                     </dd>
                   </ng-container>
                 </dl>
@@ -389,6 +389,7 @@
               <span class="infoDescription">{{service.availability}}</span>
             </div>
           </div>
+
           <h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">See also</h4>
           <hr class="customDivider">
           <!--<dl class="uk-description-list">-->
@@ -396,7 +397,11 @@
             <dt class="infoTitle uk-margin-small-right">Required services</dt>
             <!--<dt class="uk-margin-small-bottom">Required services</dt>-->
             <dd *ngFor="let requiredService of service.requiredServices">
-              <a (click)="this.router.service(getPrettyService(requiredService).id)">{{getPrettyService(requiredService).name}}</a>
+              <div *ngIf="getPrettyService(requiredService).name === 'Name not found!'">
+                <a> {{requiredService}}</a>
+              </div>
+              <a *ngIf="getPrettyService(requiredService).name !== 'Name not found!'"
+                 (click)="this.router.service(getPrettyService(requiredService).id)">{{getPrettyService(requiredService).name}}</a>
             </dd>
           </ng-container>
           <ng-container *ngIf="!service.requiredServices || service.requiredServices.length == 0">
@@ -408,7 +413,11 @@
           <ng-container *ngIf="service.relatedServices && service.relatedServices.length>0">
             <dt class="infoTitle uk-margin-small-right">Related services</dt>
             <dd *ngFor="let relatedService of service.relatedServices">
-              <a (click)="this.router.service(getPrettyService(relatedService).id)">{{getPrettyService(relatedService).name}}</a>
+              <div *ngIf="getPrettyService(relatedService).name === 'Name not found!'">
+                <a> {{relatedService}}</a>
+              </div>
+              <a *ngIf="getPrettyService(relatedService).name !== 'Name not found!'"
+                 (click)="this.router.service(getPrettyService(relatedService).id)">{{getPrettyService(relatedService).name}}</a>
             </dd>
           </ng-container>
           <ng-container *ngIf="!service.relatedServices || service.relatedServices.length == 0">

@@ -87,6 +87,7 @@
       </button>
 
       <div *ngFor="let featuredService of viewServices"
+           [ngClass]="{'uk-animation-slide-right-medium': slideRight, 'uk-animation-slide-left-medium': !slideRight}"
            class="uk-card uk-card-body uk-card-gray uk-margin-small-left uk-margin-small-right limitRows featuredService">
         <a (click)="this.router.service(featuredService.id)">
           <h3
@@ -170,7 +171,7 @@
             <div class="">
               <div class="uk-text-right">
                 <a class="uk-flex-right uk-margin-small-right" target="_blank"
-                   href="http://einfracentral.eu/basic-page/about-einfracentral">Read all
+                   href="http://project.einfracentral.eu/basic-page/about-einfracentral">Read all
                   <img src="../../../assets/images/icons/ic_link_arrow_right.svg">
                 </a>
               </div>

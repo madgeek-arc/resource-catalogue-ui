@@ -123,7 +123,14 @@
             </div>
             <div *ngIf="listViewActive" class="uk-grid-margin-small">
 
-              <ng-container *ngFor="let resourceInfo of searchResults.results; let i = index">
+              <div *ngIf="loading" class="uk-card-body uk-animation-fade">
+                <div class="uk-text-center serviceDetails">
+                  <div class="uk-padding-large" uk-spinner="ratio: 3" style="color: rgb(33, 76, 156)"></div>
+                </div>
+              </div>
+
+              <div *ngIf="!loading">
+                <ng-container *ngFor="let resourceInfo of searchResults.results; let i = index">
 
                 <div class="serviceDetails uk-margin-small-bottom">
 
@@ -204,6 +211,8 @@
                   </div>
                 </div>
               </ng-container>
+              </div>
+
             </div>
 
             <div class="uk-width-1-1 uk-row-first">
@@ -348,47 +357,54 @@
                 </select>
               </div>
             </div>
-            <div class="uk-grid uk-grid-margin-small uk-child-width-1-3@m gridView">
 
-              <ng-container *ngFor="let resourceInfo of searchResults.results; let i = index">
+            <div *ngIf="loading" class="uk-card-body uk-animation-fade">
+              <div class="uk-text-center serviceDetails">
+                <div class="uk-padding-large" uk-spinner="ratio: 3" style="color: rgb(33, 76, 156)"></div>
+              </div>
+            </div>
 
-                <div class="serviceDetails uk-margin-small-bottom">
+            <div *ngIf="!loading">
+              <div class="uk-grid uk-grid-margin-small uk-child-width-1-3@m gridView">
+                <ng-container *ngFor="let resourceInfo of searchResults.results; let i = index">
 
-                  <div class="uk-first-column uk-card-body serviceInfo">
-                    <div style="position: relative">
-                      <div style="position: absolute;left: -5px;height: 20px;">
-                        <star-rating-comp #rating2 (click)="rateService(i, rating2.rating)" [starType]="'svg'"
-                                          [rating]="resourceInfo.hasRate" [step]="1"
-                                          [showHalfStars]="true" [readOnly]=!this.authenticationService.isLoggedIn()
-                                          [size]="'small'"
-                                          [staticColor]="'ok'" title="Rate this service" uk-tooltip="delay: 500"
-                                          labelText="{{resourceInfo.hasRate}} ({{ resourceInfo.ratings }})"
-                                          [labelVisible]="true" [labelPosition]="'right'"
-                                          [hoverEnabled]="true">
-                        </star-rating-comp>
+                  <div class="serviceDetails uk-margin-small-bottom">
+
+                    <div class="uk-first-column uk-card-body serviceInfo">
+                      <div style="position: relative">
+                        <div style="position: absolute;left: -5px;height: 20px;">
+                          <star-rating-comp #rating2 (click)="rateService(i, rating2.rating)" [starType]="'svg'"
+                                            [rating]="resourceInfo.hasRate" [step]="1"
+                                            [showHalfStars]="true" [readOnly]=!this.authenticationService.isLoggedIn()
+                                            [size]="'small'"
+                                            [staticColor]="'ok'" title="Rate this service" uk-tooltip="delay: 500"
+                                            labelText="{{resourceInfo.hasRate}} ({{ resourceInfo.ratings }})"
+                                            [labelVisible]="true" [labelPosition]="'right'"
+                                            [hoverEnabled]="true">
+                          </star-rating-comp>
+                        </div>
                       </div>
-                    </div>
-                    <div style="margin-top: 20px;">
-                      <h3 class="uk-margin-remove uk-h3 uk-scrollspy-inview uk-animation-fade uk-inline serviceName"
-                          uk-scrollspy-class="">
-                        <a [routerLink]="['/service/' + resourceInfo.id]">
-                          {{resourceInfo.name || "Not Available"}}
-                        </a>
-                      </h3>
-                    </div>
+                      <div style="margin-top: 20px;">
+                        <h3 class="uk-margin-remove uk-h3 uk-scrollspy-inview uk-animation-fade uk-inline serviceName"
+                            uk-scrollspy-class="">
+                          <a [routerLink]="['/service/' + resourceInfo.id]">
+                            {{resourceInfo.name || "Not Available"}}
+                          </a>
+                        </h3>
+                      </div>
 
-                    <div class="uk-margin-small-top serviceTagLine">
-                      "{{resourceInfo.tagline}}"
-                    </div>
-                    <div class="uk-margin-small-top uk-scrollspy-inview uk-animation-fade" uk-scrollspy-class="">
-                      <!--<read-more-text [text]="resourceInfo.description" [maxHeight]="38">-->
-                      <!--</read-more-text>-->
-                      <div class="serviceDescription" [innerHTML]="resourceInfo.description"></div>
-                      <a [routerLink]="['/service/' + resourceInfo.id]">View more...</a>
-                    </div>
+                      <div class="uk-margin-small-top serviceTagLine">
+                        "{{resourceInfo.tagline}}"
+                      </div>
+                      <div class="uk-margin-small-top uk-scrollspy-inview uk-animation-fade" uk-scrollspy-class="">
+                        <!--<read-more-text [text]="resourceInfo.description" [maxHeight]="38">-->
+                        <!--</read-more-text>-->
+                        <div class="serviceDescription" [innerHTML]="resourceInfo.description"></div>
+                        <a [routerLink]="['/service/' + resourceInfo.id]">View more...</a>
+                      </div>
 
 
-                    <div class="addenda uk-margin-small-top">
+                      <div class="addenda uk-margin-small-top">
                                             <span class="uk-margin-medium-right">
                                                 <a (click)="addToFavourites(i)">
                                                     <i
@@ -396,39 +412,40 @@
                                                 </a>
                                                 <span class="statsNumbers">&nbsp;{{ resourceInfo.favourites }}</span>
                                             </span>
-                      <span class="uk-margin-medium-right">
+                        <span class="uk-margin-medium-right">
                                                 <input type="checkbox" class="uk-margin-small-right"
                                                        [checked]="isSelected(resourceInfo)"
                                                        (change)="comparisonService.addOrRemove(resourceInfo)">
                                                 <a>{{isSelected(resourceInfo) ? 'Added' : 'Add to compare'}}</a>
-                        <!--<a *ngIf="comparisonService.servicesToCompare.indexOf(resourceInfo) > -1">Added</a>-->
+                          <!--<a *ngIf="comparisonService.servicesToCompare.indexOf(resourceInfo) > -1">Added</a>-->
                                             </span>
-                      <span class="uk-float-right">
+                        <span class="uk-float-right">
                                                 <img src="../../../../assets/images/icons/ic_visit_icon.svg">
                                                 <span class="statsNumbers">&nbsp;{{ resourceInfo.views }}</span>
                                             </span>
+                      </div>
+
                     </div>
 
-                  </div>
 
+                    <div class="symbolAndProvider uk-card-body uk-text-left">
 
-                  <div class="symbolAndProvider uk-card-body uk-text-left">
-
-                    <a (click)="this.router.service(resourceInfo.id)">
+                      <a (click)="this.router.service(resourceInfo.id)">
                                             <span>
                                                 <img
                                                   src="{{resourceInfo.symbol || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
                                                   style="height: 51px;">
                                             </span>
-                    </a>
-                    <span class="provider">{{resourceInfo.providers[0] | uppercase}}</span>
+                      </a>
+                      <span class="provider">{{resourceInfo.providers[0] | uppercase}}</span>
+                    </div>
+
                   </div>
 
-                </div>
+                  <!--<hr uk-scrollspy-class="" style="" class="uk-scrollspy-inview uk-animation-slide-top-medium">-->
 
-                <!--<hr uk-scrollspy-class="" style="" class="uk-scrollspy-inview uk-animation-slide-top-medium">-->
-
-              </ng-container>
+                </ng-container>
+              </div>
             </div>
 
             <div class="uk-width-1-1 uk-row-first">

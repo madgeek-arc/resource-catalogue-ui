@@ -1,0 +1,97 @@
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
+  <div class="uk-container uk-padding-large uk-padding-remove-horizontal uk-padding-remove-top">
+
+    <div class="uk-alert uk-alert-danger uk-text-center" *ngIf="errorMessage">
+      {{errorMessage}}
+    </div>
+
+    <div class="uk-grid uk-flex-center">
+
+      <form [formGroup]="indicatorForm" role="form" (ngSubmit)="submitIndicator()" class="uk-width-2-3@m">
+        <div class="uk-form-horizontal uk-margin-bottom">
+          <label class="uk-width-1-5 uk-form-label uk-text-right" for="id">Indicator's ID (*)</label>
+          <div class="uk-width-4-5 uk-form-controls">
+            <input class="uk-input" type="text" id="id" formControlName="id"
+                   [ngClass]="{'uk-form-danger': !indicatorForm.get('id').valid && indicatorForm.get('id').dirty}">
+            <i>
+              <small>A unique identifier for the indicator</small>
+            </i>
+          </div>
+        </div>
+
+        <div class="uk-form-horizontal uk-margin-bottom">
+          <label class="uk-width-1-5 uk-form-label uk-text-right" for="name">Indicator's name (*)</label>
+          <div class="uk-width-4-5 uk-form-controls">
+            <input class="uk-input" type="text" id="name" formControlName="name"
+                   [ngClass]="{'uk-form-danger': !indicatorForm.get('name').valid && indicatorForm.get('name').dirty}">
+            <i>
+              <small>A sort name for the Indicator</small>
+            </i>
+          </div>
+        </div>
+
+        <div class="uk-form-horizontal uk-margin-bottom">
+          <label class="uk-width-1-5 uk-form-label uk-text-right" for="description">Description (*)</label>
+          <div class="uk-width-4-5 uk-form-controls">
+            <textarea class="uk-textarea" rows="4" id="description" formControlName="description"
+                      [ngClass]="{'uk-form-danger': !indicatorForm.get('description').valid && indicatorForm.get('description').dirty}">
+            </textarea>
+            <i>
+              <small>A description for the indicator</small>
+            </i>
+          </div>
+        </div>
+
+        <div class="uk-form-horizontal uk-margin-bottom">
+          <div class="uk-width-1-5 uk-form-label uk-text-right">Dimensions (*)</div>
+          <div class="uk-width-4-5 uk-form-controls uk-form-controls-text">
+            <label><input class="uk-checkbox" type="checkbox" id="time" name="time" (change)="handleCheckbox($event)">
+              Time</label><br>
+            <label><input class="uk-checkbox" type="checkbox" id="locations" name="locations" (change)="handleCheckbox($event)">
+              Locations</label><br>
+            <i>
+              <small>Choose at least one</small>
+            </i>
+          </div>
+
+        </div>
+
+        <div class="uk-form-horizontal uk-margin-bottom">
+          <label class="uk-width-1-5 uk-form-label uk-text-right" for="unit">Unit (*)</label>
+          <div class="uk-width-4-5 uk-form-controls">
+            <select formControlName="unit" (change)="handleDropDown($event)" class="uk-select" id="unit"
+                    [ngClass]="{'uk-form-danger': !indicatorForm.get('unit').valid && indicatorForm.get('unit').dirty}">
+              <option value="">--Select unit--</option>
+              <option value="percentage">percentage</option>
+              <option value="numeric">numeric</option>
+              <option value="boolean">boolean</option>
+            </select>
+            <i>
+              <small>Select type of unit</small>
+            </i>
+          </div>
+        </div>
+
+        <div class="uk-form-horizontal uk-margin-bottom">
+          <label class="uk-width-1-5 uk-form-label uk-text-right" for="unitName">Unit name (*)</label>
+          <div class="uk-width-4-5 uk-form-controls">
+            <input class="uk-input" type="text" id="unitName" formControlName="unitName"
+                   [ngClass]="{'uk-form-danger': !indicatorForm.get('unitName').valid && indicatorForm.get('unitName').dirty}">
+            <i>
+              <small>Give the name of the unit if the unit type is numeric, 'days', 'km', etc</small>
+            </i>
+          </div>
+        </div>
+
+        <div class="uk-form-horizontal">
+        <div class="uk-width-4-5 uk-form-controls">
+          <button class="uk-button uk-button-primary" type="submit">submit</button>
+        </div>
+        </div>
+
+      </form>
+<!--      <pre>{{indicatorForm.value | json}}</pre>-->
+    </div>
+
+  </div>
+</div>

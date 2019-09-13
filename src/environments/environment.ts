@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  FAQ_ENDPOINT: 'http://beta.einfracentral.eu/faq/api',
-  API_ENDPOINT: 'http://localhost:8080/eic-registry'
+  FAQ_ENDPOINT: 'https://beta.einfracentral.eu/faq',
+  API_ENDPOINT: '/eic-registry' // to change the end point go to proxy.conf.json file
 };
 
 /*

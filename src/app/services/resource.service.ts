@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
-import {Measurement, Provider, RichService, Service, ServiceHistory, Vocabulary} from '../domain/eic-model';
+import {Indicator, Measurement, Provider, RichService, Service, ServiceHistory, Vocabulary} from '../domain/eic-model';
 import {IndicatorsPage, MeasurementsPage} from '../domain/indicators';
 import {BrowseResults} from '../domain/browse-results';
 import {SearchResults} from '../domain/search-results';
@@ -48,36 +48,26 @@ export class ResourceService {
     let params = new HttpParams();
     params = params.append('from', '0');
     params = params.append('quantity', '10000');
-    return this.http.get(this.base + `/${resourceType}/all`, {params}).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get(this.base + `/${resourceType}/all`, {params});
   }
 
   getAllIndicators(resourceType: string) {
     let params = new HttpParams();
     params = params.append('from', '0');
     params = params.append('quantity', '10000');
-    return this.http.get<IndicatorsPage>(this.base + `/${resourceType}/all`, {params}).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<IndicatorsPage>(this.base + `/${resourceType}/all`, {params});
   }
 
   getBy(resourceType: string, resourceField: string) {
-    return this.http.get(this.base + `/${resourceType}/by/${resourceField}/`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get(this.base + `/${resourceType}/by/${resourceField}/`);
   }
 
   getSome(resourceType: string, ids: string[]) {
-    return this.http.get(this.base + `/${resourceType}/byID/${ids.toString()}/`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get(this.base + `/${resourceType}/byID/${ids.toString()}/`);
   }
 
   get(resourceType: string, id: string) {
-    return this.http.get(this.base + `/${resourceType}/${id}/`, this.options).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get(this.base + `/${resourceType}/${id}/`, this.options);
   }
 
   search(urlParameters: URLParameter[]) {
@@ -91,9 +81,7 @@ export class ResourceService {
     const questionMark = urlParameters.length > 0 ? '?' : '';
     /*return this.http.get(`/service/all${questionMark}${searchQuery.toString()}`).map(res => <SearchResults<Service>> <any> res);*/
     return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`, this.options)
-      .pipe(
-        catchError(this.handleError)
-      );
+      ;
   }
 
   getVocabularies() {
@@ -103,10 +91,6 @@ export class ResourceService {
   getVocabulariesByType(type: string) {
     return this.http.get<SearchResults<Vocabulary>>(this.base + `/vocabulary?type=${type}`);
   }
-
-  // getVocabulariesUsingGroupBy(type?: string) {
-  //   return this.http.get(this.base + `/vocabulary/by/type`).filter(e => type ? e && e.type && e.type === type : true);
-  // }
 
   idToName(acc: any, v: any) {
     acc[v.id] = v.name;
@@ -119,35 +103,28 @@ export class ResourceService {
   }
 
   getServices() {
-    return this.http.get(this.base + '/service/by/id/').pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get(this.base + '/service/by/id/');
   }
 
   getService(id: string, version?: string) {
     // if version becomes optional this should be reconsidered
     return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options)
-      .pipe(catchError(this.handleError));
+      ;
   }
 
   getRichService(id: string, version?: string) {
     // if version becomes optional this should be reconsidered
-    return this.http.get<RichService>(this.base + `/service/rich/${version === undefined ? id : [id, version].join('/')}/`, this.options)
-      .pipe(catchError(this.handleError));
+    return this.http.get<RichService>(this.base + `/service/rich/${version === undefined ? id : [id, version].join('/')}/`, this.options);
   }
 
   getSelectedServices(ids: string[]) {
     /*return this.getSome("service", ids).map(res => <Service[]> <any> res);*/
     // return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
-    return this.http.get<RichService[]>(this.base + `/service/rich/byID/${ids.toString()}/`, this.options).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<RichService[]>(this.base + `/service/rich/byID/${ids.toString()}/`, this.options);
   }
 
   getServicesByCategories() {
-    return this.http.get<BrowseResults>(this.base + '/service/by/category/').pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<BrowseResults>(this.base + '/service/by/category/');
   }
 
   getServicesOfferedByProvider(id: string): Observable<Service[]> {
@@ -234,13 +211,22 @@ export class ResourceService {
 
   postMeasurement(measurement: Measurement) {
     return this.http.post(this.base + '/measurement', measurement, this.options)
-      .pipe(catchError(this.handleError));
+      ;
   }
 
-  postMeasurementUpdateAll(measurement: Measurement[]) {
-    return this.http.post(this.base + '/measurement/updateAll', measurement, this.options);
+  postMeasurementUpdateAll(id: string, measurement: Measurement[]) {
+    let params = new HttpParams();
+    params = params.append('serviceId', id);
+    // const options = {params, withCredentials: true};
+    return this.http.post(this.base + '/measurement/updateAll', measurement, {params, withCredentials: true});
   }
   /** Service Measurements **/
+
+  /** Indicators **/
+  postIndicator(indicator: Indicator) {
+    return this.http.post(this.base + '/indicator', indicator, this.options);
+  }
+  /** Indicators **/
 
   groupServicesOfProviderPerPlace(id: string) {
     return this.getServicesOfferedByProvider(id).subscribe(res => {
@@ -258,21 +244,11 @@ export class ResourceService {
     });
   }
 
-  // TODO fix this!!!!
-  // getProvidersNames() {
-  //   return this.getAll('provider')
-  //     .pipe(
-  //       map(e => e.results.reduce(this.idToName, {}))
-  //     );
-  // }
-
   getProvidersNames() {
     let params = new HttpParams();
     params = params.append('from', '0');
     params = params.append('quantity', '10000');
-    return this.http.get<ProvidersPage>(this.base + `/provider/all/`, {params, withCredentials: true}).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<ProvidersPage>(this.base + `/provider/all/`, {params, withCredentials: true});
   }
 
   getProviders(from: string, quantity: string) {
@@ -312,15 +288,14 @@ export class ResourceService {
     return places;
   }
 
-  activateUserAccount(id: any) {
-    return this.http.get(this.base + `/user/activate/${id}`);
-  }
-
   uploadService(service: Service, shouldPut: boolean) {
     return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + '/service', service, this.options)
-      .pipe(
-        catchError(this.handleError)
-      );
+      ;
+  }
+
+  uploadServiceWithMeasurements(service: Service, measurements: Measurement[]) {
+    return this.http.put<Service>(this.base + '/service/serviceWithMeasurements', {service, measurements}, this.options)
+      ;
   }
 
   /* TODO: Fix this*/
@@ -341,7 +316,7 @@ export class ResourceService {
   }
 
   getFeaturedServices() {
-    return this.http.get<Service[]>(this.base + `/service/featured/all/`).pipe(catchError(this.handleError));
+    return this.http.get<Service[]>(this.base + `/service/featured/all/`);
   }
 
   getServiceHistory(serviceId: string) {
@@ -355,7 +330,8 @@ export class ResourceService {
   }
 
   public handleError(error: HttpErrorResponse) {
-    const message = 'Server error';
+    // const message = 'Server error';
+    const message = error.error;
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);

@@ -18,6 +18,7 @@ import {ServiceUploadExtendedComponent} from './pages/eInfraServices/service-upl
 import {ServiceEditExtendedComponent} from './pages/eInfraServices/service-edit-extended.component';
 import {CKEditorModule} from 'ng2-ckeditor';
 import {AccordionSectionAireComponent} from './pages/eInfraServices/accordion-section-aire.component';
+import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/cookie-law/cookie-law.module';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {AccordionSectionAireComponent} from './pages/eInfraServices/accordion-se
     StarRatingModule.forRoot(),
     ChartModule,
     CKEditorModule,
+    CookieLawModule,
   ],
   providers: [],
   bootstrap: [OpenaireAppComponent]

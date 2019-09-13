@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {DatePipe} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './pages/home/home.component';
@@ -46,6 +46,10 @@ import {ServiceFormComponent} from './pages/eInfraServices/service-form.componen
 import {ServiceUploadComponent} from './pages/eInfraServices/service-upload.component';
 import {CKEditorModule} from 'ng2-ckeditor';
 import {ServiceEditComponent} from './pages/eInfraServices/service-edit.component';
+import {MeasurementsComponent} from './pages/indicators/measurements.component';
+import {IndicatorFromComponent} from './pages/indicators/indicator-from.component';
+import {AuthenticationInterceptor} from './services/authentication-interceptor';
+import {CookieLawModule} from './shared/reusablecomponents/cookie-law/cookie-law.module';
 
 
 declare var require: any;
@@ -91,11 +95,15 @@ export function highchartsFactory() {
     ServiceProvidersListComponent,
     // FUNDERS
     FundersDashboardComponent,
+    // INDICATORS
+    MeasurementsComponent,
+    IndicatorFromComponent,
     // FORMS
     ServiceEditComponent,
     ServiceFormComponent,
     ServiceUploadComponent,
     AccordionComponent,
+    // COOKIE
   ],
   imports: [
     BrowserModule,
@@ -110,9 +118,15 @@ export function highchartsFactory() {
     CKEditorModule,
     ChartModule,
     AngularFontAwesomeModule,
-    AppRoutingModule
+    CookieLawModule,
+    AppRoutingModule,
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true
+    },
     AuthenticationService,
     ComparisonService,
     CanActivateViaAuthGuard,

@@ -1,0 +1,115 @@
+<div class="tm-header-placeholder uk-margin-remove-adjacent uk-visible@m" style="height: 120px;"></div>
+
+<div class="bgxlight bordertopbottom  z20 pt20">
+    <div class="ptb20 cdark">
+        <div class="breadcrumbs breadcrumb clearfix">
+            <div class="container">
+
+                <div class="uk-grid">
+                    <div class="uk-width-3-4@m">
+                        <h2 class="element-invisible">You are here</h2>
+                        <div class="breadcrumb">
+
+
+                            <ng-container *ngIf="!goBack">
+                                <ng-container *ngFor="let breadcrumb of breadcrumbs; let isLast = last; let i = index;">
+                            <span *ngIf="!isLast">
+                                <a [routerLink]="[breadcrumb.url, breadcrumb.params]">{{breadcrumb.label}}</a>
+                            </span>
+                                    <!--<span *ngIf="!isLast">-->
+                                    <!--»-->
+                                    <!--</span>-->
+                                </ng-container>
+                            </ng-container>
+
+                            <!--<ul *ngIf="!goBack" class="uk-breadcrumb">-->
+                            <!--<li *ngFor="let breadcrumb of breadcrumbs; let isLast = last; let i = index;">-->
+                            <!--<a [routerLink]="[breadcrumb.url, breadcrumb.params]" *ngIf="!isLast" href="">{{breadcrumb.label}}</a>-->
+                            <!--&lt;!&ndash;<span *ngIf="isLast">{{breadcrumb.label}}</span>&ndash;&gt;-->
+                            <!--</li>-->
+                            <!--</ul>-->
+                            <!--<span class="inline odd first">-->
+                            <!--<a href="/">Home</a>-->
+                            <!--</span>-->
+                            <!--<span class="delimiter">»</span>-->
+                            <!--<span class="inline even last">Services &amp; Resources</span>-->
+                        </div>
+                        <h1 *ngIf="breadcrumbs">
+                            <a class="goBackLink" [routerLink]="['/search']" *ngIf="goBack">
+                                <img src="../../../assets/images/icons/ic_back_arrow_link.svg" class="uk-margin-small-right">Go Back to Services
+                            </a>
+                            <!--For providers-->
+                        </h1>
+                        <h1 *ngIf="!goBack">
+                            <ng-container *ngFor="let breadcrumb of breadcrumbs; let isLast = last; let i = index;">
+                                <span *ngIf="isLast">{{breadcrumb.label}}</span>
+                            </ng-container>
+                        </h1>
+                    </div>
+
+                    <div class="uk-width-1-4@m">
+                        <form [formGroup]="searchForm" (ngSubmit)="onSubmit(searchForm.controls['query'].value)">
+                            <input type="text" class="uk-input menuSearch" placeholder="" name="keyword" formControlName="query">
+                        </form>
+                    </div>
+                </div>
+
+                <!--<h2 class="element-invisible">You are here</h2>-->
+                <!--<div class="breadcrumb">-->
+
+
+                    <!--<ng-container *ngIf="!goBack">-->
+                        <!--<ng-container *ngFor="let breadcrumb of breadcrumbs; let isLast = last; let i = index;">-->
+                            <!--<span *ngIf="!isLast">-->
+                                <!--<a [routerLink]="[breadcrumb.url, breadcrumb.params]">{{breadcrumb.label}}</a>-->
+                            <!--</span>-->
+                            <!--&lt;!&ndash;<span *ngIf="!isLast">&ndash;&gt;-->
+                                <!--&lt;!&ndash;»&ndash;&gt;-->
+                            <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                        <!--</ng-container>-->
+                    <!--</ng-container>-->
+
+                    <!--&lt;!&ndash;<ul *ngIf="!goBack" class="uk-breadcrumb">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<li *ngFor="let breadcrumb of breadcrumbs; let isLast = last; let i = index;">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<a [routerLink]="[breadcrumb.url, breadcrumb.params]" *ngIf="!isLast" href="">{{breadcrumb.label}}</a>&ndash;&gt;-->
+                            <!--&lt;!&ndash;&lt;!&ndash;<span *ngIf="isLast">{{breadcrumb.label}}</span>&ndash;&gt;&ndash;&gt;-->
+                        <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="inline odd first">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a href="/">Home</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="delimiter">»</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="inline even last">Services &amp; Resources</span>&ndash;&gt;-->
+                <!--</div>-->
+                <!--<h1 *ngIf="breadcrumbs">-->
+                    <!--<a class="goBackLink" [routerLink]="['/search']" *ngIf="goBack">-->
+                        <!--<img src="../../../assets/images/icons/ic_back_arrow_link.svg" class="uk-margin-small-right">Go Back to Services-->
+                    <!--</a>-->
+                    <!--&lt;!&ndash;For providers&ndash;&gt;-->
+                <!--</h1>-->
+                <!--<h1 *ngIf="!goBack">-->
+                    <!--<ng-container *ngFor="let breadcrumb of breadcrumbs; let isLast = last; let i = index;">-->
+                        <!--<span *ngIf="isLast">{{breadcrumb.label}}</span>-->
+                    <!--</ng-container>-->
+                <!--</h1>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="breadcrumbs">-->
+    <!--<div class="uk-container uk-container-expand">-->
+        <!--<div *ngIf="breadcrumbs">-->
+            <!--<a class="goBackLink" [routerLink]="['/search']" *ngIf="goBack">-->
+                <!--<img src="../../../assets/images/icons/ic_back_arrow_link.svg" class="uk-margin-small-right">Go Back to Services-->
+            <!--</a>-->
+            <!--<ul *ngIf="!goBack" class="uk-breadcrumb">-->
+                <!--<li *ngFor="let breadcrumb of breadcrumbs; let isLast = last; let i = index;">-->
+                    <!--<a [routerLink]="[breadcrumb.url, breadcrumb.params]" *ngIf="!isLast" href="">{{breadcrumb.label}}</a>-->
+                    <!--<span *ngIf="isLast">{{breadcrumb.label}}</span>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+

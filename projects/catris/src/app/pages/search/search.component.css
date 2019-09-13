@@ -1,0 +1,524 @@
+.rating.medium .label-value {
+    font-size: 15px !important;
+}
+
+.statsNumbers {
+    font-size: 16px;
+}
+
+.uk-section {
+    padding-top: 30px;
+}
+
+.compareWrapper {
+    opacity: 0.89;
+    background: #4D586A;
+    /*color: #bbb;*/
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 150px;
+    width: 100%;
+    z-index: 100;
+}
+
+.serviceToCompareCard {
+    background: #ECECEC;
+    border-radius: 2px;
+    font-size: 11px;
+    color: #4D586A;
+    letter-spacing: 0;
+    line-height: 17px;
+    /*height: 70%;*/
+    padding: 20px 17px;
+}
+
+.uk-button-white {
+    background: #FFFFFF;
+    border-radius: 2px;
+    font-weight: 400;
+    font-size: 16px;
+    color: #0047BA;
+    letter-spacing: 0;
+}
+
+.clearAllLink {
+    font-weight: 700;
+    font-size: 16px;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.actions {
+    position: absolute;
+    right: 40px;
+    margin-top: 35px;
+}
+
+
+
+.filters a {
+    font-size: 16px;
+    color: #2B4371;
+    font-weight: 300;
+    text-transform: none;
+    /*padding: 0 0;*/
+    height: 30px;
+}
+
+.filters a:hover {
+    font-size: 16px;
+    color: #D13239;
+    /*font-weight: bold;*/
+}
+
+.uk-navbar-dropdown-nav a, .uk-navbar-dropdown-nav a:hover {
+    font-size: 14px;
+}
+
+.refines .uk-h3 {
+    font-size: 25px;
+    color: #2B4371;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    margin-top: 0px;
+}
+
+/* dropdown width override */
+.uk-navbar-dropdown-nav > li > a {
+    white-space: nowrap;
+}
+
+.uk-navbar-dropdown {
+    min-width: 200px;
+    width: auto;
+}
+
+
+
+
+.serviceDetails {
+    /*background: rgba(103,118,144,0.05);*/
+    background: #f9f9f9;
+    border-radius: 2px;
+}
+
+.provider {
+    font-size: 14px;
+    color: #545454;
+    letter-spacing: 0;
+    text-align: center;
+}
+
+.symbolAndProvider {
+    background: #EFF1F3;
+}
+
+.serviceInfo {
+    padding-left: 80px;
+}
+
+.gridView .serviceInfo {
+    padding-left: 40px;
+}
+
+.gridView .uk-card-body {
+    padding: 30px 30px;
+}
+
+.gridView .serviceDetails {
+    background: none;
+}
+
+.gridView .serviceInfo {
+    /*background: rgba(103,118,144,0.05);*/
+    background: #f9f9f9;
+}
+
+.serviceInfo h2 {
+    font-size: 23px !important;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    color: #444;
+    /*font-weight: 400;*/
+    /*font-size: 18px;*/
+    /*color: #2B4371;*/
+    letter-spacing: 0.41px;
+    text-transform: none;
+}
+
+.serviceInfo h2 a {
+    color: #444;
+    /*color: #2B4371;*/
+}
+
+.gridView .serviceInfo h2 {
+    height: 2.5em;
+}
+
+/*.serviceInfo h3 {*/
+    /*font-weight: 400;*/
+    /*font-size: 18px;*/
+    /*color: #2B4371;*/
+    /*letter-spacing: 0.41px;*/
+    /*text-transform: none;*/
+/*}*/
+
+/*.serviceInfo h3 a {*/
+    /*color: #2B4371;*/
+/*}*/
+
+/*.gridView .serviceInfo h3 {*/
+    /*height: 2.5em;*/
+/*}*/
+
+.serviceTagLine {
+    font-weight: 700;
+    font-size: 16px;
+    color: #37833F;
+    letter-spacing: 0;
+    line-height: 22px;
+}
+
+.gridView .serviceTagLine {
+    line-height: 1.5em;
+    height: 3em;
+    overflow: hidden;
+}
+
+.serviceDescription {
+    font-size: 15px;
+    /*color: #4D586A;*/
+    letter-spacing: 0.32px;
+    line-height: 22.4px;
+}
+
+.gridView .serviceDescription {
+    line-height: 2em;
+    height: 4em;
+    overflow: hidden;
+}
+
+.gridView .serviceName {
+    line-height: 1.25em;
+    height: 4em;
+    overflow: hidden;
+}
+
+.addenda a {
+    font-weight: 400;
+    font-size: 14px;
+    color: #37833F;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.addenda input {
+    background: rgba(196,208,230,0.90);
+    border-radius: 2px;
+}
+
+/*.serviceDescription {*/
+    /*text-align: justify;*/
+/*}*/
+
+
+
+
+
+.uk-form.searchForm input[type="text"] {
+    height: 40px;
+}
+
+.searchForm .uk-grid .searchButton {
+    padding-left: 15px;
+}
+
+.uk-grid-divider:empty {
+    border-top: 1px solid #cccccc;
+    margin-bottom: 15px;
+    margin-top: 0px;
+}
+
+.resource * + .uk-margin {
+    margin-top: 5px;
+}
+
+.resource .uk-margin {
+    margin-bottom: 5px;
+}
+
+.resource {
+    font-size: 13px;
+}
+
+.resource .uk-button-link {
+    color: #aaaaaa;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.refines .uk-grid-margin {
+    margin-top: 20px;
+}
+
+.refineCategory {
+    font-size: 13px;
+}
+
+.refineCategory span {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.refineOption {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #424242;
+}
+
+.refineOption span {
+    font-weight: 300;
+    /*color: #bbbbbb;*/
+}
+
+
+
+/*.uk-pagination > li > a {*/
+    /*color: #666666;*/
+/*}*/
+
+.resourceTypeIcon {
+    background: none;
+    border: none;
+}
+
+.resourceTypeIcon a {
+    color: #bbbbbb;
+}
+
+.resourceType {
+    font-size: 13px;
+}
+
+.resourceTypeCount {
+    font-weight: 300;
+    color: #bbbbbb;
+}
+
+.resourceTypeIcon {
+    margin-top: 6px;
+}
+
+.searchBoxContainer {
+    background: url("//www.openminted.eu/wp-content/uploads/2016/01/lamps.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-bottom: 10px;
+}
+
+input.searchTextBox, input.searchTextBox:focus, input.searchTextBox:active {
+    background: #fff none repeat scroll 0 0;
+}
+
+.searchButton button {
+    width: 100%;
+}
+
+/******************************************************************/
+
+ul.facets-selected {
+    padding-left: 0px;
+}
+
+.search-tag {
+    border: 1px solid #4D586A;
+    border-radius: 2px;
+    font-size: 13px;
+    color: #4D586A;
+}
+
+.search-tag .title {
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.cf::after, .lc::after, main::after, [role="main"]::after, .section::after, .search-list-item footer::after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.facets-selected {
+    display: block;
+    font-size: 0;
+    margin-top: 0.4rem;
+    /*text-align: center;*/
+}
+
+.search-input-item, .search-tag {
+    display: inline-block;
+    line-height: 1.6;
+    margin-right: 0.2em;
+    padding: 0.2rem 0.4rem;
+}
+
+.search-input-item, .search-tag {
+    display: inline-block;
+    line-height: 1.6;
+    margin-right: 0.2em;
+    padding: 0.2rem 0.4rem;
+}
+
+.facets-selected .search-tag {
+    background-color: transparent;
+    border-right: 1px solid #a3b8bd;
+    /*color: #ffffff;*/
+    font-size: 0.875rem;
+}
+
+.has-bgimage .facets-selected .search-tag {
+    color: #ffffff;
+}
+
+.search-tag .title {
+    /*color: rgba(255, 255, 255, 0.8);*/
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.has-bgimage .search-tag .title {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.search-tag a[data-role="remove"] {
+    color: white;
+    cursor: pointer;
+    margin-left: 4px;
+}
+
+.facets-selected .search-tag a[data-role="remove"] {
+    /*background-color: #a3b8bd;*/
+    border-radius: 20em;
+    display: inline-block;
+    font-size: 11px;
+    position: relative;
+    /*text-align: center;*/
+    top: -1px;
+    width: 1.6em;
+    color: #4D586A;
+}
+
+.has-bgimage .facets-selected .search-tag a[data-role="remove"] {
+    color: #4d4d4d;
+}
+
+.search-tag a[data-role="remove"]::after {
+    content: "✕";
+    padding: 0 2px;
+    vertical-align: baseline;
+}
+
+.is-vishidden {
+    border: 0 none;
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute !important;
+    width: 1px;
+}
+
+/******************************************************************/
+
+.search_box_bg .uk-button-default {
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+.resultsPageLabel {
+    margin-top: -40px;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: #9f9b9b;
+    text-transform: uppercase;
+}
+
+/*.serviceTagLine {*/
+    /*color: #214c9c;*/
+/*}*/
+
+.actionIcons {
+    width: 25%;
+}
+
+.actionIcons a {
+    color: #bbbbbb;
+}
+
+.grayActionIcons a {
+    color: #bbbbbb;
+}
+
+.blueActionIcons {
+    color: #214c9c;
+}
+
+.compareButton {
+    margin-bottom: 15px;
+}
+
+.compareButton a {
+    padding: 5px 15px;
+    color: #fff;
+}
+
+/*.compareButton {*/
+    /*float: right;*/
+    /*position: fixed;*/
+    /*top: calc(33%);*/
+    /*right: 0;*/
+    /*z-index: 10000;*/
+    /*display: block;*/
+/*}*/
+
+.comma-element::before {
+    content: ', ';
+}
+
+.comma-element:first-child::before {
+    content: '';
+}
+
+
+
+
+.refines .uk-h2 {
+  padding-bottom: 15px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  /*position: relative;*/
+  line-height: 140%;
+  /*font-size: 24px;*/
+  font-family: 'Montserrat', sans-serif;
+  color: #232323;
+  letter-spacing: 0;
+  font-size: 22px;
+}
+
+.refines .uk-h2::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 2px;
+  background: #37833F;
+  margin-top: 7px;
+}

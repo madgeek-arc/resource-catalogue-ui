@@ -40,11 +40,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   foundResults = true;
   advanced = false;
   providers: any;
-  // vocabularies: any;
+  loading = false;
 
   listViewActive = true;
-
-  obsTimer = timer(1000);
 
   constructor(public fb: FormBuilder, public router: NavigationService, public route: ActivatedRoute,
               public userService: UserService, public resourceService: ResourceService,
@@ -90,10 +88,13 @@ export class SearchComponent implements OnInit, OnDestroy {
         // this.navigationService.paramsObservable.next(this.urlParameters);
 
         // request results from the registry
+        this.loading = true;
         return this.resourceService.search(this.urlParameters).subscribe(
           searchResults => this.updateSearchResults(searchResults),
           error => {},
-          // () => console.log(this.searchResults)
+          () => {
+            this.loading = false;
+          }
         );
 
       });

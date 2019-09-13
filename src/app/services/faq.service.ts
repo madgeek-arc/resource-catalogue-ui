@@ -10,9 +10,7 @@ import {catchError, map} from 'rxjs/operators';
 
 @Injectable()
 export class FAQService {
-  // private _faqUrl = "http://83.212.101.85:5555/api/";
-  /*private _faqUrl = "http://beta.einfracentral.eu/faq/";*/
-  private _faqUrl = environment.API_ENDPOINT;
+  private _faqUrl = environment.FAQ_ENDPOINT;
 
   constructor(public http: HttpClient) {
   }
@@ -21,7 +19,7 @@ export class FAQService {
     console.log(this._faqUrl + '/topic/active');
     return this.http.get<ActiveTopicQuestions[]>(this._faqUrl + '/topic/active')
       .pipe(
-        // map(res => <ActiveTopicQuestions[]> res.json()),
+        map(res => <ActiveTopicQuestions[]>res),
         catchError(this.handleError)
       );
   }

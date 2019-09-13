@@ -6,6 +6,8 @@ import {PremiumSortFacetsPipe, PremiumSortFundersPipe, PremiumSortPipe} from './
 import {SafePipe} from './pipes/safe.pipe';
 import {StringArraySortPipe} from './pipes/sort.pipe';
 import {ValuesPipe} from './pipes/getValues.pipe';
+import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.component';
+import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 
 @NgModule({
   imports: [],
@@ -18,7 +20,9 @@ import {ValuesPipe} from './pipes/getValues.pipe';
     PremiumSortFacetsPipe,
     PremiumSortFundersPipe,
     SafePipe,
-    ValuesPipe
+    ValuesPipe,
+    ForbiddenPageComponent,
+    NotFoundPageComponent
   ],
   exports: [
     JoinPipe,

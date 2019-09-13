@@ -165,29 +165,73 @@ export class ServiceFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  onSubmit(service: Service, isValid: boolean) {
-    this.errorMessage = '';
+  // onSubmit(service: Service, isValid: boolean) {
+  //   this.errorMessage = '';
+  //
+  //   /** if valid submit **/
+  //   if (isValid) {
+  //     // console.log(service);
+  //     // console.log('pristine: ' + this.serviceForm.pristine);
+  //     if (this.serviceForm.pristine) {
+  //       this.postMeasurement(this.serviceID);
+  //     } else {
+  //       this.resourceService.uploadService(service, this.editMode)
+  //         .subscribe(_service => {
+  //             this.serviceID = _service.id;
+  //             // this.servicePostSuccess = true;
+  //             this.postMeasurement(_service.id);
+  //           },
+  //           error => {
+  //             window.scrollTo(0, 0);
+  //             this.errorMessage = error.error.error;
+  //             this.serviceForm.markAsPristine();
+  //           },
+  //         );
+  //     }
+  //   } else {
+  //     window.scrollTo(0, 0);
+  //     this.setAsTouched();
+  //     this.serviceForm.markAsDirty();
+  //     this.serviceForm.updateValueAndValidity();
+  //     if (!isValid) {
+  //       this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
+  //       if (!this.serviceForm.controls['description'].valid) {
+  //         this.errorMessage += ' Description is an mandatory field.';
+  //       }
+  //     }
+  //     if (this.logoError) {
+  //       this.logoError = false;
+  //       this.serviceForm.controls['symbol'].setErrors({'incorrect': true});
+  //       this.errorMessage += ' Logo url must have https:// prefix.';
+  //     }
+  //     if (!this.logoUrlWorks) {
+  //       this.serviceForm.controls['symbol'].setErrors({'incorrect': true});
+  //       this.errorMessage += ' Logo url doesn\'t point to a valid image.';
+  //     }
+  //   }
+  // }
 
-    /** if valid submit **/
-    if (isValid) {
-      // console.log(service);
-      console.log('pristine: ' + this.serviceForm.pristine);
-      if (this.serviceForm.pristine) {
-        this.postMeasurement(this.serviceID);
-      } else {
-        this.resourceService.uploadService(service, this.editMode)
-          .subscribe(_service => {
-              this.serviceID = _service.id;
-              // this.servicePostSuccess = true;
-              this.serviceForm.markAsPristine();
-              this.postMeasurement(_service.id);
-            },
-            error => {
-              window.scrollTo(0, 0);
-              this.errorMessage = error.error.error;
-            },
-          );
+  onSubmit (service: Service, isValid: boolean) {
+    this.errorMessage = '';
+    for (let i = 0; i < this.measurements.length; i++) {
+      // console.log(i + ' = ' + this.measurements.controls[i].untouched);
+      if (this.measurements.controls[i].untouched && this.measurements.controls[i].get('indicatorId').value === '') {
+        this.removeFroMeasurements(i);
+        continue;
       }
+      this.measurements.controls[i].get('serviceId').setValue(service.id);
+    }
+    if (isValid) {
+      this.resourceService.uploadServiceWithMeasurements(service, this.measurements.value).subscribe(
+        _service => {
+          // console.log(_service);
+          this.router.service(_service.id);
+        },
+        err => {
+          window.scrollTo(0, 0);
+          this.errorMessage = 'Something went bad, server responded: ' + err.error;
+        }
+      );
     } else {
       window.scrollTo(0, 0);
       this.setAsTouched();
@@ -198,15 +242,6 @@ export class ServiceFormComponent implements OnInit {
         if (!this.serviceForm.controls['description'].valid) {
           this.errorMessage += ' Description is an mandatory field.';
         }
-      }
-      if (this.logoError) {
-        this.logoError = false;
-        this.serviceForm.controls['symbol'].setErrors({'incorrect': true});
-        this.errorMessage += ' Logo url must have https:// prefix.';
-      }
-      if (!this.logoUrlWorks) {
-        this.serviceForm.controls['symbol'].setErrors({'incorrect': true});
-        this.errorMessage += ' Logo url doesn\'t point to a valid image.';
       }
     }
   }
@@ -235,8 +270,13 @@ export class ServiceFormComponent implements OnInit {
         this.placesVocIdArray = valuesPipe.transform(this.placesVocabulary.entries);
         this.languagesVocIdArray = valuesPipe.transform(this.languagesVocabulary.entries);
       },
-      error => {},
-      () => this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1)));
+      error => {
+      this.errorMessage = 'Something went bad while getting the data for page initialization. ' + error.error;
+      },
+      () => {
+        this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
+      }
+    );
 
     this.serviceForm.get('subcategory').disable();
     const subscription = this.serviceForm.get('category').valueChanges.subscribe(() => {
@@ -375,7 +415,7 @@ export class ServiceFormComponent implements OnInit {
   getIndicatorIds() {
     this.resourceService.getAllIndicators('indicator').subscribe(
       indicatorPage => this.indicators = indicatorPage,
-      error => this.errorMessage = error,
+      error => this.errorMessage = 'Could not get indicators. ' + error.error,
       () => {
         this.indicators.results.sort((a, b) => 0 - (a.id > b.id ? -1 : 1));
       }
@@ -389,7 +429,8 @@ export class ServiceFormComponent implements OnInit {
         this.places = suc;
         this.placesVocabulary = this.places.results[0];
         this.placesVocIdArray = valuesPipe.transform(this.placesVocabulary.entries);
-      }
+      },
+      error => this.errorMessage = 'Could not get places vocabulary. ' + error.error,
     );
   }
 
@@ -437,9 +478,9 @@ export class ServiceFormComponent implements OnInit {
   }
 
   postMeasurement(serviceId: string) {
-    if (this.measurements.length > 0) {
+    // if (this.measurements.length > 0) {
       for (let i = 0; i < this.measurements.length; i++) {
-        console.log(i + ' = ' + this.measurements.controls[i].untouched);
+        // console.log(i + ' = ' + this.measurements.controls[i].untouched);
         if (this.measurements.controls[i].untouched && this.measurements.controls[i].get('indicatorId').value === '') {
           this.removeFroMeasurements(i);
           continue;
@@ -448,25 +489,25 @@ export class ServiceFormComponent implements OnInit {
       }
       // console.log(this.measurementForm.controls);
       if (this.measurementForm.valid) {
-        this.resourceService.postMeasurementUpdateAll(this.measurements.value)
+        this.resourceService.postMeasurementUpdateAll(serviceId, this.measurements.value)
           .subscribe(
             res => this.router.service(serviceId),
             error => { // on measurement post error
               window.scrollTo(0, 0);
               this.errorMessage = error.error.error;
               this.serviceForm.get('id').setValue(serviceId);
-              this.serviceForm.markAsPristine();
               this.editMode = true;
             },
+            () => {}
           );
       } else {
         this.validateMeasurements();
         window.scrollTo(0, 0);
-        this.errorMessage = 'Please fill in all underlined fields at Indicator section';
+        this.errorMessage = 'Please fill all underlined fields at Indicator section';
       }
-    } else {
-      this.router.service(serviceId);
-    }
+    // } else {
+    //   this.router.service(serviceId);
+    // }
   }
 
   /** INDICATORS **/
