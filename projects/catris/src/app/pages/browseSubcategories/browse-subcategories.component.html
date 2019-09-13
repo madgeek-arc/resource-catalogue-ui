@@ -1,0 +1,39 @@
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
+  <div class="uk-container">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+
+        <h1 class="uk-h3">Browse service Subcategories</h1>
+
+        <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+          <div class="uk-grid">
+            <div class=" uk-width-expand@m">
+
+              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
+
+              <div *ngIf="nestedStructure" class="browseResults uk-grid">
+
+                <ul *ngFor="let superCategory of nestedStructure.children" class="uk-list uk-width-1-3@m">
+                  <!--<div *ngFor="let superCategory of nestedStructure.children" class="uk-width-1-3@m">-->
+                  <li>{{superCategory.vocabulary.name}}
+                    <ul *ngFor="let category of superCategory.children">
+                      <li>{{category.vocabulary.name }}
+                        <ul *ngFor="let subcategory of category.children">
+                          <li>{{subcategory.vocabulary.name}}</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <!--</div>-->
+                </ul>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

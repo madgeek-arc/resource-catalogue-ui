@@ -24,6 +24,7 @@ import {CKEditorModule} from 'ng2-ckeditor';
 import {ServiceEditExtendedComponent} from './pages/catrisService/service-edit-extended.component';
 import {AccordionSectionCatrisComponent} from './pages/catrisService/accordion-section-catris.component';
 import {AddFistServiceExtendedComponent} from './pages/catrisService/add-fist-service-extended.component';
+import {BrowseSubcategoriesComponent} from './pages/browseSubcategories/browse-subcategories.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {AddFistServiceExtendedComponent} from './pages/catrisService/add-fist-se
     AccordionSectionCatrisComponent,
     ServiceUploadExtendedComponent,
     ServiceEditExtendedComponent,
-    AddFistServiceExtendedComponent
+    AddFistServiceExtendedComponent,
+    BrowseSubcategoriesComponent
   ],
   imports: [
     BrowserModule,

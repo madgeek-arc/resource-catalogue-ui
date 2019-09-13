@@ -217,6 +217,11 @@ export class Vocabulary implements Identifiable {
   extras: { [index: string]: string };
 }
 
+export class NestedVocabulary {
+  vocabulary: Vocabulary;
+  children: NestedVocabulary[];
+}
+
 export enum VocabularyType {
   SUPERCATEGORY = "SUPERCATEGORY",
   CATEGORY = "CATEGORY",
