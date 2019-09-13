@@ -83,7 +83,7 @@
 
     <div class="uk-grid-margin uk-grid uk-grid-stack uk-margin" uk-grid="">
       <ng-container *ngFor="let entry of categories">
-        <div *ngIf="entry.id!='other'" class="uk-width-1-4@m" (click)="this.router.search({supercategory:entry.id})">
+        <div *ngIf="entry.id!='other'" class="uk-width-1-4@m" (click)="getSubcategoriesIds(entry.id, 'SUPERCATEGORY')">
           <div class="wk-panel wk-overlay-hover" style="min-height: 100px;">
 
             <div class="wk-text-center wk-margin wk-margin-top-remove">
@@ -108,7 +108,7 @@
     <div class="">
       <div class="uk-width-1-1@m uk-first-column">
         <div class="uk-margin-medium-top uk-text-center">
-          <a class="el-content uk-button butn theme" [routerLink]="['/browseCategories']" title="Explore More"
+          <a class="el-content uk-button butn theme" [routerLink]="['/browseSubcategories']" title="Explore More"
              uk-scroll="">
             View all
           </a>
@@ -128,7 +128,7 @@
 
     <div class="uk-grid-margin uk-grid uk-margin-bottom" uk-grid="">
       <ng-container *ngFor="let entry of scientificDomain">
-        <div *ngIf="entry.id!='other'" class="uk-width-1-4@m" (click)="this.router.search({scientific_domains:entry.id})">
+        <div *ngIf="entry.id!='other'" class="uk-width-1-4@m" (click)="getSubcategoriesIds(entry.id, 'SCIENTIFIC_DOMAIN')">
           <div class="wk-panel wk-overlay-hover" style="min-height: 100px;">
 
             <div class="wk-text-center wk-margin wk-margin-top-remove">

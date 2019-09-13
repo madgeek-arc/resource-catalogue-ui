@@ -2,7 +2,17 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
-import {Indicator, Measurement, Provider, RichService, Service, ServiceHistory, Vocabulary, VocabularyType} from '../domain/eic-model';
+import {
+  Indicator,
+  Measurement,
+  NestedVocabulary,
+  Provider,
+  RichService,
+  Service,
+  ServiceHistory,
+  Vocabulary,
+  VocabularyType
+} from '../domain/eic-model';
 import {IndicatorsPage, MeasurementsPage} from '../domain/indicators';
 import {BrowseResults} from '../domain/browse-results';
 import {SearchResults} from '../domain/search-results';
@@ -95,6 +105,12 @@ export class ResourceService {
     return this.http.get<Vocabulary[]>(this.base + `/vocabulary/byType/${type}`);
   }
 
+  getNestedVocabulariesByType(type: string) {
+    let params = new HttpParams();
+    params = params.append('type', type);
+    return this.http.get<NestedVocabulary>(this.base + `/vocabulary/vocabularyTree`, {params});
+  }
+
   idToName(acc: any, v: any) {
     acc[v.id] = v.name;
     return acc;
@@ -103,6 +119,13 @@ export class ResourceService {
   idToObject(acc, v) {
     acc[v.id] = {'type': v.type, 'name': v.name};
     return acc;
+  }
+
+  getSubcategoriesIdsFromSuperCategory(parent: string, type: string) {
+    let params = new HttpParams();
+    params = params.append('parent', parent);
+    params = params.append('type', type);
+    return this.http.get<string[]>(this.base + '/service/childrenFromParent', {params});
   }
 
   getServices() {
