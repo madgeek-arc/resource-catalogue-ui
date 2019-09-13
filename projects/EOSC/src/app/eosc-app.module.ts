@@ -4,7 +4,6 @@ import {NgModule} from '@angular/core';
 
 import {EoscAppComponent} from './eosc-app.component';
 import {HomeEoscComponent} from './pages/home/home-eosc.component';
-import {ResourceServiceExtended} from './services/resource.service.extended';
 import {FooterComponent} from './shared/footer/footer.component';
 import {BreadcrumbsComponent} from './shared/breadcrumbs/breadcrumbs.component';
 import {TopMenuComponent} from './shared/topmenu/topmenu.component';
@@ -18,6 +17,7 @@ import {SharedModule} from '../../../../src/app/shared/shared.module';
 import {StarRatingModule} from 'angular-star-rating';
 import {ChartModule} from 'angular2-highcharts';
 import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/cookie-law/cookie-law.module';
+import {ResourceService} from '../../../../src/app/services/resource.service';
 
 
 @NgModule({
@@ -44,8 +44,8 @@ import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/coo
     ChartModule,
     CookieLawModule
   ],
-  providers: [
-    ResourceServiceExtended
+  providers: [ // this can be removed
+    ResourceService
   ],
   bootstrap: [EoscAppComponent]
 })
