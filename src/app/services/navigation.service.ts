@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 @Injectable()
 export class NavigationService {
 
-    private searchParams: Subject<any> = new Subject();
+    public searchParams: Subject<any> = new Subject();
 
     private breadcrumbs_: Subject<any> = new Subject<any>();
 

@@ -25,4 +25,3 @@ export class HomeCatrisComponent extends HomeComponent implements OnInit {
     );
   }
 }
-
