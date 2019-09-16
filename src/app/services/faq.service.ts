@@ -7,6 +7,7 @@ import {ActiveTopicQuestions} from '../domain/faq-active-topic-questions';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
+import {Question} from '../domain/faq-question';
 
 @Injectable()
 export class FAQService {
@@ -16,10 +17,10 @@ export class FAQService {
   }
 
   getActiveTopicQuestions() {
-    console.log(this._faqUrl + '/topic/active');
-    return this.http.get<ActiveTopicQuestions[]>(this._faqUrl + '/topic/active')
+    console.log(this._faqUrl + '/question');
+    return this.http.get<Question[]>(this._faqUrl + '/question')
       .pipe(
-        map(res => <ActiveTopicQuestions[]>res),
+        map(res => <Question[]>res),
         catchError(this.handleError)
       );
   }

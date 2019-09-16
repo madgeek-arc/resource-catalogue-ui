@@ -6,6 +6,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ActiveTopicQuestions} from '../../../domain/faq-active-topic-questions';
 import {FAQService} from '../../../services/faq.service';
+import {Question} from '../../../domain/faq-question';
 
 @Component({
     selector: 'app-faqs',
@@ -14,7 +15,7 @@ import {FAQService} from '../../../services/faq.service';
 })
 export class FAQsComponent implements OnInit {
 
-    public activeTopicQuestions: ActiveTopicQuestions[] = [];
+    public activeTopicQuestions: Question[] = [];
     public errorMessage: string;
 
     constructor(public route: ActivatedRoute,
@@ -25,7 +26,7 @@ export class FAQsComponent implements OnInit {
     ngOnInit() {
         this.faqService.getActiveTopicQuestions().subscribe(
             activeTopicQuestions => this.activeTopicQuestions = activeTopicQuestions,
-            err => this.handleError(err)
+            err => this.handleError(err),
         );
     }
 

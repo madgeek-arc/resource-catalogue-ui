@@ -1,7 +1,7 @@
 /**
  * Created by stefania on 7/12/17.
  */
-import {Topic} from "./faq-topic";
+import {Topic} from './faq-topic';
 
 export class Question {
     id: string;
