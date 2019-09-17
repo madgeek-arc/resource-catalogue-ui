@@ -106,9 +106,7 @@ export class ResourceService {
   }
 
   getNestedVocabulariesByType(type: string) {
-    let params = new HttpParams();
-    params = params.append('type', type);
-    return this.http.get<NestedVocabulary>(this.base + `/vocabulary/vocabularyTree`, {params});
+    return this.http.get<NestedVocabulary>(this.base + `/vocabulary/vocabularyTree/${type}`);
   }
 
   idToName(acc: any, v: any) {

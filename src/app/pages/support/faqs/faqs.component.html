@@ -26,7 +26,6 @@
               <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
               <div *ngIf="activeTopicQuestions && !errorMessage">
-<!--                <pre>{{activeTopicQuestions | json}</pre>-->
 
                 <div *ngIf="activeTopicQuestions.length==0" class="uk-alert uk-alert-warning">
                   There are no active FAQs at the moment
@@ -36,14 +35,14 @@
 
                   <div *ngFor="let activeTopicQuestion of activeTopicQuestions" class="uk-margin-large-bottom">
 
-                    <h4>{{activeTopicQuestion.question}}</h4>
-                    <p *ngIf="activeTopicQuestion.answer">{{activeTopicQuestion.answer}}</p>
+                    <h4>{{activeTopicQuestion.name}}</h4>
+                    <p *ngIf="activeTopicQuestion.description">{{activeTopicQuestion.description}}</p>
 
-                    <ul *ngIf="activeTopicQuestion.topics.length>0" uk-accordion>
-                      <li *ngFor="let question of activeTopicQuestion.topics" class="uk-margin-bottom">
-                        <h3 class="uk-accordion-title">{{question.name}}</h3>
+                    <ul *ngIf="activeTopicQuestion.questions.length>0" uk-accordion>
+                      <li *ngFor="let question of activeTopicQuestion.questions" class="uk-margin-bottom">
+                        <h3 class="uk-accordion-title">{{question.question}}</h3>
                         <div class="uk-accordion-content">
-                          <p>{{question.description}}</p>
+                          <p>{{question.answer}}</p>
                         </div>
                       </li>
                     </ul>

@@ -17,10 +17,10 @@ export class FAQService {
   }
 
   getActiveTopicQuestions() {
-    console.log(this._faqUrl + '/question');
-    return this.http.get<Question[]>(this._faqUrl + '/question')
+    console.log(this._faqUrl + '/topic/active');
+    return this.http.get<ActiveTopicQuestions[]>(this._faqUrl + '/topic/active')
       .pipe(
-        map(res => <Question[]>res),
+        map(res => <ActiveTopicQuestions[]>res),
         catchError(this.handleError)
       );
   }
