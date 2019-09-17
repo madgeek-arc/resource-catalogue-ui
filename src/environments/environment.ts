@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  FAQ_ENDPOINT: 'https://beta.einfracentral.eu/faq',
+  FAQ_ENDPOINT: 'https://dl105.madgik.di.uoa.gr/faq/api',
   API_ENDPOINT: '/eic-registry' // to change the end point go to proxy.conf.json file
 };
 
