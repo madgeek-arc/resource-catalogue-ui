@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Component, OnInit} from '@angular/core';
 import {filter} from 'rxjs/operators';
 import {NavigationService} from '../../../../../../src/app/services/navigation.service';
+import {URLParameter} from '../../../../../../src/app/domain/url-parameter';
+import {query} from '@angular/animations';
 
 
 interface IBreadcrumb {
@@ -18,8 +20,11 @@ interface IBreadcrumb {
 })
 export class BreadcrumbsComponent implements OnInit {
 
+  private urlParameters: URLParameter[] = [];
   public breadcrumbs: IBreadcrumb[];
   public goBack = false;
+  public showSearchFieldDropDown = false;
+  public searchFields: string[] = ['name', 'description', 'tagline', 'user value', 'user base', 'use cases'];
   readonly ROUTE_DATA_BREADCRUMB: string = 'breadcrumb';
 
   public searchForm: FormGroup;
@@ -31,7 +36,7 @@ export class BreadcrumbsComponent implements OnInit {
     public fb: FormBuilder
   ) {
     this.breadcrumbs = [];
-    this.searchForm = fb.group({'query': ['']});
+    this.searchForm = fb.group({'query': [''], 'searchFields': ['']});
   }
 
   onSubmit(searchValue: string) {
@@ -56,15 +61,49 @@ export class BreadcrumbsComponent implements OnInit {
       }
       params.splice(1, 0, `query=${searchValue}`);
       params = params.slice(1);
-      console.log(params);
       url = params.join(';');
-      // console.log(params);
-      // console.log(url);
       this.navigation.searchParams.next({query: searchValue});
       return window.location.href = '/search;' + url;
     } else {
       return this.navigation.search({query: searchValue});
     }
+  }
+
+  updateSearchField(event) {
+    const map: { [name: string]: string; } = {};
+    const params = this.activatedRoute.snapshot.children[0].params;
+    let found = false;
+    this.urlParameters = [];
+    for (const i in params) {
+      if (params.hasOwnProperty(i)) {
+        if (i === 'searchFields') {
+          found = true;
+          if (event.target.value === '') {
+            continue;
+          } else {
+            this.urlParameters.push({key: i, values: [event.target.value]});
+            continue;
+          }
+        }
+        this.urlParameters.push({key: i, values: [params[i]]});
+      }
+    }
+    if (!found) {
+      this.urlParameters.push({key: 'searchFields', values: [event.target.value]});
+    }
+    for (const urlParameter of this.urlParameters) {
+      let concatValue = '';
+      let counter = 0;
+      for (const value of urlParameter.values) {
+        if (counter !== 0) {
+          concatValue += ',';
+        }
+        concatValue += value;
+        counter++;
+      }
+      map[urlParameter.key] = concatValue;
+    }
+    return this.navigation.search(map);
   }
 
   ngOnInit() {
@@ -77,8 +116,19 @@ export class BreadcrumbsComponent implements OnInit {
       this.breadcrumbs[this.breadcrumbs.length - 1].label = service;
     });
 
+    const snapshotParams = this.activatedRoute.snapshot.children[0].params;
+    for (const i in snapshotParams) {
+      if (snapshotParams.hasOwnProperty(i)) {
+        if (i === 'query') {
+          this.searchForm.get('query').setValue(snapshotParams[i]);
+        }
+        if (i === 'searchFields') {
+          this.searchForm.get('searchFields').setValue(snapshotParams[i]);
+        }
+      }
+    }
+
     this.navigation.paramsObservable.subscribe(params => {
-      console.log(params);
       if (params != null) {
         for (const urlParameter of params) {
           if (urlParameter.key === 'query') {
@@ -88,7 +138,6 @@ export class BreadcrumbsComponent implements OnInit {
       } else {
         this.searchForm.get('query').setValue('');
       }
-
     });
   }
 
@@ -103,6 +152,7 @@ export class BreadcrumbsComponent implements OnInit {
     breadcrumbs.push(breadcrumb);
     this.breadcrumbs = this.getBreadcrumbs(root, '', breadcrumbs);
     this.goBack = !!this.breadcrumbs.find(v => v.label === 'Compare');
+    this.showSearchFieldDropDown = !!this.breadcrumbs.find(v => v.label === 'Search');
   }
 
   private getBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: IBreadcrumb[] = []): IBreadcrumb[] {

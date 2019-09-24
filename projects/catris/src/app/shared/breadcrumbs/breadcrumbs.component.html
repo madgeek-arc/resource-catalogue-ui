@@ -6,7 +6,7 @@
             <div class="container">
 
                 <div class="uk-grid">
-                    <div class="uk-width-3-4@m">
+                    <div class="uk-width-1-2@m">
                         <h2 class="element-invisible">You are here</h2>
                         <div class="breadcrumb">
 
@@ -47,11 +47,22 @@
                         </h1>
                     </div>
 
-                    <div class="uk-width-1-4@m">
-                        <form [formGroup]="searchForm" (ngSubmit)="onSubmit(searchForm.controls['query'].value)">
-                            <input type="text" class="uk-input menuSearch" placeholder="" name="keyword" formControlName="query">
-                        </form>
-                    </div>
+                  <div class="uk-width-1-2@m">
+                    <form class="uk-grid" [formGroup]="searchForm"
+                          (ngSubmit)="onSubmit(searchForm.controls['query'].value)">
+                      <div class="uk-width-1-2@m">
+                        <select *ngIf="showSearchFieldDropDown" class="uk-select menuSearchFields"
+                                (change)="updateSearchField($event)" formControlName="searchFields">
+                          <option value="">--Search field--</option>
+                          <option *ngFor="let field of searchFields" value="{{field}}">{{field}}</option>
+                        </select>
+                      </div>
+                      <div class="uk-width-1-2@m">
+                        <input type="text" class="uk-input menuSearch" placeholder="" name="keyword"
+                               formControlName="query">
+                      </div>
+                    </form>
+                  </div>
                 </div>
 
                 <!--<h2 class="element-invisible">You are here</h2>-->

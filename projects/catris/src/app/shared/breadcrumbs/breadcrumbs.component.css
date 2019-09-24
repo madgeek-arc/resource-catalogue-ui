@@ -48,6 +48,49 @@ h1 {
     margin: 5px 0 5px 0;
 }
 
+.menuSearchFields {
+  margin-top: 26px;
+  width: 300px;
+  border-bottom: none;
+  font-size: 16px;
+  padding: 0 15px;
+  color: rgba(134,174,63,1) !important;
+  /*background: #fff;*/
+  /*background-origin: content-box;*/
+}
+
+.menuSearchFields:focus {
+  outline: 0;
+  /*background: rgba(0,71,186,0.10) url("../../../assets/images/icons/ic_search.svg") no-repeat right;*/
+  /*background: #fff;*/
+  /*background-origin: content-box;*/
+  color: rgba(134,174,63,1) !important;
+  border: none !important;
+}
+
+
+.menuSearchFields::-webkit-input-placeholder {
+  color: rgba(134,174,63,0.75) !important;
+  /*font-size: 90%;*/
+}
+
+.menuSearchFields:-moz-placeholder {
+  color: rgba(134,174,63,0.75) !important;
+  /*font-size: 90%;*/
+  opacity:  1;
+}
+
+.menuSearchFields::-moz-placeholder {
+  color: rgba(134,174,63,0.75) !important;
+  /*font-size: 90%;*/
+  opacity:  1;
+}
+
+.menuSearchFields:-ms-input-placeholder {
+  color: rgba(134,174,63,0.75) !important;
+  /*font-size: 90%;*/
+}
+
 .menuSearch {
   margin-top: 26px;
   /*margin-left: 20px;*/
