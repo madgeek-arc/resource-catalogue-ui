@@ -14,7 +14,6 @@
           <div class="uk-display-inline-block uk-vertical-align-top">
             <h2 class="uk-h2 uk-inline" style="margin-bottom: 5px">
               {{richService.service.name || "Not Available"}}
-              {{canEditService}}
               <span class="uk-margin-left" *ngIf="canEditService">
                 <a (click)="this.router.edit(richService.service.id)" routerLinkActive="active">
                   <i class="fa fa-pencil" style="color: rgb(55, 131, 63)"></i></a>
@@ -95,12 +94,24 @@
 
               <div class="uk-width-1-1 leftColumn">
                 <div class="serviceDescription" *ngIf="richService.service.description">
-                  <p [innerHTML]="richService.service.description">
-                  </p>
+                  <p [innerHTML]="richService.service.description"></p>
                 </div>
-
+                <div class="badges uk-margin-bottom">
+                  <span>Funded by: </span>
+                  <span *ngFor="let funder of richService.fundedByNames" class="uk-badge uk-margin-small-right">{{funder}}</span>
+                </div>
                 <div class="badges uk-margin-bottom">
                   <span *ngFor="let tag of richService.service.tags" class="uk-badge uk-margin-small-right">{{tag}}</span>
+                </div>
+                <div class="" uk-grid>
+                  <div class="badges uk-margin-bottom uk-width-1-2@m">
+                    <span>Access Types: </span>
+                    <span *ngFor="let accessType of richService.accessTypeNames" class="uk-badge uk-margin-small-right">{{accessType}}</span>
+                  </div>
+                  <div class="badges uk-margin-bottom uk-width-1-2@m">
+                    <span>Access Modes: </span>
+                    <span *ngFor="let accessMode of richService.accessModeNames" class="uk-badge uk-margin-small-right">{{accessMode}}</span>
+                  </div>
                 </div>
               </div>
 
@@ -166,19 +177,25 @@
             <!--</span>-->
           </div>
           <div class="uk-margin-top">
-            <div class="uk-width-1-1">
-              <a class="uk-button butn theme uk-width-1-1" href="{{richService.service.url}}" target="_blank"
-                 routerLinkActive="active">
-                <!--<a class="uk-width-1-1 uk-button uk-button-primary visitButton" href="{{richService.url}}" target="_blank" routerLinkActive="active">-->
-                <strong>Service Homepage</strong>
-              </a>
-            </div>
-            <div class="uk-width-1-1 uk-margin-top">
-              <a *ngIf="richService.service.order" class="uk-button butn theme uk-width-1-1"
-                 href="{{richService.service.order}}" routerLinkActive="active" target="_blank">
-                <strong>Service order</strong>
-              </a>
-            </div>
+            <a class="uk-button butn theme uk-width-1-1" href="{{richService.service.url}}" target="_blank"
+               routerLinkActive="active">
+              <!--<a class="uk-width-1-1 uk-button uk-button-primary visitButton" href="{{richService.url}}" target="_blank" routerLinkActive="active">-->
+              <strong>Service Homepage</strong>
+            </a>
+            <a *ngIf="richService.service.multimediaUrls" class="uk-margin-top uk-margin-large-bottom uk-button butn theme uk-width-1-1"
+               href="{{richService.service.multimediaUrls}}" routerLinkActive="active" target="_blank">
+              <strong>Slideshow/Video</strong>
+            </a>
+            <a *ngIf="richService.service.order" class="uk-margin-top uk-button butn theme uk-width-1-1"
+               href="{{richService.service.order}}" routerLinkActive="active" target="_blank">
+              <strong>Request the Service/Resource</strong>
+            </a>
+            <a class="uk-margin-top uk-button butn theme uk-width-1-1" routerLinkActive="active" target="_blank">
+              <strong>SAsk for a Quote</strong>
+            </a>
+            <a class="uk-margin-top uk-button butn theme uk-width-1-1" routerLinkActive="active" target="_blank">
+              <strong>Request Information</strong>
+            </a>
           </div>
         </div>
       </div>
@@ -191,30 +208,30 @@
         <div class="uk-width-3-4">
 
           <!--USAGE-->
-          <div>
-            <h2 class="section-heading uk-h2">Usage</h2>
-            <dl class="uk-description-list">
-              <div *ngIf="richService.service.trl" class="uk-margin-bottom">
-                <dt class="uk-margin-small-right">Technology readiness level</dt>
-                <dd class="">{{richService.trlName}}</dd>
-              </div>
-              <div *ngIf="richService.phaseName" class="uk-margin-bottom">
-                <dt class="uk-margin-small-right">Lifecycle Status</dt>
-                <dd class="">{{richService.phaseName}}</dd>
-              </div>
-            </dl>
-            <!--<hr class="customDivider">-->
-            <dl class="uk-description-list">
-              <dt class="">Access type</dt>
-              <dd>{{richService.accessTypeNames}}</dd>
-              <dt class="">Access mode</dt>
-              <dd>{{richService.accessModeNames}}</dd>
-              <ng-container *ngIf="richService.service.options">
-                <dt class="">Options</dt>
-                <dd>{{richService.service.options}}</dd>
-              </ng-container>
-            </dl>
-          </div>
+<!--          <div>-->
+<!--            <h2 class="section-heading uk-h2">Usage</h2>-->
+<!--            <dl class="uk-description-list">-->
+<!--              <div *ngIf="richService.service.trl" class="uk-margin-bottom">-->
+<!--                <dt class="uk-margin-small-right">Technology readiness level</dt>-->
+<!--                <dd class="">{{richService.trlName}}</dd>-->
+<!--              </div>-->
+<!--              <div *ngIf="richService.phaseName" class="uk-margin-bottom">-->
+<!--                <dt class="uk-margin-small-right">Lifecycle Status</dt>-->
+<!--                <dd class="">{{richService.phaseName}}</dd>-->
+<!--              </div>-->
+<!--            </dl>-->
+<!--            &lt;!&ndash;<hr class="customDivider">&ndash;&gt;-->
+<!--            <dl class="uk-description-list">-->
+<!--              <dt class="">Access type</dt>-->
+<!--              <dd>{{richService.accessTypeNames | join:", "}}</dd>-->
+<!--              <dt class="">Access mode</dt>-->
+<!--              <dd>{{richService.accessModeNames | join:", "}}</dd>-->
+<!--              <ng-container *ngIf="richService.service.options">-->
+<!--                <dt class="">Options</dt>-->
+<!--                <dd>{{richService.service.options | join:", "}}</dd>-->
+<!--              </ng-container>-->
+<!--            </dl>-->
+<!--          </div>-->
 
           <!--SERVICE COVERAGE-->
           <div class="uk-margin-medium-top">
@@ -252,20 +269,51 @@
               </ng-container>
               <ng-container *ngIf="richService.service.userBaseList">
                 <dt class="">User base</dt>
-                <dd><read-more [maxHeight]="90">{{richService.service.userBaseList}}</read-more></dd>
+                <dd><read-more [maxHeight]="90">{{richService.service.userBaseList | join:", "}}</read-more></dd>
               </ng-container>
               <dt class="">Use cases</dt>
-              <dd><read-more [maxHeight]="90">{{richService.service.useCases}}</read-more></dd>
+              <dd><read-more [maxHeight]="90">{{richService.service.useCases | join:", "}}</read-more></dd>
             </dl>
           </div>
 
           <!--FUNDING-->
-          <div *ngIf="richService.fundedByNames" class="uk-margin-medium-top">
-            <h2 class="section-heading uk-h2">Funding</h2>
-            <dl class="uk-description-list">
-              <!--<dt class="uk-margin-small-bottom">Funding sources</dt>-->
-              <dd>{{richService.fundedByNames}}</dd>
-            </dl>
+<!--          <div *ngIf="richService.fundedByNames" class="uk-margin-medium-top">-->
+<!--            <h2 class="section-heading uk-h2">Funding</h2>-->
+<!--            <dl class="uk-description-list">-->
+<!--              &lt;!&ndash;<dt class="uk-margin-small-bottom">Funding sources</dt>&ndash;&gt;-->
+<!--              <dd>{{richService.fundedByNames}}</dd>-->
+<!--            </dl>-->
+<!--          </div>-->
+
+          <!--OPTIONS-->
+          <div *ngIf="richService.service.options" class="uk-margin-medium-top" uk-grid>
+            <h2 class="section-heading uk-h2 uk-width-1-1@m">Service Offers</h2>
+            <div *ngFor="let option of richService.service.options let i = index" class="uk-width-1-3@m uk-margin-remove">
+              <div>Option {{i+1}}</div>
+              <div>{{option.name}}</div>
+              <div>{{option.description}}</div>
+              <div>{{option.url}}</div>
+              <div *ngIf="option.logo">{{option.logo}}</div>
+            </div>
+          </div>
+
+          <!--REQUIRED/RELATED-->
+          <div class="uk-margin-medium-top uk-child-width-1-3@m" uk-grid>
+            <div *ngIf="richService.service.requiredServices && (richService.service.requiredServices.length > 0) && services.length !== 0">
+              <div class="infoTitle uk-margin-small-right">Required services </div>
+              <div *ngFor="let requiredService of richService.service.requiredServices">
+                <a (click)="this.router.service(requiredService)">{{getPrettyService(requiredService).service.name}}</a>
+              </div>
+            </div>
+            <div *ngIf="richService.service.relatedServices && richService.service.relatedServices.length>0 && services.length !== 0">
+              <div class="infoTitle uk-margin-small-right">Related services</div>
+              <div *ngFor="let relatedService of richService.service.relatedServices">
+                <a (click)="this.router.service(relatedService)">{{getPrettyService(relatedService).service.name}}</a>
+              </div>
+            </div>
+            <div *ngIf="richService.service.relatedPlatforms">
+              Related Platforms
+            </div>
           </div>
 
         </div>
@@ -273,10 +321,10 @@
 
           <div class="uk-card uk-card-body uk-card-primary sideInfo">
             <h2 class="uk-h2 sidebarHeaders">Contractual Info</h2>
-            <!--TODO remove hardcoded-->
-            <div class="uk-margin-bottom" style="font-size: 17px">
-              Fully open Access
-            </div>
+<!--            &lt;!&ndash;TODO remove hardcoded&ndash;&gt;-->
+<!--            <div class="uk-margin-bottom" style="font-size: 17px">-->
+<!--              Fully open Access-->
+<!--            </div>-->
             <div *ngIf="richService.service.pricing" class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" target="_blank" href="{{richService.service.pricing}}">
                 Price<i class="fa fa-long-arrow-right uk-margin-small-left"></i>
@@ -293,14 +341,6 @@
                   Terms of use<i class="fa fa-long-arrow-right uk-margin-small-left"></i>
                 </a>
               </div>
-<!--              <ng-container *ngIf="richService.termsOfUse.length>1">-->
-<!--                <div *ngFor="let term of richService.termsOfUse; let i = index;"-->
-<!--                     class="uk-margin-small-bottom">-->
-<!--                  <a class="uk-margin-small-right" target="_blank" href="{{richService.termsOfUse[i]}}">-->
-<!--                    Terms of use {{i + 1}} <i class="fa fa-long-arrow-right"></i>-->
-<!--                  </a>-->
-<!--                </div>-->
-<!--              </ng-container>-->
             </ng-container>
             <div class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" target="_blank" href="{{richService.service.privacyPolicy}}">
@@ -323,9 +363,14 @@
             <h2 class="uk-h2 sidebarHeaders">Support</h2>
             <div *ngIf="richService.service.manual" class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" target="_blank" href="{{richService.service.manual}}">
-                Manual<i class="fa fa-long-arrow-right uk-margin-small-left"></i>
+                User Manual<i class="fa fa-long-arrow-right uk-margin-small-left"></i>
               </a>
             </div>
+<!--            <div *ngIf="richService.service.manual" class="uk-margin-small-bottom">-->
+<!--              <a class="uk-margin-small-right" target="_blank" href="{{richService.service.manual}}">-->
+<!--                Admin Manual<i class="fa fa-long-arrow-right uk-margin-small-left"></i>-->
+<!--              </a>-->
+<!--            </div>-->
             <div *ngIf="richService.service.training" class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" target="_blank" href="{{richService.service.training}}">
                 Training<i class="fa fa-long-arrow-right uk-margin-small-left"></i>
@@ -336,11 +381,6 @@
                 Helpdesk<i class="fa fa-long-arrow-right uk-margin-small-left"></i>
               </a>
             </div>
-<!--            <div *ngIf="richService.feedback" class="uk-margin-small-bottom">-->
-<!--              <a class="uk-margin-small-right" target="_blank" href="{{richService.feedback}}">-->
-<!--                Feedback <i class="fa fa-long-arrow-right"></i>-->
-<!--              </a>-->
-<!--            </div>-->
             <div *ngIf="richService.service.monitoring" class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" target="_blank" href="{{richService.service.monitoring}}">
                 Monitoring<i class="fa fa-long-arrow-right uk-margin-small-left"></i>
@@ -352,31 +392,17 @@
                 Maintenance<i class="fa fa-long-arrow-right uk-margin-small-left"></i>
               </a>
             </div>
-<!--            TODO remove hardcoded-->
-<!--            <div class="uk-margin-small-bottom">-->
-<!--              <a class="uk-margin-small-right" target="_blank"-->
-<!--                 href="{{richService.service.multimediaUrls}}">-->
-<!--                Multimedia <i class="fa fa-long-arrow-right"></i>-->
-<!--              </a>-->
-<!--            </div>-->
-            <div *ngIf="richService.service.multimediaUrls" class="uk-margin-small-bottom">
-              <a class="uk-margin-small-right" target="_blank"
-                 href="{{richService.service.multimediaUrls}}">
-                Multimedia<i class="fa fa-long-arrow-right uk-margin-small-left"></i>
-              </a>
-            </div>
           </div>
 
           <div class="uk-card uk-card-body uk-card-primary sideInfo uk-margin-top">
             <h2 class="uk-h2 sidebarHeaders">Contact</h2>
             <dl class="uk-description-list">
-                <dt class="">Owner</dt>
-                <dd>
-
-                  <a class="uk-margin-small-right" target="_blank" href="{{richService.service.ownerContact}}">
-                    {{richService.service.ownerName}}<i class="fa fa-envelope uk-margin-small-left"></i>
-                  </a>
-                </dd>
+              <dt class="">Owner</dt>
+              <dd>
+                <a class="uk-margin-small-right" target="_blank" href="{{richService.service.ownerContact}}">
+                  {{richService.service.ownerName}}<i class="fa fa-envelope uk-margin-small-left"></i>
+                </a>
+              </dd>
             </dl>
           </div>
 
@@ -389,58 +415,66 @@
             </div>
             <div *ngIf="richService.service.lastUpdate" class="">
               <span class="infoTitle uk-margin-small-right">Last update</span>
-              <span class="infoDescription">{{ richService.service.lastUpdate | date }}</span>
+              <span class="infoDescription">{{richService.service.lastUpdate | date }}</span>
             </div>
-            <!--TODO remove hardcoded-->
-            <div class="">
-              <span class="infoDescription">
-                The changelog and roadmap are maintained at <a href="https://help.zenodo.org/whatsnew/">https://help.zenodo.org/whatsnew/</a> and
-                <a href="https://about.zenodo.org/roadmap/">https://about.zenodo.org/roadmap/</a>
-              </span>
+            <div>
+              <span class="infoTitle uk-margin-small-right">Phase</span>
+              <span class="infoDescription">{{richService.phaseName}}</span>
             </div>
-            <!--<div *ngIf="richService.changeLog" class="">-->
-              <!--<span class="infoTitle uk-margin-small-right">What's new</span>-->
-              <!--<span class="infoDescription">{{richService.changeLog}}</span>-->
-            <!--</div>-->
-<!--            <div *ngIf="richService.validFor" class="">-->
-<!--              <span class="infoTitle uk-margin-small-right">Validity</span>-->
-<!--              <span class="infoDescription">Until {{ richService.validFor | date }}</span>-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--            <div *ngIf="richService.availability" class="">-->
-<!--              <span class="infoTitle uk-margin-small-right">Availability</span>-->
-<!--              <span class="infoDescription">{{richService.availability}}</span>-->
+            <div>
+              <span class="infoTitle uk-margin-small-right">TRL</span>
+              <span class="infoDescription">{{richService.trlName}}</span>
+            </div>
+<!--            &lt;!&ndash;TODO remove hardcoded&ndash;&gt;-->
+<!--            <div class="">-->
+<!--              <span class="infoDescription">-->
+<!--                The changelog and roadmap are maintained at <a href="https://help.zenodo.org/whatsnew/">https://help.zenodo.org/whatsnew/</a> and-->
+<!--                <a href="https://about.zenodo.org/roadmap/">https://about.zenodo.org/roadmap/</a>-->
+<!--              </span>-->
 <!--            </div>-->
+            <div *ngIf="richService.service.changeLog" class="">
+              <span class="infoTitle uk-margin-small-right">What's new</span>
+              <span class="infoDescription">{{richService.service.changeLog}}</span>
+            </div>
+            <div *ngIf="richService.service.certifications" class="">
+              <span class="infoTitle uk-margin-small-right">Certifications</span>
+              <span class="infoDescription">{{richService.service.certifications}}</span>
+            </div>
+            <div *ngIf="richService.service.standards" class="">
+              <span class="infoTitle uk-margin-small-right">Standards</span>
+              <span class="infoDescription">{{richService.service.standards}}</span>
+            </div>
           </div>
 
           <!--<h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">See also</h4>-->
           <!--<hr class="customDivider">-->
-          <h2 class="uk-h2 sidebarHeaders section-heading uk-margin-medium-top">See also</h2>
-          <!--<dl class="uk-description-list">-->
-          <ng-container *ngIf="richService.service.requiredServices && (richService.service.requiredServices.length > 0) && services">
-            <dt class="infoTitle uk-margin-small-right">Required services</dt>
-            <!--<dt class="uk-margin-small-bottom">Required richServices</dt>-->
-            <dd *ngFor="let requiredService of richService.service.requiredServices">
-              <a (click)="this.router.service(getPrettyService(requiredService).service.id)">{{getPrettyService(requiredService).service.name}}</a>
-            </dd>
-          </ng-container>
-          <ng-container *ngIf="!richService.service.requiredServices || richService.service.requiredServices.length == 0">
-            <dt class="infoTitle uk-margin-small-right">Required services</dt>
-            <dd>
-              None
-            </dd>
-          </ng-container>
-          <ng-container *ngIf="richService.service.relatedServices && richService.service.relatedServices.length>0 && services">
-            <dt class="infoTitle uk-margin-small-right">Related services</dt>
-            <dd *ngFor="let relatedService of richService.service.relatedServices">
-              <a (click)="this.router.service(getPrettyService(relatedService).service.id)">{{getPrettyService(relatedService).service.name}}</a>
-            </dd>
-          </ng-container>
-          <ng-container *ngIf="!richService.service.relatedServices || richService.service.relatedServices.length == 0">
-            <dt class="infoTitle uk-margin-small-right">Related services</dt>
-            <dd>
-              None
-            </dd>
-          </ng-container>
+<!--          <h2 class="uk-h2 sidebarHeaders section-heading uk-margin-medium-top">See also</h2>-->
+<!--          &lt;!&ndash;<dl class="uk-description-list">&ndash;&gt;-->
+<!--          <ng-container *ngIf="richService.service.requiredServices && (richService.service.requiredServices.length > 0) && services">-->
+<!--            <dt class="infoTitle uk-margin-small-right">Required services</dt>-->
+<!--            &lt;!&ndash;<dt class="uk-margin-small-bottom">Required richServices</dt>&ndash;&gt;-->
+<!--            <dd *ngFor="let requiredService of richService.service.requiredServices">-->
+<!--              <a (click)="this.router.service(getPrettyService(requiredService).service.id)">{{getPrettyService(requiredService).service.name}}</a>-->
+<!--            </dd>-->
+<!--          </ng-container>-->
+<!--          <ng-container *ngIf="!richService.service.requiredServices || richService.service.requiredServices.length == 0">-->
+<!--            <dt class="infoTitle uk-margin-small-right">Required services</dt>-->
+<!--            <dd>-->
+<!--              None-->
+<!--            </dd>-->
+<!--          </ng-container>-->
+<!--          <ng-container *ngIf="richService.service.relatedServices && richService.service.relatedServices.length>0 && services">-->
+<!--            <dt class="infoTitle uk-margin-small-right">Related services</dt>-->
+<!--            <dd *ngFor="let relatedService of richService.service.relatedServices">-->
+<!--              <a (click)="this.router.service(getPrettyService(relatedService).service.id)">{{getPrettyService(relatedService).service.name}}</a>-->
+<!--            </dd>-->
+<!--          </ng-container>-->
+<!--          <ng-container *ngIf="!richService.service.relatedServices || richService.service.relatedServices.length == 0">-->
+<!--            <dt class="infoTitle uk-margin-small-right">Related services</dt>-->
+<!--            <dd>-->
+<!--              None-->
+<!--            </dd>-->
+<!--          </ng-container>-->
 
         </div>
       </div>

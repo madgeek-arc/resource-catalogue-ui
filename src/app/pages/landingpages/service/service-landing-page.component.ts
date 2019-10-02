@@ -21,7 +21,7 @@ declare var UIkit: any;
 })
 export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
-  services: RichService[];
+  services: RichService[] = [];
   public richService: RichService;
   public errorMessage: string;
   public EU: string[];
