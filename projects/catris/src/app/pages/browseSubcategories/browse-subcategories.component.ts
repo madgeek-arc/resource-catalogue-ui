@@ -23,4 +23,15 @@ export class BrowseSubcategoriesComponent implements OnInit {
       error => console.log(error)
     );
   }
+
+  getSubcategoriesIds(parent: string, type: string) {
+    let idsArray: string[];
+    this.resourceService.getSubcategoriesIdsFromSuperCategory(parent, type).subscribe(
+      res => idsArray = res,
+      error => console.log(error),
+      () => {
+        return this.router.search({subcategories: idsArray});
+      }
+    );
+  }
 }
