@@ -11,6 +11,7 @@ import {ServiceProviderService} from '../../../services/service-provider.service
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {flatMap} from 'rxjs/operators';
 import {zip} from 'rxjs/internal/observable/zip';
+import {EmailService} from '../../../../../projects/catris/src/app/services/email.service';
 
 declare var UIkit: any;
 
@@ -24,12 +25,14 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   services: RichService[] = [];
   public richService: RichService;
   public errorMessage: string;
+  public emailErrorMessage = '';
   public EU: string[];
   public WW: string[];
   public measurements: MeasurementsPage;
   public indicators: IndicatorsPage;
   public indicatorDesc = '';
-  public idArray: string[] = [];
+  public serviceId;
+  // public idArray: string[] = [];
   private sub: Subscription;
 
   weights: string[] = ['EU', 'WW'];
@@ -38,9 +41,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
   formError = '';
   showForm = false;
-  // rangeValue: boolean = false;
   canEditService = false;
-  // placesVocabulary: Vocabulary = null;
   placesVocIdArray: string[] = [];
   places: Vocabulary[] = null;
   newMeasurementForm: FormGroup;
@@ -60,13 +61,22 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
     })
   };
 
+  emailForm = this.fb.group({
+    recipientEmail: '',
+    senderEmail: ['', Validators.compose([Validators.required, Validators.email])],
+    senderName: ['', Validators.required],
+    subject: ['', Validators.required],
+    message: ['', Validators.required],
+  });
+
   constructor(public route: ActivatedRoute,
               public router: NavigationService,
               public resourceService: ResourceService,
               public authenticationService: AuthenticationService,
               public userService: UserService,
               private fb: FormBuilder,
-              private providerService: ServiceProviderService) {
+              private providerService: ServiceProviderService,
+              public emailService: EmailService) {
   }
 
   ngOnInit() {
@@ -89,6 +99,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           this.myProviders = suc[3];
           this.measurements = suc[4];
           this.indicators = <IndicatorsPage>suc[5];
+          this.serviceId = params['id'];
           this.getIndicatorIds();
           this.getLocations();
           this.router.breadcrumbs = this.richService.service.name;
@@ -383,4 +394,35 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
       this.formError = 'Please fill the required fields.';
     }
   }
+
+  resetForm() {
+    this.emailForm.get('subject').reset('');
+    this.emailForm.get('message').reset('');
+    this.emailErrorMessage = '';
+  }
+
+  setUserName() {
+    if (this.authenticationService.isLoggedIn()) {
+      this.emailForm.get('senderName').setValue(this.authenticationService.getUserProperty('given_name')
+        + ' ' + this.authenticationService.getUserProperty('family_name'));
+      this.emailForm.get('senderEmail').setValue(this.authenticationService.getUserProperty('email'));
+    }
+  }
+
+  sendMail() {
+    this.emailErrorMessage = '';
+    if (this.emailForm.valid) {
+      this.emailService.sendMail(this.serviceId, this.emailForm.value).subscribe(
+        res => UIkit.modal('#email-modal').hide(),
+        err =>  this.emailErrorMessage = 'Something went bad, server responded: ' + err.error
+      );
+    } else {
+      this.emailErrorMessage = 'Please fill all fields, correct the red outlined ones';
+      for (const i in this.emailForm.controls) {
+        this.emailForm.controls[i].markAsDirty();
+      }
+      this.emailForm.updateValueAndValidity();
+    }
+  }
+
 }
