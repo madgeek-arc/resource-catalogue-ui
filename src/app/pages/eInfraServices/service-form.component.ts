@@ -196,6 +196,11 @@ export class ServiceFormComponent implements OnInit {
   }
 
   onSubmit(service: Service, isValid: boolean) {
+    if (!this.authenticationService.isLoggedIn()) {
+      sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
+      sessionStorage.setItem('redirect_url', window.location.pathname);
+    }
+
     this.errorMessage = '';
     for (let i = 0; i < this.measurements.length; i++) {
       // console.log(i + ' = ' + this.measurements.controls[i].untouched);
@@ -299,6 +304,32 @@ export class ServiceFormComponent implements OnInit {
     this.pushCategory();
     this.pushScientificDomain();
     this.pushToMeasurements();
+
+    if (sessionStorage.getItem('service')) {
+      const data = JSON.parse(sessionStorage.getItem('service'));
+      for (const i in data) {
+        if (data.hasOwnProperty(i)) {
+          if (Array.isArray(data[i])) {
+            console.log(i);
+            for (let j = 0; j < data[i].length - 1; j++) {
+              if (i === 'scientificCategorization') {
+                this.scientificDomainArray.push(this.newScientificDomain());
+              } else if (i === 'categorize') {
+                this.categoryArray.push(this.newCategory());
+              } else if (i === 'options') {
+                this.pushOption();
+              } else if ( i === 'providers' || i === 'targetUsers' || i === 'places' || i === 'languages') {
+                this.push(i, true);
+              } else {
+                this.push(i, false);
+              }
+            }
+          }
+        }
+      }
+      this.serviceForm.patchValue(data);
+      sessionStorage.removeItem('service');
+    }
   }
 
   public setAsTouched() {
