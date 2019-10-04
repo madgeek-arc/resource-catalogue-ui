@@ -198,7 +198,7 @@ export class ServiceFormComponent implements OnInit {
   onSubmit(service: Service, isValid: boolean) {
     if (!this.authenticationService.isLoggedIn()) {
       sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
-      sessionStorage.setItem('redirect_url', window.location.pathname);
+      this.authenticationService.login();
     }
 
     this.errorMessage = '';

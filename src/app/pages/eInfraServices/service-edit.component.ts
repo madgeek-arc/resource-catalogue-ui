@@ -40,11 +40,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
           const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
           this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
         }
-        // if (this.serviceForm.get('validFor').value) {
-        //   const validFor = new Date(this.serviceForm.get('validFor').value);
-        //   const validForDate = this.datePipe.transform(validFor, 'yyyy-MM-dd');
-        //   this.serviceForm.get('validFor').setValue(validForDate);
-        // }
       },
         err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error
       );
