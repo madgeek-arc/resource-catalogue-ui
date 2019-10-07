@@ -147,6 +147,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
   }
 
   measurementsFormPatch(measurements: MeasurementsPage) {
+    this.removeFroMeasurements(0);
     for (let i = 0; i < measurements.results.length; i++) {
       this.pushToMeasurements();
       for (const j in measurements.results[i]) {
@@ -169,9 +170,11 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
           this.measurements.controls[i].get(j).disable();
         }
       }
-      const time = new Date(this.measurements.controls[i].get('time').value);
-      const date = this.datePipe.transform(time, 'yyyy-MM-dd');
-      this.measurements.controls[i].get('time').setValue(date);
+      if (this.measurements.controls[i].get('time').value) {
+        const time = new Date(this.measurements.controls[i].get('time').value);
+        const date = this.datePipe.transform(time, 'yyyy-MM-dd');
+        this.measurements.controls[i].get('time').setValue(date);
+      }
     }
     // console.log(measurements.results);
   }
