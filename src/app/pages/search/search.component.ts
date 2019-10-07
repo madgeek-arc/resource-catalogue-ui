@@ -19,13 +19,6 @@ import {EmailService} from '../../../../projects/catris/src/app/services/email.s
 
 declare var UIkit: any;
 
-class CheckBoxTree {
-  id: string;
-  name: string;
-  count: number;
-  type: CheckBoxTree[];
-}
-
 @Component({
   selector: 'app-search',
   styleUrls: ['./search.component.css'],
@@ -74,6 +67,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   onSelectedChange(urlParams: string[], param) {
+    console.log(urlParams);
     let paramIndex = 0;
     for (const urlParameter of this.urlParameters) {
       if (urlParameter.key === param) {
@@ -130,100 +124,10 @@ export class SearchComponent implements OnInit, OnDestroy {
             this.updateSearchResults(searchResults);
             // console.log(searchResults.results);
             if (searchResults.facets.length !== 0 && this.items.length !== searchResults.facets[0].values.length) {
-              /** Checkbox Category structure!!!-->**/
-              let subCategoriesArray: string[] = [];
-              for (const param of this.urlParameters) {
-                if (param.key === 'subcategories') {
-                  subCategoriesArray = param.values;
-                  break;
-                }
-              }
-              this.items = [];
-              let found = false;
-              for (const superCategory of searchResults.facets[0].values) {
-                found = false;
-                const superCat = superCategory.value.split('-')[1];
-                const categories: TreeviewItem[] = [];
-                for (const category of searchResults.facets[1].values) {
-                  if (superCat === category.value.split('-')[1]) {
-                    const catId = category.value.split('-')[2];
-                    const subCategories: TreeviewItem[] = [];
-                    for (const subCategory of searchResults.facets[3].values) {
-                      if (catId === subCategory.value.split('-')[2]) {
-                        let checked = false;
-                        for (let i = 0; i < subCategoriesArray.length; i++) {
-                          if (subCategoriesArray[i] === subCategory.value) {
-                            checked = true;
-                            found = true;
-                            break;
-                          }
-                        }
-                        subCategories.push(new TreeviewItem({
-                          text: subCategory.label + ` (${subCategory.count})`, value: subCategory.value, collapsed: true, checked: checked
-                        }));
-                      }
-                    }
-                    categories.push(new TreeviewItem({
-                      text: category.label /*+ ` (${category.count})`*/,
-                      value: category.value,
-                      children: subCategories,
-                      collapsed: !found,
-                      checked: false
-                    }));
-                  }
-                }
-                this.items.push(new TreeviewItem({
-                  text: superCategory.label /*+ ` (${superCategory.count})`*/,
-                  value: superCategory.value,
-                  children: categories,
-                  collapsed: !found,
-                  checked: false
-                }));
-              }
-              /** <--Checkbox Category structure!!!**/
+              this.categoryNestedCheckboxes(searchResults);
             }
             if (searchResults.facets.length !== 0 && this.scientificDomain.length !== searchResults.facets[2].values.length) {
-              /** Checkbox Scientific Domain structure!!!-->**/
-              let subScientificDomainArray: string[] = [];
-              for (const param of this.urlParameters) {
-                if (param.key === 'scientific_subdomains') {
-                  subScientificDomainArray = param.values;
-                  break;
-                }
-              }
-              this.scientificDomain = [];
-              for (const domainValue of searchResults.facets[2].values) {
-                const domainId = domainValue.value.split('-')[1];
-                // console.log(domainId);
-                const subDomain: TreeviewItem[] = [];
-                for (const subDomainValue of searchResults.facets[5].values) {
-                  const subDomainId = subDomainValue.value.split('-')[1];
-                  let checked = false;
-                  for (let i = 0; i < subScientificDomainArray.length; i++) {
-                    if (subScientificDomainArray[i] === subDomainValue.value) {
-                      checked = true;
-                      break;
-                    }
-                  }
-                  // console.log(subDomainId);
-                  if (domainId === subDomainId) {
-                    subDomain.push(new TreeviewItem({
-                      text: subDomainValue.label + ` (${subDomainValue.count})`,
-                      value: subDomainValue.value,
-                      checked: checked,
-                      collapsed: true
-                    }));
-                  }
-                }
-                this.scientificDomain.push(new TreeviewItem({
-                  text: domainValue.label /*+ ` (${domainValue.count})`*/,
-                  value: domainValue.value,
-                  children: subDomain,
-                  checked: false,
-                  collapsed: true
-                }));
-              }
-              /** <--Checkbox Scientific Domain structure!!!**/
+              this.scientificDomainNestedCheckBoxes(searchResults);
             }
           },
           error => {},
@@ -322,6 +226,104 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  categoryNestedCheckboxes(searchResults) {
+    /** Checkbox Category structure!!!-->**/
+    let subCategoriesArray: string[] = [];
+    for (const param of this.urlParameters) {
+      if (param.key === 'subcategories') {
+        subCategoriesArray = param.values;
+        break;
+      }
+    }
+    this.items = [];
+    let found = false;
+    for (const superCategory of searchResults.facets[0].values) {
+      found = false;
+      const superCat = superCategory.value.split('-')[1];
+      const categories: TreeviewItem[] = [];
+      for (const category of searchResults.facets[1].values) {
+        if (superCat === category.value.split('-')[1]) {
+          const catId = category.value.split('-')[2];
+          const subCategories: TreeviewItem[] = [];
+          for (const subCategory of searchResults.facets[3].values) {
+            if (catId === subCategory.value.split('-')[2]) {
+              let checked = false;
+              for (let i = 0; i < subCategoriesArray.length; i++) {
+                if (subCategoriesArray[i] === subCategory.value) {
+                  checked = true;
+                  found = true;
+                  break;
+                }
+              }
+              subCategories.push(new TreeviewItem({
+                text: subCategory.label + ` (${subCategory.count})`, value: subCategory.value, collapsed: true, checked: checked
+              }));
+            }
+          }
+          categories.push(new TreeviewItem({
+            text: category.label /*+ ` (${category.count})`*/,
+            value: category.value,
+            children: subCategories,
+            collapsed: !found,
+            checked: false
+          }));
+        }
+      }
+      this.items.push(new TreeviewItem({
+        text: superCategory.label /*+ ` (${superCategory.count})`*/,
+        value: superCategory.value,
+        children: categories,
+        collapsed: !found,
+        checked: false
+      }));
+    }
+    /** <--Checkbox Category structure!!!**/
+  }
+
+  scientificDomainNestedCheckBoxes(searchResults) {
+    /** Checkbox Scientific Domain structure!!!-->**/
+    let subScientificDomainArray: string[] = [];
+    for (const param of this.urlParameters) {
+      if (param.key === 'scientific_subdomains') {
+        subScientificDomainArray = param.values;
+        break;
+      }
+    }
+    this.scientificDomain = [];
+    for (const domainValue of searchResults.facets[2].values) {
+      const domainId = domainValue.value.split('-')[1];
+      // console.log(domainId);
+      const subDomain: TreeviewItem[] = [];
+      for (const subDomainValue of searchResults.facets[5].values) {
+        const subDomainId = subDomainValue.value.split('-')[1];
+        let checked = false;
+        for (let i = 0; i < subScientificDomainArray.length; i++) {
+          if (subScientificDomainArray[i] === subDomainValue.value) {
+            checked = true;
+            break;
+          }
+        }
+        // console.log(subDomainId);
+        if (domainId === subDomainId) {
+          subDomain.push(new TreeviewItem({
+            text: subDomainValue.label + ` (${subDomainValue.count})`,
+            value: subDomainValue.value,
+            checked: checked,
+            collapsed: true
+          }));
+        }
+      }
+      this.scientificDomain.push(new TreeviewItem({
+        text: domainValue.label /*+ ` (${domainValue.count})`*/,
+        value: domainValue.value,
+        children: subDomain,
+        checked: false,
+        collapsed: true
+      }));
+    }
+    /** <--Checkbox Scientific Domain structure!!!**/
+  }
+
   orderFacets() {
     const facetValues = {};
     this.facetOrder.forEach((e, i) => {
@@ -370,19 +372,30 @@ export class SearchComponent implements OnInit, OnDestroy {
           }
         }
       }
-      // if (category === 'subcategories') {
-      //   // console.log(this.items);
-      //   for (const i of this.items) {
-      //     for (const j of i.children ) {
-      //       for (const k of j.children ) {
-      //         if (k.value === value) {
-      //           k.checked = false;
-      //         }
-      //       }
-      //     }
-      //     i.correctChecked();
-      //   }
-      // } // redundant at this point.
+      /** Handle nested checkboxes--> **/
+      if (category === 'subcategories') {
+        for (const i of this.items) {
+          for (const j of i.children ) {
+            for (const k of j.children ) {
+              if (k.value === value) {
+                k.checked = false;
+              }
+            }
+          }
+          i.correctChecked();
+        }
+      }
+      if (category === 'scientific_subdomains') {
+        for (const i of this.scientificDomain) {
+          for (const j of i.children ) {
+            if (j.value === value) {
+              j.checked = false;
+            }
+          }
+          i.correctChecked();
+        }
+      }
+      /** <--Handle nested checkboxes **/
       categoryIndex++;
       if (category === 'query') {
         this.searchForm.get('query').setValue('');
