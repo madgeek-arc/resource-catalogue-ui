@@ -1,18 +1,43 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {
-  providerDescriptionDesc,
-  contactEmailDesc,
-  contactNameDesc,
-  contactTelDesc,
   Description,
-  emailDesc,
-  firstNameDesc,
-  lastNameDesc,
-  logoUrlDesc,
-  organizationIdDesc,
-  organizationNameDesc,
-  organizationWebsiteDesc,
+  legalNameDesc,
+  acronymDesc,
+  legalFormDesc,
+  websiteDesc,
+  providerDescriptionDesc,
+  providerLogoDesc,
+  providerMultimediaDesc,
+  providerScientificDomainDesc,
+  ProviderScientificSubDomainDesc,
+  typeDesc,
+  participatingCountriesDesc,
+  affiliationDesc,
+  providerTagsDesc,
+  streetNameAndNumberDesc,
+  postalCodeDesc,
+  cityDesc,
+  regionDesc,
+  countryDesc,
+  providerMainContactFirstNameDesc,
+  providerMainContactLastNameDesc,
+  providerMainContactEmailDesc,
+  providerMainContactPhoneDesc,
+  providerMainContactPositionDesc,
+  providerPublicContactFirstNameDesc,
+  providerPublicContactLastNameDesc,
+  providerPublicContactEmailDesc,
+  providerPublicContactPhoneDesc,
+  providerPublicContactPositionDesc,
+  providerCertificationsDesc,
+  lifeCycleStatusDesc,
+  ESFRIDomainDesc,
+  hostingLegalEntityDesc,
+  ESFRIDesc,
+  areasOfActivityDesc,
+  societalGrandChallengesDesc,
+  nationalRoadmapsDesc
 } from '../eInfraServices/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
@@ -27,37 +52,88 @@ declare var UIkit: any;
 })
 export class NewServiceProviderComponent implements OnInit {
   errorMessage = '';
-  logoError = false;
-  logoUrlWorks = false;
   userInfo = {family_name: '', given_name: '', email: ''};
   newProviderForm: FormGroup;
   logoUrl = '';
 
+  readonly legalNameDesc: Description = legalNameDesc;
+  readonly acronymDesc: Description = acronymDesc;
+  readonly legalFormDesc: Description = legalFormDesc;
+  readonly websiteDesc: Description = websiteDesc;
+  readonly providerDescriptionDesc: Description = providerDescriptionDesc;
+  readonly providerLogoDesc: Description = providerLogoDesc;
+  readonly providerMultimediaDesc: Description = providerMultimediaDesc;
+  readonly providerScientificDomainDesc: Description = providerScientificDomainDesc;
+  readonly ProviderScientificSubDomainDesc: Description = ProviderScientificSubDomainDesc;
+  readonly typeDesc: Description = typeDesc;
+  readonly participatingCountriesDesc: Description = participatingCountriesDesc;
+  readonly affiliationDesc: Description = affiliationDesc;
+  readonly providerTagsDesc: Description = providerTagsDesc;
+  readonly streetNameAndNumberDesc: Description = streetNameAndNumberDesc;
+  readonly postalCodeDesc: Description = postalCodeDesc;
+  readonly cityDesc: Description = cityDesc;
+  readonly regionDesc: Description = regionDesc;
+  readonly countryDesc: Description = countryDesc;
+  readonly providerMainContactFirstNameDesc: Description = providerMainContactFirstNameDesc;
+  readonly providerMainContactLastNameDesc: Description = providerMainContactLastNameDesc;
+  readonly providerMainContactEmailDesc: Description = providerMainContactEmailDesc;
+  readonly providerMainContactPhoneDesc: Description = providerMainContactPhoneDesc;
+  readonly providerMainContactPositionDesc: Description = providerMainContactPositionDesc;
+  readonly providerPublicContactFirstNameDesc: Description = providerPublicContactFirstNameDesc;
+  readonly providerPublicContactLastNameDesc: Description = providerPublicContactLastNameDesc;
+  readonly providerPublicContactEmailDesc: Description = providerPublicContactEmailDesc;
+  readonly providerPublicContactPhoneDesc: Description = providerPublicContactPhoneDesc;
+  readonly providerPublicContactPositionDesc: Description = providerPublicContactPositionDesc;
+  readonly providerCertificationsDesc: Description = providerCertificationsDesc;
+  readonly lifeCycleStatusDesc: Description = lifeCycleStatusDesc;
+  readonly ESFRIDomainDesc: Description = ESFRIDomainDesc;
+  readonly hostingLegalEntityDesc: Description = hostingLegalEntityDesc;
+  readonly ESFRIDesc: Description = ESFRIDesc;
+  readonly areasOfActivityDesc: Description = areasOfActivityDesc;
+  readonly societalGrandChallengesDesc: Description = societalGrandChallengesDesc;
+  readonly nationalRoadmapsDesc: Description = nationalRoadmapsDesc;
+
   readonly formDefinition = {
-    id: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-z][a-zA-Z0-9-_]{1,}$/)])],
-    name: ['', Validators.required],
-    logo: ['', URLValidator],
-    description: ['', Validators.required],
+    // id: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-z][a-zA-Z0-9-_]{1,}$/)])],
+    legalName: ['', Validators.required],
+    acronym: [''],
+    legalForm: ['', Validators.required],
     website: ['', Validators.compose([Validators.required, URLValidator])],
-    contactEmail: ['', Validators.compose([Validators.required, Validators.email])],
-    contactName: ['', Validators.required],
-    contactTel: ['', Validators.required],
+    description: ['', Validators.required],
+    logo: ['', Validators.compose([Validators.required, URLValidator])],
+    multimedia: this.fb.array([this.fb.control('', URLValidator)]),
+    scientificDomains: this.fb.array([]),
+    scientificSubdomains: this.fb.array([]),
+    types: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
+    participatingCountries: this.fb.array([this.fb.control('')]),
+    affiliations: this.fb.array([this.fb.control('')]),
+    tags: this.fb.array([this.fb.control('')]),
+    location: this.fb.group({
+      streetNameNumber: ['', Validators.required],
+      postalCode: ['', Validators.required],
+      city: ['', Validators.required],
+      region: [''],
+      country: ['', Validators.required]
+    }),
+    contacts: this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.required],
+      phone: [''],
+      position: [''],
+    }),
+    certifications: this.fb.array([this.fb.control('')]),
+    esfriDomains: this.fb.array([this.fb.control('')]),
+    hostingLegalEntity: [''],
+    esfriParticipation: [''],
+    lifeCycleStatus: [''],
+    areasOfActivity: this.fb.array([this.fb.control('')]),
+    societalGrandChallenges: this.fb.array([this.fb.control('')]),
+    nationalRoadmap: [''],
     users: this.fb.array([
       this.user()
     ])
   };
-  organizationIdDesc: Description = organizationIdDesc;
-  organizationNameDesc: Description = organizationNameDesc;
-  firstNameDesc: Description = firstNameDesc;
-  lastNameDesc: Description = lastNameDesc;
-  emailDesc: Description = emailDesc;
-  contactTelDesc: Description = contactTelDesc;
-  organizationWebsiteDesc: Description = organizationWebsiteDesc;
-  contactNameDesc: Description = contactNameDesc;
-  contactEmailDesc: Description = contactEmailDesc;
-  providerDescriptionDesc: Description = providerDescriptionDesc;
-  logoUrlDesc: Description = logoUrlDesc;
-
 
   constructor(private fb: FormBuilder,
               private authService: AuthenticationService,
@@ -109,19 +185,34 @@ export class NewServiceProviderComponent implements OnInit {
         this.errorMessage = 'Please fill in all required fields (marked with an asterisk),' +
           ' and fix the data format in fields underlined with a red colour.';
       }
-      // if (this.logoError) {
-      //   this.newProviderForm.get('logo').setErrors({'incorrect': true});
-      //   this.logoError = false;
-      //   this.errorMessage += ' Logo url must have https:// prefix';
-      // }
-      // if (!this.logoUrlWorks) {
-      //   this.newProviderForm.get('logo').setErrors({'incorrect': true});
-      //   this.errorMessage += ' Logo url doesn\'t point to a valid image';
-      // }
     }
   }
 
-  get usersArray() { // return form resource types as array
+  /** handle form arrays -> **/
+  getFieldAsFormArray(field: string) {
+    return this.newProviderForm.get(field) as FormArray;
+  }
+
+  remove(field: string, i: number) {
+    this.getFieldAsFormArray(field).removeAt(i);
+  }
+
+  push(field: string, required: boolean, url?: boolean) {
+    if (required) {
+      if (url) {
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
+      } else {
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
+      }
+    } else if (url) {
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
+    } else {
+      this.getFieldAsFormArray(field).push(this.fb.control(''));
+    }
+  }
+  /** <- handle form arrays**/
+
+  get usersArray() { // return form fields as array
     return this.newProviderForm.get('users') as FormArray;
   }
 
@@ -151,21 +242,6 @@ export class NewServiceProviderComponent implements OnInit {
     this.logoUrl = logoUrl;
     this.newProviderForm.get('logo').setValue(logoUrl);
     this.newProviderForm.get('logo').updateValueAndValidity();
-  }
-
-  imageExists(url) {
-    if (url === '') {// image is not required for providers
-      return true;
-    }
-    const image = new Image();
-    image.src = url;
-    if (!image.complete) {
-      return false;
-    } else if (image.height === 0) {
-      return false;
-    }
-
-    return true;
   }
 
   trimFormWhiteSpaces() {

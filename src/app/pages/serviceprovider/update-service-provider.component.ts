@@ -2,18 +2,6 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Component, OnInit} from '@angular/core';
 import {
-  providerDescriptionDesc,
-  contactEmailDesc,
-  contactNameDesc,
-  contactTelDesc,
-  Description,
-  emailDesc,
-  firstNameDesc,
-  lastNameDesc,
-  logoUrlDesc,
-  organizationIdDesc,
-  organizationNameDesc,
-  organizationWebsiteDesc,
 } from '../eInfraServices/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
@@ -49,17 +37,17 @@ export class UpdateServiceProviderComponent implements OnInit {
     ])
   };
 
-  firstNameDesc: Description = firstNameDesc;
-  lastNameDesc: Description = lastNameDesc;
-  emailDesc: Description = emailDesc;
-  organizationIdDesc: Description = organizationIdDesc;
-  organizationNameDesc: Description = organizationNameDesc;
-  contactTelDesc: Description = contactTelDesc;
-  organizationWebsiteDesc: Description = organizationWebsiteDesc;
-  contactNameDesc: Description = contactNameDesc;
-  contactEmailDesc: Description = contactEmailDesc;
-  providerDescriptionDesc: Description = providerDescriptionDesc;
-  logoUrlDesc: Description = logoUrlDesc;
+  // firstNameDesc: Description = firstNameDesc;
+  // lastNameDesc: Description = lastNameDesc;
+  // emailDesc: Description = emailDesc;
+  // organizationIdDesc: Description = organizationIdDesc;
+  // organizationNameDesc: Description = organizationNameDesc;
+  // contactTelDesc: Description = contactTelDesc;
+  // organizationWebsiteDesc: Description = organizationWebsiteDesc;
+  // contactNameDesc: Description = contactNameDesc;
+  // contactEmailDesc: Description = contactEmailDesc;
+  // providerDescriptionDesc: Description = providerDescriptionDesc;
+  // logoUrlDesc: Description = logoUrlDesc;
 
   constructor(private fb: FormBuilder,
               private authService: AuthenticationService,

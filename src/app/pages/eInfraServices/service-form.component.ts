@@ -33,120 +33,130 @@ export class ServiceFormComponent implements OnInit {
   public indicators: IndicatorsPage;
   public indicatorDesc = '';
 
-  readonly urlDesc: sd.Description = sd.urlDesc;
   readonly nameDesc: sd.Description = sd.nameDesc;
-  readonly taglineDesc: sd.Description = sd.taglineDesc;
+  readonly leadProviderNameDesc: sd.Description = sd.leadProviderNameDesc;
+  readonly contributingProvidersDesc: sd.Description = sd.contributingProvidersDesc;
+  readonly webpageDesc: sd.Description = sd.webpageDesc;
   readonly descriptionDesc: sd.Description = sd.descriptionDesc;
-  readonly optionsDesc: sd.Description = sd.optionsDesc;
-  readonly optionsNameDesc: sd.Description = sd.optionsNameDesc;
-  readonly optionsDescriptionDesc: sd.Description = sd.optionsDescriptionDesc;
-  readonly optionsURLDesc: sd.Description = sd.optionsURLDesc;
-  readonly optionsLogoDesc: sd.Description = sd.optionsLogoDesc;
-  readonly targetUsersDesc: sd.Description = sd.targetUsersDesc;
-  readonly userValueDesc: sd.Description = sd.userValueDesc;
-  readonly userBaseDesc: sd.Description = sd.userBaseDesc;
-  readonly useCasesDesc: sd.Description = sd.useCasesDesc;
+  readonly taglineDesc: sd.Description = sd.taglineDesc;
   readonly logoDesc: sd.Description = sd.logoDesc;
-  readonly multimediaURLDesc: sd.Description = sd.multimediaURLDesc;
-  readonly providersDesc: sd.Description = sd.providersDesc;
+  readonly multimediaDesc: sd.Description = sd.multimediaDesc;
+  readonly targetUsersDesc: sd.Description = sd.targetUsersDesc;
+  readonly targetCustomerTagsDesc: sd.Description = sd.targetCustomerTagsDesc;
+  readonly useCasesCaseStudiesDesc: sd.Description = sd.useCasesCaseStudiesDesc;
+  readonly optionsDesc: sd.Description = sd.optionsDesc;
+  readonly scientificDomainDesc: sd.Description = sd.scientificDomainDesc;
+  readonly scientificSubDomainDesc: sd.Description = sd.scientificSubDomainDesc;
+  readonly superCategoryDesc: sd.Description = sd.superCategoryDesc; // maybe removed later?
+  readonly categoryDesc: sd.Description = sd.categoryDesc;
+  readonly subcategoryDesc: sd.Description = sd.subcategoryDesc;
+  readonly tagsDesc: sd.Description = sd.tagsDesc;
+  readonly geographicalAvailabilityDesc: sd.Description = sd.geographicalAvailabilityDesc;
+  readonly languageDesc: sd.Description = sd.languageDesc;
+  readonly mainContactFirstNameDesc: sd.Description = sd.mainContactFirstNameDesc;
+  readonly mainContactLastNameDesc: sd.Description = sd.mainContactLastNameDesc;
+  readonly mainContactEmailDesc: sd.Description = sd.mainContactEmailDesc;
+  readonly mainContactPhoneDesc: sd.Description = sd.mainContactPhoneDesc;
+  readonly mainContactPositionDesc: sd.Description = sd.mainContactPositionDesc;
+  readonly publicContactFirstNameDesc: sd.Description = sd.publicContactFirstNameDesc;
+  readonly publicContactLastNameDesc: sd.Description = sd.publicContactLastNameDesc;
+  readonly publicContactEmailDesc: sd.Description = sd.publicContactEmailDesc;
+  readonly publicContactPhoneDesc: sd.Description = sd.publicContactPhoneDesc;
+  readonly publicContactPositionDesc: sd.Description = sd.publicContactPositionDesc;
+  readonly heldeskEmailDesc: sd.Description = sd.heldeskEmailDesc;
+  readonly quotationEmailDesc: sd.Description = sd.quotationEmailDesc;
+  readonly phaseDesc: sd.Description = sd.phaseDesc;
+  readonly technologyReadinessLevelDesc: sd.Description = sd.technologyReadinessLevelDesc;
+  readonly certificationsDesc: sd.Description = sd.certificationsDesc;
+  readonly standardsDesc: sd.Description = sd.standardsDesc;
+  readonly openSourceTechnologiesDesc: sd.Description = sd.openSourceTechnologiesDesc;
   readonly versionDesc: sd.Description = sd.versionDesc;
   readonly lastUpdateDesc: sd.Description = sd.lastUpdateDesc;
   readonly changeLogDesc: sd.Description = sd.changeLogDesc;
-  readonly validForDesc: sd.Description = sd.validForDesc;
-  readonly phaseDesc: sd.Description = sd.phaseDesc;
-  readonly trlDesc: sd.Description = sd.trlDesc;
-  readonly scientificDomainDesc: sd.Description = sd.scientificDomainDesc;
-  readonly scientificSubDomainDesc: sd.Description = sd.scientificSubDomainDesc;
-  readonly superCategoryDesc: sd.Description = sd.superCategoryDesc;
-  readonly categoryDesc: sd.Description = sd.categoryDesc;
-  readonly subcategoryDesc: sd.Description = sd.subcategoryDesc;
-  readonly placesDesc: sd.Description = sd.placesDesc;
-  readonly languagesDesc: sd.Description = sd.languagesDesc;
-  readonly tagsDesc: sd.Description = sd.tagsDesc;
   readonly requiredServicesDesc: sd.Description = sd.requiredServicesDesc;
   readonly relatedServicesDesc: sd.Description = sd.relatedServicesDesc;
-  readonly orderTypeDesc: sd.Description = sd.orderTypeDesc;
-  readonly orderDesc: sd.Description = sd.orderDesc;
+  readonly relatedPlatformsDesc: sd.Description = sd.relatedPlatformsDesc;
+  readonly fundingBodyDesc: sd.Description = sd.fundingBodyDesc;
+  readonly fundingProgramDesc: sd.Description = sd.fundingProgramDesc;
+  readonly grantProjectNameDesc: sd.Description = sd.grantProjectNameDesc;
   readonly helpdeskDesc: sd.Description = sd.helpdeskDesc;
-  readonly manualDesc: sd.Description = sd.manualDesc;
-  readonly trainingDesc: sd.Description = sd.trainingDesc;
-  readonly monitoringDesc: sd.Description = sd.monitoringDesc;
-  readonly maintenanceDesc: sd.Description = sd.maintenanceDesc;
-  readonly pricingDesc: sd.Description = sd.pricingDesc;
-  readonly serviceLevelAgreementDesc: sd.Description = sd.serviceLevelAgreementDesc;
+  readonly userManualDesc: sd.Description = sd.userManualDesc;
   readonly termsOfUseDesc: sd.Description = sd.termsOfUseDesc;
   readonly privacyPolicyDesc: sd.Description = sd.privacyPolicyDesc;
+  readonly serviceLevelAgreementDesc: sd.Description = sd.serviceLevelAgreementDesc;
+  readonly trainingInformationDesc: sd.Description = sd.trainingInformationDesc;
+  readonly statusMonitoringDesc: sd.Description = sd.statusMonitoringDesc;
+  readonly maintenanceDesc: sd.Description = sd.maintenanceDesc;
+  readonly orderTypeDesc: sd.Description = sd.orderTypeDesc;
+  readonly orderDesc: sd.Description = sd.orderDesc;
+  readonly endpointDesc: sd.Description = sd.endpointDesc;
+  readonly accessTypesDesc: sd.Description = sd.accessTypeDesc;
+  readonly accessModesDesc: sd.Description = sd.accessModeDesc;
   readonly accessPolicyDesc: sd.Description = sd.accessPolicyDesc;
   readonly paymentModelDesc: sd.Description = sd.paymentModelDesc;
-  readonly fundingDesc: sd.Description = sd.fundingDesc;
-  readonly accessTypesDesc: sd.Description = sd.accessTypesDesc;
-  readonly accessModesDesc: sd.Description = sd.accessModesDesc;
-  readonly fundersDesc: sd.Description = sd.fundersDesc;
-  readonly certificationsDesc: sd.Description = sd.certificationsDesc;
-  readonly standardsDesc: sd.Description = sd.standardsDesc;
-  readonly ownerNameDesc: sd.Description = sd.ownerNameDesc;
-  readonly ownerContactDesc: sd.Description = sd.ownerContactDesc;
-  readonly supportNameDesc: sd.Description = sd.supportNameDesc;
-  readonly supportContactDesc: sd.Description = sd.supportContactDesc;
-  readonly securityNameDesc: sd.Description = sd.securityNameDesc;
-  readonly securityContactDesc: sd.Description = sd.securityContactDesc;
+  readonly pricingDesc: sd.Description = sd.pricingDesc;
+
+  readonly optionsNameDesc: sd.Description = sd.optionsNameDesc;
+  readonly optionsWebpageDesc: sd.Description = sd.optionsWebpageDesc;
+  readonly optionsDescriptionDesc: sd.Description = sd.optionsDescriptionDesc;
+  readonly optionsLogoDesc: sd.Description = sd.optionsLogoDesc;
 
   formGroupMeta = {
-    'id': '',
-    'name': ['', Validators.required],
-    'url': ['', Validators.compose([Validators.required, URLValidator])],
-    'description': ['', Validators.required],
-    'logo': ['', Validators.compose([Validators.required, URLValidator])],
-    'tagline': [''],
-    'userValue': [''],
-    'userBaseList': this.fb.array([ this.fb.control('') ]),
-    'useCases': this.fb.array([ this.fb.control('') ]),
-    'multimediaUrls': this.fb.array([ this.fb.control('', URLValidator) ]),
-    'options': this.fb.array([this.newOption()]),
-    'requiredServices': this.fb.array([ this.fb.control('') ]),
-    'relatedServices': this.fb.array([ this.fb.control('') ]),
-    'providers': this.fb.array([ this.fb.control('', Validators.required)], Validators.required),
-    // 'scientificDomains': this.fb.array([ this.fb.control('', Validators.required)], Validators.required),
-    'scientificSubdomains': this.fb.array([]),
-    // 'category': [''],
-    'subcategories': this.fb.array([]),
-    // 'supercategory': [''],
-    'targetUsers': this.fb.array([ this.fb.control('', Validators.required) ], Validators.required),
-    'languages': this.fb.array([ this.fb.control('', Validators.required) ], Validators.required),
-    'places': this.fb.array([ this.fb.control('', Validators.required) ], Validators.required),
-    'accessTypes':  this.fb.array([ this.fb.control('') ]),
-    'accessModes':  this.fb.array([ this.fb.control('') ]),
-    'funders': this.fb.array([ this.fb.control('') ]),
-    'tags': this.fb.array([ this.fb.control('') ]),
-    'phase': ['', Validators.compose([Validators.required])],
-    'trl': ['', Validators.compose([Validators.required])],
-    'version': [''],
-    'lastUpdate': [''],
-    'changeLog': [''],
-    'certifications':  this.fb.array([ this.fb.control('') ]),
-    'standards':  this.fb.array([ this.fb.control('') ]),
-    'orderType': ['', Validators.required],
-    'order': ['', URLValidator],
-    'sla': ['', URLValidator],
-    'termsOfUse': ['', URLValidator],
-    'privacyPolicy': ['', URLValidator],
-    'accessPolicy': ['', URLValidator],
-    'paymentModel': ['', URLValidator],
-    'pricing': ['', URLValidator],
-    'manual': ['', URLValidator],
-    'training': ['', URLValidator],
-    'helpdesk': ['', URLValidator],
-    'monitoring': ['', URLValidator],
-    'maintenance': ['', URLValidator],
-    'ownerName': [''],
-    'ownerContact': ['', Validators.email],
-    'supportName': [''],
-    'supportContact': ['', Validators.email],
-    'securityName': [''],
-    'securityContact': ['', Validators.email],
+    id : [''],
+    name : ['', Validators.required],
+    url : ['', Validators.compose([Validators.required, URLValidator])],
+    description : ['', Validators.required],
+    logo : ['', Validators.compose([Validators.required, URLValidator])],
+    tagline : [''],
+    userValue : [''],
+    userBaseList : this.fb.array([ this.fb.control('') ]),
+    useCases : this.fb.array([ this.fb.control('') ]),
+    multimediaUrls : this.fb.array([ this.fb.control('', URLValidator) ]),
+    options : this.fb.array([this.newOption()]),
+    requiredServices : this.fb.array([ this.fb.control('') ]),
+    relatedServices : this.fb.array([ this.fb.control('') ]),
+    providers : this.fb.array([ this.fb.control('', Validators.required)], Validators.required),
+    // 'scientificDomains : this.fb.array([ this.fb.control('', Validators.required)], Validators.required),
+    scientificSubdomains : this.fb.array([]),
+    // 'category : [''],
+    subcategories : this.fb.array([]),
+    // 'supercategory : [''],
+    targetUsers : this.fb.array([ this.fb.control('', Validators.required) ], Validators.required),
+    languages : this.fb.array([ this.fb.control('', Validators.required) ], Validators.required),
+    places : this.fb.array([ this.fb.control('', Validators.required) ], Validators.required),
+    accessTypes :  this.fb.array([ this.fb.control('') ]),
+    accessModes :  this.fb.array([ this.fb.control('') ]),
+    funders : this.fb.array([ this.fb.control('') ]),
+    tags : this.fb.array([ this.fb.control('') ]),
+    phase : ['', Validators.compose([Validators.required])],
+    trl : ['', Validators.compose([Validators.required])],
+    version : [''],
+    lastUpdate : [''],
+    changeLog : [''],
+    certifications :  this.fb.array([ this.fb.control('') ]),
+    standards :  this.fb.array([ this.fb.control('') ]),
+    orderType : ['', Validators.required],
+    order : ['', URLValidator],
+    sla : ['', URLValidator],
+    termsOfUse : ['', URLValidator],
+    privacyPolicy : ['', URLValidator],
+    accessPolicy : ['', URLValidator],
+    paymentModel : ['', URLValidator],
+    pricing : ['', URLValidator],
+    manual : ['', URLValidator],
+    training : ['', URLValidator],
+    helpdesk : ['', URLValidator],
+    monitoring : ['', URLValidator],
+    maintenance : ['', URLValidator],
+    ownerName : [''],
+    ownerContact : ['', Validators.email],
+    supportName : [''],
+    supportContact : ['', Validators.email],
+    securityName : [''],
+    securityContact : ['', Validators.email],
 
-    'categorize': this.fb.array([ ], Validators.required),
-    'scientificCategorization': this.fb.array([ ], Validators.required)
+    categorize : this.fb.array([ ], Validators.required),
+    scientificCategorization : this.fb.array([ ], Validators.required)
   };
 
   multiMeasurementForm = {
