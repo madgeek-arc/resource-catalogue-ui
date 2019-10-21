@@ -109,16 +109,6 @@ export class ResourceService {
     return this.http.get<NestedVocabulary>(this.base + `/vocabulary/vocabularyTree/${type}`);
   }
 
-  idToName(acc: any, v: any) {
-    acc[v.id] = v.name;
-    return acc;
-  }
-
-  idToObject(acc, v) {
-    acc[v.id] = {'type': v.type, 'name': v.name};
-    return acc;
-  }
-
   getSubcategoriesIdsFromSuperCategory(parent: string, type: string) {
     let params = new HttpParams();
     params = params.append('parent', parent);

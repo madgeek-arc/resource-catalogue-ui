@@ -544,9 +544,8 @@
                             <div *ngFor="let provider of getFieldAsFormArray('languages').controls; let i=index">
                               <select *ngIf="providersPage" class="uk-select uk-width-5-6" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('languages').get([i]).valid && getFieldAsFormArray('languages').get([i]).dirty}">
-                                <option *ngFor="let entry of languagesVocIdArray | premiumsort:['english']"
-                                        value="{{getVocabularyById(languagesVocabulary, entry).id}}">
-                                  {{getVocabularyById(languagesVocabulary, entry).name}}
+                                <option *ngFor="let entry of languagesVocabulary" value="{{entry.id}}">
+                                  {{entry.name}}
                                 </option>
                               </select>
                               <a *ngIf="getFieldAsFormArray('languages').length > 1"
@@ -569,12 +568,11 @@
                             {{placesDesc.label + (placesDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
-                            <div *ngFor="let provider of getFieldAsFormArray('places').controls; let i=index">
-                              <select *ngIf="providersPage" class="uk-select uk-width-5-6" [formControlName]="i"
+                            <div *ngFor="let place of getFieldAsFormArray('places').controls; let i=index">
+                              <select *ngIf="placesVocabulary" class="uk-select uk-width-5-6" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('places').get([i]).valid && getFieldAsFormArray('places').get([i]).dirty}">
-                                <option *ngFor="let entry of placesVocIdArray | premiumsort:['EU', 'WW']"
-                                        value="{{getVocabularyById(placesVocabulary, entry).id}}">
-                                  {{getVocabularyById(placesVocabulary, entry).name}}
+                                <option *ngFor="let entry of placesVocabulary" value="{{entry.id}}">
+                                  {{entry.name}}
                                 </option>
                               </select>
                               <a *ngIf="getFieldAsFormArray('places').length > 1"
@@ -749,7 +747,7 @@
                             {{lastUpdateDesc.label + (lastUpdateDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
-                            <input class="uk-input" type="text" onfocus="(this.type = 'date')"
+                            <input class="uk-input" type="date"
                                    formControlName="lastUpdate"
                                    [ngClass]="{'uk-form-danger': !serviceForm.get('lastUpdate').valid && serviceForm.get('lastUpdate').dirty}">
                             <i>
@@ -1088,20 +1086,17 @@
                                     </i>
                                   </div>
                                 </div>
-                                <div *ngIf="measurements.controls[i].get('locations').status != 'DISABLED'"
-                                     formArrayName="locations">
+                                <div formArrayName="locations" *ngIf="measurements.controls[i].get('locations').status != 'DISABLED'">
                                   <div class="uk-form-horizontal uk-margin-bottom">
                                     <label class="uk-width-1-5 uk-form-label uk-text-right">Choose Locations: </label>
                                     <div class="uk-width-4-5 uk-form-controls">
-                                      <div *ngFor="let location of locations(i)['controls']; let locIndex=index"
-                                           class="">
+                                      <div *ngFor="let location of locations(i)['controls']; let locIndex=index">
                                         <select class="uk-select uk-width-5-6@m" [formControlName]="locIndex"
                                                 [ngClass]="{'uk-form-danger': !locations(i).get([locIndex]).valid && locations(i).get([locIndex]).dirty}">
                                           <ng-container *ngIf="placesVocabulary">
-                                            <option
-                                              *ngFor="let placeEntry of placesVocIdArray | premiumsort:['EU','WW']"
-                                              value="{{getVocabularyById(placesVocabulary, placeEntry).id}}">
-                                              {{getVocabularyById(placesVocabulary, placeEntry).name}}
+                                            <option>--Choose location--</option>
+                                            <option *ngFor="let placeEntry of placesVocabulary" value="{{placeEntry.id}}">
+                                              {{placeEntry.name}}
                                             </option>
                                           </ng-container>
                                         </select>

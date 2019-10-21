@@ -67,7 +67,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   onSelectedChange(urlParams: string[], param) {
-    console.log(urlParams);
+    // console.log(urlParams);
     let paramIndex = 0;
     for (const urlParameter of this.urlParameters) {
       if (urlParameter.key === param) {

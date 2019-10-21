@@ -1,14 +1,14 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {FacetValue} from '../../domain/facet';
-import {Funder} from '../../domain/eic-model';
+import {Funder, Vocabulary} from '../../domain/eic-model';
 
 @Pipe({name: 'premiumsort'})
 export class PremiumSortPipe implements PipeTransform {
-  transform(arr: string[], weights: string[]): any {
+  transform(arr: Vocabulary[], weights: string[]): any {
     const ret = (arr || []).sort((a, b): number => {
       let val = 0;
-      const weightA = weights.indexOf(a);
-      const weightB = weights.indexOf(b);
+      const weightA = weights.indexOf(a.name);
+      const weightB = weights.indexOf(b.name);
       if (weightA !== -1 && weightB !== -1) {
         val = weightA - weightB;
       } else if (weightA !== -1) {
@@ -16,7 +16,7 @@ export class PremiumSortPipe implements PipeTransform {
       } else if (weightB !== -1) {
         val = 1;
       } else {
-        val = a.localeCompare(b);
+        val = a.name.localeCompare(b.name);
       }
       return val;
     });
