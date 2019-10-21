@@ -40,7 +40,7 @@ body {
   position: relative;
   z-index: 1;
   display: inline-block;
-  white-space: nowrap;
+  /*white-space: nowrap;*/
   border: none;
   cursor: pointer
 }

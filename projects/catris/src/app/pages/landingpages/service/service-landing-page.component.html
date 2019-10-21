@@ -93,24 +93,34 @@
               </div>
 
               <div class="uk-width-1-1 leftColumn">
+
                 <div class="serviceDescription" *ngIf="richService.service.description">
                   <p [innerHTML]="richService.service.description"></p>
                 </div>
-                <div class="badges uk-margin-bottom">
-                  <span>Funded by: </span>
-                  <span *ngFor="let funder of richService.fundedByNames" class="uk-badge uk-margin-small-right">{{funder}}</span>
-                </div>
+
                 <div class="badges uk-margin-bottom">
                   <span *ngFor="let tag of richService.service.tags" class="uk-badge uk-margin-small-right">{{tag}}</span>
                 </div>
+
+                <div class="badges uk-margin-bottom">
+                  <span><strong>Funded by: </strong></span>
+                  <span *ngFor="let funder of richService.fundedByNames; let i = index" class="">
+                    <span *ngIf="i>0">, </span>{{funder}}
+                  </span>
+                </div>
+
                 <div class="" uk-grid>
                   <div class="badges uk-margin-bottom uk-width-1-2@m">
-                    <span>Access Types: </span>
-                    <span *ngFor="let accessType of richService.accessTypeNames" class="uk-badge uk-margin-small-right">{{accessType}}</span>
+                    <span><strong>Access Types: </strong></span>
+                    <span *ngFor="let accessType of richService.accessTypeNames; let i = index" class="">
+                      <span *ngIf="i>0">, </span>{{accessType}}
+                    </span>
                   </div>
                   <div class="badges uk-margin-bottom uk-width-1-2@m">
-                    <span>Access Modes: </span>
-                    <span *ngFor="let accessMode of richService.accessModeNames" class="uk-badge uk-margin-small-right">{{accessMode}}</span>
+                    <span><strong>Access Modes: </strong></span>
+                    <span *ngFor="let accessMode of richService.accessModeNames; let i = index" class="">
+                      <span *ngIf="i>0">, </span>{{accessMode}}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -288,8 +298,9 @@
           <!--OPTIONS-->
           <div *ngIf="richService.service.options" class="uk-margin-medium-top" uk-grid>
             <h2 class="section-heading uk-h2 uk-width-1-1@m">Service Offers</h2>
+
             <div *ngFor="let option of richService.service.options let i = index" class="uk-width-1-3@m uk-margin-remove">
-              <div>Option {{i+1}}</div>
+              <h4>Option {{i+1}}</h4>
               <div>{{option.name}}</div>
               <div>{{option.description}}</div>
               <div>{{option.url}}</div>
@@ -300,24 +311,27 @@
           <!--REQUIRED/RELATED-->
           <div class="uk-margin-medium-top uk-child-width-1-3@m" uk-grid>
             <div *ngIf="richService.service.requiredServices && (richService.service.requiredServices.length > 0) && services.length !== 0">
-              <div class="infoTitle uk-margin-small-right">Required services </div>
+              <h2 class="section-heading uk-h2 uk-width-1-1@m">Required services</h2>
+              <!--<div class="infoTitle uk-margin-small-right">Required services </div>-->
               <div *ngFor="let requiredService of richService.service.requiredServices">
                 <a (click)="this.router.service(requiredService)">{{getPrettyService(requiredService).service.name}}</a>
               </div>
             </div>
             <div *ngIf="richService.service.relatedServices && richService.service.relatedServices.length>0 && services.length !== 0">
-              <div class="infoTitle uk-margin-small-right">Related services</div>
+              <h2 class="section-heading uk-h2 uk-width-1-1@m">Related services</h2>
+              <!--<div class="infoTitle uk-margin-small-right">Related services</div>-->
               <div *ngFor="let relatedService of richService.service.relatedServices">
                 <a (click)="this.router.service(relatedService)">{{getPrettyService(relatedService).service.name}}</a>
               </div>
             </div>
             <div *ngIf="richService.service.relatedPlatforms">
-              Related Platforms
+              <h2 class="section-heading uk-h2 uk-width-1-1@m">Related platforms</h2>
+              <!--Related Platforms-->
             </div>
           </div>
 
           <!-- INDICATORS-->
-          <div *ngIf="measurements.results && indicators">
+          <div class="uk-margin-medium-top" *ngIf="measurements?.results?.length>0 && indicators?.results?.length>0">
             <h2 class="section-heading uk-h2 uk-width-1-1@m">Indicators</h2>
             <div class="uk-margin-medium-top uk-child-width-1-3@m" uk-grid>
               <div *ngFor="let measurement of measurements.results">
@@ -420,41 +434,44 @@
           <!--<h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">Version</h4>-->
           <!--<hr class="customDivider">-->
           <div class="uk-margin-top">
-            <div *ngIf="richService.service.version" class="">
-              <span class="infoTitle uk-margin-small-right">Version</span>
-              <span class="infoDescription">{{richService.service.version}}</span>
-            </div>
-            <div *ngIf="richService.service.lastUpdate" class="">
-              <span class="infoTitle uk-margin-small-right">Last update</span>
-              <span class="infoDescription">{{richService.service.lastUpdate | date }}</span>
-            </div>
-            <div>
-              <span class="infoTitle uk-margin-small-right">Phase</span>
-              <span class="infoDescription">{{richService.phaseName}}</span>
-            </div>
-            <div>
-              <span class="infoTitle uk-margin-small-right">TRL</span>
-              <span class="infoDescription">{{richService.trlName}}</span>
-            </div>
-<!--            &lt;!&ndash;TODO remove hardcoded&ndash;&gt;-->
-<!--            <div class="">-->
-<!--              <span class="infoDescription">-->
-<!--                The changelog and roadmap are maintained at <a href="https://help.zenodo.org/whatsnew/">https://help.zenodo.org/whatsnew/</a> and-->
-<!--                <a href="https://about.zenodo.org/roadmap/">https://about.zenodo.org/roadmap/</a>-->
-<!--              </span>-->
-<!--            </div>-->
-            <div *ngIf="richService.service.changeLog" class="">
-              <span class="infoTitle uk-margin-small-right">What's new</span>
-              <span class="infoDescription">{{richService.service.changeLog}}</span>
-            </div>
-            <div *ngIf="richService.service.certifications" class="">
-              <span class="infoTitle uk-margin-small-right">Certifications</span>
-              <span class="infoDescription">{{richService.service.certifications}}</span>
-            </div>
-            <div *ngIf="richService.service.standards" class="">
-              <span class="infoTitle uk-margin-small-right">Standards</span>
-              <span class="infoDescription">{{richService.service.standards}}</span>
-            </div>
+            <dl class="uk-description-list">
+              <ng-container *ngIf="richService.service.version">
+                <dt class="infoTitle uk-margin-small-right">Version</dt>
+                <dd class="infoDescription">{{richService.service.version}}</dd>
+              </ng-container>
+              <ng-container *ngIf="richService.service.lastUpdate">
+                <dt class="infoTitle uk-margin-small-right">Last update</dt>
+                <dd class="infoDescription">{{richService.service.lastUpdate | date }}</dd>
+              </ng-container>
+              <ng-container>
+                <dt class="infoTitle uk-margin-small-right">Phase</dt>
+                <dd class="infoDescription">{{richService.phaseName}}</dd>
+              </ng-container>
+              <ng-container>
+                <dt class="infoTitle uk-margin-small-right">TRL</dt>
+                <dd class="infoDescription">{{richService.trlName}}</dd>
+              </ng-container>
+              <!--            &lt;!&ndash;TODO remove hardcoded&ndash;&gt;-->
+              <!--            <div class="">-->
+              <!--              <span class="infoDescription">-->
+              <!--                The changelog and roadmap are maintained at <a href="https://help.zenodo.org/whatsnew/">https://help.zenodo.org/whatsnew/</a> and-->
+              <!--                <a href="https://about.zenodo.org/roadmap/">https://about.zenodo.org/roadmap/</a>-->
+              <!--              </span>-->
+              <!--            </div>-->
+              <ng-container *ngIf="richService.service.changeLog">
+                <dt class="infoTitle uk-margin-small-right">What's new</dt>
+                <dd class="infoDescription">{{richService.service.changeLog}}</dd>
+              </ng-container>
+              <ng-container *ngIf="richService.service.certifications">
+                <dt class="infoTitle uk-margin-small-right">Certifications</dt>
+                <dd class="infoDescription">{{richService.service.certifications}}</dd>
+              </ng-container>
+              <ng-container *ngIf="richService.service.standards">
+                <dt class="infoTitle uk-margin-small-right">Standards</dt>
+                <dd class="infoDescription">{{richService.service.standards}}</dd>
+              </ng-container>
+            </dl>
+
           </div>
 
           <!--<h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">See also</h4>-->
