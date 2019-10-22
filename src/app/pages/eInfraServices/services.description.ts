@@ -105,7 +105,7 @@ export const Attribute3Desc = {label: 'Attribute 3', mandatory: false, desc: ''}
 
 /** Service provider form fields **/
 // Basic Information
-export const legalNameDesc = {label: 'Legal Name', mandatory: true, desc: 'Full Legal Name of the organisation providing/offering the service/resource and acting as main contact point. The Legal Name must correspond to the official legal name in the statute or the registration act/decree establishing the organisation.'};
+export const fullNameDesc = {label: 'Full Name', mandatory: true, desc: 'Full Name of the organisation providing/offering the service/resource.'};
 export const acronymDesc = {label: 'Acronym', mandatory: false, desc: 'Acronym or abbreviation of the provider.'};
 export const legalFormDesc = {label: 'Legal Form', mandatory: true, desc: 'The legal from is usually noted in the registration act/statute of teh organisation. For independent legal entities (1) - legal form of the provider. For embedded providers (2) - legal form of the hosting legal entity.'};
 export const websiteDesc = {label: 'Website', mandatory: true, desc: 'Webpage with information about the provider.'};
@@ -115,13 +115,15 @@ export const providerLogoDesc = {label: 'Logo', mandatory: true, desc: 'Link to 
 export const providerMultimediaDesc = {label: 'Multimedia', mandatory: false, desc: 'Link to video, slideshow, photos, screenshots with details of the provider.'};
 // Classification Information
 export const providerScientificDomainDesc = {label: 'Scientific Domain', mandatory: true, desc: 'A named group of providers that offer access to the same type of resource or capabilities.'};
-export const ProviderScientificSubDomainDesc = {label: 'Scientific Subdomain', mandatory: true, desc: 'A named group of providers that offer access to the same type of resource or capabilities, within the defined domain.'};
+export const providerCategoryDesc = {label: 'Category', mandatory: true, desc: 'A named group of providers that offer access to the same type of resource or capabilities, within the defined category.'};
 export const typeDesc = {label: 'Type', mandatory: true, desc: 'Defines if the Provider is single-sited, distributed, mobile, virtual, etc.'};
 export const participatingCountriesDesc = {label: 'Participating Countries', mandatory: false, desc: 'Providers that are funded by several countries should list here all supporting countries (including the Coordinating country).'};
 export const affiliationDesc = {label: 'Affiliation', mandatory: false, desc: 'Select the affiliations, networks of the provider. '};
 export const providerTagsDesc = {label: 'Tags', mandatory: false, desc: 'Keywords associated to the provider to simplify search by relevant keywords.'};
 // Location Information
-export const streetNameAndNumberDesc = {label: 'Street Name and Number', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
+export const locationNameDesc = {label: 'Location Name', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
+export const streetNameDesc = {label: 'Street Name', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
+export const streetNumberDesc = {label: 'Street Number', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
 export const postalCodeDesc = {label: 'Postal Code', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
 export const cityDesc = {label: 'City', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
 export const regionDesc = {label: 'Region', mandatory: false, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
@@ -149,3 +151,6 @@ export const lifeCycleStatusDesc = {label: 'Life Cycle Status', mandatory: false
 export const areasOfActivityDesc = {label: 'Areas of Activity', mandatory: false, desc: 'Basic research, Applied research or Technological development'};
 export const societalGrandChallengesDesc = {label: 'Societal Grand Challenges', mandatory: false, desc: 'Provider’s participation in the grand societal challenges as defined by the European Commission (Horizon 2020)'};
 export const nationalRoadmapsDesc = {label: 'National Roadmaps', mandatory: false, desc: 'Is the Provider featured on the national roadmap for research infrastructures'};
+// Other
+export const legalStatusDesc = {label: 'Legal Status', mandatory: false, desc: 'For independent legal entities (1) - legal status of the Provider. For embedded Providers (2) - legal status of the hosting legal entity.'};
+export const networksDesc = {label: 'Networks', mandatory: false, desc: 'Select the networks the RIs is part of.'};

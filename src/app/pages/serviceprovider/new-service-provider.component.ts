@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {
   Description,
-  legalNameDesc,
+  fullNameDesc,
   acronymDesc,
   legalFormDesc,
   websiteDesc,
@@ -10,12 +10,14 @@ import {
   providerLogoDesc,
   providerMultimediaDesc,
   providerScientificDomainDesc,
-  ProviderScientificSubDomainDesc,
+  providerCategoryDesc,
   typeDesc,
   participatingCountriesDesc,
   affiliationDesc,
   providerTagsDesc,
-  streetNameAndNumberDesc,
+  streetNameDesc,
+  streetNumberDesc,
+  locationNameDesc,
   postalCodeDesc,
   cityDesc,
   regionDesc,
@@ -37,12 +39,14 @@ import {
   ESFRIDesc,
   areasOfActivityDesc,
   societalGrandChallengesDesc,
-  nationalRoadmapsDesc
+  nationalRoadmapsDesc, legalStatusDesc, networksDesc
 } from '../eInfraServices/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {Router} from '@angular/router';
 import {URLValidator} from '../../shared/validators/generic.validator';
+import {Vocabulary, VocabularyType} from '../../domain/eic-model';
+import {ResourceService} from '../../services/resource.service';
 
 declare var UIkit: any;
 
@@ -55,8 +59,9 @@ export class NewServiceProviderComponent implements OnInit {
   userInfo = {family_name: '', given_name: '', email: ''};
   newProviderForm: FormGroup;
   logoUrl = '';
+  vocabularies: Map<string, Vocabulary[]> = null;
 
-  readonly legalNameDesc: Description = legalNameDesc;
+  readonly fullNameDesc: Description = fullNameDesc;
   readonly acronymDesc: Description = acronymDesc;
   readonly legalFormDesc: Description = legalFormDesc;
   readonly websiteDesc: Description = websiteDesc;
@@ -64,12 +69,14 @@ export class NewServiceProviderComponent implements OnInit {
   readonly providerLogoDesc: Description = providerLogoDesc;
   readonly providerMultimediaDesc: Description = providerMultimediaDesc;
   readonly providerScientificDomainDesc: Description = providerScientificDomainDesc;
-  readonly ProviderScientificSubDomainDesc: Description = ProviderScientificSubDomainDesc;
+  readonly providerCategoryDesc: Description = providerCategoryDesc;
   readonly typeDesc: Description = typeDesc;
   readonly participatingCountriesDesc: Description = participatingCountriesDesc;
   readonly affiliationDesc: Description = affiliationDesc;
   readonly providerTagsDesc: Description = providerTagsDesc;
-  readonly streetNameAndNumberDesc: Description = streetNameAndNumberDesc;
+  readonly locationNameDesc: Description = locationNameDesc;
+  readonly streetNameDesc: Description = streetNameDesc;
+  readonly streetNumberDesc: Description = streetNumberDesc;
   readonly postalCodeDesc: Description = postalCodeDesc;
   readonly cityDesc: Description = cityDesc;
   readonly regionDesc: Description = regionDesc;
@@ -92,57 +99,95 @@ export class NewServiceProviderComponent implements OnInit {
   readonly areasOfActivityDesc: Description = areasOfActivityDesc;
   readonly societalGrandChallengesDesc: Description = societalGrandChallengesDesc;
   readonly nationalRoadmapsDesc: Description = nationalRoadmapsDesc;
+  readonly legalStatusDesc: Description = legalStatusDesc;
+  readonly networksDesc: Description = networksDesc;
+
+  placesVocabulary: Vocabulary[] = null;
+  providerTypeVocabulary: Vocabulary[] = null;
+  providerTRLVocabulary: Vocabulary[] = null;
+  domainsVocabulary: Vocabulary[] = null;
+  categoriesVocabulary: Vocabulary[] = null;
+  esfriDomainVocabulary: Vocabulary[] = null;
+  legalStatusVocabulary: Vocabulary[] = null;
+  esfriVocabulary: Vocabulary[] = null;
+  areasOfActivityVocabulary: Vocabulary[] = null;
+  networksVocabulary: Vocabulary[] = null;
+  societalGrandChallengesVocabulary: Vocabulary[] = null;
 
   readonly formDefinition = {
     // id: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-z][a-zA-Z0-9-_]{1,}$/)])],
-    legalName: ['', Validators.required],
+    fullName: ['', Validators.required],
     acronym: [''],
-    legalForm: ['', Validators.required],
+    // legalForm: ['', Validators.required],
     website: ['', Validators.compose([Validators.required, URLValidator])],
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
     multimedia: this.fb.array([this.fb.control('', URLValidator)]),
-    scientificDomains: this.fb.array([]),
-    scientificSubdomains: this.fb.array([]),
+    domains: this.fb.array([]),
+    categories: this.fb.array([]),
     types: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
-    participatingCountries: this.fb.array([this.fb.control('')]),
     affiliations: this.fb.array([this.fb.control('')]),
     tags: this.fb.array([this.fb.control('')]),
     location: this.fb.group({
-      streetNameNumber: ['', Validators.required],
+      name: ['', Validators.required],
+      street: ['', Validators.required],
+      number: ['', Validators.required],
       postalCode: ['', Validators.required],
       city: ['', Validators.required],
-      region: [''],
-      country: ['', Validators.required]
+      region: ['']
     }),
+    country: ['', Validators.required],
+    participatingCountries: this.fb.array([this.fb.control('')]),
     contacts: this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', Validators.required],
-      phone: [''],
+      tel: [''],
       position: [''],
     }),
-    certifications: this.fb.array([this.fb.control('')]),
+    // certifications: this.fb.array([this.fb.control('')]),
     esfriDomains: this.fb.array([this.fb.control('')]),
     hostingLegalEntity: [''],
     esfriParticipation: [''],
     lifeCycleStatus: [''],
+    networks: this.fb.array([this.fb.control('')]),
     areasOfActivity: this.fb.array([this.fb.control('')]),
     societalGrandChallenges: this.fb.array([this.fb.control('')]),
     nationalRoadmap: [''],
     users: this.fb.array([
       this.user()
-    ])
+    ]),
+    legalStatus: [''],
+    categorization: this.fb.array([], Validators.required)
   };
 
   constructor(private fb: FormBuilder,
               private authService: AuthenticationService,
               private serviceProviderService: ServiceProviderService,
+              private resourceService: ResourceService,
               private router: Router) {
   }
 
   ngOnInit() {
+    this.resourceService.getAllVocabulariesByType().subscribe(
+      res => this.vocabularies = res,
+      error => console.log(error),
+      () => {
+        this.placesVocabulary = this.vocabularies[VocabularyType.PLACE];
+        this.providerTypeVocabulary = this.vocabularies[VocabularyType.PROVIDER_TYPE];
+        this.providerTRLVocabulary = this.vocabularies[VocabularyType.PROVIDER_LIFE_CYCLE_STATUS];
+        this.domainsVocabulary =  this.vocabularies[VocabularyType.PROVIDER_DOMAIN];
+        this.categoriesVocabulary =  this.vocabularies[VocabularyType.PROVIDER_CATEGORY];
+        this.esfriDomainVocabulary =  this.vocabularies[VocabularyType.PROVIDER_ESFRI_DOMAIN];
+        this.legalStatusVocabulary =  this.vocabularies[VocabularyType.PROVIDER_LEGAL_STATUS];
+        this.esfriVocabulary =  this.vocabularies[VocabularyType.PROVIDER_ESFRI];
+        this.areasOfActivityVocabulary =  this.vocabularies[VocabularyType.PROVIDER_AREA_OF_ACTIVITY];
+        this.networksVocabulary =  this.vocabularies[VocabularyType.PROVIDER_NETWORKS];
+        this.societalGrandChallengesVocabulary =  this.vocabularies[VocabularyType.PROVIDER_SOCIETAL_GRAND_CHALLENGES];
+      }
+    );
     this.newProviderForm = this.fb.group(this.formDefinition);
+    this.pushDomain();
     this.userInfo.given_name = this.authService.getUserProperty('given_name');
     this.userInfo.family_name = this.authService.getUserProperty('family_name');
     this.userInfo.email = this.authService.getUserProperty('email');
@@ -151,14 +196,32 @@ export class NewServiceProviderComponent implements OnInit {
     this.usersArray.controls[0].get('surname').setValue(this.userInfo.family_name);
   }
 
-  user(): FormGroup {
+  /** Categorization --> **/
+  newScientificDomain(): FormGroup {
     return this.fb.group({
-      email: ['', Validators.compose([Validators.required, Validators.email])],
-      id: [''],
-      name: ['', Validators.required],
-      surname: ['', Validators.required]
+      domain: ['', Validators.required],
+      category: ['', Validators.required]
     });
   }
+
+  get domainArray() {
+    return this.newProviderForm.get('categorization') as FormArray;
+  }
+
+  pushDomain() {
+    this.domainArray.push(this.newScientificDomain());
+    this.domainArray.controls[this.domainArray.length - 1].get('category').disable();
+  }
+
+  removeDomain(index: number) {
+    this.domainArray.removeAt(index);
+  }
+
+  onDomainChange(index: number) {
+    this.domainArray.controls[index].get('category').enable();
+    this.domainArray.controls[index].get('category').reset();
+  }
+  /** <-- Categorization **/
 
   registerProvider() {
     this.errorMessage = '';
@@ -212,6 +275,28 @@ export class NewServiceProviderComponent implements OnInit {
   }
   /** <- handle form arrays**/
 
+  /** Contact Info -->**/
+  contact(): FormGroup {
+    return this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.required],
+      tel: ['', Validators.required],
+      position: [''],
+    }, Validators.required);
+  }
+  /** <--Contact Info **/
+
+  /** User Array -->**/
+  user(): FormGroup {
+    return this.fb.group({
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      id: [''],
+      name: ['', Validators.required],
+      surname: ['', Validators.required]
+    });
+  }
+
   get usersArray() { // return form fields as array
     return this.newProviderForm.get('users') as FormArray;
   }
@@ -229,6 +314,7 @@ export class NewServiceProviderComponent implements OnInit {
     console.log(index);
     this.usersArray.removeAt(index);
   }
+  /** <-- User Array**/
 
   showLogoUrlModal() {
     if (this.newProviderForm && this.newProviderForm.get('logo').value) {
@@ -242,6 +328,22 @@ export class NewServiceProviderComponent implements OnInit {
     this.logoUrl = logoUrl;
     this.newProviderForm.get('logo').setValue(logoUrl);
     this.newProviderForm.get('logo').updateValueAndValidity();
+  }
+
+  getSortedChildrenCategories(childrenCategory: Vocabulary[], parentId: string) {
+    return this.sortVocabulariesByName(childrenCategory.filter(entry => entry.parentId === parentId));
+  }
+
+  sortVocabulariesByName(vocabularies: Vocabulary[]): Vocabulary[] {
+    return vocabularies.sort((vocabulary1, vocabulary2) => {
+      if (vocabulary1.name > vocabulary2.name) {
+        return 1;
+      }
+      if (vocabulary1.name < vocabulary2.name) {
+        return -1;
+      }
+      return 0;
+    });
   }
 
   trimFormWhiteSpaces() {

@@ -5,7 +5,7 @@ import {environment} from '../../environments/environment';
 import {
   Indicator,
   Measurement,
-  NestedVocabulary,
+  VocabularyTree,
   Provider,
   RichService,
   Service,
@@ -106,7 +106,7 @@ export class ResourceService {
   }
 
   getNestedVocabulariesByType(type: string) {
-    return this.http.get<NestedVocabulary>(this.base + `/vocabulary/vocabularyTree/${type}`);
+    return this.http.get<VocabularyTree>(this.base + `/vocabulary/vocabularyTree/${type}`);
   }
 
   getSubcategoriesIdsFromSuperCategory(parent: string, type: string) {

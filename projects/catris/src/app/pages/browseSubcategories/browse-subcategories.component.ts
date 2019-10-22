@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../../../../../src/app/services/resource.service';
-import {NestedVocabulary} from '../../../../../../src/app/domain/eic-model';
+import {VocabularyTree} from '../../../../../../src/app/domain/eic-model';
 import {NavigationService} from '../../../../../../src/app/services/navigation.service';
 
 @Component({
@@ -9,7 +9,7 @@ import {NavigationService} from '../../../../../../src/app/services/navigation.s
 })
 export class BrowseSubcategoriesComponent implements OnInit {
   public errorMessage: string;
-  public nestedStructure: NestedVocabulary;
+  public nestedStructure: VocabularyTree;
 
   constructor(private resourceService: ResourceService,
               public router: NavigationService) {}
