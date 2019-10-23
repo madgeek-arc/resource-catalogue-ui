@@ -132,13 +132,13 @@ export const countryDesc = {label: 'Country', mandatory: true, desc: 'Establishm
 export const providerMainContactFirstNameDesc = {label: 'Main Contact First Name', mandatory: true, desc: 'First Name of the provider\'s main contact person/ provider manager.'};
 export const providerMainContactLastNameDesc = {label: 'Main Contact Last Name', mandatory: true, desc: 'Last Name of the provider\'s main contact person/ provider manager.'};
 export const providerMainContactEmailDesc = {label: 'Main Contact Email', mandatory: true, desc: 'Email of the provider\'s main contact person/ provider manager.'};
-export const providerMainContactPhoneDesc = {label: 'Main Contact Phone', mandatory: false, desc: 'Phone of the provider\'s main contact person/ provider manager.'};
+export const providerMainContactPhoneDesc = {label: 'Main Contact Phone', mandatory: true, desc: 'Phone of the provider\'s main contact person/ provider manager.'};
 export const providerMainContactPositionDesc = {label: 'Main Contact Position', mandatory: false, desc: 'Position of the provider\'s main contact person/ provider manager.'};
 // Public Contact
 // Main Contact/Provider Manager
 export const providerPublicContactFirstNameDesc = {label: 'Public Contact First Name', mandatory: false, desc: 'First Name of the provider\'s contact person to be displayed at the portal.'};
 export const providerPublicContactLastNameDesc = {label: 'Public Contact Last Name', mandatory: false, desc: 'Last Name of the provider\'s contact person to be displayed at the portal.'};
-export const providerPublicContactEmailDesc = {label: 'Public Contact Email', mandatory: true, desc: 'Email of the provider\'s contact person to be displayed at the portal or general email to contact organisation.'};
+export const providerPublicContactEmailDesc = {label: 'Public Contact Email', mandatory: false, desc: 'Email of the provider\'s contact person to be displayed at the portal or general email to contact organisation.'};
 export const providerPublicContactPhoneDesc = {label: 'Public Contact Phone', mandatory: false, desc: 'Phone of the provider\'s contact person to be displayed at the portal or general email to contact organisation.'};
 export const providerPublicContactPositionDesc = {label: 'Public Contact Position', mandatory: false, desc: 'Position of the provider\'s contact person to be displayed at the portal.'};
 // Maturity Information

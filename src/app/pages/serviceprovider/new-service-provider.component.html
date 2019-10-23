@@ -142,10 +142,8 @@
                       </i>
                     </div>
                   </div>
-                  <div class="uk-form-horizontal uk-margin-bottom">
-                    <label class="uk-form-label uk-text-right">
-                      Scientific Domain (*)
-                    </label>
+                  <div class="uk-margin-bottom">
+                    <label class="uk-form-label uk-text-right">Scientific Domain (*)</label>
                     <div class="uk-form-controls">
                       <div formArrayName="categorization" *ngFor="let category of domainArray.controls; let i = index">
                         <div [formGroupName]="i" class="uk-margin-small-bottom" style="border: 1px dashed #cccccc; padding-right: 10px">
@@ -362,6 +360,66 @@
                       <i><small>{{participatingCountriesDesc.desc}}</small></i>
                     </div>
                   </div>
+                  <div class="uk-margin-bottom">
+                    <label class="uk-form-label uk-text-right">Contact (*)</label>
+                    <div class="uk-form-controls">
+                      <div formArrayName="contacts" *ngFor="let contact of contactArray.controls; let i = index">
+                        <div [formGroupName]="i" class="uk-margin-small-bottom"
+                             style="border: 1px dashed #cccccc; padding-right: 10px">
+                          <div>
+                            <a *ngIf="i !== 0" class="remove-element uk-padding-small" (click)="removeContact(i)">
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+                          </div>
+                          <label class="uk-form-label uk-text-right">
+                            {{ i === 0 ? (providerMainContactFirstNameDesc.label + (providerMainContactFirstNameDesc.mandatory ? ' (*)' : '')) : (providerPublicContactLastNameDesc.label + (providerPublicContactLastNameDesc.mandatory ? ' (*)' : ''))}}
+                          </label>
+                          <div class="uk-form-controls">
+                            <input class="uk-input" type="text" formControlName="firstName"
+                                   [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('firstName').valid && contactArray.controls[i].get('firstName').dirty}">
+                            <i><small>{{i === 0 ? providerMainContactFirstNameDesc.desc : providerPublicContactLastNameDesc.desc}}</small></i>
+                          </div>
+                          <label class="uk-form-label uk-text-right">
+                            {{ i === 0 ? (providerMainContactLastNameDesc.label + (providerMainContactLastNameDesc.mandatory ? ' (*)' : '')) : (providerPublicContactFirstNameDesc.label + (providerPublicContactFirstNameDesc.mandatory ? ' (*)' : ''))}}
+                          </label>
+                          <div class="uk-form-controls">
+                            <input class="uk-input" type="text" formControlName="lastName"
+                                   [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('lastName').valid && contactArray.controls[i].get('lastName').dirty}">
+                            <i><small>{{i === 0 ? providerMainContactLastNameDesc.desc : providerPublicContactFirstNameDesc.desc}}</small></i>
+                          </div>
+                          <label class="uk-form-label uk-text-right">
+                            {{ i === 0 ? (providerMainContactEmailDesc.label + (providerMainContactEmailDesc.mandatory ? ' (*)' : '')) : (providerPublicContactEmailDesc.label + (providerPublicContactEmailDesc.mandatory ? ' (*)' : ''))}}
+                          </label>
+                          <div class="uk-form-controls">
+                            <input class="uk-input" type="text" formControlName="email"
+                                   [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('email').valid && contactArray.controls[i].get('email').dirty}">
+                            <i><small>{{i === 0 ? providerMainContactEmailDesc.desc : providerPublicContactEmailDesc.desc}}</small></i>
+                          </div>
+                          <label class="uk-form-label uk-text-right">
+                            {{ i === 0 ? (providerMainContactPhoneDesc.label + (providerMainContactPhoneDesc.mandatory ? ' (*)' : '')) : (providerPublicContactPhoneDesc.label + (providerPublicContactPhoneDesc.mandatory ? ' (*)' : ''))}}
+                          </label>
+                          <div class="uk-form-controls">
+                            <input class="uk-input" type="text" formControlName="tel"
+                                   [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('tel').valid && contactArray.controls[i].get('tel').dirty}">
+                            <i><small>{{i === 0 ? providerMainContactPhoneDesc.desc : providerPublicContactPhoneDesc.desc}}</small></i>
+                          </div>
+                          <label class="uk-form-label uk-text-right">
+                            {{ i === 0 ? (providerMainContactPositionDesc.label + (providerMainContactPositionDesc.mandatory ? ' (*)' : '')) : (providerPublicContactPositionDesc.label + (providerPublicContactPositionDesc.mandatory ? ' (*)' : ''))}}
+                          </label>
+                          <div class="uk-form-controls">
+                            <input class="uk-input" type="text" formControlName="position"
+                                   [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('position').valid && contactArray.controls[i].get('position').dirty}">
+                            <i><small>{{i === 0 ? providerMainContactPositionDesc.desc : providerPublicContactPositionDesc.desc}}</small></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="uk-form-controls">
+                      <a class="add-new-element" (click)="pushContact()">
+                        <i class="fa fa-plus" aria-hidden="true"></i> Add another contact
+                      </a>
+                    </div>
+                  </div>
 
 <!--                  <div formArrayName="certifications" class="uk-margin-bottom">-->
 <!--                    <label class="uk-form-label uk-text-right">-->
@@ -523,28 +581,27 @@
                     <div formArrayName="users" *ngFor="let user of usersArray.controls; let i = index">
                       <div class="uk-padding-small uk-margin-small-bottom">
                         <div class="uk-grid" [formGroupName]="i">
-                          <div class="serviceDetails uk-width-1-5@m">
+                          <div class="uk-width-1-6"></div>
+                          <div class="serviceDetails uk-width-1-6@m">
                             <input type="text" class="uk-input" formControlName="name"
                                    [ngClass]="{'uk-form-danger': !usersArray.controls[i].get('name').valid && usersArray.controls[i].get('name').dirty}">
                           </div>
-                          <div class="serviceDetails uk-width-1-5@m">
+                          <div class="serviceDetails uk-width-1-6@m">
                             <input type="text" class="uk-input" formControlName="surname"
                                    [ngClass]="{'uk-form-danger': !usersArray.controls[i].get('surname').valid && usersArray.controls[i].get('surname').dirty}">
                           </div>
-                          <div class="serviceDetails  uk-width-2-5@m">
+                          <div class="serviceDetails  uk-width-1-3@m">
                             <input type="text" class="uk-input" formControlName="email"
                                    [ngClass]="{'uk-form-danger': !usersArray.controls[i].get('email').valid && usersArray.controls[i].get('email').dirty}">
                           </div>
-                          <div class="uk-width-1-5@m">
-                            <a class=""
-                               (click)="deleteUser(i)"><i class="fa fa-times" aria-hidden="true"></i>
-                            </a>
+                          <div class="uk-width-1-6@m">
+                            <a (click)="deleteUser(i)"><i class="fa fa-times" aria-hidden="true"></i></a>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="uk-margin-small-bottom uk-width-1-1@m uk-float-right">
-                      <a class="" (click)="addUser()"><i class="fa fa-plus" aria-hidden="true"></i>New Admin Provider</a>
+                      <a (click)="addUser()"><i class="fa fa-plus" aria-hidden="true"></i>New Admin Provider</a>
                     </div>
                   </div>
 

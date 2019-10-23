@@ -39,7 +39,9 @@ import {
   ESFRIDesc,
   areasOfActivityDesc,
   societalGrandChallengesDesc,
-  nationalRoadmapsDesc, legalStatusDesc, networksDesc
+  nationalRoadmapsDesc,
+  legalStatusDesc,
+  networksDesc
 } from '../eInfraServices/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
@@ -135,16 +137,18 @@ export class NewServiceProviderComponent implements OnInit {
       postalCode: ['', Validators.required],
       city: ['', Validators.required],
       region: ['']
-    }),
+    }, Validators.required),
     country: ['', Validators.required],
     participatingCountries: this.fb.array([this.fb.control('')]),
-    contacts: this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      tel: [''],
-      position: [''],
-    }),
+    contacts: this.fb.array([
+      this.fb.group({
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        email: ['', Validators.required],
+        tel: ['', Validators.required],
+        position: [''],
+      }, Validators.required)
+    ]),
     // certifications: this.fb.array([this.fb.control('')]),
     esfriDomains: this.fb.array([this.fb.control('')]),
     hostingLegalEntity: [''],
@@ -241,6 +245,20 @@ export class NewServiceProviderComponent implements OnInit {
       this.newProviderForm.markAsDirty();
       this.newProviderForm.updateValueAndValidity();
       for (const i in this.newProviderForm.controls) {
+        console.log(i);
+        for (const j in this.newProviderForm.controls[i].value) {
+          console.log('- ' + j);
+          if (this.newProviderForm.controls[i].value.hasOwnProperty(j)) {
+            if (this.newProviderForm.controls[i].get(j).value.constructor !== Array) {
+              this.newProviderForm.controls[i].get(j).markAsDirty();
+              this.newProviderForm.controls[i].get(j).markAsTouched();
+            }
+          }
+        }
+        if (this.newProviderForm.controls[i].value.constructor === Array) {
+          console.log('Boomm');
+          // mark array fields as dirty
+        }
         this.newProviderForm.controls[i].markAsDirty();
       }
       window.scrollTo(0, 0);
@@ -276,14 +294,25 @@ export class NewServiceProviderComponent implements OnInit {
   /** <- handle form arrays**/
 
   /** Contact Info -->**/
-  contact(): FormGroup {
+  newContact(): FormGroup {
     return this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      tel: ['', Validators.required],
+      firstName: [''],
+      lastName: [''],
+      email: [''],
+      tel: [''],
       position: [''],
-    }, Validators.required);
+    });
+  }
+
+  get contactArray() {
+    return this.newProviderForm.get('contacts') as FormArray;
+  }
+
+  pushContact() {
+    this.contactArray.push(this.newContact());
+  }
+  removeContact(index: number) {
+    this.contactArray.removeAt(index);
   }
   /** <--Contact Info **/
 
@@ -349,17 +378,19 @@ export class NewServiceProviderComponent implements OnInit {
   trimFormWhiteSpaces() {
     for (const i in this.newProviderForm.controls) {
       if (this.newProviderForm.controls[i].value && this.newProviderForm.controls[i].value.constructor === Array) {
-        for (let j = 0; j < this.newProviderForm.controls[i].value.length; j++) {
-          this.newProviderForm.controls[i].value[j].email = this.newProviderForm.controls[i].value[j].email
-            .trim().replace(/\s\s+/g, ' ');
-          this.newProviderForm.controls[i].value[j].name = this.newProviderForm.controls[i].value[j].name
-            .trim().replace(/\s\s+/g, ' ');
-          this.newProviderForm.controls[i].value[j].surname = this.newProviderForm.controls[i].value[j].surname
-            .trim().replace(/\s\s+/g, ' ');
-        }
-      } else if (this.newProviderForm.controls[i].value) {
+
+      } else if (this.newProviderForm.controls[i].value && i !== 'location') {
+        console.log(i);
         this.newProviderForm.controls[i].setValue(this.newProviderForm.controls[i].value.trim().replace(/\s\s+/g, ' '));
       }
+    }
+    for (let j = 0; j < this.newProviderForm.controls['users'].value.length; j++) {
+      this.newProviderForm.controls['users'].value[j].email = this.newProviderForm.controls['users'].value[j].email
+        .trim().replace(/\s\s+/g, ' ');
+      this.newProviderForm.controls['users'].value[j].name = this.newProviderForm.controls['users'].value[j].name
+        .trim().replace(/\s\s+/g, ' ');
+      this.newProviderForm.controls['users'].value[j].surname = this.newProviderForm.controls['users'].value[j].surname
+        .trim().replace(/\s\s+/g, ' ');
     }
   }
 
