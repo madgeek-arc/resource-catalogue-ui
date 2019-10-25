@@ -10,6 +10,7 @@ import {IndicatorsPage} from '../../domain/indicators';
 import {ProvidersPage} from '../../domain/funders-page';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs/internal/observable/zip';
+import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 
 @Component({
   selector: 'app-service-form',
@@ -171,6 +172,7 @@ export class ServiceFormComponent implements OnInit {
   requiredServices: any;
   relatedServices: any;
   vocabularies: Map<string, Vocabulary[]> = null;
+  premiumSort = new PremiumSortPipe();
   resourceService: ResourceService = this.injector.get(ResourceService);
 
   router: NavigationService = this.injector.get(NavigationService);
@@ -285,7 +287,7 @@ export class ServiceFormComponent implements OnInit {
         this.requiredServices = this.transformInput(suc[2]);
         this.relatedServices = this.requiredServices;
         this.getIndicatorIds();
-        this.getLocations();
+        // this.getLocations();
         this.targetUsers = this.vocabularies[VocabularyType.TARGET_USERS];
         this.accessTypesVocabulary = this.vocabularies[VocabularyType.ACCESS_TYPE];
         this.accessModesVocabulary = this.vocabularies[VocabularyType.ACCESS_MODE];
@@ -300,13 +302,15 @@ export class ServiceFormComponent implements OnInit {
         this.scientificSubDomainVocabulary = this.vocabularies[VocabularyType.SCIENTIFIC_SUBDOMAIN];
         this.placesVocabulary = this.vocabularies[VocabularyType.PLACE];
         this.languagesVocabulary = this.vocabularies[VocabularyType.LANGUAGE];
-        this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
-        this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
+        // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
+        // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
       },
       error => {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + error.error;
       },
       () => {
+        this.premiumSort.transform(this.placesVocabulary, ['Europe', 'World']);
+        this.premiumSort.transform(this.languagesVocabulary, ['English']);
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
       }
     );
