@@ -106,7 +106,7 @@ export const Attribute3Desc = {label: 'Attribute 3', mandatory: false, desc: ''}
 /** Service provider form fields **/
 // Basic Information
 export const fullNameDesc = {label: 'Full Name', mandatory: true, desc: 'Full Name of the organisation providing/offering the service/resource.'};
-export const acronymDesc = {label: 'Acronym', mandatory: false, desc: 'Acronym or abbreviation of the provider.'};
+export const acronymDesc = {label: 'Acronym', mandatory: true, desc: 'Acronym or abbreviation of the provider.'};
 export const legalFormDesc = {label: 'Legal Form', mandatory: true, desc: 'The legal from is usually noted in the registration act/statute of teh organisation. For independent legal entities (1) - legal form of the provider. For embedded providers (2) - legal form of the hosting legal entity.'};
 export const websiteDesc = {label: 'Website', mandatory: true, desc: 'Webpage with information about the provider.'};
 // Marketing Information
@@ -126,7 +126,7 @@ export const streetNameDesc = {label: 'Street Name', mandatory: true, desc: 'Phy
 export const streetNumberDesc = {label: 'Street Number', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
 export const postalCodeDesc = {label: 'Postal Code', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
 export const cityDesc = {label: 'City', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
-export const regionDesc = {label: 'Region', mandatory: false, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
+export const regionDesc = {label: 'Region', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
 export const countryDesc = {label: 'Country', mandatory: true, desc: 'Establishment/Registration Country of the organisation. Usually this is the location of the headquarters of the organisation. In the case of distributed/virtual providers the country of the coordinating office.'};
 // Contact Information
 export const providerMainContactFirstNameDesc = {label: 'Main Contact First Name', mandatory: true, desc: 'First Name of the provider\'s main contact person/ provider manager.'};
@@ -144,10 +144,10 @@ export const providerPublicContactPositionDesc = {label: 'Public Contact Positio
 // Maturity Information
 export const providerCertificationsDesc = {label: 'Certifications', mandatory: false, desc: 'List of certifications obtained for the provider (including the certification body and any certificate number or URL if available).   NOTE this is not for certifications specific to the service, which are under Service Description.'};
 // Research Infrastructures Information
-export const ESFRIDomainDesc = {label: 'ESFRI Domain', mandatory: false, desc: 'ESFRI domain classification. '};
+export const ESFRIDomainDesc = {label: 'ESFRI Domain', mandatory: true, desc: 'ESFRI domain classification. '};
 export const hostingLegalEntityDesc = {label: 'Hosting Legal Entity', mandatory: false, desc: 'Name of the organisation/institution legally hosting (housing) the RI or its coordinating centre. A distinction is made between: (1) RIs that are self-standing and have a defined and distinct legal entity, (2) RI that are embedded into another institution which is a legal entity (such as a university, a research organisation, etc.). If (1) - name of the RI, If (2) - name of the hosting organisation.'};
 export const ESFRIDesc = {label: 'ESFRI', mandatory: false, desc: 'If the RI is (part of) an ESFRI project indicate how the RI participates: a) RI is node of an ESFRI project, b) RI is an ESFRI project, c) RI is an ESFRI landmark.'};
-export const lifeCycleStatusDesc = {label: 'Life Cycle Status', mandatory: false, desc: 'Current status of the provider life-cycle.'};
+export const lifeCycleStatusDesc = {label: 'Life Cycle Status', mandatory: true, desc: 'Current status of the provider life-cycle.'};
 export const areasOfActivityDesc = {label: 'Areas of Activity', mandatory: false, desc: 'Basic research, Applied research or Technological development'};
 export const societalGrandChallengesDesc = {label: 'Societal Grand Challenges', mandatory: false, desc: 'Provider’s participation in the grand societal challenges as defined by the European Commission (Horizon 2020)'};
 export const nationalRoadmapsDesc = {label: 'National Roadmaps', mandatory: false, desc: 'Is the Provider featured on the national roadmap for research infrastructures'};

@@ -45,7 +45,7 @@ import {
 } from '../eInfraServices/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {Vocabulary, VocabularyType} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
@@ -54,14 +54,15 @@ declare var UIkit: any;
 
 @Component({
   selector: 'app-new-service-provider',
-  templateUrl: './new-service-provider.component.html'
+  templateUrl: './service-provider-form.component.html'
 })
-export class NewServiceProviderComponent implements OnInit {
+export class ServiceProviderFormComponent implements OnInit {
   errorMessage = '';
   userInfo = {family_name: '', given_name: '', email: ''};
   newProviderForm: FormGroup;
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
+  edit = false;
 
   readonly fullNameDesc: Description = fullNameDesc;
   readonly acronymDesc: Description = acronymDesc;
@@ -118,8 +119,8 @@ export class NewServiceProviderComponent implements OnInit {
 
   readonly formDefinition = {
     // id: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-z][a-zA-Z0-9-_]{1,}$/)])],
-    fullName: ['', Validators.required],
-    acronym: [''],
+    name: ['', Validators.required],
+    acronym: ['', Validators.required],
     // legalForm: ['', Validators.required],
     website: ['', Validators.compose([Validators.required, URLValidator])],
     description: ['', Validators.required],
@@ -128,7 +129,7 @@ export class NewServiceProviderComponent implements OnInit {
     domains: this.fb.array([]),
     categories: this.fb.array([]),
     types: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
-    affiliations: this.fb.array([this.fb.control('')]),
+    // affiliations: this.fb.array([this.fb.control('')]),
     tags: this.fb.array([this.fb.control('')]),
     location: this.fb.group({
       name: ['', Validators.required],
@@ -138,7 +139,7 @@ export class NewServiceProviderComponent implements OnInit {
       city: ['', Validators.required],
       region: ['']
     }, Validators.required),
-    country: ['', Validators.required],
+    coordinatingCountry: ['', Validators.required],
     participatingCountries: this.fb.array([this.fb.control('')]),
     contacts: this.fb.array([
       this.fb.group({
@@ -150,10 +151,10 @@ export class NewServiceProviderComponent implements OnInit {
       }, Validators.required)
     ]),
     // certifications: this.fb.array([this.fb.control('')]),
-    esfriDomains: this.fb.array([this.fb.control('')]),
+    esfriDomains: this.fb.array([this.fb.control('', Validators.required)], Validators.required ),
     hostingLegalEntity: [''],
     esfriParticipation: [''],
-    lifeCycleStatus: [''],
+    lifeCycleStatus: ['', Validators.required],
     networks: this.fb.array([this.fb.control('')]),
     areasOfActivity: this.fb.array([this.fb.control('')]),
     societalGrandChallenges: this.fb.array([this.fb.control('')]),
@@ -166,10 +167,11 @@ export class NewServiceProviderComponent implements OnInit {
   };
 
   constructor(private fb: FormBuilder,
-              private authService: AuthenticationService,
-              private serviceProviderService: ServiceProviderService,
+              public authService: AuthenticationService,
+              public serviceProviderService: ServiceProviderService,
               private resourceService: ResourceService,
-              private router: Router) {
+              public router: Router,
+              public route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -232,7 +234,13 @@ export class NewServiceProviderComponent implements OnInit {
     this.trimFormWhiteSpaces();
 
     if (this.newProviderForm.valid) {
-      this.serviceProviderService.createNewServiceProvider(this.newProviderForm.value).subscribe(
+      this.getFieldAsFormArray('categories').controls = [];
+      for (const category of this.domainArray.controls) {
+        if (category.get('category').value) {
+          this.getFieldAsFormArray('categories').push(this.fb.control(category.get('category').value));
+        }
+      }
+      this.serviceProviderService[this.edit ? 'updateServiceProvider' : 'createNewServiceProvider'](this.newProviderForm.value).subscribe(
         res => {},
         err => {
           this.errorMessage = 'Something went wrong. ' + err.error;
@@ -242,30 +250,9 @@ export class NewServiceProviderComponent implements OnInit {
         }
       );
     } else {
-      this.newProviderForm.markAsDirty();
-      this.newProviderForm.updateValueAndValidity();
-      for (const i in this.newProviderForm.controls) {
-        console.log(i);
-        for (const j in this.newProviderForm.controls[i].value) {
-          console.log('- ' + j);
-          if (this.newProviderForm.controls[i].value.hasOwnProperty(j)) {
-            if (this.newProviderForm.controls[i].get(j).value.constructor !== Array) {
-              this.newProviderForm.controls[i].get(j).markAsDirty();
-              this.newProviderForm.controls[i].get(j).markAsTouched();
-            }
-          }
-        }
-        if (this.newProviderForm.controls[i].value.constructor === Array) {
-          console.log('Boomm');
-          // mark array fields as dirty
-        }
-        this.newProviderForm.controls[i].markAsDirty();
-      }
+      this.markFormAsDirty();
       window.scrollTo(0, 0);
-      if (!this.newProviderForm.valid) {
-        this.errorMessage = 'Please fill in all required fields (marked with an asterisk),' +
-          ' and fix the data format in fields underlined with a red colour.';
-      }
+      this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
     }
   }
 
@@ -340,7 +327,6 @@ export class NewServiceProviderComponent implements OnInit {
       window.scrollTo(0, 0);
       return;
     }
-    console.log(index);
     this.usersArray.removeAt(index);
   }
   /** <-- User Array**/
@@ -375,12 +361,35 @@ export class NewServiceProviderComponent implements OnInit {
     });
   }
 
+  markFormAsDirty() {
+    for (const i in this.newProviderForm.controls) {
+      for (const j in this.newProviderForm.controls[i].value) {
+        if (this.newProviderForm.controls[i].value.hasOwnProperty(j)) {
+          if (this.newProviderForm.controls[i].get(j).value.constructor !== Array) {
+            this.newProviderForm.controls[i].get(j).markAsDirty();
+            this.newProviderForm.controls[i].get(j).markAsTouched();
+          }
+        }
+      }
+      if (this.newProviderForm.controls[i].value.constructor === Array) {
+        for (let j = 0; j < this.getFieldAsFormArray(i).controls.length; j++) {
+          const keys = Object.keys(this.newProviderForm.controls[i].value[j]);
+          for (let k = 0; k < keys.length; k++) {
+            this.getFieldAsFormArray(i).controls[j].get(keys[k]).markAsTouched();
+            this.getFieldAsFormArray(i).controls[j].get(keys[k]).markAsDirty();
+          }
+        }
+      }
+      this.newProviderForm.controls[i].markAsDirty();
+    }
+  }
+
   trimFormWhiteSpaces() {
     for (const i in this.newProviderForm.controls) {
       if (this.newProviderForm.controls[i].value && this.newProviderForm.controls[i].value.constructor === Array) {
 
       } else if (this.newProviderForm.controls[i].value && i !== 'location') {
-        console.log(i);
+        // console.log(i);
         this.newProviderForm.controls[i].setValue(this.newProviderForm.controls[i].value.trim().replace(/\s\s+/g, ' '));
       }
     }

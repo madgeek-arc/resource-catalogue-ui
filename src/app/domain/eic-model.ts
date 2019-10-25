@@ -161,7 +161,7 @@ export class Provider implements Identifiable {
     networks: string[];
     areasOfActivity: string[];
     societalGrandChallenges: string[];
-    nationalRoadmap: boolean;
+    nationalRoadmap: string;
     active: boolean;
     status: string;
     users: User[];

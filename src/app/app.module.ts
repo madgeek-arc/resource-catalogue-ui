@@ -17,7 +17,7 @@ import {TopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BreadcrumbsComponent} from './shared/breadcrumbs/breadcrumbs.component';
 import {FeedbackComponent} from './shared/feedback/feedback.component';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
-import {NewServiceProviderComponent} from './pages/serviceprovider/new-service-provider.component';
+import {ServiceProviderFormComponent} from './pages/serviceprovider/service-provider-form.component';
 import {MyServiceProvidersComponent} from './pages/serviceprovider/my-service-providers.component';
 import {AddFirstServiceComponent} from './pages/serviceprovider/add-first-service.component';
 import {ServiceProviderInfoComponent} from './pages/serviceprovider/service-provider-info.component';
@@ -88,7 +88,7 @@ export function highchartsFactory() {
     MyFavouritesComponent,
     ServiceDashboardComponent,
     // SERVICE PROVIDER ADMIN
-    NewServiceProviderComponent,
+    ServiceProviderFormComponent,
     ServiceProviderInfoComponent,
     UpdateServiceProviderComponent,
     AddFirstServiceComponent,
