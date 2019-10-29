@@ -7,10 +7,11 @@ import {UserService} from '../../services/user.service';
 import * as sd from './services.description';
 import {Vocabulary, Service, VocabularyType} from '../../domain/eic-model';
 import {IndicatorsPage} from '../../domain/indicators';
-import {ProvidersPage} from '../../domain/funders-page';
+import {FundersPage, ProvidersPage} from '../../domain/funders-page';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs/internal/observable/zip';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
+import {FunderService} from '../../services/funder.service';
 
 @Component({
   selector: 'app-service-form',
@@ -46,6 +47,7 @@ export class ServiceFormComponent implements OnInit {
   readonly targetCustomerTagsDesc: sd.Description = sd.targetCustomerTagsDesc;
   readonly useCasesCaseStudiesDesc: sd.Description = sd.useCasesCaseStudiesDesc;
   readonly optionsDesc: sd.Description = sd.optionsDesc;
+  readonly providersDesc: sd.Description = sd.providersDesc;
   readonly scientificDomainDesc: sd.Description = sd.scientificDomainDesc;
   readonly scientificSubDomainDesc: sd.Description = sd.scientificSubDomainDesc;
   readonly superCategoryDesc: sd.Description = sd.superCategoryDesc; // maybe removed later?
@@ -82,6 +84,7 @@ export class ServiceFormComponent implements OnInit {
   readonly grantProjectNameDesc: sd.Description = sd.grantProjectNameDesc;
   readonly helpdeskDesc: sd.Description = sd.helpdeskDesc;
   readonly userManualDesc: sd.Description = sd.userManualDesc;
+  readonly adminManualDesc: sd.Description = sd.adminManualDesc;
   readonly termsOfUseDesc: sd.Description = sd.termsOfUseDesc;
   readonly privacyPolicyDesc: sd.Description = sd.privacyPolicyDesc;
   readonly serviceLevelAgreementDesc: sd.Description = sd.serviceLevelAgreementDesc;
@@ -96,32 +99,56 @@ export class ServiceFormComponent implements OnInit {
   readonly accessPolicyDesc: sd.Description = sd.accessPolicyDesc;
   readonly paymentModelDesc: sd.Description = sd.paymentModelDesc;
   readonly pricingDesc: sd.Description = sd.pricingDesc;
+  readonly userValueDesc: sd.Description = sd.userValueDesc;
+  readonly userBaseDesc: sd.Description = sd.userBaseDesc;
+  readonly useCasesDesc: sd.Description = sd.useCasesDesc;
+  readonly fundersDesc: sd.Description = sd.fundersDesc;
+  readonly aggregatedServicesDesc: sd.Description = sd.aggregatedServicesDesc;
+  readonly datasetsDesc: sd.Description = sd.datasetsDesc;
+  readonly applicationsDesc: sd.Description = sd.applicationsDesc;
+  readonly softwareDesc: sd.Description = sd.softwareDesc;
+  readonly publicationsDesc: sd.Description = sd.publicationsDesc;
+  readonly otherProductsDesc: sd.Description = sd.otherProductsDesc;
 
   readonly optionsNameDesc: sd.Description = sd.optionsNameDesc;
   readonly optionsWebpageDesc: sd.Description = sd.optionsWebpageDesc;
   readonly optionsDescriptionDesc: sd.Description = sd.optionsDescriptionDesc;
   readonly optionsLogoDesc: sd.Description = sd.optionsLogoDesc;
 
+  readonly firstContactFirstNameDesc: sd.Description = sd.firstContactFirstNameDesc;
+  readonly firstContactLastNameDesc: sd.Description = sd.firstContactLastNameDesc;
+  readonly firstContactEmailDesc: sd.Description = sd.firstContactEmailDesc;
+  readonly firstContactTelephoneDesc: sd.Description = sd.firstContactTelephoneDesc;
+  readonly firstContactPositionDesc: sd.Description = sd.firstContactPositionDesc;
+  readonly secondContactFirstNameDesc: sd.Description = sd.secondContactFirstNameDesc;
+  readonly secondContactLastNameDesc: sd.Description = sd.secondContactLastNameDesc;
+  readonly secondContactEmailDesc: sd.Description = sd.secondContactEmailDesc;
+  readonly secondContactTelephoneDesc: sd.Description = sd.secondContactTelephoneDesc;
+  readonly secondContactPositionDesc: sd.Description = sd.secondContactPositionDesc;
+
+
   formGroupMeta = {
-    id : [''],
-    name : ['', Validators.required],
-    url : ['', Validators.compose([Validators.required, URLValidator])],
-    description : ['', Validators.required],
-    logo : ['', Validators.compose([Validators.required, URLValidator])],
-    tagline : [''],
-    userValue : [''],
+    id: [''],
+    name: ['', Validators.required],
+    url: ['', Validators.compose([Validators.required, URLValidator])],
+    description: ['', Validators.required],
+    logo: ['', Validators.compose([Validators.required, URLValidator])],
+    tagline: [''],
+    userValue: [''],
     userBaseList : this.fb.array([ this.fb.control('') ]),
     useCases : this.fb.array([ this.fb.control('') ]),
     multimediaUrls : this.fb.array([ this.fb.control('', URLValidator) ]),
     options : this.fb.array([this.newOption()]),
+    endpoint: ['', URLValidator],
     requiredServices : this.fb.array([ this.fb.control('') ]),
     relatedServices : this.fb.array([ this.fb.control('') ]),
+    relatedPlatforms : this.fb.array([ this.fb.control('') ]),
     providers : this.fb.array([ this.fb.control('', Validators.required)], Validators.required),
     // 'scientificDomains : this.fb.array([ this.fb.control('', Validators.required)], Validators.required),
     scientificSubdomains : this.fb.array([]),
-    // 'category : [''],
+    // 'category: [''],
     subcategories : this.fb.array([]),
-    // 'supercategory : [''],
+    // 'supercategory: [''],
     targetUsers : this.fb.array([ this.fb.control('', Validators.required) ], Validators.required),
     languages : this.fb.array([ this.fb.control('', Validators.required) ], Validators.required),
     places : this.fb.array([ this.fb.control('', Validators.required) ], Validators.required),
@@ -129,32 +156,39 @@ export class ServiceFormComponent implements OnInit {
     accessModes :  this.fb.array([ this.fb.control('') ]),
     funders : this.fb.array([ this.fb.control('') ]),
     tags : this.fb.array([ this.fb.control('') ]),
-    phase : ['', Validators.compose([Validators.required])],
-    trl : ['', Validators.compose([Validators.required])],
-    version : [''],
-    lastUpdate : [''],
-    changeLog : [''],
+    phase: ['', Validators.compose([Validators.required])],
+    trl: ['', Validators.compose([Validators.required])],
+    version: [''],
+    lastUpdate: [''],
+    changeLog: [''],
     certifications :  this.fb.array([ this.fb.control('') ]),
     standards :  this.fb.array([ this.fb.control('') ]),
-    orderType : ['', Validators.required],
-    order : ['', URLValidator],
-    sla : ['', URLValidator],
-    termsOfUse : ['', URLValidator],
-    privacyPolicy : ['', URLValidator],
-    accessPolicy : ['', URLValidator],
-    paymentModel : ['', URLValidator],
-    pricing : ['', URLValidator],
-    manual : ['', URLValidator],
-    training : ['', URLValidator],
-    helpdesk : ['', URLValidator],
-    monitoring : ['', URLValidator],
-    maintenance : ['', URLValidator],
-    ownerName : [''],
-    ownerContact : ['', Validators.email],
-    supportName : [''],
-    supportContact : ['', Validators.email],
-    securityName : [''],
-    securityContact : ['', Validators.email],
+    orderType: ['', Validators.required],
+    order: ['', URLValidator],
+    sla: ['', URLValidator],
+    termsOfUse: ['', URLValidator],
+    privacyPolicy: ['', URLValidator],
+    accessPolicy: ['', URLValidator],
+    paymentModel: ['', URLValidator],
+    pricing: ['', URLValidator],
+    userManual: ['', URLValidator],
+    adminManual: ['', URLValidator],
+    training: ['', URLValidator],
+    helpdesk: ['', URLValidator],
+    monitoring: ['', URLValidator],
+    maintenance: ['', URLValidator],
+    ownerName: [''],
+    ownerContact: ['', Validators.email],
+    supportName: [''],
+    supportContact: ['', Validators.email],
+    securityName: [''],
+    securityContact: ['', Validators.email],
+    aggregatedServices: [''],
+    datasets: [''],
+    applications: [''],
+    software: [''],
+    publications: [''],
+    otherProducts: [''],
 
     categorize : this.fb.array([ ], Validators.required),
     scientificCategorization : this.fb.array([ ], Validators.required)
@@ -178,10 +212,10 @@ export class ServiceFormComponent implements OnInit {
   router: NavigationService = this.injector.get(NavigationService);
   userService: UserService = this.injector.get(UserService);
 
+  public fundersVocabulary: FundersPage = null;
   public targetUsers: Vocabulary[] = null;
   public accessTypesVocabulary: Vocabulary[] = null;
   public accessModesVocabulary: Vocabulary[] = null;
-  public fundersVocabulary: Vocabulary[] = null;
   public orderTypeVocabulary: Vocabulary[] = null;
   public phaseVocabulary: Vocabulary[] = null;
   public trlVocabulary: Vocabulary[] = null;
@@ -197,6 +231,7 @@ export class ServiceFormComponent implements OnInit {
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
+              protected funderService: FunderService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(FormBuilder);
@@ -280,18 +315,19 @@ export class ServiceFormComponent implements OnInit {
     zip(
       this.resourceService.getProvidersNames(),
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getServices()
+      this.resourceService.getServices(),
+      this.funderService.getAllFunders('10000')
     ).subscribe(suc => {
         this.providersPage = <ProvidersPage>suc[0];
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
         this.requiredServices = this.transformInput(suc[2]);
         this.relatedServices = this.requiredServices;
+        this.fundersVocabulary = <FundersPage>suc[3];
         this.getIndicatorIds();
         // this.getLocations();
         this.targetUsers = this.vocabularies[VocabularyType.TARGET_USERS];
         this.accessTypesVocabulary = this.vocabularies[VocabularyType.ACCESS_TYPE];
         this.accessModesVocabulary = this.vocabularies[VocabularyType.ACCESS_MODE];
-        this.fundersVocabulary = this.vocabularies[VocabularyType.FUNDED_BY];
         this.orderTypeVocabulary = this.vocabularies[VocabularyType.ORDER_TYPE];
         this.phaseVocabulary = this.vocabularies[VocabularyType.PHASE];
         this.trlVocabulary = this.vocabularies[VocabularyType.TRL];
@@ -311,6 +347,7 @@ export class ServiceFormComponent implements OnInit {
       () => {
         this.premiumSort.transform(this.placesVocabulary, ['Europe', 'World']);
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
+        this.fundersVocabulary.results.sort((a, b) => 0 - (a.fundingOrganisation > b.fundingOrganisation ? -1 : 1));
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
       }
     );
@@ -407,7 +444,7 @@ export class ServiceFormComponent implements OnInit {
 
   newCategory(): FormGroup {
     return this.fb.group({
-      supercategory: ['', Validators.required],
+      // supercategory: ['', Validators.required],
       category: ['', Validators.required],
       subcategory: ['', Validators.required]
     });
@@ -419,7 +456,7 @@ export class ServiceFormComponent implements OnInit {
 
   pushCategory() {
     this.categoryArray.push(this.newCategory());
-    this.categoryArray.controls[this.categoryArray.length - 1].get('category').disable();
+    // this.categoryArray.controls[this.categoryArray.length - 1].get('category').disable();
     this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').disable();
   }
 
@@ -427,12 +464,12 @@ export class ServiceFormComponent implements OnInit {
     this.categoryArray.removeAt(index);
   }
 
-  onSuperCategoryChange(index: number) {
-    this.categoryArray.controls[index].get('category').reset();
-    this.categoryArray.controls[index].get('category').enable();
-    this.categoryArray.controls[index].get('subcategory').reset();
-    this.categoryArray.controls[index].get('subcategory').disable();
-  }
+  // onSuperCategoryChange(index: number) {
+  //   this.categoryArray.controls[index].get('category').reset();
+  //   this.categoryArray.controls[index].get('category').enable();
+  //   this.categoryArray.controls[index].get('subcategory').reset();
+  //   this.categoryArray.controls[index].get('subcategory').disable();
+  // }
 
   onCategoryChange(index: number) {
     this.categoryArray.controls[index].get('subcategory').reset();
@@ -473,12 +510,47 @@ export class ServiceFormComponent implements OnInit {
       name: ['', Validators.required],
       url: ['', Validators.compose([Validators.required, URLValidator])],
       description: ['', Validators.required],
-      logo: ['', URLValidator]
+      logo: ['', URLValidator],
+      contacts: this.fb.array([
+        this.fb.group({
+          firstName: ['', Validators.required],
+          lastName: ['', Validators.required],
+          email: ['', Validators.required],
+          tel: ['', Validators.required],
+          position: [''],
+        }, Validators.required)
+      ]),
     });
   }
 
   pushOption() {
     this.getFieldAsFormArray('options').push(this.newOption());
+  }
+
+  newContact(): FormGroup {
+    return this.fb.group({
+      firstName: [''],
+      lastName: [''],
+      email: [''],
+      tel: [''],
+      position: [''],
+    });
+  }
+
+  getContactArray(index: number) {
+    // console.log(this.getFieldAsFormArray('options').controls[index].get('contacts'));
+    // console.log(this.getFieldAsFormArray('options').controls['contacts']);
+    // console.log(this.serviceForm.get('options.contacts'));
+    return this.getFieldAsFormArray('options').controls[index].get('contacts') as FormArray;
+    // return this.serviceForm.get('options.contacts') as FormArray;
+  }
+
+  pushContact(index: number) {
+    this.getContactArray(index).push(this.newContact());
+  }
+
+  removeContact(index: number, i: number) {
+    this.getContactArray(index).removeAt(i);
   }
 
   /** <--Options**/

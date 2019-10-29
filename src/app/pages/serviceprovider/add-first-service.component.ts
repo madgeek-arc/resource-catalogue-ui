@@ -6,6 +6,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {ResourceService} from '../../services/resource.service';
 import {MeasurementsPage} from '../../domain/indicators';
 import {RichService, Service} from '../../domain/eic-model';
+import {FunderService} from '../../services/funder.service';
 
 @Component({
   selector: 'app-add-first-service',
@@ -18,9 +19,10 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
+              protected funderService: FunderService,
               private route: ActivatedRoute,
               private datePipe: DatePipe) {
-    super(injector, authenticationService);
+    super(injector, authenticationService, funderService);
     this.editMode = false;
   }
 

@@ -18,6 +18,7 @@ export const targetUsersDesc = {label: 'Target users', mandatory: true, desc: 'T
 export const targetCustomerTagsDesc = {label: 'Target Customer Tags', mandatory: false, desc: ''};
 export const useCasesCaseStudiesDesc = {label: 'Use Cases/Case Studies', mandatory: false, desc: 'List of use cases supported by this service/resource.'};
 // Classification Information
+export const providersDesc = {label: 'Provider Name', mandatory: true, desc: 'The organisation that manages and delivers the service/resource.'};
 export const scientificDomainDesc = {label: 'Scientific Domain', mandatory: true, desc: 'The branch of science, scientific discipline that is related to the service/resource.'};
 export const scientificSubDomainDesc = {label: 'Scientific Subdomain', mandatory: true, desc: 'The subbranch of science, scientific subdicipline that is related to the service/resource.'};
 export const superCategoryDesc = {label: 'Supercategory', mandatory: true, desc: 'A named group for a predefined list of categories.'};
@@ -55,7 +56,7 @@ export const changeLogDesc = {label: 'Change Log', mandatory: false, desc: 'Summ
 // Dependencies Information
 export const requiredServicesDesc = {label: 'Required Services', mandatory: false, desc: 'List of other services/resources required with this service/resource.'};
 export const relatedServicesDesc = {label: 'Related Services', mandatory: false, desc: 'List of other services/resources that are commonly used with this service/resource.'};
-export const relatedPlatformsDesc = {label: 'Related Services', mandatory: false, desc: ''};
+export const relatedPlatformsDesc = {label: 'Related Platform', mandatory: false, desc: ''};
 // Attribution Information
 export const fundingBodyDesc = {label: 'Funding Body', mandatory: false, desc: 'Name of the funding body that supported the development and/or operation of the service.'};
 export const fundingProgramDesc = {label: 'Funding Program', mandatory: false, desc: 'Name of the funding program that supported the development and/or operation of the service.'};
@@ -63,9 +64,10 @@ export const grantProjectNameDesc = {label: 'Grant/Project Name', mandatory: fal
 // Management Information
 export const helpdeskDesc = {label: 'Helpdesk', mandatory: true, desc: 'The URL to a webpage with the contact person or helpdesk to ask more information from the service/resource provider about this service.'};
 export const userManualDesc = {label: 'User Manual', mandatory: true, desc: 'Link to the service/resource user manual and documentation.'};
+export const adminManualDesc = {label: 'Admin Manual', mandatory: true, desc: 'Link to the service/resource admin manual and documentation.'};
 export const termsOfUseDesc = {label: 'Terms Of Use', mandatory: true, desc: 'Webpage describing the rules, service/resource conditions and usage policy which one must agree to abide by in order to use the service.'};
 export const privacyPolicyDesc = {label: 'Privacy Policy', mandatory: true, desc: 'Link to the privacy policy applicable to the service.'};
-export const serviceLevelAgreementDesc = {label: 'Service Level Agreement/Specification', mandatory: false, desc: 'Webpage with the information about the levels of performance that a service/resource provider is expected to deliver.'};
+export const serviceLevelAgreementDesc = {label: 'Service Level Agreement', mandatory: false, desc: 'Webpage with the information about the levels of performance that a service/resource provider is expected to deliver.'};
 export const trainingInformationDesc = {label: 'Training Information', mandatory: false, desc: 'URL for training information'};
 export const statusMonitoringDesc = {label: 'Status Monitoring', mandatory: false, desc: 'Webpage with monitoring information about this service'};
 export const maintenanceDesc = {label: 'Maintenance', mandatory: false, desc: 'Webpage with information about planned maintenance windows for this service'};
@@ -80,6 +82,18 @@ export const accessPolicyDesc = {label: 'Access Policy', mandatory: false, desc:
 // Other Information
 export const paymentModelDesc = {label: 'Payment Model', mandatory: false, desc: 'URL with the supported payment models and restrictions that apply to each of them.'};
 export const pricingDesc = {label: 'pricing', mandatory: false, desc: 'URL of the page with payment models that apply, the cost in Euros and any restrictions that may apply.'};
+// Aggregator Information
+export const aggregatedServicesDesc = {label: 'Services', mandatory: false, desc: 'Number of services offered under the record'};
+export const datasetsDesc = {label: 'Data', mandatory: false, desc: 'Number of datasets offered under the record'};
+export const applicationsDesc = {label: 'Applications', mandatory: false, desc: 'Number of applications offered under the record'};
+export const softwareDesc = {label: 'Software', mandatory: false, desc: 'Number of applications offered under the record'};
+export const publicationsDesc = {label: 'Publications', mandatory: false, desc: 'Number of publications offered under the record'};
+export const otherProductsDesc = {label: 'Other', mandatory: false, desc: 'Other resources offered under the record'};
+// WP4
+export const userValueDesc = {label: 'User Value', mandatory: false, desc: 'The benefit to a user/customer delivered by a service; benefits are usually related to alleviating pains (e.g., eliminate undesired outcomes, obstacles or risks) or producing gains (e.g. increased performance, social gains, positive emotions or cost saving).'};
+export const userBaseDesc = {label: 'User Value', mandatory: false, desc: 'List of customers, communities, users, etc. using the service.'};
+export const useCasesDesc = {label: 'Use Cases', mandatory: false, desc: 'List of use cases supported by this service/resource.'};
+export const fundersDesc = {label: 'Funded by', mandatory: false, desc: 'Sources of funding for the development and/or operation of the service.'};
 
 /** Option fields **/
 // Basic Information
@@ -93,11 +107,11 @@ export const firstContactLastNameDesc = {label: 'Contact-1 Last Name', mandatory
 export const firstContactEmailDesc = {label: 'Contact-1 Email', mandatory: true, desc: 'Email of the service/resource option main contact person/manager.'};
 export const firstContactTelephoneDesc = {label: 'Contact-1 Telephone', mandatory: true, desc: 'Telephone of the service/resource option main contact person/manager.'};
 export const firstContactPositionDesc = {label: 'Contact-1 Position', mandatory: false, desc: 'Position of the service/resource option main contact person/manager.'};
-export const secondContactFirstNameDesc = {label: 'Contact-1 First Name', mandatory: false, desc: 'First Name of the service/resource option main contact person to be displayed at the portal.'};
-export const secondContactLastNameDesc = {label: 'Contact-1 Last Name', mandatory: false, desc: 'Last Name of the service/resource option main contact person to be displayed at the portal.'};
-export const secondContactEmailDesc = {label: 'Contact-1 Email', mandatory: false, desc: 'Email of the service/resource option main contact person to be displayed at the portal.'};
-export const secondContactTelephoneDesc = {label: 'Contact-1 Telephone', mandatory: false, desc: 'Telephone of the service/resource option main contact person to be displayed at the portal.'};
-export const secondContactPositionDesc = {label: 'Contact-1 Position', mandatory: false, desc: 'Position of the service/resource option main contact person to be displayed at the portal.'};
+export const secondContactFirstNameDesc = {label: 'Contact-2 First Name', mandatory: false, desc: 'First Name of the service/resource option main contact person to be displayed at the portal.'};
+export const secondContactLastNameDesc = {label: 'Contact-2 Last Name', mandatory: false, desc: 'Last Name of the service/resource option main contact person to be displayed at the portal.'};
+export const secondContactEmailDesc = {label: 'Contact-2 Email', mandatory: false, desc: 'Email of the service/resource option main contact person to be displayed at the portal.'};
+export const secondContactTelephoneDesc = {label: 'Contact-2 Telephone', mandatory: false, desc: 'Telephone of the service/resource option main contact person to be displayed at the portal.'};
+export const secondContactPositionDesc = {label: 'Contact-2 Position', mandatory: false, desc: 'Position of the service/resource option main contact person to be displayed at the portal.'};
 // Other Information
 export const Attribute1Desc = {label: 'Attribute 1', mandatory: false, desc: ''};
 export const Attribute2Desc = {label: 'Attribute 2', mandatory: false, desc: ''};

@@ -7,6 +7,7 @@ import {Subscription} from 'rxjs';
 import {MeasurementsPage} from '../../domain/indicators';
 import {RichService, Service} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
+import {FunderService} from '../../services/funder.service';
 
 @Component({
   selector: 'app-service-edit',
@@ -17,8 +18,9 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
   // private serviceID: string;
 
   constructor(public route: ActivatedRoute, public authenticationService: AuthenticationService,
-              protected injector: Injector, public datePipe: DatePipe) {
-    super(injector, authenticationService);
+              protected injector: Injector, public datePipe: DatePipe,
+              protected funderService: FunderService) {
+    super(injector, authenticationService, funderService);
     this.editMode = true;
   }
 
@@ -59,7 +61,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     this.removeCategory(0);
     for (let i = 0; i < richService.service.subcategories.length; i++) {
       this.categoryArray.push(this.newCategory());
-      this.categoryArray.controls[this.categoryArray.length - 1].get('supercategory').setValue(richService.categories[i].superCategory.id);
+      // this.categoryArray.controls[this.categoryArray.length - 1].get('supercategory').setValue(richService.categories[i].superCategory.id);
       this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.categories[i].category.id);
       this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.categories[i].subCategory.id);
     }
