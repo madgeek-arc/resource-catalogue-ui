@@ -74,11 +74,11 @@
                     </div>
                   </div>
                   <div class="uk-margin-bottom">
-                    <label class="uk-form-label uk-text-right" for="contactInformation">
+                    <label class="uk-form-label uk-text-right" for="description">
                       {{ providerDescriptionDesc.label + (providerDescriptionDesc.mandatory ? ' (*)': '')}}
                     </label>
                     <div class="uk-form-controls">
-                      <input id="contactInformation" class="uk-input" type="text" formControlName="description"
+                      <input id="description" class="uk-input" type="text" formControlName="description"
                              [ngClass]="{'uk-form-danger': !newProviderForm.get('description').valid && newProviderForm.get('description').dirty}">
                       <i><small>{{providerDescriptionDesc.desc}}</small></i>
                     </div>
@@ -372,43 +372,43 @@
                               <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                           </div>
-                          <label class="uk-form-label uk-text-right">
+                          <label class="uk-form-label uk-text-right" for="firstName">
                             {{ i === 0 ? (providerMainContactFirstNameDesc.label + (providerMainContactFirstNameDesc.mandatory ? ' (*)' : '')) : (providerPublicContactLastNameDesc.label + (providerPublicContactLastNameDesc.mandatory ? ' (*)' : ''))}}
                           </label>
                           <div class="uk-form-controls">
-                            <input class="uk-input" type="text" formControlName="firstName"
+                            <input id="firstName" class="uk-input" type="text" formControlName="firstName"
                                    [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('firstName').valid && contactArray.controls[i].get('firstName').dirty}">
                             <i><small>{{i === 0 ? providerMainContactFirstNameDesc.desc : providerPublicContactLastNameDesc.desc}}</small></i>
                           </div>
-                          <label class="uk-form-label uk-text-right">
+                          <label class="uk-form-label uk-text-right" for="lastName">
                             {{ i === 0 ? (providerMainContactLastNameDesc.label + (providerMainContactLastNameDesc.mandatory ? ' (*)' : '')) : (providerPublicContactFirstNameDesc.label + (providerPublicContactFirstNameDesc.mandatory ? ' (*)' : ''))}}
                           </label>
                           <div class="uk-form-controls">
-                            <input class="uk-input" type="text" formControlName="lastName"
+                            <input id="lastName" class="uk-input" type="text" formControlName="lastName"
                                    [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('lastName').valid && contactArray.controls[i].get('lastName').dirty}">
                             <i><small>{{i === 0 ? providerMainContactLastNameDesc.desc : providerPublicContactFirstNameDesc.desc}}</small></i>
                           </div>
-                          <label class="uk-form-label uk-text-right">
+                          <label class="uk-form-label uk-text-right" for="email">
                             {{ i === 0 ? (providerMainContactEmailDesc.label + (providerMainContactEmailDesc.mandatory ? ' (*)' : '')) : (providerPublicContactEmailDesc.label + (providerPublicContactEmailDesc.mandatory ? ' (*)' : ''))}}
                           </label>
                           <div class="uk-form-controls">
-                            <input class="uk-input" type="text" formControlName="email"
+                            <input id="email" class="uk-input" type="text" formControlName="email"
                                    [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('email').valid && contactArray.controls[i].get('email').dirty}">
                             <i><small>{{i === 0 ? providerMainContactEmailDesc.desc : providerPublicContactEmailDesc.desc}}</small></i>
                           </div>
-                          <label class="uk-form-label uk-text-right">
+                          <label class="uk-form-label uk-text-right" for="tel">
                             {{ i === 0 ? (providerMainContactPhoneDesc.label + (providerMainContactPhoneDesc.mandatory ? ' (*)' : '')) : (providerPublicContactPhoneDesc.label + (providerPublicContactPhoneDesc.mandatory ? ' (*)' : ''))}}
                           </label>
                           <div class="uk-form-controls">
-                            <input class="uk-input" type="text" formControlName="tel"
+                            <input id="tel" class="uk-input" type="text" formControlName="tel"
                                    [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('tel').valid && contactArray.controls[i].get('tel').dirty}">
                             <i><small>{{i === 0 ? providerMainContactPhoneDesc.desc : providerPublicContactPhoneDesc.desc}}</small></i>
                           </div>
-                          <label class="uk-form-label uk-text-right">
+                          <label class="uk-form-label uk-text-right" for="position">
                             {{ i === 0 ? (providerMainContactPositionDesc.label + (providerMainContactPositionDesc.mandatory ? ' (*)' : '')) : (providerPublicContactPositionDesc.label + (providerPublicContactPositionDesc.mandatory ? ' (*)' : ''))}}
                           </label>
                           <div class="uk-form-controls">
-                            <input class="uk-input" type="text" formControlName="position"
+                            <input id="position" class="uk-input" type="text" formControlName="position"
                                    [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('position').valid && contactArray.controls[i].get('position').dirty}">
                             <i><small>{{i === 0 ? providerMainContactPositionDesc.desc : providerPublicContactPositionDesc.desc}}</small></i>
                           </div>
