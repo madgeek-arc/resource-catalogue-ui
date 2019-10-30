@@ -91,7 +91,7 @@ export const publicationsDesc = {label: 'Publications', mandatory: false, desc: 
 export const otherProductsDesc = {label: 'Other', mandatory: false, desc: 'Other resources offered under the record'};
 // WP4
 export const userValueDesc = {label: 'User Value', mandatory: false, desc: 'The benefit to a user/customer delivered by a service; benefits are usually related to alleviating pains (e.g., eliminate undesired outcomes, obstacles or risks) or producing gains (e.g. increased performance, social gains, positive emotions or cost saving).'};
-export const userBaseDesc = {label: 'User Value', mandatory: false, desc: 'List of customers, communities, users, etc. using the service.'};
+export const userBaseDesc = {label: 'User Base', mandatory: false, desc: 'List of customers, communities, users, etc. using the service.'};
 export const useCasesDesc = {label: 'Use Cases', mandatory: false, desc: 'List of use cases supported by this service/resource.'};
 export const fundersDesc = {label: 'Funded by', mandatory: false, desc: 'Sources of funding for the development and/or operation of the service.'};
 

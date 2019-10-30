@@ -177,12 +177,21 @@ export class ServiceFormComponent implements OnInit {
     helpdesk: ['', URLValidator],
     monitoring: ['', URLValidator],
     maintenance: ['', URLValidator],
-    ownerName: [''],
-    ownerContact: ['', Validators.email],
-    supportName: [''],
-    supportContact: ['', Validators.email],
-    securityName: [''],
-    securityContact: ['', Validators.email],
+    contacts: this.fb.array([
+      this.fb.group({
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        email: ['', Validators.required],
+        tel: ['', Validators.required],
+        position: [''],
+      }, Validators.required)
+    ]),
+    // ownerName: [''],
+    // ownerContact: ['', Validators.email],
+    // supportName: [''],
+    // supportContact: ['', Validators.email],
+    // securityName: [''],
+    // securityContact: ['', Validators.email],
     aggregatedServices: [''],
     datasets: [''],
     applications: [''],
@@ -503,6 +512,21 @@ export class ServiceFormComponent implements OnInit {
 
   /** <-- Categorization & Scientific Domain**/
 
+  /** Service Contact Info -->**/
+
+  get contactArray() {
+    return this.serviceForm.get('contacts') as FormArray;
+  }
+
+  pushContactServiceForm() {
+    this.contactArray.push(this.newContact());
+  }
+
+  removeContactServiceForm(index: number) {
+    this.contactArray.removeAt(index);
+  }
+  /** <--Service Contact Info **/
+
   /** Options-->**/
   newOption(): FormGroup {
     return this.fb.group({
@@ -538,11 +562,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   getContactArray(index: number) {
-    // console.log(this.getFieldAsFormArray('options').controls[index].get('contacts'));
-    // console.log(this.getFieldAsFormArray('options').controls['contacts']);
-    // console.log(this.serviceForm.get('options.contacts'));
     return this.getFieldAsFormArray('options').controls[index].get('contacts') as FormArray;
-    // return this.serviceForm.get('options.contacts') as FormArray;
   }
 
   pushContact(index: number) {
@@ -707,7 +727,6 @@ export class ServiceFormComponent implements OnInit {
       }
     }
   }
-
   /** <-- INDICATORS **/
 
 }

@@ -125,9 +125,7 @@
                             <textarea id="userValue" class="uk-textarea" type="text" formControlName="userValue" rows="4"
                                       [ngClass]="{'uk-form-danger': !serviceForm.get('userValue').valid && serviceForm.get('userValue').dirty}">
                             </textarea>
-                            <i>
-                              <small>{{userValueDesc.desc}}</small>
-                            </i>
+                            <i><small>{{userValueDesc.desc}}</small></i>
                           </div>
                         </div>
                         <div formArrayName="userBaseList" class="uk-margin-bottom">
@@ -929,6 +927,66 @@
                         </div>
                       </li>
                       <li accordionSection class="uk-margin-large-bottom" [title]="'Contact Information'">
+                        <div class="uk-margin-bottom">
+                          <label class="uk-form-label uk-text-right">Contact (*)</label>
+                          <div class="uk-form-controls">
+                            <div formArrayName="contacts" *ngFor="let contact of contactArray.controls; let i = index">
+                              <div [formGroupName]="i" class="uk-margin-small-bottom"
+                                   style="border: 1px dashed #cccccc; padding-right: 10px">
+                                <div>
+                                  <a *ngIf="i !== 0" class="remove-element uk-padding-small" (click)="removeContactServiceForm(i)">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                                <label class="uk-form-label uk-text-right" for="{{'firstName ' + i}}">
+                                  {{ i === 0 ? (mainContactFirstNameDesc.label + (mainContactFirstNameDesc.mandatory ? ' (*)' : '')) : (publicContactLastNameDesc.label + (publicContactLastNameDesc.mandatory ? ' (*)' : ''))}}
+                                </label>
+                                <div class="uk-form-controls">
+                                  <input id="{{'firstName ' + i}}" class="uk-input" type="text" formControlName="firstName"
+                                         [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('firstName').valid && contactArray.controls[i].get('firstName').dirty}">
+                                  <i><small>{{i === 0 ? mainContactFirstNameDesc.desc : publicContactLastNameDesc.desc}}</small></i>
+                                </div>
+                                <label class="uk-form-label uk-text-right" for="{{'lastName ' + i}}">
+                                  {{ i === 0 ? (mainContactLastNameDesc.label + (mainContactLastNameDesc.mandatory ? ' (*)' : '')) : (publicContactFirstNameDesc.label + (publicContactFirstNameDesc.mandatory ? ' (*)' : ''))}}
+                                </label>
+                                <div class="uk-form-controls">
+                                  <input id="{{'lastName ' + i}}" class="uk-input" type="text" formControlName="lastName"
+                                         [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('lastName').valid && contactArray.controls[i].get('lastName').dirty}">
+                                  <i><small>{{i === 0 ? mainContactLastNameDesc.desc : publicContactFirstNameDesc.desc}}</small></i>
+                                </div>
+                                <label class="uk-form-label uk-text-right" for="{{'email ' + i}}">
+                                  {{ i === 0 ? (mainContactEmailDesc.label + (mainContactEmailDesc.mandatory ? ' (*)' : '')) : (publicContactEmailDesc.label + (publicContactEmailDesc.mandatory ? ' (*)' : ''))}}
+                                </label>
+                                <div class="uk-form-controls">
+                                  <input id="{{'email ' + i}}" class="uk-input" type="text" formControlName="email"
+                                         [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('email').valid && contactArray.controls[i].get('email').dirty}">
+                                  <i><small>{{i === 0 ? mainContactEmailDesc.desc : publicContactEmailDesc.desc}}</small></i>
+                                </div>
+                                <label class="uk-form-label uk-text-right" for="{{'tel ' + i}}">
+                                  {{ i === 0 ? (mainContactPhoneDesc.label + (mainContactPhoneDesc.mandatory ? ' (*)' : '')) : (publicContactPhoneDesc.label + (publicContactPhoneDesc.mandatory ? ' (*)' : ''))}}
+                                </label>
+                                <div class="uk-form-controls">
+                                  <input id="{{'tel ' + i}}" class="uk-input" type="text" formControlName="tel"
+                                         [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('tel').valid && contactArray.controls[i].get('tel').dirty}">
+                                  <i><small>{{i === 0 ? mainContactPhoneDesc.desc : publicContactPhoneDesc.desc}}</small></i>
+                                </div>
+                                <label class="uk-form-label uk-text-right" for="{{'position ' + i}}">
+                                  {{ i === 0 ? (mainContactPositionDesc.label + (mainContactPositionDesc.mandatory ? ' (*)' : '')) : (publicContactPositionDesc.label + (publicContactPositionDesc.mandatory ? ' (*)' : ''))}}
+                                </label>
+                                <div class="uk-form-controls">
+                                  <input id="{{'position ' + i}}" class="uk-input" type="text" formControlName="position"
+                                         [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('position').valid && contactArray.controls[i].get('position').dirty}">
+                                  <i><small>{{i === 0 ? mainContactPositionDesc.desc : publicContactPositionDesc.desc}}</small></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="uk-form-controls">
+                            <a class="add-new-element" (click)="pushContactServiceForm()">
+                              <i class="fa fa-plus" aria-hidden="true"></i> Add another contact
+                            </a>
+                          </div>
+                        </div>
 <!--                        <div class="uk-form-horizontal uk-margin-bottom">-->
 <!--                          <label class="uk-width-1-5 uk-form-label uk-text-right">-->
 <!--                            {{ownerNameDesc.label + (ownerNameDesc.mandatory ? ' (*)' : '')}}-->
