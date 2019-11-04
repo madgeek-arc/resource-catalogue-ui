@@ -67,7 +67,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             this.push('types', this.typeDesc.mandatory);
           }
         }
-        if (this.provider.categories && this.provider.categories.length > 1) {
+        if (this.provider.categories && this.provider.categories.length > 0) {
           this.removeDomain(0);
           for (let i = 0; i < this.provider.categories.length; i++) {
             this.domainArray.push(this.newScientificDomain());
