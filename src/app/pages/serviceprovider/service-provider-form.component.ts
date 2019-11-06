@@ -47,7 +47,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {URLValidator} from '../../shared/validators/generic.validator';
-import {Vocabulary, VocabularyType} from '../../domain/eic-model';
+import {Vocabulary, VocabularyType, Provider} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 
 declare var UIkit: any;
@@ -118,7 +118,7 @@ export class ServiceProviderFormComponent implements OnInit {
   societalGrandChallengesVocabulary: Vocabulary[] = null;
 
   readonly formDefinition = {
-    // id: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-z][a-zA-Z0-9-_]{1,}$/)])],
+    id: [''],
     name: ['', Validators.required],
     acronym: ['', Validators.required],
     // legalForm: ['', Validators.required],
@@ -166,10 +166,10 @@ export class ServiceProviderFormComponent implements OnInit {
     categorization: this.fb.array([], Validators.required)
   };
 
-  constructor(private fb: FormBuilder,
+  constructor(public fb: FormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
-              private resourceService: ResourceService,
+              public resourceService: ResourceService,
               public router: Router,
               public route: ActivatedRoute) {
   }
@@ -229,6 +229,37 @@ export class ServiceProviderFormComponent implements OnInit {
   }
   /** <-- Categorization **/
 
+  toServer(service: Provider): Provider {
+    const ret = {};
+    Object.entries(service).forEach(([name, values]) => {
+      let newValues = values;
+      console.log(name);
+      if (Array.isArray(values)) {
+        newValues = [];
+        values.forEach(e => {
+          console.log('is array');
+          if (typeof e === 'string' || e instanceof String) {
+            if (e !== '') {
+              newValues.push(e.trim().replace(/\s\s+/g, ' '));
+            }
+          } else {
+            console.log('array with objectsg');
+          }
+        });
+      } else if (typeof newValues === 'string' || newValues instanceof String) {
+        newValues = newValues.trim().replace(/\s\s+/g, ' ');
+      } else {
+        console.log('single object');
+      }
+      ret[name] = newValues;
+    });
+    // if ( (this.firstServiceForm === true) && this.providerId) {
+    //   ret['providers'] = [];
+    //   ret['providers'].push(this.providerId);
+    // }
+    return <Provider>ret;
+  }
+
   registerProvider() {
     this.errorMessage = '';
     this.trimFormWhiteSpaces();
@@ -243,6 +274,7 @@ export class ServiceProviderFormComponent implements OnInit {
       this.serviceProviderService[this.edit ? 'updateServiceProvider' : 'createNewServiceProvider'](this.newProviderForm.value).subscribe(
         res => {},
         err => {
+          window.scrollTo(0, 0);
           this.errorMessage = 'Something went wrong. ' + err.error;
         },
         () => {
