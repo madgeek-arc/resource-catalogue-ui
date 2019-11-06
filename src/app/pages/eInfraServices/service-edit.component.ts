@@ -26,32 +26,36 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
 
   ngOnInit() {
     super.ngOnInit();
-    this.sub = this.route.params.subscribe(params => {
-      this.serviceID = params['id'];
-      // this.resourceService.getService(this.serviceID).subscribe(service => {
-      this.resourceService.getRichService(this.serviceID).subscribe(richService => {
-        ResourceService.removeNulls(richService.service);
-        this.formPrepare(richService);
-        this.serviceForm.patchValue(richService.service);
-        for (const i in this.serviceForm.controls) {
-          if (this.serviceForm.controls[i].value === null) {
-            this.serviceForm.controls[i].setValue('');
-          }
-        }
-        if (this.serviceForm.get('lastUpdate').value) {
-          const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
-          this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
+    if (sessionStorage.getItem('service')) {
+      sessionStorage.removeItem('service');
+    } else {
+      this.sub = this.route.params.subscribe(params => {
+        this.serviceID = params['id'];
+        // this.resourceService.getService(this.serviceID).subscribe(service => {
+        this.resourceService.getRichService(this.serviceID).subscribe(richService => {
+            ResourceService.removeNulls(richService.service);
+            this.formPrepare(richService);
+            this.serviceForm.patchValue(richService.service);
+            for (const i in this.serviceForm.controls) {
+              if (this.serviceForm.controls[i].value === null) {
+                this.serviceForm.controls[i].setValue('');
+              }
+            }
+            if (this.serviceForm.get('lastUpdate').value) {
+              const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
+              this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
+            }
+          },
+          err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error
+        );
+      });
+    }
+    this.resourceService.getServiceMeasurements(this.serviceID).subscribe(measurements => {
+        this.measurementsFormPatch(measurements);
+        if (this.measurements.length === 0) {
+          this.pushToMeasurements();
         }
       },
-        err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error
-      );
-    });
-    this.resourceService.getServiceMeasurements(this.serviceID).subscribe(measurements => {
-      this.measurementsFormPatch(measurements);
-      if (this.measurements.length === 0) {
-        this.pushToMeasurements();
-      }
-    },
       err => this.errorMessage = 'Could not get the measurements for this service. ' + err.error
     );
   }

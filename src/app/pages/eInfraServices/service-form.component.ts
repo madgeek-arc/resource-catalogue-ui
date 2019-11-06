@@ -253,6 +253,7 @@ export class ServiceFormComponent implements OnInit {
 
   onSubmit(service: Service, isValid: boolean) {
     if (!this.authenticationService.isLoggedIn()) {
+      console.log('Submit');
       sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
       this.authenticationService.login();
     }
@@ -388,7 +389,9 @@ export class ServiceFormComponent implements OnInit {
         }
       }
       this.serviceForm.patchValue(data);
-      sessionStorage.removeItem('service');
+      if (!this.editMode) {
+        sessionStorage.removeItem('service');
+      }
     }
   }
 

@@ -151,7 +151,7 @@ export class ServiceProviderFormComponent implements OnInit {
       }, Validators.required)
     ]),
     // certifications: this.fb.array([this.fb.control('')]),
-    esfriDomains: this.fb.array([this.fb.control('', Validators.required)], Validators.required ),
+    esfriDomains: this.fb.array([this.fb.control('')]),
     hostingLegalEntity: [''],
     esfriParticipation: [''],
     lifeCycleStatus: ['', Validators.required],
@@ -364,10 +364,13 @@ export class ServiceProviderFormComponent implements OnInit {
   markFormAsDirty() {
     for (const i in this.newProviderForm.controls) {
       for (const j in this.newProviderForm.controls[i].value) {
+        // console.log(this.newProviderForm.controls[i].value);
         if (this.newProviderForm.controls[i].value.hasOwnProperty(j)) {
-          if (this.newProviderForm.controls[i].get(j).value.constructor !== Array) {
-            this.newProviderForm.controls[i].get(j).markAsDirty();
-            this.newProviderForm.controls[i].get(j).markAsTouched();
+          if (this.newProviderForm.controls[i].get(j)) {
+            if (this.newProviderForm.controls[i].get(j).value.constructor !== Array) {
+              this.newProviderForm.controls[i].get(j).markAsDirty();
+              this.newProviderForm.controls[i].get(j).markAsTouched();
+            }
           }
         }
       }
@@ -375,8 +378,10 @@ export class ServiceProviderFormComponent implements OnInit {
         for (let j = 0; j < this.getFieldAsFormArray(i).controls.length; j++) {
           const keys = Object.keys(this.newProviderForm.controls[i].value[j]);
           for (let k = 0; k < keys.length; k++) {
-            this.getFieldAsFormArray(i).controls[j].get(keys[k]).markAsTouched();
-            this.getFieldAsFormArray(i).controls[j].get(keys[k]).markAsDirty();
+            if (this.getFieldAsFormArray(i).controls[j].get(keys[k])) {
+              this.getFieldAsFormArray(i).controls[j].get(keys[k]).markAsTouched();
+              this.getFieldAsFormArray(i).controls[j].get(keys[k]).markAsDirty();
+            }
           }
         }
       }

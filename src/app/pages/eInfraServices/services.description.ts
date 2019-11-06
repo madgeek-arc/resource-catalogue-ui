@@ -158,7 +158,7 @@ export const providerPublicContactPositionDesc = {label: 'Public Contact Positio
 // Maturity Information
 export const providerCertificationsDesc = {label: 'Certifications', mandatory: false, desc: 'List of certifications obtained for the provider (including the certification body and any certificate number or URL if available).   NOTE this is not for certifications specific to the service, which are under Service Description.'};
 // Research Infrastructures Information
-export const ESFRIDomainDesc = {label: 'ESFRI Domain', mandatory: true, desc: 'ESFRI domain classification. '};
+export const ESFRIDomainDesc = {label: 'ESFRI Domain', mandatory: false, desc: 'ESFRI domain classification. '};
 export const hostingLegalEntityDesc = {label: 'Hosting Legal Entity', mandatory: false, desc: 'Name of the organisation/institution legally hosting (housing) the RI or its coordinating centre. A distinction is made between: (1) RIs that are self-standing and have a defined and distinct legal entity, (2) RI that are embedded into another institution which is a legal entity (such as a university, a research organisation, etc.). If (1) - name of the RI, If (2) - name of the hosting organisation.'};
 export const ESFRIDesc = {label: 'ESFRI', mandatory: false, desc: 'If the RI is (part of) an ESFRI project indicate how the RI participates: a) RI is node of an ESFRI project, b) RI is an ESFRI project, c) RI is an ESFRI landmark.'};
 export const lifeCycleStatusDesc = {label: 'Life Cycle Status', mandatory: true, desc: 'Current status of the provider life-cycle.'};
