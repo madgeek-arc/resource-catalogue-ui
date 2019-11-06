@@ -61,9 +61,12 @@
                           </div>
                         </div>
                         <div class="uk-margin-bottom">
-                          <label class="uk-form-label uk-text-right">
-                            {{descriptionDesc.label + (descriptionDesc.mandatory ? ' (*)' : '')}}
-                          </label>
+                          <div class="uk-form-label uk-text-right" style="display: flex; flex-direction: column">
+                            <label class="uk-form-label uk-text-right">
+                              {{descriptionDesc.label + (descriptionDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <i style="text-transform: none !important;"><small>(max 1000 characters)</small></i>
+                          </div>
                           <div class="uk-form-controls">
                             <ckeditor
                               [readonly]="false"
