@@ -285,6 +285,28 @@
                                     </a>
                                   </div>
                                 </div>
+                                <div formArrayName="attributes" class="uk-margin-bottom" *ngFor="let contact of getAttributesArray(i).controls; let i = index">
+                                  <label class="uk-form-label uk-text-right" for="{{'attribute ' + i}}">
+                                    {{this['Attribute'+(i+1)+'Desc'].label + (this['Attribute'+(i+1)+'Desc'].mandatory ? ' (*)' : '')}}
+                                  </label>
+                                  <div class="uk-form-controls">
+<!--                                    <div *ngFor="let provider of getFieldAsFormArray('tags').controls; let i=index">-->
+                                      <input id="{{'attribute ' + i}}" class="uk-input" type="text" [formControlName]="i">
+<!--                                             [ngClass]="{'uk-form-danger': !getFieldAsFormArray('tags').get([i]).valid-->
+<!--                                                          && getFieldAsFormArray('tags').get([i]).dirty}">-->
+<!--                                      <a *ngIf="getFieldAsFormArray('tags').length > 1"-->
+<!--                                         class="remove-element uk-padding-small" (click)="remove('tags', i)">-->
+<!--                                        <i class="fa fa-times" aria-hidden="true"></i>-->
+<!--                                      </a>-->
+<!--                                    </div>-->
+<!--                                    <div class="uk-width-1-1">-->
+<!--                                      <a class="add-new-element" (click)="push('tags', tagsDesc.mandatory)">-->
+<!--                                        <i class="fa fa-plus" aria-hidden="true"></i> Add {{tagsDesc.label}}-->
+<!--                                      </a>-->
+<!--                                    </div>-->
+<!--                                    <i><small>{{tagsDesc.desc}}</small></i>-->
+                                  </div>
+                                </div>
                               </div>
                             </div>
                             <div class="uk-width-1-1">

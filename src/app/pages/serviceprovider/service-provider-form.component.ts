@@ -229,6 +229,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
   /** <-- Categorization **/
 
+  // empty fields can be removed from here when complete
   toServer(service: Provider): Provider {
     const ret = {};
     Object.entries(service).forEach(([name, values]) => {
