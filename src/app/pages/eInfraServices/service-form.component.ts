@@ -50,7 +50,6 @@ export class ServiceFormComponent implements OnInit {
   readonly providersDesc: sd.Description = sd.providersDesc;
   readonly scientificDomainDesc: sd.Description = sd.scientificDomainDesc;
   readonly scientificSubDomainDesc: sd.Description = sd.scientificSubDomainDesc;
-  readonly superCategoryDesc: sd.Description = sd.superCategoryDesc; // maybe removed later?
   readonly categoryDesc: sd.Description = sd.categoryDesc;
   readonly subcategoryDesc: sd.Description = sd.subcategoryDesc;
   readonly tagsDesc: sd.Description = sd.tagsDesc;
@@ -125,6 +124,9 @@ export class ServiceFormComponent implements OnInit {
   readonly secondContactEmailDesc: sd.Description = sd.secondContactEmailDesc;
   readonly secondContactTelephoneDesc: sd.Description = sd.secondContactTelephoneDesc;
   readonly secondContactPositionDesc: sd.Description = sd.secondContactPositionDesc;
+  readonly Attribute1Desc: sd.Description = sd.Attribute1Desc;
+  readonly Attribute2Desc: sd.Description = sd.Attribute2Desc;
+  readonly Attribute3Desc: sd.Description = sd.Attribute3Desc;
 
 
   formGroupMeta = {
@@ -295,7 +297,7 @@ export class ServiceFormComponent implements OnInit {
       this.resourceService.uploadServiceWithMeasurements(this.serviceForm.value, this.measurements.value).subscribe(
         _service => {
           // console.log(_service);
-          this.router.service(_service.id);
+          return this.router.service(_service.id);
         },
         err => {
           window.scrollTo(0, 0);
@@ -547,6 +549,11 @@ export class ServiceFormComponent implements OnInit {
           position: [''],
         }, Validators.required)
       ]),
+      attributes: this.fb.array([
+        this.fb.control(''),
+        this.fb.control(''),
+        this.fb.control(''),
+      ])
     });
   }
 
@@ -566,6 +573,10 @@ export class ServiceFormComponent implements OnInit {
 
   getContactArray(index: number) {
     return this.getFieldAsFormArray('options').controls[index].get('contacts') as FormArray;
+  }
+
+  getAttributesArray(index: number) {
+    return this.getFieldAsFormArray('options').controls[index].get('attributes') as FormArray;
   }
 
   pushContact(index: number) {

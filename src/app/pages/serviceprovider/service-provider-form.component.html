@@ -587,8 +587,9 @@
 <!--                      <i><small>{{providerCertificationsDesc.desc}}</small></i>-->
 <!--                    </div>-->
 <!--                  </div>-->
-                  <div class="uk-margin-small-bottom">
-                    <h5>PROVIDER ADMINS</h5>
+                  <div class="uk-margin-small-bottom" uk-grid>
+                    <h5 class="uk-width-1-1">PROVIDER ADMINS</h5>
+                    <div class="uk-width-1-6"></div>
                     <i>An administrator will be added using your user information</i>
                   </div>
                   <div *ngIf="newProviderForm.get('users').value">

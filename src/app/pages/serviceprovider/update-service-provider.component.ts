@@ -1,7 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Provider} from '../../domain/eic-model';
+import {Provider, VocabularyType} from '../../domain/eic-model';
 import {ServiceProviderFormComponent} from './service-provider-form.component';
 import {ResourceService} from '../../services/resource.service';
+import {FormBuilder} from '@angular/forms';
+import {AuthenticationService} from '../../services/authentication.service';
+import {ServiceProviderService} from '../../services/service-provider.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 declare var UIkit: any;
 
@@ -13,10 +17,37 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
   errorMessage: string;
   provider: Provider;
 
+  constructor(public fb: FormBuilder,
+              public authService: AuthenticationService,
+              public serviceProviderService: ServiceProviderService,
+              public resourceService: ResourceService,
+              public router: Router,
+              public route: ActivatedRoute) {
+    super(fb, authService, serviceProviderService, resourceService, router, route);
+  }
+
   ngOnInit() {
     this.edit = true;
-    super.ngOnInit();
-    this.getProvider();
+    this.newProviderForm = this.fb.group(this.formDefinition);
+    this.resourceService.getAllVocabulariesByType().subscribe(
+      res => this.vocabularies = res,
+      error => console.log(error),
+      () => {
+        this.placesVocabulary = this.vocabularies[VocabularyType.PLACE];
+        this.providerTypeVocabulary = this.vocabularies[VocabularyType.PROVIDER_TYPE];
+        this.providerTRLVocabulary = this.vocabularies[VocabularyType.PROVIDER_LIFE_CYCLE_STATUS];
+        this.domainsVocabulary =  this.vocabularies[VocabularyType.PROVIDER_DOMAIN];
+        this.categoriesVocabulary =  this.vocabularies[VocabularyType.PROVIDER_CATEGORY];
+        this.esfriDomainVocabulary =  this.vocabularies[VocabularyType.PROVIDER_ESFRI_DOMAIN];
+        this.legalStatusVocabulary =  this.vocabularies[VocabularyType.PROVIDER_LEGAL_STATUS];
+        this.esfriVocabulary =  this.vocabularies[VocabularyType.PROVIDER_ESFRI];
+        this.areasOfActivityVocabulary =  this.vocabularies[VocabularyType.PROVIDER_AREA_OF_ACTIVITY];
+        this.networksVocabulary =  this.vocabularies[VocabularyType.PROVIDER_NETWORKS];
+        this.societalGrandChallengesVocabulary =  this.vocabularies[VocabularyType.PROVIDER_SOCIETAL_GRAND_CHALLENGES];
+        this.getProvider();
+      }
+    );
+    // this.pushDomain();
   }
 
   registerProvider() {
@@ -67,10 +98,12 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             this.push('types', this.typeDesc.mandatory);
           }
         }
-        if (this.provider.categories && this.provider.categories.length > 0) {
-          this.removeDomain(0);
+
+        if (this.provider.categories) {
+          // this.removeDomain(0);
           for (let i = 0; i < this.provider.categories.length; i++) {
             this.domainArray.push(this.newScientificDomain());
+
             for (let j = 0; j < this.categoriesVocabulary.length; j++) {
               if (this.categoriesVocabulary[j].id === this.provider.categories[i]) {
                 this.domainArray.controls[this.domainArray.length - 1].get('domain').setValue(this.categoriesVocabulary[j].parentId);
