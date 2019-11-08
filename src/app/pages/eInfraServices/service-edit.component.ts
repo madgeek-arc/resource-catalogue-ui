@@ -7,6 +7,7 @@ import {Subscription} from 'rxjs';
 import {MeasurementsPage} from '../../domain/indicators';
 import {RichService, Service} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
+import {FunderService} from '../../services/funder.service';
 
 @Component({
   selector: 'app-service-edit',
@@ -17,39 +18,44 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
   // private serviceID: string;
 
   constructor(public route: ActivatedRoute, public authenticationService: AuthenticationService,
-              protected injector: Injector, public datePipe: DatePipe) {
-    super(injector, authenticationService);
+              protected injector: Injector, public datePipe: DatePipe,
+              protected funderService: FunderService) {
+    super(injector, authenticationService, funderService);
     this.editMode = true;
   }
 
   ngOnInit() {
     super.ngOnInit();
-    this.sub = this.route.params.subscribe(params => {
-      this.serviceID = params['id'];
-      // this.resourceService.getService(this.serviceID).subscribe(service => {
-      this.resourceService.getRichService(this.serviceID).subscribe(richService => {
-        ResourceService.removeNulls(richService.service);
-        this.formPrepare(richService);
-        this.serviceForm.patchValue(richService.service);
-        for (const i in this.serviceForm.controls) {
-          if (this.serviceForm.controls[i].value === null) {
-            this.serviceForm.controls[i].setValue('');
-          }
-        }
-        if (this.serviceForm.get('lastUpdate').value) {
-          const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
-          this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
+    if (sessionStorage.getItem('service')) {
+      sessionStorage.removeItem('service');
+    } else {
+      this.sub = this.route.params.subscribe(params => {
+        this.serviceID = params['id'];
+        // this.resourceService.getService(this.serviceID).subscribe(service => {
+        this.resourceService.getRichService(this.serviceID).subscribe(richService => {
+            ResourceService.removeNulls(richService.service);
+            this.formPrepare(richService);
+            this.serviceForm.patchValue(richService.service);
+            for (const i in this.serviceForm.controls) {
+              if (this.serviceForm.controls[i].value === null) {
+                this.serviceForm.controls[i].setValue('');
+              }
+            }
+            if (this.serviceForm.get('lastUpdate').value) {
+              const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
+              this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
+            }
+          },
+          err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error
+        );
+      });
+    }
+    this.resourceService.getServiceMeasurements(this.serviceID).subscribe(measurements => {
+        this.measurementsFormPatch(measurements);
+        if (this.measurements.length === 0) {
+          this.pushToMeasurements();
         }
       },
-        err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error
-      );
-    });
-    this.resourceService.getServiceMeasurements(this.serviceID).subscribe(measurements => {
-      this.measurementsFormPatch(measurements);
-      if (this.measurements.length === 0) {
-        this.pushToMeasurements();
-      }
-    },
       err => this.errorMessage = 'Could not get the measurements for this service. ' + err.error
     );
   }
@@ -59,7 +65,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     this.removeCategory(0);
     for (let i = 0; i < richService.service.subcategories.length; i++) {
       this.categoryArray.push(this.newCategory());
-      this.categoryArray.controls[this.categoryArray.length - 1].get('supercategory').setValue(richService.categories[i].superCategory.id);
+      // this.categoryArray.controls[this.categoryArray.length - 1].get('supercategory').setValue(richService.categories[i].superCategory.id);
       this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.categories[i].category.id);
       this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.categories[i].subCategory.id);
     }

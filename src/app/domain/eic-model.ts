@@ -1,8 +1,13 @@
 /* tslint:disable */
-// Generated using typescript-generator version 2.6.433 on 2019-07-15 15:25:21.
+/* eslint-disable */
+// Generated using typescript-generator version 2.16.538 on 2019-11-04 13:38:53.
 
-export interface Identifiable {
-    id: string;
+export class Contact {
+  firstName: string;
+  lastName: string;
+  email: string;
+  tel: string;
+  position: string;
 }
 
 export class EmailMessage {
@@ -39,9 +44,10 @@ export class ExtrasType {
 
 export class Funder implements Identifiable {
   id: string;
-  name: string;
-  logo: URL;
-  services: string[];
+  fundingOrganisation: string;
+  organisationLocalLanguage: string;
+  acronym: string;
+  country: string;
 }
 
 export interface Identifiable {
@@ -57,59 +63,8 @@ export class Indicator implements Identifiable {
   unitName: string;
 }
 
-export class Service implements Identifiable {
-  id: string;
-  name: string;
-  url: URL;
-  description: string;
-  logo: URL;
-  tagline: string;
-  userValue: string;
-  userBaseList: string[];
-  useCases: string[];
-  multimediaUrls: URL[];
-  options: ServiceOption[];
-  requiredServices: string[];
-  relatedServices: string[];
-  providers: string[];
-  scientificSubdomains: string[];
-  subcategories: string[];
-  targetUsers: string[];
-  languages: string[];
-  places: string[];
-  accessTypes: string[];
-  accessModes: string[];
-  funders: string[];
-  tags: string[];
-  phase: string;
-  trl: string;
-  version: string;
-  lastUpdate: XMLGregorianCalendar;
-  changeLog: string;
-  certifications: string[];
-  standards: string[];
-  orderType: string;
-  order: URL;
-  sla: URL;
-  termsOfUse: URL;
-  privacyPolicy: URL;
-  accessPolicy: URL;
-  paymentModel: URL;
-  pricing: URL;
-  manual: URL;
-  training: URL;
-  helpdesk: URL;
-  monitoring: URL;
-  maintenance: URL;
-  ownerName: string;
-  ownerContact: string;
-  supportName: string;
-  supportContact: string;
-  securityName: string;
-  securityContact: string;
-}
-
-export class InfraService extends Service {
+export class InfraService {
+  service: Service;
   serviceMetadata: ServiceMetadata;
   active: boolean;
   status: string;
@@ -130,15 +85,46 @@ export class Measurement implements Identifiable {
 export class Provider implements Identifiable {
   id: string;
   name: string;
+  acronym: string;
   website: URL;
   description: string;
   logo: URL;
-  contactName: string;
-  contactEmail: string;
-  contactTel: string;
+  multimedia: URL[];
+  types: string[];
+  categories: string[];
+  esfriDomains: string[];
+  tags: string[];
+  lifeCycleStatus: string;
+  location: ProviderLocation;
+  coordinatingCountry: string;
+  participatingCountries: string[];
+  contacts: Contact[];
+  hostingLegalEntity: string;
+  legalStatus: string;
+  esfri: string;
+  networks: string[];
+  areasOfActivity: string[];
+  societalGrandChallenges: string[];
+  nationalRoadmap: string;
   active: boolean;
   status: string;
   users: User[];
+}
+
+export class ProviderLocation {
+  name: string;
+  street: string;
+  number: string;
+  postalCode: string;
+  city: string;
+  region: string;
+}
+
+export class ProviderRequest implements Identifiable {
+  id: string;
+  message: EmailMessage;
+  date: XMLGregorianCalendar;
+  providerId: string;
 }
 
 export class RangeValue {
@@ -164,20 +150,65 @@ export class RichService {
   hasRate: number;
   favourites: number;
   isFavourite: boolean;
-
   categories: Category[];
   domains: ScientificDomain[];
+  providerInfo: ProviderInfo[];
 }
 
-export class Category {
-  superCategory: Vocabulary;
-  category: Vocabulary;
-  subCategory: Vocabulary;
-}
-
-export class ScientificDomain {
-  domain: Vocabulary;
-  subdomain: Vocabulary;
+export class Service implements Identifiable {
+  id: string;
+  name: string;
+  url: URL;
+  description: string;
+  logo: URL;
+  multimediaUrls: URL[];
+  tagline: string;
+  userValue: string;
+  userBaseList: string[];
+  useCases: string[];
+  options: ServiceOption[];
+  endpoint: URL;
+  providers: string[];
+  scientificSubdomains: string[];
+  subcategories: string[];
+  targetUsers: string[];
+  languages: string[];
+  places: string[];
+  accessTypes: string[];
+  accessModes: string[];
+  funders: string[];
+  tags: string[];
+  phase: string;
+  trl: string;
+  version: string;
+  lastUpdate: XMLGregorianCalendar;
+  changeLog: string;
+  certifications: string[];
+  standards: string[];
+  orderType: string;
+  order: URL;
+  sla: URL;
+  termsOfUse: URL;
+  privacyPolicy: URL;
+  accessPolicy: URL;
+  paymentModel: URL;
+  pricing: URL;
+  userManual: URL;
+  adminManual: URL;
+  training: URL;
+  helpdesk: URL;
+  monitoring: URL;
+  maintenance: URL;
+  contacts: Contact[];
+  requiredServices: string[];
+  relatedServices: string[];
+  relatedPlatforms: string[];
+  aggregatedServices: number;
+  publications: number;
+  datasets: number;
+  software: number;
+  applications: number;
+  otherProducts: number;
 }
 
 export class ServiceMetadata {
@@ -199,6 +230,8 @@ export class ServiceOption implements Identifiable {
   url: URL;
   description: string;
   logo: URL;
+  contacts: Contact[];
+  attributes: string[];
 }
 
 export class User implements Identifiable {
@@ -217,12 +250,66 @@ export class Vocabulary implements Identifiable {
   extras: { [index: string]: string };
 }
 
-export class NestedVocabulary {
-  vocabulary: Vocabulary;
-  children: NestedVocabulary[];
+export class Category {
+  superCategory: Vocabulary;
+  category: Vocabulary;
+  subCategory: Vocabulary;
 }
 
-export enum VocabularyType {
+export class ProviderInfo {
+  providerId: string;
+  providerName: string;
+  providerAcronym: string;
+}
+
+export class ScientificDomain {
+  domain: Vocabulary;
+  subdomain: Vocabulary;
+}
+
+export class VocabularyTree {
+  vocabulary: Vocabulary;
+  children: VocabularyTree[];
+}
+
+export class XMLGregorianCalendar implements Cloneable {
+}
+
+export class URL implements Serializable {
+}
+
+export interface Cloneable {
+}
+
+export interface Serializable {
+}
+
+export const enum UserActionType {
+  FAVOURITE = "FAVOURITE",
+  RATING = "RATING",
+}
+
+export const enum DimensionType {
+  TIME = "TIME",
+  LOCATIONS = "LOCATIONS",
+}
+
+export const enum UnitType {
+  PCT = "PCT",
+  NUM = "NUM",
+  BOOL = "BOOL",
+}
+
+export const enum States {
+  PENDING_1 = "PENDING_1",
+  ST_SUBMISSION = "ST_SUBMISSION",
+  PENDING_2 = "PENDING_2",
+  REJECTED_ST = "REJECTED_ST",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+}
+
+export const enum VocabularyType {
   SUPERCATEGORY = "SUPERCATEGORY",
   CATEGORY = "CATEGORY",
   SUBCATEGORY = "SUBCATEGORY",
@@ -235,18 +322,15 @@ export enum VocabularyType {
   TARGET_USERS = "TARGET_USERS",
   ACCESS_TYPE = "ACCESS_TYPE",
   ACCESS_MODE = "ACCESS_MODE",
-  FUNDED_BY = "FUNDED_BY",
-  ORDER_TYPE = "ORDER_TYPE"
-}
-
-export class URL implements Serializable {
-}
-
-export class XMLGregorianCalendar implements Cloneable {
-}
-
-export interface Serializable {
-}
-
-export interface Cloneable {
+  ORDER_TYPE = "ORDER_TYPE",
+  PROVIDER_AREA_OF_ACTIVITY = "PROVIDER_AREA_OF_ACTIVITY",
+  PROVIDER_CATEGORY = "PROVIDER_CATEGORY",
+  PROVIDER_DOMAIN = "PROVIDER_DOMAIN",
+  PROVIDER_ESFRI = "PROVIDER_ESFRI",
+  PROVIDER_ESFRI_DOMAIN = "PROVIDER_ESFRI_DOMAIN",
+  PROVIDER_LEGAL_STATUS = "PROVIDER_LEGAL_STATUS",
+  PROVIDER_LIFE_CYCLE_STATUS = "PROVIDER_LIFE_CYCLE_STATUS",
+  PROVIDER_NETWORKS = "PROVIDER_NETWORKS",
+  PROVIDER_SOCIETAL_GRAND_CHALLENGES = "PROVIDER_SOCIETAL_GRAND_CHALLENGES",
+  PROVIDER_TYPE = "PROVIDER_TYPE",
 }

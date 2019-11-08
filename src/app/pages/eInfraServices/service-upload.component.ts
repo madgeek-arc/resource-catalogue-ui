@@ -3,6 +3,7 @@ import {Subscription} from 'rxjs';
 import {Service} from '../../domain/eic-model';
 import {ServiceFormComponent} from './service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
+import {FunderService} from '../../services/funder.service';
 
 @Component({
   selector: 'app-service-upload',
@@ -11,8 +12,10 @@ import {AuthenticationService} from '../../services/authentication.service';
 export class ServiceUploadComponent extends ServiceFormComponent implements OnInit {
   private sub: Subscription;
 
-  constructor(protected injector: Injector, protected authenticationService: AuthenticationService) {
-    super(injector, authenticationService);
+  constructor(protected injector: Injector,
+              protected authenticationService: AuthenticationService,
+              protected funderService: FunderService) {
+    super(injector, authenticationService, funderService);
     this.editMode = false;
   }
 

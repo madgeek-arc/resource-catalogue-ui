@@ -57,12 +57,14 @@ export class FundersDashboardComponent implements OnInit {
     }
   }
 
+  // Funders do not work with catris model
+  // if implemented uncomment the following lines
   markSelection(name: string) {
-    if (this.selectedFunder) {
-      return this.selectedFunder.name === name;
-    } else {
-      return false;
-    }
+    // if (this.selectedFunder) {
+    //   return this.selectedFunder.name === name;
+    // } else {
+    //   return false;
+    // }
   }
 
   getChartData(funderId: string) {

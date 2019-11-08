@@ -165,11 +165,9 @@
                       <div class="addenda uk-margin-small-top">
                         <span class="uk-margin-medium-right">
                             <a (click)="addToFavourites(i)">
-                                <i
-                                  [ngClass]="resourceInfo.isFavourite?'fa fa-heart fa-lg':'fa fa-heart-o fa-lg'"></i>
+                                <i [ngClass]="resourceInfo.isFavourite?'fa fa-heart fa-lg':'fa fa-heart-o fa-lg'"></i>
                             </a>
-                            <span
-                              class="statsNumbers">&nbsp;{{ resourceInfo.favourites }}</span>
+                            <span class="statsNumbers">&nbsp;{{ resourceInfo.favourites }}</span>
                         </span>
                         <span class="uk-margin-medium-right">
                           <input type="checkbox" class="uk-margin-small-right"
@@ -186,7 +184,7 @@
                         </span>
 
                         <span class="uk-float-right">
-                            <img src="../../../assets/images/icons/ic_visit_icon.svg">
+                            <img title="Number of Views" src="../../../assets/images/icons/ic_visit_icon.svg" alt="Views">
                             <span class="statsNumbers">&nbsp;{{ resourceInfo.views }}</span>
                         </span>
                       </div>
@@ -202,7 +200,7 @@
                         </a>
                       </div>
                       <div class="uk-margin-small-top">
-                        <span class="provider">{{resourceInfo.service.providers[0] | uppercase}}</span>
+                        <span class="provider">{{resourceInfo.providerInfo[0].providerAcronym | uppercase}}</span>
                       </div>
                     </div>
                   </div>
@@ -430,7 +428,7 @@
                           style="height: 51px;">
                       </span>
                     </a>
-                    <span class="provider">{{resourceInfo.service.providers[0] | uppercase}}</span>
+                    <span class="provider">{{resourceInfo.providerInfo[0].providerAcronym | uppercase}}</span>
                   </div>
 
                 </div>
@@ -493,8 +491,9 @@
          class="uk-width-1-5 serviceToCompareCard uk-margin-right">
       <div class="">
         <div class="removeService uk-text-right">
-          <a (click)="this.comparisonService.addOrRemove(serviceToCompare)"><i class="fa fa-times"
-                                                                               aria-hidden="true"></i></a>
+          <a (click)="this.comparisonService.addOrRemove(serviceToCompare)">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </a>
         </div>
         <div class="uk-margin-small-bottom">{{serviceToCompare.name}}</div>
         <div>

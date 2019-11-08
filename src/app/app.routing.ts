@@ -8,7 +8,7 @@ import {CommonModule} from '@angular/common';
 import {SearchComponent} from './pages/search/search.component';
 import {CanActivateViaAuthGuard} from './services/can-activate-auth-guard.service';
 import {ServiceLandingPageComponent} from './pages/landingpages/service/service-landing-page.component';
-import {NewServiceProviderComponent} from './pages/serviceprovider/new-service-provider.component';
+import {ServiceProviderFormComponent} from './pages/serviceprovider/service-provider-form.component';
 import {ServiceProvidersListComponent} from './pages/admin/service-providers-list.component';
 import {AddFirstServiceComponent} from './pages/serviceprovider/add-first-service.component';
 import {MyServiceProvidersComponent} from './pages/serviceprovider/my-service-providers.component';
@@ -88,7 +88,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'newServiceProvider',
-    component: NewServiceProviderComponent,
+    component: ServiceProviderFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'New Service Provider'
