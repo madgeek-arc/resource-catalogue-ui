@@ -33,7 +33,7 @@ export const languageDesc = {label: 'Language', mandatory: true, desc: 'Language
 export const mainContactFirstNameDesc = {label: 'Main Contact First Name ', mandatory: true, desc: 'First Name of the service/resource\'s main contact person/manager.'};
 export const mainContactLastNameDesc = {label: 'Main Contact Last Name', mandatory: true, desc: 'Last Name of the service/resource\'s main contact person/manager.'};
 export const mainContactEmailDesc = {label: 'Main Contact Email', mandatory: true, desc: 'Email of the service/resource\'s main contact person/manager.'};
-export const mainContactPhoneDesc = {label: 'Main Contact Phone', mandatory: false, desc: 'Telephone of the service/resource\'s main contact person/manager.'};
+export const mainContactPhoneDesc = {label: 'Main Contact Phone', mandatory: true, desc: 'Telephone of the service/resource\'s main contact person/manager.'};
 export const mainContactPositionDesc = {label: 'Main Contact Position', mandatory: false, desc: 'Position of the service/resource\'s main contact person/manager.'};
 // Public Contact
 export const publicContactFirstNameDesc = {label: 'Public Contact First Name', mandatory: false, desc: 'First Name of the service/resource\'s contact person to be displayed at the portal.'};
@@ -62,11 +62,11 @@ export const fundingBodyDesc = {label: 'Funding Body', mandatory: false, desc: '
 export const fundingProgramDesc = {label: 'Funding Program', mandatory: false, desc: 'Name of the funding program that supported the development and/or operation of the service.'};
 export const grantProjectNameDesc = {label: 'Grant/Project Name', mandatory: false, desc: 'Name of the project that supported the development and/or operation of the service.'};
 // Management Information
-export const helpdeskDesc = {label: 'Helpdesk', mandatory: true, desc: 'The URL to a webpage with the contact person or helpdesk to ask more information from the service/resource provider about this service.'};
-export const userManualDesc = {label: 'User Manual', mandatory: true, desc: 'Link to the service/resource user manual and documentation.'};
-export const adminManualDesc = {label: 'Admin Manual', mandatory: true, desc: 'Link to the service/resource admin manual and documentation.'};
-export const termsOfUseDesc = {label: 'Terms Of Use', mandatory: true, desc: 'Webpage describing the rules, service/resource conditions and usage policy which one must agree to abide by in order to use the service.'};
-export const privacyPolicyDesc = {label: 'Privacy Policy', mandatory: true, desc: 'Link to the privacy policy applicable to the service.'};
+export const helpdeskDesc = {label: 'Helpdesk', mandatory: false, desc: 'The URL to a webpage with the contact person or helpdesk to ask more information from the service/resource provider about this service.'};
+export const userManualDesc = {label: 'User Manual', mandatory: false, desc: 'Link to the service/resource user manual and documentation.'};
+export const adminManualDesc = {label: 'Admin Manual', mandatory: false, desc: 'Link to the service/resource admin manual and documentation.'};
+export const termsOfUseDesc = {label: 'Terms Of Use', mandatory: false, desc: 'Webpage describing the rules, service/resource conditions and usage policy which one must agree to abide by in order to use the service.'};
+export const privacyPolicyDesc = {label: 'Privacy Policy', mandatory: false, desc: 'Link to the privacy policy applicable to the service.'};
 export const serviceLevelAgreementDesc = {label: 'Service Level Agreement', mandatory: false, desc: 'Webpage with the information about the levels of performance that a service/resource provider is expected to deliver.'};
 export const trainingInformationDesc = {label: 'Training Information', mandatory: false, desc: 'URL for training information'};
 export const statusMonitoringDesc = {label: 'Status Monitoring', mandatory: false, desc: 'Webpage with monitoring information about this service'};

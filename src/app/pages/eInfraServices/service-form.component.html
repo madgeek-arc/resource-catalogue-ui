@@ -600,6 +600,7 @@
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('accessTypes').get([i]).valid
                                       && getFieldAsFormArray('accessTypes').get([i]).dirty,
                                       'uk-width-5-6': getFieldAsFormArray('accessTypes').length > 1}">
+                                <option value=""></option>
                                 <option *ngFor="let entry of sortVocabulariesByName(accessTypesVocabulary)" value="{{entry.id}}">
                                   {{entry.name}}
                                 </option>
@@ -627,6 +628,7 @@
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('accessModes').get([i]).valid
                                       && getFieldAsFormArray('accessModes').get([i]).dirty,
                                       'uk-width-5-6': getFieldAsFormArray('accessModes').length > 1}">
+                                <option value=""></option>
                                 <option *ngFor="let entry of sortVocabulariesByName(accessModesVocabulary)" value="{{entry.id}}">
                                   {{entry.name}}
                                 </option>
@@ -654,6 +656,7 @@
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('funders').get([i]).valid
                                       && getFieldAsFormArray('funders').get([i]).dirty,
                                       'uk-width-5-6': getFieldAsFormArray('funders').length > 1}">
+                                <option value=""></option>
                                 <option *ngFor="let entry of fundersVocabulary.results" value="{{entry.id}}">
                                   {{entry.fundingOrganisation}}
                                 </option>
@@ -703,6 +706,7 @@
                           <div class="uk-form-controls">
                             <select id="phase" formControlName="phase" class="uk-select"
                                     [ngClass]="{'uk-form-danger': !serviceForm.get('phase').valid && serviceForm.get('phase').dirty}">
+                              <option value=""></option>
                               <option *ngFor="let entry of sortVocabulariesByName(phaseVocabulary)" value="{{entry.id}}">
                                 {{entry.name}}
                               </option>
@@ -717,6 +721,7 @@
                           <div class="uk-form-controls">
                             <select id="trl" formControlName="trl" class="uk-select"
                                     [ngClass]="{'uk-form-danger': !serviceForm.get('trl').valid && serviceForm.get('trl').dirty}">
+                              <option value=""></option>
                               <option *ngFor="let entry of sortVocabulariesByName(trlVocabulary)" value="{{entry.id}}">
                                 {{entry.name}}
                               </option>
@@ -1096,6 +1101,7 @@
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('requiredServices').get([i]).valid
                                       && getFieldAsFormArray('requiredServices').get([i]).dirty,
                                       'uk-width-5-6': getFieldAsFormArray('requiredServices').length > 1}">
+                                <option value=""></option>
                                 <option *ngFor="let reqService of requiredServices | keys" value="{{reqService}}">
                                   {{requiredServices[reqService]}}
                                 </option>
@@ -1123,6 +1129,7 @@
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('relatedServices').get([i]).valid
                                       && getFieldAsFormArray('relatedServices').get([i]).dirty,
                                       'uk-width-5-6': getFieldAsFormArray('relatedServices').length > 1}">
+                                <option value=""></option>ca
                                 <option *ngFor="let reqService of relatedServices | keys" value="{{reqService}}">
                                   {{relatedServices[reqService]}}
                                 </option>
