@@ -130,8 +130,9 @@ p {
 }
 
 #footer-sitemap a.fs-root-link {
-    font-size: 1em;
+    font-size: 1em !important;
     line-height: 1.5em;
+    font-weight: 400 !important;
 }
 
 .footer i {
