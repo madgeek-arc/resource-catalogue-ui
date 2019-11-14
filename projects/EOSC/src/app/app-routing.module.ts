@@ -17,6 +17,7 @@ import {UpdateServiceProviderComponent} from '../../../../src/app/pages/servicep
 import {DashboardComponent} from '../../../../src/app/pages/user/dashboard/dashboard.component';
 import {ServiceDashboardComponent} from '../../../../src/app/pages/user/dashboard/service-dashboard.component';
 import {ServiceUploadComponent} from '../../../../src/app/pages/eInfraServices/service-upload.component';
+import {ServiceProviderInfoComponent} from '../../../../src/app/pages/serviceprovider/service-provider-info.component';
 
 
 const routes: Routes = [
@@ -69,6 +70,14 @@ const routes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit First Service'
+    }
+  },
+  {
+    path: 'serviceProviderInfo/:id',
+    component: ServiceProviderInfoComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Service Provider Info'
     }
   },
   {
