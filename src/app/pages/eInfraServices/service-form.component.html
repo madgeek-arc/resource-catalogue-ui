@@ -91,9 +91,9 @@
                           <label class="uk-form-label uk-text-right" for="multimedia">
                             {{multimediaDesc.label + (multimediaDesc.mandatory ? ' (*)' : '')}}
                           </label>
-                          <div class="uk-form-controls">
+                          <div class="uk-form-controls ">
                             <div *ngFor="let multimedia of getFieldAsFormArray('multimediaUrls').controls; let i=index">
-                              <input id="multimedia" class="uk-input uk-width-5-6" type="text" [formControlName]="i"
+                              <input id="multimedia" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('multimediaUrls').get([i]).valid
                                      && getFieldAsFormArray('multimediaUrls').get([i]).dirty,
                                      'uk-width-5-6': getFieldAsFormArray('multimediaUrls').length > 1}">
@@ -136,11 +136,11 @@
                             {{userBaseDesc.label + (userBaseDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
-                            <div *ngFor="let provider of getFieldAsFormArray('userBaseList').controls; let i=index">
-                              <input id="userBase" class="" type="text" [formControlName]="i"
+                            <div *ngFor="let userBase of getFieldAsFormArray('userBaseList').controls; let i=index">
+                              <input id="userBase" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('userBaseList').get([i]).valid
                                      && getFieldAsFormArray('userBaseList').get([i]).dirty,
-                                     'uk-input uk-width-5-6': getFieldAsFormArray('userBaseList').length > 1}">
+                                     'uk-width-5-6': getFieldAsFormArray('userBaseList').length > 1}">
                               <a *ngIf="getFieldAsFormArray('userBaseList').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('userBaseList', i)">
                                 <i class="fa fa-times" aria-hidden="true"></i>
@@ -159,8 +159,8 @@
                             {{useCasesDesc.label + (useCasesDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
-                            <div *ngFor="let provider of getFieldAsFormArray('useCases').controls; let i=index">
-                              <input id="useCases" class="uk-input" type="text" [formControlName]="i"
+                            <div *ngFor="let useCase of getFieldAsFormArray('useCases').controls; let i=index">
+                              <input id="useCases" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('useCases').get([i]).valid
                                      && getFieldAsFormArray('useCases').get([i]).dirty,
                                      'uk-width-5-6': getFieldAsFormArray('useCases').length > 1}">
@@ -183,7 +183,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let option of getFieldAsFormArray('options').controls; let i=index">
-                              <div [formGroupName]="i" class="uk-margin-small-bottom" style="border: 1px dashed #cccccc; padding-right: 10px">
+                              <div [formGroupName]="i" class="uk-margin-small-bottom uk-animation-slide-top-small" style="border: 1px dashed #cccccc; padding-right: 10px">
                                 <a class="remove-element uk-padding-small" (click)="remove('options', i)">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
@@ -233,7 +233,7 @@
                                   <label class="uk-form-label uk-text-right">Contact (*)</label>
                                   <div class="uk-form-controls">
                                     <div formArrayName="contacts" *ngFor="let contact of getContactArray(i).controls; let j = index">
-                                      <div [formGroupName]="j" class="uk-margin-small-bottom" style="border: 1px dashed #cccccc; padding-right: 10px">
+                                      <div [formGroupName]="j" class="uk-margin-small-bottom uk-animation-slide-top-small" style="border: 1px dashed #cccccc; padding-right: 10px">
                                         <div>
                                           <a *ngIf="j !== 0" class="remove-element uk-padding-small" (click)="removeContact(i, j)">
                                             <i class="fa fa-times" aria-hidden="true"></i>
@@ -340,7 +340,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('providers').controls; let i=index">
-                              <select *ngIf="providersPage" class="uk-select uk-width-5-6" [formControlName]="i"
+                              <select *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('providers').get([i]).valid
                                       && getFieldAsFormArray('providers').get([i]).dirty,
                                       'uk-width-5-6': getFieldAsFormArray('providers').length > 1}">
@@ -377,7 +377,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <div formArrayName="scientificCategorization" *ngFor="let category of scientificDomainArray.controls; let i = index">
-                              <div [formGroupName]="i" class="uk-margin-small-bottom" style="border: 1px dashed #cccccc; padding-right: 10px">
+                              <div [formGroupName]="i" class="uk-margin-small-bottom uk-animation-slide-top-small" style="border: 1px dashed #cccccc; padding-right: 10px">
                                 <a *ngIf="scientificDomainArray.length > 1" class="remove-element uk-padding-small"
                                    (click)="removeScientificDomain(i)">
                                   <i class="fa fa-times" aria-hidden="true"></i>
@@ -432,7 +432,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <div formArrayName="categorize" *ngFor="let category of categoryArray.controls; let i = index">
-                              <div [formGroupName]="i" class="uk-margin-small-bottom" style="border: 1px dashed #cccccc; padding-right: 10px">
+                              <div [formGroupName]="i" class="uk-margin-small-bottom uk-animation-slide-top-small" style="border: 1px dashed #cccccc; padding-right: 10px">
                                 <a *ngIf="categoryArray.length > 1" class="remove-element uk-padding-small"
                                    (click)="removeCategory(i)">
                                   <i class="fa fa-times" aria-hidden="true"></i>
@@ -515,7 +515,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('targetUsers').controls; let i=index">
-                              <select id="targetUsers" *ngIf="providersPage" class="uk-select" [formControlName]="i"
+                              <select id="targetUsers" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('targetUsers').get([i]).valid
                                       && getFieldAsFormArray('targetUsers').get([i]).dirty,
                                       'uk-width-5-6': getFieldAsFormArray('targetUsers').length > 1}">
@@ -542,7 +542,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('languages').controls; let i=index">
-                              <select id="languages" *ngIf="providersPage" class="uk-select" [formControlName]="i"
+                              <select id="languages" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('languages').get([i]).valid
                                       && getFieldAsFormArray('languages').get([i]).dirty,
                                       'uk-width-5-6': getFieldAsFormArray('languages').length > 1}">
@@ -569,7 +569,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let place of getFieldAsFormArray('places').controls; let i=index">
-                              <select id="places" *ngIf="placesVocabulary" class="uk-select" [formControlName]="i"
+                              <select id="places" *ngIf="placesVocabulary" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('places').get([i]).valid
                                       && getFieldAsFormArray('places').get([i]).dirty,
                                       'uk-width-5-6': getFieldAsFormArray('places').length > 1}">
@@ -596,7 +596,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('accessTypes').controls; let i=index">
-                              <select id="accessTypes" *ngIf="providersPage" class="uk-select" [formControlName]="i"
+                              <select id="accessTypes" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('accessTypes').get([i]).valid
                                       && getFieldAsFormArray('accessTypes').get([i]).dirty,
                                       'uk-width-5-6': getFieldAsFormArray('accessTypes').length > 1}">
@@ -624,7 +624,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('accessModes').controls; let i=index">
-                              <select *ngIf="providersPage" class="uk-select" [formControlName]="i"
+                              <select *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('accessModes').get([i]).valid
                                       && getFieldAsFormArray('accessModes').get([i]).dirty,
                                       'uk-width-5-6': getFieldAsFormArray('accessModes').length > 1}">
@@ -652,7 +652,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('funders').controls; let i=index">
-                              <select id="funders" *ngIf="providersPage" class="uk-select" [formControlName]="i"
+                              <select id="funders" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('funders').get([i]).valid
                                       && getFieldAsFormArray('funders').get([i]).dirty,
                                       'uk-width-5-6': getFieldAsFormArray('funders').length > 1}">
@@ -680,7 +680,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('tags').controls; let i=index">
-                              <input id="tags" class="uk-input" type="text" [formControlName]="i"
+                              <input id="tags" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('tags').get([i]).valid
                                      && getFieldAsFormArray('tags').get([i]).dirty,
                                      'uk-width-5-6': getFieldAsFormArray('tags').length > 1}">
@@ -767,7 +767,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('certifications').controls; let i=index">
-                              <input id="certifications" class="uk-input" type="text" [formControlName]="i"
+                              <input id="certifications" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('certifications').get([i]).valid
                                      && getFieldAsFormArray('certifications').get([i]).dirty,
                                      'uk-width-5-6': getFieldAsFormArray('certifications').length > 1}">
@@ -790,7 +790,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('standards').controls; let i=index">
-                              <input id="standards" class="uk-input" type="text" [formControlName]="i"
+                              <input id="standards" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('standards').get([i]).valid
                                      && getFieldAsFormArray('standards').get([i]).dirty,
                                      'uk-width-5-6': getFieldAsFormArray('standards').length > 1}">
@@ -961,7 +961,7 @@
                           <label class="uk-form-label uk-text-right">Contact (*)</label>
                           <div class="uk-form-controls">
                             <div formArrayName="contacts" *ngFor="let contact of contactArray.controls; let i = index">
-                              <div [formGroupName]="i" class="uk-margin-small-bottom"
+                              <div [formGroupName]="i" class="uk-margin-small-bottom uk-animation-slide-top-small"
                                    style="border: 1px dashed #cccccc; padding-right: 10px">
                                 <div>
                                   <a *ngIf="i !== 0" class="remove-element uk-padding-small" (click)="removeContactServiceForm(i)">
@@ -1092,12 +1092,12 @@
                       </li>
                       <li accordionSection class="uk-margin-large-bottom" [title]="'Other Information'">
                         <div formArrayName="requiredServices" class="uk-margin-bottom">
-                          <label class="uk-form-label uk-text-right">
+                          <label class="uk-form-label uk-text-right" for="requiredServices">
                             {{requiredServicesDesc.label + (requiredServicesDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div *ngIf="requiredServices" class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('requiredServices').controls; let i=index">
-                              <select *ngIf="providersPage" class="uk-select" [formControlName]="i"
+                              <select id="requiredServices" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('requiredServices').get([i]).valid
                                       && getFieldAsFormArray('requiredServices').get([i]).dirty,
                                       'uk-width-5-6': getFieldAsFormArray('requiredServices').length > 1}">
@@ -1120,12 +1120,12 @@
                           </div>
                         </div>
                         <div formArrayName="relatedServices" class="uk-margin-bottom">
-                          <label class="uk-form-label uk-text-right">
+                          <label class="uk-form-label uk-text-right" for="relatedServices">
                             {{relatedServicesDesc.label + (relatedServicesDesc.mandatory ? ' (*)' : '')}}
                           </label>
-                          <div *ngIf="relatedServices" class="uk-form-controls">
+                          <div *ngIf="relatedServices" class="uk-form-controls ">
                             <div *ngFor="let provider of getFieldAsFormArray('relatedServices').controls; let i=index">
-                              <select *ngIf="providersPage" class="uk-select" [formControlName]="i"
+                              <select id="relatedServices" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': !getFieldAsFormArray('relatedServices').get([i]).valid
                                       && getFieldAsFormArray('relatedServices').get([i]).dirty,
                                       'uk-width-5-6': getFieldAsFormArray('relatedServices').length > 1}">
@@ -1153,7 +1153,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('relatedPlatforms').controls; let i=index">
-                              <input id="relatedPlatforms" class="uk-input" type="text" [formControlName]="i"
+                              <input id="relatedPlatforms" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('relatedPlatforms').get([i]).valid
                                      && getFieldAsFormArray('relatedPlatforms').get([i]).dirty,
                                      'uk-width-5-6': getFieldAsFormArray('relatedPlatforms').length > 1}">
@@ -1238,7 +1238,7 @@
                         <form class="uk-form-horizontal uk-margin-small-bottom" [formGroup]="measurementForm">
                           <div formArrayName="measurements">
                             <div *ngFor="let measurement of measurementForm['controls'].measurements['controls']; let i=index">
-                              <div formGroupName="{{i}}" class="uk-margin-small-bottom" style="border: 1px dashed #cccccc; padding: 15px">
+                              <div formGroupName="{{i}}" class="uk-margin-small-bottom uk-animation-slide-top-small" style="border: 1px dashed #cccccc; padding: 15px">
                                 <div uk-grid>
                                   <div class="uk-width-1-5"></div>
                                   <div class="uk-width-4-5 uk-form-controls">
@@ -1268,10 +1268,10 @@
                                 </div>
                                 <div formArrayName="locations" *ngIf="measurements.controls[i].get('locations').status != 'DISABLED'">
                                   <div class="uk-form-horizontal uk-margin-bottom">
-                                    <label class="uk-width-1-5 uk-form-label uk-text-right">Choose Locations: </label>
+                                    <label class="uk-width-1-5 uk-form-label uk-text-right" for="location">Choose Locations: </label>
                                     <div class="uk-width-4-5 uk-form-controls">
                                       <div *ngFor="let location of locations(i)['controls']; let locIndex=index">
-                                        <select class="uk-select uk-width-5-6@m" [formControlName]="locIndex"
+                                        <select id="location" class="uk-select uk-width-5-6 uk-animation-slide-top-small" [formControlName]="locIndex"
                                                 [ngClass]="{'uk-form-danger': !locations(i).get([locIndex]).valid && locations(i).get([locIndex]).dirty}">
                                           <ng-container *ngIf="placesVocabulary">
                                             <option>--Choose location--</option>

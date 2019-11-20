@@ -173,14 +173,13 @@
                           <input type="checkbox" class="uk-margin-small-right"
                                  [checked]="isSelected(resourceInfo.service)"
                                  (change)="comparisonService.addOrRemove(resourceInfo.service)">
-                          <a>{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
+                          <a (click)="comparisonService.addOrRemove(resourceInfo.service)">{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
                         </span>
                         <span class="uk-margin-medium-right">
                           <input type="checkbox" class="uk-margin-small-right"
                                  [checked]="isChecked(resourceInfo.service.id)"
                                  (change)="addOrRemove(resourceInfo.service.id)">
-                          <a *ngIf="!isChecked(resourceInfo.service.id)">Ask for info</a>
-                          <a *ngIf="isChecked(resourceInfo.service.id)">Selected</a>
+                          <a (click)="addOrRemove(resourceInfo.service.id)">{{isChecked(resourceInfo.service.id)? 'Selected' : 'Ask for info'}}</a>
                         </span>
 
                         <span class="uk-float-right">
@@ -210,7 +209,7 @@
 
             </div>
 
-            <div *ngIf="serviceIdsArray.length > 0" class="uk-float-right " style="z-index: 100; bottom: 25px; position: fixed; right: 25px;">
+            <div *ngIf="serviceIdsArray.length > 0" class="uk-float-right uk-animation-scale-up" style="z-index: 100; bottom: 25px; position: fixed; right: 25px;">
               <button class="uk-button butn theme" href="#email-modal" uk-toggle>Ask for info <i class="fa fa-comment fa-2x" aria-hidden="true"></i></button>
             </div>
 
@@ -414,7 +413,7 @@
                           <a>{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
                       </span>
                       <span class="uk-float-right">
-                          <img src="../../../../assets/images/icons/ic_visit_icon.svg">
+                          <img src="../../../assets/images/icons/ic_visit_icon.svg">
                           <span class="statsNumbers">&nbsp;{{ resourceInfo.views }}</span>
                       </span>
                     </div>
