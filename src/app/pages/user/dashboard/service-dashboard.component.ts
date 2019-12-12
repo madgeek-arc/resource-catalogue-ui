@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription, Observable} from 'rxjs';
-import {Provider, Service, ServiceHistory} from '../../../domain/eic-model';
+import {Provider, ProviderBundle, Service, ServiceHistory} from '../../../domain/eic-model';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
@@ -16,7 +16,7 @@ import {zip} from 'rxjs/internal/observable/zip';
   templateUrl: './service-dashboard.component.html',
   styleUrls: ['./service-dashboard.component.css']
 })
-export class ServiceDashboardComponent implements OnInit {
+export class ServiceDashboardComponent implements OnInit, OnDestroy {
 
   public service: Service;
   public errorMessage: string;
@@ -31,7 +31,7 @@ export class ServiceDashboardComponent implements OnInit {
   serviceMapOptions: any = null;
 
   serviceHistory: SearchResults<ServiceHistory>;
-  myProviders: Provider[] = [];
+  myProviders: ProviderBundle[] = [];
   canEditService = false;
 
   statisticPeriod: string;

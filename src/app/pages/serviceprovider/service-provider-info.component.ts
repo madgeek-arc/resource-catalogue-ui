@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Provider} from '../../domain/eic-model';
+import {Provider, ProviderBundle} from '../../domain/eic-model';
 import {ServiceProviderService} from '../../services/service-provider.service';
 
 declare var UIKit: any;
@@ -12,7 +12,7 @@ declare var UIKit: any;
 
 export class ServiceProviderInfoComponent implements OnInit {
   errorMessage: string;
-  myProviders: Provider[] = [];
+  myProviders: ProviderBundle[] = [];
   provider: Provider;
   isUserAdmin = false;
 

@@ -2,7 +2,7 @@ import {IndicatorsPage, MeasurementsPage} from '../../../domain/indicators';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {Vocabulary, Provider, RichService, VocabularyType, Service} from '../../../domain/eic-model';
+import {Vocabulary, Provider, RichService, VocabularyType, Service, ProviderBundle} from '../../../domain/eic-model';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
@@ -37,7 +37,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
   weights: string[] = ['EU', 'WW'];
   serviceMapOptions: any = null;
-  myProviders: Provider[] = [];
+  myProviders: ProviderBundle[] = [];
 
   formError = '';
   showForm = false;

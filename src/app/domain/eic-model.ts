@@ -2,6 +2,13 @@
 /* eslint-disable */
 // Generated using typescript-generator version 2.16.538 on 2019-11-04 13:38:53.
 
+export class Bundle<T> implements Identifiable {
+  id: string;
+  metadata: Metadata;
+  active: boolean;
+  status: string;
+}
+
 export class Contact {
   firstName: string;
   lastName: string;
@@ -63,12 +70,9 @@ export class Indicator implements Identifiable {
   unitName: string;
 }
 
-export class InfraService {
-  service: Service;
-  serviceMetadata: ServiceMetadata;
-  active: boolean;
-  status: string;
+export class InfraService extends Bundle<Service> {
   latest: boolean;
+  service: Service;
 }
 
 export class Measurement implements Identifiable {
@@ -80,6 +84,15 @@ export class Measurement implements Identifiable {
   valueIsRange: boolean;
   value: string;
   rangeValue: RangeValue;
+}
+
+export class Metadata {
+  registeredBy: string;
+  registeredAt: string;
+  modifiedBy: string;
+  modifiedAt: string;
+  source: string;
+  originalId: string;
 }
 
 export class Provider implements Identifiable {
@@ -106,9 +119,11 @@ export class Provider implements Identifiable {
   areasOfActivity: string[];
   societalGrandChallenges: string[];
   nationalRoadmap: string;
-  active: boolean;
-  status: string;
   users: User[];
+}
+
+export class ProviderBundle extends Bundle<Provider> {
+  provider: Provider;
 }
 
 export class ProviderLocation {
@@ -134,7 +149,7 @@ export class RangeValue {
 
 export class RichService {
   service: Service;
-  serviceMetadata: ServiceMetadata;
+  metadata: Metadata;
   languageNames: string[];
   placeNames: string[];
   trlName: string;
@@ -211,21 +226,13 @@ export class Service implements Identifiable {
   otherProducts: number;
 }
 
-export class ServiceMetadata {
-  registeredBy: string;
-  registeredAt: string;
-  modifiedBy: string;
-  modifiedAt: string;
-}
-
-export class ServiceHistory extends ServiceMetadata {
+export class ServiceHistory extends Metadata {
   version: string;
   versionChange: boolean;
   coreVersionId: string;
 }
 
-export class ServiceOption implements Identifiable {
-  id: string;
+export class ServiceOption {
   name: string;
   url: URL;
   description: string;

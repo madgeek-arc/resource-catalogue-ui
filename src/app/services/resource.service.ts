@@ -275,6 +275,16 @@ export class ResourceService {
     // return this.getAll("provider");
   }
 
+  getProviderBundles(from: string, quantity: string) {
+    let params = new HttpParams();
+    params = params.append('from', from);
+    params = params.append('quantity', quantity);
+    params = params.append('orderField', 'creation_date');
+    params = params.append('order', 'desc');
+    return this.http.get(this.base + `/provider/bundle/all`, {params});
+    // return this.getAll("provider");
+  }
+
   getMyServiceProviders() {
     return this.http.get<Provider[]>(this.base + '/provider/getMyServiceProviders');
   }

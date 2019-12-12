@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
-import {Provider, Service} from '../domain/eic-model';
+import {Provider, ProviderBundle, Service} from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
@@ -45,7 +45,7 @@ export class ServiceProviderService {
   }
 
   getMyServiceProviders() {
-    return this.http.get<Provider[]>(this.base + '/provider/getMyServiceProviders', this.options);
+    return this.http.get<ProviderBundle[]>(this.base + '/provider/getMyServiceProviders', this.options);
   }
 
   getServiceProviderById(id: string) {
