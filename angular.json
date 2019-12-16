@@ -23,7 +23,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
+              "src/styles.scss",
               "node_modules/font-awesome/css/font-awesome.css"
             ],
             "scripts": [
@@ -78,7 +78,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": [],
             "assets": [
@@ -146,7 +146,7 @@
               "projects/EOSC/src/assets"
             ],
             "styles": [
-              "projects/EOSC/src/styles.css",
+              "projects/EOSC/src/styles.scss",
               "node_modules/font-awesome/css/font-awesome.css"
             ],
             "scripts": [
@@ -270,7 +270,7 @@
               "projects/openaire-service-catalogue/src/assets"
             ],
             "styles": [
-              "projects/openaire-service-catalogue/src/styles.css",
+              "projects/openaire-service-catalogue/src/styles.scss",
               "node_modules/font-awesome/css/font-awesome.css"
             ],
             "scripts": [
@@ -325,7 +325,7 @@
             "tsConfig": "projects/openaire-service-catalogue/tsconfig.spec.json",
             "karmaConfig": "projects/openaire-service-catalogue/karma.conf.js",
             "styles": [
-              "projects/openaire-service-catalogue/src/styles.css"
+              "projects/openaire-service-catalogue/src/styles.scss"
             ],
             "scripts": [],
             "assets": [
@@ -394,7 +394,7 @@
               "projects/catris/src/assets"
             ],
             "styles": [
-              "projects/catris/src/styles.css",
+              "projects/catris/src/styles.scss",
               "node_modules/font-awesome/css/font-awesome.css"
             ],
             "scripts": [
@@ -449,7 +449,7 @@
             "tsConfig": "projects/catris/tsconfig.spec.json",
             "karmaConfig": "projects/catris/karma.conf.js",
             "styles": [
-              "projects/catris/src/styles.css"
+              "projects/catris/src/styles.scss"
             ],
             "scripts": [],
             "assets": [

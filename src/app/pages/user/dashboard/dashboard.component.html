@@ -100,19 +100,19 @@
                     </div>
                   </div>
 
+                  <!-- TODO: enable comments below to add ratings chart -->
                   <div class="uk-grid uk-margin-bottom">
-                    <div class="uk-width-1-2@m">
-                      <!--<div id="container">{{this.runHighCharts()}}</div>-->
+<!--                    <div class="uk-width-1-2@m">-->
                       <div style="width:100%" *ngIf="providerFavouritesOptions">
                         <chart [options]="providerFavouritesOptions"></chart>
                       </div>
+<!--                    </div>-->
 
-                    </div>
-                    <div class="uk-width-1-2@m">
-                      <div style="width:100%" *ngIf="providerRatingsOptions">
-                        <chart [options]="providerRatingsOptions"></chart>
-                      </div>
-                    </div>
+<!--                    <div class="uk-width-1-2@m">-->
+<!--                      <div style="width:100%" *ngIf="providerRatingsOptions">-->
+<!--                        <chart [options]="providerRatingsOptions"></chart>-->
+<!--                      </div>-->
+<!--                    </div>-->
                   </div>
 
                   <div class="uk-grid uk-margin-bottom">
