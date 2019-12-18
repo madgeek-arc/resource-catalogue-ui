@@ -131,6 +131,10 @@ export class ResourceService {
     return this.http.get<RichService>(this.base + `/service/rich/${version === undefined ? id : [id, version].join('/')}/`, this.options);
   }
 
+  getPendingService(id: string) {
+    return this.http.get<RichService>(this.base + `/pendingService/rich/${id}/`, this.options);
+  }
+
   getSelectedServices(ids: string[]) {
     /*return this.getSome("service", ids).map(res => <Service[]> <any> res);*/
     // return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
@@ -318,6 +322,10 @@ export class ResourceService {
 
   uploadServiceWithMeasurements(service: Service, measurements: Measurement[]) {
     return this.http.put<Service>(this.base + '/service/serviceWithMeasurements', {service, measurements}, this.options);
+  }
+
+  uploadPendingService(service: Service, measurements: Measurement[]) {
+    return this.http.put<Service>(this.base + '/pendingService/updateAndTransform', {service, measurements}, this.options);
   }
 
   getFeaturedServices() {
