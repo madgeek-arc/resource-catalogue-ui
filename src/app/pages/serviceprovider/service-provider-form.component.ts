@@ -279,7 +279,11 @@ export class ServiceProviderFormComponent implements OnInit {
           this.errorMessage = 'Something went wrong. ' + err.error;
         },
         () => {
-          this.router.navigate(['/myServiceProviders']);
+          if (this.edit) {
+            this.router.navigate(['/myServiceProviders']);
+          } else {
+            this.authService.refreshLogin('/myServiceProviders');
+          }
         }
       );
     } else {

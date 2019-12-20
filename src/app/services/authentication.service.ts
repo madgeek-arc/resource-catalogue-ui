@@ -74,6 +74,13 @@ export class AuthenticationService {
     return null;
   }
 
+  public refreshLogin(redirectUrl: string) {
+    deleteCookie(this.cookieName);
+    sessionStorage.setItem('redirect_url', redirectUrl);
+    console.log(redirectUrl);
+    window.location.href = environment.API_ENDPOINT + '/openid_connect_login';
+  }
+
   public login() {
     if (getCookie(this.cookieName) !== null && moment().isBefore(this.getExpiration())) {
       console.log('found cookie');
