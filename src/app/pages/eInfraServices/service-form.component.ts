@@ -535,7 +535,7 @@ export class ServiceFormComponent implements OnInit {
   /** Options-->**/
   newOption(): FormGroup {
     return this.fb.group({
-      id: [''],
+      // id: [''],
       name: ['', Validators.required],
       url: ['', Validators.compose([Validators.required, URLValidator])],
       description: ['', Validators.required],
