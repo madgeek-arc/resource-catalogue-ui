@@ -373,7 +373,7 @@ export class ServiceFormComponent implements OnInit {
       for (const i in data) {
         if (data.hasOwnProperty(i)) {
           if (Array.isArray(data[i])) {
-            console.log(i);
+            // console.log(i);
             for (let j = 0; j < data[i].length - 1; j++) {
               if (i === 'scientificCategorization') {
                 this.scientificDomainArray.push(this.newScientificDomain());
