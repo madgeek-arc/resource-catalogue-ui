@@ -3,7 +3,9 @@ import {RouterModule, Routes} from '@angular/router';
 import {CanActivateViaAuthGuard} from '../../services/can-activate-auth-guard.service';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {ServiceDashboardComponent} from './dashboard/service-dashboard.component';
-import {MessagesComponent} from './messages/messages.component';
+import {MessagesComponent} from './dashboard/messages/messages.component';
+import {StatsComponent} from './dashboard/providerStats/stats.component';
+import {ServicesComponent} from './dashboard/services/services.component';
 
 const userRoutes: Routes = [
   {
@@ -17,8 +19,22 @@ const userRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Provider dashboard'
-    }
+    },
+    children : [
+      {path: '', redirectTo: 'stats', pathMatch: 'full'},
+      {path: 'stats', component: StatsComponent},
+      {path: 'services/:status', component: ServicesComponent},
+      {path: 'messages', component: MessagesComponent}
+    ]
   },
+  // {
+  //   path: 'dashboard/:provider/stats',
+  //   component: StatsComponent,
+  //   canActivate: [CanActivateViaAuthGuard],
+  //   data: {
+  //     breadcrumb: 'Provider statistics'
+  //   }
+  // },
   {
     path: 'messages/:provider',
     component: MessagesComponent,

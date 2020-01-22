@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Provider} from '../../../domain/eic-model';
+import {Provider} from '../../../../domain/eic-model';
 import {ActivatedRoute} from '@angular/router';
 import {isNullOrUndefined} from 'util';
-import {ServiceProviderService} from '../../../services/service-provider.service';
+import {ServiceProviderService} from '../../../../services/service-provider.service';
 
 @Component({
   selector: 'app-messages',
@@ -16,7 +16,7 @@ export class MessagesComponent implements OnInit {
               private providerService: ServiceProviderService) {}
 
   ngOnInit(): void {
-    this.providerId = this.route.snapshot.paramMap.get('provider');
+    this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
       this.providerService.getServiceProviderById(this.providerId).subscribe(
         res => this.provider = res,

@@ -1,0 +1,52 @@
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 500px">
+  <div class="uk-grid uk-margin-bottom">
+    <div class="uk-width-1-1">
+      <div class="uk-float-right uk-width-1-5">
+        <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
+                (change)="onPeriodChange($event)">
+          <option value="DAY">Daily</option>
+          <option value="WEEK">Weekly</option>
+          <option value="MONTH" selected>Monthly</option>
+          <option value="YEAR">Yearly</option>
+        </select>
+        <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TODO: enable comments below to add ratings chart -->
+  <div class="uk-grid uk-margin-bottom">
+  <!--                    <div class="uk-width-1-2@m">-->
+      <div style="width:100%" *ngIf="providerFavouritesOptions">
+        <chart [options]="providerFavouritesOptions"></chart>
+      </div>
+<!--                    </div>-->
+
+<!--                    <div class="uk-width-1-2@m">-->
+<!--                      <div style="width:100%" *ngIf="providerRatingsOptions">-->
+<!--                        <chart [options]="providerRatingsOptions"></chart>-->
+<!--                      </div>-->
+<!--                    </div>-->
+  </div>
+
+  <div class="uk-grid uk-margin-bottom">
+    <div class="uk-width-1-1@m">
+      <div style="width:100%" *ngIf="providerVisitsOptions">
+        <chart [options]="providerVisitsOptions"></chart>
+      </div>
+    </div>
+    <div class="uk-width-1-1@m">
+      <div style="width:100%" *ngIf="providerVisitationPercentageOptions">
+        <chart [options]="providerVisitationPercentageOptions"></chart>
+      </div>
+    </div>
+  </div>
+
+  <div class="uk-grid uk-margin-bottom">
+    <div class="uk-width-1-1">
+      <div style="width:100%" *ngIf="providerMapOptions">
+        <chart type="Map" [options]="providerMapOptions"></chart>
+      </div>
+    </div>
+  </div>
+</div>

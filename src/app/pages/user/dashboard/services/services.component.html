@@ -1,0 +1,28 @@
+<div *ngFor="let providerService of providerServices"
+     class="uk-card uk-card-hover uk-margin-bottom service">
+  <a [routerLink]="['/dashboard/'+ this.providerId + '/' + providerService.id]" class="el-link">
+    <div
+      class="uk-margin uk-grid-match uk-child-width-1-1 uk-grid-small uk-grid-divider uk-grid uk-scrollspy-inview uk-animation-slide-top-medium uk-grid-stack">
+      <div class="uk-first-column uk-padding-remove-left">
+        <div class="">
+          <div class="el-item uk-panel uk-scrollspy-inview uk-animation-slide-top-medium" style="">
+            <div class="uk-child-width-expand uk-grid-medium uk-flex-middle uk-grid uk-grid-stack"
+                 uk-grid="">
+              <div class="uk-width-3-5@m uk-first-column ">
+
+                <img src="{{providerService.logo ? providerService.logo : 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
+                     class="el-image uk-border-rounded uk-padding-small">
+
+              </div>
+              <div class="uk-padding-remove serviceTitle">
+                <h3 class="el-title uk-margin uk-h5 uk-margin-remove-adjacent uk-margin-small-bottom">
+                  {{providerService.name}}
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>

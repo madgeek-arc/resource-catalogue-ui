@@ -1,31 +1,30 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {ServiceProviderService} from '../../../services/service-provider.service';
-import {AuthenticationService} from '../../../services/authentication.service';
-import {NavigationService} from '../../../services/navigation.service';
-import {Provider, Service} from '../../../domain/eic-model';
-import {ResourceService} from '../../../services/resource.service';
-import {UserService} from '../../../services/user.service';
-import {zip} from 'rxjs/internal/observable/zip';
-import {map} from 'rxjs/operators';
 import {isNullOrUndefined} from 'util';
-
+import {zip} from 'rxjs/internal/observable/zip';
+import {AuthenticationService} from '../../../../services/authentication.service';
+import {ResourceService} from '../../../../services/resource.service';
+import {NavigationService} from '../../../../services/navigation.service';
+import {ActivatedRoute} from '@angular/router';
+import {ServiceProviderService} from '../../../../services/service-provider.service';
+import {Provider, Service} from '../../../../domain/eic-model';
+import {map} from 'rxjs/operators';
 
 declare var require: any;
 
+
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-provider-stats',
+  templateUrl: './stats.component.html',
+  // styleUrls: ['']
 })
-export class DashboardComponent implements OnInit {
-  activeTab: string;
+
+export class StatsComponent implements OnInit {
   providerId: string;
+  statisticPeriod: string;
   provider: Provider;
   providerServices: Service[] = [];
   providerServicesGroupedByPlace: any;
   providerCoverage: string[];
-  statisticPeriod: string;
   public errorMessage: string;
 
   public EU: string[];
@@ -37,20 +36,18 @@ export class DashboardComponent implements OnInit {
   providerVisitationPercentageOptions: any = null;
   providerMapOptions: any = null;
 
-  constructor(public authenticationService: AuthenticationService,
-              public userService: UserService,
-              public resourceService: ResourceService,
-              public router: NavigationService,
-              private route: ActivatedRoute,
-              private providerService: ServiceProviderService) {
-  }
+  constructor(
+    public authenticationService: AuthenticationService,
+    // public userService: UserService,
+    public resourceService: ResourceService,
+    public router: NavigationService,
+    private route: ActivatedRoute,
+    private providerService: ServiceProviderService
+  ) {}
 
-  ngOnInit() {
-    // console.log(this.route.firstChild.snapshot.routeConfig.path);
-    // console.log(this.route.snapshot.url);
+  ngOnInit(): void {
     this.statisticPeriod = 'MONTH';
-    this.activeTab = this.route.firstChild.snapshot.routeConfig.path;
-    this.providerId = this.route.snapshot.paramMap.get('provider');
+    this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
       zip(
         this.resourceService.getEU(),
@@ -93,18 +90,18 @@ export class DashboardComponent implements OnInit {
     } else {
       this.providerService.getServicesOfProvider(this.providerId)
         .subscribe(res => {
-          this.providerServices = res;
-          this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices);
-          if (this.providerServicesGroupedByPlace) {
-            this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
+            this.providerServices = res;
+            this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices);
+            if (this.providerServicesGroupedByPlace) {
+              this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
 
-            this.setCountriesForProvider(this.providerCoverage);
+              this.setCountriesForProvider(this.providerCoverage);
+            }
+          },
+          err => {
+            this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
           }
-        },
-        err => {
-          this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
-        }
-      );
+        );
     }
 
     this.resourceService.getVisitsForProvider(this.providerId, period).pipe(
@@ -163,9 +160,7 @@ export class DashboardComponent implements OnInit {
         }
       );
     }
-
     // console.log('Places', this.resourceService.getPlacesForProvider(this.provider));
-
   }
 
   onPeriodChange(event) {
@@ -187,10 +182,6 @@ export class DashboardComponent implements OnInit {
       }
     }
     return ret;
-  }
-
-  goToServiceDashboard(id: string) {
-    return this.router.dashboard(this.providerId, id);
   }
 
   setVisitsForProvider(data: any) {
@@ -353,4 +344,5 @@ export class DashboardComponent implements OnInit {
       }]
     };
   }
+
 }
