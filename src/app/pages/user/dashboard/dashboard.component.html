@@ -56,8 +56,8 @@
                     <div class="">
                       <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
                         <li [ngClass]="{'uk-active': activeTab == 'stats'}"><a [routerLink]="['/dashboard/' + providerId + '/stats']">Statistics</a></li>
-                        <li [ngClass]="{'uk-active': activeTab == 'services'}"><a [routerLink]="['/dashboard/' + providerId + '/services/active']">Active services</a></li>
-                        <li [ngClass]="{'uk-active': activeTab == 2}"><a href="#">Pending services</a></li>
+                        <li [ngClass]="{'uk-active': activeTab == 'activeServices'}"><a [routerLink]="['/dashboard/' + providerId + '/activeServices']">Active services</a></li>
+                        <li [ngClass]="{'uk-active': activeTab == 'pendingServices'}"><a [routerLink]="['/dashboard/' + providerId + '/pendingServices']">Pending services</a></li>
                         <li [ngClass]="{'uk-active': activeTab == 'messages'}"><a [routerLink]="['/dashboard/' + providerId + '/messages']" routerLinkActive="">Messages</a></li>
                       </ul>
                     </div>

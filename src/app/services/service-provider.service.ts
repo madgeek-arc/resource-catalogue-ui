@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
-import {Provider, ProviderBundle, Service} from '../domain/eic-model';
+import {Provider, ProviderBundle, ProviderRequest, Service} from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
@@ -40,6 +40,10 @@ export class ServiceProviderService {
     return this.http.put<Provider>(this.base + '/provider', updatedFields, this.options);
   }
 
+  updateAndPublishPendingProvider(updatedFields: any): Observable<Provider> {
+    return this.http.put<Provider>(this.base + '/pendingProvider/transform/active', updatedFields, this.options);
+  }
+
   verifyServiceProvider(id: string, active: boolean, status: string) {
     return this.http.patch(this.base + `/provider/verifyProvider/${id}?active=${active}&status=${status}`, {}, this.options);
   }
@@ -52,12 +56,24 @@ export class ServiceProviderService {
     return this.http.get<Provider>(this.base + `/provider/${id}`, this.options);
   }
 
+  getPendingProviderById(id: string) {
+    return this.http.get<Provider>(this.base + `/pendingProvider/provider/${id}`, this.options);
+  }
+
   getServicesOfProvider(id: string) {
     return this.http.get<Service[]>(this.base + `/provider/services/${id}`);
   }
 
   getPendingServicesOfProvider(id: string) {
     return this.http.get<Service[]>(this.base + `/provider/services/pending/${id}`);
+  }
+
+  getPendingServicesByProvider(id: string) {
+    return this.http.get<Service[]>(this.base + `/pendingService/byProvider/${id}`);
+  }
+
+  getProviderRequests(id: string) {
+    return this.http.get<ProviderRequest[]>(this.base + `/request/allProviderRequests?providerId=${id}`);
   }
 
   private handleError(error: HttpErrorResponse) {

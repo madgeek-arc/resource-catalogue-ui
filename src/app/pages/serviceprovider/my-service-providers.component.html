@@ -26,15 +26,23 @@
                 <div class="uk-width-1-1 uk-grid">
                   <div *ngIf="myProviders && (myProviders.length > 0)" class="uk-width-1-1">
 
+                    <div class="uk-width-1-1 uk-first-column uk-margin-bottom">
+                      <div class="uk-float-right">
+                        <a (click)="toggleTiles()">
+                          <img src="{{'../../../assets/images/icons/switch_view_'+(tilesView === true ? 'grid' : 'list')+'_active.svg'}}">
+                        </a>
+                      </div>
+                    </div>
+
                     <!--TILES VIEW-->
                     <div *ngIf="tilesView" class="uk-width-1-1 uk-grid">
-                      <div class="uk-width-1-1 uk-first-column uk-margin-bottom">
-                        <div class="uk-float-right">
-                          <a (click)="toggleTiles(false)">
-                            <img src="../../../assets/images/icons/switch_view_grid_active.svg">
-                          </a>
-                        </div>
-                      </div>
+<!--                      <div class="uk-width-1-1 uk-first-column uk-margin-bottom">-->
+<!--                        <div class="uk-float-right">-->
+<!--                          <a (click)="toggleTiles(false)">-->
+<!--                            <img src="../../../assets/images/icons/switch_view_grid_active.svg">-->
+<!--                          </a>-->
+<!--                        </div>-->
+<!--                      </div>-->
 
                       <div *ngIf="myProviders.length > 0" class="uk-width-1-1">
                         <div class="uk-grid uk-grid-match uk-child-width-1-3" uk-grid>
@@ -65,9 +73,7 @@
                                 <div>
                                   {{ providerBundle.status }}
                                 </div>
-                                <a *ngIf="(providerBundle.status === 'approved')"
-                                   routerLink="/updateServiceProvider/{{providerBundle.id}}">Update
-                                  provider</a>
+                                <a routerLink="/updateServiceProvider/{{providerBundle.id}}">Update provider</a>
                               </div>
                               <div>
                                 <a *ngIf="(providerBundle.status === 'pending service template submission')
@@ -87,13 +93,6 @@
 
                     <!-- LIST VIEW -->
                     <div *ngIf="!tilesView" class="uk-width-1-1 uk-grid">
-                      <div class="uk-width-1-1 uk-first-column uk-margin-bottom">
-                        <div class="uk-float-right">
-                          <a (click)="toggleTiles(true)">
-                            <img src="../../../assets/images/icons/switch_view_list_active.svg">
-                          </a>
-                        </div>
-                      </div>
                       <div *ngIf="myProviders.length > 0"
                            class="uk-width-1-1 uk-first-column uk-grid">
                         <div class="uk-width-1-1 uk-first-column">
@@ -141,9 +140,7 @@
                                       {{ hasCreatedFirstService(providerBundle.id) ? 'Update' : 'Add'}}
                                       service template
                                     </a>
-                                    <a *ngIf="(providerBundle.status === 'approved')"
-                                       routerLink="/updateServiceProvider/{{providerBundle.id}}">Update
-                                      provider</a>
+                                    <a routerLink="/updateServiceProvider/{{providerBundle.id}}">Update provider</a>
                                   </td>
                                 </tr>
                                 </tbody>

@@ -264,7 +264,13 @@ export class ServiceProviderFormComponent implements OnInit {
   registerProvider() {
     this.errorMessage = '';
     this.trimFormWhiteSpaces();
-
+    const path = this.route.snapshot.routeConfig.path;
+    let method;
+    if (path === 'registerServiceProvider/:id') {
+      method = 'updateAndPublishPendingProvider';
+    } else {
+      method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
+    }
     if (this.newProviderForm.valid) {
       this.getFieldAsFormArray('categories').controls = [];
       for (const category of this.domainArray.controls) {
@@ -272,7 +278,7 @@ export class ServiceProviderFormComponent implements OnInit {
           this.getFieldAsFormArray('categories').push(this.fb.control(category.get('category').value));
         }
       }
-      this.serviceProviderService[this.edit ? 'updateServiceProvider' : 'createNewServiceProvider'](this.newProviderForm.value).subscribe(
+      this.serviceProviderService[method](this.newProviderForm.value).subscribe(
         res => {},
         err => {
           window.scrollTo(0, 0);

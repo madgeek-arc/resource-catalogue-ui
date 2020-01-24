@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Provider} from '../../../../domain/eic-model';
+import {Provider, ProviderRequest} from '../../../../domain/eic-model';
 import {ActivatedRoute} from '@angular/router';
 import {isNullOrUndefined} from 'util';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
@@ -10,7 +10,7 @@ import {ServiceProviderService} from '../../../../services/service-provider.serv
 })
 export class MessagesComponent implements OnInit {
   providerId: string;
-  provider: Provider;
+  requests: ProviderRequest[];
 
   constructor(private route: ActivatedRoute,
               private providerService: ServiceProviderService) {}
@@ -18,8 +18,8 @@ export class MessagesComponent implements OnInit {
   ngOnInit(): void {
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
-      this.providerService.getServiceProviderById(this.providerId).subscribe(
-        res => this.provider = res,
+      this.providerService.getProviderRequests(this.providerId).subscribe(
+        res => this.requests = res,
         err => console.log(err)
       );
     }

@@ -21,8 +21,10 @@ export class ServicesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const path = this.route.snapshot.routeConfig.path;
+    console.log(path);
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
-    this.providerService.getServicesOfProvider(this.providerId)
+    this.providerService[path === 'activeServices' ? 'getServicesOfProvider' : 'getPendingServicesByProvider'](this.providerId)
       .subscribe(res => {
           this.providerServices = res;
           this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices);

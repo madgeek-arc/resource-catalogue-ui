@@ -57,13 +57,17 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
   getProvider() {
     const id = this.route.snapshot.paramMap.get('id');
     this.errorMessage = '';
-    this.serviceProviderService.getServiceProviderById(id).subscribe(
+    console.log(this.route.snapshot.routeConfig.path);
+    const path = this.route.snapshot.routeConfig.path;
+    this.serviceProviderService[(path === 'registerServiceProvider/:id' ? 'getPendingProviderById' : 'getServiceProviderById')](id)
+      .subscribe(
       provider => this.provider = provider,
       err => {
         console.log(err);
         this.errorMessage = 'Something went wrong.';
       },
       () => {
+        console.log(this.provider);
         // console.log(Object.keys(this.provider));
         ResourceService.removeNulls(this.provider);
         // TODO: get it done this way
@@ -85,8 +89,10 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         //     }
         //   }
         // }
-        for (let i = 0; i < this.provider.users.length - 1; i++) {
-          this.addUser();
+        if (this.provider.users && this.provider.users.length > 1) {
+          for (let i = 0; i < this.provider.users.length - 1; i++) {
+            this.addUser();
+          }
         }
         if (this.provider.multimedia && this.provider.multimedia.length > 1) {
           for (let i = 0; i < this.provider.multimedia.length - 1; i++) {

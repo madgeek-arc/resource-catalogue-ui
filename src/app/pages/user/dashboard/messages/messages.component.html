@@ -3,6 +3,9 @@
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
 
       <h1 class="uk-h3">messages</h1>
+      <div *ngIf="requests && requests.length === 0">
+        You have no messages ath the moment.
+      </div>
 
     </div>
   </div>

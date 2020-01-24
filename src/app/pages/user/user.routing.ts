@@ -23,7 +23,8 @@ const userRoutes: Routes = [
     children : [
       {path: '', redirectTo: 'stats', pathMatch: 'full'},
       {path: 'stats', component: StatsComponent},
-      {path: 'services/:status', component: ServicesComponent},
+      {path: 'activeServices', component: ServicesComponent},
+      {path: 'pendingServices', component: ServicesComponent},
       {path: 'messages', component: MessagesComponent}
     ]
   },

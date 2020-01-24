@@ -72,8 +72,8 @@ export class MyServiceProvidersComponent implements OnInit {
     }
   }
 
-  toggleTiles(choseTilesMode: boolean) {
-    this.tilesView = choseTilesMode;
+  toggleTiles() {
+    this.tilesView = !this.tilesView;
   }
 
 }
