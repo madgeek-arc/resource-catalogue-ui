@@ -187,6 +187,9 @@ export class StatsComponent implements OnInit {
   setVisitsForProvider(data: any) {
     if (data) {
       this.providerVisitsOptions = {
+        chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
+        },
         title: {
           text: ''
         },
@@ -216,6 +219,9 @@ export class StatsComponent implements OnInit {
   setFavouritesForProvider(data: any) {
     if (data) {
       this.providerFavouritesOptions = {
+        chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
+        },
         title: {
           text: ''
         },
@@ -246,6 +252,9 @@ export class StatsComponent implements OnInit {
   setRatingsForProvider(data: any) {
     if (data) {
       this.providerRatingsOptions = {
+        chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
+        },
         title: {
           text: ''
         },
@@ -277,6 +286,7 @@ export class StatsComponent implements OnInit {
     if (data) {
       this.providerVisitationPercentageOptions = {
         chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
           plotBackgroundColor: null,
           plotBorderWidth: null,
           plotShadow: false,
@@ -314,6 +324,7 @@ export class StatsComponent implements OnInit {
     this.providerMapOptions = {
       chart: {
         map: 'custom/europe',
+        height: (3 / 4 * 100) + '%', // 3:4 ratio
         // borderWidth: 1
       },
       title: {

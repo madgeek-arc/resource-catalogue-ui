@@ -138,8 +138,7 @@
 
                       <div class="uk-width-4-5@m uk-first-column uk-card-body serviceInfo">
                         <div>
-                          <h3
-                            class="uk-margin-remove uk-text-left@m uk-text-center uk-h3 uk-scrollspy-inview uk-animation-fade uk-inline"
+                          <h3 class="uk-margin-remove uk-text-left@m uk-text-center uk-h3 uk-scrollspy-inview uk-animation-fade uk-inline"
                             uk-scrollspy-class="" style="">
                             <a [routerLink]="['/service/' + resourceInfo.service.id]">
                               {{resourceInfo.service.name || "Not Available"}}
@@ -196,9 +195,8 @@
                         <div class="">
                           <a (click)="this.router.service(resourceInfo.service.id)">
                           <span>
-                              <img
-                                src="{{resourceInfo.service.logo || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
-                                style="max-width: 90px;">
+                              <img src="{{resourceInfo.service.logo || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
+                                   style="max-width: 90px;">
                           </span>
                           </a>
                         </div>

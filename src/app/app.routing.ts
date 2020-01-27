@@ -87,6 +87,14 @@ const appRoutes: Routes = [
     }
   },
   {
+    path: 'editPendingService/:id',
+    component: ServiceEditComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Edit'
+    }
+  },
+  {
     path: 'newServiceProvider',
     component: ServiceProviderFormComponent,
     canActivate: [CanActivateViaAuthGuard],
