@@ -5,9 +5,9 @@
 
         <h1 class="uk-h3">
           <img class="el-image uk-border-rounded" width="90"
-               src="{{ (provider && provider.logo) ? provider.logo : 'http://fvtelibrary.com/img/user/NoLogo.png' }}"
+               src="{{ (providerBundle && providerBundle.provider.logo) ? providerBundle.provider.logo : 'http://fvtelibrary.com/img/user/NoLogo.png' }}"
                alt="Service Provider Logo">
-          {{provider ? provider.name : providerId }} Dashboard
+          {{providerBundle ? providerBundle.provider.name : providerId }} Dashboard
         </h1>
 
         <!-- TOP HELP CONTENT -->
@@ -31,16 +31,16 @@
 
               <div class="uk-grid">
                 <div class="uk-width-1-1">
-                  <div *ngIf="provider && (provider.status === 'approved')" class="uk-float-right">
+                  <div *ngIf="providerBundle && (providerBundle.status === 'approved')" class="uk-float-right">
                     <button routerLink="/upload" class="uk-button uk-button-secondary">Add new service</button>
                   </div>
-                  <div *ngIf="provider && (provider.status === 'pending service template approval')"
+                  <div *ngIf="providerBundle && (providerBundle.status === 'pending service template approval')"
                        class="uk-float-right">
                     <button routerLink="{{ '/newServiceProvider/' + providerId + '/addFirstService' }}"
                             class="uk-button uk-button-secondary">Add first service</button>
                   </div>
-                  <div *ngIf="provider && (provider.status === 'approved')" class="uk-float-right uk-margin-right">
-                    <button routerLink="{{'/messages/' + provider.id}}" class="uk-button uk-button-secondary">Messages</button>
+                  <div *ngIf="providerBundle && (providerBundle.status === 'approved')" class="uk-float-right uk-margin-right">
+                    <button routerLink="{{'/messages/' + providerBundle.id}}" class="uk-button uk-button-secondary">Messages</button>
                   </div>
                 </div>
               </div>

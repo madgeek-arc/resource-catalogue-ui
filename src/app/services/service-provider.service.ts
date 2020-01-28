@@ -52,6 +52,10 @@ export class ServiceProviderService {
     return this.http.get<ProviderBundle[]>(this.base + '/provider/getMyServiceProviders', this.options);
   }
 
+  getServiceProviderBundleById(id: string) {
+    return this.http.get<ProviderBundle>(this.base + `/provider/bundle/${id}`, this.options);
+  }
+
   getServiceProviderById(id: string) {
     return this.http.get<Provider>(this.base + `/provider/${id}`, this.options);
   }

@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
-import {Provider, Service} from '../../../domain/eic-model';
+import {ProviderBundle, Service} from '../../../domain/eic-model';
 import {ResourceService} from '../../../services/resource.service';
 import {UserService} from '../../../services/user.service';
 import {zip} from 'rxjs/internal/observable/zip';
@@ -21,7 +21,7 @@ declare var require: any;
 export class DashboardComponent implements OnInit {
   activeTab: string;
   providerId: string;
-  provider: Provider;
+  providerBundle: ProviderBundle;
   providerServices: Service[] = [];
   providerServicesGroupedByPlace: any;
   providerCoverage: string[];
@@ -53,12 +53,12 @@ export class DashboardComponent implements OnInit {
       zip(
         this.resourceService.getEU(),
         this.resourceService.getWW(),
-        this.providerService.getServiceProviderById(this.providerId)
+        this.providerService.getServiceProviderBundleById(this.providerId)
         /*this.resourceService.getProvidersNames()*/
       ).subscribe(suc => {
         this.EU = <string[]>suc[0];
         this.WW = <string[]>suc[1];
-        this.provider = suc[2];
+        this.providerBundle = suc[2];
         this.getDataForProvider(this.statisticPeriod);
       });
     } else {
@@ -68,12 +68,12 @@ export class DashboardComponent implements OnInit {
           zip(
             this.resourceService.getEU(),
             this.resourceService.getWW(),
-            this.providerService.getServiceProviderById(this.providerId)
+            this.providerService.getServiceProviderBundleById(this.providerId)
             /*this.resourceService.getProvidersNames()*/
           ).subscribe(suc => {
             this.EU = <string[]>suc[0];
             this.WW = <string[]>suc[1];
-            this.provider = suc[2];
+            this.providerBundle = suc[2];
             this.getDataForProvider(this.statisticPeriod);
           });
         },
@@ -91,18 +91,18 @@ export class DashboardComponent implements OnInit {
     } else {
       this.providerService.getServicesOfProvider(this.providerId)
         .subscribe(res => {
-          this.providerServices = res;
-          this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices);
-          if (this.providerServicesGroupedByPlace) {
-            this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
+            this.providerServices = res;
+            this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices);
+            if (this.providerServicesGroupedByPlace) {
+              this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
 
-            this.setCountriesForProvider(this.providerCoverage);
+              this.setCountriesForProvider(this.providerCoverage);
+            }
+          },
+          err => {
+            this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
           }
-        },
-        err => {
-          this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
-        }
-      );
+        );
     }
 
     this.resourceService.getVisitsForProvider(this.providerId, period).pipe(
@@ -324,7 +324,7 @@ export class DashboardComponent implements OnInit {
         // borderWidth: 1
       },
       title: {
-        text: 'Countries serviced by ' + this.provider.name
+        text: 'Countries serviced by ' + this.providerBundle.provider.name
       },
       // subtitle: {
       //     text: 'Demo of drawing all areas in the map, only highlighting partial data'
