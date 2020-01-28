@@ -37,14 +37,6 @@ const userRoutes: Routes = [
   //   }
   // },
   {
-    path: 'messages/:provider',
-    component: MessagesComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Provider messages'
-    }
-  },
-  {
     path: 'dashboard/:provider/:id',
     component: ServiceDashboardComponent,
     canActivate: [CanActivateViaAuthGuard],

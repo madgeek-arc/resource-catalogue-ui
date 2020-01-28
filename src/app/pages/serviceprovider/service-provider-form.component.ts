@@ -137,7 +137,7 @@ export class ServiceProviderFormComponent implements OnInit {
       number: ['', Validators.required],
       postalCode: ['', Validators.required],
       city: ['', Validators.required],
-      region: ['']
+      region: ['', Validators.required]
     }, Validators.required),
     coordinatingCountry: ['', Validators.required],
     participatingCountries: this.fb.array([this.fb.control('')]),
