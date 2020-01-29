@@ -28,6 +28,11 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
 
   ngOnInit() {
     this.edit = true;
+    const path = this.route.snapshot.routeConfig.path;
+    if (path === 'serviceProviderInfo/:id') {
+      this.disable = true;
+    }
+    console.log(path);
     this.newProviderForm = this.fb.group(this.formDefinition);
     this.resourceService.getAllVocabulariesByType().subscribe(
       res => this.vocabularies = res,
@@ -57,7 +62,6 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
   getProvider() {
     const id = this.route.snapshot.paramMap.get('id');
     this.errorMessage = '';
-    console.log(this.route.snapshot.routeConfig.path);
     const path = this.route.snapshot.routeConfig.path;
     this.serviceProviderService[(path === 'registerServiceProvider/:id' ? 'getPendingProviderById' : 'getServiceProviderById')](id)
       .subscribe(
@@ -67,7 +71,6 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         this.errorMessage = 'Something went wrong.';
       },
       () => {
-        console.log(this.provider);
         // console.log(Object.keys(this.provider));
         ResourceService.removeNulls(this.provider);
         // TODO: get it done this way
@@ -150,8 +153,16 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         }
         this.newProviderForm.patchValue(this.provider);
         this.newProviderForm.updateValueAndValidity();
+        if (this.disable) {
+          this.newProviderForm.disable();
+        }
       }
     );
+  }
+
+  toggleDisable() {
+    this.disable = !this.disable;
+    this.newProviderForm.enable();
   }
 
 }

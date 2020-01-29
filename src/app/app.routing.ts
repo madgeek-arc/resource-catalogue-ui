@@ -104,7 +104,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'serviceProviderInfo/:id',
-    component: ServiceProviderInfoComponent,
+    component: UpdateServiceProviderComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Service Provider Info'

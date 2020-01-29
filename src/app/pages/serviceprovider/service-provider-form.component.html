@@ -8,7 +8,7 @@
             <img class="el-image uk-border-rounded"
                  src="{{(newProviderForm && newProviderForm.get('logo').value) ? newProviderForm.get('logo').value : 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
                  width="70">
-          </a>{{edit ? ' Update' : ' Add New'}} Service Provider
+          </a>{{disable ? ' ' : edit ? ' Update' : ' Add New'}} Service Provider {{disable ? 'Info' : ''}}
         </h1>
 
         <!-- TOP HELP CONTENT -->
@@ -106,12 +106,12 @@
                             <input id="multimedia" class="uk-input" type="text" [formControlName]="i"
                                    [ngClass]="{'uk-form-danger': !getFieldAsFormArray('multimedia').get([i]).valid && getFieldAsFormArray('multimedia').get([i]).dirty,
                                'uk-width-5-6': (getFieldAsFormArray('multimedia').length > 1)}">
-                            <a *ngIf="getFieldAsFormArray('multimedia').length > 1"
+                            <a *ngIf="getFieldAsFormArray('multimedia').length > 1 && !disable"
                                class="remove-element uk-padding-small" (click)="remove('multimedia', i)">
                               <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                           </div>
-                          <div class="uk-width-1-1">
+                          <div *ngIf="!disable" class="uk-width-1-1">
                             <a class="add-new-element" (click)="push('multimedia', false, true)">
                               <i class="fa fa-plus" aria-hidden="true"></i> Add {{providerMultimediaDesc.label}}
                             </a>
@@ -133,12 +133,12 @@
                                 {{entry.name}}
                               </option>
                             </select>
-                            <a *ngIf="getFieldAsFormArray('types').length > 1"
+                            <a *ngIf="getFieldAsFormArray('types').length > 1 && !disable"
                                class="remove-element uk-padding-small" (click)="remove('types', i)">
                               <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                           </div>
-                          <div class="uk-width-1-1">
+                          <div *ngIf="!disable" class="uk-width-1-1">
                             <a class="add-new-element" (click)="push('types', true)">
                               <i class="fa fa-plus" aria-hidden="true"></i> Add {{typeDesc.label}}
                             </a>
@@ -153,7 +153,7 @@
                         <div class="uk-form-controls">
                           <div formArrayName="categorization" *ngFor="let category of domainArray.controls; let i = index">
                             <div [formGroupName]="i" class="uk-margin-small-bottom" style="border: 1px dashed #cccccc; padding-right: 10px">
-                              <a *ngIf="domainArray.length > 1" class="remove-element uk-padding-small"
+                              <a *ngIf="domainArray.length > 1 && !disable" class="remove-element uk-padding-small"
                                  (click)="removeDomain(i)">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                               </a>
@@ -194,7 +194,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="uk-form-controls">
+                        <div *ngIf="!disable" class="uk-form-controls">
                           <a class="add-new-element" (click)="pushDomain()">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add another scientific domain
                           </a>
@@ -214,12 +214,12 @@
                                 {{entry.name}}
                               </option>
                             </select>
-                            <a *ngIf="getFieldAsFormArray('esfriDomains').length > 1"
+                            <a *ngIf="getFieldAsFormArray('esfriDomains').length > 1 && !disable"
                                class="remove-element uk-padding-small" (click)="remove('esfriDomains', i)">
                               <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                           </div>
-                          <div class="uk-width-1-1">
+                          <div *ngIf="!disable" class="uk-width-1-1">
                             <a class="add-new-element" (click)="push('esfriDomains', false)">
                               <i class="fa fa-plus" aria-hidden="true"></i> Add {{ESFRIDomainDesc.label}}
                             </a>
@@ -236,12 +236,12 @@
                             <input id="tags" class="uk-input" type="text" [formControlName]="i"
                                    [ngClass]="{'uk-form-danger': !getFieldAsFormArray('tags').get([i]).valid && getFieldAsFormArray('tags').get([i]).dirty,
                                'uk-width-5-6': (getFieldAsFormArray('tags').length > 1)}">
-                            <a *ngIf="getFieldAsFormArray('tags').length > 1"
+                            <a *ngIf="getFieldAsFormArray('tags').length > 1 && !disable"
                                class="remove-element uk-padding-small" (click)="remove('tags', i)">
                               <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                           </div>
-                          <div class="uk-width-1-1">
+                          <div *ngIf="!disable" class="uk-width-1-1">
                             <a class="add-new-element" (click)="push('tags', false)">
                               <i class="fa fa-plus" aria-hidden="true"></i> Add {{providerTagsDesc.label}}
                             </a>
@@ -357,12 +357,12 @@
                                 {{entry.name}}
                               </option>
                             </select>
-                            <a *ngIf="getFieldAsFormArray('participatingCountries').length > 1"
+                            <a *ngIf="getFieldAsFormArray('participatingCountries').length > 1 && !disable"
                                class="remove-element uk-padding-small" (click)="remove('participatingCountries', i)">
                               <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                           </div>
-                          <div class="uk-width-1-1">
+                          <div *ngIf="!disable" class="uk-width-1-1">
                             <a class="add-new-element" (click)="push('participatingCountries', false)">
                               <i class="fa fa-plus" aria-hidden="true"></i> Add {{participatingCountriesDesc.label}}
                             </a>
@@ -379,7 +379,7 @@
                             <div [formGroupName]="i" class="uk-margin-small-bottom"
                                  style="border: 1px dashed #cccccc; padding-right: 10px">
                               <div>
-                                <a *ngIf="i !== 0" class="remove-element uk-padding-small" (click)="removeContact(i)">
+                                <a *ngIf="i !== 0 && !disable" class="remove-element uk-padding-small" (click)="removeContact(i)">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -426,7 +426,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="uk-form-controls">
+                        <div *ngIf="!disable" class="uk-form-controls">
                           <a class="add-new-element" (click)="pushContact()">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add another contact
                           </a>
@@ -485,12 +485,12 @@
                                 {{entry.name}}
                               </option>
                             </select>
-                            <a *ngIf="getFieldAsFormArray('networks').length > 1"
+                            <a *ngIf="getFieldAsFormArray('networks').length > 1 && !disable"
                                class="remove-element uk-padding-small" (click)="remove('networks', i)">
                               <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                           </div>
-                          <div class="uk-width-1-1">
+                          <div *ngIf="!disable" class="uk-width-1-1">
                             <a class="add-new-element" (click)="push('networks', false)">
                               <i class="fa fa-plus" aria-hidden="true"></i> Add {{networksDesc.label}}
                             </a>
@@ -511,12 +511,12 @@
                                 {{entry.name}}
                               </option>
                             </select>
-                            <a *ngIf="getFieldAsFormArray('areasOfActivity').length > 1"
+                            <a *ngIf="getFieldAsFormArray('areasOfActivity').length > 1 && !disable"
                                class="remove-element uk-padding-small" (click)="remove('areasOfActivity', i)">
                               <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                           </div>
-                          <div class="uk-width-1-1">
+                          <div *ngIf="!disable" class="uk-width-1-1">
                             <a class="add-new-element" (click)="push('areasOfActivity', false)">
                               <i class="fa fa-plus" aria-hidden="true"></i> Add {{areasOfActivityDesc.label}}
                             </a>
@@ -537,12 +537,12 @@
                                 {{entry.name}}
                               </option>
                             </select>
-                            <a *ngIf="getFieldAsFormArray('societalGrandChallenges').length > 1"
+                            <a *ngIf="getFieldAsFormArray('societalGrandChallenges').length > 1 && !disable"
                                class="remove-element uk-padding-small" (click)="remove('societalGrandChallenges', i)">
                               <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                           </div>
-                          <div class="uk-width-1-1">
+                          <div *ngIf="!disable" class="uk-width-1-1">
                             <a class="add-new-element" (click)="push('societalGrandChallenges', false)">
                               <i class="fa fa-plus" aria-hidden="true"></i> Add {{societalGrandChallengesDesc.label}}
                             </a>
@@ -609,7 +609,7 @@
                             <input type="text" class="uk-input" formControlName="email" placeholder="Email"
                                    [ngClass]="{'uk-form-danger': !usersArray.controls[i].get('email').valid && usersArray.controls[i].get('email').dirty}">
                           </div>
-                          <div *ngIf="usersArray.length > 1" class="uk-width-1-6@m">
+                          <div *ngIf="usersArray.length > 1 && !disable" class="uk-width-1-6@m">
                             <a (click)="deleteUser(i)"><i class="fa fa-times" aria-hidden="true"></i></a>
                           </div>
                         </div>
@@ -617,16 +617,23 @@
                     </div>
                     <div uk-grid>
                       <div class="uk-width-1-6"></div>
-                      <div class="uk-margin-small-bottom uk-width-5-6">
+                      <div *ngIf="!disable" class="uk-margin-small-bottom uk-width-5-6">
                         <a (click)="addUser()"><i class="fa fa-plus" aria-hidden="true"></i> New Admin Provider</a>
                       </div>
                     </div>
                   </div>
 
-                  <div>
+                  <div *ngIf="!disable">
                     <button class="uk-button butn theme" type="submit" (click)="registerProvider()">Submit</button>
                   </div>
                 </form>
+
+                <div *ngIf="disable" class="uk-float-right uk-animation-scale-up"
+                     style="z-index: 100; bottom: 50px; position: fixed; right: 50px;">
+                  <button class="uk-button butn theme" (click)="toggleDisable()">Edit
+                    <i class="fa fa-lg fa-edit" aria-hidden="true"></i></button>
+                </div>
+
               </div>
 
               <!-- RIGHT HELP CONTENT -->

@@ -63,6 +63,7 @@ export class ServiceProviderFormComponent implements OnInit {
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   edit = false;
+  disable = false;
 
   readonly fullNameDesc: Description = fullNameDesc;
   readonly acronymDesc: Description = acronymDesc;
