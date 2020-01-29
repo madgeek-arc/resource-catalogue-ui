@@ -28,7 +28,11 @@
             <!-- MIDDLE -->
             <div class="uk-width-expand@m">
 
-              <div class="middle-box animated fadeInDown ">
+              <div *ngIf="showLoader" class="uk-text-center">
+                <div uk-spinner="ratio: 2"></div>
+              </div>
+
+              <div *ngIf="!showLoader" class="middle-box animated fadeInDown" >
 
                 <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 

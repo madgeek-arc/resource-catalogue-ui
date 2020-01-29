@@ -64,6 +64,7 @@ export class ServiceProviderFormComponent implements OnInit {
   vocabularies: Map<string, Vocabulary[]> = null;
   edit = false;
   disable = false;
+  showLoader = false;
 
   readonly fullNameDesc: Description = fullNameDesc;
   readonly acronymDesc: Description = acronymDesc;
@@ -273,6 +274,8 @@ export class ServiceProviderFormComponent implements OnInit {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
     }
     if (this.newProviderForm.valid) {
+      this.showLoader = true;
+      window.scrollTo(0, 0);
       this.getFieldAsFormArray('categories').controls = [];
       for (const category of this.domainArray.controls) {
         if (category.get('category').value) {
@@ -282,10 +285,12 @@ export class ServiceProviderFormComponent implements OnInit {
       this.serviceProviderService[method](this.newProviderForm.value).subscribe(
         res => {},
         err => {
+          this.showLoader = false;
           window.scrollTo(0, 0);
           this.errorMessage = 'Something went wrong. ' + err.error;
         },
         () => {
+          this.showLoader = false;
           if (this.edit) {
             this.router.navigate(['/myServiceProviders']);
           } else {

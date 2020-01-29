@@ -20,6 +20,7 @@ import {FunderService} from '../../services/funder.service';
 export class ServiceFormComponent implements OnInit {
   serviceName = 'eInfraCentral';
   firstServiceForm = false;
+  showLoader = false;
   providerId: string;
   editMode: boolean;
   serviceForm: FormGroup;
@@ -294,12 +295,16 @@ export class ServiceFormComponent implements OnInit {
     }
     this.scientificDomainArray.disable();
     if (this.serviceForm.valid && this.measurementForm.valid) {
+      this.showLoader = true;
+      window.scrollTo(0, 0);
       this.resourceService[pendingService ? 'uploadPendingService' : 'uploadServiceWithMeasurements'](this.serviceForm.value, this.measurements.value).subscribe(
         _service => {
           // console.log(_service);
+          this.showLoader = false;
           return this.router.service(_service.id);
         },
         err => {
+          this.showLoader = false;
           window.scrollTo(0, 0);
           this.categoryArray.enable();
           this.scientificDomainArray.enable();
