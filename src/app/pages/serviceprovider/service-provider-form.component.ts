@@ -202,6 +202,36 @@ export class ServiceProviderFormComponent implements OnInit {
     this.usersArray.controls[0].get('email').setValue(this.userInfo.email);
     this.usersArray.controls[0].get('name').setValue(this.userInfo.given_name);
     this.usersArray.controls[0].get('surname').setValue(this.userInfo.family_name);
+
+    if (sessionStorage.getItem('provider')) {
+      const data = JSON.parse(sessionStorage.getItem('provider'));
+      for (const i in data) {
+        if (data.hasOwnProperty(i)) {
+          if (Array.isArray(data[i])) {
+            // console.log(i);
+            for (let j = 0; j < data[i].length - 1; j++) {
+              if (i === 'categorization') {
+                this.domainArray.push(this.newScientificDomain());
+              } else if (i === 'contacts') {
+                this.pushContact();
+              } else if (i === 'users') {
+                this.addUser();
+              } else if ( i === 'types') {
+                this.push(i, true);
+              } else if ( i === 'multimedia') {
+                this.push(i, false, true);
+              } else {
+                this.push(i, false);
+              }
+            }
+          }
+        }
+      }
+      this.newProviderForm.patchValue(data);
+      if (!this.edit) {
+        sessionStorage.removeItem('provider');
+      }
+    }
   }
 
   /** Categorization --> **/
@@ -264,6 +294,12 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   registerProvider() {
+    if (!this.authService.isLoggedIn()) {
+      console.log('Submit');
+      sessionStorage.setItem('provider', JSON.stringify(this.newProviderForm.value));
+      this.authService.login();
+    }
+
     this.errorMessage = '';
     this.trimFormWhiteSpaces();
     const path = this.route.snapshot.routeConfig.path;

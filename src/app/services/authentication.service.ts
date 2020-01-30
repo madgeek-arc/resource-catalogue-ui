@@ -77,7 +77,7 @@ export class AuthenticationService {
   public refreshLogin(redirectUrl: string) {
     deleteCookie(this.cookieName);
     sessionStorage.setItem('redirect_url', redirectUrl);
-    console.log(redirectUrl);
+    // console.log(redirectUrl);
     window.location.href = environment.API_ENDPOINT + '/openid_connect_login';
   }
 
