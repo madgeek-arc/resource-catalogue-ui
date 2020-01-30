@@ -32,7 +32,6 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
     if (path === 'serviceProviderInfo/:id') {
       this.disable = true;
     }
-    
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
@@ -79,7 +78,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         //   }
         // }
         if (this.provider.users && this.provider.users.length > 1) {
-          for (let i = 0; i < this.provider.users.length - 1; i++) {
+          for (let i = 0; i < this.provider.users.length - 2; i++) {
             this.addUser();
           }
         }

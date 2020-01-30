@@ -28,11 +28,11 @@
             <!-- MIDDLE -->
             <div class="uk-width-expand@m">
 
-              <div *ngIf="showLoader" class="uk-text-center">
+              <div *ngIf="showLoader" class="uk-position-center" style="z-index: 100">
                 <div uk-spinner="ratio: 2"></div>
               </div>
 
-              <div *ngIf="!showLoader" class="middle-box animated fadeInDown" >
+              <div [ngClass]="{'blur-filter': showLoader}">
 
                 <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
@@ -633,8 +633,8 @@
                 </form>
 
                 <div *ngIf="disable" class="uk-float-right uk-animation-scale-up"
-                     style="z-index: 100; bottom: 50px; position: fixed; right: 50px;">
-                  <button class="uk-button butn theme" (click)="toggleDisable()">Edit
+                     style="z-index: 100; bottom: 50px; position: fixed; right: 50px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px">
+                  <button class="uk-button butn theme side" (click)="toggleDisable()">Edit
                     <i class="fa fa-lg fa-edit" aria-hidden="true"></i></button>
                 </div>
 

@@ -54,7 +54,7 @@ declare var UIkit: any;
 
 @Component({
   selector: 'app-new-service-provider',
-  templateUrl: './service-provider-form.component.html'
+  templateUrl: './service-provider-form.component.html',
 })
 export class ServiceProviderFormComponent implements OnInit {
   errorMessage = '';
@@ -195,13 +195,15 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     );
     this.newProviderForm = this.fb.group(this.formDefinition);
-    this.pushDomain();
-    this.userInfo.given_name = this.authService.getUserProperty('given_name');
-    this.userInfo.family_name = this.authService.getUserProperty('family_name');
-    this.userInfo.email = this.authService.getUserProperty('email');
-    this.usersArray.controls[0].get('email').setValue(this.userInfo.email);
-    this.usersArray.controls[0].get('name').setValue(this.userInfo.given_name);
-    this.usersArray.controls[0].get('surname').setValue(this.userInfo.family_name);
+    if (this.edit === false) {
+      this.pushDomain();
+      this.userInfo.given_name = this.authService.getUserProperty('given_name');
+      this.userInfo.family_name = this.authService.getUserProperty('family_name');
+      this.userInfo.email = this.authService.getUserProperty('email');
+      this.usersArray.controls[0].get('email').setValue(this.userInfo.email);
+      this.usersArray.controls[0].get('name').setValue(this.userInfo.given_name);
+      this.usersArray.controls[0].get('surname').setValue(this.userInfo.family_name);
+    }
 
     if (sessionStorage.getItem('provider')) {
       const data = JSON.parse(sessionStorage.getItem('provider'));

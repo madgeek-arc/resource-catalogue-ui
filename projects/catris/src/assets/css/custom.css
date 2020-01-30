@@ -451,3 +451,9 @@ a:hover, a:focus {
 .uk-badge-success {
     background-color: #84a162;
 }
+
+
+.blur-filter {
+  /*-webkit-filter: blur(5px);*/
+  filter: blur(5px);
+}

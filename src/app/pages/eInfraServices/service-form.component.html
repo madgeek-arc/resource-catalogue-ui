@@ -26,11 +26,11 @@
             </app-aside-help-content>
             <!-- MIDDLE -->
             <div class=" uk-width-expand@m">
-              <div *ngIf="showLoader" class="uk-text-center">
+              <div *ngIf="showLoader" class="uk-position-center">
                 <div uk-spinner="ratio: 2"></div>
               </div>
 
-              <div *ngIf="!showLoader" class="middle-box animated fadeInDown ">
+              <div [ngClass]="{'blur-filter': showLoader}">
                 <div id="serviceForm">
                   <div *ngIf="errorMessage" data-uk-alert="" class="uk-alert uk-alert-danger">
                     <p>{{errorMessage}}</p>
