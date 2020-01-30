@@ -62,53 +62,12 @@ h2 {
     font-family: 'Ubuntu', sans-serif;
 }
 
-.uk-button {
-    font-family: 'Ubuntu', sans-serif;
-}
-
-.uk-button-primary {
-    flex: 1 1 auto;
-    margin: 5px;
-    /*padding: 7px 30px;*/
-    padding: 3px 30px;
-    text-align: center;
-    text-transform: uppercase;
-    transition: 0.5s;
-    background-size: 200% auto;
-    color: white;
-    border-radius: 30px;
-    border: 0;
-    background-image: linear-gradient(to right, #00d2ff 0%, #3a7bd5 51%, #00d2ff 100%);
-    color: #fff !important;
-}
-
-.uk-button-primary:hover {
-    color: #fff;
-    border-color: #204d74;
-    background-color: #265a88;
-    background-position: right center;
-}
-
 .uk-table th {
     font-family: 'Ubuntu', sans-serif;
 }
 
 .uk-navbar-nav > li.uk-active > a {
     color: #555555;
-}
-
-.uk-button-secondary {
-    background: #004494;
-}
-
-.uk-button-secondary:hover {
-    background: #0885df;
-    border-color: #0885df;
-    color: #fff;
-}
-
-.uk-section-primary {
-    background: #0047BA;
 }
 
 /*.uk-container, .container {*/

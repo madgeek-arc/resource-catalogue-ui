@@ -26,19 +26,27 @@
                 <div class="uk-width-1-1 uk-grid">
                   <div *ngIf="myProviders && (myProviders.length > 0)" class="uk-width-1-1">
 
+                    <div class="uk-width-1-1 uk-first-column uk-margin-bottom">
+                      <div class="uk-float-right">
+                        <a (click)="toggleTiles()">
+                          <img src="{{'../../../assets/images/icons/switch_view_'+(tilesView === true ? 'grid' : 'list')+'_active.svg'}}">
+                        </a>
+                      </div>
+                    </div>
+
                     <!--TILES VIEW-->
                     <div *ngIf="tilesView" class="uk-width-1-1 uk-grid">
-                      <div class="uk-width-1-1 uk-first-column uk-margin-bottom">
-                        <div class="uk-float-right">
-                          <a (click)="toggleTiles(false)">
-                            <img src="../../../assets/images/icons/switch_view_grid_active.svg">
-                          </a>
-                        </div>
-                      </div>
+<!--                      <div class="uk-width-1-1 uk-first-column uk-margin-bottom">-->
+<!--                        <div class="uk-float-right">-->
+<!--                          <a (click)="toggleTiles(false)">-->
+<!--                            <img src="../../../assets/images/icons/switch_view_grid_active.svg">-->
+<!--                          </a>-->
+<!--                        </div>-->
+<!--                      </div>-->
 
                       <div *ngIf="myProviders.length > 0" class="uk-width-1-1">
                         <div class="uk-grid uk-grid-match uk-child-width-1-3" uk-grid>
-                          <div *ngFor="let provider of myProviders">
+                          <div *ngFor="let providerBundle of myProviders">
                             <div class="uk-card uk-card-default uk-card-body uk-first-column">
                               <div class="uk-scrollspy-inview uk-animation-slide-top-medium uk-margin-small-bottom"
                                    uk-scrollspy-class="">
@@ -47,14 +55,14 @@
                                   <div class="uk-margin-remove-right">
                                     <img class="el-image uk-border-rounded"
                                          width="100"
-                                         src="{{ provider.logo ? provider.logo : 'http://fvtelibrary.com/img/user/NoLogo.png' }}">
+                                         src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'http://fvtelibrary.com/img/user/NoLogo.png' }}">
                                   </div>
-                                  <span class="uk-margin-auto-vertical" data-uk-tooltip title="{{(provider.status !== 'approved') ?
+                                  <span class="uk-margin-auto-vertical" data-uk-tooltip title="{{(providerBundle.status !== 'approved') ?
                                                                                     'Your service provider is not yet active, therefore you cannot access its monitoring dashboard':
                                                                                     'Go to the service provider monitoring dashboard'}}">
-                                    <a [routerLink]="['/dashboard', provider.id]"
-                                       class="{{(provider.status !== 'approved') ? 'uk-disabled':''}}">
-                                        {{ provider.name }}
+                                    <a [routerLink]="['/dashboard', providerBundle.id]"
+                                       class="{{(providerBundle.status !== 'approved') ? 'uk-disabled':''}}">
+                                        {{ providerBundle.provider.name }}
                                     </a>
                                   </span>
                                 </div>
@@ -63,19 +71,17 @@
                                 <!--<div class="{{ (provider.status === 'pending initial approval') ? 'uk-badge uk-badge-danger' :
                                                        ((provider.status === 'pending service template approval') ? 'uk-badge uk-badge-warning' : 'uk-badge uk-badge-success') }}">-->
                                 <div>
-                                  {{ provider.status }}
+                                  {{ providerBundle.status }}
                                 </div>
-                                <a *ngIf="(provider.status === 'approved')"
-                                   routerLink="/updateServiceProvider/{{provider.id}}">Update
-                                  provider</a>
+                                <a routerLink="/updateServiceProvider/{{providerBundle.id}}">Update provider</a>
                               </div>
                               <div>
-                                <a *ngIf="(provider.status === 'pending service template submission')
-                                                                        || (provider.status === 'pending service template approval')
-                                                                        || (provider.status === 'rejected service template')"
-                                   routerLink="{{ getLinkToFirstService(provider.id) }}">
-                                  <i class="fa {{hasCreatedFirstService(provider.id) ? 'fa-pencil': 'fa-plus'}}"></i>
-                                  {{ hasCreatedFirstService(provider.id) ? 'Update' : 'Add'}}
+                                <a *ngIf="(providerBundle.status === 'pending service template submission')
+                                                                        || (providerBundle.status === 'pending service template approval')
+                                                                        || (providerBundle.status === 'rejected service template')"
+                                   routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
+                                  <i class="fa {{hasCreatedFirstService(providerBundle.id) ? 'fa-pencil': 'fa-plus'}}"></i>
+                                  {{ hasCreatedFirstService(providerBundle.id) ? 'Update' : 'Add'}}
                                   service template
                                 </a>
                               </div>
@@ -87,13 +93,6 @@
 
                     <!-- LIST VIEW -->
                     <div *ngIf="!tilesView" class="uk-width-1-1 uk-grid">
-                      <div class="uk-width-1-1 uk-first-column uk-margin-bottom">
-                        <div class="uk-float-right">
-                          <a (click)="toggleTiles(true)">
-                            <img src="../../../assets/images/icons/switch_view_list_active.svg">
-                          </a>
-                        </div>
-                      </div>
                       <div *ngIf="myProviders.length > 0"
                            class="uk-width-1-1 uk-first-column uk-grid">
                         <div class="uk-width-1-1 uk-first-column">
@@ -110,18 +109,18 @@
                                 </thead>
                                 <tbody>
                                 <tr class="el-item"
-                                    *ngFor="let provider of myProviders">
+                                    *ngFor="let providerBundle of myProviders">
                                   <td class="uk-text-nowrap uk-table-shrink">
                                     <img class="el-image uk-border-rounded"
-                                         src="{{ provider.logo ? provider.logo : 'http://fvtelibrary.com/img/user/NoLogo.png' }}">
+                                         src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'http://fvtelibrary.com/img/user/NoLogo.png' }}">
                                   </td>
                                   <td class="uk-text-nowrap uk-table-shrink">
-                                    <span data-uk-tooltip title="{{(provider.status !== 'approved') ?
+                                    <span data-uk-tooltip title="{{(providerBundle.status !== 'approved') ?
                                                                     'Your service provider is not yet active, therefore you cannot access its monitoring dashboard':
                                                                     'Go to the service provider monitoring dashboard'}}">
-                                      <a [routerLink]="['/dashboard', provider.id]"
-                                        class="{{(provider.status !== 'approved') ? 'uk-disabled':''}}">
-                                          {{ provider.name }}
+                                      <a [routerLink]="['/dashboard', providerBundle.id]"
+                                        class="{{(providerBundle.status !== 'approved') ? 'uk-disabled':''}}">
+                                          {{ providerBundle.provider.name }}
                                       </a>
                                     </span>
                                   </td>
@@ -129,24 +128,19 @@
                                     <!--<div class="{{ (provider.status === 'pending initial approval') ? 'uk-badge uk-badge-danger' :
                                                    ((provider.status === 'pending service template approval') ? 'uk-badge uk-badge-warning' : 'uk-badge uk-badge-success') }}">-->
                                     <div>
-                                      {{ provider.status }}
+                                      {{ providerBundle.status }}
                                     </div>
-                                    <a *ngIf="(provider.status === 'approved')"
-                                       routerLink="/updateServiceProvider/{{provider.id}}">Update
-                                      provider</a>
                                   </td>
                                   <td>
                                     <a
-                                      *ngIf="(provider.status === 'pending service template approval') || (provider.status === 'rejected service template')"
-                                      routerLink="{{ getLinkToFirstService(provider.id) }}">
+                                      *ngIf="(providerBundle.status === 'pending service template approval') || (providerBundle.status === 'rejected service template')"
+                                      routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
                                       <i
-                                        class="fa {{hasCreatedFirstService(provider.id) ? 'fa-pencil': 'fa-plus'}}"></i>
-                                      {{ hasCreatedFirstService(provider.id) ? 'Update' : 'Add'}}
+                                        class="fa {{hasCreatedFirstService(providerBundle.id) ? 'fa-pencil': 'fa-plus'}}"></i>
+                                      {{ hasCreatedFirstService(providerBundle.id) ? 'Update' : 'Add'}}
                                       service template
                                     </a>
-                                    <a *ngIf="(provider.status === 'approved')"
-                                       routerLink="/updateServiceProvider/{{provider.id}}">Update
-                                      provider</a>
+                                    <a routerLink="/updateServiceProvider/{{providerBundle.id}}">Update provider</a>
                                   </td>
                                 </tr>
                                 </tbody>

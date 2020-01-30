@@ -15,6 +15,7 @@ import {FunderService} from '../../services/funder.service';
 })
 export class ServiceEditComponent extends ServiceFormComponent implements OnInit {
   private sub: Subscription;
+  pendingService = false;
   // private serviceID: string;
 
   constructor(public route: ActivatedRoute, public authenticationService: AuthenticationService,
@@ -31,8 +32,12 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     } else {
       this.sub = this.route.params.subscribe(params => {
         this.serviceID = params['id'];
+        const pathName = window.location.pathname;
+        if (pathName.includes('editPendingService')) {
+          this.pendingService = true;
+        }
         // this.resourceService.getService(this.serviceID).subscribe(service => {
-        this.resourceService.getRichService(this.serviceID).subscribe(richService => {
+        this.resourceService[this.pendingService ? 'getPendingService' : 'getRichService'](this.serviceID).subscribe(richService => {
             ResourceService.removeNulls(richService.service);
             this.formPrepare(richService);
             this.serviceForm.patchValue(richService.service);
@@ -63,32 +68,44 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
   formPrepare(richService: RichService) {
 
     this.removeCategory(0);
-    for (let i = 0; i < richService.service.subcategories.length; i++) {
-      this.categoryArray.push(this.newCategory());
-      // this.categoryArray.controls[this.categoryArray.length - 1].get('supercategory').setValue(richService.categories[i].superCategory.id);
-      this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.categories[i].category.id);
-      this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.categories[i].subCategory.id);
+    if (richService.service.subcategories) {
+      for (let i = 0; i < richService.service.subcategories.length; i++) {
+        this.categoryArray.push(this.newCategory());
+        // this.categoryArray.controls[this.categoryArray.length - 1].get('supercategory').setValue(richService.categories[i].superCategory.id);
+        this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.categories[i].category.id);
+        this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.categories[i].subCategory.id);
+      }
     }
     this.removeScientificDomain(0);
-    for (let i = 0; i < richService.service.scientificSubdomains.length; i++) {
-      this.scientificDomainArray.push(this.newScientificDomain());
-      this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
+    if (richService.service.scientificSubdomains) {
+      for (let i = 0; i < richService.service.scientificSubdomains.length; i++) {
+        this.scientificDomainArray.push(this.newScientificDomain());
+        this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
           .get('scientificDomain').setValue(richService.domains[i].domain.id);
-      this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
+        this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
           .get('scientificSubDomain').setValue(richService.domains[i].subdomain.id);
+      }
     }
 
-    for (let i = 0; i < richService.service.providers.length - 1; i++) {
-      this.push('providers', true);
+    if (richService.service.providers) {
+      for (let i = 0; i < richService.service.providers.length - 1; i++) {
+        this.push('providers', true);
+      }
     }
-    for (let i = 0; i < richService.service.targetUsers.length - 1; i++) {
-      this.push('targetUsers', true);
+    if (richService.service.targetUsers) {
+      for (let i = 0; i < richService.service.targetUsers.length - 1; i++) {
+        this.push('targetUsers', true);
+      }
     }
-    for (let i = 0; i < richService.service.places.length - 1; i++) {
-      this.push('places', true);
+    if (richService.service.places) {
+      for (let i = 0; i < richService.service.places.length - 1; i++) {
+        this.push('places', true);
+      }
     }
-    for (let i = 0; i < richService.service.languages.length - 1; i++) {
-      this.push('languages', true);
+    if (richService.service.places) {
+      for (let i = 0; i < richService.service.languages.length - 1; i++) {
+        this.push('languages', true);
+      }
     }
     if (richService.service.userBaseList) {
       for (let i = 0; i < richService.service.userBaseList.length - 1; i++) {
@@ -186,6 +203,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
   }
 
   onSubmit(service: Service, isValid: boolean) {
-    super.onSubmit(service, isValid);
+    super.onSubmit(service, isValid, this.pendingService);
   }
 }

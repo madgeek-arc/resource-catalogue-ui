@@ -20,6 +20,7 @@ import {FunderService} from '../../services/funder.service';
 export class ServiceFormComponent implements OnInit {
   serviceName = 'eInfraCentral';
   firstServiceForm = false;
+  showLoader = false;
   providerId: string;
   editMode: boolean;
   serviceForm: FormGroup;
@@ -253,7 +254,7 @@ export class ServiceFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  onSubmit(service: Service, isValid: boolean) {
+  onSubmit(service: Service, isValid: boolean, pendingService?: boolean) {
     if (!this.authenticationService.isLoggedIn()) {
       console.log('Submit');
       sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
@@ -294,12 +295,16 @@ export class ServiceFormComponent implements OnInit {
     }
     this.scientificDomainArray.disable();
     if (this.serviceForm.valid && this.measurementForm.valid) {
-      this.resourceService.uploadServiceWithMeasurements(this.serviceForm.value, this.measurements.value).subscribe(
+      this.showLoader = true;
+      window.scrollTo(0, 0);
+      this.resourceService[pendingService ? 'uploadPendingService' : 'uploadServiceWithMeasurements'](this.serviceForm.value, this.measurements.value).subscribe(
         _service => {
           // console.log(_service);
+          this.showLoader = false;
           return this.router.service(_service.id);
         },
         err => {
+          this.showLoader = false;
           window.scrollTo(0, 0);
           this.categoryArray.enable();
           this.scientificDomainArray.enable();
@@ -535,7 +540,7 @@ export class ServiceFormComponent implements OnInit {
   /** Options-->**/
   newOption(): FormGroup {
     return this.fb.group({
-      id: [''],
+      // id: [''],
       name: ['', Validators.required],
       url: ['', Validators.compose([Validators.required, URLValidator])],
       description: ['', Validators.required],

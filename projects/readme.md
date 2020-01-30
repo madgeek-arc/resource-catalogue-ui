@@ -49,7 +49,7 @@ ___In order to display properly the UiKit, FontAwesome, CSS themes and images, d
 2. To add  UiKit and FontAwesome to the sub project, insert the following lines at your sub project in the `angular.json` file
 ```
 "styles": [
-  "projects/youSubProjecName/src/styles.css",
+  "projects/youSubProjecName/src/styles.scss",
   "node_modules/font-awesome/css/font-awesome.css"
 ],
 "scripts": [

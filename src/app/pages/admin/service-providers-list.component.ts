@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
-import {Provider} from '../../domain/eic-model';
+import {Provider, ProviderBundle} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 
@@ -17,8 +17,8 @@ export class ServiceProvidersListComponent implements OnInit {
 
   errorMessage: string;
 
-  providers: Provider[] = [];
-  selectedProvider: Provider;
+  providers: ProviderBundle[] = [];
+  selectedProvider: ProviderBundle;
   newStatus: string;
   pushedApprove: boolean;
 
@@ -43,7 +43,7 @@ export class ServiceProvidersListComponent implements OnInit {
 
   getProviders(from: number, itemsPerPage: number) {
     this.providers = [];
-    this.resourceService.getProviders(`${from}`, `${itemsPerPage}`).subscribe(
+    this.resourceService.getProviderBundles(`${from}`, `${itemsPerPage}`).subscribe(
       res => {
         this.providers = res['results'];
         this.total = res['total'];
@@ -72,7 +72,7 @@ export class ServiceProvidersListComponent implements OnInit {
     );
   }
 
-  approveStatusChange(provider: Provider) {
+  approveStatusChange(provider: ProviderBundle) {
     this.selectedProvider = provider;
     UIkit.modal('#approveModal').show();
   }
@@ -109,7 +109,7 @@ export class ServiceProvidersListComponent implements OnInit {
 
   }
 
-  showActionModal(provider: Provider, newStatus: string, pushedApprove: boolean) {
+  showActionModal(provider: ProviderBundle, newStatus: string, pushedApprove: boolean) {
     this.selectedProvider = provider;
     this.newStatus = newStatus;
     this.pushedApprove = pushedApprove;

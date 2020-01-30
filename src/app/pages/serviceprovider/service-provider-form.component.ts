@@ -63,6 +63,8 @@ export class ServiceProviderFormComponent implements OnInit {
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   edit = false;
+  disable = false;
+  showLoader = false;
 
   readonly fullNameDesc: Description = fullNameDesc;
   readonly acronymDesc: Description = acronymDesc;
@@ -137,7 +139,7 @@ export class ServiceProviderFormComponent implements OnInit {
       number: ['', Validators.required],
       postalCode: ['', Validators.required],
       city: ['', Validators.required],
-      region: ['']
+      region: ['', Validators.required]
     }, Validators.required),
     coordinatingCountry: ['', Validators.required],
     participatingCountries: this.fb.array([this.fb.control('')]),
@@ -300,21 +302,31 @@ export class ServiceProviderFormComponent implements OnInit {
 
     this.errorMessage = '';
     this.trimFormWhiteSpaces();
-
+    const path = this.route.snapshot.routeConfig.path;
+    let method;
+    if (path === 'registerServiceProvider/:id') {
+      method = 'updateAndPublishPendingProvider';
+    } else {
+      method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
+    }
     if (this.newProviderForm.valid) {
+      this.showLoader = true;
+      window.scrollTo(0, 0);
       this.getFieldAsFormArray('categories').controls = [];
       for (const category of this.domainArray.controls) {
         if (category.get('category').value) {
           this.getFieldAsFormArray('categories').push(this.fb.control(category.get('category').value));
         }
       }
-      this.serviceProviderService[this.edit ? 'updateServiceProvider' : 'createNewServiceProvider'](this.newProviderForm.value).subscribe(
+      this.serviceProviderService[method](this.newProviderForm.value).subscribe(
         res => {},
         err => {
+          this.showLoader = false;
           window.scrollTo(0, 0);
           this.errorMessage = 'Something went wrong. ' + err.error;
         },
         () => {
+          this.showLoader = false;
           if (this.edit) {
             this.router.navigate(['/myServiceProviders']);
           } else {

@@ -28,31 +28,17 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
 
   ngOnInit() {
     this.edit = true;
+    const path = this.route.snapshot.routeConfig.path;
+    if (path === 'serviceProviderInfo/:id') {
+      this.disable = true;
+    }
+    
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
     } else {
       this.getProvider();
     }
-    // this.newProviderForm = this.fb.group(this.formDefinition);
-    // this.resourceService.getAllVocabulariesByType().subscribe(
-    //   res => this.vocabularies = res,
-    //   error => console.log(error),
-    //   () => {
-    //     this.placesVocabulary = this.vocabularies[VocabularyType.PLACE];
-    //     this.providerTypeVocabulary = this.vocabularies[VocabularyType.PROVIDER_TYPE];
-    //     this.providerTRLVocabulary = this.vocabularies[VocabularyType.PROVIDER_LIFE_CYCLE_STATUS];
-    //     this.domainsVocabulary =  this.vocabularies[VocabularyType.PROVIDER_DOMAIN];
-    //     this.categoriesVocabulary =  this.vocabularies[VocabularyType.PROVIDER_CATEGORY];
-    //     this.esfriDomainVocabulary =  this.vocabularies[VocabularyType.PROVIDER_ESFRI_DOMAIN];
-    //     this.legalStatusVocabulary =  this.vocabularies[VocabularyType.PROVIDER_LEGAL_STATUS];
-    //     this.esfriVocabulary =  this.vocabularies[VocabularyType.PROVIDER_ESFRI];
-    //     this.areasOfActivityVocabulary =  this.vocabularies[VocabularyType.PROVIDER_AREA_OF_ACTIVITY];
-    //     this.networksVocabulary =  this.vocabularies[VocabularyType.PROVIDER_NETWORKS];
-    //     this.societalGrandChallengesVocabulary =  this.vocabularies[VocabularyType.PROVIDER_SOCIETAL_GRAND_CHALLENGES];
-    //     this.getProvider();
-    //   }
-    // );
   }
 
   registerProvider() {
@@ -62,7 +48,9 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
   getProvider() {
     const id = this.route.snapshot.paramMap.get('id');
     this.errorMessage = '';
-    this.serviceProviderService.getServiceProviderById(id).subscribe(
+    const path = this.route.snapshot.routeConfig.path;
+    this.serviceProviderService[(path === 'registerServiceProvider/:id' ? 'getPendingProviderById' : 'getServiceProviderById')](id)
+      .subscribe(
       provider => this.provider = provider,
       err => {
         console.log(err);
@@ -90,8 +78,10 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         //     }
         //   }
         // }
-        for (let i = 0; i < this.provider.users.length - 1; i++) {
-          this.addUser();
+        if (this.provider.users && this.provider.users.length > 1) {
+          for (let i = 0; i < this.provider.users.length - 1; i++) {
+            this.addUser();
+          }
         }
         if (this.provider.multimedia && this.provider.multimedia.length > 1) {
           for (let i = 0; i < this.provider.multimedia.length - 1; i++) {
@@ -149,8 +139,16 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         }
         this.newProviderForm.patchValue(this.provider);
         this.newProviderForm.updateValueAndValidity();
+        if (this.disable) {
+          this.newProviderForm.disable();
+        }
       }
     );
+  }
+
+  toggleDisable() {
+    this.disable = !this.disable;
+    this.newProviderForm.enable();
   }
 
 }

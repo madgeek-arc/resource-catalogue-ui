@@ -26,7 +26,11 @@
             </app-aside-help-content>
             <!-- MIDDLE -->
             <div class=" uk-width-expand@m">
-              <div class="middle-box animated fadeInDown ">
+              <div *ngIf="showLoader" class="uk-text-center">
+                <div uk-spinner="ratio: 2"></div>
+              </div>
+
+              <div *ngIf="!showLoader" class="middle-box animated fadeInDown ">
                 <div id="serviceForm">
                   <div *ngIf="errorMessage" data-uk-alert="" class="uk-alert uk-alert-danger">
                     <p>{{errorMessage}}</p>
@@ -65,7 +69,6 @@
                             <label class="uk-form-label uk-text-right">
                               {{descriptionDesc.label + (descriptionDesc.mandatory ? ' (*)' : '')}}
                             </label>
-                            <i style="text-transform: none !important;"><small>(max 1000 characters)</small></i>
                           </div>
                           <div class="uk-form-controls">
                             <ckeditor

@@ -5,9 +5,9 @@
 
         <h1 class="uk-h3">
           <img class="el-image uk-border-rounded" width="90"
-               src="{{ (provider && provider.logo) ? provider.logo : 'http://fvtelibrary.com/img/user/NoLogo.png' }}"
+               src="{{ (providerBundle && providerBundle.provider.logo) ? providerBundle.provider.logo : 'http://fvtelibrary.com/img/user/NoLogo.png' }}"
                alt="Service Provider Logo">
-          {{provider ? provider.name : providerId }} Dashboard
+          {{providerBundle ? providerBundle.provider.name : providerId }} Dashboard
         </h1>
 
         <!-- TOP HELP CONTENT -->
@@ -31,112 +31,125 @@
 
               <div class="uk-grid">
                 <div class="uk-width-1-1">
-                  <div *ngIf="provider && (provider.status === 'approved')" class="uk-float-right">
+                  <div *ngIf="providerBundle && (providerBundle.status === 'approved')" class="uk-float-right">
                     <button routerLink="/upload" class="uk-button uk-button-secondary">Add new service</button>
                   </div>
-                  <div *ngIf="provider && (provider.status === 'pending service template approval')"
+                  <div *ngIf="providerBundle && (providerBundle.status === 'pending service template approval')"
                        class="uk-float-right">
                     <button routerLink="{{ '/newServiceProvider/' + providerId + '/addFirstService' }}"
                             class="uk-button uk-button-secondary">Add first service</button>
                   </div>
-                  <div *ngIf="provider && (provider.status === 'approved')" class="uk-float-right uk-margin-right">
-                    <button routerLink="{{'/messages/' + provider.id}}" class="uk-button uk-button-secondary">Messages</button>
-                  </div>
+<!--                  <div *ngIf="providerBundle && (providerBundle.status === 'approved')" class="uk-float-right uk-margin-right">-->
+<!--                    <button routerLink="{{'/messages/' + providerBundle.id}}" class="uk-button uk-button-secondary">Messages</button>-->
+<!--                  </div>-->
                 </div>
               </div>
 
-              <div class="uk-grid uk-grid-divider">
+              <div class="uk-grid uk-grid-divider" uk-height-match="row: false">
 
 
                 <!--<div class="uk-width-1-1">-->
 
                 <div *ngIf="providerServices" class="uk-width-1-5@m uk-first-column">
 
-                  <div *ngFor="let providerService of providerServices"
-                       class="uk-card uk-card-hover uk-margin-bottom service">
-                    <a (click)="goToServiceDashboard(providerService.id)" class="el-link">
-                      <div
-                        class="uk-margin uk-grid-match uk-child-width-1-1 uk-grid-small uk-grid-divider uk-grid uk-scrollspy-inview uk-animation-slide-top-medium uk-grid-stack">
-                        <div class="uk-first-column uk-padding-remove-left">
-                          <div class="">
-                            <div uk-scrollspy-class=""
-                                 class="el-item uk-panel uk-scrollspy-inview uk-animation-slide-top-medium" style="">
-                              <div class="uk-child-width-expand uk-grid-medium uk-flex-middle uk-grid uk-grid-stack"
-                                   uk-grid="">
-                                <div class="uk-width-3-5@m uk-first-column ">
+                  <div uk-grid>
+                    <div class="">
+                      <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+                        <li [ngClass]="{'uk-active': activeTab == 'stats'}"><a [routerLink]="['/dashboard/' + providerId + '/stats']">Statistics</a></li>
+                        <li [ngClass]="{'uk-active': activeTab == 'activeServices'}"><a [routerLink]="['/dashboard/' + providerId + '/activeServices']">Active services</a></li>
+                        <li [ngClass]="{'uk-active': activeTab == 'pendingServices'}"><a [routerLink]="['/dashboard/' + providerId + '/pendingServices']">Pending services</a></li>
+                        <li [ngClass]="{'uk-active': activeTab == 'messages'}"><a [routerLink]="['/dashboard/' + providerId + '/messages']" routerLinkActive="">Messages</a></li>
+                      </ul>
+                    </div>
 
-                                  <img src="{{providerService.logo || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"
-                                       class="el-image uk-border-rounded uk-padding-small" width="70%" alt="">
-
-                                </div>
-                                <div class="uk-padding-remove serviceTitle">
-                                  <h3 class="el-title uk-margin uk-h5 uk-margin-remove-adjacent uk-margin-small-bottom">
-                                    {{providerService.name}}
-                                  </h3>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
                   </div>
+<!--                  <div *ngFor="let providerService of providerServices"-->
+<!--                       class="uk-card uk-card-hover uk-margin-bottom service">-->
+<!--                    <a (click)="goToServiceDashboard(providerService.id)" class="el-link">-->
+<!--                      <div-->
+<!--                        class="uk-margin uk-grid-match uk-child-width-1-1 uk-grid-small uk-grid-divider uk-grid uk-scrollspy-inview uk-animation-slide-top-medium uk-grid-stack">-->
+<!--                        <div class="uk-first-column uk-padding-remove-left">-->
+<!--                          <div class="">-->
+<!--                            <div class="el-item uk-panel uk-scrollspy-inview uk-animation-slide-top-medium" style="">-->
+<!--                              <div class="uk-child-width-expand uk-grid-medium uk-flex-middle uk-grid uk-grid-stack"-->
+<!--                                   uk-grid="">-->
+<!--                                <div class="uk-width-3-5@m uk-first-column ">-->
+
+<!--                                  <img src="{{providerService.logo || 'http://fvtelibrary.com/img/user/NoLogo.png'}}"-->
+<!--                                       class="el-image uk-border-rounded uk-padding-small" width="70%" alt="">-->
+
+<!--                                </div>-->
+<!--                                <div class="uk-padding-remove serviceTitle">-->
+<!--                                  <h3 class="el-title uk-margin uk-h5 uk-margin-remove-adjacent uk-margin-small-bottom">-->
+<!--                                    {{providerService.name}}-->
+<!--                                  </h3>-->
+<!--                                </div>-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </a>-->
+<!--                  </div>-->
 
                 </div>
-                <div class="uk-width-4-5@m">
-
-                  <div class="uk-grid uk-margin-bottom">
-                    <div class="uk-width-1-1">
-                      <div class="uk-float-right uk-width-1-5">
-                        <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
-                                (change)="onPeriodChange($event)">
-                          <option value="DAY">Daily</option>
-                          <option value="WEEK">Weekly</option>
-                          <option value="MONTH" selected>Monthly</option>
-                          <option value="YEAR">Yearly</option>
-                        </select>
-                        <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="uk-grid uk-margin-bottom">
-                    <div class="uk-width-1-2@m">
-                      <!--<div id="container">{{this.runHighCharts()}}</div>-->
-                      <div style="width:100%" *ngIf="providerFavouritesOptions">
-                        <chart [options]="providerFavouritesOptions"></chart>
-                      </div>
-
-                    </div>
-                    <div class="uk-width-1-2@m">
-                      <div style="width:100%" *ngIf="providerRatingsOptions">
-                        <chart [options]="providerRatingsOptions"></chart>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="uk-grid uk-margin-bottom">
-                    <div class="uk-width-1-2@m">
-                      <div style="width:100%" *ngIf="providerVisitsOptions">
-                        <chart [options]="providerVisitsOptions"></chart>
-                      </div>
-                    </div>
-                    <div class="uk-width-1-2@m">
-                      <div style="width:100%" *ngIf="providerVisitationPercentageOptions">
-                        <chart [options]="providerVisitationPercentageOptions"></chart>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="uk-grid uk-margin-bottom">
-                    <div class="uk-width-1-1">
-                      <div style="width:100%" *ngIf="providerMapOptions">
-                        <chart type="Map" [options]="providerMapOptions"></chart>
-                      </div>
-                    </div>
-                  </div>
-
+                <div class="uk-width-expand@m">
+                  <router-outlet></router-outlet>
                 </div>
+<!--                <div class="uk-width-4-5@m">-->
+
+<!--                  <div class="uk-grid uk-margin-bottom">-->
+<!--                    <div class="uk-width-1-1">-->
+<!--                      <div class="uk-float-right uk-width-1-5">-->
+<!--                        <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"-->
+<!--                                (change)="onPeriodChange($event)">-->
+<!--                          <option value="DAY">Daily</option>-->
+<!--                          <option value="WEEK">Weekly</option>-->
+<!--                          <option value="MONTH" selected>Monthly</option>-->
+<!--                          <option value="YEAR">Yearly</option>-->
+<!--                        </select>-->
+<!--                        <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+
+<!--                  &lt;!&ndash; TODO: enable comments below to add ratings chart &ndash;&gt;-->
+<!--                  <div class="uk-grid uk-margin-bottom">-->
+<!--&lt;!&ndash;                    <div class="uk-width-1-2@m">&ndash;&gt;-->
+<!--                      <div style="width:100%" *ngIf="providerFavouritesOptions">-->
+<!--                        <chart [options]="providerFavouritesOptions"></chart>-->
+<!--                      </div>-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                    <div class="uk-width-1-2@m">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <div style="width:100%" *ngIf="providerRatingsOptions">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <chart [options]="providerRatingsOptions"></chart>&ndash;&gt;-->
+<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  </div>-->
+
+<!--                  <div class="uk-grid uk-margin-bottom">-->
+<!--                    <div class="uk-width-1-2@m">-->
+<!--                      <div style="width:100%" *ngIf="providerVisitsOptions">-->
+<!--                        <chart [options]="providerVisitsOptions"></chart>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                    <div class="uk-width-1-2@m">-->
+<!--                      <div style="width:100%" *ngIf="providerVisitationPercentageOptions">-->
+<!--                        <chart [options]="providerVisitationPercentageOptions"></chart>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+
+<!--                  <div class="uk-grid uk-margin-bottom">-->
+<!--                    <div class="uk-width-1-1">-->
+<!--                      <div style="width:100%" *ngIf="providerMapOptions">-->
+<!--                        <chart type="Map" [options]="providerMapOptions"></chart>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+
+<!--                </div>-->
 
               </div>
 

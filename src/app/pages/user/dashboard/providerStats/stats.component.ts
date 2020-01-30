@@ -1,31 +1,30 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {ServiceProviderService} from '../../../services/service-provider.service';
-import {AuthenticationService} from '../../../services/authentication.service';
-import {NavigationService} from '../../../services/navigation.service';
-import {ProviderBundle, Service} from '../../../domain/eic-model';
-import {ResourceService} from '../../../services/resource.service';
-import {UserService} from '../../../services/user.service';
-import {zip} from 'rxjs/internal/observable/zip';
-import {map} from 'rxjs/operators';
 import {isNullOrUndefined} from 'util';
-
+import {zip} from 'rxjs/internal/observable/zip';
+import {AuthenticationService} from '../../../../services/authentication.service';
+import {ResourceService} from '../../../../services/resource.service';
+import {NavigationService} from '../../../../services/navigation.service';
+import {ActivatedRoute} from '@angular/router';
+import {ServiceProviderService} from '../../../../services/service-provider.service';
+import {Provider, Service} from '../../../../domain/eic-model';
+import {map} from 'rxjs/operators';
 
 declare var require: any;
 
+
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-provider-stats',
+  templateUrl: './stats.component.html',
+  // styleUrls: ['']
 })
-export class DashboardComponent implements OnInit {
-  activeTab: string;
+
+export class StatsComponent implements OnInit {
   providerId: string;
-  providerBundle: ProviderBundle;
+  statisticPeriod: string;
+  provider: Provider;
   providerServices: Service[] = [];
   providerServicesGroupedByPlace: any;
   providerCoverage: string[];
-  statisticPeriod: string;
   public errorMessage: string;
 
   public EU: string[];
@@ -37,28 +36,28 @@ export class DashboardComponent implements OnInit {
   providerVisitationPercentageOptions: any = null;
   providerMapOptions: any = null;
 
-  constructor(public authenticationService: AuthenticationService,
-              public userService: UserService,
-              public resourceService: ResourceService,
-              public router: NavigationService,
-              private route: ActivatedRoute,
-              private providerService: ServiceProviderService) {
-  }
+  constructor(
+    public authenticationService: AuthenticationService,
+    // public userService: UserService,
+    public resourceService: ResourceService,
+    public router: NavigationService,
+    private route: ActivatedRoute,
+    private providerService: ServiceProviderService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.statisticPeriod = 'MONTH';
-    this.activeTab = this.route.firstChild.snapshot.routeConfig.path;
-    this.providerId = this.route.snapshot.paramMap.get('provider');
+    this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
       zip(
         this.resourceService.getEU(),
         this.resourceService.getWW(),
-        this.providerService.getServiceProviderBundleById(this.providerId)
+        this.providerService.getServiceProviderById(this.providerId)
         /*this.resourceService.getProvidersNames()*/
       ).subscribe(suc => {
         this.EU = <string[]>suc[0];
         this.WW = <string[]>suc[1];
-        this.providerBundle = suc[2];
+        this.provider = suc[2];
         this.getDataForProvider(this.statisticPeriod);
       });
     } else {
@@ -68,12 +67,12 @@ export class DashboardComponent implements OnInit {
           zip(
             this.resourceService.getEU(),
             this.resourceService.getWW(),
-            this.providerService.getServiceProviderBundleById(this.providerId)
+            this.providerService.getServiceProviderById(this.providerId)
             /*this.resourceService.getProvidersNames()*/
           ).subscribe(suc => {
             this.EU = <string[]>suc[0];
             this.WW = <string[]>suc[1];
-            this.providerBundle = suc[2];
+            this.provider = suc[2];
             this.getDataForProvider(this.statisticPeriod);
           });
         },
@@ -161,9 +160,7 @@ export class DashboardComponent implements OnInit {
         }
       );
     }
-
     // console.log('Places', this.resourceService.getPlacesForProvider(this.provider));
-
   }
 
   onPeriodChange(event) {
@@ -187,13 +184,12 @@ export class DashboardComponent implements OnInit {
     return ret;
   }
 
-  goToServiceDashboard(id: string) {
-    return this.router.dashboard(this.providerId, id);
-  }
-
   setVisitsForProvider(data: any) {
     if (data) {
       this.providerVisitsOptions = {
+        chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
+        },
         title: {
           text: ''
         },
@@ -223,6 +219,9 @@ export class DashboardComponent implements OnInit {
   setFavouritesForProvider(data: any) {
     if (data) {
       this.providerFavouritesOptions = {
+        chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
+        },
         title: {
           text: ''
         },
@@ -253,6 +252,9 @@ export class DashboardComponent implements OnInit {
   setRatingsForProvider(data: any) {
     if (data) {
       this.providerRatingsOptions = {
+        chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
+        },
         title: {
           text: ''
         },
@@ -284,6 +286,7 @@ export class DashboardComponent implements OnInit {
     if (data) {
       this.providerVisitationPercentageOptions = {
         chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
           plotBackgroundColor: null,
           plotBorderWidth: null,
           plotShadow: false,
@@ -321,10 +324,11 @@ export class DashboardComponent implements OnInit {
     this.providerMapOptions = {
       chart: {
         map: 'custom/europe',
+        height: (3 / 4 * 100) + '%', // 3:4 ratio
         // borderWidth: 1
       },
       title: {
-        text: 'Countries serviced by ' + this.providerBundle.provider.name
+        text: 'Countries serviced by ' + this.provider.name
       },
       // subtitle: {
       //     text: 'Demo of drawing all areas in the map, only highlighting partial data'
@@ -351,4 +355,5 @@ export class DashboardComponent implements OnInit {
       }]
     };
   }
+
 }

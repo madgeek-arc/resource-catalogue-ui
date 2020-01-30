@@ -65,68 +65,68 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let provider of providers">
+                    <tr *ngFor="let providerBundle of providers">
                       <td class=" uk-table-shrink">
                         <img class="el-image uk-border-rounded"
-                             src="{{ provider.logo ? provider.logo : 'http://fvtelibrary.com/img/user/NoLogo.png' }}">
+                             src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'http://fvtelibrary.com/img/user/NoLogo.png' }}">
                       </td>
                       <td class="uk-width-1-5@m uk-text-center">
                         <span data-uk-tooltip
-                              title="{{(provider.status !== 'approved') ?
+                              title="{{(providerBundle.status !== 'approved') ?
                                     'The service provider is not yet active, therefore you cannot access its monitoring dashboard':
                                     'Go to the service provider monitoring dashboard'}}">
-                            <a [routerLink]="['/dashboard',provider.id]"
-                               class="{{(provider.status !== 'approved') ? 'uk-disabled':''}}">
-                                {{ provider.name }}
+                            <a [routerLink]="['/dashboard',providerBundle.id]"
+                               class="{{(providerBundle.status !== 'approved') ? 'uk-disabled':''}}">
+                                {{ providerBundle.provider.name }}
                               <!--Enable this if provider names are to long-->
                               <!--{{ provider.name.length > 20 ? provider.name.slice(0,20)+'...' : provider.name }}-->
                             </a>
                         </span>
                       </td>
                       <td class="uk-width-1-5@m uk-text-center">
-                        {{ provider.status }}
+                        {{ providerBundle.status }}
                       </td>
                       <td class="uk-text-center">
-                        <a [routerLink]="['/serviceProviderInfo',provider.id]">
+                        <a [routerLink]="['/serviceProviderInfo',providerBundle.id]">
                           <i aria-hidden="true" class="fa fa-info uk-margin-small-right"></i>
                         </a>
                       </td>
                       <td class="uk-text-center">
-                        <i class="fa fa-{{ provider.active ? 'check':'close' }}"></i>
+                        <i class="fa fa-{{ providerBundle.active ? 'check':'close' }}"></i>
                       </td>
                       <td class="uk-text-center">
-                        <a *ngIf="hasCreatedFirstService(provider.id)"
-                           routerLink="{{ getLinkToFirstService(provider.id) }}">
+                        <a *ngIf="hasCreatedFirstService(providerBundle.id)"
+                           routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
                           <i class="fa fa-eye"></i> View
                         </a>
                         &nbsp;&nbsp;
-                        <a *ngIf="hasCreatedFirstService(provider.id)"
-                           routerLink="{{ getLinkToEditFirstService(provider.id) }}">
+                        <a *ngIf="hasCreatedFirstService(providerBundle.id)"
+                           routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}">
                           <i class="fa fa-pencil"></i> Edit
                         </a>
                       </td>
                       <td class="uk-text-center">
                         <div class="uk-grid">
                           <div class="uk-width-1-2">
-                            <div *ngIf="((provider.status !== 'pending service template approval') &&
-                                                                 (provider.status !== 'rejected service template')) ||
-                                                                 (hasCreatedFirstService(provider.id))">
-                              <a *ngIf="adminActionsMap[provider.status] && adminActionsMap[provider.status].appButtonTitle"
-                                (click)="showActionModal(provider, adminActionsMap[provider.status].onApprove, true)">
+                            <div *ngIf="((providerBundle.status !== 'pending service template approval') &&
+                                                                 (providerBundle.status !== 'rejected service template')) ||
+                                                                 (hasCreatedFirstService(providerBundle.id))">
+                              <a *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"
+                                (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true)">
                                 <i aria-hidden="true" class="fa fa-thumbs-up"></i>
-                                {{ adminActionsMap[provider.status].appButtonTitle }}
+                                {{ adminActionsMap[providerBundle.status].appButtonTitle }}
                               </a>
-                              <a class="uk-margin-right" *ngIf="(provider.status === 'approved') && (!provider.active)"
-                                 (click)="showActionModal(provider, 'approved', true)">
+                              <a class="uk-margin-right" *ngIf="(providerBundle.status === 'approved') && (!providerBundle.active)"
+                                 (click)="showActionModal(providerBundle, 'approved', true)">
                                 <i aria-hidden="true" class="fa fa-thumbs-up"></i> Activate
                               </a>
                             </div>
                           </div>
-                          <a class="uk-text-right" *ngIf="((provider.status === 'approved') && (provider.active)) ||
-                                                                  ((provider.status !== 'approved') && (adminActionsMap[provider.status] && adminActionsMap[provider.status].rejButtonTitle))"
-                             (click)="showActionModal(provider, adminActionsMap[provider.status].onReject, false)">
+                          <a class="uk-text-right" *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||
+                                                                  ((providerBundle.status !== 'approved') && (adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].rejButtonTitle))"
+                             (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)">
                             <i class="fa fa-thumbs-down " aria-hidden="true"></i>
-                            {{ adminActionsMap[provider.status].rejButtonTitle }}
+                            {{ adminActionsMap[providerBundle.status].rejButtonTitle }}
                           </a>
                         </div>
                       </td>
@@ -172,7 +172,7 @@
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body">
     <div *ngIf="selectedProvider">
-      <h6>Proceed with changing the status of "{{ selectedProvider.name }}"</h6>
+      <h6>Proceed with changing the status of "{{ selectedProvider.provider.name }}"</h6>
       <p *ngIf="selectedProvider.status !== newStatus">The status will change from "{{ selectedProvider.status }}" to
         "{{ newStatus }}"</p>
       <p *ngIf="selectedProvider.status === newStatus">

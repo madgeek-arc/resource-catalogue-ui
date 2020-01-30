@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {AuthenticationService} from '../../services/authentication.service';
-import {Provider} from '../../domain/eic-model';
+import {ProviderBundle} from '../../domain/eic-model';
 
 @Component({
   selector: 'app-my-service-providers',
@@ -12,7 +12,7 @@ export class MyServiceProvidersComponent implements OnInit {
   noProvidersMessage: string;
   tilesView: boolean;
 
-  myProviders: Provider[];
+  myProviders: ProviderBundle[];
   pendingFirstServicePerProvider: any[] = [];
 
   constructor(
@@ -45,7 +45,7 @@ export class MyServiceProvidersComponent implements OnInit {
               this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
                 res => {
                   if (res && (res.length > 0)) {
-                    this.pendingFirstServicePerProvider.push({providerId: p.id, serviceId: res[0].id})
+                    this.pendingFirstServicePerProvider.push({providerId: p.id, serviceId: res[0].id});
                   }
                 }
               );
@@ -72,8 +72,8 @@ export class MyServiceProvidersComponent implements OnInit {
     }
   }
 
-  toggleTiles(choseTilesMode: boolean) {
-    this.tilesView = choseTilesMode;
+  toggleTiles() {
+    this.tilesView = !this.tilesView;
   }
 
 }
