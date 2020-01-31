@@ -8,11 +8,11 @@ import {StatsComponent} from './dashboard/providerStats/stats.component';
 import {ServicesComponent} from './dashboard/services/services.component';
 
 const userRoutes: Routes = [
-  {
-    path: 'dashboard',
-    component: DashboardComponent,
-    canActivate: [CanActivateViaAuthGuard]
-  },
+  // {
+  //   path: 'dashboard',
+  //   component: DashboardComponent,
+  //   canActivate: [CanActivateViaAuthGuard]
+  // },
   {
     path: 'dashboard/:provider',
     component: DashboardComponent,
