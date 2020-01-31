@@ -70,10 +70,13 @@
                               <div>
                                 <!--<div class="{{ (provider.status === 'pending initial approval') ? 'uk-badge uk-badge-danger' :
                                                        ((provider.status === 'pending service template approval') ? 'uk-badge uk-badge-warning' : 'uk-badge uk-badge-success') }}">-->
-                                <div>
+                                <div class="uk-badge uk-badge-warning" [ngClass]="{'uk-badge-success': providerBundle.status==='approved',
+                                     'uk-badge-danger': providerBundle.status === 'rejected'}">
                                   {{ providerBundle.status }}
                                 </div>
-                                <a routerLink="/updateServiceProvider/{{providerBundle.id}}">Update provider</a>
+                                <div>
+                                  <a routerLink="/updateServiceProvider/{{providerBundle.id}}">Update provider</a>
+                                </div>
                               </div>
                               <div>
                                 <a *ngIf="(providerBundle.status === 'pending service template submission')

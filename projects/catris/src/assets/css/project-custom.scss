@@ -315,3 +315,18 @@ p {
 .al_timeline_block.update .al_timeline_content h3 {
   color: #fff;
 }
+
+.uk-badge-danger {
+  color: $danger-background;
+  background-color: $danger;
+}
+
+.uk-badge-warning {
+  color: $warning-background;
+  background-color: $warning;
+}
+
+.uk-badge-success {
+  color: $success-background;
+  background-color: $success;
+}
