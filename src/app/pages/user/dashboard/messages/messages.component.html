@@ -1,12 +1,28 @@
-<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
-  <div class="uk-container">
-    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
-
-      <h1 class="uk-h3">messages</h1>
-      <div *ngIf="requests && requests.length === 0">
-        You have no messages ath the moment.
+<!--FIXME-->
+<div *ngIf="requests.length === 0">
+  <p>You have no messages at the moment.</p>
+</div>
+<div *ngIf="requests.length > 0">
+  <div *ngFor="let request of requests" class="uk-card uk-margin-bottom service"
+       style="background:#f7f7fa">
+    <div
+      class="uk-margin uk-grid-match uk-child-width-1-1 uk-scrollspy-inview uk-animation-slide-top-medium uk-grid-stack">
+      <div class="uk-first-column uk-padding-remove-left">
+        <div class="uk-panel uk-scrollspy-inview uk-animation-slide-top-medium">
+          <div class="uk-child-width-expand uk-flex-middle uk-grid uk-grid-stack uk-padding-small">
+            <div class="uk-column">
+              <h3 class="uk-margin uk-h5 uk-margin-small-bottom">{{request.message.subject}}</h3>
+              <p>From: {{request.message.senderEmail}}</p>
+              <p>{{request.message.message}}</p>
+            </div>
+            <div class="uk-width-1-6@m" style="padding-left: 10px;">
+              <button class="uk-button uk-button-secondary">
+                Read ???
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-
     </div>
   </div>
 </div>
