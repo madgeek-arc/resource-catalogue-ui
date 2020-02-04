@@ -78,16 +78,20 @@
                                   <a routerLink="/updateServiceProvider/{{providerBundle.id}}">Update provider</a>
                                 </div>
                               </div>
-                              <div>
-                                <a *ngIf="(providerBundle.status === 'pending service template submission')
-                                                                        || (providerBundle.status === 'pending service template approval')
-                                                                        || (providerBundle.status === 'rejected service template')"
-                                   routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
+                              <div *ngIf="(providerBundle.status === 'pending service template submission')
+                                          || (providerBundle.status === 'pending service template approval')
+                                          || (providerBundle.status === 'rejected service template')">
+                                <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
                                   <i class="fa {{hasCreatedFirstService(providerBundle.id) ? 'fa-pencil': 'fa-plus'}}"></i>
-                                  {{ hasCreatedFirstService(providerBundle.id) ? 'Update' : 'Add'}}
-                                  service template
+                                  {{ hasCreatedFirstService(providerBundle.id) ? 'Update' : 'Add'}} service template
                                 </a>
                               </div>
+                              <div *ngIf="checkForPendingServices(providerBundle.id)">
+                                <a [routerLink]="['/dashboard/' + providerBundle.id + '/pendingServices'] ">
+                                  <i class="fa fa-arrow-right" aria-hidden="true"></i> Select from pending service
+                                </a>
+                              </div>
+
                             </div>
                           </div>
                         </div>

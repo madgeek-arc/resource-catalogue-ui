@@ -14,6 +14,7 @@ export class MyServiceProvidersComponent implements OnInit {
 
   myProviders: ProviderBundle[];
   pendingFirstServicePerProvider: any[] = [];
+  hasPendingServices: {id: string, flag: boolean}[] = [];
 
   constructor(
     private serviceProviderService: ServiceProviderService,
@@ -40,13 +41,25 @@ export class MyServiceProvidersComponent implements OnInit {
       () => {
         this.myProviders.forEach(
           p => {
-            if ((p.status === 'pending service template approval') ||
-              (p.status === 'rejected service template')) {
+            if ((p.status === 'pending service template approval') || (p.status === 'rejected service template')) {
               this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
                 res => {
                   if (res && (res.length > 0)) {
                     this.pendingFirstServicePerProvider.push({providerId: p.id, serviceId: res[0].id});
                   }
+                }
+              );
+            }
+            if (p.metadata !== null && p.metadata.source === 'Meril' && p.status === 'pending service template submission') {
+              console.log(p.id);
+              this.serviceProviderService.getPendingServicesByProvider(p.id).subscribe(
+                res => {
+                  if (res.length > 0) {
+                    this.hasPendingServices.push({id: p.id, flag: true});
+                  } else {
+                    this.hasPendingServices.push({id: p.id, flag: false});
+                  }
+                  console.log(this.hasPendingServices);
                 }
               );
             }
@@ -61,6 +74,15 @@ export class MyServiceProvidersComponent implements OnInit {
 
   hasCreatedFirstService(id: string) {
     return this.pendingFirstServicePerProvider.some(x => x.providerId === id);
+  }
+
+  checkForPendingServices(id: string): boolean {
+    for (let i = 0; i < this.hasPendingServices.length ; i++) {
+      if (this.hasPendingServices[0].id === id) {
+        return this.hasPendingServices[0].flag;
+      }
+    }
+    return false;
   }
 
   getLinkToFirstService(id: string) {
