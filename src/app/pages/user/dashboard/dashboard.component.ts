@@ -56,33 +56,40 @@ export class DashboardComponent implements OnInit {
         this.providerService.getServiceProviderBundleById(this.providerId)
         /*this.resourceService.getProvidersNames()*/
       ).subscribe(suc => {
-        this.EU = <string[]>suc[0];
-        this.WW = <string[]>suc[1];
-        this.providerBundle = suc[2];
-        this.getDataForProvider(this.statisticPeriod);
-      });
-    } else {
-      this.providerService.getMyServiceProviders().subscribe(
-        res => {
-          this.providerId = res[0].id;
-          zip(
-            this.resourceService.getEU(),
-            this.resourceService.getWW(),
-            this.providerService.getServiceProviderBundleById(this.providerId)
-            /*this.resourceService.getProvidersNames()*/
-          ).subscribe(suc => {
-            this.EU = <string[]>suc[0];
-            this.WW = <string[]>suc[1];
-            this.providerBundle = suc[2];
-            this.getDataForProvider(this.statisticPeriod);
-          });
+          this.EU = <string[]>suc[0];
+          this.WW = <string[]>suc[1];
+          this.providerBundle = suc[2];
+          this.getDataForProvider(this.statisticPeriod);
         },
-        err => {
-          console.log(err);
-          this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
+        error => {
+          if (error.status === 404) {
+            this.router.go('/404');
+          }
         }
       );
     }
+    // else {
+    //   this.providerService.getMyServiceProviders().subscribe(
+    //     res => {
+    //       this.providerId = res[0].id;
+    //       zip(
+    //         this.resourceService.getEU(),
+    //         this.resourceService.getWW(),
+    //         this.providerService.getServiceProviderBundleById(this.providerId)
+    //         /*this.resourceService.getProvidersNames()*/
+    //       ).subscribe(suc => {
+    //         this.EU = <string[]>suc[0];
+    //         this.WW = <string[]>suc[1];
+    //         this.providerBundle = suc[2];
+    //         this.getDataForProvider(this.statisticPeriod);
+    //       });
+    //     },
+    //     err => {
+    //       console.log(err);
+    //       this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
+    //     }
+    //   );
+    // }
   }
 
   getDataForProvider(period: string, dontGetServices?: boolean) {
