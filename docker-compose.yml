@@ -6,6 +6,7 @@ services:
 
     environment:
     - PLATFORM_API_ENDPOINT=http://example.com  # edit api endpoint
+    - FAQ_API_ENDPOINT=http://example.com       # edit faq endpoint
     - MATOMO_HOST=http://example.com/matomo     # edit matomo host
     - MATOMO_SITE_ID=1                          # edit matomo site id
 
