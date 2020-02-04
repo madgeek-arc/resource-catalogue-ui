@@ -177,23 +177,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.resourceService.getAllVocabulariesByType().subscribe(
-      res => this.vocabularies = res,
-      error => console.log(error),
-      () => {
-        this.placesVocabulary = this.vocabularies[VocabularyType.PLACE];
-        this.providerTypeVocabulary = this.vocabularies[VocabularyType.PROVIDER_TYPE];
-        this.providerTRLVocabulary = this.vocabularies[VocabularyType.PROVIDER_LIFE_CYCLE_STATUS];
-        this.domainsVocabulary =  this.vocabularies[VocabularyType.PROVIDER_DOMAIN];
-        this.categoriesVocabulary =  this.vocabularies[VocabularyType.PROVIDER_CATEGORY];
-        this.esfriDomainVocabulary =  this.vocabularies[VocabularyType.PROVIDER_ESFRI_DOMAIN];
-        this.legalStatusVocabulary =  this.vocabularies[VocabularyType.PROVIDER_LEGAL_STATUS];
-        this.esfriVocabulary =  this.vocabularies[VocabularyType.PROVIDER_ESFRI];
-        this.areasOfActivityVocabulary =  this.vocabularies[VocabularyType.PROVIDER_AREA_OF_ACTIVITY];
-        this.networksVocabulary =  this.vocabularies[VocabularyType.PROVIDER_NETWORKS];
-        this.societalGrandChallengesVocabulary =  this.vocabularies[VocabularyType.PROVIDER_SOCIETAL_GRAND_CHALLENGES];
-      }
-    );
+    this.setVocabularies();
     this.newProviderForm = this.fb.group(this.formDefinition);
     if (this.edit === false) {
       this.pushDomain();
@@ -234,6 +218,31 @@ export class ServiceProviderFormComponent implements OnInit {
         sessionStorage.removeItem('provider');
       }
     }
+  }
+
+  /** get and set vocabularies **/
+  setVocabularies() {
+    this.resourceService.getAllVocabulariesByType().subscribe(
+      res => {
+        this.vocabularies = res;
+        this.placesVocabulary = this.vocabularies[VocabularyType.PLACE];
+        this.providerTypeVocabulary = this.vocabularies[VocabularyType.PROVIDER_TYPE];
+        this.providerTRLVocabulary = this.vocabularies[VocabularyType.PROVIDER_LIFE_CYCLE_STATUS];
+        this.domainsVocabulary =  this.vocabularies[VocabularyType.PROVIDER_DOMAIN];
+        this.categoriesVocabulary =  this.vocabularies[VocabularyType.PROVIDER_CATEGORY];
+        this.esfriDomainVocabulary =  this.vocabularies[VocabularyType.PROVIDER_ESFRI_DOMAIN];
+        this.legalStatusVocabulary =  this.vocabularies[VocabularyType.PROVIDER_LEGAL_STATUS];
+        this.esfriVocabulary =  this.vocabularies[VocabularyType.PROVIDER_ESFRI];
+        this.areasOfActivityVocabulary =  this.vocabularies[VocabularyType.PROVIDER_AREA_OF_ACTIVITY];
+        this.networksVocabulary =  this.vocabularies[VocabularyType.PROVIDER_NETWORKS];
+        this.societalGrandChallengesVocabulary =  this.vocabularies[VocabularyType.PROVIDER_SOCIETAL_GRAND_CHALLENGES];
+        return this.vocabularies;
+      },
+      error => console.log(error),
+      () => {
+        return this.vocabularies;
+      }
+    );
   }
 
   /** Categorization --> **/

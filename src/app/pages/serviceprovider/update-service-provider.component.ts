@@ -6,6 +6,7 @@ import {FormBuilder} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {of} from 'rxjs';
 
 declare var UIkit: any;
 
@@ -36,7 +37,30 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
     } else {
-      this.getProvider();
+      if (this.vocabularies === null) {
+        this.resourceService.getAllVocabulariesByType().subscribe(
+          res => {
+            this.vocabularies = res;
+            this.placesVocabulary = this.vocabularies[VocabularyType.PLACE];
+            this.providerTypeVocabulary = this.vocabularies[VocabularyType.PROVIDER_TYPE];
+            this.providerTRLVocabulary = this.vocabularies[VocabularyType.PROVIDER_LIFE_CYCLE_STATUS];
+            this.domainsVocabulary =  this.vocabularies[VocabularyType.PROVIDER_DOMAIN];
+            this.categoriesVocabulary =  this.vocabularies[VocabularyType.PROVIDER_CATEGORY];
+            this.esfriDomainVocabulary =  this.vocabularies[VocabularyType.PROVIDER_ESFRI_DOMAIN];
+            this.legalStatusVocabulary =  this.vocabularies[VocabularyType.PROVIDER_LEGAL_STATUS];
+            this.esfriVocabulary =  this.vocabularies[VocabularyType.PROVIDER_ESFRI];
+            this.areasOfActivityVocabulary =  this.vocabularies[VocabularyType.PROVIDER_AREA_OF_ACTIVITY];
+            this.networksVocabulary =  this.vocabularies[VocabularyType.PROVIDER_NETWORKS];
+            this.societalGrandChallengesVocabulary =  this.vocabularies[VocabularyType.PROVIDER_SOCIETAL_GRAND_CHALLENGES];
+          },
+          error => console.log(error),
+          () => {
+            this.getProvider();
+          }
+        );
+      } else {
+        this.getProvider();
+      }
     }
   }
 
