@@ -50,16 +50,19 @@ export class ServiceDashboardComponent implements OnInit, OnDestroy {
         this.resourceService.getService(params['id']),
         this.providerService.getMyServiceProviders()
       ).subscribe(suc => {
-        this.EU = <string[]>suc[0];
-        this.WW = <string[]>suc[1];
-        this.service = <Service>suc[2];
-        this.myProviders = suc[3];
-        this.getDataForService(this.statisticPeriod);
+          this.EU = <string[]>suc[0];
+          this.WW = <string[]>suc[1];
+          this.service = <Service>suc[2];
+          this.myProviders = suc[3];
+          this.getDataForService(this.statisticPeriod);
 
-        /* check if the current user can edit the service */
-        this.canEditService = this.myProviders.some(p => this.service.providers.some(x => x === p.id));
-      },
+          /* check if the current user can edit the service */
+          this.canEditService = this.myProviders.some(p => this.service.providers.some(x => x === p.id));
+        },
         err => {
+          if (err.status === 404) {
+            this.router.go('/404');
+          }
           this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
         }
       );

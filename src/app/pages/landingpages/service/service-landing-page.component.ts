@@ -93,38 +93,41 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           this.resourceService.getLatestServiceMeasurement(params['id'])
           // this.resourceService.recordEvent(params["id"], "INTERNAL"),
         ).subscribe(suc => {
-          this.EU = <string[]>suc[0];
-          this.WW = <string[]>suc[1];
-          this.richService = <RichService>suc[2];
-          this.myProviders = suc[3];
-          this.measurements = suc[4];
-          this.indicators = <IndicatorsPage>suc[5];
-          this.serviceId = params['id'];
-          this.getIndicatorIds();
-          this.getLocations();
-          this.router.breadcrumbs = this.richService.service.name;
-          this.setCountriesForService(this.richService.service.places);
-          this.newMeasurementForm = this.fb.group(this.measurementForm);
-          this.newMeasurementForm.get('locations').disable();
-          this.newMeasurementForm.get('time').disable();
-          this.newMeasurementForm.get('rangeValue').disable();
-          this.newMeasurementForm.get('serviceId').setValue(params['id'], params['version']);
+            this.EU = <string[]>suc[0];
+            this.WW = <string[]>suc[1];
+            this.richService = <RichService>suc[2];
+            this.myProviders = suc[3];
+            this.measurements = suc[4];
+            this.indicators = <IndicatorsPage>suc[5];
+            this.serviceId = params['id'];
+            this.getIndicatorIds();
+            this.getLocations();
+            this.router.breadcrumbs = this.richService.service.name;
+            this.setCountriesForService(this.richService.service.places);
+            this.newMeasurementForm = this.fb.group(this.measurementForm);
+            this.newMeasurementForm.get('locations').disable();
+            this.newMeasurementForm.get('time').disable();
+            this.newMeasurementForm.get('rangeValue').disable();
+            this.newMeasurementForm.get('serviceId').setValue(params['id'], params['version']);
 
-          /* check if the current user can edit the service */
-          this.canEditService = this.myProviders.some(p => this.richService.service.providers.some(x => x === p.id));
+            /* check if the current user can edit the service */
+            this.canEditService = this.myProviders.some(p => this.richService.service.providers.some(x => x === p.id));
 
-          const serviceIDs = (this.richService.service.requiredServices || []).concat(this.richService.service.relatedServices || [])
-            .filter((e, i, a) => a.indexOf(e) === i);
-          if (serviceIDs.length > 0) {
-            this.resourceService.getSelectedServices(serviceIDs).subscribe(
-              services => this.services = services,
-              err => {
-                console.log(err.error);
-                this.errorMessage = err.error;
-              });
-          }
-        },
+            const serviceIDs = (this.richService.service.requiredServices || []).concat(this.richService.service.relatedServices || [])
+              .filter((e, i, a) => a.indexOf(e) === i);
+            if (serviceIDs.length > 0) {
+              this.resourceService.getSelectedServices(serviceIDs).subscribe(
+                services => this.services = services,
+                err => {
+                  console.log(err.error);
+                  this.errorMessage = err.error;
+                });
+            }
+          },
           err => {
+            if ( err.status === 404) {
+              this.router.go('/404');
+            }
             this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
           });
       });
