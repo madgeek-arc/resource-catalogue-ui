@@ -15,13 +15,12 @@
                 <h2
                   class="uk-margin-large uk-margin-remove-top uk-text-center uk-h2 uk-scrollspy-inview uk-animation-fade"
                   uk-scrollspy-class="" style="">
-                  Your Network for Research Infrastructure Services
+                  Your Portal for Research Infrastructure Services
                 </h2>
                 <div>
                   <div class="search_box_bg" style="text-align:center">
                     <form [formGroup]="searchForm" (ngSubmit)="this.onSubmit(searchForm.value)">
-                      <input aria-describedby="sizing-addon2" class="uk-input uk-width-2-3 ng-pristine
-                                        ng-valid ng-touched uk-comment uk-comment-meta uk-search-field"
+                      <input aria-describedby="sizing-addon2" class="uk-input uk-width-2-3 uk-comment uk-comment-meta uk-search-field"
                              name="keyword" placeholder="Which service are you looking for?" type="text"
                              formControlName="query">
                       <button class=" uk-button butn theme" type="submit">Search</button>
