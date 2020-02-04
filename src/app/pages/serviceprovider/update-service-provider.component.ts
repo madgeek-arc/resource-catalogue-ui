@@ -105,6 +105,8 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
           for (let i = 0; i < this.provider.users.length - 2; i++) {
             this.addUser();
           }
+        } else if (path === 'registerServiceProvider/:id') {
+          this.addDefaultUser();
         }
         if (this.provider.multimedia && this.provider.multimedia.length > 1) {
           for (let i = 0; i < this.provider.multimedia.length - 1; i++) {

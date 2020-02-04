@@ -181,12 +181,7 @@ export class ServiceProviderFormComponent implements OnInit {
     this.newProviderForm = this.fb.group(this.formDefinition);
     if (this.edit === false) {
       this.pushDomain();
-      this.userInfo.given_name = this.authService.getUserProperty('given_name');
-      this.userInfo.family_name = this.authService.getUserProperty('family_name');
-      this.userInfo.email = this.authService.getUserProperty('email');
-      this.usersArray.controls[0].get('email').setValue(this.userInfo.email);
-      this.usersArray.controls[0].get('name').setValue(this.userInfo.given_name);
-      this.usersArray.controls[0].get('surname').setValue(this.userInfo.family_name);
+      this.addDefaultUser();
     }
 
     if (sessionStorage.getItem('provider')) {
@@ -424,6 +419,15 @@ export class ServiceProviderFormComponent implements OnInit {
       return;
     }
     this.usersArray.removeAt(index);
+  }
+
+  addDefaultUser() {
+    this.userInfo.given_name = this.authService.getUserProperty('given_name');
+    this.userInfo.family_name = this.authService.getUserProperty('family_name');
+    this.userInfo.email = this.authService.getUserProperty('email');
+    this.usersArray.controls[0].get('email').setValue(this.userInfo.email);
+    this.usersArray.controls[0].get('name').setValue(this.userInfo.given_name);
+    this.usersArray.controls[0].get('surname').setValue(this.userInfo.family_name);
   }
   /** <-- User Array**/
 
