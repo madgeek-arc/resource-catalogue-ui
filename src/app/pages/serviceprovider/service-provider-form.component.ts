@@ -41,7 +41,7 @@ import {
   societalGrandChallengesDesc,
   nationalRoadmapsDesc,
   legalStatusDesc,
-  networksDesc
+  networksDesc, multimediaDesc
 } from '../eInfraServices/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
@@ -55,6 +55,7 @@ declare var UIkit: any;
 @Component({
   selector: 'app-new-service-provider',
   templateUrl: './service-provider-form.component.html',
+  styleUrls: ['./service-provider-form.component.css']
 })
 export class ServiceProviderFormComponent implements OnInit {
   errorMessage = '';
@@ -65,6 +66,7 @@ export class ServiceProviderFormComponent implements OnInit {
   edit = false;
   disable = false;
   showLoader = false;
+  tabs: boolean[] = [false, false, false, false, false, false, false];
 
   readonly fullNameDesc: Description = fullNameDesc;
   readonly acronymDesc: Description = acronymDesc;
@@ -215,6 +217,138 @@ export class ServiceProviderFormComponent implements OnInit {
     }
   }
 
+  registerProvider() {
+    if (!this.authService.isLoggedIn()) {
+      console.log('Submit');
+      sessionStorage.setItem('provider', JSON.stringify(this.newProviderForm.value));
+      this.authService.login();
+    }
+
+    this.errorMessage = '';
+    this.trimFormWhiteSpaces();
+    const path = this.route.snapshot.routeConfig.path;
+    let method;
+    if (path === 'registerServiceProvider/:id') {
+      method = 'updateAndPublishPendingProvider';
+    } else {
+      method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
+    }
+    if (this.newProviderForm.valid) {
+      this.showLoader = true;
+      window.scrollTo(0, 0);
+      this.getFieldAsFormArray('categories').controls = [];
+      for (const category of this.domainArray.controls) {
+        if (category.get('category').value) {
+          this.getFieldAsFormArray('categories').push(this.fb.control(category.get('category').value));
+        }
+      }
+      this.serviceProviderService[method](this.newProviderForm.value).subscribe(
+        res => {},
+        err => {
+          this.showLoader = false;
+          window.scrollTo(0, 0);
+          this.errorMessage = 'Something went wrong. ' + err.error;
+        },
+        () => {
+          this.showLoader = false;
+          if (this.edit) {
+            this.router.navigate(['/myServiceProviders']);
+          } else {
+            this.authService.refreshLogin('/myServiceProviders');
+          }
+        }
+      );
+    } else {
+      this.markFormAsDirty();
+      window.scrollTo(0, 0);
+      this.markTabs();
+      this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
+    }
+  }
+
+  // empty fields can be removed from here when complete
+  toServer(service: Provider): Provider {
+    const ret = {};
+    Object.entries(service).forEach(([name, values]) => {
+      let newValues = values;
+      console.log(name);
+      if (Array.isArray(values)) {
+        newValues = [];
+        values.forEach(e => {
+          console.log('is array');
+          if (typeof e === 'string' || e instanceof String) {
+            if (e !== '') {
+              newValues.push(e.trim().replace(/\s\s+/g, ' '));
+            }
+          } else {
+            console.log('array with objectsg');
+          }
+        });
+      } else if (typeof newValues === 'string' || newValues instanceof String) {
+        newValues = newValues.trim().replace(/\s\s+/g, ' ');
+      } else {
+        console.log('single object');
+      }
+      ret[name] = newValues;
+    });
+    // if ( (this.firstServiceForm === true) && this.providerId) {
+    //   ret['providers'] = [];
+    //   ret['providers'].push(this.providerId);
+    // }
+    return <Provider>ret;
+  }
+
+  /** check form fields and tabs validity--> **/
+  checkFormValidity(name: string): boolean {
+    return (!this.newProviderForm.get(name).valid && this.newProviderForm.get(name).dirty);
+  }
+
+  checkFormArrayValidity(name: string, position: number, groupName?: string): boolean {
+    if (groupName) {
+      return !this.getFieldAsFormArray(name).get([position]).get(groupName).valid && this.getFieldAsFormArray(name).get([position]).get(groupName).dirty;
+    }
+    return !this.getFieldAsFormArray(name).get([position]).valid && this.getFieldAsFormArray(name).get([position]).dirty;
+  }
+
+  checkEveryArrayFieldValidity(name: string, groupName?: string): boolean {
+    for (let i = 0; i < this.getFieldAsFormArray(name).length; i++) {
+      if (groupName) {
+        if (!this.getFieldAsFormArray(name).get([i]).get(groupName).valid && this.getFieldAsFormArray(name).get([i]).get(groupName).dirty) {
+          return true;
+        }
+      } else if (!this.getFieldAsFormArray(name).get([i]).valid && this.getFieldAsFormArray(name).get([i]).dirty) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  markTabs() {
+    this.tabs[0] = (this.checkFormValidity('name') || this.checkFormValidity('acronym')
+      || this.checkFormValidity('website') || this.checkFormValidity('description')
+      || this.checkFormValidity('logo') || this.checkEveryArrayFieldValidity('multimedia'));
+    this.tabs[1] = (this.checkEveryArrayFieldValidity('types') || this.checkEveryArrayFieldValidity('tags')
+      || this.checkEveryArrayFieldValidity('categorization', 'domain')
+      || this.checkEveryArrayFieldValidity('esfriDomains') || this.checkEveryArrayFieldValidity('categorization', 'category'));
+    this.tabs[2] = this.checkFormValidity('lifeCycleStatus');
+    this.tabs[3] = (this.checkFormValidity('location.name') || this.checkFormValidity('location.street')
+      || this.checkFormValidity('location.number') || this.checkFormValidity('location.postalCode')
+      || this.checkFormValidity('location.city') || this.checkFormValidity('location.region')
+      || this.checkFormValidity('coordinatingCountry') || this.checkEveryArrayFieldValidity('participatingCountries'));
+    this.tabs[4] = (this.checkEveryArrayFieldValidity('contacts', 'firstName') || this.checkEveryArrayFieldValidity('contacts', 'lastName')
+      || this.checkEveryArrayFieldValidity('contacts', 'email') || this.checkEveryArrayFieldValidity('contacts', 'email')
+      || this.checkEveryArrayFieldValidity('contacts', 'position'));
+    this.tabs[5] = (this.checkFormValidity('hostingLegalEntity') || this.checkFormValidity('legalStatus')
+      || this.checkFormValidity('esfriParticipation') || this.checkEveryArrayFieldValidity('networks')
+      || this.checkEveryArrayFieldValidity('areasOfActivity') || this.checkEveryArrayFieldValidity('societalGrandChallenges')
+      || this.checkFormValidity('nationalRoadmap'));
+    this.tabs[6] = (this.checkEveryArrayFieldValidity('users', 'name') || this.checkEveryArrayFieldValidity('users', 'surname')
+      || this.checkEveryArrayFieldValidity('users', 'email'));
+
+  }
+
+  /** check form fields and tabs validity--> **/
+
   /** get and set vocabularies **/
   setVocabularies() {
     this.resourceService.getAllVocabulariesByType().subscribe(
@@ -267,87 +401,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
   /** <-- Categorization **/
 
-  // empty fields can be removed from here when complete
-  toServer(service: Provider): Provider {
-    const ret = {};
-    Object.entries(service).forEach(([name, values]) => {
-      let newValues = values;
-      console.log(name);
-      if (Array.isArray(values)) {
-        newValues = [];
-        values.forEach(e => {
-          console.log('is array');
-          if (typeof e === 'string' || e instanceof String) {
-            if (e !== '') {
-              newValues.push(e.trim().replace(/\s\s+/g, ' '));
-            }
-          } else {
-            console.log('array with objectsg');
-          }
-        });
-      } else if (typeof newValues === 'string' || newValues instanceof String) {
-        newValues = newValues.trim().replace(/\s\s+/g, ' ');
-      } else {
-        console.log('single object');
-      }
-      ret[name] = newValues;
-    });
-    // if ( (this.firstServiceForm === true) && this.providerId) {
-    //   ret['providers'] = [];
-    //   ret['providers'].push(this.providerId);
-    // }
-    return <Provider>ret;
-  }
-
-  registerProvider() {
-    if (!this.authService.isLoggedIn()) {
-      console.log('Submit');
-      sessionStorage.setItem('provider', JSON.stringify(this.newProviderForm.value));
-      this.authService.login();
-    }
-
-    this.errorMessage = '';
-    this.trimFormWhiteSpaces();
-    const path = this.route.snapshot.routeConfig.path;
-    let method;
-    if (path === 'registerServiceProvider/:id') {
-      method = 'updateAndPublishPendingProvider';
-    } else {
-      method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
-    }
-    if (this.newProviderForm.valid) {
-      this.showLoader = true;
-      window.scrollTo(0, 0);
-      this.getFieldAsFormArray('categories').controls = [];
-      for (const category of this.domainArray.controls) {
-        if (category.get('category').value) {
-          this.getFieldAsFormArray('categories').push(this.fb.control(category.get('category').value));
-        }
-      }
-      this.serviceProviderService[method](this.newProviderForm.value).subscribe(
-        res => {},
-        err => {
-          this.showLoader = false;
-          window.scrollTo(0, 0);
-          this.errorMessage = 'Something went wrong. ' + err.error;
-        },
-        () => {
-          this.showLoader = false;
-          if (this.edit) {
-            this.router.navigate(['/myServiceProviders']);
-          } else {
-            this.authService.refreshLogin('/myServiceProviders');
-          }
-        }
-      );
-    } else {
-      this.markFormAsDirty();
-      window.scrollTo(0, 0);
-      this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
-    }
-  }
-
-  /** handle form arrays -> **/
+  /** handle form arrays--> **/
   getFieldAsFormArray(field: string) {
     return this.newProviderForm.get(field) as FormArray;
   }
@@ -369,7 +423,7 @@ export class ServiceProviderFormComponent implements OnInit {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }
   }
-  /** <- handle form arrays**/
+  /** <--handle form arrays**/
 
   /** Contact Info -->**/
   newContact(): FormGroup {
