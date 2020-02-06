@@ -39,13 +39,13 @@
                 <form *ngIf="vocabularies" [formGroup]="newProviderForm" class="uk-form-horizontal">
 
                   <ul uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
-                    <li><a [ngClass]="{'form-error': tabs[0]}" href="#"><h3 [ngClass]="{'form-error': tabs[0]}">Basic</h3></a></li>
-                    <li><a [ngClass]="{'form-error': tabs[1]}" href="#"><h3 [ngClass]="{'form-error': tabs[1]}">Classification</h3></a></li>
-                    <li><a [ngClass]="{'form-error': tabs[2]}" href="#"><h3 [ngClass]="{'form-error': tabs[2]}">Maturity</h3></a></li>
-                    <li><a [ngClass]="{'form-error': tabs[3]}" href="#"><h3 [ngClass]="{'form-error': tabs[3]}">Location</h3></a></li>
-                    <li><a [ngClass]="{'form-error': tabs[4]}" href="#"><h3 [ngClass]="{'form-error': tabs[4]}">Contact</h3></a></li>
-                    <li><a [ngClass]="{'form-error': tabs[5]}" href="#"><h3 [ngClass]="{'form-error': tabs[5]}">Other</h3></a></li>
-                    <li><a [ngClass]="{'form-error': tabs[6]}" href="#"><h3 [ngClass]="{'form-error': tabs[6]}">Admins</h3></a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[0]}" href="#">Basic *</a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[1]}" href="#">Classification *</a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[2]}" href="#">Maturity *</a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[3]}" href="#">Location *</a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[4]}" href="#">Contact *</a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[5]}" href="#">Other </a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[6]}" href="#">Admins *</a></li>
                   </ul>
 
                   <ul id="top-navigation-tabs" class="uk-switcher uk-margin">
@@ -142,6 +142,7 @@
                             <select id="types" *ngIf="providerTypeVocabulary" class="uk-select" [formControlName]="i"
                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('types', i),
                                     'uk-width-5-6': getFieldAsFormArray('types').length > 1}">
+                              <option value=""></option>
                               <option *ngFor="let entry of sortVocabulariesByName(providerTypeVocabulary)" value="{{entry.id}}">
                                 {{entry.name}}
                               </option>
@@ -178,6 +179,7 @@
                                 <div class="uk-form-controls">
                                   <select id="{{'domain ' + i}}" formControlName="domain" class="uk-select" (change)="onDomainChange(i)"
                                           [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorization', i, 'domain')}">
+                                    <option value=""></option>
                                     <option *ngFor="let entry of sortVocabulariesByName(domainsVocabulary)" value="{{entry.id}}">
                                       {{entry.name}}
                                     </option>
@@ -222,7 +224,7 @@
                             <select id="esfriDomains" class="uk-select" [formControlName]="i"
                                     [ngClass]="{'uk-form-danger': checkFormValidity('esfriDomains'),
                                'uk-width-5-6': (getFieldAsFormArray('esfriDomains').length > 1)}">
-                              <!--                          <option value=""> </option>-->
+                              <option value=""></option>
                               <option *ngFor="let entry of sortVocabulariesByName(esfriDomainVocabulary)" value="{{entry.id}}">
                                 {{entry.name}}
                               </option>
@@ -271,6 +273,7 @@
                         <div class="uk-form-controls">
                           <select id="lifeCycleStatus" formControlName="lifeCycleStatus" class="uk-select"
                                   [ngClass]="{'uk-form-danger': checkFormValidity('lifeCycleStatus')}">
+                            <option value=""></option>
                             <option *ngFor="let entry of sortVocabulariesByName(providerTRLVocabulary)" value="{{entry.id}}">
                               {{entry.name}}
                             </option>
@@ -349,6 +352,7 @@
                         <div class="uk-form-controls">
                           <select id="coordinatingCountry" class="uk-input" formControlName="coordinatingCountry"
                                   [ngClass]="{'uk-form-danger': checkFormValidity('coordinatingCountry')}">
+                            <option value=""></option>
                             <option *ngFor="let entry of sortVocabulariesByName(placesVocabulary)" value="{{entry.id}}">
                               {{entry.name}}
                             </option>
@@ -464,6 +468,7 @@
                         <div class="uk-form-controls">
                           <select id="legalStatus" class="uk-input" formControlName="legalStatus"
                                   [ngClass]="{'uk-form-danger': checkFormValidity('legalStatus')}">
+                            <option value=""></option>
                             <option *ngFor="let entry of sortVocabulariesByName(legalStatusVocabulary)" value="{{entry.id}}">
                               {{entry.name}}
                             </option>
@@ -478,6 +483,7 @@
                         <div class="uk-form-controls">
                           <select id="esfriParticipation" class="uk-input" formControlName="esfriParticipation"
                                   [ngClass]="{'uk-form-danger': checkFormValidity('esfriParticipation')}">
+                            <option value=""></option>
                             <option *ngFor="let entry of sortVocabulariesByName(esfriVocabulary)" value="{{entry.id}}">
                               {{entry.name}}
                             </option>
@@ -494,6 +500,7 @@
                             <select id="networks" class="uk-input" [formControlName]="i"
                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('networks', i),
                                'uk-width-5-6': (getFieldAsFormArray('networks').length > 1)}">
+                              <option value=""></option>
                               <option *ngFor="let entry of sortVocabulariesByName(networksVocabulary)" value="{{entry.id}}">
                                 {{entry.name}}
                               </option>
@@ -520,6 +527,7 @@
                             <select id="areasOfActivity" class="uk-input" [formControlName]="i"
                                     [ngClass]="{'uk-form-danger': !getFieldAsFormArray('areasOfActivity').get([i]).valid && getFieldAsFormArray('areasOfActivity').get([i]).dirty,
                                'uk-width-5-6': (getFieldAsFormArray('areasOfActivity').length > 1)}">
+                              <option value=""></option>
                               <option *ngFor="let entry of sortVocabulariesByName(areasOfActivityVocabulary)" value="{{entry.id}}">
                                 {{entry.name}}
                               </option>
@@ -546,6 +554,7 @@
                             <select id="societalGrandChallenges" class="uk-input" [formControlName]="i"
                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('societalGrandChallenges', i),
                                'uk-width-5-6': (getFieldAsFormArray('societalGrandChallenges').length > 1)}">
+                              <option value=""></option>
                               <option *ngFor="let entry of sortVocabulariesByName(societalGrandChallengesVocabulary)" value="{{entry.id}}">
                                 {{entry.name}}
                               </option>

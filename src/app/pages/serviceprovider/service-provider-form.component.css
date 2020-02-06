@@ -2,3 +2,7 @@
   color: #c14136 !important;
   /*border-color: #c14136 !important;*/
 }
+
+.remove-text-decoration {
+  text-decoration: none;
+}

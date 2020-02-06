@@ -6,13 +6,13 @@ import {FormBuilder} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {of} from 'rxjs';
 
 declare var UIkit: any;
 
 @Component({
   selector: 'app-update-service-provider',
-  templateUrl: './service-provider-form.component.html'
+  templateUrl: './service-provider-form.component.html',
+  styleUrls: ['./service-provider-form.component.css']
 })
 export class UpdateServiceProviderComponent extends ServiceProviderFormComponent implements OnInit {
   errorMessage: string;
@@ -102,7 +102,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         //   }
         // }
         if (this.provider.users && this.provider.users.length > 1) {
-          for (let i = 0; i < this.provider.users.length - 2; i++) {
+          for (let i = 0; i < this.provider.users.length - 1; i++) {
             this.addUser();
           }
         } else if (path === 'registerServiceProvider/:id') {
