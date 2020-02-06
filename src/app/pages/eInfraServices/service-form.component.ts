@@ -15,7 +15,8 @@ import {FunderService} from '../../services/funder.service';
 
 @Component({
   selector: 'app-service-form',
-  templateUrl: './service-form.component.html'
+  templateUrl: './service-form.component.html',
+  styleUrls: ['../serviceprovider/service-provider-form.component.css']
 })
 export class ServiceFormComponent implements OnInit {
   serviceName = 'eInfraCentral';
@@ -29,6 +30,7 @@ export class ServiceFormComponent implements OnInit {
   errorMessage = '';
   successMessage: string = null;
   weights: string[] = [];
+  tabs: boolean[] = [false, false, false, false, false, false, false, false, false];
   fb: FormBuilder = this.injector.get(FormBuilder);
 
   measurementForm: FormGroup;
@@ -225,7 +227,7 @@ export class ServiceFormComponent implements OnInit {
   userService: UserService = this.injector.get(UserService);
 
   public fundersVocabulary: FundersPage = null;
-  public targetUsers: Vocabulary[] = null;
+  public targetUsersVocabulary: Vocabulary[] = null;
   public accessTypesVocabulary: Vocabulary[] = null;
   public accessModesVocabulary: Vocabulary[] = null;
   public orderTypeVocabulary: Vocabulary[] = null;
@@ -342,7 +344,7 @@ export class ServiceFormComponent implements OnInit {
         this.fundersVocabulary = <FundersPage>suc[3];
         this.getIndicatorIds();
         // this.getLocations();
-        this.targetUsers = this.vocabularies[VocabularyType.TARGET_USERS];
+        this.targetUsersVocabulary = this.vocabularies[VocabularyType.TARGET_USERS];
         this.accessTypesVocabulary = this.vocabularies[VocabularyType.ACCESS_TYPE];
         this.accessModesVocabulary = this.vocabularies[VocabularyType.ACCESS_MODE];
         this.orderTypeVocabulary = this.vocabularies[VocabularyType.ORDER_TYPE];
@@ -430,6 +432,47 @@ export class ServiceFormComponent implements OnInit {
     });
   }
 
+  transformInput(input) {
+    return Object.keys(input).reduce((accumulator, value) => {
+      accumulator[value] = input[value][0].providers[0] + ' - ' + input[value][0].name;
+      return accumulator;
+    }, {});
+  }
+
+  /** check form fields and tabs validity--> **/
+  checkFormValidity(name: string): boolean {
+    return (!this.serviceForm.get(name).valid && this.serviceForm.get(name).dirty);
+  }
+  checkFormArrayValidity(name: string, position: number, groupName?: string, position2?: number, contactField?: string): boolean {
+    if (contactField) {
+      return this.getFieldAsFormArray(name).controls[position].get(groupName).get([position2]).get(contactField).valid
+              && this.getFieldAsFormArray(name).controls[position].get(groupName).get([position2]).get(contactField).dirty;
+    }
+    if (groupName) {
+      return !this.getFieldAsFormArray(name).get([position]).get(groupName).valid && this.getFieldAsFormArray(name).get([position]).get(groupName).dirty;
+    }
+    return !this.getFieldAsFormArray(name).get([position]).valid && this.getFieldAsFormArray(name).get([position]).dirty;
+  }
+
+  checkEveryArrayFieldValidity(name: string, groupName?: string): boolean {
+    for (let i = 0; i < this.getFieldAsFormArray(name).length; i++) {
+      if (groupName) {
+        if (!this.getFieldAsFormArray(name).get([i]).get(groupName).valid && this.getFieldAsFormArray(name).get([i]).get(groupName).dirty) {
+          return true;
+        }
+      } else if (!this.getFieldAsFormArray(name).get([i]).valid && this.getFieldAsFormArray(name).get([i]).dirty) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  markTabs() {
+    this.tabs[0] = false;
+  }
+  /** <--check form fields and tabs validity **/
+
+  /** manage form arrays--> **/
   getFieldAsFormArray(field: string) {
     return this.serviceForm.get(field) as FormArray;
   }
@@ -451,13 +494,7 @@ export class ServiceFormComponent implements OnInit {
   remove(field: string, i: number) {
     this.getFieldAsFormArray(field).removeAt(i);
   }
-
-  transformInput(input) {
-    return Object.keys(input).reduce((accumulator, value) => {
-      accumulator[value] = input[value][0].providers[0] + ' - ' + input[value][0].name;
-      return accumulator;
-    }, {});
-  }
+  /** <--manage form arrays **/
 
   /** Categorization & Scientific Domain--> **/
 
@@ -682,28 +719,6 @@ export class ServiceFormComponent implements OnInit {
     );
   }
 
-  getVocabularyById(vocabularies: Vocabulary[], id: string) {
-    return vocabularies.find(entry => entry.id === id);
-  }
-
-  getSortedChildrenCategories(childrenCategory: Vocabulary[], parentId: string) {
-    return this.sortVocabulariesByName(childrenCategory.filter(entry => entry.parentId === parentId));
-  }
-
-  sortVocabulariesByName(vocabularies: Vocabulary[]): Vocabulary[] {
-    return vocabularies.sort((vocabulary1, vocabulary2) => {
-      if (vocabulary1.name > vocabulary2.name) {
-        return 1;
-      }
-
-      if (vocabulary1.name < vocabulary2.name) {
-        return -1;
-      }
-
-      return 0;
-    });
-  }
-
   handleChange(event, index: number) {
     if (event.target.value === 'false') {
       this.measurements.controls[index].get('rangeValue').disable();
@@ -747,5 +762,27 @@ export class ServiceFormComponent implements OnInit {
     }
   }
   /** <-- INDICATORS **/
+
+  getVocabularyById(vocabularies: Vocabulary[], id: string) {
+    return vocabularies.find(entry => entry.id === id);
+  }
+
+  getSortedChildrenCategories(childrenCategory: Vocabulary[], parentId: string) {
+    return this.sortVocabulariesByName(childrenCategory.filter(entry => entry.parentId === parentId));
+  }
+
+  sortVocabulariesByName(vocabularies: Vocabulary[]): Vocabulary[] {
+    return vocabularies.sort((vocabulary1, vocabulary2) => {
+      if (vocabulary1.name > vocabulary2.name) {
+        return 1;
+      }
+
+      if (vocabulary1.name < vocabulary2.name) {
+        return -1;
+      }
+
+      return 0;
+    });
+  }
 
 }

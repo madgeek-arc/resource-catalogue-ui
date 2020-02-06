@@ -41,16 +41,29 @@
                   <form [formGroup]="serviceForm" role="form" class="uk-form-horizontal"
                         (ngSubmit)="onSubmit(serviceForm.value, serviceForm.valid)">
 
-                    <ul uk-accordion="multiple: true">
+                    <ul uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
+                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[0]}" href="#">Basic *</a></li>
+                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[1]}" href="#">Classification *</a></li>
+                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[2]}" href="#">Maturity </a></li>
+                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[3]}" href="#">Contractual *</a></li>
+                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[6]}" href="#">Support </a></li>
+                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[4]}" href="#">Contact *</a></li>
+                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[5]}" href="#">Other </a></li>
+                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[7]}" href="#">Aggregator </a></li>
+                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[8]}" href="#">Indicators </a></li>
+                    </ul>
 
-                      <li accordionSection class="uk-open uk-margin-large-bottom" [title]="'Basic Information'">
+                    <ul id="top-navigation-tabs" class="uk-switcher uk-margin">
+
+                      <li>
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="name">
                             {{nameDesc.label + (nameDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <input id="name" class="uk-input" type="text" formControlName="name"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('name').valid && serviceForm.get('name').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('name') }">
+<!--                                   [ngClass]="{'uk-form-danger': !serviceForm.get('name').valid && serviceForm.get('name').dirty}">-->
                             <i><small>{{nameDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -60,7 +73,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="url" class="uk-input" type="text" formControlName="url"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('url').valid && serviceForm.get('url').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('url')}">
                             <i><small>{{webpageDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -86,7 +99,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="logo" class="uk-input" type="text" formControlName="logo"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('logo').valid && serviceForm.get('logo').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('logo')}">
                             <i><small>{{logoDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -97,8 +110,7 @@
                           <div class="uk-form-controls ">
                             <div *ngFor="let multimedia of getFieldAsFormArray('multimediaUrls').controls; let i=index">
                               <input id="multimedia" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
-                                     [ngClass]="{'uk-form-danger': !getFieldAsFormArray('multimediaUrls').get([i]).valid
-                                     && getFieldAsFormArray('multimediaUrls').get([i]).dirty,
+                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimediaUrls', i),
                                      'uk-width-5-6': getFieldAsFormArray('multimediaUrls').length > 1}">
                               <a *ngIf="getFieldAsFormArray('multimediaUrls').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('multimediaUrls', i)">
@@ -119,7 +131,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="tagline" class="uk-input" type="text" formControlName="tagline"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('tagline').valid && serviceForm.get('tagline').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('tagline')}">
                             <i><small>{{taglineDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -129,7 +141,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <textarea id="userValue" class="uk-textarea" type="text" formControlName="userValue" rows="4"
-                                      [ngClass]="{'uk-form-danger': !serviceForm.get('userValue').valid && serviceForm.get('userValue').dirty}">
+                                      [ngClass]="{'uk-form-danger': checkFormValidity('userValue')}">
                             </textarea>
                             <i><small>{{userValueDesc.desc}}</small></i>
                           </div>
@@ -141,8 +153,7 @@
                           <div class="uk-form-controls">
                             <div *ngFor="let userBase of getFieldAsFormArray('userBaseList').controls; let i=index">
                               <input id="userBase" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
-                                     [ngClass]="{'uk-form-danger': !getFieldAsFormArray('userBaseList').get([i]).valid
-                                     && getFieldAsFormArray('userBaseList').get([i]).dirty,
+                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('userBaseList', i),
                                      'uk-width-5-6': getFieldAsFormArray('userBaseList').length > 1}">
                               <a *ngIf="getFieldAsFormArray('userBaseList').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('userBaseList', i)">
@@ -164,8 +175,7 @@
                           <div class="uk-form-controls">
                             <div *ngFor="let useCase of getFieldAsFormArray('useCases').controls; let i=index">
                               <input id="useCases" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
-                                     [ngClass]="{'uk-form-danger': !getFieldAsFormArray('useCases').get([i]).valid
-                                     && getFieldAsFormArray('useCases').get([i]).dirty,
+                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i),
                                      'uk-width-5-6': getFieldAsFormArray('useCases').length > 1}">
                               <a *ngIf="getFieldAsFormArray('useCases').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('useCases', i)">
@@ -196,7 +206,7 @@
                                   </label>
                                   <div class="uk-form-controls">
                                     <input class="uk-input" type="text" id="optionName" formControlName="name"
-                                           [ngClass]="{'uk-form-danger': !getFieldAsFormArray('options').controls[i].get('name').valid && getFieldAsFormArray('options').controls[i].get('name').dirty}">
+                                           [ngClass]="{'uk-form-danger': checkFormArrayValidity('options', i, 'name')}">
                                     <i><small>{{optionsNameDesc.desc}}</small></i>
                                   </div>
                                 </div>
@@ -206,7 +216,7 @@
                                   </label>
                                   <div class="uk-form-controls">
                                     <input class="uk-input" type="text" id="optionsURL" formControlName="url"
-                                           [ngClass]="{'uk-form-danger': !getFieldAsFormArray('options').controls[i].get('url').valid && getFieldAsFormArray('options').controls[i].get('url').dirty}">
+                                           [ngClass]="{'uk-form-danger': checkFormArrayValidity('options', i, 'url')}">
                                     <i><small>{{optionsWebpageDesc.desc}}</small></i>
                                   </div>
                                 </div>
@@ -217,7 +227,7 @@
                                   <div class="uk-form-controls">
                                     <textarea class="uk-textarea" type="text" id="description" rows="2"
                                               formControlName="description"
-                                              [ngClass]="{'uk-form-danger': !getFieldAsFormArray('options').controls[i].get('description').valid && getFieldAsFormArray('options').controls[i].get('description').dirty}">
+                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('options', i, 'description')}">
                                     </textarea>
                                     <i><small>{{optionsDescriptionDesc.desc}}</small></i>
                                   </div>
@@ -228,7 +238,7 @@
                                   </label>
                                   <div class="uk-form-controls">
                                     <input class="uk-input" type="text" id="optionsLogo" formControlName="logo"
-                                           [ngClass]="{'uk-form-danger': !getFieldAsFormArray('options').controls[i].get('logo').valid && getFieldAsFormArray('options').controls[i].get('logo').dirty}">
+                                           [ngClass]="{'uk-form-danger': checkFormArrayValidity('options', i, 'logo')}">
                                     <i><small>{{optionsLogoDesc.desc}}</small></i>
                                   </div>
                                 </div>
@@ -247,7 +257,7 @@
                                         </label>
                                         <div class="uk-form-controls">
                                           <input id="firstName" class="uk-input" type="text" formControlName="firstName"
-                                                 [ngClass]="{'uk-form-danger': !getContactArray(i).controls[j].get('firstName').valid && getContactArray(i).controls[j].get('firstName').dirty}">
+                                                 [ngClass]="{'uk-form-danger': checkFormArrayValidity('options', i, 'contacts', j, 'firstName')}">
                                           <i><small>{{j === 0 ? firstContactFirstNameDesc.desc : secondContactLastNameDesc.desc}}</small></i>
                                         </div>
                                         <label class="uk-form-label uk-text-right" for="lastName">
@@ -255,7 +265,7 @@
                                         </label>
                                         <div class="uk-form-controls">
                                           <input id="lastName" class="uk-input" type="text" formControlName="lastName"
-                                                 [ngClass]="{'uk-form-danger': !getContactArray(i).controls[j].get('lastName').valid && getContactArray(i).controls[j].get('lastName').dirty}">
+                                                 [ngClass]="{'uk-form-danger': checkFormArrayValidity('options', i, 'contacts', j, 'lastName')}">
                                           <i><small>{{j === 0 ? firstContactLastNameDesc.desc : secondContactFirstNameDesc.desc}}</small></i>
                                         </div>
                                         <label class="uk-form-label uk-text-right" for="email">
@@ -263,7 +273,7 @@
                                         </label>
                                         <div class="uk-form-controls">
                                           <input id="email" class="uk-input" type="text" formControlName="email"
-                                                 [ngClass]="{'uk-form-danger': !getContactArray(i).controls[j].get('email').valid && getContactArray(i).controls[j].get('email').dirty}">
+                                                 [ngClass]="{'uk-form-danger': checkFormArrayValidity('options', i, 'contacts', j, 'email')}">
                                           <i><small>{{j === 0 ? firstContactEmailDesc.desc : secondContactEmailDesc.desc}}</small></i>
                                         </div>
                                         <label class="uk-form-label uk-text-right" for="tel">
@@ -271,7 +281,7 @@
                                         </label>
                                         <div class="uk-form-controls">
                                           <input id="tel" class="uk-input" type="text" formControlName="tel"
-                                                 [ngClass]="{'uk-form-danger': !getContactArray(i).controls[j].get('tel').valid && getContactArray(i).controls[j].get('tel').dirty}">
+                                                 [ngClass]="{'uk-form-danger': checkFormArrayValidity('options', i, 'contacts', j, 'tel')}">
                                           <i><small>{{j === 0 ? firstContactTelephoneDesc.desc : secondContactTelephoneDesc.desc}}</small></i>
                                         </div>
                                         <label class="uk-form-label uk-text-right" for="position">
@@ -279,7 +289,7 @@
                                         </label>
                                         <div class="uk-form-controls">
                                           <input id="position" class="uk-input" type="text" formControlName="position"
-                                                 [ngClass]="{'uk-form-danger': !getContactArray(i).controls[j].get('position').valid && getContactArray(i).controls[j].get('position').dirty}">
+                                                 [ngClass]="{'uk-form-danger': checkFormArrayValidity('options', i, 'contacts', j, 'position')}">
                                           <i><small>{{j === 0 ? firstContactPositionDesc.desc : secondContactPositionDesc.desc}}</small></i>
                                         </div>
                                       </div>
@@ -329,12 +339,12 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="endpoint" class="uk-input" type="text" formControlName="endpoint"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('endpoint').valid && serviceForm.get('endpoint').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('endpoint')}">
                             <i><small>{{endpointDesc.desc}}</small></i>
                           </div>
                         </div>
                       </li>
-                      <li accordionSection class="uk-margin-large-bottom" [title]="'Classification Information'">
+                      <li>
 
                         <!--IF NOT IN THE AddFirstService PAGE - SHOW THE LIST OF PROVIDERS-->
                         <div *ngIf="!firstServiceForm" formArrayName="providers" class="uk-margin-bottom">
@@ -344,8 +354,7 @@
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('providers').controls; let i=index">
                               <select *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
-                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('providers').get([i]).valid
-                                      && getFieldAsFormArray('providers').get([i]).dirty,
+                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('providers', i),
                                       'uk-width-5-6': getFieldAsFormArray('providers').length > 1}">
                                 <option *ngFor="let provider of providersPage.results"
                                         value="{{provider.id}}">{{provider.name}}</option>
@@ -391,7 +400,7 @@
                                   </label>
                                   <div class="uk-form-controls">
                                     <select id="{{'scientificDomain ' + i}}"  formControlName="scientificDomain" class="uk-select" (change)="onScientificDomainChange(i)"
-                                            [ngClass]="{'uk-form-danger': !scientificDomainArray.controls[i].get('scientificDomain').valid && scientificDomainArray.controls[i].get('scientificDomain').dirty}">
+                                            [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificCategorization', i, 'scientificDomain')}">
                                       <option *ngFor="let entry of sortVocabulariesByName(scientificDomainVocabulary)"
                                               value="{{entry.id}}">{{entry.name}}
                                       </option>
@@ -406,7 +415,7 @@
                                   </label>
                                   <div class="uk-form-controls">
                                     <select id="{{'scientificSubDomain ' + i}}" formControlName="scientificSubDomain" class="uk-select"
-                                            [ngClass]="{'uk-form-danger': !scientificDomainArray.controls[i].get('scientificSubDomain').valid && scientificDomainArray.controls[i].get('scientificSubDomain').dirty}">
+                                            [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificCategorization', i, 'scientificSubDomain')}">
                                       <ng-container *ngIf="scientificDomainArray.controls[i].get('scientificDomain').value">
                                         <option value="">--Choose Scientific Subdomain--</option>
                                         <option *ngFor="let entry of getSortedChildrenCategories(scientificSubDomainVocabulary, scientificDomainArray.controls[i].get('scientificDomain').value)"
@@ -462,7 +471,7 @@
                                   </label>
                                   <div class="uk-form-controls">
                                     <select id="{{'category ' + i}}" formControlName="category" class="uk-select" (change)="onCategoryChange(i)"
-                                            [ngClass]="{'uk-form-danger': !categoryArray.controls[i].get('category').valid && categoryArray.controls[i].get('category').dirty}">
+                                            [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorize', i, 'category')}">
 <!--                                      <ng-container *ngIf="categoryArray.controls[i].get('supercategory').value">-->
                                       <ng-container>
 <!--                                        <option value="">&#45;&#45;Choose Category&#45;&#45;</option>-->
@@ -485,7 +494,7 @@
                                   </label>
                                   <div class="uk-form-controls">
                                     <select id="{{'subcategory ' + i}}" formControlName="subcategory" class="uk-select"
-                                            [ngClass]="{'uk-form-danger': !categoryArray.controls[i].get('subcategory').valid && categoryArray.controls[i].get('subcategory').dirty}">
+                                            [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorize', i, 'subcategory')}">
                                       <ng-container *ngIf="categoryArray.controls[i].get('category').value">
                                         <option value="">--Choose subcategory--</option>
                                         <option
@@ -518,11 +527,10 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('targetUsers').controls; let i=index">
-                              <select id="targetUsers" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
-                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('targetUsers').get([i]).valid
-                                      && getFieldAsFormArray('targetUsers').get([i]).dirty,
+                              <select id="targetUsers" *ngIf="targetUsersVocabulary" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('targetUsers', i),
                                       'uk-width-5-6': getFieldAsFormArray('targetUsers').length > 1}">
-                                <option *ngFor="let entry of sortVocabulariesByName(targetUsers)" value="{{entry.id}}">
+                                <option *ngFor="let entry of sortVocabulariesByName(targetUsersVocabulary)" value="{{entry.id}}">
                                   {{entry.name}}
                                 </option>
                               </select>
@@ -545,9 +553,8 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('languages').controls; let i=index">
-                              <select id="languages" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
-                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('languages').get([i]).valid
-                                      && getFieldAsFormArray('languages').get([i]).dirty,
+                              <select id="languages" *ngIf="languagesVocabulary" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('languages', i),
                                       'uk-width-5-6': getFieldAsFormArray('languages').length > 1}">
                                 <option *ngFor="let entry of languagesVocabulary" value="{{entry.id}}">
                                   {{entry.name}}
@@ -573,8 +580,7 @@
                           <div class="uk-form-controls">
                             <div *ngFor="let place of getFieldAsFormArray('places').controls; let i=index">
                               <select id="places" *ngIf="placesVocabulary" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
-                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('places').get([i]).valid
-                                      && getFieldAsFormArray('places').get([i]).dirty,
+                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('places', i),
                                       'uk-width-5-6': getFieldAsFormArray('places').length > 1}">
                                 <option *ngFor="let entry of placesVocabulary" value="{{entry.id}}">
                                   {{entry.name}}
@@ -600,8 +606,7 @@
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('accessTypes').controls; let i=index">
                               <select id="accessTypes" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
-                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('accessTypes').get([i]).valid
-                                      && getFieldAsFormArray('accessTypes').get([i]).dirty,
+                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('accessTypes', i),
                                       'uk-width-5-6': getFieldAsFormArray('accessTypes').length > 1}">
                                 <option value=""></option>
                                 <option *ngFor="let entry of sortVocabulariesByName(accessTypesVocabulary)" value="{{entry.id}}">
@@ -628,8 +633,7 @@
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('accessModes').controls; let i=index">
                               <select *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
-                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('accessModes').get([i]).valid
-                                      && getFieldAsFormArray('accessModes').get([i]).dirty,
+                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('accessModes', i),
                                       'uk-width-5-6': getFieldAsFormArray('accessModes').length > 1}">
                                 <option value=""></option>
                                 <option *ngFor="let entry of sortVocabulariesByName(accessModesVocabulary)" value="{{entry.id}}">
@@ -656,8 +660,7 @@
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('funders').controls; let i=index">
                               <select id="funders" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
-                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('funders').get([i]).valid
-                                      && getFieldAsFormArray('funders').get([i]).dirty,
+                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('funders', i),
                                       'uk-width-5-6': getFieldAsFormArray('funders').length > 1}">
                                 <option value=""></option>
                                 <option *ngFor="let entry of fundersVocabulary.results" value="{{entry.id}}">
@@ -684,8 +687,7 @@
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('tags').controls; let i=index">
                               <input id="tags" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
-                                     [ngClass]="{'uk-form-danger': !getFieldAsFormArray('tags').get([i]).valid
-                                     && getFieldAsFormArray('tags').get([i]).dirty,
+                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('tags', i),
                                      'uk-width-5-6': getFieldAsFormArray('tags').length > 1}">
                               <a *ngIf="getFieldAsFormArray('tags').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('tags', i)">
@@ -701,14 +703,14 @@
                           </div>
                         </div>
                       </li>
-                      <li accordionSection class="uk-margin-large-bottom" [title]="'Maturity Information'">
+                      <li>
                         <div *ngIf="phaseVocabulary" class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="phase">
                             {{phaseDesc.label + (phaseDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <select id="phase" formControlName="phase" class="uk-select"
-                                    [ngClass]="{'uk-form-danger': !serviceForm.get('phase').valid && serviceForm.get('phase').dirty}">
+                                    [ngClass]="{'uk-form-danger': checkFormValidity('phase')}">
                               <option value=""></option>
                               <option *ngFor="let entry of sortVocabulariesByName(phaseVocabulary)" value="{{entry.id}}">
                                 {{entry.name}}
@@ -723,7 +725,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <select id="trl" formControlName="trl" class="uk-select"
-                                    [ngClass]="{'uk-form-danger': !serviceForm.get('trl').valid && serviceForm.get('trl').dirty}">
+                                    [ngClass]="{'uk-form-danger': checkFormValidity('trl')}">
                               <option value=""></option>
                               <option *ngFor="let entry of sortVocabulariesByName(trlVocabulary)" value="{{entry.id}}">
                                 {{entry.name}}
@@ -740,7 +742,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="version" maxlength="10" class="uk-input" type="text" formControlName="version"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('version').valid && serviceForm.get('version').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('version')}">
                             <i><small>{{versionDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -750,7 +752,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="lastUpdate" class="uk-input" type="date" formControlName="lastUpdate"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('lastUpdate').valid && serviceForm.get('lastUpdate').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('lastUpdate')}">
                             <i><small>{{lastUpdateDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -760,7 +762,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="changeLog" class="uk-input" type="text" formControlName="changeLog"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('changeLog').valid && serviceForm.get('changeLog').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('changeLog')!}">
                             <i><small>{{changeLogDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -771,8 +773,7 @@
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('certifications').controls; let i=index">
                               <input id="certifications" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
-                                     [ngClass]="{'uk-form-danger': !getFieldAsFormArray('certifications').get([i]).valid
-                                     && getFieldAsFormArray('certifications').get([i]).dirty,
+                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('certifications', i),
                                      'uk-width-5-6': getFieldAsFormArray('certifications').length > 1}">
                               <a *ngIf="getFieldAsFormArray('certifications').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('certifications', i)">
@@ -794,8 +795,7 @@
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('standards').controls; let i=index">
                               <input id="standards" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
-                                     [ngClass]="{'uk-form-danger': !getFieldAsFormArray('standards').get([i]).valid
-                                     && getFieldAsFormArray('standards').get([i]).dirty,
+                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('standards', i),
                                      'uk-width-5-6': getFieldAsFormArray('standards').length > 1}">
                               <a *ngIf="getFieldAsFormArray('standards').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('standards', i)">
@@ -811,14 +811,14 @@
                           </div>
                         </div>
                       </li>
-                      <li accordionSection class="uk-margin-large-bottom" [title]="'Contractual Information'">
+                      <li>
                         <div *ngIf="orderTypeVocabulary" class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="orderType">
                             {{orderTypeDesc.label + (orderTypeDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <select id="orderType" formControlName="orderType" class="uk-select"
-                                    [ngClass]="{'uk-form-danger': !serviceForm.get('orderType').valid && serviceForm.get('orderType').dirty}">
+                                    [ngClass]="{'uk-form-danger': checkFormValidity('orderType')}">
                               <option *ngFor="let entry of sortVocabulariesByName(orderTypeVocabulary)" value="{{entry.id}}">
                                 {{entry.name}}
                               </option>
@@ -832,7 +832,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="order" class="uk-input" type="text" formControlName="order"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('order').valid && serviceForm.get('order').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('order')}">
                             <i><small>{{orderDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -842,7 +842,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="sla" class="uk-input" type="text" formControlName="sla"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('sla').valid && serviceForm.get('sla').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('sla')}">
                             <i><small>{{serviceLevelAgreementDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -852,7 +852,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="termsOfUse" class="uk-input" type="text" formControlName="termsOfUse"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('termsOfUse').valid && serviceForm.get('termsOfUse').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('termsOfUse')}">
                             <i><small>{{termsOfUseDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -862,7 +862,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="privacyPolicy" class="uk-input" type="text" formControlName="privacyPolicy"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('privacyPolicy').valid && serviceForm.get('privacyPolicy').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('privacyPolicy')}">
                             <i><small>{{privacyPolicyDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -872,7 +872,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="accessPolicy" class="uk-input" type="text" formControlName="accessPolicy"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('accessPolicy').valid && serviceForm.get('accessPolicy').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('accessPolicy')}">
                             <i><small>{{accessPolicyDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -882,7 +882,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="paymentModel" class="uk-input" type="text" formControlName="paymentModel"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('paymentModel').valid && serviceForm.get('paymentModel').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('paymentModel')}">
                             <i><small>{{paymentModelDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -892,19 +892,19 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="pricing" class="uk-input" type="text" formControlName="pricing"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('pricing').valid && serviceForm.get('pricing').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('pricing')}">
                             <i><small>{{pricingDesc.desc}}</small></i>
                           </div>
                         </div>
                       </li>
-                      <li accordionSection class="uk-margin-large-bottom" [title]="'Support Information'">
+                      <li>
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="userManual">
                             {{userManualDesc.label + (userManualDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <input id="userManual" class="uk-input" type="text" formControlName="userManual"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('userManual').valid && serviceForm.get('userManual').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('userManual')}">
                             <i><small>{{userManualDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -914,7 +914,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="adminManual" class="uk-input" type="text" formControlName="adminManual"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('adminManual').valid && serviceForm.get('adminManual').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('adminManual')}">
                             <i><small>{{adminManualDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -924,7 +924,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="training" class="uk-input" type="text" formControlName="training"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('training').valid && serviceForm.get('training').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('training')}">
                             <i><small>{{trainingInformationDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -934,7 +934,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="helpdesk" class="uk-input" type="text" formControlName="helpdesk"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('helpdesk').valid && serviceForm.get('helpdesk').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('helpdesk')}">
                             <i><small>{{helpdeskDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -944,7 +944,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="monitoring" class="uk-input" type="text" formControlName="monitoring"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('monitoring').valid && serviceForm.get('monitoring').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('monitoring')}">
                             <i><small>{{statusMonitoringDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -954,12 +954,12 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="maintenance" class="uk-input" type="text" formControlName="maintenance"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('maintenance').valid && serviceForm.get('maintenance').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('maintenance')}">
                             <i><small>{{maintenanceDesc.desc}}</small></i>
                           </div>
                         </div>
                       </li>
-                      <li accordionSection class="uk-margin-large-bottom" [title]="'Contact Information'">
+                      <li>
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right">Contact (*)</label>
                           <div class="uk-form-controls">
@@ -976,7 +976,7 @@
                                 </label>
                                 <div class="uk-form-controls">
                                   <input id="{{'firstName ' + i}}" class="uk-input" type="text" formControlName="firstName"
-                                         [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('firstName').valid && contactArray.controls[i].get('firstName').dirty}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('contacts', i, 'firstName')}">
                                   <i><small>{{i === 0 ? mainContactFirstNameDesc.desc : publicContactLastNameDesc.desc}}</small></i>
                                 </div>
                                 <label class="uk-form-label uk-text-right" for="{{'lastName ' + i}}">
@@ -984,7 +984,7 @@
                                 </label>
                                 <div class="uk-form-controls">
                                   <input id="{{'lastName ' + i}}" class="uk-input" type="text" formControlName="lastName"
-                                         [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('lastName').valid && contactArray.controls[i].get('lastName').dirty}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('contacts', i, 'lastName')}">
                                   <i><small>{{i === 0 ? mainContactLastNameDesc.desc : publicContactFirstNameDesc.desc}}</small></i>
                                 </div>
                                 <label class="uk-form-label uk-text-right" for="{{'email ' + i}}">
@@ -992,7 +992,7 @@
                                 </label>
                                 <div class="uk-form-controls">
                                   <input id="{{'email ' + i}}" class="uk-input" type="text" formControlName="email"
-                                         [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('email').valid && contactArray.controls[i].get('email').dirty}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('contacts', i, 'email')}">
                                   <i><small>{{i === 0 ? mainContactEmailDesc.desc : publicContactEmailDesc.desc}}</small></i>
                                 </div>
                                 <label class="uk-form-label uk-text-right" for="{{'tel ' + i}}">
@@ -1000,7 +1000,7 @@
                                 </label>
                                 <div class="uk-form-controls">
                                   <input id="{{'tel ' + i}}" class="uk-input" type="text" formControlName="tel"
-                                         [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('tel').valid && contactArray.controls[i].get('tel').dirty}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('contacts', i, 'tel')}">
                                   <i><small>{{i === 0 ? mainContactPhoneDesc.desc : publicContactPhoneDesc.desc}}</small></i>
                                 </div>
                                 <label class="uk-form-label uk-text-right" for="{{'position ' + i}}">
@@ -1008,7 +1008,7 @@
                                 </label>
                                 <div class="uk-form-controls">
                                   <input id="{{'position ' + i}}" class="uk-input" type="text" formControlName="position"
-                                         [ngClass]="{'uk-form-danger': !contactArray.controls[i].get('position').valid && contactArray.controls[i].get('position').dirty}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('contacts', i, 'position')}">
                                   <i><small>{{i === 0 ? mainContactPositionDesc.desc : publicContactPositionDesc.desc}}</small></i>
                                 </div>
                               </div>
@@ -1093,7 +1093,7 @@
 <!--                          </div>-->
 <!--                        </div>-->
                       </li>
-                      <li accordionSection class="uk-margin-large-bottom" [title]="'Other Information'">
+                      <li>
                         <div formArrayName="requiredServices" class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="requiredServices">
                             {{requiredServicesDesc.label + (requiredServicesDesc.mandatory ? ' (*)' : '')}}
@@ -1101,8 +1101,7 @@
                           <div *ngIf="requiredServices" class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('requiredServices').controls; let i=index">
                               <select id="requiredServices" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
-                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('requiredServices').get([i]).valid
-                                      && getFieldAsFormArray('requiredServices').get([i]).dirty,
+                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('requiredServices', i),
                                       'uk-width-5-6': getFieldAsFormArray('requiredServices').length > 1}">
                                 <option value=""></option>
                                 <option *ngFor="let reqService of requiredServices | keys" value="{{reqService}}">
@@ -1129,8 +1128,7 @@
                           <div *ngIf="relatedServices" class="uk-form-controls ">
                             <div *ngFor="let provider of getFieldAsFormArray('relatedServices').controls; let i=index">
                               <select id="relatedServices" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
-                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('relatedServices').get([i]).valid
-                                      && getFieldAsFormArray('relatedServices').get([i]).dirty,
+                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedServices', i),
                                       'uk-width-5-6': getFieldAsFormArray('relatedServices').length > 1}">
                                 <option value=""></option>ca
                                 <option *ngFor="let reqService of relatedServices | keys" value="{{reqService}}">
@@ -1157,8 +1155,7 @@
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('relatedPlatforms').controls; let i=index">
                               <input id="relatedPlatforms" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
-                                     [ngClass]="{'uk-form-danger': !getFieldAsFormArray('relatedPlatforms').get([i]).valid
-                                     && getFieldAsFormArray('relatedPlatforms').get([i]).dirty,
+                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedPlatforms', i),
                                      'uk-width-5-6': getFieldAsFormArray('relatedPlatforms').length > 1}">
                               <a *ngIf="getFieldAsFormArray('relatedPlatforms').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('relatedPlatforms', i)">
@@ -1174,14 +1171,14 @@
                           </div>
                         </div>
                       </li>
-                      <li accordionSection class="uk-margin-large-bottom" [title]="'Aggregator Information'">
+                      <li>
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="aggregatedServices">
                             {{aggregatedServicesDesc.label + (aggregatedServicesDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <input id="aggregatedServices" class="uk-input" type="number" formControlName="aggregatedServices"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('aggregatedServices').valid && serviceForm.get('aggregatedServices').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('aggregatedServices')}">
                             <i><small>{{aggregatedServicesDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -1191,7 +1188,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="datasets" class="uk-input" type="number" formControlName="datasets"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('datasets').valid && serviceForm.get('datasets').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('datasets')}">
                             <i><small>{{datasetsDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -1201,7 +1198,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="applications" class="uk-input" type="number" formControlName="applications"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('applications').valid && serviceForm.get('applications').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('applications')}">
                             <i><small>{{applicationsDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -1211,7 +1208,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="software" class="uk-input" type="number" formControlName="software"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('software').valid && serviceForm.get('software').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('software')}">
                             <i><small>{{softwareDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -1221,7 +1218,7 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="publications" class="uk-input" type="number" formControlName="publications"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('publications').valid && serviceForm.get('publications').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('publications')}">
                             <i><small>{{publicationsDesc.desc}}</small></i>
                           </div>
                         </div>
@@ -1231,12 +1228,12 @@
                           </label>
                           <div class="uk-form-controls">
                             <input id="otherProducts" class="uk-input" type="number" formControlName="otherProducts"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('otherProducts').valid && serviceForm.get('otherProducts').dirty}">
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('otherProducts')}">
                             <i><small>{{otherProductsDesc.desc}}</small></i>
                           </div>
                         </div>
                       </li>
-                      <li accordionSection class="uk-margin-large-bottom" [title]="'Indicators'">
+                      <li>
 
                         <form class="uk-form-horizontal uk-margin-small-bottom" [formGroup]="measurementForm">
                           <div formArrayName="measurements">
