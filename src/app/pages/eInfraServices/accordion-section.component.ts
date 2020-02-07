@@ -1,9 +1,9 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 
 @Component({
   selector: '[accordionSection]',
   template: `
-    <h3 class="uk-accordion-title">
+    <h3 class="uk-accordion-title" [ngClass]="{'uk-alert-danger': error}">
       <span>
           <!--<i class="fa fa" [ngClass]="valid ? 'fa-check':'fa-exclamation'" aria-hidden="true"></i>-->
         {{title}}
@@ -18,6 +18,7 @@ import {Component, Input} from '@angular/core';
 
 export class AccordionComponent {
 
-  @Input()
-  title = '';
+  @Input() title = '';
+  @Input() error = false;
+
 }

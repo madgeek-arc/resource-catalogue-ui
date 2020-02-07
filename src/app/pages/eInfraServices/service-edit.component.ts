@@ -11,7 +11,8 @@ import {FunderService} from '../../services/funder.service';
 
 @Component({
   selector: 'app-service-edit',
-  templateUrl: './service-form.component.html'
+  templateUrl: './service-form.component.html',
+  styleUrls: ['../serviceprovider/service-provider-form.component.css']
 })
 export class ServiceEditComponent extends ServiceFormComponent implements OnInit {
   private sub: Subscription;

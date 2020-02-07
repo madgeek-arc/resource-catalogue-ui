@@ -3,7 +3,8 @@ import {ServiceEditComponent} from '../../../../../../src/app/pages/eInfraServic
 
 @Component({
   selector: 'app-service-edit',
-  templateUrl: '../../../../../../src/app/pages/eInfraServices/service-form.component.html'
+  templateUrl: '../../../../../../src/app/pages/eInfraServices/service-form.component.html',
+  styleUrls: ['../../../../../../src/app/pages/serviceprovider/service-provider-form.component.css']
 })
 
 export class ServiceEditExtendedComponent extends ServiceEditComponent implements OnInit {

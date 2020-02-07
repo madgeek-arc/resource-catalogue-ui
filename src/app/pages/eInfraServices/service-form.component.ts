@@ -315,12 +315,14 @@ export class ServiceFormComponent implements OnInit {
       );
     } else {
       window.scrollTo(0, 0);
+
       this.categoryArray.enable();
       this.scientificDomainArray.enable();
       this.setAsTouched();
+      this.markTabs();
       this.serviceForm.markAsDirty();
       this.serviceForm.updateValueAndValidity();
-      this.validateMeasurements();
+      this.tabs[8] = this.validateMeasurements();
       if (!this.serviceForm.valid) {
         this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
         if (!this.serviceForm.controls['description'].valid) {
@@ -454,8 +456,17 @@ export class ServiceFormComponent implements OnInit {
     return !this.getFieldAsFormArray(name).get([position]).valid && this.getFieldAsFormArray(name).get([position]).dirty;
   }
 
-  checkEveryArrayFieldValidity(name: string, groupName?: string): boolean {
+  checkEveryArrayFieldValidity(name: string, groupName?: string, contactField?: string): boolean {
     for (let i = 0; i < this.getFieldAsFormArray(name).length; i++) {
+      if (groupName && contactField) {
+        for (let j = 0; j < this.getFieldAsFormArray(name).controls[i].get(groupName)[length]; j++) {
+          console.log(j);
+          if (this.getFieldAsFormArray(name).controls[i].get(groupName).get([j]).get(contactField).valid
+            && this.getFieldAsFormArray(name).controls[i].get(groupName).get([j]).get(contactField).dirty) {
+            return true;
+          }
+        }
+      }
       if (groupName) {
         if (!this.getFieldAsFormArray(name).get([i]).get(groupName).valid && this.getFieldAsFormArray(name).get([i]).get(groupName).dirty) {
           return true;
@@ -468,7 +479,42 @@ export class ServiceFormComponent implements OnInit {
   }
 
   markTabs() {
-    this.tabs[0] = false;
+    this.tabs[0] = (this.checkFormValidity('name') || this.checkFormValidity('url') || this.checkFormValidity('url')
+      || this.checkFormValidity('logo') || this.checkEveryArrayFieldValidity('multimediaUrls') || this.checkFormValidity('tagline')
+      || this.checkFormValidity('userValue') || this.checkEveryArrayFieldValidity('userBaseList')
+      || this.checkEveryArrayFieldValidity('useCases') || this.checkFormValidity('endpoint')
+      || this.checkEveryArrayFieldValidity('options', 'name') || this.checkEveryArrayFieldValidity('options', 'url')
+      || this.checkEveryArrayFieldValidity('options', 'description') || this.checkEveryArrayFieldValidity('options', 'logo')
+      || this.checkEveryArrayFieldValidity('options', 'contacts', 'firstName')
+      || this.checkEveryArrayFieldValidity('options', 'contacts', 'lastName')
+      || this.checkEveryArrayFieldValidity('options', 'contacts', 'email')
+      || this.checkEveryArrayFieldValidity('options', 'contacts', 'tel')
+      || this.checkEveryArrayFieldValidity('options', 'contacts', 'position'));
+    this.tabs[1] = (this.checkEveryArrayFieldValidity('providers') || this.checkEveryArrayFieldValidity('scientificCategorization', 'scientificDomain')
+      || this.checkEveryArrayFieldValidity('scientificCategorization', 'scientificSubDomain')
+      || this.checkEveryArrayFieldValidity('categorize', 'category') || this.checkEveryArrayFieldValidity('categorize', 'subcategory')
+      || this.checkEveryArrayFieldValidity('targetUsers') || this.checkEveryArrayFieldValidity('languages')
+      || this.checkEveryArrayFieldValidity('places') || this.checkEveryArrayFieldValidity('accessTypes')
+      || this.checkEveryArrayFieldValidity('accessModes') || this.checkEveryArrayFieldValidity('funders')
+      || this.checkEveryArrayFieldValidity('tags'));
+    this.tabs[2] = (this.checkFormValidity('phase') || this.checkFormValidity('trl') || this.checkFormValidity('version')
+      || this.checkFormValidity('lastUpdate') || this.checkFormValidity('changeLog')
+      || this.checkEveryArrayFieldValidity('certifications') || this.checkEveryArrayFieldValidity('certifications'));
+    this.tabs[3] = (this.checkFormValidity('orderType') || this.checkFormValidity('order') || this.checkFormValidity('sla')
+      || this.checkFormValidity('certifications') || this.checkFormValidity('privacyPolicy') || this.checkFormValidity('accessPolicy')
+      || this.checkFormValidity('paymentModel') || this.checkFormValidity('pricing'));
+    this.tabs[4] = (this.checkFormValidity('userManual') || this.checkFormValidity('adminManual') || this.checkFormValidity('training')
+      || this.checkFormValidity('helpdesk') || this.checkFormValidity('monitoring') || this.checkFormValidity('maintenance'));
+    this.tabs[5] = (this.checkEveryArrayFieldValidity('contacts', 'firstName')
+      || this.checkEveryArrayFieldValidity('contacts', 'lastName') || this.checkEveryArrayFieldValidity('contacts', 'email')
+      || this.checkEveryArrayFieldValidity('contacts', 'tel') || this.checkEveryArrayFieldValidity('contacts', 'position'));
+    this.tabs[6] = (this.checkEveryArrayFieldValidity('requiredServices')
+      || this.checkEveryArrayFieldValidity('relatedServices') || this.checkEveryArrayFieldValidity('relatedPlatforms'));
+    this.tabs[7] = (this.checkFormValidity('aggregatedServices') || this.checkFormValidity('datasets')
+      || this.checkFormValidity('applications') || this.checkFormValidity('software')
+      || this.checkFormValidity('publications') || this.checkFormValidity('otherProducts'));
+
+    console.log(this.tabs);
   }
   /** <--check form fields and tabs validity **/
 
@@ -736,8 +782,9 @@ export class ServiceFormComponent implements OnInit {
     }
   }
 
-  validateMeasurements() {
+  validateMeasurements(): boolean {
     // console.log(this.measurements.controls.length);
+    let error = false;
     for (let i = 0; i < this.measurements.controls.length; i++) {
       // console.log(this.measurements.controls[i]);
       for (const j in this.measurements.controls[i].value) {
@@ -746,20 +793,27 @@ export class ServiceFormComponent implements OnInit {
           if (this.measurements.controls[i].get(j).value.constructor !== Array) {
             this.measurements.controls[i].get(j).markAsDirty();
             this.measurements.controls[i].get(j).updateValueAndValidity();
+            error = error || (this.measurements.controls[i].get(j).valid && this.measurements.controls[i].get(j).dirty);
           }
         }
       }
       for (const j in this.locations(i).controls) {
         this.locations(i).controls[j].markAsDirty();
         this.locations(i).controls[j].updateValueAndValidity();
+        error = error || (this.locations(i).controls[j].valid && this.locations(i).controls[j].dirty);
       }
       if (this.measurements.controls[i].get('valueIsRange').value) {
         this.measurements.controls[i].get('rangeValue.fromValue').markAsDirty();
         this.measurements.controls[i].get('rangeValue.fromValue').updateValueAndValidity();
+        error = error || (this.measurements.controls[i].get('rangeValue.fromValue').valid
+                          && this.measurements.controls[i].get('rangeValue.fromValue').dirty);
         this.measurements.controls[i].get('rangeValue.toValue').markAsDirty();
         this.measurements.controls[i].get('rangeValue.toValue').updateValueAndValidity();
+        error = error || (this.measurements.controls[i].get('rangeValue.toValue').valid
+          && this.measurements.controls[i].get('rangeValue.toValue').dirty);
       }
     }
+    return error;
   }
   /** <-- INDICATORS **/
 
