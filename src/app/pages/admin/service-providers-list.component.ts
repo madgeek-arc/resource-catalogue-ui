@@ -16,6 +16,7 @@ export class ServiceProvidersListComponent implements OnInit {
   url = environment.API_ENDPOINT;
 
   errorMessage: string;
+  loadingMessage = '';
 
   providers: ProviderBundle[] = [];
   selectedProvider: ProviderBundle;
@@ -119,6 +120,7 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   statusChangeAction() {
+    this.loadingMessage = 'test';
     const active = this.pushedApprove && (this.newStatus === 'approved');
     this.serviceProviderService.verifyServiceProvider(this.selectedProvider.id, active, this.adminActionsMap[this.newStatus].statusId)
       .subscribe(
@@ -131,6 +133,7 @@ export class ServiceProvidersListComponent implements OnInit {
         },
         err => console.log(err),
         () => {
+          this.loadingMessage = '';
           UIkit.modal('#actionModal').hide();
         }
       );
