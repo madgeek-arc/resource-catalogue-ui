@@ -10,7 +10,7 @@ export class EmailService {
   constructor(private http: HttpClient) {}
 
   sendMail(serviceIds: string[], emailMessage: EmailMessage) {
-    return this.http.post<EmailMessage>(this.base + `/request/{serviceIds}/sendMailsToProviders`,
+    return this.http.post<EmailMessage>(this.base + `/request/${serviceIds}/sendMailsToProviders`,
       emailMessage, {withCredentials: true});
   }
 }
