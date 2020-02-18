@@ -1,7 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Service} from '../../../../domain/eic-model';
+import {InfraService, Service} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Pagination} from '../../../../domain/pagination';
+
+declare var UIkit: any;
 
 @Component({
   selector: 'app-services',
@@ -12,7 +15,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class ServicesComponent implements OnInit {
   errorMessage;
   providerId;
-  providerServices: Service[] = [];
+  providerServices: Pagination<InfraService>;
   providerCoverage: string[];
   providerServicesGroupedByPlace: any;
   path: string;
@@ -26,28 +29,15 @@ export class ServicesComponent implements OnInit {
   ngOnInit(): void {
     this.path = this.route.snapshot.routeConfig.path;
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
-    this.providerService[this.path === 'activeServices' ? 'getServicesOfProvider' : 'getPendingServicesByProvider'](this.providerId)
-      .subscribe(res => {
-          this.providerServices = res;
-          this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices);
-          if (this.providerServicesGroupedByPlace) {
-            this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
-
-            // this.setCountriesForProvider(this.providerCoverage);
-          }
-        },
-        err => {
-          this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
-        }
-      );
+    this.getServices();
   }
 
-  groupServicesOfProviderPerPlace(services: Service[]) {
+  groupServicesOfProviderPerPlace(services: InfraService[]) {
     const ret = {};
-    if (this.providerServices && this.providerServices.length > 0) {
+    if (this.providerServices && this.providerServices.results.length > 0) {
       for (const service of services) {
-        if (service.places && service.places.length > 0) {
-          for (const place of service.places) {
+        if (service.service.places && service.service.places.length > 0) {
+          for (const place of service.service.places) {
             if (ret[place]) {
               ret[place].push(this.providerServices);
             } else {
@@ -60,12 +50,46 @@ export class ServicesComponent implements OnInit {
     return ret;
   }
 
-  buttonClick(id: string) {
+  navigate(id: string) {
     if (this.path === 'activeServices') {
       this.router.navigate([`/dashboard/${this.providerId}`, id]);
     } else {
       this.router.navigate([`/editPendingService/`, id]);
     }
+  }
+
+  toggleService(id: string, version: string, event) {
+    UIkit.modal('#spinnerModal').show();
+    this.providerService.publishService(id, version, event.target.checked).subscribe(
+      res => {},
+      error => {
+        this.getServices();
+        UIkit.modal('#spinnerModal').hide();
+        console.log(error);
+      },
+      () => {
+        this.getServices();
+        UIkit.modal('#spinnerModal').hide();
+      }
+    );
+  }
+
+  getServices() {
+    this.providerService[this.path === 'activeServices' ? 'getServicesOfProvider' : 'getPendingServicesByProvider'](this.providerId)
+      // this.providerService.getPendingServicesBundleByProvider(this.providerId)
+      .subscribe(res => {
+          this.providerServices = res;
+          this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices.results);
+          if (this.providerServicesGroupedByPlace) {
+            this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
+
+            // this.setCountriesForProvider(this.providerCoverage);
+          }
+        },
+        err => {
+          this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
+        }
+      );
   }
 
 }

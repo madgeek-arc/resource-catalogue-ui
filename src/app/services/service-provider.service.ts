@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
-import {Provider, ProviderBundle, ProviderRequest, Service} from '../domain/eic-model';
+import {InfraService, Provider, ProviderBundle, ProviderRequest, Service} from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import {Pagination} from '../domain/pagination';
 
 declare var UIkit: any;
 
@@ -65,7 +65,7 @@ export class ServiceProviderService {
   }
 
   getServicesOfProvider(id: string) {
-    return this.http.get<Service[]>(this.base + `/provider/services/${id}`);
+    return this.http.get<Pagination<InfraService>>(this.base + `/service/byProvider/${id}?order=ASC&orderField=name`);
   }
 
   getPendingServicesOfProvider(id: string) {
@@ -73,7 +73,14 @@ export class ServiceProviderService {
   }
 
   getPendingServicesByProvider(id: string) {
-    return this.http.get<Service[]>(this.base + `/pendingService/byProvider/${id}`);
+    return this.http.get<Pagination<InfraService>>(this.base + `/pendingService/byProvider/${id}?order=ASC&orderField=name`);
+  }
+
+  publishService(id: string, version: string, active: boolean) {
+    if (version === null) {
+      return this.http.patch(this.base + `/service/publish/${id}?active=${active}`, this.options);
+    }
+    return this.http.patch(this.base + `/service/publish/${id}?active=${active}&version=${version}`, this.options);
   }
 
   getProviderRequests(id: string) {

@@ -54,7 +54,7 @@ export class MyServiceProvidersComponent implements OnInit {
               console.log(p.id);
               this.serviceProviderService.getPendingServicesByProvider(p.id).subscribe(
                 res => {
-                  if (res.length > 0) {
+                  if (res.results.length > 0) {
                     this.hasPendingServices.push({id: p.id, flag: true});
                   } else {
                     this.hasPendingServices.push({id: p.id, flag: false});

@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
-import {ProviderBundle, Service} from '../../../domain/eic-model';
+import {InfraService, ProviderBundle, Service} from '../../../domain/eic-model';
 import {ResourceService} from '../../../services/resource.service';
 import {UserService} from '../../../services/user.service';
 import {zip} from 'rxjs/internal/observable/zip';
@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
   activeTab: string;
   providerId: string;
   providerBundle: ProviderBundle;
-  providerServices: Service[] = [];
+  providerServices: InfraService[] = [];
   providerServicesGroupedByPlace: any;
   providerCoverage: string[];
   statisticPeriod: string;
@@ -98,7 +98,7 @@ export class DashboardComponent implements OnInit {
     } else {
       this.providerService.getServicesOfProvider(this.providerId)
         .subscribe(res => {
-            this.providerServices = res;
+            this.providerServices = res.results;
             this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices);
             if (this.providerServicesGroupedByPlace) {
               this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
@@ -178,11 +178,11 @@ export class DashboardComponent implements OnInit {
     this.getDataForProvider(this.statisticPeriod, true);
   }
 
-  groupServicesOfProviderPerPlace(services: Service[]) {
+  groupServicesOfProviderPerPlace(services: InfraService[]) {
     const ret = {};
     if (this.providerServices && this.providerServices.length > 0) {
       for (const service of services) {
-        for (const place of service.places) {
+        for (const place of service.service.places) {
           if (ret[place]) {
             ret[place].push(this.providerServices);
           } else {

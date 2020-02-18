@@ -6,8 +6,9 @@ import {ResourceService} from '../../../../services/resource.service';
 import {NavigationService} from '../../../../services/navigation.service';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
-import {Provider, Service} from '../../../../domain/eic-model';
+import {InfraService, Provider, Service} from '../../../../domain/eic-model';
 import {map} from 'rxjs/operators';
+import {Pagination} from '../../../../domain/pagination';
 
 declare var require: any;
 
@@ -22,7 +23,7 @@ export class StatsComponent implements OnInit {
   providerId: string;
   statisticPeriod: string;
   provider: Provider;
-  providerServices: Service[] = [];
+  providerServices: Pagination<InfraService>;
   providerServicesGroupedByPlace: any;
   providerCoverage: string[];
   public errorMessage: string;
@@ -91,7 +92,7 @@ export class StatsComponent implements OnInit {
       this.providerService.getServicesOfProvider(this.providerId)
         .subscribe(res => {
             this.providerServices = res;
-            this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices);
+            this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices.results);
             if (this.providerServicesGroupedByPlace) {
               this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
 
@@ -168,11 +169,11 @@ export class StatsComponent implements OnInit {
     this.getDataForProvider(this.statisticPeriod, true);
   }
 
-  groupServicesOfProviderPerPlace(services: Service[]) {
+  groupServicesOfProviderPerPlace(services: InfraService[]) {
     const ret = {};
-    if (this.providerServices && this.providerServices.length > 0) {
+    if (this.providerServices && this.providerServices.results.length > 0) {
       for (const service of services) {
-        for (const place of service.places) {
+        for (const place of service.service.places) {
           if (ret[place]) {
             ret[place].push(this.providerServices);
           } else {
