@@ -46,6 +46,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.errorMessage = '';
     this.statisticPeriod = 'MONTH';
     this.activeTab = this.route.firstChild.snapshot.routeConfig.path;
     this.providerId = this.route.snapshot.paramMap.get('provider');

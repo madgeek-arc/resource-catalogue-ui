@@ -12,6 +12,7 @@ import {URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs/internal/observable/zip';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {FunderService} from '../../services/funder.service';
+import {downloadPDF} from '../../services/exportToPDF';
 
 @Component({
   selector: 'app-service-form',
@@ -445,6 +446,7 @@ export class ServiceFormComponent implements OnInit {
   checkFormValidity(name: string): boolean {
     return (!this.serviceForm.get(name).valid && this.serviceForm.get(name).dirty);
   }
+
   checkFormArrayValidity(name: string, position: number, groupName?: string, position2?: number, contactField?: string): boolean {
     if (contactField) {
       return this.getFieldAsFormArray(name).controls[position].get(groupName).get([position2]).get(contactField).valid
@@ -514,7 +516,7 @@ export class ServiceFormComponent implements OnInit {
       || this.checkFormValidity('applications') || this.checkFormValidity('software')
       || this.checkFormValidity('publications') || this.checkFormValidity('otherProducts'));
 
-    console.log(this.tabs);
+    // console.log(this.tabs);
   }
   /** <--check form fields and tabs validity **/
 
@@ -837,6 +839,11 @@ export class ServiceFormComponent implements OnInit {
 
       return 0;
     });
+  }
+
+  /** Export form **/
+  downloadForm() {
+    downloadPDF('Basic');
   }
 
 }

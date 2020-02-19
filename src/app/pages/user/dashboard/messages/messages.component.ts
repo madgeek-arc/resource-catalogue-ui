@@ -10,7 +10,7 @@ import {ServiceProviderService} from '../../../../services/service-provider.serv
 })
 export class MessagesComponent implements OnInit {
   providerId: string;
-  requests: ProviderRequest[];
+  requests: ProviderRequest[] = [];
 
   constructor(private route: ActivatedRoute,
               private providerService: ServiceProviderService) {}
