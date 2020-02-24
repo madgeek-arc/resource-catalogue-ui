@@ -137,7 +137,7 @@ export const providerTagsDesc = {label: 'Tags', mandatory: false, desc: 'Keyword
 // Location Information
 export const locationNameDesc = {label: 'Location Name', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
 export const streetNameDesc = {label: 'Street Name', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
-export const streetNumberDesc = {label: 'Street Number', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
+export const streetNumberDesc = {label: 'Street Number', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers. If no street number exists, please fill in "0"'};
 export const postalCodeDesc = {label: 'Postal Code', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
 export const cityDesc = {label: 'City', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
 export const regionDesc = {label: 'Region', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};

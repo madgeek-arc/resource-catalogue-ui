@@ -55,7 +55,7 @@
 
                     <ul id="top-navigation-tabs" class="uk-switcher uk-margin">
 
-                      <li id="Basic" style="padding-right: 5px">
+                      <li id="Basic">
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="name">
                             {{nameDesc.label + (nameDesc.mandatory ? ' (*)' : '')}}
@@ -344,7 +344,7 @@
                           </div>
                         </div>
                       </li>
-                      <li style="padding-right: 5px">
+                      <li>
 
                         <!--IF NOT IN THE AddFirstService PAGE - SHOW THE LIST OF PROVIDERS-->
                         <div *ngIf="!firstServiceForm" formArrayName="providers" class="uk-margin-bottom">
@@ -703,7 +703,7 @@
                           </div>
                         </div>
                       </li>
-                      <li style="padding-right: 5px">
+                      <li>
                         <div *ngIf="phaseVocabulary" class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="phase">
                             {{phaseDesc.label + (phaseDesc.mandatory ? ' (*)' : '')}}
@@ -811,7 +811,7 @@
                           </div>
                         </div>
                       </li>
-                      <li style="padding-right: 5px">
+                      <li>
                         <div *ngIf="orderTypeVocabulary" class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="orderType">
                             {{orderTypeDesc.label + (orderTypeDesc.mandatory ? ' (*)' : '')}}
@@ -897,7 +897,7 @@
                           </div>
                         </div>
                       </li>
-                      <li style="padding-right: 5px">
+                      <li>
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="userManual">
                             {{userManualDesc.label + (userManualDesc.mandatory ? ' (*)' : '')}}
@@ -959,7 +959,7 @@
                           </div>
                         </div>
                       </li>
-                      <li style="padding-right: 5px">
+                      <li>
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right">Contact (*)</label>
                           <div class="uk-form-controls">
@@ -1093,7 +1093,7 @@
 <!--                          </div>-->
 <!--                        </div>-->
                       </li>
-                      <li style="padding-right: 5px">
+                      <li>
                         <div formArrayName="requiredServices" class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="requiredServices">
                             {{requiredServicesDesc.label + (requiredServicesDesc.mandatory ? ' (*)' : '')}}
@@ -1171,7 +1171,7 @@
                           </div>
                         </div>
                       </li>
-                      <li style="padding-right: 5px">
+                      <li>
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="aggregatedServices">
                             {{aggregatedServicesDesc.label + (aggregatedServicesDesc.mandatory ? ' (*)' : '')}}
