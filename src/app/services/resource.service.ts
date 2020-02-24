@@ -91,9 +91,10 @@ export class ResourceService {
       }
     }
     searchQuery.delete('to');
-    const questionMark = urlParameters.length > 0 ? '?' : '';
     /*return this.http.get(`/service/all${questionMark}${searchQuery.toString()}`).map(res => <SearchResults<Service>> <any> res);*/
-    return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`, this.options)
+    // const questionMark = urlParameters.length > 0 ? '?' : '';
+    // return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`, this.options)
+    return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all?orderField=name&order=asc&${searchQuery.toString()}`, this.options)
       ;
   }
 

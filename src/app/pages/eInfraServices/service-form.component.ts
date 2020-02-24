@@ -12,7 +12,6 @@ import {URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs/internal/observable/zip';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {FunderService} from '../../services/funder.service';
-import {downloadPDF} from '../../services/exportToPDF';
 
 @Component({
   selector: 'app-service-form',
@@ -839,11 +838,6 @@ export class ServiceFormComponent implements OnInit {
 
       return 0;
     });
-  }
-
-  /** Export form **/
-  downloadForm() {
-    downloadPDF('Basic');
   }
 
 }
