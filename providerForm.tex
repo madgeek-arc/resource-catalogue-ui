@@ -1,0 +1,221 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Provider form}
+\author{j.balasis}
+\date{February 2020}
+
+% \usepackage{natbib}
+% \usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{multirow}
+\usepackage[none]{hyphenat}
+
+
+\newdimen\longline
+\longline=\textwidth\advance\longline-4cm
+
+\def\LayoutTextField#1#2{#2} % override default in hyperref
+
+\def\lbl#1{\hbox to 3,5cm{#1\hfill\strut}}
+% \def\labelline#1#2{\lbl{#1}\vbox{\hbox{\TextField[name=#1,width=#2]{\null}}\kern2pt\hrule}}
+\def\labelline#1#2{\lbl{#1}\vbox{\hbox{\TextField[name=#1,width=#2,borderwidth=0]{\null}}\kern0pt\hrule}}
+
+\def\q#1{\hbox to \hsize{\labelline{#1}{\longline}}\vskip1.4ex}
+
+\newenvironment{myindentpar}[1]%
+  {\begin{list}{}%
+      {\setlength{\leftmargin}{#1}}%
+      \item[]%
+  }
+  {\end{list}}
+
+\begin{document}
+
+% \maketitle
+
+% \begin{Form} %Uncomment for fill-able form in pdf
+\section{Basic information}
+    \q{Full Name (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Full Name of the organisation providing/offering the service/resource.\\[10pt]}
+    \end{myindentpar}
+    \q{Acronym (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Acronym or abbreviation of the provider.\\[10pt]}
+    \end{myindentpar}
+    \q{Website (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{The description of the provider.\\[10pt]}
+    \end{myindentpar}
+    \q{Description (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{The description of the provider.\\[10pt]}
+    \end{myindentpar}
+    \q{Logo (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Link to the logo/visual identity of the provider.\\[10pt]}
+    \end{myindentpar}
+    \q{Multimedia}
+    \begin{myindentpar}{3,5cm}
+    \textit{Link to video, slideshow, photos, screenshots with details of the provider.\\[10pt]}
+    \end{myindentpar}
+    
+    % \newpage
+    \section{Classification information}
+    \q{Type (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Defines if the Provider is single-sited, distributed, mobile, virtual, etc.\\[10pt]}
+    \end{myindentpar}
+    Scientific Domain (*)
+    \begin{itemize}
+    
+    \hspace{0cm}\q{Scientific Domain (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{A named group of providers that offer access to the same type of resource or capabilities.\\[10pt]}
+    \end{myindentpar}
+    \hspace{0cm}\q{Category (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{A named group of providers that offer access to the same type of resource or capabilities, within the defined category.\\[10pt]}
+    \end{myindentpar}
+    \end{itemize}
+    \q{ESFRI Domain}
+    \begin{myindentpar}{3,5cm}
+    \textit{ESFRI domain classification. \\[10pt]}
+    \end{myindentpar}
+    \q{Tags}
+    \begin{myindentpar}{3,5cm}
+    \textit{Keywords associated to the provider to simplify search by relevant keywords.\\[10pt]}
+    \end{myindentpar}
+    
+    % \newpage
+    \section{Maturity information}
+    \q{Life Cycle Status (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Current status of the provider life-cycle.\\[10pt]}
+    \end{myindentpar}
+    
+    % \newpage
+    \section{Location information}
+    \q{Location Name (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.\\[10pt]}
+    \end{myindentpar}
+    \q{Street Name (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.\\[10pt]}
+    \end{myindentpar}
+    \q{Street Number (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers. If no street number exists, please fill in "0"\\[10pt]}
+    \end{myindentpar}
+    \q{Postal Code (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.\\[10pt]}
+    \end{myindentpar}
+    \q{City (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.\\[10pt]}
+    \end{myindentpar}
+    \q{Region (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.\\[10pt]}
+    \end{myindentpar}
+    \q{Country (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Establishment/Registration Country of the organisation. Usually this is the location of the headquarters of the organisation. In the case of distributed/virtual providers the country of the coordinating office.\\[10pt]}
+    \end{myindentpar}
+    \multirow{3}{*}{\parbox{3cm}{Participating Countries}}\newline
+    \q{}
+    \begin{myindentpar}{3,5cm}
+    \textit{Providers that are funded by several countries should list here all supporting countries (including the Coordinating country).\\[10pt]}
+    \end{myindentpar}
+    
+    % \newpage
+    \section{Contact information}
+    Main Contact (*)\\[10pt]
+    \q{First Name (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{First Name of the provider's main contact person/ provider manager.\\[10pt]}
+    \end{myindentpar}
+    \q{Last Name (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Last Name of the provider's main contact person/ provider manager.\\[10pt]}
+    \end{myindentpar}
+    \q{Email (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Email of the provider's main contact person/ provider manager.\\[10pt]}
+    \end{myindentpar}
+    \q{Phone (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Phone of the provider's main contact person/ provider manager.\\[10pt]}
+    \end{myindentpar}
+    \q{Position}
+    \begin{myindentpar}{3,5cm}
+    \textit{Position of the provider's main contact person/ provider manager.\\[10pt]}
+    \end{myindentpar}
+    
+    Public Contact\\[10pt]
+    \q{First Name}
+    \begin{myindentpar}{3,5cm}
+    \textit{First Name of the provider's main contact person/ provider manager.\\[10pt]}
+    \end{myindentpar}
+    \q{Last Name}
+    \begin{myindentpar}{3,5cm}
+    \textit{Last Name of the provider's main contact person/ provider manager.\\[10pt]}
+    \end{myindentpar}
+    \q{Email}
+    \begin{myindentpar}{3,5cm}
+    \textit{Email of the provider's main contact person/ provider manager.\\[10pt]}
+    \end{myindentpar}
+    \q{Phone}
+    \begin{myindentpar}{3,5cm}
+    \textit{Phone of the provider's main contact person/ provider manager.\\[10pt]}
+    \end{myindentpar}
+    \q{Position}
+    \begin{myindentpar}{3,5cm}
+    \textit{Position of the provider's main contact person/ provider manager.\\[10pt]}
+    \end{myindentpar}
+    
+    % \newpage
+    \section{Other information}
+    \q{Hosting Legal Entity}
+    \begin{myindentpar}{3,5cm}
+    \textit{Name of the organisation/institution legally hosting (housing) the RI or its coordinating centre. A distinction is made between: (1) RIs that are self-standing and have a defined and distinct legal entity, (2) RI that are embedded into another institution which is a legal entity (such as a university, a research organisation, etc.). If (1) - name of the RI, If (2) - name of the hosting organisation.\\[10pt]}
+    \end{myindentpar}
+    \q{Legal Status}
+    \begin{myindentpar}{3,5cm}
+    \textit{For independent legal entities (1) - legal status of the Provider. For embedded Providers (2) - legal status of the hosting legal entity.\\[10pt]}
+    \end{myindentpar}
+    \q{ESFRI}
+    \begin{myindentpar}{3,5cm}
+    \textit{If the RI is (part of) an ESFRI project indicate how the RI participates: a) RI is node of an ESFRI project, b) RI is an ESFRI project, c) RI is an ESFRI landmark.\\[10pt]}
+    \end{myindentpar}
+    \q{Networks}
+    \begin{myindentpar}{3,5cm}
+    \textit{Select the networks the RIs is part of.\\[10pt]}
+    \end{myindentpar}
+    \q{Areas of Activity}
+    \begin{myindentpar}{3,5cm}
+    \textit{Basic research, Applied research or Technological development\\[10pt]}
+    \end{myindentpar}
+    \multirow{3}{*}{\parbox{2,5cm}{Societal Grand Challenges}}\\[10pt]
+    \q{}
+    \begin{myindentpar}{3,5cm}
+    \textit{Provider’s participation in the grand societal challenges as defined by the European Commission (Horizon 2020)\\[10pt]}
+    \end{myindentpar}
+    \q{National Roadmaps}
+    \begin{myindentpar}{3,5cm}
+    \textit{Is the Provider featured on the national roadmap for research infrastructures\\[10pt]}
+    \end{myindentpar}
+    
+    % \newpage
+    \section{Admins}
+    \q{First Name}
+    \q{Last Name}
+    \q{Email}
+    
+% \end{Form}
+
+\end{document}

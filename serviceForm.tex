@@ -1,0 +1,383 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{serviceForm}
+\author{j.balasis92 }
+\date{February 2020}
+
+
+\usepackage{hyperref}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{multirow}
+\usepackage[none]{hyphenat}
+
+\newdimen\longline
+\longline=\textwidth\advance\longline-4cm
+
+\def\LayoutTextField#1#2{#2} % override default in hyperref
+\def\lbl#1{\hbox to 3,5cm{#1\hfill\strut}}
+\def\labelline#1#2{\lbl{#1}\vbox{\hbox{\TextField[name=#1,width=#2,borderwidth=0]{\null}}\kern0pt\hrule}}
+\def\q#1{\hbox to \hsize{\labelline{#1}{\longline}}\vskip1.4ex}
+
+\newenvironment{myindentpar}[1]%
+{\begin{list}{}%
+    {\setlength{\leftmargin}{#1}}%
+        \item[]%
+}
+{\end{list}}
+
+\begin{document}
+
+% \maketitle
+% \begin{Form}  %Uncomment for fill-able form in pdf
+\section{Basic information}
+\q{Name (*)}
+\begin{myindentpar}{3,5cm}
+    \textit{Brief and descriptive name of service/resource as assigned by the service/resource provider.\newline}
+\end{myindentpar}
+\q{Webpage (*)}
+\begin{myindentpar}{3,5cm}
+    \textit{Webpage with information about the service/resource usually hosted and maintained by the service/resource provider.\newline}
+\end{myindentpar}
+\q{Description (*)}
+\q{}
+\q{}
+\begin{myindentpar}{3,5cm}
+    \textit{A high-level description in fairly non-technical terms of a) what the service/resource does, functionality it provides and resources it enables to access, b) the benefit to a user/customer delivered by a service; benefits are usually related to alleviating pains (e.g., eliminate undesired outcomes, obstacles or risks) or producing gains (e.g. increased performance, social gains, positive emotions or cost saving), c) list of customers, communities, users, etc. using the service.\newline}
+\end{myindentpar}
+\q{Logo (*)}
+\begin{myindentpar}{3,5cm}
+    \textit{Link to the logo/visual identity of the service. The logo will be visible at the Portal.\newline}
+\end{myindentpar}
+\q{Multimedia}
+\begin{myindentpar}{3,5cm}
+    \textit{Link to video, screenshots or slides showing details of the service/resource.\newline}
+\end{myindentpar}
+\q{Tagline}
+\begin{myindentpar}{3,5cm}
+    \textit{Short catch-phrase for marketing and advertising purposes. It will be usually displayed close the service name and should refer to the main value or purpose of the service.\newline}
+\end{myindentpar}
+\q{User Value}
+\begin{myindentpar}{3,5cm}
+    \textit{Link to the logo/visual identity of the service. The logo will be visible at the Portal.\newline}
+\end{myindentpar}
+\q{User Base}
+\begin{myindentpar}{3,5cm}
+    \textit{List of customers, communities, users, etc. using the service.\newline}
+\end{myindentpar}
+\q{Use Cases}
+\begin{myindentpar}{3,5cm}
+    \textit{List of use cases supported by this service/resource.\newline}
+\end{myindentpar}
+Options
+\begin{myindentpar}{1cm}
+    \hspace{0cm}\q{Name (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Name of the service/resource option.\newline}
+    \end{myindentpar}
+    \hspace{0cm}\q{Webpage (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Webpage with information about the service/resource option.\newline}
+    \end{myindentpar}
+    \hspace{0cm}\q{Description (*)}
+    \hspace{0cm}\q{}
+    \begin{myindentpar}{3,5cm}
+        \textit{The description of the service/resource option.\newline}
+    \end{myindentpar}
+    \hspace{0cm}\q{Logo}
+    \begin{myindentpar}{3,5cm}
+        \textit{Link to the logo/visual identity of the service/resource provider.\newline}
+    \end{myindentpar}
+    Contact (*)
+    \begin{myindentpar}{1cm}
+        \hspace{0cm}\q{First Name (*)}
+        \begin{myindentpar}{3,5cm}
+        \textit{First Name of the service/resource option main contact person/manager.\newline}
+        \end{myindentpar}
+        \hspace{0cm}\q{Last Name (*)}
+        \begin{myindentpar}{3,5cm}
+        \textit{Last Name of the service/resource option main contact person/manager.\newline}
+        \end{myindentpar}
+        \hspace{0cm}\q{Email (*)}
+        \begin{myindentpar}{3,5cm}
+        \textit{Email of the service/resource option main contact person/manager.\newline}
+        \end{myindentpar}
+        \hspace{0cm}\q{Telephone (*)}
+        \begin{myindentpar}{3,5cm}
+        \textit{Telephone of the service/resource option main contact person/manager.\newline}
+        \end{myindentpar}
+        \hspace{0cm}\q{Position}
+        \begin{myindentpar}{3,5cm}
+        \textit{Position of the service/resource option main contact person/manager.\newline}
+        \end{myindentpar}
+    \end{myindentpar}
+    \hspace{0cm}\q{Attribute 1}
+    \begin{myindentpar}{3,5cm}
+        % \textit{Link to the logo/visual identity of the service/resource provider.\newline}
+    \end{myindentpar}
+    \hspace{0cm}\q{Attribute 2}
+    \begin{myindentpar}{3,5cm}
+        % \textit{Link to the logo/visual identity of the service/resource provider.\newline}
+    \end{myindentpar}
+    \hspace{0cm}\q{Attribute 3}
+    \begin{myindentpar}{3,5cm}
+        % \textit{Link to the logo/visual identity of the service/resource provider.\newline}
+    \end{myindentpar}
+    
+    \textit{High-level description of the various options or forms in which the service/resource can be instantiated. Options are further described with the Option Description Template.\newline}
+\end{myindentpar}
+\q{Endpoint}
+\begin{myindentpar}{3,5cm}
+    \textit{Main URL to use the service (in the case of networked service).\newline}
+\end{myindentpar}
+
+% \newpage
+\section{Classification information}
+\q{Provider Name (*)}
+\begin{myindentpar}{3,5cm}
+    \textit{Main URL to use the service (in the case of networked service).\newline}
+\end{myindentpar}
+Scientific Domain (*)
+\begin{myindentpar}{1cm}
+    \hspace{0cm}\q{Scientific Domain (*)}
+    \begin{myindentpar}{3,5cm}
+        \textit{The branch of science, scientific discipline that is related to the service/resource.\newline}
+    \end{myindentpar}
+    \multirow{3}{*}{\parbox{3cm}{Scientific Subdomain (*)}}\newline
+    \q{}
+    \begin{myindentpar}{3,5cm}
+        \textit{The subbranch of science, scientific subdicipline that is related to the service/resource.\newline}
+    \end{myindentpar}
+\end{myindentpar}
+Categorization (*)
+\begin{myindentpar}{1cm}
+    \hspace{0cm}\q{Category (*)}
+    \begin{myindentpar}{3,5cm}
+        \textit{A named group of services/resources that offer access to the same type of resource or capabilities.\newline}
+    \end{myindentpar}
+    \hspace{0cm}\q{Subcategory (*)}
+    \begin{myindentpar}{3,5cm}
+        \textit{A named group of services/resources that offer access to the same type of resource or capabilities, within the defined service category\newline}
+    \end{myindentpar}
+\end{myindentpar}
+\q{Target users (*)}
+\begin{myindentpar}{3,5cm}
+    \textit{Type of users/customers that commissions a service/resource provider to deliver a service.\newline}
+\end{myindentpar}
+\q{Language (*)}
+\begin{myindentpar}{3,5cm}
+    \textit{Languages of the user interface of the service or the resource.\newline}
+\end{myindentpar}
+\begin{flushleft}
+\multirow{3}{*}{\parbox{3cm}{Geographical Availability (*)}}\newline
+\q{}
+
+\end{flushleft}
+\begin{myindentpar}{3,5cm}
+    \textit{Countries where the service/resource is offered.\newline}
+\end{myindentpar}
+\q{Access type}
+\begin{myindentpar}{3,5cm}
+    \textit{The way a user can access the service/resource (Remote, Physical, Virtual, etc.)\newline}
+\end{myindentpar}
+\q{Access Mode}
+\begin{myindentpar}{3,5cm}
+    \textit{The mode a user can access the service/resource (Excellence Driven, Market driven, etc)\newline}
+\end{myindentpar}
+\q{Funded by}
+\begin{myindentpar}{3,5cm}
+    \textit{Sources of funding for the development and/or operation of the service.\newline}
+\end{myindentpar}
+\q{Tags}
+\begin{myindentpar}{3,5cm}
+    \textit{Keywords associated to the service/resource to simplify search by relevant keywords.\newline}
+\end{myindentpar}
+
+% \newpage
+\section{Maturity information}
+\q{Phase}
+\begin{myindentpar}{3,5cm}
+    \textit{Phase of the service/resource lifecycle.\newline}
+\end{myindentpar}
+\multirow{3}{*}{\parbox{3cm}{Technology Readiness Level}}\newline
+\q{}
+\begin{myindentpar}{3,5cm}
+    \textit{The Technology Readiness Level of the Tag of the service/resource.\newline}
+\end{myindentpar}
+\q{Version}
+\begin{myindentpar}{3,5cm}
+    \textit{Version of the service/resource that is in force.\newline}
+\end{myindentpar}
+\q{Last Update}
+\begin{myindentpar}{3,5cm}
+    \textit{Date of the latest update of the service/resource.\newline}
+\end{myindentpar}
+\q{Change Log}
+\begin{myindentpar}{3,5cm}
+    \textit{Summary of the service/resource features updated from the previous version.\newline}
+\end{myindentpar}
+\q{Certifications}
+\begin{myindentpar}{3,5cm}
+    \textit{List of certifications obtained for the service (including the certification body).\newline}
+\end{myindentpar}
+\q{Standards}
+\begin{myindentpar}{3,5cm}
+    \textit{List of standards supported by the service.\newline}
+\end{myindentpar}
+% \newpage
+\section{Contractual information}
+\q{Order}
+\begin{myindentpar}{3,5cm}
+    \textit{URL for requesting the service from the service providers\newline}
+\end{myindentpar}
+\multirow{3}{*}{\parbox{2cm}{Service Level Agreement}}\newline
+\q{}
+% \q{Service Level Agreement}
+\begin{myindentpar}{3,5cm}
+    \textit{Webpage with the information about the levels of performance that a service/resource provider is expected to deliver.\newline}
+\end{myindentpar}
+\q{Terms Of Use}
+\begin{myindentpar}{3,5cm}
+    \textit{Webpage describing the rules, service/resource conditions and usage policy which one must agree to abide by in order to use the service.\newline}
+\end{myindentpar}
+\q{Privacy Policy}
+\begin{myindentpar}{3,5cm}
+    \textit{Link to the privacy policy applicable to the service.\newline}
+\end{myindentpar}
+\q{Access Policy}
+\begin{myindentpar}{3,5cm}
+    \textit{Webpage to the information about the access policies that apply.\newline}
+\end{myindentpar}
+\q{Payment Model}
+\begin{myindentpar}{3,5cm}
+    \textit{URL with the supported payment models and restrictions that apply to each of them.\newline}
+\end{myindentpar}
+\q{pricing}
+\begin{myindentpar}{3,5cm}
+    \textit{URL of the page with payment models that apply, the cost in Euros and any restrictions that may apply.\newline}
+\end{myindentpar}
+
+% \newpage
+\section{Support information}
+\q{User Manual}
+\begin{myindentpar}{3,5cm}
+    \textit{Link to the service/resource user manual and documentation.\newline}
+\end{myindentpar}
+\q{Admin Manual}
+\begin{myindentpar}{3,5cm}
+    \textit{Link to the service/resource admin manual and documentation.\newline}
+\end{myindentpar}
+\q{Training Information}
+\begin{myindentpar}{3,5cm}
+    \textit{URL for training information\newline}
+\end{myindentpar}
+\q{Helpdesk}
+\begin{myindentpar}{3,5cm}
+    \textit{he URL to a webpage with the contact person or helpdesk to ask more information from the service/resource provider about this service.\newline}
+\end{myindentpar}
+\q{Status Monitoring}
+\begin{myindentpar}{3,5cm}
+    \textit{UWebpage with monitoring information about this service.\newline}
+\end{myindentpar}
+\q{Maintenance}
+\begin{myindentpar}{3,5cm}
+    \textit{Webpage with information about planned maintenance windows for this service.\newline}
+\end{myindentpar}
+
+% \newpage
+\section{Contact information}
+Main Contact (*)
+\begin{myindentpar}{1cm}
+    \hspace{0cm}\q{First Name (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{First Name of the service/resource's main contact person/manager.\newline}
+    \end{myindentpar}
+    \hspace{0cm}\q{Last Name (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Last Name of the service/resource's main contact person/manager.\newline}
+    \end{myindentpar}
+    \hspace{0cm}\q{Email (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Email of the service/resource's main contact person/manager.\newline}
+    \end{myindentpar}
+    \hspace{0cm}\q{Phone (*)}
+    \begin{myindentpar}{3,5cm}
+    \textit{Telephone of the service/resource's main contact person/manager.\newline}
+    \end{myindentpar}
+    \hspace{0cm}\q{Position}
+    \begin{myindentpar}{3,5cm}
+    \textit{Position of the service/resource's main contact person/manager.\newline}
+    \end{myindentpar}
+\end{myindentpar}
+
+Public Contact
+\begin{myindentpar}{1cm}
+    \hspace{0cm}\q{First Name}
+    \begin{myindentpar}{3,5cm}
+    \textit{Last Name of the service/resource's contact person to be displayed at the portal.\newline}
+    \end{myindentpar}
+    \hspace{0cm}\q{Last Name}
+    \begin{myindentpar}{3,5cm}
+    \textit{First Name of the service/resource's contact person to be displayed at the portal.\newline}
+    \end{myindentpar}
+    \hspace{0cm}\q{Email}
+    \begin{myindentpar}{3,5cm}
+    \textit{Email of the service/resource's contact person to be displayed at the portal.\newline}
+    \end{myindentpar}
+    \hspace{0cm}\q{Phone}
+    \begin{myindentpar}{3,5cm}
+    \textit{Telephone of the service/resource's contact person to be displayed at the portal.\newline}
+    \end{myindentpar}
+    \hspace{0cm}\q{Position}
+    \begin{myindentpar}{3,5cm}
+    \textit{Position of the service/resource's contact person to be displayed at the portal.\newline}
+    \end{myindentpar}
+\end{myindentpar}
+
+% \newpage
+\section{Other information}
+\q{Required Services}
+\begin{myindentpar}{3,5cm}
+\textit{List of other services/resources required with this service/resource.\newline}
+\end{myindentpar}
+\q{Related Services}
+\begin{myindentpar}{3,5cm}
+\textit{List of other services/resources that are commonly used with this service/resource.\newline}
+\end{myindentpar}
+\q{Related Platform}
+\begin{myindentpar}{3,5cm}
+% \textit{List of other services/resources required with this service/resource.\newline}
+\end{myindentpar}
+
+% \newpage
+\section{Aggregator information}
+\q{Services}
+\begin{myindentpar}{3,5cm}
+\textit{Number of services offered under the record.\newline}
+\end{myindentpar}
+\q{Data}
+\begin{myindentpar}{3,5cm}
+\textit{Number of datasets offered under the record.\newline}
+\end{myindentpar}
+\q{Applications}
+\begin{myindentpar}{3,5cm}
+\textit{Number of applications offered under the record.\newline}
+\end{myindentpar}
+\q{Software}
+\begin{myindentpar}{3,5cm}
+\textit{Number of applications offered under the record\newline}
+\end{myindentpar}
+\q{Publications}
+\begin{myindentpar}{3,5cm}
+\textit{Number of publications offered under the record.\newline}
+\end{myindentpar}
+\q{Publications}
+\begin{myindentpar}{3,5cm}
+\textit{Other resources offered under the record.\newline}
+\end{myindentpar}
+
+% \newpage
+% \section{Indicators}
+% \end{Form}
+
+\end{document}

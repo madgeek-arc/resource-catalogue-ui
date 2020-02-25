@@ -38,20 +38,27 @@
                   <div *ngIf="successMessage" data-uk-alert="" class="uk-alert uk-alert-success">
                     <p>{{successMessage}}</p>
                   </div>
-                  <form [formGroup]="serviceForm" role="form" class="uk-form-horizontal"
-                        (ngSubmit)="onSubmit(serviceForm.value, serviceForm.valid)">
 
-                    <ul uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
-                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[0]}" href="#">Basic *</a></li>
-                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[1]}" href="#">Classification *</a></li>
-                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[2]}" href="#">Maturity </a></li>
-                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[3]}" href="#">Contractual *</a></li>
-                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[4]}" href="#">Support </a></li>
-                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[5]}" href="#">Contact *</a></li>
-                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[6]}" href="#">Other </a></li>
-                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[7]}" href="#">Aggregator </a></li>
-                      <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[8]}" href="#">Indicators </a></li>
-                    </ul>
+                  <div class="uk-float-right uk-padding">
+                    <button class="uk-button" type="button" title="Open or download an empty pdf template form"
+                            (click)="downloadServiceFormPDF()">Download to pdf
+                    </button>
+                  </div>
+
+                  <ul class="uk-width-1-1 uk-margin-remove" uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[0]}" href="#">Basic *</a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[1]}" href="#">Classification *</a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[2]}" href="#">Maturity </a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[3]}" href="#">Contractual *</a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[4]}" href="#">Support </a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[5]}" href="#">Contact *</a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[6]}" href="#">Other </a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[7]}" href="#">Aggregator </a></li>
+                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[8]}" href="#">Indicators </a></li>
+                  </ul>
+
+                  <form [formGroup]="serviceForm" role="form" class="uk-form-horizontal uk-margin"
+                        (ngSubmit)="onSubmit(serviceForm.value, serviceForm.valid)">
 
                     <ul id="top-navigation-tabs" class="uk-switcher uk-margin">
 

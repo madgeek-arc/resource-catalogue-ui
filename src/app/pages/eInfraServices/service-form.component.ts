@@ -840,4 +840,8 @@ export class ServiceFormComponent implements OnInit {
     });
   }
 
+  downloadServiceFormPDF() {
+    window.open('../../../assets/files/serviceForm.pdf', '_blank');
+  }
+
 }

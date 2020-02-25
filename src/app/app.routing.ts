@@ -188,6 +188,10 @@ const appRoutes: Routes = [
     }
   },
   {
+    path: 'assets/files/:fileName',
+    children: [ ]
+  },
+  {
     path: 'forbidden',
     component: ForbiddenPageComponent,
     data: {

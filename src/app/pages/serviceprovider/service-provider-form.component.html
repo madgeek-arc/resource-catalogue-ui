@@ -36,17 +36,24 @@
 
                 <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
-                <form *ngIf="vocabularies" [formGroup]="newProviderForm" class="uk-form-horizontal">
+                <div class="uk-float-right uk-padding">
+                  <button class="uk-button" type="button" title="Open or download an empty pdf template form"
+                          (click)="downloadProviderFormPDF()">Download to pdf
+                  </button>
+                </div>
 
-                  <ul uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
-                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[0]}" href="#">Basic *</a></li>
-                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[1]}" href="#">Classification *</a></li>
-                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[2]}" href="#">Maturity *</a></li>
-                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[3]}" href="#">Location *</a></li>
-                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[4]}" href="#">Contact *</a></li>
-                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[5]}" href="#">Other </a></li>
-                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[6]}" href="#">Admins *</a></li>
-                  </ul>
+                <ul class="uk-width-1-1 uk-margin-remove" uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
+                  <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[0]}" href="#">Basic *</a></li>
+                  <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[1]}" href="#">Classification *</a></li>
+                  <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[2]}" href="#">Maturity *</a></li>
+                  <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[3]}" href="#">Location *</a></li>
+                  <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[4]}" href="#">Contact *</a></li>
+                  <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[5]}" href="#">Other </a></li>
+                  <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[6]}" href="#">Admins *</a></li>
+                </ul>
+
+
+                <form *ngIf="vocabularies" [formGroup]="newProviderForm" class="uk-form-horizontal uk-margin">
 
                   <ul id="top-navigation-tabs" class="uk-switcher uk-margin">
                     <li>

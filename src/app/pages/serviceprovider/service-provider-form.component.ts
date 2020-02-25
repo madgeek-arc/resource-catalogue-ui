@@ -562,4 +562,8 @@ export class ServiceProviderFormComponent implements OnInit {
     }
   }
 
+  downloadProviderFormPDF() {
+    window.open('../../../assets/files/providerForm.pdf', '_blank');
+  }
+
 }
