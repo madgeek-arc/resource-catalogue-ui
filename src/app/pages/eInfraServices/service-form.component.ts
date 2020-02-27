@@ -256,7 +256,7 @@ export class ServiceFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  onSubmit(service: Service, isValid: boolean, pendingService?: boolean) {
+  onSubmit(service: Service, tempSave: boolean, pendingService?: boolean) {
     if (!this.authenticationService.isLoggedIn()) {
       console.log('Submit');
       sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
@@ -296,7 +296,9 @@ export class ServiceFormComponent implements OnInit {
       }
     }
     this.scientificDomainArray.disable();
-    if (this.serviceForm.valid && this.measurementForm.valid) {
+    if (tempSave) {
+
+    } else if (this.serviceForm.valid && this.measurementForm.valid) {
       this.showLoader = true;
       window.scrollTo(0, 0);
       this.resourceService[pendingService ? 'uploadPendingService' : 'uploadServiceWithMeasurements'](this.serviceForm.value, this.measurements.value).subscribe(

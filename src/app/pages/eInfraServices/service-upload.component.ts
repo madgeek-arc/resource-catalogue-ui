@@ -30,8 +30,8 @@ export class ServiceUploadComponent extends ServiceFormComponent implements OnIn
     this.successMessage = 'Service uploaded successfully!';
   }
 
-  onSubmit(service: Service, isValid: boolean) {
-    super.onSubmit(service, isValid);
+  onSubmit(service: Service, tempSave: boolean) {
+    super.onSubmit(service, tempSave);
   }
 
 }

@@ -188,10 +188,10 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
     // console.log(measurements.results);
   }
 
-  onSubmit(service: Service, isValid: boolean) {
+  onSubmit(service: Service, tempSave: boolean) {
     if (this.serviceId) {
       service.id = this.serviceId;
     }
-    super.onSubmit(service, isValid);
+    super.onSubmit(service, tempSave);
   }
 }

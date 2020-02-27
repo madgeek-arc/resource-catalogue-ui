@@ -58,7 +58,7 @@
                   </ul>
 
                   <form [formGroup]="serviceForm" role="form" class="uk-form-horizontal uk-margin"
-                        (ngSubmit)="onSubmit(serviceForm.value, serviceForm.valid)">
+                        (ngSubmit)="onSubmit(serviceForm.value, false)">
 
                     <ul id="top-navigation-tabs" class="uk-switcher uk-margin">
 
@@ -1366,11 +1366,10 @@
                       {{editMode ? "Update" : "Add"}}
                     </button>
 
-                    <button *ngIf="temporarySave" class="btn btn-warning butn theme block full-width m-b uk-margin-large-left" (click)="this.onSubmitTemplate(this.service, temporarySave)">Temporary Save</button>
                   </form>
-<!--                  <button class="btn btn-primary butn theme" (click)="downloadForm()">-->
-<!--                    export pdf-->
-<!--                  </button>-->
+                  <div class="uk-float-right uk-animation-scale-up" style="z-index: 100; bottom: 50px; position: fixed; right: 50px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px">
+                    <button class="btn butn theme" (click)="this.onSubmit(this.service, true)">Temporary Save</button>
+                  </div>
 
 <!--                  <pre>{{serviceForm.value | json}}</pre>-->
                 </div>
