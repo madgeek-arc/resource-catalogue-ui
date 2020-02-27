@@ -1365,6 +1365,8 @@
                     <button type="submit" class="btn btn-primary butn theme block full-width m-b">
                       {{editMode ? "Update" : "Add"}}
                     </button>
+
+                    <button *ngIf="temporarySave" class="btn btn-warning butn theme block full-width m-b uk-margin-large-left" (click)="this.onSubmitTemplate(this.service, temporarySave)">Temporary Save</button>
                   </form>
 <!--                  <button class="btn btn-primary butn theme" (click)="downloadForm()">-->
 <!--                    export pdf-->
