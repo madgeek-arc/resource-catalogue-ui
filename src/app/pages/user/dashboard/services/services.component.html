@@ -1,3 +1,7 @@
+<div *ngIf="errorMessage" class="uk-alert uk-alert-danger">
+  <p>{{errorMessage}}</p>
+</div>
+
 <div *ngIf="providerServices && providerServices.results.length === 0">
   <p>No {{path === 'activeServices' ? 'active' : 'pending'}} services found</p>
 </div>
@@ -6,7 +10,7 @@
        style="background:#f7f7fa">
     <div class="uk-margin uk-grid-match uk-child-width-1-1 uk-animation-slide-top-medium uk-grid-stack">
       <div class="uk-first-column uk-padding-remove-left">
-        <div class="">
+
           <div class="uk-panel uk-scrollspy-inview uk-animation-slide-top-medium">
             <div class="uk-child-width-expand uk-flex-middle uk-grid uk-grid-stack uk-padding-small" uk-grid="">
               <div class="uk-width-1-6@m uk-first-column">
@@ -20,20 +24,30 @@
                 <span>{{providerService.service.description}}</span>
               </div>
               <div class="uk-width-1-6@m">
-                <button *ngIf="path !== 'activeServices'" class="uk-button uk-button-secondary" (click)="navigate(providerService.service.id)">
-                  Update
-                </button>
-                <div *ngIf="path === 'activeServices'" class="uk-width-1-1">
+                <div *ngIf="path !== 'activeServices'">
+                  <a class="uk-padding-small" (click)="navigate(providerService.service.id)">
+                    <i class="fa fa-pencil fa-2x"></i>
+                  </a>
+                  <a class="uk-padding-small" (click)="setSelectedService(providerService)">
+                    <i class="fa fa-trash fa-2x" aria-hidden="true"></i>
+                  </a>
+                </div>
+                <div *ngIf="path === 'activeServices'">
                   <div style="margin-left: 5px">{{providerService.active ? 'Active' : 'Inactive'}}</div>
                   <label class="switch">
                     <input type="checkbox" [checked]="providerService.active" (change)="toggleService(providerService.service.id, providerService.service.version, $event)">
                     <span class="slider round"></span>
                   </label>
+                  <a class="uk-padding-small" (click)="setSelectedService(providerService)">
+                    <i class="fa fa-trash fa-2x" aria-hidden="true"></i>
+                  </a>
                 </div>
+
+
               </div>
             </div>
           </div>
-        </div>
+
       </div>
     </div>
   </div>
@@ -41,5 +55,13 @@
 
 <div id="spinnerModal" uk-modal>
   <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+  </div>
+</div>
+
+<div id="actionModal" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body">
+    <h6 *ngIf="selectedService">Are you sure you want to delete the service {{selectedService.service.name}}</h6>
+    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteService(selectedService.id)">Delete</button>
+    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>
 </div>

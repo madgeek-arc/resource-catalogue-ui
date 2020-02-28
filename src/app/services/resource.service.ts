@@ -123,8 +123,7 @@ export class ResourceService {
 
   getService(id: string, version?: string) {
     // if version becomes optional this should be reconsidered
-    return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options)
-      ;
+    return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
   }
 
   getRichService(id: string, version?: string) {
@@ -150,6 +149,14 @@ export class ResourceService {
     return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).pipe(
       map(res => Object.values(res.results))
     );
+  }
+
+  deleteService(id: string) {
+    return this.http.delete(this.base + '/service/' + id, this.options);
+  }
+
+  deletePendingService(id: string) {
+    return this.http.delete(this.base + '/pendingService/' + id, this.options);
   }
 
   /** STATS **/
