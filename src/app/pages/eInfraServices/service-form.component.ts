@@ -22,6 +22,7 @@ export class ServiceFormComponent implements OnInit {
   serviceName = 'eInfraCentral';
   firstServiceForm = false;
   showLoader = false;
+  pendingService = false;
   providerId: string;
   editMode: boolean;
   serviceForm: FormGroup;
@@ -296,10 +297,24 @@ export class ServiceFormComponent implements OnInit {
       }
     }
     this.scientificDomainArray.disable();
+    this.showLoader = true;
     if (tempSave) {
-
+      // todo add fix hear
+      this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService'](this.serviceForm.value, this.measurements.value).subscribe(
+        _service => {
+          // console.log(_service);
+          this.showLoader = false;
+          return this.router.go('/editPendingService/' + _service.id);
+        },
+        err => {
+          this.showLoader = false;
+          window.scrollTo(0, 0);
+          this.categoryArray.enable();
+          this.scientificDomainArray.enable();
+          this.errorMessage = 'Something went bad, server responded: ' + err.error;
+        }
+      );
     } else if (this.serviceForm.valid && this.measurementForm.valid) {
-      this.showLoader = true;
       window.scrollTo(0, 0);
       this.resourceService[pendingService ? 'uploadPendingService' : 'uploadServiceWithMeasurements'](this.serviceForm.value, this.measurements.value).subscribe(
         _service => {
@@ -317,6 +332,7 @@ export class ServiceFormComponent implements OnInit {
       );
     } else {
       window.scrollTo(0, 0);
+      this.showLoader = false;
 
       this.categoryArray.enable();
       this.scientificDomainArray.enable();
