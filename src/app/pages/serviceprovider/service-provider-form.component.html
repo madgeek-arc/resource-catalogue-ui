@@ -102,8 +102,8 @@
                           {{ providerDescriptionDesc.label + (providerDescriptionDesc.mandatory ? ' (*)' : '')}}
                         </label>
                         <div class="uk-form-controls">
-                          <input id="description" class="uk-input" type="text" formControlName="description"
-                                 [ngClass]="{'uk-form-danger': checkFormValidity('description')}">
+                          <textarea id="description" class="uk-textarea" rows="4" formControlName="description"
+                                 [ngClass]="{'uk-form-danger': checkFormValidity('description')}"></textarea>
                           <i><small>{{providerDescriptionDesc.desc}}</small></i>
                         </div>
                       </div>
