@@ -217,7 +217,7 @@ export class ServiceProviderFormComponent implements OnInit {
     }
   }
 
-  registerProvider() {
+  registerProvider(tempSave: boolean) {
     if (!this.authService.isLoggedIn()) {
       console.log('Submit');
       sessionStorage.setItem('provider', JSON.stringify(this.newProviderForm.value));
@@ -233,15 +233,32 @@ export class ServiceProviderFormComponent implements OnInit {
     } else {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
     }
-    if (this.newProviderForm.valid) {
+    for (const category of this.domainArray.controls) {
+      if (category.get('category').value) {
+        this.getFieldAsFormArray('categories').push(this.fb.control(category.get('category').value));
+      }
+    }
+    if (tempSave) {
+      this.serviceProviderService.temporarySaveProvider(this.newProviderForm.value, (path !== 'registerServiceProvider/:id' && this.edit))
+        .subscribe(
+        res => {
+          this.showLoader = false;
+          this.router.navigate([`/registerServiceProvider/${res.id}`]);
+        },
+        err => {
+          this.showLoader = false;
+          window.scrollTo(0, 0);
+          this.errorMessage = 'Something went wrong. ' + err.error;
+        },
+        () => {
+          this.showLoader = false;
+        }
+      );
+    } else if (this.newProviderForm.valid) {
       this.showLoader = true;
       window.scrollTo(0, 0);
       this.getFieldAsFormArray('categories').controls = [];
-      for (const category of this.domainArray.controls) {
-        if (category.get('category').value) {
-          this.getFieldAsFormArray('categories').push(this.fb.control(category.get('category').value));
-        }
-      }
+
       this.serviceProviderService[method](this.newProviderForm.value).subscribe(
         res => {},
         err => {
@@ -259,6 +276,7 @@ export class ServiceProviderFormComponent implements OnInit {
         }
       );
     } else {
+      console.log(this.newProviderForm);
       this.markFormAsDirty();
       window.scrollTo(0, 0);
       this.markTabs();

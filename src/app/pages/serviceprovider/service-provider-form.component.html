@@ -77,16 +77,16 @@
                           <i><small>{{acronymDesc.desc}}</small></i>
                         </div>
                       </div>
-<!--                  <div class="uk-margin-bottom">-->
-<!--                  <label class="uk-form-label uk-text-right" for="legalForm">-->
-<!--                      {{ legalFormDesc.label + (legalFormDesc.mandatory ? ' (*)' : '')}}-->
-<!--                    </label>-->
-<!--                    <div class="uk-form-controls">-->
-<!--                      <input id="legalForm" class="uk-input" type="text" formControlName="legalForm"-->
-<!--                             [ngClass]="{'uk-form-danger': !newProviderForm.get('legalForm').valid && newProviderForm.get('legalForm').dirty}">-->
-<!--                      <i><small>{{legalFormDesc.desc}}</small></i>-->
-<!--                    </div>-->
-<!--                  </div>-->
+                      <!--                  <div class="uk-margin-bottom">-->
+                      <!--                  <label class="uk-form-label uk-text-right" for="legalForm">-->
+                      <!--                      {{ legalFormDesc.label + (legalFormDesc.mandatory ? ' (*)' : '')}}-->
+                      <!--                    </label>-->
+                      <!--                    <div class="uk-form-controls">-->
+                      <!--                      <input id="legalForm" class="uk-input" type="text" formControlName="legalForm"-->
+                      <!--                             [ngClass]="{'uk-form-danger': !newProviderForm.get('legalForm').valid && newProviderForm.get('legalForm').dirty}">-->
+                      <!--                      <i><small>{{legalFormDesc.desc}}</small></i>-->
+                      <!--                    </div>-->
+                      <!--                  </div>-->
                       <div class="uk-margin-bottom">
                         <label class="uk-form-label uk-text-right" for="website">
                           {{ websiteDesc.label + (websiteDesc.mandatory ? ' (*)' : '')}}
@@ -99,7 +99,7 @@
                       </div>
                       <div class="uk-margin-bottom">
                         <label class="uk-form-label uk-text-right" for="description">
-                          {{ providerDescriptionDesc.label + (providerDescriptionDesc.mandatory ? ' (*)': '')}}
+                          {{ providerDescriptionDesc.label + (providerDescriptionDesc.mandatory ? ' (*)' : '')}}
                         </label>
                         <div class="uk-form-controls">
                           <input id="description" class="uk-input" type="text" formControlName="description"
@@ -109,7 +109,7 @@
                       </div>
                       <div class="uk-margin-bottom">
                         <label class="uk-form-label uk-text-right" for="logo">
-                          {{ providerLogoDesc.label + (providerLogoDesc.mandatory ? ' (*)': '')}}
+                          {{ providerLogoDesc.label + (providerLogoDesc.mandatory ? ' (*)' : '')}}
                         </label>
                         <div class="uk-form-controls">
                           <input id="logo" class="uk-input" type="text" formControlName="logo"
@@ -150,7 +150,8 @@
                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('types', i),
                                     'uk-width-5-6': getFieldAsFormArray('types').length > 1}">
                               <option value=""></option>
-                              <option *ngFor="let entry of sortVocabulariesByName(providerTypeVocabulary)" value="{{entry.id}}">
+                              <option *ngFor="let entry of sortVocabulariesByName(providerTypeVocabulary)"
+                                      value="{{entry.id}}">
                                 {{entry.name}}
                               </option>
                             </select>
@@ -172,8 +173,10 @@
                       <div class="uk-margin-bottom">
                         <label class="uk-form-label uk-text-right">Scientific Domain (*)</label>
                         <div class="uk-form-controls">
-                          <div formArrayName="categorization" *ngFor="let category of domainArray.controls; let i = index">
-                            <div [formGroupName]="i" class="uk-margin-small-bottom" style="border: 1px dashed #cccccc; padding-right: 10px">
+                          <div formArrayName="categorization"
+                               *ngFor="let category of domainArray.controls; let i = index">
+                            <div [formGroupName]="i" class="uk-margin-small-bottom"
+                                 style="border: 1px dashed #cccccc; padding-right: 10px">
                               <a *ngIf="domainArray.length > 1 && !disable" class="remove-element uk-padding-small"
                                  (click)="removeDomain(i)">
                                 <i class="fa fa-times" aria-hidden="true"></i>
@@ -184,10 +187,12 @@
                                   {{providerScientificDomainDesc.label + (providerScientificDomainDesc.mandatory ? ' (*)' : '')}}
                                 </label>
                                 <div class="uk-form-controls">
-                                  <select id="{{'domain ' + i}}" formControlName="domain" class="uk-select" (change)="onDomainChange(i)"
+                                  <select id="{{'domain ' + i}}" formControlName="domain" class="uk-select"
+                                          (change)="onDomainChange(i)"
                                           [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorization', i, 'domain')}">
                                     <option value=""></option>
-                                    <option *ngFor="let entry of sortVocabulariesByName(domainsVocabulary)" value="{{entry.id}}">
+                                    <option *ngFor="let entry of sortVocabulariesByName(domainsVocabulary)"
+                                            value="{{entry.id}}">
                                       {{entry.name}}
                                     </option>
                                   </select>
@@ -204,7 +209,9 @@
                                           [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorization', i, 'category')}">
                                     <ng-container *ngIf="domainArray.controls[i].get('domain').value">
                                       <option value="">--Select Category--</option>
-                                      <option *ngFor="let entry of getSortedChildrenCategories(categoriesVocabulary, domainArray.controls[i].get('domain').value)" value="{{entry.id}}">
+                                      <option
+                                        *ngFor="let entry of getSortedChildrenCategories(categoriesVocabulary, domainArray.controls[i].get('domain').value)"
+                                        value="{{entry.id}}">
                                         {{entry.name}}
                                       </option>
                                     </ng-container>
@@ -222,7 +229,7 @@
                           </a>
                         </div>
                       </div>
-                      <div  formArrayName="esfriDomains" class="uk-margin-bottom">
+                      <div formArrayName="esfriDomains" class="uk-margin-bottom">
                         <label class="uk-form-label uk-text-right" for="esfriDomains">
                           {{ESFRIDomainDesc.label + (ESFRIDomainDesc.mandatory ? ' (*)' : '')}}
                         </label>
@@ -232,7 +239,8 @@
                                     [ngClass]="{'uk-form-danger': checkFormValidity('esfriDomains'),
                                'uk-width-5-6': (getFieldAsFormArray('esfriDomains').length > 1)}">
                               <option value=""></option>
-                              <option *ngFor="let entry of sortVocabulariesByName(esfriDomainVocabulary)" value="{{entry.id}}">
+                              <option *ngFor="let entry of sortVocabulariesByName(esfriDomainVocabulary)"
+                                      value="{{entry.id}}">
                                 {{entry.name}}
                               </option>
                             </select>
@@ -281,7 +289,8 @@
                           <select id="lifeCycleStatus" formControlName="lifeCycleStatus" class="uk-select"
                                   [ngClass]="{'uk-form-danger': checkFormValidity('lifeCycleStatus')}">
                             <option value=""></option>
-                            <option *ngFor="let entry of sortVocabulariesByName(providerTRLVocabulary)" value="{{entry.id}}">
+                            <option *ngFor="let entry of sortVocabulariesByName(providerTRLVocabulary)"
+                                    value="{{entry.id}}">
                               {{entry.name}}
                             </option>
                           </select>
@@ -293,7 +302,7 @@
                       <div formGroupName="location" class="uk-margin-bottom">
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="name">
-                            {{ locationNameDesc.label + (locationNameDesc.mandatory ? ' (*)': '')}}
+                            {{ locationNameDesc.label + (locationNameDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <input id="name" class="uk-input" type="text" formControlName="name"
@@ -303,7 +312,7 @@
                         </div>
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="street">
-                            {{ streetNameDesc.label + (streetNameDesc.mandatory ? ' (*)': '')}}
+                            {{ streetNameDesc.label + (streetNameDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <input id="street" class="uk-input" type="text" formControlName="street"
@@ -313,7 +322,7 @@
                         </div>
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="number">
-                            {{ streetNumberDesc.label + (streetNumberDesc.mandatory ? ' (*)': '')}}
+                            {{ streetNumberDesc.label + (streetNumberDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <input id="number" class="uk-input" type="number" formControlName="number"
@@ -323,7 +332,7 @@
                         </div>
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="postalCode">
-                            {{ postalCodeDesc.label + (postalCodeDesc.mandatory ? ' (*)': '')}}
+                            {{ postalCodeDesc.label + (postalCodeDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <input id="postalCode" class="uk-input" type="text" formControlName="postalCode"
@@ -333,7 +342,7 @@
                         </div>
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="city">
-                            {{ cityDesc.label + (cityDesc.mandatory ? ' (*)': '')}}
+                            {{ cityDesc.label + (cityDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <input id="city" class="uk-input" type="text" formControlName="city"
@@ -343,7 +352,7 @@
                         </div>
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="region">
-                            {{ regionDesc.label + (regionDesc.mandatory ? ' (*)': '')}}
+                            {{ regionDesc.label + (regionDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <input id="region" class="uk-input" type="text" formControlName="region"
@@ -354,7 +363,7 @@
                       </div>
                       <div class="uk-margin-bottom">
                         <label class="uk-form-label uk-text-right" for="coordinatingCountry">
-                          {{ countryDesc.label + (countryDesc.mandatory ? ' (*)': '')}}
+                          {{ countryDesc.label + (countryDesc.mandatory ? ' (*)' : '')}}
                         </label>
                         <div class="uk-form-controls">
                           <select id="coordinatingCountry" class="uk-input" formControlName="coordinatingCountry"
@@ -372,12 +381,14 @@
                           {{participatingCountriesDesc.label + (participatingCountriesDesc.mandatory ? ' (*)' : '')}}
                         </label>
                         <div class="uk-form-controls">
-                          <div *ngFor="let provider of getFieldAsFormArray('participatingCountries').controls; let i=index">
+                          <div
+                            *ngFor="let provider of getFieldAsFormArray('participatingCountries').controls; let i=index">
                             <select id="participatingCountries" class="uk-input" [formControlName]="i"
                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('participatingCountries', i),
                                'uk-width-5-6': (getFieldAsFormArray('participatingCountries').length > 1)}">
-                              <option value=""> </option>
-                              <option *ngFor="let entry of sortVocabulariesByName(placesVocabulary)" value="{{entry.id}}">
+                              <option value=""></option>
+                              <option *ngFor="let entry of sortVocabulariesByName(placesVocabulary)"
+                                      value="{{entry.id}}">
                                 {{entry.name}}
                               </option>
                             </select>
@@ -403,7 +414,8 @@
                             <div [formGroupName]="i" class="uk-margin-small-bottom"
                                  style="border: 1px dashed #cccccc; padding-right: 10px">
                               <div>
-                                <a *ngIf="i !== 0 && !disable" class="remove-element uk-padding-small" (click)="removeContact(i)">
+                                <a *ngIf="i !== 0 && !disable" class="remove-element uk-padding-small"
+                                   (click)="removeContact(i)">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -463,20 +475,22 @@
                           {{hostingLegalEntityDesc.label + (hostingLegalEntityDesc.mandatory ? ' (*)' : '')}}
                         </label>
                         <div class="uk-form-controls">
-                          <input id="hostingLegalEntity" class="uk-input" type="text" formControlName="hostingLegalEntity"
+                          <input id="hostingLegalEntity" class="uk-input" type="text"
+                                 formControlName="hostingLegalEntity"
                                  [ngClass]="{'uk-form-danger': checkFormValidity('hostingLegalEntity')}">
                           <i><small>{{hostingLegalEntityDesc.desc}}</small></i>
                         </div>
                       </div>
                       <div class="uk-margin-bottom">
                         <label class="uk-form-label uk-text-right" for="legalStatus">
-                          {{ legalStatusDesc.label + (legalStatusDesc.mandatory ? ' (*)': '')}}
+                          {{ legalStatusDesc.label + (legalStatusDesc.mandatory ? ' (*)' : '')}}
                         </label>
                         <div class="uk-form-controls">
                           <select id="legalStatus" class="uk-input" formControlName="legalStatus"
                                   [ngClass]="{'uk-form-danger': checkFormValidity('legalStatus')}">
                             <option value=""></option>
-                            <option *ngFor="let entry of sortVocabulariesByName(legalStatusVocabulary)" value="{{entry.id}}">
+                            <option *ngFor="let entry of sortVocabulariesByName(legalStatusVocabulary)"
+                                    value="{{entry.id}}">
                               {{entry.name}}
                             </option>
                           </select>
@@ -485,7 +499,7 @@
                       </div>
                       <div class="uk-margin-bottom">
                         <label class="uk-form-label uk-text-right" for="esfriParticipation">
-                          {{ ESFRIDesc.label + (ESFRIDesc.mandatory ? ' (*)': '')}}
+                          {{ ESFRIDesc.label + (ESFRIDesc.mandatory ? ' (*)' : '')}}
                         </label>
                         <div class="uk-form-controls">
                           <select id="esfriParticipation" class="uk-input" formControlName="esfriParticipation"
@@ -508,7 +522,8 @@
                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('networks', i),
                                'uk-width-5-6': (getFieldAsFormArray('networks').length > 1)}">
                               <option value=""></option>
-                              <option *ngFor="let entry of sortVocabulariesByName(networksVocabulary)" value="{{entry.id}}">
+                              <option *ngFor="let entry of sortVocabulariesByName(networksVocabulary)"
+                                      value="{{entry.id}}">
                                 {{entry.name}}
                               </option>
                             </select>
@@ -535,7 +550,8 @@
                                     [ngClass]="{'uk-form-danger': !getFieldAsFormArray('areasOfActivity').get([i]).valid && getFieldAsFormArray('areasOfActivity').get([i]).dirty,
                                'uk-width-5-6': (getFieldAsFormArray('areasOfActivity').length > 1)}">
                               <option value=""></option>
-                              <option *ngFor="let entry of sortVocabulariesByName(areasOfActivityVocabulary)" value="{{entry.id}}">
+                              <option *ngFor="let entry of sortVocabulariesByName(areasOfActivityVocabulary)"
+                                      value="{{entry.id}}">
                                 {{entry.name}}
                               </option>
                             </select>
@@ -557,12 +573,14 @@
                           {{societalGrandChallengesDesc.label + (societalGrandChallengesDesc.mandatory ? ' (*)' : '')}}
                         </label>
                         <div class="uk-form-controls">
-                          <div *ngFor="let provider of getFieldAsFormArray('societalGrandChallenges').controls; let i=index">
+                          <div
+                            *ngFor="let provider of getFieldAsFormArray('societalGrandChallenges').controls; let i=index">
                             <select id="societalGrandChallenges" class="uk-input" [formControlName]="i"
                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('societalGrandChallenges', i),
                                'uk-width-5-6': (getFieldAsFormArray('societalGrandChallenges').length > 1)}">
                               <option value=""></option>
-                              <option *ngFor="let entry of sortVocabulariesByName(societalGrandChallengesVocabulary)" value="{{entry.id}}">
+                              <option *ngFor="let entry of sortVocabulariesByName(societalGrandChallengesVocabulary)"
+                                      value="{{entry.id}}">
                                 {{entry.name}}
                               </option>
                             </select>
@@ -581,7 +599,7 @@
                       </div>
                       <div class="uk-margin-bottom">
                         <label class="uk-form-label uk-text-right" for="nationalRoadmap">
-                          {{ nationalRoadmapsDesc.label + (nationalRoadmapsDesc.mandatory ? ' (*)': '')}}
+                          {{ nationalRoadmapsDesc.label + (nationalRoadmapsDesc.mandatory ? ' (*)' : '')}}
                         </label>
                         <div class="uk-form-controls">
                           <select id="nationalRoadmap" class="uk-input" formControlName="nationalRoadmap"
@@ -594,75 +612,78 @@
                       </div>
                     </li>
 
-<!--                  <div formArrayName="certifications" class="uk-margin-bottom">-->
-<!--                    <label class="uk-form-label uk-text-right">-->
-<!--                      {{providerCertificationsDesc.label + (providerCertificationsDesc.mandatory ? ' (*)' : '')}}-->
-<!--                    </label>-->
-<!--                    <div class="uk-form-controls">-->
-<!--                      <div *ngFor="let provider of getFieldAsFormArray('certifications').controls; let i=index">-->
-<!--                        <input class="uk-input" type="text" [formControlName]="i"-->
-<!--                               [ngClass]="{'uk-form-danger': !getFieldAsFormArray('certifications').get([i]).valid && getFieldAsFormArray('certifications').get([i]).dirty,-->
-<!--                               'uk-width-5-6': (getFieldAsFormArray('certifications').length > 1)}">-->
-<!--                        <a *ngIf="getFieldAsFormArray('certifications').length > 1"-->
-<!--                           class="remove-element uk-padding-small" (click)="remove('certifications', i)">-->
-<!--                          <i class="fa fa-times" aria-hidden="true"></i>-->
-<!--                        </a>-->
-<!--                      </div>-->
-<!--                      <div class="uk-width-1-1">-->
-<!--                        <a class="add-new-element" (click)="push('certifications', false)">-->
-<!--                          <i class="fa fa-plus" aria-hidden="true"></i> Add {{providerCertificationsDesc.label}}-->
-<!--                        </a>-->
-<!--                      </div>-->
-<!--                      <i><small>{{providerCertificationsDesc.desc}}</small></i>-->
-<!--                    </div>-->
-<!--                  </div>-->
+                    <!--                  <div formArrayName="certifications" class="uk-margin-bottom">-->
+                    <!--                    <label class="uk-form-label uk-text-right">-->
+                    <!--                      {{providerCertificationsDesc.label + (providerCertificationsDesc.mandatory ? ' (*)' : '')}}-->
+                    <!--                    </label>-->
+                    <!--                    <div class="uk-form-controls">-->
+                    <!--                      <div *ngFor="let provider of getFieldAsFormArray('certifications').controls; let i=index">-->
+                    <!--                        <input class="uk-input" type="text" [formControlName]="i"-->
+                    <!--                               [ngClass]="{'uk-form-danger': !getFieldAsFormArray('certifications').get([i]).valid && getFieldAsFormArray('certifications').get([i]).dirty,-->
+                    <!--                               'uk-width-5-6': (getFieldAsFormArray('certifications').length > 1)}">-->
+                    <!--                        <a *ngIf="getFieldAsFormArray('certifications').length > 1"-->
+                    <!--                           class="remove-element uk-padding-small" (click)="remove('certifications', i)">-->
+                    <!--                          <i class="fa fa-times" aria-hidden="true"></i>-->
+                    <!--                        </a>-->
+                    <!--                      </div>-->
+                    <!--                      <div class="uk-width-1-1">-->
+                    <!--                        <a class="add-new-element" (click)="push('certifications', false)">-->
+                    <!--                          <i class="fa fa-plus" aria-hidden="true"></i> Add {{providerCertificationsDesc.label}}-->
+                    <!--                        </a>-->
+                    <!--                      </div>-->
+                    <!--                      <i><small>{{providerCertificationsDesc.desc}}</small></i>-->
+                    <!--                    </div>-->
+                    <!--                  </div>-->
 
-                <li>
-                  <div class="uk-margin-small-bottom" uk-grid>
-<!--                    <h5 class="uk-width-1-1">PROVIDER ADMINS</h5>-->
-                    <div *ngIf="!edit" class="uk-width-1-6"></div>
-                    <i>An administrator will be added using your user information</i>
-                  </div>
-                  <div *ngIf="newProviderForm.get('users').value">
-                    <div formArrayName="users" *ngFor="let user of usersArray.controls; let i = index">
-                      <div class="uk-padding-small uk-margin-small-bottom">
-                        <div class="uk-grid" [formGroupName]="i">
+                    <li>
+                      <div class="uk-margin-small-bottom" uk-grid>
+                        <!--                    <h5 class="uk-width-1-1">PROVIDER ADMINS</h5>-->
+                        <div *ngIf="!edit" class="uk-width-1-6"></div>
+                        <i>An administrator will be added using your user information</i>
+                      </div>
+                      <div *ngIf="newProviderForm.get('users').value">
+                        <div formArrayName="users" *ngFor="let user of usersArray.controls; let i = index">
+                          <div class="uk-padding-small uk-margin-small-bottom">
+                            <div class="uk-grid" [formGroupName]="i">
+                              <div class="uk-width-1-6"></div>
+                              <div class="serviceDetails uk-width-1-6@m">
+                                <input type="text" class="uk-input" formControlName="name" placeholder="First Name"
+                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'name')}">
+                              </div>
+                              <div class="serviceDetails uk-width-1-6@m">
+                                <input type="text" class="uk-input" formControlName="surname" placeholder="Last Name"
+                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'surname')}">
+                              </div>
+                              <div class="serviceDetails  uk-width-1-3@m">
+                                <input type="text" class="uk-input" formControlName="email" placeholder="Email"
+                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'email')}">
+                              </div>
+                              <div *ngIf="usersArray.length > 1 && !disable" class="uk-width-1-6@m">
+                                <a (click)="deleteUser(i)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div uk-grid>
                           <div class="uk-width-1-6"></div>
-                          <div class="serviceDetails uk-width-1-6@m">
-                            <input type="text" class="uk-input" formControlName="name" placeholder="First Name"
-                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'name')}">
-                          </div>
-                          <div class="serviceDetails uk-width-1-6@m">
-                            <input type="text" class="uk-input" formControlName="surname" placeholder="Last Name"
-                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'surname')}">
-                          </div>
-                          <div class="serviceDetails  uk-width-1-3@m">
-                            <input type="text" class="uk-input" formControlName="email" placeholder="Email"
-                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'email')}">
-                          </div>
-                          <div *ngIf="usersArray.length > 1 && !disable" class="uk-width-1-6@m">
-                            <a (click)="deleteUser(i)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                          <div *ngIf="!disable" class="uk-margin-small-bottom uk-width-5-6">
+                            <a (click)="addUser()"><i class="fa fa-plus" aria-hidden="true"></i> New Admin Provider</a>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div uk-grid>
-                      <div class="uk-width-1-6"></div>
-                      <div *ngIf="!disable" class="uk-margin-small-bottom uk-width-5-6">
-                        <a (click)="addUser()"><i class="fa fa-plus" aria-hidden="true"></i> New Admin Provider</a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
+                    </li>
                   </ul>
 
                   <div *ngIf="!disable">
-                    <button class="uk-button butn theme" type="submit" (click)="registerProvider()">Submit</button>
+                    <button class="uk-button butn theme" type="submit" (click)="registerProvider(false)">Submit</button>
                   </div>
                 </form>
 
-                <div *ngIf="disable" class="uk-float-right uk-animation-scale-up"
-                     style="z-index: 100; bottom: 50px; position: fixed; right: 50px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px">
+                <div *ngIf="!disable" class="uk-float-right uk-animation-scale-up" style="z-index: 100; bottom: 50px; position: fixed; right: 50px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px">
+                  <button class="btn butn theme" (click)="this.registerProvider(true)">Temporary Save</button>
+                </div>
+
+                <div *ngIf="disable" class="uk-float-right uk-animation-scale-up" style="z-index: 100; bottom: 50px; position: fixed; right: 50px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px">
                   <button class="uk-button butn theme side" (click)="toggleDisable()">Edit
                     <i class="fa fa-lg fa-edit" aria-hidden="true"></i></button>
                 </div>

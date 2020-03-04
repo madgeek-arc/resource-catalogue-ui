@@ -83,6 +83,14 @@ export class ServiceProviderService {
     return this.http.patch(this.base + `/service/publish/${id}?active=${active}&version=${version}`, this.options);
   }
 
+  temporarySaveProvider(provider: Provider, providerExists: boolean) {
+    console.log(providerExists);
+    if (providerExists) {
+      return this.http.put<Provider>(this.base + '/pendingProvider/provider', provider, this.options);
+    }
+    return this.http.put<Provider>(this.base + '/pendingProvider/pending', provider, this.options);
+  }
+
   getProviderRequests(id: string) {
     return this.http.get<ProviderRequest[]>(this.base + `/request/allProviderRequests?providerId=${id}`);
   }

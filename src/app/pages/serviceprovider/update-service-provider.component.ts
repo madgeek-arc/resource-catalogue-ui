@@ -64,8 +64,8 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
     }
   }
 
-  registerProvider() {
-    super.registerProvider();
+  registerProvider(tempSave: boolean) {
+    super.registerProvider(tempSave);
   }
 
   getProvider() {
@@ -131,6 +131,8 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
               }
             }
           }
+        } else {
+          this.domainArray.push(this.newScientificDomain());
         }
         if (this.provider.esfriDomains && this.provider.esfriDomains.length > 1) {
           for (let i = 0; i < this.provider.esfriDomains.length - 1; i++) {
