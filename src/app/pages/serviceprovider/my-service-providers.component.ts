@@ -13,6 +13,7 @@ export class MyServiceProvidersComponent implements OnInit {
   tilesView: boolean;
 
   myProviders: ProviderBundle[];
+  myPendingProviders: ProviderBundle[];
   pendingFirstServicePerProvider: any[] = [];
   hasPendingServices: {id: string, flag: boolean}[] = [];
 
@@ -25,6 +26,48 @@ export class MyServiceProvidersComponent implements OnInit {
   ngOnInit() {
     this.tilesView = true;
     this.getServiceProviders();
+    this.getPendingProviders();
+  }
+
+  getPendingProviders() {
+    this.serviceProviderService.getMyPendingProviders().subscribe(
+      res => this.myPendingProviders = res,
+      err => {
+        console.log(err);
+        // this.errorMessage = 'An error occurred!';
+        if (err['status'] === 401) {
+          this.authenticationService.login();
+        }
+      }/*,
+      () => {
+        this.myPendingProviders.forEach(
+          p => {
+            if ((p.status === 'pending service template approval') || (p.status === 'rejected service template')) {
+              this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
+                res => {
+                  if (res && (res.length > 0)) {
+                    this.pendingFirstServicePerProvider.push({providerId: p.id, serviceId: res[0].id});
+                  }
+                }
+              );
+            }
+            if (p.metadata !== null && p.metadata.source === 'Meril' && p.status === 'pending service template submission') {
+              console.log(p.id);
+              this.serviceProviderService.getPendingServicesByProvider(p.id).subscribe(
+                res => {
+                  if (res.results.length > 0) {
+                    this.hasPendingServices.push({id: p.id, flag: true});
+                  } else {
+                    this.hasPendingServices.push({id: p.id, flag: false});
+                  }
+                  console.log(this.hasPendingServices);
+                }
+              );
+            }
+          }
+        );
+      }*/
+    );
   }
 
   getServiceProviders() {

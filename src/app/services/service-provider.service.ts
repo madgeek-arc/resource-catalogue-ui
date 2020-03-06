@@ -48,6 +48,10 @@ export class ServiceProviderService {
     return this.http.patch(this.base + `/provider/verifyProvider/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
+  getMyPendingProviders() {
+    return this.http.get<ProviderBundle[]>(this.base + '/pendingProvider/getMyPendingProviders', this.options);
+  }
+
   getMyServiceProviders() {
     return this.http.get<ProviderBundle[]>(this.base + '/provider/getMyServiceProviders', this.options);
   }
