@@ -130,7 +130,7 @@
                                   {{ providerBundle.status }}
                                 </div>
                                 <div>
-                                  <a routerLink="/updateServiceProvider/{{providerBundle.id}}">Update provider</a>
+                                  <a routerLink="/registerServiceProvider/{{providerBundle.id}}">Update provider</a>
                                 </div>
                               </div>
                               <div *ngIf="(providerBundle.status === 'pending service template submission')
@@ -264,7 +264,7 @@
                                       {{ hasCreatedFirstService(providerBundle.id) ? 'Update' : 'Add'}}
                                       service template
                                     </a>
-                                    <a routerLink="/updateServiceProvider/{{providerBundle.id}}">Update provider</a>
+                                    <a routerLink="/registerServiceProvider/{{providerBundle.id}}">Update provider</a>
                                   </td>
                                 </tr>
                                 </tbody>
