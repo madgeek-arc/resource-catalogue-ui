@@ -239,6 +239,8 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
     if (tempSave) {
+      this.showLoader = true;
+      window.scrollTo(0, 0);
       this.serviceProviderService.temporarySaveProvider(this.newProviderForm.value, (path !== 'registerServiceProvider/:id' && this.edit))
         .subscribe(
         res => {
