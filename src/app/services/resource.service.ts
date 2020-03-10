@@ -333,7 +333,7 @@ export class ResourceService {
   }
 
   uploadPendingService(service: Service, measurements: Measurement[]) {
-    return this.http.put<Service>(this.base + '/pendingService/updateAndTransform', {service, measurements}, this.options);
+    return this.http.put<Service>(this.base + '/pendingService/transform/service', {service, measurements}, this.options);
   }
 
   uploadTempPendingService(service: Service, measurements: Measurement[]) {
