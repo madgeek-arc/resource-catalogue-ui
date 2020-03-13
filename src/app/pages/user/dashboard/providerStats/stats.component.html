@@ -49,4 +49,31 @@
       </div>
     </div>
   </div>
+
+  <div class="uk-grid uk-margin-bottom">
+    <div class="uk-width-1-1">
+      <div style="width:100%" *ngIf="mapDistributionOfServices">
+        <chart type="Map" [options]="mapDistributionOfServices"></chart>
+      </div>
+    </div>
+    <div id="country-service-modal" class="uk-modal-container"
+      style="background: none;width: 200px;height: 200px;top:100px;left:100px" uk-modal>
+      <div style="width: 200px;height: 200px" class="uk-modal-dialog uk-modal-body">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h2 class="uk-modal-title">{{getSelectedCountry().title}}</h2>
+        <!-- rendering array of users -->
+        <ul>
+          <li *ngFor="let service of selectedCountry.services"><a href="{service.url}">{{service.name}}</a></li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+  <div class="uk-grid uk-margin-bottom">
+    <div class="uk-width-1-1">
+      <div style="width:100%" *ngIf="categoriesPerServiceForProvider">
+        <chart [options]="categoriesPerServiceForProvider"></chart>
+      </div>
+    </div>
+  </div>
 </div>
