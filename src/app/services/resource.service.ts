@@ -170,6 +170,33 @@ export class ResourceService {
     }
   }
 
+  getCategoriesPerServiceForProvider(provider: string) {
+    return {
+      'Quantum Engine': 2,
+      'Data Wrangling': 3
+    };
+    // return this.http.get(this.base + `/stats/provider/categoriesperservice/${provider}`);
+  }
+
+  getMapDistributionOfServices() {
+    return [{
+      country: 'gr',
+      values: [
+      {
+        name: 'Quantum',
+        url: 'http://hello.com'
+      },
+      { name: 'hisd', }
+    ]},{
+      country: 'fo'
+    },{
+      country: 'us'
+    },{
+      country: 'fr'
+    }
+  ];
+  }
+
   getFavouritesForProvider(provider: string, period?: string) {
     let params = new HttpParams();
     if (period) {
