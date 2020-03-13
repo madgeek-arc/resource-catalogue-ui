@@ -41,7 +41,8 @@ export class StatsComponent implements OnInit {
   mapDistributionOfServices: any = null;
   categoriesPerServiceForProvider: any = null;
   modalCoords: any = null;
-  selectedCountry: any = {};
+  selectedCountryName = '';
+  selectedCountryServices: Service[] = [];
   constructor(
     public authenticationService: AuthenticationService,
     // public userService: UserService,
@@ -362,30 +363,16 @@ export class StatsComponent implements OnInit {
       }]
     };
   }
-  public getSelectedCountry(): any {
-    const selectedCountry = new Observable(observer => {
-           setTimeout(() => {
-               observer.next(this.selectedCountry);
-           }, 1000);
-    });
-
-    return selectedCountry;
-}
   selectCountryOnMapDistribution(ev: any) {
     console.log(ev);
     this.modalCoords = JSON.stringify({
       'top.px': ev.x,
       'left.px': ev.y,
     });
-    this.selectedCountry = {
-      title: ev.point.properties["country-abbrev"],
-      services: ev.point.value.values
-    }
+    this.selectedCountryName = ev.point.properties["country-abbrev"]
+    this.selectedCountryServices = ev.point.value.values
     const modal = UIkit.modal('#country-service-modal');
     modal.toggle();
-    modal.on('hide', function () {
-      this.modalCoords = null
-    })
   }
   getModalCoords() {
     return this.modalCoords;

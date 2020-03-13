@@ -60,10 +60,10 @@
       style="background: none;width: 200px;height: 200px;top:100px;left:100px" uk-modal>
       <div style="width: 200px;height: 200px" class="uk-modal-dialog uk-modal-body">
         <button class="uk-modal-close-default" type="button" uk-close></button>
-        <h2 class="uk-modal-title">{{getSelectedCountry().title}}</h2>
+        <h2 class="uk-modal-title">{{selectedCountryName}}</h2>
         <!-- rendering array of users -->
         <ul>
-          <li *ngFor="let service of selectedCountry.services"><a href="{service.url}">{{service.name}}</a></li>
+          <li *ngFor="let service of selectedCountryServices"><a href="{service.url}">{{service.name}}</a></li>
         </ul>
 
       </div>
