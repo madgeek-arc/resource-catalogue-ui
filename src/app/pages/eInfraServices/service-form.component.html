@@ -1367,7 +1367,9 @@
                     </button>
 
                   </form>
-                  <div class="uk-float-right uk-animation-scale-up" style="z-index: 100; bottom: 50px; position: fixed; right: 50px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px">
+
+                  <!-- Show Temporary Save button only when creating a new service or editing a pending service -->
+                  <div *ngIf="!editMode || pendingService" class="uk-float-right uk-animation-scale-up" style="z-index: 100; bottom: 50px; position: fixed; right: 50px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px">
                     <button class="btn butn theme" (click)="this.onSubmit(this.service, true)">Temporary Save</button>
                   </div>
 

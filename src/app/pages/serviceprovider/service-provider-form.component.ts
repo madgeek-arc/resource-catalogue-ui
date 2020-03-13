@@ -64,6 +64,7 @@ export class ServiceProviderFormComponent implements OnInit {
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   edit = false;
+  pendingProvider = false;
   disable = false;
   showLoader = false;
   tabs: boolean[] = [false, false, false, false, false, false, false];
@@ -179,6 +180,10 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    const path = this.route.snapshot.routeConfig.path;
+    if (path === 'registerServiceProvider/:id') {
+      this.pendingProvider = true;
+    }
     this.setVocabularies();
     this.newProviderForm = this.fb.group(this.formDefinition);
     if (this.edit === false) {

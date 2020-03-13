@@ -679,7 +679,8 @@
                   </div>
                 </form>
 
-                <div *ngIf="!disable" class="uk-float-right uk-animation-scale-up" style="z-index: 100; bottom: 50px; position: fixed; right: 50px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px">
+                <!-- Show Temporary Save button only when creating a new provider or editing a pending provider -->
+                <div *ngIf="!disable && (!edit || pendingProvider)" class="uk-float-right uk-animation-scale-up" style="z-index: 100; bottom: 50px; position: fixed; right: 50px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px">
                   <button class="btn butn theme" (click)="this.registerProvider(true)">Temporary Save</button>
                 </div>
 
