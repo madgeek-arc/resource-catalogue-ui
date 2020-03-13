@@ -1,14 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {isNullOrUndefined} from 'util';
-import {zip} from 'rxjs/internal/observable/zip';
-import {AuthenticationService} from '../../../../services/authentication.service';
-import {ResourceService} from '../../../../services/resource.service';
-import {NavigationService} from '../../../../services/navigation.service';
-import {ActivatedRoute} from '@angular/router';
-import {ServiceProviderService} from '../../../../services/service-provider.service';
-import {InfraService, Provider, Service} from '../../../../domain/eic-model';
-import {map} from 'rxjs/operators';
-import {Pagination} from '../../../../domain/pagination';
+import { Component, OnInit } from '@angular/core';
+import { isNullOrUndefined } from 'util';
+import { zip } from 'rxjs/internal/observable/zip';
+import {Observable} from 'rxjs';
+import { AuthenticationService } from '../../../../services/authentication.service';
+import { ResourceService } from '../../../../services/resource.service';
+import { NavigationService } from '../../../../services/navigation.service';
+import { ActivatedRoute } from '@angular/router';
+import { ServiceProviderService } from '../../../../services/service-provider.service';
+import { InfraService, Provider, Service } from '../../../../domain/eic-model';
+import { map } from 'rxjs/operators';
+import { Pagination } from '../../../../domain/pagination';
+import UIkit from 'uikit';
 
 declare var require: any;
 
@@ -36,7 +38,10 @@ export class StatsComponent implements OnInit {
   providerFavouritesOptions: any = null;
   providerVisitationPercentageOptions: any = null;
   providerMapOptions: any = null;
-
+  mapDistributionOfServices: any = null;
+  categoriesPerServiceForProvider: any = null;
+  modalCoords: any = null;
+  selectedCountry: any = {};
   constructor(
     public authenticationService: AuthenticationService,
     // public userService: UserService,
@@ -44,7 +49,7 @@ export class StatsComponent implements OnInit {
     public router: NavigationService,
     private route: ActivatedRoute,
     private providerService: ServiceProviderService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.statisticPeriod = 'MONTH';
@@ -87,18 +92,17 @@ export class StatsComponent implements OnInit {
 
   getDataForProvider(period: string, dontGetServices?: boolean) {
 
-    if (dontGetServices) {
-    } else {
+    if (!dontGetServices) {
       this.providerService.getServicesOfProvider(this.providerId)
         .subscribe(res => {
-            this.providerServices = res;
-            this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices.results);
-            if (this.providerServicesGroupedByPlace) {
-              this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
+          this.providerServices = res;
+          this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices.results);
+          if (this.providerServicesGroupedByPlace) {
+            this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
 
-              this.setCountriesForProvider(this.providerCoverage);
-            }
-          },
+            this.setCountriesForProvider(this.providerCoverage);
+          }
+        },
           err => {
             this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
           }
@@ -155,12 +159,14 @@ export class StatsComponent implements OnInit {
             }
           });
         })).subscribe(
-        data => this.setVisitationsForProvider(data),
-        err => {
-          this.errorMessage = 'An error occurred while retrieving service visitation percentages for this provider. ' + err.error;
-        }
-      );
+          data => this.setVisitationsForProvider(data),
+          err => {
+            this.errorMessage = 'An error occurred while retrieving service visitation percentages for this provider. ' + err.error;
+          }
+        );
+      this.setCategoriesPerServiceForProvider(this.resourceService.getCategoriesPerServiceForProvider(this.providerId));
     }
+    this.setMapDistributionOfServices(this.resourceService.getMapDistributionOfServices());
     // console.log('Places', this.resourceService.getPlacesForProvider(this.provider));
   }
 
@@ -356,5 +362,120 @@ export class StatsComponent implements OnInit {
       }]
     };
   }
+  public getSelectedCountry(): any {
+    const selectedCountry = new Observable(observer => {
+           setTimeout(() => {
+               observer.next(this.selectedCountry);
+           }, 1000);
+    });
 
+    return selectedCountry;
+}
+  selectCountryOnMapDistribution(ev: any) {
+    console.log(ev);
+    this.modalCoords = JSON.stringify({
+      'top.px': ev.x,
+      'left.px': ev.y,
+    });
+    this.selectedCountry = {
+      title: ev.point.properties["country-abbrev"],
+      services: ev.point.value.values
+    }
+    const modal = UIkit.modal('#country-service-modal');
+    modal.toggle();
+    modal.on('hide', function () {
+      this.modalCoords = null
+    })
+  }
+  getModalCoords() {
+    return this.modalCoords;
+  }
+  setMapDistributionOfServices(data: any) {
+    if (data) {
+      this.mapDistributionOfServices = {
+        chart: {
+          map: 'custom/world-highres2',
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
+        },
+        title: {
+          text: 'Countries serviced by ' + this.provider.name
+        },
+
+        legend: {
+          enabled: false
+        },
+        mapNavigation: {
+          enabled: true,
+          buttonOptions: {
+            verticalAlign: 'bottom'
+          }
+        },
+        series: [{
+          name: 'Country',
+          data: data.map(item => ([item.country, item])),
+          point: {
+            events: {
+              click: this.selectCountryOnMapDistribution
+            }
+          },
+          tooltip: {
+            useHTML: true,
+            hideDelay: 1500,
+            style: {
+              pointerEvents: 'auto'
+            },
+            headerFormat: '',
+            pointFormat: '{point.value.values.length}'
+          }
+        }]
+      };
+    }
+  }
+  setCategoriesPerServiceForProvider(data: any) {
+    this.categoriesPerServiceForProvider = {
+      chart: {
+        type: 'bar'
+      },
+      title: {
+        text: 'Provider Dummy'
+      },
+      subtitle: {
+        text: 'Source: <a href="dummy.url">Dummy.com</a>'
+      },
+      xAxis: {
+        categories: Object.keys(data),
+        title: {
+          text: 'Service Type'
+        }
+      },
+      series: [{
+        data: Object.values(data)
+      }],
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Quantity',
+          align: 'high'
+        },
+        labels: {
+          overflow: 'justify',
+          display: 'none'
+        }
+      },
+      tooltip: {
+        valueSuffix: ' services'
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: false
+          }
+        }
+      },
+
+      credits: {
+        enabled: false
+      },
+    };
+  }
 }
