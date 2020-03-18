@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  projectName: 'CatRIS',
+  FAQ_ENDPOINT: '/faq/api',
+  API_ENDPOINT: '/api'
 };

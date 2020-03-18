@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  projectName: 'OpenAIRE',
+  projectName: 'EOSC',
   FAQ_ENDPOINT: '/faq/api',
   API_ENDPOINT: '/api'
 };

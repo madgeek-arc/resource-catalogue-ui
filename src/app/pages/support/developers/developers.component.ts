@@ -2,6 +2,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import * as util from 'util';
+import {environment} from '../../../../environments/environment';
 
 @Component({
     selector: 'app-developers',
@@ -9,6 +10,8 @@ import * as util from 'util';
     styleUrls: ['./developers.component.css']
 })
 export class DevelopersComponent implements OnInit {
+    public project = environment.projectName;
+
 
     constructor(private route: ActivatedRoute) {
     }
