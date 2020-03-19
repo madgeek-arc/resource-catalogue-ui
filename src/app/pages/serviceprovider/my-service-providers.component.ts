@@ -93,8 +93,8 @@ export class MyServiceProvidersComponent implements OnInit {
                 }
               );
             }
-            if (p.metadata !== null && p.metadata.source === 'Meril' && p.status === 'pending service template submission') {
-              console.log(p.id);
+            if (p.status === 'pending service template submission') {
+              // console.log(p.id);
               this.serviceProviderService.getPendingServicesByProvider(p.id).subscribe(
                 res => {
                   if (res.results.length > 0) {
@@ -102,7 +102,7 @@ export class MyServiceProvidersComponent implements OnInit {
                   } else {
                     this.hasPendingServices.push({id: p.id, flag: false});
                   }
-                  console.log(this.hasPendingServices);
+                  // console.log(this.hasPendingServices);
                 }
               );
             }
