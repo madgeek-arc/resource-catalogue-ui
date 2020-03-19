@@ -8,9 +8,15 @@ import {StringArraySortPipe} from './pipes/sort.pipe';
 import {ValuesPipe} from './pipes/getValues.pipe';
 import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { EmailModalComponent } from './email-modal/email-modal.component';
+import {CommonModule} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
-  imports: [],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule
+  ],
   declarations: [
     JoinPipe,
     KeysPipe,
@@ -22,7 +28,8 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
     SafePipe,
     ValuesPipe,
     ForbiddenPageComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    EmailModalComponent
   ],
   exports: [
     JoinPipe,
@@ -33,7 +40,8 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
     PremiumSortFacetsPipe,
     PremiumSortFundersPipe,
     SafePipe,
-    ValuesPipe
+    ValuesPipe,
+    EmailModalComponent
   ]
 })
 export class SharedModule {
