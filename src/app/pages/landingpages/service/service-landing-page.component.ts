@@ -11,7 +11,7 @@ import {ServiceProviderService} from '../../../services/service-provider.service
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {flatMap} from 'rxjs/operators';
 import {zip} from 'rxjs/internal/observable/zip';
-import {EmailService} from '../../../../../projects/catris/src/app/services/email.service';
+import {EmailService} from '../../../services/email.service';
 
 declare var UIkit: any;
 

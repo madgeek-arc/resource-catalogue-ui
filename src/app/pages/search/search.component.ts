@@ -15,7 +15,7 @@ import {zip} from 'rxjs/internal/observable/zip';
 import {flatMap} from 'rxjs/operators';
 import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
 import {OrderDownlineTreeviewEventParser, TreeviewConfig, TreeviewEventParser, TreeviewItem} from 'ngx-treeview';
-import {EmailService} from '../../../../projects/catris/src/app/services/email.service';
+import {EmailService} from '../../services/email.service';
 
 declare var UIkit: any;
 

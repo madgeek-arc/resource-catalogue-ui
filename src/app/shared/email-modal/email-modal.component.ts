@@ -6,7 +6,7 @@ import {UserService} from '../../services/user.service';
 import {ResourceService} from '../../services/resource.service';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ComparisonService} from '../../services/comparison.service';
-import {EmailService} from '../../../../projects/catris/src/app/services/email.service';
+import {EmailService} from '../../services/email.service';
 
 declare var UIkit: any;
 
