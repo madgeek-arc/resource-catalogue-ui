@@ -74,7 +74,6 @@ export class MyServiceProvidersComponent implements OnInit {
     this.serviceProviderService.getMyServiceProviders().subscribe(
       res => this.myProviders = res,
       err => {
-        console.log(err);
         this.errorMessage = 'An error occurred!';
         console.log(err);
         if (err['status'] === 401) {
@@ -120,12 +119,7 @@ export class MyServiceProvidersComponent implements OnInit {
   }
 
   checkForPendingServices(id: string): boolean {
-    for (let i = 0; i < this.hasPendingServices.length ; i++) {
-      if (this.hasPendingServices[0].id === id) {
-        return this.hasPendingServices[0].flag;
-      }
-    }
-    return false;
+    return this.hasPendingServices.some(x => x.id === id).valueOf();
   }
 
   getLinkToFirstService(id: string) {
