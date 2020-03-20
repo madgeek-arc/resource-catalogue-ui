@@ -124,8 +124,8 @@ export class MyServiceProvidersComponent implements OnInit {
 
   getLinkToFirstService(id: string) {
     if (this.hasCreatedFirstService(id)) {
-      return '/newServiceProvider/' + id + '/editFirstService/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
-      // return '/edit/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
+      // return '/newServiceProvider/' + id + '/editFirstService/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId; // TODO: what is this?
+      return '/edit/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
     } else {
       return '/newServiceProvider/' + id + '/addFirstService';
     }
