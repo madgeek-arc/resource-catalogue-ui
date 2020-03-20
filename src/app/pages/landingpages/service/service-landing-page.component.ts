@@ -105,7 +105,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
             this.canEditService = this.myProviders.some(p => this.richService.service.providers.some(x => x === p.id));
 
             const serviceIDs = (this.richService.service.requiredServices || []).concat(this.richService.service.relatedServices || [])
-              .filter((e, i, a) => a.indexOf(e) === i);
+              .filter((e, i, a) => a.indexOf(e) === i && e !== '');
             if (serviceIDs.length > 0) {
               this.resourceService.getSelectedServices(serviceIDs).subscribe(
                 services => this.services = services,
@@ -140,7 +140,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           this.setCountriesForService(this.richService.service.places);
 
           const serviceIDs = (this.richService.service.requiredServices || []).concat(this.richService.service.relatedServices || [])
-            .filter((e, i, a) => a.indexOf(e) === i);
+            .filter((e, i, a) => a.indexOf(e) === i && e !== '');
           if (serviceIDs.length > 0) {
             this.resourceService.getSelectedServices(serviceIDs)
               .subscribe(services => this.services = services,
