@@ -119,7 +119,12 @@ export class MyServiceProvidersComponent implements OnInit {
   }
 
   checkForPendingServices(id: string): boolean {
-    return this.hasPendingServices.some(x => x.id === id).valueOf();
+    for (let i = 0; i < this.hasPendingServices.length ; i++) {
+      if (this.hasPendingServices[i].id === id) {
+        return this.hasPendingServices[i].flag;
+      }
+    }
+    return false;
   }
 
   getLinkToFirstService(id: string) {
