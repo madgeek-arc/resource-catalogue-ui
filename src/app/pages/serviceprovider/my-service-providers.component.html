@@ -24,7 +24,7 @@
                 <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{ errorMessage }}</div>
                 <div *ngIf="noProvidersMessage" class="uk-alert">{{ noProvidersMessage }}</div>
                 <div class="uk-width-1-1 uk-grid">
-                  <div *ngIf="myProviders && (myProviders.length > 0)" class="uk-width-1-1">
+                  <div *ngIf="myProviders && (myProviders.length > 0) || myPendingProviders && (myPendingProviders.length > 0)" class="uk-width-1-1">
 
                     <div class="uk-width-1-1 uk-first-column uk-margin-bottom">
                       <div class="uk-float-right">
