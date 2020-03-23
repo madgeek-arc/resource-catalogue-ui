@@ -125,27 +125,27 @@
                               <div>
                                 <!--<div class="{{ (provider.status === 'pending initial approval') ? 'uk-badge uk-badge-danger' :
                                                        ((provider.status === 'pending service template approval') ? 'uk-badge uk-badge-warning' : 'uk-badge uk-badge-success') }}">-->
-                                <div class="uk-badge uk-badge-warning" [ngClass]="{'uk-badge-success': providerBundle.status==='approved',
-                                     'uk-badge-danger': providerBundle.status === 'rejected'}">
-                                  {{ providerBundle.status }}
-                                </div>
+<!--                                <div class="uk-badge uk-badge-warning" [ngClass]="{'uk-badge-success': providerBundle.status==='approved',-->
+<!--                                     'uk-badge-danger': providerBundle.status === 'rejected'}">-->
+<!--                                  {{ providerBundle.status }}-->
+<!--                                </div>-->
                                 <div>
                                   <a routerLink="/registerServiceProvider/{{providerBundle.id}}">Update provider</a>
                                 </div>
                               </div>
-                              <div *ngIf="(providerBundle.status === 'pending service template submission')
-                                          || (providerBundle.status === 'pending service template approval')
-                                          || (providerBundle.status === 'rejected service template')">
-                                <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
-                                  <i class="fa {{hasCreatedFirstService(providerBundle.id) ? 'fa-pencil': 'fa-plus'}}"></i>
-                                  {{ hasCreatedFirstService(providerBundle.id) ? 'Update' : 'Add'}} service template
-                                </a>
-                              </div>
-                              <div *ngIf="checkForPendingServices(providerBundle.id)">
-                                <a [routerLink]="['/dashboard/' + providerBundle.id + '/pendingServices'] ">
-                                  <i class="fa fa-arrow-right" aria-hidden="true"></i> Select from pending service
-                                </a>
-                              </div>
+<!--                              <div *ngIf="(providerBundle.status === 'pending service template submission')-->
+<!--                                          || (providerBundle.status === 'pending service template approval')-->
+<!--                                          || (providerBundle.status === 'rejected service template')">-->
+<!--                                <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">-->
+<!--                                  <i class="fa {{hasCreatedFirstService(providerBundle.id) ? 'fa-pencil': 'fa-plus'}}"></i>-->
+<!--                                  {{ hasCreatedFirstService(providerBundle.id) ? 'Update' : 'Add'}} service template-->
+<!--                                </a>-->
+<!--                              </div>-->
+<!--                              <div *ngIf="checkForPendingServices(providerBundle.id)">-->
+<!--                                <a [routerLink]="['/dashboard/' + providerBundle.id + '/pendingServices'] ">-->
+<!--                                  <i class="fa fa-arrow-right" aria-hidden="true"></i> Select from pending service-->
+<!--                                </a>-->
+<!--                              </div>-->
 
                             </div>
                           </div>
@@ -252,7 +252,8 @@
                                     <!--<div class="{{ (provider.status === 'pending initial approval') ? 'uk-badge uk-badge-danger' :
                                                    ((provider.status === 'pending service template approval') ? 'uk-badge uk-badge-warning' : 'uk-badge uk-badge-success') }}">-->
                                     <div>
-                                      {{ providerBundle.status }}
+                                      <span>-</span>
+<!--                                      {{ providerBundle.status }}-->
                                     </div>
                                   </td>
                                   <td>
