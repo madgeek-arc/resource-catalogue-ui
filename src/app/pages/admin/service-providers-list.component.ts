@@ -5,6 +5,8 @@ import {statusChangeMap, statusList} from '../../domain/service-provider-status-
 import {Provider, ProviderBundle} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
+import {AuthenticationService} from '../../services/authentication.service';
+import {Route, Router} from '@angular/router';
 
 declare var UIkit: any;
 
@@ -34,12 +36,18 @@ export class ServiceProvidersListComponent implements OnInit {
   adminActionsMap = statusChangeMap;
 
   constructor(private resourceService: ResourceService,
-              private serviceProviderService: ServiceProviderService
+              private serviceProviderService: ServiceProviderService,
+              private authenticationService: AuthenticationService,
+              private router: Router
   ) {
   }
 
   ngOnInit() {
-    this.getProviders(this.from, this.itemsPerPage);
+    if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN')) {
+      this.router.navigateByUrl('/home');
+    } else {
+      this.getProviders(this.from, this.itemsPerPage);
+    }
   }
 
   getProviders(from: number, itemsPerPage: number) {
