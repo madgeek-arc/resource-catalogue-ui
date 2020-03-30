@@ -120,7 +120,7 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   statusChangeAction() {
-    this.loadingMessage = 'test';
+    this.loadingMessage = ' ';
     const active = this.pushedApprove && (this.newStatus === 'approved');
     this.serviceProviderService.verifyServiceProvider(this.selectedProvider.id, active, this.adminActionsMap[this.newStatus].statusId)
       .subscribe(
@@ -131,10 +131,13 @@ export class ServiceProvidersListComponent implements OnInit {
           UIkit.modal('#actionModal').hide();
           this.getProviders(this.from, this.itemsPerPage);
         },
-        err => console.log(err),
+        err => {
+          UIkit.modal('#actionModal').hide();
+          this.loadingMessage = '';
+          console.log(err);
+        },
         () => {
           this.loadingMessage = '';
-          UIkit.modal('#actionModal').hide();
         }
       );
   }
