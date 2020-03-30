@@ -1,16 +1,18 @@
-import {Injectable, Injector} from '@angular/core';
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 
-import {Router} from '@angular/router';
-import {Observable, throwError } from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { AuthenticationService } from './authentication.service';
 
 declare var UIkit: any;
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
 
-  constructor(public router: Router) {}
+  constructor(public http: HttpClient, public router: Router, public authenticationService: AuthenticationService) {
+  }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -31,17 +33,21 @@ export class AuthenticationInterceptor implements HttpInterceptor {
           // A client-side or network error occurred. Handle it accordingly.
           console.error('An error occurred:', response.error.message);
         } else {
-          if (response.status === 403) {
+          if (response.status === 401) {
+            this.authenticationService.refreshLogin(this.router.url);
+            return null;
+          } else if (response.status === 403) {
             this.router.navigate(['/forbidden']);
           // } else if (response.status === 404) {
           //   this.router.navigate(['/notFound']);
-          }
+          // }
           // else if (response.status === 0) { // this is a bandage until faq is fixed
           //   return [];
-          // }
-          console.error(
-            `Backend returned code ${response.status}, ` +
-            `body was: ${errorMessage}`);
+          } else {
+            console.error(
+              `Backend returned code ${response.status}, ` +
+              `body was: ${errorMessage}`);
+          }
         }
         // return an observable with a user-facing error message
         // Uncomment to enable modal errors
