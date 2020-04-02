@@ -5,6 +5,7 @@ import {isNullOrUndefined} from 'util';
 import {environment} from '../../environments/environment';
 
 import * as moment from 'moment';
+import {timer} from 'rxjs';
 
 
 @Injectable()
@@ -16,6 +17,14 @@ export class AuthenticationService {
 
   constructor(public router: NavigationService) {
     // this.user = JSON.parse(getCookie(this.cookieName));
+
+    // check every minute if cookie has expired.
+    timer(0, 60000).pipe().subscribe(x => {
+      if (!this.isLoggedIn()) {
+        deleteCookie(this.cookieName);
+        this.user = null;
+      }
+    });
   }
 
   /*public loginOLD(user: AAIUser) {
