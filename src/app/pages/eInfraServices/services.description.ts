@@ -12,7 +12,7 @@ export const webpageDesc = {label: 'Webpage', mandatory: true, desc: 'Webpage wi
 // Marketing Information
 export const descriptionDesc = {label: 'Description', mandatory: true, desc: 'A high-level description in fairly non-technical terms of a) what the service/resource does, functionality it provides and resources it enables to access, b) the benefit to a user/customer delivered by a service; benefits are usually related to alleviating pains (e.g., eliminate undesired outcomes, obstacles or risks) or producing gains (e.g. increased performance, social gains, positive emotions or cost saving), c) list of customers, communities, users, etc. using the service.'};
 export const taglineDesc = {label: 'Tagline', mandatory: false, desc: 'Short catch-phrase for marketing and advertising purposes. It will be usually displayed close the service name and should refer to the main value or purpose of the service.'};
-export const logoDesc = {label: 'Logo', mandatory: true, desc: 'Link to the logo/visual identity of the service. The logo will be visible at the Portal.'};
+export const logoDesc = {label: 'Logo', mandatory: true, desc: 'Link to the logo/visual identity of the service. The logo will be visible at the Portal. To obtain the link:  Go to the Service\'s website --> Right Click on the Service\'s logo on the website --> Select "Copy Image Link" --> Paste it in the above field.'};
 export const multimediaDesc = {label: 'Multimedia', mandatory: false, desc: 'Link to video, screenshots or slides showing details of the service/resource.'};
 export const targetUsersDesc = {label: 'Target users', mandatory: true, desc: 'Type of users/customers that commissions a service/resource provider to deliver a service.'};
 export const targetCustomerTagsDesc = {label: 'Target Customer Tags', mandatory: false, desc: ''};
@@ -125,7 +125,7 @@ export const legalFormDesc = {label: 'Legal Form', mandatory: true, desc: 'The l
 export const websiteDesc = {label: 'Website', mandatory: true, desc: 'Webpage with information about the provider.'};
 // Marketing Information
 export const providerDescriptionDesc = {label: 'Description', mandatory: true, desc: 'The description of the provider.'};
-export const providerLogoDesc = {label: 'Logo', mandatory: true, desc: 'Link to the logo/visual identity of the provider.'};
+export const providerLogoDesc = {label: 'Logo', mandatory: true, desc: 'Link to the logo/visual identity of the provider. The logo will be visible at the Portal. To obtain the link:  Go to the Service Provider\'s website --> Right Click on the Service Provider\'s logo on the website --> Select "Copy Image Link" --> Paste it in the above field.'};
 export const providerMultimediaDesc = {label: 'Multimedia', mandatory: false, desc: 'Link to video, slideshow, photos, screenshots with details of the provider.'};
 // Classification Information
 export const providerScientificDomainDesc = {label: 'Scientific Domain', mandatory: true, desc: 'A named group of providers that offer access to the same type of resource or capabilities.'};
