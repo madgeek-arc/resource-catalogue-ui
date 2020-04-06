@@ -1,79 +1,147 @@
 <div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 500px">
-  <div class="uk-grid uk-margin-bottom">
-    <div class="uk-width-1-1">
-      <div class="uk-float-right uk-width-1-5">
-        <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
-                (change)="onPeriodChange($event)">
-          <option value="DAY">Daily</option>
-          <option value="WEEK">Weekly</option>
-          <option value="MONTH" selected>Monthly</option>
-          <option value="YEAR">Yearly</option>
-        </select>
-        <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
+
+  <div class="uk-grid uk-child-width-1-2">
+
+    <div class="uk-card">
+      <div class="uk-card-body">
+        <img src="../../../../../../projects/catris/src/assets/images/mock-images/Favorites-over-time.png">
+      </div>
+    </div>
+
+    <div class="uk-card">
+      <div class="uk-card-body">
+        <img src="../../../../../../projects/catris/src/assets/images/mock-images/Visits-over-time.png">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="uk-grid">
+    <div class="uk-card">
+      <div class="uk-card-body">
+        <img src="../../../../../../projects/catris/src/assets/images/mock-images/serviceDistribution-map.png">
       </div>
     </div>
   </div>
 
-  <!-- TODO: enable comments below to add ratings chart -->
-  <div class="uk-grid uk-margin-bottom">
-  <!--                    <div class="uk-width-1-2@m">-->
-      <div style="width:100%" *ngIf="providerFavouritesOptions">
-        <chart [options]="providerFavouritesOptions"></chart>
-      </div>
-<!--                    </div>-->
+  <div class="uk-grid uk-child-width-1-2">
 
-<!--                    <div class="uk-width-1-2@m">-->
-<!--                      <div style="width:100%" *ngIf="providerRatingsOptions">-->
-<!--                        <chart [options]="providerRatingsOptions"></chart>-->
-<!--                      </div>-->
-<!--                    </div>-->
+    <div class="uk-card">
+      <div class="uk-card-body">
+        <img src="../../../../../../projects/catris/src/assets/images/mock-images/categories-distribution.png">
+      </div>
+    </div>
+
+    <div class="uk-card">
+      <div class="uk-card-body">
+        <img src="../../../../../../projects/catris/src/assets/images/mock-images/domain-distribution.png">
+      </div>
+    </div>
+
+    <div class="uk-card">
+      <div class="uk-card-body">
+        <img src="../../../../../../projects/catris/src/assets/images/mock-images/targetUsers-distribution.png">
+      </div>
+    </div>
+
+    <div class="uk-card">
+      <div class="uk-card-body">
+        <img src="../../../../../../projects/catris/src/assets/images/mock-images/accessTypes-distribution.png">
+      </div>
+    </div>
+
+    <div class="uk-card">
+      <div class="uk-card-body">
+        <img src="../../../../../../projects/catris/src/assets/images/mock-images/accessModes-distribution.png">
+      </div>
+    </div>
+
+    <div class="uk-card">
+      <div class="uk-card-body">
+        <img src="../../../../../../projects/catris/src/assets/images/mock-images/orderTypes-distribution.png">
+      </div>
+    </div>
+
   </div>
 
-  <div class="uk-grid uk-margin-bottom">
-    <div class="uk-width-1-1@m">
-      <div style="width:100%" *ngIf="providerVisitsOptions">
-        <chart [options]="providerVisitsOptions"></chart>
-      </div>
-    </div>
-    <div class="uk-width-1-1@m">
-      <div style="width:100%" *ngIf="providerVisitationPercentageOptions">
-        <chart [options]="providerVisitationPercentageOptions"></chart>
-      </div>
-    </div>
-  </div>
-
-  <div class="uk-grid uk-margin-bottom">
-    <div class="uk-width-1-1">
-      <div style="width:100%" *ngIf="providerMapOptions">
-        <chart type="Map" [options]="providerMapOptions"></chart>
-      </div>
-    </div>
-  </div>
-
-  <div class="uk-grid uk-margin-bottom">
-    <div class="uk-width-1-1">
-      <div style="width:100%" *ngIf="mapDistributionOfServices">
-        <chart type="Map" [options]="mapDistributionOfServices"></chart>
-      </div>
-    </div>
-    <div id="country-service-modal" class="uk-modal-container"
-      style="background: none;width: 200px;height: 200px;top:100px;left:100px" uk-modal>
-      <div style="width: 200px;height: 200px" class="uk-modal-dialog uk-modal-body">
-        <button class="uk-modal-close-default" type="button" uk-close></button>
-        <h2 class="uk-modal-title">{{selectedCountryName}}</h2>
-        <!-- rendering array of users -->
-        <ul>
-          <li *ngFor="let service of selectedCountryServices"><a href="{service.url}">{{service.name}}</a></li>
-        </ul>
-
-      </div>
-    </div>
-  </div>
-  <div class="uk-grid uk-margin-bottom">
-    <div class="uk-width-1-1">
-      <div style="width:100%" *ngIf="categoriesPerServiceForProvider">
-        <chart [options]="categoriesPerServiceForProvider"></chart>
-      </div>
-    </div>
-  </div>
 </div>
+
+<!--<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 500px">-->
+  <!--<div class="uk-grid uk-margin-bottom">-->
+    <!--<div class="uk-width-1-1">-->
+      <!--<div class="uk-float-right uk-width-1-5">-->
+        <!--<select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"-->
+                <!--(change)="onPeriodChange($event)">-->
+          <!--<option value="DAY">Daily</option>-->
+          <!--<option value="WEEK">Weekly</option>-->
+          <!--<option value="MONTH" selected>Monthly</option>-->
+          <!--<option value="YEAR">Yearly</option>-->
+        <!--</select>-->
+        <!--<span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--&lt;!&ndash; TODO: enable comments below to add ratings chart &ndash;&gt;-->
+  <!--<div class="uk-grid uk-margin-bottom">-->
+  <!--&lt;!&ndash;                    <div class="uk-width-1-2@m">&ndash;&gt;-->
+      <!--<div style="width:100%" *ngIf="providerFavouritesOptions">-->
+        <!--<chart [options]="providerFavouritesOptions"></chart>-->
+      <!--</div>-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                    <div class="uk-width-1-2@m">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <div style="width:100%" *ngIf="providerRatingsOptions">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <chart [options]="providerRatingsOptions"></chart>&ndash;&gt;-->
+<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+  <!--</div>-->
+
+  <!--<div class="uk-grid uk-margin-bottom">-->
+    <!--<div class="uk-width-1-1@m">-->
+      <!--<div style="width:100%" *ngIf="providerVisitsOptions">-->
+        <!--<chart [options]="providerVisitsOptions"></chart>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="uk-width-1-1@m">-->
+      <!--<div style="width:100%" *ngIf="providerVisitationPercentageOptions">-->
+        <!--<chart [options]="providerVisitationPercentageOptions"></chart>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="uk-grid uk-margin-bottom">-->
+    <!--<div class="uk-width-1-1">-->
+      <!--<div style="width:100%" *ngIf="providerMapOptions">-->
+        <!--<chart type="Map" [options]="providerMapOptions"></chart>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--&lt;!&ndash;<div class="uk-grid uk-margin-bottom">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="uk-width-1-1">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div style="width:100%" *ngIf="mapDistributionOfServices">&ndash;&gt;-->
+        <!--&lt;!&ndash;<chart type="Map" [options]="mapDistributionOfServices"></chart>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div id="country-service-modal" class="uk-modal-container"&ndash;&gt;-->
+      <!--&lt;!&ndash;style="background: none;width: 200px;height: 200px;top:100px;left:100px" uk-modal>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div style="width: 200px;height: 200px" class="uk-modal-dialog uk-modal-body">&ndash;&gt;-->
+        <!--&lt;!&ndash;<button class="uk-modal-close-default" type="button" uk-close></button>&ndash;&gt;-->
+        <!--&lt;!&ndash;<h2 class="uk-modal-title">{{selectedCountryName}}</h2>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash; rendering array of users &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<ul>&ndash;&gt;-->
+          <!--&lt;!&ndash;<li *ngFor="let service of selectedCountryServices"><a href="{service.url}">{{service.name}}</a></li>&ndash;&gt;-->
+        <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!--&lt;!&ndash;<div class="uk-grid uk-margin-bottom">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="uk-width-1-1">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div style="width:100%" *ngIf="categoriesPerServiceForProvider">&ndash;&gt;-->
+        <!--&lt;!&ndash;<chart [options]="categoriesPerServiceForProvider"></chart>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--</div>-->
