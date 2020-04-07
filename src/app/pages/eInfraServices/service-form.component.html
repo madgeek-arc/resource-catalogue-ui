@@ -14,11 +14,18 @@
         <!--<hr class="uk-divider-icon uk-scrollspy-inview uk-animation-slide-bottom-small" uk-scrollspy-class="" style="">-->
         <!--<hr class="uk-divider-small">-->
 
+        <div class="uk-alert uk-alert-primary">
+          For questions related to the information that needs to be filled in and suggestions on the portal, please contact us in
+          <a href="mailto:support@catris.eu">support@catris.eu</a>
+          <br>
+          For technical issues and questions, please contact us in <a href="mailto:tech-support@catris.eu">tech-support@catris.eu</a>
+        </div>
+
         <!-- TOP HELP CONTENT -->
         <app-help-content #topHelperContent [position]="'top'"
                           [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
         </app-help-content>
-        <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+        <div class="uk-container uk-margin-medium-bottom">
           <div class="uk-grid">
             <!-- LEFT HELP CONTENT -->
             <app-aside-help-content #leftHelperContent [position]="'left'"
