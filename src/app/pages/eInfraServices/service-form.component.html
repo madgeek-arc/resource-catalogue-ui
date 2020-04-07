@@ -367,11 +367,13 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('providers').controls; let i=index">
-                              <select *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                              <select class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('providers', i),
                                       'uk-width-5-6': getFieldAsFormArray('providers').length > 1}">
-                                <option *ngFor="let provider of providersPage.results"
-                                        value="{{provider.id}}">{{provider.name}}</option>
+                                <ng-container *ngIf="providersPage">
+                                  <option *ngFor="let provider of providersPage.results"
+                                          value="{{provider.id}}">{{provider.name}}</option>
+                                </ng-container>
                               </select>
                               <a *ngIf="getFieldAsFormArray('providers').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('providers', i)">
@@ -408,22 +410,24 @@
                                    (click)="removeScientificDomain(i)">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
-                                <div *ngIf="scientificDomainVocabulary" class="uk-margin-bottom">
+                                <div class="uk-margin-bottom">
                                   <label class="uk-form-label uk-text-right" for="{{'scientificDomain ' + i}}">
                                     {{scientificDomainDesc.label + (scientificDomainDesc.mandatory ? ' (*)' : '')}}
                                   </label>
                                   <div class="uk-form-controls">
                                     <select id="{{'scientificDomain ' + i}}"  formControlName="scientificDomain" class="uk-select" (change)="onScientificDomainChange(i)"
                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificCategorization', i, 'scientificDomain')}">
-                                      <option *ngFor="let entry of sortVocabulariesByName(scientificDomainVocabulary)"
-                                              value="{{entry.id}}">{{entry.name}}
-                                      </option>
+                                      <ng-container *ngIf="scientificDomainVocabulary" >
+                                        <option *ngFor="let entry of sortVocabulariesByName(scientificDomainVocabulary)"
+                                                value="{{entry.id}}">{{entry.name}}
+                                        </option>
+                                      </ng-container>
                                     </select>
                                     <i><small>{{scientificDomainDesc.desc}}</small></i>
                                   </div>
                                 </div>
 
-                                <div *ngIf="scientificSubDomainVocabulary" class="uk-margin-bottom">
+                                <div class="uk-margin-bottom">
                                   <label class="uk-form-label uk-text-right" for="{{'scientificSubDomain ' + i}}">
                                     {{scientificSubDomainDesc.label + (scientificSubDomainDesc.mandatory ? ' (*)' : '')}}
                                   </label>
@@ -432,9 +436,11 @@
                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificCategorization', i, 'scientificSubDomain')}">
                                       <ng-container *ngIf="scientificDomainArray.controls[i].get('scientificDomain').value">
                                         <option value="">--Choose Scientific Subdomain--</option>
-                                        <option *ngFor="let entry of getSortedChildrenCategories(scientificSubDomainVocabulary, scientificDomainArray.controls[i].get('scientificDomain').value)"
-                                          value="{{entry.id}}">{{entry.name}}
-                                        </option>
+                                        <ng-container *ngIf="scientificSubDomainVocabulary">
+                                          <option *ngFor="let entry of getSortedChildrenCategories(scientificSubDomainVocabulary, scientificDomainArray.controls[i].get('scientificDomain').value)"
+                                            value="{{entry.id}}">{{entry.name}}
+                                          </option>
+                                        </ng-container>
                                       </ng-container>
                                     </select>
                                     <i><small>{{scientificSubDomainDesc.desc}}</small></i>
@@ -479,7 +485,7 @@
 <!--                                  </div>-->
 <!--                                </div>-->
 
-                                <div *ngIf="categoriesVocabulary" class="uk-margin-bottom">
+                                <div class="uk-margin-bottom">
                                   <label class="uk-form-label uk-text-right" for="{{'category ' + i}}">
                                     {{categoryDesc.label + (categoryDesc.mandatory ? ' (*)' : '')}}
                                   </label>
@@ -487,7 +493,7 @@
                                     <select id="{{'category ' + i}}" formControlName="category" class="uk-select" (change)="onCategoryChange(i)"
                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorize', i, 'category')}">
 <!--                                      <ng-container *ngIf="categoryArray.controls[i].get('supercategory').value">-->
-                                      <ng-container>
+                                      <ng-container *ngIf="categoriesVocabulary">
 <!--                                        <option value="">&#45;&#45;Choose Category&#45;&#45;</option>-->
                                         <option
                                           *ngFor="let entry of sortVocabulariesByName(categoriesVocabulary)"
@@ -502,7 +508,7 @@
                                   </div>
                                 </div>
 
-                                <div *ngIf="subCategoriesVocabulary" class="uk-margin-bottom">
+                                <div class="uk-margin-bottom">
                                   <label class="uk-form-label uk-text-right" for="{{'subcategory ' + i}}">
                                     {{subcategoryDesc.label + (subcategoryDesc.mandatory ? ' (*)' : '')}}
                                   </label>
@@ -511,11 +517,13 @@
                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorize', i, 'subcategory')}">
                                       <ng-container *ngIf="categoryArray.controls[i].get('category').value">
                                         <option value="">--Choose subcategory--</option>
-                                        <option
-                                          *ngFor="let entry of getSortedChildrenCategories(subCategoriesVocabulary, categoryArray.controls[i].get('category').value)"
-                                          value="{{entry.id}}">
-                                          {{entry.name}}
-                                        </option>
+                                        <ng-container *ngIf="subCategoriesVocabulary" >
+                                          <option
+                                            *ngFor="let entry of getSortedChildrenCategories(subCategoriesVocabulary, categoryArray.controls[i].get('category').value)"
+                                            value="{{entry.id}}">
+                                            {{entry.name}}
+                                          </option>
+                                        </ng-container>
                                       </ng-container>
                                     </select>
                                     <i>
@@ -541,12 +549,14 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('targetUsers').controls; let i=index">
-                              <select id="targetUsers" *ngIf="targetUsersVocabulary" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                              <select id="targetUsers" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('targetUsers', i),
                                       'uk-width-5-6': getFieldAsFormArray('targetUsers').length > 1}">
-                                <option *ngFor="let entry of sortVocabulariesByName(targetUsersVocabulary)" value="{{entry.id}}">
-                                  {{entry.name}}
-                                </option>
+                                <ng-container *ngIf="targetUsersVocabulary">
+                                  <option *ngFor="let entry of sortVocabulariesByName(targetUsersVocabulary)" value="{{entry.id}}">
+                                    {{entry.name}}
+                                  </option>
+                                </ng-container>
                               </select>
                               <a *ngIf="getFieldAsFormArray('targetUsers').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('targetUsers', i)">
@@ -567,12 +577,14 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('languages').controls; let i=index">
-                              <select id="languages" *ngIf="languagesVocabulary" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                              <select id="languages" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('languages', i),
                                       'uk-width-5-6': getFieldAsFormArray('languages').length > 1}">
-                                <option *ngFor="let entry of languagesVocabulary" value="{{entry.id}}">
-                                  {{entry.name}}
-                                </option>
+                                <ng-container *ngIf="languagesVocabulary">
+                                  <option *ngFor="let entry of languagesVocabulary" value="{{entry.id}}">
+                                    {{entry.name}}
+                                  </option>
+                                </ng-container>
                               </select>
                               <a *ngIf="getFieldAsFormArray('languages').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('languages', i)">
@@ -593,12 +605,14 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let place of getFieldAsFormArray('places').controls; let i=index">
-                              <select id="places" *ngIf="placesVocabulary" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                              <select id="places" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('places', i),
                                       'uk-width-5-6': getFieldAsFormArray('places').length > 1}">
-                                <option *ngFor="let entry of placesVocabulary" value="{{entry.id}}">
-                                  {{entry.name}}
-                                </option>
+                                <ng-container *ngIf="placesVocabulary">
+                                  <option *ngFor="let entry of placesVocabulary" value="{{entry.id}}">
+                                    {{entry.name}}
+                                  </option>
+                                </ng-container>
                               </select>
                               <a *ngIf="getFieldAsFormArray('places').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('places', i)">
@@ -613,19 +627,21 @@
                             <i><small>{{geographicalAvailabilityDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <div *ngIf="accessTypesVocabulary" formArrayName="accessTypes" class="uk-margin-bottom">
+                        <div formArrayName="accessTypes" class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="accessTypes">
                             {{accessTypesDesc.label + (accessTypesDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('accessTypes').controls; let i=index">
-                              <select id="accessTypes" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                              <select id="accessTypes" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('accessTypes', i),
                                       'uk-width-5-6': getFieldAsFormArray('accessTypes').length > 1}">
                                 <option value=""></option>
-                                <option *ngFor="let entry of sortVocabulariesByName(accessTypesVocabulary)" value="{{entry.id}}">
-                                  {{entry.name}}
-                                </option>
+                                <ng-container *ngIf="accessTypesVocabulary">
+                                  <option *ngFor="let entry of sortVocabulariesByName(accessTypesVocabulary)" value="{{entry.id}}">
+                                    {{entry.name}}
+                                  </option>
+                                </ng-container>
                               </select>
                               <a *ngIf="getFieldAsFormArray('accessTypes').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('accessTypes', i)">
@@ -640,19 +656,21 @@
                             <i><small>{{accessTypesDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <div *ngIf="accessModesVocabulary" formArrayName="accessModes" class="uk-margin-bottom">
+                        <div formArrayName="accessModes" class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right">
                             {{accessModesDesc.label + (accessModesDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('accessModes').controls; let i=index">
-                              <select *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                              <select class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('accessModes', i),
                                       'uk-width-5-6': getFieldAsFormArray('accessModes').length > 1}">
                                 <option value=""></option>
-                                <option *ngFor="let entry of sortVocabulariesByName(accessModesVocabulary)" value="{{entry.id}}">
-                                  {{entry.name}}
-                                </option>
+                                <ng-container *ngIf="accessModesVocabulary">
+                                  <option *ngFor="let entry of sortVocabulariesByName(accessModesVocabulary)" value="{{entry.id}}">
+                                    {{entry.name}}
+                                  </option>
+                                </ng-container>
                               </select>
                               <a *ngIf="getFieldAsFormArray('accessModes').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('accessModes', i)">
@@ -673,13 +691,15 @@
                           </label>
                           <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('funders').controls; let i=index">
-                              <select id="funders" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                              <select id="funders" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('funders', i),
                                       'uk-width-5-6': getFieldAsFormArray('funders').length > 1}">
                                 <option value=""></option>
-                                <option *ngFor="let entry of fundersVocabulary.results" value="{{entry.id}}">
-                                  {{entry.fundingOrganisation}}
-                                </option>
+                                <ng-container *ngIf="fundersVocabulary">
+                                  <option *ngFor="let entry of fundersVocabulary.results" value="{{entry.id}}">
+                                    {{entry.fundingOrganisation}}
+                                  </option>
+                                </ng-container>
                               </select>
                               <a *ngIf="getFieldAsFormArray('funders').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('funders', i)">
@@ -718,7 +738,7 @@
                         </div>
                       </li>
                       <li>
-                        <div *ngIf="phaseVocabulary" class="uk-margin-bottom">
+                        <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="phase">
                             {{phaseDesc.label + (phaseDesc.mandatory ? ' (*)' : '')}}
                           </label>
@@ -726,14 +746,16 @@
                             <select id="phase" formControlName="phase" class="uk-select"
                                     [ngClass]="{'uk-form-danger': checkFormValidity('phase')}">
                               <option value=""></option>
-                              <option *ngFor="let entry of sortVocabulariesByName(phaseVocabulary)" value="{{entry.id}}">
-                                {{entry.name}}
-                              </option>
+                              <ng-container *ngIf="phaseVocabulary">
+                                <option *ngFor="let entry of sortVocabulariesByName(phaseVocabulary)" value="{{entry.id}}">
+                                  {{entry.name}}
+                                </option>
+                              </ng-container>
                             </select>
                             <i><small>{{phaseDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <div *ngIf="trlVocabulary" class="uk-margin-bottom">
+                        <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="trl">
                             {{technologyReadinessLevelDesc.label + (technologyReadinessLevelDesc.mandatory ? ' (*)' : '')}}
                           </label>
@@ -741,9 +763,11 @@
                             <select id="trl" formControlName="trl" class="uk-select"
                                     [ngClass]="{'uk-form-danger': checkFormValidity('trl')}">
                               <option value=""></option>
-                              <option *ngFor="let entry of sortVocabulariesByName(trlVocabulary)" value="{{entry.id}}">
-                                {{entry.name}}
-                              </option>
+                              <ng-container *ngIf="trlVocabulary">
+                                <option *ngFor="let entry of sortVocabulariesByName(trlVocabulary)" value="{{entry.id}}">
+                                  {{entry.name}}
+                                </option>
+                              </ng-container>
                             </select>
                             <i>
                               <small>{{technologyReadinessLevelDesc.desc}}</small>
@@ -826,16 +850,18 @@
                         </div>
                       </li>
                       <li>
-                        <div *ngIf="orderTypeVocabulary" class="uk-margin-bottom">
+                        <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="orderType">
                             {{orderTypeDesc.label + (orderTypeDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <select id="orderType" formControlName="orderType" class="uk-select"
                                     [ngClass]="{'uk-form-danger': checkFormValidity('orderType')}">
-                              <option *ngFor="let entry of sortVocabulariesByName(orderTypeVocabulary)" value="{{entry.id}}">
-                                {{entry.name}}
-                              </option>
+                              <ng-container *ngIf="orderTypeVocabulary">
+                                <option *ngFor="let entry of sortVocabulariesByName(orderTypeVocabulary)" value="{{entry.id}}">
+                                  {{entry.name}}
+                                </option>
+                              </ng-container>
                             </select>
                             <i><small>{{orderTypeDesc.desc}}</small></i>
                           </div>
@@ -1112,15 +1138,17 @@
                           <label class="uk-form-label uk-text-right" for="requiredServices">
                             {{requiredServicesDesc.label + (requiredServicesDesc.mandatory ? ' (*)' : '')}}
                           </label>
-                          <div *ngIf="requiredServices" class="uk-form-controls">
+                          <div class="uk-form-controls">
                             <div *ngFor="let provider of getFieldAsFormArray('requiredServices').controls; let i=index">
-                              <select id="requiredServices" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                              <select id="requiredServices" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('requiredServices', i),
                                       'uk-width-5-6': getFieldAsFormArray('requiredServices').length > 1}">
                                 <option value=""></option>
-                                <option *ngFor="let reqService of requiredServices | keys" value="{{reqService}}">
-                                  {{requiredServices[reqService]}}
-                                </option>
+                                <ng-container *ngIf="requiredServices">
+                                  <option *ngFor="let reqService of requiredServices | keys" value="{{reqService}}">
+                                    {{requiredServices[reqService]}}
+                                  </option>
+                                </ng-container>
                               </select>
                               <a *ngIf="getFieldAsFormArray('requiredServices').length > 1"
                                  class="remove-element uk-padding-small" (click)="remove('requiredServices', i)">
@@ -1139,15 +1167,17 @@
                           <label class="uk-form-label uk-text-right" for="relatedServices">
                             {{relatedServicesDesc.label + (relatedServicesDesc.mandatory ? ' (*)' : '')}}
                           </label>
-                          <div *ngIf="relatedServices" class="uk-form-controls ">
+                          <div class="uk-form-controls ">
                             <div *ngFor="let provider of getFieldAsFormArray('relatedServices').controls; let i=index">
-                              <select id="relatedServices" *ngIf="providersPage" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                              <select id="relatedServices" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedServices', i),
                                       'uk-width-5-6': getFieldAsFormArray('relatedServices').length > 1}">
-                                <option value=""></option>ca
-                                <option *ngFor="let reqService of relatedServices | keys" value="{{reqService}}">
-                                  {{relatedServices[reqService]}}
-                                </option>
+                                <option value=""></option>
+                                <ng-container *ngIf="relatedServices">
+                                  <option *ngFor="let reqService of relatedServices | keys" value="{{reqService}}">
+                                    {{relatedServices[reqService]}}
+                                  </option>
+                                </ng-container>
                               </select>
                               <a *ngIf="getFieldAsFormArray('relatedServices').length > 1"
                                 class="remove-element uk-padding-small" (click)="remove('relatedServices', i)">
@@ -1267,13 +1297,15 @@
                                     Indicator name:
                                   </label>
                                   <div class="uk-width-4-5 uk-form-controls">
-                                    <select *ngIf="indicators" class="uk-select" id="indicatorId"
+                                    <select class="uk-select" id="indicatorId"
                                             (change)="onIndicatorSelect($event, i)" formControlName="indicatorId"
                                             [ngClass]="{'uk-form-danger': !measurements.controls[i].get('indicatorId').valid && measurements.controls[i].get('indicatorId').dirty}">
                                       <option value="" selected>--select indicator--</option>
-                                      <option *ngFor="let indicator of indicators.results"
-                                              title="{{indicator.description}}"
-                                              value="{{indicator.id}}">{{indicator.name}}</option>
+                                      <ng-container *ngIf="indicators">
+                                        <option *ngFor="let indicator of indicators.results"
+                                                title="{{indicator.description}}"
+                                                value="{{indicator.id}}">{{indicator.name}}</option>
+                                      </ng-container>
                                     </select>
                                     <i>
                                       <small>{{indicatorDesc}}</small>
