@@ -90,6 +90,10 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Browse Subcategories'
     }
+  },
+  {
+    path: 'support',
+    loadChildren: './pages/support/support.module#SupportModule'
   }
 ];
 
