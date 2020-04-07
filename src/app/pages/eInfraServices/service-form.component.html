@@ -46,7 +46,7 @@
                   </div>
 
                   <ul class="uk-width-1-1 uk-margin-remove" uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
-                    <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[0]}" href="#">Basic *</a></li>
+                    <li class="uk-active"><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[0]}" href="#">Basic *</a></li>
                     <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[1]}" href="#">Classification *</a></li>
                     <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[2]}" href="#">Maturity </a></li>
                     <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[3]}" href="#">Contractual *</a></li>
@@ -62,7 +62,7 @@
 
                     <ul id="top-navigation-tabs" class="uk-switcher uk-margin">
 
-                      <li id="Basic">
+                      <li class="uk-active" id="Basic">
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="name">
                             {{nameDesc.label + (nameDesc.mandatory ? ' (*)' : '')}}
