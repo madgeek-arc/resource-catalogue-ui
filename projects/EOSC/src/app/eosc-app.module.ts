@@ -1,5 +1,4 @@
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {EoscAppComponent} from './eosc-app.component';
@@ -18,6 +17,7 @@ import {SharedModule} from '../../../../src/app/shared/shared.module';
 import {StarRatingModule} from 'angular-star-rating';
 import {ChartModule} from 'angular2-highcharts';
 import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/cookie-law/cookie-law.module';
+import {CommonModule} from '@angular/common';
 
 
 @NgModule({
@@ -33,7 +33,7 @@ import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/coo
     TopMenuComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     AppRoutingModule,
     AppModule,
     FormsModule,

@@ -1,4 +1,3 @@
-import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -19,6 +18,7 @@ import {ServiceEditExtendedComponent} from './pages/eInfraServices/service-edit-
 import {CKEditorModule} from 'ng2-ckeditor';
 import {AccordionSectionAireComponent} from './pages/eInfraServices/accordion-section-aire.component';
 import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/cookie-law/cookie-law.module';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/coo
     AccordionSectionAireComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     AppRoutingModule,
     AppModule,
     FormsModule,

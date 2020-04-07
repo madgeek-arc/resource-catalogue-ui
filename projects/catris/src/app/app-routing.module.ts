@@ -93,7 +93,7 @@ const routes: Routes = [
   },
   {
     path: 'support',
-    loadChildren: './pages/support/support.module#SupportModule'
+    loadChildren: './pages/support/catris-support.module#CatrisSupportModule'
   }
 ];
 

@@ -1,4 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +24,7 @@ import {ServiceEditExtendedComponent} from './pages/catrisService/service-edit-e
 import {AccordionSectionCatrisComponent} from './pages/catrisService/accordion-section-catris.component';
 import {AddFistServiceExtendedComponent} from './pages/catrisService/add-fist-service-extended.component';
 import {BrowseSubcategoriesComponent} from './pages/browseSubcategories/browse-subcategories.component';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -44,7 +44,7 @@ import {BrowseSubcategoriesComponent} from './pages/browseSubcategories/browse-s
     BrowseSubcategoriesComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     AppRoutingModule,
     AppModule,
     SharedModule,
