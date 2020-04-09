@@ -131,4 +131,16 @@ export class AuthenticationService {
   public getUserRoles(): string[] {
     return this.user.roles !== undefined ? this.user.roles : null;
   }
+
+  isProvider() {
+    if (this.isLoggedIn()) {
+      return this.getUserProperty('roles').some(x => x === 'ROLE_PROVIDER');
+    }
+  }
+
+  isAdmin() {
+    if (this.isLoggedIn()) {
+      return this.getUserProperty('roles').some(x => x === 'ROLE_ADMIN');
+    }
+  }
 }

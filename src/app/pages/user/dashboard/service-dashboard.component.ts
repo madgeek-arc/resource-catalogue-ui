@@ -57,7 +57,7 @@ export class ServiceDashboardComponent implements OnInit, OnDestroy {
           this.getDataForService(this.statisticPeriod);
 
           /* check if the current user can edit the service */
-          this.canEditService = this.myProviders.some(p => this.service.providers.some(x => x === p.id));
+          this.canEditService = this.myProviders.some(p => this.service.providers.some(x => x === p.id)) || this.authenticationService.isAdmin();
         },
         err => {
           if (err.status === 404) {
