@@ -171,11 +171,27 @@ export class ResourceService {
   }
 
   getCategoriesPerServiceForProvider(provider: string) {
-    return {
-      'Quantum Engine': 2,
-      'Data Wrangling': 3
-    };
-    // return this.http.get(this.base + `/stats/provider/categoriesperservice/${provider}`);
+    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?id=${provider}&vocabulary=SUBCATEGORY`);
+  }
+
+  getDomainsPerServiceForProvider(provider: string) {
+    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?id=${provider}&vocabulary=SUBDOMAIN`);
+  }
+
+  getTargetUsersPerServiceForProvider(provider: string) {
+    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?id=${provider}&vocabulary=TARGET_USERS`);
+  }
+
+  getAccessModesPerServiceForProvider(provider: string) {
+    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?id=${provider}&vocabulary=ACCESS_MODES`);
+  }
+
+  getAccessTypesPerServiceForProvider(provider: string) {
+    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?id=${provider}&vocabulary=ACCESS_TYPES`);
+  }
+
+  getOrderTypesPerServiceForProvider(provider: string) {
+    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?id=${provider}&vocabulary=ORDER_TYPE`);
   }
 
   getMapDistributionOfServices() {
@@ -187,11 +203,11 @@ export class ResourceService {
         url: 'http://hello.com'
       },
       { name: 'hisd', }
-    ]},{
+    ]}, {
       country: 'fo'
-    },{
+    }, {
       country: 'us'
-    },{
+    }, {
       country: 'fr'
     }
   ];

@@ -40,6 +40,11 @@ export class StatsComponent implements OnInit {
   providerMapOptions: any = null;
   mapDistributionOfServices: any = null;
   categoriesPerServiceForProvider: any = null;
+  domainsPerServiceForProvider: any = null;
+  targetUsersPerServiceForProvider: any = null;
+  accessModesPerServiceForProvider: any = null;
+  accessTypesPerServiceForProvider: any = null;
+  orderTypesPerServiceForProvider: any = null;
   modalCoords: any = null;
   selectedCountryName = '';
   selectedCountryServices: Service[] = [];
@@ -149,6 +154,109 @@ export class StatsComponent implements OnInit {
       }
     );
 
+    /* bar charts */
+    this.resourceService.getCategoriesPerServiceForProvider(this.providerId).subscribe(
+      data => {
+        const barChartCategories: string[] = [];
+        const barChartData: number[] = [];
+        for (let i = 0; i < Object.keys(data).length; i++) {
+          const str = (Object.values(data[i])[0]).toString();
+          const key = str.substring(str.lastIndexOf('-') + 1).replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase());
+          barChartCategories.push(key);
+          barChartData.push(Object.keys(Object.values(data[i])[1]).length);
+        }
+        this.setCategoriesPerServiceForProvider(barChartCategories, barChartData);
+      },
+      err => {
+        this.errorMessage = 'An error occurred while retrieving categories for this provider. ' + err.error;
+      }
+    );
+
+    this.resourceService.getDomainsPerServiceForProvider(this.providerId).subscribe(
+      data => {
+        const barChartCategories: string[] = [];
+        const barChartData: number[] = [];
+        for (let i = 0; i < Object.keys(data).length; i++) {
+          const str = (Object.values(data[i])[0]).toString();
+          const key = str.substring(str.lastIndexOf('-') + 1).replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase());
+          barChartCategories.push(key);
+          barChartData.push(Object.keys(Object.values(data[i])[1]).length);
+        }
+        this.setDomainsPerServiceForProvider(barChartCategories, barChartData);
+      },
+      err => {
+        this.errorMessage = 'An error occurred while retrieving domains for this provider. ' + err.error;
+      }
+    );
+
+    this.resourceService.getTargetUsersPerServiceForProvider(this.providerId).subscribe(
+      data => {
+        const barChartCategories: string[] = [];
+        const barChartData: number[] = [];
+        for (let i = 0; i < Object.keys(data).length; i++) {
+          const str = (Object.values(data[i])[0]).toString();
+          const key = str.substring(str.lastIndexOf('-') + 1).replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase());
+            barChartCategories.push(key);
+            barChartData.push(Object.keys(Object.values(data[i])[1]).length);
+        }
+        this.setTargetUsersPerServiceForProvider(barChartCategories, barChartData);
+      },
+      err => {
+        this.errorMessage = 'An error occurred while retrieving target users for this provider. ' + err.error;
+      }
+    );
+
+    this.resourceService.getAccessModesPerServiceForProvider(this.providerId).subscribe(
+      data => {
+        const barChartCategories: string[] = [];
+        const barChartData: number[] = [];
+        for (let i = 0; i < Object.keys(data).length; i++) {
+          const str = (Object.values(data[i])[0]).toString();
+          const key = str.substring(str.lastIndexOf('-') + 1).replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase());
+          barChartCategories.push(key);
+          barChartData.push(Object.keys(Object.values(data[i])[1]).length);
+        }
+        this.setAccessModesPerServiceForProvider(barChartCategories, barChartData);
+      },
+      err => {
+        this.errorMessage = 'An error occurred while retrieving access modes for this provider. ' + err.error;
+      }
+    );
+
+    this.resourceService.getAccessTypesPerServiceForProvider(this.providerId).subscribe(
+      data => {
+        const barChartCategories: string[] = [];
+        const barChartData: number[] = [];
+        for (let i = 0; i < Object.keys(data).length; i++) {
+          const str = (Object.values(data[i])[0]).toString();
+          const key = str.substring(str.lastIndexOf('-') + 1).replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase());
+          barChartCategories.push(key);
+          barChartData.push(Object.keys(Object.values(data[i])[1]).length);
+        }
+        this.setAccessTypesPerServiceForProvider(barChartCategories, barChartData);
+      },
+      err => {
+        this.errorMessage = 'An error occurred while retrieving access types for this provider. ' + err.error;
+      }
+    );
+
+    this.resourceService.getOrderTypesPerServiceForProvider(this.providerId).subscribe(
+      data => {
+        const barChartCategories: string[] = [];
+        const barChartData: number[] = [];
+        for (let i = 0; i < Object.keys(data).length; i++) {
+          const str = (Object.values(data[i])[0]).toString();
+        const key = str.substring(str.lastIndexOf('-') + 1).replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase());
+          barChartCategories.push(key);
+          barChartData.push(Object.keys(Object.values(data[i])[1]).length);
+        }
+        this.setOrderTypesPerServiceForProvider(barChartCategories, barChartData);
+      },
+      err => {
+        this.errorMessage = 'An error occurred while retrieving order types for this provider. ' + err.error;
+      }
+    );
+
     if (dontGetServices) {
     } else {
       this.resourceService.getVisitationPercentageForProvider(this.providerId).pipe(
@@ -165,7 +273,6 @@ export class StatsComponent implements OnInit {
             this.errorMessage = 'An error occurred while retrieving service visitation percentages for this provider. ' + err.error;
           }
         );
-      this.setCategoriesPerServiceForProvider(this.resourceService.getCategoriesPerServiceForProvider(this.providerId));
     }
     this.setMapDistributionOfServices(this.resourceService.getMapDistributionOfServices());
     // console.log('Places', this.resourceService.getPlacesForProvider(this.provider));
@@ -199,7 +306,7 @@ export class StatsComponent implements OnInit {
           height: (3 / 4 * 100) + '%', // 3:4 ratio
         },
         title: {
-          text: ''
+          text: 'Number of visits over time'
         },
         xAxis: {
           type: 'datetime',
@@ -231,7 +338,7 @@ export class StatsComponent implements OnInit {
           height: (3 / 4 * 100) + '%', // 3:4 ratio
         },
         title: {
-          text: ''
+          text: 'Number of favorites over time'
         },
         xAxis: {
           type: 'datetime',
@@ -418,31 +525,31 @@ export class StatsComponent implements OnInit {
       };
     }
   }
-  setCategoriesPerServiceForProvider(data: any) {
+
+  setCategoriesPerServiceForProvider(categories: string[], data: number[]) {
     this.categoriesPerServiceForProvider = {
       chart: {
-        type: 'bar'
+        type: 'bar',
+        height: (3 / 4 * 100) + '%' // 3:4 ratio
       },
       title: {
-        text: 'Provider Dummy'
-      },
-      subtitle: {
-        text: 'Source: <a href="dummy.url">Dummy.com</a>'
+        text: 'Service distribution in categories'
       },
       xAxis: {
-        categories: Object.keys(data),
+        categories: categories,
         title: {
-          text: 'Service Type'
+          text: ''
         }
       },
       series: [{
-        data: Object.values(data)
+        name: 'Categories',
+        color: '#7720b6',
+        data: data
       }],
       yAxis: {
         min: 0,
         title: {
-          text: 'Quantity',
-          align: 'high'
+          text: 'Number of services'
         },
         labels: {
           overflow: 'justify',
@@ -455,14 +562,244 @@ export class StatsComponent implements OnInit {
       plotOptions: {
         bar: {
           dataLabels: {
-            enabled: false
+            enabled: true
           }
         }
       },
-
       credits: {
-        enabled: false
-      },
+        enabled: true
+      }
     };
   }
+
+  setDomainsPerServiceForProvider(categories: string[], data: number[]) {
+    this.domainsPerServiceForProvider = {
+      chart: {
+        type: 'bar',
+        height: (3 / 4 * 100) + '%' // 3:4 ratio
+      },
+      title: {
+        text: 'Service distribution in scientific domains'
+      },
+      xAxis: {
+        categories: categories,
+        title: {
+          text: ''
+        }
+      },
+      series: [{
+        name: 'Scientific Domains',
+        color: '#1326a8',
+        data: data
+      }],
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Number of services'
+        },
+        labels: {
+          overflow: 'justify',
+          display: 'none'
+        }
+      },
+      tooltip: {
+        valueSuffix: ' services'
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      credits: {
+        enabled: true
+      }
+    };
+  }
+
+  setTargetUsersPerServiceForProvider(categories: string[], data: number[]) {
+    this.targetUsersPerServiceForProvider = {
+      chart: {
+        type: 'bar',
+        height: (3 / 4 * 100) + '%' // 3:4 ratio
+      },
+      title: {
+        text: 'Service distribution in target users'
+      },
+      xAxis: {
+        categories: categories,
+        title: {
+          text: ''
+        }
+      },
+      series: [{
+        name: 'Target users',
+        color: '#80116d',
+        data: data
+      }],
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Number of services'
+        },
+        labels: {
+          overflow: 'justify',
+          display: 'none'
+        }
+      },
+      tooltip: {
+        valueSuffix: ' services'
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      credits: {
+        enabled: true
+      }
+    };
+  }
+
+  setAccessModesPerServiceForProvider(categories: string[], data: number[]) {
+    this.accessModesPerServiceForProvider = {
+      chart: {
+        type: 'bar',
+        height: (3 / 4 * 100) + '%' // 3:4 ratio
+      },
+      title: {
+        text: 'Service distribution in access modes'
+      },
+      xAxis: {
+        categories: categories,
+        title: {
+          text: ''
+        }
+      },
+      series: [{
+        name: 'Access modes',
+        color: '#de882d',
+        data: data
+      }],
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Number of services'
+        },
+        labels: {
+          overflow: 'justify',
+          display: 'none'
+        }
+      },
+      tooltip: {
+        valueSuffix: ' services'
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      credits: {
+        enabled: true
+      }
+    };
+  }
+
+  setAccessTypesPerServiceForProvider(categories: string[], data: number[]) {
+    this.accessTypesPerServiceForProvider = {
+      chart: {
+        type: 'bar',
+        height: (3 / 4 * 100) + '%' // 3:4 ratio
+      },
+      title: {
+        text: 'Service distribution in access types'
+      },
+      xAxis: {
+        categories: categories,
+        title: {
+          text: ''
+        }
+      },
+      series: [{
+        name: 'Access types',
+        color: '#db510b',
+        data: data
+      }],
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Number of services'
+        },
+        labels: {
+          overflow: 'justify',
+          display: 'none'
+        }
+      },
+      tooltip: {
+        valueSuffix: ' services'
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      credits: {
+        enabled: true
+      }
+    };
+  }
+
+  setOrderTypesPerServiceForProvider(categories: string[], data: number[]) {
+    this.orderTypesPerServiceForProvider = {
+      chart: {
+        type: 'bar',
+        height: (3 / 4 * 100) + '%' // 3:4 ratio
+      },
+      title: {
+        text: 'Service distribution in order types'
+      },
+      xAxis: {
+        categories: categories,
+        title: {
+          text: ''
+        }
+      },
+      series: [{
+        name: 'Order types',
+        color: '#298e13',
+        data: data
+      }],
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Number of services'
+        },
+        labels: {
+          overflow: 'justify',
+          display: 'none'
+        }
+      },
+      tooltip: {
+        valueSuffix: ' services'
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      credits: {
+        enabled: true
+      }
+    };
+  }
+
 }
