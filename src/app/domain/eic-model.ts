@@ -263,6 +263,16 @@ export class Category {
   subCategory: Vocabulary;
 }
 
+export class MapValues {
+  key: string;
+  values: Value[];
+}
+
+export class PlaceCount {
+  place: string;
+  count: number;
+}
+
 export class ProviderInfo {
   providerId: string;
   providerName: string;
@@ -272,6 +282,11 @@ export class ProviderInfo {
 export class ScientificDomain {
   domain: Vocabulary;
   subdomain: Vocabulary;
+}
+
+export class Value {
+  id: string;
+  name: string;
 }
 
 export class VocabularyTree {
