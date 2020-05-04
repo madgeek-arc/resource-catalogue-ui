@@ -7,7 +7,7 @@ import { ResourceService } from '../../../../services/resource.service';
 import { NavigationService } from '../../../../services/navigation.service';
 import { ActivatedRoute } from '@angular/router';
 import { ServiceProviderService } from '../../../../services/service-provider.service';
-import { InfraService, Provider, Service } from '../../../../domain/eic-model';
+import {InfraService, MapValues, Provider, Service} from '../../../../domain/eic-model';
 import { map } from 'rxjs/operators';
 import { Pagination } from '../../../../domain/pagination';
 import UIkit from 'uikit';
@@ -38,7 +38,7 @@ export class StatsComponent implements OnInit {
   providerFavouritesOptions: any = null;
   providerVisitationPercentageOptions: any = null;
   providerMapOptions: any = null;
-  mapDistributionOfServices: any = null;
+  mapDistributionOfServicesOptions: any = null;
   categoriesPerServiceForProvider: any = null;
   domainsPerServiceForProvider: any = null;
   targetUsersPerServiceForProvider: any = null;
@@ -48,6 +48,9 @@ export class StatsComponent implements OnInit {
   modalCoords: any = null;
   selectedCountryName = '';
   selectedCountryServices: Service[] = [];
+
+  geographicalDistribution: any = null;
+
   constructor(
     public authenticationService: AuthenticationService,
     // public userService: UserService,
@@ -274,7 +277,42 @@ export class StatsComponent implements OnInit {
           }
         );
     }
-    this.setMapDistributionOfServices(this.resourceService.getMapDistributionOfServices());
+
+    this.resourceService.getMapDistributionOfServices(this.providerId).subscribe(
+      data => {
+        // console.log('data', data);
+        this.geographicalDistribution = data;
+
+        const mapData = [];
+        const geographicalDistributionMap = new Map();
+
+        for (const entry of <MapValues[]> data) {
+          // console.log('entry in data: ', entry);
+          // console.log('key -> ', entry.key);
+          // console.log('value -> ', entry.values);
+          const mapDataEntry = new Map();
+          mapDataEntry.set(entry.key, entry.values.length);
+          mapData.push(mapDataEntry);
+        }
+        console.log('Map Data', mapData);
+
+        // for (const [key, value] of Object.entries(data)) {
+        //   // console.log('key', value.key);
+        //   // console.log('value', value.value.length);
+        //   // mapData.push(value.key, value.value.length  );
+        //   geographicalDistributionMap.set(value.key, value.value);
+        // }
+        //
+        // console.log('geographicalDistributionMap', geographicalDistributionMap);
+        // console.log('Map Data', mapData);
+        this.setMapDistributionOfServices(data);
+      },
+      err => {
+        this.errorMessage = 'An error occurred while retrieving geographical distribution of services for this provider. ' + err.error;
+      }
+    );
+
+    // this.setMapDistributionOfServices(this.resourceService.getMapDistributionOfServices(this.providerId));
     // console.log('Places', this.resourceService.getPlacesForProvider(this.provider));
   }
 
@@ -470,6 +508,7 @@ export class StatsComponent implements OnInit {
       }]
     };
   }
+
   selectCountryOnMapDistribution(ev: any) {
     console.log(ev);
     this.modalCoords = JSON.stringify({
@@ -484,15 +523,26 @@ export class StatsComponent implements OnInit {
   getModalCoords() {
     return this.modalCoords;
   }
-  setMapDistributionOfServices(data: any) {
-    if (data) {
-      this.mapDistributionOfServices = {
+
+  setMapDistributionOfServices(mapData: any) {
+
+    // this.geographicalDistribution = data;
+    // console.log('Geographical distribution: ', data);
+
+    if (mapData) {
+
+      const dataA = mapData.map(item => ([item.country, item.values.length]));
+      console.log('DataA: ', dataA);
+
+      this.mapDistributionOfServicesOptions = {
         chart: {
           map: 'custom/world-highres2',
+          // map: 'custom/world',
           height: (3 / 4 * 100) + '%', // 3:4 ratio
         },
         title: {
-          text: 'Countries serviced by ' + this.provider.name
+          // text: 'Countries serviced by ' + this.provider.name
+          text: ''
         },
 
         legend: {
@@ -506,7 +556,9 @@ export class StatsComponent implements OnInit {
         },
         series: [{
           name: 'Country',
-          data: data.map(item => ([item.country, item])),
+          // data: mapData.map(item => ([item.country, item])),
+          data: mapData.map(item => ([item.country, item.values.length])),
+          // data: mapData,
           point: {
             events: {
               click: this.selectCountryOnMapDistribution

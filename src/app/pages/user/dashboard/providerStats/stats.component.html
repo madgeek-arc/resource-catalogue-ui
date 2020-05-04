@@ -1,97 +1,114 @@
-<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 500px">
+<div class="uk-padding-remove-bottom" style="min-height: 500px">
 
-<!--  <div class="uk-grid uk-child-width-1-2@m">-->
+  <h3>User engagement</h3>
+
   <div class="uk-grid">
+    <div class="uk-width-4-5"></div>
+    <div class="uk-width-1-5">
+      <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
+              (change)="onPeriodChange($event)">
+        <option value="DAY">Daily</option>
+        <option value="WEEK">Weekly</option>
+        <option value="MONTH" selected>Monthly</option>
+        <option value="YEAR">Yearly</option>
+      </select>
+      <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
+    </div>
+  </div>
 
-    <div class="uk-card uk-width-2-5">
-      <div class="uk-card-body">
-<!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/Favorites-over-time.png">-->
-        <chart [options]="providerFavouritesOptions"></chart>
+
+  <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
+
+    <div>
+      <div class="uk-card">
+        <div class="uk-card-body">
+          <!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/Favorites-over-time.png">-->
+          <chart [options]="providerFavouritesOptions" style="width: 100%; display: block;"></chart>
+        </div>
       </div>
     </div>
 
-    <div class="uk-card uk-width-1-5">
-      <div class="uk-card-body">
-      </div>
-    </div>
-
-    <div class="uk-card uk-width-2-5">
-      <div class="uk-card-body">
-<!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/Visits-over-time.png">-->
-        <chart [options]="providerVisitsOptions"></chart>
+    <div>
+      <div class="uk-card">
+        <div class="uk-card-body">
+          <!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/Visits-over-time.png">-->
+          <chart [options]="providerVisitsOptions" style="width: 100%; display: block;"></chart>
+        </div>
       </div>
     </div>
 
   </div>
 
+  <h3>Geographical distribution of services</h3>
   <div class="uk-grid">
     <div class="uk-card">
       <div class="uk-card-body">
-        <img src="../../../../../../projects/catris/src/assets/images/mock-images/serviceDistribution-map.png">
+        <!--<img src="../../../../../../projects/catris/src/assets/images/mock-images/serviceDistribution-map.png">-->
+        <chart type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;"></chart>
 <!--        <chart [options]="categoriesPerServiceForProvider"></chart>-->
       </div>
     </div>
   </div>
 
-<!--  <div class="uk-grid uk-child-width-1-2">-->
-  <div class="uk-grid">
 
-    <div class="uk-card uk-width-2-5">
-      <div class="uk-card-body">
-<!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/categories-distribution.png">-->
-        <chart [options]="categoriesPerServiceForProvider"></chart>
+  <h3>Distribution of services per service attributes</h3>
+  <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
+
+    <div>
+      <div class="uk-card">
+        <div class="uk-card-body">
+          <!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/categories-distribution.png">-->
+          <chart [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+        </div>
       </div>
     </div>
 
-    <div class="uk-card uk-width-1-5">
-      <div class="uk-card-body">
+    <div>
+      <div class="uk-card">
+        <div class="uk-card-body">
+          <!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/domain-distribution.png">-->
+          <chart [options]="domainsPerServiceForProvider" style="width: 100%; display: block;"></chart>
+        </div>
       </div>
     </div>
 
-    <div class="uk-card uk-width-2-5">
-      <div class="uk-card-body">
-<!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/domain-distribution.png">-->
-        <chart [options]="domainsPerServiceForProvider"></chart>
+    <div>
+      <div class="uk-card">
+        <div class="uk-card-body">
+          <!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/targetUsers-distribution.png">-->
+          <chart [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></chart>
+        </div>
       </div>
     </div>
 
-    <div class="uk-card uk-width-2-5">
-      <div class="uk-card-body">
-<!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/targetUsers-distribution.png">-->
-        <chart [options]="targetUsersPerServiceForProvider"></chart>
+    <div>
+      <div class="uk-card">
+        <div class="uk-card-body">
+          <!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/accessTypes-distribution.png">-->
+          <chart [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+        </div>
       </div>
     </div>
 
-    <div class="uk-card uk-width-1-5">
-      <div class="uk-card-body">
+
+    <div>
+      <div class="uk-card">
+        <div class="uk-card-body">
+          <!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/accessModes-distribution.png">-->
+          <chart [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+        </div>
       </div>
     </div>
 
-    <div class="uk-card uk-width-2-5">
-      <div class="uk-card-body">
-<!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/accessTypes-distribution.png">-->
-        <chart [options]="accessTypesPerServiceForProvider"></chart>
+    <div>
+      <div class="uk-card">
+        <div class="uk-card-body">
+          <!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/orderTypes-distribution.png">-->
+          <chart [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+        </div>
       </div>
     </div>
 
-    <div class="uk-card uk-width-2-5">
-      <div class="uk-card-body">
-<!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/accessModes-distribution.png">-->
-        <chart [options]="accessModesPerServiceForProvider"></chart>
-      </div>
-    </div>
-
-    <div class="uk-card uk-width-1-5">
-      <div class="uk-card-body">
-      </div>
-    </div>
-
-    <div class="uk-card uk-width-2-5">
-      <div class="uk-card-body">
-<!--        <img src="../../../../../../projects/catris/src/assets/images/mock-images/orderTypes-distribution.png">-->
-        <chart [options]="orderTypesPerServiceForProvider"></chart>
-      </div>
-    </div>
 
   </div>
 

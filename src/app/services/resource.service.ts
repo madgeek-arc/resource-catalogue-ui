@@ -194,23 +194,24 @@ export class ResourceService {
     return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?id=${provider}&vocabulary=ORDER_TYPE`);
   }
 
-  getMapDistributionOfServices() {
-    return [{
-      country: 'gr',
-      values: [
-      {
-        name: 'Quantum',
-        url: 'http://hello.com'
-      },
-      { name: 'hisd', }
-    ]}, {
-      country: 'fo'
-    }, {
-      country: 'us'
-    }, {
-      country: 'fr'
-    }
-  ];
+  getMapDistributionOfServices(provider: string) {
+    return this.http.get(this.base + `/stats/provider/mapServicesToGeographicalAvailability?id=${provider}`);
+  //   return [{
+  //     country: 'gr',
+  //     values: [
+  //     {
+  //       name: 'Quantum',
+  //       url: 'http://hello.com'
+  //     },
+  //     { name: 'hisd', }
+  //   ]}, {
+  //     country: 'fo'
+  //   }, {
+  //     country: 'us'
+  //   }, {
+  //     country: 'fr'
+  //   }
+  // ];
   }
 
   getFavouritesForProvider(provider: string, period?: string) {
