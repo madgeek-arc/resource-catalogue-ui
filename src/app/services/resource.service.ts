@@ -170,6 +170,34 @@ export class ResourceService {
     }
   }
 
+  getCategoriesPerServiceForProvider(provider: string) {
+    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?providerId=${provider}&vocabulary=SUBCATEGORY`);
+  }
+
+  getDomainsPerServiceForProvider(provider: string) {
+    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?providerId=${provider}&vocabulary=SUBDOMAIN`);
+  }
+
+  getTargetUsersPerServiceForProvider(provider: string) {
+    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?providerId=${provider}&vocabulary=TARGET_USERS`);
+  }
+
+  getAccessModesPerServiceForProvider(provider: string) {
+    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?providerId=${provider}&vocabulary=ACCESS_MODES`);
+  }
+
+  getAccessTypesPerServiceForProvider(provider: string) {
+    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?providerId=${provider}&vocabulary=ACCESS_TYPES`);
+  }
+
+  getOrderTypesPerServiceForProvider(provider: string) {
+    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?providerId=${provider}&vocabulary=ORDER_TYPE`);
+  }
+
+  getMapDistributionOfServices(provider: string) {
+    return this.http.get(this.base + `/stats/provider/mapServicesToGeographicalAvailability?providerId=${provider}`);
+  }
+
   getFavouritesForProvider(provider: string, period?: string) {
     let params = new HttpParams();
     if (period) {
