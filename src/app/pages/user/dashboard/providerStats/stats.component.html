@@ -41,11 +41,11 @@
 
   <h3>Geographical distribution of services</h3>
   <div class="uk-grid">
-    <div class="uk-card">
+    <div class="uk-width-1-1 uk-card">
       <div class="uk-card-body">
         <!--<img src="../../../../../../projects/catris/src/assets/images/mock-images/serviceDistribution-map.png">-->
-        <chart type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;"></chart>
-<!--        <chart [options]="categoriesPerServiceForProvider"></chart>-->
+        <chart type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">
+        </chart>
       </div>
     </div>
   </div>
@@ -112,6 +112,36 @@
 
   </div>
 
+</div>
+
+<div id="servicesPerCountryModal" uk-modal>
+
+  <div class="uk-modal-dialog uk-modal-body">
+    <h3>Services offered in country: {{getSelectedCountryName()}}</h3>
+
+    <h4>by provider {{providerId}}</h4>
+  </div>
+
+  <!--<div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">-->
+    <!--<div *ngIf="selectedProvider">-->
+      <!--<h6>Proceed with changing the status of "{{ selectedProvider.provider.name }}"</h6>-->
+      <!--<p *ngIf="selectedProvider.status !== newStatus">The status will change from "{{ selectedProvider.status }}" to-->
+        <!--"{{ newStatus }}"</p>-->
+      <!--<p *ngIf="selectedProvider.status === newStatus">-->
+        <!--{{ ((selectedProvider.status === 'approved') && !pushedApprove) ? 'The service provider will be deactivated.' :-->
+        <!--(((selectedProvider.status === 'approved') && pushedApprove) ? 'The service provider will be activated.' :-->
+        <!--'The sp will be prompted to update the service template.')}}-->
+      <!--</p>-->
+    <!--</div>-->
+    <!--<button class="uk-button uk-button-primary" type="button" (click)="statusChangeAction()">Proceed</button>-->
+    <!--<button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>-->
+  <!--</div>-->
+  <!--<div *ngIf="loadingMessage">-->
+    <!--<div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">-->
+      <!--{{ loadingMessage }}-->
+    <!--</div>-->
+    <!--&lt;!&ndash;    <div class="whiteFilm"></div>&ndash;&gt;-->
+  <!--</div>-->
 </div>
 
 <!--<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 500px">-->

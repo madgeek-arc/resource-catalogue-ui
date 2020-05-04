@@ -10,9 +10,8 @@ import { ServiceProviderService } from '../../../../services/service-provider.se
 import {InfraService, MapValues, Provider, Service} from '../../../../domain/eic-model';
 import { map } from 'rxjs/operators';
 import { Pagination } from '../../../../domain/pagination';
-import UIkit from 'uikit';
 
-declare var require: any;
+declare var UIkit: any;
 
 
 @Component({
@@ -46,7 +45,8 @@ export class StatsComponent implements OnInit {
   accessTypesPerServiceForProvider: any = null;
   orderTypesPerServiceForProvider: any = null;
   modalCoords: any = null;
-  selectedCountryName = '';
+  selectedCountryName: string = null;
+  selectedCountryCode = '';
   selectedCountryServices: Service[] = [];
 
   geographicalDistribution: any = null;
@@ -61,6 +61,7 @@ export class StatsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.selectedCountryName = 'Bla bla';
     this.statisticPeriod = 'MONTH';
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
@@ -294,7 +295,7 @@ export class StatsComponent implements OnInit {
           mapDataEntry.set(entry.key, entry.values.length);
           mapData.push(mapDataEntry);
         }
-        console.log('Map Data', mapData);
+        // console.log('Map Data', mapData);
 
         // for (const [key, value] of Object.entries(data)) {
         //   // console.log('key', value.key);
@@ -511,15 +512,25 @@ export class StatsComponent implements OnInit {
 
   selectCountryOnMapDistribution(ev: any) {
     console.log(ev);
-    this.modalCoords = JSON.stringify({
-      'top.px': ev.x,
-      'left.px': ev.y,
-    });
-    this.selectedCountryName = ev.point.properties["country-abbrev"]
-    this.selectedCountryServices = ev.point.value.values
-    const modal = UIkit.modal('#country-service-modal');
-    modal.toggle();
+
+    this.selectedCountryName = ev.point.name;
+    console.log('Selected country name: ', this.selectedCountryName);
+
+    UIkit.modal('#servicesPerCountryModal').show();
+    // this.modalCoords = JSON.stringify({
+    //   'top.px': ev.x,
+    //   'left.px': ev.y,
+    // });
+    // this.selectedCountryName = ev.point.properties['country-abbrev'];
+    // this.selectedCountryServices = ev.point.value.values;
+    // const modal = UIkit.modal('#country-service-modal');
+    // modal.toggle();
   }
+
+  getSelectedCountryName() {
+    return this.selectedCountryName;
+  }
+
   getModalCoords() {
     return this.modalCoords;
   }
@@ -529,9 +540,11 @@ export class StatsComponent implements OnInit {
     // this.geographicalDistribution = data;
     // console.log('Geographical distribution: ', data);
 
+    console.log('mapData: ', mapData);
+
     if (mapData) {
 
-      const dataA = mapData.map(item => ([item.country, item.values.length]));
+      const dataA = mapData.map(item => ([item.key.toLowerCase(), item.values.length]));
       console.log('DataA: ', dataA);
 
       this.mapDistributionOfServicesOptions = {
@@ -544,35 +557,48 @@ export class StatsComponent implements OnInit {
           // text: 'Countries serviced by ' + this.provider.name
           text: ''
         },
+        colorAxis: {
+          min: 0,
+          stops: [
+            [0, '#EFEFFF'],
+            [0.5, '#7BB4EB'],
+            [1, '#1f3e5b']
+          ]
+        },
 
         legend: {
-          enabled: false
+          layout: 'vertical',
+          align: 'left',
+          verticalAlign: 'bottom'
         },
+        // legend: {
+        //   enabled: false
+        // },
         mapNavigation: {
           enabled: true,
           buttonOptions: {
-            verticalAlign: 'bottom'
+            verticalAlign: 'top'
           }
         },
         series: [{
           name: 'Country',
           // data: mapData.map(item => ([item.country, item])),
-          data: mapData.map(item => ([item.country, item.values.length])),
+          data: mapData.map(item => ([item.key.toLowerCase(), item.values.length])),
           // data: mapData,
           point: {
             events: {
               click: this.selectCountryOnMapDistribution
             }
           },
-          tooltip: {
-            useHTML: true,
-            hideDelay: 1500,
-            style: {
-              pointerEvents: 'auto'
-            },
-            headerFormat: '',
-            pointFormat: '{point.value.values.length}'
-          }
+          // tooltip: {
+          //   useHTML: true,
+          //   hideDelay: 1500,
+          //   style: {
+          //     pointerEvents: 'auto'
+          //   },
+          //   headerFormat: '',
+          //   pointFormat: '{point.value.values.length}'
+          // }
         }]
       };
     }
