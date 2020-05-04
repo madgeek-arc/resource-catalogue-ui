@@ -44,12 +44,10 @@ export class StatsComponent implements OnInit {
   accessModesPerServiceForProvider: any = null;
   accessTypesPerServiceForProvider: any = null;
   orderTypesPerServiceForProvider: any = null;
-  modalCoords: any = null;
-  selectedCountryName: string = null;
-  selectedCountryCode = '';
-  selectedCountryServices: Service[] = [];
 
-  geographicalDistribution: any = null;
+  selectedCountryName: string = null;
+  selectedCountryServices: any = null;
+  geographicalDistributionMap: any = null;
 
   constructor(
     public authenticationService: AuthenticationService,
@@ -61,7 +59,6 @@ export class StatsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.selectedCountryName = 'Bla bla';
     this.statisticPeriod = 'MONTH';
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
@@ -281,40 +278,17 @@ export class StatsComponent implements OnInit {
 
     this.resourceService.getMapDistributionOfServices(this.providerId).subscribe(
       data => {
-        // console.log('data', data);
-        this.geographicalDistribution = data;
+        this.geographicalDistributionMap = new Map();
 
-        const mapData = [];
-        const geographicalDistributionMap = new Map();
-
-        for (const entry of <MapValues[]> data) {
-          // console.log('entry in data: ', entry);
-          // console.log('key -> ', entry.key);
-          // console.log('value -> ', entry.values);
-          const mapDataEntry = new Map();
-          mapDataEntry.set(entry.key, entry.values.length);
-          mapData.push(mapDataEntry);
+        for (const [key, value] of Object.entries(data)) {
+          this.geographicalDistributionMap.set(value.key.toLowerCase(), value.values);
         }
-        // console.log('Map Data', mapData);
-
-        // for (const [key, value] of Object.entries(data)) {
-        //   // console.log('key', value.key);
-        //   // console.log('value', value.value.length);
-        //   // mapData.push(value.key, value.value.length  );
-        //   geographicalDistributionMap.set(value.key, value.value);
-        // }
-        //
-        // console.log('geographicalDistributionMap', geographicalDistributionMap);
-        // console.log('Map Data', mapData);
         this.setMapDistributionOfServices(data);
       },
       err => {
         this.errorMessage = 'An error occurred while retrieving geographical distribution of services for this provider. ' + err.error;
       }
     );
-
-    // this.setMapDistributionOfServices(this.resourceService.getMapDistributionOfServices(this.providerId));
-    // console.log('Places', this.resourceService.getPlacesForProvider(this.provider));
   }
 
   onPeriodChange(event) {
@@ -510,42 +484,21 @@ export class StatsComponent implements OnInit {
     };
   }
 
-  selectCountryOnMapDistribution(ev: any) {
-    console.log(ev);
-
-    this.selectedCountryName = ev.point.name;
-    console.log('Selected country name: ', this.selectedCountryName);
+  onMapSeriesClick(e) {
+    this.selectedCountryName = e.originalEvent.point.name;
+    this.selectedCountryServices = this.geographicalDistributionMap.get(e.originalEvent.point['hc-key']);
 
     UIkit.modal('#servicesPerCountryModal').show();
-    // this.modalCoords = JSON.stringify({
-    //   'top.px': ev.x,
-    //   'left.px': ev.y,
-    // });
-    // this.selectedCountryName = ev.point.properties['country-abbrev'];
-    // this.selectedCountryServices = ev.point.value.values;
-    // const modal = UIkit.modal('#country-service-modal');
-    // modal.toggle();
   }
 
-  getSelectedCountryName() {
-    return this.selectedCountryName;
-  }
-
-  getModalCoords() {
-    return this.modalCoords;
+  visitSelectedServicePage(serviceId: string) {
+    UIkit.modal('#servicesPerCountryModal').hide();
+    this.router.router.navigateByUrl('/service/' + serviceId);
   }
 
   setMapDistributionOfServices(mapData: any) {
 
-    // this.geographicalDistribution = data;
-    // console.log('Geographical distribution: ', data);
-
-    console.log('mapData: ', mapData);
-
     if (mapData) {
-
-      const dataA = mapData.map(item => ([item.key.toLowerCase(), item.values.length]));
-      console.log('DataA: ', dataA);
 
       this.mapDistributionOfServicesOptions = {
         chart: {
@@ -584,12 +537,13 @@ export class StatsComponent implements OnInit {
           name: 'Country',
           // data: mapData.map(item => ([item.country, item])),
           data: mapData.map(item => ([item.key.toLowerCase(), item.values.length])),
+          // data: mapData.map(item => ([item.key.toLowerCase(), item.values])),
           // data: mapData,
-          point: {
-            events: {
-              click: this.selectCountryOnMapDistribution
-            }
-          },
+          // point: {
+          //   events: {
+          //     click: this.selectCountryOnMapDistribution
+          //   }
+          // },
           // tooltip: {
           //   useHTML: true,
           //   hideDelay: 1500,
