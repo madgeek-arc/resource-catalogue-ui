@@ -21,6 +21,7 @@ import {MeasurementsComponent} from './pages/indicators/measurements.component';
 import {IndicatorFromComponent} from './pages/indicators/indicator-from.component';
 import {ForbiddenPageComponent} from './shared/forbidden-page/forbidden-page.component';
 import {NotFoundPageComponent} from './shared/not-found-page/not-found-page.component';
+import {StatsComponent} from './pages/stats/stats.component';
 
 const appRoutes: Routes = [
   {
@@ -40,6 +41,13 @@ const appRoutes: Routes = [
     component: SearchComponent,
     data: {
       breadcrumb: 'Search'
+    }
+  },
+  {
+    path: 'statistics',
+    component: StatsComponent,
+    data: {
+      breadcrumb: 'Statistics'
     }
   },
   {

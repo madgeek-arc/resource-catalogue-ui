@@ -4,7 +4,7 @@ import {CanActivateViaAuthGuard} from '../../services/can-activate-auth-guard.se
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {ServiceDashboardComponent} from './dashboard/service-dashboard.component';
 import {MessagesComponent} from './dashboard/messages/messages.component';
-import {StatsComponent} from './dashboard/providerStats/stats.component';
+import {ProviderStatsComponent} from './dashboard/providerStats/provider-stats.component';
 import {ServicesComponent} from './dashboard/services/services.component';
 
 const userRoutes: Routes = [
@@ -22,7 +22,7 @@ const userRoutes: Routes = [
     },
     children : [
       {path: '', redirectTo: 'stats', pathMatch: 'full'},
-      {path: 'stats', component: StatsComponent},
+      {path: 'stats', component: ProviderStatsComponent},
       {path: 'activeServices', component: ServicesComponent},
       {path: 'pendingServices', component: ServicesComponent},
       {path: 'messages', component: MessagesComponent}
@@ -30,7 +30,7 @@ const userRoutes: Routes = [
   },
   // {
   //   path: 'dashboard/:provider/stats',
-  //   component: StatsComponent,
+  //   component: ProviderStatsComponent,
   //   canActivate: [CanActivateViaAuthGuard],
   //   data: {
   //     breadcrumb: 'Provider statistics'

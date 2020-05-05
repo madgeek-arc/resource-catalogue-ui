@@ -16,11 +16,11 @@ declare var UIkit: any;
 
 @Component({
   selector: 'app-provider-stats',
-  templateUrl: './stats.component.html',
+  templateUrl: './provider-stats.component.html',
   // styleUrls: ['']
 })
 
-export class StatsComponent implements OnInit {
+export class ProviderStatsComponent implements OnInit {
   providerId: string;
   statisticPeriod: string;
   provider: Provider;

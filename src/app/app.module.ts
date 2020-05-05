@@ -40,6 +40,7 @@ import {StarRatingModule} from 'angular-star-rating';
 import {ServiceLandingPageComponent} from './pages/landingpages/service/service-landing-page.component';
 import {BrowseCategoriesComponent} from './pages/browsecategories/browse-categories.component';
 import {SearchComponent} from './pages/search/search.component';
+import {StatsComponent} from './pages/stats/stats.component';
 import {AccordionComponent} from './pages/eInfraServices/accordion-section.component';
 import {CompareServicesComponent} from './pages/compare/compare-services.component';
 import {ServiceFormComponent} from './pages/eInfraServices/service-form.component';
@@ -76,6 +77,7 @@ export function highchartsFactory() {
     CompareServicesComponent,
     HomeComponent,
     SearchComponent,
+    StatsComponent,
     ServiceLandingPageComponent,
     // PERSISTENT
     TopMenuComponent,

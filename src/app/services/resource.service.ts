@@ -26,11 +26,13 @@ declare var UIkit: any;
 
 @Injectable()
 export class ResourceService {
-  base = environment.API_ENDPOINT;
-  private options = {withCredentials: true};
 
   constructor(public http: HttpClient, public authenticationService: AuthenticationService) {
   }
+  base = environment.API_ENDPOINT;
+  private options = {withCredentials: true};
+  ACCESS_TYPES;
+  ORDER_TYPE;
 
   static removeNulls(obj) {
     const isArray = obj instanceof Array;
@@ -170,28 +172,64 @@ export class ResourceService {
     }
   }
 
-  getCategoriesPerServiceForProvider(provider: string) {
-    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?providerId=${provider}&vocabulary=SUBCATEGORY`);
+  getCategoriesPerServiceForProvider(provider?: string) {
+    let params = new HttpParams();
+    if (provider) {
+      params = params.append('providerId', provider);
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SUBCATEGORY`, {params});
+    } else {
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SUBCATEGORY`);
+    }
   }
 
-  getDomainsPerServiceForProvider(provider: string) {
-    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?providerId=${provider}&vocabulary=SUBDOMAIN`);
+  getDomainsPerServiceForProvider(provider?: string) {
+    let params = new HttpParams();
+    if (provider) {
+      params = params.append('providerId', provider);
+    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SUBDOMAIN`, {params});
+  } else {
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SUBDOMAIN`);
+    }
   }
 
-  getTargetUsersPerServiceForProvider(provider: string) {
-    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?providerId=${provider}&vocabulary=TARGET_USERS`);
+  getTargetUsersPerServiceForProvider(provider?: string) {
+    let params = new HttpParams();
+    if (provider) {
+      params = params.append('providerId', provider);
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=TARGET_USERS`, {params});
+    } else {
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=TARGET_USERS`);
+    }
   }
 
-  getAccessModesPerServiceForProvider(provider: string) {
-    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?providerId=${provider}&vocabulary=ACCESS_MODES`);
+  getAccessModesPerServiceForProvider(provider?: string) {
+    let params = new HttpParams();
+    if (provider) {
+      params = params.append('providerId', provider);
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=ACCESS_MODES`, {params});
+    } else {
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=ACCESS_MODES`);
+    }
   }
 
-  getAccessTypesPerServiceForProvider(provider: string) {
-    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?providerId=${provider}&vocabulary=ACCESS_TYPES`);
+  getAccessTypesPerServiceForProvider(provider?: string) {
+    let params = new HttpParams();
+    if (provider) {
+      params = params.append('providerId', provider);
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=ACCESS_TYPES`, {params});
+    } else {
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=ACCESS_TYPES`);
+    }
   }
 
-  getOrderTypesPerServiceForProvider(provider: string) {
-    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?providerId=${provider}&vocabulary=ORDER_TYPE`);
+  getOrderTypesPerServiceForProvider(provider?: string) {
+    let params = new HttpParams();
+    if (provider) {
+      params = params.append('providerId', provider);
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=ORDER_TYPE`, {params});
+    } else {
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=ORDER_TYPE`);
+    }
   }
 
   getMapDistributionOfServices(provider: string) {
