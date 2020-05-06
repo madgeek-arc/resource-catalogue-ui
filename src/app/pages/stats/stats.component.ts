@@ -1,15 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { isNullOrUndefined } from 'util';
-import { zip } from 'rxjs/internal/observable/zip';
 import {Observable} from 'rxjs';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ResourceService } from '../../services/resource.service';
 import { NavigationService } from '../../services/navigation.service';
-import { ActivatedRoute } from '@angular/router';
-import { ServiceProviderService } from '../../services/service-provider.service';
-import {InfraService, MapValues, Provider, Service} from '../../domain/eic-model';
-import { map } from 'rxjs/operators';
-import { Pagination } from '../../domain/pagination';
+import {Provider} from '../../domain/eic-model';
 
 declare var UIkit: any;
 
@@ -22,18 +16,12 @@ declare var UIkit: any;
 
 export class StatsComponent implements OnInit {
   providerId: string;
-  statisticPeriod: string;
   provider: Provider;
-  providerServices: Pagination<InfraService>;
-  providerServicesGroupedByPlace: any;
-  providerCoverage: string[];
   public errorMessage: string;
 
   public EU: string[];
   public WW: string[];
 
-  providerVisitationPercentageOptions: any = null;
-  providerMapOptions: any = null;
   mapDistributionOfServicesOptions: any = null;
   categoriesPerServiceForProvider: any = null;
   domainsPerServiceForProvider: any = null;
@@ -48,70 +36,15 @@ export class StatsComponent implements OnInit {
 
   constructor(
     public authenticationService: AuthenticationService,
-    // public userService: UserService,
     public resourceService: ResourceService,
-    public router: NavigationService,
-    private route: ActivatedRoute,
-    private providerService: ServiceProviderService
+    public router: NavigationService
   ) { }
 
   ngOnInit(): void {
-    this.statisticPeriod = 'MONTH';
-    this.providerId = this.route.parent.snapshot.paramMap.get('provider');
-    if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
-      zip(
-        this.resourceService.getEU(),
-        this.resourceService.getWW(),
-        this.providerService.getServiceProviderById(this.providerId)
-        /*this.resourceService.getProvidersNames()*/
-      ).subscribe(suc => {
-        this.EU = <string[]>suc[0];
-        this.WW = <string[]>suc[1];
-        this.provider = suc[2];
-        this.getDataForProvider(this.statisticPeriod);
-      });
-    } else {
-      this.providerService.getMyServiceProviders().subscribe(
-        res => {
-          this.providerId = res[0].id;
-          zip(
-            this.resourceService.getEU(),
-            this.resourceService.getWW(),
-            this.providerService.getServiceProviderById(this.providerId)
-            /*this.resourceService.getProvidersNames()*/
-          ).subscribe(suc => {
-            this.EU = <string[]>suc[0];
-            this.WW = <string[]>suc[1];
-            this.provider = suc[2];
-            this.getDataForProvider(this.statisticPeriod);
-          });
-        },
-        err => {
-          console.log(err);
-          this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
-        }
-      );
-    }
+    this.getDataFromAllProviders();
   }
 
-  getDataForProvider(period: string, dontGetServices?: boolean) {
-
-    if (!dontGetServices) {
-      this.providerService.getServicesOfProvider(this.providerId)
-        .subscribe(res => {
-            this.providerServices = res;
-            this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices.results);
-            if (this.providerServicesGroupedByPlace) {
-              this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
-
-              this.setCountriesForProvider(this.providerCoverage);
-            }
-          },
-          err => {
-            this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
-          }
-        );
-    }
+  getDataFromAllProviders() {
 
     /* bar charts */
     this.resourceService.getCategoriesPerServiceForProvider().subscribe(
@@ -216,7 +149,7 @@ export class StatsComponent implements OnInit {
       }
     );
 
-    this.resourceService.getMapDistributionOfServices(this.providerId).subscribe(
+    this.resourceService.getMapDistributionOfServices().subscribe(
       data => {
         this.geographicalDistributionMap = new Map();
 
@@ -229,65 +162,6 @@ export class StatsComponent implements OnInit {
         this.errorMessage = 'An error occurred while retrieving geographical distribution of services for this provider. ' + err.error;
       }
     );
-  }
-
-  onPeriodChange(event) {
-    this.statisticPeriod = event.target.value;
-    this.getDataForProvider(this.statisticPeriod, true);
-  }
-
-  groupServicesOfProviderPerPlace(services: InfraService[]) {
-    const ret = {};
-    if (this.providerServices && this.providerServices.results.length > 0) {
-      for (const service of services) {
-        for (const place of service.service.places) {
-          if (ret[place]) {
-            ret[place].push(this.providerServices);
-          } else {
-            ret[place] = [];
-          }
-        }
-      }
-    }
-    return ret;
-  }
-
-  setCountriesForProvider(data: any) {
-    const places = this.resourceService.expandRegion(JSON.parse(JSON.stringify(data || [])), this.EU, this.WW);
-
-    this.providerMapOptions = {
-      chart: {
-        map: 'custom/europe',
-        height: (3 / 4 * 100) + '%', // 3:4 ratio
-        // borderWidth: 1
-      },
-      title: {
-        text: 'Countries serviced by ' + this.provider.name
-      },
-      // subtitle: {
-      //     text: 'Demo of drawing all areas in the map, only highlighting partial data'
-      // },
-      legend: {
-        enabled: false
-      },
-      series: [{
-        name: 'Country',
-        data: places.map(e => e.toLowerCase()).map(e => [e, 1]),
-        dataLabels: {
-          enabled: true,
-          color: '#FFFFFF',
-          formatter: function () {
-            if (this.point.value) {
-              return this.point.name;
-            }
-          }
-        },
-        tooltip: {
-          headerFormat: '',
-          pointFormat: '{point.name}'
-        }
-      }]
-    };
   }
 
   onMapSeriesClick(e) {

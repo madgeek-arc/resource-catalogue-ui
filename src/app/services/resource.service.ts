@@ -232,8 +232,14 @@ export class ResourceService {
     }
   }
 
-  getMapDistributionOfServices(provider: string) {
-    return this.http.get(this.base + `/stats/provider/mapServicesToGeographicalAvailability?providerId=${provider}`);
+  getMapDistributionOfServices(provider?: string) {
+    let params = new HttpParams();
+    if (provider) {
+      params = params.append('providerId', provider);
+      return this.http.get(this.base + `/stats/provider/mapServicesToGeographicalAvailability`, {params});
+    } else {
+      return this.http.get(this.base + `/stats/provider/mapServicesToGeographicalAvailability`);
+    }
   }
 
   getFavouritesForProvider(provider: string, period?: string) {
