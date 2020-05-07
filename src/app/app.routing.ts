@@ -43,13 +43,13 @@ const appRoutes: Routes = [
       breadcrumb: 'Search'
     }
   },
-  {
-    path: 'statistics',
-    component: StatsComponent,
-    data: {
-      breadcrumb: 'Statistics'
-    }
-  },
+  // {
+  //   path: 'statistics',
+  //   component: StatsComponent,
+  //   data: {
+  //     breadcrumb: 'Statistics'
+  //   }
+  // },
   {
     path: 'compare',
     component: CompareServicesComponent,
