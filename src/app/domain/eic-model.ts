@@ -1,20 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.16.538 on 2019-11-04 13:38:53.
+// Generated using typescript-generator version 2.16.538 on 2020-05-18 14:56:47.
 
 export class Bundle<T> implements Identifiable {
   id: string;
   metadata: Metadata;
   active: boolean;
   status: string;
-}
-
-export class Contact {
-  firstName: string;
-  lastName: string;
-  email: string;
-  tel: string;
-  position: string;
 }
 
 export class EmailMessage {
@@ -49,6 +41,7 @@ export class ExtrasType {
   value: string;
 }
 
+// TODO: remove Funder??
 export class Funder implements Identifiable {
   id: string;
   fundingOrganisation: string;
@@ -98,27 +91,31 @@ export class Metadata {
 export class Provider implements Identifiable {
   id: string;
   name: string;
-  acronym: string;
+  abbreviation: string;
   website: URL;
+  legalEntity: string;
+  legalStatus: string;
   description: string;
   logo: URL;
   multimedia: URL[];
-  types: string[];
-  categories: string[];
-  esfriDomains: string[];
+  scientificSubdomains: string[];
   tags: string[];
-  lifeCycleStatus: string;
   location: ProviderLocation;
-  coordinatingCountry: string;
-  participatingCountries: string[];
-  contacts: Contact[];
+  mainContact: ProviderMainContact;
+  publicContacts: ProviderPublicContact[];
+  lifeCycleStatus: string;
+  certifications: string[];
   hostingLegalEntity: string;
-  legalStatus: string;
-  esfri: string;
+  participatingCountries: string[];
+  affiliations: string[];
   networks: string[];
+  structureTypes: string[];
+  esfriDomains: string[];
+  esfriType: string;
+  merilScientificSubdomains: string[];
   areasOfActivity: string[];
   societalGrandChallenges: string[];
-  nationalRoadmap: string;
+  nationalRoadmaps: string[];
   users: User[];
 }
 
@@ -127,12 +124,27 @@ export class ProviderBundle extends Bundle<Provider> {
 }
 
 export class ProviderLocation {
-  name: string;
-  street: string;
-  number: string;
+  streetNameAndNumber: string;
   postalCode: string;
   city: string;
   region: string;
+  country: string;
+}
+
+export class ProviderMainContact {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  position: string;
+}
+
+export class ProviderPublicContact {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  position: string;
 }
 
 export class ProviderRequest implements Identifiable {
@@ -140,6 +152,7 @@ export class ProviderRequest implements Identifiable {
   message: EmailMessage;
   date: XMLGregorianCalendar;
   providerId: string;
+  read: boolean;
 }
 
 export class RangeValue {
@@ -173,57 +186,54 @@ export class RichService {
 export class Service implements Identifiable {
   id: string;
   name: string;
-  url: URL;
+  resourceOrganisation: string;
+  resourceProviders: string[];
+  webpage: URL;
   description: string;
-  logo: URL;
-  multimediaUrls: URL[];
   tagline: string;
-  userValue: string;
-  userBaseList: string[];
-  useCases: string[];
-  options: ServiceOption[];
-  endpoint: URL;
-  providers: string[];
+  logo: URL;
+  multimedia: URL[];
+  useCases: URL[];
   scientificSubdomains: string[];
   subcategories: string[];
   targetUsers: string[];
-  languages: string[];
-  places: string[];
   accessTypes: string[];
   accessModes: string[];
-  funders: string[];
   tags: string[];
-  phase: string;
+  geographicalAvailabilities: string[];
+  languageAvailabilities: string[];
+  resourceGeographicLocations: string[];
+  mainContact: ServiceMainContact;
+  publicContacts: ServicePublicContact[];
+  helpdeskEmail: string;
+  securityContactEmail: string;
   trl: string;
-  version: string;
-  lastUpdate: XMLGregorianCalendar;
-  changeLog: string;
+  lifeCycleStatus: string;
   certifications: string[];
   standards: string[];
-  orderType: string;
-  order: URL;
-  sla: URL;
-  termsOfUse: URL;
-  privacyPolicy: URL;
-  accessPolicy: URL;
-  paymentModel: URL;
-  pricing: URL;
-  userManual: URL;
-  adminManual: URL;
-  training: URL;
-  helpdesk: URL;
-  monitoring: URL;
-  maintenance: URL;
-  contacts: Contact[];
+  openSourceTechnologies: string[];
+  version: string;
+  lastUpdate: XMLGregorianCalendar;
+  changeLog: string[];
   requiredServices: string[];
   relatedServices: string[];
   relatedPlatforms: string[];
-  aggregatedServices: number;
-  publications: number;
-  datasets: number;
-  software: number;
-  applications: number;
-  otherProducts: number;
+  fundingBody: string[];
+  fundingPrograms: string[];
+  grantProjectNames: string[];
+  helpdeskPage: URL;
+  userManual: URL;
+  termsOfUse: URL;
+  privacyPolicy: URL;
+  accessPolicy: URL;
+  serviceLevel: URL;
+  trainingInformation: URL;
+  statusMonitoring: URL;
+  maintenance: URL;
+  orderType: string;
+  order: URL;
+  paymentModel: URL;
+  pricing: URL;
 }
 
 export class ServiceHistory extends Metadata {
@@ -232,13 +242,22 @@ export class ServiceHistory extends Metadata {
   coreVersionId: string;
 }
 
-export class ServiceOption {
-  name: string;
-  url: URL;
-  description: string;
-  logo: URL;
-  contacts: Contact[];
-  attributes: string[];
+export class ServiceMainContact {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  position: string;
+  organisation: string;
+}
+
+export class ServicePublicContact {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  position: string;
+  organisation: string;
 }
 
 export class User implements Identifiable {
@@ -263,16 +282,6 @@ export class Category {
   subCategory: Vocabulary;
 }
 
-export class MapValues {
-  key: string;
-  values: Value[];
-}
-
-export class PlaceCount {
-  place: string;
-  count: number;
-}
-
 export class ProviderInfo {
   providerId: string;
   providerName: string;
@@ -282,11 +291,6 @@ export class ProviderInfo {
 export class ScientificDomain {
   domain: Vocabulary;
   subdomain: Vocabulary;
-}
-
-export class Value {
-  id: string;
-  name: string;
 }
 
 export class VocabularyTree {
@@ -331,28 +335,31 @@ export const enum States {
   REJECTED = "REJECTED",
 }
 
-export const enum VocabularyType {
+export const enum Type {
   SUPERCATEGORY = "SUPERCATEGORY",
   CATEGORY = "CATEGORY",
   SUBCATEGORY = "SUBCATEGORY",
   LANGUAGE = "LANGUAGE",
-  PLACE = "PLACE",
+  COUNTRY = "COUNTRY",
+  GEOGRAPHICAL_AVAILABILITY = "GEOGRAPHICAL_AVAILABILITY",
   TRL = "TRL",
-  PHASE = "PHASE",
   SCIENTIFIC_DOMAIN = "SCIENTIFIC_DOMAIN",
   SCIENTIFIC_SUBDOMAIN = "SCIENTIFIC_SUBDOMAIN",
-  TARGET_USERS = "TARGET_USERS",
+  TARGET_USER = "TARGET_USER",
   ACCESS_TYPE = "ACCESS_TYPE",
   ACCESS_MODE = "ACCESS_MODE",
   ORDER_TYPE = "ORDER_TYPE",
+  FUNDING_BODY = "FUNDING_BODY",
+  FUNDING_PROGRAM = "FUNDING_PROGRAM",
+  LIFE_CYCLE_STATUS = "LIFE_CYCLE_STATUS",
   PROVIDER_AREA_OF_ACTIVITY = "PROVIDER_AREA_OF_ACTIVITY",
-  PROVIDER_CATEGORY = "PROVIDER_CATEGORY",
-  PROVIDER_DOMAIN = "PROVIDER_DOMAIN",
-  PROVIDER_ESFRI = "PROVIDER_ESFRI",
+  PROVIDER_ESFRI_TYPE = "PROVIDER_ESFRI_TYPE",
   PROVIDER_ESFRI_DOMAIN = "PROVIDER_ESFRI_DOMAIN",
   PROVIDER_LEGAL_STATUS = "PROVIDER_LEGAL_STATUS",
   PROVIDER_LIFE_CYCLE_STATUS = "PROVIDER_LIFE_CYCLE_STATUS",
-  PROVIDER_NETWORKS = "PROVIDER_NETWORKS",
-  PROVIDER_SOCIETAL_GRAND_CHALLENGES = "PROVIDER_SOCIETAL_GRAND_CHALLENGES",
-  PROVIDER_TYPE = "PROVIDER_TYPE",
+  PROVIDER_NETWORK = "PROVIDER_NETWORK",
+  PROVIDER_SOCIETAL_GRAND_CHALLENGE = "PROVIDER_SOCIETAL_GRAND_CHALLENGE",
+  PROVIDER_STRUCTURE_TYPE = "PROVIDER_STRUCTURE_TYPE",
+  PROVIDER_MERIL_SCIENTIFIC_DOMAIN = "PROVIDER_MERIL_SCIENTIFIC_DOMAIN",
+  PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN = "PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN",
 }
