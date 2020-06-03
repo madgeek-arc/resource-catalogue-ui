@@ -33,6 +33,8 @@ export class ServiceProviderService {
   }
 
   createNewServiceProvider(newProvider: any) {
+    const url = `${this.base}createNewServiceProvider/provider/....`;
+    console.log(`knocking on: ${url}`);
     return this.http.post(this.base + '/provider', newProvider, this.options);
   }
 

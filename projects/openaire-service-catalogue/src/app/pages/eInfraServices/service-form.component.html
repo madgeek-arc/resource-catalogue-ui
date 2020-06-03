@@ -95,7 +95,7 @@
                             </i>
                           </div>
                         </div>
-                        <div class="uk-form-horizontal uk-margin-bottom">
+<!--                        <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
                             {{optionsDesc.label + (optionsDesc.mandatory ? ' (*)' : '')}}
                           </label>
@@ -106,7 +106,7 @@
                               <small>{{optionsDesc.desc}}</small>
                             </i>
                           </div>
-                        </div>
+                        </div>-->
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
                             {{targetUsersDesc.label + (targetUsersDesc.mandatory ? ' (*)' : '')}}
@@ -171,30 +171,30 @@
                       <li app-accordion-section class="uk-margin-large-bottom" [title]="'Classification Information'">
 
                         <!--IF NOT IN THE AddFirstService PAGE - SHOW THE LIST OF PROVIDERS-->
-                        <div *ngIf="!firstServiceForm" formArrayName="providers"
+                        <div *ngIf="!firstServiceForm" formArrayName="resourceProviders"
                              class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-flex-first uk-form-label uk-text-right">
-                            {{providersDesc.label + (providersDesc.mandatory ? ' (*)' : '')}}
+                            {{resourceProvidersDesc.label + (resourceProvidersDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
-                            <div *ngFor="let provider of getFieldAsFormArray('providers').controls; let i=index">
+                            <div *ngFor="let provider of getFieldAsFormArray('resourceProviders').controls; let i=index">
                               <select *ngIf="providersPage" class="uk-select uk-width-5-6" [formControlName]="i"
-                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('providers').get([i]).valid && getFieldAsFormArray('providers').get([i]).dirty}">
+                                      [ngClass]="{'uk-form-danger': !getFieldAsFormArray('resourceProviders').get([i]).valid && getFieldAsFormArray('resourceProviders').get([i]).dirty}">
                                 <option *ngFor="let provider of providersPage.results"
                                         value="{{provider.id}}">{{provider.name}}</option>
                               </select>
-                              <a *ngIf="getFieldAsFormArray('providers').length > 1"
-                                 class="remove-element uk-padding-small" (click)="remove('providers', i)">
+                              <a *ngIf="getFieldAsFormArray('resourceProviders').length > 1"
+                                 class="remove-element uk-padding-small" (click)="remove('resourceProviders', i)">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                               </a>
                             </div>
                             <div class="uk-width-1-1">
-                              <a class="add-new-element" (click)="push('providers', true)">
-                                <i class="fa fa-plus" aria-hidden="true"></i> Add {{providersDesc.label}}
+                              <a class="add-new-element" (click)="push('resourceProviders', true)">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add {{resourceProvidersDesc.label}}
                               </a>
                             </div>
                             <i>
-                              <small>{{providersDesc.desc}}</small>
+                              <small>{{resourceProvidersDesc.desc}}</small>
                             </i>
                           </div>
                         </div>
@@ -202,12 +202,12 @@
                         <!--IF IN THE AddFirstService PAGE - SHOW THE CURRENT PROVIDER-->
                         <div *ngIf="firstServiceForm" class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
-                            {{providersDesc.label + (providersDesc.mandatory ? ' (*)' : '')}}
+                            {{resourceProvidersDesc.label + (resourceProvidersDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
-                            <span class="uk-input">{{ getFieldAsFormArray('providers').get([0]).value }}</span>
+                            <span class="uk-input">{{ getFieldAsFormArray('resourceProviders').get([0]).value }}</span>
                             <i>
-                              <small>{{providersDesc.desc}}</small>
+                              <small>{{resourceProvidersDesc.desc}}</small>
                             </i>
                           </div>
                         </div>
@@ -481,13 +481,13 @@
                         </div>
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
-                            {{helpdeskDesc.label + (helpdeskDesc.mandatory ? ' (*)' : '')}}
+                            {{helpdeskPageDesc.label + (helpdeskPageDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
-                            <input class="uk-input" type="text" formControlName="helpdesk"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('helpdesk').valid && serviceForm.get('helpdesk').dirty}">
+                            <input class="uk-input" type="text" formControlName="helpdeskPage"
+                                   [ngClass]="{'uk-form-danger': !serviceForm.get('helpdeskPage').valid && serviceForm.get('helpdeskPage').dirty}">
                             <i>
-                              <small>{{helpdeskDesc.desc}}</small>
+                              <small>{{helpdeskPageDesc.desc}}</small>
                             </i>
                           </div>
                         </div>
@@ -543,13 +543,13 @@
                         </div>
                         <div class="uk-form-horizontal uk-margin-bottom">
                           <label class="uk-width-1-5 uk-form-label uk-text-right">
-                            {{serviceLevelAgreementDesc.label + (serviceLevelAgreementDesc.mandatory ? ' (*)' : '')}}
+                            {{serviceLevelDesc.label + (serviceLevelDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-width-4-5 uk-form-controls">
-                            <input class="uk-input" type="text" formControlName="serviceLevelAgreement"
-                                   [ngClass]="{'uk-form-danger': !serviceForm.get('serviceLevelAgreement').valid && serviceForm.get('serviceLevelAgreement').dirty}">
+                            <input class="uk-input" type="text" formControlName="serviceLevel"
+                                   [ngClass]="{'uk-form-danger': !serviceForm.get('serviceLevel').valid && serviceForm.get('serviceLevel').dirty}">
                             <i>
-                              <small>{{serviceLevelAgreementDesc.desc}}</small>
+                              <small>{{serviceLevelDesc.desc}}</small>
                             </i>
                           </div>
                         </div>

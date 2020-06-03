@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Service, Vocabulary, VocabularyType} from '../../../../../../src/app/domain/eic-model';
+import {Service, Vocabulary, Type} from '../../../../../../src/app/domain/eic-model';
 import {SearchQuery} from '../../../../../../src/app/domain/search-query';
 import {NavigationService} from '../../../../../../src/app/services/navigation.service';
 import {Info} from '../../domain/info';
@@ -34,7 +34,7 @@ export class HomeEoscComponent implements OnInit {
 
   ngOnInit() {
 
-    this.resourceService.getNewVocabulariesByType(VocabularyType.CATEGORY).subscribe(
+    this.resourceService.getNewVocabulariesByType(Type.CATEGORY).subscribe(
       suc => {
         this.categories = suc;
       }

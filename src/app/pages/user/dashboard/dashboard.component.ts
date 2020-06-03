@@ -183,7 +183,7 @@ export class DashboardComponent implements OnInit {
     const ret = {};
     if (this.providerServices && this.providerServices.length > 0) {
       for (const service of services) {
-        for (const place of service.service.places) {
+        for (const place of service.service.geographicalAvailabilities) {
           if (ret[place]) {
             ret[place].push(this.providerServices);
           } else {

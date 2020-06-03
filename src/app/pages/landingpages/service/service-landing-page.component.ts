@@ -2,7 +2,7 @@ import {IndicatorsPage, MeasurementsPage} from '../../../domain/indicators';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {Vocabulary, Provider, RichService, VocabularyType, Service, ProviderBundle} from '../../../domain/eic-model';
+import {Vocabulary, Provider, RichService, Type, Service, ProviderBundle} from '../../../domain/eic-model';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
@@ -94,7 +94,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
             this.getIndicatorIds();
             this.getLocations();
             this.router.breadcrumbs = this.richService.service.name;
-            this.setCountriesForService(this.richService.service.places);
+            this.setCountriesForService(this.richService.service.geographicalAvailabilities);
             this.newMeasurementForm = this.fb.group(this.measurementForm);
             this.newMeasurementForm.get('locations').disable();
             this.newMeasurementForm.get('time').disable();
@@ -102,7 +102,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
             this.newMeasurementForm.get('serviceId').setValue(params['id'], params['version']);
 
             /* check if the current user can edit the service */
-            this.canEditService = this.myProviders.some(p => this.richService.service.providers.some(x => x === p.id));
+            this.canEditService = this.myProviders.some(p => this.richService.service.resourceProviders.some(x => x === p.id));
 
             const serviceIDs = (this.richService.service.requiredServices || []).concat(this.richService.service.relatedServices || [])
               .filter((e, i, a) => a.indexOf(e) === i && e !== '');
@@ -137,7 +137,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           this.measurements = suc[3];
           this.getIndicatorIds();
           this.router.breadcrumbs = this.richService.service.name;
-          this.setCountriesForService(this.richService.service.places);
+          this.setCountriesForService(this.richService.service.geographicalAvailabilities);
 
           const serviceIDs = (this.richService.service.requiredServices || []).concat(this.richService.service.relatedServices || [])
             .filter((e, i, a) => a.indexOf(e) === i && e !== '');
@@ -306,7 +306,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   }
 
   getLocations() {
-    this.resourceService.getNewVocabulariesByType(VocabularyType.PLACE).subscribe(
+    this.resourceService.getNewVocabulariesByType(Type.COUNTRY).subscribe(
       suc => {
         this.places = suc;
         this.placesVocIdArray = this.places.map(place => place.id);

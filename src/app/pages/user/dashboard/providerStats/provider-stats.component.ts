@@ -7,7 +7,7 @@ import { ResourceService } from '../../../../services/resource.service';
 import { NavigationService } from '../../../../services/navigation.service';
 import { ActivatedRoute } from '@angular/router';
 import { ServiceProviderService } from '../../../../services/service-provider.service';
-import {InfraService, MapValues, Provider, Service} from '../../../../domain/eic-model';
+import {InfraService, Provider, Service} from '../../../../domain/eic-model';
 import { map } from 'rxjs/operators';
 import { Pagination } from '../../../../domain/pagination';
 
@@ -300,7 +300,7 @@ export class ProviderStatsComponent implements OnInit {
     const ret = {};
     if (this.providerServices && this.providerServices.results.length > 0) {
       for (const service of services) {
-        for (const place of service.service.places) {
+        for (const place of service.service.geographicalAvailabilities) {
           if (ret[place]) {
             ret[place].push(this.providerServices);
           } else {

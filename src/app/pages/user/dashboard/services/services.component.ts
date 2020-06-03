@@ -39,8 +39,8 @@ export class ServicesComponent implements OnInit {
     const ret = {};
     if (this.providerServices && this.providerServices.results.length > 0) {
       for (const service of services) {
-        if (service.service.places && service.service.places.length > 0) {
-          for (const place of service.service.places) {
+        if (service.service.geographicalAvailabilities && service.service.geographicalAvailabilities.length > 0) {
+          for (const place of service.service.geographicalAvailabilities) {
             if (ret[place]) {
               ret[place].push(this.providerServices);
             } else {

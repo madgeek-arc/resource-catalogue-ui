@@ -11,7 +11,7 @@ import {
   Service,
   ServiceHistory,
   Vocabulary,
-  VocabularyType
+  Type
 } from '../domain/eic-model';
 import {IndicatorsPage, MeasurementsPage} from '../domain/indicators';
 import {BrowseResults} from '../domain/browse-results';
@@ -101,7 +101,7 @@ export class ResourceService {
   }
 
   getAllVocabulariesByType() {
-    return this.http.get<Map<VocabularyType, Vocabulary[]>>(this.base + `/vocabulary/byType`);
+    return this.http.get<Map<Type, Vocabulary[]>>(this.base + `/vocabulary/byType`);
   }
 
   getNewVocabulariesByType(type: string) {

@@ -84,38 +84,38 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
         .get('scientificSubDomain').setValue(richService.domains[i].subdomain.id);
     }
 
-    for (let i = 0; i < richService.service.providers.length - 1; i++) {
+    for (let i = 0; i < richService.service.resourceProviders.length - 1; i++) {
       this.push('providers', true);
     }
     for (let i = 0; i < richService.service.targetUsers.length - 1; i++) {
       this.push('targetUsers', true);
     }
-    for (let i = 0; i < richService.service.places.length - 1; i++) {
+    for (let i = 0; i < richService.service.geographicalAvailabilities.length - 1; i++) {
       this.push('places', true);
     }
-    for (let i = 0; i < richService.service.languages.length - 1; i++) {
-      this.push('languages', true);
+    for (let i = 0; i < richService.service.languageAvailabilities.length - 1; i++) {
+      this.push('languageAvailabilities', true);
     }
-    if (richService.service.userBaseList) {
-      for (let i = 0; i < richService.service.userBaseList.length - 1; i++) {
-        this.push('userBaseList', false);
-      }
-    }
+    // if (richService.service.userBaseList) {
+    //   for (let i = 0; i < richService.service.userBaseList.length - 1; i++) {
+    //     this.push('userBaseList', false);
+    //   }
+    // }
     if (richService.service.useCases) {
       for (let i = 0; i < richService.service.useCases.length - 1; i++) {
         this.push('useCases', false);
       }
     }
-    if (richService.service.multimediaUrls) {
-      for (let i = 0; i < richService.service.multimediaUrls.length - 1; i++) {
+    if (richService.service.multimedia) {
+      for (let i = 0; i < richService.service.multimedia.length - 1; i++) {
         this.push('multimediaUrls', false);
       }
     }
-    if (richService.service.options) {
-      for (let i = 0; i < richService.service.options.length - 1; i++) {
-        this.pushOption();
-      }
-    }
+    // if (richService.service.options) {
+    //   for (let i = 0; i < richService.service.options.length - 1; i++) {
+    //     this.pushOption();
+    //   }
+    // }
     if (richService.service.requiredServices) {
       for (let i = 0; i < richService.service.requiredServices.length - 1; i++) {
         this.push('requiredServices', false);
@@ -136,8 +136,8 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
         this.push('accessModes', false);
       }
     }
-    if (richService.service.funders) {
-      for (let i = 0; i < richService.service.funders.length - 1; i++) {
+    if (richService.service.fundingBody) {
+      for (let i = 0; i < richService.service.fundingBody.length - 1; i++) {
         this.push('funders', false);
       }
     }

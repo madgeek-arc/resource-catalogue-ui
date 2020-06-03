@@ -3,7 +3,7 @@
  */
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Vocabulary, Service, VocabularyType} from '../../domain/eic-model';
+import {Vocabulary, Service, Type} from '../../domain/eic-model';
 import {SearchQuery} from '../../domain/search-query';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
@@ -33,12 +33,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.resourceService.getNewVocabulariesByType(VocabularyType.SUPERCATEGORY).subscribe(
+    this.resourceService.getNewVocabulariesByType(Type.SUPERCATEGORY).subscribe(
       suc => {
         this.categories = suc;
       }
     );
-    this.resourceService.getNewVocabulariesByType(VocabularyType.SCIENTIFIC_DOMAIN).subscribe(
+    this.resourceService.getNewVocabulariesByType(Type.SCIENTIFIC_DOMAIN).subscribe(
       suc => {
         this.scientificDomain = suc;
       }

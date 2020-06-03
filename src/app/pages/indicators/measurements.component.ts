@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ResourceService} from '../../services/resource.service';
-import {Measurement, Vocabulary, VocabularyType} from '../../domain/eic-model';
+import {Measurement, Vocabulary, Type} from '../../domain/eic-model';
 import {IndicatorsPage} from '../../domain/indicators';
 
 @Component({
@@ -32,7 +32,7 @@ export class MeasurementsComponent implements OnInit {
   }
 
   getLocations() {
-    this.resourceService.getNewVocabulariesByType(VocabularyType.PLACE).subscribe(
+    this.resourceService.getNewVocabulariesByType(Type.COUNTRY).subscribe(
       suc => {
         this.places = suc;
         this.placesVocabulary = this.places;

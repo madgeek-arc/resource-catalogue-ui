@@ -57,7 +57,7 @@ export class ServiceDashboardComponent implements OnInit, OnDestroy {
           this.getDataForService(this.statisticPeriod);
 
           /* check if the current user can edit the service */
-          this.canEditService = this.myProviders.some(p => this.service.providers.some(x => x === p.id)) || this.authenticationService.isAdmin();
+          this.canEditService = this.myProviders.some(p => this.service.resourceProviders.some(x => x === p.id)) || this.authenticationService.isAdmin();
         },
         err => {
           if (err.status === 404) {
@@ -71,7 +71,7 @@ export class ServiceDashboardComponent implements OnInit, OnDestroy {
 
   getDataForService(period: string, dontGetServices?: boolean) {
 
-    this.setCountriesForService(this.service.places);
+    this.setCountriesForService(this.service.geographicalAvailabilities);
 
     this.resourceService.getVisitsForService(this.service.id, period).pipe(
       map(data => {

@@ -14,7 +14,7 @@ export class ServiceLandingPageExtendedComponent extends ServiceLandingPageCompo
     this.canAddOrEditService = false;
     super.ngOnInit();
     if (this.myProviders && this.myProviders.length > 0) {
-      this.canAddOrEditService = this.myProviders.some( p => this.richService.service.providers.some(x => x === p.id) );
+      this.canAddOrEditService = this.myProviders.some( p => this.richService.service.resourceProviders.some(x => x === p.id) );
     }
   }
 }
