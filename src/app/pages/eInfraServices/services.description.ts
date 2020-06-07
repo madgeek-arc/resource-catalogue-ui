@@ -75,8 +75,8 @@ export const maintenanceDesc = {label: 'Maintenance', mandatory: false, desc: 'W
 export const orderTypeDesc = {label: 'Order Type', mandatory: true, desc: 'Describe if the service/resource can be accessed with an ordering process.'};
 export const orderDesc = {label: 'order', mandatory: false, desc: 'URL for requesting the service from the service providers'};
 export const endpointDesc = {label: 'Endpoint', mandatory: false, desc: 'Main URL to use the service (in the case of networked service)'};
-export const optionsDesc = {label: 'options', mandatory: false, desc: 'High-level description of the various options or forms in which the service/resource can be instantiated. Options are further described with the Option Description Template.'};
-export const accessTypeDesc = {label: 'Access type', mandatory: false, desc: 'The way a user can access the service/resource (Remote, Physical, Virtual, etc.)'};
+export const optionsDesc = {label: 'Options', mandatory: false, desc: 'High-level description of the various options or forms in which the service/resource can be instantiated. Options are further described with the Option Description Template.'};
+export const accessTypeDesc = {label: 'Access Type', mandatory: false, desc: 'The way a user can access the service/resource (Remote, Physical, Virtual, etc.)'};
 export const accessModeDesc = {label: 'Access Mode', mandatory: false, desc: 'The mode a user can access the service/resource (Excellence Driven, Market driven, etc)'};
 export const accessPolicyDesc = {label: 'Access Policy', mandatory: false, desc: 'Webpage to the information about the access policies that apply.'};
 // Other Information
