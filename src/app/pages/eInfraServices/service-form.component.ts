@@ -379,6 +379,7 @@ export class ServiceFormComponent implements OnInit {
         this.languagesVocabulary = this.vocabularies[VocabularyType.LANGUAGE];
         // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
         // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
+        this.providerId = this.getProviderIdFromURL();
       },
       error => {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + error.error;
@@ -862,4 +863,8 @@ export class ServiceFormComponent implements OnInit {
     window.open('../../../assets/files/serviceForm.pdf', '_blank');
   }
 
+  getProviderIdFromURL() {
+    const path = window.location.href.split('/newService')[0];
+    return path.substring(path.lastIndexOf('/') + 1);
+  }
 }

@@ -369,7 +369,13 @@
                               <select class="uk-select uk-animation-slide-top-small" [formControlName]="i"
                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('providers', i),
                                       'uk-width-5-6': getFieldAsFormArray('providers').length > 1}">
-                                <ng-container *ngIf="providersPage">
+                                <ng-container *ngIf="i==0 && providersPage">
+                                  <ng-container *ngFor="let provider of providersPage.results">
+                                    <option *ngIf="provider.id == providerId"
+                                            value="{{provider.id}}" selected>{{provider.name}}</option>
+                                  </ng-container>
+                                </ng-container>
+                                <ng-container *ngIf="i>0 && providersPage">
                                   <option *ngFor="let provider of providersPage.results"
                                           value="{{provider.id}}">{{provider.name}}</option>
                                 </ng-container>

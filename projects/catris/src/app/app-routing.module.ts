@@ -46,11 +46,11 @@ const routes: Routes = [
     }
   },
   {
-    path: 'upload',
+    path: ':id/newService',
     component: ServiceUploadExtendedComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'Upload'
+      breadcrumb: 'New Service'
     }
   },
   {

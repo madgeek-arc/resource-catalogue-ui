@@ -32,7 +32,7 @@
               <div class="uk-grid">
                 <div class="uk-width-1-1">
                   <div *ngIf="providerBundle && (providerBundle.status === 'approved')" class="uk-float-right">
-                    <button routerLink="/upload" class="uk-button uk-button-secondary">Add new service</button>
+                    <button routerLink="{{ '/' + providerId + '/newService' }}" class="uk-button uk-button-secondary">Add new service</button>
                   </div>
                   <div *ngIf="providerBundle && (providerBundle.status === 'pending service template approval')"
                        class="uk-float-right">

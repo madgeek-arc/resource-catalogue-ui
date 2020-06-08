@@ -21,7 +21,7 @@ const routes: Routes = [
     component: ServiceLandingPageExtendedComponent
   },
   {
-    path: 'upload',
+    path: 'newService',
     component: ServiceUploadExtendedComponent,
     canActivate: [CanActivateViaAuthGuard]
   },
