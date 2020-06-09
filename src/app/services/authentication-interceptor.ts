@@ -38,11 +38,11 @@ export class AuthenticationInterceptor implements HttpInterceptor {
             return null;
           } else if (response.status === 403) {
             this.router.navigate(['/forbidden']);
-          // } else if (response.status === 404) {
-          //   this.router.navigate(['/notFound']);
-          // }
-          // else if (response.status === 0) { // this is a bandage until faq is fixed
-          //   return [];
+          } else if (response.status === 404) {
+            this.router.navigate(['/notFound']);
+          }
+          else if (response.status === 0) { // this is a bandage until faq is fixed
+            return [];
           } else {
             console.error(
               `Backend returned code ${response.status}, ` +

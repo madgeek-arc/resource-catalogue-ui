@@ -7,7 +7,6 @@ import {Subscription} from 'rxjs';
 import {MeasurementsPage} from '../../domain/indicators';
 import {RichService, Service} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
-import {FunderService} from '../../services/funder.service';
 
 @Component({
   selector: 'app-service-edit',
@@ -20,9 +19,8 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
   // private serviceID: string;
 
   constructor(public route: ActivatedRoute, public authenticationService: AuthenticationService,
-              protected injector: Injector, public datePipe: DatePipe,
-              protected funderService: FunderService) {
-    super(injector, authenticationService, funderService);
+              protected injector: Injector, public datePipe: DatePipe) {
+    super(injector, authenticationService);
     this.editMode = true;
   }
 

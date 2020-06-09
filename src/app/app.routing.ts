@@ -14,7 +14,6 @@ import {AddFirstServiceComponent} from './pages/serviceprovider/add-first-servic
 import {MyServiceProvidersComponent} from './pages/serviceprovider/my-service-providers.component';
 import {UpdateServiceProviderComponent} from './pages/serviceprovider/update-service-provider.component';
 import {ServiceProviderInfoComponent} from './pages/serviceprovider/service-provider-info.component';
-import {FundersDashboardComponent} from './pages/funders/funders-dashboard.component';
 import {MyFavouritesComponent} from './pages/user/favourites/my-favourites.component';
 import {ServiceEditComponent} from './pages/eInfraServices/service-edit.component';
 import {MeasurementsComponent} from './pages/indicators/measurements.component';
@@ -172,13 +171,6 @@ const appRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Service Providers'
-    }
-  },
-  {
-    path: 'fundersDashboard',
-    component: FundersDashboardComponent,
-    data: {
-      breadcrumb: 'Funders Dashboard'
     }
   },
   {

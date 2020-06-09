@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {JoinPipe} from './pipes/join.pipe';
 import {KeysPipe} from './pipes/keys.pipe';
 import {LookUpPipe} from './pipes/lookup.pipe';
-import {PremiumSortFacetsPipe, PremiumSortFundersPipe, PremiumSortPipe} from './pipes/premium-sort.pipe';
+import {PremiumSortFacetsPipe, PremiumSortPipe} from './pipes/premium-sort.pipe';
 import {SafePipe} from './pipes/safe.pipe';
 import {StringArraySortPipe} from './pipes/sort.pipe';
 import {ValuesPipe} from './pipes/getValues.pipe';
@@ -24,7 +24,6 @@ import {ReactiveFormsModule} from '@angular/forms';
     LookUpPipe,
     PremiumSortPipe,
     PremiumSortFacetsPipe,
-    PremiumSortFundersPipe,
     SafePipe,
     ValuesPipe,
     ForbiddenPageComponent,
@@ -38,7 +37,6 @@ import {ReactiveFormsModule} from '@angular/forms';
     LookUpPipe,
     PremiumSortPipe,
     PremiumSortFacetsPipe,
-    PremiumSortFundersPipe,
     SafePipe,
     ValuesPipe,
     EmailModalComponent

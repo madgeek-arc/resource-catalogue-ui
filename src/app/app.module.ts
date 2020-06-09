@@ -24,10 +24,8 @@ import {UpdateServiceProviderComponent} from './pages/serviceprovider/update-ser
 import {ReusableComponentsModule} from './shared/reusablecomponents/reusable-components.module';
 import {ServiceProviderService} from './services/service-provider.service';
 import {ServiceProvidersListComponent} from './pages/admin/service-providers-list.component';
-import {FundersDashboardComponent} from './pages/funders/funders-dashboard.component';
 import {HighchartsStatic} from 'angular2-highcharts/dist/HighchartsService';
 import {ChartModule} from 'angular2-highcharts';
-import {FunderService} from './services/funder.service';
 import {SupportModule} from './pages/support/support.module';
 import {ServiceDashboardComponent} from './pages/user/dashboard/service-dashboard.component';
 import {MyFavouritesComponent} from './pages/user/favourites/my-favourites.component';
@@ -95,8 +93,6 @@ export function highchartsFactory() {
     MyServiceProvidersComponent,
     // ADMIN
     ServiceProvidersListComponent,
-    // FUNDERS
-    FundersDashboardComponent,
     // INDICATORS
     MeasurementsComponent,
     IndicatorFromComponent,
@@ -136,7 +132,6 @@ export function highchartsFactory() {
     ResourceService,
     UserService,
     ServiceProviderService,
-    FunderService,
     EmailService,
     {
       provide: HighchartsStatic,

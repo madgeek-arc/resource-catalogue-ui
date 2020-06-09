@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {FacetValue} from '../../domain/facet';
-import {Funder, Vocabulary} from '../../domain/eic-model';
+import {Vocabulary} from '../../domain/eic-model';
 
 @Pipe({name: 'premiumsort'})
 export class PremiumSortPipe implements PipeTransform {
@@ -39,28 +39,6 @@ export class PremiumSortFacetsPipe implements PipeTransform {
         val = 1;
       } else {
         val = a.label.localeCompare(b.label);
-      }
-      return val;
-    });
-    return ret;
-  }
-}
-
-@Pipe({name: 'premiumSortFunders'})
-export class PremiumSortFundersPipe implements PipeTransform {
-  transform(arr: Funder[], weights: string[]): any {
-    const ret = (arr || []).sort((a, b): number => {
-      let val = 0;
-      const weightA = weights.indexOf(a.id);
-      const weightB = weights.indexOf(b.id);
-      if (weightA !== -1 && weightB !== -1) {
-        val = weightA - weightB;
-      } else if (weightA !== -1) {
-        val = -1;
-      } else if (weightB !== -1) {
-        val = 1;
-      } else {
-        val = a.id.localeCompare(b.id);
       }
       return val;
     });

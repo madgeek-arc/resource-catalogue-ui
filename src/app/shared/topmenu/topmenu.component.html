@@ -24,8 +24,6 @@
               </li>
               <li class="uk-nav-header uk-parent" [routerLinkActive]="['uk-active']">Dashboard
                 <ul class="uk-nav-sub">
-                  <li><a [routerLink]="['/fundersDashboard']" routerLinkActive="uk-active"
-                         class="uk-offcanvas-close offcanvas-close">Funder</a></li>
                   <li *ngIf="isLoggedIn() && (isProvider() || isAdmin())">
                     <a [routerLink]="['/myServiceProviders']" routerLinkActive="uk-active"
                        class="uk-offcanvas-close offcanvas-close">Providers</a>
@@ -115,7 +113,6 @@
                 <div class="uk-navbar-dropdown-grid uk-child-width-1-1 uk-grid uk-grid-stack" uk-grid="">
                   <div class="uk-first-column">
                     <ul class="uk-nav uk-navbar-dropdown-nav">
-                      <li><a [routerLink]="['/fundersDashboard']" routerLinkActive="uk-active">Funder</a></li>
                       <li *ngIf="isLoggedIn() && (isProvider() || isAdmin())">
                         <a [routerLink]="['/myServiceProviders']" routerLinkActive="uk-active">Providers</a>
                       </li>

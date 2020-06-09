@@ -7,11 +7,10 @@ import {UserService} from '../../services/user.service';
 import * as sd from './services.description';
 import {Vocabulary, Service, Type} from '../../domain/eic-model';
 import {IndicatorsPage} from '../../domain/indicators';
-import {FundersPage, ProvidersPage} from '../../domain/funders-page';
+import {ProvidersPage} from '../../domain/funders-page';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs/internal/observable/zip';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
-import {FunderService} from '../../services/funder.service';
 
 @Component({
   selector: 'app-service-form',
@@ -236,7 +235,6 @@ export class ServiceFormComponent implements OnInit {
   router: NavigationService = this.injector.get(NavigationService);
   userService: UserService = this.injector.get(UserService);
 
-  public fundersVocabulary: FundersPage = null;
   public fundingBodyVocabulary: Vocabulary[] = null;
   public fundingProgramVocabulary: Vocabulary[] = null;
   public targetUsersVocabulary: Vocabulary[] = null;
@@ -257,8 +255,7 @@ export class ServiceFormComponent implements OnInit {
   public languagesVocIdArray: string[] = [];
 
   constructor(protected injector: Injector,
-              protected authenticationService: AuthenticationService,
-              protected funderService: FunderService
+              protected authenticationService: AuthenticationService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(FormBuilder);
@@ -366,14 +363,12 @@ export class ServiceFormComponent implements OnInit {
     zip(
       this.resourceService.getProvidersNames(),
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getServices(),
-      this.funderService.getAllFunders('10000')
+      this.resourceService.getServices()
     ).subscribe(suc => {
         this.providersPage = <ProvidersPage>suc[0];
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
         this.requiredServices = this.transformInput(suc[2]);
         this.relatedServices = this.requiredServices;
-        this.fundersVocabulary = <FundersPage>suc[3];
         this.getIndicatorIds();
         // this.getLocations();
         this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
@@ -401,7 +396,6 @@ export class ServiceFormComponent implements OnInit {
       () => {
         this.premiumSort.transform(this.placesVocabulary, ['Europe', 'World']);
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
-        this.fundersVocabulary.results.sort((a, b) => 0 - (a.fundingOrganisation > b.fundingOrganisation ? -1 : 1));
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
       }
     );
@@ -469,7 +463,7 @@ export class ServiceFormComponent implements OnInit {
 
   transformInput(input) {
     return Object.keys(input).reduce((accumulator, value) => {
-      accumulator[value] = input[value][0].providers[0] + ' - ' + input[value][0].name;
+      accumulator[value] = input[value][0].resourceOrganisation + ' - ' + input[value][0].name;
       return accumulator;
     }, {});
   }

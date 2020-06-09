@@ -41,15 +41,6 @@ export class ExtrasType {
   value: string;
 }
 
-// TODO: remove Funder??
-export class Funder implements Identifiable {
-  id: string;
-  fundingOrganisation: string;
-  organisationLocalLanguage: string;
-  acronym: string;
-  country: string;
-}
-
 export interface Identifiable {
   id: string;
 }
