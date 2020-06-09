@@ -173,20 +173,20 @@ const appRoutes: Routes = [
       breadcrumb: 'Service Providers'
     }
   },
-  {
-    path: 'measurements/service/:id',
-    component: MeasurementsComponent,
-    data: {
-      breadcrumb: 'Service Measurements'
-    }
-  },
-  {
-    path: 'newIndicator',
-    component: IndicatorFromComponent,
-    data: {
-      breadcrumb: 'New Indicator'
-    }
-  },
+  // {
+  //   path: 'measurements/service/:id',
+  //   component: MeasurementsComponent,
+  //   data: {
+  //     breadcrumb: 'Service Measurements'
+  //   }
+  // },
+  // {
+  //   path: 'newIndicator',
+  //   component: IndicatorFromComponent,
+  //   data: {
+  //     breadcrumb: 'New Indicator'
+  //   }
+  // },
   {
     path: 'assets/files/:fileName',
     children: [ ]

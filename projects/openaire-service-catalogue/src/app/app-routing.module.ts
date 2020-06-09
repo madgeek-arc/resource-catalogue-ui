@@ -3,8 +3,8 @@ import {Routes, RouterModule} from '@angular/router';
 import {SearchAireComponent} from './pages/search/search.aire.component';
 import {ServiceLandingPageExtendedComponent} from './pages/landingpages/service/service-landing-page-extended.component';
 import {CanActivateViaAuthGuard} from '../../../../src/app/services/can-activate-auth-guard.service';
-import {ServiceUploadExtendedComponent} from './pages/eInfraServices/service-upload-extended.component';
-import {ServiceEditExtendedComponent} from './pages/eInfraServices/service-edit-extended.component';
+import {ServiceEditComponent} from '../../../../src/app/pages/eInfraServices/service-edit.component';
+import {ServiceUploadComponent} from '../../../../src/app/pages/eInfraServices/service-upload.component';
 
 const routes: Routes = [
   {
@@ -22,12 +22,12 @@ const routes: Routes = [
   },
   {
     path: 'upload',
-    component: ServiceUploadExtendedComponent,
+    component: ServiceUploadComponent,
     canActivate: [CanActivateViaAuthGuard]
   },
   {
     path: 'edit/:id',
-    component: ServiceEditExtendedComponent,
+    component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard]
   },
   { path: '**',

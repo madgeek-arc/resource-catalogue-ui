@@ -5,10 +5,10 @@ import { ServiceLandingPageExtendedComponent } from './pages/landingpages/servic
 import { SearchExtendedComponent } from './pages/search/search.extended.component';
 import {CompareServicesExtendedComponent} from './pages/compare/compare-services.extended.component';
 import {CanActivateViaAuthGuard} from '../../../../src/app/services/can-activate-auth-guard.service';
-import {ServiceUploadExtendedComponent} from './pages/catrisService/service-upload-extended.component';
-import {ServiceEditExtendedComponent} from './pages/catrisService/service-edit-extended.component';
-import {AddFistServiceExtendedComponent} from './pages/catrisService/add-fist-service-extended.component';
+import {AddFirstServiceComponent} from '../../../../src/app/pages/serviceprovider/add-first-service.component';
 import {BrowseSubcategoriesComponent} from './pages/browseSubcategories/browse-subcategories.component';
+import {ServiceUploadComponent} from '../../../../src/app/pages/eInfraServices/service-upload.component';
+import {ServiceEditComponent} from '../../../../src/app/pages/eInfraServices/service-edit.component';
 
 const routes: Routes = [
   {
@@ -46,7 +46,7 @@ const routes: Routes = [
   },
   {
     path: 'upload',
-    component: ServiceUploadExtendedComponent,
+    component: ServiceUploadComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Upload'
@@ -54,7 +54,7 @@ const routes: Routes = [
   },
   {
     path: 'edit/:id',
-    component: ServiceEditExtendedComponent,
+    component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit'
@@ -62,7 +62,7 @@ const routes: Routes = [
   },
   {
     path: 'editPendingService/:id',
-    component: ServiceEditExtendedComponent,
+    component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit Pending Service'
@@ -70,7 +70,7 @@ const routes: Routes = [
   },
   {
     path: 'newServiceProvider/:id/addFirstService',
-    component: AddFistServiceExtendedComponent,
+    component: AddFirstServiceComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'First Service Form'
@@ -78,7 +78,7 @@ const routes: Routes = [
   },
   {
     path: 'newServiceProvider/:id/editFirstService/:serviceId',
-    component: AddFistServiceExtendedComponent,
+    component: AddFirstServiceComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit First Service'

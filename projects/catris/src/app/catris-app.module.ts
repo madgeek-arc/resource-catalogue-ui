@@ -18,11 +18,8 @@ import {ReusableComponentsModule} from '../../../../src/app/shared/reusablecompo
 import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/cookie-law/cookie-law.module';
 import {TreeviewModule} from 'ngx-treeview';
 import {CompareServicesExtendedComponent} from './pages/compare/compare-services.extended.component';
-import {ServiceUploadExtendedComponent} from './pages/catrisService/service-upload-extended.component';
 import {CKEditorModule} from 'ng2-ckeditor';
-import {ServiceEditExtendedComponent} from './pages/catrisService/service-edit-extended.component';
 import {AccordionSectionCatrisComponent} from './pages/catrisService/accordion-section-catris.component';
-import {AddFistServiceExtendedComponent} from './pages/catrisService/add-fist-service-extended.component';
 import {BrowseSubcategoriesComponent} from './pages/browseSubcategories/browse-subcategories.component';
 import {CommonModule} from '@angular/common';
 
@@ -38,9 +35,6 @@ import {CommonModule} from '@angular/common';
     SearchExtendedComponent,
     CompareServicesExtendedComponent,
     AccordionSectionCatrisComponent,
-    ServiceUploadExtendedComponent,
-    ServiceEditExtendedComponent,
-    AddFistServiceExtendedComponent,
     BrowseSubcategoriesComponent
   ],
   imports: [

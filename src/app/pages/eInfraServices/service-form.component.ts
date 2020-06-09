@@ -11,6 +11,7 @@ import {ProvidersPage} from '../../domain/funders-page';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs/internal/observable/zip';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-service-form',
@@ -18,7 +19,7 @@ import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
   styleUrls: ['../serviceprovider/service-provider-form.component.css']
 })
 export class ServiceFormComponent implements OnInit {
-  serviceName = 'eInfraCentral';
+  serviceName = environment.projectName;
   firstServiceForm = false;
   showLoader = false;
   pendingService = false;
@@ -369,7 +370,7 @@ export class ServiceFormComponent implements OnInit {
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
         this.requiredServices = this.transformInput(suc[2]);
         this.relatedServices = this.requiredServices;
-        this.getIndicatorIds();
+        // this.getIndicatorIds();
         // this.getLocations();
         this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
         this.accessTypesVocabulary = this.vocabularies[Type.ACCESS_TYPE];
