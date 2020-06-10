@@ -128,13 +128,13 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     //     this.pushOption();
     //   }
     // }
-    if (richService.service.requiredServices) {
-      for (let i = 0; i < richService.service.requiredServices.length - 1; i++) {
+    if (richService.service.requiredResources) {
+      for (let i = 0; i < richService.service.requiredResources.length - 1; i++) {
         this.push('requiredServices', false);
       }
     }
-    if (richService.service.relatedServices) {
-      for (let i = 0; i < richService.service.relatedServices.length - 1; i++) {
+    if (richService.service.relatedResources) {
+      for (let i = 0; i < richService.service.relatedResources.length - 1; i++) {
         this.push('relatedServices', false);
       }
     }

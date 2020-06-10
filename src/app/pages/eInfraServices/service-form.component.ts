@@ -387,7 +387,7 @@ export class ServiceFormComponent implements OnInit {
         this.fundingProgramVocabulary = this.vocabularies[Type.FUNDING_PROGRAM];
         this.placesVocabulary = this.vocabularies[Type.COUNTRY];
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
-        this.geographicalAvailabilityVocabulary = this.vocabularies[Type.GEOGRAPHICAL_AVAILABILITY];
+        this.geographicalAvailabilityVocabulary = this.vocabularies[Type.COUNTRY];
         // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
         // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
       },

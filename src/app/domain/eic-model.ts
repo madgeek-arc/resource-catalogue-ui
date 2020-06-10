@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.16.538 on 2020-05-18 14:56:47.
+// Generated using typescript-generator version 2.16.538 on 2020-06-10 11:50:49.
 
 export class Bundle<T> implements Identifiable {
   id: string;
@@ -84,7 +84,7 @@ export class Provider implements Identifiable {
   name: string;
   abbreviation: string;
   website: URL;
-  legalEntity: string;
+  legalEntity: boolean;
   legalStatus: string;
   description: string;
   logo: URL;
@@ -141,7 +141,7 @@ export class ProviderPublicContact {
 export class ProviderRequest implements Identifiable {
   id: string;
   message: EmailMessage;
-  date: XMLGregorianCalendar;
+  date: string;
   providerId: string;
   read: boolean;
 }
@@ -206,8 +206,8 @@ export class Service implements Identifiable {
   version: string;
   lastUpdate: XMLGregorianCalendar;
   changeLog: string[];
-  requiredServices: string[];
-  relatedServices: string[];
+  requiredResources: string[];
+  relatedResources: string[];
   relatedPlatforms: string[];
   fundingBody: string[];
   fundingPrograms: string[];
@@ -273,15 +273,31 @@ export class Category {
   subCategory: Vocabulary;
 }
 
+export class MapValues {
+  key: string;
+  values: Value[];
+}
+
+export class PlaceCount {
+  place: string;
+  count: number;
+}
+
 export class ProviderInfo {
   providerId: string;
   providerName: string;
-  providerAcronym: string;
+  providerAbbreviation: string;
+  resourceOrganisation: boolean;
 }
 
 export class ScientificDomain {
   domain: Vocabulary;
   subdomain: Vocabulary;
+}
+
+export class Value {
+  id: string;
+  name: string;
 }
 
 export class VocabularyTree {
@@ -332,7 +348,6 @@ export const enum Type {
   SUBCATEGORY = "SUBCATEGORY",
   LANGUAGE = "LANGUAGE",
   COUNTRY = "COUNTRY",
-  GEOGRAPHICAL_AVAILABILITY = "GEOGRAPHICAL_AVAILABILITY",
   TRL = "TRL",
   SCIENTIFIC_DOMAIN = "SCIENTIFIC_DOMAIN",
   SCIENTIFIC_SUBDOMAIN = "SCIENTIFIC_SUBDOMAIN",

@@ -104,7 +104,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
             /* check if the current user can edit the service */
             this.canEditService = this.myProviders.some(p => this.richService.service.resourceProviders.some(x => x === p.id));
 
-            const serviceIDs = (this.richService.service.requiredServices || []).concat(this.richService.service.relatedServices || [])
+            const serviceIDs = (this.richService.service.requiredResources || []).concat(this.richService.service.relatedResources || [])
               .filter((e, i, a) => a.indexOf(e) === i && e !== '');
             if (serviceIDs.length > 0) {
               this.resourceService.getSelectedServices(serviceIDs).subscribe(
@@ -139,7 +139,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           this.router.breadcrumbs = this.richService.service.name;
           this.setCountriesForService(this.richService.service.geographicalAvailabilities);
 
-          const serviceIDs = (this.richService.service.requiredServices || []).concat(this.richService.service.relatedServices || [])
+          const serviceIDs = (this.richService.service.requiredResources || []).concat(this.richService.service.relatedResources || [])
             .filter((e, i, a) => a.indexOf(e) === i && e !== '');
           if (serviceIDs.length > 0) {
             this.resourceService.getSelectedServices(serviceIDs)
