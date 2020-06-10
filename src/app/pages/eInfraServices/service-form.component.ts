@@ -142,7 +142,7 @@ export class ServiceFormComponent implements OnInit {
     webpage: ['', Validators.compose([Validators.required, URLValidator])],
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
-    tagline: [''],
+    tagline: ['', Validators.required],
     // userValue: [''],
     // userBaseList : this.fb.array([ this.fb.control('') ]),
     useCases : this.fb.array([ this.fb.control('') ]),
@@ -153,7 +153,7 @@ export class ServiceFormComponent implements OnInit {
     relatedServices : this.fb.array([ this.fb.control('') ]),
     relatedPlatforms : this.fb.array([ this.fb.control('') ]),
     resourceProviders : this.fb.array([ this.fb.control('', Validators.required)], Validators.required),
-    resourceOrganisation : [''],
+    resourceOrganisation : ['', Validators.required],
     resourceGeographicLocations : this.fb.array([ this.fb.control('') ]),
     // 'scientificDomains : this.fb.array([ this.fb.control('', Validators.required)], Validators.required),
     scientificSubdomains : this.fb.array([]),
@@ -508,10 +508,11 @@ export class ServiceFormComponent implements OnInit {
   }
 
   markTabs() {
-    this.tabs[0] = (this.checkFormValidity('name') || this.checkFormValidity('resourceOrganisation') || this.checkFormValidity('webpage'));
+    this.tabs[0] = (this.checkFormValidity('name') || this.checkFormValidity('resourceOrganisation')
+      || this.checkEveryArrayFieldValidity('resourceProviders') || this.checkFormValidity('webpage'));
     this.tabs[1] = (this.checkFormValidity('logo') || this.checkEveryArrayFieldValidity('multimedia') || this.checkFormValidity('tagline')
       || this.checkEveryArrayFieldValidity('useCases'));
-    this.tabs[2] = (this.checkEveryArrayFieldValidity('resourceProviders') || this.checkEveryArrayFieldValidity('scientificCategorization', 'scientificDomain')
+    this.tabs[2] = (this.checkEveryArrayFieldValidity('scientificCategorization', 'scientificDomain')
       || this.checkEveryArrayFieldValidity('scientificCategorization', 'scientificSubDomain')
       || this.checkEveryArrayFieldValidity('categorize', 'category') || this.checkEveryArrayFieldValidity('categorize', 'subcategory')
       || this.checkEveryArrayFieldValidity('targetUsers') || this.checkEveryArrayFieldValidity('accessTypes')

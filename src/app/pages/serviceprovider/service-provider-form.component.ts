@@ -15,9 +15,9 @@ import {
   participatingCountriesDesc,
   affiliationDesc,
   providerTagsDesc,
-  streetNameDesc,
-  streetNumberDesc,
-  locationNameDesc,
+  streetDesc,
+  // streetNumberDesc,
+  // locationNameDesc,
   postalCodeDesc,
   cityDesc,
   regionDesc,
@@ -86,9 +86,9 @@ export class ServiceProviderFormComponent implements OnInit {
   readonly participatingCountriesDesc: Description = participatingCountriesDesc;
   readonly affiliationDesc: Description = affiliationDesc;
   readonly providerTagsDesc: Description = providerTagsDesc;
-  readonly locationNameDesc: Description = locationNameDesc;
-  readonly streetNameDesc: Description = streetNameDesc;
-  readonly streetNumberDesc: Description = streetNumberDesc;
+  // readonly locationNameDesc: Description = locationNameDesc;
+  readonly streetDesc: Description = streetDesc;
+  // readonly streetNumberDesc: Description = streetNumberDesc;
   readonly postalCodeDesc: Description = postalCodeDesc;
   readonly cityDesc: Description = cityDesc;
   readonly regionDesc: Description = regionDesc;

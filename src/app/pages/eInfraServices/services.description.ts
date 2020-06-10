@@ -137,9 +137,9 @@ export const providerScientificDomainDesc = {label: 'Scientific Domain', mandato
 export const providerScientificSubdomainsDesc = {label: 'Scientific Subdomain', mandatory: false, desc: 'A named group of providers that offer access to the same type of resource or capabilities, within the defined category.'};
 export const providerTagsDesc = {label: 'Tags', mandatory: false, desc: 'Keywords associated to the provider to simplify search by relevant keywords.'};
 // Location Information
-export const locationNameDesc = {label: 'Location Name', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
-export const streetNameDesc = {label: 'Street Name and Number', mandatory: true, desc: 'Street and Number of incorporation or Physical location of the Provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
-export const streetNumberDesc = {label: 'Street Number', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers. If no street number exists, please fill in "0"'};
+export const locationNameDesc = {label: 'Location Name', mandatory: false, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
+export const streetDesc = {label: 'Street Name and Number', mandatory: true, desc: 'Street and Number of incorporation or Physical location of the Provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
+export const streetNumberDesc = {label: 'Street Number', mandatory: false, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers. If no street number exists, please fill in "0"'};
 export const postalCodeDesc = {label: 'Postal Code', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
 export const cityDesc = {label: 'City', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};
 export const regionDesc = {label: 'Region', mandatory: true, desc: 'Physical location of the provider or its coordinating centre in the case of distributed, virtual, and mobile providers.'};

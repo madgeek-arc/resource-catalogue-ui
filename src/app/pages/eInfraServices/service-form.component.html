@@ -84,16 +84,63 @@
                             <i><small>{{nameDesc.desc}}</small></i>
                           </div>
                         </div>
+
                         <div class="uk-margin-bottom">
-                          <label class="uk-form-label uk-text-right" for="resourceOrganisation">
+                          <label class="uk-form-label uk-text-right">
                             {{resourceOrganisationDesc.label + (resourceOrganisationDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
-                            <input id="resourceOrganisation" class="uk-input" type="text" formControlName="resourceOrganisation"
-                                   [ngClass]="{'uk-form-danger': checkFormValidity('resourceOrganisation') }">
+                              <select id="resourceOrganisation" formControlName="resourceOrganisation" class="uk-select"
+                                    [ngClass]="{'uk-form-danger': checkFormValidity('resourceOrganisation')}">
+                                <ng-container *ngIf="providersPage">
+                                  <option *ngFor="let provider of providersPage.results"
+                                          value="{{provider.id}}">{{provider.name}}</option>
+                                </ng-container>
+                              </select>
                             <i><small>{{resourceOrganisationDesc.desc}}</small></i>
                           </div>
                         </div>
+
+<!--                        &lt;!&ndash;IF NOT IN THE AddFirstService PAGE - SHOW THE LIST OF PROVIDERS&ndash;&gt;-->
+<!--                        <div *ngIf="!firstServiceForm" formArrayName="resourceProviders" class="uk-margin-bottom">-->
+                        <div formArrayName="resourceProviders" class="uk-margin-bottom">
+                          <label class="uk-form-label uk-text-right">
+                            {{resourceProvidersDesc.label + (resourceProvidersDesc.mandatory ? ' (*)' : '')}}
+                          </label>
+                          <div class="uk-form-controls">
+                            <div *ngFor="let provider of getFieldAsFormArray('resourceProviders').controls; let i=index">
+                              <select class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('resourceProviders', i),
+                                      'uk-width-5-6': getFieldAsFormArray('resourceProviders').length > 1}">
+                                <ng-container *ngIf="providersPage">
+                                  <option *ngFor="let provider of providersPage.results"
+                                          value="{{provider.id}}">{{provider.name}}</option>
+                                </ng-container>
+                              </select>
+                              <a *ngIf="getFieldAsFormArray('resourceProviders').length > 1"
+                                 class="remove-element uk-padding-small" (click)="remove('resourceProviders', i)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </a>
+                            </div>
+                            <div class="uk-width-1-1">
+                              <a class="add-new-element" (click)="push('resourceProviders', resourceProvidersDesc.mandatory)">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add {{resourceProvidersDesc.label}}
+                              </a>
+                            </div>
+                            <i><small>{{resourceProvidersDesc.desc}}</small></i>
+                          </div>
+                        </div>
+<!--                        &lt;!&ndash;IF IN THE AddFirstService PAGE - SHOW THE CURRENT PROVIDER&ndash;&gt;-->
+<!--                        <div *ngIf="firstServiceForm" class="uk-margin-bottom">-->
+<!--                          <label class="uk-form-label uk-text-right">-->
+<!--                            {{resourceProvidersDesc.label + (resourceProvidersDesc.mandatory ? ' (*)' : '')}}-->
+<!--                          </label>-->
+<!--                          <div class="uk-form-controls">-->
+<!--                            <span class="uk-input">{{ getFieldAsFormArray('resourceProviders').get([0]).value }}</span>-->
+<!--                            <i><small>{{resourceProvidersDesc.desc}}</small></i>-->
+<!--                          </div>-->
+<!--                        </div>-->
+
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="webpage">
                             {{webpageDesc.label + (webpageDesc.mandatory ? ' (*)' : '')}}
@@ -333,46 +380,6 @@
                         </div>
                       </li>
                       <li>
-
-                        <!--IF NOT IN THE AddFirstService PAGE - SHOW THE LIST OF PROVIDERS-->
-                        <div *ngIf="!firstServiceForm" formArrayName="resourceProviders" class="uk-margin-bottom">
-                          <label class="uk-form-label uk-text-right">
-                            {{resourceProvidersDesc.label + (resourceProvidersDesc.mandatory ? ' (*)' : '')}}
-                          </label>
-                          <div class="uk-form-controls">
-                            <div *ngFor="let provider of getFieldAsFormArray('resourceProviders').controls; let i=index">
-                              <select class="uk-select uk-animation-slide-top-small" [formControlName]="i"
-                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('resourceProviders', i),
-                                      'uk-width-5-6': getFieldAsFormArray('resourceProviders').length > 1}">
-                                <ng-container *ngIf="providersPage">
-                                  <option *ngFor="let provider of providersPage.results"
-                                          value="{{provider.id}}">{{provider.name}}</option>
-                                </ng-container>
-                              </select>
-                              <a *ngIf="getFieldAsFormArray('resourceProviders').length > 1"
-                                 class="remove-element uk-padding-small" (click)="remove('resourceProviders', i)">
-                                <i class="fa fa-times" aria-hidden="true"></i>
-                              </a>
-                            </div>
-                            <div class="uk-width-1-1">
-                              <a class="add-new-element" (click)="push('resourceProviders', resourceProvidersDesc.mandatory)">
-                                <i class="fa fa-plus" aria-hidden="true"></i> Add {{resourceProvidersDesc.label}}
-                              </a>
-                            </div>
-                            <i><small>{{resourceProvidersDesc.desc}}</small></i>
-                          </div>
-                        </div>
-
-                        <!--IF IN THE AddFirstService PAGE - SHOW THE CURRENT PROVIDER-->
-                        <div *ngIf="firstServiceForm" class="uk-margin-bottom">
-                          <label class="uk-form-label uk-text-right">
-                            {{resourceProvidersDesc.label + (resourceProvidersDesc.mandatory ? ' (*)' : '')}}
-                          </label>
-                          <div class="uk-form-controls">
-                            <span class="uk-input">{{ getFieldAsFormArray('resourceProviders').get([0]).value }}</span>
-                            <i><small>{{resourceProvidersDesc.desc}}</small></i>
-                          </div>
-                        </div>
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right">
                             Scientific Domain (*)

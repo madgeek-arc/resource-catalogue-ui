@@ -264,12 +264,12 @@
                       <div formGroupName="location" class="uk-margin-bottom">
                         <div class="uk-margin-bottom">
                           <label class="uk-form-label uk-text-right" for="street">
-                            {{ streetNameDesc.label + (streetNameDesc.mandatory ? ' (*)' : '')}}
+                            {{ streetDesc.label + (streetDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
                             <input id="street" class="uk-input" type="text" formControlName="street"
                                    [ngClass]="{'uk-form-danger': checkFormValidity('location.street')}">
-                            <i><small>{{streetNameDesc.desc}}</small></i>
+                            <i><small>{{streetDesc.desc}}</small></i>
                           </div>
                         </div>
                         <div class="uk-margin-bottom">
