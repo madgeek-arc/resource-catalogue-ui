@@ -76,7 +76,7 @@
           <p class="uk-text-center"
              *ngIf="featuredService.tagline">{{featuredService.tagline.length > 40 ? featuredService.tagline.slice(0, 37) + '...' : featuredService.tagline}}</p>
           <div class="symbolAndProvider">
-            <img src="{{featuredService.logo || 'http://fvtelibrary.com/img/user/NoLogo.png'}}" class="serviceSymbol">
+            <img src="{{featuredService.logo || '../../../../../../src/assets/images/broken_image-black-48dp.svg'}}" class="serviceSymbol">
             <span class="provider">{{featuredService.providers[0] | uppercase}}</span>
           </div>
         </a>

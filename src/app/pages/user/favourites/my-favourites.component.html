@@ -101,12 +101,12 @@
                             <div class="">
                               <a (click)="this.router.service(resourceInfo.service.id)">
                                 <span>
-                                  <img src="{{resourceInfo.service.logo || 'http://fvtelibrary.com/img/user/NoLogo.png'}}" style="max-width: 90px;">
+                                  <img src="{{resourceInfo.service.logo || '../../../../assets/images/broken_image-black-48dp.svg'}}" style="max-width: 90px;">
                                 </span>
                               </a>
                             </div>
                             <div class="uk-margin-small-top">
-                              <span class="provider">{{resourceInfo.service.providers[0] | uppercase}}</span>
+                              <span class="provider">{{resourceInfo.service.providers[0] | uppercase}}</span> <!-- FIXME -->
                             </div>
                           </div>
                         </div>

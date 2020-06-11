@@ -5,7 +5,7 @@ import { ServiceLandingPageExtendedComponent } from './pages/landingpages/servic
 import { SearchExtendedComponent } from './pages/search/search.extended.component';
 import {CompareServicesExtendedComponent} from './pages/compare/compare-services.extended.component';
 import {CanActivateViaAuthGuard} from '../../../../src/app/services/can-activate-auth-guard.service';
-import {AddFirstServiceComponent} from '../../../../src/app/pages/serviceprovider/add-first-service.component';
+import {AddFirstServiceComponent} from '../../../../src/app/pages/serviceProvider/add-first-service.component';
 import {BrowseSubcategoriesComponent} from './pages/browseSubcategories/browse-subcategories.component';
 import {ServiceUploadComponent} from '../../../../src/app/pages/eInfraServices/service-upload.component';
 import {ServiceEditComponent} from '../../../../src/app/pages/eInfraServices/service-edit.component';

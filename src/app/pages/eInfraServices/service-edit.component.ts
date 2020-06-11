@@ -11,7 +11,7 @@ import {Paging} from '../../domain/paging';
 @Component({
   selector: 'app-service-edit',
   templateUrl: './service-form.component.html',
-  styleUrls: ['../serviceprovider/service-provider-form.component.css']
+  styleUrls: ['../serviceProvider/service-provider-form.component.css']
 })
 export class ServiceEditComponent extends ServiceFormComponent implements OnInit {
   private sub: Subscription;
@@ -70,7 +70,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     if (richService.service.subcategories) {
       for (let i = 0; i < richService.service.subcategories.length; i++) {
         this.categoryArray.push(this.newCategory());
-        // this.categoryArray.controls[this.categoryArray.length - 1].get('supercategory').setValue(richService.categories[i].superCategory.id);
         this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.categories[i].category.id);
         this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.categories[i].subCategory.id);
       }
@@ -108,11 +107,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
         this.push('languages', true);
       }
     }
-    // if (richService.service.userBaseList) {
-    //   for (let i = 0; i < richService.service.userBaseList.length - 1; i++) {
-    //     this.push('userBaseList', false);
-    //   }
-    // }
     if (richService.service.useCases) {
       for (let i = 0; i < richService.service.useCases.length - 1; i++) {
         this.push('useCases', false);
@@ -123,11 +117,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
         this.push('multimediaUrls', false);
       }
     }
-    // if (richService.service.options) {
-    //   for (let i = 0; i < richService.service.options.length - 1; i++) {
-    //     this.pushOption();
-    //   }
-    // }
     if (richService.service.requiredResources) {
       for (let i = 0; i < richService.service.requiredResources.length - 1; i++) {
         this.push('requiredServices', false);

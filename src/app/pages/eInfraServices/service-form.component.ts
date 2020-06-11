@@ -15,7 +15,7 @@ import {environment} from '../../../environments/environment';
 @Component({
   selector: 'app-service-form',
   templateUrl: './service-form.component.html',
-  styleUrls: ['../serviceprovider/service-provider-form.component.css']
+  styleUrls: ['../serviceProvider/service-provider-form.component.css']
 })
 export class ServiceFormComponent implements OnInit {
   serviceName = environment.projectName;
@@ -297,14 +297,6 @@ export class ServiceFormComponent implements OnInit {
         this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(scientificDomain.get('scientificSubDomain').value));
       }
     }
-    // /** remove empty options in order to avoid validation conflict **/
-    // if (this.getFieldAsFormArray('options').length === 1) {
-    //   if (this.getFieldAsFormArray('options').controls[0].get('name').value === ''
-    //       && this.getFieldAsFormArray('options').controls[0].get('url').value === ''
-    //       && this.getFieldAsFormArray('options').controls[0].get('description').value === '') {
-    //     this.remove('options', 0);
-    //   }
-    // }
     this.scientificDomainArray.disable();
     this.showLoader = true;
     if (tempSave) {
@@ -619,13 +611,6 @@ export class ServiceFormComponent implements OnInit {
     this.categoryArray.removeAt(index);
   }
 
-  // onSuperCategoryChange(index: number) {
-  //   this.categoryArray.controls[index].get('category').reset();
-  //   this.categoryArray.controls[index].get('category').enable();
-  //   this.categoryArray.controls[index].get('subcategory').reset();
-  //   this.categoryArray.controls[index].get('subcategory').disable();
-  // }
-
   onCategoryChange(index: number) {
     this.categoryArray.controls[index].get('subcategory').reset();
     this.categoryArray.controls[index].get('subcategory').enable();
@@ -665,7 +650,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   pushContactServiceForm() {
-    // this.contactArray.push(this.newContact());
+    // this.contactArray.push(this.newContact()); // FIXME
   }
 
   removeContactServiceForm(index: number) {
@@ -675,35 +660,6 @@ export class ServiceFormComponent implements OnInit {
   /** <--Service Contact Info **/
 
   /*
-  /!** Options-->**!/
-  newOption(): FormGroup {
-    return this.fb.group({
-      // id: [''],
-      name: ['', Validators.required],
-      url: ['', Validators.compose([Validators.required, URLValidator])],
-      description: ['', Validators.required],
-      logo: ['', URLValidator],
-      contacts: this.fb.array([
-        this.fb.group({
-          firstName: ['', Validators.required],
-          lastName: ['', Validators.required],
-          email: ['', Validators.required],
-          tel: ['', Validators.required],
-          position: [''],
-        }, Validators.required)
-      ]),
-      attributes: this.fb.array([
-        this.fb.control(''),
-        this.fb.control(''),
-        this.fb.control(''),
-      ])
-    });
-  }
-
-  pushOption() {
-    this.getFieldAsFormArray('options').push(this.newOption());
-  }
-
   newContact(): FormGroup {
     return this.fb.group({
       firstName: [''],
@@ -729,8 +685,6 @@ export class ServiceFormComponent implements OnInit {
   removeContact(index: number, i: number) {
     this.getContactArray(index).removeAt(i);
   }
-
-  /!** <--Options**!/
 */
 
   /** INDICATORS --> **/
