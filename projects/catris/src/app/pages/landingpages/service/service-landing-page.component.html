@@ -30,7 +30,7 @@
                 <div class="divider-bottom">
                   <span><strong>Provided by: </strong></span>
                   <span class="" *ngFor="let provider of richService.providerInfo; let i = index">
-                    <span *ngIf="i > 0">, </span>{{ provider.providerAcronym | uppercase }}
+                    <span *ngIf="i > 0">, </span>{{ provider.providerAbbreviation | uppercase }}
                   </span>
                 </div>
 
