@@ -15,7 +15,7 @@ import {
   participatingCountriesDesc,
   affiliationDesc,
   providerTagsDesc,
-  streetDesc,
+  streetNameAndNumberDesc,
   // streetNumberDesc,
   // locationNameDesc,
   postalCodeDesc,
@@ -87,7 +87,7 @@ export class ServiceProviderFormComponent implements OnInit {
   readonly affiliationDesc: Description = affiliationDesc;
   readonly providerTagsDesc: Description = providerTagsDesc;
   // readonly locationNameDesc: Description = locationNameDesc;
-  readonly streetDesc: Description = streetDesc;
+  readonly streetNameAndNumberDesc: Description = streetNameAndNumberDesc;
   // readonly streetNumberDesc: Description = streetNumberDesc;
   readonly postalCodeDesc: Description = postalCodeDesc;
   readonly cityDesc: Description = cityDesc;
@@ -144,12 +144,12 @@ export class ServiceProviderFormComponent implements OnInit {
     structureTypes: this.fb.array([this.fb.control('')]),
     tags: this.fb.array([this.fb.control('')]),
     location: this.fb.group({
-      street: ['', Validators.required],
+      streetNameAndNumber: ['', Validators.required],
       postalCode: ['', Validators.required],
       city: ['', Validators.required],
       region: ['', Validators.required]
     }, Validators.required),
-    coordinatingCountry: ['', Validators.required],
+    country: ['', Validators.required],
     participatingCountries: this.fb.array([this.fb.control('')]),
     contacts: this.fb.array([
       this.fb.group({
@@ -366,9 +366,9 @@ export class ServiceProviderFormComponent implements OnInit {
     this.tabs[2] = (this.checkEveryArrayFieldValidity('tags')
       || this.checkEveryArrayFieldValidity('categorization', 'domain')
       || this.checkEveryArrayFieldValidity('categorization', 'category'));
-    this.tabs[3] = (this.checkFormValidity('location.street') || this.checkFormValidity('location.postalCode')
+    this.tabs[3] = (this.checkFormValidity('location.streetNameAndNumber') || this.checkFormValidity('location.postalCode')
       || this.checkFormValidity('location.city') || this.checkFormValidity('location.region')
-      || this.checkFormValidity('coordinatingCountry'));
+      || this.checkFormValidity('country'));
     this.tabs[4] = (this.checkEveryArrayFieldValidity('contacts', 'firstName') || this.checkEveryArrayFieldValidity('contacts', 'lastName')
       || this.checkEveryArrayFieldValidity('contacts', 'email') || this.checkEveryArrayFieldValidity('contacts', 'email')
       || this.checkEveryArrayFieldValidity('contacts', 'position'));

@@ -261,13 +261,13 @@
                     <li>
                       <div formGroupName="location" class="uk-margin-bottom">
                         <div class="uk-margin-bottom">
-                          <label class="uk-form-label uk-text-right" for="street">
-                            {{ streetDesc.label + (streetDesc.mandatory ? ' (*)' : '')}}
+                          <label class="uk-form-label uk-text-right" for="streetNameAndNumber">
+                            {{ streetNameAndNumberDesc.label + (streetNameAndNumberDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
-                            <input id="street" class="uk-input" type="text" formControlName="street"
-                                   [ngClass]="{'uk-form-danger': checkFormValidity('location.street')}">
-                            <i><small>{{streetDesc.desc}}</small></i>
+                            <input id="streetNameAndNumber" class="uk-input" type="text" formControlName="streetNameAndNumber"
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('location.streetNameAndNumber')}">
+                            <i><small>{{streetNameAndNumberDesc.desc}}</small></i>
                           </div>
                         </div>
                         <div class="uk-margin-bottom">
@@ -302,12 +302,12 @@
                         </div>
                       </div>
                       <div class="uk-margin-bottom">
-                        <label class="uk-form-label uk-text-right" for="coordinatingCountry">
+                        <label class="uk-form-label uk-text-right" for="country">
                           {{ countryDesc.label + (countryDesc.mandatory ? ' (*)' : '')}}
                         </label>
                         <div class="uk-form-controls">
-                          <select id="coordinatingCountry" class="uk-input" formControlName="coordinatingCountry"
-                                  [ngClass]="{'uk-form-danger': checkFormValidity('coordinatingCountry')}">
+                          <select id="country" class="uk-input" formControlName="country"
+                                  [ngClass]="{'uk-form-danger': checkFormValidity('country')}">
                             <option value=""></option>
                             <option *ngFor="let entry of sortVocabulariesByName(placesVocabulary)" value="{{entry.id}}">
                               {{entry.name}}
