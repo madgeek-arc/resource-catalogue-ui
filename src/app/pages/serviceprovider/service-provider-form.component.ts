@@ -264,7 +264,7 @@ export class ServiceProviderFormComponent implements OnInit {
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
-          this.errorMessage = 'Something went wrong. ' + err.error;
+          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
         },
         () => {
           this.showLoader = false;
@@ -280,7 +280,7 @@ export class ServiceProviderFormComponent implements OnInit {
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
-          this.errorMessage = 'Something went wrong. ' + err.error;
+          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
         },
         () => {
           this.showLoader = false;
@@ -404,7 +404,7 @@ export class ServiceProviderFormComponent implements OnInit {
         this.societalGrandChallengesVocabulary =  this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
         return this.vocabularies;
       },
-      error => console.log(error),
+      error => console.log(JSON.stringify(error.error)),
       () => {
         return this.vocabularies;
       }

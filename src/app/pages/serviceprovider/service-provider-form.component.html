@@ -105,15 +105,12 @@
                         </div>
                       </div>
                       <div class="uk-margin-bottom">
-                        <label class="uk-form-label uk-text-right" for="legalEntity">
+                        <label class="uk-form-label uk-text-right">
                           {{ legalEntityDesc.label + (legalEntityDesc.mandatory ? ' (*)' : '')}}
                         </label>
                         <div class="uk-form-controls">
-                          <select id="legalEntity" class="uk-input" formControlName="legalEntity"
-                                  [ngClass]="{'uk-form-danger': checkFormValidity('legalEntity')}">
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                          </select>
+                          <label><input class="uk-radio" type="radio" value="true" id="legalEntityYes" formControlName="legalEntity"> Yes</label><br>
+                          <label><input class="uk-radio" type="radio" value="false" id="legalEntityNo" formControlName="legalEntity"> No</label><br>
                           <i><small>{{legalEntityDesc.desc}}</small></i>
                         </div>
                       </div>

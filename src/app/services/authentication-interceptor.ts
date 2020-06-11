@@ -46,7 +46,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
           } else {
             console.error(
               `Backend returned code ${response.status}, ` +
-              `body was: ${errorMessage}`);
+              `body was: ${JSON.stringify(errorMessage)}`);
           }
         }
         // return an observable with a user-facing error message

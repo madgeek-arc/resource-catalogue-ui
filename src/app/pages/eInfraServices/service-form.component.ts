@@ -321,7 +321,7 @@ export class ServiceFormComponent implements OnInit {
           window.scrollTo(0, 0);
           this.categoryArray.enable();
           this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + err.error;
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
         }
       );
     } else if (this.serviceForm.valid && this.measurementForm.valid) {
@@ -337,7 +337,7 @@ export class ServiceFormComponent implements OnInit {
           window.scrollTo(0, 0);
           this.categoryArray.enable();
           this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + err.error;
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
         }
       );
     } else {
@@ -392,7 +392,7 @@ export class ServiceFormComponent implements OnInit {
         // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
       },
       error => {
-        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + error.error;
+        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error);
       },
       () => {
         this.premiumSort.transform(this.placesVocabulary, ['Europe', 'World']);
@@ -773,7 +773,7 @@ export class ServiceFormComponent implements OnInit {
   getIndicatorIds() {
     this.resourceService.getAllIndicators('indicator').subscribe(
       indicatorPage => this.indicators = indicatorPage,
-      error => this.errorMessage = 'Could not get indicators. ' + error.error,
+      error => this.errorMessage = 'Could not get indicators. ' + JSON.stringify(error.error),
       () => {
         this.indicators.results.sort((a, b) => 0 - (a.id > b.id ? -1 : 1));
       }
@@ -787,7 +787,7 @@ export class ServiceFormComponent implements OnInit {
         this.placesVocabulary = this.places;
         this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
       },
-      error => this.errorMessage = 'Could not get places vocabulary. ' + error.error,
+      error => this.errorMessage = 'Could not get places vocabulary. ' + JSON.stringify(error.error),
     );
   }
 
