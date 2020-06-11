@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {InfraService, Service} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Pagination} from '../../../../domain/pagination';
 import {ResourceService} from '../../../../services/resource.service';
+import {Paging} from '../../../../domain/paging';
 
 declare var UIkit: any;
 
@@ -16,7 +16,7 @@ declare var UIkit: any;
 export class ServicesComponent implements OnInit {
   errorMessage = '';
   providerId;
-  providerServices: Pagination<InfraService>;
+  providerServices: Paging<InfraService>;
   providerCoverage: string[];
   providerServicesGroupedByPlace: any;
   selectedService: InfraService = null;

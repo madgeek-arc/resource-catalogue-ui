@@ -6,7 +6,7 @@ import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
 import {UserService} from '../../../services/user.service';
-import {SearchResults} from '../../../domain/search-results';
+import {Paging} from '../../../domain/paging';
 import {ServiceProviderService} from '../../../services/service-provider.service';
 import {map} from 'rxjs/operators';
 import {zip} from 'rxjs/internal/observable/zip';
@@ -30,7 +30,7 @@ export class ServiceDashboardComponent implements OnInit, OnDestroy {
   serviceFavouritesOptions: any = null;
   serviceMapOptions: any = null;
 
-  serviceHistory: SearchResults<ServiceHistory>;
+  serviceHistory: Paging<ServiceHistory>;
   myProviders: ProviderBundle[] = [];
   canEditService = false;
 

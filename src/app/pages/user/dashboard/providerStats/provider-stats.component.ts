@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ServiceProviderService } from '../../../../services/service-provider.service';
 import {InfraService, Provider, Service} from '../../../../domain/eic-model';
 import { map } from 'rxjs/operators';
-import { Pagination } from '../../../../domain/pagination';
+import {Paging} from '../../../../domain/paging';
 
 declare var UIkit: any;
 
@@ -24,7 +24,7 @@ export class ProviderStatsComponent implements OnInit {
   providerId: string;
   statisticPeriod: string;
   provider: Provider;
-  providerServices: Pagination<InfraService>;
+  providerServices: Paging<InfraService>;
   providerServicesGroupedByPlace: any;
   providerCoverage: string[];
   public errorMessage: string;

@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription, timer} from 'rxjs';
 import {RichService, Service} from '../../domain/eic-model';
-import {SearchResults} from '../../domain/search-results';
+import {Paging} from '../../domain/paging';
 import {URLParameter} from '../../domain/url-parameter';
 import {SearchQuery} from '../../domain/search-query';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -43,7 +43,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   errorMessage: string;
   sub: Subscription;
   urlParameters: URLParameter[] = [];
-  searchResults: SearchResults<RichService>;
+  searchResults: Paging<RichService>;
   facetOrder = ['category', 'trl', 'lifeCycleStatus', 'provider'];
   pageSize = 10;
   currentPage = 0;
@@ -169,7 +169,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateSearchResults(searchResults: SearchResults<RichService>) {
+  updateSearchResults(searchResults: Paging<RichService>) {
 
     // INITIALISATIONS
     const sortLanguages = new PremiumSortFacetsPipe();

@@ -6,7 +6,7 @@ import {AppComponent} from '../../../../src/app/app.component';
   templateUrl: './catris-app.component.html',
 })
 export class CatrisAppComponent extends AppComponent {
-  title = 'catris';
+  title = 'CatRIS';
 
   private scrollToTop() {
     window.scrollTo(0, 0);

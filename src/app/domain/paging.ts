@@ -3,7 +3,7 @@
  */
 import { Facet } from './facet';
 
-export class SearchResults<T> {
+export class Paging<T> {
 
     from: number;
     to: number;

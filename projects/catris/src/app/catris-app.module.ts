@@ -19,7 +19,6 @@ import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/coo
 import {TreeviewModule} from 'ngx-treeview';
 import {CompareServicesExtendedComponent} from './pages/compare/compare-services.extended.component';
 import {CKEditorModule} from 'ng2-ckeditor';
-import {AccordionSectionCatrisComponent} from './pages/catrisService/accordion-section-catris.component';
 import {BrowseSubcategoriesComponent} from './pages/browseSubcategories/browse-subcategories.component';
 import {CommonModule} from '@angular/common';
 
@@ -34,7 +33,6 @@ import {CommonModule} from '@angular/common';
     ServiceLandingPageExtendedComponent,
     SearchExtendedComponent,
     CompareServicesExtendedComponent,
-    AccordionSectionCatrisComponent,
     BrowseSubcategoriesComponent
   ],
   imports: [

@@ -4,9 +4,9 @@ import {DatePipe} from '@angular/common';
 import {ServiceFormComponent} from './service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
-import {MeasurementsPage} from '../../domain/indicators';
-import {RichService, Service} from '../../domain/eic-model';
+import {Measurement, RichService, Service} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
+import {Paging} from '../../domain/paging';
 
 @Component({
   selector: 'app-service-edit',
@@ -170,7 +170,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     }
   }
 
-  measurementsFormPatch(measurements: MeasurementsPage) {
+  measurementsFormPatch(measurements: Paging<Measurement>) {
     this.removeFroMeasurements(0);
     for (let i = 0; i < measurements.results.length; i++) {
       this.pushToMeasurements();

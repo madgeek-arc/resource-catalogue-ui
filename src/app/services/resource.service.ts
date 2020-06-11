@@ -13,10 +13,8 @@ import {
   Vocabulary,
   Type
 } from '../domain/eic-model';
-import {IndicatorsPage, MeasurementsPage} from '../domain/indicators';
 import {BrowseResults} from '../domain/browse-results';
-import {SearchResults} from '../domain/search-results';
-import {ProvidersPage} from '../domain/funders-page';
+import {Paging} from '../domain/paging';
 import {URLParameter} from '../domain/url-parameter';
 import {Observable, throwError} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -70,7 +68,7 @@ export class ResourceService {
     let params = new HttpParams();
     params = params.append('from', '0');
     params = params.append('quantity', '10000');
-    return this.http.get<IndicatorsPage>(this.base + `/${resourceType}/all`, {params});
+    return this.http.get<Paging<Indicator>>(this.base + `/${resourceType}/all`, {params});
   }
 
   getBy(resourceType: string, resourceField: string) {
@@ -96,8 +94,8 @@ export class ResourceService {
     /*return this.http.get(`/service/all${questionMark}${searchQuery.toString()}`).map(res => <SearchResults<Service>> <any> res);*/
     // const questionMark = urlParameters.length > 0 ? '?' : '';
     // return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`, this.options)
-    return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all?orderField=name&order=asc&${searchQuery.toString()}`, this.options)
-      ;
+    return this.http.get<Paging<RichService>>(
+      this.base + `/service/rich/all?orderField=name&order=asc&${searchQuery.toString()}`, this.options);
   }
 
   getAllVocabulariesByType() {
@@ -300,11 +298,11 @@ export class ResourceService {
 
   /** Service Measurements **/
   getLatestServiceMeasurement(id: string) {
-    return this.http.get<MeasurementsPage>(this.base + `/measurement/latest/service/${id}`);
+    return this.http.get<Paging<Measurement>>(this.base + `/measurement/latest/service/${id}`);
   }
 
   getServiceMeasurements(id: string) {
-    return this.http.get<MeasurementsPage>(this.base + `/measurement/service/${id}`);
+    return this.http.get<Paging<Measurement>>(this.base + `/measurement/service/${id}`);
   }
 
   postMeasurement(measurement: Measurement) {
@@ -346,7 +344,7 @@ export class ResourceService {
     let params = new HttpParams();
     params = params.append('from', '0');
     params = params.append('quantity', '10000');
-    return this.http.get<ProvidersPage>(this.base + `/provider/all/`, {params, withCredentials: true});
+    return this.http.get<Paging<Provider>>(this.base + `/provider/all/`, {params, withCredentials: true});
   }
 
   getProviders(from: string, quantity: string) {
@@ -421,7 +419,7 @@ export class ResourceService {
   }
 
   getServiceHistory(serviceId: string) {
-    return this.http.get<SearchResults<ServiceHistory>>(this.base + `/service/history/${serviceId}/`);
+    return this.http.get<Paging<ServiceHistory>>(this.base + `/service/history/${serviceId}/`);
   }
 
   public handleError(error: HttpErrorResponse) {

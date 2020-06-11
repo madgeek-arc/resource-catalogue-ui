@@ -4,8 +4,8 @@ import {DatePipe} from '@angular/common';
 import {ServiceFormComponent} from '../eInfraServices/service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ResourceService} from '../../services/resource.service';
-import {MeasurementsPage} from '../../domain/indicators';
-import {RichService, Service} from '../../domain/eic-model';
+import {Measurement, RichService, Service} from '../../domain/eic-model';
+import {Paging} from '../../domain/paging';
 
 @Component({
   selector: 'app-add-first-service',
@@ -33,28 +33,28 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
     this.getFieldAsFormArray('providers').get([0]).setValue(this.providerId);
     if (this.serviceId) {
       this.editMode = true;
-      this.resourceService.getRichService(this.serviceId).subscribe(richService => {
-
-        ResourceService.removeNulls(richService.service);
-        this.formPrepare(richService);
-        this.serviceForm.patchValue(richService.service);
-        for (const i in this.serviceForm.controls) {
-          if (this.serviceForm.controls[i].value === null) {
-            this.serviceForm.controls[i].setValue('');
+      this.resourceService.getRichService(this.serviceId).subscribe(
+        richService => {
+          ResourceService.removeNulls(richService.service);
+          this.formPrepare(richService);
+          this.serviceForm.patchValue(richService.service);
+          for (const i in this.serviceForm.controls) {
+            if (this.serviceForm.controls[i].value === null) {
+              this.serviceForm.controls[i].setValue('');
+            }
           }
-        }
-        if (this.serviceForm.get('lastUpdate').value) {
-          const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
-          this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
-        }
-      },
-      err => this.errorMessage = 'Something went bad, server responded: ' + err.error);
+          if (this.serviceForm.get('lastUpdate').value) {
+            const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
+            this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
+          }
+        },
+        err => this.errorMessage = 'Something went bad, server responded: ' + err.error);
       this.resourceService.getServiceMeasurements(this.serviceId).subscribe(measurements => {
-        this.measurementsFormPatch(measurements);
-        if (this.measurements.length === 0) {
-          this.pushToMeasurements();
-        }
-      },
+          this.measurementsFormPatch(measurements);
+          if (this.measurements.length === 0) {
+            this.pushToMeasurements();
+          }
+        },
         err => this.errorMessage = 'Could not get the measurements for this richService. ' + err.error
       );
     }
@@ -94,11 +94,6 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
     for (let i = 0; i < richService.service.languageAvailabilities.length - 1; i++) {
       this.push('languageAvailabilities', true);
     }
-    // if (richService.service.userBaseList) {
-    //   for (let i = 0; i < richService.service.userBaseList.length - 1; i++) {
-    //     this.push('userBaseList', false);
-    //   }
-    // }
     if (richService.service.useCases) {
       for (let i = 0; i < richService.service.useCases.length - 1; i++) {
         this.push('useCases', false);
@@ -109,11 +104,6 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
         this.push('multimediaUrls', false);
       }
     }
-    // if (richService.service.options) {
-    //   for (let i = 0; i < richService.service.options.length - 1; i++) {
-    //     this.pushOption();
-    //   }
-    // }
     if (richService.service.requiredResources) {
       for (let i = 0; i < richService.service.requiredResources.length - 1; i++) {
         this.push('requiredServices', false);
@@ -156,7 +146,7 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
     }
   }
 
-  measurementsFormPatch(measurements: MeasurementsPage) {
+  measurementsFormPatch(measurements: Paging<Measurement>) {
     for (let i = 0; i < measurements.results.length; i++) {
       this.pushToMeasurements();
       for (const j in measurements.results[i]) {

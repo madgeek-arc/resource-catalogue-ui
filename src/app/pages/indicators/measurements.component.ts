@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ResourceService} from '../../services/resource.service';
-import {Measurement, Vocabulary, Type} from '../../domain/eic-model';
-import {IndicatorsPage} from '../../domain/indicators';
+import {Indicator, Measurement, Type, Vocabulary} from '../../domain/eic-model';
+import {Paging} from '../../domain/paging';
 
 @Component({
   selector: 'app-measurements',
@@ -12,7 +12,7 @@ import {IndicatorsPage} from '../../domain/indicators';
 export class MeasurementsComponent implements OnInit {
   errorMessage = '';
   measurements: Measurement[] = [];
-  indicators: IndicatorsPage;
+  indicators: Paging<Indicator>;
   serviceId: string;
   places: Vocabulary[] = null;
   placesVocabulary: Vocabulary[] = null;

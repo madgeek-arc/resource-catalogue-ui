@@ -1,8 +1,7 @@
-import {IndicatorsPage, MeasurementsPage} from '../../../domain/indicators';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {Vocabulary, Provider, RichService, Type, Service, ProviderBundle} from '../../../domain/eic-model';
+import {Indicator, Measurement, ProviderBundle, RichService, Type, Vocabulary} from '../../../domain/eic-model';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
@@ -12,6 +11,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {flatMap} from 'rxjs/operators';
 import {zip} from 'rxjs/internal/observable/zip';
 import {EmailService} from '../../../services/email.service';
+import {Paging} from '../../../domain/paging';
 
 declare var UIkit: any;
 
@@ -27,8 +27,8 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   public errorMessage: string;
   public EU: string[];
   public WW: string[];
-  public measurements: MeasurementsPage;
-  public indicators: IndicatorsPage;
+  public measurements: Paging<Measurement>;
+  public indicators: Paging<Indicator>;
   public indicatorDesc = '';
   public serviceId;
   // public idArray: string[] = [];
@@ -89,7 +89,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
             this.richService = <RichService>suc[2];
             this.myProviders = suc[3];
             this.measurements = suc[4];
-            this.indicators = <IndicatorsPage>suc[5];
+            this.indicators = <Paging<Indicator>>suc[5];
             this.serviceId = params['id'];
             this.getIndicatorIds();
             this.getLocations();
@@ -116,7 +116,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
             }
           },
           err => {
-            if ( err.status === 404) {
+            if (err.status === 404) {
               this.router.go('/404');
             }
             this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
@@ -131,25 +131,25 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           this.resourceService.getLatestServiceMeasurement(params['id'])
           // this.resourceService.recordEvent(params["id"], "INTERNAL"),
         ).subscribe(suc => {
-          this.EU = <string[]>suc[0];
-          this.WW = <string[]>suc[1];
-          this.richService = <RichService>suc[2];
-          this.measurements = suc[3];
-          this.getIndicatorIds();
-          this.router.breadcrumbs = this.richService.service.name;
-          this.setCountriesForService(this.richService.service.geographicalAvailabilities);
+            this.EU = <string[]>suc[0];
+            this.WW = <string[]>suc[1];
+            this.richService = <RichService>suc[2];
+            this.measurements = suc[3];
+            this.getIndicatorIds();
+            this.router.breadcrumbs = this.richService.service.name;
+            this.setCountriesForService(this.richService.service.geographicalAvailabilities);
 
-          const serviceIDs = (this.richService.service.requiredResources || []).concat(this.richService.service.relatedResources || [])
-            .filter((e, i, a) => a.indexOf(e) === i && e !== '');
-          if (serviceIDs.length > 0) {
-            this.resourceService.getSelectedServices(serviceIDs)
-              .subscribe(services => this.services = services,
-                err => {
-                  console.log(err.error);
-                  this.errorMessage = err.error;
-                });
-          }
-        },
+            const serviceIDs = (this.richService.service.requiredResources || []).concat(this.richService.service.relatedResources || [])
+              .filter((e, i, a) => a.indexOf(e) === i && e !== '');
+            if (serviceIDs.length > 0) {
+              this.resourceService.getSelectedServices(serviceIDs)
+                .subscribe(services => this.services = services,
+                  err => {
+                    console.log(err.error);
+                    this.errorMessage = err.error;
+                  });
+            }
+          },
           err => {
             this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
           });
