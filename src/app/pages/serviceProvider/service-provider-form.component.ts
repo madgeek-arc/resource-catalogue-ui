@@ -1,51 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {
-  Description,
-  fullNameDesc,
-  abbreviationDesc,
-  websiteDesc,
-  providerDescriptionDesc,
-  providerLogoDesc,
-  providerMultimediaDesc,
-  providerScientificDomainDesc,
-  providerScientificSubdomainsDesc,
-  structureTypesDesc,
-  participatingCountriesDesc,
-  affiliationDesc,
-  providerTagsDesc,
-  streetNameAndNumberDesc,
-  // streetNumberDesc,
-  // locationNameDesc,
-  postalCodeDesc,
-  cityDesc,
-  regionDesc,
-  countryDesc,
-  providerMainContactFirstNameDesc,
-  providerMainContactLastNameDesc,
-  providerMainContactEmailDesc,
-  providerMainContactPhoneDesc,
-  providerMainContactPositionDesc,
-  providerPublicContactFirstNameDesc,
-  providerPublicContactLastNameDesc,
-  providerPublicContactEmailDesc,
-  providerPublicContactPhoneDesc,
-  providerPublicContactPositionDesc,
-  providerCertificationsDesc,
-  lifeCycleStatusDesc,
-  ESFRIDomainDesc,
-  hostingLegalEntityDesc,
-  ESFRITypeDesc,
-  merilScientificDomainsDesc,
-  merilScientificSubdomainsDesc,
-  areasOfActivityDesc,
-  societalGrandChallengesDesc,
-  nationalRoadmapsDesc,
-  legalEntityDesc,
-  legalStatusDesc,
-  networksDesc,
-  multimediaDesc
-} from '../eInfraServices/services.description';
+import * as sd from '../eInfraServices/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -72,50 +27,50 @@ export class ServiceProviderFormComponent implements OnInit {
   showLoader = false;
   tabs: boolean[] = [false, false, false, false, false, false, false];
 
-  readonly fullNameDesc: Description = fullNameDesc;
-  readonly abbreviationDesc: Description = abbreviationDesc;
-  readonly websiteDesc: Description = websiteDesc;
-  readonly providerDescriptionDesc: Description = providerDescriptionDesc;
-  readonly providerLogoDesc: Description = providerLogoDesc;
-  readonly providerMultimediaDesc: Description = providerMultimediaDesc;
-  readonly providerScientificDomainDesc: Description = providerScientificDomainDesc;
-  readonly providerScientificSubdomainsDesc: Description = providerScientificSubdomainsDesc;
-  readonly structureTypesDesc: Description = structureTypesDesc;
-  readonly participatingCountriesDesc: Description = participatingCountriesDesc;
-  readonly affiliationDesc: Description = affiliationDesc;
-  readonly providerTagsDesc: Description = providerTagsDesc;
-  readonly streetNameAndNumberDesc: Description = streetNameAndNumberDesc;
-  readonly postalCodeDesc: Description = postalCodeDesc;
-  readonly cityDesc: Description = cityDesc;
-  readonly regionDesc: Description = regionDesc;
-  readonly countryDesc: Description = countryDesc;
-  readonly providerMainContactFirstNameDesc: Description = providerMainContactFirstNameDesc;
-  readonly providerMainContactLastNameDesc: Description = providerMainContactLastNameDesc;
-  readonly providerMainContactEmailDesc: Description = providerMainContactEmailDesc;
-  readonly providerMainContactPhoneDesc: Description = providerMainContactPhoneDesc;
-  readonly providerMainContactPositionDesc: Description = providerMainContactPositionDesc;
-  readonly providerPublicContactFirstNameDesc: Description = providerPublicContactFirstNameDesc;
-  readonly providerPublicContactLastNameDesc: Description = providerPublicContactLastNameDesc;
-  readonly providerPublicContactEmailDesc: Description = providerPublicContactEmailDesc;
-  readonly providerPublicContactPhoneDesc: Description = providerPublicContactPhoneDesc;
-  readonly providerPublicContactPositionDesc: Description = providerPublicContactPositionDesc;
-  readonly providerCertificationsDesc: Description = providerCertificationsDesc;
-  readonly lifeCycleStatusDesc: Description = lifeCycleStatusDesc;
-  readonly ESFRIDomainDesc: Description = ESFRIDomainDesc;
-  readonly hostingLegalEntityDesc: Description = hostingLegalEntityDesc;
-  readonly ESFRITypeDesc: Description = ESFRITypeDesc;
-  readonly merilScientificDomainsDesc: Description = merilScientificDomainsDesc;
-  readonly merilScientificSubdomainsDesc: Description = merilScientificSubdomainsDesc;
-  readonly areasOfActivityDesc: Description = areasOfActivityDesc;
-  readonly societalGrandChallengesDesc: Description = societalGrandChallengesDesc;
-  readonly nationalRoadmapsDesc: Description = nationalRoadmapsDesc;
-  readonly legalEntityDesc: Description = legalEntityDesc;
-  readonly legalStatusDesc: Description = legalStatusDesc;
-  readonly networksDesc: Description = networksDesc;
+  readonly fullNameDesc: sd.Description = sd.fullNameDesc;
+  readonly abbreviationDesc: sd.Description = sd.abbreviationDesc;
+  readonly websiteDesc: sd.Description = sd.websiteDesc;
+  readonly providerDescriptionDesc: sd.Description = sd.providerDescriptionDesc;
+  readonly providerLogoDesc: sd.Description = sd.providerLogoDesc;
+  readonly providerMultimediaDesc: sd.Description = sd.providerMultimediaDesc;
+  readonly providerScientificDomainDesc: sd.Description = sd.providerScientificDomainDesc;
+  readonly providerScientificSubdomainsDesc: sd.Description = sd.providerScientificSubdomainsDesc;
+  readonly structureTypesDesc: sd.Description = sd.structureTypesDesc;
+  readonly participatingCountriesDesc: sd.Description = sd.participatingCountriesDesc;
+  readonly affiliationDesc: sd.Description = sd.affiliationDesc;
+  readonly providerTagsDesc: sd.Description = sd.providerTagsDesc;
+  readonly streetNameAndNumberDesc: sd.Description = sd.streetNameAndNumberDesc;
+  readonly postalCodeDesc: sd.Description = sd.postalCodeDesc;
+  readonly cityDesc: sd.Description = sd.cityDesc;
+  readonly regionDesc: sd.Description = sd.regionDesc;
+  readonly countryDesc: sd.Description = sd.countryDesc;
+  readonly providerMainContactFirstNameDesc: sd.Description = sd.providerMainContactFirstNameDesc;
+  readonly providerMainContactLastNameDesc: sd.Description = sd.providerMainContactLastNameDesc;
+  readonly providerMainContactEmailDesc: sd.Description = sd.providerMainContactEmailDesc;
+  readonly providerMainContactPhoneDesc: sd.Description = sd.providerMainContactPhoneDesc;
+  readonly providerMainContactPositionDesc: sd.Description = sd.providerMainContactPositionDesc;
+  readonly providerPublicContactFirstNameDesc: sd.Description = sd.providerPublicContactFirstNameDesc;
+  readonly providerPublicContactLastNameDesc: sd.Description = sd.providerPublicContactLastNameDesc;
+  readonly providerPublicContactEmailDesc: sd.Description = sd.providerPublicContactEmailDesc;
+  readonly providerPublicContactPhoneDesc: sd.Description = sd.providerPublicContactPhoneDesc;
+  readonly providerPublicContactPositionDesc: sd.Description = sd.providerPublicContactPositionDesc;
+  readonly providerCertificationsDesc: sd.Description = sd.providerCertificationsDesc;
+  readonly lifeCycleStatusDesc: sd.Description = sd.lifeCycleStatusDesc;
+  readonly ESFRIDomainDesc: sd.Description = sd.ESFRIDomainDesc;
+  readonly hostingLegalEntityDesc: sd.Description = sd.hostingLegalEntityDesc;
+  readonly ESFRITypeDesc: sd.Description = sd.ESFRITypeDesc;
+  readonly merilScientificDomainsDesc: sd.Description = sd.merilScientificDomainsDesc;
+  readonly merilScientificSubdomainsDesc: sd.Description = sd.merilScientificSubdomainsDesc;
+  readonly areasOfActivityDesc: sd.Description = sd.areasOfActivityDesc;
+  readonly societalGrandChallengesDesc: sd.Description = sd.societalGrandChallengesDesc;
+  readonly nationalRoadmapsDesc: sd.Description = sd.nationalRoadmapsDesc;
+  readonly legalEntityDesc: sd.Description = sd.legalEntityDesc;
+  readonly legalStatusDesc: sd.Description = sd.legalStatusDesc;
+  readonly networksDesc: sd.Description = sd.networksDesc;
 
   placesVocabulary: Vocabulary[] = null;
   providerTypeVocabulary: Vocabulary[] = null;
-  providerTRLVocabulary: Vocabulary[] = null;
+  providerLCSVocabulary: Vocabulary[] = null;
   domainsVocabulary: Vocabulary[] = null;
   categoriesVocabulary: Vocabulary[] = null;
   merilDomainsVocabulary: Vocabulary[] = null;
@@ -133,26 +88,22 @@ export class ServiceProviderFormComponent implements OnInit {
     abbreviation: ['', Validators.required],
     // legalForm: ['', Validators.required],
     website: ['', Validators.compose([Validators.required, URLValidator])],
+    legalEntity: ['', Validators.required],
+    legalStatus: [''],
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
     multimedia: this.fb.array([this.fb.control('', URLValidator)]),
-    categorization: this.fb.array([], Validators.required),
-    scientificDomains: this.fb.array([]),
+    categorization: this.fb.array([]),
+    // scientificDomains: this.fb.array([]),
     scientificSubdomains: this.fb.array([]),
-    merilCategorization: this.fb.array([], Validators.required),
-    merilScientificDomains: this.fb.array([]),
-    merilScientificSubdomains: this.fb.array([]),
-    // structureTypes: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
-    structureTypes: this.fb.array([this.fb.control('')]),
     tags: this.fb.array([this.fb.control('')]),
     location: this.fb.group({
       streetNameAndNumber: ['', Validators.required],
       postalCode: ['', Validators.required],
       city: ['', Validators.required],
-      region: ['', Validators.required]
+      region: [''],
+      country: ['', Validators.required]
     }, Validators.required),
-    country: ['', Validators.required],
-    participatingCountries: this.fb.array([this.fb.control('')]),
     contacts: this.fb.array([
       this.fb.group({
         firstName: ['', Validators.required],
@@ -162,21 +113,24 @@ export class ServiceProviderFormComponent implements OnInit {
         position: [''],
       }, Validators.required)
     ]),
-    esfriDomains: this.fb.array([this.fb.control('')]),
-    hostingLegalEntity: [''],
-    esfriType: [''],
     lifeCycleStatus: [''],
+    certifications: this.fb.array([this.fb.control('')]),
+    hostingLegalEntity: [''],
+    participatingCountries: this.fb.array([this.fb.control('')]),
+    affiliations: this.fb.array([this.fb.control('')]),
     networks: this.fb.array([this.fb.control('')]),
+    structureTypes: this.fb.array([this.fb.control('')]),
+    esfriDomains: this.fb.array([this.fb.control('')]),
+    esfriType: [''],
+    merilCategorization: this.fb.array([]),
+    // merilScientificDomains: this.fb.array([]),
+    merilScientificSubdomains: this.fb.array([]),
     areasOfActivity: this.fb.array([this.fb.control('')]),
     societalGrandChallenges: this.fb.array([this.fb.control('')]),
     nationalRoadmaps: this.fb.array([this.fb.control('')]),
-    certifications: this.fb.array([this.fb.control('')]),
-    affiliations: this.fb.array([this.fb.control('')]),
     users: this.fb.array([
       this.user()
-    ]),
-    legalEntity: [''],
-    legalStatus: ['']
+    ])
   };
 
   constructor(public fb: FormBuilder,
@@ -322,7 +276,7 @@ export class ServiceProviderFormComponent implements OnInit {
               newValues.push(e.trim().replace(/\s\s+/g, ' '));
             }
           } else {
-            console.log('array with objectsg');
+            console.log('array with objects');
           }
         });
       } else if (typeof newValues === 'string' || newValues instanceof String) {
@@ -365,28 +319,40 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   markTabs() {
-    this.tabs[0] = (this.checkFormValidity('name') || this.checkFormValidity('abbreviation')
+    this.tabs[0] = (this.checkFormValidity('name')
+      || this.checkFormValidity('abbreviation')
       || this.checkFormValidity('website')
-      || this.checkEveryArrayFieldValidity('legalEntity') || this.checkFormValidity('legalStatus'));
+      || this.checkEveryArrayFieldValidity('legalEntity')
+      || this.checkFormValidity('legalStatus'));
     this.tabs[1] = (this.checkFormValidity('description')
-      || this.checkFormValidity('logo') || this.checkEveryArrayFieldValidity('multimedia'));
+      || this.checkFormValidity('logo')
+      || this.checkEveryArrayFieldValidity('multimedia'));
     this.tabs[2] = (this.checkEveryArrayFieldValidity('tags')
       || this.checkEveryArrayFieldValidity('categorization', 'domain')
       || this.checkEveryArrayFieldValidity('categorization', 'scientificSubdomain'));
-    this.tabs[3] = (this.checkFormValidity('location.streetNameAndNumber') || this.checkFormValidity('location.postalCode')
-      || this.checkFormValidity('location.city') || this.checkFormValidity('location.region')
-      || this.checkFormValidity('country'));
-    this.tabs[4] = (this.checkEveryArrayFieldValidity('contacts', 'firstName') || this.checkEveryArrayFieldValidity('contacts', 'lastName')
-      || this.checkEveryArrayFieldValidity('contacts', 'email') || this.checkEveryArrayFieldValidity('contacts', 'email')
+    this.tabs[3] = (this.checkFormValidity('location.streetNameAndNumber')
+      || this.checkFormValidity('location.postalCode')
+      || this.checkFormValidity('location.city')
+      || this.checkFormValidity('location.region')
+      || this.checkFormValidity('location.country'));
+    this.tabs[4] = (this.checkEveryArrayFieldValidity('contacts', 'firstName')
+      || this.checkEveryArrayFieldValidity('contacts', 'lastName')
+      || this.checkEveryArrayFieldValidity('contacts', 'email')
+      || this.checkEveryArrayFieldValidity('contacts', 'tel')
       || this.checkEveryArrayFieldValidity('contacts', 'position'));
-    this.tabs[5] = (this.checkFormValidity('lifeCycleStatus') || this.checkEveryArrayFieldValidity('certifications'));
-    this.tabs[6] = (this.checkFormValidity('hostingLegalEntity') || this.checkEveryArrayFieldValidity('participatingCountries')
-      || this.checkEveryArrayFieldValidity('affiliations') || this.checkEveryArrayFieldValidity('networks')
+    this.tabs[5] = (this.checkFormValidity('lifeCycleStatus')
+      || this.checkEveryArrayFieldValidity('certifications'));
+    this.tabs[6] = (this.checkFormValidity('hostingLegalEntity')
+      || this.checkEveryArrayFieldValidity('participatingCountries')
+      || this.checkEveryArrayFieldValidity('affiliations')
+      || this.checkEveryArrayFieldValidity('networks')
       || this.checkEveryArrayFieldValidity('structureTypes')
-      || this.checkEveryArrayFieldValidity('esfriDomains') || this.checkFormValidity('esfriType')
+      || this.checkEveryArrayFieldValidity('esfriDomains')
+      || this.checkFormValidity('esfriType')
       || this.checkEveryArrayFieldValidity('merilCategorization', 'merilDomain')
       || this.checkEveryArrayFieldValidity('merilCategorization', 'merilScientificSubdomain')
-      || this.checkEveryArrayFieldValidity('areasOfActivity') || this.checkEveryArrayFieldValidity('societalGrandChallenges')
+      || this.checkEveryArrayFieldValidity('areasOfActivity')
+      || this.checkEveryArrayFieldValidity('societalGrandChallenges')
       || this.checkEveryArrayFieldValidity('nationalRoadmaps'));
     // this.tabs[6] = (this.checkEveryArrayFieldValidity('users', 'name') || this.checkEveryArrayFieldValidity('users', 'surname')
     //   || this.checkEveryArrayFieldValidity('users', 'email'));
@@ -401,7 +367,7 @@ export class ServiceProviderFormComponent implements OnInit {
         this.vocabularies = res;
         this.placesVocabulary = this.vocabularies[Type.COUNTRY];
         this.providerTypeVocabulary = this.vocabularies[Type.PROVIDER_STRUCTURE_TYPE];
-        this.providerTRLVocabulary = this.vocabularies[Type.PROVIDER_LIFE_CYCLE_STATUS];
+        this.providerLCSVocabulary = this.vocabularies[Type.PROVIDER_LIFE_CYCLE_STATUS];
         this.domainsVocabulary =  this.vocabularies[Type.SCIENTIFIC_DOMAIN];
         this.categoriesVocabulary =  this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
         this.merilDomainsVocabulary =  this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_DOMAIN];

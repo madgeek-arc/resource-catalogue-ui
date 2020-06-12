@@ -307,7 +307,7 @@
                         </label>
                         <div class="uk-form-controls">
                           <select id="country" class="uk-input" formControlName="country"
-                                  [ngClass]="{'uk-form-danger': checkFormValidity('country')}">
+                                  [ngClass]="{'uk-form-danger': checkFormValidity('location.country')}">
                             <option value=""></option>
                             <option *ngFor="let entry of sortVocabulariesByName(placesVocabulary)" value="{{entry.id}}">
                               {{entry.name}}
@@ -381,7 +381,7 @@
                       </div>
                     </li>
                     <li>
-                      <div *ngIf="providerTRLVocabulary" class="uk-margin-bottom">
+                      <div *ngIf="providerLCSVocabulary" class="uk-margin-bottom">
                         <label class="uk-form-label uk-text-right" for="lifeCycleStatus">
                           {{lifeCycleStatusDesc.label + (lifeCycleStatusDesc.mandatory ? ' (*)' : '')}}
                         </label>
@@ -389,7 +389,7 @@
                           <select id="lifeCycleStatus" formControlName="lifeCycleStatus" class="uk-select"
                                   [ngClass]="{'uk-form-danger': checkFormValidity('lifeCycleStatus')}">
                             <option value=""></option>
-                            <option *ngFor="let entry of sortVocabulariesByName(providerTRLVocabulary)"
+                            <option *ngFor="let entry of sortVocabulariesByName(providerLCSVocabulary)"
                                     value="{{entry.id}}">
                               {{entry.name}}
                             </option>

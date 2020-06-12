@@ -43,7 +43,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             this.vocabularies = res;
             this.placesVocabulary = this.vocabularies[Type.COUNTRY];
             this.providerTypeVocabulary = this.vocabularies[Type.PROVIDER_STRUCTURE_TYPE];
-            this.providerTRLVocabulary = this.vocabularies[Type.PROVIDER_LIFE_CYCLE_STATUS];
+            this.providerLCSVocabulary = this.vocabularies[Type.PROVIDER_LIFE_CYCLE_STATUS];
             this.domainsVocabulary =  this.vocabularies[Type.SCIENTIFIC_DOMAIN];
             this.categoriesVocabulary =  this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
             this.esfriDomainVocabulary =  this.vocabularies[Type.PROVIDER_ESFRI_DOMAIN];
