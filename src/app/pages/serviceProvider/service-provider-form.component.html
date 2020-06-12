@@ -300,20 +300,20 @@
                             <i><small>{{regionDesc.desc}}</small></i>
                           </div>
                         </div>
-                      </div>
-                      <div class="uk-margin-bottom">
-                        <label class="uk-form-label uk-text-right" for="country">
-                          {{ countryDesc.label + (countryDesc.mandatory ? ' (*)' : '')}}
-                        </label>
-                        <div class="uk-form-controls">
-                          <select id="country" class="uk-input" formControlName="country"
-                                  [ngClass]="{'uk-form-danger': checkFormValidity('location.country')}">
-                            <option value=""></option>
-                            <option *ngFor="let entry of sortVocabulariesByName(placesVocabulary)" value="{{entry.id}}">
-                              {{entry.name}}
-                            </option>
-                          </select>
-                          <i><small>{{countryDesc.desc}}</small></i>
+                        <div class="uk-margin-bottom">
+                          <label class="uk-form-label uk-text-right" for="country">
+                            {{ countryDesc.label + (countryDesc.mandatory ? ' (*)' : '')}}
+                          </label>
+                          <div class="uk-form-controls">
+                            <select id="country" class="uk-input" formControlName="country"
+                                    [ngClass]="{'uk-form-danger': checkFormValidity('location.country')}">
+                              <option value=""></option>
+                              <option *ngFor="let entry of sortVocabulariesByName(placesVocabulary)" value="{{entry.id}}">
+                                {{entry.name}}
+                              </option>
+                            </select>
+                            <i><small>{{countryDesc.desc}}</small></i>
+                          </div>
                         </div>
                       </div>
                     </li>
@@ -351,7 +351,7 @@
                               {{ providerMainContactPhoneDesc.label + (providerMainContactPhoneDesc.mandatory ? ' (*)' : '') }}
                             </label>
                             <div class="uk-form-controls">
-                              <input id="mainContactPhone" class="uk-input" type="text" formControlName="tel"
+                              <input id="mainContactPhone" class="uk-input" type="text" formControlName="phone"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.phone')}">
                               <i><small>{{ providerMainContactPhoneDesc.desc }}</small></i>
                             </div>

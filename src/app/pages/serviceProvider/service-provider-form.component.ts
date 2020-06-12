@@ -603,10 +603,12 @@ export class ServiceProviderFormComponent implements OnInit {
 
   trimFormWhiteSpaces() {
     for (const i in this.newProviderForm.controls) {
+      // console.log(i);
       if (this.newProviderForm.controls[i].value && this.newProviderForm.controls[i].value.constructor === Array) {
 
-      } else if (this.newProviderForm.controls[i].value && i !== 'location') {
-        // console.log(i);
+      } else if (this.newProviderForm.controls[i].value && (i === 'location' || i === 'mainContact')) {
+        // TODO
+      } else {
         this.newProviderForm.controls[i].setValue(this.newProviderForm.controls[i].value.trim().replace(/\s\s+/g, ' '));
       }
     }
