@@ -4,7 +4,6 @@ import {
   Description,
   fullNameDesc,
   abbreviationDesc,
-  legalFormDesc,
   websiteDesc,
   providerDescriptionDesc,
   providerLogoDesc,
@@ -75,7 +74,6 @@ export class ServiceProviderFormComponent implements OnInit {
 
   readonly fullNameDesc: Description = fullNameDesc;
   readonly abbreviationDesc: Description = abbreviationDesc;
-  readonly legalFormDesc: Description = legalFormDesc;
   readonly websiteDesc: Description = websiteDesc;
   readonly providerDescriptionDesc: Description = providerDescriptionDesc;
   readonly providerLogoDesc: Description = providerLogoDesc;
@@ -86,9 +84,7 @@ export class ServiceProviderFormComponent implements OnInit {
   readonly participatingCountriesDesc: Description = participatingCountriesDesc;
   readonly affiliationDesc: Description = affiliationDesc;
   readonly providerTagsDesc: Description = providerTagsDesc;
-  // readonly locationNameDesc: Description = locationNameDesc;
   readonly streetNameAndNumberDesc: Description = streetNameAndNumberDesc;
-  // readonly streetNumberDesc: Description = streetNumberDesc;
   readonly postalCodeDesc: Description = postalCodeDesc;
   readonly cityDesc: Description = cityDesc;
   readonly regionDesc: Description = regionDesc;

@@ -39,17 +39,12 @@ export class ServiceFormComponent implements OnInit {
   public indicatorDesc = '';
 
   readonly nameDesc: sd.Description = sd.nameDesc;
-  readonly leadProviderNameDesc: sd.Description = sd.leadProviderNameDesc;
-  readonly contributingProvidersDesc: sd.Description = sd.contributingProvidersDesc;
   readonly webpageDesc: sd.Description = sd.webpageDesc;
   readonly descriptionDesc: sd.Description = sd.descriptionDesc;
   readonly taglineDesc: sd.Description = sd.taglineDesc;
   readonly logoDesc: sd.Description = sd.logoDesc;
   readonly multimediaDesc: sd.Description = sd.multimediaDesc;
   readonly targetUsersDesc: sd.Description = sd.targetUsersDesc;
-  readonly targetCustomerTagsDesc: sd.Description = sd.targetCustomerTagsDesc;
-  readonly useCasesCaseStudiesDesc: sd.Description = sd.useCasesCaseStudiesDesc;
-  readonly optionsDesc: sd.Description = sd.optionsDesc;
   readonly resourceProvidersDesc: sd.Description = sd.resourceProvidersDesc;
   readonly resourceOrganisationDesc: sd.Description = sd.resourceOrganisationDesc;
   readonly resourceGeographicLocationsDesc: sd.Description = sd.resourceGeographicLocationsDesc;
@@ -72,7 +67,6 @@ export class ServiceFormComponent implements OnInit {
   readonly publicContactPositionDesc: sd.Description = sd.publicContactPositionDesc;
   readonly helpdeskEmailDesc: sd.Description = sd.helpdeskEmailDesc;
   readonly securityContactEmailDesc: sd.Description = sd.securityContactEmailDesc;
-  readonly quotationEmailDesc: sd.Description = sd.quotationEmailDesc;
   readonly phaseDesc: sd.Description = sd.phaseDesc;
   readonly technologyReadinessLevelDesc: sd.Description = sd.technologyReadinessLevelDesc;
   readonly certificationsDesc: sd.Description = sd.certificationsDesc;
@@ -89,7 +83,6 @@ export class ServiceFormComponent implements OnInit {
   readonly grantProjectNameDesc: sd.Description = sd.grantProjectNameDesc;
   readonly helpdeskPageDesc: sd.Description = sd.helpdeskPageDesc;
   readonly userManualDesc: sd.Description = sd.userManualDesc;
-  readonly adminManualDesc: sd.Description = sd.adminManualDesc;
   readonly termsOfUseDesc: sd.Description = sd.termsOfUseDesc;
   readonly privacyPolicyDesc: sd.Description = sd.privacyPolicyDesc;
   readonly serviceLevelDesc: sd.Description = sd.serviceLevelDesc;
@@ -98,41 +91,12 @@ export class ServiceFormComponent implements OnInit {
   readonly maintenanceDesc: sd.Description = sd.maintenanceDesc;
   readonly orderTypeDesc: sd.Description = sd.orderTypeDesc;
   readonly orderDesc: sd.Description = sd.orderDesc;
-  readonly endpointDesc: sd.Description = sd.endpointDesc;
   readonly accessTypesDesc: sd.Description = sd.accessTypeDesc;
   readonly accessModesDesc: sd.Description = sd.accessModeDesc;
   readonly accessPolicyDesc: sd.Description = sd.accessPolicyDesc;
   readonly paymentModelDesc: sd.Description = sd.paymentModelDesc;
   readonly pricingDesc: sd.Description = sd.pricingDesc;
-  readonly userValueDesc: sd.Description = sd.userValueDesc;
-  readonly userBaseDesc: sd.Description = sd.userBaseDesc;
   readonly useCasesDesc: sd.Description = sd.useCasesDesc;
-  // readonly fundersDesc: sd.Description = sd.fundersDesc;
-  readonly aggregatedServicesDesc: sd.Description = sd.aggregatedServicesDesc;
-  readonly datasetsDesc: sd.Description = sd.datasetsDesc;
-  readonly applicationsDesc: sd.Description = sd.applicationsDesc;
-  readonly softwareDesc: sd.Description = sd.softwareDesc;
-  readonly publicationsDesc: sd.Description = sd.publicationsDesc;
-  readonly otherProductsDesc: sd.Description = sd.otherProductsDesc;
-
-  readonly optionsNameDesc: sd.Description = sd.optionsNameDesc;
-  readonly optionsWebpageDesc: sd.Description = sd.optionsWebpageDesc;
-  readonly optionsDescriptionDesc: sd.Description = sd.optionsDescriptionDesc;
-  readonly optionsLogoDesc: sd.Description = sd.optionsLogoDesc;
-
-  readonly firstContactFirstNameDesc: sd.Description = sd.firstContactFirstNameDesc;
-  readonly firstContactLastNameDesc: sd.Description = sd.firstContactLastNameDesc;
-  readonly firstContactEmailDesc: sd.Description = sd.firstContactEmailDesc;
-  readonly firstContactTelephoneDesc: sd.Description = sd.firstContactTelephoneDesc;
-  readonly firstContactPositionDesc: sd.Description = sd.firstContactPositionDesc;
-  readonly secondContactFirstNameDesc: sd.Description = sd.secondContactFirstNameDesc;
-  readonly secondContactLastNameDesc: sd.Description = sd.secondContactLastNameDesc;
-  readonly secondContactEmailDesc: sd.Description = sd.secondContactEmailDesc;
-  readonly secondContactTelephoneDesc: sd.Description = sd.secondContactTelephoneDesc;
-  readonly secondContactPositionDesc: sd.Description = sd.secondContactPositionDesc;
-  readonly Attribute1Desc: sd.Description = sd.Attribute1Desc;
-  readonly Attribute2Desc: sd.Description = sd.Attribute2Desc;
-  readonly Attribute3Desc: sd.Description = sd.Attribute3Desc;
 
 
   formGroupMeta = {
