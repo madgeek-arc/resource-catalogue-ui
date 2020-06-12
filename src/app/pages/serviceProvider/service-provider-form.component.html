@@ -53,7 +53,7 @@
                 <ul class="uk-width-1-1 uk-margin-remove" uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
                   <li class="uk-active"><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[0]}" href="#">Basic *</a></li>
                   <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[1]}" href="#">Marketing *</a></li>
-                  <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[2]}" href="#">Classification *</a></li>
+                  <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[2]}" href="#">Classification</a></li>
                   <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[3]}" href="#">Location *</a></li>
                   <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[4]}" href="#">Contact *</a></li>
                   <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[5]}" href="#">Maturity</a></li>
@@ -177,7 +177,7 @@
                     </li>
                     <li>
                       <div class="uk-margin-bottom">
-                        <label class="uk-form-label uk-text-right">Scientific Domain (*)</label>
+                        <label class="uk-form-label uk-text-right">Scientific Domain</label>
                         <div class="uk-form-controls">
                           <div formArrayName="categorization"
                                *ngFor="let category of domainArray.controls; let i = index">
@@ -207,14 +207,14 @@
                               </div>
 
                               <div *ngIf="categoriesVocabulary" class="uk-margin-bottom">
-                                <label class="uk-form-label uk-text-right" for="{{'category ' + i}}">
+                                <label class="uk-form-label uk-text-right" for="{{'scientificSubdomain ' + i}}">
                                   {{providerScientificSubdomainsDesc.label + (providerScientificSubdomainsDesc.mandatory ? ' (*)' : '')}}
                                 </label>
                                 <div class="uk-form-controls">
-                                  <select id="{{'category ' + i}}" formControlName="category" class="uk-select"
-                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorization', i, 'category')}">
+                                  <select id="{{'scientificSubdomain ' + i}}" formControlName="scientificSubdomain" class="uk-select"
+                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorization', i, 'scientificSubdomain')}">
                                     <ng-container *ngIf="domainArray.controls[i].get('domain').value">
-                                      <option value="">--Select Category--</option>
+                                      <option value="">--Select Scientific Subdomain--</option>
                                       <option
                                         *ngFor="let entry of getSortedChildrenCategories(categoriesVocabulary, domainArray.controls[i].get('domain').value)"
                                         value="{{entry.id}}">
@@ -586,48 +586,63 @@
                           <i><small>{{ESFRITypeDesc.desc}}</small></i>
                         </div>
                       </div>
-                      <div formArrayName="merilScientificDomains" class="uk-margin-bottom">
-                        <label class="uk-form-label uk-text-right" for="merilScientificDomains">
-                          {{merilScientificDomainsDesc.label + (merilScientificDomainsDesc.mandatory ? ' (*)' : '')}}
-                        </label>
+                      <div class="uk-margin-bottom">
+                        <label class="uk-form-label uk-text-right">MERIL Scientific Domain</label>
                         <div class="uk-form-controls">
-                          <div *ngFor="let provider of getFieldAsFormArray('merilScientificDomains').controls; let i=index">
-                            <input id="merilScientificDomains" class="uk-input" type="text" [formControlName]="i"
-                                   [ngClass]="{'uk-form-danger': checkFormValidity('merilScientificDomains'),
-                               'uk-width-5-6': (getFieldAsFormArray('merilScientificDomains').length > 1)}">
-                            <a *ngIf="getFieldAsFormArray('merilScientificDomains').length > 1 && !disable"
-                               class="remove-element uk-padding-small" (click)="remove('merilScientificDomains', i)">
-                              <i class="fa fa-times" aria-hidden="true"></i>
-                            </a>
+                          <div formArrayName="merilCategorization"
+                               *ngFor="let category of merilDomainArray.controls; let i = index">
+                            <div [formGroupName]="i" class="uk-margin-small-bottom"
+                                 style="border: 1px dashed #cccccc; padding-right: 10px">
+                              <a *ngIf="merilDomainArray.length > 1 && !disable" class="remove-element uk-padding-small"
+                                 (click)="removeMerilDomain(i)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </a>
+
+                              <div *ngIf="merilDomainsVocabulary" class="uk-margin-bottom">
+                                <label class="uk-form-label uk-text-right" for="{{'merilDomain ' + i}}">
+                                  {{merilScientificDomainsDesc.label + (merilScientificDomainsDesc.mandatory ? ' (*)' : '')}}
+                                </label>
+                                <div class="uk-form-controls">
+                                  <select id="{{'merilDomain ' + i}}" formControlName="merilDomain" class="uk-select"
+                                          (change)="onMerilDomainChange(i)"
+                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('merilCategorization', i, 'merilDomain')}">
+                                    <option value=""></option>
+                                    <option *ngFor="let entry of sortVocabulariesByName(merilDomainsVocabulary)"
+                                            value="{{entry.id}}">
+                                      {{entry.name}}
+                                    </option>
+                                  </select>
+                                  <i><small>{{merilScientificDomainsDesc.desc}}</small></i>
+                                </div>
+                              </div>
+
+                              <div *ngIf="merilCategoriesVocabulary" class="uk-margin-bottom">
+                                <label class="uk-form-label uk-text-right" for="{{'merilScientificSubdomain ' + i}}">
+                                  {{merilScientificSubdomainsDesc.label + (merilScientificSubdomainsDesc.mandatory ? ' (*)' : '')}}
+                                </label>
+                                <div class="uk-form-controls">
+                                  <select id="{{'merilScientificSubdomain ' + i}}" formControlName="merilScientificSubdomain" class="uk-select"
+                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('merilCategorization', i, 'merilScientificSubdomain')}">
+                                    <ng-container *ngIf="merilDomainArray.controls[i].get('merilDomain').value">
+                                      <option value="">--Select MERIL Scientific Subdomain--</option>
+                                      <option
+                                        *ngFor="let entry of getSortedChildrenCategories(merilCategoriesVocabulary, merilDomainArray.controls[i].get('merilDomain').value)"
+                                        value="{{entry.id}}">
+                                        {{entry.name}}
+                                      </option>
+                                    </ng-container>
+                                  </select>
+                                  <i><small>{{merilScientificSubdomainsDesc.desc}}</small></i>
+                                </div>
+                              </div>
+
+                            </div>
                           </div>
-                          <div *ngIf="!disable" class="uk-width-1-1">
-                            <a class="add-new-element" (click)="push('merilScientificDomains', false)">
-                              <i class="fa fa-plus" aria-hidden="true"></i> Add {{merilScientificDomainsDesc.label}}
-                            </a>
-                          </div>
-                          <i><small>{{merilScientificDomainsDesc.desc}}</small></i>
                         </div>
-                      </div>
-                      <div formArrayName="merilScientificSubdomains" class="uk-margin-bottom">
-                        <label class="uk-form-label uk-text-right" for="merilScientificSubdomains">
-                          {{merilScientificSubdomainsDesc.label + (merilScientificSubdomainsDesc.mandatory ? ' (*)' : '')}}
-                        </label>
-                        <div class="uk-form-controls">
-                          <div *ngFor="let provider of getFieldAsFormArray('merilScientificSubdomains').controls; let i=index">
-                            <input id="merilScientificSubdomains" class="uk-input" type="text" [formControlName]="i"
-                                   [ngClass]="{'uk-form-danger': checkFormValidity('merilScientificSubdomains'),
-                               'uk-width-5-6': (getFieldAsFormArray('merilScientificSubdomains').length > 1)}">
-                            <a *ngIf="getFieldAsFormArray('merilScientificSubdomains').length > 1 && !disable"
-                               class="remove-element uk-padding-small" (click)="remove('merilScientificSubdomains', i)">
-                              <i class="fa fa-times" aria-hidden="true"></i>
-                            </a>
-                          </div>
-                          <div *ngIf="!disable" class="uk-width-1-1">
-                            <a class="add-new-element" (click)="push('merilScientificSubdomains', false)">
-                              <i class="fa fa-plus" aria-hidden="true"></i> Add {{merilScientificSubdomainsDesc.label}}
-                            </a>
-                          </div>
-                          <i><small>{{merilScientificSubdomainsDesc.desc}}</small></i>
+                        <div *ngIf="!disable" class="uk-form-controls">
+                          <a class="add-new-element" (click)="pushMerilDomain()">
+                            <i class="fa fa-plus" aria-hidden="true"></i> Add another scientific domain
+                          </a>
                         </div>
                       </div>
                       <div formArrayName="areasOfActivity" class="uk-margin-bottom">

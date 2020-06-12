@@ -122,6 +122,8 @@ export class ServiceProviderFormComponent implements OnInit {
   providerTRLVocabulary: Vocabulary[] = null;
   domainsVocabulary: Vocabulary[] = null;
   categoriesVocabulary: Vocabulary[] = null;
+  merilDomainsVocabulary: Vocabulary[] = null;
+  merilCategoriesVocabulary: Vocabulary[] = null;
   esfriDomainVocabulary: Vocabulary[] = null;
   legalStatusVocabulary: Vocabulary[] = null;
   esfriVocabulary: Vocabulary[] = null;
@@ -138,8 +140,12 @@ export class ServiceProviderFormComponent implements OnInit {
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
     multimedia: this.fb.array([this.fb.control('', URLValidator)]),
-    domains: this.fb.array([]),
-    categories: this.fb.array([]),
+    categorization: this.fb.array([], Validators.required),
+    scientificDomains: this.fb.array([]),
+    scientificSubdomains: this.fb.array([]),
+    merilCategorization: this.fb.array([], Validators.required),
+    merilScientificDomains: this.fb.array([]),
+    merilScientificSubdomains: this.fb.array([]),
     // structureTypes: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
     structureTypes: this.fb.array([this.fb.control('')]),
     tags: this.fb.array([this.fb.control('')]),
@@ -168,16 +174,13 @@ export class ServiceProviderFormComponent implements OnInit {
     areasOfActivity: this.fb.array([this.fb.control('')]),
     societalGrandChallenges: this.fb.array([this.fb.control('')]),
     nationalRoadmaps: this.fb.array([this.fb.control('')]),
-    merilScientificDomains: this.fb.array([this.fb.control('')]),
-    merilScientificSubdomains: this.fb.array([this.fb.control('')]),
     certifications: this.fb.array([this.fb.control('')]),
     affiliations: this.fb.array([this.fb.control('')]),
     users: this.fb.array([
       this.user()
     ]),
     legalEntity: [''],
-    legalStatus: [''],
-    categorization: this.fb.array([], Validators.required)
+    legalStatus: ['']
   };
 
   constructor(public fb: FormBuilder,
@@ -209,6 +212,8 @@ export class ServiceProviderFormComponent implements OnInit {
             for (let j = 0; j < data[i].length - 1; j++) {
               if (i === 'categorization') {
                 this.domainArray.push(this.newScientificDomain());
+              } else if (i === 'merilCategorization') {
+                this.domainArray.push(this.newMerilScientificDomain());
               } else if (i === 'contacts') {
                 this.pushContact();
               } else if (i === 'users') {
@@ -248,8 +253,13 @@ export class ServiceProviderFormComponent implements OnInit {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
     }
     for (const category of this.domainArray.controls) {
-      if (category.get('category').value) {
-        this.getFieldAsFormArray('categories').push(this.fb.control(category.get('category').value));
+      if (category.get('scientificSubdomain').value) {
+        this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(category.get('scientificSubdomain').value));
+      }
+    }
+    for (const category of this.merilDomainArray.controls) {
+      if (category.get('merilScientificSubdomain').value) {
+        this.getFieldAsFormArray('merilScientificSubdomains').push(this.fb.control(category.get('merilScientificSubdomain').value));
       }
     }
     if (tempSave) {
@@ -273,7 +283,8 @@ export class ServiceProviderFormComponent implements OnInit {
     } else if (this.newProviderForm.valid) {
       this.showLoader = true;
       window.scrollTo(0, 0);
-      this.getFieldAsFormArray('categories').controls = [];
+      this.getFieldAsFormArray('scientificSubdomains').controls = [];
+      this.getFieldAsFormArray('merilScientificSubdomains').controls = [];
 
       this.serviceProviderService[method](this.newProviderForm.value).subscribe(
         res => {},
@@ -365,7 +376,7 @@ export class ServiceProviderFormComponent implements OnInit {
       || this.checkFormValidity('logo') || this.checkEveryArrayFieldValidity('multimedia'));
     this.tabs[2] = (this.checkEveryArrayFieldValidity('tags')
       || this.checkEveryArrayFieldValidity('categorization', 'domain')
-      || this.checkEveryArrayFieldValidity('categorization', 'category'));
+      || this.checkEveryArrayFieldValidity('categorization', 'scientificSubdomain'));
     this.tabs[3] = (this.checkFormValidity('location.streetNameAndNumber') || this.checkFormValidity('location.postalCode')
       || this.checkFormValidity('location.city') || this.checkFormValidity('location.region')
       || this.checkFormValidity('country'));
@@ -377,7 +388,8 @@ export class ServiceProviderFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('affiliations') || this.checkEveryArrayFieldValidity('networks')
       || this.checkEveryArrayFieldValidity('structureTypes')
       || this.checkEveryArrayFieldValidity('esfriDomains') || this.checkFormValidity('esfriType')
-      || this.checkEveryArrayFieldValidity('merilScientificDomains') || this.checkEveryArrayFieldValidity('merilScientificSubdomains')
+      || this.checkEveryArrayFieldValidity('merilCategorization', 'merilDomain')
+      || this.checkEveryArrayFieldValidity('merilCategorization', 'merilScientificSubdomain')
       || this.checkEveryArrayFieldValidity('areasOfActivity') || this.checkEveryArrayFieldValidity('societalGrandChallenges')
       || this.checkEveryArrayFieldValidity('nationalRoadmaps'));
     // this.tabs[6] = (this.checkEveryArrayFieldValidity('users', 'name') || this.checkEveryArrayFieldValidity('users', 'surname')
@@ -394,8 +406,10 @@ export class ServiceProviderFormComponent implements OnInit {
         this.placesVocabulary = this.vocabularies[Type.COUNTRY];
         this.providerTypeVocabulary = this.vocabularies[Type.PROVIDER_STRUCTURE_TYPE];
         this.providerTRLVocabulary = this.vocabularies[Type.PROVIDER_LIFE_CYCLE_STATUS];
-        this.domainsVocabulary =  this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_DOMAIN];
-        this.categoriesVocabulary =  this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN];
+        this.domainsVocabulary =  this.vocabularies[Type.SCIENTIFIC_DOMAIN];
+        this.categoriesVocabulary =  this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
+        this.merilDomainsVocabulary =  this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_DOMAIN];
+        this.merilCategoriesVocabulary =  this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN];
         this.esfriDomainVocabulary =  this.vocabularies[Type.PROVIDER_ESFRI_DOMAIN];
         this.legalStatusVocabulary =  this.vocabularies[Type.PROVIDER_LEGAL_STATUS];
         this.esfriVocabulary =  this.vocabularies[Type.PROVIDER_ESFRI_TYPE];
@@ -414,8 +428,8 @@ export class ServiceProviderFormComponent implements OnInit {
   /** Categorization --> **/
   newScientificDomain(): FormGroup {
     return this.fb.group({
-      domain: ['', Validators.required],
-      category: ['', Validators.required]
+      domain: [''],
+      scientificSubdomain: ['']
     });
   }
 
@@ -425,7 +439,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
   pushDomain() {
     this.domainArray.push(this.newScientificDomain());
-    this.domainArray.controls[this.domainArray.length - 1].get('category').disable();
+    this.domainArray.controls[this.domainArray.length - 1].get('scientificSubdomain').disable();
   }
 
   removeDomain(index: number) {
@@ -433,10 +447,37 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   onDomainChange(index: number) {
-    this.domainArray.controls[index].get('category').enable();
-    this.domainArray.controls[index].get('category').reset();
+    this.domainArray.controls[index].get('scientificSubdomain').enable();
+    this.domainArray.controls[index].get('scientificSubdomain').reset();
   }
   /** <-- Categorization **/
+
+  /** MERIL Categorization --> **/
+  newMerilScientificDomain(): FormGroup {
+    return this.fb.group({
+      merilDomain: [''],
+      merilScientificSubdomain: ['']
+    });
+  }
+
+  get merilDomainArray() {
+    return this.newProviderForm.get('merilCategorization') as FormArray;
+  }
+
+  pushMerilDomain() {
+    this.merilDomainArray.push(this.newMerilScientificDomain());
+    this.merilDomainArray.controls[this.merilDomainArray.length - 1].get('merilScientificSubdomain').disable();
+  }
+
+  removeMerilDomain(index: number) {
+    this.merilDomainArray.removeAt(index);
+  }
+
+  onMerilDomainChange(index: number) {
+    this.merilDomainArray.controls[index].get('merilScientificSubdomain').enable();
+    this.merilDomainArray.controls[index].get('merilScientificSubdomain').reset();
+  }
+  /** <-- MERIL Categorization **/
 
   /** handle form arrays--> **/
   getFieldAsFormArray(field: string) {

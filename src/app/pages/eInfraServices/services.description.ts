@@ -133,7 +133,7 @@ export const providerDescriptionDesc = {label: 'Description', mandatory: true, d
 export const providerLogoDesc = {label: 'Logo', mandatory: true, desc: 'Link to the logo/visual identity of the provider. The logo will be visible at the Portal. To obtain the link:  Go to the Service Provider\'s website --> Right Click on the Service Provider\'s logo on the website --> Select "Copy Image Link" --> Paste it in the above field.'};
 export const providerMultimediaDesc = {label: 'Multimedia', mandatory: false, desc: 'Link to video, slideshow, photos, screenshots with details of the provider.'};
 // Classification Information
-export const providerScientificDomainDesc = {label: 'Scientific Domain', mandatory: true, desc: 'A named group of providers that offer access to the same type of resource or capabilities.'};
+export const providerScientificDomainDesc = {label: 'Scientific Domain', mandatory: false, desc: 'A named group of providers that offer access to the same type of resource or capabilities.'};
 export const providerScientificSubdomainsDesc = {label: 'Scientific Subdomain', mandatory: false, desc: 'A named group of providers that offer access to the same type of resource or capabilities, within the defined category.'};
 export const providerTagsDesc = {label: 'Tags', mandatory: false, desc: 'Keywords associated to the provider to simplify search by relevant keywords.'};
 // Location Information
