@@ -129,17 +129,17 @@ export const                        countryDesc = {mandatory: true, label: 'Coun
 
 // Contact Information --> //
 // Main Contact/Provider Manager
-export const   providerMainContactFirstNameDesc = {mandatory: true, label: 'Main Contact First Name', desc: 'First Name of the provider\'s main contact person/ provider manager.'};
-export const    providerMainContactLastNameDesc = {mandatory: true, label: 'Main Contact Last Name', desc: 'Last Name of the provider\'s main contact person/ provider manager.'};
-export const       providerMainContactEmailDesc = {mandatory: true, label: 'Main Contact Email', desc: 'Email of the provider\'s main contact person/ provider manager.'};
-export const       providerMainContactPhoneDesc = {mandatory: false, label: 'Main Contact Phone', desc: 'Phone of the provider\'s main contact person/ provider manager.'};
-export const    providerMainContactPositionDesc = {mandatory: false, label: 'Main Contact Position', desc: 'Position of the provider\'s main contact person/ provider manager.'};
+export const   providerMainContactFirstNameDesc = {mandatory: true, label: 'First Name', desc: 'First Name of the provider\'s main contact person/ provider manager.'};
+export const    providerMainContactLastNameDesc = {mandatory: true, label: 'Last Name', desc: 'Last Name of the provider\'s main contact person/ provider manager.'};
+export const       providerMainContactEmailDesc = {mandatory: true, label: 'Email', desc: 'Email of the provider\'s main contact person/ provider manager.'};
+export const       providerMainContactPhoneDesc = {mandatory: false, label: 'Phone', desc: 'Phone of the provider\'s main contact person/ provider manager.'};
+export const    providerMainContactPositionDesc = {mandatory: false, label: 'Position', desc: 'Position of the provider\'s main contact person/ provider manager.'};
 // Public Contact
-export const providerPublicContactFirstNameDesc = {mandatory: false, label: 'Public Contact First Name', desc: 'First Name of the provider\'s contact person to be displayed at the portal.'};
-export const  providerPublicContactLastNameDesc = {mandatory: false, label: 'Public Contact Last Name', desc: 'Last Name of the provider\'s contact person to be displayed at the portal.'};
-export const     providerPublicContactEmailDesc = {mandatory: true, label: 'Public Contact Email', desc: 'Email of the provider\'s contact person to be displayed at the portal or general email to contact organisation.'};
-export const     providerPublicContactPhoneDesc = {mandatory: false, label: 'Public Contact Phone', desc: 'Phone of the provider\'s contact person to be displayed at the portal or general email to contact organisation.'};
-export const  providerPublicContactPositionDesc = {mandatory: false, label: 'Public Contact Position', desc: 'Position of the provider\'s contact person to be displayed at the portal.'};
+export const providerPublicContactFirstNameDesc = {mandatory: false, label: 'First Name', desc: 'First Name of the provider\'s contact person to be displayed at the portal.'};
+export const  providerPublicContactLastNameDesc = {mandatory: false, label: 'Last Name', desc: 'Last Name of the provider\'s contact person to be displayed at the portal.'};
+export const     providerPublicContactEmailDesc = {mandatory: true, label: 'Email', desc: 'Email of the provider\'s contact person to be displayed at the portal or general email to contact organisation.'};
+export const     providerPublicContactPhoneDesc = {mandatory: false, label: 'Phone', desc: 'Phone of the provider\'s contact person to be displayed at the portal or general email to contact organisation.'};
+export const  providerPublicContactPositionDesc = {mandatory: false, label: 'Position', desc: 'Position of the provider\'s contact person to be displayed at the portal.'};
 // <-- Contact Information //
 
 // Maturity Information //

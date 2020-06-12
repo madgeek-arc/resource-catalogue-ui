@@ -86,7 +86,6 @@ export class ServiceProviderFormComponent implements OnInit {
     id: [''],
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
-    // legalForm: ['', Validators.required],
     website: ['', Validators.compose([Validators.required, URLValidator])],
     legalEntity: ['', Validators.required],
     legalStatus: [''],
@@ -104,14 +103,21 @@ export class ServiceProviderFormComponent implements OnInit {
       region: [''],
       country: ['', Validators.required]
     }, Validators.required),
-    contacts: this.fb.array([
+    mainContact: this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      phone: ['', Validators.pattern('[+]?\\d+$')],
+      position: [''],
+    }, Validators.required),
+    publicContacts: this.fb.array([
       this.fb.group({
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
+        firstName: [''],
+        lastName: [''],
         email: ['', Validators.compose([Validators.required, Validators.email])],
-        tel: ['', Validators.compose([Validators.required, Validators.pattern('[+]?\\d+$')])],
+        phone: ['', Validators.pattern('[+]?\\d+$')],
         position: [''],
-      }, Validators.required)
+      })
     ]),
     lifeCycleStatus: [''],
     certifications: this.fb.array([this.fb.control('')]),
@@ -164,13 +170,13 @@ export class ServiceProviderFormComponent implements OnInit {
                 this.domainArray.push(this.newScientificDomain());
               } else if (i === 'merilCategorization') {
                 this.domainArray.push(this.newMerilScientificDomain());
-              } else if (i === 'contacts') {
-                this.pushContact();
+              } else if (i === 'publicContacts') {
+                this.pushPublicContact();
               } else if (i === 'users') {
                 this.addUser();
-              } else if ( i === 'structureTypes') {
+              } else if (i === 'structureTypes') {
                 this.push(i, true);
-              } else if ( i === 'multimedia') {
+              } else if (i === 'multimedia') {
                 this.push(i, false, true);
               } else {
                 this.push(i, false);
@@ -217,19 +223,19 @@ export class ServiceProviderFormComponent implements OnInit {
       window.scrollTo(0, 0);
       this.serviceProviderService.temporarySaveProvider(this.newProviderForm.value, (path !== 'registerServiceProvider/:id' && this.edit))
         .subscribe(
-        res => {
-          this.showLoader = false;
-          this.router.navigate([`/registerServiceProvider/${res.id}`]);
-        },
-        err => {
-          this.showLoader = false;
-          window.scrollTo(0, 0);
-          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
-        },
-        () => {
-          this.showLoader = false;
-        }
-      );
+          res => {
+            this.showLoader = false;
+            this.router.navigate([`/registerServiceProvider/${res.id}`]);
+          },
+          err => {
+            this.showLoader = false;
+            window.scrollTo(0, 0);
+            this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
+          },
+          () => {
+            this.showLoader = false;
+          }
+        );
     } else if (this.newProviderForm.valid) {
       this.showLoader = true;
       window.scrollTo(0, 0);
@@ -237,7 +243,8 @@ export class ServiceProviderFormComponent implements OnInit {
       this.getFieldAsFormArray('merilScientificSubdomains').controls = [];
 
       this.serviceProviderService[method](this.newProviderForm.value).subscribe(
-        res => {},
+        res => {
+        },
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
@@ -335,11 +342,16 @@ export class ServiceProviderFormComponent implements OnInit {
       || this.checkFormValidity('location.city')
       || this.checkFormValidity('location.region')
       || this.checkFormValidity('location.country'));
-    this.tabs[4] = (this.checkEveryArrayFieldValidity('contacts', 'firstName')
-      || this.checkEveryArrayFieldValidity('contacts', 'lastName')
-      || this.checkEveryArrayFieldValidity('contacts', 'email')
-      || this.checkEveryArrayFieldValidity('contacts', 'tel')
-      || this.checkEveryArrayFieldValidity('contacts', 'position'));
+    this.tabs[4] = (this.checkFormValidity('mainContact.firstName')
+      || this.checkFormValidity('mainContact.lastName')
+      || this.checkFormValidity('mainContact.email')
+      || this.checkFormValidity('mainContact.phone')
+      || this.checkFormValidity('mainContact.position')
+      || this.checkEveryArrayFieldValidity('publicContacts', 'firstName')
+      || this.checkEveryArrayFieldValidity('publicContacts', 'lastName')
+      || this.checkEveryArrayFieldValidity('publicContacts', 'email')
+      || this.checkEveryArrayFieldValidity('publicContacts', 'phone')
+      || this.checkEveryArrayFieldValidity('publicContacts', 'position'));
     this.tabs[5] = (this.checkFormValidity('lifeCycleStatus')
       || this.checkEveryArrayFieldValidity('certifications'));
     this.tabs[6] = (this.checkFormValidity('hostingLegalEntity')
@@ -368,16 +380,16 @@ export class ServiceProviderFormComponent implements OnInit {
         this.placesVocabulary = this.vocabularies[Type.COUNTRY];
         this.providerTypeVocabulary = this.vocabularies[Type.PROVIDER_STRUCTURE_TYPE];
         this.providerLCSVocabulary = this.vocabularies[Type.PROVIDER_LIFE_CYCLE_STATUS];
-        this.domainsVocabulary =  this.vocabularies[Type.SCIENTIFIC_DOMAIN];
-        this.categoriesVocabulary =  this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
-        this.merilDomainsVocabulary =  this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_DOMAIN];
-        this.merilCategoriesVocabulary =  this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN];
-        this.esfriDomainVocabulary =  this.vocabularies[Type.PROVIDER_ESFRI_DOMAIN];
-        this.legalStatusVocabulary =  this.vocabularies[Type.PROVIDER_LEGAL_STATUS];
-        this.esfriVocabulary =  this.vocabularies[Type.PROVIDER_ESFRI_TYPE];
-        this.areasOfActivityVocabulary =  this.vocabularies[Type.PROVIDER_AREA_OF_ACTIVITY];
-        this.networksVocabulary =  this.vocabularies[Type.PROVIDER_NETWORK];
-        this.societalGrandChallengesVocabulary =  this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
+        this.domainsVocabulary = this.vocabularies[Type.SCIENTIFIC_DOMAIN];
+        this.categoriesVocabulary = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
+        this.merilDomainsVocabulary = this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_DOMAIN];
+        this.merilCategoriesVocabulary = this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN];
+        this.esfriDomainVocabulary = this.vocabularies[Type.PROVIDER_ESFRI_DOMAIN];
+        this.legalStatusVocabulary = this.vocabularies[Type.PROVIDER_LEGAL_STATUS];
+        this.esfriVocabulary = this.vocabularies[Type.PROVIDER_ESFRI_TYPE];
+        this.areasOfActivityVocabulary = this.vocabularies[Type.PROVIDER_AREA_OF_ACTIVITY];
+        this.networksVocabulary = this.vocabularies[Type.PROVIDER_NETWORK];
+        this.societalGrandChallengesVocabulary = this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
         return this.vocabularies;
       },
       error => console.log(JSON.stringify(error.error)),
@@ -412,6 +424,7 @@ export class ServiceProviderFormComponent implements OnInit {
     this.domainArray.controls[index].get('scientificSubdomain').enable();
     this.domainArray.controls[index].get('scientificSubdomain').reset();
   }
+
   /** <-- Categorization **/
 
   /** MERIL Categorization --> **/
@@ -439,6 +452,7 @@ export class ServiceProviderFormComponent implements OnInit {
     this.merilDomainArray.controls[index].get('merilScientificSubdomain').enable();
     this.merilDomainArray.controls[index].get('merilScientificSubdomain').reset();
   }
+
   /** <-- MERIL Categorization **/
 
   /** handle form arrays--> **/
@@ -463,6 +477,7 @@ export class ServiceProviderFormComponent implements OnInit {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }
   }
+
   /** <--handle form arrays**/
 
   /** Contact Info -->**/
@@ -471,21 +486,23 @@ export class ServiceProviderFormComponent implements OnInit {
       firstName: [''],
       lastName: [''],
       email: [''],
-      tel: [''],
+      phone: [''],
       position: [''],
     });
   }
 
-  get contactArray() {
-    return this.newProviderForm.get('contacts') as FormArray;
+  get publicContactArray() {
+    return this.newProviderForm.get('publicContacts') as FormArray;
   }
 
-  pushContact() {
-    this.contactArray.push(this.newContact());
+  pushPublicContact() {
+    this.publicContactArray.push(this.newContact());
   }
-  removeContact(index: number) {
-    this.contactArray.removeAt(index);
+
+  removePublicContact(index: number) {
+    this.publicContactArray.removeAt(index);
   }
+
   /** <--Contact Info **/
 
   /** User Array -->**/
@@ -523,6 +540,7 @@ export class ServiceProviderFormComponent implements OnInit {
     this.usersArray.controls[0].get('name').setValue(this.userInfo.given_name);
     this.usersArray.controls[0].get('surname').setValue(this.userInfo.family_name);
   }
+
   /** <-- User Array**/
 
   showLogoUrlModal() {

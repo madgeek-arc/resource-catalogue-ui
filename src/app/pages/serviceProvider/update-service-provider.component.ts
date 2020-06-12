@@ -157,7 +157,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         }
         if (this.provider.mainContact && this.provider.publicContacts.length > 1) {
           for (let i = 0; i < this.provider.publicContacts.length - 1; i++) {
-            this.pushContact();
+            this.pushPublicContact();
           }
         }
         if (this.provider.tags && this.provider.tags.length > 1) {
