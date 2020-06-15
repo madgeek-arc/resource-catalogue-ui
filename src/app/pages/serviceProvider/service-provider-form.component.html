@@ -373,7 +373,7 @@
                             <div [formGroupName]="i" class="uk-margin-small-bottom"
                                  style="border: 1px dashed #cccccc; padding-right: 10px">
                               <div>
-                                <a *ngIf="i !== 0 && !disable" class="remove-element uk-padding-small"
+                                <a *ngIf="!disable" class="remove-element uk-padding-small"
                                    (click)="removePublicContact(i)">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
@@ -423,7 +423,7 @@
                         </div>
                         <div *ngIf="!disable" class="uk-form-controls">
                           <a class="add-new-element" (click)="pushPublicContact()">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add another contact
+                            <i class="fa fa-plus" aria-hidden="true"></i> Add a public contact
                           </a>
                         </div>
                       </div>

@@ -32,6 +32,7 @@ export class ServiceFormComponent implements OnInit {
   weights: string[] = [];
   tabs: boolean[] = [false, false, false, false, false, false, false, false, false, false, false, false];
   fb: FormBuilder = this.injector.get(FormBuilder);
+  disable = false;
 
   measurementForm: FormGroup;
   places: Vocabulary[] = null;
@@ -60,11 +61,13 @@ export class ServiceFormComponent implements OnInit {
   readonly mainContactEmailDesc: sd.Description = sd.mainContactEmailDesc;
   readonly mainContactPhoneDesc: sd.Description = sd.mainContactPhoneDesc;
   readonly mainContactPositionDesc: sd.Description = sd.mainContactPositionDesc;
+  readonly mainContactOrganisationDesc: sd.Description = sd.mainContactOrganisationDesc;
   readonly publicContactFirstNameDesc: sd.Description = sd.publicContactFirstNameDesc;
   readonly publicContactLastNameDesc: sd.Description = sd.publicContactLastNameDesc;
   readonly publicContactEmailDesc: sd.Description = sd.publicContactEmailDesc;
   readonly publicContactPhoneDesc: sd.Description = sd.publicContactPhoneDesc;
   readonly publicContactPositionDesc: sd.Description = sd.publicContactPositionDesc;
+  readonly publicContactOrganisationDesc: sd.Description = sd.publicContactOrganisationDesc;
   readonly helpdeskEmailDesc: sd.Description = sd.helpdeskEmailDesc;
   readonly securityContactEmailDesc: sd.Description = sd.securityContactEmailDesc;
   readonly phaseDesc: sd.Description = sd.phaseDesc;
@@ -155,21 +158,25 @@ export class ServiceFormComponent implements OnInit {
     helpdeskPage: ['', URLValidator],
     statusMonitoring: ['', URLValidator],
     maintenance: ['', URLValidator],
-    contacts: this.fb.array([
+    mainContact: this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      phone: ['', Validators.pattern('[+]?\\d+$')],
+      position: [''],
+      organisation: ['']
+    }, Validators.required),
+    publicContacts: this.fb.array([
       this.fb.group({
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
+        firstName: [''],
+        lastName: [''],
         email: ['', Validators.compose([Validators.required, Validators.email])],
-        tel: ['', Validators.compose([Validators.required, Validators.pattern('[+]?\\d+$')])],
+        phone: ['', Validators.pattern('[+]?\\d+$')],
         position: [''],
-      }, Validators.required)
+        organisation: ['']
+      })
     ]),
-    // ownerName: [''],
-    // ownerContact: ['', Validators.email],
-    // supportName: [''],
-    // supportContact: ['', Validators.email],
-    // securityName: [''],
-    // securityContact: ['', Validators.email],
+
     aggregatedServices: [''],
     datasets: [''],
     applications: [''],
@@ -486,11 +493,18 @@ export class ServiceFormComponent implements OnInit {
     this.tabs[3] = (this.checkEveryArrayFieldValidity('languageAvailabilities')
       || this.checkEveryArrayFieldValidity('geographicalAvailabilities'));
     this.tabs[4] = (this.checkEveryArrayFieldValidity('resourceGeographicLocations'));
-    this.tabs[5] = (this.checkEveryArrayFieldValidity('contacts', 'firstName')
-      || this.checkEveryArrayFieldValidity('contacts', 'lastName')
-      || this.checkEveryArrayFieldValidity('contacts', 'email')
-      || this.checkEveryArrayFieldValidity('contacts', 'tel')
-      || this.checkEveryArrayFieldValidity('contacts', 'position')
+    this.tabs[5] = (this.checkFormValidity('mainContact.firstName')
+      || this.checkFormValidity('mainContact.lastName')
+      || this.checkFormValidity('mainContact.email')
+      || this.checkFormValidity('mainContact.phone')
+      || this.checkFormValidity('mainContact.position')
+      || this.checkFormValidity('mainContact.organisation')
+      || this.checkEveryArrayFieldValidity('publicContacts', 'firstName')
+      || this.checkEveryArrayFieldValidity('publicContacts', 'lastName')
+      || this.checkEveryArrayFieldValidity('publicContacts', 'email')
+      || this.checkEveryArrayFieldValidity('publicContacts', 'phone')
+      || this.checkEveryArrayFieldValidity('publicContacts', 'position')
+      || this.checkEveryArrayFieldValidity('publicContacts', 'organisation')
       || this.checkFormValidity('helpdeskEmail')
       || this.checkFormValidity('securityContactEmail'));
     this.tabs[6] = (this.checkFormValidity('lifeCycleStatus')
@@ -609,16 +623,27 @@ export class ServiceFormComponent implements OnInit {
 
   /** Service Contact Info -->**/
 
-  get contactArray() {
-    return this.serviceForm.get('contacts') as FormArray;
+  newContact(): FormGroup {
+    return this.fb.group({
+      firstName: [''],
+      lastName: [''],
+      email: [''],
+      phone: [''],
+      position: [''],
+      organisation: ['']
+    });
   }
 
-  pushContactServiceForm() {
-    // this.contactArray.push(this.newContact()); // FIXME
+  get publicContactArray() {
+    return this.serviceForm.get('publicContacts') as FormArray;
   }
 
-  removeContactServiceForm(index: number) {
-    this.contactArray.removeAt(index);
+  pushPublicContact() {
+    this.publicContactArray.push(this.newContact()); // FIXME
+  }
+
+  removePublicContact(index: number) {
+    this.publicContactArray.removeAt(index);
   }
 
   /** <--Service Contact Info **/

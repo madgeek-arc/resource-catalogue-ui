@@ -724,62 +724,127 @@
                       </li>
                       <li>
                         <div class="uk-margin-bottom">
-                          <label class="uk-form-label uk-text-right">Contact (*)</label>
+                          <label class="uk-form-label uk-text-right">Main Contact (*)</label>
                           <div class="uk-form-controls">
-                            <div formArrayName="contacts" *ngFor="let contact of contactArray.controls; let i = index">
-                              <div [formGroupName]="i" class="uk-margin-small-bottom uk-animation-slide-top-small"
+                            <div formGroupName="mainContact" class="uk-margin-small-bottom"
+                                 style="border: 1px dashed #cccccc; padding-right: 10px">
+                              <label class="uk-form-label uk-text-right" for="mainContactFirstName">
+                                {{ mainContactFirstNameDesc.label + (mainContactFirstNameDesc.mandatory ? ' (*)' : '') }}
+                              </label>
+                              <div class="uk-form-controls">
+                                <input id="mainContactFirstName" class="uk-input" type="text" formControlName="firstName"
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.firstName')}">
+                                <i><small>{{ mainContactFirstNameDesc.desc }}</small></i>
+                              </div>
+                              <label class="uk-form-label uk-text-right" for="mainContactLastName">
+                                {{ mainContactLastNameDesc.label + (mainContactLastNameDesc.mandatory ? ' (*)' : '') }}
+                              </label>
+                              <div class="uk-form-controls">
+                                <input id="mainContactLastName" class="uk-input" type="text" formControlName="lastName"
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.lastName')}">
+                                <i><small>{{ mainContactLastNameDesc.desc }}</small></i>
+                              </div>
+                              <label class="uk-form-label uk-text-right" for="mainContactEmail">
+                                {{ mainContactEmailDesc.label + (mainContactEmailDesc.mandatory ? ' (*)' : '') }}
+                              </label>
+                              <div class="uk-form-controls">
+                                <input id="mainContactEmail" class="uk-input" type="text" formControlName="email"
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.email')}">
+                                <i><small>{{ mainContactEmailDesc.desc }}</small></i>
+                              </div>
+                              <label class="uk-form-label uk-text-right" for="mainContactPhone">
+                                {{ mainContactPhoneDesc.label + (mainContactPhoneDesc.mandatory ? ' (*)' : '') }}
+                              </label>
+                              <div class="uk-form-controls">
+                                <input id="mainContactPhone" class="uk-input" type="text" formControlName="phone"
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.phone')}">
+                                <i><small>{{ mainContactPhoneDesc.desc }}</small></i>
+                              </div>
+                              <label class="uk-form-label uk-text-right" for="mainContactPosition">
+                                {{ mainContactPositionDesc.label + (mainContactPositionDesc.mandatory ? ' (*)' : '') }}
+                              </label>
+                              <div class="uk-form-controls">
+                                <input id="mainContactPosition" class="uk-input" type="text" formControlName="position"
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.position')}">
+                                <i><small>{{ mainContactPositionDesc.desc }}</small></i>
+                              </div>
+                              <label class="uk-form-label uk-text-right" for="mainContactOrganisation">
+                                {{ mainContactOrganisationDesc.label + (mainContactOrganisationDesc.mandatory ? ' (*)' : '') }}
+                              </label>
+                              <div class="uk-form-controls">
+                                <input id="mainContactOrganisation" class="uk-input" type="text" formControlName="organisation"
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.organisation')}">
+                                <i><small>{{ mainContactOrganisationDesc.desc }}</small></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="uk-margin-bottom">
+                          <label class="uk-form-label uk-text-right">Public Contacts</label>
+                          <div class="uk-form-controls">
+                            <div formArrayName="publicContacts" *ngFor="let contact of publicContactArray.controls; let i = index">
+                              <div [formGroupName]="i" class="uk-margin-small-bottom"
                                    style="border: 1px dashed #cccccc; padding-right: 10px">
                                 <div>
-                                  <a *ngIf="i !== 0" class="remove-element uk-padding-small" (click)="removeContactServiceForm(i)">
+                                  <a *ngIf="!disable" class="remove-element uk-padding-small"
+                                     (click)="removePublicContact(i)">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <label class="uk-form-label uk-text-right" for="{{'firstName ' + i}}">
-                                  {{ i === 0 ? (mainContactFirstNameDesc.label + (mainContactFirstNameDesc.mandatory ? ' (*)' : '')) : (publicContactLastNameDesc.label + (publicContactLastNameDesc.mandatory ? ' (*)' : ''))}}
+                                <label class="uk-form-label uk-text-right" for="firstName">
+                                  {{ publicContactFirstNameDesc.label + (publicContactFirstNameDesc.mandatory ? ' (*)' : '') }}
                                 </label>
                                 <div class="uk-form-controls">
-                                  <input id="{{'firstName ' + i}}" class="uk-input" type="text" formControlName="firstName"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('contacts', i, 'firstName')}">
-                                  <i><small>{{i === 0 ? mainContactFirstNameDesc.desc : publicContactLastNameDesc.desc}}</small></i>
+                                  <input id="firstName" class="uk-input" type="text" formControlName="firstName"
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'firstName')}">
+                                  <i><small>{{ publicContactFirstNameDesc.desc }}</small></i>
                                 </div>
-                                <label class="uk-form-label uk-text-right" for="{{'lastName ' + i}}">
-                                  {{ i === 0 ? (mainContactLastNameDesc.label + (mainContactLastNameDesc.mandatory ? ' (*)' : '')) : (publicContactFirstNameDesc.label + (publicContactFirstNameDesc.mandatory ? ' (*)' : ''))}}
+                                <label class="uk-form-label uk-text-right" for="lastName">
+                                  {{ publicContactLastNameDesc.label + (publicContactLastNameDesc.mandatory ? ' (*)' : '') }}
                                 </label>
                                 <div class="uk-form-controls">
-                                  <input id="{{'lastName ' + i}}" class="uk-input" type="text" formControlName="lastName"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('contacts', i, 'lastName')}">
-                                  <i><small>{{i === 0 ? mainContactLastNameDesc.desc : publicContactFirstNameDesc.desc}}</small></i>
+                                  <input id="lastName" class="uk-input" type="text" formControlName="lastName"
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'lastName')}">
+                                  <i><small>{{ publicContactLastNameDesc.desc }}</small></i>
                                 </div>
-                                <label class="uk-form-label uk-text-right" for="{{'email ' + i}}">
-                                  {{ i === 0 ? (mainContactEmailDesc.label + (mainContactEmailDesc.mandatory ? ' (*)' : '')) : (publicContactEmailDesc.label + (publicContactEmailDesc.mandatory ? ' (*)' : ''))}}
+                                <label class="uk-form-label uk-text-right" for="email">
+                                  {{ publicContactEmailDesc.label + (publicContactEmailDesc.mandatory ? ' (*)' : '')}}
                                 </label>
                                 <div class="uk-form-controls">
-                                  <input id="{{'email ' + i}}" class="uk-input" type="text" formControlName="email"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('contacts', i, 'email')}">
-                                  <i><small>{{i === 0 ? mainContactEmailDesc.desc : publicContactEmailDesc.desc}}</small></i>
+                                  <input id="email" class="uk-input" type="text" formControlName="email"
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'email')}">
+                                  <i><small>{{ publicContactEmailDesc.desc }}</small></i>
                                 </div>
-                                <label class="uk-form-label uk-text-right" for="{{'tel ' + i}}">
-                                  {{ i === 0 ? (mainContactPhoneDesc.label + (mainContactPhoneDesc.mandatory ? ' (*)' : '')) : (publicContactPhoneDesc.label + (publicContactPhoneDesc.mandatory ? ' (*)' : ''))}}
+                                <label class="uk-form-label uk-text-right" for="phone">
+                                  {{ publicContactPhoneDesc.label + (publicContactPhoneDesc.mandatory ? ' (*)' : '') }}
                                 </label>
                                 <div class="uk-form-controls">
-                                  <input id="{{'tel ' + i}}" class="uk-input" type="text" formControlName="tel"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('contacts', i, 'tel')}">
-                                  <i><small>{{i === 0 ? mainContactPhoneDesc.desc : publicContactPhoneDesc.desc}}</small></i>
+                                  <input id="phone" class="uk-input" type="text" formControlName="phone"
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'phone')}">
+                                  <i><small>{{ publicContactPhoneDesc.desc }}</small></i>
                                 </div>
-                                <label class="uk-form-label uk-text-right" for="{{'position ' + i}}">
-                                  {{ i === 0 ? (mainContactPositionDesc.label + (mainContactPositionDesc.mandatory ? ' (*)' : '')) : (publicContactPositionDesc.label + (publicContactPositionDesc.mandatory ? ' (*)' : ''))}}
+                                <label class="uk-form-label uk-text-right" for="position">
+                                  {{ publicContactPositionDesc.label + (publicContactPositionDesc.mandatory ? ' (*)' : '') }}
                                 </label>
                                 <div class="uk-form-controls">
-                                  <input id="{{'position ' + i}}" class="uk-input" type="text" formControlName="position"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('contacts', i, 'position')}">
-                                  <i><small>{{i === 0 ? mainContactPositionDesc.desc : publicContactPositionDesc.desc}}</small></i>
+                                  <input id="position" class="uk-input" type="text" formControlName="position"
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'position')}">
+                                  <i><small>{{ publicContactPositionDesc.desc }}</small></i>
+                                </div>
+                                <label class="uk-form-label uk-text-right" for="organisation">
+                                  {{ publicContactOrganisationDesc.label + (publicContactOrganisationDesc.mandatory ? ' (*)' : '') }}
+                                </label>
+                                <div class="uk-form-controls">
+                                  <input id="organisation" class="uk-input" type="text" formControlName="organisation"
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'organisation')}">
+                                  <i><small>{{ publicContactOrganisationDesc.desc }}</small></i>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div class="uk-form-controls">
-                            <a class="add-new-element" (click)="pushContactServiceForm()">
-                              <i class="fa fa-plus" aria-hidden="true"></i> Add another contact
+                          <div *ngIf="!disable" class="uk-form-controls">
+                            <a class="add-new-element" (click)="pushPublicContact()">
+                              <i class="fa fa-plus" aria-hidden="true"></i> Add a public contact
                             </a>
                           </div>
                         </div>
