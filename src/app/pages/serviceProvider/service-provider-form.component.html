@@ -12,13 +12,6 @@
           </a>{{disable ? ' ' : edit ? ' Update' : ' Add New'}} Service Provider {{disable ? 'Info' : ''}}
         </h1>
 
-        <div class="uk-alert uk-alert-primary">
-          For questions related to the information that needs to be filled in and suggestions on the portal, please contact us in
-          <a href="mailto:support@catris.eu">support@catris.eu</a>
-          <br>
-          For technical issues and questions, please contact us in <a href="mailto:tech-support@catris.eu">tech-support@catris.eu</a>
-        </div>
-
         <!-- TOP HELP CONTENT -->
         <app-help-content #topHelperContent [position]="'top'"
                           [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
@@ -44,12 +37,6 @@
 
                 <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
-                <div class="uk-float-right uk-padding">
-                  <button class="uk-button" type="button" title="Open or download an empty pdf template form"
-                          (click)="downloadProviderFormPDF()">Download to pdf
-                  </button>
-                </div>
-
                 <ul class="uk-width-1-1 uk-margin-remove" uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
                   <li class="uk-active"><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[0]}" href="#">Basic *</a></li>
                   <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[1]}" href="#">Marketing *</a></li>
@@ -59,7 +46,6 @@
                   <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[5]}" href="#">Maturity</a></li>
                   <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[6]}" href="#">Other</a></li>
                 </ul>
-
 
                 <form *ngIf="vocabularies" [formGroup]="newProviderForm" class="uk-form-horizontal uk-margin">
 
