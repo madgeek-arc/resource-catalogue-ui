@@ -98,8 +98,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     if (richService.service.geographicalAvailabilities) {
       for (let i = 0; i < richService.service.geographicalAvailabilities.length - 1; i++) {
         this.push('places', true);
-        // TODO: 211 replace places with geographicalAvailabilities (same for all similar cases)
-        // this.push('geographicalAvailabilities', true);
       }
     }
     if (richService.service.geographicalAvailabilities) {

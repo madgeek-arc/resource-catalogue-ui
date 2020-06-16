@@ -110,8 +110,10 @@
                           {{ legalEntityDesc.label + (legalEntityDesc.mandatory ? ' (*)' : '')}}
                         </label>
                         <div class="uk-form-controls">
-                          <label><input class="uk-radio" type="radio" value="true" id="legalEntityYes" formControlName="legalEntity"> Yes</label><br>
-                          <label><input class="uk-radio" type="radio" value="false" id="legalEntityNo" formControlName="legalEntity"> No</label><br>
+                          <label><input class="uk-radio" type="radio" id="legalEntityYes" formControlName="legalEntity" value="true"
+                                        [checked]="this.newProviderForm.get('legalEntity').value == true && edit"> Yes</label><br>
+                          <label><input class="uk-radio" type="radio" id="legalEntityNo" formControlName="legalEntity" value="false"
+                                        [checked]="this.newProviderForm.get('legalEntity').value == false && edit"> No</label><br>
                           <i><small>{{legalEntityDesc.desc}}</small></i>
                         </div>
                       </div>
