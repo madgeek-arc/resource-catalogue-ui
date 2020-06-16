@@ -75,7 +75,7 @@
                                   {{ providerBundle.status }}
                                 </div>
                                 <div>
-                                  <a routerLink="/updateServiceProvider/{{providerBundle.id}}">Update provider</a>
+                                  <a routerLink="/updateServiceProvider/{{providerBundle.id}}">Update Provider Description</a>
                                 </div>
                               </div>
                               <div *ngIf="(providerBundle.status === 'pending service template submission')
@@ -83,12 +83,12 @@
                                           || (providerBundle.status === 'rejected service template')">
                                 <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
                                   <i class="fa {{hasCreatedFirstService(providerBundle.id) ? 'fa-pencil': 'fa-plus'}}"></i>
-                                  {{ hasCreatedFirstService(providerBundle.id) ? 'Update' : 'Add'}} service template
+                                  {{ hasCreatedFirstService(providerBundle.id) ? 'Update' : 'Add'}} Service Description
                                 </a>
                               </div>
                               <div *ngIf="checkForPendingServices(providerBundle.id)">
                                 <a [routerLink]="['/dashboard/' + providerBundle.id + '/pendingServices'] ">
-                                  <i class="fa fa-arrow-right" aria-hidden="true"></i> Select from pending service
+                                  <i class="fa fa-arrow-right" aria-hidden="true"></i> Select from Pending Services
                                 </a>
                               </div>
 
