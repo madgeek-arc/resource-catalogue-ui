@@ -210,6 +210,10 @@ export class ServiceProviderFormComponent implements OnInit {
     } else {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
     }
+
+    this.getFieldAsFormArray('scientificSubdomains').controls = [];
+    this.getFieldAsFormArray('merilScientificSubdomains').controls = [];
+
     for (const category of this.domainArray.controls) {
       if (category.get('scientificSubdomain').value) {
         this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(category.get('scientificSubdomain').value));
@@ -220,6 +224,7 @@ export class ServiceProviderFormComponent implements OnInit {
         this.getFieldAsFormArray('merilScientificSubdomains').push(this.fb.control(category.get('merilScientificSubdomain').value));
       }
     }
+
     if (tempSave) {
       this.showLoader = true;
       window.scrollTo(0, 0);
@@ -241,8 +246,6 @@ export class ServiceProviderFormComponent implements OnInit {
     } else if (this.newProviderForm.valid) {
       this.showLoader = true;
       window.scrollTo(0, 0);
-      this.getFieldAsFormArray('scientificSubdomains').controls = [];
-      this.getFieldAsFormArray('merilScientificSubdomains').controls = [];
 
       this.serviceProviderService[method](this.newProviderForm.value).subscribe(
         res => {
