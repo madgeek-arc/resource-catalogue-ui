@@ -156,6 +156,7 @@ export class ServiceProviderFormComponent implements OnInit {
     this.newProviderForm = this.fb.group(this.formDefinition);
     if (this.edit === false) {
       this.pushDomain();
+      this.pushMerilDomain();
       this.addDefaultUser();
     }
 
