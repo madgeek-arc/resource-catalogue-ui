@@ -19,9 +19,6 @@ export class ServiceUploadComponent extends ServiceFormComponent implements OnIn
 
   ngOnInit() {
     super.ngOnInit();
-    if (this.measurements.length === 0) {
-      this.pushToMeasurements();
-    }
   }
 
   onSuccess(service) {

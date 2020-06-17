@@ -330,17 +330,6 @@
             </div>
           </div>
 
-          <!-- INDICATORS-->
-          <div class="uk-margin-medium-top" *ngIf="measurements?.results?.length>0 && indicators?.results?.length>0">
-            <h2 class="section-heading uk-h2 uk-width-1-1@m">Indicators</h2>
-            <div class="uk-margin-medium-top uk-child-width-1-3@m" uk-grid>
-              <div *ngFor="let measurement of measurements.results">
-                <div>{{getIndicatorName(measurement.indicatorId)}}</div>
-                <div>{{measurement.valueIsRange ? (measurement.rangeValue.fromValue + ' - ' + measurement.rangeValue.toValue + ' ' + setUnit(measurement.indicatorId)) : (measurement.value + ' ' + setUnit(measurement.indicatorId))}}</div>
-                <div>{{measurement.time ? (measurement.time | date) : '-'}}</div>
-              </div>
-            </div>
-          </div>
         </div>
         <div class="uk-width-1-4">
 

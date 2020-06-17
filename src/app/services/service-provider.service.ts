@@ -32,12 +32,12 @@ export class ServiceProviderService {
   }
 
   createNewServiceProvider(newProvider: any) {
-    const url = `${this.base}createNewServiceProvider/provider/....`;
-    console.log(`knocking on: ${url}`);
+    console.log(`knocking on: ${this.base}/provider`);
     return this.http.post(this.base + '/provider', newProvider, this.options);
   }
 
   updateServiceProvider(updatedFields: any): Observable<Provider> {
+    console.log(`knocking on: ${this.base}/provider`);
     return this.http.put<Provider>(this.base + '/provider', updatedFields, this.options);
   }
 

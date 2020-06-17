@@ -5,7 +5,7 @@ import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {UserService} from '../../services/user.service';
 import * as sd from './services.description';
-import {Indicator, Provider, Service, Type, Vocabulary} from '../../domain/eic-model';
+import {Provider, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs/internal/observable/zip';
@@ -33,11 +33,9 @@ export class ServiceFormComponent implements OnInit {
   tabs: boolean[] = [false, false, false, false, false, false, false, false, false, false, false, false];
   fb: FormBuilder = this.injector.get(FormBuilder);
   disable = false;
+  shouldPut = false;
 
-  measurementForm: FormGroup;
   places: Vocabulary[] = null;
-  public indicators: Paging<Indicator>;
-  public indicatorDesc = '';
 
   readonly nameDesc: sd.Description = sd.nameDesc;
   readonly webpageDesc: sd.Description = sd.webpageDesc;
@@ -188,14 +186,6 @@ export class ServiceFormComponent implements OnInit {
     scientificCategorization: this.fb.array([], Validators.required)
   };
 
-  multiMeasurementForm = {
-    measurements: this.fb.array(
-      [
-        // this.createMeasurementField()
-      ]
-    )
-  };
-
   providersPage: Paging<Provider>;
   requiredServices: any;
   relatedServices: any;
@@ -233,7 +223,6 @@ export class ServiceFormComponent implements OnInit {
     this.router = this.injector.get(NavigationService);
     this.userService = this.injector.get(UserService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
-    this.measurementForm = this.fb.group(this.multiMeasurementForm);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
@@ -245,14 +234,7 @@ export class ServiceFormComponent implements OnInit {
     }
 
     this.errorMessage = '';
-    for (let i = 0; i < this.measurements.length; i++) {
-      // console.log(i + ' = ' + this.measurements.controls[i].untouched);
-      if (this.measurements.controls[i].untouched && this.measurements.controls[i].get('indicatorId').value === '') {
-        this.removeFroMeasurements(i);
-        continue;
-      }
-      this.measurements.controls[i].get('serviceId').setValue(service.id);
-    }
+
     /** Fill subcategory string array**/
     this.getFieldAsFormArray('subcategories').controls = [];
     for (const category in this.categoryArray.controls) {
@@ -270,10 +252,11 @@ export class ServiceFormComponent implements OnInit {
     }
     this.scientificDomainArray.disable();
     this.showLoader = true;
+    console.log('this.serviceForm.valid ', this.serviceForm.valid);
     if (tempSave) {
       // todo add fix hear
       this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
-      (this.serviceForm.value, this.measurements.value).subscribe(
+      (this.serviceForm.value).subscribe(
         _service => {
           // console.log(_service);
           this.showLoader = false;
@@ -287,10 +270,10 @@ export class ServiceFormComponent implements OnInit {
           this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
         }
       );
-    } else if (this.serviceForm.valid && this.measurementForm.valid) {
+    } else if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
-      this.resourceService[pendingService ? 'uploadPendingService' : 'uploadServiceWithMeasurements']
-      (this.serviceForm.value, this.measurements.value).subscribe(
+      this.resourceService[pendingService ? 'uploadPendingService' : 'uploadService']
+      (this.serviceForm.value, this.shouldPut).subscribe(
         _service => {
           // console.log(_service);
           this.showLoader = false;
@@ -314,7 +297,6 @@ export class ServiceFormComponent implements OnInit {
       this.markTabs();
       this.serviceForm.markAsDirty();
       this.serviceForm.updateValueAndValidity();
-      this.tabs[8] = this.validateMeasurements();
       if (!this.serviceForm.valid) {
         this.errorMessage = 'Please fill in all required fields (marked with an asterisk), ' +
           'and fix the data format in fields underlined with a red colour.';
@@ -335,7 +317,6 @@ export class ServiceFormComponent implements OnInit {
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
         this.requiredServices = this.transformInput(suc[2]);
         this.relatedServices = this.requiredServices;
-        // this.getIndicatorIds();
         // this.getLocations();
         this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
         this.accessTypesVocabulary = this.vocabularies[Type.ACCESS_TYPE];
@@ -368,7 +349,6 @@ export class ServiceFormComponent implements OnInit {
 
     this.pushCategory();
     this.pushScientificDomain();
-    this.pushToMeasurements();
 
     if (sessionStorage.getItem('service')) {
       const data = JSON.parse(sessionStorage.getItem('service'));
@@ -675,147 +655,6 @@ export class ServiceFormComponent implements OnInit {
     this.getContactArray(index).removeAt(i);
   }
 */
-
-  /** INDICATORS --> **/
-  createMeasurementField(): FormGroup {
-    return this.fb.group({
-      id: '',
-      indicatorId: ['', Validators.required],
-      serviceId: ['', Validators.required],
-      time: ['', Validators.required],
-      locations: this.fb.array([
-        this.fb.control('', Validators.required)
-      ], Validators.required),
-      valueIsRange: ['false', Validators.required],
-      value: ['', Validators.required],
-      rangeValue: this.fb.group({
-        fromValue: ['', Validators.required],
-        toValue: ['', Validators.required]
-      })
-    });
-  }
-
-  get measurements() {
-    return this.measurementForm.get('measurements') as FormArray;
-  }
-
-  pushToMeasurements() {
-    this.measurements.push(this.createMeasurementField());
-    this.measurements.controls[this.measurements.length - 1].get('time').disable();
-    this.measurements.controls[this.measurements.length - 1].get('locations').disable();
-    // this.measurements.controls[this.measurements.length - 1].get('value').disable();
-    this.measurements.controls[this.measurements.length - 1].get('rangeValue').disable();
-  }
-
-  removeFroMeasurements(index: number) {
-    this.measurements.removeAt(index);
-  }
-
-  locations(i: number) {
-    return this.measurements.controls[i].get('locations') as FormArray;
-  }
-
-  pushToLocations(i: number) {
-    this.locations(i).push(this.fb.control('', Validators.required));
-  }
-
-  removeFromLocations(i: number, locIndex: number) {
-    this.locations(i).removeAt(locIndex);
-  }
-
-  onIndicatorSelect(event, index: number) {
-    this.measurements.controls[index].get('locations').disable();
-    this.measurements.controls[index].get('time').disable();
-    // console.log(this.measurements.controls[index].get('indicatorId').value);
-    if (event.target.value != null) {
-      for (let i = 0; i < this.indicators.results.length; i++) {
-        if (this.indicators.results[i].id === event.target.value) {
-          // console.log(this.indicators.results[i].dimensions);
-          this.indicatorDesc = this.indicators.results[i].description;
-          for (let j = 0; j < this.indicators.results[i].dimensions.length; j++) {
-            // console.log(this.indicators.results[i].dimensions[j]);
-            this.measurements.controls[index].get(this.indicators.results[i].dimensions[j]).enable();
-          }
-          return;
-        }
-      }
-      this.indicatorDesc = '';
-    }
-  }
-
-  getIndicatorIds() {
-    this.resourceService.getAllIndicators('indicator').subscribe(
-      indicatorPage => this.indicators = indicatorPage,
-      error => this.errorMessage = 'Could not get indicators. ' + JSON.stringify(error.error),
-      () => {
-        this.indicators.results.sort((a, b) => 0 - (a.id > b.id ? -1 : 1));
-      }
-    );
-  }
-
-  getLocations() {
-    this.resourceService.getNewVocabulariesByType(Type.COUNTRY).subscribe(
-      suc => {
-        this.places = suc;
-        this.placesVocabulary = this.places;
-        this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
-      },
-      error => this.errorMessage = 'Could not get places vocabulary. ' + JSON.stringify(error.error),
-    );
-  }
-
-  handleChange(event, index: number) {
-    if (event.target.value === 'false') {
-      this.measurements.controls[index].get('rangeValue').disable();
-      this.measurements.controls[index].get('rangeValue.fromValue').reset();
-      this.measurements.controls[index].get('rangeValue.fromValue').disable();
-      this.measurements.controls[index].get('rangeValue.toValue').reset();
-      this.measurements.controls[index].get('rangeValue.toValue').disable();
-      this.measurements.controls[index].get('value').enable();
-      // this.measurements.controls[index].get('valueIsRange').setValue('false');
-    } else {
-      this.measurements.controls[index].get('rangeValue').enable();
-      this.measurements.controls[index].get('value').disable();
-      this.measurements.controls[index].get('value').reset();
-      // this.measurements.controls[index].get('valueIsRange').setValue('true');
-    }
-  }
-
-  validateMeasurements(): boolean {
-    // console.log(this.measurements.controls.length);
-    let error = false;
-    for (let i = 0; i < this.measurements.controls.length; i++) {
-      // console.log(this.measurements.controls[i]);
-      for (const j in this.measurements.controls[i].value) {
-        if (this.measurements.controls[i].value.hasOwnProperty(j)) {
-          // console.log(this.measurements.controls[i].get(j).value);
-          if (this.measurements.controls[i].get(j).value.constructor !== Array) {
-            this.measurements.controls[i].get(j).markAsDirty();
-            this.measurements.controls[i].get(j).updateValueAndValidity();
-            error = error || (this.measurements.controls[i].get(j).valid && this.measurements.controls[i].get(j).dirty);
-          }
-        }
-      }
-      for (const control of this.locations(i).controls) {
-        control.markAsDirty();
-        control.updateValueAndValidity();
-        error = error || (control.valid && control.dirty);
-      }
-      if (this.measurements.controls[i].get('valueIsRange').value) {
-        this.measurements.controls[i].get('rangeValue.fromValue').markAsDirty();
-        this.measurements.controls[i].get('rangeValue.fromValue').updateValueAndValidity();
-        error = error || (this.measurements.controls[i].get('rangeValue.fromValue').valid
-          && this.measurements.controls[i].get('rangeValue.fromValue').dirty);
-        this.measurements.controls[i].get('rangeValue.toValue').markAsDirty();
-        this.measurements.controls[i].get('rangeValue.toValue').updateValueAndValidity();
-        error = error || (this.measurements.controls[i].get('rangeValue.toValue').valid
-          && this.measurements.controls[i].get('rangeValue.toValue').dirty);
-      }
-    }
-    return error;
-  }
-
-  /** <-- INDICATORS **/
 
   getVocabularyById(vocabularies: Vocabulary[], id: string) {
     return vocabularies.find(entry => entry.id === id);

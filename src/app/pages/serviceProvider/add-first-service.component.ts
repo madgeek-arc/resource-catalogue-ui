@@ -4,7 +4,7 @@ import {DatePipe} from '@angular/common';
 import {ServiceFormComponent} from '../eInfraServices/service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ResourceService} from '../../services/resource.service';
-import {Measurement, RichService, Service} from '../../domain/eic-model';
+import {RichService, Service} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
 
 @Component({
@@ -49,14 +49,6 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
           }
         },
         err => this.errorMessage = 'Something went bad, server responded: ' + err.error);
-      this.resourceService.getServiceMeasurements(this.serviceId).subscribe(measurements => {
-          this.measurementsFormPatch(measurements);
-          if (this.measurements.length === 0) {
-            this.pushToMeasurements();
-          }
-        },
-        err => this.errorMessage = 'Could not get the measurements for this richService. ' + err.error
-      );
     }
   }
 
@@ -144,36 +136,6 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
         this.push('standards', false);
       }
     }
-  }
-
-  measurementsFormPatch(measurements: Paging<Measurement>) {
-    for (let i = 0; i < measurements.results.length; i++) {
-      this.pushToMeasurements();
-      for (const j in measurements.results[i]) {
-        // console.log(j);
-        // console.log(measurements.results[i][j]);
-        if (measurements.results[i][j] !== null) {
-          this.measurements.controls[i].get(j).enable();
-          if (this.measurements.controls[i].get(j).value.constructor === Array) {
-            // console.log(this.measurements.controls[i].get(j).value);
-            for (let k = 0; k < measurements.results[i][j].length - 1; k++) {
-              this.pushToLocations(i);
-            }
-          }
-          if (j === 'valueIsRange') { // forms/html cooperate better with strings instead of boolean
-            this.measurements.controls[i].get(j).setValue(measurements.results[i][j] + '');
-          } else {
-            this.measurements.controls[i].get(j).setValue(measurements.results[i][j]);
-          }
-        } else {
-          this.measurements.controls[i].get(j).disable();
-        }
-      }
-      const time = new Date(this.measurements.controls[i].get('time').value);
-      const date = this.datePipe.transform(time, 'yyyy-MM-dd');
-      this.measurements.controls[i].get('time').setValue(date);
-    }
-    // console.log(measurements.results);
   }
 
   onSubmit(service: Service, tempSave: boolean) {
