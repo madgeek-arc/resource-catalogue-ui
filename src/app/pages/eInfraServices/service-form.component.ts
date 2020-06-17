@@ -134,7 +134,7 @@ export class ServiceFormComponent implements OnInit {
     grantProjectName: this.fb.array([this.fb.control('')]),
     tags: this.fb.array([this.fb.control('')]),
     lifeCycleStatus: [''],
-    trl: [''],
+    trl: ['', Validators.required],
     version: [''],
     lastUpdate: [''],
     changeLog: this.fb.array([this.fb.control('')]),
