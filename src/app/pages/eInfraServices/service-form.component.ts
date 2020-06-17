@@ -117,7 +117,7 @@ export class ServiceFormComponent implements OnInit {
     relatedServices: this.fb.array([this.fb.control('')]),
     relatedPlatforms: this.fb.array([this.fb.control('')]),
     resourceOrganisation: ['', Validators.required],
-    resourceProviders: this.fb.array([this.fb.control('', Validators.required)]),
+    resourceProviders: this.fb.array([this.fb.control('')]),
     resourceGeographicLocations: this.fb.array([this.fb.control('')]),
     // 'scientificDomains : this.fb.array([ this.fb.control('', Validators.required)], Validators.required),
     scientificSubdomains: this.fb.array([]),
