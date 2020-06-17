@@ -96,11 +96,16 @@
                           {{ legalEntityDesc.label + (legalEntityDesc.mandatory ? ' (*)' : '')}}
                         </label>
                         <div class="uk-form-controls">
-                          <label><input class="uk-radio" type="radio" id="legalEntityYes" formControlName="legalEntity" value="true"
-                                        [checked]="this.newProviderForm.get('legalEntity').value == true && edit"> Yes</label><br>
-                          <label><input class="uk-radio" type="radio" id="legalEntityNo" formControlName="legalEntity" value="false"
-                                        [checked]="this.newProviderForm.get('legalEntity').value == false && edit"> No</label><br>
-                          <i><small>{{legalEntityDesc.desc}}</small></i>
+                          <label>Is the Provider of this Service a Legal Entity?
+<!--                            <input type="hidden" id="legalEntityNo" formControlName="legalEntity" value="false">-->
+                            <input class="uk-checkbox" type="checkbox" id="legalEntityYes" formControlName="legalEntity" value="true"
+                                   [checked]="this.newProviderForm.get('legalEntity').value == true && edit">
+                          </label>
+<!--                          <label><input class="uk-radio" type="radio" id="legalEntityYes" formControlName="legalEntity" value="true"-->
+<!--                                        [checked]="this.newProviderForm.get('legalEntity').value == true && edit"> Yes</label><br>-->
+<!--                          <label><input class="uk-radio" type="radio" id="legalEntityNo" formControlName="legalEntity" value="false"-->
+<!--                                        [checked]="this.newProviderForm.get('legalEntity').value == false && edit"> No</label><br>-->
+                          <br><i><small>{{legalEntityDesc.desc}}</small></i>
                         </div>
                       </div>
                       <div class="uk-margin-bottom">

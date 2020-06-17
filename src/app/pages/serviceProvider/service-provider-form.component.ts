@@ -87,7 +87,7 @@ export class ServiceProviderFormComponent implements OnInit {
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
     website: ['', Validators.compose([Validators.required, URLValidator])],
-    legalEntity: ['', Validators.required],
+    legalEntity: [''],
     legalStatus: [''],
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
@@ -158,6 +158,7 @@ export class ServiceProviderFormComponent implements OnInit {
       this.pushDomain();
       this.pushMerilDomain();
       this.addDefaultUser();
+      this.newProviderForm.get('legalEntity').setValue(false);
     }
 
     if (sessionStorage.getItem('provider')) {
@@ -609,10 +610,10 @@ export class ServiceProviderFormComponent implements OnInit {
 
       } else if (this.newProviderForm.controls[i].value && (i === 'location' || i === 'mainContact')) {
         // TODO
-      } else if (this.newProviderForm.controls[i].value && (i === 'legalEntity')) {
-        // skip boolean value
+      } else if (typeof this.newProviderForm.controls[i].value === 'boolean') {
+        // console.log('skip boolean value');
       } else {
-        console.log('this.newProviderForm.controls[i].value: ', this.newProviderForm.controls[i].value);
+        // console.log('this.newProviderForm.controls[i].value: ', this.newProviderForm.controls[i].value);
         this.newProviderForm.controls[i].setValue(this.newProviderForm.controls[i].value.trim().replace(/\s\s+/g, ' '));
       }
     }
