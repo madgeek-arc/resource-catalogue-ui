@@ -608,7 +608,10 @@ export class ServiceProviderFormComponent implements OnInit {
 
       } else if (this.newProviderForm.controls[i].value && (i === 'location' || i === 'mainContact')) {
         // TODO
+      } else if (this.newProviderForm.controls[i].value && (i === 'legalEntity')) {
+        // skip boolean value
       } else {
+        console.log('this.newProviderForm.controls[i].value: ', this.newProviderForm.controls[i].value);
         this.newProviderForm.controls[i].setValue(this.newProviderForm.controls[i].value.trim().replace(/\s\s+/g, ' '));
       }
     }
