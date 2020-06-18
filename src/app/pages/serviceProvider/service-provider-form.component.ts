@@ -159,6 +159,7 @@ export class ServiceProviderFormComponent implements OnInit {
       this.pushMerilDomain();
       this.addDefaultUser();
       this.newProviderForm.get('legalEntity').setValue(false);
+      this.removePublicContact(0);
     }
 
     if (sessionStorage.getItem('provider')) {
