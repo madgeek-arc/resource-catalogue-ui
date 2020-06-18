@@ -79,7 +79,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
 
     if (richService.service.resourceProviders) {
       for (let i = 0; i < richService.service.resourceProviders.length - 1; i++) {
-        this.push('providers', true);
+        this.push('resourceProviders', true);
       }
     }
     if (richService.service.targetUsers) {
@@ -89,12 +89,12 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     }
     if (richService.service.geographicalAvailabilities) {
       for (let i = 0; i < richService.service.geographicalAvailabilities.length - 1; i++) {
-        this.push('places', true);
+        this.push('geographicalAvailabilities', true);
       }
     }
-    if (richService.service.geographicalAvailabilities) {
+    if (richService.service.languageAvailabilities) {
       for (let i = 0; i < richService.service.languageAvailabilities.length - 1; i++) {
-        this.push('languages', true);
+        this.push('languageAvailabilities', true);
       }
     }
     if (richService.service.useCases) {
@@ -104,17 +104,17 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     }
     if (richService.service.multimedia) {
       for (let i = 0; i < richService.service.multimedia.length - 1; i++) {
-        this.push('multimediaUrls', false);
+        this.push('multimedia', false);
       }
     }
     if (richService.service.requiredResources) {
       for (let i = 0; i < richService.service.requiredResources.length - 1; i++) {
-        this.push('requiredServices', false);
+        this.push('requiredResources', false);
       }
     }
     if (richService.service.relatedResources) {
       for (let i = 0; i < richService.service.relatedResources.length - 1; i++) {
-        this.push('relatedServices', false);
+        this.push('relatedResources', false);
       }
     }
     if (richService.service.accessTypes) {
@@ -129,7 +129,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     }
     if (richService.service.fundingBody) {
       for (let i = 0; i < richService.service.fundingBody.length - 1; i++) {
-        this.push('funders', false);
+        this.push('fundingBody', false);
       }
     }
     if (richService.service.tags) {
