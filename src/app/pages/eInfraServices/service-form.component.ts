@@ -112,8 +112,8 @@ export class ServiceFormComponent implements OnInit {
     multimedia: this.fb.array([this.fb.control('', URLValidator)]),
     // options : this.fb.array([this.newOption()]),
     // endpoint: ['', URLValidator],
-    requiredServices: this.fb.array([this.fb.control('')]),
-    relatedServices: this.fb.array([this.fb.control('')]),
+    requiredResources: this.fb.array([this.fb.control('')]),
+    relatedResources: this.fb.array([this.fb.control('')]),
     relatedPlatforms: this.fb.array([this.fb.control('')]),
     resourceOrganisation: ['', Validators.required],
     resourceProviders: this.fb.array([this.fb.control('')]),
@@ -186,8 +186,8 @@ export class ServiceFormComponent implements OnInit {
   };
 
   providersPage: Paging<Provider>;
-  requiredServices: any;
-  relatedServices: any;
+  requiredResources: any;
+  relatedResources: any;
   vocabularies: Map<string, Vocabulary[]> = null;
   premiumSort = new PremiumSortPipe();
   resourceService: ResourceService = this.injector.get(ResourceService);
@@ -314,8 +314,8 @@ export class ServiceFormComponent implements OnInit {
     ).subscribe(suc => {
         this.providersPage = <Paging<Provider>>suc[0];
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
-        this.requiredServices = this.transformInput(suc[2]);
-        this.relatedServices = this.requiredServices;
+        this.requiredResources = this.transformInput(suc[2]);
+        this.relatedResources = this.requiredResources;
         // this.getLocations();
         this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
         this.accessTypesVocabulary = this.vocabularies[Type.ACCESS_TYPE];

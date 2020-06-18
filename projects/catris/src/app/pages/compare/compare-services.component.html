@@ -76,10 +76,10 @@
             <td class="uk-width-1-4 fieldName">Provided by</td>
             <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
                 [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.service.providers && richService.service.providers !== []">
+              <ng-template [ngIf]="richService.service.providers && richService.service.providers !== []"> <!-- FIXME -->
                 {{richService.service.providers.join(', ')}}
               </ng-template>
-              <ng-template [ngIf]="!richService.service.providers && richService.service.providers == []">
+              <ng-template [ngIf]="!richService.service.providers && richService.service.providers == []"> <!-- FIXME -->
                 /
               </ng-template>
             </td>

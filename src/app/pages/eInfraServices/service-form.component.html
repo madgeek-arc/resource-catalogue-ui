@@ -1094,58 +1094,58 @@
                         </div>
                       </li>
                       <li>
-                        <div formArrayName="requiredServices" class="uk-margin-bottom">
-                          <label class="uk-form-label uk-text-right" for="requiredServices">
+                        <div formArrayName="requiredResources" class="uk-margin-bottom">
+                          <label class="uk-form-label uk-text-right" for="requiredResources">
                             {{requiredServicesDesc.label + (requiredServicesDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
-                            <div *ngFor="let provider of getFieldAsFormArray('requiredServices').controls; let i=index">
-                              <select id="requiredServices" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
-                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('requiredServices', i),
-                                      'uk-width-5-6': getFieldAsFormArray('requiredServices').length > 1}">
+                            <div *ngFor="let provider of getFieldAsFormArray('requiredResources').controls; let i=index">
+                              <select id="requiredResources" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('requiredResources', i),
+                                      'uk-width-5-6': getFieldAsFormArray('requiredResources').length > 1}">
                                 <option value=""></option>
-                                <ng-container *ngIf="requiredServices">
-                                  <option *ngFor="let reqService of requiredServices | keys" value="{{reqService}}">
-                                    {{requiredServices[reqService]}}
+                                <ng-container *ngIf="requiredResources">
+                                  <option *ngFor="let reqService of requiredResources | keys" value="{{reqService}}">
+                                    {{requiredResources[reqService]}}
                                   </option>
                                 </ng-container>
                               </select>
-                              <a *ngIf="getFieldAsFormArray('requiredServices').length > 1"
-                                 class="remove-element uk-padding-small" (click)="remove('requiredServices', i)">
+                              <a *ngIf="getFieldAsFormArray('requiredResources').length > 1"
+                                 class="remove-element uk-padding-small" (click)="remove('requiredResources', i)">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                               </a>
                             </div>
                             <div class="uk-width-1-1">
-                              <a class="add-new-element" (click)="push('requiredServices', false)">
+                              <a class="add-new-element" (click)="push('requiredResources', false)">
                                 <i class="fa fa-plus" aria-hidden="true"></i> Add {{requiredServicesDesc.label}}
                               </a>
                             </div>
                             <i><small>{{requiredServicesDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <div formArrayName="relatedServices" class="uk-margin-bottom">
-                          <label class="uk-form-label uk-text-right" for="relatedServices">
+                        <div formArrayName="relatedResources" class="uk-margin-bottom">
+                          <label class="uk-form-label uk-text-right" for="relatedResources">
                             {{relatedServicesDesc.label + (relatedServicesDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls ">
-                            <div *ngFor="let provider of getFieldAsFormArray('relatedServices').controls; let i=index">
-                              <select id="relatedServices" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
-                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedServices', i),
-                                      'uk-width-5-6': getFieldAsFormArray('relatedServices').length > 1}">
+                            <div *ngFor="let provider of getFieldAsFormArray('relatedResources').controls; let i=index">
+                              <select id="relatedResources" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedResources', i),
+                                      'uk-width-5-6': getFieldAsFormArray('relatedResources').length > 1}">
                                 <option value=""></option>
-                                <ng-container *ngIf="relatedServices">
-                                  <option *ngFor="let reqService of relatedServices | keys" value="{{reqService}}">
-                                    {{relatedServices[reqService]}}
+                                <ng-container *ngIf="relatedResources">
+                                  <option *ngFor="let reqService of relatedResources | keys" value="{{reqService}}">
+                                    {{relatedResources[reqService]}}
                                   </option>
                                 </ng-container>
                               </select>
-                              <a *ngIf="getFieldAsFormArray('relatedServices').length > 1"
-                                class="remove-element uk-padding-small" (click)="remove('relatedServices', i)">
+                              <a *ngIf="getFieldAsFormArray('relatedResources').length > 1"
+                                class="remove-element uk-padding-small" (click)="remove('relatedResources', i)">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                               </a>
                             </div>
                             <div class="uk-width-1-1">
-                              <a class="add-new-element" (click)="push('relatedServices', false)">
+                              <a class="add-new-element" (click)="push('relatedResources', false)">
                                 <i class="fa fa-plus" aria-hidden="true"></i> Add {{relatedServicesDesc.label}}
                               </a>
                             </div>

@@ -59,7 +59,7 @@
               <div class="uk-card uk-card-body uk-card-custom providerCard">
                 <img src="{{(richService.service.logo) ? richService.service.logo : '../../../../../../../src/assets/images/broken_image-black-48dp.svg'}}"
                      style="max-width: 67px;">
-                <span class="provider" *ngFor="let provider of richService.service.providers; let i = index">
+                <span class="provider" *ngFor="let provider of richService.service.providers; let i = index"> <!-- FIXME -->
                     <br *ngIf="i > 0">{{ provider | uppercase }}
                 </span>
               </div>
@@ -71,11 +71,11 @@
 
         <div class="uk-width-expand@m uk-first-column uk-grid-margin-medium">
 
-          <div class="tags" *ngIf="richService.categoryName || richService.subCategoryNames">
+          <div class="tags" *ngIf="richService.categoryName || richService.subCategoryNames"> <!-- FIXME -->
             <span><strong>Categorization: </strong></span>
-            <span *ngIf="richService.categoryName" class="uk-label">{{richService.categoryName}}</span>
+            <span *ngIf="richService.categoryName" class="uk-label">{{richService.categoryName}}</span> <!-- FIXME -->
             <span> --> </span>
-            <span *ngIf="richService.subCategoryNames" class="uk-label">{{richService.subCategoryNames}}</span>
+            <span *ngIf="richService.subCategoryNames" class="uk-label">{{richService.subCategoryNames}}</span> <!-- FIXME -->
           </div>
 
           <div class="serviceDescription" *ngIf="richService.service.description">
@@ -107,21 +107,9 @@
                 </dl>
                 <hr class="customDivider">
                 <dl class="uk-description-list">
-                  <ng-container *ngIf="richService.service.options">
-                    <dt class="uk-margin-small-bottom">Options</dt>
-                    <dd>{{richService.service.options}}</dd>
-                  </ng-container>
                   <ng-container *ngIf="richService.targetUsersNames">
                     <dt class="uk-margin-small-bottom">Target Users</dt>
                     <dd>{{richService.service.targetUsers}}</dd>
-                  </ng-container>
-                  <ng-container *ngIf="richService.service.userValue">
-                    <dt class="uk-margin-small-bottom">User value</dt>
-                    <dd>{{richService.service.userValue}}</dd>
-                  </ng-container>
-                  <ng-container *ngIf="richService.service.userBaseList">
-                    <dt class="uk-margin-small-bottom">User base</dt>
-                    <dd>{{richService.service.userBaseList}}</dd>
                   </ng-container>
                 </dl>
               </div>
@@ -149,7 +137,7 @@
                   </ng-container>
                 </dl>
               </div>
-              <!--FUNDING-->
+              <!--FUNDING--> <!-- FIXME -->
               <div *ngIf="richService.service.funders" class="uk-card uk-card-body uk-card-basic-info">
                 <h2 class="uk-h2">Funding</h2>
                 <dl class="uk-description-list">
@@ -166,9 +154,9 @@
         <div class="tm-sidebar uk-width-1-4@m">
 
           <div>
-            <a class="uk-width-1-1 uk-button uk-button-primary" href="{{richService.service.url}}" target="_blank"
+            <a class="uk-width-1-1 uk-button uk-button-primary" href="{{richService.service.webpage}}" target="_blank"
                routerLinkActive="active">
-              <!--<a class="uk-width-1-1 uk-button uk-button-primary visitButton" href="{{richService.url}}" target="_blank" routerLinkActive="active">-->
+              <!--<a class="uk-width-1-1 uk-button uk-button-primary visitButton" href="{{richService.webpage}}" target="_blank" routerLinkActive="active">-->
               <strong>Service Homepage</strong>
             </a>
             <a *ngIf="richService.service.order" class="uk-width-1-1 uk-button uk-button-primary uk-margin-top"
@@ -183,8 +171,8 @@
               <a class="uk-margin-small-right" target="_blank" href="{{richService.service.pricing}}">Price</a>
               <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
             </div>
-            <div *ngIf="richService.service.sla" class="uk-margin-small-bottom">
-              <a class="uk-margin-small-right" target="_blank" href="{{richService.service.sla">
+            <div *ngIf="richService.service.serviceLevel" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{richService.service.serviceLevel">
                 Service level agreement</a>
               <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
             </div>
@@ -206,23 +194,27 @@
 
           <h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">Support</h4>
           <div class="uk-card uk-card-body uk-card-custom sideInfo">
-            <div *ngIf="richService.service.helpdesk" class="uk-margin-small-bottom">
-              <a class="uk-margin-small-right" target="_blank" href="{{richService.service.helpdesk}}">Helpdesk</a>
+            <div *ngIf="richService.service.helpdeskPage" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{richService.service.helpdeskPage}}">Helpdesk Page</a>
               <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
             </div>
-            <div *ngIf="richService.service.manual" class="uk-margin-small-bottom">
-              <a class="uk-margin-small-right" target="_blank" href="{{richService.service.manual}}">User
+            <div *ngIf="richService.service.helpdeskEmail" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{richService.service.helpdeskEmail}}">Helpdesk e-mail</a>
+              <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
+            </div>
+            <div *ngIf="richService.service.userManual" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{richService.service.userManual}}">User
                 manual</a>
               <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
             </div>
-            <div *ngIf="richService.service.training" class="uk-margin-small-bottom">
-              <a class="uk-margin-small-right" target="_blank" href="{{richService.service.training}}">Training
+            <div *ngIf="richService.service.trainingInformation" class="uk-margin-small-bottom">
+              <a class="uk-margin-small-right" target="_blank" href="{{richService.service.trainingInformation}}">Training
                 information</a>
               <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
             </div>
-            <div *ngIf="richService.service.multimediaUrls" class="uk-margin-small-bottom">
+            <div *ngIf="richService.service.multimedia" class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" target="_blank"
-                 href="{{richService.service.multimediaUrls}}">Multimedia</a>
+                 href="{{richService.service.multimedia}}">Multimedia</a>
               <img src="../../../../assets/images/icons/ic_link_arrow_right.svg">
             </div>
           </div>
@@ -245,26 +237,26 @@
           <h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">See also</h4>
           <hr class="customDivider">
           <!--<dl class="uk-description-list">-->
-          <ng-container *ngIf="richService.service.requiredServices && (richService.service.requiredServices.length > 0)">
+          <ng-container *ngIf="richService.service.requiredResources && (richService.service.requiredResources.length > 0)">
             <dt class="infoTitle uk-margin-small-right">Required services</dt>
             <!--<dt class="uk-margin-small-bottom">Required richServices</dt>-->
-            <dd *ngFor="let requiredService of richService.service.requiredServices">
+            <dd *ngFor="let requiredService of richService.service.requiredResources">
               <a (click)="this.router.service(getPrettyService(requiredService).service.id)">{{getPrettyService(requiredService).service.name}}</a>
             </dd>
           </ng-container>
-          <ng-container *ngIf="!richService.service.requiredServices || richService.service.requiredServices.length == 0">
+          <ng-container *ngIf="!richService.service.requiredResources || richService.service.requiredResources.length == 0">
             <dt class="infoTitle uk-margin-small-right">Required services</dt>
             <dd>
               None
             </dd>
           </ng-container>
-          <ng-container *ngIf="richService.service.relatedServices && richService.service.relatedServices.length>0">
+          <ng-container *ngIf="richService.service.relatedResources && richService.service.relatedResources.length>0">
             <dt class="infoTitle uk-margin-small-right">Related services</dt>
-            <dd *ngFor="let relatedService of richService.service.relatedServices">
+            <dd *ngFor="let relatedService of richService.service.relatedResources">
               <a (click)="this.router.service(getPrettyService(relatedService).service.id)">{{getPrettyService(relatedService).service.name}}</a>
             </dd>
           </ng-container>
-          <ng-container *ngIf="!richService.service.relatedServices || richService.service.relatedServices.length == 0">
+          <ng-container *ngIf="!richService.service.relatedResources || richService.service.relatedResources.length == 0">
             <dt class="infoTitle uk-margin-small-right">Related services</dt>
             <dd>
               None
@@ -272,7 +264,7 @@
           </ng-container>
 
         </div>
-
+        </div>
       </ng-template>
 
     </div>
