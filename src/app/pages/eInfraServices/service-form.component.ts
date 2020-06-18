@@ -349,6 +349,9 @@ export class ServiceFormComponent implements OnInit {
 
     this.pushCategory();
     this.pushScientificDomain();
+    if (!this.editMode) {
+      this.removePublicContact(0);
+    }
 
     if (sessionStorage.getItem('service')) {
       const data = JSON.parse(sessionStorage.getItem('service'));
