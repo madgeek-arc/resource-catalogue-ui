@@ -5,7 +5,7 @@ import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {UserService} from '../../services/user.service';
 import * as sd from './services.description';
-import {Provider, Service, Type, Vocabulary} from '../../domain/eic-model';
+import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs/internal/observable/zip';
@@ -493,16 +493,16 @@ export class ServiceFormComponent implements OnInit {
       || this.checkFormValidity('trl')
       || this.checkFormValidity('version')
       || this.checkFormValidity('lastUpdate')
-      || this.checkFormValidity('changeLog')
+      || this.checkEveryArrayFieldValidity('changeLog')
       || this.checkEveryArrayFieldValidity('certifications')
       || this.checkEveryArrayFieldValidity('standards')
       || this.checkEveryArrayFieldValidity('openSourceTechnologies'));
-    this.tabs[7] = (this.checkEveryArrayFieldValidity('requiredServices')
-      || this.checkEveryArrayFieldValidity('relatedServices')
+    this.tabs[7] = (this.checkEveryArrayFieldValidity('requiredResources')
+      || this.checkEveryArrayFieldValidity('relatedResources')
       || this.checkEveryArrayFieldValidity('relatedPlatforms'));
     this.tabs[8] = (this.checkEveryArrayFieldValidity('fundingBody')
-      || this.checkEveryArrayFieldValidity('fundingProgram')
-      || this.checkEveryArrayFieldValidity('grantProjectName'));
+      || this.checkEveryArrayFieldValidity('fundingPrograms')
+      || this.checkEveryArrayFieldValidity('grantProjectNames'));
     this.tabs[9] = (this.checkFormValidity('helpdeskPage')
       || this.checkFormValidity('userManual')
       || this.checkFormValidity('termsOfUse')
@@ -678,6 +678,134 @@ export class ServiceFormComponent implements OnInit {
 
       return 0;
     });
+  }
+
+  formPrepare(richService: RichService) {
+
+    this.removeCategory(0);
+    if (richService.service.subcategories) {
+      for (let i = 0; i < richService.service.subcategories.length; i++) {
+        this.categoryArray.push(this.newCategory());
+        this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.categories[i].category.id);
+        this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.categories[i].subCategory.id);
+      }
+    }
+    this.removeScientificDomain(0);
+    if (richService.service.scientificSubdomains) {
+      for (let i = 0; i < richService.service.scientificSubdomains.length; i++) {
+        this.scientificDomainArray.push(this.newScientificDomain());
+        this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
+          .get('scientificDomain').setValue(richService.domains[i].domain.id);
+        this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
+          .get('scientificSubDomain').setValue(richService.domains[i].subdomain.id);
+      }
+    }
+
+    if (richService.service.resourceProviders) {
+      for (let i = 0; i < richService.service.resourceProviders.length - 1; i++) {
+        this.push('resourceProviders', true);
+      }
+    }
+    if (richService.service.multimedia) {
+      for (let i = 0; i < richService.service.multimedia.length - 1; i++) {
+        this.push('multimedia', false);
+      }
+    }
+    if (richService.service.useCases) {
+      for (let i = 0; i < richService.service.useCases.length - 1; i++) {
+        this.push('useCases', false);
+      }
+    }
+    if (richService.service.targetUsers) {
+      for (let i = 0; i < richService.service.targetUsers.length - 1; i++) {
+        this.push('targetUsers', true);
+      }
+    }
+    if (richService.service.accessTypes) {
+      for (let i = 0; i < richService.service.accessTypes.length - 1; i++) {
+        this.push('accessTypes', false);
+      }
+    }
+    if (richService.service.accessModes) {
+      for (let i = 0; i < richService.service.accessModes.length - 1; i++) {
+        this.push('accessModes', false);
+      }
+    }
+    if (richService.service.tags) {
+      for (let i = 0; i < richService.service.tags.length - 1; i++) {
+        this.push('tags', false);
+      }
+    }
+    if (richService.service.geographicalAvailabilities) {
+      for (let i = 0; i < richService.service.geographicalAvailabilities.length - 1; i++) {
+        this.push('geographicalAvailabilities', true);
+      }
+    }
+    if (richService.service.languageAvailabilities) {
+      for (let i = 0; i < richService.service.languageAvailabilities.length - 1; i++) {
+        this.push('languageAvailabilities', true);
+      }
+    }
+    if (richService.service.resourceGeographicLocations) {
+      for (let i = 0; i < richService.service.resourceGeographicLocations.length - 1; i++) {
+        this.push('resourceGeographicLocations', true);
+      }
+    }
+    if (richService.service.publicContacts) {
+      for (let i = 0; i < richService.service.publicContacts.length - 1; i++) {
+        this.push('publicContacts', false);
+      }
+    }
+    if (richService.service.certifications) {
+      for (let i = 0; i < richService.service.certifications.length - 1; i++) {
+        this.push('certifications', false);
+      }
+    }
+    if (richService.service.standards) {
+      for (let i = 0; i < richService.service.standards.length - 1; i++) {
+        this.push('standards', false);
+      }
+    }
+    if (richService.service.openSourceTechnologies) {
+      for (let i = 0; i < richService.service.openSourceTechnologies.length - 1; i++) {
+        this.push('openSourceTechnologies', false);
+      }
+    }
+    if (richService.service.changeLog) {
+      for (let i = 0; i < richService.service.changeLog.length - 1; i++) {
+        this.push('changeLog', false);
+      }
+    }
+    if (richService.service.requiredResources) {
+      for (let i = 0; i < richService.service.requiredResources.length - 1; i++) {
+        this.push('requiredResources', false);
+      }
+    }
+    if (richService.service.relatedResources) {
+      for (let i = 0; i < richService.service.relatedResources.length - 1; i++) {
+        this.push('relatedResources', false);
+      }
+    }
+    if (richService.service.relatedPlatforms) {
+      for (let i = 0; i < richService.service.relatedPlatforms.length - 1; i++) {
+        this.push('relatedPlatforms', false);
+      }
+    }
+    if (richService.service.fundingBody) {
+      for (let i = 0; i < richService.service.fundingBody.length - 1; i++) {
+        this.push('fundingBody', false);
+      }
+    }
+    if (richService.service.fundingPrograms) {
+      for (let i = 0; i < richService.service.fundingPrograms.length - 1; i++) {
+        this.push('fundingPrograms', false);
+      }
+    }
+    if (richService.service.grantProjectNames) {
+      for (let i = 0; i < richService.service.grantProjectNames.length - 1; i++) {
+        this.push('grantProjectNames', false);
+      }
+    }
   }
 
   downloadServiceFormPDF() {

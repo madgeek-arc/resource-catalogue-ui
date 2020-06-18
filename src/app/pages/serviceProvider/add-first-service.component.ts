@@ -4,8 +4,7 @@ import {DatePipe} from '@angular/common';
 import {ServiceFormComponent} from '../eInfraServices/service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ResourceService} from '../../services/resource.service';
-import {RichService, Service} from '../../domain/eic-model';
-import {Paging} from '../../domain/paging';
+import {Service} from '../../domain/eic-model';
 
 @Component({
   selector: 'app-add-first-service',
@@ -54,88 +53,6 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
 
   onSuccess(service) {
     this.successMessage = 'Service uploaded successfully!';
-  }
-
-  formPrepare(richService: RichService) {
-
-    this.removeCategory(0);
-    for (let i = 0; i < richService.service.subcategories.length; i++) {
-      this.categoryArray.push(this.newCategory());
-      this.categoryArray.controls[this.categoryArray.length - 1].get('supercategory').setValue(richService.categories[i].superCategory.id);
-      this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.categories[i].category.id);
-      this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.categories[i].subCategory.id);
-    }
-    this.removeScientificDomain(0);
-    for (let i = 0; i < richService.service.scientificSubdomains.length; i++) {
-      this.scientificDomainArray.push(this.newScientificDomain());
-      this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-        .get('scientificDomain').setValue(richService.domains[i].domain.id);
-      this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-        .get('scientificSubDomain').setValue(richService.domains[i].subdomain.id);
-    }
-
-    for (let i = 0; i < richService.service.resourceProviders.length - 1; i++) {
-      this.push('providers', true);
-    }
-    for (let i = 0; i < richService.service.targetUsers.length - 1; i++) {
-      this.push('targetUsers', true);
-    }
-    for (let i = 0; i < richService.service.geographicalAvailabilities.length - 1; i++) {
-      this.push('places', true);
-    }
-    for (let i = 0; i < richService.service.languageAvailabilities.length - 1; i++) {
-      this.push('languageAvailabilities', true);
-    }
-    if (richService.service.useCases) {
-      for (let i = 0; i < richService.service.useCases.length - 1; i++) {
-        this.push('useCases', false);
-      }
-    }
-    if (richService.service.multimedia) {
-      for (let i = 0; i < richService.service.multimedia.length - 1; i++) {
-        this.push('multimediaUrls', false);
-      }
-    }
-    if (richService.service.requiredResources) {
-      for (let i = 0; i < richService.service.requiredResources.length - 1; i++) {
-        this.push('requiredServices', false);
-      }
-    }
-    if (richService.service.relatedResources) {
-      for (let i = 0; i < richService.service.relatedResources.length - 1; i++) {
-        this.push('relatedServices', false);
-      }
-    }
-    if (richService.service.accessTypes) {
-      for (let i = 0; i < richService.service.accessTypes.length - 1; i++) {
-        this.push('accessTypes', false);
-      }
-    }
-    if (richService.service.accessModes) {
-      for (let i = 0; i < richService.service.accessModes.length - 1; i++) {
-        this.push('accessModes', false);
-      }
-    }
-    if (richService.service.fundingBody) {
-      for (let i = 0; i < richService.service.fundingBody.length - 1; i++) {
-        this.push('funders', false);
-      }
-    }
-    if (richService.service.tags) {
-      for (let i = 0; i < richService.service.tags.length - 1; i++) {
-        this.push('tags', false);
-      }
-    }
-    if (richService.service.certifications) {
-      for (let i = 0; i < richService.service.certifications.length - 1; i++) {
-        this.push('certifications', false);
-      }
-    }
-    if (richService.service.standards) {
-      for (let i = 0; i < richService.service.standards.length - 1; i++) {
-        this.push('standards', false);
-      }
-    }
   }
 
   onSubmit(service: Service, tempSave: boolean) {
