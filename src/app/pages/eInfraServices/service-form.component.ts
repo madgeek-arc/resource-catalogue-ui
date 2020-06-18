@@ -33,7 +33,6 @@ export class ServiceFormComponent implements OnInit {
   tabs: boolean[] = [false, false, false, false, false, false, false, false, false, false, false, false];
   fb: FormBuilder = this.injector.get(FormBuilder);
   disable = false;
-  shouldPut = false;
 
   places: Vocabulary[] = null;
 
@@ -273,7 +272,7 @@ export class ServiceFormComponent implements OnInit {
     } else if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
       this.resourceService[pendingService ? 'uploadPendingService' : 'uploadService']
-      (this.serviceForm.value, this.shouldPut).subscribe(
+      (this.serviceForm.value, this.editMode).subscribe(
         _service => {
           // console.log(_service);
           this.showLoader = false;
