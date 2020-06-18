@@ -31,8 +31,6 @@ export class ServiceDashboardComponent implements OnInit, OnDestroy {
   serviceMapOptions: any = null;
 
   serviceHistory: Paging<ServiceHistory>;
-  myProviders: ProviderBundle[] = [];
-  canEditService = false;
 
   statisticPeriod: string;
 
@@ -47,17 +45,13 @@ export class ServiceDashboardComponent implements OnInit, OnDestroy {
       zip(
         this.resourceService.getEU(),
         this.resourceService.getWW(),
-        this.resourceService.getService(params['id']),
-        this.providerService.getMyServiceProviders()
+        this.resourceService.getService(params['id'])
       ).subscribe(suc => {
           this.EU = <string[]>suc[0];
           this.WW = <string[]>suc[1];
           this.service = <Service>suc[2];
-          this.myProviders = suc[3];
           this.getDataForService(this.statisticPeriod);
 
-          /* check if the current user can edit the service */
-          this.canEditService = this.myProviders.some(p => this.service.resourceProviders.some(x => x === p.id)) || this.authenticationService.isAdmin();
         },
         err => {
           if (err.status === 404) {
