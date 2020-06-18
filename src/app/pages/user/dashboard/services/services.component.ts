@@ -79,7 +79,7 @@ export class ServicesComponent implements OnInit {
   }
 
   getServices() {
-    this.providerService[this.path === 'activeServices' ? 'getServicesOfProvider' : 'getPendingServicesByProvider'](this.providerId)
+    this.providerService[this.path === 'activeServices' ? 'getServicesOfProvider' : 'getPendingServicesByProvider'](this.providerId, 50)
       // this.providerService.getPendingServicesBundleByProvider(this.providerId)
       .subscribe(res => {
           this.providerServices = res;

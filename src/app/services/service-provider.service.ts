@@ -69,16 +69,16 @@ export class ServiceProviderService {
     return this.http.get<Provider>(this.base + `/pendingProvider/provider/${id}`, this.options);
   }
 
-  getServicesOfProvider(id: string) {
-    return this.http.get<Paging<InfraService>>(this.base + `/service/byProvider/${id}?order=ASC&orderField=name`);
+  getServicesOfProvider(id: string, noOfServices: number) {
+    return this.http.get<Paging<InfraService>>(this.base + `/service/byProvider/${id}?order=ASC&orderField=name&quantity=${noOfServices}`);
   }
 
   getPendingServicesOfProvider(id: string) {
     return this.http.get<Service[]>(this.base + `/provider/services/pending/${id}`);
   }
 
-  getPendingServicesByProvider(id: string) {
-    return this.http.get<Paging<InfraService>>(this.base + `/pendingService/byProvider/${id}?order=ASC&orderField=name`);
+  getPendingServicesByProvider(id: string, noOfServices: number) {
+    return this.http.get<Paging<InfraService>>(this.base + `/pendingService/byProvider/${id}?order=ASC&orderField=name&quantity=${noOfServices}`);
   }
 
   publishService(id: string, version: string, active: boolean) {
