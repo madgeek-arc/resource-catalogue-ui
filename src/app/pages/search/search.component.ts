@@ -81,8 +81,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSelectedChange(urlParams: string[], param) {
-    // console.log(urlParams);
+  onSelectedChange(urlParams: any[], param) {
     let paramIndex = 0;
     for (const urlParameter of this.urlParameters) {
       if (urlParameter.key === param) {
@@ -92,7 +91,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       paramIndex++;
     }
     for (let i = 0; i < urlParams.length; i++) {
-      this.addParameterToURL(param, urlParams[i]);
+      this.addParameterToURL(param, urlParams[i].item.value);
     }
     this.navigateUsingParameters();
   }
