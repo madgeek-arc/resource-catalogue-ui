@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
-import {SearchExtendedComponent} from './pages/search/search.extended.component';
-import {ServiceLandingPageExtendedComponent} from './pages/landingpages/service/service-landing-page.extended.component';
 import {HomeEoscComponent} from './pages/home/home-eosc.component';
+import {SearchComponent} from '../../../../src/app/pages/search/search.component';
+import {ServiceLandingPageComponent} from '../../../../src/app/pages/landingpages/service/service-landing-page.component';
 
 
 const routes: Routes = [
@@ -23,28 +23,28 @@ const routes: Routes = [
     path: 'becomeAProvider',
     component: BecomeAProviderComponent,
     data: {
-      breadcrumb : 'Become A Provider'
+      breadcrumb: 'Become A Provider'
     }
   },
   {
     path: 'search',
-    component: SearchExtendedComponent,
+    component: SearchComponent,
     data: {
-      breadcrumb : 'Search'
+      breadcrumb: 'Search'
     }
   },
   {
     path: 'service/:id',
-    component: ServiceLandingPageExtendedComponent,
+    component: ServiceLandingPageComponent,
     data: {
-      breadcrumb : 'Service'
+      breadcrumb: 'Service'
     }
   },
   {
     path: 'service/:id/:version',
-    component: ServiceLandingPageExtendedComponent,
+    component: ServiceLandingPageComponent,
     data: {
-      breadcrumb : 'Service'
+      breadcrumb: 'Service'
     }
   },
 ];
@@ -53,4 +53,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

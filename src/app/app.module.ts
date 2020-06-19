@@ -49,6 +49,7 @@ import {IndicatorFromComponent} from './pages/indicators/indicator-from.componen
 import {AuthenticationInterceptor} from './services/authentication-interceptor';
 import {CookieLawModule} from './shared/reusablecomponents/cookie-law/cookie-law.module';
 import {EmailService} from './services/email.service';
+import {TreeviewModule} from 'ngx-treeview';
 
 
 declare var require: any;
@@ -109,6 +110,7 @@ export function highchartsFactory() {
     ReactiveFormsModule,
     ReusableComponentsModule,
     SharedModule,
+    TreeviewModule.forRoot(),
     StarRatingModule.forRoot(),
     SupportModule,
     UserModule,

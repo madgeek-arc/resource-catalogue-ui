@@ -12,7 +12,6 @@ import {SharedModule} from '../../../../src/app/shared/shared.module';
 import {StarRatingModule} from 'angular-star-rating';
 import {ChartModule} from 'angular2-highcharts';
 import {FooterComponent} from './pages/shared/footer/footer.component';
-import {ServiceLandingPageExtendedComponent} from './pages/landingpages/service/service-landing-page-extended.component';
 import {CKEditorModule} from 'ng2-ckeditor';
 import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/cookie-law/cookie-law.module';
 import {CommonModule} from '@angular/common';
@@ -22,7 +21,6 @@ import {CommonModule} from '@angular/common';
     OpenaireAppComponent,
     HomeAireComponent,
     SearchAireComponent,
-    ServiceLandingPageExtendedComponent,
     // PERSISTENT
     FooterComponent,
     TopMenuComponent,

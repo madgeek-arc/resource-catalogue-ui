@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {SearchAireComponent} from './pages/search/search.aire.component';
-import {ServiceLandingPageExtendedComponent} from './pages/landingpages/service/service-landing-page-extended.component';
 import {CanActivateViaAuthGuard} from '../../../../src/app/services/can-activate-auth-guard.service';
 import {ServiceEditComponent} from '../../../../src/app/pages/eInfraServices/service-edit.component';
 import {ServiceUploadComponent} from '../../../../src/app/pages/eInfraServices/service-upload.component';
+import {ServiceLandingPageComponent} from '../../../../src/app/pages/landingpages/service/service-landing-page.component';
 
 const routes: Routes = [
   {
@@ -18,7 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'service/:id',
-    component: ServiceLandingPageExtendedComponent
+    component: ServiceLandingPageComponent
   },
   {
     path: 'upload',
@@ -30,7 +30,8 @@ const routes: Routes = [
     component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard]
   },
-  { path: '**',
+  {
+    path: '**',
     redirectTo: '/search',
     pathMatch: 'full'
   }

@@ -29,6 +29,8 @@ declare var UIkit: any;
 })
 
 export class SearchComponent implements OnInit, OnDestroy {
+  public serviceIdsArray: string[] = [];
+
   config = TreeviewConfig.create({
     hasAllCheckBox: false,
     hasFilter: false,
@@ -64,6 +66,19 @@ export class SearchComponent implements OnInit, OnDestroy {
               public authenticationService: AuthenticationService, public comparisonService: ComparisonService,
               public navigationService: NavigationService, public emailService: EmailService) {
     this.searchForm = fb.group({'query': ['']});
+  }
+
+  isChecked(serviceId: string) {
+    return this.serviceIdsArray.indexOf(serviceId) > -1;
+  }
+
+  addOrRemove(serviceId: string) {
+    const pos = this.serviceIdsArray.indexOf(serviceId);
+    if (pos > -1) {
+      this.serviceIdsArray.splice(pos, 1);
+    } else {
+      this.serviceIdsArray.push(serviceId);
+    }
   }
 
   onSelectedChange(urlParams: string[], param) {

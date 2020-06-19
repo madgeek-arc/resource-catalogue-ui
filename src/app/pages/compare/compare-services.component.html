@@ -10,7 +10,6 @@
     <div id="myGrid" class="uk-grid" uk-grid="">
 
       <div class="uk-width-1-1">
-
         <table id="myTable" class="uk-table uk-text-left">
           <thead class="uk-width-1-1 uk-margin-bottom tablehead" style="">
           <!--<thead class="header uk-width-1-1 uk-margin-bottom">-->
@@ -55,17 +54,17 @@
             <th class="uk-width-1-4"></th>
             <th *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4" [ngClass]="{evenColumn: i%2==1}">
               <div class="uk-margin-bottom">
-                <star-rating-comp #rating (click)="rateService(i, rating.rating)"
-                                  [starType]="'svg'" [rating]="richService.hasRate" [step]="1"
-                                  [showHalfStars]="true" [readOnly]=!this.authenticationService.isLoggedIn()
-                                  [size]="'medium'"
-                                  [staticColor]="'ok'" class="uk-inline starRating"
-                                  labelText="{{richService.hasRate}} ({{ richService.ratings }})" [labelVisible]="true"
-                                  [labelPosition]="'right'"
-                                  [hoverEnabled]="true">
-                </star-rating-comp>
+                <!--                <star-rating-comp #rating (click)="rateService(i, rating.rating)"-->
+                <!--                                  [starType]="'svg'" [rating]="richService.hasRate" [step]="1"-->
+                <!--                                  [showHalfStars]="true" [readOnly]=!this.authenticationService.isLoggedIn()-->
+                <!--                                  [size]="'medium'"-->
+                <!--                                  [staticColor]="'ok'" class="uk-inline starRating"-->
+                <!--                                  labelText="{{richService.hasRate}} ({{ richService.ratings }})" [labelVisible]="true"-->
+                <!--                                  [labelPosition]="'right'"-->
+                <!--                                  [hoverEnabled]="true">-->
+                <!--                </star-rating-comp>-->
                 <span class="uk-margin-medium-left">
-                    <img src="../../../../assets/images/icons/ic_visit_icon.svg">
+                    <img src="../../../assets/images/icons/ic_visit_icon.svg">
                     <span class="statsNumbers">&nbsp;&nbsp;({{ richService.views }})</span>
                 </span>
               </div>
@@ -74,121 +73,41 @@
           </thead>
           <tbody>
           <tr>
-            <td class="uk-width-1-4 fieldName">Options</td>
+            <td class="uk-width-1-4 fieldName">Provided by</td>
             <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
                 [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.service.options && richService.service.options !== []">
-                {{richService.service.options}}
+              <ng-template [ngIf]="richService.service.providers && richService.service.providers !== []"> <!-- FIXME -->
+                {{richService.service.providers.join(', ')}}
               </ng-template>
-              <ng-template [ngIf]="!richService.service.options || richService.service.options === []">
+              <ng-template [ngIf]="!richService.service.providers && richService.service.providers == []"> <!-- FIXME -->
                 /
               </ng-template>
             </td>
           </tr>
           <tr>
-            <td class="uk-width-1-4 fieldName">Target Users</td>
+            <td class="uk-width-1-4 fieldName">Categories</td>
             <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
                 [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.targetUsersNames && richService.targetUsersNames !== []">
-                {{richService.targetUsersNames}}
+              <ng-template [ngIf]="richService.categories && richService.categories !== []">
+                <ng-template ngFor let-cat [ngForOf]="richService.categories">
+                  {{cat.superCategory.name}} --> {{cat.category.name}} --> {{cat.subCategory.name}} <br>
+                </ng-template>
               </ng-template>
-              <ng-template [ngIf]="!richService.targetUsersNames || richService.targetUsersNames === []">
+              <ng-template [ngIf]="!richService.categories && richService.categories == []">
                 /
               </ng-template>
             </td>
           </tr>
           <tr>
-            <td class="uk-width-1-4 fieldName">User Value</td>
+            <td class="uk-width-1-4 fieldName">Scientific domain</td>
             <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
                 [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.service.userValue && richService.service.userValue!=''"> <!-- FIXME -->
-                {{richService.service.userValue}}
+              <ng-template [ngIf]="richService.domains && richService.domains !== []">
+                <ng-template ngFor let-scientifcDomain [ngForOf]="richService.domains">
+                  {{scientifcDomain.domain.name}} --> {{scientifcDomain.subdomain.name}} <br>
+                </ng-template>
               </ng-template>
-              <ng-template [ngIf]="!richService.service.userValue || richService.service.userValue==''"> <!-- FIXME -->
-                /
-              </ng-template>
-            </td>
-          </tr>
-          <tr>
-            <td class="uk-width-1-4 fieldName">User Base</td>
-            <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
-                [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.service.userBaseList && richService.service.userBaseList !== []"> <!-- FIXME -->
-                {{richService.service.userBaseList}}
-              </ng-template>
-              <ng-template [ngIf]="!richService.service.userBaseList || richService.service.userBaseList === []"> <!-- FIXME -->
-                /
-              </ng-template>
-            </td>
-          </tr>
-          <tr>
-            <td class="uk-width-1-4 fieldName">Funding</td>
-            <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
-                [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.fundedByNames && richService.fundedByNames !== []">
-                {{richService.fundedByNames}}
-              </ng-template>
-              <ng-template [ngIf]="!richService.fundedByNames || richService.fundedByNames === []">
-                /
-              </ng-template>
-            </td>
-          </tr>
-          <tr>
-            <td class="uk-width-1-4 fieldName">Version</td>
-            <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
-                [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.service.version && richService.service.version!=''">
-                {{richService.service.version}}
-              </ng-template>
-              <ng-template [ngIf]="!richService.service.version || richService.service.version==''">
-                /
-              </ng-template>
-            </td>
-          </tr>
-          <tr>
-            <td class="uk-width-1-4 fieldName">Lifecycle Status</td>
-            <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
-                [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.service.trl && richService.service.trl !== ''">
-                {{richService.service.trl}}
-              </ng-template>
-              <ng-template [ngIf]="!richService.service.trl || richService.service.trl === ''">
-                /
-              </ng-template>
-            </td>
-          </tr>
-          <tr>
-            <td class="uk-width-1-4 fieldName">TRL</td>
-            <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
-                [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.trlName && richService.trlName !== ''">
-                {{richService.trlName}}
-              </ng-template>
-              <ng-template [ngIf]="!richService.trlName || richService.trlName === ''">
-                /
-              </ng-template>
-            </td>
-          </tr>
-          <tr>
-            <td class="uk-width-1-4 fieldName">Category</td>
-            <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
-                [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.categoryName && richService.categoryName!=''">
-                {{richService.categoryName}}
-              </ng-template>
-              <ng-template [ngIf]="!richService.categoryName || richService.categoryName==''">
-                /
-              </ng-template>
-            </td>
-          </tr>
-          <tr>
-            <td class="uk-width-1-4 fieldName">Subcategory</td>
-            <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
-                [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.superCategoryName && richService.superCategoryName !== ''">
-                {{richService.subCategoryNames}}
-              </ng-template>
-              <ng-template [ngIf]="!richService.superCategoryName || richService.superCategoryName === ''">
+              <ng-template [ngIf]="!richService.domains && richService.domains == []">
                 /
               </ng-template>
             </td>
@@ -206,29 +125,48 @@
             </td>
           </tr>
           <tr>
-            <td class="uk-width-1-4 fieldName">Languages</td>
+            <td class="uk-width-1-4 fieldName">Access types</td>
             <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
                 [ngClass]="{evenColumn: i%2==1}">
-              <ng-template [ngIf]="richService.languageNames && richService.languageNames !== []">
-                {{richService.languageNames | join:", "}}
+              <ng-template [ngIf]="richService.accessTypeNames && richService.accessTypeNames !== []">
+                {{richService.accessTypeNames | join:", "}}
               </ng-template>
-              <ng-template [ngIf]="!richService.languageNames || richService.languageNames === []">
+              <ng-template [ngIf]="!richService.accessTypeNames || richService.accessTypeNames === []">
                 /
               </ng-template>
             </td>
           </tr>
-          <tr class="noBorderTop">
-            <td class="uk-width-1-4"></td>
-            <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4" [ngClass]="{evenColumn: i%2==1}">
-              <button (click)="addToFavourites(i)"
-                      class="uk-button uk-button-default uk-width-1-1 favoriteButton" title="Favourites"
-                      uk-tooltip="delay: 500">
-                <i [ngClass]="richService.isFavourite?'fa fa-heart':'fa fa-heart-o'"></i>
-                <!--<span> ({{ richService.favourites }})</span>-->
-                &nbsp; Favorite
-              </button>
+          <tr>
+            <td class="uk-width-1-4 fieldName">Access modes</td>
+            <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+              <ng-template [ngIf]="richService.accessModeNames && richService.accessModeNames !== []">
+                {{richService.accessModeNames | join:", "}}
+              </ng-template>
+              <ng-template [ngIf]="!richService.accessModeNames || richService.accessModeNames === []">
+                /
+              </ng-template>
             </td>
           </tr>
+          <tr>
+            <td class="uk-width-1-4 fieldName">Target Users</td>
+            <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+              <ng-template [ngIf]="richService.targetUsersNames && richService.targetUsersNames !== []">
+                {{richService.targetUsersNames}}
+              </ng-template>
+              <ng-template [ngIf]="!richService.targetUsersNames || richService.targetUsersNames === []">
+                /
+              </ng-template>
+            </td>
+          </tr>
+          <tr>
+            <td class="uk-width-1-4 fieldName">Service offers</td>
+            <td *ngFor="let richService of richServices; let i = index;" class="uk-width-1-4 fieldValue"
+                [ngClass]="{evenColumn: i%2==1}">
+            </td>
+          </tr>
+
           </tbody>
         </table>
 

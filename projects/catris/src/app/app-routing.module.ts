@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { HomeCatrisComponent } from './pages/home/home-catris.component';
-import { ServiceLandingPageExtendedComponent } from './pages/landingpages/service/service-landing-page.extended.component';
-import { SearchExtendedComponent } from './pages/search/search.extended.component';
-import {CompareServicesExtendedComponent} from './pages/compare/compare-services.extended.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {HomeCatrisComponent} from './pages/home/home-catris.component';
 import {CanActivateViaAuthGuard} from '../../../../src/app/services/can-activate-auth-guard.service';
 import {AddFirstServiceComponent} from '../../../../src/app/pages/serviceProvider/add-first-service.component';
-import {BrowseSubcategoriesComponent} from './pages/browseSubcategories/browse-subcategories.component';
 import {ServiceUploadComponent} from '../../../../src/app/pages/eInfraServices/service-upload.component';
 import {ServiceEditComponent} from '../../../../src/app/pages/eInfraServices/service-edit.component';
+import {BrowseCategoriesComponent} from '../../../../src/app/pages/browsecategories/browse-categories.component';
+import {SearchComponent} from '../../../../src/app/pages/search/search.component';
+import {ServiceLandingPageComponent} from '../../../../src/app/pages/landingpages/service/service-landing-page.component';
+import {CompareServicesComponent} from '../../../../src/app/pages/compare/compare-services.component';
 
 const routes: Routes = [
   {
@@ -25,21 +25,21 @@ const routes: Routes = [
   },
   {
     path: 'search',
-    component: SearchExtendedComponent,
+    component: SearchComponent,
     data: {
-      breadcrumb : 'Search'
+      breadcrumb: 'Search'
     }
   },
   {
     path: 'service/:id',
-    component: ServiceLandingPageExtendedComponent,
+    component: ServiceLandingPageComponent,
     data: {
-      breadcrumb : 'Service'
+      breadcrumb: 'Service'
     }
   },
   {
     path: 'compare',
-    component: CompareServicesExtendedComponent,
+    component: CompareServicesComponent,
     data: {
       breadcrumb: 'Compare'
     }
@@ -86,7 +86,7 @@ const routes: Routes = [
   },
   {
     path: 'browseSubcategories',
-    component: BrowseSubcategoriesComponent,
+    component: BrowseCategoriesComponent,
     data: {
       breadcrumb: 'Browse Subcategories'
     }
@@ -101,4 +101,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

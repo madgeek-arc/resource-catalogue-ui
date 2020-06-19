@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { CatrisAppComponent } from './catris-app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {CatrisAppComponent} from './catris-app.component';
 import {AppModule} from '../../../../src/app/app.module';
 import {SharedModule} from '../../../../src/app/shared/shared.module';
 import {TopmenuCatrisComponent} from './shared/topmenu/topmenu-catris.component';
@@ -10,16 +10,11 @@ import {BreadcrumbsComponent} from './shared/breadcrumbs/breadcrumbs.component';
 import {SideElementsComponent} from './shared/sideelements/side-elements.component';
 import {FooterComponent} from './shared/footer/footer.component';
 import {HomeCatrisComponent} from './pages/home/home-catris.component';
-import {ServiceLandingPageExtendedComponent} from './pages/landingpages/service/service-landing-page.extended.component';
 import {ChartModule} from 'angular2-highcharts';
 import {StarRatingModule} from 'angular-star-rating';
-import {SearchExtendedComponent} from './pages/search/search.extended.component';
 import {ReusableComponentsModule} from '../../../../src/app/shared/reusablecomponents/reusable-components.module';
 import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/cookie-law/cookie-law.module';
-import {TreeviewModule} from 'ngx-treeview';
-import {CompareServicesExtendedComponent} from './pages/compare/compare-services.extended.component';
 import {CKEditorModule} from 'ng2-ckeditor';
-import {BrowseSubcategoriesComponent} from './pages/browseSubcategories/browse-subcategories.component';
 import {CommonModule} from '@angular/common';
 
 @NgModule({
@@ -29,11 +24,7 @@ import {CommonModule} from '@angular/common';
     BreadcrumbsComponent,
     SideElementsComponent,
     FooterComponent,
-    HomeCatrisComponent,
-    ServiceLandingPageExtendedComponent,
-    SearchExtendedComponent,
-    CompareServicesExtendedComponent,
-    BrowseSubcategoriesComponent
+    HomeCatrisComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +35,6 @@ import {CommonModule} from '@angular/common';
     ReactiveFormsModule,
     ReusableComponentsModule,
     StarRatingModule.forRoot(),
-    TreeviewModule.forRoot(),
     ChartModule,
     CookieLawModule,
     CKEditorModule,
@@ -52,4 +42,5 @@ import {CommonModule} from '@angular/common';
   providers: [],
   bootstrap: [CatrisAppComponent]
 })
-export class CatrisAppModule { }
+export class CatrisAppModule {
+}
