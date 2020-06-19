@@ -18,7 +18,7 @@ export const                 descriptionDesc = {mandatory: true,  label: 'Descri
 export const                     taglineDesc = {mandatory: true,  label: 'Tagline', desc: 'Short catch-phrase for marketing and advertising purposes. It will be usually displayed close the service name and should refer to the main value or purpose of the service.'};
 export const                        logoDesc = {mandatory: true,  label: 'Logo', desc: 'Link to the logo/visual identity of the service. The logo will be visible at the Portal. To obtain the link:  Go to the Service\'s website --> Right Click on the Service\'s logo on the website --> Select "Copy Image Link" --> Paste it in the above field.'};
 export const                  multimediaDesc = {mandatory: false, label: 'Multimedia', desc: 'Link to video, screenshots or slides showing details of the service/resource.'};
-export const                    useCasesDesc = {mandatory: false, label: 'Use Cases', desc: 'List of use cases supported by this service/resource.'};
+export const                    useCasesDesc = {mandatory: false, label: 'Use Cases', desc: 'Link to use cases supported by this Resource.'};
 
 // Classification Information //
 export const            scientificDomainDesc = {mandatory: true,  label: 'Scientific Domain', desc: 'The branch of science, scientific discipline that is related to the service/resource.'};

@@ -108,7 +108,7 @@ export class ServiceFormComponent implements OnInit {
     tagline: ['', Validators.required],
     // userValue: [''],
     // userBaseList : this.fb.array([ this.fb.control('') ]),
-    useCases: this.fb.array([this.fb.control('')]),
+    useCases: this.fb.array([this.fb.control('', URLValidator)]),
     multimedia: this.fb.array([this.fb.control('', URLValidator)]),
     // options : this.fb.array([this.newOption()]),
     // endpoint: ['', URLValidator],
