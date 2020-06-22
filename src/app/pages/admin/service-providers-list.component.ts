@@ -2,11 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
-import {Provider, ProviderBundle} from '../../domain/eic-model';
+import {ProviderBundle} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
-import {Route, Router} from '@angular/router';
+import {Router} from '@angular/router';
 
 declare var UIkit: any;
 

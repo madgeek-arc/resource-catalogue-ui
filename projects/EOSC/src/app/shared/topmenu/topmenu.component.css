@@ -111,7 +111,7 @@ li.leaf {
 .uk-navbar-nav > li > a {
     padding-top: 10px;
     padding-bottom: 10px;
-    line-height: 20px;
+    /*line-height: 20px;*/
 }
 
 .navbar-brand,
@@ -124,10 +124,11 @@ li.leaf {
 }
 
 #globalmenu.uk-nav > li > a {
-    font-weight: 300;
-    padding: 5px 0px 5px 15px;
-    height: 34px;
-    font-size: 15px;
+  font-weight: 300;
+  padding: 5px 0px 5px 0px;
+  height: 34px;
+  font-size: 14px;
+  margin-left: 15px;
 }
 
 #globalmenu.uk-nav > li > a {
@@ -353,6 +354,10 @@ li.leaf {
 }
 
 
+#globalmenu a.active {
+  border-bottom: 2px solid #ffcd00;
+}
+
 
 
 
@@ -438,4 +443,17 @@ a.signUp, a:hover.signUp {
 
 .uk-navbar-nav > li > a {
     text-transform: none;
+}
+
+.svg-inline--fa.fa-w-14 {
+  width: 0.875em;
+  margin-bottom: 3px;
+  margin-right: 5px;
+}
+
+#globalmenu .username {
+  padding: 5px 0px 5px 0px;
+  height: 34px;
+  font-size: 14px;
+  margin-left: 15px;
 }

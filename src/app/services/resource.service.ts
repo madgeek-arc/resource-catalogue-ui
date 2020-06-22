@@ -17,7 +17,8 @@ import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
 import {URLParameter} from '../domain/url-parameter';
 import {Observable, throwError} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
+import {Info} from '../domain/info';
 
 declare var UIkit: any;
 
@@ -422,6 +423,10 @@ export class ResourceService {
 
   getServiceHistory(serviceId: string) {
     return this.http.get<Paging<ServiceHistory>>(this.base + `/service/history/${serviceId}/`);
+  }
+
+  getInfo() {
+    return this.http.get<Info>(this.base + `/info/all`);
   }
 
   public handleError(error: HttpErrorResponse) {

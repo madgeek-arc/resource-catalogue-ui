@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 
 import {EoscAppComponent} from './eosc-app.component';
 import {HomeEoscComponent} from './pages/home/home-eosc.component';
-import {ResourceServiceExtended} from './services/resource.service.extended';
 import {FooterComponent} from './shared/footer/footer.component';
 import {BreadcrumbsComponent} from './shared/breadcrumbs/breadcrumbs.component';
 import {TopMenuComponent} from './shared/topmenu/topmenu.component';
@@ -40,8 +39,7 @@ import {CommonModule} from '@angular/common';
     ChartModule,
     CookieLawModule
   ],
-  providers: [
-    ResourceServiceExtended
+  providers: [ // this can be removed
   ],
   bootstrap: [EoscAppComponent]
 })

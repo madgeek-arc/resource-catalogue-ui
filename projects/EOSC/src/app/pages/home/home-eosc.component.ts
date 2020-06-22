@@ -3,8 +3,8 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Service, Vocabulary, Type} from '../../../../../../src/app/domain/eic-model';
 import {SearchQuery} from '../../../../../../src/app/domain/search-query';
 import {NavigationService} from '../../../../../../src/app/services/navigation.service';
-import {Info} from '../../domain/info';
-import {ResourceServiceExtended} from '../../services/resource.service.extended';
+import {Info} from '../../../../../../src/app/domain/info';
+import {ResourceService} from '../../../../../../src/app/services/resource.service';
 
 @Component({
   selector: 'app-home',
@@ -24,11 +24,10 @@ export class HomeEoscComponent implements OnInit {
 
   public info: Info;
 
-
   constructor(
     public fb: FormBuilder,
     public router: NavigationService,
-    public resourceService: ResourceServiceExtended) {
+    public resourceService: ResourceService) {
     this.searchForm = fb.group({'query': ['']});
   }
 

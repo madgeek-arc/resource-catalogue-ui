@@ -1,4 +1,5 @@
-<div class="tm-header-placeholder uk-margin-remove-adjacent uk-visible@m" style="height: 120px;"></div>
+<div class="tm-header-placeholder uk-margin-remove-adjacent uk-visible@m" style="height: 120px;"
+     xmlns="http://www.w3.org/1999/html"></div>
 <div class="uk-section-secondary uk-position-relative"
      uk-scrollspy="{&quot;target&quot;:&quot;[uk-scrollspy-class]&quot;,&quot;cls&quot;:&quot;uk-animation-fade&quot;,&quot;delay&quot;:false}">
   <div
@@ -31,21 +32,32 @@
             </div>
           </div>
         </div>
-<!--        <div class="uk-container uk-margin-medium">-->
-<!--          <div class="search_box_bg uk-grid-collapse uk-grid uk-grid-stack" uk-grid="">-->
-<!--            <div class="uk-width-1-1@m uk-first-column">-->
-<!--              <h1 class="el-title uk-margin uk-h1 uk-text-primary uk-text-center"-->
-<!--                  style="color: #fff !important; font-size: 40px; text-transform: initial;">-->
-<!--                <span *ngIf="info && info.services">{{info.services}}</span>-->
-<!--                <span *ngIf="!info || !info.services">N/A</span>-->
-<!--                services and resources offered by-->
-<!--                <span *ngIf="info && info.providers">{{info.providers}}</span>-->
-<!--                <span *ngIf="!info || !info.providers">N/A</span>-->
-<!--                SPs from the public and private sector-->
-<!--              </h1>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
+        <div class="uk-container uk-margin-medium">
+          <div class="search_box_bg uk-grid-collapse uk-grid uk-grid-stack" uk-grid="">
+            <div class="uk-width-1-1@m uk-first-column">
+              <h1 class="el-title uk-margin uk-h1 uk-text-primary uk-text-center"
+                  style="color: #fff !important; font-size: 20px; text-transform: initial;">
+                The catalogue gives access to: <br>
+                <!--<span *ngIf="info && info.services">{{info.services}}</span>-->
+                <!--<span *ngIf="!info || !info.services">N/A</span>-->
+                <span style="font-size: 24px; font-weight: bold">254</span> services,
+                <span style="font-size: 24px; font-weight: bold">4,4M</span> datasets,
+                <span style="font-size: 24px; font-weight: bold">141K</span> software and applications,
+                <br>
+                <span style="font-size: 24px; font-weight: bold">34,6M</span> publications and
+                <span style="font-size: 24px; font-weight: bold">3M</span> other research products,
+                <br>
+                offered by
+                <span *ngIf="info && info.providers" style="font-size: 24px; font-weight: bold">{{info.providers}}</span>
+                <span *ngIf="!info || !info.providers" style="font-size: 24px;">N/A</span>
+                Service/Resource Providers and Aggregators, organized in
+                <span *ngIf="info && info.serviceEntries" style="font-size: 24px; font-weight: bold">{{info.serviceEntries}}</span>
+                <span *ngIf="!info || !info.serviceEntries" style="font-size: 24px;">N/A</span>
+                entries.
+              </h1>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
