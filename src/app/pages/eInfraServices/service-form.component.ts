@@ -266,7 +266,7 @@ export class ServiceFormComponent implements OnInit {
           window.scrollTo(0, 0);
           this.categoryArray.enable();
           this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
         }
       );
     } else if (this.serviceForm.valid) {
@@ -283,7 +283,7 @@ export class ServiceFormComponent implements OnInit {
           window.scrollTo(0, 0);
           this.categoryArray.enable();
           this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
         }
       );
     } else {
@@ -337,7 +337,7 @@ export class ServiceFormComponent implements OnInit {
         // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
       },
       error => {
-        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error);
+        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
       },
       () => {
         this.premiumSort.transform(this.placesVocabulary, ['Europe', 'World']);
