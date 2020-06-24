@@ -313,7 +313,7 @@
             </div>
             <div *ngIf="richService.service.relatedPlatforms">
               <h2 class="section-heading uk-h2 uk-width-1-1@m">Related platforms</h2>
-              <!--Related Platforms-->
+              <read-more [maxHeight]="90">{{richService.service.relatedPlatforms | join:", "}}</read-more>
             </div>
           </div>
 
