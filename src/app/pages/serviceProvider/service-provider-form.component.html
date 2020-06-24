@@ -45,6 +45,7 @@
                   <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[4]}" href="#">Contact *</a></li>
                   <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[5]}" href="#">Maturity</a></li>
                   <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[6]}" href="#">Other</a></li>
+                  <li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[7]}" href="#">Admins *</a></li>
                 </ul>
 
                 <form *ngIf="vocabularies" [formGroup]="newProviderForm" class="uk-form-horizontal uk-margin">
@@ -803,9 +804,9 @@
                     <!--                    </div>-->
                     <!--                  </div>-->
 
-                    <!--<li>
+                    <li>
                       <div class="uk-margin-small-bottom" uk-grid>
-                        &lt;!&ndash;                    <h5 class="uk-width-1-1">PROVIDER ADMINS</h5>&ndash;&gt;
+                        <!--                    <h5 class="uk-width-1-1">PROVIDER ADMINS</h5>-->
                         <div *ngIf="!edit" class="uk-width-1-6"></div>
                         <i>An administrator will be added using your user information</i>
                       </div>
@@ -839,7 +840,7 @@
                           </div>
                         </div>
                       </div>
-                    </li>-->
+                    </li>
                   </ul>
 
                   <div *ngIf="!disable">
