@@ -297,23 +297,25 @@
 
           <!--REQUIRED/RELATED-->
           <div class="uk-margin-medium-top uk-child-width-1-3@m" uk-grid>
-            <div *ngIf="richService.service.requiredResources && (richService.service.requiredResources.length > 0) && services.length !== 0">
+            <div *ngIf="richService.service.requiredResources && richService.service.requiredResources.length > 0 && services.length !== 0">
               <h2 class="section-heading uk-h2 uk-width-1-1@m">Required services</h2>
               <!--<div class="infoTitle uk-margin-small-right">Required services </div>-->
               <div *ngFor="let requiredService of richService.service.requiredResources">
                 <a (click)="this.router.service(requiredService)">{{getPrettyService(requiredService).service.name}}</a>
               </div>
             </div>
-            <div *ngIf="richService.service.relatedResources && richService.service.relatedResources.length>0 && services.length !== 0">
+            <div *ngIf="richService.service.relatedResources && richService.service.relatedResources.length > 0 && services.length !== 0">
               <h2 class="section-heading uk-h2 uk-width-1-1@m">Related services</h2>
               <!--<div class="infoTitle uk-margin-small-right">Related services</div>-->
               <div *ngFor="let relatedService of richService.service.relatedResources">
                 <a (click)="this.router.service(relatedService)">{{getPrettyService(relatedService).service.name}}</a>
               </div>
             </div>
-            <div *ngIf="richService.service.relatedPlatforms">
+            <div *ngIf="richService.service.relatedPlatforms && richService.service.relatedPlatforms.length > 0">
               <h2 class="section-heading uk-h2 uk-width-1-1@m">Related platforms</h2>
-              <read-more [maxHeight]="90">{{richService.service.relatedPlatforms | join:", "}}</read-more>
+              <div *ngFor="let platform of richService.service.relatedPlatforms">
+                <span>{{platform}}</span>
+              </div>
             </div>
           </div>
 
