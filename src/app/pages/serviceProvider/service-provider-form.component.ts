@@ -25,7 +25,7 @@ export class ServiceProviderFormComponent implements OnInit {
   pendingProvider = false;
   disable = false;
   showLoader = false;
-  tabs: boolean[] = [false, false, false, false, false, false, false];
+  tabs: boolean[] = [false, false, false, false, false, false, false, false];
 
   readonly fullNameDesc: sd.Description = sd.fullNameDesc;
   readonly abbreviationDesc: sd.Description = sd.abbreviationDesc;
@@ -372,8 +372,8 @@ export class ServiceProviderFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('areasOfActivity')
       || this.checkEveryArrayFieldValidity('societalGrandChallenges')
       || this.checkEveryArrayFieldValidity('nationalRoadmaps'));
-    // this.tabs[6] = (this.checkEveryArrayFieldValidity('users', 'name') || this.checkEveryArrayFieldValidity('users', 'surname')
-    //   || this.checkEveryArrayFieldValidity('users', 'email'));
+    this.tabs[6] = (this.checkEveryArrayFieldValidity('users', 'name') || this.checkEveryArrayFieldValidity('users', 'surname')
+      || this.checkEveryArrayFieldValidity('users', 'email'));
   }
 
   /** check form fields and tabs validity--> **/

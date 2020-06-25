@@ -29,7 +29,7 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
     this.providerId = this.route.snapshot.paramMap.get('id');
     this.serviceId = this.route.snapshot.paramMap.get('serviceId');
     // console.log(this.serviceId);
-    this.getFieldAsFormArray('providers').get([0]).setValue(this.providerId);
+    this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
     if (this.serviceId) {
       this.editMode = true;
       this.resourceService.getRichService(this.serviceId).subscribe(

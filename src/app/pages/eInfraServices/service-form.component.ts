@@ -108,7 +108,7 @@ export class ServiceFormComponent implements OnInit {
     tagline: ['', Validators.required],
     // userValue: [''],
     // userBaseList : this.fb.array([ this.fb.control('') ]),
-    useCases: this.fb.array([this.fb.control('')]),
+    useCases: this.fb.array([this.fb.control('', URLValidator)]),
     multimedia: this.fb.array([this.fb.control('', URLValidator)]),
     // options : this.fb.array([this.newOption()]),
     // endpoint: ['', URLValidator],
@@ -129,8 +129,8 @@ export class ServiceFormComponent implements OnInit {
     accessTypes: this.fb.array([this.fb.control('')]),
     accessModes: this.fb.array([this.fb.control('')]),
     fundingBody: this.fb.array([this.fb.control('')]),
-    fundingProgram: this.fb.array([this.fb.control('')]),
-    grantProjectName: this.fb.array([this.fb.control('')]),
+    fundingPrograms: this.fb.array([this.fb.control('')]),
+    grantProjectNames: this.fb.array([this.fb.control('')]),
     tags: this.fb.array([this.fb.control('')]),
     lifeCycleStatus: [''],
     trl: ['', Validators.required],
@@ -266,7 +266,7 @@ export class ServiceFormComponent implements OnInit {
           window.scrollTo(0, 0);
           this.categoryArray.enable();
           this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
         }
       );
     } else if (this.serviceForm.valid) {
@@ -283,7 +283,7 @@ export class ServiceFormComponent implements OnInit {
           window.scrollTo(0, 0);
           this.categoryArray.enable();
           this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
         }
       );
     } else {
@@ -337,7 +337,7 @@ export class ServiceFormComponent implements OnInit {
         // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
       },
       error => {
-        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error);
+        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
       },
       () => {
         this.premiumSort.transform(this.placesVocabulary, ['Europe', 'World']);

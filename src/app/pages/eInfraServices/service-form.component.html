@@ -1267,15 +1267,15 @@
                             <i><small>{{fundingBodyDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <div formArrayName="fundingProgram" class="uk-margin-bottom">
-                          <label class="uk-form-label uk-text-right" for="fundingProgram">
+                        <div formArrayName="fundingPrograms" class="uk-margin-bottom">
+                          <label class="uk-form-label uk-text-right" for="fundingPrograms">
                             {{fundingProgramDesc.label + (fundingProgramDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
-                            <div *ngFor="let provider of getFieldAsFormArray('fundingProgram').controls; let i=index">
-                              <select id="fundingProgram" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
-                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('fundingProgram', i),
-                                      'uk-width-5-6': getFieldAsFormArray('fundingProgram').length > 1}">
+                            <div *ngFor="let provider of getFieldAsFormArray('fundingPrograms').controls; let i=index">
+                              <select id="fundingPrograms" class="uk-select uk-animation-slide-top-small" [formControlName]="i"
+                                      [ngClass]="{'uk-form-danger': checkFormArrayValidity('fundingPrograms', i),
+                                      'uk-width-5-6': getFieldAsFormArray('fundingPrograms').length > 1}">
                                 <option value=""></option>
                                 <ng-container *ngIf="fundingProgramVocabulary">
                                   <option *ngFor="let entry of fundingProgramVocabulary" value="{{entry.id}}">
@@ -1283,35 +1283,35 @@
                                   </option>
                                 </ng-container>
                               </select>
-                              <a *ngIf="getFieldAsFormArray('fundingProgram').length > 1"
-                                 class="remove-element uk-padding-small" (click)="remove('fundingProgram', i)">
+                              <a *ngIf="getFieldAsFormArray('fundingPrograms').length > 1"
+                                 class="remove-element uk-padding-small" (click)="remove('fundingPrograms', i)">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                               </a>
                             </div>
                             <div class="uk-width-1-1">
-                              <a class="add-new-element" (click)="push('fundingProgram', fundingProgramDesc.mandatory)">
+                              <a class="add-new-element" (click)="push('fundingPrograms', fundingProgramDesc.mandatory)">
                                 <i class="fa fa-plus" aria-hidden="true"></i> Add {{fundingProgramDesc.label}}
                               </a>
                             </div>
                             <i><small>{{fundingProgramDesc.desc}}</small></i>
                           </div>
                         </div>
-                        <div formArrayName="grantProjectName" class="uk-margin-bottom">
-                          <label class="uk-form-label uk-text-right" for="grantProjectName">
+                        <div formArrayName="grantProjectNames" class="uk-margin-bottom">
+                          <label class="uk-form-label uk-text-right" for="grantProjectNames">
                             {{grantProjectNameDesc.label + (grantProjectNameDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div class="uk-form-controls">
-                            <div *ngFor="let provider of getFieldAsFormArray('grantProjectName').controls; let i=index">
-                              <input id="grantProjectName" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
-                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('grantProjectName', i),
-                                     'uk-width-5-6': getFieldAsFormArray('grantProjectName').length > 1}">
-                              <a *ngIf="getFieldAsFormArray('grantProjectName').length > 1"
-                                 class="remove-element uk-padding-small" (click)="remove('grantProjectName', i)">
+                            <div *ngFor="let provider of getFieldAsFormArray('grantProjectNames').controls; let i=index">
+                              <input id="grantProjectNames" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
+                                     [ngClass]="{'uk-form-danger': checkFormArrayValidity('grantProjectNames', i),
+                                     'uk-width-5-6': getFieldAsFormArray('grantProjectNames').length > 1}">
+                              <a *ngIf="getFieldAsFormArray('grantProjectNames').length > 1"
+                                 class="remove-element uk-padding-small" (click)="remove('grantProjectNames', i)">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                               </a>
                             </div>
                             <div class="uk-width-1-1">
-                              <a class="add-new-element" (click)="push('grantProjectName', grantProjectNameDesc.mandatory, false)">
+                              <a class="add-new-element" (click)="push('grantProjectNames', grantProjectNameDesc.mandatory, false)">
                                 <i class="fa fa-plus" aria-hidden="true"></i> Add {{grantProjectNameDesc.label}}
                               </a>
                             </div>
