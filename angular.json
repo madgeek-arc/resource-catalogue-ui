@@ -23,6 +23,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/uikit/dist/css/uikit.css",
               "src/styles.scss",
               "node_modules/font-awesome/css/font-awesome.css"
             ],
@@ -146,6 +147,7 @@
               "projects/EOSC/src/assets"
             ],
             "styles": [
+              "node_modules/uikit/dist/css/uikit.css",
               "projects/EOSC/src/styles.scss",
               "node_modules/font-awesome/css/font-awesome.css"
             ],
@@ -270,6 +272,7 @@
               "projects/openaire-service-catalogue/src/assets"
             ],
             "styles": [
+              "node_modules/uikit/dist/css/uikit.css",
               "projects/openaire-service-catalogue/src/styles.scss",
               "node_modules/font-awesome/css/font-awesome.css"
             ],
@@ -394,6 +397,7 @@
               "projects/catris/src/assets"
             ],
             "styles": [
+              "node_modules/uikit/dist/css/uikit.css",
               "projects/catris/src/styles.scss",
               "node_modules/font-awesome/css/font-awesome.css"
             ],

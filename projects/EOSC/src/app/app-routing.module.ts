@@ -16,6 +16,7 @@ import {DashboardComponent} from '../../../../src/app/pages/user/dashboard/dashb
 import {ServiceDashboardComponent} from '../../../../src/app/pages/user/dashboard/service-dashboard.component';
 import {DevelopersComponent} from '../../../../src/app/pages/support/developers/developers.component';
 import {OpenAPIComponent} from '../../../../src/app/pages/support/openapi/openapi.component';
+import {ServiceProviderFormComponent} from '../../../../src/app/pages/serviceProvider/service-provider-form.component';
 
 
 const routes: Routes = [
@@ -43,6 +44,14 @@ const routes: Routes = [
     component: BecomeAProviderComponent,
     data: {
       breadcrumb: 'Become A Provider'
+    }
+  },
+  {
+    path: 'newServiceProvider',
+    component: ServiceProviderFormComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'New Service Provider'
     }
   },
   {

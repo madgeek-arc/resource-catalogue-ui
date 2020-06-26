@@ -457,3 +457,18 @@ a.signUp, a:hover.signUp {
   font-size: 14px;
   margin-left: 15px;
 }
+
+.uk-navbar-nav > li > a, .uk-navbar-item, .uk-navbar-toggle {
+  min-height: 30px;
+}
+
+.tm-header {
+  /*overflow: hidden;*/
+  padding-bottom: 10px;
+}
+
+.tm-header > div {
+  -webkit-box-shadow: 0px 3px 3px #0000002b;
+  -moz-box-shadow: 0px 3px 3px #0000002b;
+  box-shadow: 0px 3px 3px #0000002b;
+}

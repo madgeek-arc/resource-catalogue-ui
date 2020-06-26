@@ -158,16 +158,6 @@
                 </div>
               </div>
             </li>
-            <!--<li *ngIf="router.url != '/home' && router.url != '/'">-->
-              <!--<form [formGroup]="searchForm" (ngSubmit)="onSubmit(searchForm.controls['query'].value)">-->
-                <!--<input type="text" class="uk-input menuSearch" placeholder="Search" name="keyword" formControlName="query">-->
-              <!--</form>-->
-            <!--</li>-->
-          </ul>
-        </div>
-
-        <div class="">
-          <ul class="uk-navbar-nav">
             <li *ngIf="isLoggedIn()" class="uk-parent" [routerLinkActive]="['uk-active']">
               <a href="#" class="" aria-expanded="false">
                 <span> {{getUsername()}} {{getUsersurname()}}
@@ -214,8 +204,64 @@
             <li *ngIf="!isLoggedIn()" class="uk-parent" [routerLinkActive]="['uk-active']">
               <a class="loginLink" (click)="goToLoginAAI()">Log In</a>
             </li>
+            <!--<li *ngIf="router.url != '/home' && router.url != '/'">-->
+              <!--<form [formGroup]="searchForm" (ngSubmit)="onSubmit(searchForm.controls['query'].value)">-->
+                <!--<input type="text" class="uk-input menuSearch" placeholder="Search" name="keyword" formControlName="query">-->
+              <!--</form>-->
+            <!--</li>-->
           </ul>
         </div>
+
+        <!--<div class="">-->
+          <!--<ul class="uk-navbar-nav">-->
+            <!--<li *ngIf="isLoggedIn()" class="uk-parent" [routerLinkActive]="['uk-active']">-->
+              <!--<a href="#" class="" aria-expanded="false">-->
+                <!--<span> {{getUsername()}} {{getUsersurname()}}-->
+                  <!--<span class="uk-margin-small-right uk-icon">-->
+                    <!--<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"><circle-->
+                      <!--fill="none" stroke="#000" stroke-width="1.1" cx="9.9" cy="6.4" r="4.4"></circle>-->
+                      <!--<path fill="none"-->
+                            <!--stroke="#000"-->
+                            <!--stroke-width="1.1"-->
+                            <!--d="M1.5,19 C2.3,14.5 5.8,11.2 10,11.2 C14.2,11.2 17.7,14.6 18.5,19.2">-->
+                      <!--</path>-->
+                    <!--</svg>-->
+                  <!--</span>-->
+                <!--</span>-->
+              <!--</a>-->
+              <!--<div class="uk-navbar-dropdown uk-navbar-dropdown-bottom-left" style="top: 80px; left: 106.55px;" id="user" (click)="onClick('support')">-->
+                <!--<div class="uk-navbar-dropdown-grid uk-child-width-1-1 uk-grid uk-grid-stack" uk-grid="">-->
+                  <!--<div class="uk-first-column">-->
+                    <!--<ul class="uk-nav uk-navbar-dropdown-nav">-->
+                      <!--&lt;!&ndash;TODO:restore before push&ndash;&gt;-->
+                      <!--&lt;!&ndash;<li *ngIf="isProvider() || isAdmin()"><a [routerLink]="['dashboard']" routerLinkActive="uk-active">Monitoring Dashboard</a></li>&ndash;&gt;-->
+
+                      <!--&lt;!&ndash; If user has logged in &ndash;&gt;-->
+                      <!--<li><a [routerLink]="['/newServiceProvider']" routerLinkActive="uk-active">Add New Service-->
+                        <!--Provider</a></li>-->
+
+                      <!--<li><a [routerLink]="['/myFavourites']" routerLinkActive="uk-active">My Favourites</a></li>-->
+
+                      <!--&lt;!&ndash; If user is serviceProvider admin and has at least 1 serviceProvider &ndash;&gt;-->
+                      <!--<li *ngIf="isProvider() || isAdmin()"><a [routerLink]="['/myServiceProviders']"-->
+                                                               <!--routerLinkActive="uk-active">My Service Providers</a>-->
+                      <!--</li>-->
+
+                      <!--&lt;!&ndash; If user is admin &ndash;&gt;-->
+                      <!--<li *ngIf="isAdmin()"><a [routerLink]="['/serviceProvidersList']" routerLinkActive="uk-active">View-->
+                        <!--Service Providers</a></li>-->
+
+                      <!--<li><a routerLink="/home" (click)="this.authenticationService.logout()">Log out</a></li>-->
+                    <!--</ul>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</li>-->
+            <!--<li *ngIf="!isLoggedIn()" class="uk-parent" [routerLinkActive]="['uk-active']">-->
+              <!--<a class="loginLink" (click)="goToLoginAAI()">Log In</a>-->
+            <!--</li>-->
+          <!--</ul>-->
+        <!--</div>-->
       </nav>
     </div>
   </div>

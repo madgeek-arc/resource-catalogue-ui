@@ -1,0 +1,224 @@
+/*@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap');*/
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,600,700&display=swap');
+
+html {
+  color: #292929;
+}
+
+body {
+  font: 400 14px/19px 'Roboto', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+}
+
+.clear-style {
+  padding-left: 0px !important;
+}
+
+.uk-navbar-container:not(.uk-navbar-transparent) {
+  box-shadow: 2px 15px 50px rgba(41,44,61,.1);
+}
+
+.uk-flex {
+  display: flex !important;
+}
+
+.uk-flex-between {
+  justify-content: space-between !important;
+}
+
+/* ========================================================================
+   Buttons
+ ========================================================================== */
+
+.uk-button {
+  border-radius: 30px;
+  text-transform: none;
+}
+
+.uk-button-primary {
+  background-color: #004494;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+.uk-button-secondary {
+  background-color: #26C0E2;
+  color: #fff;
+}
+
+.uk-button-default {
+  background-color: #fff;
+  border: 1px solid #B5B5B5;
+  color: #B5B5B5;
+}
+
+/* ========================================================================
+   Form tabs
+ ========================================================================== */
+
+.uk-tab > * > a {
+  text-transform: none;
+  font-weight: 300;
+  font-size: 16px;
+  /*font: 300 16px Roboto;*/
+  letter-spacing: 0px;
+  color: #212121 !important;
+  opacity: 0.6;
+  padding: 10px 15px;
+}
+
+.uk-tab > .uk-active > a {
+  color: #fff !important;
+  font-weight: 600;
+  background: #004494 0% 0% no-repeat padding-box;
+  opacity: 1;
+  border-radius: 4px;
+}
+
+.uk-tab-left::before {
+  border-left: none;
+}
+
+.tabsTitle {
+  font-weight: 300;
+  font-size: 20px;
+  /*font: 300 20px Roboto;*/
+  letter-spacing: 0px;
+  color: #212121;
+  opacity: 0.6;
+}
+
+.uk-tab > * > a .circle-number {
+  width: 25px;
+  line-height: 25px;
+  border-radius: 50%;
+  text-align: center;
+  background: #F0F5F5 0% 0% no-repeat padding-box;
+  letter-spacing: 0px;
+  color: #4D4D4D;
+  opacity: 1;
+}
+
+.uk-tab > .uk-active > a .circle-number {
+  opacity: 0.6;
+}
+
+.circle-number .fa.fa-check {
+  color: #26C0E2;
+}
+
+.stepsCompleted {
+  font-weight: 600;
+  color: #212121;
+  opacity: 0.4;
+}
+
+.percentageNumber {
+  font-weight: 600;
+  color: #212121;
+  opacity: 0.4;
+  margin-top: 3px;
+}
+
+/* ========================================================================
+   Form
+ ========================================================================== */
+
+.uk-width-9-10 {
+  width: calc(100% * 9 / 10.001);
+}
+
+.formContainer {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #0000001A;
+  border-radius: 4px;
+  opacity: 1;
+  padding: 20px;
+}
+
+.uk-form-label {
+  font-weight: bold;
+  font-size: 18px;
+  /*font: 700 18px Roboto;*/
+  letter-spacing: 0px;
+  color: #212121;
+  text-transform: capitalize;
+  opacity: 0.81;
+}
+
+.uk-form-description {
+  font-size: 16px;
+  letter-spacing: 0px;
+  color: #212121;
+  opacity: 0.81;
+}
+
+.uk-input {
+  height: 56px;
+  background: #FAFAFA 0% 0% no-repeat padding-box;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  opacity: 1;
+}
+
+.uk-select {
+  height: 56px !important;
+}
+
+.uk-textarea {
+  height: 135px;
+  background: #FAFAFA 0% 0% no-repeat padding-box;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  opacity: 1;
+}
+
+a.add-new-element {
+  font-weight: bold;
+  letter-spacing: -0.35px;
+  color: #444444;
+  opacity: 1;
+}
+
+a.add-new-element:hover {
+  text-decoration: none;
+}
+
+a.remove-element i {
+  color: #B5B5B5;
+  font-size: 25px;
+}
+
+.formGroupElement {
+  padding: 40px;
+  background: #F0F5F5 0% 0% no-repeat padding-box;
+  border: 1px solid #707070;
+  opacity: 1;
+}
+
+/* ========================================================================
+   Component: Service provider form
+ ========================================================================== */
+
+.titleAndActionsBar {
+  background: #004494 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 4px;
+  padding: 13px 20px;
+  opacity: 1;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pageTitle {
+  opacity: 0.75;
+}
+
+.providerName {
+  opacity: 1;
+  font-size: 16px;
+}
