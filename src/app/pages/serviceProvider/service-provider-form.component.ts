@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {Vocabulary, Type, Provider} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
+import BitSet from 'bitset/bitset';
 
 declare var UIkit: any;
 
@@ -22,10 +23,35 @@ export class ServiceProviderFormComponent implements OnInit {
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   edit = false;
+  providerName = 'Provider Name';
+  hasChanges = false;
   pendingProvider = false;
   disable = false;
   showLoader = false;
   tabs: boolean[] = [false, false, false, false, false, false, false, false];
+
+  requiredOnTab0 = 3;
+  requiredOnTab1 = 2;
+  requiredOnTab3 = 4;
+  requiredOnTab4 = 1;
+  requiredOnTab7 = 1;
+
+  remainingOnTab0 = this.requiredOnTab0;
+  remainingOnTab1 = this.requiredOnTab1;
+  remainingOnTab3 = this.requiredOnTab3;
+  remainingOnTab4 = this.requiredOnTab4;
+  remainingOnTab7 = this.requiredOnTab7;
+
+  BitSetTab0 = new BitSet;
+  BitSetTab1 = new BitSet;
+  BitSetTab3 = new BitSet;
+  BitSetTab4 = new BitSet;
+  BitSetTab7 = new BitSet;
+
+  allRequiredFields = 15;
+  loaderBitSet = new BitSet;
+  loaderPercentage = 0;
+
 
   readonly fullNameDesc: sd.Description = sd.fullNameDesc;
   readonly abbreviationDesc: sd.Description = sd.abbreviationDesc;
@@ -193,6 +219,11 @@ export class ServiceProviderFormComponent implements OnInit {
         sessionStorage.removeItem('provider');
       }
     }
+
+    this.loaderBitSet.set(12, 1); // Admin name
+    this.loaderBitSet.set(13, 1); // Admin surname
+    this.loaderBitSet.set(14, 1); // Admin email
+    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
   }
 
   registerProvider(tempSave: boolean) {
@@ -633,6 +664,78 @@ export class ServiceProviderFormComponent implements OnInit {
 
   downloadProviderFormPDF() {
     window.open('../../../assets/files/providerForm.pdf', '_blank');
+  }
+
+  onKeyUp(event: any, tabNum: number, bitIndex: number, group?: string): void {
+    this.hasChanges = true;
+    const formControlName = event.target.getAttribute('formControlName');
+    // console.log('triggered! ', event.target.value, '@', formControlName);
+    if (formControlName === 'name') {
+      this.providerName = event.target.value;
+    }
+    if (group) {
+        if (this.newProviderForm.controls[group].get(formControlName).valid && this.newProviderForm.controls[group].get(formControlName).dirty) {
+          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+          this.loaderBitSet.set(bitIndex, 1);
+        } else if (this.newProviderForm.controls[group].get(formControlName).invalid) {
+          this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+          this.loaderBitSet.set(bitIndex, 0);
+        }
+    } else {
+      if (this.newProviderForm.get(formControlName).valid && this.newProviderForm.get(formControlName).dirty) {
+        this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+        this.loaderBitSet.set(bitIndex, 1);
+      } else if (this.newProviderForm.get(formControlName).invalid) {
+        this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+        this.loaderBitSet.set(bitIndex, 0);
+      }
+    }
+
+    // console.log(this.loaderBitSet.toString(2));
+    // console.log('cardinality: ', this.loaderBitSet.cardinality());
+
+    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
+    // console.log(this.loaderPercentage, '%');
+  }
+
+  decreaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
+    if (tabNum === 0) {
+      this.BitSetTab0.set(bitIndex, 1);
+      this.remainingOnTab0 = this.requiredOnTab0 - this.BitSetTab0.cardinality();
+    } else if (tabNum === 1) {
+      this.BitSetTab1.set(bitIndex, 1);
+      this.remainingOnTab1 = this.requiredOnTab1 - this.BitSetTab1.cardinality();
+    } else if (tabNum === 3) {
+      this.BitSetTab3.set(bitIndex, 1);
+      this.remainingOnTab3 = this.requiredOnTab3 - this.BitSetTab3.cardinality();
+    } else if (tabNum === 4) { // Contact
+      this.BitSetTab4.set(bitIndex, 1);
+      if (this.BitSetTab4.cardinality() === 3) {
+        this.remainingOnTab4 = 0;
+      }
+    } else if (tabNum === 7) {
+      this.BitSetTab7.set(bitIndex, 1);
+      this.remainingOnTab7 = this.requiredOnTab7 - this.BitSetTab7.cardinality();
+    }
+  }
+
+  increaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
+    if (tabNum === 0) {
+      this.BitSetTab0.set(bitIndex, 0);
+      this.remainingOnTab0 = this.requiredOnTab0 - this.BitSetTab0.cardinality();
+    } else if (tabNum === 1) {
+      this.BitSetTab1.set(bitIndex, 0);
+      this.remainingOnTab1 = this.requiredOnTab1 - this.BitSetTab1.cardinality();
+    } else if (tabNum === 3) {
+      this.BitSetTab3.set(bitIndex, 0);
+      this.remainingOnTab3 = this.requiredOnTab3 - this.BitSetTab3.cardinality();
+    } else if (tabNum === 4) { // Contact
+      this.BitSetTab4.set(bitIndex, 0);
+      this.remainingOnTab4 = this.requiredOnTab4;
+    } else if (tabNum === 7) {
+      this.BitSetTab7.set(bitIndex, 0);
+      this.remainingOnTab7 = this.requiredOnTab7 - this.BitSetTab7.cardinality();
+    }
   }
 
 }

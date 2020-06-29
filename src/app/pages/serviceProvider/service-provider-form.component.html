@@ -10,13 +10,13 @@
               {{disable ? ' ' : edit ? ' Update' : ' Add New'}} Service Provider {{disable ? 'Info' : ''}}
             </div>
             <div class="providerName uk-margin-small-top">
-              <strong>Provider Name</strong> (unsaved changes)
+              <strong>{{providerName}}</strong> (unsaved changes)
             </div>
           </div>
           <div class="">
             <!--<button class="uk-button uk-button-primary">Discard</button>-->
             <button *ngIf="!disable && (!edit || pendingProvider)" class="uk-button uk-button-primary uk-margin-left" (click)="this.registerProvider(true)">Save as draft</button>
-            <button *ngIf="!disable" class="uk-button uk-button-secondary uk-margin-left" type="submit" (click)="registerProvider(false)">Submit</button>
+            <button *ngIf="!disable && loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left" type="submit" (click)="registerProvider(false)">Submit</button>
           </div>
         </div>
 
@@ -63,13 +63,13 @@
                       <li class="uk-active">
                         <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[0]}" href="#">
                           <span>1. Basic *</span>
-                          <span class="circle-number">4</span>
+                          <span class="circle-number" [ngClass]="{'fa': remainingOnTab0==0, 'fa-check': remainingOnTab0==0}">{{remainingOnTab0!=0 ? remainingOnTab0 : ''}}</span>
                         </a>
                       </li>
                       <li>
                         <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[1]}" href="#">
                           <span>2. Marketing *</span>
-                          <span class="circle-number">2</span>
+                          <span class="circle-number" [ngClass]="{'fa': remainingOnTab1==0, 'fa-check': remainingOnTab1==0}">{{remainingOnTab1!=0 ? remainingOnTab1 : ''}}</span>
                         </a>
                       </li>
                       <li>
@@ -81,13 +81,13 @@
                       <li>
                         <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[3]}" href="#">
                           <span>4. Location *</span>
-                          <span class="circle-number">4</span>
+                          <span class="circle-number" [ngClass]="{'fa': remainingOnTab3==0, 'fa-check': remainingOnTab3==0}">{{remainingOnTab3!=0 ? remainingOnTab3 : ''}}</span>
                         </a>
                       </li>
                       <li>
                         <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[4]}" href="#">
                           <span>5. Contact *</span>
-                          <span class="circle-number">1</span>
+                          <span class="circle-number" [ngClass]="{'fa': remainingOnTab4==0, 'fa-check': remainingOnTab4==0}">{{remainingOnTab4!=0 ? remainingOnTab4 : ''}}</span>
                         </a>
                       </li>
                       <li>
@@ -112,7 +112,7 @@
                     <div class="stepsCompleted uk-margin-large-top uk-text-center">1 of 5</div>
                     <div class="progress uk-margin-small-top">
                       <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="10" max="100"></progress>
-                      <div class="percentageNumber" [ngStyle]="{'margin-left': '10%'}">10%</div>
+                      <div class="percentageNumber" [ngStyle]="{'margin-left': '10%'}">{{loaderPercentage}}%</div>
                     </div>
 
                   </div>
@@ -124,12 +124,12 @@
                         <!--BASIC-->
                         <li class="uk-active">
                           <div class="uk-margin-large-bottom">
-                            <label class="uk-form-label" for="providerName">
+                            <label class="uk-form-label" for="name">
                               {{fullNameDesc.label + (fullNameDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{fullNameDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <input id="providerName" class="uk-input uk-width-9-10" type="text" formControlName="name"
+                              <input id="providerName" class="uk-input uk-width-9-10" type="text" formControlName="name" (keyup)="onKeyUp($event, 0, 0)"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('name')}">
                               <!--<i><small>{{fullNameDesc.desc}}</small></i>-->
                             </div>
@@ -140,7 +140,7 @@
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{abbreviationDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <input id="abbreviation" class="uk-input uk-width-9-10" type="text" formControlName="abbreviation"
+                              <input id="abbreviation" class="uk-input uk-width-9-10" type="text" formControlName="abbreviation" (keyup)="onKeyUp($event, 0, 1)"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('abbreviation')}">
                               <!--<i><small>{{abbreviationDesc.desc}}</small></i>-->
                             </div>
@@ -152,7 +152,7 @@
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{websiteDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <input id="website" class="uk-input uk-width-9-10" type="text" formControlName="website"
+                              <input id="website" class="uk-input uk-width-9-10" type="text" formControlName="website" (keyup)="onKeyUp($event, 0, 2)"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('website')}">
                               <!--<i><small>{{websiteDesc.desc}}</small></i>-->
                             </div>
@@ -196,7 +196,7 @@
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerDescriptionDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <textarea id="description" class="uk-textarea uk-width-9-10" rows="4" formControlName="description"
+                              <textarea id="description" class="uk-textarea uk-width-9-10" rows="4" formControlName="description" (keyup)="onKeyUp($event, 1, 3)"
                                     [ngClass]="{'uk-form-danger': checkFormValidity('description')}"></textarea>
                               <!--<i><small>{{providerDescriptionDesc.desc}}</small></i>-->
                             </div>
@@ -207,7 +207,7 @@
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerLogoDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo"
+                              <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo" (keyup)="onKeyUp($event, 1, 4)"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('logo')}">
                               <!--<i><small>{{providerLogoDesc.desc}}</small></i>-->
                             </div>
@@ -335,7 +335,7 @@
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{streetNameAndNumberDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
-                                <input id="streetNameAndNumber" class="uk-input uk-width-9-10" type="text" formControlName="streetNameAndNumber"
+                                <input id="streetNameAndNumber" class="uk-input uk-width-9-10" type="text" formControlName="streetNameAndNumber" (keyup)="onKeyUp($event, 3, 5, 'location')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('location.streetNameAndNumber')}">
                                 <!--<i><small>{{streetNameAndNumberDesc.desc}}</small></i>-->
                               </div>
@@ -346,7 +346,7 @@
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{postalCodeDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
-                                <input id="postalCode" class="uk-input uk-width-9-10" type="text" formControlName="postalCode"
+                                <input id="postalCode" class="uk-input uk-width-9-10" type="text" formControlName="postalCode" (keyup)="onKeyUp($event, 3, 6, 'location')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('location.postalCode')}">
                                 <!--<i><small>{{postalCodeDesc.desc}}</small></i>-->
                               </div>
@@ -357,7 +357,7 @@
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{cityDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
-                                <input id="city" class="uk-input uk-width-9-10" type="text" formControlName="city"
+                                <input id="city" class="uk-input uk-width-9-10" type="text" formControlName="city" (keyup)="onKeyUp($event, 3, 7, 'location')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('location.city')}">
                                 <!--<i><small>{{cityDesc.desc}}</small></i>-->
                               </div>
@@ -379,7 +379,7 @@
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{countryDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
-                                <select id="country" class="uk-input uk-select uk-width-9-10" formControlName="country"
+                                <select id="country" class="uk-input uk-select uk-width-9-10" formControlName="country" (change)="onKeyUp($event, 3, 8, 'location')"
                                         [ngClass]="{'uk-form-danger': checkFormValidity('location.country')}">
                                   <option value=""></option>
                                   <option *ngFor="let entry of sortVocabulariesByName(placesVocabulary)" value="{{entry.id}}">
@@ -403,7 +403,7 @@
                                   </label>
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerMainContactFirstNameDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
-                                    <input id="mainContactFirstName" class="uk-input" type="text" formControlName="firstName"
+                                    <input id="mainContactFirstName" class="uk-input" type="text" formControlName="firstName" (keyup)="onKeyUp($event, 4, 9, 'mainContact')"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.firstName')}">
                                     <!--<i><small>{{ providerMainContactFirstNameDesc.desc }}</small></i>-->
                                   </div>
@@ -414,7 +414,7 @@
                                   </label>
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerMainContactLastNameDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
-                                    <input id="mainContactLastName" class="uk-input" type="text" formControlName="lastName"
+                                    <input id="mainContactLastName" class="uk-input" type="text" formControlName="lastName" (keyup)="onKeyUp($event, 4, 10, 'mainContact')"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.lastName')}">
                                     <!--<i><small>{{ providerMainContactLastNameDesc.desc }}</small></i>-->
                                   </div>
@@ -425,7 +425,7 @@
                                   </label>
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerMainContactEmailDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
-                                    <input id="mainContactEmail" class="uk-input" type="text" formControlName="email"
+                                    <input id="mainContactEmail" class="uk-input" type="text" formControlName="email" (keyup)="onKeyUp($event, 4, 11, 'mainContact')"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.email')}">
                                     <!--<i><small>{{ providerMainContactEmailDesc.desc }}</small></i>-->
                                   </div>
@@ -903,7 +903,7 @@
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">First Name of the Provider's administrator.</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
-                                      <input id="name" class="uk-input" type="text" formControlName="name"
+                                      <input id="name" class="uk-input" type="text" formControlName="name" (keyup)="onKeyUp($event, 7, 12)"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'name')}">
                                       <!--<i><small>{{ providerPublicContactFirstNameDesc.desc }}</small></i>-->
                                     </div>
@@ -914,7 +914,7 @@
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">Last Name of the Provider's administrator.</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
-                                      <input id="surname" class="uk-input" type="text" formControlName="surname"
+                                      <input id="surname" class="uk-input" type="text" formControlName="surname" (keyup)="onKeyUp($event, 7, 13)"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'surname')}">
                                       <!--<i><small>{{ providerPublicContactLastNameDesc.desc }}</small></i>-->
                                     </div>
@@ -925,7 +925,7 @@
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">Email of the Provider's administrator.</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
-                                      <input class="uk-input" type="text" formControlName="email"
+                                      <input class="uk-input" type="text" formControlName="email" (keyup)="onKeyUp($event, 7, 14)"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'email')}">
                                       <!--<i><small>{{ providerPublicContactEmailDesc.desc }}</small></i>-->
                                     </div>

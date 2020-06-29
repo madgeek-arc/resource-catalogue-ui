@@ -31,6 +31,7 @@
     "angular-font-awesome": "^3.1.2",
     "angular-star-rating": "3.0.3",
     "angular2-highcharts": "^0.5.5",
+    "bitset": "^5.1.1",
     "core-js": "^2.5.4",
     "dom-to-image": "^2.6.0",
     "font-awesome": "^4.7.0",
