@@ -48,6 +48,10 @@ export class ServiceProviderFormComponent implements OnInit {
   BitSetTab4 = new BitSet;
   BitSetTab7 = new BitSet;
 
+  requiredTabs = 5;
+  remainingTabs = this.requiredTabs;
+  remainingTabsBitSet = new BitSet;
+
   allRequiredFields = 15;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
@@ -704,21 +708,37 @@ export class ServiceProviderFormComponent implements OnInit {
     if (tabNum === 0) {
       this.BitSetTab0.set(bitIndex, 1);
       this.remainingOnTab0 = this.requiredOnTab0 - this.BitSetTab0.cardinality();
+      if (this.remainingOnTab0 === 0 && this.remainingTabsBitSet.get(tabNum) !== 1) {
+        this.calcRemainingTabs(tabNum, 1);
+      }
     } else if (tabNum === 1) {
       this.BitSetTab1.set(bitIndex, 1);
       this.remainingOnTab1 = this.requiredOnTab1 - this.BitSetTab1.cardinality();
+      if (this.remainingOnTab1 === 0 && this.remainingTabsBitSet.get(tabNum) !== 1) {
+        this.calcRemainingTabs(tabNum, 1);
+      }
     } else if (tabNum === 3) {
       this.BitSetTab3.set(bitIndex, 1);
       this.remainingOnTab3 = this.requiredOnTab3 - this.BitSetTab3.cardinality();
+      if (this.remainingOnTab3 === 0 && this.remainingTabsBitSet.get(tabNum) !== 1) {
+        this.calcRemainingTabs(tabNum, 1);
+      }
     } else if (tabNum === 4) { // Contact
       this.BitSetTab4.set(bitIndex, 1);
       if (this.BitSetTab4.cardinality() === 3) {
         this.remainingOnTab4 = 0;
+        if (this.remainingTabsBitSet.get(tabNum) !== 1) {
+          this.calcRemainingTabs(tabNum, 1);
+        }
       }
     } else if (tabNum === 7) { // Admins
       this.BitSetTab7.set(bitIndex, 1);
       if (this.BitSetTab7.cardinality() === 3) {
         this.remainingOnTab7 = 0;
+        if (this.remainingTabsBitSet.get(tabNum) !== 1) {
+          this.calcRemainingTabs(tabNum, 1);
+        }
+        this.calcRemainingTabs(7, 1);
       }
     }
   }
@@ -727,19 +747,41 @@ export class ServiceProviderFormComponent implements OnInit {
     if (tabNum === 0) {
       this.BitSetTab0.set(bitIndex, 0);
       this.remainingOnTab0 = this.requiredOnTab0 - this.BitSetTab0.cardinality();
+      if (this.remainingTabsBitSet.get(tabNum) !== 0) {
+        this.calcRemainingTabs(tabNum, 0);
+      }
     } else if (tabNum === 1) {
       this.BitSetTab1.set(bitIndex, 0);
       this.remainingOnTab1 = this.requiredOnTab1 - this.BitSetTab1.cardinality();
+      if (this.remainingTabsBitSet.get(tabNum) !== 0) {
+        this.calcRemainingTabs(tabNum, 0);
+      }
     } else if (tabNum === 3) {
       this.BitSetTab3.set(bitIndex, 0);
       this.remainingOnTab3 = this.requiredOnTab3 - this.BitSetTab3.cardinality();
+      if (this.remainingTabsBitSet.get(tabNum) !== 0) {
+        this.calcRemainingTabs(tabNum, 0);
+      }
     } else if (tabNum === 4) { // Contact
       this.BitSetTab4.set(bitIndex, 0);
       this.remainingOnTab4 = this.requiredOnTab4;
+      if (this.remainingTabsBitSet.get(tabNum) !== 0) {
+        this.calcRemainingTabs(tabNum, 0);
+      }
     } else if (tabNum === 7) { // Admins
       this.BitSetTab7.set(bitIndex, 0);
       this.remainingOnTab7 = this.requiredOnTab7;
+      if (this.remainingTabsBitSet.get(tabNum) !== 0) {
+        this.calcRemainingTabs(tabNum, 0);
+      }
     }
+  }
+
+  calcRemainingTabs(tabNum: number, setValue: number) {
+    this.remainingTabsBitSet.set(tabNum, setValue);
+    this.remainingTabs = this.requiredTabs - this.remainingTabsBitSet.cardinality();
+    console.log('---------------this.remainingTabs', this.remainingTabs);
+    console.log('---------------this.remainingTabsBitSet', this.remainingTabsBitSet.toString(2));
   }
 
   setAdminBitSets() {
@@ -750,6 +792,8 @@ export class ServiceProviderFormComponent implements OnInit {
     this.loaderBitSet.set(13, 1); // Admin surname
     this.loaderBitSet.set(14, 1); // Admin email
     this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
+    this.remainingTabsBitSet.set(7, 1);
+    this.calcRemainingTabs(7, 1);
   }
 
 }
