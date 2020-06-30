@@ -241,94 +241,102 @@
                         </li>
                         <!--MARKETING-->
                         <li>
-                          <div class="uk-margin-bottom">
-                            <div class="uk-form-label uk-text-right" style="display: flex; flex-direction: column">
-                              <label class="uk-form-label uk-text-right">
-                                {{descriptionDesc.label + (descriptionDesc.mandatory ? ' (*)' : '')}}
-                              </label>
-                            </div>
-                            <div class="uk-form-controls">
-                              <ckeditor
-                                [readonly]="false"
-                                debounce="500"
-                                formControlName="description"
-                                [config]="{extraPlugins: 'divarea',allowedContent: true,extraAllowedContent : '*(*)'}">
-                              </ckeditor>
-                              <i><small>{{descriptionDesc.desc}}</small></i>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right">
+                              {{descriptionDesc.label + (descriptionDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{descriptionDesc.desc}}</div>
+                            <!--<div class="uk-form-label uk-text-right">-->
+                              <!--<label class="uk-form-label uk-text-right">-->
+                                <!--{{descriptionDesc.label + (descriptionDesc.mandatory ? ' (*)' : '')}}-->
+                              <!--</label>-->
+                            <!--</div>-->
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-wisth-9-10">
+                                <ckeditor
+                                  [readonly]="false"
+                                  debounce="500"
+                                  formControlName="description"
+                                  [config]="{extraPlugins: 'divarea',allowedContent: true,extraAllowedContent : '*(*)'}">
+                                </ckeditor>
+                                <!--<i><small>{{descriptionDesc.desc}}</small></i>-->
+                              </div>
                             </div>
                           </div>
-                          <div class="uk-margin-bottom">
+                          <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="tagline">
                               {{taglineDesc.label + (taglineDesc.mandatory ? ' (*)' : '')}}
                             </label>
-                            <div class="uk-form-controls">
-                              <input id="tagline" class="uk-input" type="text" formControlName="tagline"
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{taglineDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <input id="tagline" class="uk-input uk-width-9-10" type="text" formControlName="tagline"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('tagline')}">
-                              <i><small>{{taglineDesc.desc}}</small></i>
+                              <!--<i><small>{{taglineDesc.desc}}</small></i>-->
                             </div>
                           </div>
-                          <div class="uk-margin-bottom">
+                          <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="logo">
                               {{logoDesc.label + (logoDesc.mandatory ? ' (*)' : '')}}
                             </label>
-                            <div class="uk-form-controls">
-                              <input id="logo" class="uk-input" type="text" formControlName="logo"
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{logoDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('logo')}">
-                              <i><small>{{logoDesc.desc}}</small></i>
+                              <!--<i><small>{{logoDesc.desc}}</small></i>-->
                             </div>
                           </div>
-                          <div formArrayName="multimedia" class="uk-margin-bottom">
+                          <div formArrayName="multimedia" class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="multimedia">
                               {{multimediaDesc.label + (multimediaDesc.mandatory ? ' (*)' : '')}}
                             </label>
-                            <div class="uk-form-controls ">
-                              <div *ngFor="let multimedia of getFieldAsFormArray('multimedia').controls; let i=index">
-                                <input id="multimedia" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
-                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i),
-                                     'uk-width-5-6': getFieldAsFormArray('multimedia').length > 1}">
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <div *ngFor="let multimedia of getFieldAsFormArray('multimedia').controls; let i=index" class="uk-margin-bottom">
+                                <input id="multimedia" class="uk-input uk-width-9-10 uk-animation-slide-top-small" type="text" [formControlName]="i"
+                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i)}">
                                 <a *ngIf="getFieldAsFormArray('multimedia').length > 1"
                                    class="remove-element uk-padding-small" (click)="remove('multimedia', i)">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
-                              <div class="uk-width-1-1">
+                              <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                 <a class="add-new-element" (click)="push('multimedia', multimediaDesc.mandatory, true)">
                                   <i class="fa fa-plus" aria-hidden="true"></i> Add {{multimediaDesc.label}}
                                 </a>
                               </div>
-                              <i><small>{{multimediaDesc.desc}}</small></i>
+                              <!--<i><small>{{multimediaDesc.desc}}</small></i>-->
                             </div>
                           </div>
-                          <div formArrayName="useCases" class="uk-margin-bottom">
+                          <div formArrayName="useCases" class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="useCases">
                               {{useCasesDesc.label + (useCasesDesc.mandatory ? ' (*)' : '')}}
                             </label>
-                            <div class="uk-form-controls">
-                              <div *ngFor="let useCase of getFieldAsFormArray('useCases').controls; let i=index">
-                                <input id="useCases" class="uk-input uk-animation-slide-top-small" type="text" [formControlName]="i"
-                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i),
-                                     'uk-width-5-6': getFieldAsFormArray('useCases').length > 1}">
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{useCasesDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <div *ngFor="let useCase of getFieldAsFormArray('useCases').controls; let i=index" class="uk-margin-bottom">
+                                <input id="useCases" class="uk-input uk-width-9-10 uk-animation-slide-top-small" type="text" [formControlName]="i"
+                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i)}">
                                 <a *ngIf="getFieldAsFormArray('useCases').length > 1"
                                    class="remove-element uk-padding-small" (click)="remove('useCases', i)">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
-                              <div class="uk-width-1-1">
+                              <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                 <a class="add-new-element" (click)="push('useCases', useCasesDesc.mandatory, false)">
                                   <i class="fa fa-plus" aria-hidden="true"></i> Add {{useCasesDesc.label}}
                                 </a>
                               </div>
-                              <i><small>{{useCasesDesc.desc}}</small></i>
+                              <!--<i><small>{{useCasesDesc.desc}}</small></i>-->
                             </div>
                           </div>
                         </li>
                         <!--CLASSIFICATION-->
                         <li>
-                          <div class="uk-margin-bottom">
+                          <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right">
                               Scientific Domain (*)
                             </label>
-                            <div class="uk-form-controls">
+                            <div class="uk-form-controls uk-margin-top">
                               <div formArrayName="scientificCategorization" *ngFor="let category of scientificDomainArray.controls; let i = index">
                                 <div [formGroupName]="i" class="uk-margin-small-bottom uk-animation-slide-top-small" style="border: 1px dashed #cccccc; padding-right: 10px">
                                   <a *ngIf="scientificDomainArray.length > 1" class="remove-element uk-padding-small"
