@@ -23,7 +23,7 @@ export class ServiceProviderFormComponent implements OnInit {
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   edit = false;
-  providerName = 'Provider Name';
+  providerName = '';
   hasChanges = false;
   pendingProvider = false;
   disable = false;
@@ -220,10 +220,7 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
 
-    this.loaderBitSet.set(12, 1); // Admin name
-    this.loaderBitSet.set(13, 1); // Admin surname
-    this.loaderBitSet.set(14, 1); // Admin email
-    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
+    this.setAdminBitSets();
   }
 
   registerProvider(tempSave: boolean) {
@@ -666,11 +663,14 @@ export class ServiceProviderFormComponent implements OnInit {
     window.open('../../../assets/files/providerForm.pdf', '_blank');
   }
 
-  onKeyUp(event: any, tabNum: number, bitIndex: number, group?: string): void {
+  unsavedChangesPrompt() {
     this.hasChanges = true;
+  }
+
+  onKeyUp(event: any, tabNum: number, bitIndex: number, group?: string): void {
     const formControlName = event.target.getAttribute('formControlName');
     // console.log('triggered! ', event.target.value, '@', formControlName);
-    if (formControlName === 'name') {
+    if (bitIndex === 0) {
       this.providerName = event.target.value;
     }
     if (group) {
@@ -713,9 +713,11 @@ export class ServiceProviderFormComponent implements OnInit {
       if (this.BitSetTab4.cardinality() === 3) {
         this.remainingOnTab4 = 0;
       }
-    } else if (tabNum === 7) {
+    } else if (tabNum === 7) { // Admins
       this.BitSetTab7.set(bitIndex, 1);
-      this.remainingOnTab7 = this.requiredOnTab7 - this.BitSetTab7.cardinality();
+      if (this.BitSetTab7.cardinality() === 3) {
+        this.remainingOnTab7 = 0;
+      }
     }
   }
 
@@ -732,10 +734,20 @@ export class ServiceProviderFormComponent implements OnInit {
     } else if (tabNum === 4) { // Contact
       this.BitSetTab4.set(bitIndex, 0);
       this.remainingOnTab4 = this.requiredOnTab4;
-    } else if (tabNum === 7) {
+    } else if (tabNum === 7) { // Admins
       this.BitSetTab7.set(bitIndex, 0);
-      this.remainingOnTab7 = this.requiredOnTab7 - this.BitSetTab7.cardinality();
+      this.remainingOnTab7 = this.requiredOnTab7;
     }
+  }
+
+  setAdminBitSets() {
+    this.BitSetTab7.set(12, 1); // Admin name
+    this.BitSetTab7.set(13, 1); // Admin surname
+    this.BitSetTab7.set(14, 1); // Admin email
+    this.loaderBitSet.set(12, 1); // Admin name
+    this.loaderBitSet.set(13, 1); // Admin surname
+    this.loaderBitSet.set(14, 1); // Admin email
+    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
   }
 
 }
