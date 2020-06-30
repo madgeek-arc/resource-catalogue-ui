@@ -10,12 +10,21 @@ import {ProviderBundle} from '../../domain/eic-model';
 export class MyServiceProvidersComponent implements OnInit {
   errorMessage: string;
   noProvidersMessage: string;
-  tilesView: boolean;
 
   myProviders: ProviderBundle[];
   myPendingProviders: ProviderBundle[];
   pendingFirstServicePerProvider: any[] = [];
   hasPendingServices: {id: string, flag: boolean}[] = [];
+
+  myApprovedProviders: ProviderBundle[] = [];
+  myPendingActionProviders: ProviderBundle[] = [];
+  myRejectedProviders: ProviderBundle[] = [];
+  myIncompleteProviders: ProviderBundle[] = [];
+
+  isApprovedChecked: boolean = true;
+  isPendingChecked: boolean = true;
+  isRejectedChecked: boolean = true;
+  isIncompleteChecked: boolean = true;
 
   constructor(
     private serviceProviderService: ServiceProviderService,
@@ -24,15 +33,17 @@ export class MyServiceProvidersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tilesView = true;
     this.getServiceProviders();
     this.getPendingProviders();
   }
 
   getPendingProviders() {
     this.serviceProviderService.getMyPendingProviders().subscribe(
-      res => this.myPendingProviders = res,
-      err => {
+      res => {
+        this.myPendingProviders = res;
+        this.myIncompleteProviders = res;
+        // this.addProvidersListToShown(false, false, false, true);
+      }, err => {
         console.log(err);
         // this.errorMessage = 'An error occurred!';
         if (err['status'] === 401) {
@@ -105,6 +116,9 @@ export class MyServiceProvidersComponent implements OnInit {
                 }
               );
             }
+
+            this.assignProviderToList(p);
+            // this.addProvidersListToShown(true, true, true, false);
           }
         );
         if (this.myProviders.length === 0) {
@@ -136,8 +150,27 @@ export class MyServiceProvidersComponent implements OnInit {
     }
   }
 
-  toggleTiles() {
-    this.tilesView = !this.tilesView;
+  assignProviderToList(p: ProviderBundle) {
+    if ((p.status === 'rejected service template') || (p.status === 'rejected')) {
+      this.myRejectedProviders.push(p);
+    } else if ((p.status === 'approved')) {
+      this.myApprovedProviders.push(p);
+    } else {
+      this.myPendingActionProviders.push(p);
+    }
+  }
+
+  onCheckChanged(e, status: string) {
+
+    if (status === 'approved') {
+      this.isApprovedChecked = e.target.checked;
+    } else if (status === 'pending') {
+      this.isPendingChecked = e.target.checked;
+    } else if (status === 'rejected') {
+      this.isRejectedChecked = e.target.checked;
+    } else if (status === 'incomplete') {
+      this.isIncompleteChecked = e.target.checked;
+    }
   }
 
 }

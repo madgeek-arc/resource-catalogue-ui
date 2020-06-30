@@ -3,14 +3,14 @@
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
 
-        <h1 class="uk-h3">My Service Providers</h1>
+        <!--<h1 class="uk-h3">My Service Providers</h1>-->
 
         <!-- TOP HELP CONTENT -->
         <app-help-content #topHelperContent [position]="'top'"
                           [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
         </app-help-content>
 
-        <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+        <div class="uk-container uk-margin-medium-bottom">
           <div class="uk-grid">
 
             <!-- LEFT HELP CONTENT -->
@@ -23,264 +23,203 @@
               <div>
                 <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{ errorMessage }}</div>
                 <div *ngIf="noProvidersMessage" class="uk-alert">{{ noProvidersMessage }}</div>
-                <div class="uk-width-1-1 uk-grid">
-                  <div *ngIf="myProviders && (myProviders.length > 0) || myPendingProviders && (myPendingProviders.length > 0)" class="uk-width-1-1">
 
-                    <div class="uk-width-1-1 uk-first-column uk-margin-bottom">
-                      <div class="uk-float-right">
-                        <a (click)="toggleTiles()">
-                          <img src="{{'../../../assets/images/icons/switch_view_'+(tilesView === true ? 'grid' : 'list')+'_active.svg'}}">
-                        </a>
-                      </div>
-                    </div>
+                <div *ngIf="myProviders && (myProviders.length > 0) || myPendingProviders && (myPendingProviders.length > 0)" class="">
 
-                    <!--TILES VIEW-->
-                    <div *ngIf="tilesView" class="uk-width-1-1 uk-grid">
-<!--                      <div class="uk-width-1-1 uk-first-column uk-margin-bottom">-->
-<!--                        <div class="uk-float-right">-->
-<!--                          <a (click)="toggleTiles(false)">-->
-<!--                            <img src="../../../assets/images/icons/switch_view_grid_active.svg">-->
-<!--                          </a>-->
-<!--                        </div>-->
-<!--                      </div>-->
+                  <div class="uk-margin-bottom uk-grid-small uk-child-width-auto uk-grid serviceStatuses">
+                    <span class="status-label">Show:</span>
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'approved')" [checked]="isApprovedChecked"> Approved
+                    </label>
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'pending')" [checked]="isPendingChecked"> Pending
+                    </label>
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'rejected')" [checked]="isRejectedChecked"> Rejected
+                    </label>
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'incomplete')" [checked]="isIncompleteChecked"> Incomplete
+                    </label>
+                  </div>
 
-                      <div *ngIf="myProviders.length > 0" class="uk-width-1-1">
-                        <div class="uk-grid uk-grid-match uk-child-width-1-3" uk-grid>
-                          <div *ngFor="let providerBundle of myProviders">
-                            <div class="uk-card uk-card-default uk-card-body uk-first-column">
-                              <div class="uk-scrollspy-inview uk-animation-slide-top-medium uk-margin-small-bottom"
-                                   uk-scrollspy-class="">
-                                <div class="uk-grid uk-child-width-expand uk-grid-collapse"
-                                     uk-grid>
-                                  <div class="uk-margin-remove-right">
-                                    <img class="el-image uk-border-rounded"
-                                         width="100"
-                                         src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../assets/images/broken_image-black-48dp.svg' }}">
-                                  </div>
-                                  <span class="uk-margin-auto-vertical" data-uk-tooltip title="{{(providerBundle.status !== 'approved') ?
-                                                                                    'Your service provider is not yet active, therefore you cannot access its monitoring dashboard':
-                                                                                    'Go to the service provider monitoring dashboard'}}">
-                                    <a [routerLink]="['/dashboard', providerBundle.id]"
-                                       class="{{(providerBundle.status !== 'approved') ? 'uk-disabled':''}}">
-                                        {{ providerBundle.provider.name }}
-                                    </a>
-                                  </span>
-                                </div>
-                              </div>
-                              <div>
-                                <!--<div class="{{ (provider.status === 'pending initial approval') ? 'uk-badge uk-badge-danger' :
-                                                       ((provider.status === 'pending service template approval') ? 'uk-badge uk-badge-warning' : 'uk-badge uk-badge-success') }}">-->
-                                <div class="uk-badge uk-badge-warning" [ngClass]="{'uk-badge-success': providerBundle.status==='approved',
-                                     'uk-badge-danger': providerBundle.status === 'rejected'}">
-                                  {{ providerBundle.status }}
-                                </div>
-                                <div>
-                                  <a routerLink="/updateServiceProvider/{{providerBundle.id}}">Update provider</a>
-                                </div>
-                              </div>
-                              <div *ngIf="(providerBundle.status === 'pending service template submission')
-                                          || (providerBundle.status === 'pending service template approval')
-                                          || (providerBundle.status === 'rejected service template')">
-                                <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
-                                  <i class="fa {{hasCreatedFirstService(providerBundle.id) ? 'fa-pencil': 'fa-plus'}}"></i>
-                                  {{ hasCreatedFirstService(providerBundle.id) ? 'Update' : 'Add'}} service template
+                  <div *ngIf="isApprovedChecked && (myApprovedProviders.length > 0)">
+                    <h3 class="uk-margin-remove">Approved</h3>
+                    <div class="uk-grid uk-grid-match uk-child-width-1-2">
+                      <div *ngFor="let providerBundle of myApprovedProviders" class="uk-grid-margin">
+
+                        <div class="uk-card uk-card-default provider-card">
+                          <div class="uk-card-media-top approved">
+                            <div class="uk-card-badge uk-label">Approved</div>
+                          </div>
+                          <div class="provider-logo">
+                            <span class="provider-logo-helper"></span>
+                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../assets/images/broken_image-black-48dp.svg' }}">
+                          </div>
+                          <div class="uk-card-body">
+                            <div class="providerName">
+                              <span class="uk-margin-auto-vertical" data-uk-tooltip title="'Go to the service provider monitoring dashboard'">
+                                <a [routerLink]="['/dashboard', providerBundle.id]">
+                                    {{ providerBundle.provider.name }}
                                 </a>
-                              </div>
-                              <div *ngIf="checkForPendingServices(providerBundle.id)">
-                                <a [routerLink]="['/dashboard/' + providerBundle.id + '/pendingServices'] ">
-                                  <i class="fa fa-arrow-right" aria-hidden="true"></i> Select from pending service
-                                </a>
-                              </div>
-
+                              </span>
+                              <!--{{ providerBundle.provider.name }}-->
+                            </div>
+                            <div class="uk-margin-small-top">
+                              <span class="statusLabel">Status: </span>{{ providerBundle.status | titlecase }}
+                            </div>
+                            <div class="uk-margin-top cardActionButtons">
+                              <button class="uk-button uk-button-action" routerLink="/updateServiceProvider/{{providerBundle.id}}">
+                                <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider</button>
                             </div>
                           </div>
                         </div>
+
                       </div>
-
-                      <!-- Pending Providers -->
-                      <div *ngIf="myPendingProviders && myPendingProviders.length > 0" class="uk-width-1-1">
-                        <h3 class="uk-margin uk-margin-large-top">Incomplete Providers</h3>
-                        <div class="uk-grid uk-grid-match uk-child-width-1-3" uk-grid>
-                          <div *ngFor="let providerBundle of myPendingProviders">
-                            <div class="uk-card uk-card-default uk-card-body uk-first-column">
-                              <div class="uk-scrollspy-inview uk-animation-slide-top-medium uk-margin-small-bottom"
-                                   uk-scrollspy-class="">
-                                <div class="uk-grid uk-child-width-expand uk-grid-collapse"
-                                     uk-grid>
-                                  <div class="uk-margin-remove-right">
-                                    <img class="el-image uk-border-rounded"
-                                         width="100"
-                                         src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../assets/images/broken_image-black-48dp.svg' }}">
-                                  </div>
-                                  <span class="uk-margin-auto-vertical" data-uk-tooltip title="{{(providerBundle.status !== 'approved') ?
-                                                                                    'Your service provider is not yet active, therefore you cannot access its monitoring dashboard':
-                                                                                    'Go to the service provider monitoring dashboard'}}">
-                                    <a [routerLink]="['/dashboard', providerBundle.id]"
-                                       class="{{(providerBundle.status !== 'approved') ? 'uk-disabled':''}}">
-                                        {{ providerBundle.provider.name }}
-                                    </a>
-                                  </span>
-                                </div>
-                              </div>
-                              <div>
-                                <!--<div class="{{ (provider.status === 'pending initial approval') ? 'uk-badge uk-badge-danger' :
-                                                       ((provider.status === 'pending service template approval') ? 'uk-badge uk-badge-warning' : 'uk-badge uk-badge-success') }}">-->
-<!--                                <div class="uk-badge uk-badge-warning" [ngClass]="{'uk-badge-success': providerBundle.status==='approved',-->
-<!--                                     'uk-badge-danger': providerBundle.status === 'rejected'}">-->
-<!--                                  {{ providerBundle.status }}-->
-<!--                                </div>-->
-                                <div>
-                                  <a routerLink="/registerServiceProvider/{{providerBundle.id}}">Update provider</a>
-                                </div>
-                              </div>
-<!--                              <div *ngIf="(providerBundle.status === 'pending service template submission')-->
-<!--                                          || (providerBundle.status === 'pending service template approval')-->
-<!--                                          || (providerBundle.status === 'rejected service template')">-->
-<!--                                <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">-->
-<!--                                  <i class="fa {{hasCreatedFirstService(providerBundle.id) ? 'fa-pencil': 'fa-plus'}}"></i>-->
-<!--                                  {{ hasCreatedFirstService(providerBundle.id) ? 'Update' : 'Add'}} service template-->
-<!--                                </a>-->
-<!--                              </div>-->
-<!--                              <div *ngIf="checkForPendingServices(providerBundle.id)">-->
-<!--                                <a [routerLink]="['/dashboard/' + providerBundle.id + '/pendingServices'] ">-->
-<!--                                  <i class="fa fa-arrow-right" aria-hidden="true"></i> Select from pending service-->
-<!--                                </a>-->
-<!--                              </div>-->
-
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- End Pending Providers -->
-
-
-                    </div>
-
-                    <!-- LIST VIEW -->
-                    <div *ngIf="!tilesView" class="uk-width-1-1 uk-grid">
-                      <div *ngIf="myProviders.length > 0"
-                           class="uk-width-1-1 uk-first-column uk-grid">
-                        <div class="uk-width-1-1 uk-first-column">
-                          <div class="uk-overflow-auto uk-scrollspy-inview uk-animation-slide-top-medium">
-                            <div>
-                              <table class="uk-table uk-table-striped uk-table-middle">
-                                <thead>
-                                <tr>
-                                  <th class="uk-text-nowrap">Logo</th>
-                                  <th class="uk-text-nowrap">Name</th>
-                                  <th class="uk-text-nowrap">Current Status</th>
-                                  <th class="uk-text-nowrap">Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr class="el-item"
-                                    *ngFor="let providerBundle of myProviders">
-                                  <td class="uk-text-nowrap uk-table-shrink">
-                                    <img class="el-image uk-border-rounded"
-                                         src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../assets/images/broken_image-black-48dp.svg' }}">
-                                  </td>
-                                  <td class="uk-text-nowrap uk-table-shrink">
-                                    <span data-uk-tooltip title="{{(providerBundle.status !== 'approved') ?
-                                                                    'Your service provider is not yet active, therefore you cannot access its monitoring dashboard':
-                                                                    'Go to the service provider monitoring dashboard'}}">
-                                      <a [routerLink]="['/dashboard', providerBundle.id]"
-                                        class="{{(providerBundle.status !== 'approved') ? 'uk-disabled':''}}">
-                                          {{ providerBundle.provider.name }}
-                                      </a>
-                                    </span>
-                                  </td>
-                                  <td class="uk-text-nowrap uk-table-shrink">
-                                    <!--<div class="{{ (provider.status === 'pending initial approval') ? 'uk-badge uk-badge-danger' :
-                                                   ((provider.status === 'pending service template approval') ? 'uk-badge uk-badge-warning' : 'uk-badge uk-badge-success') }}">-->
-                                    <div>
-                                      {{ providerBundle.status }}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <a
-                                      *ngIf="(providerBundle.status === 'pending service template approval') || (providerBundle.status === 'rejected service template')"
-                                      routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
-                                      <i
-                                        class="fa {{hasCreatedFirstService(providerBundle.id) ? 'fa-pencil': 'fa-plus'}}"></i>
-                                      {{ hasCreatedFirstService(providerBundle.id) ? 'Update' : 'Add'}}
-                                      service template
-                                    </a>
-                                    <a routerLink="/updateServiceProvider/{{providerBundle.id}}">Update provider</a>
-                                  </td>
-                                </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Pending Providers -->
-                      <div *ngIf="myPendingProviders && myPendingProviders.length > 0"
-                           class="uk-width-1-1 uk-first-column uk-grid">
-                        <h3 class="uk-margin uk-margin-large-top">Incomplete Providers</h3>
-                        <div class="uk-width-1-1 uk-first-column">
-                          <div class="uk-overflow-auto uk-scrollspy-inview uk-animation-slide-top-medium">
-                            <div>
-                              <table class="uk-table uk-table-striped uk-table-middle">
-                                <thead>
-                                <tr>
-                                  <th class="uk-text-nowrap">Logo</th>
-                                  <th class="uk-text-nowrap">Name</th>
-                                  <th class="uk-text-nowrap">Current Status</th>
-                                  <th class="uk-text-nowrap">Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr class="el-item"
-                                    *ngFor="let providerBundle of myPendingProviders">
-                                  <td class="uk-text-nowrap uk-table-shrink">
-                                    <img class="el-image uk-border-rounded"
-                                         src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../assets/images/broken_image-black-48dp.svg' }}">
-                                  </td>
-                                  <td class="uk-text-nowrap uk-table-shrink">
-                                    <span data-uk-tooltip title="{{(providerBundle.status !== 'approved') ?
-                                                                    'Your service provider is not yet active, therefore you cannot access its monitoring dashboard':
-                                                                    'Go to the service provider monitoring dashboard'}}">
-                                      <a [routerLink]="['/dashboard', providerBundle.id]"
-                                         class="{{(providerBundle.status !== 'approved') ? 'uk-disabled':''}}">
-                                          {{ providerBundle.provider.name }}
-                                      </a>
-                                    </span>
-                                  </td>
-                                  <td class="uk-text-nowrap uk-table-shrink">
-                                    <!--<div class="{{ (provider.status === 'pending initial approval') ? 'uk-badge uk-badge-danger' :
-                                                   ((provider.status === 'pending service template approval') ? 'uk-badge uk-badge-warning' : 'uk-badge uk-badge-success') }}">-->
-                                    <div>
-                                      <span>-</span>
-<!--                                      {{ providerBundle.status }}-->
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <a
-                                      *ngIf="(providerBundle.status === 'pending service template approval') || (providerBundle.status === 'rejected service template')"
-                                      routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
-                                      <i
-                                        class="fa {{hasCreatedFirstService(providerBundle.id) ? 'fa-pencil': 'fa-plus'}}"></i>
-                                      {{ hasCreatedFirstService(providerBundle.id) ? 'Update' : 'Add'}}
-                                      service template
-                                    </a>
-                                    <a routerLink="/registerServiceProvider/{{providerBundle.id}}">Update provider</a>
-                                  </td>
-                                </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- End Pending Providers -->
-
-
-
                     </div>
                   </div>
+
+                  <div *ngIf="isPendingChecked && (myPendingActionProviders.length > 0)" class="uk-margin-medium-top">
+                    <h3 class="uk-margin-remove">Pending</h3>
+                    <div class="uk-grid uk-grid-match uk-child-width-1-2">
+                      <div *ngFor="let providerBundle of myPendingActionProviders" class="uk-grid-margin">
+
+                        <div class="uk-card uk-card-default provider-card">
+                          <div class="uk-card-media-top pending">
+                            <div class="uk-card-badge uk-label">Pending</div>
+                          </div>
+                          <div class="provider-logo">
+                            <span class="provider-logo-helper"></span>
+                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../assets/images/broken_image-black-48dp.svg' }}">
+                          </div>
+                          <div class="uk-card-body">
+                            <div class="providerName">
+                              <span class="uk-margin-auto-vertical" data-uk-tooltip
+                                    title="'Your service provider is not yet active, therefore you cannot access its monitoring dashboard'">
+                                <h5>{{ providerBundle.provider.name }}</h5>
+                              </span>
+                              <!--{{ providerBundle.provider.name }}-->
+                            </div>
+                            <div class="uk-margin-small-top">
+                              <span class="statusLabel">Status: </span>{{ providerBundle.status | titlecase }}
+                            </div>
+                            <div class="uk-margin-top cardActionButtons">
+                              <button class="uk-button uk-button-action" routerLink="/updateServiceProvider/{{providerBundle.id}}">
+                                <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider
+                              </button>
+                              <ng-container *ngIf="(providerBundle.status === 'pending service template submission')
+                                        || (providerBundle.status === 'pending service template approval')">
+                                <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
+                                  <button class="uk-button uk-button-action uk-margin-small-left"
+                                          routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
+                                    <i class="fa fa-pencil"></i>
+                                    Update service template
+                                  </button>
+                                </ng-container>
+                                <ng-container *ngIf="!hasCreatedFirstService(providerBundle.id)">
+                                  <button class="uk-button uk-button-action uk-margin-small-left">
+                                    <i class="fa fa-plus"></i>
+                                    Add service template
+                                  </button>
+                                  <div uk-dropdown>
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                      <li class="uk-active">
+                                        <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Create service template</a>
+                                      </li>
+                                      <li *ngIf="checkForPendingServices(providerBundle.id)" class="uk-active">
+                                        <a [routerLink]="['/dashboard/' + providerBundle.id + '/pendingServices'] ">
+                                          <i class="fa fa-arrow-right" aria-hidden="true"></i> Select from pending service
+                                        </a>
+                                      </li>
+                                      <li class="uk-nav-divider"></li>
+                                      <li class="uk-active"><a href="#">Use API</a></li>
+                                    </ul>
+                                  </div>
+                                </ng-container>
+                              </ng-container>
+
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="isRejectedChecked && (myRejectedProviders.length > 0)" class="uk-margin-medium-top">
+                    <h3 class="uk-margin-remove">Rejected</h3>
+                    <div class="uk-grid uk-grid-match uk-child-width-1-2">
+                      <div *ngFor="let providerBundle of myRejectedProviders" class="uk-grid-margin">
+
+                        <div class="uk-card uk-card-default provider-card">
+                          <div class="uk-card-media-top rejected">
+                            <div class="uk-card-badge uk-label">Rejected</div>
+                          </div>
+                          <div class="provider-logo">
+                            <span class="provider-logo-helper"></span>
+                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../assets/images/broken_image-black-48dp.svg' }}">
+                          </div>
+                          <div class="uk-card-body">
+                            <div class="providerName">
+                              <span class="uk-margin-auto-vertical" data-uk-tooltip
+                                    title="'Your service provider is not yet active, therefore you cannot access its monitoring dashboard'">
+                                <h5>{{ providerBundle.provider.name }}</h5>
+                              </span>
+                            </div>
+                            <div class="uk-margin-small-top">
+                              <span class="statusLabel">Status: </span>{{ providerBundle.status | titlecase }}
+                            </div>
+                            <div class="uk-margin-top cardActionButtons">
+                              <button class="uk-button uk-button-action" routerLink="/updateServiceProvider/{{providerBundle.id}}">
+                                <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider</button>
+                              <button class="uk-button uk-button-action" *ngIf="providerBundle.status === 'rejected service template'"
+                                 routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
+                                <i class="fa fa-pencil"></i>
+                                Update service template
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="isIncompleteChecked && (myIncompleteProviders.length > 0)" class="uk-margin-medium-top">
+                    <h3 class="uk-margin-remove">Incomplete</h3>
+                    <div class="uk-grid uk-grid-match uk-child-width-1-2">
+                      <div *ngFor="let providerBundle of myIncompleteProviders" class="uk-grid-margin">
+
+                        <div class="uk-card uk-card-default provider-card">
+                          <div class="uk-card-media-top incomplete">
+                            <div class="uk-card-badge uk-label">Incomplete</div>
+                          </div>
+                          <div class="provider-logo">
+                            <span class="provider-logo-helper"></span>
+                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../assets/images/broken_image-black-48dp.svg' }}">
+                          </div>
+                          <div class="uk-card-body">
+                            <div class="providerName">
+                              <span class="uk-margin-auto-vertical" data-uk-tooltip
+                                    title="'Your service provider is not yet active, therefore you cannot access its monitoring dashboard'">
+                                <h5>{{ providerBundle.provider.name }}</h5>
+                              </span>
+                            </div>
+                            <div class="uk-margin-small-top">
+                              <span class="statusLabel">Status: </span>{{ providerBundle.status | titlecase }}
+                            </div>
+                            <div class="uk-margin-top cardActionButtons">
+                              <button class="uk-button uk-button-action" routerLink="/updateServiceProvider/{{providerBundle.id}}">
+                                <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider</button>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
+
               </div>
 
               <!-- RIGHT HELP CONTENT -->
