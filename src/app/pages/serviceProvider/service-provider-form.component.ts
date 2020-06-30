@@ -672,9 +672,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-    // const formControlName = event.target.getAttribute('formControlName');
-    // console.log('triggered! ', event.target.value, '@', formControlName);
-    console.log('triggered! ', formControlName);
+    // console.log('triggered! ', formControlName);
     if (bitIndex === 0) {
       this.providerName = this.newProviderForm.get(formControlName).value;
     }
@@ -697,8 +695,8 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
 
-    console.log(this.loaderBitSet.toString(2));
-    console.log('cardinality: ', this.loaderBitSet.cardinality());
+    // console.log(this.loaderBitSet.toString(2));
+    // console.log('cardinality: ', this.loaderBitSet.cardinality());
 
     this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
     console.log(this.loaderPercentage, '%');
@@ -780,8 +778,6 @@ export class ServiceProviderFormComponent implements OnInit {
   calcRemainingTabs(tabNum: number, setValue: number) {
     this.remainingTabsBitSet.set(tabNum, setValue);
     this.remainingTabs = this.requiredTabs - this.remainingTabsBitSet.cardinality();
-    console.log('---------------this.remainingTabs', this.remainingTabs);
-    console.log('---------------this.remainingTabsBitSet', this.remainingTabsBitSet.toString(2));
   }
 
   setAdminBitSets() {
