@@ -130,7 +130,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{fullNameDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="providerName" class="uk-input uk-width-9-10" type="text" formControlName="name"
-                                     (keyup)="onKeyUp($event, 0, 0); unsavedChangesPrompt()"
+                                     (keyup)="handleBitSets(0, 0, 'name'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('name')}">
                               <!--<i><small>{{fullNameDesc.desc}}</small></i>-->
                             </div>
@@ -142,7 +142,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{abbreviationDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="abbreviation" class="uk-input uk-width-9-10" type="text" formControlName="abbreviation"
-                                     (keyup)="onKeyUp($event, 0, 1); unsavedChangesPrompt()"
+                                     (keyup)="handleBitSets(0, 1, 'abbreviation'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('abbreviation')}">
                               <!--<i><small>{{abbreviationDesc.desc}}</small></i>-->
                             </div>
@@ -155,7 +155,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{websiteDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="website" class="uk-input uk-width-9-10" type="text" formControlName="website"
-                                     (keyup)="onKeyUp($event, 0, 2); unsavedChangesPrompt()"
+                                     (keyup)="handleBitSets(0, 2, 'website'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('website')}">
                               <!--<i><small>{{websiteDesc.desc}}</small></i>-->
                             </div>
@@ -200,7 +200,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerDescriptionDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <textarea id="description" class="uk-textarea uk-width-9-10" rows="4" formControlName="description"
-                                        (keyup)="onKeyUp($event, 1, 3); unsavedChangesPrompt()"
+                                    (keyup)="handleBitSets(1, 3, 'description'); unsavedChangesPrompt()"
                                     [ngClass]="{'uk-form-danger': checkFormValidity('description')}"></textarea>
                               <!--<i><small>{{providerDescriptionDesc.desc}}</small></i>-->
                             </div>
@@ -212,7 +212,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerLogoDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo"
-                                     (keyup)="onKeyUp($event, 1, 4); unsavedChangesPrompt()"
+                                     (keyup)="handleBitSets(1, 4, 'logo'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('logo')}">
                               <!--<i><small>{{providerLogoDesc.desc}}</small></i>-->
                             </div>
@@ -344,7 +344,7 @@
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{streetNameAndNumberDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <input id="streetNameAndNumber" class="uk-input uk-width-9-10" type="text" formControlName="streetNameAndNumber"
-                                       (keyup)="onKeyUp($event, 3, 5, 'location'); unsavedChangesPrompt()"
+                                       (keyup)="handleBitSets(3, 5, 'streetNameAndNumber', 'location'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('location.streetNameAndNumber')}">
                                 <!--<i><small>{{streetNameAndNumberDesc.desc}}</small></i>-->
                               </div>
@@ -356,7 +356,7 @@
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{postalCodeDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <input id="postalCode" class="uk-input uk-width-9-10" type="text" formControlName="postalCode"
-                                       (keyup)="onKeyUp($event, 3, 6, 'location'); unsavedChangesPrompt()"
+                                       (keyup)="handleBitSets(3, 6, 'postalCode', 'location'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('location.postalCode')}">
                                 <!--<i><small>{{postalCodeDesc.desc}}</small></i>-->
                               </div>
@@ -368,7 +368,7 @@
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{cityDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <input id="city" class="uk-input uk-width-9-10" type="text" formControlName="city"
-                                       (keyup)="onKeyUp($event, 3, 7, 'location'); unsavedChangesPrompt()"
+                                       (keyup)="handleBitSets(3, 7, 'city', 'location'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('location.city')}">
                                 <!--<i><small>{{cityDesc.desc}}</small></i>-->
                               </div>
@@ -392,7 +392,7 @@
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{countryDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <select id="country" class="uk-input uk-select uk-width-9-10" formControlName="country"
-                                        (change)="onKeyUp($event, 3, 8, 'location'); unsavedChangesPrompt()"
+                                        (change)="handleBitSets(3, 8, 'country', 'location'); unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormValidity('location.country')}">
                                   <option value=""></option>
                                   <option *ngFor="let entry of sortVocabulariesByName(placesVocabulary)" value="{{entry.id}}">
@@ -417,7 +417,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerMainContactFirstNameDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactFirstName" class="uk-input" type="text" formControlName="firstName"
-                                           (keyup)="onKeyUp($event, 4, 9, 'mainContact'); unsavedChangesPrompt()"
+                                           (keyup)="handleBitSets(4, 9, 'firstName', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.firstName')}">
                                     <!--<i><small>{{ providerMainContactFirstNameDesc.desc }}</small></i>-->
                                   </div>
@@ -429,7 +429,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerMainContactLastNameDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactLastName" class="uk-input" type="text" formControlName="lastName"
-                                           (keyup)="onKeyUp($event, 4, 10, 'mainContact'); unsavedChangesPrompt()"
+                                           (keyup)="handleBitSets(4, 10, 'lastName', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.lastName')}">
                                     <!--<i><small>{{ providerMainContactLastNameDesc.desc }}</small></i>-->
                                   </div>
@@ -441,7 +441,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerMainContactEmailDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactEmail" class="uk-input" type="text" formControlName="email"
-                                           (keyup)="onKeyUp($event, 4, 11, 'mainContact'); unsavedChangesPrompt()"
+                                           (keyup)="handleBitSets(4, 11, 'email', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.email')}">
                                     <!--<i><small>{{ providerMainContactEmailDesc.desc }}</small></i>-->
                                   </div>
@@ -939,7 +939,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">First Name of the Provider's administrator.</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="name" class="uk-input" type="text" formControlName="name"
-                                             (keyup)="onKeyUp($event, 7, 12, 'users'); unsavedChangesPrompt()"
+                                             (keyup)="handleBitSets(7, 12, 'name', 'users'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'name')}">
                                       <!--<i><small>{{ providerPublicContactFirstNameDesc.desc }}</small></i>-->
                                     </div>
@@ -951,7 +951,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">Last Name of the Provider's administrator.</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="surname" class="uk-input" type="text" formControlName="surname"
-                                             (keyup)="onKeyUp($event, 7, 13, 'users'); unsavedChangesPrompt()"
+                                             (keyup)="handleBitSets(7, 13, 'surname', 'users'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'surname')}">
                                       <!--<i><small>{{ providerPublicContactLastNameDesc.desc }}</small></i>-->
                                     </div>
@@ -963,7 +963,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">Email of the Provider's administrator.</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input class="uk-input" type="text" formControlName="email"
-                                             (keyup)="onKeyUp($event, 7, 14, 'users'); unsavedChangesPrompt()"
+                                             (keyup)="handleBitSets(7, 14, 'email', 'users'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'email')}">
                                       <!--<i><small>{{ providerPublicContactEmailDesc.desc }}</small></i>-->
                                     </div>

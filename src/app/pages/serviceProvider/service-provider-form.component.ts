@@ -667,14 +667,15 @@ export class ServiceProviderFormComponent implements OnInit {
     this.hasChanges = true;
   }
 
-  onKeyUp(event: any, tabNum: number, bitIndex: number, group?: string): void {
-    const formControlName = event.target.getAttribute('formControlName');
+  handleBitSets(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
+    // const formControlName = event.target.getAttribute('formControlName');
     // console.log('triggered! ', event.target.value, '@', formControlName);
+    console.log('triggered! ', formControlName);
     if (bitIndex === 0) {
-      this.providerName = event.target.value;
+      this.providerName = this.newProviderForm.get(formControlName).value;
     }
     if (group) {
-        if (this.newProviderForm.controls[group].get(formControlName).valid && this.newProviderForm.controls[group].get(formControlName).dirty) {
+        if (this.newProviderForm.controls[group].get(formControlName).valid) {
           this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
           this.loaderBitSet.set(bitIndex, 1);
         } else if (this.newProviderForm.controls[group].get(formControlName).invalid) {
@@ -682,7 +683,8 @@ export class ServiceProviderFormComponent implements OnInit {
           this.loaderBitSet.set(bitIndex, 0);
         }
     } else {
-      if (this.newProviderForm.get(formControlName).valid && this.newProviderForm.get(formControlName).dirty) {
+      console.log('else', this.newProviderForm.get(formControlName).value);
+      if (this.newProviderForm.get(formControlName).valid) {
         this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
         this.loaderBitSet.set(bitIndex, 1);
       } else if (this.newProviderForm.get(formControlName).invalid) {
@@ -691,11 +693,11 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
 
-    // console.log(this.loaderBitSet.toString(2));
-    // console.log('cardinality: ', this.loaderBitSet.cardinality());
+    console.log(this.loaderBitSet.toString(2));
+    console.log('cardinality: ', this.loaderBitSet.cardinality());
 
     this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
-    // console.log(this.loaderPercentage, '%');
+    console.log(this.loaderPercentage, '%');
   }
 
   decreaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {

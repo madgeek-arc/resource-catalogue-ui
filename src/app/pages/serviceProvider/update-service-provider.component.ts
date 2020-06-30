@@ -62,6 +62,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         this.getProvider();
       }
     }
+    this.initBitSets();
   }
 
   registerProvider(tempSave: boolean) {
@@ -194,6 +195,25 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
   toggleDisable() {
     this.disable = !this.disable;
     this.newProviderForm.enable();
+  }
+
+  initBitSets() {
+    console.log('initialise BitSets');
+    this.handleBitSets(0, 0, 'name');
+    this.handleBitSets(0, 1, 'abbreviation');
+    this.handleBitSets(0, 2, 'website');
+    this.handleBitSets(1, 3, 'description');
+    this.handleBitSets(1, 4, 'logo');
+    this.handleBitSets(3, 5, 'streetNameAndNumber', 'location');
+    this.handleBitSets(3, 6, 'postalCode', 'location');
+    this.handleBitSets(3, 7, 'city', 'location');
+    this.handleBitSets(3, 8, 'country', 'location');
+    this.handleBitSets(4, 9, 'firstName', 'mainContact');
+    this.handleBitSets(4, 10, 'lastName', 'mainContact');
+    this.handleBitSets(4, 11, 'email', 'mainContact');
+    // this.handleBitSets(7, 12, 'name', 'users');
+    // this.handleBitSets(7, 13, 'surname', 'users');
+    // this.handleBitSets(7, 14, 'email', 'users');
   }
 
 }
