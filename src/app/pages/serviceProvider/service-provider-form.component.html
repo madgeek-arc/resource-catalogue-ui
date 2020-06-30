@@ -315,7 +315,7 @@
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerTagsDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <div *ngFor="let provider of getFieldAsFormArray('tags').controls; let i=index">
+                              <div *ngFor="let provider of getFieldAsFormArray('tags').controls; let i=index" class="uk-margin-bottom">
                                 <input id="tags" class="uk-input" type="text" [formControlName]="i"
                                        (keyup)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('tags'),
