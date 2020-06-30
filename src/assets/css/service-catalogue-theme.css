@@ -1,5 +1,5 @@
 /*@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap');*/
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700&display=swap');
 
 html {
   color: #292929;
@@ -11,6 +11,21 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Roboto', sans-serif;
+}
+
+h3 {
+  font-weight: 500;
+  letter-spacing: 0px;
+  color: #4D4D4D;
+  opacity: 1;
+}
+
+a, .uk-link {
+  color: #2D72D6;
+}
+
+a:hover, a:focus, a:active {
+  color: #3665ab;
 }
 
 .clear-style {
@@ -27,6 +42,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .uk-flex-between {
   justify-content: space-between !important;
+}
+
+.uk-radio:checked, .uk-checkbox:checked, .uk-checkbox:indeterminate {
+  background-color: #004494;
 }
 
 /* ========================================================================
@@ -53,6 +72,17 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #fff;
   border: 1px solid #B5B5B5;
   color: #B5B5B5;
+}
+
+.uk-button-action {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000038;
+  border-radius: 40px;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0px;
+  color: #4D4D4D;
+  opacity: 1;
 }
 
 /* ========================================================================
@@ -200,7 +230,7 @@ a.remove-element i {
 }
 
 /* ========================================================================
-   Component: Service provider form
+   Component: Service provider & Service form
  ========================================================================== */
 
 .titleAndActionsBar {
@@ -221,4 +251,113 @@ a.remove-element i {
 .providerName {
   opacity: 1;
   font-size: 16px;
+}
+
+/* ========================================================================
+   Component: My Service providers
+ ========================================================================== */
+
+.uk-card.provider-card {
+  box-shadow: 0px 3px 6px #00000038;
+  border-radius: 4px;
+  color: #1A1A1A;
+}
+
+.uk-card-media-top {
+  min-height: 115px;
+}
+
+.uk-card-media-top.approved {
+  background-color: #def0e0;
+}
+
+.uk-card-media-top.pending {
+  background-color: #FFEDC9;
+}
+
+.uk-card-media-top.rejected {
+  background-color: #F9D2CC;
+}
+
+.uk-card-media-top.incomplete {
+  background-color: #DBDBDB;
+}
+
+.uk-card-badge {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: unset;
+  z-index: 1;
+}
+
+.uk-card-badge.uk-label {
+  text-transform: none;
+  padding: 9px 18px;
+  border-radius: 4px 0px;
+}
+
+.approved .uk-label {
+  background: #3C9947 0% 0% no-repeat padding-box;
+}
+
+.pending .uk-label {
+  background: #FFAE0D 0% 0% no-repeat padding-box;
+}
+
+.rejected .uk-label {
+  background: #C41C02 0% 0% no-repeat padding-box;
+}
+
+.incomplete .uk-label {
+  background: #4D4D4D 0% 0% no-repeat padding-box;
+}
+
+.provider-card .providerName {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.provider-card .statusLabel {
+  color: #808080;
+}
+
+.provider-logo {
+  width: 130px;
+  background-color: #fff;
+  box-shadow: 0px 3px 6px #00000029;
+  margin-top: -50px;
+  margin-left: auto;
+  text-align: center;
+  margin-right: auto;
+  height: 70px;
+}
+
+.provider-logo-helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.provider-logo img {
+  max-width: 90%;
+  max-height: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+}
+
+.cardActionButtons {
+  display: flex;
+  justify-content: center;
+}
+
+.serviceStatuses .status-label {
+  color: #000000;
+  opacity: 0.6;
+}
+
+.serviceStatuses .status-value {
+  font-weight: 600;
+  color: #000000;
 }
