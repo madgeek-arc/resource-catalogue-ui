@@ -17,7 +17,6 @@ import {ResourceService} from '../../../../../../src/app/services/resource.servi
 })
 export class TopMenuComponent implements OnInit, OnDestroy {
 
-  private sub: Subscription;
   public searchForm: FormGroup;
 
   urlParameters: URLParameter[] = [];
@@ -42,7 +41,7 @@ export class TopMenuComponent implements OnInit, OnDestroy {
     if (params.length > 1) {
       const query: String[] = params[1].split('=');
       // console.log(query);
-      if (query[0] == 'query') {
+      if (query[0] === 'query') {
         query[1] = searchValue;
       } else {
         return this.navigationService.search({query: searchValue});
@@ -77,9 +76,6 @@ export class TopMenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.authenticationService.isLoggedIn()) {
-      this.sub.unsubscribe();
-    }
   }
 
   navigate(categories: string[]) {
@@ -99,38 +95,6 @@ export class TopMenuComponent implements OnInit, OnDestroy {
     // }
 
     this.router.navigate(['/search', map]);
-  }
-
-  goToLoginAAI(): void {
-    this.authenticationService.login();
-  }
-
-  isLoggedIn() {
-    return this.authenticationService.isLoggedIn();
-  }
-
-  getUsername() {
-    if (this.authenticationService.isLoggedIn()) {
-      return this.authenticationService.getUserProperty('given_name');
-    }
-  }
-
-  getUsersurname() {
-    if (this.authenticationService.isLoggedIn()) {
-      return this.authenticationService.getUserProperty('family_name');
-    }
-  }
-
-  isProvider() {
-    if (this.authenticationService.isLoggedIn()) {
-      return this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_PROVIDER');
-    }
-  }
-
-  isAdmin() {
-    if (this.authenticationService.isLoggedIn()) {
-      return this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN');
-    }
   }
 
   // ngDoCheck(): void {

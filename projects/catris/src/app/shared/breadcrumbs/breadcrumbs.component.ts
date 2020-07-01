@@ -4,7 +4,6 @@ import {Component, OnInit} from '@angular/core';
 import {filter} from 'rxjs/operators';
 import {NavigationService} from '../../../../../../src/app/services/navigation.service';
 import {URLParameter} from '../../../../../../src/app/domain/url-parameter';
-import {query} from '@angular/animations';
 
 
 interface IBreadcrumb {
@@ -71,21 +70,23 @@ export class BreadcrumbsComponent implements OnInit {
 
   updateSearchField(event) {
     const map: { [name: string]: string; } = {};
-    const params = this.activatedRoute.snapshot.children[0].params;
     let found = false;
     this.urlParameters = [];
-    for (const i in params) {
-      if (params.hasOwnProperty(i)) {
-        if (i === 'searchFields') {
-          found = true;
-          if (event.target.value === '') {
-            continue;
-          } else {
-            this.urlParameters.push({key: i, values: [event.target.value]});
-            continue;
+    if (this.activatedRoute.snapshot.children[0] !== undefined) {
+      const params = this.activatedRoute.snapshot.children[0].params;
+      for (const i in params) {
+        if (params.hasOwnProperty(i)) {
+          if (i === 'searchFields') {
+            found = true;
+            if (event.target.value === '') {
+              continue;
+            } else {
+              this.urlParameters.push({key: i, values: [event.target.value]});
+              continue;
+            }
           }
+          this.urlParameters.push({key: i, values: [params[i]]});
         }
-        this.urlParameters.push({key: i, values: [params[i]]});
       }
     }
     if (!found) {
@@ -116,14 +117,16 @@ export class BreadcrumbsComponent implements OnInit {
       this.breadcrumbs[this.breadcrumbs.length - 1].label = service;
     });
 
-    const snapshotParams = this.activatedRoute.snapshot.children[0].params;
-    for (const i in snapshotParams) {
-      if (snapshotParams.hasOwnProperty(i)) {
-        if (i === 'query') {
-          this.searchForm.get('query').setValue(snapshotParams[i]);
-        }
-        if (i === 'searchFields') {
-          this.searchForm.get('searchFields').setValue(snapshotParams[i]);
+    if (this.activatedRoute.snapshot.children[0] !== undefined) {
+      const snapshotParams = this.activatedRoute.snapshot.children[0].params;
+      for (const i in snapshotParams) {
+        if (snapshotParams.hasOwnProperty(i)) {
+          if (i === 'query') {
+            this.searchForm.get('query').setValue(snapshotParams[i]);
+          }
+          if (i === 'searchFields') {
+            this.searchForm.get('searchFields').setValue(snapshotParams[i]);
+          }
         }
       }
     }

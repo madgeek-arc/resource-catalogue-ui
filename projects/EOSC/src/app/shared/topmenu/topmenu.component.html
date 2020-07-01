@@ -46,8 +46,8 @@
                    class="uk-offcanvas-close offcanvas-close">Providers Dashboard</a>
               </li>
               <li class="uk-nav-header" [routerLinkActive]="['uk-active']">
-                <a *ngIf="isLoggedIn()" routerLink="/home" (click)="this.authenticationService.logout()">
-                                <span> {{getUsername()}} {{getUsersurname()}} | Logout
+                <a *ngIf="authenticationService.isLoggedIn(); else loggedOut" routerLink="/home" (click)="this.authenticationService.logout()">
+                                <span> {{authenticationService.getUserName()}} {{authenticationService.getUserSurname()}} | Logout
                                     <span class="uk-margin-small-right uk-icon"><svg width="20" height="20"
                                                                                      viewBox="0 0 20 20"
                                                                                      xmlns="http://www.w3.org/2000/svg"
@@ -60,8 +60,9 @@
                                       d="M1.5,19 C2.3,14.5 5.8,11.2 10,11.2 C14.2,11.2 17.7,14.6 18.5,19.2"></path></svg></span>
                                 </span>
                 </a>
-
-                <a *ngIf="!isLoggedIn()" class="loginLink" (click)="goToLoginAAI()">Login</a>
+                <ng-template #loggedOut>
+                  <a class="loginLink" (click)="authenticationService.login()">Login</a>
+                </ng-template>
               </li>
 
 
@@ -155,17 +156,18 @@
                 <ul class="uk-nav-sub">
                   <li><a [routerLink]="['/becomeAProvider']" routerLinkActive="uk-active"
                          class="uk-offcanvas-close offcanvas-close">Become a Provider</a></li>
-                  <!-- If user is serviceProvider admin and has at least 1 serviceProvider -->
-                  <li *ngIf="isProvider() || isAdmin()"><a [routerLink]="['/myServiceProviders']"
-                                                           routerLinkActive="uk-active"
-                                                           class="uk-offcanvas-close offcanvas-close">My Providers</a>
-                  </li>
-                  <!-- If user is admin -->
-                  <li *ngIf="isAdmin()"><a [routerLink]="['/serviceProvidersList']" routerLinkActive="uk-active">View
-                    Providers</a></li>
-                  <li *ngIf="isLoggedIn()" class="uk-nav-divider"></li>
-                  <li *ngIf="isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a>
-                  </li>
+<!--                  &lt;!&ndash; If user is logged in &ndash;&gt;-->
+<!--                  <ng-container *ngIf="authenticationService.isLoggedIn()">-->
+                    <!-- If user is serviceProvider admin and has at least 1 serviceProvider -->
+                    <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/myServiceProviders']"
+                                                             routerLinkActive="uk-active"
+                                                             class="uk-offcanvas-close offcanvas-close">My Providers</a>
+                    </li>
+                    <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/serviceProvidersList']" routerLinkActive="uk-active">View
+                      Providers</a></li>
+                    <li class="uk-nav-divider"></li>
+                    <li><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
+<!--                  </ng-container>-->
                 </ul>
               </li>
 
@@ -244,14 +246,14 @@
                 <li class="leaf"><a rhref="https://eosc-portal.eu">Portal Home</a></li>
                 <li class="leaf"><a href="https://marketplace.eosc-portal.eu/">Catalogue & Marketplace</a></li>
                 <li class="leaf"><a class="active" href="https://catalogue.eosc-portal.eu/myServiceProviders">Providers Dashboard</a></li>
-                <ng-container *ngIf="!isLoggedIn()">
-                  <li class="leaf"><a class="loginLink" (click)="goToLoginAAI()">Login</a></li>
+                <ng-container *ngIf="!authenticationService.isLoggedIn()">
+                  <li class="leaf"><a class="loginLink" (click)="authenticationService.login()">Login</a></li>
                 </ng-container>
-                <ng-container *ngIf="isLoggedIn()">
+                <ng-container *ngIf="authenticationService.isLoggedIn()">
                   <li class="leaf">
                     <span class="username">
                       <svg class="svg-inline--fa fa-user fa-w-14 mr-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path></svg>
-                      {{getUsername()}} {{getUsersurname()}}
+                      {{authenticationService.getUserName()}} {{authenticationService.getUserSurname()}}
                     </span>
                   </li>
                   <li class="last leaf"><a (click)="this.authenticationService.logout()"><strong>Logout</strong></a></li>
@@ -428,13 +430,13 @@
                     <ul class="uk-nav uk-navbar-dropdown-nav">
                       <li><a [routerLink]="['/becomeAProvider']" routerLinkActive="uk-active">Become a Provider</a></li>
                       <!-- If user is serviceProvider admin and has at least 1 serviceProvider -->
-                      <li *ngIf="isProvider() || isAdmin()"><a [routerLink]="['/myServiceProviders']"
+                      <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/myServiceProviders']"
                                                                routerLinkActive="uk-active">My Providers</a></li>
                       <!-- If user is admin -->
-                      <li *ngIf="isAdmin()"><a [routerLink]="['/serviceProvidersList']" routerLinkActive="uk-active">View
+                      <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/serviceProvidersList']" routerLinkActive="uk-active">View
                         Providers</a></li>
-                      <li *ngIf="isLoggedIn()" class="uk-nav-divider"></li>
-                      <li *ngIf="isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public
+                      <li *ngIf="authenticationService.isLoggedIn()" class="uk-nav-divider"></li>
+                      <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public
                         API</a></li>
                     </ul>
                   </div>

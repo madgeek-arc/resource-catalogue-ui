@@ -13,16 +13,22 @@ export class AuthenticationService {
   redirectURL = '/myServiceProviders';
   cookieName = 'info';
   user = null;
-  cookie;
+  cookie = null;
+  expiresAt = null;
 
-  constructor(public router: NavigationService) {
+  constructor(public navigationService: NavigationService) {
     // this.user = JSON.parse(getCookie(this.cookieName));
+
+    // check if user has already logged in
+    this.getUserInfo();
 
     // check every minute if cookie has expired.
     timer(0, 60000).pipe().subscribe(x => {
       if (!this.isLoggedIn()) {
         deleteCookie(this.cookieName);
         this.user = null;
+        this.cookie = null;
+        this.expiresAt = null;
       }
     });
   }
@@ -31,7 +37,7 @@ export class AuthenticationService {
       if (!this.isLoggedIn()) {
           setCookie(this.cookieName, JSON.stringify(user), 1);
           this.user = user;
-          this.router.go(this.redirectURL);
+          this.navigationService.go(this.redirectURL);
       }
   }*/
 
@@ -43,7 +49,8 @@ export class AuthenticationService {
 
   public getUserInfo() {
     // retrieve user information from cookie
-    if (!this.isLoggedIn() && getCookie(this.cookieName) !== null) {
+    this.cookie = getCookie(this.cookieName);
+    if (!this.isLoggedIn() && this.cookie !== null) {
       // console.log(this.b64DecodeUnicode(getCookie(this.cookieName)));/
 
       this.user = JSON.parse(this.b64DecodeUnicode(getCookie(this.cookieName)));
@@ -51,9 +58,9 @@ export class AuthenticationService {
       this.user.id = this.user.eduperson_unique_id;
 
       sessionStorage.setItem('userInfo', JSON.stringify(this.user));
-      const expiresAt = moment().add(JSON.stringify(this.user.expireSec), 'second');
+      this.expiresAt = moment().add(JSON.stringify(this.user.expireSec), 'second');
       // const expiresAt = moment().add(30,'second');
-      sessionStorage.setItem('expiresAt', JSON.stringify(expiresAt));
+      sessionStorage.setItem('expiresAt', JSON.stringify(this.expiresAt));
 
       let url = sessionStorage.getItem('redirect_url');
       sessionStorage.removeItem('redirect_url');
@@ -62,7 +69,7 @@ export class AuthenticationService {
         sessionStorage.removeItem('forward_url');
       }
       if (url !== null) {
-        this.router.router.navigateByUrl(url);
+        this.navigationService.router.navigateByUrl(url);
       }
     }
   }
@@ -76,15 +83,20 @@ export class AuthenticationService {
   }
 
   getUserProperty(property: string) {
-    const user = JSON.parse(sessionStorage.getItem('userInfo'));
-    if (!isNullOrUndefined(user) && !isNullOrUndefined(user[property]) && (user[property] !== 'null')) {
-      return user[property];
+    if (isNullOrUndefined(this.user)) {
+      this.user = JSON.parse(sessionStorage.getItem('userInfo'));
+    }
+    if (!isNullOrUndefined(this.user) && !isNullOrUndefined(this.user[property]) && (this.user[property] !== 'null')) {
+      return this.user[property];
     }
     return null;
   }
 
   public refreshLogin(redirectUrl: string) {
     deleteCookie(this.cookieName);
+    if (!redirectUrl) {
+      redirectUrl = this.navigationService.router.url;
+    }
     sessionStorage.setItem('redirect_url', redirectUrl);
     // console.log(redirectUrl);
     window.location.href = environment.API_ENDPOINT + '/openid_connect_login';
@@ -104,43 +116,58 @@ export class AuthenticationService {
     if (this.isLoggedIn()) {
       deleteCookie(this.cookieName);
       this.user = null;
+      this.cookie = null;
+      this.expiresAt = null;
       sessionStorage.clear();
       window.location.href = environment.API_ENDPOINT + '/openid_logout';
-      // this.router.home();
     }
   }
 
   public isLoggedIn(): boolean {
-    // console.log('Monet call');
-    // console.log(moment());
-    // console.log('moment expiration');
-    // console.log(this.getExpiration());
-    return (getCookie(this.cookieName) != null) && (this.user != null) && moment().isBefore(this.getExpiration());
+    return this.cookie != null && this.user != null && moment().isBefore(this.getExpiration());
   }
 
   getExpiration() {
-    const expiration = sessionStorage.getItem('expiresAt');
-    const expiresAt = JSON.parse(expiration);
-    return moment(expiresAt);
+    if (isNullOrUndefined(this.expiresAt)) {
+      const expiration = sessionStorage.getItem('expiresAt');
+      this.expiresAt = moment(JSON.parse(expiration));
+    }
+    return this.expiresAt;
   }
 
   public getUserId(): string {
-    return this.user.id == null ? 'null' : this.user.id;
+    if (this.isLoggedIn()) {
+      return !isNullOrUndefined(this.user.id) ? this.user.id : 'null';
+    }
+  }
+
+  getUserName() {
+    if (this.isLoggedIn()) {
+      return !isNullOrUndefined(this.user.given_name) ? this.user.given_name : '';
+    }
+  }
+
+  getUserSurname() {
+    if (this.isLoggedIn()) {
+      return !isNullOrUndefined(this.user.family_name) ? this.user.family_name : '';
+    }
   }
 
   public getUserRoles(): string[] {
-    return this.user.roles !== undefined ? this.user.roles : null;
+    if (this.isLoggedIn()) {
+      return this.user.roles !== undefined ? this.user.roles : null;
+    }
   }
 
   isProvider() {
     if (this.isLoggedIn()) {
-      return this.getUserProperty('roles').some(x => x === 'ROLE_PROVIDER');
+      return this.user.roles !== undefined ? this.user.roles.some(x => x === 'ROLE_PROVIDER') : false;
     }
   }
 
   isAdmin() {
     if (this.isLoggedIn()) {
-      return this.getUserProperty('roles').some(x => x === 'ROLE_ADMIN');
+      return this.user.roles !== undefined ? this.user.roles.some(x => x === 'ROLE_ADMIN') : false;
     }
   }
 }

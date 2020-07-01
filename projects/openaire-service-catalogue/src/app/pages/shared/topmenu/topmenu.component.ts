@@ -15,49 +15,16 @@ import {Subscription} from 'rxjs';
 })
 export class TopMenuComponent implements OnInit, OnDestroy {
 
-  private sub: Subscription;
-
   constructor(public authenticationService: AuthenticationService, public route: Router) {
   }
 
   ngOnInit(): void {
-    this.isLoggedIn();
-    this.getUsername();
-    this.getUsersurname();
+    // this.isLoggedIn();
+    // this.getUsername();
+    // this.getUsersurname();
   }
 
   ngOnDestroy(): void {
-    if (this.authenticationService.isLoggedIn()) {
-      this.sub.unsubscribe();
-    }
-  }
-
-  goToLoginAAI(): void {
-    this.authenticationService.login();
-  }
-
-  isLoggedIn() {
-    return this.authenticationService.isLoggedIn();
-  }
-
-  getUsername() {
-    if (this.authenticationService.isLoggedIn()) {
-      return this.authenticationService.getUserProperty('given_name');
-    }
-  }
-
-  getUsersurname() {
-    if (this.authenticationService.isLoggedIn()) {
-      return this.authenticationService.getUserProperty('family_name');
-    }
-  }
-
-  isProvider() {
-    return this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_PROVIDER');
-  }
-
-  isAdmin() {
-    return this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN');
   }
 
   get isHome() {
