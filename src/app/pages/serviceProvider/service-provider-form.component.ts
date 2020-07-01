@@ -17,13 +17,13 @@ declare var UIkit: any;
   styleUrls: ['./service-provider-form.component.css']
 })
 export class ServiceProviderFormComponent implements OnInit {
+  providerName = '';
   errorMessage = '';
   userInfo = {family_name: '', given_name: '', email: ''};
   newProviderForm: FormGroup;
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   edit = false;
-  providerName = '';
   hasChanges = false;
   pendingProvider = false;
   disable = false;
@@ -685,7 +685,7 @@ export class ServiceProviderFormComponent implements OnInit {
           this.loaderBitSet.set(bitIndex, 0);
         }
     } else {
-      console.log('else', this.newProviderForm.get(formControlName).value);
+      // console.log('else', this.newProviderForm.get(formControlName).value);
       if (this.newProviderForm.get(formControlName).valid) {
         this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
         this.loaderBitSet.set(bitIndex, 1);
@@ -699,7 +699,7 @@ export class ServiceProviderFormComponent implements OnInit {
     // console.log('cardinality: ', this.loaderBitSet.cardinality());
 
     this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
-    console.log(this.loaderPercentage, '%');
+    // console.log(this.loaderPercentage, '%');
   }
 
   decreaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {

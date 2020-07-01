@@ -111,7 +111,7 @@
                     </ul>
                     <div class="stepsCompleted uk-margin-large-top uk-text-center">{{remainingTabs}} of {{requiredTabs}}</div>
                     <div class="progress uk-margin-small-top">
-                      <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="10" max="100"></progress>
+                      <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>
                       <div class="percentageNumber" [ngStyle]="{'margin-left': '10%'}">{{loaderPercentage}}%</div>
                     </div>
 
