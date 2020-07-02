@@ -207,7 +207,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('resourceProviders').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('resourceProviders', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('resourceProviders', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -303,7 +303,7 @@
                                        (keyup)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i)}">
                                 <a *ngIf="getFieldAsFormArray('multimedia').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('multimedia', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('multimedia', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -326,7 +326,7 @@
                                        (keyup)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i)}">
                                 <a *ngIf="getFieldAsFormArray('useCases').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('useCases', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('useCases', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -349,7 +349,7 @@
                               <div formArrayName="scientificCategorization" *ngFor="let category of scientificDomainArray.controls; let i = index">
                                 <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                   <!--<a *ngIf="scientificDomainArray.length > 1" class="remove-element uk-padding-small"-->
-                                     <!--(click)="removeScientificDomain(i)">-->
+                                     <!--(click)="removeScientificDomain(i); unsavedChangesPrompt()">-->
                                     <!--<i class="fa fa-times" aria-hidden="true"></i>-->
                                   <!--</a>-->
                                   <div class="uk-margin-bottom">
@@ -395,7 +395,7 @@
 
                                 </div>
                                 <a *ngIf="scientificDomainArray.length > 1" class="remove-element uk-padding-small uk-display-inline-block"
-                                   (click)="removeScientificDomain(i)">
+                                   (click)="removeScientificDomain(i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -416,7 +416,7 @@
                               <div formArrayName="categorize" *ngFor="let category of categoryArray.controls; let i = index">
                                 <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                   <!--<a *ngIf="categoryArray.length > 1" class="remove-element uk-padding-small"-->
-                                     <!--(click)="removeCategory(i)">-->
+                                     <!--(click)="removeCategory(i); unsavedChangesPrompt()">-->
                                     <!--<i class="fa fa-times" aria-hidden="true"></i>-->
                                   <!--</a>-->
 
@@ -469,7 +469,7 @@
 
                                 </div>
                                 <a *ngIf="categoryArray.length > 1" class="remove-element uk-padding-small uk-display-inline-block"
-                                   (click)="removeCategory(i)">
+                                   (click)="removeCategory(i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -499,7 +499,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('targetUsers').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('targetUsers', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('targetUsers', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -529,7 +529,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('accessTypes').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('accessTypes', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('accessTypes', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -560,7 +560,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('accessModes').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('accessModes', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('accessModes', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -583,7 +583,7 @@
                                        (keyup)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('tags', i)}">
                                 <a *ngIf="getFieldAsFormArray('tags').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('tags', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('tags', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -615,7 +615,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('geographicalAvailabilities').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('geographicalAvailabilities', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('geographicalAvailabilities', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -644,7 +644,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('languageAvailabilities').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('languageAvailabilities', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('languageAvailabilities', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -677,7 +677,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('resourceGeographicLocations').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('resourceGeographicLocations', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('resourceGeographicLocations', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -783,7 +783,7 @@
                                 <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                   <!--<div>-->
                                     <!--<a *ngIf="!disable" class="remove-element uk-padding-small"-->
-                                       <!--(click)="removePublicContact(i)">-->
+                                       <!--(click)="removePublicContact(i); unsavedChangesPrompt()">-->
                                       <!--<i class="fa fa-times" aria-hidden="true"></i>-->
                                     <!--</a>-->
                                   <!--</div>-->
@@ -866,7 +866,7 @@
                                   </div>
                                 </div>
                                 <a *ngIf="!disable" class="remove-element uk-padding-small uk-display-inline-block"
-                                   (click)="removePublicContact(i)">
+                                   (click)="removePublicContact(i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -953,7 +953,7 @@
 
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('certifications', i)}">
                                 <a *ngIf="getFieldAsFormArray('certifications').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('certifications', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('certifications', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -976,7 +976,7 @@
 
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('standards', i)}">
                                 <a *ngIf="getFieldAsFormArray('standards').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('standards', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('standards', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -999,7 +999,7 @@
 
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('openSourceTechnologies', i)}">
                                 <a *ngIf="getFieldAsFormArray('openSourceTechnologies').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('openSourceTechnologies', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('openSourceTechnologies', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1046,7 +1046,7 @@
 
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('changeLog', i)}">
                                 <a *ngIf="getFieldAsFormArray('changeLog').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('changeLog', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('changeLog', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1079,7 +1079,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('requiredResources').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('requiredResources', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('requiredResources', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1109,7 +1109,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('relatedResources').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('relatedResources', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('relatedResources', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1132,7 +1132,7 @@
                                        (keyup)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedPlatforms', i)}">
                                 <a *ngIf="getFieldAsFormArray('relatedPlatforms').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('relatedPlatforms', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('relatedPlatforms', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1165,7 +1165,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('fundingBody').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('fundingBody', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('fundingBody', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1195,7 +1195,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('fundingPrograms').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('fundingPrograms', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('fundingPrograms', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1218,7 +1218,7 @@
                                        (keyup)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('grantProjectNames', i)}">
                                 <a *ngIf="getFieldAsFormArray('grantProjectNames').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('grantProjectNames', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('grantProjectNames', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
