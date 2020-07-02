@@ -105,7 +105,7 @@ export class MyServiceProvidersComponent implements OnInit {
             }
             if (p.status === 'pending service template submission') {
               // console.log(p.id);
-              this.serviceProviderService.getPendingServicesByProvider(p.id, 50).subscribe(
+              this.serviceProviderService.getPendingServicesByProvider(p.id, '0', '50', 'name', 'ASC').subscribe(
                 res => {
                   if (res.results.length > 0) {
                     this.hasPendingServices.push({id: p.id, flag: true});
