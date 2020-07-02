@@ -53,10 +53,35 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
         );
       });
     }
+    this.initServiceBitSets();
   }
 
   onSubmit(service: Service, tempSave: boolean) {
     super.onSubmit(service, tempSave, this.pendingService);
+  }
+
+  initServiceBitSets() {
+    console.log('initialise Service BitSets');
+    this.handleBitSets(0, 0, 'name');
+    this.handleBitSets(0, 1, 'resourceOrganisation');
+    this.handleBitSets(0, 2, 'website');
+    this.handleBitSets(1, 3, 'description');
+    this.handleBitSets(1, 4, 'tagline');
+    this.handleBitSets(1, 5, 'logo');
+    // this.handleBitSets(2, 6, 'scientificDomain', 'scientificCategorization');
+    this.handleBitSets(2, 7, 'scientificSubDomain', 'scientificCategorization');
+    // this.handleBitSets(2, 8, 'category', 'categorize');
+    this.handleBitSets(2, 9, 'subcategory', 'categorize');
+    this.handleBitSets(2, 10, 'targetUsers');
+    this.handleBitSets(3, 11, 'geographicalAvailabilities');
+    this.handleBitSets(3, 12, 'languageAvailabilities');
+    this.handleBitSets(5, 13, 'firstName', 'mainContact');
+    this.handleBitSets(5, 14, 'lastName', 'mainContact');
+    this.handleBitSets(5, 15, 'email', 'mainContact');
+    this.handleBitSets(5, 16, 'helpdeskEmail');
+    this.handleBitSets(5, 17, 'securityContactEmail');
+    this.handleBitSets(6, 18, 'trl');
+    this.handleBitSets(10, 19, 'orderType');
   }
 
 }

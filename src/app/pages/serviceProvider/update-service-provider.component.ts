@@ -62,7 +62,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         this.getProvider();
       }
     }
-    this.initBitSets();
+    this.initProviderBitSets();
   }
 
   registerProvider(tempSave: boolean) {
@@ -197,7 +197,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
     this.newProviderForm.enable();
   }
 
-  initBitSets() {
+  initProviderBitSets() {
     console.log('initialise BitSets');
     this.handleBitSets(0, 0, 'name');
     this.handleBitSets(0, 1, 'abbreviation');
