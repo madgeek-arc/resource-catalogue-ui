@@ -86,6 +86,35 @@ a:hover, a:focus, a:active {
 }
 
 /* ========================================================================
+   Pagination
+ ========================================================================== */
+
+.uk-pagination > li.uk-active > a, .uk-pagination > li.uk-active > span {
+  background: #004494;
+}
+
+.uk-pagination > li > a, .uk-pagination > li > span {
+  border-radius: 15px;
+}
+
+.uk-pagination > li.uk-active > a {
+  color: #004494;
+}
+
+.uk-pagination > li {
+  text-align: center;
+}
+
+.uk-pagination>li>a:hover {
+  color: #fff;
+}
+
+.uk-pagination>li>a.pagination_arrow:hover {
+  color: #004494;
+  background: none;
+}
+
+/* ========================================================================
    Form tabs
  ========================================================================== */
 
@@ -401,4 +430,12 @@ a.remove-element i {
 .service-card h4 {
   color: #333432;
   font-weight: 500;
+}
+
+/* ========================================================================
+   Component: Service Providers List
+ ========================================================================== */
+
+.filters .uk-select {
+  height: 38px !important;
 }
