@@ -61,6 +61,13 @@ export class ServiceFormComponent implements OnInit {
   BitSetTab6 = new BitSet;
   BitSetTab10 = new BitSet;
 
+  scientificBitSet = new BitSet;
+  categoryBitSet = new BitSet;
+  mainContactBitSet = new BitSet;
+  scientificRemaining = 1;
+  categoryRemaining = 1;
+  mainContactRemaining = 1;
+
   requiredTabs = 7;
   remainingTabs = this.requiredTabs;
   remainingTabsBitSet = new BitSet;
@@ -852,20 +859,51 @@ export class ServiceFormComponent implements OnInit {
   }
 
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-    // console.log('triggered! ', formControlName);
+    console.log('triggered! ', formControlName);
     if (bitIndex === 0) {
       this.serviceName = this.serviceForm.get(formControlName).value;
     }
     if (group) {
-      if (this.serviceForm.controls[group].get(formControlName).valid) {
-        this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-        this.loaderBitSet.set(bitIndex, 1);
-      } else if (this.serviceForm.controls[group].get(formControlName).invalid) {
-        this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-        this.loaderBitSet.set(bitIndex, 0);
+      if (group === 'scientificCategorization') {
+        for (const scientificDomain of this.scientificDomainArray.controls) {
+          if (scientificDomain.get('scientificSubDomain').value) {
+            this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+            this.loaderBitSet.set(bitIndex - 1, 1);
+            this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+            this.loaderBitSet.set(bitIndex, 1);
+          } else {
+            this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+            this.loaderBitSet.set(bitIndex - 1, 0);
+            this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+            this.loaderBitSet.set(bitIndex, 0);
+          }
+        }
+      } else if (group === 'categorize') {
+          for (const category in this.categoryArray.controls) {
+            // console.log(this.categoryArray.controls[category].get('subcategory').value);
+            if (this.categoryArray.controls[category].get('subcategory').value) {
+              this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+              this.loaderBitSet.set(bitIndex - 1, 1);
+              this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+              this.loaderBitSet.set(bitIndex, 1);
+            } else {
+              this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+              this.loaderBitSet.set(bitIndex - 1, 0);
+              this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+              this.loaderBitSet.set(bitIndex, 0);
+            }
+          }
+        } else {
+        if (this.serviceForm.controls[group].get(formControlName).valid) {
+          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+          this.loaderBitSet.set(bitIndex, 1);
+        } else if (this.serviceForm.controls[group].get(formControlName).invalid) {
+          this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+          this.loaderBitSet.set(bitIndex, 0);
+        }
       }
     } else {
-      // console.log('else', this.serviceForm.get(formControlName).value);
+      console.log('else', this.serviceForm.get(formControlName).value);
       if (this.serviceForm.get(formControlName).valid) {
         this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
         this.loaderBitSet.set(bitIndex, 1);
@@ -875,11 +913,11 @@ export class ServiceFormComponent implements OnInit {
       }
     }
 
-    // console.log(this.loaderBitSet.toString(2));
-    // console.log('cardinality: ', this.loaderBitSet.cardinality());
+    console.log(this.loaderBitSet.toString(2));
+    console.log('cardinality: ', this.loaderBitSet.cardinality());
 
     this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
-    // console.log(this.loaderPercentage, '%');
+    console.log(this.loaderPercentage, '%');
   }
 
   decreaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
@@ -895,9 +933,11 @@ export class ServiceFormComponent implements OnInit {
       if (this.remainingOnTab1 === 0 && this.remainingTabsBitSet.get(tabNum) !== 1) {
         this.calcRemainingTabs(tabNum, 1);
       }
-    } else if (tabNum === 2) {
+    } else if (tabNum === 2) {  // Classification
       this.BitSetTab2.set(bitIndex, 1);
-      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.cardinality();
+      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.get(7) - this.BitSetTab2.get(9) - this.BitSetTab2.get(10);
+      // this.handleSmallGroupBitSets(bitIndex, 1);
+      // this.remainingOnTab2 = this.requiredOnTab2 - this.scientificRemaining - this.categoryRemaining - this.BitSetTab2.get(10);
       if (this.remainingOnTab2 === 0 && this.remainingTabsBitSet.get(tabNum) !== 1) {
         this.calcRemainingTabs(tabNum, 1);
       }
@@ -908,12 +948,12 @@ export class ServiceFormComponent implements OnInit {
         this.calcRemainingTabs(tabNum, 1);
       }
     } else if (tabNum === 5) { // Contact
+      // this.handleSmallGroupBitSets(bitIndex, 1);
       this.BitSetTab5.set(bitIndex, 1);
-      if (this.BitSetTab5.cardinality() === 5) {
-        this.remainingOnTab5 = 0;
-        if (this.remainingTabsBitSet.get(tabNum) !== 1) {
-          this.calcRemainingTabs(tabNum, 1);
-        }
+      const mainContactCardinality = this.BitSetTab5.slice(13, 15).cardinality();
+      this.remainingOnTab5 = this.requiredOnTab5 - +(mainContactCardinality === 3) - this.BitSetTab5.get(16) - this.BitSetTab5.get(17);
+      if (this.remainingOnTab5 === 0 && this.remainingTabsBitSet.get(tabNum) !== 1) {
+        this.calcRemainingTabs(tabNum, 1);
       }
     } else if (tabNum === 6) {
       this.BitSetTab6.set(bitIndex, 1);
@@ -943,9 +983,9 @@ export class ServiceFormComponent implements OnInit {
       if (this.remainingTabsBitSet.get(tabNum) !== 0) {
         this.calcRemainingTabs(tabNum, 0);
       }
-    } else if (tabNum === 2) {
+    } else if (tabNum === 2) {  // Classification
       this.BitSetTab2.set(bitIndex, 0);
-      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.cardinality();
+      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.get(7) - this.BitSetTab2.get(9) - this.BitSetTab2.get(10);
       if (this.remainingTabsBitSet.get(tabNum) !== 0) {
         this.calcRemainingTabs(tabNum, 0);
       }
@@ -957,7 +997,8 @@ export class ServiceFormComponent implements OnInit {
       }
     } else if (tabNum === 5) { // Contact
       this.BitSetTab5.set(bitIndex, 0);
-      this.remainingOnTab5 = this.requiredOnTab5;
+      const mainContactCardinality = this.BitSetTab5.slice(13, 15).cardinality();
+      this.remainingOnTab5 = this.requiredOnTab5 - +(mainContactCardinality === 3) - this.BitSetTab5.get(16) - this.BitSetTab5.get(17);
       if (this.remainingTabsBitSet.get(tabNum) !== 0) {
         this.calcRemainingTabs(tabNum, 0);
       }

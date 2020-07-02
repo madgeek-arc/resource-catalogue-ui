@@ -15,7 +15,7 @@
           <div class="">
             <!--<button class="uk-button uk-button-primary">Discard</button>-->
             <button *ngIf="!editMode || pendingService" class="uk-button uk-button-primary uk-margin-left" (click)="this.onSubmit(this.service, true)">Save as draft</button>
-            <button *ngIf="loaderPercentage>=80" class="uk-button uk-button-secondary uk-margin-left" type="submit">Submit</button>
+            <button *ngIf="loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left" type="submit">Submit</button>
           </div>
         </div>
 
@@ -359,7 +359,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{scientificDomainDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="{{'scientificDomain ' + i}}"  formControlName="scientificDomain" class="uk-input uk-select"
-                                              (change)="onScientificDomainChange(i); handleBitSets(2, 6, 'scientificDomain', 'scientificCategorization'); unsavedChangesPrompt()"
+                                              (change)="onScientificDomainChange(i); unsavedChangesPrompt()"
                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificCategorization', i, 'scientificDomain')}">
                                         <ng-container *ngIf="scientificDomainVocabulary" >
                                           <option *ngFor="let entry of sortVocabulariesByName(scientificDomainVocabulary)"
@@ -427,7 +427,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{categoryDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="{{'category ' + i}}" formControlName="category" class="uk-input uk-select"
-                                              (change)="onCategoryChange(i); handleBitSets(2, 8, 'category', 'categorize'); unsavedChangesPrompt()"
+                                              (change)="onCategoryChange(i); unsavedChangesPrompt()"
                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorize', i, 'category')}">
                                         <!--                                      <ng-container *ngIf="categoryArray.controls[i].get('supercategory').value">-->
                                         <ng-container *ngIf="categoriesVocabulary">
