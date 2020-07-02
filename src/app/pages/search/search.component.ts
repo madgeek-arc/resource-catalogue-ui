@@ -104,54 +104,55 @@ export class SearchComponent implements OnInit, OnDestroy {
     ).subscribe(suc => {
       this.providers = suc[0];
       // console.log(this.providers);
-      this.sub = this.route.params.subscribe(params => {
-        this.urlParameters.splice(0, this.urlParameters.length);
-        this.foundResults = true;
-        let foundParamQuantity = false;
-        for (const obj in params) {
-          if (params.hasOwnProperty(obj)) {
-            const urlParameter: URLParameter = {
-              key: obj,
-              values: params[obj].split(',')
-            };
-            this.urlParameters.push(urlParameter);
-            if (urlParameter.key === 'quantity') {
-              foundParamQuantity = true;
-              this.pageSize = +urlParameter.values;
-              if (this.pageSize % 3 === 0) {
-                this.listViewActive = false;
-              }
-            }
-          }
-        }
-        if (!foundParamQuantity) {
-          this.urlParameters.push({key: 'quantity', values: [this.pageSize.toString() ]});
-        }
-
-        // if something breaks uncomment the following line
-        // this.navigationService.paramsObservable.next(this.urlParameters);
-
-        // request results from the registry
-        this.loading = true;
-        return this.resourceService.search(this.urlParameters).subscribe(
-          searchResults => {
-            this.updateSearchResults(searchResults);
-            // console.log(searchResults.results);
-            if (searchResults.facets.length !== 0 && this.items.length !== searchResults.facets[0].values.length) {
-              this.categoryNestedCheckboxes(searchResults);
-            }
-            if (searchResults.facets.length !== 0 && this.scientificDomain.length !== searchResults.facets[2].values.length) {
-              this.scientificDomainNestedCheckBoxes(searchResults);
-            }
-          },
-          error => {},
-          () => {
-            this.loading = false;
-          }
-        );
-
-      });
     });
+    this.sub = this.route.params.subscribe(params => {
+      this.urlParameters.splice(0, this.urlParameters.length);
+      this.foundResults = true;
+      let foundParamQuantity = false;
+      for (const obj in params) {
+        if (params.hasOwnProperty(obj)) {
+          const urlParameter: URLParameter = {
+            key: obj,
+            values: params[obj].split(',')
+          };
+          this.urlParameters.push(urlParameter);
+          if (urlParameter.key === 'quantity') {
+            foundParamQuantity = true;
+            this.pageSize = +urlParameter.values;
+            if (this.pageSize % 3 === 0) {
+              this.listViewActive = false;
+            }
+          }
+        }
+      }
+      if (!foundParamQuantity) {
+        this.urlParameters.push({key: 'quantity', values: [this.pageSize.toString() ]});
+      }
+
+      // if something breaks uncomment the following line
+      // this.navigationService.paramsObservable.next(this.urlParameters);
+
+      // request results from the registry
+      this.loading = true;
+      return this.resourceService.search(this.urlParameters).subscribe(
+        searchResults => {
+          this.updateSearchResults(searchResults);
+          // console.log(searchResults.results);
+          if (searchResults.facets.length !== 0 && this.items.length !== searchResults.facets[0].values.length) {
+            this.categoryNestedCheckboxes(searchResults);
+          }
+          if (searchResults.facets.length !== 0 && this.scientificDomain.length !== searchResults.facets[2].values.length) {
+            this.scientificDomainNestedCheckBoxes(searchResults);
+          }
+        },
+        error => {},
+        () => {
+          this.loading = false;
+        }
+      );
+
+    });
+    // });
   }
 
   ngOnDestroy(): void {
@@ -452,16 +453,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   navigateUsingParameters() {
     const map: { [name: string]: string; } = {};
     for (const urlParameter of this.urlParameters) {
-      let concatValue = '';
-      let counter = 0;
-      for (const value of urlParameter.values) {
-        if (counter !== 0) {
-          concatValue += ',';
-        }
-        concatValue += value;
-        counter++;
-      }
-      map[urlParameter.key] = concatValue;
+      map[urlParameter.key] = urlParameter.values.join(',');
     }
     // console.log(map);
     return this.router.search(map);
@@ -513,6 +505,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         foundFromCategory = true;
         urlParameter.values = [];
         urlParameter.values.push(from + '');
+        break;
       }
     }
     if (!foundFromCategory) {
@@ -587,6 +580,15 @@ export class SearchComponent implements OnInit, OnDestroy {
       };
       this.urlParameters.push(newParameter);
     }
+  }
+
+  getResourceOrganizationAbbreviation(service: RichService) {
+    for (const providerInfo of service.providerInfo) {
+      if (providerInfo.resourceOrganisation) {
+        return providerInfo.providerAbbreviation;
+      }
+    }
+    return null;
   }
 
 }

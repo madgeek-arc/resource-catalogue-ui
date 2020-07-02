@@ -1,29 +1,29 @@
 <div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
-  <div class="uk-container">
+  <div class="uk-container uk-container-expand">
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
 
-        <div class="uk-grid ">
-          <h1 class="uk-h3 uk-width-2-3@m">Service Providers</h1>
-          <div class="uk-width-1-3@m">
-            <div class="uk-inline uk-float-right">
-              <button class="uk-button" type="button">Export to csv</button>
-              <div uk-dropdown="mode: click">
-                <ul class="uk-nav uk-dropdown-nav">
-                  <li class="" (click)="DownloadProvidersCSV()"><a>Providers</a></li>
-                  <!--<li class="uk-nav-divider"></li>-->
-                  <li class="" (click)="DownloadServicesCSV()"><a>Services</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!--<div class="uk-grid ">-->
+          <!--&lt;!&ndash;<h1 class="uk-h3 uk-width-2-3@m">Service Providers</h1>&ndash;&gt;-->
+          <!--<div class="uk-width-1-1@m">-->
+            <!--<div class="uk-inline uk-float-right">-->
+              <!--<button class="uk-button" type="button">Export to csv</button>-->
+              <!--<div uk-dropdown="mode: click">-->
+                <!--<ul class="uk-nav uk-dropdown-nav">-->
+                  <!--<li class="" (click)="DownloadProvidersCSV()"><a>Providers</a></li>-->
+                  <!--&lt;!&ndash;<li class="uk-nav-divider"></li>&ndash;&gt;-->
+                  <!--<li class="" (click)="DownloadServicesCSV()"><a>Services</a></li>-->
+                <!--</ul>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
         <!-- TOP HELP CONTENT -->
         <app-help-content #topHelperContent [position]="'top'"
                           [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
         </app-help-content>
 
-        <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+        <div class="uk-margin-medium-bottom">
           <div class="uk-grid">
 
             <!-- LEFT HELP CONTENT -->
@@ -37,40 +37,168 @@
 
               <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
-              <div class="middle-box animated fadeInDown">
+              <div class="uk-flex uk-flex-right">
+                <form class="uk-search uk-search-default">
+                  <span uk-search-icon></span>
+                  <input class="uk-search-input" type="search" placeholder="Locate provider...">
+                </form>
+              </div>
 
-                <div *ngIf="providers && (providers.length>0)" id="serviceForm">
+              <div class="uk-grid uk-margin-top">
 
-                  <ul class="uk-pagination uk-flex-center" uk-margin>
-                    <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
-                    <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
-                      <div *ngIf="i !== currentPage; else deactivate_link">
-                        <a (click)="goToPage(i)">{{i}}</a>
+                <div class="uk-width-1-4">
+
+                  <h4>Filters</h4>
+
+                  <hr class="uk-margin-large-right">
+
+                  <h5>Status</h5>
+                  <div class="uk-margin-small-top">
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" checked> Approved
+                    </label>
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" checked> Pending initial approval
+                    </label>
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" checked> Pending service template submission
+                    </label>
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" checked> Pending service template approval
+                    </label>
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" checked> Rejected service template
+                    </label>
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" checked> Rejected
+                    </label>
+                  </div>
+
+                </div>
+
+                <div class="uk-width-3-4">
+
+                  <form class="uk-form-horizontal uk-flex filters">
+
+                    <div class="uk-margin-right">
+                      <div class="">
+                        <label class="" for="quantity">Results per page </label>
+                        <div class="uk-inline">
+                          <select class="uk-input uk-select" id="quantity" (change)="handleChangeAndResetPage()" formControlName="quantity">
+                            <option value="10" selected>10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                          </select>
+                        </div>
                       </div>
-                      <ng-template #deactivate_link><span>{{i}}</span></ng-template>
-                    </li>
-                    <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
-                  </ul>
+                    </div>
 
-                  <table class="uk-table uk-table-small uk-table-striped uk-table-middle">
-                    <thead>
-                    <tr>
-                      <th class="uk-text-center">Logo</th>
-                      <th class="uk-text-center">Name</th>
-                      <th class="uk-text-center">Current Status</th>
-                      <th class="uk-text-center">Info</th>
-                      <th class="uk-text-center">Active</th>
-                      <th class="uk-text-center">service template</th>
-                      <th class="uk-text-center">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let providerBundle of providers">
-                      <td class=" uk-table-shrink">
-                        <img class="el-image uk-border-rounded"
-                             src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../assets/images/broken_image-black-48dp.svg' }}">
-                      </td>
-                      <td class="uk-width-1-5@m uk-text-center">
+                    <div class="uk-margin-right">
+
+                      <div class="uk-inline uk-margin-right">
+                        <label class="" for="orderBy">Order by </label>
+                        <div class="uk-inline">
+                          <select class="uk-input uk-select" id="orderBy" (change)="handleChangeAndResetPage()" formControlName="order">
+                            <option value="DSC" selected>Descending</option>
+                            <option value="ASC">Ascending</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="uk-inline">
+                        <label class="" for="orderField">Sort by </label>
+                        <div class="uk-inline">
+                          <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
+                            <option value="REPOSITORY_NAME">Name</option>
+                            <option value="CREATION_DATE" selected>Date</option>
+                          </select>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="" style="margin-left:auto; margin-right:0;">
+                      <button class="uk-button uk-button-link">
+                        <i class="fa fa-download uk-margin-small-right"></i>Export to CSV
+                      </button>
+                      <!--<button class="uk-button" type="button">Export to csv</button>-->
+                      <div uk-dropdown="mode: click">
+                        <ul class="uk-nav uk-dropdown-nav">
+                          <li class="" (click)="DownloadProvidersCSV()"><a>Providers</a></li>
+                          <!--<li class="uk-nav-divider"></li>-->
+                          <li class="" (click)="DownloadServicesCSV()"><a>Services</a></li>
+                        </ul>
+                      </div>
+                    </div>
+
+                  </form>
+
+                  <div *ngIf="providers && (providers.length>0)" id="serviceForm" class="uk-margin-top">
+
+                    <div class="uk-flex uk-flex-middle uk-flex-between">
+
+                      <div class="resultsInfo">
+                        <span class="number">45</span> RESULTS, PAGE <span class="number">1</span> OF <span class="number">5</span>
+                      </div>
+
+                      <ul class="uk-pagination" uk-margin>
+                        <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+                        <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
+                          <div *ngIf="i !== currentPage; else deactivate_link">
+                            <a (click)="goToPage(i)">{{i}}</a>
+                          </div>
+                          <ng-template #deactivate_link><span>{{i}}</span></ng-template>
+                        </li>
+                        <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                      </ul>
+
+                    </div>
+
+
+                    <hr class="adminResultsHeader">
+
+
+                    <!--<ul class="uk-pagination uk-flex-center" uk-margin>-->
+                      <!--<li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>-->
+                      <!--<li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">-->
+                        <!--<div *ngIf="i !== currentPage; else deactivate_link">-->
+                          <!--<a (click)="goToPage(i)">{{i}}</a>-->
+                        <!--</div>-->
+                        <!--<ng-template #deactivate_link><span>{{i}}</span></ng-template>-->
+                      <!--</li>-->
+                      <!--<li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>-->
+                    <!--</ul>-->
+
+                    <table class="uk-table uk-table-small uk-table-striped uk-table-middle">
+                      <thead>
+                      <tr>
+                        <th class="uk-text-center">Logo</th>
+                        <th class="uk-text-center">Name</th>
+                        <th class="uk-text-center">Current Status</th>
+                        <th class="uk-text-center">Info</th>
+                        <th class="uk-text-center">Active</th>
+                        <th class="uk-text-center">service template</th>
+                        <th class="uk-text-center">Actions</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let providerBundle of providers">
+                        <td class=" uk-table-shrink">
+                          <img class="el-image uk-border-rounded"
+                               src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../assets/images/broken_image-black-48dp.svg' }}">
+                        </td>
+                        <td class="uk-width-1-5@m uk-text-center">
                         <span data-uk-tooltip
                               title="{{(providerBundle.status !== 'approved') ?
                                     'The service provider is not yet active, therefore you cannot access its monitoring dashboard':
@@ -82,70 +210,73 @@
                               <!--{{ provider.name.length > 20 ? provider.name.slice(0,20)+'...' : provider.name }}-->
                             </a>
                         </span>
-                      </td>
-                      <td class="uk-width-1-5@m uk-text-center">
-                        {{ providerBundle.status }}
-                      </td>
-                      <td class="uk-text-center">
-                        <a [routerLink]="['/serviceProviderInfo',providerBundle.id]">
-                          <i aria-hidden="true" class="fa fa-info uk-margin-small-right"></i>
-                        </a>
-                      </td>
-                      <td class="uk-text-center">
-                        <i class="fa fa-{{ providerBundle.active ? 'check':'close' }}"></i>
-                      </td>
-                      <td class="uk-text-center">
-                        <a *ngIf="hasCreatedFirstService(providerBundle.id)"
-                           routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
-                          <i class="fa fa-eye"></i> View
-                        </a>
-                        &nbsp;&nbsp;
-                        <a *ngIf="hasCreatedFirstService(providerBundle.id)"
-                           routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}">
-                          <i class="fa fa-pencil"></i> Edit
-                        </a>
-                      </td>
-                      <td class="uk-text-center">
-                        <div class="uk-grid">
-                          <div class="uk-width-1-2">
-                            <div *ngIf="((providerBundle.status !== 'pending service template approval') &&
+                        </td>
+                        <td class="uk-width-1-5@m uk-text-center">
+                          {{ providerBundle.status }}
+                        </td>
+                        <td class="uk-text-center">
+                          <a [routerLink]="['/serviceProviderInfo',providerBundle.id]">
+                            <i aria-hidden="true" class="fa fa-info uk-margin-small-right"></i>
+                          </a>
+                        </td>
+                        <td class="uk-text-center">
+                          <i class="fa fa-{{ providerBundle.active ? 'check':'close' }}"></i>
+                        </td>
+                        <td class="uk-text-center">
+                          <a *ngIf="hasCreatedFirstService(providerBundle.id)"
+                             routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
+                            <i class="fa fa-eye"></i> View
+                          </a>
+                          &nbsp;&nbsp;
+                          <a *ngIf="hasCreatedFirstService(providerBundle.id)"
+                             routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}">
+                            <i class="fa fa-pencil"></i> Edit
+                          </a>
+                        </td>
+                        <td class="uk-text-center">
+                          <div class="uk-grid">
+                            <div class="uk-width-1-2">
+                              <div *ngIf="((providerBundle.status !== 'pending service template approval') &&
                                                                  (providerBundle.status !== 'rejected service template')) ||
                                                                  (hasCreatedFirstService(providerBundle.id))">
-                              <a *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"
-                                (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true)">
-                                <i aria-hidden="true" class="fa fa-thumbs-up"></i>
-                                {{ adminActionsMap[providerBundle.status].appButtonTitle }}
-                              </a>
-                              <a class="uk-margin-right" *ngIf="(providerBundle.status === 'approved') && (!providerBundle.active)"
-                                 (click)="showActionModal(providerBundle, 'approved', true)">
-                                <i aria-hidden="true" class="fa fa-thumbs-up"></i> Activate
-                              </a>
+                                <a *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"
+                                   (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true)">
+                                  <i aria-hidden="true" class="fa fa-thumbs-up"></i>
+                                  {{ adminActionsMap[providerBundle.status].appButtonTitle }}
+                                </a>
+                                <a class="uk-margin-right" *ngIf="(providerBundle.status === 'approved') && (!providerBundle.active)"
+                                   (click)="showActionModal(providerBundle, 'approved', true)">
+                                  <i aria-hidden="true" class="fa fa-thumbs-up"></i> Activate
+                                </a>
+                              </div>
                             </div>
-                          </div>
-                          <a class="uk-text-right" *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||
+                            <a class="uk-text-right" *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||
                                                                   ((providerBundle.status !== 'approved') && (adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].rejButtonTitle))"
-                             (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)">
-                            <i class="fa fa-thumbs-down " aria-hidden="true"></i>
-                            {{ adminActionsMap[providerBundle.status].rejButtonTitle }}
-                          </a>
-                        </div>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
+                               (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)">
+                              <i class="fa fa-thumbs-down " aria-hidden="true"></i>
+                              {{ adminActionsMap[providerBundle.status].rejButtonTitle }}
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
 
-                  <ul class="uk-pagination uk-flex-center" uk-margin>
-                    <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
-                    <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
-                      <div *ngIf="i !== currentPage; else deactivate_link">
-                        <a (click)="goToPage(i)">{{i}}</a>
-                      </div>
-                      <ng-template #deactivate_link><span>{{i}}</span></ng-template>
-                    </li>
-                    <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
-                  </ul>
+                    <ul class="uk-pagination uk-flex-center" uk-margin>
+                      <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+                      <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
+                        <div *ngIf="i !== currentPage; else deactivate_link">
+                          <a (click)="goToPage(i)">{{i}}</a>
+                        </div>
+                        <ng-template #deactivate_link><span>{{i}}</span></ng-template>
+                      </li>
+                      <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                    </ul>
+
+                  </div>
 
                 </div>
+
               </div>
 
               <!-- RIGHT HELP CONTENT -->

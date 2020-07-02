@@ -31,7 +31,9 @@ export class ServicesComponent implements OnInit {
 
   ngOnInit(): void {
     this.path = this.route.snapshot.routeConfig.path;
+    console.log('this.path: ', this.path);
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
+    console.log('this.providerId: ', this.providerId);
     this.getServices();
   }
 
@@ -79,7 +81,7 @@ export class ServicesComponent implements OnInit {
   }
 
   getServices() {
-    this.providerService[this.path === 'activeServices' ? 'getServicesOfProvider' : 'getPendingServicesByProvider'](this.providerId, 50)
+    this.providerService[this.path === 'activeServices' ? 'getServicesOfProvider' : 'getPendingServicesByProvider'](this.providerId, '0', '50', 'ASC', 'name')
       // this.providerService.getPendingServicesBundleByProvider(this.providerId)
       .subscribe(res => {
           this.providerServices = res;

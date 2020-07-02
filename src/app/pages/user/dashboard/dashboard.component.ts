@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit {
 
     if (dontGetServices) {
     } else {
-      this.providerService.getServicesOfProvider(this.providerId, 50)
+      this.providerService.getServicesOfProvider(this.providerId, '0', '50', 'ASC', 'name')
         .subscribe(res => {
             this.providerServices = res.results;
             this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices);

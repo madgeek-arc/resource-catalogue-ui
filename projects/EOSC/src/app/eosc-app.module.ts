@@ -15,6 +15,7 @@ import {StarRatingModule} from 'angular-star-rating';
 import {ChartModule} from 'angular2-highcharts';
 import {CookieLawModule} from '../../../../src/app/shared/reusablecomponents/cookie-law/cookie-law.module';
 import {CommonModule} from '@angular/common';
+import {UserModule} from '../../../../src/app/pages/user/user.module';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import {CommonModule} from '@angular/common';
   imports: [
     CommonModule,
     AppRoutingModule,
+    // UserModule,
     AppModule,
     FormsModule,
     ReactiveFormsModule,
