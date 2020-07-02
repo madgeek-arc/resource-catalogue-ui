@@ -11,6 +11,7 @@ import {URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs/internal/observable/zip';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
+import BitSet from 'bitset/bitset';
 
 @Component({
   selector: 'app-service-form',
@@ -18,12 +19,14 @@ import {environment} from '../../../environments/environment';
   styleUrls: ['../serviceProvider/service-provider-form.component.css']
 })
 export class ServiceFormComponent implements OnInit {
-  serviceName = environment.projectName;
+  projectName = environment.projectName;
+  serviceName = '';
   firstServiceForm = false;
   showLoader = false;
   pendingService = false;
   providerId: string;
   editMode: boolean;
+  hasChanges = false;
   serviceForm: FormGroup;
   service: Service;
   serviceID: string;
@@ -33,6 +36,38 @@ export class ServiceFormComponent implements OnInit {
   tabs: boolean[] = [false, false, false, false, false, false, false, false, false, false, false, false];
   fb: FormBuilder = this.injector.get(FormBuilder);
   disable = false;
+
+  requiredOnTab0 = 3;
+  requiredOnTab1 = 3;
+  requiredOnTab2 = 3;
+  requiredOnTab3 = 2;
+  requiredOnTab5 = 3;
+  requiredOnTab6 = 1;
+  requiredOnTab10 = 1;
+
+  remainingOnTab0 = this.requiredOnTab0;
+  remainingOnTab1 = this.requiredOnTab1;
+  remainingOnTab2 = this.requiredOnTab2;
+  remainingOnTab3 = this.requiredOnTab3;
+  remainingOnTab5 = this.requiredOnTab5;
+  remainingOnTab6 = this.requiredOnTab6;
+  remainingOnTab10 = this.requiredOnTab10;
+
+  BitSetTab0 = new BitSet;
+  BitSetTab1 = new BitSet;
+  BitSetTab2 = new BitSet;
+  BitSetTab3 = new BitSet;
+  BitSetTab5 = new BitSet;
+  BitSetTab6 = new BitSet;
+  BitSetTab10 = new BitSet;
+
+  requiredTabs = 7;
+  remainingTabs = this.requiredTabs;
+  remainingTabsBitSet = new BitSet;
+
+  allRequiredFields = 20;
+  loaderBitSet = new BitSet;
+  loaderPercentage = 0;
 
   places: Vocabulary[] = null;
 
@@ -810,6 +845,140 @@ export class ServiceFormComponent implements OnInit {
 
   downloadServiceFormPDF() {
     window.open('../../../assets/files/serviceForm.pdf', '_blank');
+  }
+
+  unsavedChangesPrompt() {
+    this.hasChanges = true;
+  }
+
+  handleBitSets(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
+    // console.log('triggered! ', formControlName);
+    if (bitIndex === 0) {
+      this.serviceName = this.serviceForm.get(formControlName).value;
+    }
+    if (group) {
+      if (this.serviceForm.controls[group].get(formControlName).valid) {
+        this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+        this.loaderBitSet.set(bitIndex, 1);
+      } else if (this.serviceForm.controls[group].get(formControlName).invalid) {
+        this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+        this.loaderBitSet.set(bitIndex, 0);
+      }
+    } else {
+      // console.log('else', this.serviceForm.get(formControlName).value);
+      if (this.serviceForm.get(formControlName).valid) {
+        this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+        this.loaderBitSet.set(bitIndex, 1);
+      } else if (this.serviceForm.get(formControlName).invalid) {
+        this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+        this.loaderBitSet.set(bitIndex, 0);
+      }
+    }
+
+    // console.log(this.loaderBitSet.toString(2));
+    // console.log('cardinality: ', this.loaderBitSet.cardinality());
+
+    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
+    // console.log(this.loaderPercentage, '%');
+  }
+
+  decreaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
+    if (tabNum === 0) {
+      this.BitSetTab0.set(bitIndex, 1);
+      this.remainingOnTab0 = this.requiredOnTab0 - this.BitSetTab0.cardinality();
+      if (this.remainingOnTab0 === 0 && this.remainingTabsBitSet.get(tabNum) !== 1) {
+        this.calcRemainingTabs(tabNum, 1);
+      }
+    } else if (tabNum === 1) {
+      this.BitSetTab1.set(bitIndex, 1);
+      this.remainingOnTab1 = this.requiredOnTab1 - this.BitSetTab1.cardinality();
+      if (this.remainingOnTab1 === 0 && this.remainingTabsBitSet.get(tabNum) !== 1) {
+        this.calcRemainingTabs(tabNum, 1);
+      }
+    } else if (tabNum === 2) {
+      this.BitSetTab2.set(bitIndex, 1);
+      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.cardinality();
+      if (this.remainingOnTab2 === 0 && this.remainingTabsBitSet.get(tabNum) !== 1) {
+        this.calcRemainingTabs(tabNum, 1);
+      }
+    } else if (tabNum === 3) {
+      this.BitSetTab3.set(bitIndex, 1);
+      this.remainingOnTab3 = this.requiredOnTab3 - this.BitSetTab3.cardinality();
+      if (this.remainingOnTab3 === 0 && this.remainingTabsBitSet.get(tabNum) !== 1) {
+        this.calcRemainingTabs(tabNum, 1);
+      }
+    } else if (tabNum === 5) { // Contact
+      this.BitSetTab5.set(bitIndex, 1);
+      if (this.BitSetTab5.cardinality() === 5) {
+        this.remainingOnTab5 = 0;
+        if (this.remainingTabsBitSet.get(tabNum) !== 1) {
+          this.calcRemainingTabs(tabNum, 1);
+        }
+      }
+    } else if (tabNum === 6) {
+      this.BitSetTab6.set(bitIndex, 1);
+      this.remainingOnTab6 = this.requiredOnTab6 - this.BitSetTab6.cardinality();
+      if (this.remainingOnTab6 === 0 && this.remainingTabsBitSet.get(tabNum) !== 1) {
+        this.calcRemainingTabs(tabNum, 1);
+      }
+    } else if (tabNum === 10) {
+      this.BitSetTab10.set(bitIndex, 1);
+      this.remainingOnTab10 = this.requiredOnTab10 - this.BitSetTab10.cardinality();
+      if (this.remainingOnTab10 === 0 && this.remainingTabsBitSet.get(tabNum) !== 1) {
+        this.calcRemainingTabs(tabNum, 1);
+      }
+    }
+  }
+
+  increaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
+    if (tabNum === 0) {
+      this.BitSetTab0.set(bitIndex, 0);
+      this.remainingOnTab0 = this.requiredOnTab0 - this.BitSetTab0.cardinality();
+      if (this.remainingTabsBitSet.get(tabNum) !== 0) {
+        this.calcRemainingTabs(tabNum, 0);
+      }
+    } else if (tabNum === 1) {
+      this.BitSetTab1.set(bitIndex, 0);
+      this.remainingOnTab1 = this.requiredOnTab1 - this.BitSetTab1.cardinality();
+      if (this.remainingTabsBitSet.get(tabNum) !== 0) {
+        this.calcRemainingTabs(tabNum, 0);
+      }
+    } else if (tabNum === 2) {
+      this.BitSetTab2.set(bitIndex, 0);
+      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.cardinality();
+      if (this.remainingTabsBitSet.get(tabNum) !== 0) {
+        this.calcRemainingTabs(tabNum, 0);
+      }
+    } else if (tabNum === 3) {
+      this.BitSetTab3.set(bitIndex, 0);
+      this.remainingOnTab3 = this.requiredOnTab3 - this.BitSetTab3.cardinality();
+      if (this.remainingTabsBitSet.get(tabNum) !== 0) {
+        this.calcRemainingTabs(tabNum, 0);
+      }
+    } else if (tabNum === 5) { // Contact
+      this.BitSetTab5.set(bitIndex, 0);
+      this.remainingOnTab5 = this.requiredOnTab5;
+      if (this.remainingTabsBitSet.get(tabNum) !== 0) {
+        this.calcRemainingTabs(tabNum, 0);
+      }
+    } else if (tabNum === 6) {
+      this.BitSetTab6.set(bitIndex, 0);
+      this.remainingOnTab6 = this.requiredOnTab6 - this.BitSetTab6.cardinality();
+      if (this.remainingTabsBitSet.get(tabNum) !== 0) {
+        this.calcRemainingTabs(tabNum, 0);
+      }
+    } else if (tabNum === 10) {
+      this.BitSetTab10.set(bitIndex, 0);
+      this.remainingOnTab10 = this.requiredOnTab10 - this.BitSetTab10.cardinality();
+      if (this.remainingTabsBitSet.get(tabNum) !== 0) {
+        this.calcRemainingTabs(tabNum, 0);
+      }
+    }
+  }
+
+  calcRemainingTabs(tabNum: number, setValue: number) {
+    this.remainingTabsBitSet.set(tabNum, setValue);
+    this.remainingTabs = this.requiredTabs - this.remainingTabsBitSet.cardinality();
   }
 
 }

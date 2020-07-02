@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {AuthenticationService} from './services/authentication.service';
+import {NavigationService} from './services/navigation.service';
 
 
 @Component({
@@ -13,11 +14,10 @@ export class AppComponent implements OnInit {
 
   breadcrumbs: string[] = [];
 
-  constructor(public router: Router, public oauthService: AuthenticationService) {}
+  constructor(public router: NavigationService) {}
 
   ngOnInit() {
-    this.oauthService.getUserInfo();
-    this.router.events.subscribe((evt: any) => {
+    this.router.router.events.subscribe((evt: any) => {
       if (evt.url) {
         this.breadcrumbs = evt.url.split(/\//);
       }
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
 
       // this.isLoginOrRegister = ["/signUp", "/signIn"].indexOf(evt.url) >= 0;
     });
-    this.router.events.subscribe((evt) => {
+    this.router.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;
       }

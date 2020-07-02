@@ -9,13 +9,13 @@
               {{editMode ? "Update" : "Add New"}} Service
             </div>
             <div class="providerName uk-margin-small-top">
-              <strong>Service name</strong> (unsaved changes)
+              <strong>{{serviceName!='' ? serviceName : 'Service Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
             </div>
           </div>
           <div class="">
             <!--<button class="uk-button uk-button-primary">Discard</button>-->
             <button *ngIf="!editMode || pendingService" class="uk-button uk-button-primary uk-margin-left" (click)="this.onSubmit(this.service, true)">Save as draft</button>
-            <button class="uk-button uk-button-secondary uk-margin-left" type="submit">Submit</button>
+            <button *ngIf="loaderPercentage>=80" class="uk-button uk-button-secondary uk-margin-left" type="submit">Submit</button>
           </div>
         </div>
 
@@ -60,25 +60,25 @@
                         <li class="uk-active">
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[0]}" href="#">
                             <span>1. Basic *</span>
-                            <span class="circle-number">1</span>
+                            <span class="circle-number" [ngClass]="{'fa': remainingOnTab0==0, 'fa-check': remainingOnTab0==0}">{{remainingOnTab0!=0 ? remainingOnTab0 : ''}}</span>
                           </a>
                         </li>
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[1]}" href="#">
                             <span>2. Marketing *</span>
-                            <span class="circle-number">2</span>
+                            <span class="circle-number" [ngClass]="{'fa': remainingOnTab1==0, 'fa-check': remainingOnTab1==0}">{{remainingOnTab1!=0 ? remainingOnTab1 : ''}}</span>
                           </a>
                         </li>
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[2]}" href="#">
                             <span>3. Classification *</span>
-                            <span class="circle-number">2</span>
+                            <span class="circle-number" [ngClass]="{'fa': remainingOnTab2==0, 'fa-check': remainingOnTab2==0}">{{remainingOnTab2!=0 ? remainingOnTab2 : ''}}</span>
                           </a>
                         </li>
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[3]}" href="#">
                             <span>4. Availability *</span>
-                            <span class="circle-number">2</span>
+                            <span class="circle-number" [ngClass]="{'fa': remainingOnTab3==0, 'fa-check': remainingOnTab3==0}">{{remainingOnTab3!=0 ? remainingOnTab3 : ''}}</span>
                           </a>
                         </li>
                         <li>
@@ -90,13 +90,13 @@
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[5]}" href="#">
                             <span>6. Contact *</span>
-                            <span class="circle-number">2</span>
+                            <span class="circle-number" [ngClass]="{'fa': remainingOnTab5==0, 'fa-check': remainingOnTab5==0}">{{remainingOnTab5!=0 ? remainingOnTab5 : ''}}</span>
                           </a>
                         </li>
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[6]}" href="#">
                             <span>7. Maturity *</span>
-                            <span class="circle-number">2</span>
+                            <span class="circle-number" [ngClass]="{'fa': remainingOnTab6==0, 'fa-check': remainingOnTab6==0}">{{remainingOnTab6!=0 ? remainingOnTab6 : ''}}</span>
                           </a>
                         </li>
                         <li>
@@ -120,7 +120,7 @@
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[10]}" href="#">
                             <span>11. Order *</span>
-                            <span class="circle-number">2</span>
+                            <span class="circle-number" [ngClass]="{'fa': remainingOnTab10==0, 'fa-check': remainingOnTab10==0}">{{remainingOnTab10!=0 ? remainingOnTab10 : ''}}</span>
                           </a>
                         </li>
                         <li>
@@ -143,10 +143,10 @@
                         <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[10]}" href="#">Order *</a></li>-->
                         <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[11]}" href="#">Financial</a></li>-->
                       </ul>
-                      <div class="stepsCompleted uk-margin-large-top uk-text-center">1 of 5</div>
+                      <div class="stepsCompleted uk-margin-large-top uk-text-center">{{remainingTabs}} of {{requiredTabs}}</div>
                       <div class="progress uk-margin-small-top">
-                        <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="10" max="100"></progress>
-                        <div class="percentageNumber" [ngStyle]="{'margin-left': '10%'}">10%</div>
+                        <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>
+                        <div class="percentageNumber" [ngStyle]="{'margin-left': '10%'}">{{loaderPercentage}}%</div>
                       </div>
                     </div>
 
@@ -163,6 +163,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{nameDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="name" class="uk-input uk-width-9-10" type="text" formControlName="name"
+                                     (keyup)="handleBitSets(0, 0, 'name'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('name') }">
                               <!--                                   [ngClass]="{'uk-form-danger': !serviceForm.get('name').valid && serviceForm.get('name').dirty}">-->
                               <!--<i><small>{{nameDesc.desc}}</small></i>-->
@@ -176,6 +177,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{resourceOrganisationDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <select id="resourceOrganisation" formControlName="resourceOrganisation" class="uk-input uk-select uk-width-9-10"
+                                      (change)="handleBitSets(0, 1, 'resourceOrganisation'); unsavedChangesPrompt()"
                                       [ngClass]="{'uk-form-danger': checkFormValidity('resourceOrganisation')}">
                                 <ng-container *ngIf="providersPage">
                                   <option *ngFor="let provider of providersPage.results"
@@ -196,6 +198,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('resourceProviders').controls; let i=index"  class="uk-margin-bottom">
                                 <select class="uk-input uk-select uk-width-9-10 uk-animation-slide-top-small" [formControlName]="i"
+                                        (change)="unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('resourceProviders', i),
                                       'uk-width-5-6': getFieldAsFormArray('resourceProviders').length > 1}">
                                   <ng-container *ngIf="providersPage">
@@ -204,7 +207,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('resourceProviders').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('resourceProviders', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('resourceProviders', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -234,6 +237,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{webpageDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="webpage" class="uk-input uk-width-9-10" type="text" formControlName="webpage"
+                                     (keyup)="handleBitSets(0, 2, 'webpage'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('webpage')}">
                               <!--<i><small>{{webpageDesc.desc}}</small></i>-->
                             </div>
@@ -257,6 +261,7 @@
                                   [readonly]="false"
                                   debounce="500"
                                   formControlName="description"
+                                  (change)="handleBitSets(1, 3, 'description'); unsavedChangesPrompt()"
                                   [config]="{extraPlugins: 'divarea',allowedContent: true,extraAllowedContent : '*(*)'}">
                                 </ckeditor>
                                 <!--<i><small>{{descriptionDesc.desc}}</small></i>-->
@@ -270,6 +275,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{taglineDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="tagline" class="uk-input uk-width-9-10" type="text" formControlName="tagline"
+                                     (keyup)="handleBitSets(1, 4, 'tagline'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('tagline')}">
                               <!--<i><small>{{taglineDesc.desc}}</small></i>-->
                             </div>
@@ -281,6 +287,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{logoDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo"
+                                     (keyup)="handleBitSets(1, 5, 'logo'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('logo')}">
                               <!--<i><small>{{logoDesc.desc}}</small></i>-->
                             </div>
@@ -293,9 +300,10 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let multimedia of getFieldAsFormArray('multimedia').controls; let i=index" class="uk-margin-bottom">
                                 <input id="multimedia" class="uk-input uk-width-9-10 uk-animation-slide-top-small" type="text" [formControlName]="i"
+                                       (keyup)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i)}">
                                 <a *ngIf="getFieldAsFormArray('multimedia').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('multimedia', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('multimedia', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -315,9 +323,10 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let useCase of getFieldAsFormArray('useCases').controls; let i=index" class="uk-margin-bottom">
                                 <input id="useCases" class="uk-input uk-width-9-10 uk-animation-slide-top-small" type="text" [formControlName]="i"
+                                       (keyup)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i)}">
                                 <a *ngIf="getFieldAsFormArray('useCases').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('useCases', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('useCases', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -340,7 +349,7 @@
                               <div formArrayName="scientificCategorization" *ngFor="let category of scientificDomainArray.controls; let i = index">
                                 <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                   <!--<a *ngIf="scientificDomainArray.length > 1" class="remove-element uk-padding-small"-->
-                                     <!--(click)="removeScientificDomain(i)">-->
+                                     <!--(click)="removeScientificDomain(i); unsavedChangesPrompt()">-->
                                     <!--<i class="fa fa-times" aria-hidden="true"></i>-->
                                   <!--</a>-->
                                   <div class="uk-margin-bottom">
@@ -349,7 +358,8 @@
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{scientificDomainDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
-                                      <select id="{{'scientificDomain ' + i}}"  formControlName="scientificDomain" class="uk-input uk-select" (change)="onScientificDomainChange(i)"
+                                      <select id="{{'scientificDomain ' + i}}"  formControlName="scientificDomain" class="uk-input uk-select"
+                                              (change)="onScientificDomainChange(i); handleBitSets(2, 6, 'scientificDomain', 'scientificCategorization'); unsavedChangesPrompt()"
                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificCategorization', i, 'scientificDomain')}">
                                         <ng-container *ngIf="scientificDomainVocabulary" >
                                           <option *ngFor="let entry of sortVocabulariesByName(scientificDomainVocabulary)"
@@ -368,6 +378,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{scientificSubDomainDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="{{'scientificSubDomain ' + i}}" formControlName="scientificSubDomain" class="uk-input uk-select"
+                                              (change)="handleBitSets(2, 7, 'scientificSubDomain', 'scientificCategorization'); unsavedChangesPrompt()"
                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificCategorization', i, 'scientificSubDomain')}">
                                         <ng-container *ngIf="scientificDomainArray.controls[i].get('scientificDomain').value">
                                           <option value="">--Choose Scientific Subdomain--</option>
@@ -384,7 +395,7 @@
 
                                 </div>
                                 <a *ngIf="scientificDomainArray.length > 1" class="remove-element uk-padding-small uk-display-inline-block"
-                                   (click)="removeScientificDomain(i)">
+                                   (click)="removeScientificDomain(i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -405,7 +416,7 @@
                               <div formArrayName="categorize" *ngFor="let category of categoryArray.controls; let i = index">
                                 <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                   <!--<a *ngIf="categoryArray.length > 1" class="remove-element uk-padding-small"-->
-                                     <!--(click)="removeCategory(i)">-->
+                                     <!--(click)="removeCategory(i); unsavedChangesPrompt()">-->
                                     <!--<i class="fa fa-times" aria-hidden="true"></i>-->
                                   <!--</a>-->
 
@@ -415,7 +426,8 @@
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{categoryDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
-                                      <select id="{{'category ' + i}}" formControlName="category" class="uk-input uk-select" (change)="onCategoryChange(i)"
+                                      <select id="{{'category ' + i}}" formControlName="category" class="uk-input uk-select"
+                                              (change)="onCategoryChange(i); handleBitSets(2, 8, 'category', 'categorize'); unsavedChangesPrompt()"
                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorize', i, 'category')}">
                                         <!--                                      <ng-container *ngIf="categoryArray.controls[i].get('supercategory').value">-->
                                         <ng-container *ngIf="categoriesVocabulary">
@@ -438,6 +450,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{subcategoryDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="{{'subcategory ' + i}}" formControlName="subcategory" class="uk-input uk-select"
+                                              (change)="handleBitSets(2, 9, 'subcategory', 'categorize'); unsavedChangesPrompt()"
                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorize', i, 'subcategory')}">
                                         <ng-container *ngIf="categoryArray.controls[i].get('category').value">
                                           <option value="">--Choose subcategory--</option>
@@ -456,7 +469,7 @@
 
                                 </div>
                                 <a *ngIf="categoryArray.length > 1" class="remove-element uk-padding-small uk-display-inline-block"
-                                   (click)="removeCategory(i)">
+                                   (click)="removeCategory(i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -477,6 +490,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('targetUsers').controls; let i=index" class="uk-margin-bottom">
                                 <select id="targetUsers" class="uk-input uk-select uk-animation-slide-top-small uk-width-9-10" [formControlName]="i"
+                                        (change)="handleBitSets(2, 10, 'targetUsers'); unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('targetUsers', i)}">
                                   <ng-container *ngIf="targetUsersVocabulary">
                                     <option *ngFor="let entry of sortVocabulariesByName(targetUsersVocabulary)" value="{{entry.id}}">
@@ -485,7 +499,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('targetUsers').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('targetUsers', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('targetUsers', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -505,6 +519,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('accessTypes').controls; let i=index" class="uk-margin-bottom">
                                 <select id="accessTypes" class="uk-input uk-select uk-animation-slide-top-small uk-width-9-10" [formControlName]="i"
+                                        (change)="unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('accessTypes', i)}">
                                   <option value=""></option>
                                   <ng-container *ngIf="accessTypesVocabulary">
@@ -514,7 +529,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('accessTypes').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('accessTypes', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('accessTypes', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -534,6 +549,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('accessModes').controls; let i=index" class="uk-margin-bottom">
                                 <select class="uk-input uk-select uk-animation-slide-top-small uk-width-9-10" [formControlName]="i"
+                                        (change)="unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('accessModes', i),
                                       'uk-width-5-6': getFieldAsFormArray('accessModes').length > 1}">
                                   <option value=""></option>
@@ -544,7 +560,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('accessModes').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('accessModes', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('accessModes', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -564,9 +580,10 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('tags').controls; let i=index" class="uk-margin-bottom">
                                 <input id="tags" class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text" [formControlName]="i"
+                                       (keyup)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('tags', i)}">
                                 <a *ngIf="getFieldAsFormArray('tags').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('tags', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('tags', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -589,6 +606,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let place of getFieldAsFormArray('geographicalAvailabilities').controls; let i=index" class="uk-margin-bottom">
                                 <select id="geographicalAvailabilities" class="uk-input uk-select uk-animation-slide-top-small uk-width-9-10" [formControlName]="i"
+                                        (change)="handleBitSets(3, 11, 'geographicalAvailabilities'); unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('geographicalAvailabilities', i)}">
                                   <ng-container *ngIf="placesVocabulary">
                                     <option *ngFor="let entry of placesVocabulary" value="{{entry.id}}">
@@ -597,7 +615,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('geographicalAvailabilities').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('geographicalAvailabilities', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('geographicalAvailabilities', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -617,6 +635,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('languageAvailabilities').controls; let i=index" class="uk-margin-bottom">
                                 <select id="languageAvailabilities" class="uk-input uk-select uk-animation-slide-top-small uk-width-9-10" [formControlName]="i"
+                                        (change)="handleBitSets(3, 12, 'languageAvailabilities'); unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('languageAvailabilities', i)}">
                                   <ng-container *ngIf="languagesVocabulary">
                                     <option *ngFor="let entry of languagesVocabulary" value="{{entry.id}}">
@@ -625,7 +644,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('languageAvailabilities').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('languageAvailabilities', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('languageAvailabilities', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -648,6 +667,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('resourceGeographicLocations').controls; let i=index" class="uk-margin-bottom">
                                 <select class="uk-input uk-select uk-animation-slide-top-small uk-width-9-10" [formControlName]="i"
+                                        (change)="unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('resourceGeographicLocations', i)}">
                                   <option value=""></option>
                                   <ng-container *ngIf="geographicalAvailabilityVocabulary">
@@ -657,7 +677,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('resourceGeographicLocations').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('resourceGeographicLocations', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('resourceGeographicLocations', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -683,6 +703,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactFirstNameDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactFirstName" class="uk-input" type="text" formControlName="firstName"
+                                           (keyup)="handleBitSets(5, 13, 'firstName', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.firstName')}">
                                     <!--<i><small>{{ mainContactFirstNameDesc.desc }}</small></i>-->
                                   </div>
@@ -694,6 +715,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactLastNameDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactLastName" class="uk-input" type="text" formControlName="lastName"
+                                           (keyup)="handleBitSets(5, 14, 'lastName', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.lastName')}">
                                     <!--<i><small>{{ mainContactLastNameDesc.desc }}</small></i>-->
                                   </div>
@@ -705,6 +727,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactEmailDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactEmail" class="uk-input" type="text" formControlName="email"
+                                           (keyup)="handleBitSets(5, 15, 'email', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.email')}">
                                     <!--<i><small>{{ mainContactEmailDesc.desc }}</small></i>-->
                                   </div>
@@ -716,6 +739,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactPhoneDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactPhone" class="uk-input" type="text" formControlName="phone"
+
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.phone')}">
                                     <!--<i><small>{{ mainContactPhoneDesc.desc }}</small></i>-->
                                   </div>
@@ -727,6 +751,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactPositionDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactPosition" class="uk-input" type="text" formControlName="position"
+
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.position')}">
                                     <!--<i><small>{{ mainContactPositionDesc.desc }}</small></i>-->
                                   </div>
@@ -738,6 +763,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactOrganisationDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <select id="mainContactOrganisation" formControlName="organisation" class="uk-input uk-select"
+
                                             [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.organisation')}">
                                       <ng-container *ngIf="providersPage">
                                         <option *ngFor="let provider of providersPage.results"
@@ -757,7 +783,7 @@
                                 <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                   <!--<div>-->
                                     <!--<a *ngIf="!disable" class="remove-element uk-padding-small"-->
-                                       <!--(click)="removePublicContact(i)">-->
+                                       <!--(click)="removePublicContact(i); unsavedChangesPrompt()">-->
                                       <!--<i class="fa fa-times" aria-hidden="true"></i>-->
                                     <!--</a>-->
                                   <!--</div>-->
@@ -768,6 +794,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactFirstNameDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="firstName" class="uk-input" type="text" formControlName="firstName"
+                                             (keyup)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'firstName')}">
                                       <!--<i><small>{{ publicContactFirstNameDesc.desc }}</small></i>-->
                                     </div>
@@ -779,6 +806,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactLastNameDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="lastName" class="uk-input" type="text" formControlName="lastName"
+                                             (keyup)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'lastName')}">
                                       <!--<i><small>{{ publicContactLastNameDesc.desc }}</small></i>-->
                                     </div>
@@ -790,6 +818,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactEmailDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="email" class="uk-input" type="text" formControlName="email"
+                                             (keyup)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'email')}">
                                       <!--<i><small>{{ publicContactEmailDesc.desc }}</small></i>-->
                                     </div>
@@ -801,6 +830,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPhoneDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="phone" class="uk-input" type="text" formControlName="phone"
+                                             (keyup)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'phone')}">
                                       <!--<i><small>{{ publicContactPhoneDesc.desc }}</small></i>-->
                                     </div>
@@ -812,6 +842,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPositionDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="position" class="uk-input" type="text" formControlName="position"
+                                             (keyup)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'position')}">
                                       <!--<i><small>{{ publicContactPositionDesc.desc }}</small></i>-->
                                     </div>
@@ -823,6 +854,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactOrganisationDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="organisation" formControlName="organisation" class="uk-input uk-select"
+                                              (change)="unsavedChangesPrompt()"
                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'organisation')}">
                                         <ng-container *ngIf="providersPage">
                                           <option *ngFor="let provider of providersPage.results"
@@ -834,7 +866,7 @@
                                   </div>
                                 </div>
                                 <a *ngIf="!disable" class="remove-element uk-padding-small uk-display-inline-block"
-                                   (click)="removePublicContact(i)">
+                                   (click)="removePublicContact(i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -852,6 +884,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{helpdeskEmailDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="helpdeskEmail" class="uk-input uk-width-9-10" type="text" formControlName="helpdeskEmail"
+                                     (keyup)="handleBitSets(5, 16, 'helpdeskEmail'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('helpdeskEmail')}">
                               <!--<i><small>{{helpdeskEmailDesc.desc}}</small></i>-->
                             </div>
@@ -863,6 +896,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{securityContactEmailDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="securityContactEmail" class="uk-input uk-width-9-10" type="text" formControlName="securityContactEmail"
+                                     (keyup)="handleBitSets(5, 17, 'securityContactEmail'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('securityContactEmail')}">
                               <!--<i><small>{{securityContactEmailDesc.desc}}</small></i>-->
                             </div>
@@ -877,6 +911,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{technologyReadinessLevelDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-top">
                               <select id="trl" formControlName="trl" class="uk-input uk-select uk-width-9-10"
+                                      (change)="handleBitSets(6, 18, 'trl'); unsavedChangesPrompt()"
                                       [ngClass]="{'uk-form-danger': checkFormValidity('trl')}">
                                 <option value=""></option>
                                 <ng-container *ngIf="trlVocabulary">
@@ -895,6 +930,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{phaseDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-top">
                               <select id="lifeCycleStatus" formControlName="lifeCycleStatus" class="uk-input uk-select uk-width-9-10"
+
                                       [ngClass]="{'uk-form-danger': checkFormValidity('lifeCycleStatus')}">
                                 <option value=""></option>
                                 <ng-container *ngIf="phaseVocabulary">
@@ -914,9 +950,10 @@
                             <div class="uk-form-controls uk-margin-top">
                               <div *ngFor="let provider of getFieldAsFormArray('certifications').controls; let i=index" class="uk-margin-bottom">
                                 <input id="certifications" class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text" [formControlName]="i"
+
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('certifications', i)}">
                                 <a *ngIf="getFieldAsFormArray('certifications').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('certifications', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('certifications', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -936,9 +973,10 @@
                             <div class="uk-form-controls uk-margin-top">
                               <div *ngFor="let provider of getFieldAsFormArray('standards').controls; let i=index" class="uk-margin-bottom">
                                 <input id="standards" class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text" [formControlName]="i"
+
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('standards', i)}">
                                 <a *ngIf="getFieldAsFormArray('standards').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('standards', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('standards', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -958,9 +996,10 @@
                             <div class="uk-form-controls uk-margin-top">
                               <div *ngFor="let provider of getFieldAsFormArray('openSourceTechnologies').controls; let i=index" class="uk-margin-bottom">
                                 <input id="openSourceTechnologies" class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text" [formControlName]="i"
+
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('openSourceTechnologies', i)}">
                                 <a *ngIf="getFieldAsFormArray('openSourceTechnologies').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('openSourceTechnologies', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('openSourceTechnologies', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -979,6 +1018,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{versionDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-top">
                               <input id="version" maxlength="10" class="uk-input uk-width-9-10" type="text" formControlName="version"
+
                                      [ngClass]="{'uk-form-danger': checkFormValidity('version')}">
                               <!--<i><small>{{versionDesc.desc}}</small></i>-->
                             </div>
@@ -990,6 +1030,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{lastUpdateDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-top">
                               <input id="lastUpdate" class="uk-input uk-width-9-10" type="date" lang="gr" formControlName="lastUpdate"
+
                                      [ngClass]="{'uk-form-danger': checkFormValidity('lastUpdate')}">
                               <!--<i><small>{{lastUpdateDesc.desc}}</small></i>-->
                             </div>
@@ -1002,9 +1043,10 @@
                             <div class="uk-form-controls uk-margin-top">
                               <div *ngFor="let provider of getFieldAsFormArray('changeLog').controls; let i=index" class="uk-margin-bottom">
                                 <input id="changeLog" class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text" [formControlName]="i"
+
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('changeLog', i)}">
                                 <a *ngIf="getFieldAsFormArray('changeLog').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('changeLog', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('changeLog', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1027,6 +1069,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('requiredResources').controls; let i=index" class="uk-margin-bottom">
                                 <select id="requiredResources" class="uk-input uk-select uk-animation-slide-top-small uk-width-9-10" [formControlName]="i"
+                                        (change)="unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('requiredResources', i)}">
                                   <option value=""></option>
                                   <ng-container *ngIf="requiredResources">
@@ -1036,7 +1079,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('requiredResources').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('requiredResources', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('requiredResources', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1056,6 +1099,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('relatedResources').controls; let i=index" class="uk-margin-bottom">
                                 <select id="relatedResources" class="uk-input uk-select uk-animation-slide-top-small uk-width-9-10" [formControlName]="i"
+                                        (change)="unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedResources', i)}">
                                   <option value=""></option>
                                   <ng-container *ngIf="relatedResources">
@@ -1065,7 +1109,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('relatedResources').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('relatedResources', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('relatedResources', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1085,9 +1129,10 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('relatedPlatforms').controls; let i=index" class="uk-margin-bottom">
                                 <input id="relatedPlatforms" class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text" [formControlName]="i"
+                                       (keyup)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedPlatforms', i)}">
                                 <a *ngIf="getFieldAsFormArray('relatedPlatforms').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('relatedPlatforms', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('relatedPlatforms', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1110,6 +1155,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('fundingBody').controls; let i=index" class="uk-margin-bottom">
                                 <select id="fundingBody" class="uk-input uk-select uk-animation-slide-top-small uk-width-9-10" [formControlName]="i"
+                                        (change)="unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('fundingBody', i)}">
                                   <option value=""></option>
                                   <ng-container *ngIf="fundingBodyVocabulary">
@@ -1119,7 +1165,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('fundingBody').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('fundingBody', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('fundingBody', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1139,6 +1185,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('fundingPrograms').controls; let i=index" class="uk-margin-bottom">
                                 <select id="fundingPrograms" class="uk-input uk-select uk-animation-slide-top-small uk-width-9-10" [formControlName]="i"
+                                        (change)="unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('fundingPrograms', i)}">
                                   <option value=""></option>
                                   <ng-container *ngIf="fundingProgramVocabulary">
@@ -1148,7 +1195,7 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('fundingPrograms').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('fundingPrograms', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('fundingPrograms', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1168,9 +1215,10 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('grantProjectNames').controls; let i=index" class="uk-margin-bottom">
                                 <input id="grantProjectNames" class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text" [formControlName]="i"
+                                       (keyup)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('grantProjectNames', i)}">
                                 <a *ngIf="getFieldAsFormArray('grantProjectNames').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('grantProjectNames', i)">
+                                   class="remove-element uk-padding-small" (click)="remove('grantProjectNames', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1192,6 +1240,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{helpdeskPageDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="helpdeskPage" class="uk-input uk-width-9-10" type="text" formControlName="helpdeskPage"
+                                     (keyup)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('helpdeskPage')}">
                               <!--<i><small>{{helpdeskPageDesc.desc}}</small></i>-->
                             </div>
@@ -1203,6 +1252,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{userManualDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="userManual" class="uk-input uk-width-9-10" type="text" formControlName="userManual"
+                                     (keyup)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('userManual')}">
                               <!--<i><small>{{userManualDesc.desc}}</small></i>-->
                             </div>
@@ -1214,6 +1264,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{termsOfUseDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="termsOfUse" class="uk-input uk-width-9-10" type="text" formControlName="termsOfUse"
+                                     (keyup)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('termsOfUse')}">
                               <!--<i><small>{{termsOfUseDesc.desc}}</small></i>-->
                             </div>
@@ -1225,6 +1276,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{privacyPolicyDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="privacyPolicy" class="uk-input uk-width-9-10" type="text" formControlName="privacyPolicy"
+                                     (keyup)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('privacyPolicy')}">
                               <!--<i><small>{{privacyPolicyDesc.desc}}</small></i>-->
                             </div>
@@ -1236,6 +1288,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{accessPolicyDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="accessPolicy" class="uk-input uk-width-9-10" type="text" formControlName="accessPolicy"
+                                     (keyup)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('accessPolicy')}">
                               <!--<i><small>{{accessPolicyDesc.desc}}</small></i>-->
                             </div>
@@ -1247,6 +1300,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{serviceLevelDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="serviceLevel" class="uk-input uk-width-9-10" type="text" formControlName="serviceLevel"
+                                     (keyup)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('serviceLevel')}">
                               <!--<i><small>{{serviceLevelDesc.desc}}</small></i>-->
                             </div>
@@ -1258,6 +1312,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{trainingInformationDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="trainingInformation" class="uk-input uk-width-9-10" type="text" formControlName="trainingInformation"
+                                     (keyup)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('trainingInformation')}">
                               <!--<i><small>{{trainingInformationDesc.desc}}</small></i>-->
                             </div>
@@ -1269,6 +1324,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{statusMonitoringDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="statusMonitoring" class="uk-input uk-width-9-10" type="text" formControlName="statusMonitoring"
+                                     (keyup)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('statusMonitoring')}">
                               <!--<i><small>{{statusMonitoringDesc.desc}}</small></i>-->
                             </div>
@@ -1280,6 +1336,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{maintenanceDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="maintenance" class="uk-input uk-width-9-10" type="text" formControlName="maintenance"
+                                     (keyup)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('maintenance')}">
                               <!--<i><small>{{maintenanceDesc.desc}}</small></i>-->
                             </div>
@@ -1294,6 +1351,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{orderTypeDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <select id="orderType" formControlName="orderType" class="uk-input uk-select uk-width-9-10"
+                                      (change)="handleBitSets(10, 19, 'orderType'); unsavedChangesPrompt()"
                                       [ngClass]="{'uk-form-danger': checkFormValidity('orderType')}">
                                 <ng-container *ngIf="orderTypeVocabulary">
                                   <option *ngFor="let entry of sortVocabulariesByName(orderTypeVocabulary)" value="{{entry.id}}">
@@ -1311,6 +1369,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{orderDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="order" class="uk-input uk-width-9-10" type="text" formControlName="order"
+                                     (keyup)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('order')}">
                               <!--<i><small>{{orderDesc.desc}}</small></i>-->
                             </div>
@@ -1325,6 +1384,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{paymentModelDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="paymentModel" class="uk-input uk-width-9-10" type="text" formControlName="paymentModel"
+                                     (keyup)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('paymentModel')}">
                               <!--<i><small>{{paymentModelDesc.desc}}</small></i>-->
                             </div>
@@ -1336,6 +1396,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{pricingDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="pricing" class="uk-input uk-width-9-10" type="text" formControlName="pricing"
+                                     (keyup)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('pricing')}">
                               <!--<i><small>{{pricingDesc.desc}}</small></i>-->
                             </div>
