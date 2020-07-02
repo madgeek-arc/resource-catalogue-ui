@@ -1,0 +1,102 @@
+<div class="uk-section uk-section-small">
+  <div class="uk-container uk-container-expand">
+
+    <div class="services-provider-container">
+      <div *ngIf="providerBundle" class="uk-flex">
+        <div>
+          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../assets/images/broken_image-black-48dp.svg' }}">
+        </div>
+        <div class="uk-margin-medium-left">
+          <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
+          <div><span class="status-label">Status: </span>{{providerBundle.status | titlecase}}</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="uk-margin-large-top">
+      <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">
+        <p>{{errorMessage}}</p>
+      </div>
+
+      <div *ngIf="providerServices && providerServices.results.length === 0">
+        <p>No pending services found</p>
+      </div>
+
+      <div *ngIf="providerServices && providerServices.results.length > 0">
+        <div *ngFor="let providerService of providerServices.results" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+
+          <div class="uk-card-body">
+            <div class="uk-grid uk-flex-middle">
+              <div class="uk-width-1-6">
+                <img src="{{providerService.service.logo ? providerService.service.logo : '../../../../../assets/images/broken_image-black-48dp.svg'}}">
+              </div>
+              <div class="uk-width-2-3">
+                <h4 class="uk-margin-remove">{{providerService.service.name}}</h4>
+                <span *ngIf="providerService.service.description" class="uk-margin-small-top">{{providerService.service.description}}</span>
+              </div>
+              <div class="uk-width-1-6">
+                <div class="action-buttons">
+                  <button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">
+                    <i class="fa fa-pencil fa-lg"></i> Edit service
+                  </button>
+                  <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedService(providerService)">
+                    <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete service
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+
+          <!--<div class="uk-margin uk-grid-match uk-child-width-1-1 uk-animation-slide-top-medium uk-grid-stack">-->
+            <!--<div class="uk-first-column uk-padding-remove-left">-->
+
+              <!--<div class="uk-panel uk-scrollspy-inview uk-animation-slide-top-medium">-->
+                <!--<div class="uk-child-width-expand uk-flex-middle uk-grid uk-grid-stack uk-padding-small" uk-grid="">-->
+                  <!--<div class="uk-width-1-6@m uk-first-column">-->
+                    <!--<img src="{{providerService.service.logo ? providerService.service.logo : '../../../../../assets/images/broken_image-black-48dp.svg'}}">-->
+                  <!--</div>-->
+                  <!--<div class="uk-width-2-3@m uk-padding-remove">-->
+                    <!--<h3 class="uk-margin uk-h5 uk-margin-small-bottom">-->
+                      <!--<a (click)="navigate(providerService.service.id)">{{providerService.service.name}}</a></h3>-->
+                    <!--<span>{{providerService.service.description}}</span>-->
+                  <!--</div>-->
+                  <!--<div class="uk-width-1-6@m">-->
+                    <!--<div>-->
+                      <!--<a class="uk-padding-small" (click)="navigate(providerService.service.id)">-->
+                        <!--<i class="fa fa-pencil fa-2x"></i>-->
+                      <!--</a>-->
+                      <!--<a class="uk-padding-small" (click)="setSelectedService(providerService)">-->
+                        <!--<i class="fa fa-trash fa-2x" aria-hidden="true"></i>-->
+                      <!--</a>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+
+            <!--</div>-->
+          <!--</div>-->
+        </div>
+      </div>
+
+      <div id="spinnerModal" uk-modal>
+        <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+<div id="actionModal" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body">
+    <h6 *ngIf="selectedService">Are you sure you want to delete the service {{selectedService.service.name}}</h6>
+    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteService(selectedService.id)">Delete</button>
+    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+  </div>
+</div>

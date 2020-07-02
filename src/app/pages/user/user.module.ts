@@ -8,6 +8,7 @@ import {ProviderStatsComponent} from './dashboard/providerStats/provider-stats.c
 import {ChartModule} from 'angular2-highcharts';
 import {ServicesComponent} from './dashboard/services/services.component';
 import {MessagesComponent} from './dashboard/messages/messages.component';
+import {PendingServicesComponent} from './dashboard/pendingservices/pending-services.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import {MessagesComponent} from './dashboard/messages/messages.component';
   declarations: [
     ProviderStatsComponent,
     ServicesComponent,
+    PendingServicesComponent,
     MessagesComponent
   ]
 })

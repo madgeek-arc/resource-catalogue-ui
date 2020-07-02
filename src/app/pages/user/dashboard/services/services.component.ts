@@ -31,7 +31,9 @@ export class ServicesComponent implements OnInit {
 
   ngOnInit(): void {
     this.path = this.route.snapshot.routeConfig.path;
+    console.log('this.path: ', this.path);
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
+    console.log('this.providerId: ', this.providerId);
     this.getServices();
   }
 

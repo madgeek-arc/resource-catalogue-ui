@@ -21,6 +21,8 @@ import {IndicatorFromComponent} from './pages/indicators/indicator-from.componen
 import {ForbiddenPageComponent} from './shared/forbidden-page/forbidden-page.component';
 import {NotFoundPageComponent} from './shared/not-found-page/not-found-page.component';
 import {StatsComponent} from './pages/stats/stats.component';
+import {ServicesComponent} from './pages/user/dashboard/services/services.component';
+import {PendingServicesComponent} from './pages/user/dashboard/pendingservices/pending-services.component';
 
 const appRoutes: Routes = [
   {
@@ -155,6 +157,14 @@ const appRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'My Service Providers'
+    }
+  },
+  {
+    path: 'myServiceProviders/pendingServices/:provider',
+    component: PendingServicesComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Pending Services'
     }
   },
   {

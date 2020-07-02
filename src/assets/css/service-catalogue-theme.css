@@ -361,3 +361,44 @@ a.remove-element i {
   font-weight: 600;
   color: #000000;
 }
+
+/* ========================================================================
+   Component: Pending Services
+ ========================================================================== */
+
+.services-provider-container {
+  background: #F0F5F5 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  opacity: 1;
+  padding: 25px 40px;
+}
+
+.services-provider-container > div {
+  align-items: center;
+}
+
+.services-provider-container h3 {
+  color: #333432;
+  font-weight: bold;
+}
+
+.services-provider-container .status-label {
+  color: #808080;
+}
+
+.uk-card.service-card {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 2px;
+  opacity: 1;
+}
+
+.service-card .action-buttons {
+  border-left: 1px solid #ccc;
+  padding: 10px 0px 10px 20px;
+}
+
+.service-card h4 {
+  color: #333432;
+  font-weight: 500;
+}

@@ -126,8 +126,9 @@
                                         <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Create service template</a>
                                       </li>
                                       <li *ngIf="checkForPendingServices(providerBundle.id)" class="uk-active">
-                                        <a [routerLink]="['/dashboard/' + providerBundle.id + '/pendingServices'] ">
-                                          <i class="fa fa-arrow-right" aria-hidden="true"></i> Select from pending service
+                                        <a [routerLink]="['/myServiceProviders/pendingServices/' + providerBundle.id] ">
+                                          <!--<a [routerLink]="['/dashboard/' + providerBundle.id + '/pendingServices'] ">-->
+                                          Select from pending services
                                         </a>
                                       </li>
                                       <li class="uk-nav-divider"></li>

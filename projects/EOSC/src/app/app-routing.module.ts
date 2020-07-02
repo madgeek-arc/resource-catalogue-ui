@@ -17,6 +17,7 @@ import {ServiceDashboardComponent} from '../../../../src/app/pages/user/dashboar
 import {DevelopersComponent} from '../../../../src/app/pages/support/developers/developers.component';
 import {OpenAPIComponent} from '../../../../src/app/pages/support/openapi/openapi.component';
 import {ServiceProviderFormComponent} from '../../../../src/app/pages/serviceProvider/service-provider-form.component';
+import {ServicesComponent} from '../../../../src/app/pages/user/dashboard/services/services.component';
 
 
 const routes: Routes = [
@@ -141,22 +142,6 @@ const routes: Routes = [
     }
   },
   {
-    path: 'dashboard/:provider',
-    component: DashboardComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Provider dashboard'
-    }
-  },
-  {
-    path: 'dashboard/:provider/:id',
-    component: ServiceDashboardComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Service dashboard'
-    }
-  },
-  {
     path: 'developers',
     component: DevelopersComponent,
     data: {
@@ -170,11 +155,11 @@ const routes: Routes = [
       breadcrumb: 'Open API'
     }
   },
-  {
-    path: '**',
-    redirectTo: 'becomeAProvider',
-    pathMatch: 'full'
-  },
+  // {
+  //   path: '**',
+  //   redirectTo: 'becomeAProvider',
+  //   pathMatch: 'full'
+  // },
 ];
 
 @NgModule({
