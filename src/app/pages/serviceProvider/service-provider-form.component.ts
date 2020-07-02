@@ -671,35 +671,40 @@ export class ServiceProviderFormComponent implements OnInit {
     this.hasChanges = true;
   }
 
-  handleBitSets(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-    // console.log('triggered! ', formControlName);
+  handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
+    console.log('triggered! ', formControlName);
     if (bitIndex === 0) {
       this.providerName = this.newProviderForm.get(formControlName).value;
     }
-    if (group) {
-        if (this.newProviderForm.controls[group].get(formControlName).valid) {
-          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-          this.loaderBitSet.set(bitIndex, 1);
-        } else if (this.newProviderForm.controls[group].get(formControlName).invalid) {
-          this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-          this.loaderBitSet.set(bitIndex, 0);
-        }
-    } else {
-      // console.log('else', this.newProviderForm.get(formControlName).value);
-      if (this.newProviderForm.get(formControlName).valid) {
-        this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-        this.loaderBitSet.set(bitIndex, 1);
-      } else if (this.newProviderForm.get(formControlName).invalid) {
-        this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-        this.loaderBitSet.set(bitIndex, 0);
-      }
+    console.log('else', this.newProviderForm.get(formControlName).value);
+    if (this.newProviderForm.get(formControlName).valid) {
+      this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 1);
+    } else if (this.newProviderForm.get(formControlName).invalid) {
+      this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 0);
     }
 
-    // console.log(this.loaderBitSet.toString(2));
-    // console.log('cardinality: ', this.loaderBitSet.cardinality());
-
+    console.log(this.loaderBitSet.toString(2));
+    console.log('cardinality: ', this.loaderBitSet.cardinality());
     this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
-    // console.log(this.loaderPercentage, '%');
+    console.log(this.loaderPercentage, '%');
+  }
+
+  handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
+    console.log('triggered! ', formControlName);
+    if (this.newProviderForm.controls[group].get(formControlName).valid) {
+      this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 1);
+    } else if (this.newProviderForm.controls[group].get(formControlName).invalid) {
+      this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 0);
+    }
+
+    console.log(this.loaderBitSet.toString(2));
+    console.log('cardinality: ', this.loaderBitSet.cardinality());
+    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
+    console.log(this.loaderPercentage, '%');
   }
 
   decreaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {

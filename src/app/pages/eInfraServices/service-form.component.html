@@ -378,7 +378,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{scientificSubDomainDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="{{'scientificSubDomain ' + i}}" formControlName="scientificSubDomain" class="uk-input uk-select"
-                                              (change)="handleBitSets(2, 7, 'scientificSubDomain', 'scientificCategorization'); unsavedChangesPrompt()"
+                                              (change)="handleBitSetsOfGroups(2, 7, 'scientificSubDomain', 'scientificCategorization'); unsavedChangesPrompt()"
                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificCategorization', i, 'scientificSubDomain')}">
                                         <ng-container *ngIf="scientificDomainArray.controls[i].get('scientificDomain').value">
                                           <option value="">--Choose Scientific Subdomain--</option>
@@ -450,7 +450,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{subcategoryDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="{{'subcategory ' + i}}" formControlName="subcategory" class="uk-input uk-select"
-                                              (change)="handleBitSets(2, 9, 'subcategory', 'categorize'); unsavedChangesPrompt()"
+                                              (change)="handleBitSetsOfGroups(2, 9, 'subcategory', 'categorize'); unsavedChangesPrompt()"
                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorize', i, 'subcategory')}">
                                         <ng-container *ngIf="categoryArray.controls[i].get('category').value">
                                           <option value="">--Choose subcategory--</option>
@@ -703,7 +703,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactFirstNameDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactFirstName" class="uk-input" type="text" formControlName="firstName"
-                                           (keyup)="handleBitSets(5, 13, 'firstName', 'mainContact'); unsavedChangesPrompt()"
+                                           (keyup)="handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.firstName')}">
                                     <!--<i><small>{{ mainContactFirstNameDesc.desc }}</small></i>-->
                                   </div>
@@ -715,7 +715,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactLastNameDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactLastName" class="uk-input" type="text" formControlName="lastName"
-                                           (keyup)="handleBitSets(5, 14, 'lastName', 'mainContact'); unsavedChangesPrompt()"
+                                           (keyup)="handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.lastName')}">
                                     <!--<i><small>{{ mainContactLastNameDesc.desc }}</small></i>-->
                                   </div>
@@ -727,7 +727,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactEmailDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactEmail" class="uk-input" type="text" formControlName="email"
-                                           (keyup)="handleBitSets(5, 15, 'email', 'mainContact'); unsavedChangesPrompt()"
+                                           (keyup)="handleBitSetsOfGroups(5, 15, 'email', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.email')}">
                                     <!--<i><small>{{ mainContactEmailDesc.desc }}</small></i>-->
                                   </div>

@@ -858,52 +858,11 @@ export class ServiceFormComponent implements OnInit {
     this.hasChanges = true;
   }
 
-  handleBitSets(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
+  handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
     console.log('triggered! ', formControlName);
     if (bitIndex === 0) {
       this.serviceName = this.serviceForm.get(formControlName).value;
     }
-    if (group) {
-      if (group === 'scientificCategorization') {
-        for (const scientificDomain of this.scientificDomainArray.controls) {
-          if (scientificDomain.get('scientificSubDomain').value) {
-            this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-            this.loaderBitSet.set(bitIndex - 1, 1);
-            this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-            this.loaderBitSet.set(bitIndex, 1);
-          } else {
-            this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-            this.loaderBitSet.set(bitIndex - 1, 0);
-            this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-            this.loaderBitSet.set(bitIndex, 0);
-          }
-        }
-      } else if (group === 'categorize') {
-          for (const category in this.categoryArray.controls) {
-            // console.log(this.categoryArray.controls[category].get('subcategory').value);
-            if (this.categoryArray.controls[category].get('subcategory').value) {
-              this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-              this.loaderBitSet.set(bitIndex - 1, 1);
-              this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-              this.loaderBitSet.set(bitIndex, 1);
-            } else {
-              this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-              this.loaderBitSet.set(bitIndex - 1, 0);
-              this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-              this.loaderBitSet.set(bitIndex, 0);
-            }
-          }
-        } else {
-        if (this.serviceForm.controls[group].get(formControlName).valid) {
-          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-          this.loaderBitSet.set(bitIndex, 1);
-        } else if (this.serviceForm.controls[group].get(formControlName).invalid) {
-          this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-          this.loaderBitSet.set(bitIndex, 0);
-        }
-      }
-    } else {
-      console.log('else', this.serviceForm.get(formControlName).value);
       if (this.serviceForm.get(formControlName).valid) {
         this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
         this.loaderBitSet.set(bitIndex, 1);
@@ -911,11 +870,56 @@ export class ServiceFormComponent implements OnInit {
         this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
         this.loaderBitSet.set(bitIndex, 0);
       }
-    }
 
     console.log(this.loaderBitSet.toString(2));
     console.log('cardinality: ', this.loaderBitSet.cardinality());
 
+    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
+    console.log(this.loaderPercentage, '%');
+  }
+
+  handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group: string): void {
+    console.log('triggered! ', formControlName);
+    if (group === 'scientificCategorization') {
+      for (const scientificDomain of this.scientificDomainArray.controls) {
+        if (scientificDomain.get('scientificSubDomain').value) {
+          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+          this.loaderBitSet.set(bitIndex - 1, 1);
+          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+          this.loaderBitSet.set(bitIndex, 1);
+        } else {
+          this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+          this.loaderBitSet.set(bitIndex - 1, 0);
+          this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+          this.loaderBitSet.set(bitIndex, 0);
+        }
+      }
+    } else if (group === 'categorize') {
+      for (const category in this.categoryArray.controls) {
+        if (this.categoryArray.controls[category].get('subcategory').value) {
+          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+          this.loaderBitSet.set(bitIndex - 1, 1);
+          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+          this.loaderBitSet.set(bitIndex, 1);
+        } else {
+          this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+          this.loaderBitSet.set(bitIndex - 1, 0);
+          this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+          this.loaderBitSet.set(bitIndex, 0);
+        }
+      }
+    } else {
+      if (this.serviceForm.controls[group].get(formControlName).valid) {
+        this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+        this.loaderBitSet.set(bitIndex, 1);
+      } else if (this.serviceForm.controls[group].get(formControlName).invalid) {
+        this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+        this.loaderBitSet.set(bitIndex, 0);
+      }
+    }
+
+    console.log(this.loaderBitSet.toString(2));
+    console.log('cardinality: ', this.loaderBitSet.cardinality());
     this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
     console.log(this.loaderPercentage, '%');
   }
@@ -948,7 +952,6 @@ export class ServiceFormComponent implements OnInit {
         this.calcRemainingTabs(tabNum, 1);
       }
     } else if (tabNum === 5) { // Contact
-      // this.handleSmallGroupBitSets(bitIndex, 1);
       this.BitSetTab5.set(bitIndex, 1);
       const mainContactCardinality = this.BitSetTab5.slice(13, 15).cardinality();
       this.remainingOnTab5 = this.requiredOnTab5 - +(mainContactCardinality === 3) - this.BitSetTab5.get(16) - this.BitSetTab5.get(17);
