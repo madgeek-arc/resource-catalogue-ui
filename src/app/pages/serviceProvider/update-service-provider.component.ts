@@ -62,7 +62,6 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         this.getProvider();
       }
     }
-    this.initProviderBitSets();
   }
 
   registerProvider(tempSave: boolean) {
@@ -188,6 +187,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         if (this.disable) {
           this.newProviderForm.disable();
         }
+        this.initProviderBitSets();
       }
     );
   }
@@ -198,7 +198,6 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
   }
 
   initProviderBitSets() {
-    console.log('initialise BitSets');
     this.handleBitSets(0, 0, 'name');
     this.handleBitSets(0, 1, 'abbreviation');
     this.handleBitSets(0, 2, 'website');

@@ -48,12 +48,12 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
               this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
             }
+            this.initServiceBitSets();
           },
           err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error
         );
       });
     }
-    this.initServiceBitSets();
   }
 
   onSubmit(service: Service, tempSave: boolean) {
@@ -61,16 +61,13 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
   }
 
   initServiceBitSets() {
-    console.log('initialise Service BitSets');
     this.handleBitSets(0, 0, 'name');
     this.handleBitSets(0, 1, 'resourceOrganisation');
-    this.handleBitSets(0, 2, 'website');
+    this.handleBitSets(0, 2, 'webpage');
     this.handleBitSets(1, 3, 'description');
     this.handleBitSets(1, 4, 'tagline');
     this.handleBitSets(1, 5, 'logo');
-    // this.handleBitSets(2, 6, 'scientificDomain', 'scientificCategorization');
     this.handleBitSetsOfGroups(2, 7, 'scientificSubDomain', 'scientificCategorization');
-    // this.handleBitSets(2, 8, 'category', 'categorize');
     this.handleBitSetsOfGroups(2, 9, 'subcategory', 'categorize');
     this.handleBitSets(2, 10, 'targetUsers');
     this.handleBitSets(3, 11, 'geographicalAvailabilities');
