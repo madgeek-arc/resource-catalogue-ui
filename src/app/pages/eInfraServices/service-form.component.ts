@@ -376,6 +376,7 @@ export class ServiceFormComponent implements OnInit {
         this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'World']);
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
+        this.handleBitSets(0, 1, 'resourceOrganisation');
       }
     );
 
