@@ -187,7 +187,7 @@ export class ServiceProviderFormComponent implements OnInit {
     if (this.edit === false) {
       this.pushDomain();
       this.pushMerilDomain();
-      this.addDefaultUser();
+      this.addDefaultUser();  // Admin
       this.newProviderForm.get('legalEntity').setValue(false);
       this.removePublicContact(0);
     }
@@ -224,7 +224,7 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
 
-    this.setAdminBitSets();
+    this.handleBitSetsOfUsers(7, 14, 'email', 'users'); // Inits Admin's BitSets
   }
 
   registerProvider(tempSave: boolean) {
@@ -672,11 +672,9 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
-    console.log('triggered! ', formControlName);
     if (bitIndex === 0) {
       this.providerName = this.newProviderForm.get(formControlName).value;
     }
-    console.log('else', this.newProviderForm.get(formControlName).value);
     if (this.newProviderForm.get(formControlName).valid) {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 1);
@@ -684,15 +682,10 @@ export class ServiceProviderFormComponent implements OnInit {
       this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 0);
     }
-
-    console.log(this.loaderBitSet.toString(2));
-    console.log('cardinality: ', this.loaderBitSet.cardinality());
     this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
-    console.log(this.loaderPercentage, '%');
   }
 
   handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-    console.log('triggered! ', formControlName);
     if (this.newProviderForm.controls[group].get(formControlName).valid) {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 1);
@@ -700,11 +693,32 @@ export class ServiceProviderFormComponent implements OnInit {
       this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 0);
     }
-
-    console.log(this.loaderBitSet.toString(2));
-    console.log('cardinality: ', this.loaderBitSet.cardinality());
     this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
-    console.log(this.loaderPercentage, '%');
+  }
+
+  handleBitSetsOfUsers(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
+    if (this.newProviderForm.controls[group].value[0].name !== '') {
+      this.decreaseRemainingFieldsPerTab(tabNum, 12);
+      this.loaderBitSet.set(12, 1);
+    } else {
+      this.increaseRemainingFieldsPerTab(tabNum, 12);
+      this.loaderBitSet.set(12, 0);
+    }
+    if (this.newProviderForm.controls[group].value[0].surname !== '') {
+      this.decreaseRemainingFieldsPerTab(tabNum, 13);
+      this.loaderBitSet.set(13, 1);
+    } else {
+      this.increaseRemainingFieldsPerTab(tabNum, 13);
+      this.loaderBitSet.set(13, 0);
+    }
+    if (this.newProviderForm.controls[group].value[0].email !== '') {
+      this.decreaseRemainingFieldsPerTab(tabNum, 14);
+      this.loaderBitSet.set(14, 1);
+    } else {
+      this.increaseRemainingFieldsPerTab(tabNum, 14);
+      this.loaderBitSet.set(14, 0);
+    }
+    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
   }
 
   decreaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
@@ -741,7 +755,6 @@ export class ServiceProviderFormComponent implements OnInit {
         if (this.completedTabsBitSet.get(tabNum) !== 1) {
           this.calcCompletedTabs(tabNum, 1);
         }
-        this.calcCompletedTabs(7, 1);
       }
     }
   }
@@ -783,18 +796,6 @@ export class ServiceProviderFormComponent implements OnInit {
   calcCompletedTabs(tabNum: number, setValue: number) {
     this.completedTabsBitSet.set(tabNum, setValue);
     this.completedTabs = this.completedTabsBitSet.cardinality();
-  }
-
-  setAdminBitSets() {
-    this.BitSetTab7.set(12, 1); // Admin name
-    this.BitSetTab7.set(13, 1); // Admin surname
-    this.BitSetTab7.set(14, 1); // Admin email
-    this.loaderBitSet.set(12, 1); // Admin name
-    this.loaderBitSet.set(13, 1); // Admin surname
-    this.loaderBitSet.set(14, 1); // Admin email
-    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
-    this.completedTabsBitSet.set(7, 1);
-    this.calcCompletedTabs(7, 1);
   }
 
 }
