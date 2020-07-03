@@ -608,8 +608,9 @@
                                 <select id="geographicalAvailabilities" class="uk-input uk-select uk-animation-slide-top-small uk-width-9-10" [formControlName]="i"
                                         (change)="handleBitSets(3, 11, 'geographicalAvailabilities'); unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('geographicalAvailabilities', i)}">
-                                  <ng-container *ngIf="placesVocabulary">
-                                    <option *ngFor="let entry of placesVocabulary" value="{{entry.id}}">
+                                  <option value=""></option>
+                                  <ng-container *ngIf="geographicalVocabulary">
+                                    <option *ngFor="let entry of geographicalVocabulary" value="{{entry.id}}">
                                       {{entry.name}}
                                     </option>
                                   </ng-container>
@@ -670,8 +671,8 @@
                                         (change)="unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('resourceGeographicLocations', i)}">
                                   <option value=""></option>
-                                  <ng-container *ngIf="geographicalAvailabilityVocabulary">
-                                    <option *ngFor="let entry of sortVocabulariesByName(geographicalAvailabilityVocabulary)" value="{{entry.id}}">
+                                  <ng-container *ngIf="geographicalVocabulary">
+                                    <option *ngFor="let entry of sortVocabulariesByName(geographicalVocabulary)" value="{{entry.id}}">
                                       {{entry.name}}
                                     </option>
                                   </ng-container>

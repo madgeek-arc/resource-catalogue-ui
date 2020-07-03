@@ -69,8 +69,6 @@ export class ServiceFormComponent implements OnInit {
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
-  places: Vocabulary[] = null;
-
   readonly nameDesc: sd.Description = sd.nameDesc;
   readonly webpageDesc: sd.Description = sd.webpageDesc;
   readonly descriptionDesc: sd.Description = sd.descriptionDesc;
@@ -245,7 +243,7 @@ export class ServiceFormComponent implements OnInit {
   public scientificSubDomainVocabulary: Vocabulary[] = null;
   public placesVocabulary: Vocabulary[] = [];
   public placesVocIdArray: string[] = [];
-  public geographicalAvailabilityVocabulary: Vocabulary[] = null;
+  public geographicalVocabulary: Vocabulary[] = null;
   public languagesVocabulary: Vocabulary[] = null;
   public languagesVocIdArray: string[] = [];
 
@@ -365,9 +363,9 @@ export class ServiceFormComponent implements OnInit {
         this.scientificSubDomainVocabulary = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
         this.fundingBodyVocabulary = this.vocabularies[Type.FUNDING_BODY];
         this.fundingProgramVocabulary = this.vocabularies[Type.FUNDING_PROGRAM];
-        this.placesVocabulary = this.vocabularies[Type.COUNTRY];
+        // this.placesVocabulary = this.vocabularies[Type.COUNTRY];
+        this.geographicalVocabulary = this.vocabularies[Type.COUNTRY];
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
-        this.geographicalAvailabilityVocabulary = this.vocabularies[Type.COUNTRY];
         // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
         // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
       },
@@ -375,7 +373,7 @@ export class ServiceFormComponent implements OnInit {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
       },
       () => {
-        this.premiumSort.transform(this.placesVocabulary, ['Europe', 'World']);
+        this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'World']);
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
       }
@@ -400,7 +398,7 @@ export class ServiceFormComponent implements OnInit {
                 this.categoryArray.push(this.newCategory());
                 // } else if (i === 'options') {
                 //   this.pushOption();
-              } else if (i === 'providers' || i === 'targetUsers' || i === 'places' || i === 'languageAvailabilities') {
+              } else if (i === 'providers' || i === 'targetUsers' || i === 'geographicalAvailabilities' || i === 'languageAvailabilities') {
                 this.push(i, true);
               } else {
                 this.push(i, false);
@@ -495,9 +493,10 @@ export class ServiceFormComponent implements OnInit {
       || this.checkFormValidity('resourceOrganisation')
       || this.checkEveryArrayFieldValidity('resourceProviders')
       || this.checkFormValidity('webpage'));
-    this.tabs[1] = (this.checkFormValidity('logo')
-      || this.checkEveryArrayFieldValidity('multimedia')
+    this.tabs[1] = (this.checkFormValidity('description')
       || this.checkFormValidity('tagline')
+      || this.checkFormValidity('logo')
+      || this.checkEveryArrayFieldValidity('multimedia')
       || this.checkEveryArrayFieldValidity('useCases'));
     this.tabs[2] = (this.checkEveryArrayFieldValidity('scientificCategorization', 'scientificDomain')
       || this.checkEveryArrayFieldValidity('scientificCategorization', 'scientificSubDomain')
@@ -507,8 +506,8 @@ export class ServiceFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('accessTypes')
       || this.checkEveryArrayFieldValidity('accessModes')
       || this.checkEveryArrayFieldValidity('tags'));
-    this.tabs[3] = (this.checkEveryArrayFieldValidity('languageAvailabilities')
-      || this.checkEveryArrayFieldValidity('geographicalAvailabilities'));
+    this.tabs[3] = (this.checkEveryArrayFieldValidity('geographicalAvailabilities')
+      || this.checkEveryArrayFieldValidity('languageAvailabilities'));
     this.tabs[4] = (this.checkEveryArrayFieldValidity('resourceGeographicLocations'));
     this.tabs[5] = (this.checkFormValidity('mainContact.firstName')
       || this.checkFormValidity('mainContact.lastName')
@@ -524,14 +523,14 @@ export class ServiceFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('publicContacts', 'organisation')
       || this.checkFormValidity('helpdeskEmail')
       || this.checkFormValidity('securityContactEmail'));
-    this.tabs[6] = (this.checkFormValidity('lifeCycleStatus')
-      || this.checkFormValidity('trl')
-      || this.checkFormValidity('version')
-      || this.checkFormValidity('lastUpdate')
-      || this.checkEveryArrayFieldValidity('changeLog')
+    this.tabs[6] = (this.checkFormValidity('trl')
+      || this.checkFormValidity('lifeCycleStatus')
       || this.checkEveryArrayFieldValidity('certifications')
       || this.checkEveryArrayFieldValidity('standards')
-      || this.checkEveryArrayFieldValidity('openSourceTechnologies'));
+      || this.checkEveryArrayFieldValidity('openSourceTechnologies')
+      || this.checkFormValidity('version')
+      || this.checkFormValidity('lastUpdate')
+      || this.checkEveryArrayFieldValidity('changeLog'));
     this.tabs[7] = (this.checkEveryArrayFieldValidity('requiredResources')
       || this.checkEveryArrayFieldValidity('relatedResources')
       || this.checkEveryArrayFieldValidity('relatedPlatforms'));
