@@ -89,24 +89,45 @@ a:hover, a:focus, a:active {
    Pagination
  ========================================================================== */
 
+.resultsInfo {
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0;
+  opacity: 1;
+}
+
+.resultsInfo .number {
+  color: #004494;
+}
+
+ul.uk-pagination {
+  margin: 10px 0 10px 0;
+}
+
+.uk-pagination > li > a, .uk-pagination > li > span {
+  border: none;
+  padding: 4px 8px;
+  min-width: 32px;
+  line-height: 24px;
+  height: 32px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  text-shadow: none;
+  color: #212121;
+  border-radius: 4px;
+}
+
 .uk-pagination > li.uk-active > a, .uk-pagination > li.uk-active > span {
   background: #004494;
+  color: #fff;
 }
 
 .uk-pagination > li > a, .uk-pagination > li > span {
   border-radius: 15px;
 }
 
-.uk-pagination > li.uk-active > a {
-  color: #004494;
-}
-
 .uk-pagination > li {
   text-align: center;
-}
-
-.uk-pagination>li>a:hover {
-  color: #fff;
 }
 
 .uk-pagination>li>a.pagination_arrow:hover {
@@ -438,4 +459,12 @@ a.remove-element i {
 
 .filters .uk-select {
   height: 38px !important;
+}
+
+.filters .uk-button-link {
+  color: #000;
+}
+
+.filters .uk-button-link:hover {
+  text-decoration: none;
 }

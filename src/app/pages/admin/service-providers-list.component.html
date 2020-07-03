@@ -38,9 +38,9 @@
               <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
               <div class="uk-flex uk-flex-right">
-                <form class="uk-search uk-search-default">
+                <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
                   <span uk-search-icon></span>
-                  <input class="uk-search-input" type="search" placeholder="Locate provider...">
+                  <input class="uk-search-input" type="search" placeholder="Locate provider..." formControlName="query">
                 </form>
               </div>
 
@@ -88,7 +88,7 @@
 
                 <div class="uk-width-3-4">
 
-                  <form class="uk-form-horizontal uk-flex filters">
+                  <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters">
 
                     <div class="uk-margin-right">
                       <div class="">
@@ -120,8 +120,9 @@
                         <label class="" for="orderField">Sort by </label>
                         <div class="uk-inline">
                           <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
-                            <option value="REPOSITORY_NAME">Name</option>
-                            <option value="CREATION_DATE" selected>Date</option>
+                            <option value="name" selected>Name</option>
+                            <option value="registeredAt">Creation Date</option>
+                            <option value="modifiedAt">Modification Date</option>
                           </select>
                         </div>
                       </div>
@@ -149,16 +150,13 @@
                     <div class="uk-flex uk-flex-middle uk-flex-between">
 
                       <div class="resultsInfo">
-                        <span class="number">45</span> RESULTS, PAGE <span class="number">1</span> OF <span class="number">5</span>
+                        <span class="number">{{total}}</span> SERVICE PROVIDERS, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
                       </div>
 
                       <ul class="uk-pagination" uk-margin>
                         <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
                         <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
-                          <div *ngIf="i !== currentPage; else deactivate_link">
-                            <a (click)="goToPage(i)">{{i}}</a>
-                          </div>
-                          <ng-template #deactivate_link><span>{{i}}</span></ng-template>
+                          <a (click)="goToPage(i)">{{i}}</a>
                         </li>
                         <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
                       </ul>
@@ -167,18 +165,6 @@
 
 
                     <hr class="adminResultsHeader">
-
-
-                    <!--<ul class="uk-pagination uk-flex-center" uk-margin>-->
-                      <!--<li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>-->
-                      <!--<li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">-->
-                        <!--<div *ngIf="i !== currentPage; else deactivate_link">-->
-                          <!--<a (click)="goToPage(i)">{{i}}</a>-->
-                        <!--</div>-->
-                        <!--<ng-template #deactivate_link><span>{{i}}</span></ng-template>-->
-                      <!--</li>-->
-                      <!--<li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>-->
-                    <!--</ul>-->
 
                     <table class="uk-table uk-table-small uk-table-striped uk-table-middle">
                       <thead>
@@ -262,13 +248,10 @@
                       </tbody>
                     </table>
 
-                    <ul class="uk-pagination uk-flex-center" uk-margin>
+                    <ul class="uk-pagination uk-flex-right" uk-margin>
                       <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
                       <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
-                        <div *ngIf="i !== currentPage; else deactivate_link">
-                          <a (click)="goToPage(i)">{{i}}</a>
-                        </div>
-                        <ng-template #deactivate_link><span>{{i}}</span></ng-template>
+                        <a (click)="goToPage(i)">{{i}}</a>
                       </li>
                       <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
                     </ul>

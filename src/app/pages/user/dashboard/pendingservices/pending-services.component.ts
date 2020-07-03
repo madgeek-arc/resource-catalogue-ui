@@ -17,10 +17,6 @@ declare var UIkit: any;
 export class PendingServicesComponent implements OnInit {
 
   formPrepare = {
-    query: '',
-    orderField: 'name',
-    order: 'ASC',
-    quantity: '10',
     from: '0'
   };
 
@@ -34,9 +30,11 @@ export class PendingServicesComponent implements OnInit {
   selectedService: InfraService = null;
   path: string;
 
-  private pageTotal: number;
-  public pages = [];
-  private offset = 2;
+  total: number;
+  itemsPerPage = 10;
+  currentPage = 1;
+  pageTotal: number;
+  pages: number[] = [];
 
 
   constructor(
@@ -75,11 +73,12 @@ export class PendingServicesComponent implements OnInit {
               this.urlParams.push(urlParam);
             }
           }
+
           this.handleChange();
         },
         error => this.errorMessage = <any>error
       );
-    this.getPendingServices();
+    // this.getPendingServices();
   }
 
   navigate(id: string) {
@@ -98,9 +97,11 @@ export class PendingServicesComponent implements OnInit {
 
   getPendingServices() {
     this.providerService.getPendingServicesByProvider(this.providerId, this.dataForm.get('from').value,
-      this.dataForm.get('quantity').value, this.dataForm.get('order').value, this.dataForm.get('orderField').value)
+      this.itemsPerPage + '', 'ASC', 'name')
       .subscribe(res => {
           this.providerServices = res;
+          this.total = res['total'];
+          this.paginationInit();
         },
         err => {
           this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
@@ -143,58 +144,89 @@ export class PendingServicesComponent implements OnInit {
       }
     }
 
-    this.router.navigate([`/editPendingService/`, this.providerId], {queryParams: map});
+    if (this.path.includes('myServiceProviders')) {
+      this.router.navigate([`/myServiceProviders/pendingServices/` + this.providerId], {queryParams: map});
+    } else {
+      this.router.navigate([`/dashboard/` + this.providerId + `/pendingServices`], {queryParams: map});
+    }
+    this.getPendingServices();
+    // this.router.navigate([`/editPendingService/`, this.providerId], {queryParams: map});
   }
 
-  handleChangeAndResetPage() {
-    this.dataForm.get('page').setValue(0);
-    this.dataForm.get('from').setValue(0);
+  paginationInit() {
+    this.pages = [];
+    for (let i = 0; i < Math.ceil(this.total / this.itemsPerPage); i++) {
+      this.pages.push(i + 1);
+    }
+    this.currentPage = (this.dataForm.get('from').value / this.itemsPerPage) + 1;
+    this.pageTotal = Math.ceil(this.total / this.itemsPerPage);
+  }
+
+  goToPage(page: number) {
+    this.currentPage = page;
+    this.dataForm.get('from').setValue((this.currentPage - 1) * this.itemsPerPage);
     this.handleChange();
   }
 
-  getPages() { // FIXME
-    let addToEndCounter = 0;
-    let addToStartCounter = 0;
-    for ( let i = (+this.dataForm.get('page').value - this.offset); i < (+this.dataForm.get('page').value + 1 + this.offset); ++i ) {
-      if ( i < 0 ) { addToEndCounter++; }
-      if ( i >= this.pageTotal ) { addToStartCounter++; }
-      if ((i >= 0) && (i < this.pageTotal)) {
-        this.pages.push(i);
-      }
-    }
-    for ( let i = 0; i < addToEndCounter; ++i ) {
-      if (this.pages.length < this.pageTotal) {
-        this.pages.push(this.pages.length);
-      }
-    }
-    for ( let i = 0; i < addToStartCounter; ++i ) {
-      if (this.pages[0] > 0) {
-        this.pages.unshift(this.pages[0] - 1 );
-      }
-    }
-  }
-
-  selectPage(page) { // FIXME
-    this.dataForm.get('page').setValue(page);
-    this.dataForm.get('from').setValue(((+this.dataForm.get('page').value) * (+this.dataForm.get('quantity').value)));
-    this.handleChange();
-  }
-
-  previousPage() { // FIXME
-    if (this.dataForm.get('page').value > 0) {
-      this.dataForm.get('page').setValue(+this.dataForm.get('page').value - 1);
-      this.dataForm.get('from').setValue(+this.dataForm.get('from').value - +this.dataForm.get('quantity').value);
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.dataForm.get('from').setValue(+this.dataForm.get('from').value - +this.itemsPerPage);
       this.handleChange();
     }
   }
 
-  nextPage() { // FIXME
-    // this.pageTotal = Math.ceil(this.piwiks.total / (this.dataForm.get('quantity').value)) - 1;
-    if (this.dataForm.get('page').value < this.pageTotal) {
-      this.dataForm.get('page').setValue(+this.dataForm.get('page').value + 1);
-      this.dataForm.get('from').setValue(+this.dataForm.get('from').value + +this.dataForm.get('quantity').value);
+  nextPage() {
+    if (this.currentPage < this.pageTotal - 1) {
+      this.currentPage++;
+      this.dataForm.get('from').setValue(+this.dataForm.get('from').value + +this.itemsPerPage);
       this.handleChange();
     }
   }
+
+  // getPages() { // FIXME
+  //   let addToEndCounter = 0;
+  //   let addToStartCounter = 0;
+  //   for ( let i = (+this.dataForm.get('page').value - this.offset); i < (+this.dataForm.get('page').value + 1 + this.offset); ++i ) {
+  //     if ( i < 0 ) { addToEndCounter++; }
+  //     if ( i >= this.pageTotal ) { addToStartCounter++; }
+  //     if ((i >= 0) && (i < this.pageTotal)) {
+  //       this.pages.push(i);
+  //     }
+  //   }
+  //   for ( let i = 0; i < addToEndCounter; ++i ) {
+  //     if (this.pages.length < this.pageTotal) {
+  //       this.pages.push(this.pages.length);
+  //     }
+  //   }
+  //   for ( let i = 0; i < addToStartCounter; ++i ) {
+  //     if (this.pages[0] > 0) {
+  //       this.pages.unshift(this.pages[0] - 1 );
+  //     }
+  //   }
+  // }
+  //
+  // selectPage(page) { // FIXME
+  //   this.dataForm.get('page').setValue(page);
+  //   this.dataForm.get('from').setValue(((+this.dataForm.get('page').value) * (+this.dataForm.get('quantity').value)));
+  //   this.handleChange();
+  // }
+  //
+  // previousPage() { // FIXME
+  //   if (this.dataForm.get('page').value > 0) {
+  //     this.dataForm.get('page').setValue(+this.dataForm.get('page').value - 1);
+  //     this.dataForm.get('from').setValue(+this.dataForm.get('from').value - +this.dataForm.get('quantity').value);
+  //     this.handleChange();
+  //   }
+  // }
+  //
+  // nextPage() { // FIXME
+  //   // this.pageTotal = Math.ceil(this.piwiks.total / (this.dataForm.get('quantity').value)) - 1;
+  //   if (this.dataForm.get('page').value < this.pageTotal) {
+  //     this.dataForm.get('page').setValue(+this.dataForm.get('page').value + 1);
+  //     this.dataForm.get('from').setValue(+this.dataForm.get('from').value + +this.dataForm.get('quantity').value);
+  //     this.handleChange();
+  //   }
+  // }
 
 }
