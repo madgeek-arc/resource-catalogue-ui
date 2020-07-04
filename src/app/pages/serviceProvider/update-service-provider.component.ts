@@ -210,9 +210,9 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
     this.handleBitSetsOfGroups(4, 9, 'firstName', 'mainContact');
     this.handleBitSetsOfGroups(4, 10, 'lastName', 'mainContact');
     this.handleBitSetsOfGroups(4, 11, 'email', 'mainContact');
-    // this.handleBitSetsOfGroups(7, 12, 'name', 'users');
-    // this.handleBitSetsOfGroups(7, 13, 'surname', 'users');
-    // this.handleBitSetsOfGroups(7, 14, 'email', 'users');
+    this.handleBitSetsOfUsers(7, 12, 'name', 'users');
+    this.handleBitSetsOfUsers(7, 13, 'surname', 'users');
+    this.handleBitSetsOfUsers(7, 14, 'email', 'users');
   }
 
 }

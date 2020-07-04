@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ProviderBundle} from '../../domain/eic-model';
+import {zip} from 'rxjs';
 
 @Component({
   selector: 'app-my-service-providers',
@@ -14,7 +15,7 @@ export class MyServiceProvidersComponent implements OnInit {
   myProviders: ProviderBundle[];
   myPendingProviders: ProviderBundle[];
   pendingFirstServicePerProvider: any[] = [];
-  hasPendingServices: {id: string, flag: boolean}[] = [];
+  hasPendingServices: { id: string, flag: boolean }[] = [];
 
   myApprovedProviders: ProviderBundle[] = [];
   myPendingActionProviders: ProviderBundle[] = [];
@@ -33,99 +34,52 @@ export class MyServiceProvidersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getServiceProviders();
-    this.getPendingProviders();
-  }
-
-  getPendingProviders() {
-    this.serviceProviderService.getMyPendingProviders().subscribe(
-      res => {
-        this.myPendingProviders = res;
-        this.myIncompleteProviders = res;
-        // this.addProvidersListToShown(false, false, false, true);
-      }, err => {
-        console.log(err);
-        // this.errorMessage = 'An error occurred!';
-        if (err['status'] === 401) {
-          this.authenticationService.login();
-        }
-      }/*,
-      () => {
-        this.myPendingProviders.forEach(
-          p => {
-            if ((p.status === 'pending service template approval') || (p.status === 'rejected service template')) {
-              this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
-                res => {
-                  if (res && (res.length > 0)) {
-                    this.pendingFirstServicePerProvider.push({providerId: p.id, serviceId: res[0].id});
+    zip(
+      this.serviceProviderService.getMyServiceProviders(),
+      this.serviceProviderService.getMyPendingProviders())
+      .subscribe(
+        res => {
+          this.myProviders = res[0];
+          this.myPendingProviders = res[1];
+          this.myIncompleteProviders = res[1];
+        },
+        err => {
+          this.errorMessage = 'An error occurred!';
+          console.error(err);
+        },
+        () => {
+          this.myProviders.forEach(
+            p => {
+              if ((p.status === 'pending service template approval') || (p.status === 'rejected service template')) {
+                this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
+                  res => {
+                    if (res && (res.length > 0)) {
+                      this.pendingFirstServicePerProvider.push({providerId: p.id, serviceId: res[0].id});
+                    }
                   }
-                }
-              );
-            }
-            if (p.metadata !== null && p.metadata.source === 'Meril' && p.status === 'pending service template submission') {
-              console.log(p.id);
-              this.serviceProviderService.getPendingServicesByProvider(p.id).subscribe(
-                res => {
-                  if (res.results.length > 0) {
-                    this.hasPendingServices.push({id: p.id, flag: true});
-                  } else {
-                    this.hasPendingServices.push({id: p.id, flag: false});
+                );
+              }
+              if (p.status === 'pending service template submission') {
+                // console.log(p.id);
+                this.serviceProviderService.getPendingServicesByProvider(p.id, '0', '50', 'name', 'ASC').subscribe(
+                  res => {
+                    if (res.results.length > 0) {
+                      this.hasPendingServices.push({id: p.id, flag: true});
+                    } else {
+                      this.hasPendingServices.push({id: p.id, flag: false});
+                    }
+                    // console.log(this.hasPendingServices);
                   }
-                  console.log(this.hasPendingServices);
-                }
-              );
+                );
+              }
+              this.assignProviderToList(p);
             }
+          );
+          if (this.myProviders.length === 0) {
+            this.noProvidersMessage = 'You have not yet registered any service providers.';
           }
-        );
-      }*/
-    );
-  }
-
-  getServiceProviders() {
-    this.serviceProviderService.getMyServiceProviders().subscribe(
-      res => this.myProviders = res,
-      err => {
-        this.errorMessage = 'An error occurred!';
-        console.log(err);
-        if (err['status'] === 401) {
-          this.authenticationService.login();
         }
-      },
-      () => {
-        this.myProviders.forEach(
-          p => {
-            if ((p.status === 'pending service template approval') || (p.status === 'rejected service template')) {
-              this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
-                res => {
-                  if (res && (res.length > 0)) {
-                    this.pendingFirstServicePerProvider.push({providerId: p.id, serviceId: res[0].id});
-                  }
-                }
-              );
-            }
-            if (p.status === 'pending service template submission') {
-              // console.log(p.id);
-              this.serviceProviderService.getPendingServicesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
-                res => {
-                  if (res.results.length > 0) {
-                    this.hasPendingServices.push({id: p.id, flag: true});
-                  } else {
-                    this.hasPendingServices.push({id: p.id, flag: false});
-                  }
-                  // console.log(this.hasPendingServices);
-                }
-              );
-            }
-
-            this.assignProviderToList(p);
-            // this.addProvidersListToShown(true, true, true, false);
-          }
-        );
-        if (this.myProviders.length === 0) {
-          this.noProvidersMessage = 'You have not yet registered any service providers.';
-        }
-      }
-    );
+      );
   }
 
   hasCreatedFirstService(id: string) {
@@ -133,7 +87,7 @@ export class MyServiceProvidersComponent implements OnInit {
   }
 
   checkForPendingServices(id: string): boolean {
-    for (let i = 0; i < this.hasPendingServices.length ; i++) {
+    for (let i = 0; i < this.hasPendingServices.length; i++) {
       if (this.hasPendingServices[i].id === id) {
         return this.hasPendingServices[i].flag;
       }

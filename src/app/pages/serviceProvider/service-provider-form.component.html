@@ -105,7 +105,8 @@
                       <li>
                         <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[7]}" href="#">
                           <span>8. Admins *</span>
-                          <span class="circle-number"><i aria-hidden="true" class="fa fa-check"></i></span>
+                          <span class="circle-number" [ngClass]="{'fa': remainingOnTab7==0, 'fa-check': remainingOnTab7==0}">{{remainingOnTab7!=0 ? remainingOnTab7 : ''}}</span>
+                          <!--                          <span class="circle-number"><i aria-hidden="true" class="fa fa-check"></i></span>-->
                         </a>
                       </li>
                     </ul>
@@ -939,7 +940,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">First Name of the Provider's administrator.</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="name" class="uk-input" type="text" formControlName="name"
-                                             (keyup)="handleBitSetsOfGroups(7, 12, 'name', 'users'); unsavedChangesPrompt()"
+                                             (keyup)="handleBitSetsOfUsers(7, 12, 'name', 'users'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'name')}">
                                       <!--<i><small>{{ providerPublicContactFirstNameDesc.desc }}</small></i>-->
                                     </div>
@@ -951,7 +952,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">Last Name of the Provider's administrator.</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="surname" class="uk-input" type="text" formControlName="surname"
-                                             (keyup)="handleBitSetsOfGroups(7, 13, 'surname', 'users'); unsavedChangesPrompt()"
+                                             (keyup)="handleBitSetsOfUsers(7, 13, 'surname', 'users'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'surname')}">
                                       <!--<i><small>{{ providerPublicContactLastNameDesc.desc }}</small></i>-->
                                     </div>
@@ -963,7 +964,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">Email of the Provider's administrator.</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input class="uk-input" type="text" formControlName="email"
-                                             (keyup)="handleBitSetsOfGroups(7, 14, 'email', 'users'); unsavedChangesPrompt()"
+                                             (keyup)="handleBitSetsOfUsers(7, 14, 'email', 'users'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'email')}">
                                       <!--<i><small>{{ providerPublicContactEmailDesc.desc }}</small></i>-->
                                     </div>
