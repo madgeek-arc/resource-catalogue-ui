@@ -74,7 +74,8 @@ export class PendingServicesComponent implements OnInit {
             }
           }
 
-          this.handleChange();
+          // this.handleChange();
+          this.getPendingServices();
         },
         error => this.errorMessage = <any>error
       );
@@ -149,8 +150,7 @@ export class PendingServicesComponent implements OnInit {
     } else {
       this.router.navigate([`/dashboard/` + this.providerId + `/pendingServices`], {queryParams: map});
     }
-    this.getPendingServices();
-    // this.router.navigate([`/editPendingService/`, this.providerId], {queryParams: map});
+    // this.getPendingServices();
   }
 
   paginationInit() {

@@ -358,12 +358,20 @@ export class ResourceService {
     // return this.getAll("provider");
   }
 
-  getProviderBundles(from: string, quantity: string) {
+  getProviderBundles(from: string, quantity: string, orderField: string, order: string, query: string, status: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
-    params = params.append('orderField', 'creation_date');
-    params = params.append('order', 'desc');
+    params = params.append('orderField', orderField);
+    params = params.append('order', order);
+    if (query && query !== '') {
+      params = params.append('query', query);
+    }
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
+      }
+    }
     return this.http.get(this.base + `/provider/bundle/all`, {params});
     // return this.getAll("provider");
   }

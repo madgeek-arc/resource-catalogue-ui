@@ -49,6 +49,18 @@ a:hover, a:focus, a:active {
 }
 
 /* ========================================================================
+   Header
+ ========================================================================== */
+
+#header_main {
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1104;
+}
+
+/* ========================================================================
    Buttons
  ========================================================================== */
 
@@ -280,6 +292,81 @@ a.remove-element i {
 }
 
 /* ========================================================================
+   Dashboard sidebar
+ ========================================================================== */
+
+#sidebar_main {
+  width: 320px;
+  border-right: 1px solid rgba(0,0,0,.12);
+  position: fixed;
+  height: 100%;
+  /*top: 0;*/
+  top: 159px;
+  bottom: 0;
+  left: 0;
+  -webkit-transform: translate3d(-320px,0,0);
+  transform: translate3d(-320px,0,0);
+  z-index: 800;
+  background: #fff;
+  -webkit-transition: all 280ms cubic-bezier(.4,0,.2,1);
+  transition: all 280ms cubic-bezier(.4,0,.2,1);
+}
+
+#sidebar_main, #sidebar_main *, #sidebar_main ::after, #sidebar_main ::before, #sidebar_main::after, #sidebar_main::before {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.dashboard #sidebar_main {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar_main_active #sidebar_main {
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+}
+
+.dashboard #sidebar_main {
+  overflow: auto;
+  box-shadow: 1px 0px 6px #0000004D;
+}
+
+.dashboard #sidebar_main .menu_section {
+  overflow: visible;
+  margin-bottom: 15px;
+  padding-bottom: 20px;
+  flex: 0;
+}
+
+#sidebar_main .menu_section ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#sidebar_main .menu_section ul > li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.dashboard #sidebar_main .menu_section > ul li > a {
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #000000;
+  opacity: 0.7;
+}
+
+#sidebar_main .menu_section > ul > li > a .menu_title {
+  display: inline-block;
+}
+
+.sidebar_main_active #page_content {
+  margin-left: 320px;
+}
+
+/* ========================================================================
    Component: Service provider & Service form
  ========================================================================== */
 
@@ -448,6 +535,14 @@ a.remove-element i {
   padding: 10px 0px 10px 20px;
 }
 
+.service-card .providerName {
+  word-wrap:break-word;
+}
+
+.service-card .action-buttons button {
+  width: 100%;
+}
+
 .service-card h4 {
   color: #333432;
   font-weight: 500;
@@ -468,3 +563,33 @@ a.remove-element i {
 .filters .uk-button-link:hover {
   text-decoration: none;
 }
+
+.provider-card .action-buttons {
+  border-left: 1px solid #ccc;
+  /*padding: 10px 0px 10px 20px;*/
+  padding-left: 20px;
+  height: 100%;
+}
+
+.provider-card .providerName {
+  word-wrap:break-word;
+}
+
+.provider-card .action-buttons button {
+  width: 100%;
+}
+
+.provider-card .uk-button-link {
+  color: #000;
+  border-radius: 0px;
+}
+
+.provider-card .uk-button-link:hover {
+  text-decoration: none;
+}
+
+/*.service-card h4 {*/
+  /*color: #333432;*/
+  /*font-weight: 500;*/
+/*}*/
+

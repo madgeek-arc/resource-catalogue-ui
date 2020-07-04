@@ -7,7 +7,7 @@ import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 
 declare var UIkit: any;
@@ -24,7 +24,8 @@ export class ServiceProvidersListComponent implements OnInit {
     orderField: 'name',
     order: 'ASC',
     quantity: '10',
-    from: '0'
+    from: '0',
+    status: new FormArray([]),
   };
 
   dataForm: FormGroup;
@@ -50,6 +51,11 @@ export class ServiceProvidersListComponent implements OnInit {
   pendingFirstServicePerProvider: any[] = [];
   adminActionsMap = statusChangeMap;
 
+  public statuses: Array<string> = [
+    'approved', 'pending initial approval', 'pending service template submission',
+    'pending service template approval', 'rejected service template', 'rejected'
+  ];
+
   constructor(private resourceService: ResourceService,
               private serviceProviderService: ServiceProviderService,
               private authenticationService: AuthenticationService,
@@ -64,12 +70,42 @@ export class ServiceProvidersListComponent implements OnInit {
       this.router.navigateByUrl('/home');
     } else {
       this.dataForm = this.fb.group(this.formPrepare);
+
       this.urlParams = [];
       this.route.queryParams
         .subscribe(params => {
+
+            let foundStatus = false;
             for (const i in params) {
-              this.dataForm.get(i).setValue(params[i]);
+              if (i === 'status') {
+
+                if (this.dataForm.get('status').value.length === 0) {
+                  const formArrayNew: FormArray = this.dataForm.get('status') as FormArray;
+                  // formArrayNew = this.fb.array([]);
+
+                  for (const status of params[i].split(',')) {
+                    if (status !== '') {
+                      formArrayNew.push(new FormControl(status));
+                    }
+                  }
+                }
+
+                foundStatus = true;
+              } else {
+                this.dataForm.get(i).setValue(params[i]);
+              }
             }
+
+            // if no status in URL, check all statuses by default
+            if (!foundStatus) {
+              const formArray: FormArray = this.dataForm.get('status') as FormArray;
+              // formArray = this.fb.array([]);
+
+              this.statuses.forEach(status => {
+                formArray.push(new FormControl(status));
+              });
+            }
+
             for (const i in this.dataForm.controls) {
               if (this.dataForm.get(i).value) {
                 const urlParam = new URLParameter();
@@ -79,42 +115,89 @@ export class ServiceProvidersListComponent implements OnInit {
               }
             }
 
-            // console.log('init URL params: ', this.urlParams);
-
-            this.handleChange();
+            this.getProviders();
+            // this.handleChange();
           },
           error => this.errorMessage = <any>error
         );
-      // this.getProviders(this.from, this.itemsPerPage);
     }
+  }
+
+  onStatusSelectionChange(event: any) {
+
+    const formArray: FormArray = this.dataForm.get('status') as FormArray;
+
+    if (event.target.checked) {
+      // Add a new control in the arrayForm
+      console.log('Add a new control in the arrayForm');
+      formArray.push(new FormControl(event.target.value));
+    } else {
+      // find the unselected element
+      let i = 0;
+
+      formArray.controls.forEach((ctrl: FormControl) => {
+        if (ctrl.value === event.target.value) {
+          console.log('Remove the unselected element from the arrayForm');
+          // Remove the unselected element from the arrayForm
+          formArray.removeAt(i);
+          return;
+        }
+
+        i++;
+      });
+    }
+
+    this.handleChangeAndResetPage();
+  }
+
+  isStatusChecked(value: string) {
+    return this.dataForm.get('status').value.includes(value);
   }
 
   handleChange() {
     this.urlParams = [];
-    const map: { [name: string]: string; } = {};
+    // const map: { [name: string]: string; } = {};
     for (const i in this.dataForm.controls) {
-      if (this.dataForm.get(i).value !== '') {
+      // console.log('this.dataForm.get(i).value: ', this.dataForm.get(i).value);
+      // if ((this.dataForm.get(i).value !== '') && (this.dataForm.get(i).value.length > 0)) {
+      if ((this.dataForm.get(i).value !== '')) {
         const urlParam = new URLParameter();
         urlParam.key = i;
         urlParam.values = [this.dataForm.get(i).value];
         this.urlParams.push(urlParam);
-        map[i] = this.dataForm.get(i).value;
+        // map[i] = this.dataForm.get(i).value;
       }
     }
 
+    const map: { [name: string]: string; } = { };
+    for (const urlParameter of this.urlParams) {
+      let concatValue = '';
+      let counter = 0;
+      for (const value of urlParameter.values) {
+        if (counter !== 0) {
+          concatValue += ',';
+        }
+        concatValue += value;
+        counter++;
+      }
+
+      map[urlParameter.key] = concatValue;
+    }
+
     this.router.navigate([`/serviceProvidersList`], {queryParams: map});
-    this.getProviders();
+    // this.getProviders();
   }
 
   handleChangeAndResetPage() {
-    // this.dataForm.get('page').setValue(0);
     this.dataForm.get('from').setValue(0);
     this.handleChange();
   }
 
   getProviders() {
     this.providers = [];
-    this.resourceService.getProviderBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value).subscribe(
+    this.resourceService.getProviderBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
+      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
+      this.dataForm.get('status').value).subscribe(
       res => {
         this.providers = res['results'];
         this.total = res['total'];
@@ -200,7 +283,6 @@ export class ServiceProvidersListComponent implements OnInit {
           // console.log(res);
           UIkit.modal('#actionModal').hide();
           this.getProviders();
-          // this.getProviders(this.from, this.itemsPerPage);
         },
         err => {
           UIkit.modal('#actionModal').hide();
@@ -231,14 +313,11 @@ export class ServiceProvidersListComponent implements OnInit {
       this.pages.push(i + 1);
     }
     this.currentPage = (this.dataForm.get('from').value / (this.dataForm.get('quantity').value)) + 1;
-    // this.pageTotal = Math.ceil(this.total / (this.dataForm.get('quantity').value)) - 1;
     this.pageTotal = Math.ceil(this.total / (this.dataForm.get('quantity').value));
   }
 
   goToPage(page: number) {
     this.currentPage = page;
-    // this.dataForm.get('page').setValue(page);
-    // this.dataForm.get('from').setValue(((+this.dataForm.get('page').value) * (+this.dataForm.get('quantity').value)));
     this.dataForm.get('from').setValue((this.currentPage - 1) * (+this.dataForm.get('quantity').value));
     this.handleChange();
   }
@@ -246,7 +325,6 @@ export class ServiceProvidersListComponent implements OnInit {
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      // this.from = (this.currentPage - 1) * this.itemsPerPage;
       this.dataForm.get('from').setValue(+this.dataForm.get('from').value - +this.dataForm.get('quantity').value);
       this.handleChange();
     }
@@ -259,31 +337,6 @@ export class ServiceProvidersListComponent implements OnInit {
       this.handleChange();
     }
   }
-
-  // previousPage() {
-  //   if (this.currentPage > 1) {
-  //     this.currentPage--;
-  //     // this.from = (this.currentPage - 1) * this.itemsPerPage;
-  //     // this.getProviders(this.from, this.itemsPerPage);
-  //     this.getProviders();
-  //   }
-  // }
-  //
-  // nextPage() {
-  //   if (this.currentPage < Math.ceil(this.total / this.itemsPerPage)) {
-  //     this.currentPage++;
-  //     // this.from = (this.currentPage - 1) * this.itemsPerPage;
-  //     // this.getProviders(this.from, this.itemsPerPage);
-  //     this.getProviders();
-  //   }
-  // }
-  //
-  // goToPage(pageNum: number) {
-  //   this.currentPage = pageNum;
-  //   // this.from = (this.currentPage - 1) * this.itemsPerPage;
-  //   // this.getProviders(this.from, this.itemsPerPage);
-  //   this.getProviders();
-  // }
 
   DownloadProvidersCSV() {
     window.open(this.url + '/exportToCSV/providers', '_blank');
