@@ -323,7 +323,7 @@ a.remove-element i {
   -webkit-transform: translate3d(-320px,0,0);
   transform: translate3d(-320px,0,0);
   z-index: 800;
-  background: #fff;
+  background: #F0F5F5;
   -webkit-transition: all 280ms cubic-bezier(.4,0,.2,1);
   transition: all 280ms cubic-bezier(.4,0,.2,1);
 }
@@ -355,6 +355,17 @@ a.remove-element i {
   flex: 0;
 }
 
+.dashboard #sidebar_main .menu_section .sidebar_heading {
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0px;
+  color: #4D4D4D;
+  text-transform: uppercase;
+  opacity: 1;
+  padding: 8px 25px;
+  /*margin-top: 20px;*/
+}
+
 #sidebar_main .menu_section ul {
   margin: 0;
   padding: 0;
@@ -367,11 +378,37 @@ a.remove-element i {
   list-style: none;
 }
 
+#sidebar_main .menu_section > ul > li.current_section {
+  background-color: #004494;
+}
+
+#sidebar_main .menu_section > ul > li > a {
+  font-weight: 500;
+  font-size: 14px;
+  color: #212121;
+  padding: 8px 25px;
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+
+#sidebar_main .menu_section > ul > li.current_section a {
+  color: #fff !important;
+  font-weight: bold !important;
+}
+
+.dashboard #sidebar_main .menu_section > ul > li:not([class*="md-bg-"]) > a:hover {
+  background-color: #004494;
+  opacity: 0.4;
+  color: #fff;
+  text-decoration: none;
+}
+
 .dashboard #sidebar_main .menu_section > ul li > a {
   font-weight: 400;
   letter-spacing: 0;
-  color: #000000;
-  opacity: 0.7;
+  color: #333432CC;
+  opacity: 1;
 }
 
 #sidebar_main .menu_section > ul > li > a .menu_title {
@@ -548,7 +585,9 @@ a.remove-element i {
 
 .service-card .action-buttons {
   border-left: 1px solid #ccc;
-  padding: 10px 0px 10px 20px;
+  /*padding: 10px 0px 10px 20px;*/
+  padding-left: 20px;
+  height: 100%;
 }
 
 .service-card .providerName {

@@ -6,6 +6,7 @@ import {ServiceDashboardComponent} from './dashboard/service-dashboard.component
 import {MessagesComponent} from './dashboard/messages/messages.component';
 import {ProviderStatsComponent} from './dashboard/providerStats/provider-stats.component';
 import {ServicesComponent} from './dashboard/services/services.component';
+import {PendingServicesComponent} from './dashboard/pendingservices/pending-services.component';
 
 const userRoutes: Routes = [
   // {
@@ -24,7 +25,8 @@ const userRoutes: Routes = [
       {path: '', redirectTo: 'stats', pathMatch: 'full'},
       {path: 'stats', component: ProviderStatsComponent},
       {path: 'activeServices', component: ServicesComponent},
-      {path: 'pendingServices', component: ServicesComponent},
+      // {path: 'pendingServices', component: ServicesComponent},
+      {path: 'pendingServices', component: PendingServicesComponent},
       {path: 'messages', component: MessagesComponent}
     ]
   },

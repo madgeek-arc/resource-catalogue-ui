@@ -53,9 +53,9 @@ export class PendingServicesComponent implements OnInit {
     } else {
       this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     }
-    console.log('this.path: ', this.path);
+    // console.log('this.path: ', this.path);
     // this.providerId = this.route.parent.snapshot.paramMap.get('provider');
-    console.log('this.providerId: ', this.providerId);
+    // console.log('this.providerId: ', this.providerId);
     this.getProvider();
 
     this.dataForm = this.fb.group(this.formPrepare);

@@ -1,8 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-import {AuthenticationService} from './services/authentication.service';
-import {NavigationService} from './services/navigation.service';
-
 
 @Component({
   selector: 'app-root',
@@ -25,11 +22,17 @@ export class AppComponent implements OnInit {
 
       // this.isLoginOrRegister = ["/signUp", "/signIn"].indexOf(evt.url) >= 0;
     });
+
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;
       }
       window.scrollTo(0, 0);
     });
+  }
+
+  isDashboardRoute() {
+    // console.log('Is home route? Route is: ' + this.router.url);
+    return (this.router.url.includes('dashboard'));
   }
 }
