@@ -14,10 +14,10 @@ export class AppComponent implements OnInit {
 
   breadcrumbs: string[] = [];
 
-  constructor(public router: NavigationService) {}
+  constructor(public router: Router) {}
 
   ngOnInit() {
-    this.router.router.events.subscribe((evt: any) => {
+    this.router.events.subscribe((evt: any) => {
       if (evt.url) {
         this.breadcrumbs = evt.url.split(/\//);
       }
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
 
       // this.isLoginOrRegister = ["/signUp", "/signIn"].indexOf(evt.url) >= 0;
     });
-    this.router.router.events.subscribe((evt) => {
+    this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;
       }
