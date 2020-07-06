@@ -794,7 +794,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactFirstNameDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="firstName" class="uk-input" type="text" formControlName="firstName"
-                                             (keyup)="unsavedChangesPrompt()"
+                                             (keyup)="handlePublicContactBitSet(0, 'firstName'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'firstName')}">
                                       <!--<i><small>{{ publicContactFirstNameDesc.desc }}</small></i>-->
                                     </div>
@@ -806,7 +806,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactLastNameDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="lastName" class="uk-input" type="text" formControlName="lastName"
-                                             (keyup)="unsavedChangesPrompt()"
+                                             (keyup)="handlePublicContactBitSet(1, 'lastName'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'lastName')}">
                                       <!--<i><small>{{ publicContactLastNameDesc.desc }}</small></i>-->
                                     </div>
@@ -818,7 +818,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactEmailDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="email" class="uk-input" type="text" formControlName="email"
-                                             (keyup)="unsavedChangesPrompt()"
+                                             (keyup)="handlePublicContactBitSet(2, 'email'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'email')}">
                                       <!--<i><small>{{ publicContactEmailDesc.desc }}</small></i>-->
                                     </div>
@@ -830,7 +830,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPhoneDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="phone" class="uk-input" type="text" formControlName="phone"
-                                             (keyup)="unsavedChangesPrompt()"
+                                             (keyup)="handlePublicContactBitSet(3, 'phone'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'phone')}">
                                       <!--<i><small>{{ publicContactPhoneDesc.desc }}</small></i>-->
                                     </div>
@@ -842,7 +842,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPositionDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="position" class="uk-input" type="text" formControlName="position"
-                                             (keyup)="unsavedChangesPrompt()"
+                                             (keyup)="handlePublicContactBitSet(4, 'position'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'position')}">
                                       <!--<i><small>{{ publicContactPositionDesc.desc }}</small></i>-->
                                     </div>
@@ -854,7 +854,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactOrganisationDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="organisation" formControlName="organisation" class="uk-input uk-select"
-                                              (change)="unsavedChangesPrompt()"
+                                              (change)="handlePublicContactBitSet(5, 'organisation'); unsavedChangesPrompt()"
                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'organisation')}">
                                         <ng-container *ngIf="providersPage">
                                           <option *ngFor="let provider of providersPage.results"

@@ -69,6 +69,8 @@ export class ServiceFormComponent implements OnInit {
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
+  publicContactBitSet = new BitSet;
+
   readonly nameDesc: sd.Description = sd.nameDesc;
   readonly webpageDesc: sd.Description = sd.webpageDesc;
   readonly descriptionDesc: sd.Description = sd.descriptionDesc;
@@ -378,14 +380,14 @@ export class ServiceFormComponent implements OnInit {
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
         this.handleBitSets(0, 1, 'resourceOrganisation');
+        if (this.publicContactBitSet.cardinality() === 0) {
+          this.removePublicContact(0);
+        }
       }
     );
 
     this.pushCategory();
     this.pushScientificDomain();
-    if (!this.editMode) {
-      this.removePublicContact(0);
-    }
 
     if (sessionStorage.getItem('service')) {
       const data = JSON.parse(sessionStorage.getItem('service'));
@@ -853,7 +855,6 @@ export class ServiceFormComponent implements OnInit {
   }
 
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
-    console.log('triggered! ', formControlName);
     if (bitIndex === 0) {
       this.serviceName = this.serviceForm.get(formControlName).value;
     }
@@ -864,16 +865,10 @@ export class ServiceFormComponent implements OnInit {
         this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
         this.loaderBitSet.set(bitIndex, 0);
       }
-
-    console.log(this.loaderBitSet.toString(2));
-    console.log('cardinality: ', this.loaderBitSet.cardinality());
-
     this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
-    console.log(this.loaderPercentage, '%');
   }
 
   handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group: string): void {
-    console.log('triggered! ', formControlName);
     if (group === 'scientificCategorization') {
       for (const scientificDomain of this.scientificDomainArray.controls) {
         if (scientificDomain.get('scientificSubDomain').value) {
@@ -911,11 +906,15 @@ export class ServiceFormComponent implements OnInit {
         this.loaderBitSet.set(bitIndex, 0);
       }
     }
-
-    console.log(this.loaderBitSet.toString(2));
-    console.log('cardinality: ', this.loaderBitSet.cardinality());
     this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
-    console.log(this.loaderPercentage, '%');
+  }
+
+  handlePublicContactBitSet (bitIndex: number, formControlName: string) {
+    if (this.publicContactArray.value[0][formControlName] !== '') {
+      this.publicContactBitSet.set(bitIndex, 1);
+    } else if (this.publicContactArray.value[0][formControlName] === '') {
+      this.publicContactBitSet.set(bitIndex, 0);
+    }
   }
 
   decreaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
@@ -934,8 +933,6 @@ export class ServiceFormComponent implements OnInit {
     } else if (tabNum === 2) {  // Classification
       this.BitSetTab2.set(bitIndex, 1);
       this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.get(7) - this.BitSetTab2.get(9) - this.BitSetTab2.get(10);
-      // this.handleSmallGroupBitSets(bitIndex, 1);
-      // this.remainingOnTab2 = this.requiredOnTab2 - this.scientificRemaining - this.categoryRemaining - this.BitSetTab2.get(10);
       if (this.remainingOnTab2 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
         this.calcCompletedTabs(tabNum, 1);
       }
