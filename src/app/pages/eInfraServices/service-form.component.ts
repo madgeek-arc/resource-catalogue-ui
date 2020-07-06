@@ -209,12 +209,12 @@ export class ServiceFormComponent implements OnInit {
       })
     ]),
 
-    aggregatedServices: [''],
-    datasets: [''],
-    applications: [''],
-    software: [''],
-    publications: [''],
-    otherProducts: [''],
+    // aggregatedServices: [''],
+    // datasets: [''],
+    // applications: [''],
+    // software: [''],
+    // publications: [''],
+    // otherProducts: [''],
 
     categorize: this.fb.array([], Validators.required),
     scientificCategorization: this.fb.array([], Validators.required)
