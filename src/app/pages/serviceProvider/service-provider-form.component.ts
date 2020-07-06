@@ -228,6 +228,10 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
 
+    if (!this.edit && this._hasUserConsent) {
+      UIkit.modal('#modal-consent').show();
+    }
+
     this.handleBitSetsOfUsers(7, 14, 'email', 'users'); // Inits Admin's BitSets
   }
 

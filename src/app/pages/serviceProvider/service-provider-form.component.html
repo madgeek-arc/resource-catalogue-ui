@@ -1062,11 +1062,44 @@
   </div>
 </div>
 
-<div id="logoUrlModal" uk-modal>
-  <div class="uk-modal-dialog uk-modal-body">
-    <label for="newLogo" class="uk-form-label">new logo url</label>
-    <input type="text" #newLogo id="newLogo" class="uk-input uk-margin-bottom" value="{{logoUrl}}">
-    <button class="uk-button uk-button-primary" type="button" (click)="addLogoUrl(newLogo.value)">Add</button>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+<!--<div id="logoUrlModal" uk-modal>-->
+  <!--<div class="uk-modal-dialog uk-modal-body">-->
+    <!--<label for="newLogo" class="uk-form-label">new logo url</label>-->
+    <!--<input type="text" #newLogo id="newLogo" class="uk-input uk-margin-bottom" value="{{logoUrl}}">-->
+    <!--<button class="uk-button uk-button-primary" type="button" (click)="addLogoUrl(newLogo.value)">Add</button>-->
+    <!--<button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>-->
+  <!--</div>-->
+<!--</div>-->
+
+<div id="modal-consent" class="uk-flex-top" uk-modal="bg-close: false; esc-close: false;">
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+
+    <div class="uk-margin-medium-bottom">In order to be able to register a service provider to EOSC you need to agree to the following: </div>
+
+    <div class="uk-margin-medium-bottom">
+      <div class="uk-form-controls uk-margin-bottom">
+        <label>
+          <input class="uk-checkbox" type="checkbox" id="codeOfConduct" formControlName="codeOfConduct" value="true">
+          <span class="uk-margin-small-left">I agree with the <a>EOSC Code of Conduct</a></span>
+        </label>
+      </div>
+      <div class="uk-form-controls uk-margin-bottom">
+        <label>
+          <input class="uk-checkbox" type="checkbox" id="privacyPolicy" formControlName="privacyPolicy" value="true">
+          <span class="uk-margin-small-left">I agree to the <a>Privacy Policy</a></span>
+        </label>
+      </div>
+      <div class="uk-form-controls uk-margin-bottom">
+        <label>
+          <input class="uk-checkbox" type="checkbox" id="authorizedRepresentative" formControlName="authorizedRepresentative" value="true">
+          <span class="uk-margin-small-left">I assert that I am an authorized representative of this Service Provider</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+      <button class="uk-button uk-button-primary uk-modal-close" type="button">Apply</button>
+    </div>
   </div>
 </div>

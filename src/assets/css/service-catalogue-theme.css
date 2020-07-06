@@ -57,7 +57,7 @@ a:hover, a:focus, a:active {
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 1104;
+  z-index: 1000;
 }
 
 /* ========================================================================
@@ -75,9 +75,17 @@ a:hover, a:focus, a:active {
   border: 1px solid #fff;
 }
 
+.uk-button-primary:hover {
+  background-color: #1E95B0;
+}
+
 .uk-button-secondary {
   background-color: #26C0E2;
   color: #fff;
+}
+
+.uk-button-secondary:hover {
+  background-color: #1E95B0;
 }
 
 .uk-button-default {
@@ -145,6 +153,14 @@ ul.uk-pagination {
 .uk-pagination>li>a.pagination_arrow:hover {
   color: #004494;
   background: none;
+}
+
+/* ========================================================================
+   Modals
+ ========================================================================== */
+
+#modal-consent .uk-modal-body {
+  padding: 70px;
 }
 
 /* ========================================================================
