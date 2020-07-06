@@ -285,6 +285,7 @@ export class ServiceFormComponent implements OnInit {
     this.scientificDomainArray.disable();
     this.showLoader = true;
     console.log('this.serviceForm.valid ', this.serviceForm.valid);
+    console.log('Submitted service --> ', service);
     if (tempSave) {
       // todo add fix hear
       this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
