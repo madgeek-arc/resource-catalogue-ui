@@ -8,6 +8,7 @@ import {URLValidator} from '../../shared/validators/generic.validator';
 import {Vocabulary, Type, Provider} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import BitSet from 'bitset/bitset';
+import {environment} from '../../../environments/environment';
 
 declare var UIkit: any;
 
@@ -17,6 +18,9 @@ declare var UIkit: any;
   styleUrls: ['./service-provider-form.component.css']
 })
 export class ServiceProviderFormComponent implements OnInit {
+
+  private _hasUserConsent = environment.hasUserConsent;
+
   providerName = '';
   errorMessage = '';
   userInfo = {family_name: '', given_name: '', email: ''};

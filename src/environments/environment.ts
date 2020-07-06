@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   projectName: '{Project Name Goes Here}',
   FAQ_ENDPOINT: 'https://dl105.madgik.di.uoa.gr/faq/api',
-  API_ENDPOINT: '/eic-registry' // to change the end point go to proxy.conf.json file
+  API_ENDPOINT: '/eic-registry', // to change the end point go to proxy.conf.json file
+  hasUserConsent: false
 };
 
 /*
