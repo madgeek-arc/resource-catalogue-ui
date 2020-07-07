@@ -78,24 +78,6 @@ export class ServicesComponent implements OnInit {
       );
   }
 
-  // groupServicesOfProviderPerPlace(services: InfraService[]) {
-  //   const ret = {};
-  //   if (this.providerServices && this.providerServices.results.length > 0) {
-  //     for (const service of services) {
-  //       if (service.service.geographicalAvailabilities && service.service.geographicalAvailabilities.length > 0) {
-  //         for (const place of service.service.geographicalAvailabilities) {
-  //           if (ret[place]) {
-  //             ret[place].push(this.providerServices);
-  //           } else {
-  //             ret[place] = [];
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return ret;
-  // }
-
   navigate(id: string) {
     this.router.navigate([`/dashboard/${this.providerId}`, id]);
   }
@@ -129,17 +111,10 @@ export class ServicesComponent implements OnInit {
 
   getServices() {
     this.providerService.getServicesOfProvider(this.providerId, '0', '50', 'ASC', 'name')
-      // this.providerService.getPendingServicesBundleByProvider(this.providerId)
       .subscribe(res => {
           this.providerServices = res;
           this.total = res['total'];
           this.paginationInit();
-          // this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices.results);
-          // if (this.providerServicesGroupedByPlace) {
-          //   this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
-          //
-          //   // this.setCountriesForProvider(this.providerCoverage);
-          // }
         },
         err => {
           this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;

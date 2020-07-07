@@ -17,6 +17,7 @@
             <!--<button class="uk-button uk-button-primary">Discard</button>-->
             <button *ngIf="!disable && (!edit || pendingProvider)" class="uk-button uk-button-primary uk-margin-left" (click)="this.registerProvider(true)">Save as draft</button>
             <button *ngIf="!disable && loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left" type="submit" (click)="registerProvider(false)">Submit</button>
+            <button *ngIf="disable" class="uk-button uk-button-secondary uk-margin-left" (click)="toggleDisable()">Edit</button>
           </div>
         </div>
 
@@ -125,7 +126,7 @@
                         </a>
                       </li>
                     </ul>
-                    <div class="stepsCompleted uk-margin-large-top uk-text-center">{{completedTabs}} of {{requiredTabs}}</div>
+                    <div class="stepsCompleted uk-margin-top uk-text-center">{{completedTabs}} of {{requiredTabs}}</div>
                     <div class="progress uk-margin-small-top">
                       <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>
                       <div class="percentageNumber" [ngStyle]="{'margin-left': '10%'}">{{loaderPercentage}}%</div>
@@ -999,62 +1000,12 @@
                             </div>
                           </div>
 
-                          <!--<div class="uk-margin-small-bottom" uk-grid>-->
-                            <!--&lt;!&ndash;                    <h5 class="uk-width-1-1">PROVIDER ADMINS</h5>&ndash;&gt;-->
-                            <!--<div *ngIf="!edit" class="uk-width-1-6"></div>-->
-                            <!--<i>An administrator will be added using your user information</i>-->
-                          <!--</div>-->
-                          <!--<div *ngIf="newProviderForm.get('users').value">-->
-                            <!--<div formArrayName="users" *ngFor="let user of usersArray.controls; let i = index">-->
-                              <!--<div class="uk-padding-small uk-margin-small-bottom">-->
-                                <!--<div class="uk-grid" [formGroupName]="i">-->
-                                  <!--<div class="uk-width-1-6"></div>-->
-                                  <!--<div class="serviceDetails uk-width-1-6@m">-->
-                                    <!--<input type="text" class="uk-input" formControlName="name" placeholder="First Name"-->
-                                           <!--[ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'name')}">-->
-                                  <!--</div>-->
-                                  <!--<div class="serviceDetails uk-width-1-6@m">-->
-                                    <!--<input type="text" class="uk-input" formControlName="surname" placeholder="Last Name"-->
-                                           <!--[ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'surname')}">-->
-                                  <!--</div>-->
-                                  <!--<div class="serviceDetails  uk-width-1-3@m">-->
-                                    <!--<input type="text" class="uk-input" formControlName="email" placeholder="Email"-->
-                                           <!--[ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'email')}">-->
-                                  <!--</div>-->
-                                  <!--<div *ngIf="usersArray.length > 1 && !disable" class="uk-width-1-6@m">-->
-                                    <!--<a (click)="deleteUser(i)"><i class="fa fa-times" aria-hidden="true"></i></a>-->
-                                  <!--</div>-->
-                                <!--</div>-->
-                              <!--</div>-->
-                            <!--</div>-->
-                            <!--<div uk-grid>-->
-                              <!--<div class="uk-width-1-6"></div>-->
-                              <!--<div *ngIf="!disable" class="uk-margin-small-bottom uk-width-5-6">-->
-                                <!--<a (click)="addUser()"><i class="fa fa-plus" aria-hidden="true"></i> New Admin Provider</a>-->
-                              <!--</div>-->
-                            <!--</div>-->
-                          <!--</div>-->
                         </li>
                       </ul>
 
-                      <!--<div *ngIf="!disable">-->
-                        <!--<button class="uk-button butn theme" type="submit" (click)="registerProvider(false)">Submit</button>-->
-                      <!--</div>-->
                     </form>
-                  <!--</div>-->
 
                 </div>
-
-
-                <!--&lt;!&ndash; Show Temporary Save button only when creating a new provider or editing a pending provider &ndash;&gt;-->
-                <!--<div *ngIf="!disable && (!edit || pendingProvider)" class="uk-float-right uk-animation-scale-up" style="z-index: 100; bottom: 50px; position: fixed; right: 50px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px">-->
-                  <!--<button class="btn butn theme" (click)="this.registerProvider(true)">Temporary Save</button>-->
-                <!--</div>-->
-
-                <!--<div *ngIf="disable" class="uk-float-right uk-animation-scale-up" style="z-index: 100; bottom: 50px; position: fixed; right: 50px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px">-->
-                  <!--<button class="uk-button butn theme side" (click)="toggleDisable()">Edit-->
-                    <!--<i class="fa fa-lg fa-edit" aria-hidden="true"></i></button>-->
-                <!--</div>-->
 
               </div>
 
