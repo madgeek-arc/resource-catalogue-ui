@@ -420,6 +420,44 @@ a.remove-element i {
 }
 
 /* ========================================================================
+   Breadcrumbs
+ ========================================================================== */
+
+.uk-breadcrumb {
+  margin-bottom: 0px;
+}
+
+.uk-breadcrumb li a {
+  font-size: 12px;
+  /*font-weight: bold;*/
+  /*color: #2B4371;*/
+  color: #666;
+  letter-spacing: 0;
+}
+
+.uk-breadcrumb li span {
+  font-size: 12px;
+  font-weight: bold;
+  /*color: #4D586A;*/
+  color: #26C0E2 !important;
+  letter-spacing: 0;
+}
+
+.uk-breadcrumb > :nth-child(n+2):not(.uk-first-column)::before {
+  content: ">";
+  display: inline-block;
+  margin: 0 10px;
+  color: #2B4371;
+}
+
+.goBackLink {
+  font-size: 15px;
+  color: #0047BA;
+  letter-spacing: 0.36px;
+  font-weight: 700;
+}
+
+/* ========================================================================
    Component: Service provider & Service form
  ========================================================================== */
 
