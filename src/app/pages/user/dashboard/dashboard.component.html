@@ -8,28 +8,27 @@
 
         <ul>
 
-          <li [routerLinkActive]="['current_section']">
+          <li [routerLinkActive]="['current_section']" #stats="routerLinkActive">
             <a [routerLink]="['/dashboard/' + providerId + '/stats']">
-              <!--<img src="../../../../assets/images/new-icons/stats" class="uk-margin-small-right">-->
-              <img src="assets/images/new-icons/stats-active.svg" class="uk-margin-small-right">
+              <img src="{{stats.isActive ? 'assets/images/new-icons/stats-active.svg' : 'assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
               Statistics
             </a>
           </li>
-          <li [routerLinkActive]="['current_section']">
+          <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
             <a [routerLink]="['/dashboard/' + providerId + '/activeServices']">
-              <img src="assets/images/new-icons/services.svg" class="uk-margin-small-right">
+              <img src="{{services.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
               Services
             </a>
           </li>
-          <li [routerLinkActive]="['current_section']">
+          <li [routerLinkActive]="['current_section']" #draftServices="routerLinkActive">
             <a [routerLink]="['/dashboard/' + providerId + '/pendingServices']">
-              <img src="assets/images/new-icons/pending-services.svg" class="uk-margin-small-right">
+              <img src="{{draftServices.isActive ? 'assets/images/new-icons/draft-services-active.svg' : 'assets/images/new-icons/draft-services.svg'}}" class="uk-margin-small-right">
               Draft services
             </a>
           </li>
-          <li [routerLinkActive]="['current_section']">
+          <li [routerLinkActive]="['current_section']" #messages="routerLinkActive">
             <a [routerLink]="['/dashboard/' + providerId + '/messages']" routerLinkActive="">
-              <img src="assets/images/new-icons/envelope.svg" class="uk-margin-small-right">
+              <img src="{{messages.isActive ? 'assets/images/new-icons/envelope-active.svg' : 'assets/images/new-icons/envelope.svg'}}" class="uk-margin-small-right">
               Messages
             </a>
           </li>

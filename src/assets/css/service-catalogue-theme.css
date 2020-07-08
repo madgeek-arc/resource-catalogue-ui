@@ -398,9 +398,9 @@ a.remove-element i {
 }
 
 .dashboard #sidebar_main .menu_section > ul > li:not([class*="md-bg-"]) > a:hover {
-  background-color: #004494;
-  opacity: 0.4;
-  color: #fff;
+  /*background-color: #004494;*/
+  /*opacity: 0.4;*/
+  /*color: #fff;*/
   text-decoration: none;
 }
 

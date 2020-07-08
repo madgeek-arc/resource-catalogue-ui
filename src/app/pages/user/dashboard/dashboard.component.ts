@@ -11,7 +11,6 @@ import {ResourceService} from '../../../services/resource.service';
 })
 export class DashboardComponent implements OnInit {
 
-  activeTab: string;
   providerId: string;
 
   constructor(public authenticationService: AuthenticationService,
@@ -21,7 +20,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activeTab = this.route.firstChild.snapshot.routeConfig.path;
+    // this.activeTab = this.route.firstChild.snapshot.routeConfig.path;
     this.providerId = this.route.snapshot.paramMap.get('provider');
   }
 }
