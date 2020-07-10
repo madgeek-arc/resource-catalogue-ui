@@ -1,8 +1,21 @@
+### Install and Build ###
+FROM node:lts AS build
+
+WORKDIR /usr/src/app
+
+COPY package.json ./
+
+RUN npm install
+COPY . .
+RUN npm run build:prod
+
+
+### Create Container ###
 FROM nginx:alpine
 
 COPY nginx.conf /etc/nginx/nginx.conf.tmpl
 COPY env_variables.sh /usr/share/nginx/
-COPY dist/eic-platform /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/eic-platform /usr/share/nginx/html
 
 RUN apk update && apk add bash
 ENTRYPOINT ["/bin/bash", "/usr/share/nginx/env_variables.sh"]
