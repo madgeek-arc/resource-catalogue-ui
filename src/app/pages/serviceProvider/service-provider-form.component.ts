@@ -232,7 +232,7 @@ export class ServiceProviderFormComponent implements OnInit {
       UIkit.modal('#modal-consent').show();
     }
 
-    this.handleBitSetsOfUsers(7, 14, 'email', 'users'); // Inits Admin's BitSets
+    this.initUserBitSets();
   }
 
   registerProvider(tempSave: boolean) {
@@ -705,28 +705,20 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   handleBitSetsOfUsers(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-    if (this.newProviderForm.controls[group].value[0].name !== '') {
-      this.decreaseRemainingFieldsPerTab(tabNum, 12);
-      this.loaderBitSet.set(12, 1);
+    if (this.newProviderForm.get(group).value[0][formControlName] !== '') {
+      this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 1);
     } else {
-      this.increaseRemainingFieldsPerTab(tabNum, 12);
-      this.loaderBitSet.set(12, 0);
-    }
-    if (this.newProviderForm.controls[group].value[0].surname !== '') {
-      this.decreaseRemainingFieldsPerTab(tabNum, 13);
-      this.loaderBitSet.set(13, 1);
-    } else {
-      this.increaseRemainingFieldsPerTab(tabNum, 13);
-      this.loaderBitSet.set(13, 0);
-    }
-    if (this.newProviderForm.controls[group].value[0].email !== '') {
-      this.decreaseRemainingFieldsPerTab(tabNum, 14);
-      this.loaderBitSet.set(14, 1);
-    } else {
-      this.increaseRemainingFieldsPerTab(tabNum, 14);
-      this.loaderBitSet.set(14, 0);
+      this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 0);
     }
     this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
+  }
+
+  initUserBitSets() {
+    this.handleBitSetsOfUsers(7, 12, 'name', 'users');
+    this.handleBitSetsOfUsers(7, 13, 'surname', 'users');
+    this.handleBitSetsOfUsers(7, 14, 'email', 'users');
   }
 
   decreaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
