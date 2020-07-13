@@ -683,7 +683,7 @@ export class ServiceProviderFormComponent implements OnInit {
     if (bitIndex === 0) {
       this.providerName = this.newProviderForm.get(formControlName).value;
     }
-    if (this.newProviderForm.get(formControlName).valid) {
+    if (this.newProviderForm.get(formControlName).valid || (this.newProviderForm.get(formControlName).disabled && this.newProviderForm.get(formControlName).value != '')) {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 1);
     } else if (this.newProviderForm.get(formControlName).invalid) {
@@ -694,7 +694,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-    if (this.newProviderForm.controls[group].get(formControlName).valid) {
+    if (this.newProviderForm.controls[group].get(formControlName).valid  || (this.newProviderForm.controls[group].get(formControlName).disabled && this.newProviderForm.controls[group].get(formControlName).value != '')) {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 1);
     } else if (this.newProviderForm.controls[group].get(formControlName).invalid) {
