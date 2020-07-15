@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import * as sd from '../eInfraServices/services.description';
+import * as sd from '../provider-resources/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -182,8 +182,13 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   ngOnInit() {
+
     const path = this.route.snapshot.routeConfig.path;
-    if (path === 'registerServiceProvider/:id') {
+    // fixme why is this commented out??
+    // if (path === 'add/:id') {
+    //   this.pendingProvider = true;
+    // }
+    if (path.includes('info')) {
       this.pendingProvider = true;
     }
     this.setVocabularies();
@@ -246,7 +251,7 @@ export class ServiceProviderFormComponent implements OnInit {
     this.trimFormWhiteSpaces();
     const path = this.route.snapshot.routeConfig.path;
     let method;
-    if (path === 'registerServiceProvider/:id') {
+    if (path === 'add/:id') {
       method = 'updateAndPublishPendingProvider';
     } else {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
@@ -269,11 +274,11 @@ export class ServiceProviderFormComponent implements OnInit {
     if (tempSave) {
       this.showLoader = true;
       window.scrollTo(0, 0);
-      this.serviceProviderService.temporarySaveProvider(this.newProviderForm.value, (path !== 'registerServiceProvider/:id' && this.edit))
+      this.serviceProviderService.temporarySaveProvider(this.newProviderForm.value, (path !== 'add/:id' && this.edit))
         .subscribe(
           res => {
             this.showLoader = false;
-            this.router.navigate([`/registerServiceProvider/${res.id}`]);
+            this.router.navigate([`/add/${res.id}`]);
           },
           err => {
             this.showLoader = false;

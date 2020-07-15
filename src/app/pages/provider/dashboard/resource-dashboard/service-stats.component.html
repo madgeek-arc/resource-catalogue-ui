@@ -101,7 +101,7 @@
                     <div class="uk-container uk-container-center">
                       <div class="al_timeline">
 
-                        <ng-container *ngIf="serviceHistory?.results?.length>0">
+                        <ng-container *ngIf="service && serviceHistory?.results?.length>0">
                           <ng-container *ngFor="let history of serviceHistory.results">
 
                             <div *ngIf="history.versionChange" class="al_timeline_block versionChange">
@@ -113,8 +113,8 @@
                                 <h3>New Version {{history.version}}</h3>
                                 <p>Updated to this version on {{history.modifiedAt | date:'shortDate'}}
                                   by {{history.modifiedBy}}</p>
-                                <a class="md-btn md-btn-primary"
-                                   [routerLink]="['/service/',service.id,history.version]">View version details</a>
+                                <!--<a class="md-btn md-btn-primary"-->
+                                   <!--[routerLink]="['/service/',service.id,history.version]">View version details</a>-->
                               </div>
                             </div>
 

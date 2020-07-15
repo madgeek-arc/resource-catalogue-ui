@@ -317,7 +317,8 @@ a.remove-element i {
   position: fixed;
   height: 100%;
   /*top: 0;*/
-  top: 159px;
+  /*fixme this is for EOSC - we want top: 80 for general*/
+  top: 159px;  /* this is for EOSC */
   bottom: 0;
   left: 0;
   -webkit-transform: translate3d(-320px,0,0);

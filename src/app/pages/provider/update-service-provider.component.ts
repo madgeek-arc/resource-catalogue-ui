@@ -30,7 +30,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
   ngOnInit() {
     this.edit = true;
     const path = this.route.snapshot.routeConfig.path;
-    if (path === 'serviceProviderInfo/:id') {
+    if (path === 'info/:providerId') {
       this.disable = true;
     }
     super.ngOnInit();
@@ -69,10 +69,10 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
   }
 
   getProvider() {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('providerId');
     this.errorMessage = '';
     const path = this.route.snapshot.routeConfig.path;
-    this.serviceProviderService[(path === 'registerServiceProvider/:id' ? 'getPendingProviderById' : 'getServiceProviderById')](id)
+    this.serviceProviderService[(path === 'add/:providerId' ? 'getPendingProviderById' : 'getServiceProviderById')](id)
       .subscribe(
       provider => this.provider = provider,
       err => {
@@ -105,7 +105,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
           for (let i = 0; i < this.provider.users.length - 1; i++) {
             this.addUser();
           }
-        } else if (path === 'registerServiceProvider/:id') {
+        } else if (path === 'add/:providerId') {
           this.addDefaultUser();
         }
         if (this.provider.multimedia && this.provider.multimedia.length > 1) {

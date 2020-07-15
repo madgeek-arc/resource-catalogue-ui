@@ -1,22 +1,22 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription, Observable} from 'rxjs';
-import {Provider, ProviderBundle, Service, ServiceHistory} from '../../../domain/eic-model';
-import {AuthenticationService} from '../../../services/authentication.service';
-import {NavigationService} from '../../../services/navigation.service';
-import {ResourceService} from '../../../services/resource.service';
-import {UserService} from '../../../services/user.service';
-import {Paging} from '../../../domain/paging';
-import {ServiceProviderService} from '../../../services/service-provider.service';
+import {Provider, ProviderBundle, Service, ServiceHistory} from '../../../../domain/eic-model';
+import {AuthenticationService} from '../../../../services/authentication.service';
+import {NavigationService} from '../../../../services/navigation.service';
+import {ResourceService} from '../../../../services/resource.service';
+import {UserService} from '../../../../services/user.service';
+import {Paging} from '../../../../domain/paging';
+import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {map} from 'rxjs/operators';
 import {zip} from 'rxjs/internal/observable/zip';
 
 @Component({
   selector: 'app-service-dashboard',
-  templateUrl: './service-dashboard.component.html',
-  styleUrls: ['./service-dashboard.component.css']
+  templateUrl: './service-stats.component.html',
+  styleUrls: ['./service-stats.component.css']
 })
-export class ServiceDashboardComponent implements OnInit, OnDestroy {
+export class ServiceStatsComponent implements OnInit, OnDestroy {
 
   public service: Service;
   public errorMessage: string;
@@ -41,11 +41,12 @@ export class ServiceDashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.statisticPeriod = 'MONTH';
-    this.sub = this.route.params.subscribe(params => {
+    // this.sub = this.route.params.subscribe(params => {
+    this.sub = this.route.parent.params.subscribe(params => {
       zip(
         this.resourceService.getEU(),
         this.resourceService.getWW(),
-        this.resourceService.getService(params['id'])
+        this.resourceService.getService(params['resourceId'])
       ).subscribe(suc => {
           this.EU = <string[]>suc[0];
           this.WW = <string[]>suc[1];

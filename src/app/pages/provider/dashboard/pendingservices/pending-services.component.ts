@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {InfraService, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {Component, Input, OnInit} from '@angular/core';
+import {InfraService, Provider, ProviderBundle, Service} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -10,12 +10,11 @@ import {URLParameter} from '../../../../domain/url-parameter';
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-services',
-  templateUrl: './services.component.html',
-  styleUrls: ['./service.component.css']
+  selector: 'app-pending-services',
+  templateUrl: './pending-services.component.html',
 })
 
-export class ServicesComponent implements OnInit {
+export class PendingServicesComponent implements OnInit {
 
   formPrepare = {
     from: '0'
@@ -28,8 +27,6 @@ export class ServicesComponent implements OnInit {
   providerId;
   providerBundle: ProviderBundle;
   providerServices: Paging<InfraService>;
-  // providerCoverage: string[];
-  // providerServicesGroupedByPlace: any;
   selectedService: InfraService = null;
   path: string;
 
@@ -38,6 +35,7 @@ export class ServicesComponent implements OnInit {
   currentPage = 1;
   pageTotal: number;
   pages: number[] = [];
+
 
   constructor(
     private fb: FormBuilder,
@@ -49,8 +47,17 @@ export class ServicesComponent implements OnInit {
 
   ngOnInit(): void {
     // this.path = this.route.snapshot.routeConfig.path;
+    this.path = window.location.pathname;
+    // console.log('this.path --> ', this.path);
+    // console.log('window.location.pathname --> ', window.location.pathname);
+
+    if (this.path.includes('dashboard')) {
+      this.providerId = this.route.parent.snapshot.paramMap.get('provider');
+    } else {
+      this.providerId = this.route.snapshot.paramMap.get('providerId');
+    }
     // console.log('this.path: ', this.path);
-    this.providerId = this.route.parent.snapshot.paramMap.get('provider');
+    // this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     // console.log('this.providerId: ', this.providerId);
 
     this.getProvider();
@@ -72,14 +79,15 @@ export class ServicesComponent implements OnInit {
           }
 
           // this.handleChange();
-          this.getServices();
+          this.getPendingServices();
         },
         error => this.errorMessage = <any>error
       );
+    // this.getPendingServices();
   }
 
   navigate(id: string) {
-    this.router.navigate([`/dashboard/${this.providerId}`, id]);
+    this.router.navigate([`/provider/` + this.providerId + `/draft-resource/update/`, id]);
   }
 
   getProvider() {
@@ -92,25 +100,9 @@ export class ServicesComponent implements OnInit {
     );
   }
 
-  toggleService(id: string, version: string, event) {
-    UIkit.modal('#spinnerModal').show();
-    this.providerService.publishService(id, version, event.target.checked).subscribe(
-      res => {},
-      error => {
-        this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getServices();
-        UIkit.modal('#spinnerModal').hide();
-        // console.log(error);
-      },
-      () => {
-        this.getServices();
-        UIkit.modal('#spinnerModal').hide();
-      }
-    );
-  }
-
-  getServices() {
-    this.providerService.getServicesOfProvider(this.providerId, '0', '50', 'ASC', 'name')
+  getPendingServices() {
+    this.providerService.getPendingServicesByProvider(this.providerId, this.dataForm.get('from').value,
+      this.itemsPerPage + '', 'ASC', 'name')
       .subscribe(res => {
           this.providerServices = res;
           this.total = res['total'];
@@ -129,16 +121,16 @@ export class ServicesComponent implements OnInit {
 
   deleteService(id: string) {
     // UIkit.modal('#spinnerModal').show();
-    this.service.deleteService(id).subscribe(
+    this.service.deletePendingService(id).subscribe(
       res => {},
       error => {
         // console.log(error);
         // UIkit.modal('#spinnerModal').hide();
         this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getServices();
+        this.getPendingServices();
       },
       () => {
-        this.getServices();
+        this.getPendingServices();
         // UIkit.modal('#spinnerModal').hide();
       }
     );
@@ -157,7 +149,12 @@ export class ServicesComponent implements OnInit {
       }
     }
 
-    this.router.navigate([`/dashboard/` + this.providerId + `/activeServices`], {queryParams: map});
+    if (this.path.includes('/provider/draft-resources')) {
+      this.router.navigate([`/provider/draft-resources/` + this.providerId], {queryParams: map});
+    } else {
+      this.router.navigate([`/dashboard/` + this.providerId + `/draft-resources`], {queryParams: map});
+    }
+    // this.getPendingServices();
   }
 
   paginationInit() {

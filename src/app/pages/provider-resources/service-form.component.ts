@@ -16,7 +16,7 @@ import BitSet from 'bitset/bitset';
 @Component({
   selector: 'app-service-form',
   templateUrl: './service-form.component.html',
-  styleUrls: ['../serviceProvider/service-provider-form.component.css']
+  styleUrls: ['../provider/service-provider-form.component.css']
 })
 export class ServiceFormComponent implements OnInit {
   projectName = environment.projectName;
@@ -295,6 +295,7 @@ export class ServiceFormComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
+          // fixme fix this router url
           return this.router.go('/editPendingService/' + _service.id);
         },
         err => {

@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {InfraService, Provider, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {Component, OnInit} from '@angular/core';
+import {InfraService, ProviderBundle, Service} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -10,11 +10,12 @@ import {URLParameter} from '../../../../domain/url-parameter';
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-pending-services',
-  templateUrl: './pending-services.component.html',
+  selector: 'app-services',
+  templateUrl: './services.component.html',
+  styleUrls: ['./service.component.css']
 })
 
-export class PendingServicesComponent implements OnInit {
+export class ServicesComponent implements OnInit {
 
   formPrepare = {
     from: '0'
@@ -27,6 +28,8 @@ export class PendingServicesComponent implements OnInit {
   providerId;
   providerBundle: ProviderBundle;
   providerServices: Paging<InfraService>;
+  // providerCoverage: string[];
+  // providerServicesGroupedByPlace: any;
   selectedService: InfraService = null;
   path: string;
 
@@ -35,7 +38,6 @@ export class PendingServicesComponent implements OnInit {
   currentPage = 1;
   pageTotal: number;
   pages: number[] = [];
-
 
   constructor(
     private fb: FormBuilder,
@@ -46,16 +48,8 @@ export class PendingServicesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.path = this.route.snapshot.routeConfig.path;
+    this.providerId = this.route.parent.snapshot.paramMap.get('provider');
 
-    if (this.path.includes('myServiceProviders')) {
-      this.providerId = this.route.snapshot.paramMap.get('provider');
-    } else {
-      this.providerId = this.route.parent.snapshot.paramMap.get('provider');
-    }
-    // console.log('this.path: ', this.path);
-    // this.providerId = this.route.parent.snapshot.paramMap.get('provider');
-    // console.log('this.providerId: ', this.providerId);
     this.getProvider();
 
     this.dataForm = this.fb.group(this.formPrepare);
@@ -75,15 +69,15 @@ export class PendingServicesComponent implements OnInit {
           }
 
           // this.handleChange();
-          this.getPendingServices();
+          this.getServices();
         },
         error => this.errorMessage = <any>error
       );
-    // this.getPendingServices();
   }
 
   navigate(id: string) {
-    this.router.navigate([`/editPendingService/`, id]);
+    this.router.navigate([`/resource-dashboard/${this.providerId}`, id]);
+    // this.router.navigate([`/resource-dashboard/${this.providerId}/resource/dashboard`, id]);
   }
 
   getProvider() {
@@ -96,9 +90,25 @@ export class PendingServicesComponent implements OnInit {
     );
   }
 
-  getPendingServices() {
-    this.providerService.getPendingServicesByProvider(this.providerId, this.dataForm.get('from').value,
-      this.itemsPerPage + '', 'ASC', 'name')
+  toggleService(id: string, version: string, event) {
+    UIkit.modal('#spinnerModal').show();
+    this.providerService.publishService(id, version, event.target.checked).subscribe(
+      res => {},
+      error => {
+        this.errorMessage = 'Something went bad. ' + error.error ;
+        this.getServices();
+        UIkit.modal('#spinnerModal').hide();
+        // console.log(error);
+      },
+      () => {
+        this.getServices();
+        UIkit.modal('#spinnerModal').hide();
+      }
+    );
+  }
+
+  getServices() {
+    this.providerService.getServicesOfProvider(this.providerId, '0', '50', 'ASC', 'name')
       .subscribe(res => {
           this.providerServices = res;
           this.total = res['total'];
@@ -117,16 +127,16 @@ export class PendingServicesComponent implements OnInit {
 
   deleteService(id: string) {
     // UIkit.modal('#spinnerModal').show();
-    this.service.deletePendingService(id).subscribe(
+    this.service.deleteService(id).subscribe(
       res => {},
       error => {
         // console.log(error);
         // UIkit.modal('#spinnerModal').hide();
         this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getPendingServices();
+        this.getServices();
       },
       () => {
-        this.getPendingServices();
+        this.getServices();
         // UIkit.modal('#spinnerModal').hide();
       }
     );
@@ -145,12 +155,7 @@ export class PendingServicesComponent implements OnInit {
       }
     }
 
-    if (this.path.includes('myServiceProviders')) {
-      this.router.navigate([`/myServiceProviders/pendingServices/` + this.providerId], {queryParams: map});
-    } else {
-      this.router.navigate([`/dashboard/` + this.providerId + `/pendingServices`], {queryParams: map});
-    }
-    // this.getPendingServices();
+    this.router.navigate([`/dashboard/` + this.providerId + `/activeServices`], {queryParams: map});
   }
 
   paginationInit() {
@@ -183,50 +188,5 @@ export class PendingServicesComponent implements OnInit {
       this.handleChange();
     }
   }
-
-  // getPages() { // FIXME
-  //   let addToEndCounter = 0;
-  //   let addToStartCounter = 0;
-  //   for ( let i = (+this.dataForm.get('page').value - this.offset); i < (+this.dataForm.get('page').value + 1 + this.offset); ++i ) {
-  //     if ( i < 0 ) { addToEndCounter++; }
-  //     if ( i >= this.pageTotal ) { addToStartCounter++; }
-  //     if ((i >= 0) && (i < this.pageTotal)) {
-  //       this.pages.push(i);
-  //     }
-  //   }
-  //   for ( let i = 0; i < addToEndCounter; ++i ) {
-  //     if (this.pages.length < this.pageTotal) {
-  //       this.pages.push(this.pages.length);
-  //     }
-  //   }
-  //   for ( let i = 0; i < addToStartCounter; ++i ) {
-  //     if (this.pages[0] > 0) {
-  //       this.pages.unshift(this.pages[0] - 1 );
-  //     }
-  //   }
-  // }
-  //
-  // selectPage(page) { // FIXME
-  //   this.dataForm.get('page').setValue(page);
-  //   this.dataForm.get('from').setValue(((+this.dataForm.get('page').value) * (+this.dataForm.get('quantity').value)));
-  //   this.handleChange();
-  // }
-  //
-  // previousPage() { // FIXME
-  //   if (this.dataForm.get('page').value > 0) {
-  //     this.dataForm.get('page').setValue(+this.dataForm.get('page').value - 1);
-  //     this.dataForm.get('from').setValue(+this.dataForm.get('from').value - +this.dataForm.get('quantity').value);
-  //     this.handleChange();
-  //   }
-  // }
-  //
-  // nextPage() { // FIXME
-  //   // this.pageTotal = Math.ceil(this.piwiks.total / (this.dataForm.get('quantity').value)) - 1;
-  //   if (this.dataForm.get('page').value < this.pageTotal) {
-  //     this.dataForm.get('page').setValue(+this.dataForm.get('page').value + 1);
-  //     this.dataForm.get('from').setValue(+this.dataForm.get('from').value + +this.dataForm.get('quantity').value);
-  //     this.handleChange();
-  //   }
-  // }
 
 }

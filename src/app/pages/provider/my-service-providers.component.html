@@ -68,7 +68,7 @@
                               <span class="statusLabel">Status: </span>{{ providerBundle.status | titlecase }}
                             </div>
                             <div class="uk-margin-top cardActionButtons">
-                              <button class="uk-button uk-button-action" routerLink="/updateServiceProvider/{{providerBundle.id}}">
+                              <button class="uk-button uk-button-action" routerLink="/provider/update/{{providerBundle.id}}">
                                 <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider</button>
                             </div>
                           </div>
@@ -103,7 +103,7 @@
                               <span class="statusLabel">Status: </span>{{ providerBundle.status | titlecase }}
                             </div>
                             <div class="uk-margin-top cardActionButtons">
-                              <button class="uk-button uk-button-action" routerLink="/updateServiceProvider/{{providerBundle.id}}">
+                              <button class="uk-button uk-button-action" routerLink="/provider/update/{{providerBundle.id}}">
                                 <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider
                               </button>
                               <ng-container *ngIf="(providerBundle.status === 'pending service template submission')
@@ -126,8 +126,7 @@
                                         <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Create service template</a>
                                       </li>
                                       <li *ngIf="checkForPendingServices(providerBundle.id)" class="uk-active">
-                                        <a [routerLink]="['/myServiceProviders/pendingServices/' + providerBundle.id] ">
-                                          <!--<a [routerLink]="['/dashboard/' + providerBundle.id + '/pendingServices'] ">-->
+                                        <a [routerLink]="['/provider/draft-resources/' + providerBundle.id] ">
                                           Select from pending services
                                         </a>
                                       </li>
@@ -170,7 +169,7 @@
                               <span class="statusLabel">Status: </span>{{ providerBundle.status | titlecase }}
                             </div>
                             <div class="uk-margin-top cardActionButtons">
-                              <button class="uk-button uk-button-action" routerLink="/updateServiceProvider/{{providerBundle.id}}">
+                              <button class="uk-button uk-button-action" routerLink="/provider/update/{{providerBundle.id}}">
                                 <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider</button>
                               <button class="uk-button uk-button-action" *ngIf="providerBundle.status === 'rejected service template'"
                                  routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
@@ -209,7 +208,7 @@
                               <span class="statusLabel">Status: </span>{{ providerBundle.status | titlecase }}
                             </div>
                             <div class="uk-margin-top cardActionButtons">
-                              <button class="uk-button uk-button-action" routerLink="/registerServiceProvider/{{providerBundle.id}}">
+                              <button class="uk-button uk-button-action" routerLink="/add/{{providerBundle.id}}">
                                 <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider</button>
                             </div>
                           </div>

@@ -16,20 +16,20 @@ import {TopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BreadcrumbsComponent} from './shared/breadcrumbs/breadcrumbs.component';
 import {FeedbackComponent} from './shared/feedback/feedback.component';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
-import {ServiceProviderFormComponent} from './pages/serviceProvider/service-provider-form.component';
-import {MyServiceProvidersComponent} from './pages/serviceProvider/my-service-providers.component';
-import {AddFirstServiceComponent} from './pages/serviceProvider/add-first-service.component';
-import {ServiceProviderInfoComponent} from './pages/serviceProvider/service-provider-info.component';
-import {UpdateServiceProviderComponent} from './pages/serviceProvider/update-service-provider.component';
+import {ServiceProviderFormComponent} from './pages/provider/service-provider-form.component';
+import {MyServiceProvidersComponent} from './pages/provider/my-service-providers.component';
+import {AddFirstServiceComponent} from './pages/provider/add-first-service.component';
+import {ServiceProviderInfoComponent} from './pages/provider/service-provider-info.component';
+import {UpdateServiceProviderComponent} from './pages/provider/update-service-provider.component';
 import {ReusableComponentsModule} from './shared/reusablecomponents/reusable-components.module';
 import {ServiceProviderService} from './services/service-provider.service';
 import {ServiceProvidersListComponent} from './pages/admin/service-providers-list.component';
 import {HighchartsStatic} from 'angular2-highcharts/dist/HighchartsService';
 import {ChartModule} from 'angular2-highcharts';
 import {SupportModule} from './pages/support/support.module';
-import {ServiceDashboardComponent} from './pages/user/dashboard/service-dashboard.component';
+import {ServiceStatsComponent} from './pages/provider/dashboard/resource-dashboard/service-stats.component';
 import {MyFavouritesComponent} from './pages/user/favourites/my-favourites.component';
-import {DashboardComponent} from './pages/user/dashboard/dashboard.component';
+import {DashboardComponent} from './pages/provider/dashboard/dashboard.component';
 import {UserService} from './services/user.service';
 import {ComparisonService} from './services/comparison.service';
 import {UserModule} from './pages/user/user.module';
@@ -38,12 +38,11 @@ import {ServiceLandingPageComponent} from './pages/landingpages/service/service-
 import {BrowseCategoriesComponent} from './pages/browsecategories/browse-categories.component';
 import {SearchComponent} from './pages/search/search.component';
 import {StatsComponent} from './pages/stats/stats.component';
-import {AccordionComponent} from './pages/eInfraServices/accordion-section.component';
 import {CompareServicesComponent} from './pages/compare/compare-services.component';
-import {ServiceFormComponent} from './pages/eInfraServices/service-form.component';
-import {ServiceUploadComponent} from './pages/eInfraServices/service-upload.component';
+import {ServiceFormComponent} from './pages/provider-resources/service-form.component';
+import {ServiceUploadComponent} from './pages/provider-resources/service-upload.component';
 import {CKEditorModule} from 'ng2-ckeditor';
-import {ServiceEditComponent} from './pages/eInfraServices/service-edit.component';
+import {ServiceEditComponent} from './pages/provider-resources/service-edit.component';
 import {MeasurementsComponent} from './pages/indicators/measurements.component';
 import {IndicatorFromComponent} from './pages/indicators/indicator-from.component';
 import {AuthenticationInterceptor} from './services/authentication-interceptor';
@@ -79,29 +78,28 @@ export function highchartsFactory() {
     ServiceLandingPageComponent,
     // PERSISTENT
     TopMenuComponent,
-    BreadcrumbsComponent,
+    // BreadcrumbsComponent,
     FooterComponent,
     FeedbackComponent,
     // USER
-    DashboardComponent,
-    MyFavouritesComponent,
-    ServiceDashboardComponent,
-    // SERVICE PROVIDER ADMIN
-    ServiceProviderFormComponent,
-    ServiceProviderInfoComponent,
-    UpdateServiceProviderComponent,
-    AddFirstServiceComponent,
-    MyServiceProvidersComponent,
+    // DashboardComponent,
+    // MyFavouritesComponent,
+    // ServiceStatsComponent,
+    // // SERVICE PROVIDER ADMIN
+    // ServiceProviderFormComponent,
+    // ServiceProviderInfoComponent,
+    // UpdateServiceProviderComponent,
+    // AddFirstServiceComponent,
+    // MyServiceProvidersComponent,
     // ADMIN
-    ServiceProvidersListComponent,
+    // ServiceProvidersListComponent,
     // INDICATORS
     MeasurementsComponent,
     IndicatorFromComponent,
     // FORMS
-    ServiceEditComponent,
-    ServiceFormComponent,
-    ServiceUploadComponent,
-    AccordionComponent,
+    // ServiceEditComponent,
+    // ServiceFormComponent,
+    // ServiceUploadComponent,
   ],
   imports: [
     CommonModule,
@@ -111,10 +109,12 @@ export function highchartsFactory() {
     ReusableComponentsModule,
     SharedModule,
     TreeviewModule.forRoot(),
-    StarRatingModule.forRoot(),
+    // StarRatingModule.forRoot(),
     SupportModule,
     UserModule,
-    CKEditorModule,
+    // ProviderModule,
+    // ProviderDashboardModule,
+    // CKEditorModule,
     ChartModule,
     AngularFontAwesomeModule,
     CookieLawModule,

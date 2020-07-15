@@ -184,7 +184,7 @@ export class ServiceProvidersListComponent implements OnInit {
       map[urlParameter.key] = concatValue;
     }
 
-    this.router.navigate([`/serviceProvidersList`], {queryParams: map});
+    this.router.navigate([`/provider/all`], {queryParams: map});
     // this.getProviders();
   }
 

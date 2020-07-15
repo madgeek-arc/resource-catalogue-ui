@@ -17,8 +17,8 @@ export class BecomeAProviderComponent {
   }
 
   signUpAndRegisterAservice() {
-    sessionStorage.setItem('forward_url', '/newServiceProvider');
-    this.router.router.navigateByUrl('/newServiceProvider');
+    sessionStorage.setItem('forward_url', '/provider/add');
+    this.router.router.navigateByUrl('/provider/add');
   }
 }
 

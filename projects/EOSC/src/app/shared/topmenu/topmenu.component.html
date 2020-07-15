@@ -42,7 +42,7 @@
                    class="uk-offcanvas-close offcanvas-close">Catalogue & Marketplace</a>
               </li>
               <li class="uk-nav-header" [routerLinkActive]="['uk-active']">
-                <a href="https://catalogue.eosc-portal.eu/myServiceProviders" routerLinkActive="uk-active"
+                <a href="https://catalogue.eosc-portal.eu/provider/my" routerLinkActive="uk-active"
                    class="uk-offcanvas-close offcanvas-close">Providers Dashboard</a>
               </li>
               <li class="uk-nav-header" [routerLinkActive]="['uk-active']">
@@ -158,12 +158,12 @@
                          class="uk-offcanvas-close offcanvas-close">Become a Provider</a></li>
 <!--                  &lt;!&ndash; If user is logged in &ndash;&gt;-->
 <!--                  <ng-container *ngIf="authenticationService.isLoggedIn()">-->
-                    <!-- If user is serviceProvider admin and has at least 1 serviceProvider -->
-                    <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/myServiceProviders']"
+                    <!-- If user is provider admin and has at least 1 provider -->
+                    <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/provider/my']"
                                                              routerLinkActive="uk-active"
                                                              class="uk-offcanvas-close offcanvas-close">My Providers</a>
                     </li>
-                    <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/serviceProvidersList']" routerLinkActive="uk-active">View
+                    <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/provider/all']" routerLinkActive="uk-active">View
                       Providers</a></li>
                     <li class="uk-nav-divider"></li>
                     <li><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
@@ -212,7 +212,7 @@
                   <li class="first leaf"><a href="https://eosc-portal.eu/contact-us">Contact Us</a></li>
                   <li class="leaf"><a href="https://eosc-portal.eu">Portal Home</a></li>
                   <li class="leaf"><a href="https://marketplace.eosc-portal.eu/">Catalogue & Marketplace</a></li>
-                  <li class="leaf"><a class="active" href="https://catalogue.eosc-portal.eu/myServiceProviders">Providers Dashboard</a></li>
+                  <li class="leaf"><a class="active" href="https://catalogue.eosc-portal.eu/provider/my">Providers Dashboard</a></li>
                   <ng-container *ngIf="!authenticationService.isLoggedIn()">
                     <li class="leaf"><a class="loginLink" (click)="authenticationService.login()">Login</a></li>
                   </ng-container>
@@ -397,11 +397,11 @@
                     <div class="uk-first-column">
                       <ul class="uk-nav uk-navbar-dropdown-nav">
                         <li><a [routerLink]="['/becomeAProvider']" routerLinkActive="uk-active">Become a Provider</a></li>
-                        <!-- If user is serviceProvider admin and has at least 1 serviceProvider -->
-                        <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/myServiceProviders']"
+                        <!-- If user is provider admin and has at least 1 provider -->
+                        <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/provider/my']"
                                                                                                              routerLinkActive="uk-active">My Providers</a></li>
                         <!-- If user is admin -->
-                        <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/serviceProvidersList']" routerLinkActive="uk-active">View
+                        <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/provider/all']" routerLinkActive="uk-active">View
                           Providers</a></li>
                         <li *ngIf="authenticationService.isLoggedIn()" class="uk-nav-divider"></li>
                         <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public

@@ -138,7 +138,7 @@ export class TopMenuComponent implements OnInit, OnDestroy {
   }
 
   signUpAndRegisterAservice() {
-    sessionStorage.setItem('forward_url', '/newServiceProvider');
-    this.navigationService.router.navigateByUrl('/newServiceProvider');
+    sessionStorage.setItem('forward_url', '/provider/add');
+    this.navigationService.router.navigateByUrl('/provider/add');
   }
 }

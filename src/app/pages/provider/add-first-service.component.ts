@@ -1,14 +1,14 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DatePipe} from '@angular/common';
-import {ServiceFormComponent} from '../eInfraServices/service-form.component';
+import {ServiceFormComponent} from '../provider-resources/service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ResourceService} from '../../services/resource.service';
 import {Service} from '../../domain/eic-model';
 
 @Component({
   selector: 'app-add-first-service',
-  templateUrl: '../eInfraServices/service-form.component.html'
+  templateUrl: '../provider-resources/service-form.component.html'
 })
 export class AddFirstServiceComponent extends ServiceFormComponent implements OnInit {
 
@@ -26,8 +26,8 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
   ngOnInit() {
     super.ngOnInit();
     this.firstServiceForm = true;
-    this.providerId = this.route.snapshot.paramMap.get('id');
-    this.serviceId = this.route.snapshot.paramMap.get('serviceId');
+    this.providerId = this.route.snapshot.paramMap.get('providerId');
+    this.serviceId = this.route.snapshot.paramMap.get('resourceId');
     // console.log(this.serviceId);
     this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
     if (this.serviceId) {

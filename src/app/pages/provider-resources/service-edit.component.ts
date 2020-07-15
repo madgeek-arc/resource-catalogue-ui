@@ -10,7 +10,7 @@ import {ResourceService} from '../../services/resource.service';
 @Component({
   selector: 'app-service-edit',
   templateUrl: './service-form.component.html',
-  styleUrls: ['../serviceProvider/service-provider-form.component.css']
+  styleUrls: ['../provider/service-provider-form.component.css']
 })
 export class ServiceEditComponent extends ServiceFormComponent implements OnInit {
   private sub: Subscription;
@@ -29,9 +29,9 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
       sessionStorage.removeItem('service');
     } else {
       this.sub = this.route.params.subscribe(params => {
-        this.serviceID = params['id'];
+        this.serviceID = params['resourceId'];
         const pathName = window.location.pathname;
-        if (pathName.includes('editPendingService')) {
+        if (pathName.includes('draft-resource/update')) {
           this.pendingService = true;
         }
         // this.resourceService.getService(this.serviceID).subscribe(service => {

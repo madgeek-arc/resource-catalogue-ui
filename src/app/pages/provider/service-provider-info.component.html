@@ -8,7 +8,7 @@
                  src="{{ (provider.logo) ? provider.logo : '../../../assets/images/broken_image-black-48dp.svg'}}"
                  width="70">
             <span class="uk-margin-small-left">{{provider.name}}
-              <a *ngIf="isUserAdmin" routerLink="/updateServiceProvider/{{provider.id}}">
+              <a *ngIf="isUserAdmin" routerLink="/provider/update/{{provider.id}}">
                             <i class="fa fa-lg fa-edit"></i></a></span>
           </h1>
         </div>

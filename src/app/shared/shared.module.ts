@@ -11,11 +11,19 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { EmailModalComponent } from './email-modal/email-modal.component';
 import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
+import {StarRatingModule} from 'angular-star-rating';
+import {BreadcrumbsComponent} from './breadcrumbs/breadcrumbs.component';
+import {RouterModule} from '@angular/router';
+import {CKEditorModule} from 'ng2-ckeditor';
+import {PendingServicesComponent} from '../pages/provider/dashboard/pendingservices/pending-services.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StarRatingModule.forRoot(),
+    CKEditorModule,
+    RouterModule
   ],
   declarations: [
     JoinPipe,
@@ -28,7 +36,9 @@ import {ReactiveFormsModule} from '@angular/forms';
     ValuesPipe,
     ForbiddenPageComponent,
     NotFoundPageComponent,
-    EmailModalComponent
+    EmailModalComponent,
+    BreadcrumbsComponent,
+    PendingServicesComponent
   ],
   exports: [
     JoinPipe,
@@ -39,7 +49,11 @@ import {ReactiveFormsModule} from '@angular/forms';
     PremiumSortFacetsPipe,
     SafePipe,
     ValuesPipe,
-    EmailModalComponent
+    EmailModalComponent,
+    StarRatingModule,
+    BreadcrumbsComponent,
+    CKEditorModule,
+    PendingServicesComponent
   ]
 })
 export class SharedModule {

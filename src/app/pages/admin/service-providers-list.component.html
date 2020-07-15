@@ -183,7 +183,7 @@
                                       title="'Your service provider is not yet active, therefore you cannot access its monitoring dashboard'">
                                     {{ providerBundle.provider.name }}
                                   </h5>
-                                  <a [routerLink]="['/serviceProviderInfo',providerBundle.id]" class="uk-display-inline-block">
+                                  <a [routerLink]="['/provider/info',providerBundle.id]" class="uk-display-inline-block">
                                     <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
                                   </a>
                                 </span>
@@ -191,7 +191,7 @@
                                   <a [routerLink]="['/dashboard', providerBundle.id]" data-uk-tooltip title="'Go to the service provider monitoring dashboard'">
                                       {{ providerBundle.provider.name }}
                                   </a>
-                                  <a [routerLink]="['/serviceProviderInfo',providerBundle.id]" class="uk-display-inline-block">
+                                  <a [routerLink]="['/provider/info',providerBundle.id]" class="uk-display-inline-block">
                                     <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
                                   </a>
                                 </span>

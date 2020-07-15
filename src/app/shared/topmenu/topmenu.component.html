@@ -114,7 +114,7 @@
                   <div class="uk-first-column">
                     <ul class="uk-nav uk-navbar-dropdown-nav">
                       <li *ngIf="authenticationService.isLoggedIn() && (authenticationService.isProvider() || authenticationService.isAdmin())">
-                        <a [routerLink]="['/myServiceProviders']" routerLinkActive="uk-active">Providers</a>
+                        <a [routerLink]="['/provider/my']" routerLinkActive="uk-active">Providers</a>
                       </li>
                     </ul>
                   </div>
@@ -178,18 +178,18 @@
                       <!--<li *ngIf="isProvider() || isAdmin()"><a [routerLink]="['dashboard']" routerLinkActive="uk-active">Monitoring Dashboard</a></li>-->
 
                       <!-- If user has logged in -->
-                      <li><a [routerLink]="['/newServiceProvider']" routerLinkActive="uk-active">Add New Service
+                      <li><a [routerLink]="['/provider/add']" routerLinkActive="uk-active">Add New Service
                         Provider</a></li>
 
                       <li><a [routerLink]="['/myFavourites']" routerLinkActive="uk-active">My Favourites</a></li>
 
-                      <!-- If user is serviceProvider admin and has at least 1 serviceProvider -->
-                      <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/myServiceProviders']"
+                      <!-- If user is provider admin and has at least 1 provider -->
+                      <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/provider/my']"
                                                                routerLinkActive="uk-active">My Service Providers</a>
                       </li>
 
                       <!-- If user is admin -->
-                      <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/serviceProvidersList']" routerLinkActive="uk-active">View
+                      <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/provider/all']" routerLinkActive="uk-active">View
                         Service Providers</a></li>
 
                       <li><a routerLink="/home" (click)="this.authenticationService.logout()">Log out</a></li>

@@ -1,11 +1,20 @@
 <div class="uk-offcanvas-content">
   <app-top-menu *ngIf="!isLoginOrRegister"></app-top-menu>
-  <app-breadcrumbs *ngIf="router.url != '/home' && router.url != '/'"></app-breadcrumbs>
-  <div style="min-height: 80px">
-    <router-outlet></router-outlet>
-  </div>
+  <!--<div style="margin-top: 159px;"></div>-->
+  <app-breadcrumbs *ngIf="router.url != '/home' && router.url != '/' && !isDashboardRoute()"></app-breadcrumbs>
+  <!--<div style="min-height: 80px">-->
+    <!--<router-outlet></router-outlet>-->
+  <!--</div>-->
+  <router-outlet></router-outlet>
   <app-feedback></app-feedback>
-  <app-footer></app-footer>
+  <ng-container *ngIf="!isDashboardRoute(); else dashboard">
+    <app-footer></app-footer>
+  </ng-container>
+  <ng-template #dashboard>
+    <div style="margin-left: 320px">
+      <app-footer></app-footer>
+    </div>
+  </ng-template>
   <cookie-law position="bottom">
     eInfraCentral uses cookies in order to function properly.<br>
     Cookies are small pieces of data that websites store in your browser to allow us to give you the best browsing experience possible.
