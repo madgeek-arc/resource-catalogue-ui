@@ -1,17 +1,11 @@
 {
-  "name": "eic-platform",
+  "name": "resource-catalogue-ui",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
-    "eosc": "ng serve --project EOSC --proxy-config proxy.conf.json",
-    "aire": "ng serve --project openaire-service-catalogue --proxy-config proxy.conf.json",
-    "catris": "ng serve --project catris --proxy-config proxy.conf.json",
     "build": "ng build",
     "build:prod": "ng build --prod --aot",
-    "build:prod:eosc": "ng build --prod --aot --project EOSC",
-    "build:prod:aire": "ng build --prod --aot --project openaire-service-catalogue",
-    "build:prod:catris": "ng build --prod --aot --project catris",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

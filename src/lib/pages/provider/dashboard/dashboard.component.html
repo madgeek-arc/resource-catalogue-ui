@@ -1,0 +1,69 @@
+<div class="dashboard">
+  <div class="sidebar_main_swipe sidebar_main_active">
+    <aside id="sidebar_main">
+
+      <div class="menu_section uk-margin-medium-top">
+
+        <div class="sidebar_heading">MONITOR</div>
+
+        <ul>
+
+          <li [routerLinkActive]="['current_section']" #stats="routerLinkActive">
+            <a [routerLink]="['/dashboard/' + providerId + '/stats']">
+              <img src="{{stats.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
+              Statistics
+            </a>
+          </li>
+          <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
+            <a [routerLink]="['/dashboard/' + providerId + '/resources']">
+              <img src="{{services.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+              Services
+            </a>
+          </li>
+          <li [routerLinkActive]="['current_section']" #draftServices="routerLinkActive">
+            <a [routerLink]="['/dashboard/' + providerId + '/draft-resources']">
+              <img src="{{draftServices.isActive ? 'lib/assets/images/new-icons/draft-services-active.svg' : 'lib/assets/images/new-icons/draft-services.svg'}}" class="uk-margin-small-right">
+              Draft services
+            </a>
+          </li>
+          <li [routerLinkActive]="['current_section']" #messages="routerLinkActive">
+            <a [routerLink]="['/dashboard/' + providerId + '/messages']" routerLinkActive="">
+              <img src="{{messages.isActive ? 'lib/assets/images/new-icons/envelope-active.svg' : 'lib/assets/images/new-icons/envelope.svg'}}" class="uk-margin-small-right">
+              Messages
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+      <div class="menu_section border_top">
+        <div class="sidebar_heading">ACTIONS</div>
+
+        <ul>
+
+          <li>
+            <a [routerLink]="['/provider/' + providerId + '/resource/add/']">
+              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+              Add new service
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/provider/update/' + providerId]">
+              <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">
+              Update Provider
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+    </aside><!-- main sidebar end -->
+
+    <div id="page_content">
+      <app-breadcrumbs></app-breadcrumbs>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+

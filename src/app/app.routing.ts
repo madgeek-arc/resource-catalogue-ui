@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {BrowseCategoriesComponent} from './pages/browsecategories/browse-categories.component';
-import {CompareServicesComponent} from './pages/compare/compare-services.component';
-import {HomeComponent} from './pages/home/home.component';
+import {BrowseCategoriesComponent} from '../lib/pages/browsecategories/browse-categories.component';
+import {CompareServicesComponent} from '../lib/pages/compare/compare-services.component';
+import {HomeComponent} from '../lib/pages/home/home.component';
 import {CommonModule} from '@angular/common';
-import {SearchComponent} from './pages/search/search.component';
-import {CanActivateViaAuthGuard} from './services/can-activate-auth-guard.service';
-import {ServiceLandingPageComponent} from './pages/landingpages/service/service-landing-page.component';
-import {ForbiddenPageComponent} from './shared/forbidden-page/forbidden-page.component';
-import {NotFoundPageComponent} from './shared/not-found-page/not-found-page.component';
+import {SearchComponent} from '../lib/pages/search/search.component';
+import {CanActivateViaAuthGuard} from '../lib/services/can-activate-auth-guard.service';
+import {ServiceLandingPageComponent} from '../lib/pages/landingpages/service/service-landing-page.component';
+import {ForbiddenPageComponent} from '../lib/shared/forbidden-page/forbidden-page.component';
+import {NotFoundPageComponent} from '../lib/shared/not-found-page/not-found-page.component';
 // import {ProviderModule} from './pages/provider/provider.module';
 
 const appRoutes: Routes = [
@@ -56,17 +56,17 @@ const appRoutes: Routes = [
 
   {
     path: 'provider',
-    loadChildren: './pages/provider/provider.module#ProviderModule',
+    loadChildren: '../lib/pages/provider/provider.module#ProviderModule',
     canActivate: [CanActivateViaAuthGuard]
   },
   {
     path: 'dashboard',
-    loadChildren: './pages/provider/dashboard/provider-dashboard.module#ProviderDashboardModule',
+    loadChildren: '../lib/pages/provider/dashboard/provider-dashboard.module#ProviderDashboardModule',
     canActivate: [CanActivateViaAuthGuard]
   },
   {
     path: 'resource-dashboard',
-    loadChildren: './pages/provider/dashboard/resource-dashboard/resource-dashboard.module#ResourceDashboardModule',
+    loadChildren: '../lib/pages/provider/dashboard/resource-dashboard/resource-dashboard.module#ResourceDashboardModule',
     canActivate: [CanActivateViaAuthGuard]
   },
 

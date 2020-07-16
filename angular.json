@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "eic-platform": {
+    "resource-catalogue-ui": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,14 +13,15 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/eic-platform",
+            "outputPath": "dist/resource-catalogue-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/lib/assets"
             ],
             "styles": [
               "node_modules/uikit/dist/css/uikit.css",
@@ -56,19 +57,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "eic-platform:build",
+            "browserTarget": "resource-catalogue-ui:build",
             "port": 3000
           },
           "configurations": {
             "production": {
-              "browserTarget": "eic-platform:build:production"
+              "browserTarget": "resource-catalogue-ui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "eic-platform:build"
+            "browserTarget": "resource-catalogue-ui:build"
           }
         },
         "test": {
@@ -101,7 +102,7 @@
         }
       }
     },
-    "eic-platform-e2e": {
+    "resource-catalogue-ui-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -109,11 +110,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "eic-platform:serve"
+            "devServerTarget": "resource-catalogue-ui:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "eic-platform:serve:production"
+              "devServerTarget": "resource-catalogue-ui:serve:production"
             }
           }
         },
@@ -127,382 +128,7 @@
           }
         }
       }
-    },
-    "EOSC": {
-      "root": "projects/EOSC/",
-      "sourceRoot": "projects/EOSC/src",
-      "projectType": "application",
-      "prefix": "app",
-      "schematics": {},
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/EOSC",
-            "index": "projects/EOSC/src/index.html",
-            "main": "projects/EOSC/src/main.ts",
-            "polyfills": "projects/EOSC/src/polyfills.ts",
-            "tsConfig": "projects/EOSC/tsconfig.app.json",
-            "assets": [
-              "projects/EOSC/src/assets"
-            ],
-            "styles": [
-              "node_modules/uikit/dist/css/uikit.css",
-              "projects/EOSC/src/styles.scss",
-              "node_modules/font-awesome/css/font-awesome.css"
-            ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/uikit/dist/js/uikit.min.js",
-              "node_modules/uikit/dist/js/uikit-icons.min.js"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "projects/EOSC/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
-            }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "EOSC:build",
-            "port": 3000
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "EOSC:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "EOSC:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/EOSC/src/test.ts",
-            "polyfills": "projects/EOSC/src/polyfills.ts",
-            "tsConfig": "projects/EOSC/tsconfig.spec.json",
-            "karmaConfig": "projects/EOSC/karma.conf.js",
-            "styles": [
-              "projects/EOSC/src/styles.css"
-            ],
-            "scripts": [],
-            "assets": [
-              "projects/EOSC/src/favicon.ico",
-              "projects/EOSC/src/assets"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/EOSC/tsconfig.app.json",
-              "projects/EOSC/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "EOSC-e2e": {
-      "root": "projects/EOSC-e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/EOSC-e2e/protractor.conf.js",
-            "devServerTarget": "EOSC:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "EOSC:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "projects/EOSC-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "openaire-service-catalogue": {
-      "root": "projects/openaire-service-catalogue/",
-      "sourceRoot": "projects/openaire-service-catalogue/src",
-      "projectType": "application",
-      "prefix": "app",
-      "schematics": {},
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/openaire-service-catalogue",
-            "index": "projects/openaire-service-catalogue/src/index.html",
-            "main": "projects/openaire-service-catalogue/src/main.ts",
-            "polyfills": "projects/openaire-service-catalogue/src/polyfills.ts",
-            "tsConfig": "projects/openaire-service-catalogue/tsconfig.app.json",
-            "assets": [
-              "projects/openaire-service-catalogue/src/assets"
-            ],
-            "styles": [
-              "node_modules/uikit/dist/css/uikit.css",
-              "projects/openaire-service-catalogue/src/styles.scss",
-              "node_modules/font-awesome/css/font-awesome.css"
-            ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/uikit/dist/js/uikit.min.js",
-              "node_modules/uikit/dist/js/uikit-icons.min.js"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "projects/openaire-service-catalogue/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
-            }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "openaire-service-catalogue:build",
-            "port": 3000
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "openaire-service-catalogue:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "openaire-service-catalogue:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/openaire-service-catalogue/src/test.ts",
-            "polyfills": "projects/openaire-service-catalogue/src/polyfills.ts",
-            "tsConfig": "projects/openaire-service-catalogue/tsconfig.spec.json",
-            "karmaConfig": "projects/openaire-service-catalogue/karma.conf.js",
-            "styles": [
-              "projects/openaire-service-catalogue/src/styles.scss"
-            ],
-            "scripts": [],
-            "assets": [
-              "projects/openaire-service-catalogue/src/favicon.ico",
-              "projects/openaire-service-catalogue/src/assets"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/openaire-service-catalogue/tsconfig.app.json",
-              "projects/openaire-service-catalogue/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "openaire-service-catalogue-e2e": {
-      "root": "projects/openaire-service-catalogue-e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/openaire-service-catalogue-e2e/protractor.conf.js",
-            "devServerTarget": "openaire-service-catalogue:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "openaire-service-catalogue:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "projects/openaire-service-catalogue-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "catris": {
-      "root": "projects/catris/",
-      "sourceRoot": "projects/catris/src",
-      "projectType": "application",
-      "prefix": "app",
-      "schematics": {},
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/catris",
-            "index": "projects/catris/src/index.html",
-            "main": "projects/catris/src/main.ts",
-            "polyfills": "projects/catris/src/polyfills.ts",
-            "tsConfig": "projects/catris/tsconfig.app.json",
-            "assets": [
-              "projects/catris/src/assets"
-            ],
-            "styles": [
-              "node_modules/uikit/dist/css/uikit.css",
-              "projects/catris/src/styles.scss",
-              "node_modules/font-awesome/css/font-awesome.css"
-            ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/uikit/dist/js/uikit.min.js",
-              "node_modules/uikit/dist/js/uikit-icons.min.js"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "projects/catris/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
-            }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "catris:build",
-            "port": 3000
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "catris:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "catris:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/catris/src/test.ts",
-            "polyfills": "projects/catris/src/polyfills.ts",
-            "tsConfig": "projects/catris/tsconfig.spec.json",
-            "karmaConfig": "projects/catris/karma.conf.js",
-            "styles": [
-              "projects/catris/src/styles.scss"
-            ],
-            "scripts": [],
-            "assets": [
-              "projects/catris/src/favicon.ico",
-              "projects/catris/src/assets"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/catris/tsconfig.app.json",
-              "projects/catris/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "catris-e2e": {
-      "root": "projects/catris-e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/catris-e2e/protractor.conf.js",
-            "devServerTarget": "catris:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "catris:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "projects/catris-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
     }
   },
-  "defaultProject": "eic-platform"
+  "defaultProject": "resource-catalogue-ui"
 }

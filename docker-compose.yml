@@ -2,7 +2,7 @@ version: "3"
 
 services:
   platform:
-    image: eic-platform                         # edit image name
+    image: resource-catalogue-ui                         # edit image name
 
     environment:
     - PLATFORM_API_ENDPOINT=http://example.com  # edit api endpoint
