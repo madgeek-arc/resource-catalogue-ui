@@ -49,6 +49,9 @@ import {AuthenticationInterceptor} from '../lib/services/authentication-intercep
 import {CookieLawModule} from '../lib/shared/reusablecomponents/cookie-law/cookie-law.module';
 import {EmailService} from '../lib/services/email.service';
 import {TreeviewModule} from 'ngx-treeview';
+import {EOSCFooterComponent} from './shared/footer/footer.component';
+import {EOSCTopMenuComponent} from './shared/topmenu/topmenu.component';
+import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 
 
 declare var require: any;
@@ -76,10 +79,13 @@ export function highchartsFactory() {
     SearchComponent,
     StatsComponent,
     ServiceLandingPageComponent,
+    BecomeAProviderComponent,
     // PERSISTENT
-    TopMenuComponent,
+    // TopMenuComponent,
+    EOSCTopMenuComponent,
     // BreadcrumbsComponent,
-    FooterComponent,
+    // FooterComponent,
+    EOSCFooterComponent,
     FeedbackComponent,
     // USER
     // DashboardComponent,
@@ -142,8 +148,10 @@ export function highchartsFactory() {
     DatePipe
   ],
   exports: [
-    FooterComponent,
-    TopMenuComponent,
+    // FooterComponent,
+    EOSCFooterComponent,
+    // TopMenuComponent,
+    EOSCTopMenuComponent,
     BreadcrumbsComponent,
     FeedbackComponent
   ],

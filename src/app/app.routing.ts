@@ -1,59 +1,27 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {BrowseCategoriesComponent} from '../lib/pages/browsecategories/browse-categories.component';
-import {CompareServicesComponent} from '../lib/pages/compare/compare-services.component';
-import {HomeComponent} from '../lib/pages/home/home.component';
 import {CommonModule} from '@angular/common';
-import {SearchComponent} from '../lib/pages/search/search.component';
 import {CanActivateViaAuthGuard} from '../lib/services/can-activate-auth-guard.service';
 import {ServiceLandingPageComponent} from '../lib/pages/landingpages/service/service-landing-page.component';
 import {ForbiddenPageComponent} from '../lib/shared/forbidden-page/forbidden-page.component';
 import {NotFoundPageComponent} from '../lib/shared/not-found-page/not-found-page.component';
-// import {ProviderModule} from './pages/provider/provider.module';
+import {DevelopersComponent} from '../lib/pages/support/developers/developers.component';
+import {OpenAPIComponent} from '../lib/pages/support/openapi/openapi.component';
+import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: 'becomeAProvider',
     pathMatch: 'full'
   },
   {
-    path: 'home',
-    component: HomeComponent,
+    path: 'becomeAProvider',
+    component: BecomeAProviderComponent,
     data: {
-      breadcrumb: 'Home'
+      breadcrumb: 'Become A Provider'
     }
   },
-  {
-    path: 'search',
-    component: SearchComponent,
-    data: {
-      breadcrumb: 'Search'
-    }
-  },
-  // {
-  //   path: 'statistics',
-  //   component: StatsComponent,
-  //   data: {
-  //     breadcrumb: 'Statistics'
-  //   }
-  // },
-  {
-    path: 'compare',
-    component: CompareServicesComponent,
-    data: {
-      breadcrumb: 'Compare'
-    }
-  },
-  {
-    path: 'browseCategories',
-    component: BrowseCategoriesComponent,
-    data: {
-      breadcrumb: 'Browse'
-    }
-  },
-
-
   {
     path: 'provider',
     loadChildren: '../lib/pages/provider/provider.module#ProviderModule',
@@ -84,21 +52,20 @@ const appRoutes: Routes = [
       breadcrumb: 'Service'
     }
   },
-
-  // {
-  //   path: 'measurements/service/:id',
-  //   component: MeasurementsComponent,
-  //   data: {
-  //     breadcrumb: 'Service Measurements'
-  //   }
-  // },
-  // {
-  //   path: 'newIndicator',
-  //   component: IndicatorFromComponent,
-  //   data: {
-  //     breadcrumb: 'New Indicator'
-  //   }
-  // },
+  {
+    path: 'developers',
+    component: DevelopersComponent,
+    data: {
+      breadcrumb: 'Developers'
+    }
+  },
+  {
+    path: 'openapi',
+    component: OpenAPIComponent,
+    data: {
+      breadcrumb: 'Open API'
+    }
+  },
   {
     path: 'assets/files/:fileName',
     children: [ ]
