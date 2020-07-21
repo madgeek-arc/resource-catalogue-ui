@@ -5,48 +5,9 @@
   background-color: $project-bg-color !important;
 }
 
-.uk-button {
-  font-family: 'Ubuntu', sans-serif;
-}
 
-.uk-button-primary {
-  flex: 1 1 auto;
-  margin: 5px;
-  padding: 3px 30px;
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.5s;
-  border-color: $project-bg-color;
-  background: #fff;
-  color: $project-bg-color !important;
-}
 
-.uk-button-primary:hover {
-  border-color: $project-bg-color;
-  background: $project-bg-color;
-  color: #fff !important;
-}
 
-.uk-button-secondary {
-  background: $project-bg-color;
-  flex: 1 1 auto;
-  margin: 5px;
-  padding: 3px 30px;
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.5s;
-  color: #fff !important;
-}
-
-.uk-button-secondary:hover {
-  background: #fff;
-  border-color: $project-bg-color;
-  color: $project-bg-color !important;
-}
-
-.uk-section-primary {
-  background: $project-bg-color;
-}
 
 /********************/
 /*     Timeline     */
