@@ -7,6 +7,7 @@
   --link-hover-color: #3665ab;
   --breadcrumb-active-color: #26C0E2;
   --button-primary-hover-background-color: #1E95B0;
+  --button-secondary-color: #fff;
   --button-secondary-background-color: #26C0E2;
   --button-secondary-hover-background-color: #1E95B0;
 }
@@ -91,7 +92,7 @@ a:hover, a:focus, a:active {
 
 .uk-button-secondary {
   background-color: var(--button-secondary-background-color);
-  color: #fff;
+  color: var(--button-secondary-color);
 }
 
 .uk-button-secondary:hover {
