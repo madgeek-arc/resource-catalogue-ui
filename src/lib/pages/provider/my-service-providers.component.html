@@ -53,7 +53,7 @@
                           </div>
                           <div class="provider-logo">
                             <span class="provider-logo-helper"></span>
-                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../lib/images/broken_image-black-48dp.svg' }}">
+                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
                           </div>
                           <div class="uk-card-body">
                             <div class="providerName">
@@ -89,7 +89,7 @@
                           </div>
                           <div class="provider-logo">
                             <span class="provider-logo-helper"></span>
-                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../lib/images/broken_image-black-48dp.svg' }}">
+                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
                           </div>
                           <div class="uk-card-body">
                             <div class="providerName">
@@ -156,7 +156,7 @@
                           </div>
                           <div class="provider-logo">
                             <span class="provider-logo-helper"></span>
-                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../lib/images/broken_image-black-48dp.svg' }}">
+                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
                           </div>
                           <div class="uk-card-body">
                             <div class="providerName">
@@ -195,7 +195,7 @@
                           </div>
                           <div class="provider-logo">
                             <span class="provider-logo-helper"></span>
-                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '../../../lib/images/broken_image-black-48dp.svg' }}">
+                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
                           </div>
                           <div class="uk-card-body">
                             <div class="providerName">
@@ -208,7 +208,7 @@
                               <span class="statusLabel">Status: </span>{{ providerBundle.status | titlecase }}
                             </div>
                             <div class="uk-margin-top cardActionButtons">
-                              <button class="uk-button uk-button-action" routerLink="/add/{{providerBundle.id}}">
+                              <button class="uk-button uk-button-action" routerLink="/provider/add/{{providerBundle.id}}">
                                 <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider</button>
                             </div>
                           </div>

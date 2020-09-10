@@ -1,11 +1,30 @@
 <div id="tm-main" class="tm-main uk-section uk-section-default" uk-height-viewport="expand: true"
      style="box-sizing: border-box;">
-  <div class="uk-container">
+  <div class="uk-container uk-container-large">
 
     <!-- TOP HELP CONTENT -->
     <app-help-content #topHelperContent [position]="'top'"
                       [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
     </app-help-content>
+
+    <div class="uk-grid">
+      <div class="uk-width-1-2@m">
+        <form class="uk-grid" [formGroup]="searchForm"
+              (ngSubmit)="onSubmit(searchForm.controls['query'].value)">
+          <div class="uk-width-1-2@m">
+            <select *ngIf="showSearchFieldDropDown" class="uk-select menuSearchFields"
+                    (change)="updateSearchField($event)" formControlName="searchFields">
+              <option value="">--Search field--</option>
+              <option *ngFor="let field of searchFields" value="{{field}}">{{field}}</option>
+            </select>
+          </div>
+          <div class="uk-width-1-2@m">
+            <input type="text" class="uk-input menuSearch" placeholder="" name="keyword"
+                   formControlName="query">
+          </div>
+        </form>
+      </div>
+    </div>
 
     <div *ngIf="listViewActive" class="uk-grid" uk-grid="">
 
@@ -193,7 +212,7 @@
                       <div class="">
                         <a (click)="this.router.service(resourceInfo.service.id)">
                           <span>
-                            <img src="{{resourceInfo.service.logo || '../../../../../../src/assets/images/broken_image-black-48dp.svg'}}"
+                            <img src="{{resourceInfo.service.logo || 'src/lib/assets/images/broken_image-black-48dp.svg'}}"
                                  style="max-width: 90px;">
                           </span>
                         </a>
@@ -423,7 +442,7 @@
 
                     <a (click)="this.router.service(resourceInfo.service.id)">
                       <span>
-                        <img src="{{resourceInfo.service.logo || '../../../../../../src/assets/images/broken_image-black-48dp.svg'}}"
+                        <img src="{{resourceInfo.service.logo || 'src/lib/assets/images/broken_image-black-48dp.svg'}}"
                              style="height: 51px;">
                       </span>
                     </a>

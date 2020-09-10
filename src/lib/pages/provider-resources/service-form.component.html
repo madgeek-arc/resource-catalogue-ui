@@ -22,7 +22,7 @@
         <!--<h2 class="uk-text-center uk-h2 uk-scrollspy-inview uk-animation-slide-bottom-small" uk-scrollspy-class=""-->
             <!--style="">-->
           <!--<img class="el-image uk-border-rounded"-->
-               <!--src="{{(serviceForm && serviceForm.get('logo').value) ? serviceForm.get('logo').value : '../../../lib/images/broken_image-black-48dp.svg'}}"-->
+               <!--src="{{(serviceForm && serviceForm.get('logo').value) ? serviceForm.get('logo').value : 'src/lib/assets/images/broken_image-black-48dp.svg'}}"-->
                <!--width="50">-->
           <!--{{editMode ? "Edit" : "Add"}} a {{serviceName}} service-->
         <!--</h2>-->
@@ -183,7 +183,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{nameDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="name" class="uk-input uk-width-9-10" type="text" formControlName="name"
-                                     (keyup)="handleBitSets(0, 0, 'name'); unsavedChangesPrompt()"
+                                     (input)="handleBitSets(0, 0, 'name'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('name') }">
                               <!--                                   [ngClass]="{'uk-form-danger': !serviceForm.get('name').valid && serviceForm.get('name').dirty}">-->
                               <!--<i><small>{{nameDesc.desc}}</small></i>-->
@@ -257,7 +257,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{webpageDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="webpage" class="uk-input uk-width-9-10" type="text" formControlName="webpage"
-                                     (keyup)="handleBitSets(0, 2, 'webpage'); unsavedChangesPrompt()"
+                                     (input)="handleBitSets(0, 2, 'webpage'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('webpage')}">
                               <!--<i><small>{{webpageDesc.desc}}</small></i>-->
                             </div>
@@ -295,7 +295,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{taglineDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="tagline" class="uk-input uk-width-9-10" type="text" formControlName="tagline"
-                                     (keyup)="handleBitSets(1, 4, 'tagline'); unsavedChangesPrompt()"
+                                     (input)="handleBitSets(1, 4, 'tagline'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('tagline')}">
                               <!--<i><small>{{taglineDesc.desc}}</small></i>-->
                             </div>
@@ -307,7 +307,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{logoDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo"
-                                     (keyup)="handleBitSets(1, 5, 'logo'); unsavedChangesPrompt()"
+                                     (input)="handleBitSets(1, 5, 'logo'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('logo')}">
                               <!--<i><small>{{logoDesc.desc}}</small></i>-->
                             </div>
@@ -320,7 +320,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let multimedia of getFieldAsFormArray('multimedia').controls; let i=index" class="uk-margin-bottom">
                                 <input id="multimedia" class="uk-input uk-width-9-10 uk-animation-slide-top-small" type="text" [formControlName]="i"
-                                       (keyup)="unsavedChangesPrompt()"
+                                       (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i)}">
                                 <a *ngIf="getFieldAsFormArray('multimedia').length > 1"
                                    class="remove-element uk-padding-small" (click)="remove('multimedia', i); unsavedChangesPrompt()">
@@ -343,7 +343,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let useCase of getFieldAsFormArray('useCases').controls; let i=index" class="uk-margin-bottom">
                                 <input id="useCases" class="uk-input uk-width-9-10 uk-animation-slide-top-small" type="text" [formControlName]="i"
-                                       (keyup)="unsavedChangesPrompt()"
+                                       (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i)}">
                                 <a *ngIf="getFieldAsFormArray('useCases').length > 1"
                                    class="remove-element uk-padding-small" (click)="remove('useCases', i); unsavedChangesPrompt()">
@@ -600,7 +600,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('tags').controls; let i=index" class="uk-margin-bottom">
                                 <input id="tags" class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text" [formControlName]="i"
-                                       (keyup)="unsavedChangesPrompt()"
+                                       (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('tags', i)}">
                                 <a *ngIf="getFieldAsFormArray('tags').length > 1"
                                    class="remove-element uk-padding-small" (click)="remove('tags', i); unsavedChangesPrompt()">
@@ -724,7 +724,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactFirstNameDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactFirstName" class="uk-input" type="text" formControlName="firstName"
-                                           (keyup)="handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact'); unsavedChangesPrompt()"
+                                           (input)="handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.firstName')}">
                                     <!--<i><small>{{ mainContactFirstNameDesc.desc }}</small></i>-->
                                   </div>
@@ -736,7 +736,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactLastNameDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactLastName" class="uk-input" type="text" formControlName="lastName"
-                                           (keyup)="handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact'); unsavedChangesPrompt()"
+                                           (input)="handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.lastName')}">
                                     <!--<i><small>{{ mainContactLastNameDesc.desc }}</small></i>-->
                                   </div>
@@ -748,7 +748,7 @@
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactEmailDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactEmail" class="uk-input" type="text" formControlName="email"
-                                           (keyup)="handleBitSetsOfGroups(5, 15, 'email', 'mainContact'); unsavedChangesPrompt()"
+                                           (input)="handleBitSetsOfGroups(5, 15, 'email', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.email')}">
                                     <!--<i><small>{{ mainContactEmailDesc.desc }}</small></i>-->
                                   </div>
@@ -815,7 +815,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactFirstNameDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="firstName" class="uk-input" type="text" formControlName="firstName"
-                                             (keyup)="handlePublicContactBitSet(0, 'firstName'); unsavedChangesPrompt()"
+                                             (input)="handlePublicContactBitSet(0, 'firstName'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'firstName')}">
                                       <!--<i><small>{{ publicContactFirstNameDesc.desc }}</small></i>-->
                                     </div>
@@ -827,7 +827,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactLastNameDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="lastName" class="uk-input" type="text" formControlName="lastName"
-                                             (keyup)="handlePublicContactBitSet(1, 'lastName'); unsavedChangesPrompt()"
+                                             (input)="handlePublicContactBitSet(1, 'lastName'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'lastName')}">
                                       <!--<i><small>{{ publicContactLastNameDesc.desc }}</small></i>-->
                                     </div>
@@ -839,7 +839,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactEmailDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="email" class="uk-input" type="text" formControlName="email"
-                                             (keyup)="handlePublicContactBitSet(2, 'email'); unsavedChangesPrompt()"
+                                             (input)="handlePublicContactBitSet(2, 'email'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'email')}">
                                       <!--<i><small>{{ publicContactEmailDesc.desc }}</small></i>-->
                                     </div>
@@ -851,7 +851,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPhoneDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="phone" class="uk-input" type="text" formControlName="phone"
-                                             (keyup)="handlePublicContactBitSet(3, 'phone'); unsavedChangesPrompt()"
+                                             (input)="handlePublicContactBitSet(3, 'phone'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'phone')}">
                                       <!--<i><small>{{ publicContactPhoneDesc.desc }}</small></i>-->
                                     </div>
@@ -863,7 +863,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPositionDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="position" class="uk-input" type="text" formControlName="position"
-                                             (keyup)="handlePublicContactBitSet(4, 'position'); unsavedChangesPrompt()"
+                                             (input)="handlePublicContactBitSet(4, 'position'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'position')}">
                                       <!--<i><small>{{ publicContactPositionDesc.desc }}</small></i>-->
                                     </div>
@@ -905,7 +905,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{helpdeskEmailDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="helpdeskEmail" class="uk-input uk-width-9-10" type="text" formControlName="helpdeskEmail"
-                                     (keyup)="handleBitSets(5, 16, 'helpdeskEmail'); unsavedChangesPrompt()"
+                                     (input)="handleBitSets(5, 16, 'helpdeskEmail'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('helpdeskEmail')}">
                               <!--<i><small>{{helpdeskEmailDesc.desc}}</small></i>-->
                             </div>
@@ -917,7 +917,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{securityContactEmailDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="securityContactEmail" class="uk-input uk-width-9-10" type="text" formControlName="securityContactEmail"
-                                     (keyup)="handleBitSets(5, 17, 'securityContactEmail'); unsavedChangesPrompt()"
+                                     (input)="handleBitSets(5, 17, 'securityContactEmail'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('securityContactEmail')}">
                               <!--<i><small>{{securityContactEmailDesc.desc}}</small></i>-->
                             </div>
@@ -1150,7 +1150,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('relatedPlatforms').controls; let i=index" class="uk-margin-bottom">
                                 <input id="relatedPlatforms" class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text" [formControlName]="i"
-                                       (keyup)="unsavedChangesPrompt()"
+                                       (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedPlatforms', i)}">
                                 <a *ngIf="getFieldAsFormArray('relatedPlatforms').length > 1"
                                    class="remove-element uk-padding-small" (click)="remove('relatedPlatforms', i); unsavedChangesPrompt()">
@@ -1236,7 +1236,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('grantProjectNames').controls; let i=index" class="uk-margin-bottom">
                                 <input id="grantProjectNames" class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text" [formControlName]="i"
-                                       (keyup)="unsavedChangesPrompt()"
+                                       (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('grantProjectNames', i)}">
                                 <a *ngIf="getFieldAsFormArray('grantProjectNames').length > 1"
                                    class="remove-element uk-padding-small" (click)="remove('grantProjectNames', i); unsavedChangesPrompt()">
@@ -1261,7 +1261,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{helpdeskPageDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="helpdeskPage" class="uk-input uk-width-9-10" type="text" formControlName="helpdeskPage"
-                                     (keyup)="unsavedChangesPrompt()"
+                                     (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('helpdeskPage')}">
                               <!--<i><small>{{helpdeskPageDesc.desc}}</small></i>-->
                             </div>
@@ -1273,7 +1273,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{userManualDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="userManual" class="uk-input uk-width-9-10" type="text" formControlName="userManual"
-                                     (keyup)="unsavedChangesPrompt()"
+                                     (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('userManual')}">
                               <!--<i><small>{{userManualDesc.desc}}</small></i>-->
                             </div>
@@ -1285,7 +1285,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{termsOfUseDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="termsOfUse" class="uk-input uk-width-9-10" type="text" formControlName="termsOfUse"
-                                     (keyup)="unsavedChangesPrompt()"
+                                     (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('termsOfUse')}">
                               <!--<i><small>{{termsOfUseDesc.desc}}</small></i>-->
                             </div>
@@ -1297,7 +1297,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{privacyPolicyDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="privacyPolicy" class="uk-input uk-width-9-10" type="text" formControlName="privacyPolicy"
-                                     (keyup)="unsavedChangesPrompt()"
+                                     (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('privacyPolicy')}">
                               <!--<i><small>{{privacyPolicyDesc.desc}}</small></i>-->
                             </div>
@@ -1309,7 +1309,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{accessPolicyDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="accessPolicy" class="uk-input uk-width-9-10" type="text" formControlName="accessPolicy"
-                                     (keyup)="unsavedChangesPrompt()"
+                                     (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('accessPolicy')}">
                               <!--<i><small>{{accessPolicyDesc.desc}}</small></i>-->
                             </div>
@@ -1321,7 +1321,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{serviceLevelDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="serviceLevel" class="uk-input uk-width-9-10" type="text" formControlName="serviceLevel"
-                                     (keyup)="unsavedChangesPrompt()"
+                                     (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('serviceLevel')}">
                               <!--<i><small>{{serviceLevelDesc.desc}}</small></i>-->
                             </div>
@@ -1333,7 +1333,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{trainingInformationDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="trainingInformation" class="uk-input uk-width-9-10" type="text" formControlName="trainingInformation"
-                                     (keyup)="unsavedChangesPrompt()"
+                                     (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('trainingInformation')}">
                               <!--<i><small>{{trainingInformationDesc.desc}}</small></i>-->
                             </div>
@@ -1345,7 +1345,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{statusMonitoringDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="statusMonitoring" class="uk-input uk-width-9-10" type="text" formControlName="statusMonitoring"
-                                     (keyup)="unsavedChangesPrompt()"
+                                     (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('statusMonitoring')}">
                               <!--<i><small>{{statusMonitoringDesc.desc}}</small></i>-->
                             </div>
@@ -1357,7 +1357,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{maintenanceDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="maintenance" class="uk-input uk-width-9-10" type="text" formControlName="maintenance"
-                                     (keyup)="unsavedChangesPrompt()"
+                                     (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('maintenance')}">
                               <!--<i><small>{{maintenanceDesc.desc}}</small></i>-->
                             </div>
@@ -1390,7 +1390,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{orderDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="order" class="uk-input uk-width-9-10" type="text" formControlName="order"
-                                     (keyup)="unsavedChangesPrompt()"
+                                     (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('order')}">
                               <!--<i><small>{{orderDesc.desc}}</small></i>-->
                             </div>
@@ -1405,7 +1405,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{paymentModelDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="paymentModel" class="uk-input uk-width-9-10" type="text" formControlName="paymentModel"
-                                     (keyup)="unsavedChangesPrompt()"
+                                     (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('paymentModel')}">
                               <!--<i><small>{{paymentModelDesc.desc}}</small></i>-->
                             </div>
@@ -1417,7 +1417,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{pricingDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="pricing" class="uk-input uk-width-9-10" type="text" formControlName="pricing"
-                                     (keyup)="unsavedChangesPrompt()"
+                                     (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('pricing')}">
                               <!--<i><small>{{pricingDesc.desc}}</small></i>-->
                             </div>

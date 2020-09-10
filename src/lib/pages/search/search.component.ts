@@ -41,7 +41,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   items: TreeviewItem[] = [];
   scientificDomain: TreeviewItem[] = [];
 
-  searchForm: FormGroup;
+  public searchForm: FormGroup;
+  public showSearchFieldDropDown = true;
+  public searchFields: string[] = ['name', 'description', 'tagline', 'user value', 'user base', 'use cases'];
   errorMessage: string;
   sub: Subscription;
   urlParameters: URLParameter[] = [];
@@ -65,7 +67,7 @@ export class SearchComponent implements OnInit, OnDestroy {
               public userService: UserService, public resourceService: ResourceService,
               public authenticationService: AuthenticationService, public comparisonService: ComparisonService,
               public navigationService: NavigationService, public emailService: EmailService) {
-    this.searchForm = fb.group({'query': ['']});
+    this.searchForm = fb.group({'query': [''], 'searchFields': ['']});
   }
 
   isChecked(serviceId: string) {
@@ -94,6 +96,43 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.addParameterToURL(param, urlParams[i].item.value);
     }
     this.navigateUsingParameters();
+  }
+
+  updateSearchField(event) {
+    const map: { [name: string]: string; } = {};
+    const params = this.route.snapshot.children[0].params;
+    let found = false;
+    this.urlParameters = [];
+    for (const i in params) {
+      if (params.hasOwnProperty(i)) {
+        if (i === 'searchFields') {
+          found = true;
+          if (event.target.value === '') {
+            continue;
+          } else {
+            this.urlParameters.push({key: i, values: [event.target.value]});
+            continue;
+          }
+        }
+        this.urlParameters.push({key: i, values: [params[i]]});
+      }
+    }
+    if (!found) {
+      this.urlParameters.push({key: 'searchFields', values: [event.target.value]});
+    }
+    for (const urlParameter of this.urlParameters) {
+      let concatValue = '';
+      let counter = 0;
+      for (const value of urlParameter.values) {
+        if (counter !== 0) {
+          concatValue += ',';
+        }
+        concatValue += value;
+        counter++;
+      }
+      map[urlParameter.key] = concatValue;
+    }
+    return this.router.search(map);
   }
 
   ngOnInit() {
@@ -349,7 +388,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSubmit(searchValue: SearchQuery) {
+  /*onSubmit(searchValue: SearchQuery) {
     let foundQuery = false;
     let queryParameterIndex = 0;
     for (const urlParameter of this.urlParameters) {
@@ -372,6 +411,36 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.urlParameters.push(searchQuery);
     }
     return this.navigateUsingParameters();
+  }*/
+
+  onSubmit(searchValue: string) {
+    /*let params = Object.assign({},this.activatedRoute.children[0].snapshot.params);
+    params['query'] = searchValue.query;*/
+    searchValue = searchValue.replace(/[;=]/g, '');
+    let url = window.location.href;
+    let params: String[] = url.split(';');
+    if (params.length > 1) {
+      // let query: String[] = params[1].split('=');
+      let query: String[];
+      for (const i of params) {
+        query = i.split('=');
+        if (query[0] === 'query') {
+          query[1] = searchValue;
+          params[1] = query.join('=');
+          params = params.slice(1);
+          url = params.join(';');
+          this.router.searchParams.next({query: searchValue});
+          return window.location.href = '/search;' + url;
+        }
+      }
+      params.splice(1, 0, `query=${searchValue}`);
+      params = params.slice(1);
+      url = params.join(';');
+      this.router.searchParams.next({query: searchValue});
+      return window.location.href = '/search;' + url;
+    } else {
+      return this.router.search({query: searchValue});
+    }
   }
 
   deselectFacet(category: string, value: string) {

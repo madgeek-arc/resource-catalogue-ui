@@ -296,7 +296,8 @@ export class ServiceFormComponent implements OnInit {
           // console.log(_service);
           this.showLoader = false;
           // fixme fix this router url
-          return this.router.go('/editPendingService/' + _service.id);
+          // return this.router.go('/editPendingService/' + _service.id);
+          return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
         },
         err => {
           this.showLoader = false;

@@ -24,7 +24,7 @@ export class CompareServicesComponent implements OnInit, OnDestroy {
   public errorMessage: string;
   ids: string[] = [];
   /*providers: any;*/
-  nologo = '../../../lib/images/broken_image-black-48dp.svg';
+  nologo = 'src/lib/assets/images/broken_image-black-48dp.svg';
   private sub: Subscription;
 
   constructor(public fb: FormBuilder, public route: ActivatedRoute, public router: NavigationService,

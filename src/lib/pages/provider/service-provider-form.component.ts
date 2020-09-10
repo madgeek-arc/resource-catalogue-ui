@@ -184,13 +184,12 @@ export class ServiceProviderFormComponent implements OnInit {
   ngOnInit() {
 
     const path = this.route.snapshot.routeConfig.path;
-    // fixme why is this commented out??
-    // if (path === 'add/:id') {
-    //   this.pendingProvider = true;
-    // }
-    if (path.includes('info')) {
+    if (path.includes('add/:providerId')) {
       this.pendingProvider = true;
     }
+    // if (path.includes('info/:providerId')) {
+    //   this.pendingProvider = true;
+    // }
     this.setVocabularies();
     this.newProviderForm = this.fb.group(this.formDefinition);
     if (this.edit === false) {
@@ -251,7 +250,7 @@ export class ServiceProviderFormComponent implements OnInit {
     this.trimFormWhiteSpaces();
     const path = this.route.snapshot.routeConfig.path;
     let method;
-    if (path === 'add/:id') {
+    if (path === 'add/:providerId') {
       method = 'updateAndPublishPendingProvider';
     } else {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
@@ -274,11 +273,11 @@ export class ServiceProviderFormComponent implements OnInit {
     if (tempSave) {
       this.showLoader = true;
       window.scrollTo(0, 0);
-      this.serviceProviderService.temporarySaveProvider(this.newProviderForm.value, (path !== 'add/:id' && this.edit))
+      this.serviceProviderService.temporarySaveProvider(this.newProviderForm.value, (path !== 'add/:providerId' && this.edit))
         .subscribe(
           res => {
             this.showLoader = false;
-            this.router.navigate([`/add/${res.id}`]);
+            this.router.navigate([`/provider/add/${res.id}`]);
           },
           err => {
             this.showLoader = false;
@@ -304,9 +303,9 @@ export class ServiceProviderFormComponent implements OnInit {
         () => {
           this.showLoader = false;
           if (this.edit) {
-            this.router.navigate(['/myServiceProviders']);
+            this.router.navigate(['/provider/my']);
           } else {
-            this.authService.refreshLogin('/myServiceProviders');
+            this.authService.refreshLogin('/provider/my');
           }
         }
       );
@@ -315,7 +314,8 @@ export class ServiceProviderFormComponent implements OnInit {
       this.markFormAsDirty();
       window.scrollTo(0, 0);
       this.markTabs();
-      this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
+      this.errorMessage = 'Please fill in all required fields (marked with an asterisk), ' +
+        'and fix the data format in fields underlined with a red colour.';
     }
   }
 
