@@ -81,10 +81,10 @@ export function highchartsFactory() {
     ServiceLandingPageComponent,
     BecomeAProviderComponent,
     // PERSISTENT
-    // TopMenuComponent,
+    TopMenuComponent,
     EOSCTopMenuComponent,
     // BreadcrumbsComponent,
-    // FooterComponent,
+    FooterComponent,
     EOSCFooterComponent,
     FeedbackComponent,
     // USER
