@@ -804,7 +804,7 @@ a.remove-element i {
   content: '';
   display: block;
   border: 10px solid transparent;
-//border-left-color: transparent;
+  /*border-left-color: transparent;*/
   border-left-color: #fff;
 }
 
@@ -815,7 +815,7 @@ a.remove-element i {
   content: '';
   display: block;
   border: 10px solid transparent;
-//border-left-color: transparent;
+  /*border-left-color: transparent;*/
   border-left-color: #214c9c;
 }
 
