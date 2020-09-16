@@ -1180,7 +1180,7 @@
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('fundingBody', i)}">
                                   <option value=""></option>
                                   <ng-container *ngIf="fundingBodyVocabulary">
-                                    <option *ngFor="let entry of fundingBodyVocabulary" value="{{entry.id}}">
+                                    <option *ngFor="let entry of sortVocabulariesByName(fundingBodyVocabulary)" value="{{entry.id}}">
                                       {{entry.name}}
                                     </option>
                                   </ng-container>
@@ -1210,7 +1210,7 @@
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('fundingPrograms', i)}">
                                   <option value=""></option>
                                   <ng-container *ngIf="fundingProgramVocabulary">
-                                    <option *ngFor="let entry of fundingProgramVocabulary" value="{{entry.id}}">
+                                    <option *ngFor="let entry of sortVocabulariesByName(fundingProgramVocabulary)" value="{{entry.id}}">
                                       {{entry.name}}
                                     </option>
                                   </ng-container>
