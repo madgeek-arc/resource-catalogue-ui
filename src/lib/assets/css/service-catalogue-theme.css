@@ -264,7 +264,7 @@ ul.uk-pagination {
   /*font: 700 18px Roboto;*/
   letter-spacing: 0px;
   color: #212121;
-  text-transform: capitalize;
+  /*text-transform: capitalize;*/
   opacity: 0.81;
 }
 
