@@ -3,6 +3,7 @@ import {Subscription} from 'rxjs';
 import {Service} from '../../domain/eic-model';
 import {ServiceFormComponent} from './service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-service-upload',
@@ -12,8 +13,9 @@ export class ServiceUploadComponent extends ServiceFormComponent implements OnIn
   private sub: Subscription;
 
   constructor(protected injector: Injector,
-              protected authenticationService: AuthenticationService) {
-    super(injector, authenticationService);
+              protected authenticationService: AuthenticationService,
+              protected route: ActivatedRoute) {
+    super(injector, authenticationService, route);
     this.editMode = false;
   }
 

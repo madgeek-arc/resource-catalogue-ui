@@ -12,6 +12,7 @@ import {zip} from 'rxjs/internal/observable/zip';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
 import BitSet from 'bitset/bitset';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-service-form',
@@ -250,7 +251,8 @@ export class ServiceFormComponent implements OnInit {
   public languagesVocIdArray: string[] = [];
 
   constructor(protected injector: Injector,
-              protected authenticationService: AuthenticationService
+              protected authenticationService: AuthenticationService,
+              protected route: ActivatedRoute
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(FormBuilder);
@@ -381,7 +383,9 @@ export class ServiceFormComponent implements OnInit {
         this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'World']);
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
-        this.handleBitSets(0, 1, 'resourceOrganisation');
+        this.providerId = this.route.snapshot.paramMap.get('providerId');
+        this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
+        this.handleBitSets(0, 1, 'resourceOrganisation'); // TODO move this
         if (this.publicContactBitSet.cardinality() === 0) {
           this.removePublicContact(0);
         }

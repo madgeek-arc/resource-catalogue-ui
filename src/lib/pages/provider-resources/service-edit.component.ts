@@ -19,7 +19,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
 
   constructor(public route: ActivatedRoute, public authenticationService: AuthenticationService,
               protected injector: Injector, public datePipe: DatePipe) {
-    super(injector, authenticationService);
+    super(injector, authenticationService, route);
     this.editMode = true;
   }
 
