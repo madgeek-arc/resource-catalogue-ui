@@ -199,7 +199,7 @@
                               <select id="legalStatus" class="uk-input uk-select uk-width-9-10" formControlName="legalStatus"
                                       [ngClass]="{'uk-form-danger': checkFormValidity('legalStatus')}">
                                 <ng-container *ngIf="this.newProviderForm.get('legalEntity').value == true">
-                                  <option value=""></option>
+<!--                                  <option value=""></option>-->
                                   <option *ngFor="let entry of sortVocabulariesByName(legalStatusVocabulary)"
                                           value="{{entry.id}}">
                                     {{entry.name}}
@@ -947,7 +947,7 @@
                         <li>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right">Administrators (*)</label>
-                            <div><i>An administrator will be added using your user information</i></div>
+                            <div *ngIf="!edit"><i>An administrator for managing the RP information in {{projectName}} will be added using your user information</i></div>
                             <div *ngIf="newProviderForm.get('users').value" class="uk-form-controls uk-margin-top">
                               <div formArrayName="users" *ngFor="let user of usersArray.controls; let i = index">
                                 <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
