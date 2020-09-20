@@ -198,11 +198,13 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <select id="legalStatus" class="uk-input uk-select uk-width-9-10" formControlName="legalStatus"
                                       [ngClass]="{'uk-form-danger': checkFormValidity('legalStatus')}">
-                                <option value=""></option>
-                                <option *ngFor="let entry of sortVocabulariesByName(legalStatusVocabulary)"
-                                        value="{{entry.id}}">
-                                  {{entry.name}}
-                                </option>
+                                <ng-container *ngIf="this.newProviderForm.get('legalEntity').value == true">
+                                  <option value=""></option>
+                                  <option *ngFor="let entry of sortVocabulariesByName(legalStatusVocabulary)"
+                                          value="{{entry.id}}">
+                                    {{entry.name}}
+                                  </option>
+                                </ng-container>
                               </select>
                               <!--<i><small>{{legalStatusDesc.desc}}</small></i>-->
                             </div>
