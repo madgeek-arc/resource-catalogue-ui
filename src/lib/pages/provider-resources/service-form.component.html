@@ -266,27 +266,39 @@
                         </li>
                         <!--MARKETING-->
                         <li>
+<!--                          <div class="uk-margin-large-bottom">-->
+<!--                            <label class="uk-form-label uk-text-right">-->
+<!--                              {{descriptionDesc.label + (descriptionDesc.mandatory ? ' (*)' : '')}}-->
+<!--                            </label>-->
+<!--                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{descriptionDesc.desc}}</div>-->
+<!--                            &lt;!&ndash;<div class="uk-form-label uk-text-right">&ndash;&gt;-->
+<!--                              &lt;!&ndash;<label class="uk-form-label uk-text-right">&ndash;&gt;-->
+<!--                                &lt;!&ndash;{{descriptionDesc.label + (descriptionDesc.mandatory ? ' (*)' : '')}}&ndash;&gt;-->
+<!--                              &lt;!&ndash;</label>&ndash;&gt;-->
+<!--                            &lt;!&ndash;</div>&ndash;&gt;-->
+<!--                            <div class="uk-form-controls uk-margin-medium-top">-->
+<!--                              <div class="uk-wisth-9-10">-->
+<!--                                <ckeditor-->
+<!--                                  [readonly]="false"-->
+<!--                                  debounce="500"-->
+<!--                                  formControlName="description"-->
+<!--                                  (change)="handleBitSets(1, 3, 'description'); unsavedChangesPrompt()"-->
+<!--                                  [config]="{extraPlugins: 'divarea',allowedContent: true,extraAllowedContent : '*(*)'}">-->
+<!--                                </ckeditor>-->
+<!--                                &lt;!&ndash;<i><small>{{descriptionDesc.desc}}</small></i>&ndash;&gt;-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                          </div>-->
                           <div class="uk-margin-large-bottom">
-                            <label class="uk-form-label uk-text-right">
+                            <label class="uk-form-label uk-text-right" for="description">
                               {{descriptionDesc.label + (descriptionDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{descriptionDesc.desc}}</div>
-                            <!--<div class="uk-form-label uk-text-right">-->
-                              <!--<label class="uk-form-label uk-text-right">-->
-                                <!--{{descriptionDesc.label + (descriptionDesc.mandatory ? ' (*)' : '')}}-->
-                              <!--</label>-->
-                            <!--</div>-->
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <div class="uk-wisth-9-10">
-                                <ckeditor
-                                  [readonly]="false"
-                                  debounce="500"
-                                  formControlName="description"
-                                  (change)="handleBitSets(1, 3, 'description'); unsavedChangesPrompt()"
-                                  [config]="{extraPlugins: 'divarea',allowedContent: true,extraAllowedContent : '*(*)'}">
-                                </ckeditor>
-                                <!--<i><small>{{descriptionDesc.desc}}</small></i>-->
-                              </div>
+                              <textarea id="description" class="uk-textarea uk-width-9-10" rows="4" formControlName="description"
+                                        (input)="handleBitSets(1, 3, 'description'); unsavedChangesPrompt()"
+                                        [ngClass]="{'uk-form-danger': checkFormValidity('description')}"></textarea>
+<!--                              <i><small>{{descriptionDesc.desc}}</small></i>-->
                             </div>
                           </div>
                           <div class="uk-margin-large-bottom">
