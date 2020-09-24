@@ -21,6 +21,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class ServiceFormComponent implements OnInit {
   projectName = environment.projectName;
+  projectMail = environment.projectMail;
   serviceName = '';
   firstServiceForm = false;
   showLoader = false;
