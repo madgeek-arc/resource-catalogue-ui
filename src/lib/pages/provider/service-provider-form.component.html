@@ -149,8 +149,8 @@
                               <input id="providerName" class="uk-input uk-width-9-10" type="text" formControlName="name"
                                      (input)="handleBitSets(0, 0, 'name'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('name')}">
-                              <!--<i><small>{{fullNameDesc.desc}}</small></i>-->
                             </div>
+                            <i><small>Suggested length is 100 characters</small></i>
                           </div>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label" for="abbreviation">
@@ -161,8 +161,8 @@
                               <input id="abbreviation" class="uk-input uk-width-9-10" type="text" formControlName="abbreviation"
                                      (input)="handleBitSets(0, 1, 'abbreviation'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('abbreviation')}">
-                              <!--<i><small>{{abbreviationDesc.desc}}</small></i>-->
                             </div>
+                            <i><small>Suggested length is 30 characters</small></i>
                           </div>
 
                           <div class="uk-margin-large-bottom">
@@ -221,8 +221,8 @@
                               <textarea id="description" class="uk-textarea uk-width-9-10" rows="4" formControlName="description"
                                     (input)="handleBitSets(1, 3, 'description'); unsavedChangesPrompt()"
                                     [ngClass]="{'uk-form-danger': checkFormValidity('description')}"></textarea>
-                              <!--<i><small>{{providerDescriptionDesc.desc}}</small></i>-->
                             </div>
+                            <i><small>Suggested length is 1000 characters</small></i>
                           </div>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="logo">
@@ -344,12 +344,12 @@
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
+                              <i><small>Suggested length is 20 characters</small></i>
                               <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                 <a class="add-new-element" (click)="push('tags', false)">
                                   <i class="fa fa-plus" aria-hidden="true"></i> Add {{providerTagsDesc.label}}
                                 </a>
                               </div>
-                              <!--<i><small>{{providerTagsDesc.desc}}</small></i>-->
                             </div>
                           </div>
                         </li>
@@ -365,8 +365,8 @@
                                 <input id="streetNameAndNumber" class="uk-input uk-width-9-10" type="text" formControlName="streetNameAndNumber"
                                        (input)="handleBitSetsOfGroups(3, 5, 'streetNameAndNumber', 'location'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('location.streetNameAndNumber')}">
-                                <!--<i><small>{{streetNameAndNumberDesc.desc}}</small></i>-->
                               </div>
+                              <i><small>Suggested length is 50 characters</small></i>
                             </div>
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="postalCode">
@@ -377,8 +377,8 @@
                                 <input id="postalCode" class="uk-input uk-width-9-10" type="text" formControlName="postalCode"
                                        (input)="handleBitSetsOfGroups(3, 6, 'postalCode', 'location'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('location.postalCode')}">
-                                <!--<i><small>{{postalCodeDesc.desc}}</small></i>-->
                               </div>
+                              <i><small>Suggested length is 20 characters</small></i>
                             </div>
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="city">
@@ -389,8 +389,8 @@
                                 <input id="city" class="uk-input uk-width-9-10" type="text" formControlName="city"
                                        (input)="handleBitSetsOfGroups(3, 7, 'city', 'location'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('location.city')}">
-                                <!--<i><small>{{cityDesc.desc}}</small></i>-->
                               </div>
+                              <i><small>Suggested length is 20 characters</small></i>
                             </div>
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="region">
@@ -401,8 +401,8 @@
                                 <input id="region" class="uk-input uk-width-9-10" type="text" formControlName="region"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('location.region')}">
-                                <!--<i><small>{{regionDesc.desc}}</small></i>-->
                               </div>
+                              <i><small>Suggested length is 50 characters</small></i>
                             </div>
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="country">
@@ -438,8 +438,8 @@
                                     <input id="mainContactFirstName" class="uk-input" type="text" formControlName="firstName"
                                            (input)="handleBitSetsOfGroups(4, 9, 'firstName', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.firstName')}">
-                                    <!--<i><small>{{ providerMainContactFirstNameDesc.desc }}</small></i>-->
                                   </div>
+                                  <i><small>Suggested length is 50 characters</small></i>
                                 </div>
                                 <div class="uk-margin-bottom">
                                   <label class="uk-form-label uk-text-right" for="mainContactLastName">
@@ -450,8 +450,8 @@
                                     <input id="mainContactLastName" class="uk-input" type="text" formControlName="lastName"
                                            (input)="handleBitSetsOfGroups(4, 10, 'lastName', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.lastName')}">
-                                    <!--<i><small>{{ providerMainContactLastNameDesc.desc }}</small></i>-->
                                   </div>
+                                  <i><small>Suggested length is 50 characters</small></i>
                                 </div>
                                 <div class="uk-margin-bottom">
                                   <label class="uk-form-label uk-text-right" for="mainContactEmail">
@@ -474,8 +474,8 @@
                                     <input id="mainContactPhone" class="uk-input" type="text" formControlName="phone"
                                            (input)="unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.phone')}">
-                                    <!--<i><small>{{ providerMainContactPhoneDesc.desc }}</small></i>-->
                                   </div>
+                                  <i><small>Suggested length is 20 characters</small></i>
                                 </div>
                                 <div class="uk-margin-bottom">
                                   <label class="uk-form-label uk-text-right" for="mainContactPosition">
@@ -486,8 +486,8 @@
                                     <input id="mainContactPosition" class="uk-input" type="text" formControlName="position"
                                            (input)="unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.position')}">
-                                    <!--<i><small>{{ providerMainContactPositionDesc.desc }}</small></i>-->
                                   </div>
+                                  <i><small>Suggested length is 50 characters</small></i>
                                 </div>
 
 
@@ -514,8 +514,8 @@
                                       <input id="firstName" class="uk-input" type="text" formControlName="firstName"
                                              (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'firstName')}">
-                                      <!--<i><small>{{ providerPublicContactFirstNameDesc.desc }}</small></i>-->
                                     </div>
+                                    <i><small>Suggested length is 20 characters</small></i>
                                   </div>
                                   <div class="uk-margin-bottom">
                                     <label class="uk-form-label uk-text-right" for="lastName">
@@ -526,8 +526,8 @@
                                       <input id="lastName" class="uk-input" type="text" formControlName="lastName"
                                              (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'lastName')}">
-                                      <!--<i><small>{{ providerPublicContactLastNameDesc.desc }}</small></i>-->
                                     </div>
+                                    <i><small>Suggested length is 20 characters</small></i>
                                   </div>
                                   <div class="uk-margin-bottom">
                                     <label class="uk-form-label uk-text-right" for="email">
@@ -550,8 +550,8 @@
                                       <input id="phone" class="uk-input" type="text" formControlName="phone"
                                              (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'phone')}">
-                                      <!--<i><small>{{ providerPublicContactPhoneDesc.desc }}</small></i>-->
                                     </div>
+                                    <i><small>Suggested length is 20 characters</small></i>
                                   </div>
                                   <div class="uk-margin-bottom">
                                     <label class="uk-form-label uk-text-right" for="position">
@@ -562,8 +562,8 @@
                                       <input id="position" class="uk-input" type="text" formControlName="position"
                                              (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'position')}">
-                                      <!--<i><small>{{ providerPublicContactPositionDesc.desc }}</small></i>-->
                                     </div>
+                                    <i><small>Suggested length is 50 characters</small></i>
                                   </div>
 
                                 </div>
@@ -616,15 +616,16 @@
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
+                              <i><small>Suggested length is 250 characters</small></i>
                               <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                 <a class="add-new-element" (click)="push('certifications', false)">
                                   <i class="fa fa-plus" aria-hidden="true"></i> Add {{providerCertificationsDesc.label}}
                                 </a>
                               </div>
-                              <!--<i><small>{{providerCertificationsDesc.desc}}</small></i>-->
                             </div>
                           </div>
                         </li>
+                        <!--OTHER-->
                         <li>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="hostingLegalEntity">
@@ -635,8 +636,8 @@
                               <input id="hostingLegalEntity" class="uk-input uk-width-9-10" type="text" formControlName="hostingLegalEntity"
                                      (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('hostingLegalEntity')}">
-                              <!--<i><small>{{hostingLegalEntityDesc.desc}}</small></i>-->
                             </div>
+                            <i><small>Suggested length is 80 characters</small></i>
                           </div>
                           <div formArrayName="participatingCountries" class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="participatingCountries">
@@ -682,12 +683,12 @@
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
+                              <i><small>Suggested length is 30 characters</small></i>
                               <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                 <a class="add-new-element" (click)="push('affiliations', false)">
                                   <i class="fa fa-plus" aria-hidden="true"></i> Add {{affiliationDesc.label}}
                                 </a>
                               </div>
-                              <!--<i><small>{{affiliationDesc.desc}}</small></i>-->
                             </div>
                           </div>
                           <div formArrayName="networks" class="uk-margin-large-bottom">
@@ -934,12 +935,12 @@
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
+                              <i><small>Suggested length is 80 characters</small></i>
                               <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                 <a class="add-new-element" (click)="push('nationalRoadmaps', false)">
                                   <i class="fa fa-plus" aria-hidden="true"></i> Add {{nationalRoadmapsDesc.label}}
                                 </a>
                               </div>
-                              <!--<i><small>{{nationalRoadmapsDesc.desc}}</small></i>-->
                             </div>
                           </div>
                         </li>
