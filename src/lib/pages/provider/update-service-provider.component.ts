@@ -155,9 +155,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             this.push('esfriDomains', this.ESFRIDomainDesc.mandatory);
           }
         }
-        if (!this.provider.publicContacts) {
-          this.removePublicContact(0);
-        } else if (this.provider.publicContacts && this.provider.publicContacts.length > 1) {
+        if (this.provider.publicContacts && this.provider.publicContacts.length > 1) {
           for (let i = 0; i < this.provider.publicContacts.length - 1; i++) {
             this.pushPublicContact();
           }
