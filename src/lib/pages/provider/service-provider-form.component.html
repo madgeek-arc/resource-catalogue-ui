@@ -536,7 +536,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerPublicContactEmailDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="email" class="uk-input" type="text" formControlName="email"
-                                             (input)="unsavedChangesPrompt()"
+                                             (input)="handleBitSetsOfPublicContact(4, 15, 'email', 'publicContacts'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'email')}">
                                       <!--<i><small>{{ providerPublicContactEmailDesc.desc }}</small></i>-->
                                     </div>
