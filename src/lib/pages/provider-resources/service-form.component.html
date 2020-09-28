@@ -6,10 +6,10 @@
         <div class="titleAndActionsBar">
           <div class="">
             <div class="pageTitle">
-              {{editMode ? "Update" : "Add New"}} Service
+              {{editMode ? "Update" : "Add New"}} Resource
             </div>
             <div class="providerName uk-margin-small-top">
-              <strong>{{serviceName!='' ? serviceName : 'Service Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
+              <strong>{{serviceName!='' ? serviceName : 'Resource Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
             </div>
           </div>
           <div class="">
@@ -55,7 +55,7 @@
                   <div class="uk-grid">
 
                     <div class="uk-width-1-4">
-                      <div class="tabsTitle uk-margin-bottom">Service steps</div>
+                      <div class="tabsTitle uk-margin-bottom">Resource steps</div>
                       <ul class="uk-width-1-1 uk-margin-remove uk-tab uk-tab-left form-tabs" uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
                         <li class="uk-active">
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[0]}" href="#">
@@ -1440,7 +1440,7 @@
 
 
 
-                  <!--&lt;!&ndash; Show Temporary Save button only when creating a new service or editing a pending service &ndash;&gt;-->
+                  <!--&lt;!&ndash; Show Temporary Save button only when creating a new resource or editing a pending resource &ndash;&gt;-->
                   <!--<div *ngIf="!editMode || pendingService" class="uk-float-right uk-animation-scale-up" style="z-index: 100; bottom: 50px; position: fixed; right: 50px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px">-->
                     <!--<button class="btn butn theme" (click)="this.onSubmit(this.service, true)">Temporary Save</button>-->
                   <!--</div>-->

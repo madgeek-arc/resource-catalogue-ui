@@ -19,7 +19,7 @@
       </div>
 
       <div *ngIf="providerServices && providerServices.results.length === 0">
-        <p>No services found</p>
+        <p>No resources found</p>
       </div>
 
       <div *ngIf="providerServices && providerServices.results.length > 0">
@@ -68,10 +68,10 @@
                       <ng-container *ngIf="!providerService.active"><i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate</ng-container>
                     </button>
                     <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">-->
-                    <!--<i class="fa fa-pencil fa-lg"></i> Edit service-->
+                    <!--<i class="fa fa-pencil fa-lg"></i> Edit resource-->
                     <!--</button>-->
                     <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedService(providerService)">
-                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete service
+                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete resource
                     </button>
                   </div>
                 </div>
@@ -142,7 +142,7 @@
 
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body">
-    <h6 *ngIf="selectedService">Are you sure you want to delete the service {{selectedService.service.name}}</h6>
+    <h6 *ngIf="selectedService">Are you sure you want to delete the resource {{selectedService.service.name}}</h6>
     <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteService(selectedService.id)">Delete</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>

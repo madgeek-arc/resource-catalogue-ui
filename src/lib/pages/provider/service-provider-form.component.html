@@ -7,7 +7,7 @@
         <div class="titleAndActionsBar">
           <div class="">
             <div class="pageTitle">
-              {{disable ? ' ' : edit ? ' Update' : ' Add New'}} Service Provider {{disable ? 'Info' : ''}}
+              {{disable ? ' ' : edit ? ' Update' : ' Add New'}} Resource Provider {{disable ? 'Info' : ''}}
             </div>
             <div class="providerName uk-margin-small-top">
               <strong>{{providerName!='' ? providerName : 'Provider Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
@@ -23,12 +23,12 @@
 
         <!--TODO where to put logoURL and modal to add id-->
         <!--<h1 class="uk-h3">-->
-          <!--<a (click)="showLogoUrlModal()" title="Click to add the url with the Service Provider Logo">-->
+          <!--<a (click)="showLogoUrlModal()" title="Click to add the url with the Resource Provider Logo">-->
             <!--<img class="el-image uk-border-rounded"-->
                  <!--src="{{(newProviderForm && newProviderForm.get('logo').value) ? newProviderForm.get('logo').value-->
                  <!--: 'src/lib/assets/images/broken_image-black-48dp.svg'}}"-->
                  <!--width="70">-->
-          <!--</a>{{disable ? ' ' : edit ? ' Update' : ' Add New'}} Service Provider {{disable ? 'Info' : ''}}-->
+          <!--</a>{{disable ? ' ' : edit ? ' Update' : ' Add New'}} Resource Provider {{disable ? 'Info' : ''}}-->
         <!--</h1>-->
 
         <!-- TOP HELP CONTENT -->
@@ -59,7 +59,7 @@
                 <div class="uk-grid">
 
                   <div class="uk-width-1-4">
-                    <div class="tabsTitle uk-margin-bottom">Service provider steps</div>
+                    <div class="tabsTitle uk-margin-bottom">Resource Provider steps</div>
                     <ul class="uk-width-1-1 uk-margin-remove uk-tab uk-tab-left form-tabs" uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
                       <li class="uk-active">
                         <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[0]}" href="#">
@@ -1038,7 +1038,7 @@
 <div id="modal-consent" class="uk-flex-top" uk-modal="bg-close: false; esc-close: false;">
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
 
-    <div class="uk-margin-medium-bottom">In order to be able to register a service provider to EOSC you need to agree to the following: </div>
+    <div class="uk-margin-medium-bottom">In order to be able to register a resource provider to EOSC you need to agree to the following: </div>
 
     <div class="uk-margin-medium-bottom">
       <div class="uk-form-controls uk-margin-bottom">
@@ -1056,7 +1056,7 @@
       <div class="uk-form-controls uk-margin-bottom">
         <label>
           <input class="uk-checkbox" type="checkbox" id="authorizedRepresentative"  value="true">
-          <span class="uk-margin-small-left">I assert that I am an authorized representative of this Service Provider</span>
+          <span class="uk-margin-small-left">I assert that I am an authorized representative of this Resource Provider</span>
         </label>
       </div>
     </div>

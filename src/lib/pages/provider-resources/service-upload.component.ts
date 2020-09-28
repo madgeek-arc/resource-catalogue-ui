@@ -24,7 +24,7 @@ export class ServiceUploadComponent extends ServiceFormComponent implements OnIn
   }
 
   onSuccess(service) {
-    this.successMessage = 'Service uploaded successfully!';
+    this.successMessage = 'Resource uploaded successfully!';
   }
 
   onSubmit(service: Service, tempSave: boolean) {

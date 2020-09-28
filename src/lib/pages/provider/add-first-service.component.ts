@@ -51,7 +51,7 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
   }
 
   onSuccess(service) {
-    this.successMessage = 'Service uploaded successfully!';
+    this.successMessage = 'Resource uploaded successfully!';
   }
 
   onSubmit(service: Service, tempSave: boolean) {

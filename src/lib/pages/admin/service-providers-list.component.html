@@ -180,7 +180,7 @@
                               <div class="providerName">
                                 <span *ngIf="providerBundle.status!=='approved'" class="uk-margin-auto-vertical">
                                   <h5 class="uk-display-inline-block" data-uk-tooltip
-                                      title="'Your service provider is not yet active, therefore you cannot access its monitoring dashboard'">
+                                      title="'Your resource provider is not yet active, therefore you cannot access its monitoring dashboard'">
                                     {{ providerBundle.provider.name }}
                                   </h5>
                                   <a [routerLink]="['/provider/info',providerBundle.id]" class="uk-display-inline-block">
@@ -188,7 +188,7 @@
                                   </a>
                                 </span>
                                 <span *ngIf="providerBundle.status==='approved'" class="uk-margin-auto-vertical">
-                                  <a [routerLink]="['/dashboard', providerBundle.id]" data-uk-tooltip title="'Go to the service provider monitoring dashboard'">
+                                  <a [routerLink]="['/dashboard', providerBundle.id]" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
                                       {{ providerBundle.provider.name }}
                                   </a>
                                   <a [routerLink]="['/provider/info',providerBundle.id]" class="uk-display-inline-block">
@@ -242,11 +242,11 @@
                           <div *ngIf="hasCreatedFirstService(providerBundle.id)">
                             <button routerLink="{{ getLinkToFirstService(providerBundle.id) }}"
                                     class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">
-                              <i class="fa fa-eye"></i> View service template
+                              <i class="fa fa-eye"></i> View resource template
                             </button>
                             <button routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}"
                                     class="uk-button uk-button-link uk-margin-medium-left">
-                              <i class="fa fa-pencil"></i> Edit service template
+                              <i class="fa fa-pencil"></i> Edit resource template
                             </button>
                           </div>
                         </ng-container>
@@ -301,9 +301,9 @@
       <p *ngIf="selectedProvider.status !== newStatus">The status will change from "{{ selectedProvider.status }}" to
         "{{ newStatus }}"</p>
       <p *ngIf="selectedProvider.status === newStatus">
-        {{ ((selectedProvider.status === 'approved') && !pushedApprove) ? 'The service provider will be deactivated.' :
-        (((selectedProvider.status === 'approved') && pushedApprove) ? 'The service provider will be activated.' :
-          'The sp will be prompted to update the service template.')}}
+        {{ ((selectedProvider.status === 'approved') && !pushedApprove) ? 'The resource provider will be deactivated.' :
+        (((selectedProvider.status === 'approved') && pushedApprove) ? 'The resource provider will be activated.' :
+          'The RP will be prompted to update the resource template.')}}
       </p>
     </div>
     <button class="uk-button uk-button-primary" type="button" (click)="statusChangeAction()">Proceed</button>

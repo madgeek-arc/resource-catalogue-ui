@@ -22,7 +22,7 @@
                   <form [formGroup]="searchForm" (ngSubmit)="this.onSubmit(searchForm.value)">
                     <input aria-describedby="sizing-addon2" class="uk-input uk-width-1-2 ng-pristine
                                         ng-valid ng-touched uk-comment uk-comment-meta uk-search-field"
-                           name="keyword" placeholder="Which service are you looking for?" type="text"
+                           name="keyword" placeholder="Which resource are you looking for?" type="text"
                            formControlName="query">
                     <button class=" uk-button uk-button-default" type="submit">Search</button>
                   </form>
@@ -82,7 +82,7 @@
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
         <h1 class="uk-margin-medium uk-text-center uk-h2">
-          <span class="uk-text-background">Explore services by Category</span>
+          <span class="uk-text-background">Explore resources by Category</span>
         </h1>
       </div>
     </div>
@@ -154,10 +154,10 @@
           </div>
           <div class="registerService personas">
             <h3>
-              I would like to register a service
+              I would like to register a resource
             </h3>
             <div class="uk-margin-small-bottom">
-              <a class="uk-margin-small-right" (click)="signUpAndRegisterAservice()">Sign up and register a service</a>
+              <a class="uk-margin-small-right" (click)="signUpAndRegisterAservice()">Sign up and register a resource</a>
               <img src="lib/assets/images/icons/ic_link_arrow_right.svg">
             </div>
           </div>
@@ -165,7 +165,7 @@
         <div class="uk-width-2-5@m uk-padding-remove-left">
           <div class="needService personas">
             <h3>
-              I need a service to
+              I need a resource to
             </h3>
             <div class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" [routerLink]="['/search', {category : 'networking,compute,security'}]">Use

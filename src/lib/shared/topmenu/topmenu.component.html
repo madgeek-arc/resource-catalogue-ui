@@ -178,19 +178,19 @@
                       <!--<li *ngIf="isProvider() || isAdmin()"><a [routerLink]="['dashboard']" routerLinkActive="uk-active">Monitoring Dashboard</a></li>-->
 
                       <!-- If user has logged in -->
-                      <li><a [routerLink]="['/provider/add']" routerLinkActive="uk-active">Add New Service
+                      <li><a [routerLink]="['/provider/add']" routerLinkActive="uk-active">Add New Resource
                         Provider</a></li>
 
                       <li><a [routerLink]="['/myFavourites']" routerLinkActive="uk-active">My Favourites</a></li>
 
                       <!-- If user is provider admin and has at least 1 provider -->
                       <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/provider/my']"
-                                                               routerLinkActive="uk-active">My Service Providers</a>
+                                                               routerLinkActive="uk-active">My Resource Providers</a>
                       </li>
 
                       <!-- If user is admin -->
                       <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/provider/all']" routerLinkActive="uk-active">View
-                        Service Providers</a></li>
+                        Resource Providers</a></li>
 
                       <li><a routerLink="/home" (click)="this.authenticationService.logout()">Log out</a></li>
                     </ul>

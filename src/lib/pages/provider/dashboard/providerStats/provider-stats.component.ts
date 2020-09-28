@@ -565,7 +565,7 @@ export class ProviderStatsComponent implements OnInit {
         height: (3 / 4 * 100) + '%' // 3:4 ratio
       },
       title: {
-        text: 'Service distribution in categories'
+        text: 'Resource distribution in categories'
       },
       xAxis: {
         categories: categories,
@@ -611,7 +611,7 @@ export class ProviderStatsComponent implements OnInit {
         height: (3 / 4 * 100) + '%' // 3:4 ratio
       },
       title: {
-        text: 'Service distribution in scientific domains'
+        text: 'Resource distribution in scientific domains'
       },
       xAxis: {
         categories: categories,
@@ -657,7 +657,7 @@ export class ProviderStatsComponent implements OnInit {
         height: (3 / 4 * 100) + '%' // 3:4 ratio
       },
       title: {
-        text: 'Service distribution in target users'
+        text: 'Resource distribution in target users'
       },
       xAxis: {
         categories: categories,
@@ -703,7 +703,7 @@ export class ProviderStatsComponent implements OnInit {
         height: (3 / 4 * 100) + '%' // 3:4 ratio
       },
       title: {
-        text: 'Service distribution in access modes'
+        text: 'Resource distribution in access modes'
       },
       xAxis: {
         categories: categories,
@@ -749,7 +749,7 @@ export class ProviderStatsComponent implements OnInit {
         height: (3 / 4 * 100) + '%' // 3:4 ratio
       },
       title: {
-        text: 'Service distribution in access types'
+        text: 'Resource distribution in access types'
       },
       xAxis: {
         categories: categories,
@@ -795,7 +795,7 @@ export class ProviderStatsComponent implements OnInit {
         height: (3 / 4 * 100) + '%' // 3:4 ratio
       },
       title: {
-        text: 'Service distribution in order types'
+        text: 'Resource distribution in order types'
       },
       xAxis: {
         categories: categories,
