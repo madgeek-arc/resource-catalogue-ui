@@ -776,7 +776,7 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     } else if (tabNum === 4) { // Contact
       this.BitSetTab4.set(bitIndex, 1);
-      if (this.BitSetTab4.cardinality() === 3) {  // TODO fix remaining fields per tab
+      if (this.BitSetTab4.cardinality() === 4) {  // TODO fix remaining fields per tab
         this.remainingOnTab4 = 0;
         if (this.completedTabsBitSet.get(tabNum) !== 1) {
           this.calcCompletedTabs(tabNum, 1);
