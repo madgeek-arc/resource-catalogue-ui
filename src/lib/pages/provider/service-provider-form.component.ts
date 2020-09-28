@@ -776,11 +776,10 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     } else if (tabNum === 4) { // Contact
       this.BitSetTab4.set(bitIndex, 1);
-      if (this.BitSetTab4.cardinality() === 4) {  // TODO fix remaining fields per tab
-        this.remainingOnTab4 = 0;
-        if (this.completedTabsBitSet.get(tabNum) !== 1) {
-          this.calcCompletedTabs(tabNum, 1);
-        }
+      const mainContactCardinality = this.BitSetTab4.slice(9, 11).cardinality();
+      this.remainingOnTab4 = this.requiredOnTab4 - +(mainContactCardinality === 3) - this.BitSetTab4.get(15);
+      if (this.remainingOnTab4 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
+        this.calcCompletedTabs(tabNum, 1);
       }
     } else if (tabNum === 7) { // Admins
       this.BitSetTab7.set(bitIndex, 1);
@@ -814,7 +813,8 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     } else if (tabNum === 4) { // Contact
       this.BitSetTab4.set(bitIndex, 0);
-      this.remainingOnTab4 = this.requiredOnTab4;
+      const mainContactCardinality = this.BitSetTab4.slice(9, 11).cardinality();
+      this.remainingOnTab4 = this.requiredOnTab4 - +(mainContactCardinality === 3) - this.BitSetTab4.get(15);
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }
