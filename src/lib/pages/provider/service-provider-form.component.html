@@ -185,6 +185,7 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <label>
                                 <input class="uk-checkbox" type="checkbox" id="legalEntityYes" formControlName="legalEntity" value="true"
+                                       (input)="this.newProviderForm.get('legalStatus').setValue('')"
                                        [checked]="this.newProviderForm.get('legalEntity').value == true && edit">
                                 <span class="uk-margin-small-left">The organisation I am registering is an independent legal entity</span>
                               </label>
@@ -197,7 +198,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{legalStatusDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <select id="legalStatus" class="uk-input uk-select uk-width-9-10" formControlName="legalStatus"
-                                      [ngClass]="{'uk-form-danger': checkFormValidity('legalStatus')}">
+                                      [ngClass]="{'uk-disabled': this.newProviderForm.get('legalEntity').value == false, 'uk-form-danger': checkFormValidity('legalStatus')}">
                                 <ng-container *ngIf="this.newProviderForm.get('legalEntity').value == true">
 <!--                                  <option value=""></option>-->
                                   <option *ngFor="let entry of sortVocabulariesByName(legalStatusVocabulary)"
