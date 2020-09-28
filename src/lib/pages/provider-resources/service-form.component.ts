@@ -43,7 +43,7 @@ export class ServiceFormComponent implements OnInit {
   requiredOnTab1 = 3;
   requiredOnTab2 = 3;
   requiredOnTab3 = 2;
-  requiredOnTab5 = 3;
+  requiredOnTab5 = 4;
   requiredOnTab6 = 1;
   requiredOnTab10 = 1;
 
@@ -67,7 +67,7 @@ export class ServiceFormComponent implements OnInit {
   completedTabs = 0;
   completedTabsBitSet = new BitSet;
 
-  allRequiredFields = 20;
+  allRequiredFields = 21;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
@@ -872,7 +872,7 @@ export class ServiceFormComponent implements OnInit {
         this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
         this.loaderBitSet.set(bitIndex, 0);
       }
-    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
+    this.updateLoaderPercentage();
   }
 
   handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group: string): void {
@@ -913,15 +913,25 @@ export class ServiceFormComponent implements OnInit {
         this.loaderBitSet.set(bitIndex, 0);
       }
     }
-    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
+    this.updateLoaderPercentage();
   }
 
-  handlePublicContactBitSet (bitIndex: number, formControlName: string) {
-    if (this.publicContactArray.value[0][formControlName] !== '') {
-      this.publicContactBitSet.set(bitIndex, 1);
-    } else if (this.publicContactArray.value[0][formControlName] === '') {
-      this.publicContactBitSet.set(bitIndex, 0);
+  handleBitSetsOfPublicContact(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
+    if (this.publicContactArray.value[0][formControlName] !== '' && this.serviceForm.controls[group].valid) {
+      this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 1);
+    } else {
+      this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 0);
     }
+    this.updateLoaderPercentage();
+  }
+
+  updateLoaderPercentage() {
+    // console.log(this.loaderBitSet.toString(2));
+    // console.log('cardinality: ', this.loaderBitSet.cardinality());
+    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
+    // console.log(this.loaderPercentage, '%');
   }
 
   decreaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
@@ -952,7 +962,7 @@ export class ServiceFormComponent implements OnInit {
     } else if (tabNum === 5) { // Contact
       this.BitSetTab5.set(bitIndex, 1);
       const mainContactCardinality = this.BitSetTab5.slice(13, 15).cardinality();
-      this.remainingOnTab5 = this.requiredOnTab5 - +(mainContactCardinality === 3) - this.BitSetTab5.get(16) - this.BitSetTab5.get(17);
+      this.remainingOnTab5 = this.requiredOnTab5 - +(mainContactCardinality === 3) - this.BitSetTab5.get(16) - this.BitSetTab5.get(17) - this.BitSetTab5.get(20);
       if (this.remainingOnTab5 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
         this.calcCompletedTabs(tabNum, 1);
       }
@@ -999,7 +1009,7 @@ export class ServiceFormComponent implements OnInit {
     } else if (tabNum === 5) { // Contact
       this.BitSetTab5.set(bitIndex, 0);
       const mainContactCardinality = this.BitSetTab5.slice(13, 15).cardinality();
-      this.remainingOnTab5 = this.requiredOnTab5 - +(mainContactCardinality === 3) - this.BitSetTab5.get(16) - this.BitSetTab5.get(17);
+      this.remainingOnTab5 = this.requiredOnTab5 - +(mainContactCardinality === 3) - this.BitSetTab5.get(16) - this.BitSetTab5.get(17) - this.BitSetTab5.get(20);
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }

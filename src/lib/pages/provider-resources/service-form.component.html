@@ -822,7 +822,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactFirstNameDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="firstName" class="uk-input" type="text" formControlName="firstName"
-                                             (input)="handlePublicContactBitSet(0, 'firstName'); unsavedChangesPrompt()"
+                                             (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'firstName')}">
                                     </div>
                                     <i><small>Suggested length is 20 characters</small></i>
@@ -834,7 +834,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactLastNameDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="lastName" class="uk-input" type="text" formControlName="lastName"
-                                             (input)="handlePublicContactBitSet(1, 'lastName'); unsavedChangesPrompt()"
+                                             (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'lastName')}">
                                     </div>
                                     <i><small>Suggested length is 20 characters</small></i>
@@ -846,7 +846,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactEmailDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="email" class="uk-input" type="text" formControlName="email"
-                                             (input)="handlePublicContactBitSet(2, 'email'); unsavedChangesPrompt()"
+                                             (input)="handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'email')}">
                                       <!--<i><small>{{ publicContactEmailDesc.desc }}</small></i>-->
                                     </div>
@@ -858,7 +858,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPhoneDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="phone" class="uk-input" type="text" formControlName="phone"
-                                             (input)="handlePublicContactBitSet(3, 'phone'); unsavedChangesPrompt()"
+                                             (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'phone')}">
                                     </div>
                                     <i><small>Suggested length is 20 characters</small></i>
@@ -870,7 +870,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPositionDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="position" class="uk-input" type="text" formControlName="position"
-                                             (input)="handlePublicContactBitSet(4, 'position'); unsavedChangesPrompt()"
+                                             (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'position')}">
                                     </div>
                                     <i><small>Suggested length is 20 characters</small></i>
@@ -882,7 +882,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactOrganisationDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="organisation" formControlName="organisation" class="uk-input uk-select"
-                                              (change)="handlePublicContactBitSet(5, 'organisation'); unsavedChangesPrompt()"
+                                              (change)="unsavedChangesPrompt()"
                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'organisation')}">
                                         <ng-container *ngIf="providersPage">
                                           <option *ngFor="let provider of providersPage.results"
