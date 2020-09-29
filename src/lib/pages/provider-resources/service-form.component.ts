@@ -386,7 +386,7 @@ export class ServiceFormComponent implements OnInit {
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
         this.providerId = this.route.snapshot.paramMap.get('providerId');
         this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
-        this.handleBitSets(0, 1, 'resourceOrganisation'); // TODO move this
+        this.handleBitSets(0, 1, 'resourceOrganisation');
         if (this.publicContactBitSet.cardinality() === 0) {
           this.removePublicContact(0);
         }

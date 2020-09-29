@@ -196,14 +196,13 @@
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{resourceOrganisationDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <select id="resourceOrganisation" formControlName="resourceOrganisation" class="uk-input uk-select uk-width-9-10"
+                              <select id="resourceOrganisation" formControlName="resourceOrganisation" class="uk-input uk-select uk-width-9-10 uk-disabled"
                                       (change)="handleBitSets(0, 1, 'resourceOrganisation'); unsavedChangesPrompt()"
                                       [ngClass]="{'uk-form-danger': checkFormValidity('resourceOrganisation')}">
-<!--                                <ng-container *ngIf="providersPage">-->
-                                  <option value="{{this.providerId}}">{{this.providerId}}</option>
-<!--                                  <option *ngFor="let provider of providersPage.results"-->
-<!--                                          value="{{provider.id}}">{{provider.name}}</option>-->
-<!--                                </ng-container>-->
+                                <ng-container *ngIf="providersPage">
+                                  <option *ngFor="let provider of providersPage.results"
+                                          value="{{provider.id}}">{{provider.name}}</option>
+                                </ng-container>
                               </select>
                               <!--<i><small>{{resourceOrganisationDesc.desc}}</small></i>-->
                             </div>
