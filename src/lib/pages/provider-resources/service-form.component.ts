@@ -71,8 +71,6 @@ export class ServiceFormComponent implements OnInit {
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
-  publicContactBitSet = new BitSet;
-
   readonly nameDesc: sd.Description = sd.nameDesc;
   readonly webpageDesc: sd.Description = sd.webpageDesc;
   readonly descriptionDesc: sd.Description = sd.descriptionDesc;
@@ -391,9 +389,6 @@ export class ServiceFormComponent implements OnInit {
         this.providerId = this.route.snapshot.paramMap.get('providerId');
         this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
         this.handleBitSets(0, 1, 'resourceOrganisation');
-        if (this.publicContactBitSet.cardinality() === 0) {
-          this.removePublicContact(0);
-        }
       }
     );
 
