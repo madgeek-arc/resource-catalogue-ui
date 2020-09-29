@@ -89,6 +89,7 @@ export class Provider implements Identifiable {
   description: string;
   logo: URL;
   multimedia: URL[];
+  scientificDomains: string[];
   scientificSubdomains: string[];
   tags: string[];
   location: ProviderLocation;
@@ -103,6 +104,7 @@ export class Provider implements Identifiable {
   structureTypes: string[];
   esfriDomains: string[];
   esfriType: string;
+  merilScientificDomains: string[];
   merilScientificSubdomains: string[];
   areasOfActivity: string[];
   societalGrandChallenges: string[];
@@ -185,7 +187,9 @@ export class Service implements Identifiable {
   logo: URL;
   multimedia: URL[];
   useCases: URL[];
+  scientificDomains: string[];
   scientificSubdomains: string[];
+  categories: string[];
   subcategories: string[];
   targetUsers: string[];
   accessTypes: string[];

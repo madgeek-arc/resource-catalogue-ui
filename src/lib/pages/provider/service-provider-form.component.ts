@@ -129,7 +129,7 @@ export class ServiceProviderFormComponent implements OnInit {
     logo: ['', Validators.compose([Validators.required, URLValidator])],
     multimedia: this.fb.array([this.fb.control('', URLValidator)]),
     categorization: this.fb.array([]),
-    // scientificDomains: this.fb.array([]),
+    scientificDomains: this.fb.array([]),
     scientificSubdomains: this.fb.array([]),
     tags: this.fb.array([this.fb.control('')]),
     location: this.fb.group({
@@ -165,7 +165,7 @@ export class ServiceProviderFormComponent implements OnInit {
     esfriDomains: this.fb.array([this.fb.control('')]),
     esfriType: [''],
     merilCategorization: this.fb.array([]),
-    // merilScientificDomains: this.fb.array([]),
+    merilScientificDomains: this.fb.array([]),
     merilScientificSubdomains: this.fb.array([]),
     areasOfActivity: this.fb.array([this.fb.control('')]),
     societalGrandChallenges: this.fb.array([this.fb.control('')]),
@@ -262,11 +262,15 @@ export class ServiceProviderFormComponent implements OnInit {
 
     for (const category of this.domainArray.controls) {
       if (category.get('scientificSubdomain').value) {
+        console.log(this.fb.control(category.get('scientificDomain')));
+        console.log(this.fb.control(category.get('scientificSubdomain')));
+        this.getFieldAsFormArray('scientificDomains').push(this.fb.control(category.get('scientificDomain').value));
         this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(category.get('scientificSubdomain').value));
       }
     }
     for (const category of this.merilDomainArray.controls) {
       if (category.get('merilScientificSubdomain').value) {
+        this.getFieldAsFormArray('merilScientificDomains').push(this.fb.control(category.get('merilScientificDomain').value));
         this.getFieldAsFormArray('merilScientificSubdomains').push(this.fb.control(category.get('merilScientificSubdomain').value));
       }
     }

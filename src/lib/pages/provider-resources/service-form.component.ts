@@ -155,9 +155,9 @@ export class ServiceFormComponent implements OnInit {
     resourceOrganisation: ['', Validators.required],
     resourceProviders: this.fb.array([this.fb.control('')]),
     resourceGeographicLocations: this.fb.array([this.fb.control('')]),
-    // 'scientificDomains : this.fb.array([ this.fb.control('', Validators.required)], Validators.required),
+    scientificDomains : this.fb.array([]),
     scientificSubdomains: this.fb.array([]),
-    // 'category: [''],
+    categories: this.fb.array([]),
     subcategories: this.fb.array([]),
     // 'supercategory: [''],
     targetUsers: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
@@ -276,6 +276,7 @@ export class ServiceFormComponent implements OnInit {
     this.getFieldAsFormArray('subcategories').controls = [];
     for (const category in this.categoryArray.controls) {
       if (this.categoryArray.controls[category].get('subcategory').value) {
+        this.getFieldAsFormArray('categories').push(this.fb.control(this.categoryArray.controls[category].get('category').value));
         this.getFieldAsFormArray('subcategories').push(this.fb.control(this.categoryArray.controls[category].get('subcategory').value));
       }
     }
@@ -284,6 +285,7 @@ export class ServiceFormComponent implements OnInit {
     this.getFieldAsFormArray('scientificSubdomains').controls = [];
     for (const scientificDomain of this.scientificDomainArray.controls) {
       if (scientificDomain.get('scientificSubDomain').value) {
+        this.getFieldAsFormArray('scientificDomains').push(this.fb.control(scientificDomain.get('scientificDomain').value));
         this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(scientificDomain.get('scientificSubDomain').value));
       }
     }
