@@ -257,20 +257,20 @@ export class ServiceProviderFormComponent implements OnInit {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
     }
 
+    this.getFieldAsFormArray('scientificDomains').controls = [];
     this.getFieldAsFormArray('scientificSubdomains').controls = [];
+    this.getFieldAsFormArray('merilScientificDomains').controls = [];
     this.getFieldAsFormArray('merilScientificSubdomains').controls = [];
 
     for (const category of this.domainArray.controls) {
       if (category.get('scientificSubdomain').value) {
-        console.log(this.fb.control(category.get('scientificDomain')));
-        console.log(this.fb.control(category.get('scientificSubdomain')));
-        this.getFieldAsFormArray('scientificDomains').push(this.fb.control(category.get('scientificDomain').value));
+        this.getFieldAsFormArray('scientificDomains').push(this.fb.control(category.get('domain').value));
         this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(category.get('scientificSubdomain').value));
       }
     }
     for (const category of this.merilDomainArray.controls) {
       if (category.get('merilScientificSubdomain').value) {
-        this.getFieldAsFormArray('merilScientificDomains').push(this.fb.control(category.get('merilScientificDomain').value));
+        this.getFieldAsFormArray('merilScientificDomains').push(this.fb.control(category.get('merilDomain').value));
         this.getFieldAsFormArray('merilScientificSubdomains').push(this.fb.control(category.get('merilScientificSubdomain').value));
       }
     }

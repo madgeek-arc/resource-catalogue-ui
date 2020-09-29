@@ -273,6 +273,7 @@ export class ServiceFormComponent implements OnInit {
     this.errorMessage = '';
 
     /** Fill subcategory string array**/
+    this.getFieldAsFormArray('categories').controls = [];
     this.getFieldAsFormArray('subcategories').controls = [];
     for (const category in this.categoryArray.controls) {
       if (this.categoryArray.controls[category].get('subcategory').value) {
@@ -282,6 +283,7 @@ export class ServiceFormComponent implements OnInit {
     }
     this.categoryArray.disable();
     /** Fill scientific subdomain string array**/
+    this.getFieldAsFormArray('scientificDomains').controls = [];
     this.getFieldAsFormArray('scientificSubdomains').controls = [];
     for (const scientificDomain of this.scientificDomainArray.controls) {
       if (scientificDomain.get('scientificSubDomain').value) {
