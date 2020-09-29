@@ -16,6 +16,11 @@ const appRoutes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'home',
+    redirectTo: 'becomeAProvider',
+    pathMatch: 'full'
+  },
+  {
     path: 'becomeAProvider',
     component: BecomeAProviderComponent,
     data: {
