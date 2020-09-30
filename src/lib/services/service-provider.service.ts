@@ -102,4 +102,9 @@ export class ServiceProviderService {
     return this.http.get<ProviderRequest[]>(this.base + `/request/allProviderRequests?providerId=${id}`);
   }
 
+  getAdminAcceptedTerms(id: string) {
+    console.log(`knocking on: ${this.base}/provider/hasAdminAcceptedTerms`);
+    return this.http.get<boolean>(this.base + `/provider/hasAdminAcceptedTerms?providerId=${id}`);
+  }
+
 }

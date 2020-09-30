@@ -1043,27 +1043,32 @@
     <div class="uk-margin-medium-bottom">
       <div class="uk-form-controls uk-margin-bottom">
         <label>
-          <input class="uk-checkbox" type="checkbox" id="codeOfConduct"  value="true">
+          <input class="uk-checkbox" type="checkbox" id="codeOfConduct"  value="true"
+                 (change)="toggleTerm('codeOfConduct')">
           <span class="uk-margin-small-left">I agree with the <a>EOSC Code of Conduct</a></span>
         </label>
       </div>
+<!--      <div class="uk-form-controls uk-margin-bottom">-->
+<!--        <label>-->
+<!--          <input class="uk-checkbox" type="checkbox" id="privacyPolicy"  value="true"-->
+<!--                 (change)="toggleTerm('privacyPolicy')">-->
+<!--          <span class="uk-margin-small-left">I agree to the <a>Privacy Policy</a></span>-->
+<!--        </label>-->
+<!--      </div>-->
       <div class="uk-form-controls uk-margin-bottom">
         <label>
-          <input class="uk-checkbox" type="checkbox" id="privacyPolicy"  value="true">
-          <span class="uk-margin-small-left">I agree to the <a>Privacy Policy</a></span>
-        </label>
-      </div>
-      <div class="uk-form-controls uk-margin-bottom">
-        <label>
-          <input class="uk-checkbox" type="checkbox" id="authorizedRepresentative"  value="true">
+          <input class="uk-checkbox" type="checkbox" id="authorizedRepresentative"  value="true"
+                 (change)="toggleTerm('authorizedRepresentative')">
           <span class="uk-margin-small-left">I assert that I am an authorized representative of this Resource Provider</span>
         </label>
       </div>
     </div>
 
     <div class="uk-text-right">
-      <button class="uk-button uk-button-default uk-modal-close" type="button" >Cancel</button>
-      <button class="uk-button uk-button-primary uk-modal-close" type="button">Apply</button>
+      <button class="uk-button uk-button-default uk-modal-close" type="button" routerLink="/home">Cancel</button>
+      <button class="uk-button  uk-modal-close" type="button" (click)="checkTerms()"
+              [ngClass]="{'uk-disabled' : !agreedToTerms, 'uk-button-secondary' : !agreedToTerms, 'uk-button-primary': agreedToTerms}">
+        Apply</button>
     </div>
   </div>
 </div>

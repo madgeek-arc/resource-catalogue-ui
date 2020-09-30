@@ -29,6 +29,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
 
   ngOnInit() {
     this.edit = true;
+    this.providerId = this.route.snapshot.paramMap.get('providerId');
     const path = this.route.snapshot.routeConfig.path;
     if (path === 'info/:providerId') {
       this.disable = true;
@@ -69,10 +70,9 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
   }
 
   getProvider() {
-    const id = this.route.snapshot.paramMap.get('providerId');
     this.errorMessage = '';
     const path = this.route.snapshot.routeConfig.path;
-    this.serviceProviderService[(path === 'add/:providerId' ? 'getPendingProviderById' : 'getServiceProviderById')](id)
+    this.serviceProviderService[(path === 'add/:providerId' ? 'getPendingProviderById' : 'getServiceProviderById')](this.providerId)
       .subscribe(
       provider => this.provider = provider,
       err => {

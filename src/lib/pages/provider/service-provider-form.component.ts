@@ -23,6 +23,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
   projectName = environment.projectName;
   projectMail = environment.projectMail;
+  providerId: string;
   providerName = '';
   errorMessage = '';
   userInfo = {family_name: '', given_name: '', email: ''};
@@ -61,6 +62,11 @@ export class ServiceProviderFormComponent implements OnInit {
   allRequiredFields = 16;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
+
+  codeOfConduct = false;
+  privacyPolicy = false;
+  authorizedRepresentative = false;
+  agreedToTerms: boolean;
 
 
   readonly fullNameDesc: sd.Description = sd.fullNameDesc;
@@ -233,9 +239,26 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
 
-    if (!this.edit && this._hasUserConsent) {
-      UIkit.modal('#modal-consent').show();
+    /* modal -->*/
+    if (this._hasUserConsent) {
+      if (this.edit) {
+        this.serviceProviderService.getAdminAcceptedTerms(this.providerId).subscribe(
+          boolean => {
+            this.agreedToTerms = boolean;
+          }, error => console.log(error),
+          () => {
+            if (!this.agreedToTerms) {
+              UIkit.modal('#modal-consent').show();
+            }
+          }
+        );
+      } else {
+        if (!this.agreedToTerms) {
+          UIkit.modal('#modal-consent').show();
+        }
+      }
     }
+    /* <-- modal */
 
     this.initUserBitSets();
   }
@@ -690,7 +713,6 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
-    // console.log('triggered! ', formControlName);
     if (bitIndex === 0) {
       this.providerName = this.newProviderForm.get(formControlName).value;
     }
@@ -705,8 +727,6 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-    // console.log('G triggered! ', formControlName);
-    // console.log(this.newProviderForm.controls[group]);
     if (this.newProviderForm.controls[group].get(formControlName).valid  || (this.newProviderForm.controls[group].get(formControlName).disabled && this.newProviderForm.controls[group].get(formControlName).value != '')) {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 1);
@@ -718,10 +738,6 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   handleBitSetsOfPublicContact(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-    // console.log('PC triggered! ', formControlName);
-    // console.log(this.newProviderForm.controls[group]);
-    // console.log(this.newProviderForm.controls[group].valid);
-    // console.log(this.newProviderForm.controls[group].value[0][formControlName]);
     if (this.newProviderForm.get(group).value[0][formControlName] !== '' && this.newProviderForm.controls[group].valid) {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 1);
@@ -733,9 +749,6 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   handleBitSetsOfUsers(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-    // console.log('U triggered! ', formControlName);
-    // console.log(this.newProviderForm.controls[group]);
-    // console.log(this.newProviderForm.controls[group].value[0][formControlName]);
     if (this.newProviderForm.get(group).value[0][formControlName] !== '') {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 1);
@@ -834,6 +847,21 @@ export class ServiceProviderFormComponent implements OnInit {
   calcCompletedTabs(tabNum: number, setValue: number) {
     this.completedTabsBitSet.set(tabNum, setValue);
     this.completedTabs = this.completedTabsBitSet.cardinality();
+  }
+
+  toggleTerm(term) {
+    if (term === 'codeOfConduct') {
+      this.codeOfConduct = !this.codeOfConduct;
+    // } else if (term === 'privacyPolicy') {
+    //   this.privacyPolicy = !this.privacyPolicy;
+    } else if (term === 'authorizedRepresentative') {
+      this.authorizedRepresentative = !this.authorizedRepresentative;
+    }
+    this.checkTerms();
+  }
+
+  checkTerms() {
+    this.agreedToTerms = this.codeOfConduct && this.authorizedRepresentative;
   }
 
 }
