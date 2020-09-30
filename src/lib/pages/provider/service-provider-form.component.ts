@@ -242,7 +242,7 @@ export class ServiceProviderFormComponent implements OnInit {
     /* modal -->*/
     if (this._hasUserConsent) {
       if (this.edit) {
-        this.serviceProviderService.getAdminAcceptedTerms(this.providerId).subscribe(
+        this.serviceProviderService.getAdminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
           boolean => {
             this.agreedToTerms = boolean;
           }, error => console.log(error),

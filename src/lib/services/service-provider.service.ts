@@ -91,7 +91,7 @@ export class ServiceProviderService {
   }
 
   temporarySaveProvider(provider: Provider, providerExists: boolean) {
-    console.log(providerExists);
+    console.log('providerExists ', providerExists);
     if (providerExists) {
       return this.http.put<Provider>(this.base + '/pendingProvider/provider', provider, this.options);
     }
@@ -102,8 +102,12 @@ export class ServiceProviderService {
     return this.http.get<ProviderRequest[]>(this.base + `/request/allProviderRequests?providerId=${id}`);
   }
 
-  getAdminAcceptedTerms(id: string) {
+  getAdminAcceptedTerms(id: string, pendingProvider: boolean) {
     console.log(`knocking on: ${this.base}/provider/hasAdminAcceptedTerms`);
+    console.log('id: ', id, 'pendingProvider: ', pendingProvider);
+    if (pendingProvider) {
+      return this.http.get<boolean>(this.base + `/pendingProvider/hasAdminAcceptedTerms?providerId=${id}`);
+    }
     return this.http.get<boolean>(this.base + `/provider/hasAdminAcceptedTerms?providerId=${id}`);
   }
 
