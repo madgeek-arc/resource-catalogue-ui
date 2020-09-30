@@ -569,7 +569,7 @@
 
                                 </div>
                                 <a *ngIf="!disable" class="remove-element uk-padding-small uk-display-inline-block"
-                                   (click)="removePublicContact(i); unsavedChangesPrompt()">
+                                   (click)="removePublicContact(i); unsavedChangesPrompt(); handleBitSetsOfPublicContact(4, 15, 'email', 'publicContacts')">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -986,7 +986,7 @@
 
                                 </div>
                                 <a *ngIf="usersArray.length > 1 && !disable" class="remove-element uk-padding-small uk-display-inline-block"
-                                   (click)="deleteUser(i)">
+                                   (click)="deleteUser(i); initUserBitSets()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -1062,7 +1062,7 @@
     </div>
 
     <div class="uk-text-right">
-      <button class="uk-button uk-button-default uk-modal-close" type="button" routerLink="/home">Cancel</button>
+      <button class="uk-button uk-button-default uk-modal-close" type="button" >Cancel</button>
       <button class="uk-button uk-button-primary uk-modal-close" type="button">Apply</button>
     </div>
   </div>
