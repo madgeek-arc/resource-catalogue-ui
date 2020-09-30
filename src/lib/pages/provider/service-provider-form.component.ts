@@ -239,7 +239,7 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
 
-    /* modal -->*/
+    /** Terms Modal -->**/
     if (this._hasUserConsent) {
       if (this.edit) {
         this.serviceProviderService.getAdminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
@@ -258,7 +258,7 @@ export class ServiceProviderFormComponent implements OnInit {
         }
       }
     }
-    /* <-- modal */
+    /** <-- Terms Modal **/
 
     this.initUserBitSets();
   }
@@ -712,6 +712,7 @@ export class ServiceProviderFormComponent implements OnInit {
     this.hasChanges = true;
   }
 
+  /** BitSets -->**/
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
     if (bitIndex === 0) {
       this.providerName = this.newProviderForm.get(formControlName).value;
@@ -848,12 +849,11 @@ export class ServiceProviderFormComponent implements OnInit {
     this.completedTabsBitSet.set(tabNum, setValue);
     this.completedTabs = this.completedTabsBitSet.cardinality();
   }
+  /** <--BitSets **/
 
   toggleTerm(term) {
-    if (term === 'codeOfConduct') {
-      this.codeOfConduct = !this.codeOfConduct;
-    // } else if (term === 'privacyPolicy') {
-    //   this.privacyPolicy = !this.privacyPolicy;
+    if (term === 'privacyPolicy') {
+      this.privacyPolicy = !this.privacyPolicy;
     } else if (term === 'authorizedRepresentative') {
       this.authorizedRepresentative = !this.authorizedRepresentative;
     }
@@ -861,7 +861,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   checkTerms() {
-    this.agreedToTerms = this.codeOfConduct && this.authorizedRepresentative;
+    this.agreedToTerms = this.privacyPolicy && this.authorizedRepresentative;
   }
 
 }
