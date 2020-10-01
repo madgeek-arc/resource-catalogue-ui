@@ -89,8 +89,8 @@ export class Provider implements Identifiable {
   description: string;
   logo: URL;
   multimedia: URL[];
-  scientificDomains: string[];
-  scientificSubdomains: string[];
+  scientificDomains: ServiceProviderDomain[];
+  // scientificSubdomains: string[];
   tags: string[];
   location: ProviderLocation;
   mainContact: ProviderMainContact;
@@ -104,8 +104,8 @@ export class Provider implements Identifiable {
   structureTypes: string[];
   esfriDomains: string[];
   esfriType: string;
-  merilScientificDomains: string[];
-  merilScientificSubdomains: string[];
+  merilScientificDomains: ProviderMerilDomain[];
+  // merilScientificSubdomains: string[];
   areasOfActivity: string[];
   societalGrandChallenges: string[];
   nationalRoadmaps: string[];
@@ -176,6 +176,21 @@ export class RichService {
   providerInfo: ProviderInfo[];
 }
 
+export class ServiceProviderDomain {
+  scientificDomain: string;
+  scientificSubdomain: string;
+}
+
+export class ProviderMerilDomain {
+  merilScientificDomain: string;
+  merilScientificSubdomain: string;
+}
+
+export class ServiceCategory {
+  category: string;
+  subcategory: string;
+}
+
 export class Service implements Identifiable {
   id: string;
   name: string;
@@ -187,10 +202,10 @@ export class Service implements Identifiable {
   logo: URL;
   multimedia: URL[];
   useCases: URL[];
-  scientificDomains: string[];
-  scientificSubdomains: string[];
-  categories: string[];
-  subcategories: string[];
+  scientificDomains: ServiceProviderDomain[];
+  // scientificSubdomains: string[];
+  categories: ServiceCategory[];
+  // subcategories: string[];
   targetUsers: string[];
   accessTypes: string[];
   accessModes: string[];

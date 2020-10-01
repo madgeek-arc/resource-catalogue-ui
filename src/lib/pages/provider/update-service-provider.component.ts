@@ -119,32 +119,32 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
           }
         }
 
-        if (this.provider.scientificSubdomains) {
+        if (this.provider.scientificDomains) {
           // this.removeDomain(0);
-          for (let i = 0; i < this.provider.scientificSubdomains.length; i++) {
+          for (let i = 0; i < this.provider.scientificDomains.length; i++) {
             this.domainArray.push(this.newScientificDomain());
 
-            for (let j = 0; j < this.categoriesVocabulary.length; j++) {
-              if (this.categoriesVocabulary[j].id === this.provider.scientificSubdomains[i]) {
-                this.domainArray.controls[this.domainArray.length - 1].get('domain').setValue(this.categoriesVocabulary[j].parentId);
-                this.domainArray.controls[this.domainArray.length - 1].get('scientificSubdomain').setValue(this.categoriesVocabulary[j].id);
-              }
-            }
+            // for (let j = 0; j < this.categoriesVocabulary.length; j++) {
+            //   if (this.categoriesVocabulary[j].id === this.provider.scientificDomains[i]) {
+            //     this.domainArray.controls[this.domainArray.length - 1].get('domain').setValue(this.categoriesVocabulary[j].parentId);
+            //     this.domainArray.controls[this.domainArray.length - 1].get('scientificSubdomain').setValue(this.categoriesVocabulary[j].id);
+            //   }
+            // }
           }
         } else {
           this.domainArray.push(this.newScientificDomain());
         }
-        if (this.provider.merilScientificSubdomains) {
+        if (this.provider.merilScientificDomains) {
           // this.removeDomain(0);
-          for (let i = 0; i < this.provider.merilScientificSubdomains.length; i++) {
+          for (let i = 0; i < this.provider.merilScientificDomains.length; i++) {
             this.merilDomainArray.push(this.newMerilScientificDomain());
 
-            for (let j = 0; j < this.merilCategoriesVocabulary.length; j++) {
-              if (this.merilCategoriesVocabulary[j].id === this.provider.merilScientificSubdomains[i]) {
-                this.merilDomainArray.controls[this.merilDomainArray.length - 1].get('merilDomain').setValue(this.merilCategoriesVocabulary[j].parentId);
-                this.merilDomainArray.controls[this.merilDomainArray.length - 1].get('merilScientificSubdomain').setValue(this.merilCategoriesVocabulary[j].id);
-              }
-            }
+            // for (let j = 0; j < this.merilCategoriesVocabulary.length; j++) {
+            //   if (this.merilCategoriesVocabulary[j].id === this.provider.merilScientificDomains[i]) {
+            //     this.merilDomainArray.controls[this.merilDomainArray.length - 1].get('merilDomain').setValue(this.merilCategoriesVocabulary[j].parentId);
+            //     this.merilDomainArray.controls[this.merilDomainArray.length - 1].get('merilScientificSubdomain').setValue(this.merilCategoriesVocabulary[j].id);
+            //   }
+            // }
           }
         } else {
           this.merilDomainArray.push(this.newMerilScientificDomain());

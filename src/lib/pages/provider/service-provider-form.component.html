@@ -267,7 +267,7 @@
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right">Scientific Categorisation</label>
                             <div class="uk-form-controls uk-margin-top">
-                              <div formArrayName="categorization"
+                              <div formArrayName="scientificDomains"
                                    *ngFor="let category of domainArray.controls; let i = index">
                                 <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                   <!--<a *ngIf="domainArray.length > 1 && !disable" class="remove-element uk-padding-small"-->
@@ -276,14 +276,14 @@
                                   <!--</a>-->
 
                                   <div *ngIf="domainsVocabulary" class="uk-margin-bottom">
-                                    <label class="uk-form-label uk-text-right" for="{{'domain ' + i}}">
+                                    <label class="uk-form-label uk-text-right" for="{{'scientificDomain ' + i}}">
                                       {{providerScientificDomainDesc.label + (providerScientificDomainDesc.mandatory ? ' (*)' : '')}}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerScientificDomainDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
-                                      <select id="{{'domain ' + i}}" formControlName="domain" class="uk-input uk-select"
+                                      <select id="{{'scientificDomain ' + i}}" formControlName="scientificDomain" class="uk-input uk-select"
                                               (change)="onDomainChange(i); unsavedChangesPrompt()"
-                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorization', i, 'domain')}">
+                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, 'scientificDomain')}">
                                         <option value=""></option>
                                         <option *ngFor="let entry of sortVocabulariesByName(domainsVocabulary)"
                                                 value="{{entry.id}}">
@@ -302,11 +302,11 @@
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="{{'scientificSubdomain ' + i}}" formControlName="scientificSubdomain" class="uk-input uk-select"
                                               (change)="unsavedChangesPrompt()"
-                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorization', i, 'scientificSubdomain')}">
-                                        <ng-container *ngIf="domainArray.controls[i].get('domain').value">
+                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, 'scientificSubdomain')}">
+                                        <ng-container *ngIf="domainArray.controls[i].get('scientificDomain').value">
                                           <option value="">--Select Scientific Subdomain--</option>
                                           <option
-                                            *ngFor="let entry of getSortedChildrenCategories(categoriesVocabulary, domainArray.controls[i].get('domain').value)"
+                                            *ngFor="let entry of getSortedChildrenCategories(categoriesVocabulary, domainArray.controls[i].get('scientificDomain').value)"
                                             value="{{entry.id}}">
                                             {{entry.name}}
                                           </option>
@@ -797,7 +797,7 @@
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right">MERIL Scientific Categorisation</label>
                             <div class="uk-form-controls uk-margin-top">
-                              <div formArrayName="merilCategorization"
+                              <div formArrayName="merilScientificDomains"
                                    *ngFor="let category of merilDomainArray.controls; let i = index">
                                 <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                   <!--<a *ngIf="merilDomainArray.length > 1 && !disable" class="remove-element uk-padding-small"-->
@@ -806,14 +806,14 @@
                                   <!--</a>-->
 
                                   <div *ngIf="merilDomainsVocabulary" class="uk-margin-bottom">
-                                    <label class="uk-form-label uk-text-right" for="{{'merilDomain ' + i}}">
+                                    <label class="uk-form-label uk-text-right" for="{{'merilScientificDomain ' + i}}">
                                       {{merilScientificDomainsDesc.label + (merilScientificDomainsDesc.mandatory ? ' (*)' : '')}}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{merilScientificDomainsDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
-                                      <select id="{{'merilDomain ' + i}}" formControlName="merilDomain" class="uk-input uk-select"
+                                      <select id="{{'merilScientificDomain ' + i}}" formControlName="merilScientificDomain" class="uk-input uk-select"
                                               (change)="onMerilDomainChange(i); unsavedChangesPrompt()"
-                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('merilCategorization', i, 'merilDomain')}">
+                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('merilScientificDomains', i, 'merilScientificDomain')}">
                                         <option value=""></option>
                                         <option *ngFor="let entry of sortVocabulariesByName(merilDomainsVocabulary)"
                                                 value="{{entry.id}}">
@@ -832,11 +832,11 @@
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="{{'merilScientificSubdomain ' + i}}" formControlName="merilScientificSubdomain" class="uk-input uk-select"
                                               (change)="unsavedChangesPrompt()"
-                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('merilCategorization', i, 'merilScientificSubdomain')}">
-                                        <ng-container *ngIf="merilDomainArray.controls[i].get('merilDomain').value">
+                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('merilScientificDomains', i, 'merilScientificSubdomain')}">
+                                        <ng-container *ngIf="merilDomainArray.controls[i].get('merilScientificDomain').value">
                                           <option value="">--Select MERIL Scientific Subdomain--</option>
                                           <option
-                                            *ngFor="let entry of getSortedChildrenCategories(merilCategoriesVocabulary, merilDomainArray.controls[i].get('merilDomain').value)"
+                                            *ngFor="let entry of getSortedChildrenCategories(merilCategoriesVocabulary, merilDomainArray.controls[i].get('merilScientificDomain').value)"
                                             value="{{entry.id}}">
                                             {{entry.name}}
                                           </option>

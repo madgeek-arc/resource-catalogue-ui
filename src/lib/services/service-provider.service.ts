@@ -103,8 +103,8 @@ export class ServiceProviderService {
   }
 
   getAdminAcceptedTerms(id: string, pendingProvider: boolean) {
-    console.log(`knocking on: ${this.base}/provider/hasAdminAcceptedTerms`);
-    console.log('id: ', id, 'pendingProvider: ', pendingProvider);
+    // console.log(`knocking on: ${this.base}/provider/hasAdminAcceptedTerms`);
+    // console.log('id: ', id, 'pendingProvider: ', pendingProvider);
     if (pendingProvider) {
       return this.http.get<boolean>(this.base + `/pendingProvider/hasAdminAcceptedTerms?providerId=${id}`);
     }
