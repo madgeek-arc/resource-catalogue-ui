@@ -104,7 +104,7 @@ export class Provider implements Identifiable {
   structureTypes: string[];
   esfriDomains: string[];
   esfriType: string;
-  merilScientificDomains: ProviderMerilDomain[];
+  merilScientificDomains: ProviderMerilDomain[]; // anchor
   // merilScientificSubdomains: string[];
   areasOfActivity: string[];
   societalGrandChallenges: string[];
@@ -204,7 +204,7 @@ export class Service implements Identifiable {
   useCases: URL[];
   scientificDomains: ServiceProviderDomain[];
   // scientificSubdomains: string[];
-  categories: ServiceCategory[];
+  categories: ServiceCategory[];  // anchor
   // subcategories: string[];
   targetUsers: string[];
   accessTypes: string[];

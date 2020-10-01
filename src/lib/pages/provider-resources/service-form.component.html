@@ -15,7 +15,7 @@
           <div class="">
             <!--<button class="uk-button uk-button-primary">Discard</button>-->
             <button *ngIf="!editMode || pendingService" class="uk-button uk-button-primary uk-margin-left" (click)="this.onSubmit(this.service, true)">Save as draft</button>
-            <button *ngIf="loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left" (click)="onSubmit(serviceForm.value, false)" type="submit">Submit</button>
+            <button *ngIf="loaderPercentage<=100" class="uk-button uk-button-secondary uk-margin-left" (click)="onSubmit(serviceForm.value, false)" type="submit">Submit</button>
           </div>
         </div>
 
@@ -445,7 +445,7 @@
                               Categorisation (*)
                             </label>
                             <div class="uk-form-controls uk-margin-top">
-                              <div formArrayName="categorize" *ngFor="let category of categoryArray.controls; let i = index">
+                              <div formArrayName="categories" *ngFor="let category of categoryArray.controls; let i = index">
                                 <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                   <!--<a *ngIf="categoryArray.length > 1" class="remove-element uk-padding-small"-->
                                      <!--(click)="removeCategory(i); unsavedChangesPrompt()">-->
@@ -460,7 +460,7 @@
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="{{'category ' + i}}" formControlName="category" class="uk-input uk-select"
                                               (change)="onCategoryChange(i); unsavedChangesPrompt()"
-                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorize', i, 'category')}">
+                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('categories', i, 'category')}">
                                         <!--                                      <ng-container *ngIf="categoryArray.controls[i].get('supercategory').value">-->
                                         <ng-container *ngIf="categoriesVocabulary">
                                           <!--                                        <option value="">&#45;&#45;Choose Category&#45;&#45;</option>-->
@@ -482,8 +482,8 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{subcategoryDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="{{'subcategory ' + i}}" formControlName="subcategory" class="uk-input uk-select"
-                                              (change)="handleBitSetsOfGroups(2, 9, 'subcategory', 'categorize'); unsavedChangesPrompt()"
-                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('categorize', i, 'subcategory')}">
+                                              (change)="handleBitSetsOfGroups(2, 9, 'subcategory', 'categories'); unsavedChangesPrompt()"
+                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('categories', i, 'subcategory')}">
                                         <ng-container *ngIf="categoryArray.controls[i].get('category').value">
                                           <option value="">--Choose subcategory--</option>
                                           <ng-container *ngIf="subCategoriesVocabulary" >

@@ -153,10 +153,10 @@ export class ServiceFormComponent implements OnInit {
     resourceOrganisation: ['', Validators.required],
     resourceProviders: this.fb.array([this.fb.control('')]),
     resourceGeographicLocations: this.fb.array([this.fb.control('')]),
-    scientificDomain : this.fb.array([]),
-    scientificSubdomains: this.fb.array([]),
-    categories: this.fb.array([]),
-    subcategories: this.fb.array([]),
+    // scientificDomain : this.fb.array([]),
+    // scientificSubdomains: this.fb.array([]),
+    // categories: this.fb.array([]),
+    // subcategories: this.fb.array([]),
     // 'supercategory: [''],
     targetUsers: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
     languageAvailabilities: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
@@ -216,7 +216,7 @@ export class ServiceFormComponent implements OnInit {
     // publications: [''],
     // otherProducts: [''],
 
-    categorize: this.fb.array([], Validators.required),
+    categories: this.fb.array([], Validators.required),
     scientificDomains: this.fb.array([], Validators.required)
   };
 
@@ -272,17 +272,19 @@ export class ServiceFormComponent implements OnInit {
 
     /** Fill subcategory string array**/
     this.getFieldAsFormArray('categories').controls = [];
-    this.getFieldAsFormArray('subcategories').controls = [];
+    // this.getFieldAsFormArray('subcategories').controls = [];
+
     for (const category in this.categoryArray.controls) {
       if (this.categoryArray.controls[category].get('subcategory').value) {
-        this.getFieldAsFormArray('categories').push(this.fb.control(this.categoryArray.controls[category].get('category').value));
+        this.getFieldAsFormArray('category').push(this.fb.control(this.categoryArray.controls[category].get('category').value));
         this.getFieldAsFormArray('subcategories').push(this.fb.control(this.categoryArray.controls[category].get('subcategory').value));
       }
     }
     this.categoryArray.disable();
     /** Fill scientific subdomain string array**/
-    this.getFieldAsFormArray('scientificDomain').controls = [];
-    this.getFieldAsFormArray('scientificSubdomains').controls = [];
+    this.getFieldAsFormArray('scientificDomains').controls = [];
+    // this.getFieldAsFormArray('scientificSubdomains').controls = [];
+
     for (const scientificDomain of this.scientificDomainArray.controls) {
       if (scientificDomain.get('scientificSubDomain').value) {
         this.getFieldAsFormArray('scientificDomain').push(this.fb.control(scientificDomain.get('scientificDomain').value));
@@ -292,61 +294,62 @@ export class ServiceFormComponent implements OnInit {
     this.scientificDomainArray.disable();
     this.showLoader = true;
     console.log('this.serviceForm.valid ', this.serviceForm.valid);
-    console.log('Submitted service --> ', service);
-    if (tempSave) {
-      // todo add fix hear
-      this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
-      (this.serviceForm.value).subscribe(
-        _service => {
-          // console.log(_service);
-          this.showLoader = false;
-          // fixme fix this router url
-          // return this.router.go('/editPendingService/' + _service.id);
-          return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
-        },
-        err => {
-          this.showLoader = false;
-          window.scrollTo(0, 0);
-          this.categoryArray.enable();
-          this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
-        }
-      );
-    } else if (this.serviceForm.valid) {
-      window.scrollTo(0, 0);
-      this.resourceService[pendingService ? 'uploadPendingService' : 'uploadService']
-      (this.serviceForm.value, this.editMode).subscribe(
-        _service => {
-          // console.log(_service);
-          this.showLoader = false;
-          return this.router.service(_service.id);
-        },
-        err => {
-          this.showLoader = false;
-          window.scrollTo(0, 0);
-          this.categoryArray.enable();
-          this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
-        }
-      );
-    } else {
-      window.scrollTo(0, 0);
-      this.showLoader = false;
-
-      this.categoryArray.enable();
-      this.scientificDomainArray.enable();
-      this.setAsTouched();
-      this.markTabs();
-      this.serviceForm.markAsDirty();
-      this.serviceForm.updateValueAndValidity();
-      if (!this.serviceForm.valid) {
-        this.errorMessage = 'Please fill in all required fields (marked with an asterisk), ' +
-          'and fix the data format in fields underlined with a red colour.';
-        if (!this.serviceForm.controls['description'].valid) {
-          this.errorMessage += ' Description is an mandatory field.';
-        }
-      }
-    }
+    // console.log('Submitted service --> ', service);
+    console.log('Submitted service value--> ', this.serviceForm.value);
+    // if (tempSave) {
+    //   // todo add fix hear
+    //   this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
+    //   (this.serviceForm.value).subscribe(
+    //     _service => {
+    //       // console.log(_service);
+    //       this.showLoader = false;
+    //       // fixme fix this router url
+    //       // return this.router.go('/editPendingService/' + _service.id);
+    //       return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
+    //     },
+    //     err => {
+    //       this.showLoader = false;
+    //       window.scrollTo(0, 0);
+    //       this.categoryArray.enable();
+    //       this.scientificDomainArray.enable();
+    //       this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+    //     }
+    //   );
+    // } else if (this.serviceForm.valid) {
+    //   window.scrollTo(0, 0);
+    //   this.resourceService[pendingService ? 'uploadPendingService' : 'uploadService']
+    //   (this.serviceForm.value, this.editMode).subscribe(
+    //     _service => {
+    //       // console.log(_service);
+    //       this.showLoader = false;
+    //       return this.router.service(_service.id);
+    //     },
+    //     err => {
+    //       this.showLoader = false;
+    //       window.scrollTo(0, 0);
+    //       this.categoryArray.enable();
+    //       this.scientificDomainArray.enable();
+    //       this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+    //     }
+    //   );
+    // } else {
+    //   window.scrollTo(0, 0);
+    //   this.showLoader = false;
+    //
+    //   this.categoryArray.enable();
+    //   this.scientificDomainArray.enable();
+    //   this.setAsTouched();
+    //   this.markTabs();
+    //   this.serviceForm.markAsDirty();
+    //   this.serviceForm.updateValueAndValidity();
+    //   if (!this.serviceForm.valid) {
+    //     this.errorMessage = 'Please fill in all required fields (marked with an asterisk), ' +
+    //       'and fix the data format in fields underlined with a red colour.';
+    //     if (!this.serviceForm.controls['description'].valid) {
+    //       this.errorMessage += ' Description is an mandatory field.';
+    //     }
+    //   }
+    // }
   }
 
   ngOnInit() {
@@ -404,7 +407,7 @@ export class ServiceFormComponent implements OnInit {
             for (let j = 0; j < data[i].length - 1; j++) {
               if (i === 'scientificDomains') {
                 this.scientificDomainArray.push(this.newScientificDomain());
-              } else if (i === 'categorize') {
+              } else if (i === 'categories') {
                 this.categoryArray.push(this.newCategory());
                 // } else if (i === 'options') {
                 //   this.pushOption();
@@ -510,8 +513,8 @@ export class ServiceFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('useCases'));
     this.tabs[2] = (this.checkEveryArrayFieldValidity('scientificDomains', 'scientificDomain')
       || this.checkEveryArrayFieldValidity('scientificDomains', 'scientificSubDomain')
-      || this.checkEveryArrayFieldValidity('categorize', 'category')
-      || this.checkEveryArrayFieldValidity('categorize', 'subcategory')
+      || this.checkEveryArrayFieldValidity('categories', 'category')
+      || this.checkEveryArrayFieldValidity('categories', 'subcategory')
       || this.checkEveryArrayFieldValidity('targetUsers')
       || this.checkEveryArrayFieldValidity('accessTypes')
       || this.checkEveryArrayFieldValidity('accessModes')
@@ -602,7 +605,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   get categoryArray() {
-    return this.serviceForm.get('categorize') as FormArray;
+    return this.serviceForm.get('categories') as FormArray;
   }
 
   pushCategory() {
@@ -875,43 +878,43 @@ export class ServiceFormComponent implements OnInit {
   }
 
   handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group: string): void {
-    if (group === 'scientificDomains') {
-      for (const scientificDomain of this.scientificDomainArray.controls) {
-        if (scientificDomain.get('scientificSubDomain').value) {
-          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-          this.loaderBitSet.set(bitIndex - 1, 1);
-          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-          this.loaderBitSet.set(bitIndex, 1);
-        } else {
-          this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-          this.loaderBitSet.set(bitIndex - 1, 0);
-          this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-          this.loaderBitSet.set(bitIndex, 0);
-        }
-      }
-    } else if (group === 'categorize') {
-      for (const category in this.categoryArray.controls) {
-        if (this.categoryArray.controls[category].get('subcategory').value) {
-          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-          this.loaderBitSet.set(bitIndex - 1, 1);
-          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-          this.loaderBitSet.set(bitIndex, 1);
-        } else {
-          this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-          this.loaderBitSet.set(bitIndex - 1, 0);
-          this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-          this.loaderBitSet.set(bitIndex, 0);
-        }
-      }
-    } else {
-      if (this.serviceForm.controls[group].get(formControlName).valid) {
-        this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-        this.loaderBitSet.set(bitIndex, 1);
-      } else if (this.serviceForm.controls[group].get(formControlName).invalid) {
-        this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-        this.loaderBitSet.set(bitIndex, 0);
-      }
-    }
+    // if (group === 'scientificDomains') {
+    //   for (const scientificDomain of this.scientificDomainArray.controls) {
+    //     if (scientificDomain.get('scientificSubDomain').value) {
+    //       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+    //       this.loaderBitSet.set(bitIndex - 1, 1);
+    //       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+    //       this.loaderBitSet.set(bitIndex, 1);
+    //     } else {
+    //       this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+    //       this.loaderBitSet.set(bitIndex - 1, 0);
+    //       this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+    //       this.loaderBitSet.set(bitIndex, 0);
+    //     }
+    //   }
+    // } else if (group === 'categories') {
+    //   for (const category in this.categoryArray.controls) {
+    //     if (this.categoryArray.controls[category].get('subcategory').value) {
+    //       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+    //       this.loaderBitSet.set(bitIndex - 1, 1);
+    //       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+    //       this.loaderBitSet.set(bitIndex, 1);
+    //     } else {
+    //       this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+    //       this.loaderBitSet.set(bitIndex - 1, 0);
+    //       this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+    //       this.loaderBitSet.set(bitIndex, 0);
+    //     }
+    //   }
+    // } else {
+    //   if (this.serviceForm.controls[group].get(formControlName).valid) {
+    //     this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+    //     this.loaderBitSet.set(bitIndex, 1);
+    //   } else if (this.serviceForm.controls[group].get(formControlName).invalid) {
+    //     this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+    //     this.loaderBitSet.set(bitIndex, 0);
+    //   }
+    // }
     this.updateLoaderPercentage();
   }
 
