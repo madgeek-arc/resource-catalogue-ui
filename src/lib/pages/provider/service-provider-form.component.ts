@@ -134,9 +134,9 @@ export class ServiceProviderFormComponent implements OnInit {
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
     multimedia: this.fb.array([this.fb.control('', URLValidator)]),
-    scientificDomains: this.fb.array([]), // this is what we need to send back
-    scientificDomain: this.fb.array([]),
-    scientificSubdomains: this.fb.array([]),
+    scientificDomains: this.fb.array([]),
+    // scientificDomain: this.fb.array([]),
+    // scientificSubdomains: this.fb.array([]),
     tags: this.fb.array([this.fb.control('')]),
     location: this.fb.group({
       streetNameAndNumber: ['', Validators.required],
@@ -170,9 +170,9 @@ export class ServiceProviderFormComponent implements OnInit {
     structureTypes: this.fb.array([this.fb.control('')]),
     esfriDomains: this.fb.array([this.fb.control('')]),
     esfriType: [''],
-    merilScientificDomains: this.fb.array([]), // this is what we need to send back
-    merilScientificDomain: this.fb.array([]),
-    merilScientificSubdomains: this.fb.array([]),
+    merilScientificDomains: this.fb.array([]),
+    // merilScientificDomain: this.fb.array([]),
+    // merilScientificSubdomains: this.fb.array([]),
     areasOfActivity: this.fb.array([this.fb.control('')]),
     societalGrandChallenges: this.fb.array([this.fb.control('')]),
     nationalRoadmaps: this.fb.array([this.fb.control('')]),
@@ -217,7 +217,7 @@ export class ServiceProviderFormComponent implements OnInit {
               if (i === 'scientificDomains') {
                 this.domainArray.push(this.newScientificDomain());
               } else if (i === 'merilScientificDomains') {
-                this.domainArray.push(this.newMerilScientificDomain());
+                this.merilDomainArray.push(this.newMerilScientificDomain());
               } else if (i === 'publicContacts') {
                 this.pushPublicContact();
               } else if (i === 'users') {
@@ -280,10 +280,13 @@ export class ServiceProviderFormComponent implements OnInit {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
     }
 
-    this.getFieldAsFormArray('scientificDomain').controls = [];
-    this.getFieldAsFormArray('scientificSubdomains').controls = [];
-    this.getFieldAsFormArray('merilScientificDomain').controls = [];
-    this.getFieldAsFormArray('merilScientificSubdomains').controls = [];
+    this.getFieldAsFormArray('scientificDomains').controls = [];
+    this.getFieldAsFormArray('merilScientificDomains').controls = [];
+
+    // this.getFieldAsFormArray('scientificDomain').controls = [];
+    // this.getFieldAsFormArray('scientificSubdomains').controls = [];
+    // this.getFieldAsFormArray('merilScientificDomain').controls = [];
+    // this.getFieldAsFormArray('merilScientificSubdomains').controls = [];
 
     for (const category of this.domainArray.controls) {
       if (category.get('scientificSubdomain').value) {
@@ -701,6 +704,29 @@ export class ServiceProviderFormComponent implements OnInit {
         .trim().replace(/\s\s+/g, ' ');
       this.newProviderForm.controls['users'].value[j].surname = this.newProviderForm.controls['users'].value[j].surname
         .trim().replace(/\s\s+/g, ' ');
+    }
+
+    if (this.newProviderForm.controls['scientificDomains'] && this.newProviderForm.controls['scientificDomains'].value) {
+
+      if (this.newProviderForm.controls['scientificDomains'].value.length === 1
+        && !this.newProviderForm.controls['scientificDomains'].value[0].scientificDomain
+        && !this.newProviderForm.controls['scientificDomains'].value[0].scientificSubdomain) {
+
+        this.removeDomain(0);
+
+      }
+    }
+    if (this.newProviderForm.controls['merilScientificDomains'] && this.newProviderForm.controls['merilScientificDomains'].value) {
+      console.log(this.newProviderForm.controls['merilScientificDomains'].value.length);
+      console.log(!this.newProviderForm.controls['merilScientificDomains'].value[0].merilScientificDomain);
+      console.log(!this.newProviderForm.controls['merilScientificDomains'].value[0].merilScientificSubdomain);
+      if (this.newProviderForm.controls['merilScientificDomains'].value.length === 1
+        && !this.newProviderForm.controls['merilScientificDomains'].value[0].merilScientificDomain
+        && !this.newProviderForm.controls['merilScientificDomains'].value[0].merilScientificSubdomain) {
+
+        this.removeMerilDomain(0);
+
+      }
     }
   }
 
