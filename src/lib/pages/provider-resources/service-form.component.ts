@@ -153,7 +153,7 @@ export class ServiceFormComponent implements OnInit {
     resourceOrganisation: ['', Validators.required],
     resourceProviders: this.fb.array([this.fb.control('')]),
     resourceGeographicLocations: this.fb.array([this.fb.control('')]),
-    scientificDomains : this.fb.array([]),
+    scientificDomain : this.fb.array([]),
     scientificSubdomains: this.fb.array([]),
     categories: this.fb.array([]),
     subcategories: this.fb.array([]),
@@ -217,7 +217,7 @@ export class ServiceFormComponent implements OnInit {
     // otherProducts: [''],
 
     categorize: this.fb.array([], Validators.required),
-    scientificCategorization: this.fb.array([], Validators.required)
+    scientificDomains: this.fb.array([], Validators.required)
   };
 
   providersPage: Paging<Provider>;
@@ -281,11 +281,11 @@ export class ServiceFormComponent implements OnInit {
     }
     this.categoryArray.disable();
     /** Fill scientific subdomain string array**/
-    this.getFieldAsFormArray('scientificDomains').controls = [];
+    this.getFieldAsFormArray('scientificDomain').controls = [];
     this.getFieldAsFormArray('scientificSubdomains').controls = [];
     for (const scientificDomain of this.scientificDomainArray.controls) {
       if (scientificDomain.get('scientificSubDomain').value) {
-        this.getFieldAsFormArray('scientificDomains').push(this.fb.control(scientificDomain.get('scientificDomain').value));
+        this.getFieldAsFormArray('scientificDomain').push(this.fb.control(scientificDomain.get('scientificDomain').value));
         this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(scientificDomain.get('scientificSubDomain').value));
       }
     }
@@ -402,7 +402,7 @@ export class ServiceFormComponent implements OnInit {
           if (Array.isArray(data[i])) {
             // console.log(i);
             for (let j = 0; j < data[i].length - 1; j++) {
-              if (i === 'scientificCategorization') {
+              if (i === 'scientificDomains') {
                 this.scientificDomainArray.push(this.newScientificDomain());
               } else if (i === 'categorize') {
                 this.categoryArray.push(this.newCategory());
@@ -508,8 +508,8 @@ export class ServiceFormComponent implements OnInit {
       || this.checkFormValidity('logo')
       || this.checkEveryArrayFieldValidity('multimedia')
       || this.checkEveryArrayFieldValidity('useCases'));
-    this.tabs[2] = (this.checkEveryArrayFieldValidity('scientificCategorization', 'scientificDomain')
-      || this.checkEveryArrayFieldValidity('scientificCategorization', 'scientificSubDomain')
+    this.tabs[2] = (this.checkEveryArrayFieldValidity('scientificDomains', 'scientificDomain')
+      || this.checkEveryArrayFieldValidity('scientificDomains', 'scientificSubDomain')
       || this.checkEveryArrayFieldValidity('categorize', 'category')
       || this.checkEveryArrayFieldValidity('categorize', 'subcategory')
       || this.checkEveryArrayFieldValidity('targetUsers')
@@ -628,7 +628,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   get scientificDomainArray() {
-    return this.serviceForm.get('scientificCategorization') as FormArray;
+    return this.serviceForm.get('scientificDomains') as FormArray;
   }
 
   pushScientificDomain() {
@@ -727,16 +727,16 @@ export class ServiceFormComponent implements OnInit {
   formPrepare(richService: RichService) {
 
     this.removeCategory(0);
-    if (richService.service.subcategories) {
-      for (let i = 0; i < richService.service.subcategories.length; i++) {
+    if (richService.service.scientificDomains) {
+      for (let i = 0; i < richService.service.scientificDomains.length; i++) {
         this.categoryArray.push(this.newCategory());
         this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.categories[i].category.id);
         this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.categories[i].subCategory.id);
       }
     }
     this.removeScientificDomain(0);
-    if (richService.service.scientificSubdomains) {
-      for (let i = 0; i < richService.service.scientificSubdomains.length; i++) {
+    if (richService.service.scientificDomains) {
+      for (let i = 0; i < richService.service.scientificDomains.length; i++) {
         this.scientificDomainArray.push(this.newScientificDomain());
         this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
           .get('scientificDomain').setValue(richService.domains[i].domain.id);
@@ -875,7 +875,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group: string): void {
-    if (group === 'scientificCategorization') {
+    if (group === 'scientificDomains') {
       for (const scientificDomain of this.scientificDomainArray.controls) {
         if (scientificDomain.get('scientificSubDomain').value) {
           this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);

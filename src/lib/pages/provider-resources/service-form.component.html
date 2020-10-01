@@ -378,7 +378,7 @@
                               Scientific Categorisation (*)
                             </label>
                             <div class="uk-form-controls uk-margin-top">
-                              <div formArrayName="scientificCategorization" *ngFor="let category of scientificDomainArray.controls; let i = index">
+                              <div formArrayName="scientificDomains" *ngFor="let category of scientificDomainArray.controls; let i = index">
                                 <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                   <!--<a *ngIf="scientificDomainArray.length > 1" class="remove-element uk-padding-small"-->
                                      <!--(click)="removeScientificDomain(i); unsavedChangesPrompt()">-->
@@ -392,7 +392,7 @@
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="{{'scientificDomain ' + i}}"  formControlName="scientificDomain" class="uk-input uk-select"
                                               (change)="onScientificDomainChange(i); unsavedChangesPrompt()"
-                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificCategorization', i, 'scientificDomain')}">
+                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, 'scientificDomain')}">
                                         <ng-container *ngIf="scientificDomainVocabulary" >
                                           <option *ngFor="let entry of sortVocabulariesByName(scientificDomainVocabulary)"
                                                   value="{{entry.id}}">{{entry.name}}
@@ -410,8 +410,8 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{scientificSubDomainDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <select id="{{'scientificSubDomain ' + i}}" formControlName="scientificSubDomain" class="uk-input uk-select"
-                                              (change)="handleBitSetsOfGroups(2, 7, 'scientificSubDomain', 'scientificCategorization'); unsavedChangesPrompt()"
-                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificCategorization', i, 'scientificSubDomain')}">
+                                              (change)="handleBitSetsOfGroups(2, 7, 'scientificSubDomain', 'scientificDomains'); unsavedChangesPrompt()"
+                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, 'scientificSubDomain')}">
                                         <ng-container *ngIf="scientificDomainArray.controls[i].get('scientificDomain').value">
                                           <option value="">--Choose Scientific Subdomain--</option>
                                           <ng-container *ngIf="scientificSubDomainVocabulary">
