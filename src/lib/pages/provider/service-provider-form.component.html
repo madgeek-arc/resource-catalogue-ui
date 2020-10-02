@@ -1066,7 +1066,7 @@
 
     <div class="uk-text-right">
       <button class="uk-button uk-button-default uk-modal-close" type="button" routerLink="/home">Cancel</button>
-      <button class="uk-button  uk-modal-close" type="button" (click)="checkTerms()"
+      <button class="uk-button  uk-modal-close" type="button" (click)="acceptTerms()"
               [ngClass]="{'uk-disabled' : !agreedToTerms, 'uk-button-secondary' : !agreedToTerms, 'uk-button-primary': agreedToTerms}">
         Apply</button>
     </div>

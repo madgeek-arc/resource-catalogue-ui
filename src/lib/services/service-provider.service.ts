@@ -102,13 +102,18 @@ export class ServiceProviderService {
     return this.http.get<ProviderRequest[]>(this.base + `/request/allProviderRequests?providerId=${id}`);
   }
 
-  getAdminAcceptedTerms(id: string, pendingProvider: boolean) {
-    // console.log(`knocking on: ${this.base}/provider/hasAdminAcceptedTerms`);
-    // console.log('id: ', id, 'pendingProvider: ', pendingProvider);
+  hasAdminAcceptedTerms(id: string, pendingProvider: boolean) {
     if (pendingProvider) {
       return this.http.get<boolean>(this.base + `/pendingProvider/hasAdminAcceptedTerms?providerId=${id}`);
     }
     return this.http.get<boolean>(this.base + `/provider/hasAdminAcceptedTerms?providerId=${id}`);
+  }
+
+  adminAcceptedTerms(id: string, pendingProvider: boolean) {
+    if (pendingProvider) {
+      return this.http.put(this.base + `/pendingProvider/adminAcceptedTerms?providerId=${id}`, this.options);
+    }
+    return this.http.put(this.base + `/provider/adminAcceptedTerms?providerId=${id}`, this.options);
   }
 
 }

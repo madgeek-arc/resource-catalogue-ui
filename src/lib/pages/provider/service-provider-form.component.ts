@@ -239,10 +239,9 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
 
-    /** Terms Modal -->**/
     if (this._hasUserConsent) {
       if (this.edit) {
-        this.serviceProviderService.getAdminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
+        this.serviceProviderService.hasAdminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
           boolean => {
             this.agreedToTerms = boolean;
           }, error => console.log(error),
@@ -258,7 +257,6 @@ export class ServiceProviderFormComponent implements OnInit {
         }
       }
     }
-    /** <-- Terms Modal **/
 
     this.initUserBitSets();
   }
@@ -717,9 +715,7 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
     if (this.newProviderForm.controls['merilScientificDomains'] && this.newProviderForm.controls['merilScientificDomains'].value) {
-      console.log(this.newProviderForm.controls['merilScientificDomains'].value.length);
-      console.log(!this.newProviderForm.controls['merilScientificDomains'].value[0].merilScientificDomain);
-      console.log(!this.newProviderForm.controls['merilScientificDomains'].value[0].merilScientificSubdomain);
+
       if (this.newProviderForm.controls['merilScientificDomains'].value.length === 1
         && !this.newProviderForm.controls['merilScientificDomains'].value[0].merilScientificDomain
         && !this.newProviderForm.controls['merilScientificDomains'].value[0].merilScientificSubdomain) {
@@ -754,7 +750,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-    if (this.newProviderForm.controls[group].get(formControlName).valid  || (this.newProviderForm.controls[group].get(formControlName).disabled && this.newProviderForm.controls[group].get(formControlName).value != '')) {
+    if (this.newProviderForm.controls[group].get(formControlName).valid || (this.newProviderForm.controls[group].get(formControlName).disabled && this.newProviderForm.controls[group].get(formControlName).value != '')) {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 1);
     } else if (this.newProviderForm.controls[group].get(formControlName).invalid) {
@@ -875,8 +871,10 @@ export class ServiceProviderFormComponent implements OnInit {
     this.completedTabsBitSet.set(tabNum, setValue);
     this.completedTabs = this.completedTabsBitSet.cardinality();
   }
+
   /** <--BitSets **/
 
+  /** Terms Modal--> **/
   toggleTerm(term) {
     if (term === 'privacyPolicy') {
       this.privacyPolicy = !this.privacyPolicy;
@@ -889,5 +887,17 @@ export class ServiceProviderFormComponent implements OnInit {
   checkTerms() {
     this.agreedToTerms = this.privacyPolicy && this.authorizedRepresentative;
   }
+
+  acceptTerms() {
+    if (this._hasUserConsent && this.edit) {
+      this.serviceProviderService.adminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
+        res => {},
+        error => { console.log(error); },
+        () => {}
+      );
+    }
+  }
+
+  /** <--Terms Modal **/
 
 }
