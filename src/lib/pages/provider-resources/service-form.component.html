@@ -15,9 +15,10 @@
           <div class="">
             <!--<button class="uk-button uk-button-primary">Discard</button>-->
             <button *ngIf="!editMode || pendingService" class="uk-button uk-button-primary uk-margin-left" (click)="this.onSubmit(this.service, true)">Save as draft</button>
-            <button *ngIf="loaderPercentage<=100" class="uk-button uk-button-secondary uk-margin-left" (click)="onSubmit(serviceForm.value, false)" type="submit">Submit</button>
+            <button *ngIf="loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left" (click)="onSubmit(serviceForm.value, false)" type="submit">Submit</button>
           </div>
         </div>
+
 
         <!--<h2 class="uk-text-center uk-h2 uk-scrollspy-inview uk-animation-slide-bottom-small" uk-scrollspy-class=""-->
             <!--style="">-->
@@ -404,14 +405,14 @@
                                   </div>
 
                                   <div class="uk-margin-bottom">
-                                    <label class="uk-form-label uk-text-right" for="{{'scientificSubDomain ' + i}}">
+                                    <label class="uk-form-label uk-text-right" for="{{'scientificSubdomain ' + i}}">
                                       {{scientificSubDomainDesc.label + (scientificSubDomainDesc.mandatory ? ' (*)' : '')}}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{scientificSubDomainDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
-                                      <select id="{{'scientificSubDomain ' + i}}" formControlName="scientificSubDomain" class="uk-input uk-select"
-                                              (change)="handleBitSetsOfGroups(2, 7, 'scientificSubDomain', 'scientificDomains'); unsavedChangesPrompt()"
-                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, 'scientificSubDomain')}">
+                                      <select id="{{'scientificSubdomain ' + i}}" formControlName="scientificSubdomain" class="uk-input uk-select"
+                                              (change)="handleBitSetsOfGroups(2, 7, 'scientificSubdomain', 'scientificDomains'); unsavedChangesPrompt()"
+                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, 'scientificSubdomain')}">
                                         <ng-container *ngIf="scientificDomainArray.controls[i].get('scientificDomain').value">
                                           <option value="">--Choose Scientific Subdomain--</option>
                                           <ng-container *ngIf="scientificSubDomainVocabulary">

@@ -274,82 +274,90 @@ export class ServiceFormComponent implements OnInit {
     this.getFieldAsFormArray('categories').controls = [];
     // this.getFieldAsFormArray('subcategories').controls = [];
 
-    for (const category in this.categoryArray.controls) {
-      if (this.categoryArray.controls[category].get('subcategory').value) {
-        this.getFieldAsFormArray('category').push(this.fb.control(this.categoryArray.controls[category].get('category').value));
-        this.getFieldAsFormArray('subcategories').push(this.fb.control(this.categoryArray.controls[category].get('subcategory').value));
+    for (const category of this.categoryArray.controls) {
+
+      console.log('this.fb.control(category.get(\'category\').value) --> ', this.fb.control(category.get('category').value));
+      console.log('this.fb.control(category.get(\'subcategory\').value) --> ', this.fb.control(category.get('subcategory').value));
+
+      if (category.get('subcategory').value) {
+        // this.getFieldAsFormArray('category').push(this.fb.control(this.categoryArray.controls[category].get('category').value));
+        // console.log('this.fb.control(category.get(\'category\').value) --> ', this.fb.control(category.get('category').value));
+        this.getFieldAsFormArray('category').push(this.fb.control(category.get('category').value));
+        // this.getFieldAsFormArray('subcategories').push(this.fb.control(category.get('subcategory').value));
+        // console.log('this.fb.control(category.get(\'subcategory\').value) --> ', this.fb.control(category.get('subcategory').value));
+        this.getFieldAsFormArray('subcategory').push(this.fb.control(category.get('subcategory').value));
       }
     }
-    this.categoryArray.disable();
     /** Fill scientific subdomain string array**/
     this.getFieldAsFormArray('scientificDomains').controls = [];
     // this.getFieldAsFormArray('scientificSubdomains').controls = [];
 
     for (const scientificDomain of this.scientificDomainArray.controls) {
-      if (scientificDomain.get('scientificSubDomain').value) {
+      if (scientificDomain.get('scientificSubdomain').value) {
         this.getFieldAsFormArray('scientificDomain').push(this.fb.control(scientificDomain.get('scientificDomain').value));
-        this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(scientificDomain.get('scientificSubDomain').value));
+        // this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(scientificDomain.get('scientificSubdomain').value));
+        this.getFieldAsFormArray('scientificSubdomain').push(this.fb.control(scientificDomain.get('scientificSubdomain').value));
       }
     }
-    this.scientificDomainArray.disable();
+    // this.scientificDomainArray.disable();
     this.showLoader = true;
     console.log('this.serviceForm.valid ', this.serviceForm.valid);
     // console.log('Submitted service --> ', service);
     console.log('Submitted service value--> ', this.serviceForm.value);
-    // if (tempSave) {
-    //   // todo add fix hear
-    //   this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
-    //   (this.serviceForm.value).subscribe(
-    //     _service => {
-    //       // console.log(_service);
-    //       this.showLoader = false;
-    //       // fixme fix this router url
-    //       // return this.router.go('/editPendingService/' + _service.id);
-    //       return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
-    //     },
-    //     err => {
-    //       this.showLoader = false;
-    //       window.scrollTo(0, 0);
-    //       this.categoryArray.enable();
-    //       this.scientificDomainArray.enable();
-    //       this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
-    //     }
-    //   );
-    // } else if (this.serviceForm.valid) {
-    //   window.scrollTo(0, 0);
-    //   this.resourceService[pendingService ? 'uploadPendingService' : 'uploadService']
-    //   (this.serviceForm.value, this.editMode).subscribe(
-    //     _service => {
-    //       // console.log(_service);
-    //       this.showLoader = false;
-    //       return this.router.service(_service.id);
-    //     },
-    //     err => {
-    //       this.showLoader = false;
-    //       window.scrollTo(0, 0);
-    //       this.categoryArray.enable();
-    //       this.scientificDomainArray.enable();
-    //       this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
-    //     }
-    //   );
-    // } else {
-    //   window.scrollTo(0, 0);
-    //   this.showLoader = false;
-    //
-    //   this.categoryArray.enable();
-    //   this.scientificDomainArray.enable();
-    //   this.setAsTouched();
-    //   this.markTabs();
-    //   this.serviceForm.markAsDirty();
-    //   this.serviceForm.updateValueAndValidity();
-    //   if (!this.serviceForm.valid) {
-    //     this.errorMessage = 'Please fill in all required fields (marked with an asterisk), ' +
-    //       'and fix the data format in fields underlined with a red colour.';
-    //     if (!this.serviceForm.controls['description'].valid) {
-    //       this.errorMessage += ' Description is an mandatory field.';
-    //     }
-    //   }
-    // }
+    if (tempSave) {
+      // todo add fix hear
+      this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
+      (this.serviceForm.value).subscribe(
+        _service => {
+          // console.log(_service);
+          this.showLoader = false;
+          // fixme fix this router url
+          // return this.router.go('/editPendingService/' + _service.id);
+          return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
+        },
+        err => {
+          this.showLoader = false;
+          window.scrollTo(0, 0);
+          this.categoryArray.enable();
+          this.scientificDomainArray.enable();
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+        }
+      );
+    } else if (this.serviceForm.valid) {
+      window.scrollTo(0, 0);
+      this.resourceService[pendingService ? 'uploadPendingService' : 'uploadService']
+      (this.serviceForm.value, this.editMode).subscribe(
+        _service => {
+          // console.log(_service);
+          this.showLoader = false;
+          return this.router.service(_service.id);
+        },
+        err => {
+          this.showLoader = false;
+          window.scrollTo(0, 0);
+          this.categoryArray.enable();
+          this.scientificDomainArray.enable();
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+        }
+      );
+    } else {
+      window.scrollTo(0, 0);
+      this.showLoader = false;
+
+      this.categoryArray.enable();
+      this.scientificDomainArray.enable();
+      this.setAsTouched();
+      this.markTabs();
+      this.serviceForm.markAsDirty();
+      this.serviceForm.updateValueAndValidity();
+      if (!this.serviceForm.valid) {
+        this.errorMessage = 'Please fill in all required fields (marked with an asterisk), ' +
+          'and fix the data format in fields underlined with a red colour.';
+        if (!this.serviceForm.controls['description'].valid) {
+          this.errorMessage += ' Description is an mandatory field.';
+        }
+      }
+    }
   }
 
   ngOnInit() {
@@ -512,7 +520,7 @@ export class ServiceFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('multimedia')
       || this.checkEveryArrayFieldValidity('useCases'));
     this.tabs[2] = (this.checkEveryArrayFieldValidity('scientificDomains', 'scientificDomain')
-      || this.checkEveryArrayFieldValidity('scientificDomains', 'scientificSubDomain')
+      || this.checkEveryArrayFieldValidity('scientificDomains', 'scientificSubdomain')
       || this.checkEveryArrayFieldValidity('categories', 'category')
       || this.checkEveryArrayFieldValidity('categories', 'subcategory')
       || this.checkEveryArrayFieldValidity('targetUsers')
@@ -626,7 +634,7 @@ export class ServiceFormComponent implements OnInit {
   newScientificDomain(): FormGroup {
     return this.fb.group({
       scientificDomain: ['', Validators.required],
-      scientificSubDomain: ['', Validators.required]
+      scientificSubdomain: ['', Validators.required]
     });
   }
 
@@ -636,7 +644,7 @@ export class ServiceFormComponent implements OnInit {
 
   pushScientificDomain() {
     this.scientificDomainArray.push(this.newScientificDomain());
-    this.scientificDomainArray.controls[this.scientificDomainArray.length - 1].get('scientificSubDomain').disable();
+    this.scientificDomainArray.controls[this.scientificDomainArray.length - 1].get('scientificSubdomain').disable();
   }
 
   removeScientificDomain(index: number) {
@@ -644,8 +652,8 @@ export class ServiceFormComponent implements OnInit {
   }
 
   onScientificDomainChange(index: number) {
-    this.scientificDomainArray.controls[index].get('scientificSubDomain').enable();
-    this.scientificDomainArray.controls[index].get('scientificSubDomain').reset();
+    this.scientificDomainArray.controls[index].get('scientificSubdomain').enable();
+    this.scientificDomainArray.controls[index].get('scientificSubdomain').reset();
   }
 
   /** <-- Categorization & Scientific Domain**/
@@ -736,7 +744,10 @@ export class ServiceFormComponent implements OnInit {
         this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.categories[i].category.id);
         this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.categories[i].subCategory.id);
       }
+    } else {
+      this.categoryArray.push(this.newCategory());
     }
+
     this.removeScientificDomain(0);
     if (richService.service.scientificDomains) {
       for (let i = 0; i < richService.service.scientificDomains.length; i++) {
@@ -744,8 +755,10 @@ export class ServiceFormComponent implements OnInit {
         this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
           .get('scientificDomain').setValue(richService.domains[i].domain.id);
         this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-          .get('scientificSubDomain').setValue(richService.domains[i].subdomain.id);
+          .get('scientificSubdomain').setValue(richService.domains[i].subdomain.id);
       }
+    } else {
+      this.scientificDomainArray.push(this.newScientificDomain());
     }
 
     if (richService.service.resourceProviders) {
@@ -878,43 +891,43 @@ export class ServiceFormComponent implements OnInit {
   }
 
   handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group: string): void {
-    // if (group === 'scientificDomains') {
-    //   for (const scientificDomain of this.scientificDomainArray.controls) {
-    //     if (scientificDomain.get('scientificSubDomain').value) {
-    //       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-    //       this.loaderBitSet.set(bitIndex - 1, 1);
-    //       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-    //       this.loaderBitSet.set(bitIndex, 1);
-    //     } else {
-    //       this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-    //       this.loaderBitSet.set(bitIndex - 1, 0);
-    //       this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-    //       this.loaderBitSet.set(bitIndex, 0);
-    //     }
-    //   }
-    // } else if (group === 'categories') {
-    //   for (const category in this.categoryArray.controls) {
-    //     if (this.categoryArray.controls[category].get('subcategory').value) {
-    //       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-    //       this.loaderBitSet.set(bitIndex - 1, 1);
-    //       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-    //       this.loaderBitSet.set(bitIndex, 1);
-    //     } else {
-    //       this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-    //       this.loaderBitSet.set(bitIndex - 1, 0);
-    //       this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-    //       this.loaderBitSet.set(bitIndex, 0);
-    //     }
-    //   }
-    // } else {
-    //   if (this.serviceForm.controls[group].get(formControlName).valid) {
-    //     this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-    //     this.loaderBitSet.set(bitIndex, 1);
-    //   } else if (this.serviceForm.controls[group].get(formControlName).invalid) {
-    //     this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-    //     this.loaderBitSet.set(bitIndex, 0);
-    //   }
-    // }
+    if (group === 'scientificDomains') {
+      for (const scientificDomain of this.scientificDomainArray.controls) {
+        if (scientificDomain.get('scientificSubdomain').value) {
+          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+          this.loaderBitSet.set(bitIndex - 1, 1);
+          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+          this.loaderBitSet.set(bitIndex, 1);
+        } else {
+          this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+          this.loaderBitSet.set(bitIndex - 1, 0);
+          this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+          this.loaderBitSet.set(bitIndex, 0);
+        }
+      }
+    } else if (group === 'categories') {
+      for (const category in this.categoryArray.controls) {
+        if (this.categoryArray.controls[category].get('subcategory').value) {
+          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+          this.loaderBitSet.set(bitIndex - 1, 1);
+          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+          this.loaderBitSet.set(bitIndex, 1);
+        } else {
+          this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
+          this.loaderBitSet.set(bitIndex - 1, 0);
+          this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+          this.loaderBitSet.set(bitIndex, 0);
+        }
+      }
+    } else {
+      if (this.serviceForm.controls[group].get(formControlName).valid) {
+        this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+        this.loaderBitSet.set(bitIndex, 1);
+      } else if (this.serviceForm.controls[group].get(formControlName).invalid) {
+        this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+        this.loaderBitSet.set(bitIndex, 0);
+      }
+    }
     this.updateLoaderPercentage();
   }
 
