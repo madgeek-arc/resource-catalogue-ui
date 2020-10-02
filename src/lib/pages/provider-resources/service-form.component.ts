@@ -20,6 +20,7 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['../provider/service-provider-form.component.css']
 })
 export class ServiceFormComponent implements OnInit {
+  protected _marketplaceBaseURL = environment.marketplaceBaseURL;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   serviceName = '';
@@ -330,7 +331,8 @@ export class ServiceFormComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          return this.router.service(_service.id);
+          // return this.router.service(_service.id); // change to redirect to marketplace
+          return window.location.href = this._marketplaceBaseURL + _service.id;
         },
         err => {
           this.showLoader = false;

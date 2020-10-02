@@ -4,5 +4,6 @@ export const environment = {
   projectName: 'EOSC',
   projectMail: 'onboarding@eosc-portal.eu',
   API_ENDPOINT: '/api',
-  hasUserConsent: false
+  hasUserConsent: true,
+  marketplaceBaseURL: 'https://marketplace-beta.docker-fid.grid.cyf-kr.edu.pl/services/'
 };
