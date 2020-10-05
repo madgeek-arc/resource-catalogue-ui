@@ -63,7 +63,7 @@
                             <span>1. Basic *</span>
                             <span class="circle-number">
                               <i *ngIf="remainingOnTab0==0" aria-hidden="true" class="fa fa-check"></i>
-                              {{remainingOnTab0!=0 ? remainingOnTab0 : ''}}
+                              {{remainingOnTab0!=0 ? remainingOnTab0 +'*' : ''}}
                             </span>
                           </a>
                         </li>
@@ -72,7 +72,7 @@
                             <span>2. Marketing *</span>
                             <span class="circle-number">
                               <i *ngIf="remainingOnTab1==0" aria-hidden="true" class="fa fa-check"></i>
-                              {{remainingOnTab1!=0 ? remainingOnTab1 : ''}}
+                              {{remainingOnTab1!=0 ? remainingOnTab1 +'*' : ''}}
                             </span>
                           </a>
                         </li>
@@ -81,7 +81,7 @@
                             <span>3. Classification *</span>
                             <span class="circle-number">
                               <i *ngIf="remainingOnTab2==0" aria-hidden="true" class="fa fa-check"></i>
-                              {{remainingOnTab2!=0 ? remainingOnTab2 : ''}}
+                              {{remainingOnTab2!=0 ? remainingOnTab2 +'*' : ''}}
                             </span>
                           </a>
                         </li>
@@ -90,14 +90,13 @@
                             <span>4. Availability *</span>
                             <span class="circle-number">
                               <i *ngIf="remainingOnTab3==0" aria-hidden="true" class="fa fa-check"></i>
-                              {{remainingOnTab3!=0 ? remainingOnTab3 : ''}}
+                              {{remainingOnTab3!=0 ? remainingOnTab3 +'*' : ''}}
                             </span>
                           </a>
                         </li>
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[4]}" href="#">
                             <span>5. Location</span>
-                            <span class="circle-number">-</span>
                           </a>
                         </li>
                         <li>
@@ -105,7 +104,7 @@
                             <span>6. Contact *</span>
                             <span class="circle-number">
                               <i *ngIf="remainingOnTab5==0" aria-hidden="true" class="fa fa-check"></i>
-                              {{remainingOnTab5!=0 ? remainingOnTab5 : ''}}
+                              {{remainingOnTab5!=0 ? remainingOnTab5 +'*' : ''}}
                             </span>
                           </a>
                         </li>
@@ -114,26 +113,23 @@
                             <span>7. Maturity *</span>
                             <span class="circle-number">
                               <i *ngIf="remainingOnTab6==0" aria-hidden="true" class="fa fa-check"></i>
-                              {{remainingOnTab6!=0 ? remainingOnTab6 : ''}}
+                              {{remainingOnTab6!=0 ? remainingOnTab6 +'*' : ''}}
                             </span>
                           </a>
                         </li>
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[7]}" href="#">
                             <span>8. Dependencies</span>
-                            <span class="circle-number">-</span>
                           </a>
                         </li>
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[8]}" href="#">
                             <span>9. Attribution</span>
-                            <span class="circle-number">-</span>
                           </a>
                         </li>
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[9]}" href="#">
                             <span>10. Management</span>
-                            <span class="circle-number">-</span>
                           </a>
                         </li>
                         <li>
@@ -141,14 +137,13 @@
                             <span>11. Order *</span>
                             <span class="circle-number">
                               <i *ngIf="remainingOnTab10==0" aria-hidden="true" class="fa fa-check"></i>
-                              {{remainingOnTab10!=0 ? remainingOnTab10 : ''}}
+                              {{remainingOnTab10!=0 ? remainingOnTab10 +'*' : ''}}
                             </span>
                           </a>
                         </li>
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[11]}" href="#">
                             <span>12. Financial</span>
-                            <span class="circle-number">-</span>
                           </a>
                         </li>
 
@@ -165,6 +160,8 @@
                         <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[10]}" href="#">Order *</a></li>-->
                         <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[11]}" href="#">Financial</a></li>-->
                       </ul>
+
+                      <div class="requiredFields uk-text-right">*Required fields</div>
                       <div class="stepsCompleted uk-margin-top uk-text-center">{{completedTabs}} of {{requiredTabs}}</div>
                       <div class="progress uk-margin-small-top">
                         <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>
