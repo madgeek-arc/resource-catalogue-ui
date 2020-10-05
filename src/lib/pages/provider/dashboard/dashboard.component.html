@@ -17,7 +17,7 @@
           <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
             <a [routerLink]="['/dashboard/' + providerId + '/resources']">
               <img src="{{services.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
-              Services
+              Resources
             </a>
           </li>
           <li [routerLinkActive]="['current_section']" #draftServices="routerLinkActive">
@@ -49,8 +49,7 @@
           </li>
           <li>
             <a [routerLink]="['/provider/update/' + providerId]">
-              <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">
-              Update Provider
+              <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Update Provider
             </a>
           </li>
 
