@@ -743,8 +743,8 @@ export class ServiceFormComponent implements OnInit {
     if (richService.service.scientificDomains) {
       for (let i = 0; i < richService.service.scientificDomains.length; i++) {
         this.categoryArray.push(this.newCategory());
-        this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.categories[i].category.id);
-        this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.categories[i].subCategory.id);
+        this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.service.categories[i].category);
+        this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.service.categories[i].subcategory);
       }
     } else {
       this.categoryArray.push(this.newCategory());
@@ -755,9 +755,9 @@ export class ServiceFormComponent implements OnInit {
       for (let i = 0; i < richService.service.scientificDomains.length; i++) {
         this.scientificDomainArray.push(this.newScientificDomain());
         this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-          .get('scientificDomain').setValue(richService.domains[i].domain.id);
+          .get('scientificDomain').setValue(richService.service.scientificDomains[i].scientificDomain);
         this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-          .get('scientificSubdomain').setValue(richService.domains[i].subdomain.id);
+          .get('scientificSubdomain').setValue(richService.service.scientificDomains[i].scientificSubdomain);
       }
     } else {
       this.scientificDomainArray.push(this.newScientificDomain());
