@@ -158,11 +158,11 @@
                           <div class="uk-card-badge uk-label">Approved</div>
                         </div>
                         <div *ngIf="(providerBundle.status === 'pending initial approval')
-                                || (providerBundle.status === 'pending service template submission')
-                                || (providerBundle.status === 'pending service template approval')" class="pending">
+                                || (providerBundle.status === 'pending template submission')
+                                || (providerBundle.status === 'pending template approval')" class="pending">
                           <div class="uk-card-badge uk-label">Pending</div>
                         </div>
-                        <div *ngIf="(providerBundle.status === 'rejected service template')
+                        <div *ngIf="(providerBundle.status === 'rejected template')
                                 || (providerBundle.status === 'rejected')" class="rejected">
                           <div class="uk-card-badge uk-label">Rejected</div>
                         </div>
@@ -209,8 +209,8 @@
                             <div class="uk-width-1-5">
                               <div class="action-buttons">
 
-                                <ng-container *ngIf="((providerBundle.status !== 'pending service template approval') &&
-                                                                 (providerBundle.status !== 'rejected service template')) ||
+                                <ng-container *ngIf="((providerBundle.status !== 'pending template approval') &&
+                                                                 (providerBundle.status !== 'rejected template')) ||
                                                                  (hasCreatedFirstService(providerBundle.id))">
                                   <button *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"
                                      (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true)"

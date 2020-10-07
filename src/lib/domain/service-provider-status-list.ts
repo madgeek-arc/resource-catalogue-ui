@@ -1,6 +1,6 @@
-export const statusList = ['pending initial approval', 'pending service template submission', 'pending service template approval','approved'];
-// set 'rejected' when the admin rejects sp and
-// 'rejected st' when the admin rejects the service template
+export const statusList = ['pending initial approval', 'pending template submission', 'pending template approval','approved'];
+// set 'rejected' when the admin rejects provider and
+// 'rejected template' when the admin rejects the service template
 
 
 export const statusChangeMap = {
@@ -13,36 +13,36 @@ export const statusChangeMap = {
         },
         'rejected': {
                      statusId: 'REJECTED',
-                     appButtonTitle: 'Approve SP',
+                     appButtonTitle: 'Approve Provider',
                      rejButtonTitle: '',
-                     onApprove: 'pending service template submission',
+                     onApprove: 'pending template submission',
                      onReject: ''
         },
         'pending initial approval': {
                      statusId: 'PENDING_1',
-                     appButtonTitle: 'Approve SP',
-                     rejButtonTitle: 'Reject SP',
-                     onApprove: 'pending service template submission',
+                     appButtonTitle: 'Approve Provider',
+                     rejButtonTitle: 'Reject Provider',
+                     onApprove: 'pending template submission',
                      onReject: 'rejected'
         },
-        'pending service template submission': {
+        'pending template submission': {
             statusId: 'ST_SUBMISSION',
             appButtonTitle: '',
-            rejButtonTitle: 'Reject SP',
+            rejButtonTitle: 'Reject Provider',
             onApprove: '',
             onReject: 'rejected'
         },
-        'pending service template approval': {
+        'pending template approval': {
                      statusId: 'PENDING_2',
-                     appButtonTitle: 'Approve ST',
-                     rejButtonTitle: 'Reject ST',
+                     appButtonTitle: 'Approve Template',
+                     rejButtonTitle: 'Reject Template',
                      onApprove: 'approved',
-                     onReject: 'rejected service template'
+                     onReject: 'rejected template'
         },
-        'rejected service template': {
+        'rejected template': {
                      statusId: 'REJECTED_ST',
-                     appButtonTitle: 'Approve ST',
-                     rejButtonTitle: 'Reject SP',
+                     appButtonTitle: 'Approve Template',
+                     rejButtonTitle: 'Reject Provider',
                      onApprove: 'approved',
                      onReject: 'rejected'
         }

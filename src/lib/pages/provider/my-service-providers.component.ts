@@ -50,7 +50,7 @@ export class MyServiceProvidersComponent implements OnInit {
         () => {
           this.myProviders.forEach(
             p => {
-              if ((p.status === 'pending service template approval') || (p.status === 'rejected service template')) {
+              if ((p.status === 'pending template approval') || (p.status === 'rejected template')) {
                 this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
                   res => {
                     if (res && (res.length > 0)) {
@@ -59,7 +59,7 @@ export class MyServiceProvidersComponent implements OnInit {
                   }
                 );
               }
-              if (p.status === 'pending service template submission') {
+              if (p.status === 'pending template submission') {
                 // console.log(p.id);
                 this.serviceProviderService.getPendingServicesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
                   res => {
@@ -104,7 +104,7 @@ export class MyServiceProvidersComponent implements OnInit {
   }
 
   assignProviderToList(p: ProviderBundle) {
-    if ((p.status === 'rejected service template') || (p.status === 'rejected')) {
+    if ((p.status === 'rejected template') || (p.status === 'rejected')) {
       this.myRejectedProviders.push(p);
     } else if ((p.status === 'approved')) {
       this.myApprovedProviders.push(p);

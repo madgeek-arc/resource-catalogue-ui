@@ -106,8 +106,8 @@
                               <button class="uk-button uk-button-action" routerLink="/provider/update/{{providerBundle.id}}">
                                 <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider
                               </button>
-                              <ng-container *ngIf="(providerBundle.status === 'pending service template submission')
-                                        || (providerBundle.status === 'pending service template approval')">
+                              <ng-container *ngIf="(providerBundle.status === 'pending template submission')
+                                        || (providerBundle.status === 'pending template approval')">
                                 <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
                                   <button class="uk-button uk-button-action uk-margin-small-left"
                                           routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
@@ -171,7 +171,7 @@
                             <div class="uk-margin-top cardActionButtons">
                               <button class="uk-button uk-button-action" routerLink="/provider/update/{{providerBundle.id}}">
                                 <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider</button>
-                              <button class="uk-button uk-button-action" *ngIf="providerBundle.status === 'rejected service template'"
+                              <button class="uk-button uk-button-action" *ngIf="providerBundle.status === 'rejected template'"
                                  routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
                                 <i class="fa fa-pencil"></i>
                                 Update resource template

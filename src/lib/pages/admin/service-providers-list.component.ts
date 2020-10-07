@@ -52,8 +52,8 @@ export class ServiceProvidersListComponent implements OnInit {
   adminActionsMap = statusChangeMap;
 
   public statuses: Array<string> = [
-    'approved', 'pending initial approval', 'pending service template submission',
-    'pending service template approval', 'rejected service template', 'rejected'
+    'approved', 'pending initial approval', 'pending template submission',
+    'pending template approval', 'rejected template', 'rejected'
   ];
 
   constructor(private resourceService: ResourceService,
@@ -210,8 +210,8 @@ export class ServiceProvidersListComponent implements OnInit {
       () => {
         this.providers.forEach(
           p => {
-            if ((p.status === 'pending service template approval') ||
-              (p.status === 'rejected service template')) {
+            if ((p.status === 'pending template approval') ||
+              (p.status === 'rejected template')) {
               this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
                 res => {
                   if (res && (res.length > 0)) {
