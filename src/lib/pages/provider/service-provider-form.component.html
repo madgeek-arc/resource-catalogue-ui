@@ -438,7 +438,7 @@
                                         (change)="handleBitSetsOfGroups(3, 8, 'country', 'location'); unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormValidity('location.country')}">
                                   <option value=""></option>
-                                  <option *ngFor="let entry of sortVocabulariesByName(placesVocabulary)" value="{{entry.id}}">
+                                  <option *ngFor="let entry of placesVocabulary" value="{{entry.id}}">
                                     {{entry.name}}
                                   </option>
                                 </select>
@@ -674,7 +674,7 @@
                                         (change)="unsavedChangesPrompt()"
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('participatingCountries', i)}">
                                   <option value=""></option>
-                                  <option *ngFor="let entry of sortVocabulariesByName(placesVocabulary)"
+                                  <option *ngFor="let entry of placesVocabulary"
                                           value="{{entry.id}}">
                                     {{entry.name}}
                                   </option>

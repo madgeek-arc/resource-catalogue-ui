@@ -9,6 +9,7 @@ import {Vocabulary, Type, Provider} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import BitSet from 'bitset/bitset';
 import {environment} from '../../../environments/environment';
+import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 
 declare var UIkit: any;
 
@@ -30,6 +31,7 @@ export class ServiceProviderFormComponent implements OnInit {
   newProviderForm: FormGroup;
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
+  premiumSort = new PremiumSortPipe();
   edit = false;
   hasChanges = false;
   pendingProvider = false;
@@ -474,6 +476,7 @@ export class ServiceProviderFormComponent implements OnInit {
       },
       error => console.log(JSON.stringify(error.error)),
       () => {
+        this.premiumSort.transform(this.placesVocabulary, ['Europe', 'Worldwide']);
         return this.vocabularies;
       }
     );

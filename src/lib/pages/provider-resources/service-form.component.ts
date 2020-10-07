@@ -396,7 +396,7 @@ export class ServiceFormComponent implements OnInit {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
       },
       () => {
-        this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'World']);
+        this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'Worldwide']);
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
         this.providerId = this.route.snapshot.paramMap.get('providerId');

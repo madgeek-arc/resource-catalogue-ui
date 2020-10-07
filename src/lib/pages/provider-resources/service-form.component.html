@@ -722,7 +722,7 @@
                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('resourceGeographicLocations', i)}">
                                   <option value=""></option>
                                   <ng-container *ngIf="geographicalVocabulary">
-                                    <option *ngFor="let entry of sortVocabulariesByName(geographicalVocabulary)" value="{{entry.id}}">
+                                    <option *ngFor="let entry of geographicalVocabulary" value="{{entry.id}}">
                                       {{entry.name}}
                                     </option>
                                   </ng-container>
