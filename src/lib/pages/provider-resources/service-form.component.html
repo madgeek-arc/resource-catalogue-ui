@@ -46,6 +46,31 @@
 
               <div [ngClass]="{'blur-filter': showLoader}">
                 <div id="serviceForm">
+
+                  <div class="uk-margin-bottom uk-flex uk-flex-right">
+                    <div>
+                      <button class="uk-button uk-button-link" type="button">Do you need help?</button>
+                      <div uk-drop="pos: bottom-left">
+                        <div class="uk-card uk-card-body uk-card-default">
+
+                          <p>For questions related to the information that needs to be filled in and suggestions on the portal, please contact us in <a href="mailto:onboarding@eosc-portal.eu">onboarding@eosc-portal.eu</a>.</p>
+                          <p>For technical issues and questions, please contact us in <a href="mailto:providers@eosc-portal.eu">providers@eosc-portal.eu</a>.</p>
+
+                          <!-- TOP HELP CONTENT -->
+                          <app-help-content #topHelperContent [position]="'top'"
+                                            [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                          </app-help-content>
+                        </div>
+                      </div>
+                    </div>
+                    <!--<div class="uk-margin-medium-left">-->
+                    <!--<a>-->
+                    <!--<i class="fa fa-file-pdf-o uk-margin-small-right"></i><span style="color: #292929">Download as PDF</span>-->
+                    <!--</a>-->
+                    <!--</div>-->
+
+                  </div>
+
                   <div *ngIf="errorMessage" data-uk-alert="" class="uk-alert uk-alert-danger">
                     <p>{{errorMessage}}</p>
                   </div>
