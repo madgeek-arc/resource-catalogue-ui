@@ -116,4 +116,9 @@ export class ServiceProviderService {
     return this.http.put(this.base + `/provider/adminAcceptedTerms?providerId=${id}`, this.options);
   }
 
+  validateUrl(url: string) {
+    console.log(`knocking on: ${this.base}/provider/validateUrl?urlForValidation=${url}`);
+    return this.http.get<boolean>(this.base + `/provider/validateUrl?urlForValidation=${url}`);
+  }
+
 }

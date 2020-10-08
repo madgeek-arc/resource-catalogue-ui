@@ -6,6 +6,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
 import {Service} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
+import {ServiceProviderService} from '../../services/service-provider.service';
 
 @Component({
   selector: 'app-service-edit',
@@ -17,9 +18,12 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
 
   // private serviceID: string;
 
-  constructor(public route: ActivatedRoute, public authenticationService: AuthenticationService,
-              protected injector: Injector, public datePipe: DatePipe) {
-    super(injector, authenticationService, route);
+  constructor(public route: ActivatedRoute,
+              public authenticationService: AuthenticationService,
+              protected serviceProviderService: ServiceProviderService,
+              protected injector: Injector,
+              public datePipe: DatePipe) {
+    super(injector, authenticationService, serviceProviderService, route);
     this.editMode = true;
   }
 

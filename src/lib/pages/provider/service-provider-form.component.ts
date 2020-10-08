@@ -244,9 +244,8 @@ export class ServiceProviderFormComponent implements OnInit {
     if (this._hasUserConsent) {
       if (this.edit) {
         this.serviceProviderService.hasAdminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
-          boolean => {
-            this.agreedToTerms = boolean;
-          }, error => console.log(error),
+          boolean => { this.agreedToTerms = boolean; },
+          error => console.log(error),
           () => {
             if (!this.agreedToTerms) {
               UIkit.modal('#modal-consent').show();
@@ -902,5 +901,47 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   /** <--Terms Modal **/
+
+  /** URL Validation--> **/
+  checkUrlValidity(formControlName: string) {
+    let urlValidity;
+    if (this.newProviderForm.get(formControlName).valid && this.newProviderForm.get(formControlName).value !== '') {
+      const url = this.newProviderForm.get(formControlName).value;
+      console.log(url);
+      this.serviceProviderService.validateUrl(url).subscribe(
+        boolean => { urlValidity = boolean; },
+        error => { console.log(error); },
+        () => {
+          if (!urlValidity) {
+            console.log('invalid');
+            window.scrollTo(0, 0);
+            this.errorMessage = url + ' is not a valid URL. Please enter a valid URL.';
+          }
+        }
+      );
+    }
+  }
+
+  checkUrlValidityForArrays(formArrayName: string, position: number) {
+    let urlValidity;
+    console.log(this.newProviderForm.get(formArrayName).value[position]);
+    if (this.newProviderForm.get(formArrayName).value[position] !== '') {
+      const url = this.newProviderForm.get(formArrayName).value[position];
+      console.log(url);
+      this.serviceProviderService.validateUrl(url).subscribe(
+        boolean => { urlValidity = boolean; },
+        error => { console.log(error); },
+        () => {
+          if (!urlValidity) {
+            console.log('invalid');
+            window.scrollTo(0, 0);
+            this.errorMessage = url + ' is not a valid ' + formArrayName + ' URL. Please enter a valid URL.';
+          }
+        }
+      );
+    }
+  }
+
+  /** <--URL Validation **/
 
 }

@@ -13,6 +13,7 @@ import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
 import BitSet from 'bitset/bitset';
 import {ActivatedRoute} from '@angular/router';
+import {ServiceProviderService} from '../../services/service-provider.service';
 
 @Component({
   selector: 'app-service-form',
@@ -252,6 +253,7 @@ export class ServiceFormComponent implements OnInit {
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
+              protected serviceProviderService: ServiceProviderService,
               protected route: ActivatedRoute
   ) {
     this.resourceService = this.injector.get(ResourceService);
@@ -878,6 +880,7 @@ export class ServiceFormComponent implements OnInit {
     this.hasChanges = true;
   }
 
+  /** BitSets -->**/
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
     if (bitIndex === 0) {
       this.serviceName = this.serviceForm.get(formControlName).value;
@@ -1049,5 +1052,50 @@ export class ServiceFormComponent implements OnInit {
     this.completedTabsBitSet.set(tabNum, setValue);
     this.completedTabs = this.completedTabsBitSet.cardinality();
   }
+
+  /** <--BitSets **/
+
+  /** URL Validation--> **/
+  checkUrlValidity(formControlName: string) {
+    let urlValidity;
+    if (this.serviceForm.get(formControlName).valid && this.serviceForm.get(formControlName).value !== '') {
+      // if (this.newProviderForm.get(formControlName).value !== '') {
+      const url = this.serviceForm.get(formControlName).value;
+      console.log(url);
+      this.serviceProviderService.validateUrl(url).subscribe(
+        boolean => { urlValidity = boolean; },
+        error => { console.log(error); },
+        () => {
+          if (!urlValidity) {
+            console.log('invalid');
+            window.scrollTo(0, 0);
+            this.errorMessage = url + ' is not a valid URL. Please enter a valid URL.';
+          }
+        }
+      );
+    }
+  }
+
+  checkUrlValidityForArrays(formArrayName: string, position: number) {
+    let urlValidity;
+    console.log(this.serviceForm.get(formArrayName).value[position]);
+    if (this.serviceForm.get(formArrayName).value[position] !== '') {
+      const url = this.serviceForm.get(formArrayName).value[position];
+      console.log(url);
+      this.serviceProviderService.validateUrl(url).subscribe(
+        boolean => { urlValidity = boolean; },
+        error => { console.log(error); },
+        () => {
+          if (!urlValidity) {
+            console.log('invalid');
+            window.scrollTo(0, 0);
+            this.errorMessage = url + ' is not a valid ' + formArrayName + ' URL. Please enter a valid URL.';
+          }
+        }
+      );
+    }
+  }
+
+  /** <--URL Validation **/
 
 }

@@ -194,8 +194,9 @@
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{websiteDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <input id="website" class="uk-input uk-width-9-10" type="text" formControlName="website"
+                              <input id="website" class="uk-input uk-width-9-10" type="text" formControlName="website" placeholder="use http:// or https://"
                                      (input)="handleBitSets(0, 2, 'website'); unsavedChangesPrompt()"
+                                     (focusout)="checkUrlValidity('website')"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('website')}">
                               <!--<i><small>{{websiteDesc.desc}}</small></i>-->
                             </div>
@@ -254,8 +255,9 @@
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerLogoDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo"
+                              <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo" placeholder="use http:// or https://"
                                      (input)="handleBitSets(1, 4, 'logo'); unsavedChangesPrompt()"
+                                     (focusout)="checkUrlValidity('logo')"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('logo')}">
                               <!--<i><small>{{providerLogoDesc.desc}}</small></i>-->
                             </div>
@@ -267,8 +269,9 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerMultimediaDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let media of getFieldAsFormArray('multimedia').controls; let i=index" class="uk-margin-bottom">
-                                <input id="multimedia" class="uk-input uk-width-9-10" type="text" [formControlName]="i"
+                                <input id="multimedia" class="uk-input uk-width-9-10" type="text" [formControlName]="i" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
+                                       (focusout)="checkUrlValidityForArrays('multimedia', i)"
                                        [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i)}">
                                        <!--[ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i), 'uk-width-5-6': (getFieldAsFormArray('multimedia').length > 1)}">-->
                                 <a *ngIf="getFieldAsFormArray('multimedia').length > 1 && !disable"
