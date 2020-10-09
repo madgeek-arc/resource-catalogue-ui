@@ -279,10 +279,6 @@ export class ServiceFormComponent implements OnInit {
     }
 
     for (const category of this.categoryArray.controls) {
-
-      console.log('this.fb.control(category.get(\'category\').value) --> ', this.fb.control(category.get('category').value));
-      console.log('this.fb.control(category.get(\'subcategory\').value) --> ', this.fb.control(category.get('subcategory').value));
-
       if (category.get('subcategory').value) {
         this.getFieldAsFormArray('category').push(this.fb.control(category.get('category').value));
         this.getFieldAsFormArray('subcategory').push(this.fb.control(category.get('subcategory').value));
@@ -301,9 +297,9 @@ export class ServiceFormComponent implements OnInit {
     }
     // this.scientificDomainArray.disable();
     this.showLoader = true;
-    console.log('this.serviceForm.valid ', this.serviceForm.valid);
+    // console.log('this.serviceForm.valid ', this.serviceForm.valid);
     // console.log('Submitted service --> ', service);
-    console.log('Submitted service value--> ', this.serviceForm.value);
+    // console.log('Submitted service value--> ', this.serviceForm.value);
     if (tempSave) {
       // todo add fix hear
       this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
@@ -311,8 +307,7 @@ export class ServiceFormComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          // fixme fix this router url
-          // return this.router.go('/editPendingService/' + _service.id);
+          // return this.router.dashboardDraftResources(this.providerId); // redirect to draft list
           return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
         },
         err => {
@@ -330,8 +325,10 @@ export class ServiceFormComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          // return this.router.service(_service.id); // change to redirect to marketplace
-          return window.location.href = this._marketplaceBaseURL + _service.id;
+          return this.router.dashboardResources(this.providerId);
+          // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
+          // return this.router.service(_service.id);                               // redirect to old service info page
+          // return window.location.href = this._marketplaceBaseURL + _service.id; // redirect to marketplace
         },
         err => {
           this.showLoader = false;
