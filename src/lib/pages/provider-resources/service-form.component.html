@@ -454,7 +454,7 @@
 
                                 </div>
                                 <a *ngIf="scientificDomainArray.length > 1" class="remove-element uk-padding-small uk-display-inline-block"
-                                   (click)="removeScientificDomain(i); unsavedChangesPrompt()">
+                                   (click)="removeScientificDomain(i); unsavedChangesPrompt(); handleBitSetsOfGroups(2, 7, 'scientificSubdomain', 'scientificDomains')">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -528,7 +528,7 @@
 
                                 </div>
                                 <a *ngIf="categoryArray.length > 1" class="remove-element uk-padding-small uk-display-inline-block"
-                                   (click)="removeCategory(i); unsavedChangesPrompt()">
+                                   (click)="removeCategory(i); unsavedChangesPrompt(); handleBitSetsOfGroups(2, 9, 'subcategory', 'categories')">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -558,7 +558,8 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('targetUsers').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('targetUsers', i); unsavedChangesPrompt()">
+                                   class="remove-element uk-padding-small" (click)="remove('targetUsers', i); unsavedChangesPrompt();
+                                   handleBitSets(2, 10, 'targetUsers')">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -672,7 +673,8 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('geographicalAvailabilities').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('geographicalAvailabilities', i); unsavedChangesPrompt()">
+                                   class="remove-element uk-padding-small" (click)="remove('geographicalAvailabilities', i); unsavedChangesPrompt();
+                                   handleBitSets(3, 11, 'geographicalAvailabilities')">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -700,7 +702,8 @@
                                   </ng-container>
                                 </select>
                                 <a *ngIf="getFieldAsFormArray('languageAvailabilities').length > 1"
-                                   class="remove-element uk-padding-small" (click)="remove('languageAvailabilities', i); unsavedChangesPrompt()">
+                                   class="remove-element uk-padding-small" (click)="remove('languageAvailabilities', i); unsavedChangesPrompt();
+                                   handleBitSets(3, 12, 'languageAvailabilities')">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -920,7 +923,7 @@
                                   </div>
                                 </div>
                                 <a *ngIf="!disable" class="remove-element uk-padding-small uk-display-inline-block"
-                                   (click)="removePublicContact(i); unsavedChangesPrompt()">
+                                   (click)="removePublicContact(i); unsavedChangesPrompt(); handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts')">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
