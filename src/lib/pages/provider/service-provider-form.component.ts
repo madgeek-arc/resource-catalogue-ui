@@ -279,13 +279,10 @@ export class ServiceProviderFormComponent implements OnInit {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
     }
 
-    this.getFieldAsFormArray('scientificDomains').controls = [];
-    this.getFieldAsFormArray('merilScientificDomains').controls = [];
-
-    // this.getFieldAsFormArray('scientificDomain').controls = [];
-    // this.getFieldAsFormArray('scientificSubdomains').controls = [];
-    // this.getFieldAsFormArray('merilScientificDomain').controls = [];
-    // this.getFieldAsFormArray('merilScientificSubdomains').controls = [];
+    if (!tempSave) {
+      this.getFieldAsFormArray('scientificDomains').controls = [];
+      this.getFieldAsFormArray('merilScientificDomains').controls = [];
+    }
 
     for (const category of this.domainArray.controls) {
       if (category.get('scientificSubdomain').value) {

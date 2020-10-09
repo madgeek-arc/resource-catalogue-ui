@@ -274,8 +274,9 @@ export class ServiceFormComponent implements OnInit {
     this.errorMessage = '';
 
     /** Fill subcategory string array**/
-    this.getFieldAsFormArray('categories').controls = [];
-    // this.getFieldAsFormArray('subcategories').controls = [];
+    if (!tempSave) {
+      this.getFieldAsFormArray('categories').controls = [];
+    }
 
     for (const category of this.categoryArray.controls) {
 
@@ -283,22 +284,18 @@ export class ServiceFormComponent implements OnInit {
       console.log('this.fb.control(category.get(\'subcategory\').value) --> ', this.fb.control(category.get('subcategory').value));
 
       if (category.get('subcategory').value) {
-        // this.getFieldAsFormArray('category').push(this.fb.control(this.categoryArray.controls[category].get('category').value));
-        // console.log('this.fb.control(category.get(\'category\').value) --> ', this.fb.control(category.get('category').value));
         this.getFieldAsFormArray('category').push(this.fb.control(category.get('category').value));
-        // this.getFieldAsFormArray('subcategories').push(this.fb.control(category.get('subcategory').value));
-        // console.log('this.fb.control(category.get(\'subcategory\').value) --> ', this.fb.control(category.get('subcategory').value));
         this.getFieldAsFormArray('subcategory').push(this.fb.control(category.get('subcategory').value));
       }
     }
     /** Fill scientific subdomain string array**/
+    if (!tempSave) {
     this.getFieldAsFormArray('scientificDomains').controls = [];
-    // this.getFieldAsFormArray('scientificSubdomains').controls = [];
+    }
 
     for (const scientificDomain of this.scientificDomainArray.controls) {
       if (scientificDomain.get('scientificSubdomain').value) {
         this.getFieldAsFormArray('scientificDomain').push(this.fb.control(scientificDomain.get('scientificDomain').value));
-        // this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(scientificDomain.get('scientificSubdomain').value));
         this.getFieldAsFormArray('scientificSubdomain').push(this.fb.control(scientificDomain.get('scientificSubdomain').value));
       }
     }
