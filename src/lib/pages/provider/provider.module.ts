@@ -14,6 +14,8 @@ import {ServiceProvidersListComponent} from '../admin/service-providers-list.com
 import {ServiceEditComponent} from '../provider-resources/service-edit.component';
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
 import {ServiceFormComponent} from '../provider-resources/service-form.component';
+import { ProviderFormToPdfComponent } from './provider-form-to-pdf/provider-form-to-pdf.component';
+import { ResourceFormToPdfComponent } from '../provider-resources/resource-form-to-pdf/resource-form-to-pdf.component';
 
 
 @NgModule({
@@ -38,6 +40,8 @@ import {ServiceFormComponent} from '../provider-resources/service-form.component
     ServiceEditComponent,
     ServiceFormComponent,
     ServiceUploadComponent,
+    ProviderFormToPdfComponent,
+    ResourceFormToPdfComponent
   ]
 })
 

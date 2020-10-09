@@ -9,6 +9,8 @@ import {PendingServicesComponent} from './dashboard/pendingservices/pending-serv
 import {ServiceProvidersListComponent} from '../admin/service-providers-list.component';
 import {ServiceEditComponent} from '../provider-resources/service-edit.component';
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
+import {ProviderFormToPdfComponent} from './provider-form-to-pdf/provider-form-to-pdf.component';
+import {ResourceFormToPdfComponent} from '../provider-resources/resource-form-to-pdf/resource-form-to-pdf.component';
 
 const providerRoutes: Routes = [
 
@@ -101,7 +103,22 @@ const providerRoutes: Routes = [
       breadcrumb: 'Edit Resource'
     }
   },
-
+  {
+    path: 'provider2pdf',
+    component: ProviderFormToPdfComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Provider Form To PDF'
+    }
+  },
+  {
+    path: 'resource2pdf',
+    component: ResourceFormToPdfComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Provider Form To PDF'
+    }
+  },
   {
     path: 'all',
     component: ServiceProvidersListComponent,
