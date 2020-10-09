@@ -27,7 +27,7 @@
         <div class="uk-flex uk-flex-middle uk-flex-between">
 
           <div class="resultsInfo">
-            <span class="number">{{total}}</span> PENDING SERVICES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+            <span class="number">{{total}}</span> DRAFT RESOURCES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
           </div>
 
           <ul class="uk-pagination" uk-margin>
@@ -57,10 +57,10 @@
                 <div class="uk-width-1-6">
                   <div class="action-buttons">
                     <button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">
-                      <i class="fa fa-pencil fa-lg"></i> Edit service
+                      <i class="fa fa-pencil fa-lg"></i> Edit resource
                     </button>
                     <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedService(providerService)">
-                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete service
+                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete resource
                     </button>
                   </div>
                 </div>
