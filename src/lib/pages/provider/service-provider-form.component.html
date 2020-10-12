@@ -969,7 +969,9 @@
                         <li>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right">Administrators (*)</label>
-                            <div *ngIf="!edit"><i>An administrator for managing the RP information in {{projectName}} will be added using your user information</i></div>
+                            <div *ngIf="!edit" class="uk-width-9-10"><i>An administrator for managing the RP information in {{projectName}} will be added using your user information.</i></div>
+                            <div class="uk-width-9-10"><i>An administrator has full edit privileges for the provider’s information via the web and the API (add a new resource,
+                              update information regarding the provider’s organization and resources, activate or delete a resource, add or remove administrators and issue tokens for API use).</i></div>
                             <div *ngIf="newProviderForm.get('users').value" class="uk-form-controls uk-margin-top">
                               <div formArrayName="users" *ngFor="let user of usersArray.controls; let i = index">
                                 <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
@@ -1008,6 +1010,7 @@
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, 'email')}">
                                       <!--<i><small>{{ providerPublicContactEmailDesc.desc }}</small></i>-->
                                     </div>
+                                    <b><i><small>Use this email when you login in AAI for gaining administrator privileges for your provider.</small></i></b>
                                   </div>
 
                                 </div>
