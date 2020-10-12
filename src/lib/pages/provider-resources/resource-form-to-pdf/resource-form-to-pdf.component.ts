@@ -19,7 +19,6 @@ import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-resource-form-to-pdf',
   templateUrl: './resource-form-to-pdf.component.html',
-  styleUrls: ['./resource-form-to-pdf.component.css']
 })
 export class ResourceFormToPdfComponent implements OnInit {
   protected _marketplaceBaseURL = environment.marketplaceBaseURL;
@@ -877,6 +876,240 @@ export class ResourceFormToPdfComponent implements OnInit {
 
   unsavedChangesPrompt() {
     this.hasChanges = true;
+  }
+
+  generatePDF() {
+
+    let page_section: HTMLElement;
+    let HTML_Width: number;
+    let HTML_Height: number;
+    const top_left_margin = 15;
+    let PDF_Width: number;
+    let PDF_Height: number;
+
+    page_section = document.getElementById('page1');
+    HTML_Width = page_section.offsetWidth;
+    HTML_Height = page_section.offsetHeight;
+    PDF_Width = HTML_Width + (top_left_margin * 2);
+    PDF_Height = (PDF_Width * 1.2) + (top_left_margin * 2);
+
+    const pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+
+    html2canvas(document.getElementById('page1'), { allowTaint: true }).then(function(canvas) {
+
+      const imgData = canvas.toDataURL('image/png', 1.0);
+      pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+      html2canvas(document.getElementById('page2'), { allowTaint: true }).then(function(canvas2) {
+
+        page_section = document.getElementById('page2');
+        HTML_Width = page_section.offsetWidth;
+        HTML_Height = page_section.offsetHeight;
+        PDF_Width = HTML_Width + (top_left_margin * 2);
+        PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+        const imgData2 = canvas2.toDataURL('image/png', 1.0);
+        pdf.addPage();
+        pdf.addImage(imgData2, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+        html2canvas(document.getElementById('page3'), { allowTaint: true }).then(function(canvas3) {
+
+          page_section = document.getElementById('page3');
+          HTML_Width = page_section.offsetWidth;
+          HTML_Height = page_section.offsetHeight;
+          PDF_Width = HTML_Width + (top_left_margin * 2);
+          PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+          const imgData3 = canvas3.toDataURL('image/png', 1.0);
+          pdf.addPage();
+          pdf.addImage(imgData3, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+          html2canvas(document.getElementById('page4'), { allowTaint: true }).then(function(canvas4) {
+
+            page_section = document.getElementById('page4');
+            HTML_Width = page_section.offsetWidth;
+            HTML_Height = page_section.offsetHeight;
+            PDF_Width = HTML_Width + (top_left_margin * 2);
+            PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+            const imgData4 = canvas4.toDataURL('image/png', 1.0);
+            pdf.addPage();
+            pdf.addImage(imgData4, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+            html2canvas(document.getElementById('page5'), { allowTaint: true }).then(function(canvas5) {
+
+              page_section = document.getElementById('page5');
+              HTML_Width = page_section.offsetWidth;
+              HTML_Height = page_section.offsetHeight;
+              PDF_Width = HTML_Width + (top_left_margin * 2);
+              PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+              const imgData5 = canvas5.toDataURL('image/png', 1.0);
+              pdf.addPage();
+              pdf.addImage(imgData5, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+              html2canvas(document.getElementById('page6'), { allowTaint: true }).then(function(canvas6) {
+
+                page_section = document.getElementById('page6');
+                HTML_Width = page_section.offsetWidth;
+                HTML_Height = page_section.offsetHeight;
+                PDF_Width = HTML_Width + (top_left_margin * 2);
+                PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+                const imgData6 = canvas6.toDataURL('image/png', 1.0);
+                pdf.addPage();
+                pdf.addImage(imgData6, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+                html2canvas(document.getElementById('page7'), { allowTaint: true }).then(function(canvas7) {
+
+                  page_section = document.getElementById('page7');
+                  HTML_Width = page_section.offsetWidth;
+                  HTML_Height = page_section.offsetHeight;
+                  PDF_Width = HTML_Width + (top_left_margin * 2);
+                  PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+                  const imgData7 = canvas7.toDataURL('image/png', 1.0);
+                  pdf.addPage();
+                  pdf.addImage(imgData7, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+                  html2canvas(document.getElementById('page8'), { allowTaint: true }).then(function(canvas8) {
+
+                    page_section = document.getElementById('page8');
+                    HTML_Width = page_section.offsetWidth;
+                    HTML_Height = page_section.offsetHeight;
+                    PDF_Width = HTML_Width + (top_left_margin * 2);
+                    PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+                    const imgData8 = canvas8.toDataURL('image/png', 1.0);
+                    pdf.addPage();
+                    pdf.addImage(imgData8, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+                    html2canvas(document.getElementById('page9'), { allowTaint: true }).then(function(canvas9) {
+
+                      page_section = document.getElementById('page9');
+                      HTML_Width = page_section.offsetWidth;
+                      HTML_Height = page_section.offsetHeight;
+                      PDF_Width = HTML_Width + (top_left_margin * 2);
+                      PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+                      const imgData9 = canvas9.toDataURL('image/png', 1.0);
+                      pdf.addPage();
+                      pdf.addImage(imgData9, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+                      html2canvas(document.getElementById('page10'), { allowTaint: true }).then(function(canvas10) {
+
+                        page_section = document.getElementById('page10');
+                        HTML_Width = page_section.offsetWidth;
+                        HTML_Height = page_section.offsetHeight;
+                        PDF_Width = HTML_Width + (top_left_margin * 2);
+                        PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+                        const imgData10 = canvas10.toDataURL('image/png', 1.0);
+                        pdf.addPage();
+                        pdf.addImage(imgData10, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+                        html2canvas(document.getElementById('page11'), { allowTaint: true }).then(function(canvas11) {
+
+                          page_section = document.getElementById('page11');
+                          HTML_Width = page_section.offsetWidth;
+                          HTML_Height = page_section.offsetHeight;
+                          PDF_Width = HTML_Width + (top_left_margin * 2);
+                          PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+                          const imgData11 = canvas11.toDataURL('image/png', 1.0);
+                          pdf.addPage();
+                          pdf.addImage(imgData11, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+                          html2canvas(document.getElementById('page12'), { allowTaint: true }).then(function(canvas12) {
+
+                            page_section = document.getElementById('page12');
+                            HTML_Width = page_section.offsetWidth;
+                            HTML_Height = page_section.offsetHeight;
+                            PDF_Width = HTML_Width + (top_left_margin * 2);
+                            PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+                            const imgData12 = canvas12.toDataURL('image/png', 1.0);
+                            pdf.addPage();
+                            pdf.addImage(imgData12, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+                            html2canvas(document.getElementById('page13'), { allowTaint: true }).then(function(canvas13) {
+
+                              page_section = document.getElementById('page13');
+                              HTML_Width = page_section.offsetWidth;
+                              HTML_Height = page_section.offsetHeight;
+                              PDF_Width = HTML_Width + (top_left_margin * 2);
+                              PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+                              const imgData13 = canvas13.toDataURL('image/png', 1.0);
+                              pdf.addPage();
+                              pdf.addImage(imgData13, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+                              setTimeout(function() {
+
+                                // Save PDF Doc
+                                pdf.save('Resource-Form.pdf');
+
+                              }, 0);
+
+                            });
+
+                          });
+
+                        });
+
+                      });
+
+                    });
+
+                  });
+
+                });
+
+              });
+
+            });
+
+          });
+
+        });
+
+      });
+
+    });
+  }
+
+  getPDF() {
+
+    const HTML_Width = document.getElementById('resource-sample-form').offsetWidth;
+    const HTML_Height = document.getElementById('resource-sample-form').offsetHeight;
+    const top_left_margin = 15;
+    const PDF_Width = HTML_Width + (top_left_margin * 2);
+    const PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+    const canvas_image_width = HTML_Width;
+    const canvas_image_height = HTML_Height;
+
+    const totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+
+
+    html2canvas(document.getElementById('resource-sample-form'), {allowTaint : true}).then(function(canvas) {
+      canvas.getContext('2d');
+
+      console.log(canvas.height + '' + canvas.width);
+
+
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      const pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
+      pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+
+
+      for (let i = 1; i <= totalPDFPages; i++) {
+        // pdf.addPage(PDF_Width, PDF_Height);
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
+      }
+
+      pdf.save('HTML-Resource-Form.pdf');
+    });
   }
 
   // htmlToPDF() {

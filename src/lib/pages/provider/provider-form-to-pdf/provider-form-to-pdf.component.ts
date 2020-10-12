@@ -20,7 +20,6 @@ declare var UIkit: any;
 @Component({
   selector: 'app-provider-form-to-pdf',
   templateUrl: './provider-form-to-pdf.component.html',
-  styleUrls: ['./provider-form-to-pdf.component.css']
 })
 export class ProviderFormToPdfComponent implements OnInit {
 
@@ -160,6 +159,15 @@ export class ProviderFormToPdfComponent implements OnInit {
       this.user()
     ])
   };
+
+  // page_section: HTMLElement;
+  // HTML_Width: number;
+  // HTML_Height: number;
+  // top_left_margin = 15;
+  // PDF_Width: number;
+  // PDF_Height: number;
+  // canvas_image_width: number;
+  // canvas_image_height: number;
 
   constructor(public fb: FormBuilder,
               public authService: AuthenticationService,
@@ -477,50 +485,253 @@ export class ProviderFormToPdfComponent implements OnInit {
     this.hasChanges = true;
   }
 
-  // htmlToPDF() {
-  //   // parentdiv is the html element which has to be converted to PDF
-  //   html2canvas(document.getElementById('provider-sample-form')).then(canvas => {
-  //
-  //     const pdf = new jsPDF('p', 'pt', [canvas.width, canvas.height]);
-  //
-  //     const imgData  = canvas.toDataURL('image/jpeg', 1.0);
-  //     pdf.addImage(imgData, 0, 0, canvas.width, canvas.height);
-  //     pdf.save('providerForm.pdf');
-  //   });
-  // }
+  generatePDF() {
 
+    let page_section: HTMLElement;
+    let HTML_Width: number;
+    let HTML_Height: number;
+    const top_left_margin = 15;
+    let PDF_Width: number;
+    let PDF_Height: number;
+
+    page_section = document.getElementById('page1');
+    HTML_Width = page_section.offsetWidth;
+    HTML_Height = page_section.offsetHeight;
+    PDF_Width = HTML_Width + (top_left_margin * 2);
+    PDF_Height = (PDF_Width * 1.2) + (top_left_margin * 2);
+
+    const pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+
+    html2canvas(document.getElementById('page1'), { allowTaint: true }).then(function(canvas) {
+
+      const imgData = canvas.toDataURL('image/png', 1.0);
+      pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+      html2canvas(document.getElementById('page2'), { allowTaint: true }).then(function(canvas2) {
+
+        page_section = document.getElementById('page2');
+        HTML_Width = page_section.offsetWidth;
+        HTML_Height = page_section.offsetHeight;
+        PDF_Width = HTML_Width + (top_left_margin * 2);
+        PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+        const imgData2 = canvas2.toDataURL('image/png', 1.0);
+        pdf.addPage();
+        pdf.addImage(imgData2, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+        html2canvas(document.getElementById('page3'), { allowTaint: true }).then(function(canvas3) {
+
+          page_section = document.getElementById('page3');
+          HTML_Width = page_section.offsetWidth;
+          HTML_Height = page_section.offsetHeight;
+          PDF_Width = HTML_Width + (top_left_margin * 2);
+          PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+          const imgData3 = canvas3.toDataURL('image/png', 1.0);
+          pdf.addPage();
+          pdf.addImage(imgData3, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+          html2canvas(document.getElementById('page4'), { allowTaint: true }).then(function(canvas4) {
+
+            page_section = document.getElementById('page4');
+            HTML_Width = page_section.offsetWidth;
+            HTML_Height = page_section.offsetHeight;
+            PDF_Width = HTML_Width + (top_left_margin * 2);
+            PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+            const imgData4 = canvas4.toDataURL('image/png', 1.0);
+            pdf.addPage();
+            pdf.addImage(imgData4, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+            html2canvas(document.getElementById('page5'), { allowTaint: true }).then(function(canvas5) {
+
+              page_section = document.getElementById('page5');
+              HTML_Width = page_section.offsetWidth;
+              HTML_Height = page_section.offsetHeight;
+              PDF_Width = HTML_Width + (top_left_margin * 2);
+              PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+              const imgData5 = canvas5.toDataURL('image/png', 1.0);
+              pdf.addPage();
+              pdf.addImage(imgData5, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+              html2canvas(document.getElementById('page6'), { allowTaint: true }).then(function(canvas6) {
+
+                page_section = document.getElementById('page6');
+                HTML_Width = page_section.offsetWidth;
+                HTML_Height = page_section.offsetHeight;
+                PDF_Width = HTML_Width + (top_left_margin * 2);
+                PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+                const imgData6 = canvas6.toDataURL('image/png', 1.0);
+                pdf.addPage();
+                pdf.addImage(imgData6, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+                html2canvas(document.getElementById('page7'), { allowTaint: true }).then(function(canvas7) {
+
+                  page_section = document.getElementById('page7');
+                  HTML_Width = page_section.offsetWidth;
+                  HTML_Height = page_section.offsetHeight;
+                  PDF_Width = HTML_Width + (top_left_margin * 2);
+                  PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+                  const imgData7 = canvas7.toDataURL('image/png', 1.0);
+                  pdf.addPage();
+                  pdf.addImage(imgData7, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+                  html2canvas(document.getElementById('page8'), { allowTaint: true }).then(function(canvas8) {
+
+                    page_section = document.getElementById('page8');
+                    HTML_Width = page_section.offsetWidth;
+                    HTML_Height = page_section.offsetHeight;
+                    PDF_Width = HTML_Width + (top_left_margin * 2);
+                    PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+                    const imgData8 = canvas8.toDataURL('image/png', 1.0);
+                    pdf.addPage();
+                    pdf.addImage(imgData8, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+                    html2canvas(document.getElementById('page9'), { allowTaint: true }).then(function(canvas9) {
+
+                      page_section = document.getElementById('page9');
+                      HTML_Width = page_section.offsetWidth;
+                      HTML_Height = page_section.offsetHeight;
+                      PDF_Width = HTML_Width + (top_left_margin * 2);
+                      PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+                      const imgData9 = canvas9.toDataURL('image/png', 1.0);
+                      pdf.addPage();
+                      pdf.addImage(imgData9, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+                      html2canvas(document.getElementById('page10'), { allowTaint: true }).then(function(canvas10) {
+
+                        page_section = document.getElementById('page10');
+                        HTML_Width = page_section.offsetWidth;
+                        HTML_Height = page_section.offsetHeight;
+                        PDF_Width = HTML_Width + (top_left_margin * 2);
+                        PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+
+                        const imgData10 = canvas10.toDataURL('image/png', 1.0);
+                        pdf.addPage();
+                        pdf.addImage(imgData10, 'JPG', top_left_margin, top_left_margin, HTML_Width, HTML_Height);
+
+                        setTimeout(function() {
+
+                          // Save PDF Doc
+                          pdf.save('Provider-Form.pdf');
+
+                        }, 0);
+
+                      });
+
+                    });
+
+                  });
+
+                });
+
+              });
+
+            });
+
+          });
+
+        });
+
+      });
+
+    });
+  }
+
+  getPDF() {
+
+    const HTML_Width = document.getElementById('provider-sample-form').offsetWidth;
+    const HTML_Height = document.getElementById('provider-sample-form').offsetHeight;
+    const top_left_margin = 15;
+    const PDF_Width = HTML_Width + (top_left_margin * 2);
+    const PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+    const canvas_image_width = HTML_Width;
+    const canvas_image_height = HTML_Height;
+
+    const totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+
+
+    html2canvas(document.getElementById('provider-sample-form'), {allowTaint : true}).then(function(canvas) {
+      canvas.getContext('2d');
+
+      console.log(canvas.height + '' + canvas.width);
+
+
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      const pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
+      pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+
+
+      for (let i = 1; i <= totalPDFPages; i++) {
+        // pdf.addPage(PDF_Width, PDF_Height);
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
+      }
+
+      pdf.save('HTML-Provider-Form.pdf');
+    });
+  }
 
   htmlToPDF() {
-    const node = document.getElementById('provider-sample-form');
-    let img;
-    let newImage;
-    domtoimage.toPng(node, { bgcolor: '#fff' })
-      .then(function(dataUrl) {
-        img = new Image();
-        img.src = dataUrl;
-        newImage = img.src;
-        img.onload = function() {
-          const pdfWidth = img.width;
-          const pdfHeight = img.height;
-          // FileSaver.saveAs(dataUrl, 'my-pdfimage.png'); // Save as Image
-          let doc;
-          if (pdfWidth > pdfHeight) {
-            doc = new jsPDF('l', 'px', [pdfWidth , pdfHeight]);
-          } else {
-            doc = new jsPDF('p', 'px', [pdfWidth , pdfHeight]);
-          }
+    // parentdiv is the html element which has to be converted to PDF
+    html2canvas(document.getElementById('provider-sample-form')).then(canvas => {
 
-          const width = doc.internal.pageSize.getWidth();
-          const height = doc.internal.pageSize.getHeight();
-console.log('b4 save');
-          doc.addImage(newImage, 'PNG',  10, 10, width, height);
-          doc.save('providerForm.pdf');
-        };
-      })
-      .catch(function(error) {
-        // Error Handling
-      });
+      const pdf = new jsPDF('p', 'pt', [canvas.width, canvas.height]);
+
+      const imgData  = canvas.toDataURL('image/jpeg', 1.0);
+      pdf.addImage(imgData, 0, 0, canvas.width, canvas.height);
+      pdf.save('providerForm.pdf');
+    });
   }
+
+
+  // htmlToPDF() {
+  //   const node = document.getElementById('provider-sample-form');
+  //   let img;
+  //   let newImage;
+  //   console.log('1');
+  //   domtoimage.toPng(node, { bgcolor: '#fff' })
+  //     .then(function(dataUrl) {
+  //       console.log('2');
+  //       img = new Image();
+  //       console.log('3');
+  //       img.src = dataUrl;
+  //       console.log('4');
+  //       newImage = img.src;
+  //       console.log('5');
+  //       img.onload = function() {
+  //         console.log('6');
+  //         const pdfWidth = img.width;
+  //         console.log('7');
+  //         const pdfHeight = img.height;
+  //         // FileSaver.saveAs(dataUrl, 'my-pdfimage.png'); // Save as Image
+  //         let doc;
+  //         console.log('8');
+  //         if (pdfWidth > pdfHeight) {
+  //           doc = new jsPDF('l', 'px', [pdfWidth , pdfHeight]);
+  //           console.log('9');
+  //         } else {
+  //           doc = new jsPDF('p', 'px', [pdfWidth , pdfHeight]);
+  //           console.log('10');
+  //         }
+  //
+  //         const width = doc.internal.pageSize.getWidth();
+  //         const height = doc.internal.pageSize.getHeight();
+  //         console.log('b4 save');
+  //         doc.addImage(newImage, 'PNG',  10, 10, width, height);
+  //         doc.save('providerForm.pdf');
+  //       };
+  //     })
+  //     .catch(function(error) {
+  //       // Error Handling
+  //       console.log('Error converting to pdf');
+  //     });
+  // }
 
 }
 
