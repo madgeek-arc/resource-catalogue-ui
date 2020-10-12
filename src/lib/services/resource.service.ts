@@ -175,9 +175,9 @@ export class ResourceService {
     let params = new HttpParams();
     if (provider) {
       params = params.append('providerId', provider);
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=CATEGORY`, {params});
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SUBCATEGORY`, {params});
     } else {
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=CATEGORY`);
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SUBCATEGORY`);
     }
   }
 
@@ -185,9 +185,9 @@ export class ResourceService {
     let params = new HttpParams();
     if (provider) {
       params = params.append('providerId', provider);
-    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SCIENTIFIC_DOMAIN`, {params});
+    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SCIENTIFIC_SUBDOMAIN`, {params});
   } else {
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SCIENTIFIC_DOMAIN`);
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SCIENTIFIC_SUBDOMAIN`);
     }
   }
 
