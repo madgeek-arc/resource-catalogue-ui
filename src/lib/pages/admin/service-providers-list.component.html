@@ -104,6 +104,7 @@
                             <option value="name" selected>Name</option>
                             <option value="registeredAt">Creation Date</option>
                             <option value="modifiedAt">Modification Date</option>
+                            <option value="abbreviation">Abbreviation</option>
                           </select>
                         </div>
                       </div>
@@ -135,7 +136,7 @@
                     <div class="uk-flex uk-flex-middle uk-flex-between">
 
                       <div class="resultsInfo">
-                        <span class="number">{{total}}</span> SERVICE PROVIDERS, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+                        <span class="number">{{total}}</span> RESOURCE PROVIDERS, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
                       </div>
 
                       <ul class="uk-pagination" uk-margin>
@@ -197,7 +198,7 @@
                                 </span>
                               </div>
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Acronym: </span>
+                                <span class="statusLabel">Abbreviation: </span>
                                 <ng-container *ngIf="providerBundle.provider.abbreviation && (providerBundle.provider.abbreviation!==null)">{{ providerBundle.provider.abbreviation }}</ng-container>
                                 <ng-container *ngIf="!providerBundle.provider.abbreviation || (providerBundle.provider.abbreviation===null)">not available</ng-container>
                               </div>
