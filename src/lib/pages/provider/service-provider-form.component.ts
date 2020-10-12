@@ -24,6 +24,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
   projectName = environment.projectName;
   projectMail = environment.projectMail;
+  privacyPolicyURL = environment.privacyPolicyURL;
   providerId: string;
   providerName = '';
   errorMessage = '';
