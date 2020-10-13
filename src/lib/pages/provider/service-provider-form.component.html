@@ -594,7 +594,7 @@
                                   </div>
 
                                 </div>
-                                <a *ngIf="!disable" class="remove-element uk-padding-small uk-display-inline-block"
+                                <a *ngIf="getFieldAsFormArray('publicContacts').length > 1 && !disable" class="remove-element uk-padding-small uk-display-inline-block"
                                    (click)="removePublicContact(i); unsavedChangesPrompt(); handleBitSetsOfPublicContact(4, 15, 'email', 'publicContacts')">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>

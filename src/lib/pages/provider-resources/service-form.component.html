@@ -922,7 +922,7 @@
                                     <i><small>Suggested length is 50 characters</small></i>
                                   </div>
                                 </div>
-                                <a *ngIf="!disable" class="remove-element uk-padding-small uk-display-inline-block"
+                                <a *ngIf="getFieldAsFormArray('publicContacts').length > 1 && !disable" class="remove-element uk-padding-small uk-display-inline-block"
                                    (click)="removePublicContact(i); unsavedChangesPrompt(); handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts')">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
