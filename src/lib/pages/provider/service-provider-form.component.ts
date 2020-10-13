@@ -726,10 +726,6 @@ export class ServiceProviderFormComponent implements OnInit {
     }
   }
 
-  downloadProviderFormPDF() {
-    window.open('../../../lib/files/providerForm.pdf', '_blank');
-  }
-
   unsavedChangesPrompt() {
     this.hasChanges = true;
   }

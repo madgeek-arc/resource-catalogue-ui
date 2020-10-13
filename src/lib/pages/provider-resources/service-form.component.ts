@@ -866,10 +866,6 @@ export class ServiceFormComponent implements OnInit {
     }
   }
 
-  downloadServiceFormPDF() {
-    window.open('../../../lib/files/serviceForm.pdf', '_blank');
-  }
-
   unsavedChangesPrompt() {
     this.hasChanges = true;
   }
