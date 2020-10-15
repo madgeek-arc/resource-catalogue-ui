@@ -16,6 +16,8 @@ import {BreadcrumbsComponent} from './breadcrumbs/breadcrumbs.component';
 import {RouterModule} from '@angular/router';
 import {CKEditorModule} from 'ng2-ckeditor';
 import {PendingServicesComponent} from '../pages/provider/dashboard/pendingservices/pending-services.component';
+import {PreviewResourceComponent} from '../pages/previewresource/preview-resource.component';
+import {ChartModule} from 'angular2-highcharts';
 
 @NgModule({
   imports: [
@@ -23,7 +25,8 @@ import {PendingServicesComponent} from '../pages/provider/dashboard/pendingservi
     ReactiveFormsModule,
     StarRatingModule.forRoot(),
     CKEditorModule,
-    RouterModule
+    RouterModule,
+    ChartModule
   ],
   declarations: [
     JoinPipe,
@@ -38,7 +41,8 @@ import {PendingServicesComponent} from '../pages/provider/dashboard/pendingservi
     NotFoundPageComponent,
     EmailModalComponent,
     BreadcrumbsComponent,
-    PendingServicesComponent
+    PendingServicesComponent,
+    PreviewResourceComponent
   ],
   exports: [
     JoinPipe,
@@ -53,7 +57,8 @@ import {PendingServicesComponent} from '../pages/provider/dashboard/pendingservi
     StarRatingModule,
     BreadcrumbsComponent,
     CKEditorModule,
-    PendingServicesComponent
+    PendingServicesComponent,
+    PreviewResourceComponent
   ]
 })
 export class SharedModule {

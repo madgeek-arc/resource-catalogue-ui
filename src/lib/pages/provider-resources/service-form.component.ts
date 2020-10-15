@@ -15,6 +15,8 @@ import BitSet from 'bitset/bitset';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
 
+declare var UIkit: any;
+
 @Component({
   selector: 'app-service-form',
   templateUrl: './service-form.component.html',
@@ -1088,4 +1090,8 @@ export class ServiceFormComponent implements OnInit {
 
   /** <--URL Validation **/
 
+  openPreviewModal() {
+    console.log('Resource ==>', this.serviceForm.value);
+    UIkit.modal('#modal-preview').show();
+  }
 }

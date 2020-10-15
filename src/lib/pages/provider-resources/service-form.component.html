@@ -14,6 +14,7 @@
           </div>
           <div class="">
             <!--<button class="uk-button uk-button-primary">Discard</button>-->
+            <button class="uk-button uk-button-primary uk-margin-left" (click)="openPreviewModal()">Preview</button>
             <button *ngIf="!editMode || pendingService" class="uk-button uk-button-primary uk-margin-left" (click)="this.onSubmit(this.service, true)">Save as draft</button>
             <button *ngIf="loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left" (click)="onSubmit(serviceForm.value, false)" type="submit">Submit</button>
           </div>
@@ -1502,5 +1503,14 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+
+<div id="modal-preview" class="uk-flex-top uk-modal-container" uk-modal="bg-close: true; esc-close: true;">
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+
+    <app-preview-resource [resource]="serviceForm.value" [vocabularies]="vocabularies"></app-preview-resource>
+
   </div>
 </div>

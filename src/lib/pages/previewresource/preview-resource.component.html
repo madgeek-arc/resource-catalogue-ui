@@ -1,0 +1,612 @@
+<div *ngIf="errorMessage" class="tm-main uk-section uk-section-default" uk-height-viewport="expand: true" style="box-sizing: border-box;">
+  <div class="uk-container uk-container-large">
+    <div data-uk-alert="" class="uk-alert uk-alert-danger">
+      <p>{{errorMessage}}</p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="resource && !errorMessage" class="preview-resource">
+
+  <div class="uk-container" data-controller="comparison">
+    <div class="pt-4 pl-3 pr-3 shadow-sm rounded service-box service-detail">
+
+
+      <div class="uk-grid uk-margin-right">
+
+        <div class="uk-width-3-4">
+
+          <div class="uk-grid">
+
+            <div class="uk-width-1-4 d-flex img-service-detail">
+              <img class="align-self-center img-fluid" src="https://marketplace-beta.docker-fid.grid.cyf-kr.edu.pl/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBWms9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--25b144df4a97ec1a738c4de7c8dcd8080a465109/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lNTVRnd2VERXlNQVk2QmtWVSIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--3a3bf12b12ad3ac5ad368feaefcc328b64202954/openrisknet.lazar">
+            </div>
+            <div class="uk-width-3-4">
+              <h2 class="font-weight-bolder">Lazar</h2>
+              <p class="mb-2">Toxicity predictions</p>
+              <dl class="mb-0">
+                <dt class="x-small">
+                  <span>Provided by:</span>
+                </dt>
+                <dd class="x-small">
+                  <strong class="mr-4"><a href="/services?providers=90">OpenRiskNet</a></strong>
+                </dd>
+              </dl>
+              <dl class="mb-0">
+                <dt class="x-small">
+                  <span>Scientific domain:</span>
+                </dt>
+                <dd class="x-small">
+                  <strong class="mr-4"><a href="/services?scientific_domains=32">Chemical engineering</a>, <a href="/services?scientific_domains=37">Nano-technology</a></strong>
+                </dd>
+              </dl>
+              <dl class="mb-0">
+                <dt class="x-small">
+                  <span>Dedicated for:</span>
+                </dt>
+                <dd class="x-small">
+                  <strong class="mr-4"></strong>
+                </dd>
+              </dl>
+              <span class="clearfix"></span>
+
+              <div class="row mt-2">
+                <div class="col">
+                  <!--<svg class="svg-inline&#45;&#45;fa fa-star fa-w-18 fa-lg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>&lt;!&ndash; <i class="far fa-star fa-lg"></i> &ndash;&gt;<svg class="svg-inline&#45;&#45;fa fa-star fa-w-18 fa-lg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>&lt;!&ndash; <i class="far fa-star fa-lg"></i> &ndash;&gt;<svg class="svg-inline&#45;&#45;fa fa-star fa-w-18 fa-lg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>&lt;!&ndash; <i class="far fa-star fa-lg"></i> &ndash;&gt;<svg class="svg-inline&#45;&#45;fa fa-star fa-w-18 fa-lg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>&lt;!&ndash; <i class="far fa-star fa-lg"></i> &ndash;&gt;<svg class="svg-inline&#45;&#45;fa fa-star fa-w-18 fa-lg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>&lt;!&ndash; <i class="far fa-star fa-lg"></i> &ndash;&gt;-->
+                  <span class="ml-1 font-weight-bold">(0.0 /5)</span>
+                  <a class="ml-3" href="/services/lazar/opinions">0 reviews</a>
+                  <span class="mt-3 compare pl-3">
+                  <label>
+                    <input type="checkbox" name="comparison" id="comparison-132" value="lazar" class="form-check-input" data-target="comparison.checkbox" data-action="click->comparison#update">
+                    <span>Add to comparison</span>
+                  </label>
+                </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="uk-width-1-4 text-center vertical-center">
+          <div class="vertical-center-inner access-type">
+            <a class="btn btn-primary d-block mb-3" href="/services/lazar/offers">Access the service</a>
+            <i class="ordertype open_access"></i>
+            Open Access
+          </div>
+        </div>
+
+      </div>
+
+      <!--<div class="row">-->
+        <!--<div class="col-12 col-lg-9 row">-->
+          <!--<div class="col-12 col-sm-3 d-flex img-service-detail">-->
+            <!--<img class="align-self-center img-fluid" src="https://marketplace-beta.docker-fid.grid.cyf-kr.edu.pl/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBWms9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19&#45;&#45;25b144df4a97ec1a738c4de7c8dcd8080a465109/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lNTVRnd2VERXlNQVk2QmtWVSIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19&#45;&#45;3a3bf12b12ad3ac5ad368feaefcc328b64202954/openrisknet.lazar">-->
+          <!--</div>-->
+          <!--<div class="col-12 col-sm-9">-->
+            <!--<h2 class="font-weight-bolder">Lazar</h2>-->
+            <!--<p class="mb-2">Toxicity predictions</p>-->
+            <!--<dl class="mb-0">-->
+              <!--<dt class="x-small">-->
+                <!--<span>Provided by:</span>-->
+              <!--</dt>-->
+              <!--<dd class="x-small">-->
+                <!--<strong class="mr-4"><a href="/services?providers=90">OpenRiskNet</a></strong>-->
+              <!--</dd>-->
+            <!--</dl>-->
+            <!--<dl class="mb-0">-->
+              <!--<dt class="x-small">-->
+                <!--<span>Scientific domain:</span>-->
+              <!--</dt>-->
+              <!--<dd class="x-small">-->
+                <!--<strong class="mr-4"><a href="/services?scientific_domains=32">Chemical engineering</a>, <a href="/services?scientific_domains=37">Nano-technology</a></strong>-->
+              <!--</dd>-->
+            <!--</dl>-->
+            <!--<dl class="mb-0">-->
+              <!--<dt class="x-small">-->
+                <!--<span>Dedicated for:</span>-->
+              <!--</dt>-->
+              <!--<dd class="x-small">-->
+                <!--<strong class="mr-4"></strong>-->
+              <!--</dd>-->
+            <!--</dl>-->
+            <!--<span class="clearfix"></span>-->
+
+            <!--<div class="row mt-2">-->
+              <!--<div class="col">-->
+                <!--<svg class="svg-inline&#45;&#45;fa fa-star fa-w-18 fa-lg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>&lt;!&ndash; <i class="far fa-star fa-lg"></i> &ndash;&gt;<svg class="svg-inline&#45;&#45;fa fa-star fa-w-18 fa-lg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>&lt;!&ndash; <i class="far fa-star fa-lg"></i> &ndash;&gt;<svg class="svg-inline&#45;&#45;fa fa-star fa-w-18 fa-lg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>&lt;!&ndash; <i class="far fa-star fa-lg"></i> &ndash;&gt;<svg class="svg-inline&#45;&#45;fa fa-star fa-w-18 fa-lg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>&lt;!&ndash; <i class="far fa-star fa-lg"></i> &ndash;&gt;<svg class="svg-inline&#45;&#45;fa fa-star fa-w-18 fa-lg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>&lt;!&ndash; <i class="far fa-star fa-lg"></i> &ndash;&gt;-->
+                <!--<span class="ml-1 font-weight-bold">(0.0 /5)</span>-->
+                <!--<a class="ml-3" href="/services/lazar/opinions">0 reviews</a>-->
+                <!--<span class="mt-3 compare pl-3">-->
+                  <!--<label>-->
+                    <!--<input type="checkbox" name="comparison" id="comparison-131" value="lazar" class="form-check-input" data-target="comparison.checkbox" data-action="click->comparison#update">-->
+                    <!--<span>Add to comparison</span>-->
+                  <!--</label>-->
+                <!--</span>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-12 col-lg-3 text-center vertical-center">-->
+          <!--<div class="vertical-center-inner access-type">-->
+            <!--<a class="btn btn-primary d-block mb-3" href="/services/lazar/offers">Access the service</a>-->
+            <!--<i class="ordertype open_access"></i>-->
+            <!--Open Access-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <div class="row">
+        <div class="col-12">
+          <ul class="nav nav-tabs mt-4 row pl-3" id="my-tab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link text-uppercase active" role="tab" href="/services/lazar">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-uppercase " role="tab" href="/services/lazar/opinions">Reviews (0)</a>
+            </li>
+            <a class="question-link" data-remote="true" href="/services/lazar/question/new">Want to ask a question about this service?</a>
+
+          </ul>
+        </div>
+      </div>
+
+    </div>
+    <div class="comparison-bar d-none fixed-bottom" data-target="comparison.bar" id="comparison-bar">
+      <div class="list-inline border bg-light">
+        <div class="row">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-9 col-12 row services-list" data-target="comparison.box">
+              </div>
+              <div class="col-lg-3 col-12 text-right action-box">
+                <a data-action="click->comparison#clearAll" class="text-uppercase" data-remote="true" rel="nofollow" data-method="delete" href="/comparisons">Clear all</a>
+                <a class="btn btn-primary ml-3" href="/comparisons">Compare</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!--<div class="tm-main uk-section uk-section-secondary" uk-height-viewport="expand: true" style="box-sizing: border-box;">-->
+    <!--<div class="uk-container uk-container-large">-->
+      <!--<div class="uk-grid" uk-grid="">-->
+        <!--<div class="uk-width-3-4">-->
+          <!--<div class="uk-display-inline-block uk-vertical-align-top">-->
+            <!--<h2 class="uk-h2 uk-inline" style="margin-bottom: 5px">-->
+              <!--{{resource.name || "Not Available"}}-->
+            <!--</h2>-->
+            <!--<div *ngIf="resource.tagline && (resource.tagline.length > 0)" class="tagLine">-->
+              <!--{{resource.tagline}}-->
+            <!--</div>-->
+
+            <!--<div class="uk-grid">-->
+
+              <!--<div class="uk-width-1-1 summaryInfo uk-margin-medium-top uk-margin-medium-bottom">-->
+                <!--&lt;!&ndash; FIXME &ndash;&gt;-->
+                <!--&lt;!&ndash;                <div class="divider-bottom">&ndash;&gt;-->
+                <!--&lt;!&ndash;                  <span><strong>Provided by: </strong></span>&ndash;&gt;-->
+                <!--&lt;!&ndash;                  <span class="" *ngFor="let provider of richResource.providerInfo; let i = index">&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <span *ngIf="i > 0">, </span>{{ provider.providerAbbreviation | uppercase }}&ndash;&gt;-->
+                <!--&lt;!&ndash;                  </span>&ndash;&gt;-->
+                <!--&lt;!&ndash;                </div>&ndash;&gt;-->
+                <!--<div class="divider-bottom"> &lt;!&ndash; TODO: remove when above is fixed &ndash;&gt;-->
+                  <!--<span><strong>Provided by: </strong></span>-->
+                  <!--{{ resource.resourceOrganisation }}-->
+                  <!--<span class="" *ngFor="let provider of resource.resourceProviders; let i = index">-->
+                    <!--<span>, </span>{{ provider }}-->
+                  <!--</span>-->
+                <!--</div>-->
+
+                <!--&lt;!&ndash;<div class="divider-bottom uk-margin-small-top categories" *ngIf="richResource.categories && richResource.categories.length>0">&ndash;&gt;-->
+                  <!--&lt;!&ndash;<span><strong>Categorization: </strong></span>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<ng-container *ngFor="let category of richResource.categories">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="uk-label">{{category.superCategory.name}}</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span> > </span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="uk-label">{{category.category.name}}</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span> > </span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="uk-label">{{category.subCategory.name}}</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<br>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<hr class="uk-divider">&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<div class="divider-bottom uk-margin-small-top domains" *ngIf="richResource.domains && richResource.domains.length>0">&ndash;&gt;-->
+                  <!--&lt;!&ndash;<span><strong>Scientific Categorization: </strong></span>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<ng-container *ngFor="let domain of richResource.domains">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="uk-label">{{domain.domain.name}}</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span> > </span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="uk-label">{{domain.subdomain.name}}</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<br>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<hr class="uk-divider">&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<div class="divider-bottom uk-margin-small-top" *ngIf="richResource.targetUsersNames && richResource.targetUsersNames.length>0">&ndash;&gt;-->
+                  <!--&lt;!&ndash;<span><strong>Offered to: </strong></span>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<span class="" *ngFor="let targetUserName of richResource.targetUsersNames; let i = index">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span *ngIf="i > 0">, </span>{{ targetUserName }}&ndash;&gt;-->
+                  <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<div class="uk-margin-small-bottom uk-margin-small-top">&ndash;&gt;-->
+                  <!--&lt;!&ndash;&lt;!&ndash; RATINGS &ndash;&gt; &lt;!&ndash; TODO: make them conditional (probably @Input boolean at component and ngIf here?) &ndash;&gt;&ndash;&gt;-->
+                  <!--&lt;!&ndash;<star-rating-comp #rating&ndash;&gt;-->
+                                    <!--&lt;!&ndash;[starType]="'svg'" [rating]="richResource.hasRate" [step]="1"&ndash;&gt;-->
+                                    <!--&lt;!&ndash;[showHalfStars]="true"&ndash;&gt;-->
+                                    <!--&lt;!&ndash;[readOnly]=!this.authenticationService.isLoggedIn()&ndash;&gt;-->
+                                    <!--&lt;!&ndash;[size]="'medium'"&ndash;&gt;-->
+                                    <!--&lt;!&ndash;[staticColor]="'ok'" title="Rate this service"&ndash;&gt;-->
+                                    <!--&lt;!&ndash;uk-tooltip="delay: 500" class="uk-inline starRating"&ndash;&gt;-->
+                                    <!--&lt;!&ndash;labelText="{{richResource.hasRate}} ({{ richResource.ratings }})"&ndash;&gt;-->
+                                    <!--&lt;!&ndash;[labelVisible]="true" [labelPosition]="'right'"&ndash;&gt;-->
+                                    <!--&lt;!&ndash;[hoverEnabled]="true">&ndash;&gt;-->
+                  <!--&lt;!&ndash;</star-rating-comp>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<span class="uk-margin-medium-left">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a (click)="addToFavourites()" style="color: rgb(55, 131, 63)">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<i [ngClass]="richResource.isFavourite ? 'fa fa-heart' : 'fa fa-heart-o'"></i>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="statsNumbers">{{richResource.favourites || 0}}</span>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<span class="uk-margin-medium-left">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<img src="../../../lib/images/icons/ic_visit_icon.svg" alt="Views" title="Number of views">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="statsNumbers">{{richResource.views || 0}}</span>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+              <!--</div>-->
+
+              <!--<div class="uk-width-1-1 leftColumn">-->
+
+                <!--<div class="serviceDescription" *ngIf="resource.description">-->
+                  <!--<p [innerHTML]="resource.description"></p>-->
+                <!--</div>-->
+
+                <!--<div class="badges uk-margin-bottom">-->
+                  <!--<span *ngFor="let tag of resource.tags" class="uk-badge uk-margin-small-right">{{tag}}</span>-->
+                <!--</div>-->
+
+                <!--&lt;!&ndash;<div class="badges uk-margin-bottom">&ndash;&gt;-->
+                  <!--&lt;!&ndash;<span><strong>Funded by: </strong></span>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<span *ngFor="let funder of richResource.fundedByNames; let i = index" class="">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span *ngIf="i>0">, </span>{{funder}}&ndash;&gt;-->
+                  <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<div class="" uk-grid>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<div class="badges uk-margin-bottom uk-width-1-2@m">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span><strong>Access Types: </strong></span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span *ngFor="let accessType of richResource.accessTypeNames; let i = index" class="">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<span *ngIf="i>0">, </span>{{accessType}}&ndash;&gt;-->
+                    <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<div class="badges uk-margin-bottom uk-width-1-2@m">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span><strong>Access Modes: </strong></span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span *ngFor="let accessMode of richResource.accessModeNames; let i = index" class="">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<span *ngIf="i>0">, </span>{{accessMode}}&ndash;&gt;-->
+                    <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+              <!--</div>-->
+
+            <!--</div>-->
+
+
+            <!--&lt;!&ndash;<div class="tags" *ngIf="richResource.superCategoryName && richResource.categoryName && richResource.subCategoryNames !== []">&ndash;&gt;-->
+            <!--&lt;!&ndash;<span><strong>Categorization: </strong></span>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span class="uk-label">{{richResource.superCategoryName}}</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span> &ndash;&gt; </span>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span class="uk-label">{{richResource.categoryName}}</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span> &ndash;&gt; </span>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span class="uk-label">{{richResource.subCategoryNames}}</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+            <!--&lt;!&ndash;<div class="tags" *ngIf="richResource.scientificDomainNames && richResource.scientificSubDomainNames">&ndash;&gt;-->
+            <!--&lt;!&ndash;<span><strong>Scientific Categorization: </strong></span>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span class="uk-label">{{richResource.scientificDomainNames}}</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span> &ndash;&gt; </span>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span class="uk-label">{{richResource.scientificSubDomainNames}}</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+            <!--&lt;!&ndash;<div class="uk-margin-small-bottom">&ndash;&gt;-->
+            <!--&lt;!&ndash;<star-rating-comp #rating (click)="rateService(rating.rating)"&ndash;&gt;-->
+            <!--&lt;!&ndash;[starType]="'svg'" [rating]="richResource.hasRate" [step]="1"&ndash;&gt;-->
+            <!--&lt;!&ndash;[showHalfStars]="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;[readOnly]=!this.authenticationService.isLoggedIn()&ndash;&gt;-->
+            <!--&lt;!&ndash;[size]="'medium'"&ndash;&gt;-->
+            <!--&lt;!&ndash;[staticColor]="'ok'" title="Rate this service"&ndash;&gt;-->
+            <!--&lt;!&ndash;uk-tooltip="delay: 500" class="uk-inline starRating"&ndash;&gt;-->
+            <!--&lt;!&ndash;labelText="{{richResource.hasRate}} ({{ richResource.ratings }})"&ndash;&gt;-->
+            <!--&lt;!&ndash;[labelVisible]="true" [labelPosition]="'right'"&ndash;&gt;-->
+            <!--&lt;!&ndash;[hoverEnabled]="true">&ndash;&gt;-->
+            <!--&lt;!&ndash;</star-rating-comp>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span class="uk-margin-medium-left">&ndash;&gt;-->
+            <!--&lt;!&ndash;<a (click)="addToFavourites()" style="color: rgb(55, 131, 63)">&ndash;&gt;-->
+            <!--&lt;!&ndash;<i [ngClass]="richResource.isFavourite ? 'fa fa-heart' : 'fa fa-heart-o'"></i>&ndash;&gt;-->
+            <!--&lt;!&ndash;</a>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span class="statsNumbers">{{richResource.favourites || 0}}</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span class="uk-margin-medium-left">&ndash;&gt;-->
+            <!--&lt;!&ndash;<img src="../../../../lib/images/icons/ic_visit_icon.svg">&ndash;&gt;-->
+            <!--&lt;!&ndash;<span class="statsNumbers">{{richResource.views || 0}}</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+            <!--&lt;!&ndash;<div class="serviceDescription" *ngIf="resource.description">&ndash;&gt;-->
+            <!--&lt;!&ndash;<p [innerHTML]="resource.description">&ndash;&gt;-->
+            <!--&lt;!&ndash;</p>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+            <!--&lt;!&ndash;<div class="badges uk-margin-bottom">&ndash;&gt;-->
+            <!--&lt;!&ndash;<span *ngFor="let tag of resource.tags" class="uk-badge uk-margin-small-right">{{tag}}</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="uk-width-1-4">-->
+          <!--<div class="uk-card uk-card-body uk-card-custom providerCard">-->
+            <!--<img src="{{(resource.logo) ? resource.logo : 'src/lib/assets/images/broken_image-black-48dp.svg'}}">-->
+            <!--&lt;!&ndash;<span class="provider" *ngFor="let provider of resource.providers; let i = index">&ndash;&gt;-->
+            <!--&lt;!&ndash;<br *ngIf="i > 0">{{ provider | uppercase }}&ndash;&gt;-->
+            <!--&lt;!&ndash;</span>&ndash;&gt;-->
+          <!--</div>-->
+          <!--<div class="uk-margin-top">-->
+            <!--<a class="uk-button butn theme uk-width-1-1" href="{{resource.webpage}}" target="_blank"-->
+               <!--routerLinkActive="active">-->
+              <!--&lt;!&ndash;<a class="uk-width-1-1 uk-button uk-button-primary visitButton" href="{{richResource.url}}" target="_blank" routerLinkActive="active">&ndash;&gt;-->
+              <!--<strong>Service Homepage</strong>-->
+            <!--</a>-->
+            <!--<a *ngIf="resource.multimedia" class="uk-margin-top uk-margin-large-bottom uk-button butn theme uk-width-1-1"-->
+               <!--href="{{resource.multimedia}}" routerLinkActive="active" target="_blank">-->
+              <!--<strong>Slideshow/Video</strong>-->
+            <!--</a>-->
+            <!--<a *ngIf="resource.order" class="uk-margin-top uk-button butn theme uk-width-1-1"-->
+               <!--href="{{resource.order}}" routerLinkActive="active" target="_blank">-->
+              <!--<strong>Request the Resource</strong>-->
+            <!--</a>-->
+            <!--<a class="uk-margin-top uk-button butn theme uk-width-1-1"  href="#email-modal" uk-toggle> &lt;!&ndash; FIXME ?? &ndash;&gt;-->
+              <!--<strong>Ask for a Quote</strong>-->
+            <!--</a>-->
+            <!--<a class="uk-margin-top uk-button butn theme uk-width-1-1"  href="#email-modal" uk-toggle> &lt;!&ndash; FIXME ?? &ndash;&gt;-->
+              <!--<strong>Request Information</strong>-->
+            <!--</a>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div class="tm-main uk-section uk-section-default" uk-height-viewport="expand: true"-->
+       <!--style="box-sizing: border-box;">-->
+    <!--<div class="uk-container uk-container-large">-->
+      <!--<div class="uk-grid" uk-grid="">-->
+        <!--<div class="uk-width-3-4">-->
+
+          <!--&lt;!&ndash;USAGE&ndash;&gt;-->
+          <!--&lt;!&ndash;          <div>&ndash;&gt;-->
+          <!--&lt;!&ndash;            <h2 class="section-heading uk-h2">Usage</h2>&ndash;&gt;-->
+          <!--&lt;!&ndash;            <dl class="uk-description-list">&ndash;&gt;-->
+          <!--&lt;!&ndash;              <div *ngIf="resource.trl" class="uk-margin-bottom">&ndash;&gt;-->
+          <!--&lt;!&ndash;                <dt class="uk-margin-small-right">Technology readiness level</dt>&ndash;&gt;-->
+          <!--&lt;!&ndash;                <dd class="">{{richResource.trlName}}</dd>&ndash;&gt;-->
+          <!--&lt;!&ndash;              </div>&ndash;&gt;-->
+          <!--&lt;!&ndash;              <div *ngIf="richResource.phaseName" class="uk-margin-bottom">&ndash;&gt;-->
+          <!--&lt;!&ndash;                <dt class="uk-margin-small-right">Lifecycle Status</dt>&ndash;&gt;-->
+          <!--&lt;!&ndash;                <dd class="">{{richResource.phaseName}}</dd>&ndash;&gt;-->
+          <!--&lt;!&ndash;              </div>&ndash;&gt;-->
+          <!--&lt;!&ndash;            </dl>&ndash;&gt;-->
+          <!--&lt;!&ndash;            &lt;!&ndash;<hr class="customDivider">&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;            <dl class="uk-description-list">&ndash;&gt;-->
+          <!--&lt;!&ndash;              <dt class="">Access type</dt>&ndash;&gt;-->
+          <!--&lt;!&ndash;              <dd>{{richResource.accessTypeNames | join:", "}}</dd>&ndash;&gt;-->
+          <!--&lt;!&ndash;              <dt class="">Access mode</dt>&ndash;&gt;-->
+          <!--&lt;!&ndash;              <dd>{{richResource.accessModeNames | join:", "}}</dd>&ndash;&gt;-->
+          <!--&lt;!&ndash;              <ng-container *ngIf="resource.options">&ndash;&gt;-->
+          <!--&lt;!&ndash;                <dt class="">Options</dt>&ndash;&gt;-->
+          <!--&lt;!&ndash;                <dd>{{resource.options | join:", "}}</dd>&ndash;&gt;-->
+          <!--&lt;!&ndash;              </ng-container>&ndash;&gt;-->
+          <!--&lt;!&ndash;            </dl>&ndash;&gt;-->
+          <!--&lt;!&ndash;          </div>&ndash;&gt;-->
+
+          <!--&lt;!&ndash;SERVICE COVERAGE&ndash;&gt;-->
+          <!--<div class="uk-margin-medium-top">-->
+            <!--<h2 class="section-heading uk-h2">Resource coverage</h2>-->
+            <!--<div class="uk-grid">-->
+              <!--<div class="uk-width-3-5">-->
+                <!--<div style="width:100%; border: 1px solid #dedede" *ngIf="serviceMapOptions">-->
+                  <!--<chart type="Map" [options]="serviceMapOptions"></chart>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--&lt;!&ndash;<div class="uk-width-2-5">&ndash;&gt;-->
+                <!--&lt;!&ndash;<dl class="uk-description-list">&ndash;&gt;-->
+                  <!--&lt;!&ndash;<ng-container *ngIf="richResource.placeNames && richResource.placeNames.length>0">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<dt class="">Places</dt>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<dd>&ndash;&gt;-->
+                      <!--&lt;!&ndash;<span>{{richResource.placeNames | join:", "}}</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</dd>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<ng-container *ngIf="richResource.languageNames && richResource.languageNames.length>0">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<dt class="">Languages</dt>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<dd>&ndash;&gt;-->
+                      <!--&lt;!&ndash;<span>{{richResource.languageNames | join:", "}}</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</dd>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+                <!--&lt;!&ndash;</dl>&ndash;&gt;-->
+              <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--</div>-->
+          <!--</div>-->
+
+          <!--<div class="uk-margin-top">-->
+            <!--<dl class="uk-description-list">-->
+              <!--<dt class="">Use cases</dt>-->
+              <!--<dd>{{resource.useCases | join:", "}}</dd>-->
+              <!--&lt;!&ndash;<dd><read-more [maxHeight]="90">{{resource.useCases | join:", "}}</read-more></dd>&ndash;&gt;-->
+            <!--</dl>-->
+          <!--</div>-->
+
+          <!--&lt;!&ndash;FUNDING&ndash;&gt; &lt;!&ndash; FIXME &ndash;&gt;-->
+          <!--&lt;!&ndash;          <div *ngIf="richResource.fundedByNames" class="uk-margin-medium-top">&ndash;&gt;-->
+          <!--&lt;!&ndash;            <h2 class="section-heading uk-h2">Funding</h2>&ndash;&gt;-->
+          <!--&lt;!&ndash;            <dl class="uk-description-list">&ndash;&gt;-->
+          <!--&lt;!&ndash;              &lt;!&ndash;<dt class="uk-margin-small-bottom">Funding sources</dt>&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;              <dd>{{richResource.fundedByNames}}</dd>&ndash;&gt;-->
+          <!--&lt;!&ndash;            </dl>&ndash;&gt;-->
+          <!--&lt;!&ndash;          </div>&ndash;&gt;-->
+
+          <!--&lt;!&ndash;REQUIRED/RELATED&ndash;&gt;-->
+          <!--<div class="uk-margin-medium-top uk-child-width-1-3@m" uk-grid>-->
+            <!--<div *ngIf="resource.requiredResources && (resource.requiredResources.length > 0) && services.length !== 0">-->
+              <!--<h2 class="section-heading uk-h2 uk-width-1-1@m">Required resources</h2>-->
+              <!--&lt;!&ndash;<div class="infoTitle uk-margin-small-right">Required resources </div>&ndash;&gt;-->
+              <!--<div *ngFor="let requiredService of resource.requiredResources">-->
+                <!--<a (click)="this.router.service(requiredService)">{{getPrettyService(requiredService).service.name}}</a>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div *ngIf="resource.relatedResources && resource.relatedResources.length>0 && services.length !== 0">-->
+              <!--<h2 class="section-heading uk-h2 uk-width-1-1@m">Related resources</h2>-->
+              <!--&lt;!&ndash;<div class="infoTitle uk-margin-small-right">Related resources</div>&ndash;&gt;-->
+              <!--<div *ngFor="let relatedService of resource.relatedResources">-->
+                <!--<a (click)="this.router.service(relatedService)">{{getPrettyService(relatedService).service.name}}</a>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div *ngIf="resource.relatedPlatforms">-->
+              <!--<h2 class="section-heading uk-h2 uk-width-1-1@m">Related platforms</h2>-->
+              <!--&lt;!&ndash;Related Platforms&ndash;&gt;-->
+            <!--</div>-->
+          <!--</div>-->
+
+        <!--</div>-->
+        <!--<div class="uk-width-1-4">-->
+
+          <!--<div class="uk-card uk-card-body uk-card-primary sideInfo">-->
+            <!--<h2 class="uk-h2 sidebarHeaders">Contractual Info</h2>-->
+            <!--<div *ngIf="resource.pricing" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{resource.pricing}}">-->
+                <!--Price<i class="fa fa-long-arrow-right uk-margin-small-left"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+            <!--<div *ngIf="resource.serviceLevel" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{resource.serviceLevel}}">-->
+                <!--Resource level agreement<i class="fa fa-long-arrow-right uk-margin-small-left"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+            <!--<ng-container *ngIf="resource.termsOfUse">-->
+              <!--<div class="uk-margin-small-bottom">-->
+                <!--<a class="uk-margin-small-right" target="_blank" href="{{resource.termsOfUse}}">-->
+                  <!--Terms of use<i class="fa fa-long-arrow-right uk-margin-small-left"></i>-->
+                <!--</a>-->
+              <!--</div>-->
+            <!--</ng-container>-->
+            <!--<div class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{resource.privacyPolicy}}">-->
+                <!--Privacy policy<i class="fa fa-long-arrow-right uk-margin-small-left"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+            <!--<div class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{resource.accessPolicy}}">-->
+                <!--Access policy<i class="fa fa-long-arrow-right uk-margin-small-left"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+            <!--<div class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{resource.paymentModel}}">-->
+                <!--Payment model<i class="fa fa-long-arrow-right uk-margin-small-left"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+          <!--</div>-->
+
+          <!--<div class="uk-card uk-card-body uk-card-primary sideInfo uk-margin-top">-->
+            <!--<h2 class="uk-h2 sidebarHeaders">Support</h2>-->
+            <!--<div *ngIf="resource.userManual" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{resource.userManual}}">-->
+                <!--User Manual<i class="fa fa-long-arrow-right uk-margin-small-left"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+            <!--<div *ngIf="resource.trainingInformation" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{resource.trainingInformation}}">-->
+                <!--Training<i class="fa fa-long-arrow-right uk-margin-small-left"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+            <!--<div *ngIf="resource.helpdeskPage" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{resource.helpdeskPage}}">-->
+                <!--Helpdesk Page<i class="fa fa-long-arrow-right uk-margin-small-left"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+            <!--<div *ngIf="resource.helpdeskEmail" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{resource.helpdeskEmail}}">-->
+                <!--Helpdesk e-mail<i class="fa fa-long-arrow-right uk-margin-small-left"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+            <!--<div *ngIf="resource.statusMonitoring" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{resource.statusMonitoring}}">-->
+                <!--Status Monitoring<i class="fa fa-long-arrow-right uk-margin-small-left"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+
+            <!--<div *ngIf="resource.maintenance" class="uk-margin-small-bottom">-->
+              <!--<a class="uk-margin-small-right" target="_blank" href="{{resource.maintenance}}">-->
+                <!--Maintenance<i class="fa fa-long-arrow-right uk-margin-small-left"></i>-->
+              <!--</a>-->
+            <!--</div>-->
+          <!--</div>-->
+
+          <!--<div class="uk-card uk-card-body uk-card-primary sideInfo uk-margin-top">-->
+            <!--<h2 class="uk-h2 sidebarHeaders">Contact</h2>-->
+            <!--&lt;!&ndash;<dl class="uk-description-list">&ndash;&gt;-->
+              <!--&lt;!&ndash;<dt class="">Owner</dt> &lt;!&ndash; FIXME &ndash;&gt;&ndash;&gt;-->
+              <!--&lt;!&ndash;<dd>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="uk-margin-small-right" target="_blank" href="{{resource.ownerContact}}">&ndash;&gt;-->
+                  <!--&lt;!&ndash;{{resource.ownerName}}<i class="fa fa-envelope uk-margin-small-left"></i>&ndash;&gt;-->
+                <!--&lt;!&ndash;</a>&ndash;&gt;-->
+              <!--&lt;!&ndash;</dd>&ndash;&gt;-->
+            <!--&lt;!&ndash;</dl>&ndash;&gt;-->
+          <!--</div>-->
+
+          <!--&lt;!&ndash;<h4 class="uk-h4 sidebarHeaders uk-margin-medium-top">Version</h4>&ndash;&gt;-->
+          <!--&lt;!&ndash;<hr class="customDivider">&ndash;&gt;-->
+          <!--<div class="uk-margin-top">-->
+            <!--<dl class="uk-description-list">-->
+              <!--<ng-container *ngIf="resource.version">-->
+                <!--<dt class="infoTitle uk-margin-small-right">Version</dt>-->
+                <!--<dd class="infoDescription">{{resource.version}}</dd>-->
+              <!--</ng-container>-->
+              <!--<ng-container *ngIf="resource.lastUpdate">-->
+                <!--<dt class="infoTitle uk-margin-small-right">Last update</dt>-->
+                <!--<dd class="infoDescription">{{resource.lastUpdate | date }}</dd>-->
+              <!--</ng-container>-->
+              <!--&lt;!&ndash;<ng-container>&ndash;&gt;-->
+                <!--&lt;!&ndash;<dt class="infoTitle uk-margin-small-right">Phase</dt>&ndash;&gt;-->
+                <!--&lt;!&ndash;<dd class="infoDescription">{{richResource.phaseName}}</dd>&ndash;&gt;-->
+              <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+              <!--&lt;!&ndash;<ng-container>&ndash;&gt;-->
+                <!--&lt;!&ndash;<dt class="infoTitle uk-margin-small-right">TRL</dt>&ndash;&gt;-->
+                <!--&lt;!&ndash;<dd class="infoDescription">{{richResource.trlName}}</dd>&ndash;&gt;-->
+              <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+              <!--<ng-container *ngIf="resource.changeLog">-->
+                <!--<dt class="infoTitle uk-margin-small-right">What's new</dt>-->
+                <!--<dd class="infoDescription">{{resource.changeLog}}</dd>-->
+              <!--</ng-container>-->
+              <!--<ng-container *ngIf="resource.certifications">-->
+                <!--<dt class="infoTitle uk-margin-small-right">Certifications</dt>-->
+                <!--<dd class="infoDescription">{{resource.certifications}}</dd>-->
+              <!--</ng-container>-->
+              <!--<ng-container *ngIf="resource.standards">-->
+                <!--<dt class="infoTitle uk-margin-small-right">Standards</dt>-->
+                <!--<dd class="infoDescription">{{resource.standards}}</dd>-->
+              <!--</ng-container>-->
+            <!--</dl>-->
+
+          <!--</div>-->
+
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+</div>
+
