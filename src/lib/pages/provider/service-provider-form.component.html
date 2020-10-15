@@ -205,13 +205,13 @@
                             <label class="uk-form-label uk-text-right">
                               {{ legalEntityDesc.label + (legalEntityDesc.mandatory ? ' (*)' : '')}}
                             </label>
-                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{legalEntityDesc.desc}}</div>
+<!--                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{legalEntityDesc.desc}}</div>-->
                             <div class="uk-form-controls uk-margin-medium-top">
                               <label>
+                                <span class="uk-form-description uk-margin-small-right">Is the Provider a Legal Entity?</span>
                                 <input class="uk-checkbox" type="checkbox" id="legalEntityYes" formControlName="legalEntity" value="true"
                                        (input)="this.newProviderForm.get('legalStatus').setValue('')"
                                        [checked]="this.newProviderForm.get('legalEntity').value == true && edit">
-                                <span class="uk-margin-small-left">The organisation I am registering is an independent legal entity</span>
                               </label>
                             </div>
                           </div>
