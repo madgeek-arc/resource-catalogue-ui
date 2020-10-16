@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavigationService} from '../../../lib/services/navigation.service';
 import {SearchQuery} from '../../../lib/domain/search-query';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-become-a-provider',
@@ -8,6 +9,8 @@ import {SearchQuery} from '../../../lib/domain/search-query';
   styleUrls: ['./become-a-provider.component.css']
 })
 export class BecomeAProviderComponent {
+
+  serviceORresource = environment.serviceORresource;
 
   constructor(public router: NavigationService) {
   }
