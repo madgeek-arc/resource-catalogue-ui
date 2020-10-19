@@ -136,7 +136,7 @@
                     <div class="uk-flex uk-flex-middle uk-flex-between">
 
                       <div class="resultsInfo">
-                        <span class="number">{{total}}</span> RESOURCE PROVIDERS, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+                        <span class="number">{{total}}</span> {{serviceORresource | uppercase}} PROVIDERS, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
                       </div>
 
                       <ul class="uk-pagination" uk-margin>
@@ -304,7 +304,7 @@
       <p *ngIf="selectedProvider.status === newStatus">
         {{ ((selectedProvider.status === 'approved') && !pushedApprove) ? 'The resource provider will be deactivated.' :
         (((selectedProvider.status === 'approved') && pushedApprove) ? 'The resource provider will be activated.' :
-          'The RP will be prompted to update the resource template.')}}
+          'The Provider will be prompted to update the resource template.')}}
       </p>
     </div>
     <button class="uk-button uk-button-primary" type="button" (click)="statusChangeAction()">Proceed</button>

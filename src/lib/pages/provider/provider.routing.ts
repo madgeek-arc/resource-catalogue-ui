@@ -11,6 +11,7 @@ import {ServiceEditComponent} from '../provider-resources/service-edit.component
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
 import {ProviderFormToPdfComponent} from './provider-form-to-pdf/provider-form-to-pdf.component';
 import {ResourceFormToPdfComponent} from '../provider-resources/resource-form-to-pdf/resource-form-to-pdf.component';
+import {environment} from '../../../environments/environment';
 
 const providerRoutes: Routes = [
 
@@ -60,7 +61,7 @@ const providerRoutes: Routes = [
     component: PendingServicesComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'Draft Resources'
+      breadcrumb: 'Draft ' + environment.serviceORresource + 's'
     }
   },
   {
@@ -68,7 +69,7 @@ const providerRoutes: Routes = [
     component: AddFirstServiceComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'Add Resource Template'
+      breadcrumb: 'Add ' + environment.serviceORresource + ' Template'
     }
   },
   {
@@ -76,7 +77,7 @@ const providerRoutes: Routes = [
     component: AddFirstServiceComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'Edit Resource Template'
+      breadcrumb: 'Edit ' + environment.serviceORresource + ' Template'
     }
   },
   {
@@ -84,7 +85,7 @@ const providerRoutes: Routes = [
     component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'Edit Draft Resource'
+      breadcrumb: 'Edit Draft ' + environment.serviceORresource
     }
   },
   {
@@ -92,7 +93,7 @@ const providerRoutes: Routes = [
     component: ServiceUploadComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'Add Resource'
+      breadcrumb: 'Add ' + environment.serviceORresource
     }
   },
   {
@@ -100,7 +101,7 @@ const providerRoutes: Routes = [
     component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'Edit Resource'
+      breadcrumb: 'Edit ' + environment.serviceORresource
     }
   },
   {

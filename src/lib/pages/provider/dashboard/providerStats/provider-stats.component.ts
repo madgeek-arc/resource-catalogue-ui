@@ -10,6 +10,7 @@ import { ServiceProviderService } from '../../../../services/service-provider.se
 import {InfraService, Provider, Service} from '../../../../domain/eic-model';
 import { map } from 'rxjs/operators';
 import {Paging} from '../../../../domain/paging';
+import {environment} from '../../../../../environments/environment';
 
 declare var UIkit: any;
 
@@ -21,6 +22,9 @@ declare var UIkit: any;
 })
 
 export class ProviderStatsComponent implements OnInit {
+
+  serviceORresource = environment.serviceORresource;
+
   providerId: string;
   statisticPeriod: string;
   provider: Provider;
@@ -565,7 +569,7 @@ export class ProviderStatsComponent implements OnInit {
         height: (3 / 4 * 100) + '%' // 3:4 ratio
       },
       title: {
-        text: 'Resource distribution in categories'
+        text: environment.serviceORresource + ' distribution in categories'
       },
       xAxis: {
         categories: categories,
@@ -611,7 +615,7 @@ export class ProviderStatsComponent implements OnInit {
         height: (3 / 4 * 100) + '%' // 3:4 ratio
       },
       title: {
-        text: 'Resource distribution in scientific domains'
+        text: environment.serviceORresource + ' distribution in scientific domains'
       },
       xAxis: {
         categories: categories,
@@ -657,7 +661,7 @@ export class ProviderStatsComponent implements OnInit {
         height: (3 / 4 * 100) + '%' // 3:4 ratio
       },
       title: {
-        text: 'Resource distribution in target users'
+        text: environment.serviceORresource + ' distribution in target users'
       },
       xAxis: {
         categories: categories,
@@ -703,7 +707,7 @@ export class ProviderStatsComponent implements OnInit {
         height: (3 / 4 * 100) + '%' // 3:4 ratio
       },
       title: {
-        text: 'Resource distribution in access modes'
+        text: environment.serviceORresource + ' distribution in access modes'
       },
       xAxis: {
         categories: categories,
@@ -749,7 +753,7 @@ export class ProviderStatsComponent implements OnInit {
         height: (3 / 4 * 100) + '%' // 3:4 ratio
       },
       title: {
-        text: 'Resource distribution in access types'
+        text: environment.serviceORresource + ' distribution in access types'
       },
       xAxis: {
         categories: categories,
@@ -795,7 +799,7 @@ export class ProviderStatsComponent implements OnInit {
         height: (3 / 4 * 100) + '%' // 3:4 ratio
       },
       title: {
-        text: 'Resource distribution in order types'
+        text: environment.serviceORresource + ' distribution in order types'
       },
       xAxis: {
         categories: categories,

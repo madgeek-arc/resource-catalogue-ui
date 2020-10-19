@@ -18,6 +18,7 @@ declare var UIkit: any;
 })
 export class ServiceProvidersListComponent implements OnInit {
   url = environment.API_ENDPOINT;
+  serviceORresource = environment.serviceORresource;
 
   formPrepare = {
     query: '',

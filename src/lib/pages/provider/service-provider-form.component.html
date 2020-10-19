@@ -7,7 +7,7 @@
         <div class="titleAndActionsBar">
           <div class="">
             <div class="pageTitle">
-              {{disable ? ' ' : edit ? ' Update' : ' Add New'}} Resource Provider {{disable ? 'Info' : ''}}
+              {{disable ? ' ' : edit ? ' Update' : ' Add New'}} {{serviceORresource}} Provider {{disable ? 'Info' : ''}}
             </div>
             <div class="providerName uk-margin-small-top">
               <strong>{{providerName!='' ? providerName : 'Provider Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
@@ -23,12 +23,12 @@
 
         <!--TODO where to put logoURL and modal to add id-->
         <!--<h1 class="uk-h3">-->
-          <!--<a (click)="showLogoUrlModal()" title="Click to add the url with the Resource Provider Logo">-->
+          <!--<a (click)="showLogoUrlModal()" title="Click to add the url with the {{serviceORresource}} Provider Logo">-->
             <!--<img class="el-image uk-border-rounded"-->
                  <!--src="{{(newProviderForm && newProviderForm.get('logo').value) ? newProviderForm.get('logo').value-->
                  <!--: 'src/lib/assets/images/broken_image-black-48dp.svg'}}"-->
                  <!--width="70">-->
-          <!--</a>{{disable ? ' ' : edit ? ' Update' : ' Add New'}} Resource Provider {{disable ? 'Info' : ''}}-->
+          <!--</a>{{disable ? ' ' : edit ? ' Update' : ' Add New'}} {{serviceORresource}} Provider {{disable ? 'Info' : ''}}-->
         <!--</h1>-->
 
 <!--        &lt;!&ndash; TOP HELP CONTENT &ndash;&gt;-->
@@ -969,9 +969,9 @@
                         <li>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right">Administrators (*)</label>
-                            <div *ngIf="!edit" class="uk-width-9-10"><i>An administrator for managing the RP information in {{projectName}} will be added using your user information.</i></div>
-                            <div class="uk-width-9-10"><i>An administrator has full edit privileges for the provider’s information via the web and the API (add a new resource,
-                              update information regarding the provider’s organization and resources, activate or delete a resource, add or remove administrators and issue tokens for API use).</i></div>
+                            <div *ngIf="!edit" class="uk-width-9-10"><i>An administrator for managing the Provider information in {{projectName}} will be added using your user information.</i></div>
+                            <div class="uk-width-9-10"><i>An administrator has full edit privileges for the provider’s information via the web and the API (add a new {{serviceORresource | lowercase}},
+                              update information regarding the provider’s organization and {{serviceORresource | lowercase}}s, activate or delete a {{serviceORresource | lowercase}}, add or remove administrators and issue tokens for API use).</i></div>
                             <div *ngIf="newProviderForm.get('users').value" class="uk-form-controls uk-margin-top">
                               <div formArrayName="users" *ngFor="let user of usersArray.controls; let i = index">
                                 <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
@@ -1067,7 +1067,7 @@
 <div id="modal-consent" class="uk-flex-top" uk-modal="bg-close: false; esc-close: false;">
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
 
-    <div class="uk-margin-medium-bottom">In order to be able to register a resource provider to EOSC you need to agree to the following: </div>
+    <div class="uk-margin-medium-bottom">In order to be able to register a {{serviceORresource | lowercase}} provider to EOSC you need to agree to the following: </div>
 
     <div class="uk-margin-medium-bottom">
 <!--      <div class="uk-form-controls uk-margin-bottom">-->
@@ -1088,7 +1088,7 @@
         <label>
           <input class="uk-checkbox" type="checkbox" id="authorizedRepresentative"  value="true"
                  (change)="toggleTerm('authorizedRepresentative')">
-          <span class="uk-margin-small-left">I assert that I am an authorized representative of this Resource Provider</span>
+          <span class="uk-margin-small-left">I assert that I am an authorized representative of this {{serviceORresource}} Provider</span>
         </label>
       </div>
     </div>

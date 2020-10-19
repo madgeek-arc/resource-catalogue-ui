@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AuthenticationService} from '../../../../services/authentication.service';
 import {ResourceService} from '../../../../services/resource.service';
 import {NavigationService} from '../../../../services/navigation.service';
+import {environment} from '../../../../../environments/environment';
 
 
 @Component({
@@ -10,6 +11,8 @@ import {NavigationService} from '../../../../services/navigation.service';
   templateUrl: './resource-dashboard.component.html',
 })
 export class ResourceDashboardComponent implements OnInit {
+
+  serviceORresource = environment.serviceORresource;
 
   providerId: string;
   resourceId: string;

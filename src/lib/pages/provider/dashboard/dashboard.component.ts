@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +12,7 @@ import {ResourceService} from '../../../services/resource.service';
 export class DashboardComponent implements OnInit {
 
   providerId: string;
+  serviceORresource = environment.serviceORresource;
 
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,

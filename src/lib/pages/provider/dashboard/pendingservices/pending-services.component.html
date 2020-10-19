@@ -19,7 +19,7 @@
       </div>
 
       <div *ngIf="providerServices && providerServices.results.length === 0">
-        <p>No pending resources found</p>
+        <p>No pending {{serviceORresource | lowercase}}s found</p>
       </div>
 
       <div *ngIf="providerServices && providerServices.results.length > 0">
@@ -27,7 +27,7 @@
         <div class="uk-flex uk-flex-middle uk-flex-between">
 
           <div class="resultsInfo">
-            <span class="number">{{total}}</span> DRAFT RESOURCES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+            <span class="number">{{total}}</span> DRAFT {{serviceORresource | uppercase}}S, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
           </div>
 
           <ul class="uk-pagination" uk-margin>
@@ -57,10 +57,10 @@
                 <div class="uk-width-1-6">
                   <div class="action-buttons">
                     <button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">
-                      <i class="fa fa-pencil fa-lg"></i> Edit resource
+                      <i class="fa fa-pencil fa-lg"></i> Edit {{serviceORresource | lowercase}}
                     </button>
                     <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedService(providerService)">
-                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete resource
+                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete {{serviceORresource | lowercase}}
                     </button>
                   </div>
                 </div>
@@ -124,7 +124,7 @@
 
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body">
-    <h6 *ngIf="selectedService">Are you sure you want to delete the resource {{selectedService.service.name}}</h6>
+    <h6 *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} {{selectedService.service.name}}</h6>
     <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteService(selectedService.id)">Delete</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>

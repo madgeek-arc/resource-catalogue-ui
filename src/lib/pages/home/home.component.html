@@ -82,7 +82,7 @@
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
         <h1 class="uk-margin-medium uk-text-center uk-h2">
-          <span class="uk-text-background">Explore resources by Category</span>
+          <span class="uk-text-background">Explore {{serviceORresource | lowercase}}s by Category</span>
         </h1>
       </div>
     </div>
@@ -165,11 +165,11 @@
         <div class="uk-width-2-5@m uk-padding-remove-left">
           <div class="needService personas">
             <h3>
-              I need a resource to
+              I need a {{serviceORresource | lowercase}} to
             </h3>
             <div class="uk-margin-small-bottom">
               <a class="uk-margin-small-right" [routerLink]="['/search', {category : 'networking,compute,security'}]">Use
-                network, computing and security resources</a>
+                network, computing and security {{serviceORresource | lowercase}}s</a>
               <img src="lib/assets/images/icons/ic_link_arrow_right.svg">
             </div>
             <div class="uk-margin-small-bottom">

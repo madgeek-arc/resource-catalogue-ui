@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Provider, ProviderBundle} from '../../domain/eic-model';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {UpdateServiceProviderComponent} from './update-service-provider.component';
+import {environment} from '../../../environments/environment';
 
 declare var UIKit: any;
 
@@ -13,6 +14,7 @@ declare var UIKit: any;
 })
 
 export class ServiceProviderInfoComponent extends UpdateServiceProviderComponent implements OnInit {
+  serviceORresource = environment.serviceORresource;
   errorMessage: string;
   myProviders: ProviderBundle[] = [];
   provider: Provider;

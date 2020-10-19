@@ -3,12 +3,16 @@ import {ServiceProviderService} from '../../services/service-provider.service';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ProviderBundle} from '../../domain/eic-model';
 import {zip} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-my-service-providers',
   templateUrl: './my-service-providers.component.html'
 })
 export class MyServiceProvidersComponent implements OnInit {
+
+  serviceORresource = environment.serviceORresource;
+
   errorMessage: string;
   noProvidersMessage: string;
 

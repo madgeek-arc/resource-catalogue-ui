@@ -7,6 +7,7 @@ import {Service, Type, Vocabulary} from '../../domain/eic-model';
 import {SearchQuery} from '../../domain/search-query';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,8 @@ import {ResourceService} from '../../services/resource.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+
+  serviceORresource = environment.serviceORresource;
 
   public searchForm: FormGroup;
   public categories: Vocabulary[] = null;

@@ -3,6 +3,7 @@ import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {BrowseResults} from '../../domain/browse-results';
 import {Service, VocabularyTree} from '../../domain/eic-model';
+import {environment} from '../../../environments/environment';
 
 @Component({
     selector: 'app-browse-categories',
@@ -12,6 +13,7 @@ import {Service, VocabularyTree} from '../../domain/eic-model';
 export class BrowseCategoriesComponent implements OnInit {
   public errorMessage: string;
   public nestedStructure: VocabularyTree;
+  serviceORresource = environment.serviceORresource;
 
   constructor(private resourceService: ResourceService,
               public router: NavigationService) {}

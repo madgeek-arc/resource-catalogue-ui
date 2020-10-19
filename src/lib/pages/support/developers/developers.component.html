@@ -9,10 +9,10 @@
                            ﻿<div>
                                 <div id="api-endpoints" class="section">
                                     <h1>API endpoints</h1>
-                                    <p>This is a lightweight web service with a REST interface, which provides easy access to the {{project}} Resource Catalogue. An API (Application programming interface) is a protocol intended to be used as an interface by software components to communicate with each other. The complete <a href="/openapi">{{project}} API documentation</a> is a living document, generated using frameworks compliant with OpenAPI Specification 2.0.</p>
+                                    <p>This is a lightweight web service with a REST interface, which provides easy access to the {{project}} {{serviceORresource}} Catalogue. An API (Application programming interface) is a protocol intended to be used as an interface by software components to communicate with each other. The complete <a href="/openapi">{{project}} API documentation</a> is a living document, generated using frameworks compliant with OpenAPI Specification 2.0.</p>
                                     <p>If you find a bug, have any questions or suggestions, please <a class="reference external" href="https://docs.google.com/forms/d/1WOQDx2wRZRiw9jlA8l1A54tMki8FwUV8fs9iXO_kcmg">get in touch with us</a>.</p>
                                     <div id="list-resources" class="section">
-                                        <h2>List resources</h2>
+                                        <h2>List {{serviceORresource | lowercase}}s</h2>
                                         <p>Searches and Lists through all the available service resources in the registry. Can sort, filter, and search the results. The listing methods can be customized as follows. </p>
                                         <ul>
                                             <li>Returns a list of service resources, given name-value parameters.</li>
@@ -22,7 +22,7 @@
                                         <div id="example" class="section">
                                             <div class="highlight-bash">
                                                 <div class="highlight">
-                                                    <h2>Service Resource detail</h2>
+                                                    <h2>Service {{serviceORresource}} detail</h2>
                                                 </div>
                                             </div>
                                         </div>
@@ -35,7 +35,7 @@
                                         <!--<p><a href="_top">Obtains</a> information about avaliable versions of a single resource.</p>-->
                                     <!--</div>-->
                                     <!--<div id="resource-version-detail" class="section">-->
-                                        <!--<h2>Resource version detail</h2>-->
+                                        <!--<h2>{{serviceORresource}} version detail</h2>-->
                                         <!--<p><a href="_top">Obtains</a> information about a specified version of a single resource.</p>-->
                                     <!--</div>-->
                                     <div id="register-a-resource" class="section">
@@ -52,7 +52,7 @@
                                             <!--</div>-->
                                         <!--</div>-->
                                     </div>
-                                    <h2 id="validate-registering-a-resource" class="section">Update a resource</h2>
+                                    <h2 id="validate-registering-a-resource" class="section">Update a {{serviceORresource | lowercase}}</h2>
                                     <div id="update-a-resource" class="section">
                                         <p>Updates a service resource description.</p>
                                         <div class="admonition note">
@@ -61,7 +61,7 @@
                                         </div>
                                     </div>
                                     <div id="validate-updating-a-resource" class="section">
-                                        <h2>Validate registering \ updating a resource</h2>
+                                        <h2>Validate registering \ updating a {{serviceORresource | lowercase}}</h2>
                                         <p class="first admonition-title">Validates registering or updating a service resource without it actually being added \ modified in the registry.</p>
                                         <p class="first admonition-title"><strong><span style="text-decoration: underline;">Note</span></strong></p>
                                         <div class="admonition note">
@@ -70,10 +70,10 @@
                                     </div>
                                     <!--<div id="resource-versioning" class="section">-->
                                         <!--<h2>Resource versioning</h2>-->
-                                        <!--<p style="text-align: justify;">All service resources can have a specified version assigned to them. This allows for example new versions of resources to be registered while keeping an older version of the resource intact. The creation of a new version of a service resource is handled implicitly by the Update API call, based on the version information provided. A new version is created if the version number is different from what it is currently stored in the catalogue. All changes (generating a new version or not) are also logged in the revision history of the service.</p>-->
+                                        <!--<p style="text-align: justify;">All service resources can have a specified version assigned to them. This allows for example new versions of resources to be registered while keeping an older version of the {{serviceORresource | lowercase}} intact. The creation of a new version of a service resource is handled implicitly by the Update API call, based on the version information provided. A new version is created if the version number is different from what it is currently stored in the catalogue. All changes (generating a new version or not) are also logged in the revision history of the service.</p>-->
                                     <!--</div>-->
                                     <!--<div id="delete-a-resource" class="section">-->
-                                        <!--<h2>Delete a resource</h2>-->
+                                        <!--<h2>Delete a {{serviceORresource | lowercase}}</h2>-->
                                         <!--<p><a href="_top">Removes</a> a service resource from the registry.</p>-->
                                         <!--<div class="admonition note">-->
                                             <!--<p class="first admonition-title"><strong><span style="text-decoration: underline;">Note</span></strong></p>-->
@@ -108,7 +108,7 @@
                                     <!--<div id="log-in-obtain-token" class="section">&nbsp;</div>-->
                                     <!--<div id="get-user-information" class="section">-->
                                         <!--<h2>Get user information</h2>-->
-                                        <!--<p>Returns information about the logged in user account, including a list of registered resource (name, id, version, additionDate, lastUpdate)</p>-->
+                                        <!--<p>Returns information about the logged in user account, including a list of registered {{serviceORresource | lowercase}} (name, id, version, additionDate, lastUpdate)</p>-->
                                         <!--<div class="admonition note">-->
                                             <!--<p class="first admonition-title"><strong><span style="text-decoration: underline;">Note</span></strong></p>-->
                                             <!--<p class="last">This method requires the user to be authenticated. Learn how to <a class="reference internal" (click)="scrollTo('#login')"><span class="std std-ref">Log in / obtain token</span></a>.</p>-->

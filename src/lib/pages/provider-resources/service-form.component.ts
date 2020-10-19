@@ -24,6 +24,7 @@ declare var UIkit: any;
 })
 export class ServiceFormComponent implements OnInit {
   protected _marketplaceBaseURL = environment.marketplaceBaseURL;
+  serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   serviceName = '';
@@ -738,8 +739,8 @@ export class ServiceFormComponent implements OnInit {
   formPrepare(richService: RichService) {
 
     this.removeCategory(0);
-    if (richService.service.scientificDomains) {
-      for (let i = 0; i < richService.service.scientificDomains.length; i++) {
+    if (richService.service.categories) {
+      for (let i = 0; i < richService.service.categories.length; i++) {
         this.categoryArray.push(this.newCategory());
         this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.service.categories[i].category);
         this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.service.categories[i].subcategory);

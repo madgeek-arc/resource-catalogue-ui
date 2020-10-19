@@ -12,6 +12,7 @@ import {flatMap} from 'rxjs/operators';
 import {zip} from 'rxjs/internal/observable/zip';
 import {EmailService} from '../../../services/email.service';
 import {Paging} from '../../../domain/paging';
+import {environment} from '../../../../environments/environment';
 
 declare var UIkit: any;
 
@@ -21,6 +22,8 @@ declare var UIkit: any;
   styleUrls: ['../landing-page.component.css']
 })
 export class ServiceLandingPageComponent implements OnInit, OnDestroy {
+
+  serviceORresource = environment.serviceORresource;
 
   services: RichService[] = [];
   public richService: RichService;

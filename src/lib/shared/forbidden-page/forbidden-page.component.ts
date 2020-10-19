@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-forbidden-page',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./forbidden-page.component.css']
 })
 export class ForbiddenPageComponent implements OnInit {
+
+  serviceORresource = environment.serviceORresource;
 
   constructor() { }
 

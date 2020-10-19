@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
-import {RichService, Service, Vocabulary} from '../../domain/eic-model';
+import {RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Subscription} from 'rxjs';
 import {ResourceService} from '../../services/resource.service';
 import {ActivatedRoute} from '@angular/router';
@@ -12,11 +12,11 @@ import {NavigationService} from '../../services/navigation.service';
 })
 export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() resourceId: string;
+  // @Input() resourceId: string;
   @Input() resource: Service;
   @Input() vocabularies: Map<string, Vocabulary[]>;
 
-  public richResource: RichService;
+  // public richResource: RichService;
   public errorMessage: string;
 
   services: RichService[] = [];
@@ -85,6 +85,33 @@ export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
 
     console.log('this.vocabularies', this.vocabularies);
-    
+    if (this.vocabularies) {
+      this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
+      this.accessTypesVocabulary = this.vocabularies[Type.ACCESS_TYPE];
+      this.accessModesVocabulary = this.vocabularies[Type.ACCESS_MODE];
+      this.orderTypeVocabulary = this.vocabularies[Type.ORDER_TYPE];
+      this.phaseVocabulary = this.vocabularies[Type.LIFE_CYCLE_STATUS];
+      this.trlVocabulary = this.vocabularies[Type.TRL];
+      this.superCategoriesVocabulary = this.vocabularies[Type.SUPERCATEGORY];
+      this.categoriesVocabulary = this.vocabularies[Type.CATEGORY];
+      this.subCategoriesVocabulary = this.vocabularies[Type.SUBCATEGORY];
+      this.scientificDomainVocabulary = this.vocabularies[Type.SCIENTIFIC_DOMAIN];
+      this.scientificSubDomainVocabulary = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
+      this.fundingBodyVocabulary = this.vocabularies[Type.FUNDING_BODY];
+      this.fundingProgramVocabulary = this.vocabularies[Type.FUNDING_PROGRAM];
+      // this.placesVocabulary = this.vocabularies[Type.COUNTRY];
+      this.geographicalVocabulary = this.vocabularies[Type.COUNTRY];
+      this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
+      // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
+      // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
+    }
+  }
+
+  getNameFromVocabulary(vocabulary: Vocabulary[], id: string) {
+    console.log('resource  --> ', this.resource);
+    console.log('vocabulary  --> ', vocabulary);
+    console.log('id to find --> ', id);
+    console.log('return vocabulary by id --> ', vocabulary.find(x => x.id === id));
+    return vocabulary.find(x => x.id === id).name;
   }
 }

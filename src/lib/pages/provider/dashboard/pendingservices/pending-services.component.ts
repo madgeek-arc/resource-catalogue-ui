@@ -6,6 +6,7 @@ import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
+import {environment} from '../../../../../environments/environment';
 
 declare var UIkit: any;
 
@@ -15,6 +16,8 @@ declare var UIkit: any;
 })
 
 export class PendingServicesComponent implements OnInit {
+
+  serviceORresource = environment.serviceORresource;
 
   formPrepare = {
     from: '0'

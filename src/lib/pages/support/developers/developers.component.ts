@@ -1,4 +1,3 @@
-
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import * as util from 'util';
@@ -11,6 +10,7 @@ import {environment} from '../../../../environments/environment';
 })
 export class DevelopersComponent implements OnInit {
     public project = environment.projectName;
+    serviceORresource = environment.serviceORresource;
 
 
     constructor(private route: ActivatedRoute) {

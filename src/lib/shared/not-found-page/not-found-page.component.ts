@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-not-found-page',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./not-found-page.component.css']
 })
 export class NotFoundPageComponent implements OnInit {
+
+  serviceORresource = environment.serviceORresource;
 
   constructor() { }
 

@@ -19,7 +19,7 @@
             <div class="middle-box animated fadeInDown ">
               <div class="uk-grid uk-grid-margin-small">
                 <div class="serviceDetails uk-margin-small-bottom uk-text-right uk-width-1-2@m">
-                  <label class="uk-form-label">Resource Provider ID: </label>
+                  <label class="uk-form-label">{{serviceORresource}} Provider ID: </label>
                 </div>
                 <div class="serviceDetails uk-margin-small-bottom uk-text-center uk-width-1-2@m">
                   <span>{{provider.id}}</span>
@@ -50,13 +50,13 @@
                   <span>{{provider.contactInformation ? provider.contactInformation : '-'}}</span>
                 </div>
                 <div class="serviceDetails uk-margin-small-bottom uk-text-right uk-width-1-2@m">
-                  <label class="uk-form-label">Catalogue of Resources: </label>
+                  <label class="uk-form-label">Catalogue of {{serviceORresource}}s: </label>
                 </div>
                 <div class="serviceDetails uk-margin-small-bottom uk-text-center uk-width-1-2@m">
                   <span>{{provider.catalogueOfResources ? provider.catalogueOfResources : '-'}}</span>
                 </div>
                 <div class="serviceDetails uk-margin-small-bottom uk-text-right uk-width-1-2@m">
-                  <label class="uk-form-label">Public Description of Resources: </label>
+                  <label class="uk-form-label">Public Description of {{serviceORresource}}s: </label>
                 </div>
                 <div class="serviceDetails uk-margin-small-bottom uk-text-center uk-width-1-2@m">
                   <span>{{provider.publicDescOfResources ? provider.publicDescOfResources : '-'}}</span>

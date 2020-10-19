@@ -22,6 +22,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
   private _hasUserConsent = environment.hasUserConsent;
 
+  serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;

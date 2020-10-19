@@ -8,6 +8,7 @@ import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {URLParameter} from '../../domain/url-parameter';
 import {Subscription} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-top-menu',
@@ -16,6 +17,8 @@ import {Subscription} from 'rxjs';
   encapsulation: ViewEncapsulation.None
 })
 export class TopMenuComponent implements OnInit, OnDestroy {
+
+  serviceORresource = environment.serviceORresource;
 
   public searchForm: FormGroup;
 
