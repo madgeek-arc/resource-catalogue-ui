@@ -13,22 +13,22 @@
                                     <p>If you find a bug, have any questions or suggestions, please <a class="reference external" href="https://docs.google.com/forms/d/1WOQDx2wRZRiw9jlA8l1A54tMki8FwUV8fs9iXO_kcmg">get in touch with us</a>.</p>
                                     <div id="list-resources" class="section">
                                         <h2>List {{serviceORresource | lowercase}}s</h2>
-                                        <p>Searches and Lists through all the available service resources in the registry. Can sort, filter, and search the results. The listing methods can be customized as follows. </p>
+                                        <p>Searches and lists through all the available {{serviceORresource | lowercase}}s in the registry. Can sort, filter, and search the results. The listing methods can be customized as follows. </p>
                                         <ul>
-                                            <li>Returns a list of service resources, given name-value parameters.</li>
-                                            <li>Returns a list of service resources, organized by a given field, e.g., list all resources by category.</li>
-                                            <li>Returns a list of service resources given a set of serviceIDs. If a resource isn't found, null is returned instead.</li>
+                                            <li>Returns a list of {{serviceORresource | lowercase}}s, given name-value parameters.</li>
+                                            <li>Returns a list of {{serviceORresource | lowercase}}s, organized by a given field, e.g., list all resources by category.</li>
+                                            <li>Returns a list of {{serviceORresource | lowercase}}s given a set of serviceIDs. If a resource isn't found, null is returned instead.</li>
                                         </ul>
                                         <div id="example" class="section">
                                             <div class="highlight-bash">
                                                 <div class="highlight">
-                                                    <h2>Service {{serviceORresource}} detail</h2>
+                                                    <h2>{{serviceORresource}} detail</h2>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div id="resource-detail" class="section">
-                                        <p>Obtains information about a single service resource.</p>
+                                        <p>Obtains information about a single {{serviceORresource | lowercase}}.</p>
                                     </div>
                                     <!--<div id="list-resource-versions" class="section">-->
                                         <!--<h2>List resource versions</h2>-->
@@ -39,8 +39,8 @@
                                         <!--<p><a href="_top">Obtains</a> information about a specified version of a single resource.</p>-->
                                     <!--</div>-->
                                     <div id="register-a-resource" class="section">
-                                        <h2>Register a new service resource</h2>
-                                        <p>Registers a new service resource in the {{project}} Catalogue.</p>
+                                        <h2>Register a new {{serviceORresource | lowercase}}</h2>
+                                        <p>Registers a new {{serviceORresource | lowercase}} in the {{project}} Catalogue.</p>
                                         <div class="admonition note">
                                             <p class="first admonition-title"><span style="text-decoration: underline;"><strong>Note</strong></span></p>
                                             <p class="last">This method requires the user to be authenticated. Learn how to <a class="reference internal" (click)="scrollTo('#login')"><span class="std std-ref">obtain and use API token</span></a>.</p>
@@ -54,7 +54,7 @@
                                     </div>
                                     <h2 id="validate-registering-a-resource" class="section">Update a {{serviceORresource | lowercase}}</h2>
                                     <div id="update-a-resource" class="section">
-                                        <p>Updates a service resource description.</p>
+                                        <p>Updates a {{serviceORresource | lowercase}} description.</p>
                                         <div class="admonition note">
                                             <p class="first admonition-title"><strong><span style="text-decoration: underline;">Note</span></strong></p>
                                             <p class="last">This method requires the user to be authenticated. Learn how to <a class="reference internal" (click)="scrollTo('#login')"><span class="std std-ref">obtain and use API token</span></a>.</p>
@@ -62,7 +62,7 @@
                                     </div>
                                     <div id="validate-updating-a-resource" class="section">
                                         <h2>Validate registering \ updating a {{serviceORresource | lowercase}}</h2>
-                                        <p class="first admonition-title">Validates registering or updating a service resource without it actually being added \ modified in the registry.</p>
+                                        <p class="first admonition-title">Validates registering or updating a {{serviceORresource | lowercase}} without it actually being added \ modified in the registry.</p>
                                         <p class="first admonition-title"><strong><span style="text-decoration: underline;">Note</span></strong></p>
                                         <div class="admonition note">
                                             <p class="last">This method requires the user to be authenticated. Learn how to <a class="reference internal" (click)="scrollTo('#login')"><span class="std std-ref">obtain and use API token</span></a>.</p>
@@ -82,7 +82,7 @@
                                     <!--</div>-->
                                     <div id="list-used-terms" class="section">
                                         <h2 id="login">Obtain and Use API Token</h2>
-                                        <p>You can obtain an API token for the secured methods <a href="https://aai.eosc-portal.eu/eic-api/token.php" target="_blank">here</a>.<br>
+                                        <p>You can obtain an API token for the secured methods <a href="{{apiTokenEndpoint}}" target="_blank">here</a>.<br>
                                         The obtained token can be used in a bearer authorization header like this: 'Authorization: Bearer [token]'<br>
                                         To use the token in the <a href="../openapi">api page</a>, you must click 'Authorize' and fill in the apiKey field with the following: 'Bearer [token]'.</p>
                                         <!--<p>Logs the user in and returns an authentication token. To use edit methods of the REST API, one needs an account with eInfraCentral. A subsequent POST request to {{this.getModifiedURL(8080)}}/login with a JSON body containing fields email and password issues a jwt cookie. Any subsequent request to the API using that cookie, is authenticated.</p>-->
