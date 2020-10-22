@@ -208,7 +208,7 @@
 <!--                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{legalEntityDesc.desc}}</div>-->
                             <div class="uk-form-controls uk-margin-medium-top">
                               <label>
-                                <span class="uk-form-description uk-margin-small-right">Is the Provider a Legal Entity?</span>
+                                <span class="uk-form-description uk-margin-small-right">{{legalEntityDesc.desc}}</span>
                                 <input class="uk-checkbox" type="checkbox" id="legalEntityYes" formControlName="legalEntity" value="true"
                                        (input)="this.newProviderForm.get('legalStatus').setValue('')"
                                        [checked]="this.newProviderForm.get('legalEntity').value == true && edit">
@@ -371,7 +371,8 @@
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
-                              <i><small>Suggested length is 20 characters</small></i>
+                              <i><small>Add one Tag in each entry. For multi-word keywords, please use '-' to concatenate words. <br>
+                                Suggested length is 20 characters</small></i>
                               <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                 <a class="add-new-element" (click)="push('tags', false)">
                                   <i class="fa fa-plus" aria-hidden="true"></i> Add {{providerTagsDesc.label}}

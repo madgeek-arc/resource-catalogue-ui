@@ -49,7 +49,7 @@
 <!--              <div class="uk-form-description uk-margin-top uk-width-9-10">{{legalEntityDesc.desc}}</div>-->
               <div class="uk-form-controls uk-margin-medium-top">
                 <label>
-                  <span class="uk-form-description uk-margin-small-right">Is the Provider a Legal Entity?</span>
+                  <span class="uk-form-description uk-margin-small-right">{{legalEntityDesc.desc}}</span>
                   <input class="uk-checkbox" type="checkbox" id="legalEntityYes" formControlName="legalEntity" value="true"
                          [checked]="this.newProviderForm.get('legalEntity').value == true && edit">
                 </label>

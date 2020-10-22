@@ -573,9 +573,9 @@
                           </div>
                           <div formArrayName="accessTypes" class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="accessTypes">
-                              {{accessTypesDesc.label + (accessTypesDesc.mandatory ? ' (*)' : '')}}
+                              {{accessTypeDesc.label + (accessTypeDesc.mandatory ? ' (*)' : '')}}
                             </label>
-                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{accessTypesDesc.desc}}</div>
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{accessTypeDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('accessTypes').controls; let i=index" class="uk-margin-bottom">
                                 <select id="accessTypes" class="uk-input uk-select uk-animation-slide-top-small uk-width-9-10" [formControlName]="i"
@@ -594,17 +594,17 @@
                                 </a>
                               </div>
                               <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                                <a class="add-new-element" (click)="push('accessTypes', accessTypesDesc.mandatory)">
-                                  <i class="fa fa-plus" aria-hidden="true"></i> Add {{accessTypesDesc.label}}
+                                <a class="add-new-element" (click)="push('accessTypes', accessTypeDesc.mandatory)">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add {{accessTypeDesc.label}}
                                 </a>
                               </div>
                             </div>
                           </div>
                           <div formArrayName="accessModes" class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right">
-                              {{accessModesDesc.label + (accessModesDesc.mandatory ? ' (*)' : '')}}
+                              {{accessModeDesc.label + (accessModeDesc.mandatory ? ' (*)' : '')}}
                             </label>
-                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{accessModesDesc.desc}}</div>
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{accessModeDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('accessModes').controls; let i=index" class="uk-margin-bottom">
                                 <select class="uk-input uk-select uk-animation-slide-top-small uk-width-9-10" [formControlName]="i"
@@ -624,8 +624,8 @@
                                 </a>
                               </div>
                               <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                                <a class="add-new-element" (click)="push('accessModes', accessModesDesc.mandatory)">
-                                  <i class="fa fa-plus" aria-hidden="true"></i> Add {{accessModesDesc.label}}
+                                <a class="add-new-element" (click)="push('accessModes', accessModeDesc.mandatory)">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add {{accessModeDesc.label}}
                                 </a>
                               </div>
                             </div>
@@ -645,13 +645,14 @@
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
+                              <i><small>Add one Tag in each entry. For multi-word keywords, please use '-' to concatenate words. <br>
+                                Suggested length is 50 characters</small></i>
                               <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                 <a class="add-new-element" (click)="push('tags', tagsDesc.mandatory)">
                                   <i class="fa fa-plus" aria-hidden="true"></i> Add {{tagsDesc.label}}
                                 </a>
                               </div>
                             </div>
-                            <i><small>Suggested length is 50 characters</small></i>
                           </div>
                         </li>
                         <!--AVAILABILITY-->

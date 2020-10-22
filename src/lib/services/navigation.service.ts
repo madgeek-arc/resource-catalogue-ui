@@ -29,6 +29,10 @@ export class NavigationService {
       return this.router.navigate([`/dashboard/${providerId}/draft-resources`]);
     }
 
+    resourceDashboard(providerId: string, serviceId: string) {
+      return this.router.navigate([`/resource-dashboard/${providerId}/${serviceId}/stats`]);
+    }
+
     edit(id: string) {
         return this.router.navigate(['/edit', id]);
     }

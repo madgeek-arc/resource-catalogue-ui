@@ -16,6 +16,9 @@ declare var UIkit: any;
 })
 
 export class StatsComponent implements OnInit {
+
+  serviceORresource = environment.serviceORresource;
+
   providerId: string;
   provider: Provider;
   public errorMessage: string;
