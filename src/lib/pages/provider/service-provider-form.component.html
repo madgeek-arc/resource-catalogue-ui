@@ -54,6 +54,9 @@
 
               <div [ngClass]="{'blur-filter': showLoader}">
 
+                <div *ngIf="!edit" class="uk-alert uk-alert-primary">You are about to register a new {{serviceORresource}} Provider ({{projectName=='CatRIS' ? 'SP' : 'RP'}}).
+                  You will be able to register new {{serviceORresource | lowercase}}(s) when this process is completed and your {{projectName=='CatRIS' ? 'SP' : 'RP'}} is onboarded. For further information you may visit items under the ‘support’ menu.</div>
+
                 <div class="uk-margin-bottom uk-flex uk-flex-right">
                   <div>
                     <button class="uk-button uk-button-link" type="button">Do you need help?</button>
