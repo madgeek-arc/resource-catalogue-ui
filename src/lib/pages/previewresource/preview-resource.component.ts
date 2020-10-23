@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
-import {RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
+import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Subscription} from 'rxjs';
 import {ResourceService} from '../../services/resource.service';
 import {ActivatedRoute} from '@angular/router';
@@ -15,6 +15,7 @@ export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
   // @Input() resourceId: string;
   @Input() resource: Service;
   @Input() vocabularies: Map<string, Vocabulary[]>;
+  @Input() providers: Provider[];
 
   // public richResource: RichService;
   public errorMessage: string;
@@ -108,10 +109,10 @@ export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   getNameFromVocabulary(vocabulary: Vocabulary[], id: string) {
-    console.log('resource  --> ', this.resource);
-    console.log('vocabulary  --> ', vocabulary);
-    console.log('id to find --> ', id);
-    console.log('return vocabulary by id --> ', vocabulary.find(x => x.id === id));
     return vocabulary.find(x => x.id === id).name;
+  }
+
+  getNameForProvider(id: string) {
+    return this.providers.find(x => x.id === id).name;
   }
 }
