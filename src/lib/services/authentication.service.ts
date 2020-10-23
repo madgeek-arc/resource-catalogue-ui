@@ -51,10 +51,16 @@ export class AuthenticationService {
     // retrieve user information from cookie
     this.cookie = getCookie(this.cookieName);
     if (!this.isLoggedIn() && this.cookie !== null) {
-      // console.log(this.b64DecodeUnicode(getCookie(this.cookieName)));/
 
-      this.user = JSON.parse(this.b64DecodeUnicode(getCookie(this.cookieName).replace('\"', '')));
-      // console.log(this.user);
+      console.log('cookie before replace -> ', this.b64DecodeUnicode(getCookie(this.cookieName)));
+      const replaceExpression = '/\"/gi';
+      console.log('cookie after replace ->', this.b64DecodeUnicode(getCookie(this.cookieName).replace(replaceExpression, '')));
+
+
+      this.user = JSON.parse(this.b64DecodeUnicode(getCookie(this.cookieName).replace(replaceExpression, '')));
+
+      console.log(this.user);
+
       this.user.id = this.user.eduperson_unique_id;
 
       sessionStorage.setItem('userInfo', JSON.stringify(this.user));
