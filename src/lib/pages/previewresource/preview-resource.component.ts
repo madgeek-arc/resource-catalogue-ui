@@ -85,7 +85,7 @@ export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
 
-    console.log('this.vocabularies', this.vocabularies);
+    // console.log('this.vocabularies', this.vocabularies);
     if (this.vocabularies) {
       this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
       this.accessTypesVocabulary = this.vocabularies[Type.ACCESS_TYPE];
