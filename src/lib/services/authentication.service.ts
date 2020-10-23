@@ -52,14 +52,9 @@ export class AuthenticationService {
     this.cookie = getCookie(this.cookieName);
     if (!this.isLoggedIn() && this.cookie !== null) {
 
-      console.log('cookie before replace -> ', getCookie(this.cookieName));
-      // const replaceExpression = '/"/gi';
-      console.log('cookie after replace ->', getCookie(this.cookieName).replace(/"/gi, ''));
-
-
       this.user = JSON.parse(this.b64DecodeUnicode(getCookie(this.cookieName).replace(/"/gi, '')));
 
-      console.log(this.user);
+      // console.log(this.user);
 
       this.user.id = this.user.eduperson_unique_id;
 
