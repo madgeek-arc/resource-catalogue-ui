@@ -10,7 +10,7 @@ import {timer} from 'rxjs';
 
 @Injectable()
 export class AuthenticationService {
-  redirectURL = '/myServiceProviders';
+  redirectURL = '/provider/my';
   cookieName = 'info';
   user = null;
   cookie = null;
@@ -53,7 +53,7 @@ export class AuthenticationService {
     if (!this.isLoggedIn() && this.cookie !== null) {
       // console.log(this.b64DecodeUnicode(getCookie(this.cookieName)));/
 
-      this.user = JSON.parse(this.b64DecodeUnicode(getCookie(this.cookieName)));
+      this.user = JSON.parse(this.b64DecodeUnicode(getCookie(this.cookieName).replace('\"', '')));
       // console.log(this.user);
       this.user.id = this.user.eduperson_unique_id;
 
