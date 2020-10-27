@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CanActivateViaAuthGuard} from '../../../../services/can-activate-auth-guard.service';
 import {ServiceStatsComponent} from './service-stats.component';
 import {ResourceDashboardComponent} from './resource-dashboard.component';
+import {environment} from '../../../../../environments/environment';
 
 const resourceDashboardRoutes: Routes = [
   {
@@ -10,7 +11,7 @@ const resourceDashboardRoutes: Routes = [
     component: ResourceDashboardComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'Service dashboard'
+      breadcrumb: environment.serviceORresource + ' dashboard'
       // breadcrumb: 'My Service Providers',
       // link: '/provider/my'
     },
