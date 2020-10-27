@@ -207,7 +207,7 @@ export class ServiceProviderFormComponent implements OnInit {
     if (this.edit === false) {
       this.pushDomain();
       this.pushMerilDomain();
-      this.addDefaultUser();  // Admin
+      this.addDefaultUser();  // Admin + mainContact
       this.newProviderForm.get('legalEntity').setValue(false);
     }
 
@@ -261,7 +261,7 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
 
-    this.initUserBitSets();
+    this.initUserBitSets(); // Admin + mainContact
   }
 
   registerProvider(tempSave: boolean) {
@@ -617,9 +617,12 @@ export class ServiceProviderFormComponent implements OnInit {
     this.userInfo.given_name = this.authService.getUserProperty('given_name');
     this.userInfo.family_name = this.authService.getUserProperty('family_name');
     this.userInfo.email = this.authService.getUserProperty('email');
-    this.usersArray.controls[0].get('email').setValue(this.userInfo.email);
     this.usersArray.controls[0].get('name').setValue(this.userInfo.given_name);
     this.usersArray.controls[0].get('surname').setValue(this.userInfo.family_name);
+    this.usersArray.controls[0].get('email').setValue(this.userInfo.email);
+    this.newProviderForm.controls['mainContact'].get('firstName').setValue(this.userInfo.given_name);
+    this.newProviderForm.controls['mainContact'].get('lastName').setValue(this.userInfo.family_name);
+    this.newProviderForm.controls['mainContact'].get('email').setValue(this.userInfo.email);
   }
 
   /** <-- User Array**/
@@ -783,6 +786,9 @@ export class ServiceProviderFormComponent implements OnInit {
     this.handleBitSetsOfUsers(7, 12, 'name', 'users');
     this.handleBitSetsOfUsers(7, 13, 'surname', 'users');
     this.handleBitSetsOfUsers(7, 14, 'email', 'users');
+    this.handleBitSetsOfGroups(4, 9, 'firstName', 'mainContact');
+    this.handleBitSetsOfGroups(4, 10, 'lastName', 'mainContact');
+    this.handleBitSetsOfGroups(4, 11, 'email', 'mainContact');
   }
 
   updateLoaderPercentage() {
