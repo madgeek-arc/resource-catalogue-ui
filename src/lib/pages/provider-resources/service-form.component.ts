@@ -35,6 +35,7 @@ export class ServiceFormComponent implements OnInit {
   editMode: boolean;
   hasChanges = false;
   serviceForm: FormGroup;
+  provider: Provider;
   service: Service;
   serviceID: string;
   errorMessage = '';
@@ -402,6 +403,24 @@ export class ServiceFormComponent implements OnInit {
         this.providerId = this.route.snapshot.paramMap.get('providerId');
         this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
         this.handleBitSets(0, 1, 'resourceOrganisation');
+
+        if (!this.editMode) { // prefill main contact info
+          this.serviceProviderService.getServiceProviderById(this.providerId).subscribe(
+            res => { this.provider = res; },
+            err => { console.log(err); },
+            () => {
+              Object.entries(this.provider.mainContact).forEach(([key, val]) => {
+                if (val !== '' && val != null) {
+                  this.serviceForm.controls['mainContact'].get(key).setValue(val);
+                }
+              });
+              this.handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact');
+              this.handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact');
+              this.handleBitSetsOfGroups(5, 15, 'email', 'mainContact');
+            }
+          );
+        }
+
       }
     );
 
