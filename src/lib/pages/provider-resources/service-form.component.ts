@@ -1112,7 +1112,7 @@ export class ServiceFormComponent implements OnInit {
   /** <--URL Validation **/
 
   openPreviewModal() {
-    console.log('Resource ==>', this.serviceForm.value);
+    // console.log('Resource ==>', this.serviceForm.value);
     UIkit.modal('#modal-preview').show();
   }
 }
