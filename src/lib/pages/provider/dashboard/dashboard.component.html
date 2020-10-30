@@ -82,7 +82,9 @@
     <div class="uk-margin-medium-bottom">
       <p>If you proceed, a notification email will be sent to the portal admin(s).</p>
     </div>
-    <button class="uk-button uk-button-primary" type="button" (click)="requestProviderDeletion(this.providerId)">Proceed</button>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+      <button class="uk-button uk-button-primary" type="button" (click)="requestProviderDeletion(this.providerId)">Proceed</button>
+    </div>
   </div>
 </div>
