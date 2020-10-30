@@ -53,6 +53,11 @@
             </a>
           </li>
           <li>
+            <a (click)="showRequestDeletionModal()">
+              <img src="lib/assets/images/new-icons/trashcan.svg" class="uk-margin-small-right">  Delete Provider
+            </a>
+          </li>
+          <li>
             <a [routerLink]="['/developers']">
               <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Use API
             </a>
@@ -71,3 +76,13 @@
 </div>
 
 
+<div id="requestDeletionModal" uk-modal>
+  <div class="uk-modal-dialog uk-modal-header uk-h4">Request Provider Deletion</div>
+  <div class="uk-modal-dialog uk-modal-body">
+    <div class="uk-margin-medium-bottom">
+      <p>If you proceed, a notification email will be sent to the portal admin(s).</p>
+    </div>
+    <button class="uk-button uk-button-primary" type="button" (click)="requestProviderDeletion(this.providerId)">Proceed</button>
+    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+  </div>
+</div>

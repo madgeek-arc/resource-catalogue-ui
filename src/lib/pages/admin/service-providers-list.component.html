@@ -299,6 +299,7 @@
   </div>
 </div>
 
+
 <div id="actionModal" uk-modal>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
     <div *ngIf="selectedProvider">
@@ -322,14 +323,13 @@
   </div>
 </div>
 
-
 <div id="deletionModal" uk-modal>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
     <div *ngIf="selectedProvider">
       <h6>Are you sure you want to delete "{{ selectedProvider.provider.name }}" ?</h6>
       <p>Deleting a provider is an irreversible action.</p>
     </div>
-    <button class="uk-button uk-button-primary" type="button" (click)="deleteProvider(selectedProvider.provider.id)">Delete</button>
+    <button class="uk-button uk-button-danger" type="button" (click)="deleteProvider(selectedProvider.provider.id)">Delete</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>
   <div *ngIf="loadingMessage">

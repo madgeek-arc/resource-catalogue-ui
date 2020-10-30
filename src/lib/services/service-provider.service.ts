@@ -49,8 +49,12 @@ export class ServiceProviderService {
     return this.http.patch(this.base + `/provider/verifyProvider/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
+  requestProviderDeletion(id: string) {
+    return this.http.get(this.base + `/provider/requestProviderDeletion?providerId=${id}`, this.options);
+  }
+
   deleteServiceProvider(id: string) {
-    return this.http.delete(this.base + `/provider/${id}`,  this.options);
+    return this.http.delete(this.base + `/provider/${id}`, this.options);
   }
 
   getMyPendingProviders() {
