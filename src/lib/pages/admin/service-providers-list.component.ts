@@ -264,6 +264,32 @@ export class ServiceProvidersListComponent implements OnInit {
 
   }
 
+  showDeletionModal(provider: ProviderBundle) {
+    this.selectedProvider = provider;
+    if (this.selectedProvider) {
+      UIkit.modal('#deletionModal').show();
+    }
+  }
+
+  deleteProvider(providerId) {
+    this.serviceProviderService.deleteServiceProvider(providerId)
+      .subscribe(
+        res => {
+          UIkit.modal('#deletionModal').hide();
+          location.reload();
+          // this.getProviders();
+        },
+        err => {
+          UIkit.modal('#deletionModal').hide();
+          this.loadingMessage = '';
+          console.log(err);
+        },
+        () => {
+          this.loadingMessage = '';
+        }
+      );
+  }
+
   showActionModal(provider: ProviderBundle, newStatus: string, pushedApprove: boolean) {
     this.selectedProvider = provider;
     this.newStatus = newStatus;

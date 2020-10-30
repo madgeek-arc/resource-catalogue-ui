@@ -233,6 +233,10 @@
                                   <i class="fa fa-thumbs-down " aria-hidden="true"></i>
                                   {{ adminActionsMap[providerBundle.status].rejButtonTitle }}
                                 </button>
+                                <button (click)="showDeletionModal(providerBundle)"
+                                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
+                                  <i class="fa fa-recycle" aria-hidden="true"></i> Delete Provider
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -315,5 +319,23 @@
       {{ loadingMessage }}
     </div>
 <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
+
+<div id="deletionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
+    <div *ngIf="selectedProvider">
+      <h6>Are you sure you want to delete "{{ selectedProvider.provider.name }}" ?</h6>
+      <p>Deleting a provider is an irreversible action.</p>
+    </div>
+    <button class="uk-button uk-button-primary" type="button" (click)="deleteProvider(selectedProvider.provider.id)">Delete</button>
+    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+  </div>
+  <div *ngIf="loadingMessage">
+    <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+      {{ loadingMessage }}
+    </div>
+    <!--    <div class="whiteFilm"></div>-->
   </div>
 </div>
