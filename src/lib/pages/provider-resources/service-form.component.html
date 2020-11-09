@@ -14,7 +14,7 @@
           </div>
           <div class="">
             <!--<button class="uk-button uk-button-primary">Discard</button>-->
-            <button class="uk-button uk-button-primary uk-margin-left" (click)="openPreviewModal()">Preview</button>
+            <button *ngIf="projectName=='EOSC'" class="uk-button uk-button-primary uk-margin-left" (click)="openPreviewModal()">Preview</button>
             <button *ngIf="!editMode || pendingService" class="uk-button uk-button-primary uk-margin-left" (click)="this.onSubmit(this.service, true)">Save as draft</button>
             <button *ngIf="loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left" (click)="onSubmit(serviceForm.value, false)" type="submit">Submit</button>
           </div>
