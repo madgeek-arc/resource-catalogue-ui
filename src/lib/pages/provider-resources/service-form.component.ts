@@ -277,28 +277,25 @@ export class ServiceFormComponent implements OnInit {
 
     this.errorMessage = '';
 
-    /** Fill subcategory string array**/
     if (!tempSave) {
       this.getFieldAsFormArray('categories').controls = [];
+      this.getFieldAsFormArray('scientificDomains').controls = [];
     }
 
-    for (const category of this.categoryArray.controls) {
-      if (category.get('subcategory').value) {
-        this.getFieldAsFormArray('category').push(this.fb.control(category.get('category').value));
-        this.getFieldAsFormArray('subcategory').push(this.fb.control(category.get('subcategory').value));
-      }
-    }
-    /** Fill scientific subdomain string array**/
-    if (!tempSave) {
-    this.getFieldAsFormArray('scientificDomains').controls = [];
-    }
+    // for (const category of this.categoryArray.controls) {
+    //   if (category.get('subcategory').value) {
+    //     this.getFieldAsFormArray('category').push(this.fb.control(category.get('category').value));
+    //     this.getFieldAsFormArray('subcategory').push(this.fb.control(category.get('subcategory').value));
+    //   }
+    // }
 
-    for (const scientificDomain of this.scientificDomainArray.controls) {
-      if (scientificDomain.get('scientificSubdomain').value) {
-        this.getFieldAsFormArray('scientificDomain').push(this.fb.control(scientificDomain.get('scientificDomain').value));
-        this.getFieldAsFormArray('scientificSubdomain').push(this.fb.control(scientificDomain.get('scientificSubdomain').value));
-      }
-    }
+    // for (const scientificDomain of this.scientificDomainArray.controls) {
+    //   if (scientificDomain.get('scientificSubdomain').value) {
+    //     this.getFieldAsFormArray('scientificDomain').push(this.fb.control(scientificDomain.get('scientificDomain').value));
+    //     this.getFieldAsFormArray('scientificSubdomain').push(this.fb.control(scientificDomain.get('scientificSubdomain').value));
+    //   }
+    // }
+
     // this.scientificDomainArray.disable();
     this.showLoader = true;
     // console.log('this.serviceForm.valid ', this.serviceForm.valid);

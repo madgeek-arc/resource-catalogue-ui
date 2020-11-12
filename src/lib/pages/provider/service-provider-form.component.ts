@@ -286,18 +286,18 @@ export class ServiceProviderFormComponent implements OnInit {
       this.getFieldAsFormArray('merilScientificDomains').controls = [];
     }
 
-    for (const category of this.domainArray.controls) {
-      if (category.get('scientificSubdomain').value) {
-        this.getFieldAsFormArray('scientificDomain').push(this.fb.control(category.get('scientificDomain').value));
-        this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(category.get('scientificSubdomain').value));
-      }
-    }
-    for (const category of this.merilDomainArray.controls) {
-      if (category.get('merilScientificSubdomain').value) {
-        this.getFieldAsFormArray('merilScientificDomain').push(this.fb.control(category.get('merilScientificDomain').value));
-        this.getFieldAsFormArray('merilScientificSubdomains').push(this.fb.control(category.get('merilScientificSubdomain').value));
-      }
-    }
+    // for (const category of this.domainArray.controls) {
+    //   if (category.get('scientificSubdomain').value) {
+    //     this.getFieldAsFormArray('scientificDomain').push(this.fb.control(category.get('scientificDomain').value));
+    //     this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(category.get('scientificSubdomain').value));
+    //   }
+    // }
+    // for (const category of this.merilDomainArray.controls) {
+    //   if (category.get('merilScientificSubdomain').value) {
+    //     this.getFieldAsFormArray('merilScientificDomain').push(this.fb.control(category.get('merilScientificDomain').value));
+    //     this.getFieldAsFormArray('merilScientificSubdomains').push(this.fb.control(category.get('merilScientificSubdomain').value));
+    //   }
+    // }
 
     if (tempSave) {
       this.showLoader = true;

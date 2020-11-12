@@ -99,7 +99,7 @@ export class ServiceProviderService {
   }
 
   temporarySaveProvider(provider: Provider, providerExists: boolean) {
-    console.log('providerExists ', providerExists);
+    // console.log('providerExists ', providerExists);
     if (providerExists) {
       return this.http.put<Provider>(this.base + '/pendingProvider/provider', provider, this.options);
     }
