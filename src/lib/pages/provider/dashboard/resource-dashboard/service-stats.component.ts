@@ -10,6 +10,7 @@ import {Paging} from '../../../../domain/paging';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {map} from 'rxjs/operators';
 import {zip} from 'rxjs/internal/observable/zip';
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-service-dashboard',
@@ -17,6 +18,8 @@ import {zip} from 'rxjs/internal/observable/zip';
   styleUrls: ['./service-stats.component.css']
 })
 export class ServiceStatsComponent implements OnInit, OnDestroy {
+
+  _marketplaceBaseURL = environment.marketplaceBaseURL;
 
   public service: Service;
   public errorMessage: string;
