@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   beta: true,
   FAQ_ENDPOINT: '/faq/api',
   API_ENDPOINT: '/api',
