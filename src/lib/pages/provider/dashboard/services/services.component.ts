@@ -93,9 +93,9 @@ export class ServicesComponent implements OnInit {
     );
   }
 
-  toggleService(id: string, version: string, event) {
+  toggleService(providerService: InfraService) {
     UIkit.modal('#spinnerModal').show();
-    this.providerService.publishService(id, version, event.target.checked).subscribe(
+    this.providerService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
       res => {},
       error => {
         this.errorMessage = 'Something went bad. ' + error.error ;

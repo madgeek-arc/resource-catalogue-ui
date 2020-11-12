@@ -63,7 +63,7 @@
                 </div>
                 <div class="uk-width-1-6">
                   <div class="action-buttons">
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(providerService.service.id, providerService.service.version, $event)">
+                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(providerService)">
                       <ng-container *ngIf="providerService.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
                       <ng-container *ngIf="!providerService.active"><i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate</ng-container>
                     </button>
