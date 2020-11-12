@@ -346,7 +346,7 @@
                                   </div>
 
                                 </div>
-                                <a *ngIf="domainArray.length > 1 && !disable" class="remove-element uk-padding-small uk-display-inline-block"
+                                <a *ngIf="domainArray.length >= 1 && !disable" class="remove-element uk-padding-small uk-display-inline-block"
                                    (click)="removeDomain(i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
@@ -877,7 +877,7 @@
                                   </div>
 
                                 </div>
-                                <a *ngIf="merilDomainArray.length > 1 && !disable" class="remove-element uk-padding-small"
+                                <a *ngIf="merilDomainArray.length >= 1 && !disable" class="remove-element uk-padding-small"
                                    (click)="removeMerilDomain(i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
