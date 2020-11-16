@@ -33,7 +33,7 @@
                    class="uk-offcanvas-close offcanvas-close">Catalogue & Marketplace</a>
               </li>
               <li class="uk-nav-header" [routerLinkActive]="['uk-active']">
-                <a href="https://catalogue.eosc-portal.eu/provider/my" routerLinkActive="uk-active"
+                <a href="https://providers.eosc-portal.eu/provider/my" routerLinkActive="uk-active"
                    class="uk-offcanvas-close offcanvas-close">Providers Dashboard</a>
               </li>
               <li class="uk-nav-header" [routerLinkActive]="['uk-active']">
@@ -104,7 +104,7 @@
                   <li class="first leaf"><a href="https://eosc-portal.eu/contact-us">Contact Us</a></li>
                   <li class="leaf"><a href="https://eosc-portal.eu">Portal Home</a></li>
                   <li class="leaf"><a href="https://marketplace.eosc-portal.eu/">Catalogue & Marketplace</a></li>
-                  <li class="leaf"><a class="active" href="https://catalogue.eosc-portal.eu/provider/my">Providers Dashboard</a></li>
+                  <li class="leaf"><a class="active" href="https://providers.eosc-portal.eu/provider/my">Providers Dashboard</a></li>
                   <ng-container *ngIf="!authenticationService.isLoggedIn()">
                     <li class="leaf"><a class="loginLink" (click)="authenticationService.login()">Login</a></li>
                   </ng-container>
