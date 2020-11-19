@@ -1,4 +1,3 @@
-
 import {Injectable} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -35,6 +34,10 @@ export class NavigationService {
 
     edit(id: string) {
         return this.router.navigate(['/edit', id]);
+    }
+
+    editAIRE(id: string) {
+      return this.router.navigate(['/provider/openaire/resource/update', id]);
     }
 
     search(any: any) {

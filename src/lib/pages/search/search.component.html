@@ -529,3 +529,12 @@
 
 <!-- FIXME: #email-modal id is inside the component, it should be changed -->
 <app-email-modal [serviceIdsArray]="this.serviceIdsArray"></app-email-modal>
+
+
+<div *ngIf="canAddOrEditService" class="uk-float-right" style="z-index: 100; bottom: 45px; position: fixed; right: 45px;">
+  <a [routerLink]="['/provider/openaire/resource/add']" style="padding: 30px;" class="uk-icon-button uk-button-secondary">
+    <i class="fa fa-plus"></i>
+    <!--<span class="uk-icon" uk-icon="icon: plus; ratio: 1.5">-->
+    <!--</span>-->
+  </a>
+</div>
