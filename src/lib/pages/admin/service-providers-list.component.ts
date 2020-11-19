@@ -53,8 +53,13 @@ export class ServiceProvidersListComponent implements OnInit {
   adminActionsMap = statusChangeMap;
 
   public statuses: Array<string> = [
-    'approved', 'pending initial approval', 'pending template submission',
-    'pending template approval', 'rejected template', 'rejected'
+    'approved', 'pending initial approval', 'rejected',
+    'pending template submission', 'pending template approval', 'rejected template'
+  ];
+
+  public labels: Array<string> = [
+    'Provider Info: Approved by EPOT', 'Provider Info: Pending Approval by EPOT', 'Provider Info: Rejected by EPOT',
+    'Resource Info: Pending Submission by Provider', 'Resource Info: Pending Approval by EPOT', 'Resource Info: Rejected by EPOT'
   ];
 
   constructor(private resourceService: ResourceService,
