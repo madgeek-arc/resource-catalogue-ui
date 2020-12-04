@@ -160,6 +160,8 @@
                         <!-- If user is admin -->
                         <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/provider/all']" routerLinkActive="uk-active">View
                           Providers</a></li>
+                        <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/provider/resource/all']" routerLinkActive="uk-active">View
+                          Resources</a></li>
                         <li *ngIf="authenticationService.isLoggedIn()" class="uk-nav-divider"></li>
                         <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public
                           API</a></li>
