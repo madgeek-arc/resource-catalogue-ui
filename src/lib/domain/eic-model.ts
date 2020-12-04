@@ -116,6 +116,10 @@ export class ProviderBundle extends Bundle<Provider> {
   provider: Provider;
 }
 
+export class ServiceBundle extends Bundle<Service> {
+  service: Service;
+}
+
 export class ProviderLocation {
   streetNameAndNumber: string;
   postalCode: string;
