@@ -76,6 +76,7 @@
               </div>
             </div>
 
+            <div class="requiredFields">Fields with (*) are mandatory</div>
           </div>
 
           <div id="page2">
@@ -108,11 +109,11 @@
               <label class="uk-form-label uk-text-right" for="logo">
                 {{logoDesc.label + (logoDesc.mandatory ? ' (*)' : '')}}
               </label>
-              <div class="uk-form-description uk-margin-top uk-width-9-10">{{logoDesc.desc}}</div>
-              <div class="uk-form-controls uk-margin-medium-top">
-                <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo"
+<!--              <div class="uk-form-description uk-margin-top uk-width-9-10">{{logoDesc.desc}}</div>-->
+              <div class="uk-form-controls uk-margin-medium-top uk-width-9-10">
+                <input id="logo" class="uk-input" type="text" formControlName="logo"
                        [ngClass]="{'uk-form-danger': checkFormValidity('logo')}">
-                <!--<i><small>{{logoDesc.desc}}</small></i>-->
+                <i><small>{{logoDesc.desc}}</small></i>
               </div>
             </div>
             <div formArrayName="multimedia" class="uk-margin-large-bottom">
@@ -160,6 +161,7 @@
               </div>
             </div>
 
+            <div class="requiredFields">Fields with (*) are mandatory</div>
           </div>
 
           <div id="page3">
@@ -302,6 +304,7 @@
               </div>
             </div>
 
+            <div class="requiredFields">Fields with (*) are mandatory</div>
           </div>
 
           <div id="page4">
@@ -413,6 +416,7 @@
               <i><small>Suggested length is 50 characters</small></i>
             </div>
 
+            <div class="requiredFields">Fields with (*) are mandatory</div>
           </div>
 
           <div id="page5">
@@ -506,6 +510,7 @@
               </div>
             </div>
 
+            <div class="requiredFields">Fields with (*) are mandatory</div>
           </div>
 
           <div id="page6">
@@ -594,12 +599,14 @@
               </div>
             </div>
 
+            <div class="requiredFields">Fields with (*) are mandatory</div>
           </div>
 
           <div id="page7">
 
             <div class="uk-margin-large-bottom">
               <label class="uk-form-label uk-text-right">Public Contacts</label>
+              <div class="uk-form-description uk-margin-top uk-width-9-10">It is strongly recommended to include here a stable generic contact such as info@ or contact@</div>
               <div class="uk-form-controls uk-margin-top">
                 <div formArrayName="publicContacts" *ngFor="let contact of publicContactArray.controls; let i = index">
                   <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
@@ -784,6 +791,7 @@
               </div>
             </div>
 
+            <div class="requiredFields">Fields with (*) are mandatory</div>
           </div>
 
           <div id="page9">
@@ -1222,6 +1230,7 @@
               </div>
             </div>
 
+            <div class="requiredFields">Fields with (*) are mandatory</div>
           </div>
 
           <!--<button type="submit" class="btn btn-primary butn theme block full-width m-b">-->

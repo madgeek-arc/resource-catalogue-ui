@@ -74,6 +74,7 @@
               <i><small>For suggestions in amending the "{{legalStatusDesc.label}}" list, please send an email to <a href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
             </div>
 
+            <div class="requiredFields">Fields with (*) are mandatory</div>
           </div>
 
           <div id="page2">
@@ -94,12 +95,11 @@
               <label class="uk-form-label uk-text-right" for="logo">
                 {{ providerLogoDesc.label + (providerLogoDesc.mandatory ? ' (*)' : '')}}
               </label>
-              <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerLogoDesc.desc}}</div>
               <div class="uk-form-controls uk-margin-medium-top">
                 <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo"
                        [ngClass]="{'uk-form-danger': checkFormValidity('logo')}">
-                <!--<i><small>{{providerLogoDesc.desc}}</small></i>-->
               </div>
+              <i><small>{{providerLogoDesc.desc}}</small></i>
             </div>
             <div formArrayName="multimedia" class="uk-margin-large-bottom">
               <label class="uk-form-label uk-text-right" for="multimedia">
@@ -110,7 +110,6 @@
                 <div *ngFor="let media of getFieldAsFormArray('multimedia').controls; let i=index" class="uk-margin-bottom">
                   <input id="multimedia" class="uk-input uk-width-9-10" type="text" [formControlName]="i"
                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i)}">
-                  <!--[ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i), 'uk-width-5-6': (getFieldAsFormArray('multimedia').length > 1)}">-->
                   <a *ngIf="getFieldAsFormArray('multimedia').length > 1 && !disable"
                      class="remove-element uk-padding-small" (click)="remove('multimedia', i); unsavedChangesPrompt()">
                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -125,6 +124,7 @@
               </div>
             </div>
 
+            <div class="requiredFields">Fields with (*) are mandatory</div>
           </div>
 
           <div id="page3">
@@ -197,9 +197,8 @@
               <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerTagsDesc.desc}}</div>
               <div class="uk-form-controls uk-margin-medium-top">
                 <div *ngFor="let provider of getFieldAsFormArray('tags').controls; let i=index" class="uk-margin-bottom">
-                  <input id="tags" class="uk-input" type="text" [formControlName]="i"
-                         [ngClass]="{'uk-form-danger': checkFormValidity('tags'),
-                               'uk-width-5-6': (getFieldAsFormArray('tags').length > 1)}">
+                  <input id="tags" class="uk-input uk-width-9-10" type="text" [formControlName]="i"
+                         [ngClass]="{'uk-form-danger': checkFormValidity('tags')}">
                   <a *ngIf="getFieldAsFormArray('tags').length > 1 && !disable"
                      class="remove-element uk-padding-small" (click)="remove('tags', i); unsavedChangesPrompt()">
                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -281,6 +280,8 @@
                 <i><small>For suggestions in amending the "{{countryDesc.label}}" list, please send an email to <a href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
               </div>
             </div>
+
+            <div class="requiredFields">Fields with (*) are mandatory</div>
           </div>
 
           <div id="page5">
@@ -346,15 +347,17 @@
                     <i><small>Suggested length is 50 characters</small></i>
                   </div>
 
-
                 </div>
               </div>
             </div>
+
+            <div class="requiredFields">Fields with (*) are mandatory</div>
           </div>
 
           <div id="page6">
             <div class="uk-margin-large-bottom">
               <label class="uk-form-label uk-text-right">Public Contacts</label>
+              <div class="uk-form-description uk-margin-top uk-width-9-10">It is strongly recommended to include here a stable generic contact such as info@ or contact@</div>
               <div class="uk-form-controls uk-margin-top">
                 <div formArrayName="publicContacts" *ngFor="let contact of publicContactArray.controls; let i = index">
                   <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
@@ -421,7 +424,8 @@
                     </div>
 
                   </div>
-                  <a *ngIf="!disable" class="remove-element uk-padding-small uk-display-inline-block"
+                  <a *ngIf="getFieldAsFormArray('publicContacts').length > 1 && !disable"
+                     class="remove-element uk-padding-small uk-display-inline-block"
                      (click)="removePublicContact(i); unsavedChangesPrompt()">
                     <i class="fa fa-times" aria-hidden="true"></i>
                   </a>
@@ -433,8 +437,8 @@
                 </a>
               </div>
             </div>
-          </div>
 
+          </div>
 
           <div id="page7">
 
@@ -850,8 +854,9 @@
                 </a>
               </div>
             </div>
-          </div>
 
+            <div class="requiredFields">Fields with (*) are mandatory</div>
+          </div>
 
         </form>
 

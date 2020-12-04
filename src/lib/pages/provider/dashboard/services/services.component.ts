@@ -4,7 +4,7 @@ import {ServiceProviderService} from '../../../../services/service-provider.serv
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
 
@@ -21,7 +21,12 @@ export class ServicesComponent implements OnInit {
   serviceORresource = environment.serviceORresource;
 
   formPrepare = {
-    from: '0'
+    from: '0',
+    quantity: '10',
+    order: 'ASC',
+    orderField: 'name',
+    query: '',
+    active: true
   };
 
   dataForm: FormGroup;
@@ -111,7 +116,8 @@ export class ServicesComponent implements OnInit {
   }
 
   getServices() {
-    this.providerService.getServicesOfProvider(this.providerId, this.dataForm.get('from').value, this.itemsPerPage + '', 'ASC', 'name')
+    this.providerService.getServicesOfProvider(this.providerId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
+      this.dataForm.get('order').value, this.dataForm.get('orderField').value, this.dataForm.get('active').value, this.dataForm.get('query').value)
       .subscribe(res => {
           this.providerServices = res;
           this.total = res['total'];
@@ -143,6 +149,11 @@ export class ServicesComponent implements OnInit {
         // UIkit.modal('#spinnerModal').hide();
       }
     );
+  }
+
+  handleChangeAndResetPage() {
+    this.dataForm.get('from').setValue(0);
+    this.handleChange();
   }
 
   handleChange() {

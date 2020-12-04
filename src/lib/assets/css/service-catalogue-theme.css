@@ -326,6 +326,55 @@ a.remove-element i {
   opacity: 1;
 }
 
+.ng-select {
+  display: inline-block !important;
+  vertical-align: middle;
+  height: 56px;
+  background: #FAFAFA 0% 0% no-repeat padding-box;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  opacity: 1;
+}
+
+.ng-select .ng-select-container {
+  height: 56px;
+}
+
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  height: 56px;
+}
+
+.ng-select .ng-select-container .ng-value-container .ng-input > input {
+  height: 56px;
+  font-size: 14px;
+  padding-left: 10px;
+}
+
+.ng-select .ng-clear-wrapper {
+  margin-top: 17px;
+}
+
+.ng-dropdown-panel {
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,.25);
+  box-sizing: border-box;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items {
+  padding: 15px;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  padding-top: 10px;
+}
+
+.ng-select-container .ng-value-container .ng-value {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
 /* ========================================================================
    Dashboard sidebar
  ========================================================================== */

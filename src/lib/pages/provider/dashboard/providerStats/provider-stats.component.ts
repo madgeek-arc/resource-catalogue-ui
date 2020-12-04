@@ -104,7 +104,7 @@ export class ProviderStatsComponent implements OnInit {
   getDataForProvider(period: string, dontGetServices?: boolean) {
 
     if (!dontGetServices) {
-      this.providerService.getServicesOfProvider(this.providerId, '0', '50', 'ASC', 'name')
+      this.providerService.getServicesOfProvider(this.providerId, '0', '50', 'ASC', 'name', true)
         .subscribe(res => {
           this.providerServices = res;
           this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices.results);

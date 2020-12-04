@@ -493,10 +493,19 @@ export class ServiceFormComponent implements OnInit {
   }
 
   transformInput(input) {
-    return Object.keys(input).reduce((accumulator, value) => {
-      accumulator[value] = input[value][0].resourceOrganisation + ' - ' + input[value][0].name;
-      return accumulator;
-    }, {});
+    const arr = [];
+    for (const i in input) {
+      arr.push({
+        'name' : input[i][0].resourceOrganisation + ' - ' + input[i][0].name,
+        'id' : input[i][0].id
+      });
+    }
+    return arr;
+
+    // return Object.keys(input).reduce((accumulator, value) => {
+    //   accumulator[value] = input[value][0].resourceOrganisation + ' - ' + input[value][0].name;
+    //   return accumulator;
+    // }, {});
   }
 
   /** check form fields and tabs validity--> **/
@@ -1099,7 +1108,7 @@ export class ServiceFormComponent implements OnInit {
 
   checkUrlValidityForArrays(formArrayName: string, position: number) {
     let urlValidity;
-    console.log(this.serviceForm.get(formArrayName).value[position]);
+    // console.log(this.serviceForm.get(formArrayName).value[position]);
     if (this.serviceForm.get(formArrayName).value[position] !== '') {
       const url = this.serviceForm.get(formArrayName).value[position];
       console.log(url);

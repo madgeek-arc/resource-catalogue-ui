@@ -24,6 +24,7 @@ export class AuthenticationService {
 
     // check every minute if cookie has expired.
     timer(0, 60000).pipe().subscribe(x => {
+      // console.log(moment().toString() + ' ' + this.isLoggedIn());
       if (!this.isLoggedIn()) {
         deleteCookie(this.cookieName);
         this.user = null;
@@ -54,13 +55,12 @@ export class AuthenticationService {
 
       this.user = JSON.parse(this.b64DecodeUnicode(getCookie(this.cookieName).replace(/"/gi, '')));
 
-      // console.log(this.user);
 
       this.user.id = this.user.eduperson_unique_id;
 
       sessionStorage.setItem('userInfo', JSON.stringify(this.user));
       this.expiresAt = moment().add(JSON.stringify(this.user.expireSec), 'second');
-      // const expiresAt = moment().add(30,'second');
+      // this.expiresAt = moment().add(75, 'second');
       sessionStorage.setItem('expiresAt', JSON.stringify(this.expiresAt));
 
       let url = sessionStorage.getItem('redirect_url');

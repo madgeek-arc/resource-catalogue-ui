@@ -18,6 +18,69 @@
         <p>{{errorMessage}}</p>
       </div>
 
+      <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters uk-margin-bottom">
+
+        <div class="uk-margin-right">
+          <div class="">
+            <label class="" for="quantity">Results per page </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="quantity" (change)="handleChangeAndResetPage()" formControlName="quantity">
+                <option value="10" selected>10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="uk-margin-right">
+
+          <div class="uk-inline uk-margin-right">
+            <label class="" for="orderBy">Order by </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="orderBy" (change)="handleChangeAndResetPage()" formControlName="order">
+                <option value="ASC" selected>Ascending</option>
+                <option value="DESC">Descending</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="uk-inline">
+            <label class="" for="orderField">Sort by </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
+                <option value="name" selected>Name</option>
+                <option value="registeredAt">Creation Date</option>
+                <option value="modifiedAt">Modification Date</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="uk-margin-right">
+          <div class="uk-inline uk-margin-right">
+            <label class="" for="orderBy">Status </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="active">
+                <option value="true" selected>Active</option>
+                <option value="false">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="uk-flex uk-flex-right">
+          <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
+            <span uk-search-icon></span>
+            <input class="uk-search-input" type="search" placeholder="Search..." formControlName="query">
+          </form>
+        </div>
+
+      </form>
+
+
       <div *ngIf="providerServices && providerServices.results.length === 0">
         <p>No {{serviceORresource | lowercase}}s found</p>
       </div>

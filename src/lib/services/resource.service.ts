@@ -414,7 +414,7 @@ export class ResourceService {
   }
 
   uploadPendingService(service: Service, shouldPut: boolean) {
-    return this.http.put<Service>(this.base + '/pendingService/transform/service', service, this.options);
+    return this.http.put<Service>(this.base + '/pendingService/transform/resource', service, this.options);
   }
 
   uploadTempPendingService(service: Service) {

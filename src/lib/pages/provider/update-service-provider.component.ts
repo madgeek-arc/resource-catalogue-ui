@@ -165,9 +165,24 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             this.push('tags', this.providerTagsDesc.mandatory);
           }
         }
+        if (this.provider.certifications && this.provider.certifications.length > 1) {
+          for (let i = 0; i < this.provider.certifications.length - 1; i++) {
+            this.push('certifications', this.providerCertificationsDesc.mandatory);
+          }
+        }
+        if (this.provider.affiliations && this.provider.affiliations.length > 1) {
+          for (let i = 0; i < this.provider.affiliations.length - 1; i++) {
+            this.push('affiliations', this.affiliationDesc.mandatory);
+          }
+        }
         if (this.provider.networks && this.provider.networks.length > 1) {
           for (let i = 0; i < this.provider.networks.length - 1; i++) {
             this.push('networks', this.networksDesc.mandatory);
+          }
+        }
+        if (this.provider.nationalRoadmaps && this.provider.nationalRoadmaps.length > 1) {
+          for (let i = 0; i < this.provider.nationalRoadmaps.length - 1; i++) {
+            this.push('nationalRoadmaps', this.nationalRoadmapsDesc.mandatory);
           }
         }
         if (this.provider.areasOfActivity && this.provider.areasOfActivity.length > 1) {

@@ -109,7 +109,9 @@ export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   getNameFromVocabulary(vocabulary: Vocabulary[], id: string) {
-    return vocabulary.find(x => x.id === id).name;
+    if (id) {
+      return vocabulary.find(x => x.id === id).name;
+    }
   }
 
   getNameForProvider(id: string) {

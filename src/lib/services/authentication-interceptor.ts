@@ -38,10 +38,11 @@ export class AuthenticationInterceptor implements HttpInterceptor {
             return null;
           } else if (response.status === 403) {
             this.router.navigate(['/forbidden']);
+          } else if (response.status === 404 && request.url.includes('/faq/api/page/route')) {
+            // avoiding page 404 for non-working faq
           } else if (response.status === 404) {
             this.router.navigate(['/notFound']);
-          }
-          else if (response.status === 0) { // this is a bandage until faq is fixed
+          } else if (response.status === 0) { // this is a bandage until faq is fixed
             return [];
           } else {
             console.error(

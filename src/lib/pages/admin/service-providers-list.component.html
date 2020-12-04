@@ -91,8 +91,8 @@
                         <label class="" for="orderBy">Order by </label>
                         <div class="uk-inline">
                           <select class="uk-input uk-select" id="orderBy" (change)="handleChangeAndResetPage()" formControlName="order">
-                            <option value="DESC" selected>Descending</option>
-                            <option value="ASC">Ascending</option>
+                            <option value="ASC" selected>Ascending</option>
+                            <option value="DESC">Descending</option>
                           </select>
                         </div>
                       </div>
@@ -233,8 +233,12 @@
                                   <i class="fa fa-thumbs-down " aria-hidden="true"></i>
                                   {{ adminActionsMap[providerBundle.status].rejButtonTitle }}
                                 </button>
-                                <button (click)="showDeletionModal(providerBundle)"
+                                <button [routerLink]="['/provider/update/', providerBundle.id]"
                                         class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
+                                  <i class="fa fa-edit" aria-hidden="true"></i> Edit Provider
+                                </button>
+                                <button (click)="showDeletionModal(providerBundle)"
+                                        class="uk-button uk-button-action uk-display-block uk-margin-small-top">
                                   <i class="fa fa-recycle" aria-hidden="true"></i> Delete Provider
                                 </button>
                               </div>
@@ -244,15 +248,29 @@
 
                         <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
                           <hr class="uk-margin-top">
-                          <div *ngIf="hasCreatedFirstService(providerBundle.id)">
                             <button routerLink="{{ getLinkToFirstService(providerBundle.id) }}"
                                     class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">
-                              <i class="fa fa-eye"></i> View resource template
+                              <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template
                             </button>
                             <button routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}"
                                     class="uk-button uk-button-link uk-margin-medium-left">
-                              <i class="fa fa-pencil"></i> Edit resource template
+                              <i class="fa fa-pencil"></i> Edit {{serviceORresource | lowercase}} template
                             </button>
+                        </ng-container>
+
+                        <ng-container *ngIf="providerBundle.status == 'pending template submission'">
+                          <button class="uk-button uk-button-action uk-margin-small-left">
+                            <i class="fa fa-plus"></i>
+                            Add {{serviceORresource | lowercase}} template
+                          </button>
+                          <div uk-dropdown>
+                            <ul class="uk-nav uk-dropdown-nav">
+                              <li class="uk-active">
+                                <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Create {{serviceORresource | lowercase}} template</a>
+                              </li>
+                              <li class="uk-nav-divider"></li>
+                              <li class="uk-active"><a routerLink="/developers">Use API</a></li>
+                            </ul>
                           </div>
                         </ng-container>
 
