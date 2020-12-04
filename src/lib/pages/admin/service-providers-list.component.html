@@ -239,7 +239,7 @@
                                 </button>
                                 <button (click)="showDeletionModal(providerBundle)"
                                         class="uk-button uk-button-action uk-display-block uk-margin-small-top">
-                                  <i class="fa fa-recycle" aria-hidden="true"></i> Delete Provider
+                                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete Provider
                                 </button>
                               </div>
                             </div>
@@ -330,7 +330,7 @@
           'The Provider will be prompted to update the resource template.')}}
       </p>
     </div>
-    <button class="uk-button uk-button-primary" type="button" (click)="statusChangeAction()">Proceed</button>
+    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="statusChangeAction()">Proceed</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>
   <div *ngIf="loadingMessage">
@@ -347,7 +347,7 @@
       <h6>Are you sure you want to delete "{{ selectedProvider.provider.name }}" ?</h6>
       <p>Deleting a provider is an irreversible action.</p>
     </div>
-    <button class="uk-button uk-button-danger" type="button" (click)="deleteProvider(selectedProvider.provider.id)">Delete</button>
+    <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteProvider(selectedProvider.provider.id)">Delete</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>
   <div *ngIf="loadingMessage">
