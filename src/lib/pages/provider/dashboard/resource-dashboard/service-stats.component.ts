@@ -20,6 +20,7 @@ import {environment} from '../../../../../environments/environment';
 export class ServiceStatsComponent implements OnInit, OnDestroy {
 
   _marketplaceBaseURL = environment.marketplaceBaseURL;
+  serviceORresource = environment.serviceORresource;
 
   public service: Service;
   public errorMessage: string;

@@ -36,7 +36,7 @@
             </a>
           </li>
           <li>
-            <a href="{{_marketplaceBaseURL}}{{resourceId}}" target="_blank">
+            <a href="{{_marketplaceBaseURL}}{{(serviceORresource === 'Service' ? '/service/': '') + resourceId}}" target="_blank">
               <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">
               View in Catalogue
             </a>
