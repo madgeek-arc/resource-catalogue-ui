@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
-import {InfraService, ProviderBundle, ServiceBundle} from '../../domain/eic-model';
+import {InfraService, ProviderBundle} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -38,8 +38,8 @@ export class ResourcesListComponent implements OnInit {
   errorMessage: string;
   loadingMessage = '';
 
-  services: ServiceBundle[] = [];
-  selectedService: ServiceBundle;
+  services: InfraService[] = [];
+  selectedService: InfraService;
   facets: any;
 
   providers: ProviderBundle[] = [];
@@ -154,7 +154,7 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  showDeletionModal(resource: ServiceBundle) {
+  showDeletionModal(resource: InfraService) {
     this.selectedService = resource;
     if (this.selectedService) {
       UIkit.modal('#deletionModal').show();
@@ -178,7 +178,7 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  toggleService(providerService: ServiceBundle) {
+  toggleService(providerService: InfraService) {
     console.log('bundle');
     console.log(providerService);
     UIkit.modal('#spinnerModal').show();
