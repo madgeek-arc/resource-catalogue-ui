@@ -341,7 +341,7 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   getLinkToEditFirstService(id: string) {
-    return '/edit/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
+    return '/provider/' + id + '/resource/update/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
   }
 
   paginationInit() {

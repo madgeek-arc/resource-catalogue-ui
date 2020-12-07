@@ -134,7 +134,7 @@ const providerRoutes: Routes = [
     component: ResourcesListComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'All Resources'
+      breadcrumb: 'All ' + environment.serviceORresource + 's'
     }
   },
 ];
