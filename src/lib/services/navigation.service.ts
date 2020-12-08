@@ -44,6 +44,10 @@ export class NavigationService {
         return this.router.navigate(['/search', any]);
     }
 
+    resourcesList(any: any) {
+      return this.router.navigate(['/provider/resource/all', any]);
+    }
+
     /*login() {
         return this.router.navigate(["/signIn"]);
     }*/

@@ -9,6 +9,8 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
+import {NavigationService} from '../../services/navigation.service';
+import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
 
 declare var UIkit: any;
 
@@ -26,14 +28,14 @@ export class ResourcesListComponent implements OnInit {
     order: 'ASC',
     quantity: '10',
     from: '0',
-    // status: new FormArray([]),
-    status: '',
-    active: ''
+    active: '',
+    resource_organisation: new FormArray([])
   };
 
   dataForm: FormGroup;
 
   urlParams: URLParameter[] = [];
+  serviceIdsArray: string[] = [];
 
   errorMessage: string;
   loadingMessage = '';
@@ -41,9 +43,6 @@ export class ResourcesListComponent implements OnInit {
   services: InfraService[] = [];
   selectedService: InfraService;
   facets: any;
-
-  providers: ProviderBundle[] = [];
-  selectedProvider: ProviderBundle;
 
   total: number;
   // from = 0;
@@ -59,6 +58,7 @@ export class ResourcesListComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               private router: Router,
+              private navigator: NavigationService,
               private fb: FormBuilder
   ) {
   }
@@ -72,6 +72,32 @@ export class ResourcesListComponent implements OnInit {
       this.urlParams = [];
       this.route.queryParams
         .subscribe(params => {
+
+            for (const i in params) {
+              if (i === 'resource_organisation') {
+
+                if (this.dataForm.get('resource_organisation').value.length === 0) {
+                  const formArrayNew: FormArray = this.dataForm.get('resource_organisation') as FormArray;
+                  // formArrayNew = this.fb.array([]);
+                  for (const resource_organisation of params[i].split(',')) {
+                    if (resource_organisation !== '') {
+                      formArrayNew.push(new FormControl(resource_organisation));
+                    }
+                  }
+                }
+              } else {
+                this.dataForm.get(i).setValue(params[i]);
+              }
+            }
+
+            for (const i in this.dataForm.controls) {
+              if (this.dataForm.get(i).value) {
+                const urlParam = new URLParameter();
+                urlParam.key = i;
+                urlParam.values = [this.dataForm.get(i).value];
+                this.urlParams.push(urlParam);
+              }
+            }
 
             this.getServices();
             // this.handleChange();
@@ -111,6 +137,7 @@ export class ResourcesListComponent implements OnInit {
       map[urlParameter.key] = concatValue;
     }
 
+    // console.log('map', map);
     this.router.navigate([`/provider/resource/all`], {queryParams: map});
     // this.getServices();
   }
@@ -124,7 +151,7 @@ export class ResourcesListComponent implements OnInit {
     this.services = [];
     this.resourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('active').value).subscribe(
+      this.dataForm.get('active').value, this.dataForm.get('resource_organisation').value).subscribe(
       res => {
         this.services = res['results'];
         this.facets = res['facets'];
@@ -136,23 +163,92 @@ export class ResourcesListComponent implements OnInit {
         this.errorMessage = 'The list could not be retrieved';
       },
       () => {
-        // this.services.forEach(
-        //   p => {
-        //     if ((p.status === 'pending template approval') ||
-        //       (p.status === 'rejected template')) {
-        //       this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
-        //         res => {
-        //           if (res && (res.length > 0)) {
-        //             this.pendingFirstServicePerProvider.push({providerId: p.id, serviceId: res[0].id});
-        //           }
-        //         }
-        //       );
-        //     }
-        //   }
-        // );
       }
     );
   }
+
+  isProviderChecked(value: string) {
+    return this.dataForm.get('resource_organisation').value.includes(value);
+  }
+
+  onSelection(e, category: string, value: string) {
+    const formArrayNew: FormArray = this.dataForm.get('resource_organisation') as FormArray;
+    if (e.target.checked) {
+      this.addParameterToURL(category, value);
+      formArrayNew.push(new FormControl(value));
+    } else {
+      let categoryIndex = 0;
+      for (const urlParameter of this.urlParams) {
+        if (urlParameter.key === category) {
+          const valueIndex = urlParameter.values.indexOf(value, 0);
+          if (valueIndex > -1) {
+            urlParameter.values.splice(valueIndex, 1);
+            if (urlParameter.values.length === 0) {
+              this.urlParams.splice(categoryIndex, 1);
+            }
+          }
+          const formArrayIndex = formArrayNew.value.indexOf(value, 0);
+          if (formArrayIndex > -1 ) {
+            formArrayNew.removeAt(formArrayIndex);
+          }
+        }
+        categoryIndex++;
+      }
+    }
+    // this.getServices();
+    return this.navigateUsingParameters();
+  }
+
+  private addParameterToURL(category: string, value: string) {
+    let foundCategory = false;
+    for (const urlParameter of this.urlParams) {
+      if (urlParameter.key === category) {
+        foundCategory = true;
+        const valueIndex = urlParameter.values.indexOf(value, 0);
+        if (valueIndex < 0) {
+          urlParameter.values.push(value);
+          this.updatePagingURLParameters(0);
+        }
+      }
+    }
+    if (!foundCategory) {
+      this.updatePagingURLParameters(0);
+      const newParameter: URLParameter = {
+        key: category,
+        values: [value]
+      };
+      this.urlParams.push(newParameter);
+    }
+  }
+
+  navigateUsingParameters() {
+    const map: { [name: string]: string; } = {};
+    for (const urlParameter of this.urlParams) {
+      map[urlParameter.key] = urlParameter.values.join(',');
+    }
+    this.handleChange();
+    // return this.navigator.resourcesList(map);  // problematic semi-colon in url
+  }
+
+  updatePagingURLParameters(from: number) {
+    let foundFromCategory = false;
+    for (const urlParameter of this.urlParams) {
+      if (urlParameter.key === 'from') {
+        foundFromCategory = true;
+        urlParameter.values = [];
+        urlParameter.values.push(from + '');
+        break;
+      }
+    }
+    if (!foundFromCategory) {
+      const newFromParameter: URLParameter = {
+        key: 'from',
+        values: [from + '']
+      };
+      this.urlParams.push(newFromParameter);
+    }
+  }
+
 
   showDeletionModal(resource: InfraService) {
     this.selectedService = resource;
@@ -179,8 +275,6 @@ export class ResourcesListComponent implements OnInit {
   }
 
   toggleService(providerService: InfraService) {
-    console.log('bundle');
-    console.log(providerService);
     UIkit.modal('#spinnerModal').show();
     this.serviceProviderService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
       res => {},

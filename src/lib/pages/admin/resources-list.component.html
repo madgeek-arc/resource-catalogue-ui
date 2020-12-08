@@ -48,24 +48,24 @@
 
                 <div class="uk-width-1-4">
 
-<!--                  <h4>Filters</h4>-->
+                  <h4>Filters</h4>
 
-<!--                  <hr class="uk-margin-large-right">-->
+                  <hr class="uk-margin-large-right">
 
-<!--&lt;!&ndash;                  <div class="refineCategory uk-grid-margin">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <read-more [maxHeight]="235">&ndash;&gt;-->
-<!--                    <h2 class="uk-h2">Providers</h2>-->
-<!--                      <div class="uk-margin-small-top" *ngFor="let provider of facets[0].values">-->
-<!--                        <label class="uk-margin-small-left">-->
-<!--                          <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck-->
-
-<!--                                 >-->
-<!--                        </label>-->
-<!--                        <span> {{provider.label}}</span>-->
-<!--                        <span> ({{provider.count}})</span>-->
-<!--                      </div>-->
-<!--&lt;!&ndash;                    </read-more>&ndash;&gt;-->
-<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
+                  <div *ngIf="facets !== null && facets !== undefined" class="refineCategory uk-grid-margin">
+<!--                    <read-more [maxHeight]="235">-->
+                    <h2 class="uk-h2">{{facets[0].label}}</h2>
+                      <div class="uk-margin-small-top" *ngFor="let provider of facets[0].values">
+                        <label class="uk-margin-small-left">
+                          <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
+                                 (change)="this.onSelection($event, 'resource_organisation', provider.value)"
+                                 [checked]="isProviderChecked(provider.value)">
+                        </label>
+                        <span> {{provider.label ? provider.label : provider.value}}</span>
+                        <span> ({{provider.count}})</span>
+                      </div>
+<!--                    </read-more>-->
+                  </div>
 
                 </div>
 
