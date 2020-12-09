@@ -217,12 +217,23 @@
                             <div class="uk-width-1-5">
                               <div class="action-buttons">
 
-                                <button class="uk-button uk-button-action uk-display-block uk-margin-small-top"
-                                        title="'Cannot activate/deactivate resource of a non active provider.'"
-                                        [ngClass]="!isProviderActive(serviceBundle.service.resourceOrganisation) ? 'uk-disabled' : ''" (click)="toggleService(serviceBundle)">
-                                  <ng-container *ngIf="serviceBundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
-                                  <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
-                                </button>
+                                <div *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlock">
+                                  <button class="uk-button uk-button-action uk-display-block uk-margin-small-top"
+                                          (click)="toggleService(serviceBundle)">
+                                    <ng-container *ngIf="serviceBundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
+                                    <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
+                                  </button>
+                                </div>
+
+                                <ng-template #elseBlock>
+                                  <div uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
+                                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top uk-disabled"
+                                            (click)="toggleService(serviceBundle)">
+                                      <ng-container *ngIf="serviceBundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
+                                      <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
+                                    </button>
+                                  </div>
+                                </ng-template>
 
                                 <button routerLink="/provider/{{serviceBundle.service.resourceOrganisation}}/resource/update/{{serviceBundle.id}}"
                                         class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
