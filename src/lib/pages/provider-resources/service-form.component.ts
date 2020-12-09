@@ -147,23 +147,14 @@ export class ServiceFormComponent implements OnInit {
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
     tagline: ['', Validators.required],
-    // userValue: [''],
-    // userBaseList : this.fb.array([ this.fb.control('') ]),
     useCases: this.fb.array([this.fb.control('', URLValidator)]),
     multimedia: this.fb.array([this.fb.control('', URLValidator)]),
-    // options : this.fb.array([this.newOption()]),
-    // endpoint: ['', URLValidator],
     requiredResources: this.fb.array([this.fb.control('')]),
     relatedResources: this.fb.array([this.fb.control('')]),
     relatedPlatforms: this.fb.array([this.fb.control('')]),
     resourceOrganisation: ['', Validators.required],
     resourceProviders: this.fb.array([this.fb.control('')]),
     resourceGeographicLocations: this.fb.array([this.fb.control('')]),
-    // scientificDomain : this.fb.array([]),
-    // scientificSubdomains: this.fb.array([]),
-    // categories: this.fb.array([]),
-    // subcategories: this.fb.array([]),
-    // 'supercategory: [''],
     targetUsers: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
     languageAvailabilities: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
     geographicalAvailabilities: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
@@ -214,13 +205,6 @@ export class ServiceFormComponent implements OnInit {
         organisation: ['']
       })
     ]),
-
-    // aggregatedServices: [''],
-    // datasets: [''],
-    // applications: [''],
-    // software: [''],
-    // publications: [''],
-    // otherProducts: [''],
 
     categories: this.fb.array([], Validators.required),
     scientificDomains: this.fb.array([], Validators.required)

@@ -156,8 +156,8 @@ export class RangeValue {
 export class RichService {
   service: Service;
   metadata: Metadata;
-  languageNames: string[];
-  placeNames: string[];
+  languageAvailabilityNames: string[];
+  geographicAvailabilityNames: string[];
   trlName: string;
   phaseName: string;
   targetUsersNames: string[];

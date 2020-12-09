@@ -142,9 +142,9 @@ a, .uk-link {
   letter-spacing: 0.36px;
 }
 
-a:hover, .uk-link:hover {
-  color: #d1303a;
-}
+/*a:hover, .uk-link:hover {*/
+/*  color: #d1303a;*/
+/*}*/
 
 .sideInfo {
   padding: 41px 29px;
