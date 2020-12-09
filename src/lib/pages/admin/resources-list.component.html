@@ -217,7 +217,9 @@
                             <div class="uk-width-1-5">
                               <div class="action-buttons">
 
-                                <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(serviceBundle)">
+                                <button class="uk-button uk-button-action uk-display-block uk-margin-small-top"
+                                        title="'Cannot activate/deactivate resource of a non active provider.'"
+                                        [ngClass]="!isProviderActive(serviceBundle.service.resourceOrganisation) ? 'uk-disabled' : ''" (click)="toggleService(serviceBundle)">
                                   <ng-container *ngIf="serviceBundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
                                   <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
                                 </button>

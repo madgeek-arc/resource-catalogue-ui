@@ -35,10 +35,13 @@ export class ResourcesListComponent implements OnInit {
   dataForm: FormGroup;
 
   urlParams: URLParameter[] = [];
-  serviceIdsArray: string[] = [];
 
   errorMessage: string;
   loadingMessage = '';
+
+  providers: ProviderBundle[] = [];
+  selectedProvider: ProviderBundle;
+  providersTotal: number;
 
   services: InfraService[] = [];
   selectedService: InfraService;
@@ -100,6 +103,7 @@ export class ResourcesListComponent implements OnInit {
             }
 
             this.getServices();
+            this.getProviders();
             // this.handleChange();
           },
           error => this.errorMessage = <any>error
@@ -147,6 +151,22 @@ export class ResourcesListComponent implements OnInit {
     this.handleChange();
   }
 
+  getProviders() {
+    this.providers = [];
+    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', []).subscribe(
+      res => {
+        this.providers = res['results'];
+        this.providersTotal = res['total'];
+      },
+      err => {
+        console.log(err);
+        this.errorMessage = 'The list could not be retrieved';
+      },
+      () => {
+      }
+    );
+  }
+
   getServices() {
     this.services = [];
     this.resourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
@@ -165,6 +185,17 @@ export class ResourcesListComponent implements OnInit {
       () => {
       }
     );
+  }
+
+  isProviderActive(id: string) {
+    let active = false;
+    for (let i = 0; this.providers[i]; i++ ) {
+      if (id === this.providers[i].id) {
+        active = this.providers[i].active;
+        break;
+      }
+    }
+    return active;
   }
 
   isProviderChecked(value: string) {
