@@ -201,6 +201,7 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   getProviders() {
+    this.loadingMessage = 'Loading Providers...';
     this.providers = [];
     this.resourceService.getProviderBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
@@ -213,8 +214,10 @@ export class ServiceProvidersListComponent implements OnInit {
       err => {
         console.log(err);
         this.errorMessage = 'The list could not be retrieved';
+        this.loadingMessage = '';
       },
       () => {
+        this.loadingMessage = '';
         this.providers.forEach(
           p => {
             if ((p.status === 'pending template approval') ||
@@ -306,7 +309,7 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   statusChangeAction() {
-    this.loadingMessage = ' ';
+    this.loadingMessage = '';
     const active = this.pushedApprove && (this.newStatus === 'approved');
     this.serviceProviderService.verifyServiceProvider(this.selectedProvider.id, active, this.adminActionsMap[this.newStatus].statusId)
       .subscribe(

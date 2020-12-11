@@ -142,7 +142,11 @@
 
                   </form>
 
-                  <div *ngIf="!services || (services.length==0)" class="uk-margin-large-top">
+                  <div *ngIf="loadingMessage" class="uk-margin-large-top">
+                    <div class="loader-big"></div>
+                  </div>
+
+                  <div *ngIf="!loadingMessage && (!services || (services.length==0))" class="uk-margin-large-top">
                     No resources found for your selections.
                   </div>
 

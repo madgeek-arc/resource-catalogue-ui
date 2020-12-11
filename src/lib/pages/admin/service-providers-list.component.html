@@ -127,7 +127,11 @@
 
                   </form>
 
-                  <div *ngIf="!providers || (providers.length==0)" class="uk-margin-large-top">
+                  <div *ngIf="loadingMessage" class="uk-margin-large-top">
+                    <div class="loader-big"></div>
+                  </div>
+
+                  <div *ngIf="!loadingMessage && (!providers || (providers.length==0))" class="uk-margin-large-top">
                     No providers found for your selections.
                   </div>
 
