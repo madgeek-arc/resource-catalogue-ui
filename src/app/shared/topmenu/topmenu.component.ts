@@ -7,6 +7,7 @@ import {URLParameter} from '../../../lib/domain/url-parameter';
 import {AuthenticationService} from '../../../lib/services/authentication.service';
 import {NavigationService} from '../../../lib/services/navigation.service';
 import {ResourceService} from '../../../lib/services/resource.service';
+import {environment} from '../../../environments/environment';
 
 
 @Component({
@@ -16,6 +17,8 @@ import {ResourceService} from '../../../lib/services/resource.service';
   encapsulation: ViewEncapsulation.None
 })
 export class EOSCTopMenuComponent implements OnInit, OnDestroy {
+
+  beta = environment.beta;
 
   public searchForm: FormGroup;
 

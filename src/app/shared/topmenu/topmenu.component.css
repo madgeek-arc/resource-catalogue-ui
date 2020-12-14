@@ -1,3 +1,33 @@
+.beta-badge {
+  z-index: 1500;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.beta-badge-mobile {
+  z-index: 1500;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.beta-badge .uk-label {
+  height: 35px;
+  line-height: 35px;
+  text-transform: none;
+}
+
+.beta-badge-mobile .uk-label {
+  height: 25px;
+  line-height: 25px;
+  text-transform: none;
+}
+
+.beta-badge .uk-label.uk-label-danger, .beta-badge-mobile .uk-label.uk-label-danger {
+  background-color: #bc2300;
+}
+
 .uk-navbar-nav > li > a,
 .uk-navbar-nav > li > a:focus,
 .uk-navbar-nav > li > a:active{
