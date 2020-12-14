@@ -304,9 +304,7 @@
                                 <input id="webpage" class="uk-input uk-width-9-10" type="text" formControlName="webpage"
                                        placeholder="use http:// or https://"
                                        (input)="handleBitSets(0, 2, 'webpage'); unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('webpage')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('webpage')}">
-                                <!--<i><small>{{webpageDesc.desc}}</small></i>-->
                               </div>
                             </div>
                           </li>
@@ -370,7 +368,6 @@
                                 <input id="logo" class="uk-input " type="text" formControlName="logo"
                                        placeholder="use http:// or https://"
                                        (input)="handleBitSets(1, 5, 'logo'); unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('logo')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('logo')}">
                                 <!--<i><small>{{logoDesc.desc}}</small></i>-->
                                 <i><small>{{logoDesc.desc}}</small></i>
@@ -387,7 +384,6 @@
                                   <input id="multimedia" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                                          type="text" [formControlName]="i" placeholder="use http:// or https://"
                                          (input)="unsavedChangesPrompt()"
-                                         (focusout)="checkUrlValidityForArrays('multimedia', i)"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i)}">
                                   <a *ngIf="getFieldAsFormArray('multimedia').length > 1"
                                      class="remove-element uk-padding-small"
@@ -415,7 +411,6 @@
                                   <input id="useCases" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                                          type="text" [formControlName]="i" placeholder="use http:// or https://"
                                          (input)="unsavedChangesPrompt()"
-                                         (focusout)="checkUrlValidityForArrays('useCases', i)"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i)}">
                                   <a *ngIf="getFieldAsFormArray('useCases').length > 1"
                                      class="remove-element uk-padding-small"
@@ -424,7 +419,7 @@
                                   </a>
                                 </div>
                                 <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                                  <a class="add-new-element" (click)="push('useCases', useCasesDesc.mandatory, false)">
+                                  <a class="add-new-element" (click)="push('useCases', useCasesDesc.mandatory, true)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{useCasesDesc.label}}
                                   </a>
                                 </div>
@@ -1456,7 +1451,6 @@
                                 <input id="helpdeskPage" class="uk-input uk-width-9-10" type="text"
                                        formControlName="helpdeskPage" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('helpdeskPage')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('helpdeskPage')}">
                                 <!--<i><small>{{helpdeskPageDesc.desc}}</small></i>-->
                               </div>
@@ -1470,7 +1464,6 @@
                                 <input id="userManual" class="uk-input uk-width-9-10" type="text"
                                        formControlName="userManual" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('userManual')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('userManual')}">
                                 <!--<i><small>{{userManualDesc.desc}}</small></i>-->
                               </div>
@@ -1484,7 +1477,6 @@
                                 <input id="termsOfUse" class="uk-input uk-width-9-10" type="text"
                                        formControlName="termsOfUse" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('termsOfUse')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('termsOfUse')}">
                                 <!--<i><small>{{termsOfUseDesc.desc}}</small></i>-->
                               </div>
@@ -1499,7 +1491,6 @@
                                 <input id="privacyPolicy" class="uk-input uk-width-9-10" type="text"
                                        formControlName="privacyPolicy" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('privacyPolicy')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('privacyPolicy')}">
                                 <!--<i><small>{{privacyPolicyDesc.desc}}</small></i>-->
                               </div>
@@ -1514,7 +1505,6 @@
                                 <input id="accessPolicy" class="uk-input uk-width-9-10" type="text"
                                        formControlName="accessPolicy" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('accessPolicy')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('accessPolicy')}">
                                 <!--<i><small>{{accessPolicyDesc.desc}}</small></i>-->
                               </div>
@@ -1529,7 +1519,6 @@
                                 <input id="serviceLevel" class="uk-input uk-width-9-10" type="text"
                                        formControlName="serviceLevel" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('serviceLevel')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('serviceLevel')}">
                                 <!--<i><small>{{serviceLevelDesc.desc}}</small></i>-->
                               </div>
@@ -1544,7 +1533,6 @@
                                 <input id="trainingInformation" class="uk-input uk-width-9-10" type="text"
                                        formControlName="trainingInformation" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('trainingInformation')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('trainingInformation')}">
                                 <!--<i><small>{{trainingInformationDesc.desc}}</small></i>-->
                               </div>
@@ -1559,7 +1547,6 @@
                                 <input id="statusMonitoring" class="uk-input uk-width-9-10" type="text"
                                        formControlName="statusMonitoring" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('statusMonitoring')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('statusMonitoring')}">
                                 <!--<i><small>{{statusMonitoringDesc.desc}}</small></i>-->
                               </div>
@@ -1574,7 +1561,6 @@
                                 <input id="maintenance" class="uk-input uk-width-9-10" type="text"
                                        formControlName="maintenance" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('maintenance')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('maintenance')}">
                                 <!--<i><small>{{maintenanceDesc.desc}}</small></i>-->
                               </div>
@@ -1610,7 +1596,6 @@
                                 <input id="order" class="uk-input uk-width-9-10" type="text" formControlName="order"
                                        placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('order')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('order')}">
                                 <!--<i><small>{{orderDesc.desc}}</small></i>-->
                               </div>
@@ -1628,7 +1613,6 @@
                                 <input id="paymentModel" class="uk-input uk-width-9-10" type="text"
                                        formControlName="paymentModel" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('paymentModel')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('paymentModel')}">
                                 <!--<i><small>{{paymentModelDesc.desc}}</small></i>-->
                               </div>
@@ -1642,7 +1626,6 @@
                                 <input id="pricing" class="uk-input uk-width-9-10" type="text" formControlName="pricing"
                                        placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('pricing')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('pricing')}">
                                 <!--<i><small>{{pricingDesc.desc}}</small></i>-->
                               </div>
@@ -1650,6 +1633,9 @@
                           </li>
                         </ul>
                         <div class="requiredFields">Fields with (*) are mandatory</div>
+<!--                        <pre>-->
+<!--                          {{serviceForm.value | json}}-->
+<!--                        </pre>-->
                       </div>
                       <!--<button type="submit" class="btn btn-primary butn theme block full-width m-b">-->
                       <!--{{editMode ? "Update" : "Add"}}-->

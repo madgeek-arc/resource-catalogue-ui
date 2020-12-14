@@ -39,7 +39,8 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
           this.pendingService = true;
         }
         // this.resourceService.getService(this.serviceID).subscribe(service => {
-        this.resourceService[this.pendingService ? 'getPendingService' : 'getRichService'](this.serviceID).subscribe(richService => {
+        this.resourceService[this.pendingService ? 'getPendingService' : 'getRichService'](this.serviceID)
+          .subscribe(richService => {
             ResourceService.removeNulls(richService.service);
             this.formPrepare(richService);
             this.serviceForm.patchValue(richService.service);
@@ -52,9 +53,9 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
               this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
             }
-            this.initServiceBitSets();
           },
-          err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error
+          err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error,
+          () => this.initServiceBitSets()
         );
       });
     }

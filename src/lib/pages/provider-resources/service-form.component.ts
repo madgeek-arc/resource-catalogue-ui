@@ -7,13 +7,14 @@ import {UserService} from '../../services/user.service';
 import * as sd from './services.description';
 import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
-import {URLValidator} from '../../shared/validators/generic.validator';
+import {urlAsyncValidator, UrlValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs/internal/observable/zip';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
 import BitSet from 'bitset/bitset';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
+import {timeout} from 'rxjs/operators';
 
 declare var UIkit: any;
 
@@ -143,12 +144,12 @@ export class ServiceFormComponent implements OnInit {
   formGroupMeta = {
     id: [''],
     name: ['', Validators.required],
-    webpage: ['', Validators.compose([Validators.required, URLValidator])],
+    webpage: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     description: ['', Validators.required],
-    logo: ['', Validators.compose([Validators.required, URLValidator])],
+    logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     tagline: ['', Validators.required],
-    useCases: this.fb.array([this.fb.control('', URLValidator)]),
-    multimedia: this.fb.array([this.fb.control('', URLValidator)]),
+    useCases: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
+    multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
     requiredResources: this.fb.array([this.fb.control('')]),
     relatedResources: this.fb.array([this.fb.control('')]),
     relatedPlatforms: this.fb.array([this.fb.control('')]),
@@ -173,20 +174,20 @@ export class ServiceFormComponent implements OnInit {
     standards: this.fb.array([this.fb.control('')]),
     openSourceTechnologies: this.fb.array([this.fb.control('')]),
     orderType: ['', Validators.required],
-    order: ['', URLValidator],
+    order: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
     helpdeskEmail: ['', Validators.compose([Validators.required, Validators.email])],
     securityContactEmail: ['', Validators.compose([Validators.required, Validators.email])],
-    serviceLevel: ['', URLValidator],
-    termsOfUse: ['', URLValidator],
-    privacyPolicy: ['', URLValidator],
-    accessPolicy: ['', URLValidator],
-    paymentModel: ['', URLValidator],
-    pricing: ['', URLValidator],
-    userManual: ['', URLValidator],
-    trainingInformation: ['', URLValidator],
-    helpdeskPage: ['', URLValidator],
-    statusMonitoring: ['', URLValidator],
-    maintenance: ['', URLValidator],
+    serviceLevel: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    termsOfUse: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    privacyPolicy: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    accessPolicy: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    paymentModel: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    pricing: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    userManual: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    trainingInformation: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    helpdeskPage: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    statusMonitoring: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    maintenance: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
     mainContact: this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -607,12 +608,13 @@ export class ServiceFormComponent implements OnInit {
   push(field: string, required: boolean, url?: boolean) {
     if (required) {
       if (url) {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
-      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
+      console.log('added non mandatory url field');
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }
@@ -894,18 +896,27 @@ export class ServiceFormComponent implements OnInit {
     this.hasChanges = true;
   }
 
+  timeOut(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   /** BitSets -->**/
+  /** TODO: maybe timeout can be removed with subject **/
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
     if (bitIndex === 0) {
       this.serviceName = this.serviceForm.get(formControlName).value;
     }
-      if (this.serviceForm.get(formControlName).valid) {
-        this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-        this.loaderBitSet.set(bitIndex, 1);
-      } else if (this.serviceForm.get(formControlName).invalid) {
-        this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-        this.loaderBitSet.set(bitIndex, 0);
-      }
+    if (this.serviceForm.get(formControlName).valid) {
+      this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 1);
+    } else if (this.serviceForm.get(formControlName).invalid) {
+      this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 0);
+    } else if (this.serviceForm.get(formControlName).pending) {
+      console.log('hello');
+      this.timeOut(300).then( () => this.handleBitSets(tabNum, bitIndex, formControlName));
+      return;
+    }
     this.updateLoaderPercentage();
   }
 
