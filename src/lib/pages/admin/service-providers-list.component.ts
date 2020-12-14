@@ -47,6 +47,7 @@ export class ServiceProvidersListComponent implements OnInit {
   currentPage = 1;
   pageTotal: number;
   pages: number[] = [];
+  offset = 2;
 
   statusList = statusList;
   pendingFirstServicePerProvider: any[] = [];
@@ -348,12 +349,28 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   paginationInit() {
+    let addToEndCounter = 0;
+    let addToStartCounter = 0;
     this.pages = [];
-    for (let i = 0; i < Math.ceil(this.total / (this.dataForm.get('quantity').value)); i++) {
-      this.pages.push(i + 1);
-    }
     this.currentPage = (this.dataForm.get('from').value / (this.dataForm.get('quantity').value)) + 1;
     this.pageTotal = Math.ceil(this.total / (this.dataForm.get('quantity').value));
+    for ( let i = (+this.currentPage - this.offset); i < (+this.currentPage + 1 + this.offset); ++i ) {
+      if ( i < 1 ) { addToEndCounter++; }
+      if ( i > this.pageTotal ) { addToStartCounter++; }
+      if ((i >= 1) && (i <= this.pageTotal)) {
+        this.pages.push(i);
+      }
+    }
+    for ( let i = 0; i < addToEndCounter; ++i ) {
+      if (this.pages.length < this.pageTotal) {
+        this.pages.push(this.pages.length + 1);
+      }
+    }
+    for ( let i = 0; i < addToStartCounter; ++i ) {
+      if (this.pages[0] > 1) {
+        this.pages.unshift(this.pages[0] - 1 );
+      }
+    }
   }
 
   goToPage(page: number) {
