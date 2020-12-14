@@ -49,7 +49,7 @@ export class ResourcesListComponent implements OnInit {
 
   total: number;
   // from = 0;
-  // itemsPerPage = 15;
+  // itemsPerPage = 10;
   currentPage = 1;
   pageTotal: number;
   pages: number[] = [];

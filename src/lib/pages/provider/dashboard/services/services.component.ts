@@ -42,7 +42,7 @@ export class ServicesComponent implements OnInit {
   path: string;
 
   total: number;
-  itemsPerPage = 10;
+  // itemsPerPage = 10;
   currentPage = 1;
   pageTotal: number;
   pages: number[] = [];
@@ -174,23 +174,23 @@ export class ServicesComponent implements OnInit {
 
   paginationInit() {
     this.pages = [];
-    for (let i = 0; i < Math.ceil(this.total / this.itemsPerPage); i++) {
+    this.currentPage = (this.dataForm.get('from').value / (this.dataForm.get('quantity').value)) + 1;
+    this.pageTotal = Math.ceil(this.total / (this.dataForm.get('quantity').value));
+    for (let i = 0; i < this.pageTotal; i++) {
       this.pages.push(i + 1);
     }
-    this.currentPage = (this.dataForm.get('from').value / this.itemsPerPage) + 1;
-    this.pageTotal = Math.ceil(this.total / this.itemsPerPage);
   }
 
   goToPage(page: number) {
     this.currentPage = page;
-    this.dataForm.get('from').setValue((this.currentPage - 1) * this.itemsPerPage);
+    this.dataForm.get('from').setValue((this.currentPage - 1) * (this.dataForm.get('quantity').value));
     this.handleChange();
   }
 
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.dataForm.get('from').setValue(+this.dataForm.get('from').value - +this.itemsPerPage);
+      this.dataForm.get('from').setValue(+this.dataForm.get('from').value - +(this.dataForm.get('quantity').value));
       this.handleChange();
     }
   }
@@ -198,7 +198,7 @@ export class ServicesComponent implements OnInit {
   nextPage() {
     if (this.currentPage < this.pageTotal) {
       this.currentPage++;
-      this.dataForm.get('from').setValue(+this.dataForm.get('from').value + +this.itemsPerPage);
+      this.dataForm.get('from').setValue(+this.dataForm.get('from').value + +(this.dataForm.get('quantity').value));
       this.handleChange();
     }
   }
