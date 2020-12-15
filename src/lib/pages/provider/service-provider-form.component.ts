@@ -4,7 +4,7 @@ import * as sd from '../provider-resources/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {URLValidator} from '../../shared/validators/generic.validator';
+import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {Vocabulary, Type, Provider} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import BitSet from 'bitset/bitset';
@@ -132,12 +132,12 @@ export class ServiceProviderFormComponent implements OnInit {
     id: [''],
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
-    website: ['', Validators.compose([Validators.required, URLValidator])],
+    website: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     legalEntity: [''],
     legalStatus: [''],
     description: ['', Validators.required],
-    logo: ['', Validators.compose([Validators.required, URLValidator])],
-    multimedia: this.fb.array([this.fb.control('', URLValidator)]),
+    logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+    multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
     scientificDomains: this.fb.array([]),
     // scientificDomain: this.fb.array([]),
     // scientificSubdomains: this.fb.array([]),
@@ -549,12 +549,12 @@ export class ServiceProviderFormComponent implements OnInit {
   push(field: string, required: boolean, url?: boolean) {
     if (required) {
       if (url) {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
-      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }

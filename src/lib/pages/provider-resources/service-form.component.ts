@@ -287,7 +287,7 @@ export class ServiceFormComponent implements OnInit {
     // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);
     if (tempSave) {
-      // todo add fix hear
+      // todo add fix here
       this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
       (this.serviceForm.value).subscribe(
         _service => {
@@ -913,7 +913,6 @@ export class ServiceFormComponent implements OnInit {
       this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 0);
     } else if (this.serviceForm.get(formControlName).pending) {
-      console.log('hello');
       this.timeOut(300).then( () => this.handleBitSets(tabNum, bitIndex, formControlName));
       return;
     }
