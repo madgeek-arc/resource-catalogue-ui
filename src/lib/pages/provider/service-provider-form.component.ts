@@ -272,7 +272,7 @@ export class ServiceProviderFormComponent implements OnInit {
     }
 
     this.errorMessage = '';
-    this.trimFormWhiteSpaces();
+    // this.trimFormWhiteSpaces();
     const path = this.route.snapshot.routeConfig.path;
     let method;
     if (path === 'add/:providerId') {

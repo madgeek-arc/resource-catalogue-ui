@@ -28,6 +28,7 @@ export class UrlValidator {
 /** Increase time var to reduce server calls **/
 export const urlAsyncValidator = (service: ServiceProviderService, time: number = 0) => {
   return (control: AbstractControl): Observable<ValidationErrors> => {
+    // console.log(control);
     if (control.value === '') {
       return timer(time).pipe(map(res => {
         return null;

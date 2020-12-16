@@ -225,8 +225,6 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
     this.handleBitSetsOfGroups(4, 11, 'email', 'mainContact');
     this.handleBitSetsOfPublicContact(4, 15, 'email', 'publicContacts');
     this.initUserBitSets();
-
-    console.log(this.newProviderForm);
   }
 
 }
