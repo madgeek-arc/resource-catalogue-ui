@@ -110,7 +110,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         }
         if (this.provider.multimedia && this.provider.multimedia.length > 1) {
           for (let i = 0; i < this.provider.multimedia.length - 1; i++) {
-            this.push('multimedia', this.providerMultimediaDesc.mandatory);
+            this.push('multimedia', this.providerMultimediaDesc.mandatory, true);
           }
         }
         if (this.provider.structureTypes && this.provider.structureTypes.length > 1) {
@@ -225,6 +225,8 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
     this.handleBitSetsOfGroups(4, 11, 'email', 'mainContact');
     this.handleBitSetsOfPublicContact(4, 15, 'email', 'publicContacts');
     this.initUserBitSets();
+
+    console.log(this.newProviderForm);
   }
 
 }

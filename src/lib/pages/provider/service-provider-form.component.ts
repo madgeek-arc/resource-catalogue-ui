@@ -735,6 +735,10 @@ export class ServiceProviderFormComponent implements OnInit {
     this.hasChanges = true;
   }
 
+  timeOut(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   /** BitSets -->**/
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
     if (bitIndex === 0) {
@@ -746,6 +750,9 @@ export class ServiceProviderFormComponent implements OnInit {
     } else if (this.newProviderForm.get(formControlName).invalid) {
       this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 0);
+    } else if (this.newProviderForm.get(formControlName).pending) {
+      this.timeOut(300).then( () => this.handleBitSets(tabNum, bitIndex, formControlName));
+      return;
     }
     this.updateLoaderPercentage();
   }
