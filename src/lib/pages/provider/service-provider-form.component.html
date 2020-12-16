@@ -224,7 +224,6 @@
                                 <input id="website" class="uk-input uk-width-9-10" type="text" formControlName="website"
                                        placeholder="use http:// or https://"
                                        (input)="handleBitSets(0, 2, 'website'); unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('website')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('website')}">
                               </div>
                             </div>
@@ -290,7 +289,6 @@
                                 <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo"
                                        placeholder="use http:// or https://"
                                        (input)="handleBitSets(1, 4, 'logo'); unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('logo')"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('logo')}">
                               </div>
                               <i><small>{{providerLogoDesc.desc}}</small></i>
@@ -307,7 +305,6 @@
                                   <input id="multimedia" class="uk-input uk-width-9-10" type="text"
                                          [formControlName]="i" placeholder="use http:// or https://"
                                          (input)="unsavedChangesPrompt()"
-                                         (focusout)="checkUrlValidityForArrays('multimedia', i)"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i)}">
                                   <a *ngIf="getFieldAsFormArray('multimedia').length > 1 && !disable"
                                      class="remove-element uk-padding-small"
