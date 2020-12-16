@@ -46,6 +46,7 @@ export class ResourcesListComponent implements OnInit {
   services: InfraService[] = [];
   selectedService: InfraService;
   facets: any;
+  searchFacet = '';
 
   total: number;
   // from = 0;
