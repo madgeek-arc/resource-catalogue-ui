@@ -8,6 +8,7 @@ import {environment} from '../../../environments/environment';
 })
 export class ForbiddenPageComponent implements OnInit {
 
+  projectName = environment.projectName;
   serviceORresource = environment.serviceORresource;
 
   constructor() { }

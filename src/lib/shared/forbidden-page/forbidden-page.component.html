@@ -26,8 +26,13 @@
               </div>
 
               <div class="uk-text-center">
-                Sorry, access to this {{serviceORresource | lowercase}} on the server is forbidden.<br>
-                Either check the URL, <a href="/home">go back to the homepage</a>, or feel free to <a href="mailto:dev-support@einfracentral.eu">report this issue</a>.
+                Sorry, access to this {{serviceORresource | lowercase}} on the server is forbidden.
+              </div>
+              <div *ngIf="projectName==='CatRIS'" class="uk-text-center">
+                Either check the URL, <a href="/home">go back to the homepage</a>, or feel free to <a href="mailto:tech-support@catris.eu">report this issue</a>.
+              </div>
+              <div *ngIf="projectName==='EOSC'" class="uk-text-center">
+                Either check the URL, <a href="/home">go back to the homepage</a>, or feel free to use the ‘Provide feedback’ button on the right to report this issue.
               </div>
 
             </div>
