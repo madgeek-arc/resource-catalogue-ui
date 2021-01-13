@@ -170,6 +170,11 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             this.push('certifications', this.providerCertificationsDesc.mandatory);
           }
         }
+        if (this.provider.participatingCountries && this.provider.participatingCountries.length > 1) {
+          for (let i = 0; i < this.provider.participatingCountries.length - 1; i++) {
+            this.push('participatingCountries', this.participatingCountriesDesc.mandatory);
+          }
+        }
         if (this.provider.affiliations && this.provider.affiliations.length > 1) {
           for (let i = 0; i < this.provider.affiliations.length - 1; i++) {
             this.push('affiliations', this.affiliationDesc.mandatory);
