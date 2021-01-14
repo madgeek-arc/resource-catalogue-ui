@@ -254,9 +254,13 @@
 
                         <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
                           <hr class="uk-margin-top">
-                            <button routerLink="{{ getLinkToFirstService(providerBundle.id) }}"
+                            <button *ngIf="projectName!='EOSC'" routerLink="{{ getLinkToFirstService(providerBundle.id) }}"
                                     class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">
                               <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template
+                            </button>
+                            <button *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id)"
+                                    class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">
+                              <i class="fa fa-eye"></i>View {{serviceORresource | lowercase}} template
                             </button>
                             <button routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}"
                                     class="uk-button uk-button-link uk-margin-medium-left">
@@ -363,5 +367,15 @@
       {{ loadingMessage }}
     </div>
     <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
+<div id="modal-preview" class="uk-flex-top uk-modal-container" uk-modal="bg-close: true; esc-close: true;">
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+
+    <ng-container *ngIf="providersPage">
+      <app-preview-resource [resource]="resourceToPreview" [vocabularies]="vocabularies" [providers]="providersPage.results"></app-preview-resource>
+    </ng-container>
+
   </div>
 </div>
