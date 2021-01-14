@@ -120,14 +120,18 @@
                         <ul class="uk-nav uk-dropdown-nav">
                           <li class="" (click)="DownloadProvidersCSV()"><a>Providers</a></li>
                           <!--<li class="uk-nav-divider"></li>-->
-                          <li class="" (click)="DownloadServicesCSV()"><a>Services</a></li>
+                          <li class="" (click)="DownloadServicesCSV()"><a>{{serviceORresource}}s</a></li>
                         </ul>
                       </div>
                     </div>
 
                   </form>
 
-                  <div *ngIf="!providers || (providers.length==0)" class="uk-margin-large-top">
+                  <div *ngIf="loadingMessage" class="uk-margin-large-top">
+                    <div class="loader-big"></div>
+                  </div>
+
+                  <div *ngIf="!loadingMessage && (!providers || (providers.length==0))" class="uk-margin-large-top">
                     No providers found for your selections.
                   </div>
 

@@ -40,7 +40,7 @@
               <div class="uk-flex uk-flex-right">
                 <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
                   <span uk-search-icon></span>
-                  <input class="uk-search-input" type="search" placeholder="Locate provider..." formControlName="query">
+                  <input class="uk-search-input" type="search" placeholder="Locate {{serviceORresource}}..." formControlName="query">
                 </form>
               </div>
 
@@ -135,14 +135,18 @@
                         <ul class="uk-nav uk-dropdown-nav">
                           <li class="" (click)="DownloadProvidersCSV()"><a>Providers</a></li>
                           <!--<li class="uk-nav-divider"></li>-->
-                          <li class="" (click)="DownloadServicesCSV()"><a>Services</a></li>
+                          <li class="" (click)="DownloadServicesCSV()"><a>{{serviceORresource}}s</a></li>
                         </ul>
                       </div>
                     </div>
 
                   </form>
 
-                  <div *ngIf="!services || (services.length==0)" class="uk-margin-large-top">
+                  <div *ngIf="loadingMessage" class="uk-margin-large-top">
+                    <div class="loader-big"></div>
+                  </div>
+
+                  <div *ngIf="!loadingMessage && (!services || (services.length==0))" class="uk-margin-large-top">
                     No resources found for your selections.
                   </div>
 
@@ -169,6 +173,10 @@
 
                     <div *ngFor="let serviceBundle of services" class="uk-card provider-card uk-margin-medium-top">
                       <div class="uk-card-body" style="padding-bottom: 20px;">
+
+                        <div *ngIf="serviceBundle.active" class="approved">
+                          <div class="uk-card-badge uk-label">Active</div>
+                        </div>
 
                         <div *ngIf="!serviceBundle.active" class="rejected">
                           <div class="uk-card-badge uk-label">Inactive</div>

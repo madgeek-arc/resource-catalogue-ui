@@ -110,6 +110,10 @@
 
             <div class="uk-card-body">
 
+              <div *ngIf="providerService.active" class="approved">
+                <div class="uk-card-badge uk-label">Active</div>
+              </div>
+
               <div *ngIf="!providerService.active" class="rejected">
                 <div class="uk-card-badge uk-label">Inactive</div>
               </div>

@@ -168,6 +168,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   getServices() {
+    this.loadingMessage = 'Loading ' + this.serviceORresource + 's...';
     this.services = [];
     this.resourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
@@ -181,8 +182,10 @@ export class ResourcesListComponent implements OnInit {
       err => {
         console.log(err);
         this.errorMessage = 'The list could not be retrieved';
+        this.loadingMessage = '';
       },
       () => {
+        this.loadingMessage = '';
       }
     );
   }
