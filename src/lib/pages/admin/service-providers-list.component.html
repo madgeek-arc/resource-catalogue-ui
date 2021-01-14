@@ -143,12 +143,14 @@
                         <span class="number">{{total}}</span> {{serviceORresource | uppercase}} PROVIDERS, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
                       </div>
 
-                      <ul class="uk-pagination" uk-margin>
-                        <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+                      <ul class="uk-pagination">
+                        <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous="" class="uk-icon uk-pagination-previous"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-previous"><polyline fill="none" stroke="#000" stroke-width="1.2" points="6 1 1 6 6 11"></polyline></svg><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-previous"><polyline fill="none" stroke="#000" stroke-width="1.2" points="6 1 1 6 6 11"></polyline></svg></span></a></li>
+                        <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
                         <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
                           <a (click)="goToPage(i)">{{i}}</a>
                         </li>
-                        <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                        <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                        <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next="" class="uk-icon uk-pagination-next"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-next"><polyline fill="none" stroke="#000" stroke-width="1.2" points="1 1 6 6 1 11"></polyline></svg></span><span uk-pagination-next="" class="uk-icon uk-pagination-next"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-next"><polyline fill="none" stroke="#000" stroke-width="1.2" points="1 1 6 6 1 11"></polyline></svg></span></a></li>
                       </ul>
 
                     </div>
@@ -252,9 +254,13 @@
 
                         <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
                           <hr class="uk-margin-top">
-                            <button routerLink="{{ getLinkToFirstService(providerBundle.id) }}"
+                            <button *ngIf="projectName!='EOSC'" routerLink="{{ getLinkToFirstService(providerBundle.id) }}"
                                     class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">
                               <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template
+                            </button>
+                            <button *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id)"
+                                    class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">
+                              <i class="fa fa-eye"></i>View {{serviceORresource | lowercase}} template
                             </button>
                             <button routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}"
                                     class="uk-button uk-button-link uk-margin-medium-left">
@@ -286,12 +292,14 @@
                       </div>
                     </div>
 
-                    <ul class="uk-pagination uk-flex-right" uk-margin>
-                      <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+                    <ul class="uk-pagination uk-flex-right uk-margin">
+                      <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous="" class="uk-icon uk-pagination-previous"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-previous"><polyline fill="none" stroke="#000" stroke-width="1.2" points="6 1 1 6 6 11"></polyline></svg><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-previous"><polyline fill="none" stroke="#000" stroke-width="1.2" points="6 1 1 6 6 11"></polyline></svg></span></a></li>
+                      <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
                       <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
                         <a (click)="goToPage(i)">{{i}}</a>
                       </li>
-                      <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                      <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                      <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next="" class="uk-icon uk-pagination-next"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-next"><polyline fill="none" stroke="#000" stroke-width="1.2" points="1 1 6 6 1 11"></polyline></svg></span><span uk-pagination-next="" class="uk-icon uk-pagination-next"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-next"><polyline fill="none" stroke="#000" stroke-width="1.2" points="1 1 6 6 1 11"></polyline></svg></span></a></li>
                     </ul>
 
                   </div>
@@ -359,5 +367,15 @@
       {{ loadingMessage }}
     </div>
     <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
+<div id="modal-preview" class="uk-flex-top uk-modal-container" uk-modal="bg-close: true; esc-close: true;">
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+
+    <ng-container *ngIf="providersPage">
+      <app-preview-resource [resource]="resourceToPreview" [vocabularies]="vocabularies" [providers]="providersPage.results"></app-preview-resource>
+    </ng-container>
+
   </div>
 </div>

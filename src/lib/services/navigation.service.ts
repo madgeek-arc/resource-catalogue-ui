@@ -33,7 +33,7 @@ export class NavigationService {
     }
 
     edit(id: string) {
-        return this.router.navigate(['/edit', id]);
+        return this.router.navigateByUrl(`/provider/${id.split('.')[0]}/resource/update/${id}`);
     }
 
     editAIRE(id: string) {

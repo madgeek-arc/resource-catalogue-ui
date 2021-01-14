@@ -7,13 +7,14 @@ import {UserService} from '../../services/user.service';
 import * as sd from './services.description';
 import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
-import {URLValidator} from '../../shared/validators/generic.validator';
+import {urlAsyncValidator, UrlValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs/internal/observable/zip';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
 import BitSet from 'bitset/bitset';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
+import {timeout} from 'rxjs/operators';
 
 declare var UIkit: any;
 
@@ -32,7 +33,7 @@ export class ServiceFormComponent implements OnInit {
   showLoader = false;
   pendingService = false;
   providerId: string;
-  editMode: boolean;
+  editMode = false;
   hasChanges = false;
   serviceForm: FormGroup;
   provider: Provider;
@@ -143,12 +144,12 @@ export class ServiceFormComponent implements OnInit {
   formGroupMeta = {
     id: [''],
     name: ['', Validators.required],
-    webpage: ['', Validators.compose([Validators.required, URLValidator])],
+    webpage: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     description: ['', Validators.required],
-    logo: ['', Validators.compose([Validators.required, URLValidator])],
+    logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     tagline: ['', Validators.required],
-    useCases: this.fb.array([this.fb.control('', URLValidator)]),
-    multimedia: this.fb.array([this.fb.control('', URLValidator)]),
+    useCases: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
+    multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
     requiredResources: this.fb.array([this.fb.control('')]),
     relatedResources: this.fb.array([this.fb.control('')]),
     relatedPlatforms: this.fb.array([this.fb.control('')]),
@@ -173,20 +174,20 @@ export class ServiceFormComponent implements OnInit {
     standards: this.fb.array([this.fb.control('')]),
     openSourceTechnologies: this.fb.array([this.fb.control('')]),
     orderType: ['', Validators.required],
-    order: ['', URLValidator],
+    order: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
     helpdeskEmail: ['', Validators.compose([Validators.required, Validators.email])],
     securityContactEmail: ['', Validators.compose([Validators.required, Validators.email])],
-    serviceLevel: ['', URLValidator],
-    termsOfUse: ['', URLValidator],
-    privacyPolicy: ['', URLValidator],
-    accessPolicy: ['', URLValidator],
-    paymentModel: ['', URLValidator],
-    pricing: ['', URLValidator],
-    userManual: ['', URLValidator],
-    trainingInformation: ['', URLValidator],
-    helpdeskPage: ['', URLValidator],
-    statusMonitoring: ['', URLValidator],
-    maintenance: ['', URLValidator],
+    serviceLevel: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    termsOfUse: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    privacyPolicy: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    accessPolicy: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    paymentModel: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    pricing: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    userManual: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    trainingInformation: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    helpdeskPage: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    statusMonitoring: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    maintenance: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
     mainContact: this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -261,10 +262,10 @@ export class ServiceFormComponent implements OnInit {
 
     this.errorMessage = '';
 
-    if (!tempSave) {
-      this.getFieldAsFormArray('categories').controls = [];
-      this.getFieldAsFormArray('scientificDomains').controls = [];
-    }
+    // if (!tempSave) {
+    //   this.getFieldAsFormArray('categories').controls = [];
+    //   this.getFieldAsFormArray('scientificDomains').controls = [];
+    // }
 
     // for (const category of this.categoryArray.controls) {
     //   if (category.get('subcategory').value) {
@@ -286,7 +287,7 @@ export class ServiceFormComponent implements OnInit {
     // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);
     if (tempSave) {
-      // todo add fix hear
+      // todo add fix here
       this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
       (this.serviceForm.value).subscribe(
         _service => {
@@ -493,38 +494,37 @@ export class ServiceFormComponent implements OnInit {
   }
 
   /** check form fields and tabs validity--> **/
-  checkFormValidity(name: string): boolean {
-    return (!this.serviceForm.get(name).valid && this.serviceForm.get(name).dirty);
+  checkFormValidity(name: string, edit: boolean): boolean {
+    return (!this.serviceForm.get(name).valid && (edit || this.serviceForm.get(name).dirty));
   }
 
-  checkFormArrayValidity(name: string, position: number, groupName?: string, position2?: number, contactField?: string): boolean {
+  checkFormArrayValidity(name: string, position: number, edit: boolean, groupName?: string, position2?: number, contactField?: string): boolean {
     if (contactField) {
       return this.getFieldAsFormArray(name).controls[position].get(groupName).get([position2]).get(contactField).valid
-        && this.getFieldAsFormArray(name).controls[position].get(groupName).get([position2]).get(contactField).dirty;
+        && (edit || this.getFieldAsFormArray(name).controls[position].get(groupName).get([position2]).get(contactField).dirty);
     }
     if (groupName) {
       return !this.getFieldAsFormArray(name).get([position]).get(groupName).valid
-        && this.getFieldAsFormArray(name).get([position]).get(groupName).dirty;
+        && (edit || this.getFieldAsFormArray(name).get([position]).get(groupName).dirty);
     }
-    return !this.getFieldAsFormArray(name).get([position]).valid && this.getFieldAsFormArray(name).get([position]).dirty;
+    return (!this.getFieldAsFormArray(name).get([position]).valid && (edit || this.getFieldAsFormArray(name).get([position]).dirty));
   }
 
-  checkEveryArrayFieldValidity(name: string, groupName?: string, contactField?: string): boolean {
+  checkEveryArrayFieldValidity(name: string, edit: boolean, groupName?: string, contactField?: string): boolean {
     for (let i = 0; i < this.getFieldAsFormArray(name).length; i++) {
       if (groupName && contactField) {
         for (let j = 0; j < this.getFieldAsFormArray(name).controls[i].get(groupName)[length]; j++) {
-          console.log(j);
           if (this.getFieldAsFormArray(name).controls[i].get(groupName).get([j]).get(contactField).valid
-            && this.getFieldAsFormArray(name).controls[i].get(groupName).get([j]).get(contactField).dirty) {
+            && (edit || this.getFieldAsFormArray(name).controls[i].get(groupName).get([j]).get(contactField).dirty)) {
             return true;
           }
         }
       }
       if (groupName) {
-        if (!this.getFieldAsFormArray(name).get([i]).get(groupName).valid && this.getFieldAsFormArray(name).get([i]).get(groupName).dirty) {
+        if (!this.getFieldAsFormArray(name).get([i]).get(groupName).valid && (edit || this.getFieldAsFormArray(name).get([i]).get(groupName).dirty)) {
           return true;
         }
-      } else if (!this.getFieldAsFormArray(name).get([i]).valid && this.getFieldAsFormArray(name).get([i]).dirty) {
+      } else if (!this.getFieldAsFormArray(name).get([i]).valid && (edit || this.getFieldAsFormArray(name).get([i]).dirty)) {
         return true;
       }
     }
@@ -532,67 +532,67 @@ export class ServiceFormComponent implements OnInit {
   }
 
   markTabs() {
-    this.tabs[0] = (this.checkFormValidity('name')
-      || this.checkFormValidity('resourceOrganisation')
-      || this.checkEveryArrayFieldValidity('resourceProviders')
-      || this.checkFormValidity('webpage'));
-    this.tabs[1] = (this.checkFormValidity('description')
-      || this.checkFormValidity('tagline')
-      || this.checkFormValidity('logo')
-      || this.checkEveryArrayFieldValidity('multimedia')
-      || this.checkEveryArrayFieldValidity('useCases'));
-    this.tabs[2] = (this.checkEveryArrayFieldValidity('scientificDomains', 'scientificDomain')
-      || this.checkEveryArrayFieldValidity('scientificDomains', 'scientificSubdomain')
-      || this.checkEveryArrayFieldValidity('categories', 'category')
-      || this.checkEveryArrayFieldValidity('categories', 'subcategory')
-      || this.checkEveryArrayFieldValidity('targetUsers')
-      || this.checkEveryArrayFieldValidity('accessTypes')
-      || this.checkEveryArrayFieldValidity('accessModes')
-      || this.checkEveryArrayFieldValidity('tags'));
-    this.tabs[3] = (this.checkEveryArrayFieldValidity('geographicalAvailabilities')
-      || this.checkEveryArrayFieldValidity('languageAvailabilities'));
-    this.tabs[4] = (this.checkEveryArrayFieldValidity('resourceGeographicLocations'));
-    this.tabs[5] = (this.checkFormValidity('mainContact.firstName')
-      || this.checkFormValidity('mainContact.lastName')
-      || this.checkFormValidity('mainContact.email')
-      || this.checkFormValidity('mainContact.phone')
-      || this.checkFormValidity('mainContact.position')
-      || this.checkFormValidity('mainContact.organisation')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'firstName')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'lastName')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'email')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'phone')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'position')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'organisation')
-      || this.checkFormValidity('helpdeskEmail')
-      || this.checkFormValidity('securityContactEmail'));
-    this.tabs[6] = (this.checkFormValidity('trl')
-      || this.checkFormValidity('lifeCycleStatus')
-      || this.checkEveryArrayFieldValidity('certifications')
-      || this.checkEveryArrayFieldValidity('standards')
-      || this.checkEveryArrayFieldValidity('openSourceTechnologies')
-      || this.checkFormValidity('version')
-      || this.checkFormValidity('lastUpdate')
-      || this.checkEveryArrayFieldValidity('changeLog'));
-    this.tabs[7] = (this.checkEveryArrayFieldValidity('requiredResources')
-      || this.checkEveryArrayFieldValidity('relatedResources')
-      || this.checkEveryArrayFieldValidity('relatedPlatforms'));
-    this.tabs[8] = (this.checkEveryArrayFieldValidity('fundingBody')
-      || this.checkEveryArrayFieldValidity('fundingPrograms')
-      || this.checkEveryArrayFieldValidity('grantProjectNames'));
-    this.tabs[9] = (this.checkFormValidity('helpdeskPage')
-      || this.checkFormValidity('userManual')
-      || this.checkFormValidity('termsOfUse')
-      || this.checkFormValidity('privacyPolicy')
-      || this.checkFormValidity('accessPolicy')
-      || this.checkFormValidity('serviceLevel')
-      || this.checkFormValidity('trainingInformation')
-      || this.checkFormValidity('statusMonitoring')
-      || this.checkFormValidity('maintenance'));
-    this.tabs[10] = (this.checkFormValidity('orderType')
-      || this.checkFormValidity('order'));
-    this.tabs[11] = (this.checkFormValidity('paymentModel')
-      || this.checkFormValidity('pricing'));
+    this.tabs[0] = (this.checkFormValidity('name', this.editMode)
+      || this.checkFormValidity('resourceOrganisation', this.editMode)
+      || this.checkEveryArrayFieldValidity('resourceProviders', this.editMode)
+      || this.checkFormValidity('webpage', this.editMode));
+    this.tabs[1] = (this.checkFormValidity('description', this.editMode)
+      || this.checkFormValidity('tagline', this.editMode)
+      || this.checkFormValidity('logo', this.editMode)
+      || this.checkEveryArrayFieldValidity('multimedia', this.editMode)
+      || this.checkEveryArrayFieldValidity('useCases', this.editMode));
+    this.tabs[2] = (this.checkEveryArrayFieldValidity('scientificDomains', this.editMode, 'scientificDomain')
+      || this.checkEveryArrayFieldValidity('scientificDomains', this.editMode, 'scientificSubdomain')
+      || this.checkEveryArrayFieldValidity('categories', this.editMode, 'category')
+      || this.checkEveryArrayFieldValidity('categories', this.editMode, 'subcategory')
+      || this.checkEveryArrayFieldValidity('targetUsers', this.editMode)
+      || this.checkEveryArrayFieldValidity('accessTypes', this.editMode)
+      || this.checkEveryArrayFieldValidity('accessModes', this.editMode)
+      || this.checkEveryArrayFieldValidity('tags', this.editMode));
+    this.tabs[3] = (this.checkEveryArrayFieldValidity('geographicalAvailabilities', this.editMode)
+      || this.checkEveryArrayFieldValidity('languageAvailabilities', this.editMode));
+    this.tabs[4] = (this.checkEveryArrayFieldValidity('resourceGeographicLocations', this.editMode));
+    this.tabs[5] = (this.checkFormValidity('mainContact.firstName', this.editMode)
+      || this.checkFormValidity('mainContact.lastName', this.editMode)
+      || this.checkFormValidity('mainContact.email', this.editMode)
+      || this.checkFormValidity('mainContact.phone', this.editMode)
+      || this.checkFormValidity('mainContact.position', this.editMode)
+      || this.checkFormValidity('mainContact.organisation', this.editMode)
+      || this.checkEveryArrayFieldValidity('publicContacts', this.editMode, 'firstName')
+      || this.checkEveryArrayFieldValidity('publicContacts', this.editMode, 'lastName')
+      || this.checkEveryArrayFieldValidity('publicContacts', this.editMode, 'email')
+      || this.checkEveryArrayFieldValidity('publicContacts', this.editMode, 'phone')
+      || this.checkEveryArrayFieldValidity('publicContacts', this.editMode, 'position')
+      || this.checkEveryArrayFieldValidity('publicContacts', this.editMode, 'organisation')
+      || this.checkFormValidity('helpdeskEmail', this.editMode)
+      || this.checkFormValidity('securityContactEmail', this.editMode));
+    this.tabs[6] = (this.checkFormValidity('trl', this.editMode)
+      || this.checkFormValidity('lifeCycleStatus', this.editMode)
+      || this.checkEveryArrayFieldValidity('certifications', this.editMode)
+      || this.checkEveryArrayFieldValidity('standards', this.editMode)
+      || this.checkEveryArrayFieldValidity('openSourceTechnologies', this.editMode)
+      || this.checkFormValidity('version', this.editMode)
+      || this.checkFormValidity('lastUpdate', this.editMode)
+      || this.checkEveryArrayFieldValidity('changeLog', this.editMode));
+    this.tabs[7] = (this.checkEveryArrayFieldValidity('requiredResources', this.editMode)
+      || this.checkEveryArrayFieldValidity('relatedResources', this.editMode)
+      || this.checkEveryArrayFieldValidity('relatedPlatforms', this.editMode));
+    this.tabs[8] = (this.checkEveryArrayFieldValidity('fundingBody', this.editMode)
+      || this.checkEveryArrayFieldValidity('fundingPrograms', this.editMode)
+      || this.checkEveryArrayFieldValidity('grantProjectNames', this.editMode));
+    this.tabs[9] = (this.checkFormValidity('helpdeskPage', this.editMode)
+      || this.checkFormValidity('userManual', this.editMode)
+      || this.checkFormValidity('termsOfUse', this.editMode)
+      || this.checkFormValidity('privacyPolicy', this.editMode)
+      || this.checkFormValidity('accessPolicy', this.editMode)
+      || this.checkFormValidity('serviceLevel', this.editMode)
+      || this.checkFormValidity('trainingInformation', this.editMode)
+      || this.checkFormValidity('statusMonitoring', this.editMode)
+      || this.checkFormValidity('maintenance', this.editMode));
+    this.tabs[10] = (this.checkFormValidity('orderType', this.editMode)
+      || this.checkFormValidity('order', this.editMode));
+    this.tabs[11] = (this.checkFormValidity('paymentModel', this.editMode)
+      || this.checkFormValidity('pricing', this.editMode));
 
     // console.log(this.tabs);
   }
@@ -607,12 +607,13 @@ export class ServiceFormComponent implements OnInit {
   push(field: string, required: boolean, url?: boolean) {
     if (required) {
       if (url) {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
-      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
+      console.log('added non mandatory url field');
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }
@@ -894,18 +895,27 @@ export class ServiceFormComponent implements OnInit {
     this.hasChanges = true;
   }
 
+  timeOut(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   /** BitSets -->**/
+  /** TODO: maybe timeout can be removed with subject **/
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
     if (bitIndex === 0) {
       this.serviceName = this.serviceForm.get(formControlName).value;
     }
-      if (this.serviceForm.get(formControlName).valid) {
-        this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-        this.loaderBitSet.set(bitIndex, 1);
-      } else if (this.serviceForm.get(formControlName).invalid) {
-        this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-        this.loaderBitSet.set(bitIndex, 0);
-      }
+    // this.serviceForm.get(formControlName).updateValueAndValidity();
+    if (this.serviceForm.get(formControlName).valid) {
+      this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 1);
+    } else if (this.serviceForm.get(formControlName).invalid) {
+      this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 0);
+    } else if (this.serviceForm.get(formControlName).pending) {
+      this.timeOut(300).then( () => this.handleBitSets(tabNum, bitIndex, formControlName));
+      return;
+    }
     this.updateLoaderPercentage();
   }
 
@@ -939,6 +949,7 @@ export class ServiceFormComponent implements OnInit {
         }
       }
     } else {
+      this.serviceForm.controls[group].get(formControlName).updateValueAndValidity();
       if (this.serviceForm.controls[group].get(formControlName).valid) {
         this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
         this.loaderBitSet.set(bitIndex, 1);

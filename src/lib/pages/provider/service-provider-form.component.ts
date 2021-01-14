@@ -4,7 +4,7 @@ import * as sd from '../provider-resources/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {URLValidator} from '../../shared/validators/generic.validator';
+import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {Vocabulary, Type, Provider} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import BitSet from 'bitset/bitset';
@@ -132,12 +132,12 @@ export class ServiceProviderFormComponent implements OnInit {
     id: [''],
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
-    website: ['', Validators.compose([Validators.required, URLValidator])],
+    website: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     legalEntity: [''],
     legalStatus: [''],
     description: ['', Validators.required],
-    logo: ['', Validators.compose([Validators.required, URLValidator])],
-    multimedia: this.fb.array([this.fb.control('', URLValidator)]),
+    logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+    multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
     scientificDomains: this.fb.array([]),
     // scientificDomain: this.fb.array([]),
     // scientificSubdomains: this.fb.array([]),
@@ -272,7 +272,7 @@ export class ServiceProviderFormComponent implements OnInit {
     }
 
     this.errorMessage = '';
-    this.trimFormWhiteSpaces();
+    // this.trimFormWhiteSpaces();
     const path = this.route.snapshot.routeConfig.path;
     let method;
     if (path === 'add/:providerId') {
@@ -281,23 +281,20 @@ export class ServiceProviderFormComponent implements OnInit {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
     }
 
-    if (!tempSave) {
-      this.getFieldAsFormArray('scientificDomains').controls = [];
-      this.getFieldAsFormArray('merilScientificDomains').controls = [];
+    for (let i = 0; i < this.domainArray.length ; i++) {
+      if (this.domainArray.controls[i].get('scientificDomain').value === ''
+          || this.domainArray.controls[i].get('scientificDomain').value === null) {
+        this.removeDomain(i);
+      }
     }
 
-    // for (const category of this.domainArray.controls) {
-    //   if (category.get('scientificSubdomain').value) {
-    //     this.getFieldAsFormArray('scientificDomain').push(this.fb.control(category.get('scientificDomain').value));
-    //     this.getFieldAsFormArray('scientificSubdomains').push(this.fb.control(category.get('scientificSubdomain').value));
-    //   }
-    // }
-    // for (const category of this.merilDomainArray.controls) {
-    //   if (category.get('merilScientificSubdomain').value) {
-    //     this.getFieldAsFormArray('merilScientificDomain').push(this.fb.control(category.get('merilScientificDomain').value));
-    //     this.getFieldAsFormArray('merilScientificSubdomains').push(this.fb.control(category.get('merilScientificSubdomain').value));
-    //   }
-    // }
+    for (let i = 0; i < this.merilDomainArray.length ; i++) {
+      if (this.merilDomainArray.controls[i].get('merilScientificDomain').value === ''
+          || this.merilDomainArray.controls[i].get('merilScientificDomain').value === null) {
+        console.log(this.merilDomainArray.controls[i]);
+        this.removeMerilDomain(i);
+      }
+    }
 
     if (tempSave) {
       this.showLoader = true;
@@ -381,24 +378,28 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   /** check form fields and tabs validity--> **/
-  checkFormValidity(name: string): boolean {
-    return (!this.newProviderForm.get(name).valid && this.newProviderForm.get(name).dirty);
+  checkFormValidity(name: string, edit: boolean): boolean {
+    return (!this.newProviderForm.get(name).valid && (edit || this.newProviderForm.get(name).dirty));
   }
 
-  checkFormArrayValidity(name: string, position: number, groupName?: string): boolean {
+  checkFormArrayValidity(name: string, position: number, edit: boolean, groupName?: string): boolean {
     if (groupName) {
-      return !this.getFieldAsFormArray(name).get([position]).get(groupName).valid && this.getFieldAsFormArray(name).get([position]).get(groupName).dirty;
+      return (!this.getFieldAsFormArray(name).get([position]).get(groupName).valid
+        && (edit || this.getFieldAsFormArray(name).get([position]).get(groupName).dirty));
     }
-    return !this.getFieldAsFormArray(name).get([position]).valid && this.getFieldAsFormArray(name).get([position]).dirty;
+    return (!this.getFieldAsFormArray(name).get([position]).valid
+      && (edit || this.getFieldAsFormArray(name).get([position]).dirty));
   }
 
-  checkEveryArrayFieldValidity(name: string, groupName?: string): boolean {
+  checkEveryArrayFieldValidity(name: string, edit: boolean, groupName?: string): boolean {
     for (let i = 0; i < this.getFieldAsFormArray(name).length; i++) {
       if (groupName) {
-        if (!this.getFieldAsFormArray(name).get([i]).get(groupName).valid && this.getFieldAsFormArray(name).get([i]).get(groupName).dirty) {
+        if (!this.getFieldAsFormArray(name).get([i]).get(groupName).valid
+          && (edit || this.getFieldAsFormArray(name).get([i]).get(groupName).dirty)) {
           return true;
         }
-      } else if (!this.getFieldAsFormArray(name).get([i]).valid && this.getFieldAsFormArray(name).get([i]).dirty) {
+      } else if (!this.getFieldAsFormArray(name).get([i]).valid
+        && (edit || this.getFieldAsFormArray(name).get([i]).dirty)) {
         return true;
       }
     }
@@ -406,49 +407,49 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   markTabs() {
-    this.tabs[0] = (this.checkFormValidity('name')
-      || this.checkFormValidity('abbreviation')
-      || this.checkFormValidity('website')
-      || this.checkEveryArrayFieldValidity('legalEntity')
-      || this.checkFormValidity('legalStatus'));
-    this.tabs[1] = (this.checkFormValidity('description')
-      || this.checkFormValidity('logo')
-      || this.checkEveryArrayFieldValidity('multimedia'));
-    this.tabs[2] = (this.checkEveryArrayFieldValidity('tags')
-      || this.checkEveryArrayFieldValidity('scientificDomains', 'scientificDomain')
-      || this.checkEveryArrayFieldValidity('scientificDomains', 'scientificSubdomain'));
-    this.tabs[3] = (this.checkFormValidity('location.streetNameAndNumber')
-      || this.checkFormValidity('location.postalCode')
-      || this.checkFormValidity('location.city')
-      || this.checkFormValidity('location.region')
-      || this.checkFormValidity('location.country'));
-    this.tabs[4] = (this.checkFormValidity('mainContact.firstName')
-      || this.checkFormValidity('mainContact.lastName')
-      || this.checkFormValidity('mainContact.email')
-      || this.checkFormValidity('mainContact.phone')
-      || this.checkFormValidity('mainContact.position')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'firstName')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'lastName')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'email')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'phone')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'position'));
-    this.tabs[5] = (this.checkFormValidity('lifeCycleStatus')
-      || this.checkEveryArrayFieldValidity('certifications'));
-    this.tabs[6] = (this.checkFormValidity('hostingLegalEntity')
-      || this.checkEveryArrayFieldValidity('participatingCountries')
-      || this.checkEveryArrayFieldValidity('affiliations')
-      || this.checkEveryArrayFieldValidity('networks')
-      || this.checkEveryArrayFieldValidity('structureTypes')
-      || this.checkEveryArrayFieldValidity('esfriDomains')
-      || this.checkFormValidity('esfriType')
-      || this.checkEveryArrayFieldValidity('merilScientificDomains', 'merilScientificDomain')
-      || this.checkEveryArrayFieldValidity('merilScientificDomains', 'merilScientificSubdomain')
-      || this.checkEveryArrayFieldValidity('areasOfActivity')
-      || this.checkEveryArrayFieldValidity('societalGrandChallenges')
-      || this.checkEveryArrayFieldValidity('nationalRoadmaps'));
-    this.tabs[6] = (this.checkEveryArrayFieldValidity('users', 'name')
-      || this.checkEveryArrayFieldValidity('users', 'surname')
-      || this.checkEveryArrayFieldValidity('users', 'email'));
+    this.tabs[0] = (this.checkFormValidity('name', this.edit)
+      || this.checkFormValidity('abbreviation', this.edit)
+      || this.checkFormValidity('website', this.edit)
+      || this.checkEveryArrayFieldValidity('legalEntity', this.edit)
+      || this.checkFormValidity('legalStatus', this.edit));
+    this.tabs[1] = (this.checkFormValidity('description', this.edit)
+      || this.checkFormValidity('logo', this.edit)
+      || this.checkEveryArrayFieldValidity('multimedia', this.edit));
+    this.tabs[2] = (this.checkEveryArrayFieldValidity('tags', this.edit)
+      || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificDomain')
+      || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificSubdomain'));
+    this.tabs[3] = (this.checkFormValidity('location.streetNameAndNumber', this.edit)
+      || this.checkFormValidity('location.postalCode', this.edit)
+      || this.checkFormValidity('location.city', this.edit)
+      || this.checkFormValidity('location.region', this.edit)
+      || this.checkFormValidity('location.country', this.edit));
+    this.tabs[4] = (this.checkFormValidity('mainContact.firstName', this.edit)
+      || this.checkFormValidity('mainContact.lastName', this.edit)
+      || this.checkFormValidity('mainContact.email', this.edit)
+      || this.checkFormValidity('mainContact.phone', this.edit)
+      || this.checkFormValidity('mainContact.position', this.edit)
+      || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'firstName')
+      || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'lastName')
+      || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'email')
+      || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'phone')
+      || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'position'));
+    this.tabs[5] = (this.checkFormValidity('lifeCycleStatus', this.edit)
+      || this.checkEveryArrayFieldValidity('certifications', this.edit));
+    this.tabs[6] = (this.checkFormValidity('hostingLegalEntity', this.edit)
+      || this.checkEveryArrayFieldValidity('participatingCountries', this.edit)
+      || this.checkEveryArrayFieldValidity('affiliations', this.edit)
+      || this.checkEveryArrayFieldValidity('networks', this.edit)
+      || this.checkEveryArrayFieldValidity('structureTypes', this.edit)
+      || this.checkEveryArrayFieldValidity('esfriDomains', this.edit)
+      || this.checkFormValidity('esfriType', this.edit)
+      || this.checkEveryArrayFieldValidity('merilScientificDomains', this.edit, 'merilScientificDomain')
+      || this.checkEveryArrayFieldValidity('merilScientificDomains', this.edit, 'merilScientificSubdomain')
+      || this.checkEveryArrayFieldValidity('areasOfActivity', this.edit)
+      || this.checkEveryArrayFieldValidity('societalGrandChallenges', this.edit)
+      || this.checkEveryArrayFieldValidity('nationalRoadmaps', this.edit));
+    this.tabs[6] = (this.checkEveryArrayFieldValidity('users', this.edit, 'name')
+      || this.checkEveryArrayFieldValidity('users', this.edit, 'surname')
+      || this.checkEveryArrayFieldValidity('users', this.edit, 'email'));
   }
 
   /** check form fields and tabs validity--> **/
@@ -549,12 +550,12 @@ export class ServiceProviderFormComponent implements OnInit {
   push(field: string, required: boolean, url?: boolean) {
     if (required) {
       if (url) {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
-      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }
@@ -735,6 +736,10 @@ export class ServiceProviderFormComponent implements OnInit {
     this.hasChanges = true;
   }
 
+  timeOut(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   /** BitSets -->**/
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
     if (bitIndex === 0) {
@@ -746,6 +751,9 @@ export class ServiceProviderFormComponent implements OnInit {
     } else if (this.newProviderForm.get(formControlName).invalid) {
       this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 0);
+    } else if (this.newProviderForm.get(formControlName).pending) {
+      this.timeOut(300).then( () => this.handleBitSets(tabNum, bitIndex, formControlName));
+      return;
     }
     this.updateLoaderPercentage();
   }

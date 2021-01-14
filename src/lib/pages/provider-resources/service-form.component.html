@@ -235,7 +235,7 @@
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <input id="name" class="uk-input uk-width-9-10" type="text" formControlName="name"
                                        (input)="handleBitSets(0, 0, 'name'); unsavedChangesPrompt()"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('name') }">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('name', this.editMode) }">
                               </div>
                               <i><small>Suggested length is 80 characters</small></i>
                             </div>
@@ -248,7 +248,7 @@
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{resourceOrganisationDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <ng-select *ngIf="providersPage" class="uk-width-9-10 uk-disabled" id="resourceOrganisation"
-                                           [ngClass]="{'uk-form-danger': checkFormValidity('resourceOrganisation')}"
+                                           [ngClass]="{'uk-form-danger': checkFormValidity('resourceOrganisation', this.editMode)}"
                                            [items]="providersPage.results"
                                            (change)="handleBitSets(0, 1, 'resourceOrganisation'); unsavedChangesPrompt()"
                                            bindLabel="name"
@@ -272,7 +272,7 @@
                                   *ngFor="let provider of getFieldAsFormArray('resourceProviders').controls; let i=index"
                                   class="uk-margin-bottom">
                                   <ng-select *ngIf="providersPage" class="uk-width-9-10" id="serviceProviders"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('resourceProviders', i)}"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('resourceProviders', i, this.editMode)}"
                                              [items]="providersPage.results"
                                              (change)="unsavedChangesPrompt()"
                                              bindLabel="name"
@@ -304,9 +304,7 @@
                                 <input id="webpage" class="uk-input uk-width-9-10" type="text" formControlName="webpage"
                                        placeholder="use http:// or https://"
                                        (input)="handleBitSets(0, 2, 'webpage'); unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('webpage')"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('webpage')}">
-                                <!--<i><small>{{webpageDesc.desc}}</small></i>-->
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('webpage', this.editMode)}">
                               </div>
                             </div>
                           </li>
@@ -345,7 +343,7 @@
                               <textarea id="description" class="uk-textarea uk-width-9-10" rows="4"
                                         formControlName="description"
                                         (input)="handleBitSets(1, 3, 'description'); unsavedChangesPrompt()"
-                                        [ngClass]="{'uk-form-danger': checkFormValidity('description')}"></textarea>
+                                        [ngClass]="{'uk-form-danger': checkFormValidity('description', this.editMode)}"></textarea>
                               </div>
                               <i><small>Suggested length is 1000 characters</small></i>
                             </div>
@@ -357,7 +355,7 @@
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <input id="tagline" class="uk-input uk-width-9-10" type="text" formControlName="tagline"
                                        (input)="handleBitSets(1, 4, 'tagline'); unsavedChangesPrompt()"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('tagline')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('tagline', this.editMode)}">
                               </div>
                               <i><small>Suggested length is 100 characters</small></i>
                             </div>
@@ -370,8 +368,7 @@
                                 <input id="logo" class="uk-input " type="text" formControlName="logo"
                                        placeholder="use http:// or https://"
                                        (input)="handleBitSets(1, 5, 'logo'); unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('logo')"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('logo')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('logo', this.editMode)}">
                                 <!--<i><small>{{logoDesc.desc}}</small></i>-->
                                 <i><small>{{logoDesc.desc}}</small></i>
                               </div>
@@ -387,8 +384,7 @@
                                   <input id="multimedia" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                                          type="text" [formControlName]="i" placeholder="use http:// or https://"
                                          (input)="unsavedChangesPrompt()"
-                                         (focusout)="checkUrlValidityForArrays('multimedia', i)"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i)}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('multimedia').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('multimedia', i); unsavedChangesPrompt()">
@@ -415,8 +411,7 @@
                                   <input id="useCases" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                                          type="text" [formControlName]="i" placeholder="use http:// or https://"
                                          (input)="unsavedChangesPrompt()"
-                                         (focusout)="checkUrlValidityForArrays('useCases', i)"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i)}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('useCases').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('useCases', i); unsavedChangesPrompt()">
@@ -424,7 +419,7 @@
                                   </a>
                                 </div>
                                 <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                                  <a class="add-new-element" (click)="push('useCases', useCasesDesc.mandatory, false)">
+                                  <a class="add-new-element" (click)="push('useCases', useCasesDesc.mandatory, true)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{useCasesDesc.label}}
                                   </a>
                                 </div>
@@ -455,7 +450,7 @@
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{scientificDomainDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <ng-select *ngIf="scientificDomainVocabulary" class="uk-width-1-1" id="{{'scientificDomain ' + i}}"
-                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, 'scientificDomain')}"
+                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, this.editMode, 'scientificDomain')}"
                                                    (change)="onScientificDomainChange(i); unsavedChangesPrompt()"
                                                    [items]="sortVocabulariesByName(scientificDomainVocabulary)"
                                                    bindLabel="name"
@@ -476,7 +471,7 @@
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <ng-select *ngIf="scientificSubDomainVocabulary" id="{{'scientificSubdomain ' + i}}"
                                                    class="uk-width-1-1"
-                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, 'scientificSubdomain')}"
+                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, this.editMode, 'scientificSubdomain')}"
                                                    (change)="handleBitSetsOfGroups(2, 7, 'scientificSubdomain', 'scientificDomains'); unsavedChangesPrompt()"
                                                    [items]="getSortedChildrenCategories(scientificSubDomainVocabulary, scientificDomainArray.controls[i].get('scientificDomain').value)"
                                                    bindLabel="name"
@@ -530,7 +525,7 @@
                                         <ng-select *ngIf="categoriesVocabulary" id="{{'category ' + i}}"
                                                    class="uk-width-1-1"
                                                    (change)="onCategoryChange(i); unsavedChangesPrompt()"
-                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('categories', i, 'category')}"
+                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('categories', i, this.editMode, 'category')}"
                                                    [items]="sortVocabulariesByName(categoriesVocabulary)"
                                                    bindLabel="name"
                                                    bindValue="id"
@@ -552,7 +547,7 @@
                                         <ng-select *ngIf="subCategoriesVocabulary" id="{{'subcategory ' + i}}"
                                                    class="uk-width-1-1"
                                                    (change)="handleBitSetsOfGroups(2, 9, 'subcategory', 'categories'); unsavedChangesPrompt()"
-                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('categories', i, 'subcategory')}"
+                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('categories', i, this.editMode, 'subcategory')}"
                                                    [items]="getSortedChildrenCategories(subCategoriesVocabulary, categoryArray.controls[i].get('category').value)"
                                                    bindLabel="name"
                                                    bindValue="id"
@@ -591,7 +586,7 @@
                                 <div *ngFor="let provider of getFieldAsFormArray('targetUsers').controls; let i=index"
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('targetUsers').controls.length-1 !== i}">
                                   <ng-select *ngIf="targetUsersVocabulary" class="uk-width-9-10" id="targetUsers"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('targetUsers', i)}"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('targetUsers', i, this.editMode)}"
                                              [items]="sortVocabulariesByName(targetUsersVocabulary)"
                                              (change)="handleBitSets(2, 10, 'targetUsers');unsavedChangesPrompt()"
                                              bindLabel="name"
@@ -624,7 +619,7 @@
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('accessTypes').controls.length-1 !== i}">
                                   <ng-select *ngIf="accessTypesVocabulary" class="uk-width-9-10" id="accessTypes"
                                              (change)="unsavedChangesPrompt()"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('accessTypes', i)}"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('accessTypes', i, this.editMode)}"
                                              [items]="sortVocabulariesByName(accessTypesVocabulary)"
                                              bindLabel="name"
                                              bindValue="id"
@@ -656,7 +651,7 @@
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('accessModes').controls.length-1 !== i}">
                                   <ng-select *ngIf="accessTypesVocabulary" class="uk-width-9-10" id="accessModes"
                                              (change)="unsavedChangesPrompt()"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('accessModes', i)}"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('accessModes', i, this.editMode)}"
                                              [items]="sortVocabulariesByName(accessModesVocabulary)"
                                              bindLabel="name"
                                              bindValue="id"
@@ -689,7 +684,7 @@
                                   <input id="tags" class="uk-input uk-animation-slide-top-small uk-width-9-10"
                                          type="text" [formControlName]="i"
                                          (input)="unsavedChangesPrompt()"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('tags', i)}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('tags', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('tags').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('tags', i); unsavedChangesPrompt()">
@@ -720,7 +715,7 @@
                                   *ngFor="let place of getFieldAsFormArray('geographicalAvailabilities').controls; let i=index"
                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('geographicalAvailabilities').controls.length-1 !== i}">
                                   <ng-select *ngIf="geographicalVocabulary" class="uk-width-9-10" id="geographicalAvailabilities"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('geographicalAvailabilities', i)}"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('geographicalAvailabilities', i, this.editMode)}"
                                              [items]="geographicalVocabulary"
                                              (change)="handleBitSets(3, 11, 'geographicalAvailabilities'); unsavedChangesPrompt()"
                                              bindLabel="name"
@@ -756,7 +751,7 @@
                                   *ngFor="let provider of getFieldAsFormArray('languageAvailabilities').controls; let i=index"
                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('languageAvailabilities').controls.length-1 !== i}">
                                   <ng-select *ngIf="languagesVocabulary" class="uk-width-9-10" id="languageAvailabilities"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('languageAvailabilities', i)}"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('languageAvailabilities', i, this.editMode)}"
                                              [items]="languagesVocabulary"
                                              (change)="handleBitSets(3, 12, 'languageAvailabilities'); unsavedChangesPrompt()"
                                              bindLabel="name"
@@ -795,7 +790,7 @@
                                   *ngFor="let provider of getFieldAsFormArray('resourceGeographicLocations').controls; let i=index"
                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('resourceGeographicLocations').controls.length-1 !== i}">
                                   <ng-select *ngIf="geographicalVocabulary" class="uk-width-9-10" id="resourceGeographicLocations"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('resourceGeographicLocations', i)}"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('resourceGeographicLocations', i, this.editMode)}"
                                              [items]="geographicalVocabulary"
                                              (change)="unsavedChangesPrompt()"
                                              bindLabel="name"
@@ -838,7 +833,7 @@
                                       <input id="mainContactFirstName" class="uk-input" type="text"
                                              formControlName="firstName"
                                              (input)="handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact'); unsavedChangesPrompt()"
-                                             [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.firstName')}">
+                                             [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.firstName', this.editMode)}">
                                     </div>
                                     <i><small>Suggested length is 20 characters</small></i>
                                   </div>
@@ -852,7 +847,7 @@
                                       <input id="mainContactLastName" class="uk-input" type="text"
                                              formControlName="lastName"
                                              (input)="handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact'); unsavedChangesPrompt()"
-                                             [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.lastName')}">
+                                             [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.lastName', this.editMode)}">
                                     </div>
                                     <i><small>Suggested length is 20 characters</small></i>
                                   </div>
@@ -865,7 +860,7 @@
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="mainContactEmail" class="uk-input" type="text" formControlName="email"
                                              (input)="handleBitSetsOfGroups(5, 15, 'email', 'mainContact'); unsavedChangesPrompt()"
-                                             [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.email')}">
+                                             [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.email', this.editMode)}">
                                       <!--<i><small>{{ mainContactEmailDesc.desc }}</small></i>-->
                                     </div>
                                   </div>
@@ -878,7 +873,7 @@
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="mainContactPhone" class="uk-input" type="text" formControlName="phone"
 
-                                             [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.phone')}">
+                                             [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.phone', this.editMode)}">
                                     </div>
                                     <i><small>Suggested length is 20 characters</small></i>
                                   </div>
@@ -892,7 +887,7 @@
                                       <input id="mainContactPosition" class="uk-input" type="text"
                                              formControlName="position"
 
-                                             [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.position')}">
+                                             [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.position', this.editMode)}">
                                     </div>
                                     <i><small>Suggested length is 20 characters</small></i>
                                   </div>
@@ -904,7 +899,7 @@
                                       class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactOrganisationDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <ng-select *ngIf="providersPage" class="uk-width-1-1" id="mainContactOrganisation"
-                                                 [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.organisation')}"
+                                                 [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.organisation', this.editMode)}"
                                                  [items]="providersPage.results"
                                                  (change)="unsavedChangesPrompt()"
                                                  bindLabel="name"
@@ -941,7 +936,7 @@
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <input id="firstName" class="uk-input" type="text" formControlName="firstName"
                                                (input)="unsavedChangesPrompt()"
-                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'firstName')}">
+                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'firstName')}">
                                       </div>
                                       <i><small>Suggested length is 20 characters</small></i>
                                     </div>
@@ -954,7 +949,7 @@
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <input id="lastName" class="uk-input" type="text" formControlName="lastName"
                                                (input)="unsavedChangesPrompt()"
-                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'lastName')}">
+                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'lastName')}">
                                       </div>
                                       <i><small>Suggested length is 20 characters</small></i>
                                     </div>
@@ -967,7 +962,7 @@
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <input id="email" class="uk-input" type="text" formControlName="email"
                                                (input)="handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts'); unsavedChangesPrompt()"
-                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'email')}">
+                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'email')}">
                                         <!--<i><small>{{ publicContactEmailDesc.desc }}</small></i>-->
                                       </div>
                                     </div>
@@ -980,7 +975,7 @@
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <input id="phone" class="uk-input" type="text" formControlName="phone"
                                                (input)="unsavedChangesPrompt()"
-                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'phone')}">
+                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'phone')}">
                                       </div>
                                       <i><small>Suggested length is 20 characters</small></i>
                                     </div>
@@ -993,7 +988,7 @@
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <input id="position" class="uk-input" type="text" formControlName="position"
                                                (input)="unsavedChangesPrompt()"
-                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'position')}">
+                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'position')}">
                                       </div>
                                       <i><small>Suggested length is 20 characters</small></i>
                                     </div>
@@ -1006,7 +1001,7 @@
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <ng-select *ngIf="providersPage" class="uk-width-1-1" id="organisation"
                                                    (change)="unsavedChangesPrompt()"
-                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, 'organisation')}"
+                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'organisation')}"
                                                    [items]="providersPage.results"
                                                    bindLabel="name"
                                                    bindValue="id"
@@ -1040,7 +1035,7 @@
                                 <input id="helpdeskEmail" class="uk-input uk-width-9-10" type="text"
                                        formControlName="helpdeskEmail"
                                        (input)="handleBitSets(5, 16, 'helpdeskEmail'); unsavedChangesPrompt()"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('helpdeskEmail')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('helpdeskEmail', editMode)}">
                                 <!--<i><small>{{helpdeskEmailDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1054,7 +1049,7 @@
                                 <input id="securityContactEmail" class="uk-input uk-width-9-10" type="text"
                                        formControlName="securityContactEmail"
                                        (input)="handleBitSets(5, 17, 'securityContactEmail'); unsavedChangesPrompt()"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('securityContactEmail')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('securityContactEmail', this.editMode)}">
                                 <!--<i><small>{{securityContactEmailDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1070,7 +1065,7 @@
                               <div class="uk-form-controls uk-margin-top">
                                 <ng-select *ngIf="trlVocabulary" class="uk-width-9-10" id="trl"
                                            (change)="handleBitSets(6, 18, 'trl'); unsavedChangesPrompt()"
-                                           [ngClass]="{'uk-form-danger': checkFormValidity('trl')}"
+                                           [ngClass]="{'uk-form-danger': checkFormValidity('trl', this.editMode)}"
                                            [items]="sortVocabulariesByName(trlVocabulary)"
                                            bindLabel="name"
                                            bindValue="id"
@@ -1089,7 +1084,7 @@
                               <div class="uk-form-controls uk-margin-top">
                                 <ng-select *ngIf="phaseVocabulary" class="uk-width-9-10" id="lifeCycleStatus"
                                            (change)="handleBitSets(6, 18, 'trl'); unsavedChangesPrompt()"
-                                           [ngClass]="{'uk-form-danger': checkFormValidity('lifeCycleStatus')}"
+                                           [ngClass]="{'uk-form-danger': checkFormValidity('lifeCycleStatus', this.editMode)}"
                                            [items]="sortVocabulariesByName(phaseVocabulary)"
                                            bindLabel="name"
                                            bindValue="id"
@@ -1113,7 +1108,7 @@
                                   <input id="certifications" class="uk-input uk-animation-slide-top-small uk-width-9-10"
                                          type="text" [formControlName]="i"
 
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('certifications', i)}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('certifications', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('certifications').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('certifications', i); unsavedChangesPrompt()">
@@ -1140,7 +1135,7 @@
                                   <input id="standards" class="uk-input uk-animation-slide-top-small uk-width-9-10"
                                          type="text" [formControlName]="i"
 
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('standards', i)}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('standards', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('standards').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('standards', i); unsavedChangesPrompt()">
@@ -1170,7 +1165,7 @@
                                          class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text"
                                          [formControlName]="i"
 
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('openSourceTechnologies', i)}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('openSourceTechnologies', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('openSourceTechnologies').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('openSourceTechnologies', i); unsavedChangesPrompt()">
@@ -1196,7 +1191,7 @@
                                 <input id="version" maxlength="10" class="uk-input uk-width-9-10" type="text"
                                        formControlName="version"
 
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('version')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('version', this.editMode)}">
                               </div>
                               <i><small>Suggested length is 10 characters</small></i>
                             </div>
@@ -1209,7 +1204,7 @@
                                 <input id="lastUpdate" class="uk-input uk-width-9-10" type="date" lang="gr"
                                        formControlName="lastUpdate"
 
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('lastUpdate')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('lastUpdate', this.editMode)}">
                                 <!--<i><small>{{lastUpdateDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1224,7 +1219,7 @@
                                   <input id="changeLog" class="uk-input uk-animation-slide-top-small uk-width-9-10"
                                          type="text" [formControlName]="i"
 
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('changeLog', i)}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('changeLog', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('changeLog').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('changeLog', i); unsavedChangesPrompt()">
@@ -1254,7 +1249,7 @@
                                   *ngFor="let provider of getFieldAsFormArray('requiredResources').controls; let i=index"
                                   class="uk-margin-bottom">
                                   <ng-select *ngIf="requiredResources" class="uk-width-9-10" id="requiredResources"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('requiredResources', i)}"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('requiredResources', i, this.editMode)}"
                                              [items]="requiredResources"
                                              (change)="unsavedChangesPrompt()"
                                              bindLabel="name"
@@ -1287,7 +1282,7 @@
                                   *ngFor="let provider of getFieldAsFormArray('relatedResources').controls; let i=index"
                                   class="uk-margin-bottom">
                                   <ng-select *ngIf="relatedResources" class="uk-width-9-10" id="relatedResources"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedResources', i)}"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedResources', i, this.editMode)}"
                                              [items]="relatedResources"
                                              (change)="unsavedChangesPrompt()"
                                              bindLabel="name"
@@ -1323,7 +1318,7 @@
                                          class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text"
                                          [formControlName]="i"
                                          (input)="unsavedChangesPrompt()"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedPlatforms', i)}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedPlatforms', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('relatedPlatforms').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('relatedPlatforms', i); unsavedChangesPrompt()">
@@ -1352,7 +1347,7 @@
                                 <div *ngFor="let provider of getFieldAsFormArray('fundingBody').controls; let i=index"
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('fundingBody').controls.length-1 !== i}">
                                   <ng-select *ngIf="fundingBodyVocabulary" class="uk-width-9-10" id="fundingBody"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('fundingBody', i)}"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('fundingBody', i, this.editMode)}"
                                              [items]="sortVocabulariesByName(fundingBodyVocabulary)"
                                              (change)="unsavedChangesPrompt()"
                                              bindLabel="name"
@@ -1387,7 +1382,7 @@
                                   *ngFor="let provider of getFieldAsFormArray('fundingPrograms').controls; let i=index"
                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('fundingPrograms').controls.length-1 !== i}">
                                   <ng-select *ngIf="fundingProgramVocabulary" class="uk-width-9-10" id="fundingPrograms"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('fundingPrograms', i)}"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('fundingPrograms', i, this.editMode)}"
                                              [items]="sortVocabulariesByName(fundingProgramVocabulary)"
                                              (change)="unsavedChangesPrompt()"
                                              bindLabel="name"
@@ -1426,7 +1421,7 @@
                                          class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text"
                                          [formControlName]="i"
                                          (input)="unsavedChangesPrompt()"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('grantProjectNames', i)}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('grantProjectNames', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('grantProjectNames').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('grantProjectNames', i); unsavedChangesPrompt()">
@@ -1456,8 +1451,7 @@
                                 <input id="helpdeskPage" class="uk-input uk-width-9-10" type="text"
                                        formControlName="helpdeskPage" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('helpdeskPage')"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('helpdeskPage')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('helpdeskPage', this.editMode)}">
                                 <!--<i><small>{{helpdeskPageDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1470,8 +1464,7 @@
                                 <input id="userManual" class="uk-input uk-width-9-10" type="text"
                                        formControlName="userManual" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('userManual')"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('userManual')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('userManual', this.editMode)}">
                                 <!--<i><small>{{userManualDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1484,8 +1477,7 @@
                                 <input id="termsOfUse" class="uk-input uk-width-9-10" type="text"
                                        formControlName="termsOfUse" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('termsOfUse')"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('termsOfUse')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('termsOfUse', this.editMode)}">
                                 <!--<i><small>{{termsOfUseDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1499,8 +1491,7 @@
                                 <input id="privacyPolicy" class="uk-input uk-width-9-10" type="text"
                                        formControlName="privacyPolicy" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('privacyPolicy')"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('privacyPolicy')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('privacyPolicy', this.editMode)}">
                                 <!--<i><small>{{privacyPolicyDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1514,8 +1505,7 @@
                                 <input id="accessPolicy" class="uk-input uk-width-9-10" type="text"
                                        formControlName="accessPolicy" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('accessPolicy')"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('accessPolicy')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('accessPolicy', this.editMode)}">
                                 <!--<i><small>{{accessPolicyDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1529,8 +1519,7 @@
                                 <input id="serviceLevel" class="uk-input uk-width-9-10" type="text"
                                        formControlName="serviceLevel" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('serviceLevel')"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('serviceLevel')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('serviceLevel', this.editMode)}">
                                 <!--<i><small>{{serviceLevelDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1544,8 +1533,7 @@
                                 <input id="trainingInformation" class="uk-input uk-width-9-10" type="text"
                                        formControlName="trainingInformation" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('trainingInformation')"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('trainingInformation')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('trainingInformation', this.editMode)}">
                                 <!--<i><small>{{trainingInformationDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1559,8 +1547,7 @@
                                 <input id="statusMonitoring" class="uk-input uk-width-9-10" type="text"
                                        formControlName="statusMonitoring" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('statusMonitoring')"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('statusMonitoring')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('statusMonitoring', this.editMode)}">
                                 <!--<i><small>{{statusMonitoringDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1574,8 +1561,7 @@
                                 <input id="maintenance" class="uk-input uk-width-9-10" type="text"
                                        formControlName="maintenance" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('maintenance')"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('maintenance')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('maintenance', this.editMode)}">
                                 <!--<i><small>{{maintenanceDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1590,7 +1576,7 @@
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <ng-select *ngIf="orderTypeVocabulary" class="uk-width-9-10" id="orderType"
                                            (change)="handleBitSets(10, 19, 'orderType'); unsavedChangesPrompt()"
-                                           [ngClass]="{'uk-form-danger': checkFormValidity('orderType')}"
+                                           [ngClass]="{'uk-form-danger': checkFormValidity('orderType', this.editMode)}"
                                            [items]="sortVocabulariesByName(orderTypeVocabulary)"
                                            bindLabel="name"
                                            bindValue="id"
@@ -1610,8 +1596,7 @@
                                 <input id="order" class="uk-input uk-width-9-10" type="text" formControlName="order"
                                        placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('order')"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('order')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('order', this.editMode)}">
                                 <!--<i><small>{{orderDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1628,8 +1613,7 @@
                                 <input id="paymentModel" class="uk-input uk-width-9-10" type="text"
                                        formControlName="paymentModel" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('paymentModel')"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('paymentModel')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('paymentModel', this.editMode)}">
                                 <!--<i><small>{{paymentModelDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1642,14 +1626,16 @@
                                 <input id="pricing" class="uk-input uk-width-9-10" type="text" formControlName="pricing"
                                        placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
-                                       (focusout)="checkUrlValidity('pricing')"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('pricing')}">
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('pricing', this.editMode)}">
                                 <!--<i><small>{{pricingDesc.desc}}</small></i>-->
                               </div>
                             </div>
                           </li>
                         </ul>
                         <div class="requiredFields">Fields with (*) are mandatory</div>
+<!--                        <pre>-->
+<!--                          {{serviceForm.value | json}}-->
+<!--                        </pre>-->
                       </div>
                       <!--<button type="submit" class="btn btn-primary butn theme block full-width m-b">-->
                       <!--{{editMode ? "Update" : "Add"}}-->

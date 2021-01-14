@@ -110,7 +110,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         }
         if (this.provider.multimedia && this.provider.multimedia.length > 1) {
           for (let i = 0; i < this.provider.multimedia.length - 1; i++) {
-            this.push('multimedia', this.providerMultimediaDesc.mandatory);
+            this.push('multimedia', this.providerMultimediaDesc.mandatory, true);
           }
         }
         if (this.provider.structureTypes && this.provider.structureTypes.length > 1) {
@@ -168,6 +168,11 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         if (this.provider.certifications && this.provider.certifications.length > 1) {
           for (let i = 0; i < this.provider.certifications.length - 1; i++) {
             this.push('certifications', this.providerCertificationsDesc.mandatory);
+          }
+        }
+        if (this.provider.participatingCountries && this.provider.participatingCountries.length > 1) {
+          for (let i = 0; i < this.provider.participatingCountries.length - 1; i++) {
+            this.push('participatingCountries', this.participatingCountriesDesc.mandatory);
           }
         }
         if (this.provider.affiliations && this.provider.affiliations.length > 1) {

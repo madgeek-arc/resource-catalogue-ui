@@ -53,18 +53,22 @@
                   <hr class="uk-margin-large-right">
 
                   <div *ngIf="facets !== null && facets !== undefined" class="refineCategory uk-grid-margin">
-<!--                    <read-more [maxHeight]="235">-->
                     <h2 class="uk-h2">{{facets[0].label}}</h2>
+                    <label class="uk-margin-small-left uk-margin-medium-bottom">
+                        <input class="uk-search-input" [(ngModel)]="searchFacet" placeholder="Search with provider id or provider name">
+                    </label>
                       <div class="uk-margin-small-top" *ngFor="let provider of facets[0].values">
-                        <label class="uk-margin-small-left">
-                          <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
-                                 (change)="this.onSelection($event, 'resource_organisation', provider.value)"
-                                 [checked]="isProviderChecked(provider.value)">
-                        </label>
-                        <span> {{provider.label ? provider.label : provider.value}}</span>
-                        <span> ({{provider.count}})</span>
+                        <div *ngIf="!searchFacet || searchFacet.toLowerCase() === provider.value.toLowerCase()
+                                                 || (provider.label!=null && provider.label.toLowerCase().includes(searchFacet.toLowerCase()))">
+                          <label class="uk-margin-small-left">
+                            <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
+                                   (change)="this.onSelection($event, 'resource_organisation', provider.value)"
+                                   [checked]="isProviderChecked(provider.value)">
+                          </label>
+                          <span> {{provider.label ? provider.label : provider.value}}</span>
+                          <span> ({{provider.count}})</span>
+                        </div>
                       </div>
-<!--                    </read-more>-->
                   </div>
 
                 </div>
@@ -158,12 +162,14 @@
                         <span class="number">{{total}}</span> {{serviceORresource | uppercase}}S, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
                       </div>
 
-                      <ul class="uk-pagination" uk-margin>
-                        <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+                      <ul class="uk-pagination">
+                        <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous="" class="uk-icon uk-pagination-previous"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-previous"><polyline fill="none" stroke="#000" stroke-width="1.2" points="6 1 1 6 6 11"></polyline></svg><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-previous"><polyline fill="none" stroke="#000" stroke-width="1.2" points="6 1 1 6 6 11"></polyline></svg></span></a></li>
+                        <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
                         <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
                           <a (click)="goToPage(i)">{{i}}</a>
                         </li>
-                        <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                        <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                        <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next="" class="uk-icon uk-pagination-next"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-next"><polyline fill="none" stroke="#000" stroke-width="1.2" points="1 1 6 6 1 11"></polyline></svg></span><span uk-pagination-next="" class="uk-icon uk-pagination-next"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-next"><polyline fill="none" stroke="#000" stroke-width="1.2" points="1 1 6 6 1 11"></polyline></svg></span></a></li>
                       </ul>
 
                     </div>
@@ -294,12 +300,14 @@
                       </div>
                     </div>
 
-                    <ul class="uk-pagination uk-flex-right" uk-margin>
-                      <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+                    <ul class="uk-pagination uk-flex-right uk-margin">
+                      <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous="" class="uk-icon uk-pagination-previous"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-previous"><polyline fill="none" stroke="#000" stroke-width="1.2" points="6 1 1 6 6 11"></polyline></svg><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-previous"><polyline fill="none" stroke="#000" stroke-width="1.2" points="6 1 1 6 6 11"></polyline></svg></span></a></li>
+                      <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
                       <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
                         <a (click)="goToPage(i)">{{i}}</a>
                       </li>
-                      <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                      <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                      <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next="" class="uk-icon uk-pagination-next"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-next"><polyline fill="none" stroke="#000" stroke-width="1.2" points="1 1 6 6 1 11"></polyline></svg></span><span uk-pagination-next="" class="uk-icon uk-pagination-next"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-next"><polyline fill="none" stroke="#000" stroke-width="1.2" points="1 1 6 6 1 11"></polyline></svg></span></a></li>
                     </ul>
 
                   </div>

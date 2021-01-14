@@ -221,10 +221,12 @@
           </div>
 
           <div *ngIf="richService.service.useCases && richService.service.useCases.length>0"  class="uk-margin-top">
-            <dl class="uk-description-list">
-              <dt class="">Use cases</dt>
-              <dd><read-more [maxHeight]="90">{{richService.service.useCases | join:", "}}</read-more></dd>
-            </dl>
+            <h2 class="section-heading uk-h2 uk-width-1-1@m">Use cases</h2>
+            <div *ngFor="let useCases of richService.service.useCases; let i=index">
+              <a class="" href="{{useCases}}" routerLinkActive="active"
+                 target="_blank"> {{useCases}}
+              </a>
+            </div>
           </div>
 
           <!--REQUIRED/RELATED-->
@@ -245,7 +247,7 @@
             <div *ngIf="richService.service.relatedPlatforms && richService.service.relatedPlatforms.length>0 ">
               <h2 class="section-heading uk-h2 uk-width-1-1@m">Related platforms</h2>
               <div *ngFor="let relatedService of richService.service.relatedPlatforms">
-                <a class="" (click)="this.router.service(relatedService)">{{relatedService}}</a>
+                <span class="">{{relatedService}}</span>
               </div>
             </div>
           </div>
