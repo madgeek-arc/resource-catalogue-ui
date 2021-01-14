@@ -378,24 +378,28 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   /** check form fields and tabs validity--> **/
-  checkFormValidity(name: string): boolean {
-    return (!this.newProviderForm.get(name).valid && this.newProviderForm.get(name).dirty);
+  checkFormValidity(name: string, edit: boolean): boolean {
+    return (!this.newProviderForm.get(name).valid && (edit || this.newProviderForm.get(name).dirty));
   }
 
-  checkFormArrayValidity(name: string, position: number, groupName?: string): boolean {
+  checkFormArrayValidity(name: string, position: number, edit: boolean, groupName?: string): boolean {
     if (groupName) {
-      return !this.getFieldAsFormArray(name).get([position]).get(groupName).valid && this.getFieldAsFormArray(name).get([position]).get(groupName).dirty;
+      return (!this.getFieldAsFormArray(name).get([position]).get(groupName).valid
+        && (edit || this.getFieldAsFormArray(name).get([position]).get(groupName).dirty));
     }
-    return !this.getFieldAsFormArray(name).get([position]).valid && this.getFieldAsFormArray(name).get([position]).dirty;
+    return (!this.getFieldAsFormArray(name).get([position]).valid
+      && (edit || this.getFieldAsFormArray(name).get([position]).dirty));
   }
 
-  checkEveryArrayFieldValidity(name: string, groupName?: string): boolean {
+  checkEveryArrayFieldValidity(name: string, edit: boolean, groupName?: string): boolean {
     for (let i = 0; i < this.getFieldAsFormArray(name).length; i++) {
       if (groupName) {
-        if (!this.getFieldAsFormArray(name).get([i]).get(groupName).valid && this.getFieldAsFormArray(name).get([i]).get(groupName).dirty) {
+        if (!this.getFieldAsFormArray(name).get([i]).get(groupName).valid
+          && (edit || this.getFieldAsFormArray(name).get([i]).get(groupName).dirty)) {
           return true;
         }
-      } else if (!this.getFieldAsFormArray(name).get([i]).valid && this.getFieldAsFormArray(name).get([i]).dirty) {
+      } else if (!this.getFieldAsFormArray(name).get([i]).valid
+        && (edit || this.getFieldAsFormArray(name).get([i]).dirty)) {
         return true;
       }
     }
@@ -403,49 +407,49 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   markTabs() {
-    this.tabs[0] = (this.checkFormValidity('name')
-      || this.checkFormValidity('abbreviation')
-      || this.checkFormValidity('website')
-      || this.checkEveryArrayFieldValidity('legalEntity')
-      || this.checkFormValidity('legalStatus'));
-    this.tabs[1] = (this.checkFormValidity('description')
-      || this.checkFormValidity('logo')
-      || this.checkEveryArrayFieldValidity('multimedia'));
-    this.tabs[2] = (this.checkEveryArrayFieldValidity('tags')
-      || this.checkEveryArrayFieldValidity('scientificDomains', 'scientificDomain')
-      || this.checkEveryArrayFieldValidity('scientificDomains', 'scientificSubdomain'));
-    this.tabs[3] = (this.checkFormValidity('location.streetNameAndNumber')
-      || this.checkFormValidity('location.postalCode')
-      || this.checkFormValidity('location.city')
-      || this.checkFormValidity('location.region')
-      || this.checkFormValidity('location.country'));
-    this.tabs[4] = (this.checkFormValidity('mainContact.firstName')
-      || this.checkFormValidity('mainContact.lastName')
-      || this.checkFormValidity('mainContact.email')
-      || this.checkFormValidity('mainContact.phone')
-      || this.checkFormValidity('mainContact.position')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'firstName')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'lastName')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'email')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'phone')
-      || this.checkEveryArrayFieldValidity('publicContacts', 'position'));
-    this.tabs[5] = (this.checkFormValidity('lifeCycleStatus')
-      || this.checkEveryArrayFieldValidity('certifications'));
-    this.tabs[6] = (this.checkFormValidity('hostingLegalEntity')
-      || this.checkEveryArrayFieldValidity('participatingCountries')
-      || this.checkEveryArrayFieldValidity('affiliations')
-      || this.checkEveryArrayFieldValidity('networks')
-      || this.checkEveryArrayFieldValidity('structureTypes')
-      || this.checkEveryArrayFieldValidity('esfriDomains')
-      || this.checkFormValidity('esfriType')
-      || this.checkEveryArrayFieldValidity('merilScientificDomains', 'merilScientificDomain')
-      || this.checkEveryArrayFieldValidity('merilScientificDomains', 'merilScientificSubdomain')
-      || this.checkEveryArrayFieldValidity('areasOfActivity')
-      || this.checkEveryArrayFieldValidity('societalGrandChallenges')
-      || this.checkEveryArrayFieldValidity('nationalRoadmaps'));
-    this.tabs[6] = (this.checkEveryArrayFieldValidity('users', 'name')
-      || this.checkEveryArrayFieldValidity('users', 'surname')
-      || this.checkEveryArrayFieldValidity('users', 'email'));
+    this.tabs[0] = (this.checkFormValidity('name', this.edit)
+      || this.checkFormValidity('abbreviation', this.edit)
+      || this.checkFormValidity('website', this.edit)
+      || this.checkEveryArrayFieldValidity('legalEntity', this.edit)
+      || this.checkFormValidity('legalStatus', this.edit));
+    this.tabs[1] = (this.checkFormValidity('description', this.edit)
+      || this.checkFormValidity('logo', this.edit)
+      || this.checkEveryArrayFieldValidity('multimedia', this.edit));
+    this.tabs[2] = (this.checkEveryArrayFieldValidity('tags', this.edit)
+      || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificDomain')
+      || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificSubdomain'));
+    this.tabs[3] = (this.checkFormValidity('location.streetNameAndNumber', this.edit)
+      || this.checkFormValidity('location.postalCode', this.edit)
+      || this.checkFormValidity('location.city', this.edit)
+      || this.checkFormValidity('location.region', this.edit)
+      || this.checkFormValidity('location.country', this.edit));
+    this.tabs[4] = (this.checkFormValidity('mainContact.firstName', this.edit)
+      || this.checkFormValidity('mainContact.lastName', this.edit)
+      || this.checkFormValidity('mainContact.email', this.edit)
+      || this.checkFormValidity('mainContact.phone', this.edit)
+      || this.checkFormValidity('mainContact.position', this.edit)
+      || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'firstName')
+      || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'lastName')
+      || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'email')
+      || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'phone')
+      || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'position'));
+    this.tabs[5] = (this.checkFormValidity('lifeCycleStatus', this.edit)
+      || this.checkEveryArrayFieldValidity('certifications', this.edit));
+    this.tabs[6] = (this.checkFormValidity('hostingLegalEntity', this.edit)
+      || this.checkEveryArrayFieldValidity('participatingCountries', this.edit)
+      || this.checkEveryArrayFieldValidity('affiliations', this.edit)
+      || this.checkEveryArrayFieldValidity('networks', this.edit)
+      || this.checkEveryArrayFieldValidity('structureTypes', this.edit)
+      || this.checkEveryArrayFieldValidity('esfriDomains', this.edit)
+      || this.checkFormValidity('esfriType', this.edit)
+      || this.checkEveryArrayFieldValidity('merilScientificDomains', this.edit, 'merilScientificDomain')
+      || this.checkEveryArrayFieldValidity('merilScientificDomains', this.edit, 'merilScientificSubdomain')
+      || this.checkEveryArrayFieldValidity('areasOfActivity', this.edit)
+      || this.checkEveryArrayFieldValidity('societalGrandChallenges', this.edit)
+      || this.checkEveryArrayFieldValidity('nationalRoadmaps', this.edit));
+    this.tabs[6] = (this.checkEveryArrayFieldValidity('users', this.edit, 'name')
+      || this.checkEveryArrayFieldValidity('users', this.edit, 'surname')
+      || this.checkEveryArrayFieldValidity('users', this.edit, 'email'));
   }
 
   /** check form fields and tabs validity--> **/
