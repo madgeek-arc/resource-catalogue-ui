@@ -1,3 +1,22 @@
+a.linkButton {
+  color: var(--primary-color) !important;
+}
+
+.editServiceIcon {
+  color: var(--primary-color);
+}
+
+.addServiceFloatButton {
+  z-index: 100;
+  bottom: 45px;
+  position: fixed;
+  right: 45px;
+}
+
+.addServiceFloatButton a {
+  color: #fff !important;
+}
+
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
@@ -21,7 +40,7 @@ h2.uk-h2 {
 .tagLine {
   font-size: 16px;
   /*color: #0047BA;*/
-  color: rgb(55, 131, 63);
+  color: var(--primary-color);
   letter-spacing: 0;
   line-height: 22px;
   font-weight: bold;
@@ -284,7 +303,7 @@ chart {
   display: block;
   width: 100px;
   height: 2px;
-  background: #37833F;
+  background: var(--primary-color);
   margin-top: 7px;
 }
 
@@ -294,7 +313,7 @@ chart {
 }
 
 .uk-card-primary {
-  background: #37833F;
+  background: var(--primary-color);
 }
 
 .uk-card-primary .uk-h2 {

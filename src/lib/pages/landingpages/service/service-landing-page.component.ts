@@ -23,6 +23,8 @@ declare var UIkit: any;
 })
 export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
+  public projectName = environment.projectName;
+
   serviceORresource = environment.serviceORresource;
 
   services: RichService[] = [];
@@ -43,6 +45,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   formError = '';
   showForm = false;
   canEditService = false;
+  canAddOrEditService = false;
   placesVocIdArray: string[] = [];
   places: Vocabulary[] = null;
 
@@ -80,6 +83,10 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
             /* check if the current user can edit the service */
             this.canEditService = this.myProviders.some(p => this.richService.service.resourceProviders.some(x => x === p.id));
+
+            if (this.projectName === 'OpenAIRE Catalogue') {
+              this.canAddOrEditService = this.myProviders.some(p => p.id === 'openaire');
+            }
 
             const serviceIDs = (this.richService.service.requiredResources || []).concat(this.richService.service.relatedResources || [])
               .filter((e, i, a) => a.indexOf(e) === i && e !== '');

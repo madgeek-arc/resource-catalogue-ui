@@ -16,7 +16,7 @@
               {{richService.service.name || "Not Available"}}
               <span class="uk-margin-left" *ngIf="canEditService">
                 <a (click)="this.router.edit(richService.service.id)" routerLinkActive="active">
-                  <i class="fa fa-pencil" style="color: rgb(55, 131, 63)"></i></a>
+                  <i class="fa fa-lg fa-pencil editServiceIcon"></i></a>
               </span>
             </h2>
             <div *ngIf="richService.service.tagline && (richService.service.tagline.length > 0)" class="tagLine">
@@ -26,7 +26,7 @@
             <div class="uk-grid">
 
               <div class="uk-width-1-1 summaryInfo uk-margin-medium-top uk-margin-medium-bottom">
-                <div class="divider-bottom">
+                <div *ngIf="projectName!='OpenAIRE Catalogue'" class="divider-bottom">
                   <span><strong>Provided by: </strong></span>
                   <span class="" *ngFor="let provider of richService.providerInfo; let i = index">
                     <span *ngIf="i > 0">, </span>{{ provider.providerName}}
@@ -66,7 +66,7 @@
                   </span>
                 </div>
 
-                <div class="uk-margin-small-bottom uk-margin-small-top">
+                <div *ngIf="projectName!='OpenAIRE Catalogue'" class="uk-margin-small-bottom uk-margin-small-top">
                   <!-- RATINGS --> <!-- TODO: make them conditional (probably @Input boolean at component and ngIf here?) -->
                   <star-rating-comp #rating (click)="rateService(rating.rating)"
                                     [starType]="'svg'" [rating]="richService.hasRate" [step]="1"
@@ -160,25 +160,25 @@
             <img src="{{(richService.service.logo) ? richService.service.logo : 'src/lib/assets/images/broken_image-black-48dp.svg'}}">
           </div>
           <div class="uk-margin-top">
-            <a class="uk-button butn theme uk-width-1-1" href="{{richService.service.webpage}}" target="_blank"
-               routerLinkActive="active" style="color: rgb(55, 131, 63)">
+            <a class="uk-button butn theme uk-width-1-1 linkButton" href="{{richService.service.webpage}}" target="_blank"
+               routerLinkActive="active">
               <strong>Service Homepage</strong>
             </a>
-            <div *ngIf="richService.service.multimedia && richService.service.multimedia.length > 0">
+            <div *ngIf="richService.service.multimedia && richService.service.multimedia.length > 0" class="uk-margin-top">
               <strong class="uk-margin-remove uk-button butn theme uk-width-1-1"
                       style="cursor: text; font-weight: 700; font-size: 15px">
                 Slideshow/Video list</strong>
               <ng-container *ngFor="let multimediaLink of richService.service.multimedia; let i = index">
-                <a  class="uk-button butn theme uk-width-1-1"
-                    href="{{multimediaLink}}" routerLinkActive="active" target="_blank" style="color: rgb(55, 131, 63)">
+                <a  class="uk-button butn theme linkButton uk-width-1-1"
+                    href="{{multimediaLink}}" routerLinkActive="active" target="_blank">
                   Link {{i+1}}
                 </a>
               </ng-container>
 
             </div>
 
-            <a *ngIf="richService.service.order" class="uk-margin-top uk-button butn theme uk-width-1-1"
-               href="{{richService.service.order}}" routerLinkActive="active" target="_blank" style="color: rgb(55, 131, 63)">
+            <a *ngIf="richService.service.order" class="uk-margin-top uk-button butn theme linkButton uk-width-1-1"
+               href="{{richService.service.order}}" routerLinkActive="active" target="_blank">
               <strong>Request the {{serviceORresource}}</strong>
             </a>
           </div>
@@ -377,3 +377,10 @@
 
 <!-- FIXME: #email-modal id is inside the component, it should be changed -->
 <app-email-modal [serviceIdsArray]="this.serviceId"></app-email-modal>
+
+<div *ngIf="(projectName=='OpenAIRE Catalogue') && canAddOrEditService" class="uk-float-right addServiceFloatButton">
+  <a [routerLink]="['/provider/openaire/resource/add']" style="padding: 30px;"
+     class="uk-icon-button uk-button-secondary">
+    <i class="fa fa-plus"></i>
+  </a>
+</div>
