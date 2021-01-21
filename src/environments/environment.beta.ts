@@ -1,6 +1,8 @@
 export const environment = {
   production: false,
   beta: true,
+  ATOMO_URL: '',
+  MATOMO_SITE: 2,
   FAQ_ENDPOINT: '/faq/api',
   API_ENDPOINT: '/api',
   projectName: 'EOSC',

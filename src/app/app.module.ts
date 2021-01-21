@@ -52,6 +52,7 @@ import {TreeviewModule} from 'ngx-treeview';
 import {EOSCFooterComponent} from './shared/footer/footer.component';
 import {EOSCTopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
+import {MatomoModule} from 'ngx-matomo';
 
 
 declare var require: any;
@@ -124,6 +125,7 @@ export function highchartsFactory() {
     ChartModule,
     AngularFontAwesomeModule,
     CookieLawModule,
+    MatomoModule,
     AppRoutingModule,
   ],
   providers: [

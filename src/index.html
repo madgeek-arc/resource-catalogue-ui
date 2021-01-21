@@ -28,9 +28,9 @@
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
     (function () {
-      var u = "${MATOMO_HOST}/";
-      _paq.push(['setTrackerUrl', u + 'piwik.php']);
-      _paq.push(['setSiteId', '${MATOMO_SITE_ID}']);
+      var u="//{$MATOMO_URL}/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      _paq.push(['setSiteId', {$IDSITE}]);
       var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
       g.type = 'text/javascript';
       g.async = true;

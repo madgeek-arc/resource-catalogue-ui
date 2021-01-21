@@ -36,6 +36,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "ng2-ckeditor": "1.2.1",
+    "ngx-matomo": "^0.1.4",
     "ngx-treeview": "^6.0.2",
     "rxjs": "~6.2.0",
     "uikit": "^3.0.3",
