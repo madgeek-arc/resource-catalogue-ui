@@ -974,7 +974,7 @@
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPhoneDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <input id="phone" class="uk-input" type="text" formControlName="phone"
-                                               (input)="unsavedChangesPrompt()"
+                                               (input)="handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts'); unsavedChangesPrompt()"
                                                [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'phone')}">
                                       </div>
                                       <i><small>Suggested length is 20 characters</small></i>
