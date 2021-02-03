@@ -45,6 +45,7 @@ export class ServiceFormComponent implements OnInit {
   tabs: boolean[] = [false, false, false, false, false, false, false, false, false, false, false, false];
   fb: FormBuilder = this.injector.get(FormBuilder);
   disable = false;
+  isPortalAdmin = false;
 
   requiredOnTab0 = 3;
   requiredOnTab1 = 3;
@@ -416,6 +417,8 @@ export class ServiceFormComponent implements OnInit {
 
       }
     );
+
+    this.isPortalAdmin = this.authenticationService.isAdmin();
 
     this.pushCategory();
     this.pushScientificDomain();

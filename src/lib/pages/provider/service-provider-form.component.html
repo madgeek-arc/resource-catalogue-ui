@@ -225,6 +225,9 @@
                                        placeholder="use http:// or https://"
                                        (input)="handleBitSets(0, 2, 'website'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('website', this.edit)}">
+                                <div *ngIf="this.edit && this.isPortalAdmin && this.newProviderForm.get('website').value" class="uk-icon">
+                                  <a href="{{this.newProviderForm.get('website').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
                               </div>
                             </div>
                             <div class="uk-margin-large-bottom">
@@ -306,6 +309,9 @@
                                          [formControlName]="i" placeholder="use http:// or https://"
                                          (input)="unsavedChangesPrompt()"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.edit)}">
+                                  <div *ngIf="this.edit && this.isPortalAdmin && this.newProviderForm.get('multimedia').value[i]" class="uk-icon">
+                                    <a href="{{this.newProviderForm.get('multimedia').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                  </div>
                                   <a *ngIf="getFieldAsFormArray('multimedia').length > 1 && !disable"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('multimedia', i); unsavedChangesPrompt()">

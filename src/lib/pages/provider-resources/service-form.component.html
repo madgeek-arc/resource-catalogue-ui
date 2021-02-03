@@ -301,10 +301,15 @@
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{webpageDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
+
                                 <input id="webpage" class="uk-input uk-width-9-10" type="text" formControlName="webpage"
                                        placeholder="use http:// or https://"
                                        (input)="handleBitSets(0, 2, 'webpage'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('webpage', this.editMode)}">
+                                <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('webpage').value" class="uk-icon">
+                                  <a href="{{this.serviceForm.get('webpage').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
+
                               </div>
                             </div>
                           </li>
@@ -385,6 +390,9 @@
                                          type="text" [formControlName]="i" placeholder="use http:// or https://"
                                          (input)="unsavedChangesPrompt()"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode)}">
+                                  <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('multimedia').value[i]" class="uk-icon">
+                                    <a href="{{this.serviceForm.get('multimedia').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                  </div>
                                   <a *ngIf="getFieldAsFormArray('multimedia').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('multimedia', i); unsavedChangesPrompt()">
@@ -412,6 +420,9 @@
                                          type="text" [formControlName]="i" placeholder="use http:// or https://"
                                          (input)="unsavedChangesPrompt()"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i, this.editMode)}">
+                                  <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('useCases').value[i]" class="uk-icon">
+                                    <a href="{{this.serviceForm.get('useCases').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                  </div>
                                   <a *ngIf="getFieldAsFormArray('useCases').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('useCases', i); unsavedChangesPrompt()">
@@ -1452,6 +1463,9 @@
                                        formControlName="helpdeskPage" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('helpdeskPage', this.editMode)}">
+                                <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('helpdeskPage').value" class="uk-icon">
+                                  <a href="{{this.serviceForm.get('helpdeskPage').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
                                 <!--<i><small>{{helpdeskPageDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1465,6 +1479,9 @@
                                        formControlName="userManual" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('userManual', this.editMode)}">
+                                <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('userManual').value" class="uk-icon">
+                                  <a href="{{this.serviceForm.get('userManual').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
                                 <!--<i><small>{{userManualDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1478,6 +1495,9 @@
                                        formControlName="termsOfUse" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('termsOfUse', this.editMode)}">
+                                <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('termsOfUse').value" class="uk-icon">
+                                  <a href="{{this.serviceForm.get('termsOfUse').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
                                 <!--<i><small>{{termsOfUseDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1492,6 +1512,9 @@
                                        formControlName="privacyPolicy" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('privacyPolicy', this.editMode)}">
+                                <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('privacyPolicy').value" class="uk-icon">
+                                  <a href="{{this.serviceForm.get('privacyPolicy').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
                                 <!--<i><small>{{privacyPolicyDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1506,6 +1529,9 @@
                                        formControlName="accessPolicy" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('accessPolicy', this.editMode)}">
+                                <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('accessPolicy').value" class="uk-icon">
+                                  <a href="{{this.serviceForm.get('accessPolicy').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
                                 <!--<i><small>{{accessPolicyDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1520,6 +1546,9 @@
                                        formControlName="serviceLevel" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('serviceLevel', this.editMode)}">
+                                <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('serviceLevel').value" class="uk-icon">
+                                  <a href="{{this.serviceForm.get('serviceLevel').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
                                 <!--<i><small>{{serviceLevelDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1534,6 +1563,9 @@
                                        formControlName="trainingInformation" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('trainingInformation', this.editMode)}">
+                                <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('trainingInformation').value" class="uk-icon">
+                                  <a href="{{this.serviceForm.get('trainingInformation').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
                                 <!--<i><small>{{trainingInformationDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1548,6 +1580,9 @@
                                        formControlName="statusMonitoring" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('statusMonitoring', this.editMode)}">
+                                <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('statusMonitoring').value" class="uk-icon">
+                                  <a href="{{this.serviceForm.get('statusMonitoring').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
                                 <!--<i><small>{{statusMonitoringDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1562,6 +1597,9 @@
                                        formControlName="maintenance" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('maintenance', this.editMode)}">
+                                <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('maintenance').value" class="uk-icon">
+                                  <a href="{{this.serviceForm.get('maintenance').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
                                 <!--<i><small>{{maintenanceDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1597,6 +1635,9 @@
                                        placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('order', this.editMode)}">
+                                <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('order').value" class="uk-icon">
+                                  <a href="{{this.serviceForm.get('order').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
                                 <!--<i><small>{{orderDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1614,6 +1655,9 @@
                                        formControlName="paymentModel" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('paymentModel', this.editMode)}">
+                                <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('paymentModel').value" class="uk-icon">
+                                  <a href="{{this.serviceForm.get('paymentModel').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
                                 <!--<i><small>{{paymentModelDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -1627,6 +1671,9 @@
                                        placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('pricing', this.editMode)}">
+                                <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('pricing').value" class="uk-icon">
+                                  <a href="{{this.serviceForm.get('pricing').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
                                 <!--<i><small>{{pricingDesc.desc}}</small></i>-->
                               </div>
                             </div>

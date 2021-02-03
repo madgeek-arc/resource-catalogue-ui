@@ -40,6 +40,7 @@ export class ServiceProviderFormComponent implements OnInit {
   disable = false;
   showLoader = false;
   tabs: boolean[] = [false, false, false, false, false, false, false, false];
+  isPortalAdmin = false;
 
   requiredOnTab0 = 3;
   requiredOnTab1 = 2;
@@ -260,6 +261,8 @@ export class ServiceProviderFormComponent implements OnInit {
         }
       }
     }
+
+    this.isPortalAdmin = this.authService.isAdmin();
 
     this.initUserBitSets(); // Admin + mainContact
   }
