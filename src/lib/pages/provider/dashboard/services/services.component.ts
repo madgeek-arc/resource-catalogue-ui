@@ -26,7 +26,7 @@ export class ServicesComponent implements OnInit {
     order: 'ASC',
     orderField: 'name',
     query: '',
-    active: true
+    active: 'statusAll'
   };
 
   dataForm: FormGroup;
@@ -160,7 +160,7 @@ export class ServicesComponent implements OnInit {
     this.urlParams = [];
     const map: { [name: string]: string; } = {};
     for (const i in this.dataForm.controls) {
-      if (this.dataForm.get(i).value !== '') {
+      if (this.dataForm.get(i).value !== '' && this.dataForm.get(i).value !== 'statusAll') {
         const urlParam = new URLParameter();
         urlParam.key = i;
         urlParam.values = [this.dataForm.get(i).value];

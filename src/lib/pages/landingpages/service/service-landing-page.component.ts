@@ -13,6 +13,7 @@ import {zip} from 'rxjs/internal/observable/zip';
 import {EmailService} from '../../../services/email.service';
 import {Paging} from '../../../domain/paging';
 import {environment} from '../../../../environments/environment';
+import {MatomoTracker} from 'ngx-matomo';
 
 declare var UIkit: any;
 
@@ -56,6 +57,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
               public userService: UserService,
               private fb: FormBuilder,
               private providerService: ServiceProviderService,
+              private matomoTracker: MatomoTracker,
               public emailService: EmailService) {
   }
 
@@ -104,6 +106,9 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
               this.router.go('/404');
             }
             this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
+          },
+          () => {
+            this.matomoTracker.trackEvent('landing page visit', this.serviceId, this.authenticationService.getUserEmail(), 1);
           });
       });
     } else {

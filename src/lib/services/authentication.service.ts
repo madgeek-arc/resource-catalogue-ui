@@ -55,8 +55,8 @@ export class AuthenticationService {
 
       this.user = JSON.parse(this.b64DecodeUnicode(getCookie(this.cookieName).replace(/"/gi, '')));
 
-
       this.user.id = this.user.eduperson_unique_id;
+      // console.log(this.user);
 
       sessionStorage.setItem('userInfo', JSON.stringify(this.user));
       this.expiresAt = moment().add(JSON.stringify(this.user.expireSec), 'second');
@@ -152,6 +152,10 @@ export class AuthenticationService {
     if (this.isLoggedIn()) {
       return !isNullOrUndefined(this.user.family_name) ? this.user.family_name : '';
     }
+  }
+
+  getUserEmail() {
+    return !isNullOrUndefined(this.user.email) ? this.user.email : 'null';
   }
 
   public getUserRoles(): string[] {

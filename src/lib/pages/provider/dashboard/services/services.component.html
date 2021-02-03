@@ -64,7 +64,8 @@
             <label class="" for="status">Status </label>
             <div class="uk-inline">
               <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="active">
-                <option value="true" selected>Active</option>
+                <option value="statusAll" selected>All</option>
+                <option value="true">Active</option>
                 <option value="false">Inactive</option>
               </select>
             </div>

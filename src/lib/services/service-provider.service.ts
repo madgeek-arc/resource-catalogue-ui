@@ -32,12 +32,12 @@ export class ServiceProviderService {
   }
 
   createNewServiceProvider(newProvider: any) {
-    console.log(`knocking on: ${this.base}/provider`);
+    // console.log(`knocking on: ${this.base}/provider`);
     return this.http.post(this.base + '/provider', newProvider, this.options);
   }
 
   updateServiceProvider(updatedFields: any): Observable<Provider> {
-    console.log(`knocking on: ${this.base}/provider`);
+    // console.log(`knocking on: ${this.base}/provider`);
     return this.http.put<Provider>(this.base + '/provider', updatedFields, this.options);
   }
 
@@ -77,8 +77,12 @@ export class ServiceProviderService {
     return this.http.get<Provider>(this.base + `/pendingProvider/provider/${id}`, this.options);
   }
 
-  getServicesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: boolean, query?: string) {
+  getServicesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: string, query?: string) {
     if (!query) { query = ''; }
+    if (active === 'statusAll') {
+      return this.http.get<Paging<InfraService>>(this.base +
+        `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`);
+    }
     return this.http.get<Paging<InfraService>>(this.base +
       `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&query=${query}`);
   }
@@ -126,7 +130,7 @@ export class ServiceProviderService {
   }
 
   validateUrl(url: string) {
-    console.log(`knocking on: ${this.base}/provider/validateUrl?urlForValidation=${url}`);
+    // console.log(`knocking on: ${this.base}/provider/validateUrl?urlForValidation=${url}`);
     return this.http.get<boolean>(this.base + `/provider/validateUrl?urlForValidation=${url}`);
   }
 

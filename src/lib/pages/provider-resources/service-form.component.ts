@@ -612,7 +612,7 @@ export class ServiceFormComponent implements OnInit {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
-      console.log('added non mandatory url field');
+      // console.log('added non mandatory url field');
       this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
@@ -836,7 +836,8 @@ export class ServiceFormComponent implements OnInit {
     }
     if (richService.service.publicContacts) {
       for (let i = 0; i < richService.service.publicContacts.length - 1; i++) {
-        this.push('publicContacts', false);
+        this.pushPublicContact();
+        // this.push('publicContacts', false);
       }
     }
     if (richService.service.certifications) {
@@ -1086,7 +1087,7 @@ export class ServiceFormComponent implements OnInit {
     if (this.serviceForm.get(formControlName).valid && this.serviceForm.get(formControlName).value !== '') {
       // if (this.newProviderForm.get(formControlName).value !== '') {
       const url = this.serviceForm.get(formControlName).value;
-      console.log(url);
+      // console.log(url);
       this.serviceProviderService.validateUrl(url).subscribe(
         boolean => { urlValidity = boolean; },
         error => { console.log(error); },
@@ -1112,7 +1113,7 @@ export class ServiceFormComponent implements OnInit {
         error => { console.log(error); },
         () => {
           if (!urlValidity) {
-            console.log('invalid');
+            // console.log('invalid');
             window.scrollTo(0, 0);
             this.errorMessage = url + ' is not a valid ' + formArrayName + ' URL. Please enter a valid URL.';
           }
