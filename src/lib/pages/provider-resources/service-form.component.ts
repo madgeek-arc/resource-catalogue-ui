@@ -687,8 +687,8 @@ export class ServiceFormComponent implements OnInit {
     return this.fb.group({
       firstName: [''],
       lastName: [''],
-      email: [''],
-      phone: [''],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      phone: ['', Validators.pattern('[+]?\\d+$')],
       position: [''],
       organisation: ['']
     });
