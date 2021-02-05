@@ -711,34 +711,6 @@ export class ServiceFormComponent implements OnInit {
 
   /** <--Service Contact Info **/
 
-  /*
-  newContact(): FormGroup {
-    return this.fb.group({
-      firstName: [''],
-      lastName: [''],
-      email: [''],
-      tel: [''],
-      position: [''],
-    });
-  }
-
-  getContactArray(index: number) {
-    return this.getFieldAsFormArray('options').controls[index].get('contacts') as FormArray;
-  }
-
-  getAttributesArray(index: number) {
-    return this.getFieldAsFormArray('options').controls[index].get('attributes') as FormArray;
-  }
-
-  pushContact(index: number) {
-    this.getContactArray(index).push(this.newContact());
-  }
-
-  removeContact(index: number, i: number) {
-    this.getContactArray(index).removeAt(i);
-  }
-*/
-
   getVocabularyById(vocabularies: Vocabulary[], id: string) {
     return vocabularies.find(entry => entry.id === id);
   }
@@ -840,7 +812,6 @@ export class ServiceFormComponent implements OnInit {
     if (richService.service.publicContacts) {
       for (let i = 0; i < richService.service.publicContacts.length - 1; i++) {
         this.pushPublicContact();
-        // this.push('publicContacts', false);
       }
     }
     if (richService.service.certifications) {
