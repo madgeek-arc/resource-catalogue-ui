@@ -226,6 +226,12 @@
 
                     <form [formGroup]="serviceForm" role="form" class="uk-form uk-margin uk-width-3-4">
 
+                      <div *ngIf="!providersPage?.results?.length">
+                        <div *ngIf="!errorMessage" class="uk-position-center">
+                          <div uk-spinner="ratio: 2"></div>
+                        </div>
+                      </div>
+
                       <div class="formContainer">
                         <ul id="top-navigation-tabs" class="uk-switcher uk-margin-top uk-margin-bottom">
                           <!--BASIC-->
