@@ -296,6 +296,9 @@
                                        placeholder="use http:// or https://"
                                        (input)="handleBitSets(1, 4, 'logo'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('logo', this.edit)}">
+                                <div *ngIf="this.edit && this.isPortalAdmin && this.newProviderForm.get('logo').value" class="uk-icon">
+                                  <a href="{{this.newProviderForm.get('logo').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
                               </div>
                               <i><small>{{providerLogoDesc.desc}}</small></i>
                             </div>

@@ -372,12 +372,16 @@
                                 {{logoDesc.label + (logoDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <!--                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{logoDesc.desc}}</div>-->
-                              <div class="uk-form-controls uk-margin-medium-top uk-width-9-10">
-                                <input id="logo" class="uk-input " type="text" formControlName="logo"
+                              <div class="uk-form-controls uk-margin-medium uk-margin-remove-bottom">
+                                <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo"
                                        placeholder="use http:// or https://"
                                        (input)="handleBitSets(1, 5, 'logo'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('logo', this.editMode)}">
-                                <!--<i><small>{{logoDesc.desc}}</small></i>-->
+                                <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('logo').value" class="uk-icon">
+                                  <a href="{{this.serviceForm.get('logo').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                </div>
+                              </div>
+                              <div class="uk-width-9-10">
                                 <i><small>{{logoDesc.desc}}</small></i>
                               </div>
                             </div>
