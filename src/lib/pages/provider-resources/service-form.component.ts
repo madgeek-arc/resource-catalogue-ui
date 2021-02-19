@@ -14,7 +14,6 @@ import {environment} from '../../../environments/environment';
 import BitSet from 'bitset/bitset';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
-import {timeout} from 'rxjs/operators';
 
 declare var UIkit: any;
 
@@ -262,25 +261,6 @@ export class ServiceFormComponent implements OnInit {
     }
 
     this.errorMessage = '';
-
-    // if (!tempSave) {
-    //   this.getFieldAsFormArray('categories').controls = [];
-    //   this.getFieldAsFormArray('scientificDomains').controls = [];
-    // }
-
-    // for (const category of this.categoryArray.controls) {
-    //   if (category.get('subcategory').value) {
-    //     this.getFieldAsFormArray('category').push(this.fb.control(category.get('category').value));
-    //     this.getFieldAsFormArray('subcategory').push(this.fb.control(category.get('subcategory').value));
-    //   }
-    // }
-
-    // for (const scientificDomain of this.scientificDomainArray.controls) {
-    //   if (scientificDomain.get('scientificSubdomain').value) {
-    //     this.getFieldAsFormArray('scientificDomain').push(this.fb.control(scientificDomain.get('scientificDomain').value));
-    //     this.getFieldAsFormArray('scientificSubdomain').push(this.fb.control(scientificDomain.get('scientificSubdomain').value));
-    //   }
-    // }
 
     // this.scientificDomainArray.disable();
     this.showLoader = true;
@@ -877,15 +857,18 @@ export class ServiceFormComponent implements OnInit {
   /** BitSets -->**/
   /** TODO: maybe timeout can be removed with subject **/
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
+    console.log('bang ' + formControlName);
     if (bitIndex === 0) {
       this.serviceName = this.serviceForm.get(formControlName).value;
     }
     // this.serviceForm.get(formControlName).updateValueAndValidity();
     if (this.serviceForm.get(formControlName).valid) {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+      console.log('valid');
       this.loaderBitSet.set(bitIndex, 1);
     } else if (this.serviceForm.get(formControlName).invalid) {
       this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+      console.log('invalid');
       this.loaderBitSet.set(bitIndex, 0);
     } else if (this.serviceForm.get(formControlName).pending) {
       this.timeOut(300).then( () => this.handleBitSets(tabNum, bitIndex, formControlName));
@@ -1054,49 +1037,6 @@ export class ServiceFormComponent implements OnInit {
   }
 
   /** <--BitSets **/
-
-  /** URL Validation--> **/
-  checkUrlValidity(formControlName: string) {
-    let urlValidity;
-    if (this.serviceForm.get(formControlName).valid && this.serviceForm.get(formControlName).value !== '') {
-      // if (this.newProviderForm.get(formControlName).value !== '') {
-      const url = this.serviceForm.get(formControlName).value;
-      // console.log(url);
-      this.serviceProviderService.validateUrl(url).subscribe(
-        boolean => { urlValidity = boolean; },
-        error => { console.log(error); },
-        () => {
-          if (!urlValidity) {
-            console.log('invalid');
-            window.scrollTo(0, 0);
-            this.errorMessage = url + ' is not a valid URL. Please enter a valid URL.';
-          }
-        }
-      );
-    }
-  }
-
-  checkUrlValidityForArrays(formArrayName: string, position: number) {
-    let urlValidity;
-    // console.log(this.serviceForm.get(formArrayName).value[position]);
-    if (this.serviceForm.get(formArrayName).value[position] !== '') {
-      const url = this.serviceForm.get(formArrayName).value[position];
-      console.log(url);
-      this.serviceProviderService.validateUrl(url).subscribe(
-        boolean => { urlValidity = boolean; },
-        error => { console.log(error); },
-        () => {
-          if (!urlValidity) {
-            // console.log('invalid');
-            window.scrollTo(0, 0);
-            this.errorMessage = url + ' is not a valid ' + formArrayName + ' URL. Please enter a valid URL.';
-          }
-        }
-      );
-    }
-  }
-
-  /** <--URL Validation **/
 
   openPreviewModal() {
     // console.log('Resource ==>', this.serviceForm.value);

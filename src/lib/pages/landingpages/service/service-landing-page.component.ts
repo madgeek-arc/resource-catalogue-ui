@@ -108,7 +108,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
             this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
           },
           () => {
-            this.matomoTracker.trackEvent('landing page visit', this.serviceId, this.authenticationService.getUserEmail(), 1);
+            this.matomoTracker.trackEvent('landing page visit', this.authenticationService.getUserEmail() + ' ' + this.serviceId, 'visit', 1);
           });
       });
     } else {
