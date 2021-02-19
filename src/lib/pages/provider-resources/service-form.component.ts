@@ -434,9 +434,7 @@ export class ServiceFormComponent implements OnInit {
 
   public setAsTouched() {
     const ret = {};
-    // console.log(this.serviceForm);
     this.setAsTouched_(this.serviceForm, ret);
-    // console.log(ret);
   }
 
   private setAsTouched_(form: FormGroup, ret: any) {
@@ -857,18 +855,15 @@ export class ServiceFormComponent implements OnInit {
   /** BitSets -->**/
   /** TODO: maybe timeout can be removed with subject **/
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
-    console.log('bang ' + formControlName);
     if (bitIndex === 0) {
       this.serviceName = this.serviceForm.get(formControlName).value;
     }
     // this.serviceForm.get(formControlName).updateValueAndValidity();
     if (this.serviceForm.get(formControlName).valid) {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-      console.log('valid');
       this.loaderBitSet.set(bitIndex, 1);
     } else if (this.serviceForm.get(formControlName).invalid) {
       this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-      console.log('invalid');
       this.loaderBitSet.set(bitIndex, 0);
     } else if (this.serviceForm.get(formControlName).pending) {
       this.timeOut(300).then( () => this.handleBitSets(tabNum, bitIndex, formControlName));
