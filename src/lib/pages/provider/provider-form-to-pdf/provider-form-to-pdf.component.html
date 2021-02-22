@@ -610,7 +610,7 @@
               <label class="uk-form-label uk-text-right" for="esfriDomains">
                 {{ESFRIDomainDesc.label + (ESFRIDomainDesc.mandatory ? ' (*)' : '')}}
               </label>
-              <div class="uk-form-description uk-margin-top uk-width-9-10">{{ESFRIDomainDesc.desc}}</div>
+              <div class="uk-form-description uk-margin-top uk-width-9-10">(Applicable to ESFRIs only)  {{ESFRIDomainDesc.desc}}</div>
               <div class="uk-form-controls uk-margin-medium-top">
                 <div *ngFor="let provider of getFieldAsFormArray('esfriDomains').controls; let i=index" class="uk-margin-bottom">
                   <select id="esfriDomains" class="uk-input uk-select uk-width-9-10" [formControlName]="i"
