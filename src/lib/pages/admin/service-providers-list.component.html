@@ -164,10 +164,12 @@
                         <div *ngIf="providerBundle.status === 'approved'" class="approved">
                           <div class="uk-card-badge uk-label">Approved</div>
                         </div>
+                        <div *ngIf="providerBundle.status === 'pending template submission'" class="pending">
+                          <div class="uk-card-badge uk-label">Pending (Provider)</div>
+                        </div>
                         <div *ngIf="(providerBundle.status === 'pending initial approval')
-                                || (providerBundle.status === 'pending template submission')
-                                || (providerBundle.status === 'pending template approval')" class="pending">
-                          <div class="uk-card-badge uk-label">Pending</div>
+                                || (providerBundle.status === 'pending template approval')" class="pending-EPOT">
+                          <div class="uk-card-badge uk-label">Pending ({{serviceORresource === 'Resource'?'EPOT':'CEPOT'}})</div>
                         </div>
                         <div *ngIf="(providerBundle.status === 'rejected template')
                                 || (providerBundle.status === 'rejected')" class="rejected">
@@ -216,9 +218,9 @@
                             <div class="uk-width-1-5">
                               <div class="action-buttons">
 
-                                <ng-container *ngIf="((providerBundle.status !== 'pending template approval') &&
-                                                                 (providerBundle.status !== 'rejected template')) ||
-                                                                 (hasCreatedFirstService(providerBundle.id))">
+                                <ng-container *ngIf="((providerBundle.status !== 'pending template approval')
+                                                      && (providerBundle.status !== 'rejected template'))
+                                                      || (hasCreatedFirstService(providerBundle.id))">
                                   <button *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"
                                      (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true)"
                                           class="uk-button uk-button-action uk-display-block">

@@ -599,7 +599,11 @@ a.remove-element i {
 }
 
 .pending .uk-label {
-  background: #FFAE0D 0% 0% no-repeat padding-box;
+  background: #f5c400 0% 0% no-repeat padding-box;
+}
+
+.pending-EPOT .uk-label {
+  background: #f57200 0% 0% no-repeat padding-box;
 }
 
 .rejected .uk-label {
