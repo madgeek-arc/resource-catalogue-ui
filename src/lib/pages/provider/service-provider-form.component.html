@@ -176,9 +176,9 @@
 
                     <div class="requiredFields uk-text-right">*Required fields</div>
                     <div class="stepsCompleted uk-margin-top uk-text-center">{{completedTabs}} of {{requiredTabs}}</div>
-                    <div class="progress uk-margin-small-top">
+                    <div class="uk-margin-small-top">
                       <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>
-                      <div class="percentageNumber" [ngStyle]="{'margin-left': '10%'}">{{loaderPercentage}}%</div>
+                      <div class="percentageNumber uk-align-right" [ngStyle]="{'margin-left': '10%'}">{{loaderPercentage}}%</div>
                     </div>
 
                   </div>
