@@ -98,6 +98,14 @@ const providerRoutes: Routes = [
     }
   },
   {
+    path: ':providerId/resource/add/use-template/:resourceId',
+    component: ServiceEditComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Add ' + environment.serviceORresource
+    }
+  },
+  {
     path: ':providerId/resource/update/:resourceId',
     component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard],

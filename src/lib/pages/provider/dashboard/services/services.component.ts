@@ -88,6 +88,10 @@ export class ServicesComponent implements OnInit {
     // this.router.navigate([`/resource-dashboard/${this.providerId}/resource/dashboard`, id]);
   }
 
+  useAsTemplate(id: string) {
+    this.router.navigate([`/provider/${this.providerId}/resource/add/use-template`, id]);
+  }
+
   getProvider() {
     this.providerService.getServiceProviderBundleById(this.providerId).subscribe(
       providerBundle => {
