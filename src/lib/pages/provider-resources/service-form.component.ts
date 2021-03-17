@@ -37,7 +37,7 @@ export class ServiceFormComponent implements OnInit {
   serviceForm: FormGroup;
   provider: Provider;
   service: Service;
-  serviceID: string;
+  serviceID: string = null;
   errorMessage = '';
   successMessage: string = null;
   weights: string[] = [];
@@ -77,6 +77,27 @@ export class ServiceFormComponent implements OnInit {
   allRequiredFields = 21;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
+
+  vocabularyEntryForm: FormGroup;
+  suggestionsForm = {
+    fundingBodyVocabularyEntryValueName: '',
+    fundingProgramVocabularyEntryValueName: '',
+    targetUsersVocabularyEntryValueName: '',
+    accessTypesVocabularyEntryValueName: '',
+    accessModesVocabularyEntryValueName: '',
+    orderTypeVocabularyEntryValueName: '',
+    phaseVocabularyEntryValueName: '',
+    categoriesVocabularyEntryValueName: '',
+    subCategoriesVocabularyEntryValueName: '',
+    scientificDomainVocabularyEntryValueName: '',
+    scientificSubDomainVocabularyEntryValueName: '',
+    placesVocabularyEntryValueName: '',
+    geographicalVocabularyEntryValueName: '',
+    languagesVocabularyEntryValueName: '',
+    vocabulary: '',
+    errorMessage: '',
+    successMessage: ''
+  };
 
   readonly nameDesc: sd.Description = sd.serviceDescMap.get('nameDesc');
   readonly webpageDesc: sd.Description = sd.serviceDescMap.get('webpageDesc');
@@ -399,6 +420,8 @@ export class ServiceFormComponent implements OnInit {
     );
 
     this.isPortalAdmin = this.authenticationService.isAdmin();
+
+    this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
 
     this.pushCategory();
     this.pushScientificDomain();
@@ -1037,4 +1060,22 @@ export class ServiceFormComponent implements OnInit {
     // console.log('Resource ==>', this.serviceForm.value);
     UIkit.modal('#modal-preview').show();
   }
+
+  submitSuggestion(entryValueName, vocabulary, parent) {
+    if (entryValueName) {
+      this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'service', this.providerId, this.serviceID).subscribe(
+        res => {
+        },
+        error => {
+          console.log(error);
+          this.vocabularyEntryForm.get('errorMessage').setValue(error.error.error);
+        },
+        () => {
+          this.vocabularyEntryForm.reset();
+          this.vocabularyEntryForm.get('successMessage').setValue('Suggestion submitted!');
+        }
+      );
+    }
+  }
+
 }

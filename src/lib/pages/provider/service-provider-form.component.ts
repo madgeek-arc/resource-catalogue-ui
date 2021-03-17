@@ -26,7 +26,7 @@ export class ServiceProviderFormComponent implements OnInit {
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
-  providerId: string;
+  providerId: string = null;
   providerName = '';
   errorMessage = '';
   userInfo = {family_name: '', given_name: '', email: ''};
@@ -73,6 +73,25 @@ export class ServiceProviderFormComponent implements OnInit {
   authorizedRepresentative = false;
   agreedToTerms: boolean;
 
+  vocabularyEntryForm: FormGroup;
+  suggestionsForm = {
+    legalStatusVocabularyEntryValueName: '',
+    domainsVocabularyEntryValueName: '',
+    categoriesVocabularyEntryValueName: '',
+    placesVocabularyEntryValueName: '',
+    providerLCSVocabularyEntryValueName: '',
+    networksVocabularyEntryValueName: '',
+    providerTypeVocabularyEntryValueName: '',
+    esfriDomainVocabularyEntryValueName: '',
+    esfriVocabularyEntryValueName: '',
+    merilDomainsVocabularyEntryValueName: '',
+    merilCategoriesVocabularyEntryValueName: '',
+    areasOfActivityVocabularyEntryValueName: '',
+    societalGrandChallengesVocabularyEntryValueName: '',
+    vocabulary: '',
+    errorMessage: '',
+    successMessage: ''
+  };
 
   readonly fullNameDesc: sd.Description = sd.providerDescMap.get('fullNameDesc');
   readonly abbreviationDesc: sd.Description = sd.providerDescMap.get('abbreviationDesc');
@@ -265,6 +284,8 @@ export class ServiceProviderFormComponent implements OnInit {
     this.isPortalAdmin = this.authService.isAdmin();
 
     this.initUserBitSets(); // Admin + mainContact
+
+    this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
   }
 
   registerProvider(tempSave: boolean) {
@@ -956,5 +977,22 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   /** <--URL Validation **/
+
+  submitSuggestion(entryValueName, vocabulary, parent) {
+    if (entryValueName) {
+      this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'provider', this.providerId, null).subscribe(
+        res => {
+        },
+        error => {
+          console.log(error);
+          this.vocabularyEntryForm.get('errorMessage').setValue(error.error.error);
+        },
+        () => {
+          this.vocabularyEntryForm.reset();
+          this.vocabularyEntryForm.get('successMessage').setValue('Suggestion submitted!');
+        }
+      );
+    }
+  }
 
 }

@@ -265,8 +265,22 @@
                                            formControlName="legalStatus">
                                 </ng-select>
                               </div>
-                              <i><small>For suggestions in amending the "{{legalStatusDesc.label}}" list, please send an
-                                email to <a href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
+                              <div class="uk-margin-small-top">
+                                <i><small>For suggestions in amending the
+                                  "{{legalStatusDesc.label}}" list, please select "Other", fill in your entry and press "Submit"</small></i>
+                              </div>
+                              <div *ngIf="this.newProviderForm.get('legalStatus').value === 'provider_legal_status-other'" class="uk-flex uk-flex-left">
+                                <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                  <label>
+                                    <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="providerLCSVocabularyEntryValueName">
+                                  </label>
+                                </form>
+                                <button class="uk-button uk-button-default" type="submit"
+                                        (click)="submitSuggestion(this.vocabularyEntryForm.get('legalStatusVocabularyEntryValueName').value, 'PROVIDER LEGAL STATUS', null)">
+                                  Submit
+                                </button>
+                                <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
+                              </div>
                             </div>
                           </li>
                           <!--MARKETING-->
@@ -362,9 +376,25 @@
                                                    clearAllText="Clear"
                                                    formControlName="scientificDomain">
                                         </ng-select>
+                                        <div class="uk-margin-small-top">
                                         <i><small>For suggestions in amending the
-                                          "{{providerScientificDomainDesc.label}}" list, please send an email to <a
-                                            href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
+                                          "{{providerScientificDomainDesc.label}}" list, please select "Other", fill in your entry and press "Submit"</small></i>
+                                        </div>
+                                        <div *ngIf="this.domainArray.controls[i].get('scientificDomain').value">
+                                          <div *ngIf="this.domainArray.controls[i].get('scientificDomain').value === 'scientific_domain-other'" class="uk-flex uk-flex-left">
+  <!--                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default" style="width: 250px;">-->
+                                            <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                              <label>
+                                                <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="domainsVocabularyEntryValueName">
+                                              </label>
+                                            </form>
+                                            <button class="uk-button uk-button-default" type="submit"
+                                                    (click)="submitSuggestion(this.vocabularyEntryForm.get('domainsVocabularyEntryValueName').value, 'SCIENTIFIC DOMAIN', null)">
+                                              Submit
+                                            </button>
+                                            <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
 
@@ -384,9 +414,24 @@
                                                    clearAllText="Clear"
                                                    formControlName="scientificSubdomain">
                                         </ng-select>
-                                        <i><small>For suggestions in amending the
-                                          "{{providerScientificSubdomainsDesc.label}}" list, please send an email to <a
-                                            href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
+                                        <div class="uk-margin-small-top">
+                                          <i><small>For suggestions in amending the
+                                            "{{providerScientificSubdomainsDesc.label}}" list, please select "Other", fill in your entry and press "Submit"</small></i>
+                                        </div>
+                                        <div *ngIf="this.domainArray.controls[i].get('scientificDomain').value && this.domainArray.controls[i].get('scientificSubdomain').value">
+                                          <div *ngIf="this.domainArray.controls[i].get('scientificSubdomain').value.includes('-other')" class="uk-flex uk-flex-left">
+                                            <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                              <label>
+                                                <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="categoriesVocabularyEntryValueName">
+                                              </label>
+                                            </form>
+                                            <button class="uk-button uk-button-default" type="submit"
+                                                    (click)="submitSuggestion(this.vocabularyEntryForm.get('categoriesVocabularyEntryValueName').value, 'SCIENTIFIC SUBDOMAIN', this.domainArray.controls[i].get('scientificDomain').value)">
+                                              Submit
+                                            </button>
+                                            <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
 
@@ -514,8 +559,21 @@
                                              formControlName="country">
                                   </ng-select>
                                 </div>
-                                <i><small>For suggestions in amending the "{{countryDesc.label}}" list, please send an
-                                  email to <a href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
+                                <div class="uk-margin-small-top">
+                                  <i><small>For suggestions in amending the
+                                    "{{countryDesc.label}}" list, please select "Other", fill in your entry and press "Submit"</small></i>
+                                </div>
+                                <div *ngIf="this.newProviderForm.controls['location'].get('country').value === 'OT'" class="uk-flex uk-flex-left">
+                                  <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                    <label>
+                                      <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="placesVocabularyEntryValueName">
+                                    </label>
+                                  </form>
+                                  <button class="uk-button uk-button-default" type="submit"
+                                          (click)="submitSuggestion(this.vocabularyEntryForm.get('placesVocabularyEntryValueName').value, 'COUNTRY', null)">
+                                    Submit
+                                  </button>
+                                  <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>                                </div>
                               </div>
                             </div>
                           </li>
@@ -712,8 +770,22 @@
                                            formControlName="lifeCycleStatus">
                                 </ng-select>
                               </div>
-                              <i><small>For suggestions in amending the "{{lifeCycleStatusDesc.label}}" list, please
-                                send an email to <a href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
+                              <div class="uk-margin-small-top">
+                                <i><small>For suggestions in amending the
+                                  "{{lifeCycleStatusDesc.label}}" list, please select "Other", fill in your entry and press "Submit"</small></i>
+                              </div>
+                              <div *ngIf="this.newProviderForm.get('lifeCycleStatus').value === 'provider_life_cycle_status-other'" class="uk-flex uk-flex-left">
+                                <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                  <label>
+                                    <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="providerLCSVocabularyEntryValueName">
+                                  </label>
+                                </form>
+                                <button class="uk-button uk-button-default" type="submit"
+                                        (click)="submitSuggestion(this.vocabularyEntryForm.get('providerLCSVocabularyEntryValueName').value, 'PROVIDER LIFE CYCLE STATUS', null)">
+                                  Submit
+                                </button>
+                                <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
+                              </div>
                             </div>
                             <div formArrayName="certifications" class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="certifications">
@@ -786,8 +858,23 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <i><small>For suggestions in amending the "{{participatingCountriesDesc.label}}" list, please send an
-                                  email to <a href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
+                                <div class="uk-margin-small-top">
+                                  <i><small>For suggestions in amending the
+                                    "{{participatingCountriesDesc.label}}" list, please select "Other", fill in your entry and press "Submit"</small></i>
+                                </div>
+                                <div *ngFor="let provider of getFieldAsFormArray('participatingCountries').controls; let i=index">
+                                  <div *ngIf="this.newProviderForm.get('participatingCountries').value[i] === 'OT'" class="uk-flex uk-flex-left">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                      <label>
+                                        <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="placesVocabularyEntryValueName">
+                                      </label>
+                                    </form>
+                                    <button class="uk-button uk-button-default" type="submit"
+                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('placesVocabularyEntryValueName').value, 'COUNTRY', null)">
+                                      Submit
+                                    </button>
+                                    <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>                                  </div>
+                                </div>
                                 <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('participatingCountries', false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
@@ -855,8 +942,23 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <i><small>For suggestions in amending the "{{networksDesc.label}}" list, please send an
-                                  email to <a href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
+                                <div class="uk-margin-small-top">
+                                  <i><small>For suggestions in amending the
+                                    "{{networksDesc.label}}" list, please select "Other", fill in your entry and press "Submit"</small></i>
+                                </div>
+                                <div *ngFor="let provider of getFieldAsFormArray('networks').controls; let i=index">
+                                  <div *ngIf="this.newProviderForm.get('networks').value[i] === 'provider_network-other'" class="uk-flex uk-flex-left">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                      <label>
+                                        <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="networksVocabularyEntryValueName">
+                                      </label>
+                                    </form>
+                                    <button class="uk-button uk-button-default" type="submit"
+                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('networksVocabularyEntryValueName').value, 'PROVIDER NETWORK', null)">
+                                      Submit
+                                    </button>
+                                    <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>                                  </div>
+                                </div>
                                 <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('networks', false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{networksDesc.label}}
@@ -889,8 +991,23 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <i><small>For suggestions in amending the "{{structureTypesDesc.label}}" list, please send an
-                                  email to <a href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
+                                <div class="uk-margin-small-top">
+                                  <i><small>For suggestions in amending the
+                                    "{{structureTypesDesc.label}}" list, please select "Other", fill in your entry and press "Submit"</small></i>
+                                </div>
+                                <div *ngFor="let provider of getFieldAsFormArray('structureTypes').controls; let i=index">
+                                  <div *ngIf="this.newProviderForm.get('structureTypes').value[i] === 'provider_structure_type-other'" class="uk-flex uk-flex-left">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                      <label>
+                                        <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="providerTypeVocabularyEntryValueName">
+                                      </label>
+                                    </form>
+                                    <button class="uk-button uk-button-default" type="submit"
+                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('providerTypeVocabularyEntryValueName').value, 'PROVIDER STRUCTURE TYPE', null)">
+                                      Submit
+                                    </button>
+                                    <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>                                  </div>
+                                </div>
                                 <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('structureTypes', true)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{structureTypesDesc.label}}
@@ -923,8 +1040,23 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <i><small>For suggestions in amending the "{{ESFRIDomainDesc.label}}" list, please send an
-                                  email to <a href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
+                                <div class="uk-margin-small-top">
+                                  <i><small>For suggestions in amending the
+                                    "{{ESFRIDomainDesc.label}}" list, please select "Other", fill in your entry and press "Submit"</small></i>
+                                </div>
+                                <div *ngFor="let provider of getFieldAsFormArray('esfriDomains').controls; let i=index">
+                                  <div *ngIf="this.newProviderForm.get('esfriDomains').value[i] === 'provider_esfri_domain-other'" class="uk-flex uk-flex-left">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                      <label>
+                                        <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="esfriDomainVocabularyEntryValueName">
+                                      </label>
+                                    </form>
+                                    <button class="uk-button uk-button-default" type="submit"
+                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('esfriDomainVocabularyEntryValueName').value, 'PROVIDER ESFRI DOMAIN', null)">
+                                      Submit
+                                    </button>
+                                    <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>                                  </div>
+                                </div>
                                 <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('esfriDomains', false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{ESFRIDomainDesc.label}}
@@ -948,8 +1080,21 @@
                                            formControlName="esfriType">
                                 </ng-select>
                               </div>
-                              <i><small>For suggestions in amending the "{{ESFRITypeDesc.label}}" list, please send an
-                                email to <a href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
+                              <div class="uk-margin-small-top">
+                                <i><small>For suggestions in amending the
+                                  "{{ESFRITypeDesc.label}}" list, please select "Other", fill in your entry and press "Submit"</small></i>
+                              </div>
+                              <div *ngIf="this.newProviderForm.get('esfriType').value === 'provider_esfri_type-other'" class="uk-flex uk-flex-left">
+                                <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                  <label>
+                                    <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="esfriVocabularyEntryValueName">
+                                  </label>
+                                </form>
+                                <button class="uk-button uk-button-default" type="submit"
+                                        (click)="submitSuggestion(this.vocabularyEntryForm.get('esfriVocabularyEntryValueName').value, 'PROVIDER ESFRI TYPE', null)">
+                                  Submit
+                                </button>
+                                <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>                              </div>
                             </div>
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right">MERIL Scientific Categorisation</label>
@@ -979,9 +1124,23 @@
                                                    clearAllText="Clear"
                                                    formControlName="merilScientificDomain">
                                         </ng-select>
-                                        <i><small>For suggestions in amending the "{{merilScientificDomainsDesc.label}}"
-                                          list, please send an email to <a
-                                            href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
+                                        <div class="uk-margin-small-top">
+                                          <i><small>For suggestions in amending the
+                                            "{{merilScientificDomainsDesc.label}}" list, please select "Other", fill in your entry and press "Submit"</small></i>
+                                        </div>
+                                        <div *ngIf="this.merilDomainArray.controls[i].get('merilScientificDomain').value">
+                                          <div *ngIf="this.merilDomainArray.controls[i].get('merilScientificDomain').value === 'provider_meril_scientific_domain-other'" class="uk-flex uk-flex-left">
+                                            <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                              <label>
+                                                <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="merilDomainsVocabularyEntryValueName">
+                                              </label>
+                                            </form>
+                                            <button class="uk-button uk-button-default" type="submit"
+                                                    (click)="submitSuggestion(this.vocabularyEntryForm.get('merilDomainsVocabularyEntryValueName').value, 'PROVIDER MERIL SCIENTIFIC DOMAIN', null)">
+                                              Submit
+                                            </button>
+                                            <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>                                          </div>
+                                        </div>
                                       </div>
                                     </div>
 
@@ -1002,9 +1161,24 @@
                                                    clearAllText="Clear"
                                                    formControlName="merilScientificSubdomain">
                                         </ng-select>
-                                        <i><small>For suggestions in amending the
-                                          "{{merilScientificSubdomainsDesc.label}}" list, please send an email to <a
-                                            href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
+                                        <div class="uk-margin-small-top">
+                                          <i><small>For suggestions in amending the
+                                            "{{merilScientificSubdomainsDesc.label}}" list, please select "Other", fill in your entry and press "Submit"</small></i>
+                                        </div>
+                                        <div *ngIf="this.merilDomainArray.controls[i].get('merilScientificDomain').value && this.merilDomainArray.controls[i].get('merilScientificSubdomain').value">
+                                          <div *ngIf="this.merilDomainArray.controls[i].get('merilScientificSubdomain').value.includes('-other')" class="uk-flex uk-flex-left">
+                                            <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                              <label>
+                                                <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="merilCategoriesVocabularyEntryValueName">
+                                              </label>
+                                            </form>
+                                            <button class="uk-button uk-button-default" type="submit"
+                                                    (click)="submitSuggestion(this.vocabularyEntryForm.get('merilCategoriesVocabularyEntryValueName').value, 'PROVIDER MERIL SCIENTIFIC SUBDOMAIN', this.merilDomainArray.controls[i].get('merilScientificDomain').value)">
+                                              Submit
+                                            </button>
+                                          <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
 
@@ -1047,8 +1221,23 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <i><small>For suggestions in amending the "{{areasOfActivityDesc.label}}" list, please send an
-                                  email to <a href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
+                                <div class="uk-margin-small-top">
+                                  <i><small>For suggestions in amending the
+                                    "{{areasOfActivityDesc.label}}" list, please select "Other", fill in your entry and press "Submit"</small></i>
+                                </div>
+                                <div *ngFor="let provider of getFieldAsFormArray('areasOfActivity').controls; let i=index">
+                                  <div *ngIf="this.newProviderForm.get('areasOfActivity').value[i] === 'provider_area_of_activity-other'" class="uk-flex uk-flex-left">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                      <label>
+                                        <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="areasOfActivityVocabularyEntryValueName">
+                                      </label>
+                                    </form>
+                                    <button class="uk-button uk-button-default" type="submit"
+                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('areasOfActivityVocabularyEntryValueName').value, 'PROVIDER AREA OF ACTIVITY', null)">
+                                      Submit
+                                    </button>
+                                    <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>                                  </div>
+                                </div>
                                 <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('areasOfActivity', false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{areasOfActivityDesc.label}}
@@ -1081,8 +1270,23 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <i><small>For suggestions in amending the "{{societalGrandChallengesDesc.label}}" list, please send an
-                                  email to <a href="mailto:{{projectMail}}">{{projectMail}}</a></small></i>
+                                <div class="uk-margin-small-top">
+                                  <i><small>For suggestions in amending the
+                                    "{{societalGrandChallengesDesc.label}}" list, please select "Other", fill in your entry and press "Submit"</small></i>
+                                </div>
+                                <div *ngFor="let provider of getFieldAsFormArray('societalGrandChallenges').controls; let i=index">
+                                  <div *ngIf="this.newProviderForm.get('societalGrandChallenges').value[i] === 'provider_societal_grand_challenge-other'" class="uk-flex uk-flex-left">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                      <label>
+                                        <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="societalGrandChallengesVocabularyEntryValueName">
+                                      </label>
+                                    </form>
+                                    <button class="uk-button uk-button-default" type="submit"
+                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('societalGrandChallengesVocabularyEntryValueName').value, 'PROVIDER SOCIETAL GRAND CHALLENGE', null)">
+                                      Submit
+                                    </button>
+                                    <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>                                  </div>
+                                </div>
                                 <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('societalGrandChallenges', false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
