@@ -6,6 +6,7 @@ import {NavigationService} from './navigation.service';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {catchError} from 'rxjs/operators';
+import {MatomoTracker} from 'ngx-matomo';
 
 declare var UIkit: any;
 
@@ -18,15 +19,17 @@ export class UserService {
   constructor(public http: HttpClient,
               public router: NavigationService,
               public authenticationService: AuthenticationService,
+              private matomoTracker: MatomoTracker,
               ) {
   }
 
   addFavourite(serviceID: string, value: boolean): Observable<EicEvent> {
     if (this.authenticationService.isLoggedIn()) {
       /*return this.http.put(`/event/favourite/service/${serviceID}`,{});*/
+      this.matomoTracker.trackEvent('Recommendations', this.authenticationService.getUserEmail() + ' ' + serviceID, 'favorite', value ? 3 : -3);
+      console.log('test');
       // new addFavourite method
-      return this.http.post<EicEvent>(this.base + `/event/favourite/service/${serviceID}?value=${value}`, {}, this.options)
-        ;
+      return this.http.post<EicEvent>(this.base + `/event/favourite/service/${serviceID}?value=${value}`, {}, this.options);
     } else {
       this.authenticationService.login();
     }
@@ -34,8 +37,7 @@ export class UserService {
 
   public getFavouritesOfUser() {
     if (this.authenticationService.isLoggedIn()) {
-      return this.http.get<RichService[]>(this.base + `/userEvents/favourites/`, this.options)
-        ;
+      return this.http.get<RichService[]>(this.base + `/userEvents/favourites/`, this.options);
     } else {
       return null;
     }
