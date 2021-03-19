@@ -159,14 +159,27 @@
                         <!-- If user is provider admin and has at least 1 provider -->
                         <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/provider/my']"
                                                                                                              routerLinkActive="uk-active">My Providers</a></li>
-                        <!-- If user is admin -->
-                        <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/provider/all']" routerLinkActive="uk-active">View
-                          Providers</a></li>
-                        <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/provider/resource/all']" routerLinkActive="uk-active">View
-                          Resources</a></li>
-                        <li *ngIf="authenticationService.isLoggedIn()" class="uk-nav-divider"></li>
+<!--                        <li *ngIf="authenticationService.isLoggedIn()" class="uk-nav-divider"></li>-->
                         <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public
                           API</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li *ngIf="authenticationService.isAdmin()" class="uk-parent" [routerLinkActive]="['uk-active']">
+                <a href="#" class="" aria-expanded="false">
+                  For EPOT
+                </a>
+                <div class="uk-navbar-dropdown uk-navbar-dropdown-bottom-left" style="top: 80px; left: 106.55px;"
+                     id="forEPOT" (click)="onClick('forProviders')">
+                  <div class="uk-navbar-dropdown-grid uk-child-width-1-1 uk-grid uk-grid-stack" uk-grid="">
+                    <div class="uk-first-column">
+                      <ul class="uk-nav uk-navbar-dropdown-nav">
+                        <li><a [routerLink]="['/provider/all']" routerLinkActive="uk-active">Providers</a></li>
+                        <li><a [routerLink]="['/provider/resource/all']" routerLinkActive="uk-active">Resources</a></li>
+<!--                        <li><a [routerLink]="['/vocabulary-requests']" routerLinkActive="uk-active">Vocabulary Requests</a></li>-->
                       </ul>
                     </div>
                   </div>
