@@ -39,7 +39,7 @@
                   <hr class="uk-margin-large-right">
 
                   <div *ngIf="facets !== null && facets !== undefined" class="refineCategory uk-grid-margin">
-                    <h2 class="uk-h2">{{facets[1].label}}</h2>
+                    <h3 class="uk-h3">Vocabularies</h3>
 <!--                    <label class="uk-margin-small-left uk-margin-medium-bottom">-->
 <!--                      <input class="uk-search-input" [(ngModel)]="searchFacet" placeholder="Search with provider id or provider name">-->
 <!--                    </label>-->
@@ -188,11 +188,11 @@
                               </div>
 
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Resource Type: </span>{{ curation.vocabularyEntryRequests.resourceType }}
+                                <span class="statusLabel">Resource Type: </span>{{ curation.vocabularyEntryRequests[0].resourceType }}
                               </div>
 
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Creation Date: </span>{{ curation.vocabularyEntryRequests.dateOfRequest }}
+                                <span class="statusLabel">Creation Date: </span>{{ dateConverter(curation.vocabularyEntryRequests[0].dateOfRequest) }}
                               </div>
 
                               <div class="uk-margin-small-top">
@@ -207,15 +207,16 @@
                             <div class="uk-width-1-5">
                               <div class="action-buttons">
 
-                                <button (click)="approvalModal(curation)"
-                                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
-                                  <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i> Approve Entry
-                                </button>
-
-                                <button (click)="rejectionModal(curation)"
-                                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
-                                  <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i> Reject Entry
-                                </button>
+                                <ng-container *ngIf="curation.status === 'Pending'">
+                                  <button (click)="approvalModal(curation)"
+                                          class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
+                                    <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i> Approve Entry
+                                  </button>
+                                  <button (click)="rejectionModal(curation)"
+                                          class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
+                                    <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i> Reject Entry
+                                  </button>
+                                </ng-container>
 
                               </div>
                             </div>
@@ -273,7 +274,7 @@
       <h6>Are you sure you want to approve this vocabulary entry?</h6>
 <!--      <p>Are you sure you want to approve this vocabulary entry?</p>-->
     </div>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="approveAction(selectedCuration)">Proceed</button>
+    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="approveAction()">Proceed</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>
   <div *ngIf="loadingMessage">
@@ -291,7 +292,7 @@
       <!--      <p>Are you sure you want to reject this vocabulary entry?</p>-->
             <p>Reason of rejection (optional)</p>
     </div>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="rejectAction(selectedCuration)">Proceed</button>
+    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="rejectAction()">Proceed</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>
   <div *ngIf="loadingMessage">
