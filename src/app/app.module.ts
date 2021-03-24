@@ -51,6 +51,7 @@ import {TreeviewModule} from 'ngx-treeview';
 import {EOSCFooterComponent} from './shared/footer/footer.component';
 import {EOSCTopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
+import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
 import {MatomoModule} from 'ngx-matomo';
 
 
@@ -98,6 +99,7 @@ export function highchartsFactory() {
     // AddFirstServiceComponent,
     // MyServiceProvidersComponent,
     // ADMIN
+    VocabularyRequestsComponent,
     // ServiceProvidersListComponent,
     // INDICATORS
     MeasurementsComponent,

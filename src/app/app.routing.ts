@@ -8,6 +8,7 @@ import {NotFoundPageComponent} from '../lib/shared/not-found-page/not-found-page
 import {DevelopersComponent} from '../lib/pages/support/developers/developers.component';
 import {OpenAPIComponent} from '../lib/pages/support/openapi/openapi.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
+import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
 
 const appRoutes: Routes = [
   {
@@ -55,6 +56,13 @@ const appRoutes: Routes = [
     component: ServiceLandingPageComponent,
     data: {
       breadcrumb: 'Service'
+    }
+  },
+  {
+    path: 'vocabulary-requests',
+    component: VocabularyRequestsComponent,
+    data: {
+      breadcrumb: 'Vocabulary Requests'
     }
   },
   {
