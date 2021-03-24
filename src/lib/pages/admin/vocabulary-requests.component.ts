@@ -1,35 +1,32 @@
 import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
-import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
-import {InfraService, ProviderBundle} from '../../domain/eic-model';
+import {InfraService, ProviderBundle, VocabularyCuration} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
-import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 import {NavigationService} from '../../services/navigation.service';
-import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
 
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-resources-list',
-  templateUrl: './resources-list.component.html'
+  selector: 'app-vocabulary-requests',
+  templateUrl: './vocabulary-requests.component.html'
 })
-export class ResourcesListComponent implements OnInit {
+export class VocabularyRequestsComponent implements OnInit {
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
 
   formPrepare = {
-    query: '',
-    orderField: 'name',
+    status: 'Pending',
     order: 'ASC',
+    orderField: 'dateOfRequest',
     quantity: '10',
     from: '0',
-    active: '',
-    resource_organisation: new FormArray([])
+    query: '',
+    vocabulary: new FormArray([])
   };
 
   dataForm: FormGroup;
@@ -40,11 +37,9 @@ export class ResourcesListComponent implements OnInit {
   loadingMessage = '';
 
   providers: ProviderBundle[] = [];
-  selectedProvider: ProviderBundle;
-  providersTotal: number;
 
-  services: InfraService[] = [];
-  selectedService: InfraService;
+  vocabularyCurations: VocabularyCuration[] = [];
+  selectedCuration: VocabularyCuration;
   facets: any;
   searchFacet = '';
 
@@ -55,8 +50,6 @@ export class ResourcesListComponent implements OnInit {
   pageTotal: number;
   pages: number[] = [];
   offset = 2;
-
-  pendingFirstServicePerProvider: any[] = [];
 
   constructor(private resourceService: ResourceService,
               private serviceProviderService: ServiceProviderService,
@@ -79,14 +72,14 @@ export class ResourcesListComponent implements OnInit {
         .subscribe(params => {
 
             for (const i in params) {
-              if (i === 'resource_organisation') {
+              if (i === 'vocabulary') {
 
-                if (this.dataForm.get('resource_organisation').value.length === 0) {
-                  const formArrayNew: FormArray = this.dataForm.get('resource_organisation') as FormArray;
+                if (this.dataForm.get('vocabulary').value.length === 0) {
+                  const formArrayNew: FormArray = this.dataForm.get('vocabulary') as FormArray;
                   // formArrayNew = this.fb.array([]);
-                  for (const resource_organisation of params[i].split(',')) {
-                    if (resource_organisation !== '') {
-                      formArrayNew.push(new FormControl(resource_organisation));
+                  for (const vocabulary of params[i].split(',')) {
+                    if (vocabulary !== '') {
+                      formArrayNew.push(new FormControl(vocabulary));
                     }
                   }
                 }
@@ -104,8 +97,7 @@ export class ResourcesListComponent implements OnInit {
               }
             }
 
-            this.getServices();
-            this.getProviders();
+            this.getVocabularyCuration();
             // this.handleChange();
           },
           error => this.errorMessage = <any>error
@@ -144,8 +136,8 @@ export class ResourcesListComponent implements OnInit {
     }
 
     // console.log('map', map);
-    this.router.navigate([`/provider/resource/all`], {queryParams: map});
-    // this.getServices();
+    this.router.navigate([`/vocabulary-requests`], {queryParams: map});
+    // this.getVocabularyCuration();
   }
 
   handleChangeAndResetPage() {
@@ -153,30 +145,14 @@ export class ResourcesListComponent implements OnInit {
     this.handleChange();
   }
 
-  getProviders() {
-    this.providers = [];
-    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', []).subscribe(
+  getVocabularyCuration() {
+    this.loadingMessage = 'Loading vocabulary entries...';
+    this.vocabularyCurations = [];
+    this.serviceProviderService.getVocabularyCuration(this.dataForm.get('status').value,
+      this.dataForm.get('from').value, this.dataForm.get('quantity').value, this.dataForm.get('order').value,
+      this.dataForm.get('orderField').value, this.dataForm.get('vocabulary').value, this.dataForm.get('query').value).subscribe(
       res => {
-        this.providers = res['results'];
-        this.providersTotal = res['total'];
-      },
-      err => {
-        console.log(err);
-        this.errorMessage = 'The list could not be retrieved';
-      },
-      () => {
-      }
-    );
-  }
-
-  getServices() {
-    this.loadingMessage = 'Loading ' + this.serviceORresource + 's...';
-    this.services = [];
-    this.resourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('active').value, this.dataForm.get('resource_organisation').value).subscribe(
-      res => {
-        this.services = res['results'];
+        this.vocabularyCurations = res['results'];
         this.facets = res['facets'];
         this.total = res['total'];
         this.paginationInit();
@@ -187,28 +163,21 @@ export class ResourcesListComponent implements OnInit {
         this.loadingMessage = '';
       },
       () => {
+        // console.log(this.vocabularyCurations);
+        // console.log(this.facets);
+        // console.log(this.total);
+        // console.log(this.vocabularyCurations[0].vocabularyEntryRequests[0].resourceType);
         this.loadingMessage = '';
       }
     );
   }
 
-  isProviderActive(id: string) {
-    let active = false;
-    for (let i = 0; this.providers[i]; i++ ) {
-      if (id === this.providers[i].id) {
-        active = this.providers[i].active;
-        break;
-      }
-    }
-    return active;
-  }
-
   isProviderChecked(value: string) {
-    return this.dataForm.get('resource_organisation').value.includes(value);
+    return this.dataForm.get('vocabulary').value.includes(value);
   }
 
   onSelection(e, category: string, value: string) {
-    const formArrayNew: FormArray = this.dataForm.get('resource_organisation') as FormArray;
+    const formArrayNew: FormArray = this.dataForm.get('vocabulary') as FormArray;
     if (e.target.checked) {
       this.addParameterToURL(category, value);
       formArrayNew.push(new FormControl(value));
@@ -231,7 +200,7 @@ export class ResourcesListComponent implements OnInit {
         categoryIndex++;
       }
     }
-    // this.getServices();
+    // this.getVocabularyCuration();
     return this.navigateUsingParameters();
   }
 
@@ -285,62 +254,56 @@ export class ResourcesListComponent implements OnInit {
     }
   }
 
-
-  showDeletionModal(resource: InfraService) {
-    this.selectedService = resource;
-    if (this.selectedService) {
-      UIkit.modal('#deletionModal').show();
+  approvalModal(curation: VocabularyCuration) {
+    this.selectedCuration = curation;
+    if (this.selectedCuration) {
+      UIkit.modal('#approvalModal').show();
     }
   }
 
-  deleteService(id: string) {
-    // UIkit.modal('#spinnerModal').show();
-    this.resourceService.deleteService(id).subscribe(
-      res => {},
-      error => {
-        // console.log(error);
-        // UIkit.modal('#spinnerModal').hide();
-        this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getServices();
-      },
-      () => {
-        this.getServices();
-        // UIkit.modal('#spinnerModal').hide();
-      }
-    );
+  approveAction() {
+    this.loadingMessage = '';
+    this.serviceProviderService.approveVocabularyEntry(this.selectedCuration, true)
+      .subscribe(
+        res => {
+          UIkit.modal('#approvalModal').hide();
+          this.getVocabularyCuration();
+        },
+        err => {
+          UIkit.modal('#approvalModal').hide();
+          this.loadingMessage = '';
+          console.log(err);
+        },
+        () => {
+          this.loadingMessage = '';
+        }
+      );
   }
 
-  toggleService(providerService: InfraService) {
-    UIkit.modal('#spinnerModal').show();
-    this.serviceProviderService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
-      res => {},
-      error => {
-        this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getServices();
-        UIkit.modal('#spinnerModal').hide();
-        // console.log(error);
-      },
-      () => {
-        this.getServices();
-        UIkit.modal('#spinnerModal').hide();
-      }
-    );
-  }
-
-  hasCreatedFirstService(id: string) {
-    return this.pendingFirstServicePerProvider.some(x => x.providerId === id);
-  }
-
-  getLinkToFirstService(id: string) {
-    if (this.hasCreatedFirstService(id)) {
-      return '/service/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
-    } else {
-      return '/provider/' + id + '/add-resource-template';
+  rejectionModal(curation: VocabularyCuration) {
+    this.selectedCuration = curation;
+    if (this.selectedCuration) {
+      UIkit.modal('#rejectionModal').show();
     }
   }
 
-  getLinkToEditFirstService(id: string) {
-    return '/edit/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
+  rejectAction() {
+    this.loadingMessage = '';
+    this.serviceProviderService.approveVocabularyEntry(this.selectedCuration, false, 'qwerty')
+      .subscribe(
+        res => {
+          UIkit.modal('#rejectionModal').hide();
+          this.getVocabularyCuration();
+        },
+        err => {
+          UIkit.modal('#rejectionModal').hide();
+          this.loadingMessage = '';
+          console.log(err);
+        },
+        () => {
+          this.loadingMessage = '';
+        }
+      );
   }
 
   paginationInit() {
@@ -390,11 +353,8 @@ export class ResourcesListComponent implements OnInit {
     }
   }
 
-  DownloadProvidersCSV() {
-    window.open(this.url + '/exportToCSV/providers', '_blank');
+  dateConverter(UNIX_timestamp) {
+    return new Date(UNIX_timestamp).toLocaleDateString('en-UK');
   }
 
-  DownloadServicesCSV() {
-    window.open(this.url + '/exportToCSV/services', '_blank');
-  }
 }

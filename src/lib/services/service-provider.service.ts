@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
-import {InfraService, Provider, ProviderBundle, ProviderRequest, Service} from '../domain/eic-model';
+import {InfraService, Provider, ProviderBundle, ProviderRequest, Service, VocabularyCuration} from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {Paging} from '../domain/paging';
@@ -144,6 +144,34 @@ export class ServiceProviderService {
     } else {
       return this.http.post(this.base + `/vocabularyCuration/addFront?entryValueName=${entryValueName}&vocabulary=${vocabulary}&parent=${parent}&resourceType=${resourceType}`, this.options);
     }
+  }
+
+  getVocabularyCuration(status: string, from: string, quantity: string, order: string, orderField: string, vocabulary?: string, query?: string) {
+    let params = new HttpParams();
+    params = params.append('status', status);
+    params = params.append('from', from);
+    params = params.append('quantity', quantity);
+    params = params.append('order', order);
+    params = params.append('orderField', orderField);
+    if (query && query !== '') {
+      params = params.append('query', query);
+    }
+    if (vocabulary && vocabulary.length > 0) {
+      for (const voc of vocabulary) {
+        params = params.append('vocabulary', voc);
+      }
+    }
+    return this.http.get<VocabularyCuration[]>(this.base + `/vocabularyCuration/vocabularyCurationRequests/all`, {params});
+  }
+
+  approveVocabularyEntry(curation: VocabularyCuration, approve: boolean, rejectionReason?: string): Observable<VocabularyCuration> {
+    if (!rejectionReason) {
+      rejectionReason = 'Not provided';
+    }
+    if (approve) {
+      return this.http.put<VocabularyCuration>(this.base + `/vocabularyCuration/approveOrRejectVocabularyCuration?approved=true`, curation, this.options);
+    }
+    return this.http.put<VocabularyCuration>(this.base + `/vocabularyCuration/approveOrRejectVocabularyCuration?approved=false`, curation, this.options);
   }
 
 }

@@ -286,6 +286,27 @@ export class Vocabulary implements Identifiable {
   extras: { [index: string]: string };
 }
 
+export class VocabularyEntryRequest {
+  // id: string;
+  userId: string;
+  resourceId: string;
+  providerId: string;
+  dateOfRequest: string;
+  resourceType: string;
+}
+
+export class VocabularyCuration implements Identifiable {
+  vocabularyEntryRequests: VocabularyEntryRequest;
+  id: string;
+  entryValueName: string;
+  vocabulary: string;
+  parent: string;
+  status: string;
+  rejectionReason: string;
+  resolutionDate: string;
+  resolutionUser: string;
+}
+
 export class Category {
   superCategory: Vocabulary;
   category: Vocabulary;
