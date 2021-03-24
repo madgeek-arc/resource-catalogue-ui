@@ -53,6 +53,7 @@ import {EOSCTopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
 import {MatomoModule} from 'ngx-matomo';
+import {MarkdownModule} from "ngx-markdown";
 
 
 declare var require: any;
@@ -126,6 +127,7 @@ export function highchartsFactory() {
     AngularFontAwesomeModule,
     CookieLawModule,
     MatomoModule,
+    MarkdownModule.forRoot(),
     AppRoutingModule,
   ],
   providers: [

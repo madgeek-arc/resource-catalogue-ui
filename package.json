@@ -37,6 +37,7 @@
     "jspdf": "^2.1.1",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
+    "ngx-markdown": "^7.1.5",
     "ngx-markdown-editor": "^2.5.0",
     "ngx-matomo": "^0.1.4",
     "ngx-treeview": "^6.0.2",
