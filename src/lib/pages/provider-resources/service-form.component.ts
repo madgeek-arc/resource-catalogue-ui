@@ -1062,7 +1062,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   submitSuggestion(entryValueName, vocabulary, parent) {
-    if (entryValueName) {
+    if (entryValueName.trim() !== '') {
       this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'service', this.providerId, this.serviceID).subscribe(
         res => {
         },

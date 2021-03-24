@@ -979,7 +979,7 @@ export class ServiceProviderFormComponent implements OnInit {
   /** <--URL Validation **/
 
   submitSuggestion(entryValueName, vocabulary, parent) {
-    if (entryValueName) {
+    if (entryValueName.trim() !== '') {
       this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'provider', this.providerId, null).subscribe(
         res => {
         },
