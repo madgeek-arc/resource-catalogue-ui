@@ -11,6 +11,7 @@ import {ServicesComponent} from './services/services.component';
 import {MessagesComponent} from './messages/messages.component';
 import {DashboardComponent} from './dashboard.component';
 import {ServiceStatsComponent} from './resource-dashboard/service-stats.component';
+import {MarkdownModule} from 'ngx-markdown';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import {ServiceStatsComponent} from './resource-dashboard/service-stats.componen
     ProviderDashboardRouting,
     ReusableComponentsModule,
     ChartModule,
+    MarkdownModule.forChild(),
 
   ],
   declarations: [

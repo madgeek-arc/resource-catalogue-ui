@@ -339,7 +339,7 @@
                                   [ngClass]="{'uk-form-danger': checkFormValidity('description', this.editMode)}"
                                   [height]="'250px'"
                                   [mode]="'editor'"
-                                  [options]="{markedjsOpt: { breaks: true }, showPreviewPanel: false, resizable: true, enablePreviewContentClick: true}"
+                                  [options]="{markedjsOpt: { breaks: true }, showPreviewPanel: true, resizable: true, enablePreviewContentClick: true}"
                                   (ngModelChange)="handleBitSets(1, 3, 'description')"
                                   formControlName="description"
                                   required>

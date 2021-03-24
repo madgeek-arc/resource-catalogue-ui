@@ -366,3 +366,16 @@ chart {
   margin-bottom: 1rem;
   border-radius: .25rem;
 }
+
+markdown ::ng-deep h1 {
+  color: #424242 !important;
+}
+
+markdown ::ng-deep a:hover {
+  color: #0056b3 !important;
+  text-decoration: underline;
+}
+
+markdown ::ng-deep a {
+  color: #007BFF !important;
+}

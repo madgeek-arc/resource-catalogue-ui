@@ -95,13 +95,7 @@
               <div class="uk-width-1-1 leftColumn">
 
                 <div class="serviceDescription" *ngIf="richService.service.description">
-                  <p [innerHTML]="richService.service.description" style="white-space: pre-wrap"></p>
-<!--                  <md-editor  [height]="'250px'"-->
-<!--                              [mode]="'preview'"-->
-<!--                              [options]="{markedjsOpt: { breaks: true }, enablePreviewContentClick: true, showBorder: false}"-->
-<!--                              [(ngModel)]="context"-->
-<!--                              >-->
-<!--                  </md-editor>-->
+                  <markdown [data]="richService.service.description"></markdown>
                 </div>
 
                 <div class="badges uk-margin-bottom" *ngIf="richService.service.tags && richService.service.tags.length>0">
