@@ -624,10 +624,13 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   addToFavourites(i: number) {
     const richService = this.searchResults.results[i];
-    this.userService.addFavourite(richService.service.id, !richService.isFavourite).pipe(
+    this.userService.addFavourite(richService.service.id, !(!!richService.isFavourite)).pipe(
       flatMap(e => this.resourceService.getSelectedServices([e.service])))
       .subscribe(
-        s => Object.assign(this.searchResults.results[i], s[0]),
+        s => {
+          // console.log(s[0]);
+          Object.assign(this.searchResults.results[i], s[0]);
+        },
         err => console.log(err)
       );
 

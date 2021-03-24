@@ -252,20 +252,20 @@
                             {{resourceInfo.service.name || "Not Available"}}
                           </a>
                         </h2>
-                        <span class="uk-inline uk-float-right" style="margin-top:5px;">
+<!--                        <span class="uk-inline uk-float-right" style="margin-top:5px;">-->
 <!--                          <star-rating-comp #rating (click)="rateService(i, rating.rating)"-->
-                          <!--                                            [starType]="'svg'" [rating]="resourceInfo.hasRate"-->
-                          <!--                                            [step]="1"-->
-                          <!--                                            [showHalfStars]="true"-->
-                          <!--                                            [readOnly]=!this.authenticationService.isLoggedIn()-->
-                          <!--                                            [size]="'medium'"-->
-                          <!--                                            [staticColor]="'ok'" title="Rate this resource"-->
-                          <!--                                            uk-tooltip="delay: 500"-->
-                          <!--                                            labelText="{{resourceInfo.hasRate}} ({{ resourceInfo.ratings }})"-->
-                          <!--                                            [labelVisible]="true" [labelPosition]="'right'"-->
-                          <!--                                            [hoverEnabled]="true">-->
-                          <!--                          </star-rating-comp>-->
-                        </span>
+<!--                                                                      [starType]="'svg'" [rating]="resourceInfo.hasRate"-->
+<!--                                                                      [step]="1"-->
+<!--                                                                      [showHalfStars]="true"-->
+<!--                                                                      [readOnly]=!this.authenticationService.isLoggedIn()-->
+<!--                                                                      [size]="'medium'"-->
+<!--                                                                      [staticColor]="'ok'" title="Rate this resource"-->
+<!--                                                                      uk-tooltip="delay: 500"-->
+<!--                                                                      labelText="{{resourceInfo.hasRate}} ({{ resourceInfo.ratings }})"-->
+<!--                                                                      [labelVisible]="true" [labelPosition]="'right'"-->
+<!--                                                                      [hoverEnabled]="true">-->
+<!--                                                    </star-rating-comp>-->
+<!--                        </span>-->
                       </div>
                       <div *ngIf="resourceInfo.service.tagline" class="uk-margin-small-top serviceTagLine" style="">
                         "{{resourceInfo.service.tagline}}"
@@ -278,8 +278,9 @@
 
                       <div *ngIf="projectName!='OpenAIRE Catalogue'" class="addenda uk-margin-small-top">
                         <span class="uk-margin-medium-right">
+                          {{resourceInfo.isFavourite}}
                             <a (click)="addToFavourites(i)">
-                                <i [ngClass]="resourceInfo.isFavourite?'fa fa-heart fa-lg':'fa fa-heart-o fa-lg'"></i>
+                                <i [ngClass]="!!resourceInfo.isFavourite?'fa fa-heart fa-lg':'fa fa-heart-o fa-lg'"></i>
                             </a>
                             <span class="statsNumbers">&nbsp;{{ resourceInfo.favourites }}</span>
                         </span>
@@ -299,8 +300,7 @@
                         </span>
 
                         <span class="uk-float-right">
-                            <img title="Number of Views" src="../../lib/assets/images/icons/ic_visit_icon.svg"
-                                 alt="Views">
+                            <img title="Number of Views" src="../src/lib/assets/images/icons/ic_visit_icon.svg" alt="Views">
                             <span class="statsNumbers">&nbsp;{{ resourceInfo.views }}</span>
                         </span>
                       </div>

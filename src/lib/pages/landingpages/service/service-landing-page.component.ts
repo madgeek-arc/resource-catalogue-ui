@@ -1,17 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {Indicator, ProviderBundle, RichService, Type, Vocabulary} from '../../../domain/eic-model';
+import {ProviderBundle, RichService, Type, Vocabulary} from '../../../domain/eic-model';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
 import {UserService} from '../../../services/user.service';
 import {ServiceProviderService} from '../../../services/service-provider.service';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
 import {flatMap} from 'rxjs/operators';
 import {zip} from 'rxjs/internal/observable/zip';
 import {EmailService} from '../../../services/email.service';
-import {Paging} from '../../../domain/paging';
 import {environment} from '../../../../environments/environment';
 import {MatomoTracker} from 'ngx-matomo';
 
@@ -33,15 +32,13 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   public errorMessage: string;
   public EU: string[];
   public WW: string[];
-  public indicators: Paging<Indicator>;
-  public indicatorDesc = '';
   public serviceId;
-  // public idArray: string[] = [];
   private sub: Subscription;
 
   weights: string[] = ['EU', 'WW'];
   serviceMapOptions: any = null;
   myProviders: ProviderBundle[] = [];
+  context = '';
 
   formError = '';
   showForm = false;
@@ -108,6 +105,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
             this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
           },
           () => {
+            this.context = this.richService.service.description;
             this.matomoTracker.trackEvent('Recommendations', this.authenticationService.getUserEmail() + ' ' + this.serviceId, 'visit', 1);
           });
       });
@@ -138,6 +136,9 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           },
           err => {
             this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
+          },
+          () => {
+            this.context = this.richService.service.description;
           });
       });
     }

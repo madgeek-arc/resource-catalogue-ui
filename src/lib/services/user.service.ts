@@ -5,7 +5,6 @@ import {AuthenticationService} from './authentication.service';
 import {NavigationService} from './navigation.service';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {catchError} from 'rxjs/operators';
 import {MatomoTracker} from 'ngx-matomo';
 
 declare var UIkit: any;
@@ -27,9 +26,8 @@ export class UserService {
     if (this.authenticationService.isLoggedIn()) {
       /*return this.http.put(`/event/favourite/service/${serviceID}`,{});*/
       this.matomoTracker.trackEvent('Recommendations', this.authenticationService.getUserEmail() + ' ' + serviceID, 'favorite', value ? 3 : -3);
-      console.log('test');
       // new addFavourite method
-      return this.http.post<EicEvent>(this.base + `/event/favourite/service/${serviceID}?value=${value}`, {}, this.options);
+      return this.http.post<EicEvent>(this.base + `/event/favourite/service/${serviceID}?value=${value ? 1 : 0}`, {}, this.options);
     } else {
       this.authenticationService.login();
     }
@@ -67,8 +65,7 @@ export class UserService {
 
   public rateService(serviceID: string, rating: number): Observable<EicEvent> {
     if (this.authenticationService.isLoggedIn()) {
-      return this.http.post<EicEvent>(this.base + `/event/rating/service/${serviceID}?rating=${rating}`, {}, this.options)
-        ;
+      return this.http.post<EicEvent>(this.base + `/event/rating/service/${serviceID}?rating=${rating}`, {}, this.options);
       // return this.resourceService.recordEvent(serviceID, "RATING", value).subscribe(console.log);
     } else {
       this.authenticationService.login();

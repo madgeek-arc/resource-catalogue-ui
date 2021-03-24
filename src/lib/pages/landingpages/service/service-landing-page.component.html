@@ -68,17 +68,17 @@
 
                 <div *ngIf="projectName!='OpenAIRE Catalogue'" class="uk-margin-small-bottom uk-margin-small-top">
                   <!-- RATINGS --> <!-- TODO: make them conditional (probably @Input boolean at component and ngIf here?) -->
-                  <star-rating-comp #rating (click)="rateService(rating.rating)"
-                                    [starType]="'svg'" [rating]="richService.hasRate" [step]="1"
-                                    [showHalfStars]="true"
-                                    [readOnly]=!this.authenticationService.isLoggedIn()
-                                    [size]="'medium'"
-                                    [staticColor]="'ok'" title="Rate this service"
-                                    uk-tooltip="delay: 500" class="uk-inline starRating"
-                                    labelText="{{richService.hasRate}} ({{ richService.ratings }})"
-                                    [labelVisible]="true" [labelPosition]="'right'"
-                                    [hoverEnabled]="true">
-                  </star-rating-comp>
+<!--                  <star-rating-comp #rating (click)="rateService(rating.rating)"-->
+<!--                                    [starType]="'svg'" [rating]="richService.hasRate" [step]="1"-->
+<!--                                    [showHalfStars]="true"-->
+<!--                                    [readOnly]=!this.authenticationService.isLoggedIn()-->
+<!--                                    [size]="'medium'"-->
+<!--                                    [staticColor]="'ok'" title="Rate this service"-->
+<!--                                    uk-tooltip="delay: 500" class="uk-inline starRating"-->
+<!--                                    labelText="{{richService.hasRate}} ({{ richService.ratings }})"-->
+<!--                                    [labelVisible]="true" [labelPosition]="'right'"-->
+<!--                                    [hoverEnabled]="true">-->
+<!--                  </star-rating-comp>-->
                   <span class="uk-margin-medium-left">
                     <a (click)="addToFavourites()" style="color: rgb(55, 131, 63)">
                       <i [ngClass]="richService.isFavourite ? 'fa fa-heart' : 'fa fa-heart-o'"></i>
@@ -86,7 +86,7 @@
                     <span class="statsNumbers">{{richService.favourites || 0}}</span>
                   </span>
                   <span class="uk-margin-medium-left">
-                    <img src="../../../assets/images/icons/ic_visit_icon.svg" alt="Views" title="Number of views">
+                    <img src="src/lib/assets/images/icons/ic_visit_icon.svg" alt="Views" title="Number of views">
                     <span class="statsNumbers">{{richService.views || 0}}</span>
                   </span>
                 </div>
@@ -95,7 +95,13 @@
               <div class="uk-width-1-1 leftColumn">
 
                 <div class="serviceDescription" *ngIf="richService.service.description">
-                  <p [innerHTML]="richService.service.description"></p>
+                  <p [innerHTML]="richService.service.description" style="white-space: pre-wrap"></p>
+<!--                  <md-editor  [height]="'250px'"-->
+<!--                              [mode]="'preview'"-->
+<!--                              [options]="{markedjsOpt: { breaks: true }, enablePreviewContentClick: true, showBorder: false}"-->
+<!--                              [(ngModel)]="context"-->
+<!--                              >-->
+<!--                  </md-editor>-->
                 </div>
 
                 <div class="badges uk-margin-bottom" *ngIf="richService.service.tags && richService.service.tags.length>0">

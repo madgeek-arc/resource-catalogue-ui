@@ -170,7 +170,7 @@ export class RichService {
   userRate: number;
   hasRate: number;
   favourites: number;
-  isFavourite: boolean;
+  isFavourite: number;
   categories: Category[];
   domains: ScientificDomain[];
   providerInfo: ProviderInfo[];

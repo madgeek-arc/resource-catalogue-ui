@@ -292,6 +292,15 @@
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{providerDescriptionDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
+<!--                                <md-editor  id="description"-->
+<!--                                            [ngClass]="{'uk-form-danger': checkFormValidity('description', this.editMode)}"-->
+<!--                                            [height]="'250px'"-->
+<!--                                            [mode]="'editor'"-->
+<!--                                            [options]="{markedjsOpt: { breaks: true }, showPreviewPanel: false, resizable: true, enablePreviewContentClick: true}"-->
+<!--                                            (ngModelChange)="handleBitSets(1, 3, 'description')"-->
+<!--                                            formControlName="description"-->
+<!--                                            required>-->
+<!--                                </md-editor>-->
                               <textarea id="description" class="uk-textarea uk-width-9-10" rows="4"
                                         formControlName="description"
                                         (input)="handleBitSets(1, 3, 'description'); unsavedChangesPrompt()"
