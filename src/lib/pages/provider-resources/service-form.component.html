@@ -52,6 +52,11 @@
               </div>
 
               <div [ngClass]="{'blur-filter': showLoader}">
+
+                <div class="requiredFields">Fields with (*) are mandatory and must be completed in order to save this form. Leaving
+                  optional fields blank will remove the relevant heading from the published resource/provider
+                  profile.</div>
+
                 <div id="serviceForm">
 
                   <div class="uk-margin-bottom uk-flex uk-flex-right">
@@ -1900,7 +1905,6 @@
                             </div>
                           </li>
                         </ul>
-                        <div class="requiredFields">Fields with (*) are mandatory</div>
 <!--                        <pre>-->
 <!--                          {{serviceForm.value | json}}-->
 <!--                        </pre>-->
