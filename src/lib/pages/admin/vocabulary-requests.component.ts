@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
-import {InfraService, ProviderBundle, VocabularyCuration} from '../../domain/eic-model';
+import {ProviderBundle, VocabularyCuration} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -21,7 +21,7 @@ export class VocabularyRequestsComponent implements OnInit {
 
   formPrepare = {
     status: 'Pending',
-    order: 'ASC',
+    order: 'DESC',
     orderField: 'dateOfRequest',
     quantity: '10',
     from: '0',
@@ -288,8 +288,9 @@ export class VocabularyRequestsComponent implements OnInit {
   }
 
   rejectAction() {
+    const reasonOfRejection = (<HTMLInputElement>document.getElementById('reasonOfRejection')).value;
     this.loadingMessage = '';
-    this.serviceProviderService.approveVocabularyEntry(this.selectedCuration, false, 'qwerty')
+    this.serviceProviderService.approveVocabularyEntry(this.selectedCuration, false, reasonOfRejection)
       .subscribe(
         res => {
           UIkit.modal('#rejectionModal').hide();
@@ -301,6 +302,7 @@ export class VocabularyRequestsComponent implements OnInit {
           console.log(err);
         },
         () => {
+          (<HTMLInputElement>document.getElementById('reasonOfRejection')).value = '';
           this.loadingMessage = '';
         }
       );

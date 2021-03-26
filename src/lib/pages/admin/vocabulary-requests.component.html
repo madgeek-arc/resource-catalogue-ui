@@ -51,7 +51,7 @@
                                  (change)="this.onSelection($event, 'vocabulary', vocabulary.value)"
                                  [checked]="isProviderChecked(vocabulary.value)">
                         </label>
-                        <span> {{vocabulary.label ? vocabulary.label : vocabulary.value}}</span>
+                        <span> {{ vocabulary.label | titlecase }}</span>
                         <span> ({{vocabulary.count}})</span>
                       </div>
                     </div>
@@ -83,8 +83,8 @@
                         <label class="" for="orderBy">Order by </label>
                         <div class="uk-inline">
                           <select class="uk-input uk-select" id="orderBy" (change)="handleChangeAndResetPage()" formControlName="order">
-                            <option value="ASC" selected>Ascending</option>
-                            <option value="DESC">Descending</option>
+                            <option value="ASC">Ascending</option>
+                            <option value="DESC" selected>Descending</option>
                           </select>
                         </div>
                       </div>
@@ -184,11 +184,15 @@
                               </div>
 
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Parent: </span>{{ curation.parent ? curation.parent : 'none' }}
+                                <span class="statusLabel">Vocabulary: </span>{{ curation.vocabulary | titlecase }}
                               </div>
 
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Resource Type: </span>{{ curation.vocabularyEntryRequests[0].resourceType }}
+                                <span class="statusLabel">Parent: </span>{{ curation.parent ? curation.parent : 'None' }}
+                              </div>
+
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Resource Type: </span>{{ curation.vocabularyEntryRequests[0].resourceType | titlecase }}
                               </div>
 
                               <div class="uk-margin-small-top">
@@ -205,7 +209,7 @@
                             </div>
 
                             <div class="uk-width-1-5">
-                              <div class="action-buttons">
+                              <div class="action-buttons" style="padding: 10px 0 10px 20px;">
 
                                 <ng-container *ngIf="curation.status === 'Pending'">
                                   <button (click)="approvalModal(curation)"
@@ -289,11 +293,17 @@
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
     <div *ngIf="selectedCuration">
       <h6>Are you sure you want to reject this vocabulary entry?</h6>
-      <!--      <p>Are you sure you want to reject this vocabulary entry?</p>-->
-            <p>Reason of rejection (optional)</p>
+      <form>
+<!--        <p>Reason of rejection (optional)</p>-->
+        <div class="uk-margin">
+          <label>
+            <input class="uk-input uk-form-width-large" type="text" id="reasonOfRejection" placeholder="Reason of rejection (optional)">
+          </label>
+        </div>
+        <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="rejectAction()">Proceed</button>
+        <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+      </form>
     </div>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="rejectAction()">Proceed</button>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
