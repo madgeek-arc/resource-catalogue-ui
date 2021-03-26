@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
-import {ProviderBundle, VocabularyCuration} from '../../domain/eic-model';
+import {ProviderBundle, VocabularyCuration, VocabularyEntryRequest} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -40,6 +40,8 @@ export class VocabularyRequestsComponent implements OnInit {
 
   vocabularyCurations: VocabularyCuration[] = [];
   selectedCuration: VocabularyCuration;
+  selectedVocabularyEntryRequests: VocabularyEntryRequest[] = [];
+  // selectedVocabularyEntryRequests: Array<any>[] = [];
   facets: any;
   searchFacet = '';
 
@@ -163,10 +165,6 @@ export class VocabularyRequestsComponent implements OnInit {
         this.loadingMessage = '';
       },
       () => {
-        // console.log(this.vocabularyCurations);
-        // console.log(this.facets);
-        // console.log(this.total);
-        // console.log(this.vocabularyCurations[0].vocabularyEntryRequests[0].resourceType);
         this.loadingMessage = '';
       }
     );
@@ -306,6 +304,15 @@ export class VocabularyRequestsComponent implements OnInit {
           this.loadingMessage = '';
         }
       );
+  }
+
+  viewMoreModal(curation: VocabularyCuration) {
+    console.log(curation.vocabularyEntryRequests);
+    this.selectedCuration = curation;
+    this.selectedVocabularyEntryRequests = curation.vocabularyEntryRequests;
+    if (this.selectedVocabularyEntryRequests) {
+      UIkit.modal('#viewMoreModal').show();
+    }
   }
 
   paginationInit() {

@@ -296,7 +296,7 @@ export class VocabularyEntryRequest {
 }
 
 export class VocabularyCuration implements Identifiable {
-  vocabularyEntryRequests: VocabularyEntryRequest;
+  vocabularyEntryRequests: VocabularyEntryRequest[];
   id: string;
   entryValueName: string;
   vocabulary: string;

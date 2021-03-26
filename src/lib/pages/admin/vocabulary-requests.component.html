@@ -227,6 +227,13 @@
                           </div>
                         </div>
 
+                        <ng-container>
+                          <hr class="uk-margin-top">
+                          <button class="uk-button uk-button-link" (click)="viewMoreModal(curation)">
+                            <i class="uk-margin-small-left fa fa-eye"></i> View more
+                          </button>
+                        </ng-container>
+
                       </div>
                     </div>
 
@@ -304,6 +311,30 @@
         <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
       </form>
     </div>
+  </div>
+  <div *ngIf="loadingMessage">
+    <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+      {{ loadingMessage }}
+    </div>
+    <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
+<div id="viewMoreModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
+    <div *ngIf="1==1">
+      <h6><span style="color: #808080">Details regarding vocabulary entry request: </span>{{ this.selectedCuration.entryValueName }}</h6>
+      <h6 class="uk-margin-medium-bottom"><span style="color: #808080">Vocabulary: </span>{{ this.selectedCuration.vocabulary | titlecase }}</h6>
+      <div *ngFor="let entry of selectedVocabularyEntryRequests">
+        <div><span style="color: #808080">User Id: </span>{{ entry.userId }}</div>
+        <div><span style="color: #808080">Creation Date: </span>{{ dateConverter(entry.dateOfRequest) }}</div>
+        <div><span style="color: #808080">Resource Type: </span>{{ entry.resourceType | titlecase }}</div>
+        <div><span style="color: #808080">Provider Id: </span>{{ entry.providerId }}</div>
+        <div><span style="color: #808080">Resource Id: </span>{{ entry.resourceId }}</div>
+        <br>
+      </div>
+    </div>
+    <button class="uk-button uk-button-secondary uk-modal-close uk-align-right" type="button">Close</button>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
