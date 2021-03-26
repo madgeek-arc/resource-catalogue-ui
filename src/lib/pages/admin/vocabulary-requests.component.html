@@ -322,7 +322,7 @@
 
 <div id="viewMoreModal" uk-modal>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
-    <div *ngIf="1==1">
+    <div *ngIf="selectedVocabularyEntryRequests">
       <h6><span style="color: #808080">Details regarding vocabulary entry request: </span>{{ this.selectedCuration.entryValueName }}</h6>
       <h6 class="uk-margin-medium-bottom"><span style="color: #808080">Vocabulary: </span>{{ this.selectedCuration.vocabulary | titlecase }}</h6>
       <div *ngFor="let entry of selectedVocabularyEntryRequests">

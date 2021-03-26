@@ -41,7 +41,6 @@ export class VocabularyRequestsComponent implements OnInit {
   vocabularyCurations: VocabularyCuration[] = [];
   selectedCuration: VocabularyCuration;
   selectedVocabularyEntryRequests: VocabularyEntryRequest[] = [];
-  // selectedVocabularyEntryRequests: Array<any>[] = [];
   facets: any;
   searchFacet = '';
 
