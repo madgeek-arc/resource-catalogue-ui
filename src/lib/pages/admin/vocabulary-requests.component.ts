@@ -361,8 +361,8 @@ export class VocabularyRequestsComponent implements OnInit {
     }
   }
 
-  dateConverter(UNIX_timestamp) {
-    return new Date(UNIX_timestamp).toLocaleDateString('en-UK');
-  }
+  // dateConverter(UNIX_timestamp) {
+  //   return new Date(UNIX_timestamp).toLocaleDateString('en-UK');
+  // }
 
 }

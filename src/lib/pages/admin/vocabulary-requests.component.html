@@ -196,11 +196,11 @@
                               </div>
 
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Creation Date: </span>{{ dateConverter(curation.vocabularyEntryRequests[0].dateOfRequest) }}
+                                <span class="statusLabel">Creation Date: </span>{{ curation.vocabularyEntryRequests[0].dateOfRequest | date }}
                               </div>
 
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Modification Date: </span>{{ curation.resolutionDate ?  dateConverter(curation.resolutionDate) : 'Pending' }}
+                                <span class="statusLabel">Modification Date: </span>{{ curation.resolutionDate ?  (curation.resolutionDate | date) : 'Pending' }}
                               </div>
 
 <!--                              <div class="uk-margin-small-top">-->
@@ -322,12 +322,12 @@
 
 <div id="viewMoreModal" uk-modal>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
-    <div *ngIf="selectedVocabularyEntryRequests">
+    <div *ngIf="selectedVocabularyEntryRequests && selectedCuration">
       <h6><span style="color: #808080">Details regarding vocabulary entry request: </span>{{ this.selectedCuration.entryValueName }}</h6>
       <h6 class="uk-margin-medium-bottom"><span style="color: #808080">Vocabulary: </span>{{ this.selectedCuration.vocabulary | titlecase }}</h6>
       <div *ngFor="let entry of selectedVocabularyEntryRequests">
         <div><span style="color: #808080">User Id: </span>{{ entry.userId }}</div>
-        <div><span style="color: #808080">Creation Date: </span>{{ dateConverter(entry.dateOfRequest) }}</div>
+        <div><span style="color: #808080">Creation Date: </span>{{ entry.dateOfRequest | date }}</div>
         <div><span style="color: #808080">Resource Type: </span>{{ entry.resourceType | titlecase }}</div>
         <div><span style="color: #808080">Provider Id: </span>{{ entry.providerId }}</div>
         <div><span style="color: #808080">Resource Id: </span>{{ entry.resourceId }}</div>

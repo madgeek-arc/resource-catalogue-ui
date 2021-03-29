@@ -226,6 +226,15 @@
                               <div class="uk-margin-small-top">
                                 <span class="statusLabel">Status: </span>{{ serviceBundle.active ? 'Active' : 'Inactive' }}
                               </div>
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Status: </span>{{ serviceBundle.active ? 'Active' : 'Inactive' }}
+                              </div>
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Creation Date: </span>{{ serviceBundle.metadata.registeredAt | date }}
+                              </div>
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}
+                              </div>
                             </div>
 
                             <div class="uk-width-1-5">
