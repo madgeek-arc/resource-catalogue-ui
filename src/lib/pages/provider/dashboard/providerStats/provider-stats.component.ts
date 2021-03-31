@@ -24,6 +24,7 @@ declare var UIkit: any;
 export class ProviderStatsComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
+  projectName = environment.projectName;
 
   providerId: string;
   statisticPeriod: string;
@@ -39,6 +40,8 @@ export class ProviderStatsComponent implements OnInit {
   providerVisitsOptions: any = null;
   providerRatingsOptions: any = null;
   providerFavouritesOptions: any = null;
+  providerAddsToProjectOptions: any = null;
+  providerOrdersOptions: any = null;
   providerVisitationPercentageOptions: any = null;
   providerMapOptions: any = null;
   mapDistributionOfServicesOptions: any = null;
@@ -133,19 +136,6 @@ export class ProviderStatsComponent implements OnInit {
       }
     );
 
-    this.resourceService.getFavouritesForProvider(this.providerId, period).pipe(
-      map(data => {
-        // THESE 3 weird lines should be deleted when pgl makes everything ok :)
-        return Object.entries(data).map((d) => {
-          return [new Date(d[0]).getTime(), d[1]];
-        }).sort((l, r) => l[0] - r[0]);
-      })).subscribe(
-      data => this.setFavouritesForProvider(data),
-      err => {
-        this.errorMessage = 'An error occurred while retrieving favourites for this provider. ' + err.error;
-      }
-    );
-
     this.resourceService.getRatingsForProvider(this.providerId, period).pipe(
       map(data => {
         // THESE 3 weird lines should be deleted when pgl makes everything ok :)
@@ -158,6 +148,51 @@ export class ProviderStatsComponent implements OnInit {
         this.errorMessage = 'An error occurred while retrieving ratings for this provider. ' + err.error;
       }
     );
+
+    if (this.projectName === 'CatRIS') {
+      this.resourceService.getFavouritesForProvider(this.providerId, period).pipe(
+        map(data => {
+          // THESE 3 weird lines should be deleted when pgl makes everything ok :)
+          return Object.entries(data).map((d) => {
+            return [new Date(d[0]).getTime(), d[1]];
+          }).sort((l, r) => l[0] - r[0]);
+        })).subscribe(
+        data => this.setFavouritesForProvider(data),
+        err => {
+          this.errorMessage = 'An error occurred while retrieving favourites for this provider. ' + err.error;
+        }
+      );
+    }
+
+    if (this.projectName === 'EOSC') {
+
+      this.resourceService.getAddsToProjectForProvider(this.providerId, period).pipe(
+        map(data => {
+          // THESE 3 weird lines should be deleted when pgl makes everything ok :)
+          return Object.entries(data).map((d) => {
+            return [new Date(d[0]).getTime(), d[1]];
+          }).sort((l, r) => l[0] - r[0]);
+        })).subscribe(
+        data => this.setAddsToProjectOptions(data),
+        err => {
+          this.errorMessage = 'An error occurred while retrieving favourites for this provider. ' + err.error;
+        }
+      );
+
+      // this.resourceService.getOrdersForProvider(this.providerId, period).pipe(
+      //   map(data => {
+      //     // THESE 3 weird lines should be deleted when pgl makes everything ok :)
+      //     return Object.entries(data).map((d) => {
+      //       return [new Date(d[0]).getTime(), d[1]];
+      //     }).sort((l, r) => l[0] - r[0]);
+      //   })).subscribe(
+      //   data => this.setOrdersOptions(data),
+      //   err => {
+      //     this.errorMessage = 'An error occurred while retrieving favourites for this provider. ' + err.error;
+      //   }
+      // );
+
+    }
 
     /* bar charts */
     this.resourceService.getCategoriesPerServiceForProvider(this.providerId).subscribe(
@@ -374,6 +409,72 @@ export class ProviderStatsComponent implements OnInit {
         },
         series: [{
           name: 'Favourites over time',
+          color: '#C72B28',
+          data: data
+        }]
+      };
+    }
+  }
+
+  setAddsToProjectOptions(data: any) {
+    if (data) {
+      this.providerAddsToProjectOptions = {
+        chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
+        },
+        title: {
+          text: 'Number of adds to project over time'
+        },
+        xAxis: {
+          type: 'datetime',
+          dateTimeLabelFormats: { // don't display the dummy year
+            month: '%e. %b',
+            year: '%b'
+          },
+          title: {
+            text: 'Date'
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Number of adds to project'
+          }
+        },
+        series: [{
+          name: 'Number of adds to project over time',
+          color: '#C72B28',
+          data: data
+        }]
+      };
+    }
+  }
+
+  setOrdersOptions(data: any) {
+    if (data) {
+      this.providerOrdersOptions = {
+        chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
+        },
+        title: {
+          text: 'Number of orders over time'
+        },
+        xAxis: {
+          type: 'datetime',
+          dateTimeLabelFormats: { // don't display the dummy year
+            month: '%e. %b',
+            year: '%b'
+          },
+          title: {
+            text: 'Date'
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Number of orders'
+          }
+        },
+        series: [{
+          name: 'Favourites orders time',
           color: '#C72B28',
           data: data
         }]

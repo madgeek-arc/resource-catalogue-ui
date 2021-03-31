@@ -24,8 +24,11 @@
 
         <div>
           <div class="uk-card">
-            <div class="uk-card-body">
+            <div class="uk-card-body" *ngIf="projectName==='CatRIS'">
               <chart [options]="providerFavouritesOptions" style="width: 100%; display: block;"></chart>
+            </div>
+            <div class="uk-card-body" *ngIf="projectName==='EOSC'">
+              <chart [options]="providerAddsToProjectOptions" style="width: 100%; display: block;"></chart>
             </div>
           </div>
         </div>
@@ -37,6 +40,22 @@
             </div>
           </div>
         </div>
+
+        <div>
+          <div class="uk-card">
+            <div class="uk-card-body">
+              <chart [options]="providerRatingsOptions" style="width: 100%; display: block;"></chart>
+            </div>
+          </div>
+        </div>
+
+<!--        <div *ngIf="projectName==='EOSC'">-->
+<!--          <div class="uk-card">-->
+<!--            <div class="uk-card-body">-->
+<!--              <chart [options]="providerOrdersOptions" style="width: 100%; display: block;"></chart>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
 
       </div>
 
@@ -133,20 +152,4 @@
     <!--</ul>-->
   </div>
 </div>
-
-
-<!--  &lt;!&ndash; TODO: enable comments below to add ratings chart &ndash;&gt;-->
-<!--  <div class="uk-grid uk-margin-bottom">-->
-<!--  &lt;!&ndash;                    <div class="uk-width-1-2@m">&ndash;&gt;-->
-<!--      <div style="width:100%" *ngIf="providerFavouritesOptions">-->
-<!--        <chart [options]="providerFavouritesOptions"></chart>-->
-<!--      </div>-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                    <div class="uk-width-1-2@m">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div style="width:100%" *ngIf="providerRatingsOptions">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <chart [options]="providerRatingsOptions"></chart>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--  </div>-->
 

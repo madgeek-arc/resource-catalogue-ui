@@ -251,6 +251,26 @@ export class ResourceService {
     }
   }
 
+  getAddsToProjectForProvider(provider: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/provider/addToProject/${provider}`, {params});
+    } else {
+      return this.http.get(this.base + `/stats/provider/addToProject/${provider}`);
+    }
+  }
+
+  getOrdersForProvider(provider: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/provider/orders/${provider}`, {params});
+    } else {
+      return this.http.get(this.base + `/stats/provider/orders/${provider}`);
+    }
+  }
+
   getRatingsForProvider(provider: string, period?: string) {
     let params = new HttpParams();
     if (period) {
@@ -285,6 +305,15 @@ export class ResourceService {
       return this.http.get(this.base + `/stats/service/favourites/${service}`, {params});
     }
     return this.http.get(this.base + `/stats/service/favourites/${service}`);
+  }
+
+  getAddToProjectForService(service: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/service/addToProject/${service}`, {params});
+    }
+    return this.http.get(this.base + `/stats/service/addToProject/${service}`);
   }
 
   getRatingsForService(service: string, period?: string) {
