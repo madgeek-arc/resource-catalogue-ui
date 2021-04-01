@@ -213,11 +213,11 @@
 
                                 <ng-container *ngIf="curation.status === 'Pending'">
                                   <button (click)="approvalModal(curation)"
-                                          class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
+                                          class="uk-button uk-disabled uk-display-block uk-margin-medium-top">
                                     <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i> Approve Entry
                                   </button>
                                   <button (click)="rejectionModal(curation)"
-                                          class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
+                                          class="uk-button uk-disabled uk-display-block uk-margin-medium-top">
                                     <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i> Reject Entry
                                   </button>
                                 </ng-container>
