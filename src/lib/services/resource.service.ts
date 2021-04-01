@@ -160,6 +160,12 @@ export class ResourceService {
     return this.http.delete(this.base + '/pendingService/' + id, this.options);
   }
 
+  /** Recommendations **/
+
+  getRecommendedServices(limit: number) {
+    return this.http.get<RichService[]>(this.base + `/recommendation/getRecommendationServices/${limit}/`, this.options);
+  }
+
   /** STATS **/
   getVisitsForProvider(provider: string, period?: string) {
     let params = new HttpParams();

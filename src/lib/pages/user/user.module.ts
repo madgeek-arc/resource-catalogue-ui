@@ -6,6 +6,7 @@ import {SharedModule} from '../../shared/shared.module';
 import {UserRouting} from './user.routing';
 import {ChartModule} from 'angular2-highcharts';
 import {MyFavouritesComponent} from './favourites/my-favourites.component';
+import {RecommendationsComponent} from './recommendations/recommendations.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import {MyFavouritesComponent} from './favourites/my-favourites.component';
 
   ],
   declarations: [
-    MyFavouritesComponent
+    MyFavouritesComponent,
+    RecommendationsComponent
   ]
 })
 export class UserModule {
