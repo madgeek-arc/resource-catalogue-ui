@@ -489,7 +489,7 @@ export class ProviderStatsComponent implements OnInit {
           height: (3 / 4 * 100) + '%', // 3:4 ratio
         },
         title: {
-          text: ''
+          text: 'Number of Ratings over time'
         },
         xAxis: {
           type: 'datetime',
