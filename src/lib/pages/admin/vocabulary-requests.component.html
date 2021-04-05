@@ -23,12 +23,12 @@
 
               <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
-<!--              <div class="uk-flex uk-flex-right">-->
-<!--                <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">-->
-<!--                  <span uk-search-icon></span>-->
-<!--                  <input class="uk-search-input" type="search" placeholder="Search..." formControlName="query">-->
-<!--                </form>-->
-<!--              </div>-->
+              <div class="uk-flex uk-flex-right">
+                <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
+                  <span uk-search-icon></span>
+                  <input class="uk-search-input" type="search" placeholder="Search..." formControlName="query">
+                </form>
+              </div>
 
               <div class="uk-grid uk-margin-top">
 
