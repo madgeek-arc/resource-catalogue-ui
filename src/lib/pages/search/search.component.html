@@ -75,8 +75,10 @@
 
             <ng-template ngFor let-facet [ngForOf]="searchResults.facets">
               <!--<ng-template [ngIf]="facet.field=='category'">-->
-              <div
-                *ngIf="facet.field!='resourceType' && facet.field!='categories' && facet.field!='subcategories' && facet.field!='supercategories' && facet.field!='name' && facet.field!='scientific_domains' && facet.field!='scientific_subdomains'"
+              <div *ngIf="facet.field!='resourceType' && facet.field!='categories'
+                      && facet.field!='subcategories' && facet.field!='supercategories'
+                      && facet.field!='name' && facet.field!='scientific_domains'
+                      && facet.field!='scientific_subdomains'"
                 class="refineCategory uk-grid-margin">
                 <hr>
                 <read-more [maxHeight]="235">
@@ -121,7 +123,7 @@
               <ul class="facets-selected cf">
                 <ng-template ngFor let-urlParameter [ngForOf]="urlParameters">
                   <ng-template
-                    [ngIf]="urlParameter.key!='from' && urlParameter.key!='quantity' && urlParameter.values!=''">
+                    [ngIf]="urlParameter.key!='from' && urlParameter.key!='quantity' && urlParameter.values[0]!=''">
                     <li *ngFor="let facet of urlParameter.values" class="search-tag">
                       <span class="title">{{urlParameter.key}}:</span> {{facet | uppercase}}
                       <a (click)="this.deselectFacet(urlParameter.key, facet)" data-role="remove"></a>

@@ -103,7 +103,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   updateSearchField(event) {
     const map: { [name: string]: string; } = {};
-    const params = this.route.snapshot.children[0].params;
+    const params = this.route.snapshot.params;
     let found = false;
     this.urlParameters = [];
     for (const i in params) {
@@ -267,6 +267,9 @@ export class SearchComponent implements OnInit, OnDestroy {
     // this.orderFacets();
     // update form values using URLParameters
     for (const urlParameter of this.urlParameters) {
+      if (urlParameter.key === 'searchFields') {
+        this.searchForm.get('searchFields').setValue(urlParameter.values[0]);
+      }
       if (urlParameter.key === 'query') {
         this.searchForm.get('query').setValue(urlParameter.values[0]);
       } else if (urlParameter.key === 'advanced') {
@@ -513,6 +516,10 @@ export class SearchComponent implements OnInit, OnDestroy {
       if (category === 'query') {
         this.searchForm.get('query').setValue('');
         this.navigationService.paramsObservable.next(null);
+      }
+      if (category === 'searchFields') {
+        this.searchForm.get('searchFields').setValue('');
+        // this.navigationService.paramsObservable.next(null);
       }
     }
     return this.navigateUsingParameters();
