@@ -19,7 +19,7 @@ import {environment} from '../../../../../environments/environment';
 })
 export class ServiceStatsComponent implements OnInit, OnDestroy {
 
-  _marketplaceBaseURL = environment.marketplaceBaseURL;
+  // _marketplaceBaseURL = environment.marketplaceBaseURL;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
 
@@ -151,7 +151,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
     if (data) {
       this.serviceVisitsOptions = {
         title: {
-          text: ''
+          text: 'Number of visits over time'
         },
         xAxis: {
           type: 'datetime',
@@ -181,7 +181,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
     if (data) {
       this.serviceFavouritesOptions = {
         title: {
-          text: ''
+          text: 'Number of favorites over time'
         },
         xAxis: {
           type: 'datetime',
@@ -212,7 +212,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
     if (data) {
       this.serviceAddsToProjectOptions = {
         title: {
-          text: ''
+          text: 'Number of adds to project over time'
         },
         xAxis: {
           type: 'datetime',
@@ -242,7 +242,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
     if (data) {
       this.serviceRatingsOptions = {
         title: {
-          text: ''
+          text: 'Number of ratings over time'
         },
         xAxis: {
           type: 'datetime',

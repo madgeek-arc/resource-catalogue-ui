@@ -5,6 +5,8 @@ import {ChartModule} from 'angular2-highcharts';
 import {SharedModule} from '../../../../shared/shared.module';
 import {ReusableComponentsModule} from '../../../../shared/reusablecomponents/reusable-components.module';
 import {ServiceStatsComponent} from './service-stats.component';
+import {ServiceHistoryComponent} from './service-history.component';
+import {ServiceFullHistoryComponent} from './service-full-history.component';
 import {ResourceDashboardRouting} from './resource-dashboard.routing';
 import {ResourceDashboardComponent} from './resource-dashboard.component';
 
@@ -20,7 +22,9 @@ import {ResourceDashboardComponent} from './resource-dashboard.component';
   ],
   declarations: [
     ResourceDashboardComponent,
-    ServiceStatsComponent
+    ServiceStatsComponent,
+    ServiceHistoryComponent,
+    ServiceFullHistoryComponent
   ]
 })
 
