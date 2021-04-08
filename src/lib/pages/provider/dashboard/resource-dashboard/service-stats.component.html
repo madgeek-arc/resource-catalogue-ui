@@ -1,18 +1,30 @@
 <div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
-  <div class="uk-container">
+  <div class="uk-container uk-container-expand">
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
 
-        <h1 *ngIf="service" class="uk-h3">{{service.name}}
-          <!--<i style="margin-left: 10px" class="fa fa-pencil fa-2x" aria-hidden="true"></i>-->
-        </h1>
+<!--        <h1 *ngIf="service" class="uk-h3">{{service.name}}-->
+<!--          &lt;!&ndash;<i style="margin-left: 10px" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&ndash;&gt;-->
+<!--        </h1>-->
+
+        <div class="services-provider-container">
+          <div *ngIf="service" class="uk-flex">
+            <div>
+              <img src="{{ service.logo ? service.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+            </div>
+            <div class="uk-margin-medium-left">
+              <h3 class="uk-margin-remove">{{service.name}}</h3>
+<!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
+            </div>
+          </div>
+        </div>
 
         <!-- TOP HELP CONTENT -->
         <app-help-content #topHelperContent [position]="'top'"
                           [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
         </app-help-content>
 
-        <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+        <div class="uk-container uk-container-expand uk-margin-medium-top uk-margin-medium-bottom">
           <div class="uk-grid">
 
             <!-- LEFT HELP CONTENT -->
@@ -25,24 +37,82 @@
 
               <div *ngIf="errorMessage" class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
 
+<!--              <div *ngIf="service" class="uk-grid">-->
+<!--                <div class="uk-width-1-1@m">-->
+<!--                  <div class="uk-width-2-5@m uk-float-right">-->
+<!--                    <div class="uk-flex uk-flex-between uk-margin-left">-->
+<!--                    <div class="uk-float-left uk-margin-small-left uk-margin-small-right">-->
+<!--                      <a href="{{_marketplaceBaseURL}}{{(serviceORresource === 'Service' ? '/service/': '') + service.id}}"-->
+<!--                         target="_blank" class="uk-button uk-button-primary">View in Catalogue</a>-->
+<!--                    </div>-->
+<!--                    <div class="uk-float-right uk-margin-small-left uk-margin-small-right">-->
+<!--                      <a href="/provider/{{service.resourceOrganisation}}/resource/update/{{service.id}}" class="uk-button uk-button-secondary"-->
+<!--                         style="width: 160px">Update</a>-->
+<!--                    </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+
               <div *ngIf="service" class="uk-grid">
-                <div class="uk-width-1-1@m">
-                  <div class="uk-width-2-5@m uk-float-right">
-                    <div class="uk-flex uk-flex-between uk-margin-left">
-                    <div class="uk-float-left uk-margin-small-left uk-margin-small-right">
-                      <a href="{{_marketplaceBaseURL}}{{(serviceORresource === 'Service' ? '/service/': '') + service.id}}"
-                         target="_blank" class="uk-button uk-button-primary">View in Catalogue</a>
-                    </div>
-                    <div class="uk-float-right uk-margin-small-left uk-margin-small-right">
-                      <a href="/provider/{{service.resourceOrganisation}}/resource/update/{{service.id}}" class="uk-button uk-button-secondary"
-                         style="width: 160px">Update</a>
-                    </div>
-                    </div>
-                  </div>
+                <div class="uk-width-4-5"></div>
+                <div class="uk-width-1-5">
+                  <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
+                          (change)="onPeriodChange($event)">
+                    <option value="DAY">Daily</option>
+                    <option value="WEEK">Weekly</option>
+                    <option value="MONTH" selected>Monthly</option>
+                    <option value="YEAR">Yearly</option>
+                  </select>
+                  <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
                 </div>
               </div>
 
-              <div *ngIf="service" class="uk-grid">
+              <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
+
+                <div *ngIf="serviceFavouritesOptions && projectName==='CatRIS'">
+                  <div class="uk-card">
+                    <div class="uk-card-body">
+                      <chart [options]="serviceFavouritesOptions"></chart>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="serviceAddsToProjectOptions && projectName==='EOSC'">
+                  <div class="uk-card">
+                    <div class="uk-card-body">
+                      <chart [options]="serviceAddsToProjectOptions"></chart>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="serviceRatingsOptions">
+                  <div class="uk-card">
+                    <div class="uk-card-body">
+                      <chart [options]="serviceRatingsOptions"></chart>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="serviceVisitsOptions">
+                  <div class="uk-card">
+                    <div class="uk-card-body">
+                      <chart [options]="serviceVisitsOptions"></chart>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="uk-grid uk-margin-bottom">
+                  <div class="uk-width-1-1">
+                    <div style="width:100%" *ngIf="serviceMapOptions">
+                      <chart type="Map" [options]="serviceMapOptions"></chart>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!--<div *ngIf="service" class="uk-grid">
 
                 <div class="uk-width-3-5@m">
 
@@ -63,20 +133,25 @@
 
                   <div class="uk-grid uk-margin-bottom">
                     <div class="uk-width-1-1@m">
-                      <div style="width:100%" *ngIf="serviceFavouritesOptions">
+
+                      <div style="width:100%" *ngIf="serviceFavouritesOptions && projectName==='CatRIS'">
                         <chart [options]="serviceFavouritesOptions"></chart>
                       </div>
+
+                      <div style="width:100%" *ngIf="serviceAddsToProjectOptions && projectName==='EOSC'">
+                        <chart [options]="serviceAddsToProjectOptions"></chart>
+                      </div>
+
                     </div>
                   </div>
 
-                  <!-- TODO: remove if not needed -->
-<!--                  <div class="uk-grid uk-margin-bottom">-->
-<!--                    <div class="uk-width-1-1@m">-->
-<!--                      <div style="width:100%" *ngIf="serviceRatingsOptions">-->
-<!--                        <chart [options]="serviceRatingsOptions"></chart>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
+                  <div class="uk-grid uk-margin-bottom">
+                    <div class="uk-width-1-1@m">
+                      <div style="width:100%" *ngIf="serviceRatingsOptions">
+                        <chart [options]="serviceRatingsOptions"></chart>
+                      </div>
+                    </div>
+                  </div>
 
                   <div class="uk-grid uk-margin-bottom">
                     <div class="uk-width-1-1@m">
@@ -95,50 +170,50 @@
                   </div>
 
                 </div>
-                <div class="uk-width-2-5@m">
+&lt;!&ndash;                <div class="uk-width-2-5@m">&ndash;&gt;
 
-                  <section class="section project-bg-color">
-                    <div class="uk-container uk-container-center">
-                      <div class="al_timeline">
+&lt;!&ndash;                  <section class="section project-bg-color">&ndash;&gt;
+&lt;!&ndash;                    <div class="uk-container uk-container-center">&ndash;&gt;
+&lt;!&ndash;                      <div class="al_timeline">&ndash;&gt;
 
-                        <ng-container *ngIf="service && serviceHistory?.results?.length>0">
-                          <ng-container *ngFor="let history of serviceHistory.results">
+&lt;!&ndash;                        <ng-container *ngIf="service && serviceHistory?.results?.length>0">&ndash;&gt;
+&lt;!&ndash;                          <ng-container *ngFor="let history of serviceHistory.results">&ndash;&gt;
 
-                            <div *ngIf="history.versionChange" class="al_timeline_block versionChange">
-                              <div
-                                class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">
-                              </div>
-                              <div
-                                class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-left">
-                                <h3>New Version {{history.version}}</h3>
-                                <p>Updated to this version on {{history.modifiedAt | date:'shortDate'}}
-                                  by {{history.modifiedBy}}</p>
-                                <!--<a class="md-btn md-btn-primary"-->
-                                   <!--[routerLink]="['/service/',service.id,history.version]">View version details</a>-->
-                              </div>
-                            </div>
+&lt;!&ndash;                            <div *ngIf="history.versionChange" class="al_timeline_block versionChange">&ndash;&gt;
+&lt;!&ndash;                              <div&ndash;&gt;
+&lt;!&ndash;                                class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">&ndash;&gt;
+&lt;!&ndash;                              </div>&ndash;&gt;
+&lt;!&ndash;                              <div&ndash;&gt;
+&lt;!&ndash;                                class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-left">&ndash;&gt;
+&lt;!&ndash;                                <h3>New Version {{history.version}}</h3>&ndash;&gt;
+&lt;!&ndash;                                <p>Updated to this version on {{history.modifiedAt | date:'shortDate'}}&ndash;&gt;
+&lt;!&ndash;                                  by {{history.modifiedBy}}</p>&ndash;&gt;
+&lt;!&ndash;                                &lt;!&ndash;<a class="md-btn md-btn-primary"&ndash;&gt;&ndash;&gt;
+&lt;!&ndash;                                   &lt;!&ndash;[routerLink]="['/service/',service.id,history.version]">View version details</a>&ndash;&gt;&ndash;&gt;
+&lt;!&ndash;                              </div>&ndash;&gt;
+&lt;!&ndash;                            </div>&ndash;&gt;
 
-                            <div *ngIf="!history.versionChange" class="al_timeline_block update">
-                              <div
-                                class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">
-                              </div>
-                              <div
-                                class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">
-                                <h3>Updated Version {{history.version}}</h3>
-                                <p>on {{history.modifiedAt | date:'shortDate'}} by {{history.modifiedBy}}</p>
-                              </div>
-                            </div>
+&lt;!&ndash;                            <div *ngIf="!history.versionChange" class="al_timeline_block update">&ndash;&gt;
+&lt;!&ndash;                              <div&ndash;&gt;
+&lt;!&ndash;                                class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">&ndash;&gt;
+&lt;!&ndash;                              </div>&ndash;&gt;
+&lt;!&ndash;                              <div&ndash;&gt;
+&lt;!&ndash;                                class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">&ndash;&gt;
+&lt;!&ndash;                                <h3>Updated Version {{history.version}}</h3>&ndash;&gt;
+&lt;!&ndash;                                <p>on {{history.modifiedAt | date:'shortDate'}} by {{history.modifiedBy}}</p>&ndash;&gt;
+&lt;!&ndash;                              </div>&ndash;&gt;
+&lt;!&ndash;                            </div>&ndash;&gt;
 
-                          </ng-container>
-                        </ng-container>
+&lt;!&ndash;                          </ng-container>&ndash;&gt;
+&lt;!&ndash;                        </ng-container>&ndash;&gt;
 
-                      </div>
-                    </div>
-                  </section>
+&lt;!&ndash;                      </div>&ndash;&gt;
+&lt;!&ndash;                    </div>&ndash;&gt;
+&lt;!&ndash;                  </section>&ndash;&gt;
 
-                </div>
+&lt;!&ndash;                </div>&ndash;&gt;
 
-              </div>
+              </div>-->
 
               <!-- RIGHT HELP CONTENT -->
               <app-aside-help-content #rightHelperContent [position]="'right'"

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
-import {InfraService, ProviderBundle, VocabularyCuration} from '../../domain/eic-model';
+import {ProviderBundle, VocabularyCuration, VocabularyEntryRequest} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -21,7 +21,7 @@ export class VocabularyRequestsComponent implements OnInit {
 
   formPrepare = {
     status: 'Pending',
-    order: 'ASC',
+    order: 'DESC',
     orderField: 'dateOfRequest',
     quantity: '10',
     from: '0',
@@ -40,6 +40,7 @@ export class VocabularyRequestsComponent implements OnInit {
 
   vocabularyCurations: VocabularyCuration[] = [];
   selectedCuration: VocabularyCuration;
+  selectedVocabularyEntryRequests: VocabularyEntryRequest[] = [];
   facets: any;
   searchFacet = '';
 
@@ -163,10 +164,6 @@ export class VocabularyRequestsComponent implements OnInit {
         this.loadingMessage = '';
       },
       () => {
-        // console.log(this.vocabularyCurations);
-        // console.log(this.facets);
-        // console.log(this.total);
-        // console.log(this.vocabularyCurations[0].vocabularyEntryRequests[0].resourceType);
         this.loadingMessage = '';
       }
     );
@@ -288,8 +285,9 @@ export class VocabularyRequestsComponent implements OnInit {
   }
 
   rejectAction() {
+    const reasonOfRejection = (<HTMLInputElement>document.getElementById('reasonOfRejection')).value;
     this.loadingMessage = '';
-    this.serviceProviderService.approveVocabularyEntry(this.selectedCuration, false, 'qwerty')
+    this.serviceProviderService.approveVocabularyEntry(this.selectedCuration, false, reasonOfRejection)
       .subscribe(
         res => {
           UIkit.modal('#rejectionModal').hide();
@@ -301,9 +299,19 @@ export class VocabularyRequestsComponent implements OnInit {
           console.log(err);
         },
         () => {
+          (<HTMLInputElement>document.getElementById('reasonOfRejection')).value = '';
           this.loadingMessage = '';
         }
       );
+  }
+
+  viewMoreModal(curation: VocabularyCuration) {
+    console.log(curation.vocabularyEntryRequests);
+    this.selectedCuration = curation;
+    this.selectedVocabularyEntryRequests = curation.vocabularyEntryRequests;
+    if (this.selectedVocabularyEntryRequests) {
+      UIkit.modal('#viewMoreModal').show();
+    }
   }
 
   paginationInit() {
@@ -353,8 +361,8 @@ export class VocabularyRequestsComponent implements OnInit {
     }
   }
 
-  dateConverter(UNIX_timestamp) {
-    return new Date(UNIX_timestamp).toLocaleDateString('en-UK');
-  }
+  // dateConverter(UNIX_timestamp) {
+  //   return new Date(UNIX_timestamp).toLocaleDateString('en-UK');
+  // }
 
 }

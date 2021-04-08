@@ -127,7 +127,15 @@
                   <h4 class="uk-margin-remove">
                     <a (click)="navigate(providerService.service.id)">{{providerService.service.name}}</a>
                   </h4>
-                  <span *ngIf="providerService.service.description" class="uk-margin-small-top">{{providerService.service.description}}</span>
+                  <div class="uk-margin-small-top">
+                    <span *ngIf="providerService.service.description" class="uk-margin-small-top">{{providerService.service.description}}</span>
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <span class="statusLabel">Creation Date: </span>{{ providerService.metadata.registeredAt | date }}
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <span class="statusLabel">Last Update: </span>{{ providerService.metadata.modifiedAt | date }}
+                  </div>
                 </div>
                 <div class="uk-width-1-6">
                   <div class="action-buttons">

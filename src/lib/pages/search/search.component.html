@@ -75,8 +75,10 @@
 
             <ng-template ngFor let-facet [ngForOf]="searchResults.facets">
               <!--<ng-template [ngIf]="facet.field=='category'">-->
-              <div
-                *ngIf="facet.field!='resourceType' && facet.field!='categories' && facet.field!='subcategories' && facet.field!='supercategories' && facet.field!='name' && facet.field!='scientific_domains' && facet.field!='scientific_subdomains'"
+              <div *ngIf="facet.field!='resourceType' && facet.field!='categories'
+                      && facet.field!='subcategories' && facet.field!='supercategories'
+                      && facet.field!='name' && facet.field!='scientific_domains'
+                      && facet.field!='scientific_subdomains'"
                 class="refineCategory uk-grid-margin">
                 <hr>
                 <read-more [maxHeight]="235">
@@ -121,7 +123,7 @@
               <ul class="facets-selected cf">
                 <ng-template ngFor let-urlParameter [ngForOf]="urlParameters">
                   <ng-template
-                    [ngIf]="urlParameter.key!='from' && urlParameter.key!='quantity' && urlParameter.values!=''">
+                    [ngIf]="urlParameter.key!='from' && urlParameter.key!='quantity' && urlParameter.values[0]!=''">
                     <li *ngFor="let facet of urlParameter.values" class="search-tag">
                       <span class="title">{{urlParameter.key}}:</span> {{facet | uppercase}}
                       <a (click)="this.deselectFacet(urlParameter.key, facet)" data-role="remove"></a>
@@ -395,7 +397,7 @@
             </div>
 
             <div *ngIf="serviceIdsArray.length > 0" class="uk-float-right uk-animation-scale-up"
-                 style="z-index: 100; bottom: 25px; position: fixed; right: 25px;">
+                 style="z-index: 100; bottom: 40px; position: fixed; right: 30px;">
               <button class="uk-button butn theme" href="#email-modal" uk-toggle>Ask for info <i
                 class="fa fa-comment fa-2x" aria-hidden="true"></i></button>
             </div>
@@ -429,6 +431,79 @@
             </div>
 
           </div>
+
+        </div>
+      </div>
+
+      <div class="uk-margin-large-top" *ngIf="authenticationService.isLoggedIn() && recommendations?.length > 0">
+        <h3>Recommended for you</h3>
+        <div class="uk-grid uk-child-width-1-5 gridView" uk-height-match="target: > div > .uk-card">
+
+          <ng-container *ngFor="let resourceInfo of recommendations; let i = index">
+            <div class="serviceDetails uk-margin-bottom">
+
+              <div class="uk-card uk-card-default">
+
+                <div class="symbolAndProvider uk-card-body uk-text-center">
+
+                  <a (click)="this.router.service(resourceInfo.service.id)">
+                        <span>
+                          <img src="{{resourceInfo.service.logo || 'src/lib/assets/images/broken_image-black-48dp.svg'}}"
+                               style="height: 51px;">
+                        </span>
+                  </a>
+                  <span *ngIf="projectName!='OpenAIRE Catalogue'" class="provider">{{getResourceOrganizationAbbreviation(resourceInfo) | uppercase}}</span>
+                </div>
+                <div class="uk-first-column uk-card-body serviceInfo">
+                  <div style="position: relative">
+                    <div style="position: absolute;left: -5px;height: 20px;">
+                    </div>
+                  </div>
+                  <div>
+                    <h2 class="uk-margin-remove uk-h3 uk-scrollspy-inview uk-animation-fade uk-inline serviceName"
+                        uk-scrollspy-class="">
+                      <a [routerLink]="['/service/' + resourceInfo.service.id]">
+                        {{resourceInfo.service.name || "Not Available"}}
+                      </a>
+                    </h2>
+                  </div>
+
+                  <div class="uk-margin-small-top serviceTagLine">
+                    "{{resourceInfo.service.tagline}}"
+                  </div>
+                  <div class="uk-margin-small-top uk-scrollspy-inview uk-animation-fade" uk-scrollspy-class="">
+                    <!--<read-more-text [text]="resourceInfo.service.description" [maxHeight]="38">-->
+                    <!--</read-more-text>-->
+                    <div class="serviceDescription" [innerHTML]="resourceInfo.service.description"></div>
+                    <a [routerLink]="['/service/' + resourceInfo.service.id]">View more...</a>
+                  </div>
+
+
+                  <div *ngIf="projectName!='OpenAIRE Catalogue'" class="addenda uk-margin-small-top">
+                        <span class="uk-margin-medium-right">
+                            <a (click)="addToFavourites(i)">
+                                <i
+                                  [ngClass]="resourceInfo.isFavourite?'fa fa-heart fa-lg':'fa fa-heart-o fa-lg'"></i>
+                            </a>
+                            <span class="statsNumbers">&nbsp;{{ resourceInfo.favourites }}</span>
+                        </span>
+                    <span class="uk-margin-medium-right">
+                            <input type="checkbox" class="uk-margin-small-right"
+                                   [checked]="isSelected(resourceInfo.service)"
+                                   (change)="comparisonService.addOrRemove(resourceInfo.service)">
+                            <a>{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
+                        </span>
+                    <span class="uk-float-right">
+                            <img src="../../lib/assets/images/icons/ic_visit_icon.svg">
+                            <span class="statsNumbers">&nbsp;{{ resourceInfo.views }}</span>
+                        </span>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </ng-container>
 
         </div>
       </div>
@@ -698,7 +773,7 @@
     <div *ngFor="let serviceToCompare of this.comparisonService.servicesToCompare"
          class="uk-width-1-5 serviceToCompareCard uk-margin-right">
       <div class="">
-        <div class="removeService uk-text-right">
+        <div class="uk-text-right">
           <a (click)="this.comparisonService.addOrRemove(serviceToCompare)">
             <i class="fa fa-times" aria-hidden="true"></i>
           </a>

@@ -49,6 +49,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   sub: Subscription;
   urlParameters: URLParameter[] = [];
   searchResults: Paging<RichService>;
+  recommendations: RichService[];
   facetOrder = ['category', 'trl', 'lifeCycleStatus', 'provider'];
   pageSize = 10;
   currentPage = 0;
@@ -102,7 +103,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   updateSearchField(event) {
     const map: { [name: string]: string; } = {};
-    const params = this.route.snapshot.children[0].params;
+    const params = this.route.snapshot.params;
     let found = false;
     this.urlParameters = [];
     for (const i in params) {
@@ -139,12 +140,10 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.listViewActive = true;
-
     zip(
       this.resourceService.getProvidersNames(),
     ).subscribe(suc => {
       this.providers = suc[0];
-      // console.log(this.providers);
     });
     this.sub = this.route.params.subscribe(params => {
       this.urlParameters.splice(0, this.urlParameters.length);
@@ -194,7 +193,19 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     });
 
-    if (this.authenticationService.isLoggedIn() && this.projectName === 'OpenAIRE Catalogue') {
+    if (this.authenticationService.isLoggedIn()) {
+      this.resourceService.getRecommendedServices(5).subscribe(
+        suc => {
+          this.recommendations = suc;
+        },
+        error => {},
+        () => {
+          console.log(this.recommendations);
+        }
+      );
+    }
+
+      if (this.authenticationService.isLoggedIn() && this.projectName === 'OpenAIRE Catalogue') {
       this.resourceService.getMyServiceProviders().subscribe(
         res => this.myProviders = res,
         er => console.log(er),
@@ -256,6 +267,9 @@ export class SearchComponent implements OnInit, OnDestroy {
     // this.orderFacets();
     // update form values using URLParameters
     for (const urlParameter of this.urlParameters) {
+      if (urlParameter.key === 'searchFields') {
+        this.searchForm.get('searchFields').setValue(urlParameter.values[0]);
+      }
       if (urlParameter.key === 'query') {
         this.searchForm.get('query').setValue(urlParameter.values[0]);
       } else if (urlParameter.key === 'advanced') {
@@ -502,6 +516,10 @@ export class SearchComponent implements OnInit, OnDestroy {
       if (category === 'query') {
         this.searchForm.get('query').setValue('');
         this.navigationService.paramsObservable.next(null);
+      }
+      if (category === 'searchFields') {
+        this.searchForm.get('searchFields').setValue('');
+        // this.navigationService.paramsObservable.next(null);
       }
     }
     return this.navigateUsingParameters();

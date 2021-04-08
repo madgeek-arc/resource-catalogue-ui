@@ -23,12 +23,12 @@
 
               <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
-<!--              <div class="uk-flex uk-flex-right">-->
-<!--                <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">-->
-<!--                  <span uk-search-icon></span>-->
-<!--                  <input class="uk-search-input" type="search" placeholder="Search..." formControlName="query">-->
-<!--                </form>-->
-<!--              </div>-->
+              <div class="uk-flex uk-flex-right">
+                <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
+                  <span uk-search-icon></span>
+                  <input class="uk-search-input" type="search" placeholder="Search..." formControlName="query">
+                </form>
+              </div>
 
               <div class="uk-grid uk-margin-top">
 
@@ -51,7 +51,7 @@
                                  (change)="this.onSelection($event, 'vocabulary', vocabulary.value)"
                                  [checked]="isProviderChecked(vocabulary.value)">
                         </label>
-                        <span> {{vocabulary.label ? vocabulary.label : vocabulary.value}}</span>
+                        <span> {{ vocabulary.label | titlecase }}</span>
                         <span> ({{vocabulary.count}})</span>
                       </div>
                     </div>
@@ -83,8 +83,8 @@
                         <label class="" for="orderBy">Order by </label>
                         <div class="uk-inline">
                           <select class="uk-input uk-select" id="orderBy" (change)="handleChangeAndResetPage()" formControlName="order">
-                            <option value="ASC" selected>Ascending</option>
-                            <option value="DESC">Descending</option>
+                            <option value="ASC">Ascending</option>
+                            <option value="DESC" selected>Descending</option>
                           </select>
                         </div>
                       </div>
@@ -184,19 +184,23 @@
                               </div>
 
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Parent: </span>{{ curation.parent ? curation.parent : 'none' }}
+                                <span class="statusLabel">Vocabulary: </span>{{ curation.vocabulary | titlecase }}
                               </div>
 
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Resource Type: </span>{{ curation.vocabularyEntryRequests[0].resourceType }}
+                                <span class="statusLabel">Parent: </span>{{ curation.parent ? curation.parent : 'None' }}
                               </div>
 
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Creation Date: </span>{{ dateConverter(curation.vocabularyEntryRequests[0].dateOfRequest) }}
+                                <span class="statusLabel">Resource Type: </span>{{ curation.vocabularyEntryRequests[0].resourceType | titlecase }}
                               </div>
 
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Modification Date: </span>{{ curation.resolutionDate ?  dateConverter(curation.resolutionDate) : 'Pending' }}
+                                <span class="statusLabel">Creation Date: </span>{{ curation.vocabularyEntryRequests[0].dateOfRequest | date }}
+                              </div>
+
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Modification Date: </span>{{ curation.resolutionDate ?  (curation.resolutionDate | date) : 'Pending' }}
                               </div>
 
 <!--                              <div class="uk-margin-small-top">-->
@@ -205,15 +209,15 @@
                             </div>
 
                             <div class="uk-width-1-5">
-                              <div class="action-buttons">
+                              <div class="action-buttons" style="padding: 10px 0 10px 20px;">
 
                                 <ng-container *ngIf="curation.status === 'Pending'">
                                   <button (click)="approvalModal(curation)"
-                                          class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
+                                          class="uk-button uk-disabled uk-display-block uk-margin-medium-top">
                                     <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i> Approve Entry
                                   </button>
                                   <button (click)="rejectionModal(curation)"
-                                          class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
+                                          class="uk-button uk-disabled uk-display-block uk-margin-medium-top">
                                     <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i> Reject Entry
                                   </button>
                                 </ng-container>
@@ -222,6 +226,13 @@
                             </div>
                           </div>
                         </div>
+
+                        <ng-container>
+                          <hr class="uk-margin-top">
+                          <button class="uk-button uk-button-link" (click)="viewMoreModal(curation)">
+                            <i class="uk-margin-small-left fa fa-eye"></i> View more
+                          </button>
+                        </ng-container>
 
                       </div>
                     </div>
@@ -289,11 +300,41 @@
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
     <div *ngIf="selectedCuration">
       <h6>Are you sure you want to reject this vocabulary entry?</h6>
-      <!--      <p>Are you sure you want to reject this vocabulary entry?</p>-->
-            <p>Reason of rejection (optional)</p>
+      <form>
+<!--        <p>Reason of rejection (optional)</p>-->
+        <div class="uk-margin">
+          <label>
+            <input class="uk-input uk-form-width-large" type="text" id="reasonOfRejection" placeholder="Reason of rejection (optional)">
+          </label>
+        </div>
+        <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="rejectAction()">Proceed</button>
+        <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+      </form>
     </div>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="rejectAction()">Proceed</button>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+  </div>
+  <div *ngIf="loadingMessage">
+    <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+      {{ loadingMessage }}
+    </div>
+    <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
+<div id="viewMoreModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
+    <div *ngIf="selectedVocabularyEntryRequests && selectedCuration">
+      <h6><span style="color: #808080">Details regarding vocabulary entry request: </span>{{ this.selectedCuration.entryValueName }}</h6>
+      <h6 class="uk-margin-medium-bottom"><span style="color: #808080">Vocabulary: </span>{{ this.selectedCuration.vocabulary | titlecase }}</h6>
+      <div *ngFor="let entry of selectedVocabularyEntryRequests">
+        <div><span style="color: #808080">User Id: </span>{{ entry.userId }}</div>
+        <div><span style="color: #808080">Creation Date: </span>{{ entry.dateOfRequest | date }}</div>
+        <div><span style="color: #808080">Resource Type: </span>{{ entry.resourceType | titlecase }}</div>
+        <div><span style="color: #808080">Provider Id: </span>{{ entry.providerId }}</div>
+        <div><span style="color: #808080">Resource Id: </span>{{ entry.resourceId }}</div>
+        <br>
+      </div>
+    </div>
+    <button class="uk-button uk-button-secondary uk-modal-close uk-align-right" type="button">Close</button>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
