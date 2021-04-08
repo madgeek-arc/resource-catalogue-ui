@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {CanActivateViaAuthGuard} from '../lib/services/can-activate-auth-guard.service';
 import {ServiceLandingPageComponent} from '../lib/pages/landingpages/service/service-landing-page.component';
+import {StatsComponent} from '../lib/pages/stats/stats.component';
 import {ForbiddenPageComponent} from '../lib/shared/forbidden-page/forbidden-page.component';
 import {NotFoundPageComponent} from '../lib/shared/not-found-page/not-found-page.component';
 import {DevelopersComponent} from '../lib/pages/support/developers/developers.component';
@@ -27,6 +28,11 @@ const appRoutes: Routes = [
     data: {
       breadcrumb: 'Become A Provider'
     }
+  },
+  {
+    path: 'stats',
+    component: StatsComponent,
+    pathMatch: 'full'
   },
   {
     path: 'provider',
