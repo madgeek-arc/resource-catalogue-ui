@@ -11,8 +11,8 @@
             <div class="uk-margin-medium-left">
               <h3 class="uk-margin-remove">{{service.name}}</h3>
 <!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
-              <div *ngIf="serviceHistory.results">
-                <span class="status-label">Registed by: </span>{{ serviceHistory.results[0].registeredBy }} on {{ serviceHistory.results[0].registeredAt | date}}
+              <div *ngIf="serviceHistory?.results[0]?.registeredBy && serviceHistory?.results[0]?.registeredAt">
+                <span class="status-label">Registered by: </span>{{ serviceHistory.results[0].registeredBy }} on {{ serviceHistory.results[0].registeredAt | date}}
               </div>
             </div>
           </div>
@@ -89,8 +89,6 @@
                        [routerLink]="['/resource-dashboard/' + service.resourceOrganisation + '/' + service.id + '/fullHistory']"
                        class="uk-h3 uk-link">See more results ...</a>
                   </div>
-
-                  <pre> {{serviceHistory.results | json}}</pre>
 
                 </div>
 

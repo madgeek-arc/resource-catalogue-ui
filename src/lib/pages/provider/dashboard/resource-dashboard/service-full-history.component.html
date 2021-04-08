@@ -11,8 +11,8 @@
             <div class="uk-margin-medium-left">
               <h3 class="uk-margin-remove">{{service.name}}</h3>
               <!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
-              <div *ngIf="serviceHistory.results">
-                <span class="status-label">Registed by: </span>{{ serviceHistory.results[0].registeredBy }} on {{ serviceHistory.results[0].registeredAt | date}}
+              <div *ngIf="serviceHistory?.results[0]?.registeredBy && serviceHistory?.results[0]?.registeredAt">
+                <span class="status-label">Registered by: </span>{{ serviceHistory.results[0].registeredBy }} on {{ serviceHistory.results[0].registeredAt | date}}
               </div>
             </div>
           </div>
@@ -45,29 +45,20 @@
               <div *ngIf="service && serviceHistory?.results?.length>0">
                 <div  class="uk-width-1-1@m uk-margin-medium-bottom">
 
-                  <div class="md-card uk-margin-medium-bottom">
-                    <div class="md-card-content">
+                  <div class="uk-card uk-card-default uk-margin-medium-bottom">
                       <div class="uk-overflow-container">
-                        <table class="uk-table uk-table-nowrap table_check">
+                        <table class="uk-table uk-table-divider uk-table-nowrap">
                           <thead>
                           <tr>
-                            <!--<th class="uk-width-1-10 uk-text-center small_col"><div class="icheckbox_md"><input type="checkbox" data-md-icheck="" class="check_all" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div></th>-->
                             <th>Date</th>
                             <th>Modified By</th>
                             <th >Source</th>
                             <th class="uk-text-center">Version</th>
                             <th class="uk-text-center">Version changed</th>
-<!--                            <th class="uk-width-1-10">Date</th>-->
-<!--                            <th class="uk-width-4-10">Modified By</th>-->
-<!--                            <th class="uk-width-2-10">Source</th>-->
-<!--                            <th class="uk-width-1-10 uk-text-center">Version</th>-->
-<!--                            <th class="uk-width-2-10 uk-text-center">Version changed</th>-->
                           </tr>
                           </thead>
                           <tbody>
                           <tr *ngFor="let history of serviceHistory.results">
-                            <!--<td class="uk-text-center uk-table-middle small_col"><div class="icheckbox_md"><input type="checkbox" data-md-icheck="" class="check_row" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div></td>-->
-                            <!--<td class="uk-text-center"><img class="md-user-image dense-image dense-ready" src="assets/img/avatars/avatar_01_tn@2x.png" alt="" data-dense-cap="2"></td>-->
                             <td><span *ngIf="history.modifiedAt">{{ history.modifiedAt | date : "MM-dd-yyyy" }}</span></td>
                             <td class=""><span *ngIf="history.modifiedBy">{{ history.modifiedBy }}</span></td>
                             <td class=""><span *ngIf="history.source">{{ history.source }}</span></td>
@@ -80,7 +71,6 @@
                         </table>
                       </div>
 
-                    </div>
                   </div>
 
                 </div>
@@ -112,4 +102,3 @@
     </div>
   </div>
 </div>
-<!--</div>-->
