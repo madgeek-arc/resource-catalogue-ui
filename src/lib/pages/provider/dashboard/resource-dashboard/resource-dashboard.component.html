@@ -16,7 +16,7 @@
           </li>
           <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
             <a [routerLink]="['/resource-dashboard/' + providerId + '/' + resourceId + '/history']">
-              <img src="{{services.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
+              <img src="{{services.isActive ? 'lib/assets/images/new-icons/history-active.svg' : 'lib/assets/images/new-icons/history.svg'}}" class="uk-margin-small-right">
               Update History
             </a>
           </li>
