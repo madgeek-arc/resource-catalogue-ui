@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
@@ -89,6 +89,8 @@ export class ServiceProvidersListComponent implements OnInit {
     `Rejected Provider`, `Approved provider without ${this.serviceORresource}`,
     `Pending first ${this.serviceORresource} approval `, `Rejected ${this.serviceORresource}`
   ];
+
+  @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
   constructor(private resourceService: ResourceService,
               private serviceProviderService: ServiceProviderService,
@@ -194,15 +196,12 @@ export class ServiceProvidersListComponent implements OnInit {
 
     if (event.target.checked) {
       // Add a new control in the arrayForm
-      console.log('Add a new control in the arrayForm');
       formArray.push(new FormControl(event.target.value));
     } else {
       // find the unselected element
       let i = 0;
-
       formArray.controls.forEach((ctrl: FormControl) => {
         if (ctrl.value === event.target.value) {
-          console.log('Remove the unselected element from the arrayForm');
           // Remove the unselected element from the arrayForm
           formArray.removeAt(i);
           return;
@@ -450,6 +449,23 @@ export class ServiceProvidersListComponent implements OnInit {
       this.dataForm.get('from').setValue(+this.dataForm.get('from').value + +this.dataForm.get('quantity').value);
       this.handleChange();
     }
+  }
+
+  checkAll(check: boolean) {
+
+    const formArray: FormArray = this.dataForm.get('status') as FormArray;
+    if (check){
+      formArray.controls.length = 0;
+      for (let i = 0; i < this.statuses.length; i++) {
+        formArray.push(new FormControl(this.statuses[i]));
+      }
+    } else {
+      while (formArray.controls.length > 0 ) {
+        formArray.removeAt(0);
+      }
+    }
+    this.handleChangeAndResetPage();
+
   }
 
   DownloadProvidersCSV() {

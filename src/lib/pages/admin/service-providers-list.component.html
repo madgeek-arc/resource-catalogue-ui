@@ -54,14 +54,19 @@
 
                   <h5>Status</h5>
                   <form [formGroup]="dataForm">
-                    <div formArrayName="status">
+                    <div formArrayName="status" class="uk-padding">
                       <div *ngFor="let statusValue of statuses;" class="uk-margin-small-top">
                         <label class="status-value uk-margin-small-left">
-                          <input class="uk-checkbox" type="checkbox" [value]="statusValue"
+                          <input #checkboxes class="uk-checkbox" type="checkbox" [value]="statusValue"
                                  (change)="onStatusSelectionChange($event)" [checked]="isStatusChecked(statusValue)">
                           {{labels[statuses.indexOf(statusValue)] }}
                         </label>
                       </div>
+                    </div>
+                    <div class="">
+                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(false)"> Uncheck All </button>
+                      &nbsp;
+                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(true)"> Check All </button>
                     </div>
                   </form>
 
