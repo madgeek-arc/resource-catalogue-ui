@@ -9,6 +9,8 @@ import {PendingServicesComponent} from './pendingservices/pending-services.compo
 import {MessagesComponent} from './messages/messages.component';
 import {ServiceStatsComponent} from './resource-dashboard/service-stats.component';
 import {ResourceDashboardModule} from './resource-dashboard/resource-dashboard.module';
+import {ProviderHistoryComponent} from './providerHistory/provider-history.component';
+import {ProviderFullHistoryComponent} from './providerHistory/provider-full-history.component';
 
 const providerDashboardRoutes: Routes = [
   {
@@ -35,6 +37,14 @@ const providerDashboardRoutes: Routes = [
         data: {
           isResource: false
         }
+      },
+      {
+        path: 'history',
+        component: ProviderHistoryComponent
+      },
+      {
+        path: 'fullHistory',
+        component: ProviderFullHistoryComponent
       },
       {
         path: 'info',

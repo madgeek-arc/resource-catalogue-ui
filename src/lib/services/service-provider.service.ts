@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
-import {InfraService, Provider, ProviderBundle, ProviderRequest, Service, VocabularyCuration} from '../domain/eic-model';
+import {InfraService, Provider, ProviderBundle, ProviderRequest, Service, ServiceHistory, VocabularyCuration} from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {Paging} from '../domain/paging';
@@ -172,6 +172,10 @@ export class ServiceProviderService {
       return this.http.put<VocabularyCuration>(this.base + `/vocabularyCuration/approveOrRejectVocabularyCuration?approved=true`, curation, this.options);
     }
     return this.http.put<VocabularyCuration>(this.base + `/vocabularyCuration/approveOrRejectVocabularyCuration?approved=false&rejectionReason=${rejectionReason}`, curation, this.options);
+  }
+
+  getProviderHistory(providerId: string) {
+    return this.http.get<Paging<ServiceHistory>>(this.base + `/provider/history/${providerId}/`);
   }
 
 }

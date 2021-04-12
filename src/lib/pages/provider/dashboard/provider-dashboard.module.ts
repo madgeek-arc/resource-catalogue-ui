@@ -12,6 +12,8 @@ import {MessagesComponent} from './messages/messages.component';
 import {DashboardComponent} from './dashboard.component';
 import {ServiceStatsComponent} from './resource-dashboard/service-stats.component';
 import {MarkdownModule} from 'ngx-markdown';
+import {ProviderHistoryComponent} from './providerHistory/provider-history.component';
+import {ProviderFullHistoryComponent} from './providerHistory/provider-full-history.component';
 
 @NgModule({
   imports: [
@@ -28,6 +30,8 @@ import {MarkdownModule} from 'ngx-markdown';
   declarations: [
     DashboardComponent,
     ProviderStatsComponent,
+    ProviderHistoryComponent,
+    ProviderFullHistoryComponent,
     ProviderInfoComponent,
     ServicesComponent,
     MessagesComponent,
