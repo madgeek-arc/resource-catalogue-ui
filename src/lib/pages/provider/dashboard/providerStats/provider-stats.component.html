@@ -16,7 +16,7 @@
 
       <div class="uk-grid">
         <div class="uk-width-4-5"></div>
-        <div class="uk-width-1-5 uk-margin-small-top">
+        <div class="uk-width-1-5 uk-margin-medium-top">
           <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
                   (change)="onPeriodChange($event)">
             <option value="DAY">Daily</option>
@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <ul class="uk-visible@m uk-tab uk-tab-large uk-flex-center" data-uk-tab="{connect:'#terminology_tabbed',animation: 'slide-bottom'}">
+      <ul class="uk-visible@m uk-tab uk-tab-large" data-uk-tab="{connect:'#terminology_tabbed',animation: 'slide-bottom'}">
         <li class="uk-active" aria-expanded="true"><a>User engagement</a></li>
         <li aria-expanded="false"><a>Geographical distribution of {{serviceORresource | lowercase}}s</a></li>
         <li aria-expanded="false"><a>Distribution of {{serviceORresource | lowercase}}s per {{serviceORresource | lowercase}} attribute</a></li>
