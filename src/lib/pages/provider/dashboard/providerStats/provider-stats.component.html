@@ -14,21 +14,7 @@
         </div>
       </div>
 
-      <div class="uk-grid">
-        <div class="uk-width-4-5"></div>
-        <div class="uk-width-1-5 uk-margin-medium-top">
-          <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
-                  (change)="onPeriodChange($event)">
-            <option value="DAY">Daily</option>
-            <option value="WEEK">Weekly</option>
-            <option value="MONTH" selected>Monthly</option>
-            <option value="YEAR">Yearly</option>
-          </select>
-          <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
-        </div>
-      </div>
-
-      <ul class="uk-visible@m uk-tab uk-tab-large" data-uk-tab="{connect:'#terminology_tabbed',animation: 'slide-bottom'}">
+      <ul class="uk-visible@m uk-tab uk-tab-large uk-margin-medium-top" data-uk-tab="{connect:'#terminology_tabbed',animation: 'slide-bottom'}">
         <li class="uk-active" aria-expanded="true"><a>User engagement</a></li>
         <li aria-expanded="false"><a>Geographical distribution of {{serviceORresource | lowercase}}s</a></li>
         <li aria-expanded="false"><a>Distribution of {{serviceORresource | lowercase}}s per {{serviceORresource | lowercase}} attribute</a></li>
@@ -36,7 +22,22 @@
 
       <ul id="terminology_tabbed" class="uk-switcher">
         <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
-          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
+
+          <div class="uk-grid">
+            <div class="uk-width-4-5"></div>
+            <div class="uk-width-1-5 ">
+              <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
+                      (change)="onPeriodChange($event)">
+                <option value="DAY" selected>Daily</option>
+                <option value="WEEK">Weekly</option>
+                <option value="MONTH">Monthly</option>
+                <option value="YEAR">Yearly</option>
+              </select>
+              <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
+            </div>
+          </div>
+
+          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l uk-margin-remove-top">
 
             <div>
               <div class="uk-card">
@@ -74,11 +75,27 @@
             <!--        </div>-->
 
           </div>
+
         </li>
         <li aria-hidden="true" style="animation-duration: 200ms;">
+
           <div class="uk-grid">
+            <div class="uk-width-4-5"></div>
+            <div class="uk-width-1-5 ">
+              <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
+                      (change)="onPeriodChange($event)">
+                <option value="DAY" selected>Daily</option>
+                <option value="WEEK">Weekly</option>
+                <option value="MONTH">Monthly</option>
+                <option value="YEAR">Yearly</option>
+              </select>
+              <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
+            </div>
+          </div>
+
+          <div class="uk-grid uk-margin-remove-top">
             <div class="uk-width-1-1 uk-card">
-              <div class="uk-card-body">
+              <div class="uk-card-body uk-padding-remove-top">
                 <chart type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">
                   <series (click)="onMapSeriesClick($event)">
                   </series>
@@ -86,9 +103,25 @@
               </div>
             </div>
           </div>
+
         </li>
         <li aria-hidden="true" style="animation-duration: 200ms;">
-          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
+
+          <div class="uk-grid">
+            <div class="uk-width-4-5"></div>
+            <div class="uk-width-1-5 ">
+              <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
+                      (change)="onPeriodChange($event)">
+                <option value="DAY" selected>Daily</option>
+                <option value="WEEK">Weekly</option>
+                <option value="MONTH">Monthly</option>
+                <option value="YEAR">Yearly</option>
+              </select>
+              <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
+            </div>
+          </div>
+
+          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l uk-margin-remove-top">
 
             <div>
               <div class="uk-card">
