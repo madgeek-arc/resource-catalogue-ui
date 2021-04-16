@@ -7,7 +7,7 @@ import { ResourceService } from '../../../../services/resource.service';
 import { NavigationService } from '../../../../services/navigation.service';
 import { ActivatedRoute } from '@angular/router';
 import { ServiceProviderService } from '../../../../services/service-provider.service';
-import {InfraService, Provider, Service} from '../../../../domain/eic-model';
+import {InfraService, Provider, ProviderBundle, Service} from '../../../../domain/eic-model';
 import { map } from 'rxjs/operators';
 import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
@@ -29,6 +29,7 @@ export class ProviderStatsComponent implements OnInit {
   providerId: string;
   statisticPeriod: string;
   provider: Provider;
+  providerBundle: ProviderBundle;
   providerServices: Paging<InfraService>;
   providerServicesGroupedByPlace: any;
   providerCoverage: string[];
@@ -72,12 +73,12 @@ export class ProviderStatsComponent implements OnInit {
       zip(
         this.resourceService.getEU(),
         this.resourceService.getWW(),
-        this.providerService.getServiceProviderById(this.providerId)
+        this.providerService.getServiceProviderBundleById(this.providerId)
         /*this.resourceService.getProvidersNames()*/
       ).subscribe(suc => {
         this.EU = <string[]>suc[0];
         this.WW = <string[]>suc[1];
-        this.provider = suc[2];
+        this.providerBundle = suc[2];
         this.getDataForProvider(this.statisticPeriod);
       });
     } else {
@@ -87,12 +88,12 @@ export class ProviderStatsComponent implements OnInit {
           zip(
             this.resourceService.getEU(),
             this.resourceService.getWW(),
-            this.providerService.getServiceProviderById(this.providerId)
+            this.providerService.getServiceProviderBundleById(this.providerId)
             /*this.resourceService.getProvidersNames()*/
           ).subscribe(suc => {
             this.EU = <string[]>suc[0];
             this.WW = <string[]>suc[1];
-            this.provider = suc[2];
+            this.providerBundle = suc[2];
             this.getDataForProvider(this.statisticPeriod);
           });
         },
@@ -561,7 +562,7 @@ export class ProviderStatsComponent implements OnInit {
         // borderWidth: 1
       },
       title: {
-        text: 'Countries serviced by ' + this.provider.name
+        text: 'Countries serviced by ' + this.providerBundle.provider.name
       },
       // subtitle: {
       //     text: 'Demo of drawing all areas in the map, only highlighting partial data'
@@ -612,7 +613,7 @@ export class ProviderStatsComponent implements OnInit {
           height: (3 / 4 * 100) + '%', // 3:4 ratio
         },
         title: {
-          // text: 'Countries serviced by ' + this.provider.name
+          // text: 'Countries serviced by ' + this.providerBundle.provider.name
           text: ''
         },
         colorAxis: {
