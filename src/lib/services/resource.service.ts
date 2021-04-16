@@ -461,8 +461,8 @@ export class ResourceService {
   }
 
   uploadService(service: Service, shouldPut: boolean) {
-    console.log(JSON.stringify(service));
-    console.log(`knocking on: ${this.base}/service`);
+    // console.log(JSON.stringify(service));
+    // console.log(`knocking on: ${this.base}/service`);
     return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + '/service', service, this.options);
   }
 

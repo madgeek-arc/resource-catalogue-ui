@@ -115,109 +115,6 @@
 
               </div>
 
-              <!--<div *ngIf="service" class="uk-grid">
-
-                <div class="uk-width-3-5@m">
-
-                  <div class="uk-grid uk-margin-bottom">
-                    <div class="uk-width-1-1" style="display: block">
-                      <div class="uk-float-right uk-width-1-3">
-                        <select class="uk-select uk-width-3-5" style="min-width: 100px" title="Change the interval of the displayed statistics"
-                                (change)="onPeriodChange($event)">
-                          <option value="DAY">Daily</option>
-                          <option value="WEEK">Weekly</option>
-                          <option value="MONTH" selected>Monthly</option>
-                          <option value="YEAR">Yearly</option>
-                        </select>
-                        <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="uk-grid uk-margin-bottom">
-                    <div class="uk-width-1-1@m">
-
-                      <div style="width:100%" *ngIf="serviceFavouritesOptions && projectName==='CatRIS'">
-                        <chart [options]="serviceFavouritesOptions"></chart>
-                      </div>
-
-                      <div style="width:100%" *ngIf="serviceAddsToProjectOptions && projectName==='EOSC'">
-                        <chart [options]="serviceAddsToProjectOptions"></chart>
-                      </div>
-
-                    </div>
-                  </div>
-
-                  <div class="uk-grid uk-margin-bottom">
-                    <div class="uk-width-1-1@m">
-                      <div style="width:100%" *ngIf="serviceRatingsOptions">
-                        <chart [options]="serviceRatingsOptions"></chart>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="uk-grid uk-margin-bottom">
-                    <div class="uk-width-1-1@m">
-                      <div style="width:100%" *ngIf="serviceVisitsOptions">
-                        <chart [options]="serviceVisitsOptions"></chart>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="uk-grid uk-margin-bottom">
-                    <div class="uk-width-1-1">
-                      <div style="width:100%" *ngIf="serviceMapOptions">
-                        <chart type="Map" [options]="serviceMapOptions"></chart>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-&lt;!&ndash;                <div class="uk-width-2-5@m">&ndash;&gt;
-
-&lt;!&ndash;                  <section class="section project-bg-color">&ndash;&gt;
-&lt;!&ndash;                    <div class="uk-container uk-container-center">&ndash;&gt;
-&lt;!&ndash;                      <div class="al_timeline">&ndash;&gt;
-
-&lt;!&ndash;                        <ng-container *ngIf="service && serviceHistory?.results?.length>0">&ndash;&gt;
-&lt;!&ndash;                          <ng-container *ngFor="let history of serviceHistory.results">&ndash;&gt;
-
-&lt;!&ndash;                            <div *ngIf="history.versionChange" class="al_timeline_block versionChange">&ndash;&gt;
-&lt;!&ndash;                              <div&ndash;&gt;
-&lt;!&ndash;                                class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">&ndash;&gt;
-&lt;!&ndash;                              </div>&ndash;&gt;
-&lt;!&ndash;                              <div&ndash;&gt;
-&lt;!&ndash;                                class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-left">&ndash;&gt;
-&lt;!&ndash;                                <h3>New Version {{history.version}}</h3>&ndash;&gt;
-&lt;!&ndash;                                <p>Updated to this version on {{history.modifiedAt | date:'shortDate'}}&ndash;&gt;
-&lt;!&ndash;                                  by {{history.modifiedBy}}</p>&ndash;&gt;
-&lt;!&ndash;                                &lt;!&ndash;<a class="md-btn md-btn-primary"&ndash;&gt;&ndash;&gt;
-&lt;!&ndash;                                   &lt;!&ndash;[routerLink]="['/service/',service.id,history.version]">View version details</a>&ndash;&gt;&ndash;&gt;
-&lt;!&ndash;                              </div>&ndash;&gt;
-&lt;!&ndash;                            </div>&ndash;&gt;
-
-&lt;!&ndash;                            <div *ngIf="!history.versionChange" class="al_timeline_block update">&ndash;&gt;
-&lt;!&ndash;                              <div&ndash;&gt;
-&lt;!&ndash;                                class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">&ndash;&gt;
-&lt;!&ndash;                              </div>&ndash;&gt;
-&lt;!&ndash;                              <div&ndash;&gt;
-&lt;!&ndash;                                class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">&ndash;&gt;
-&lt;!&ndash;                                <h3>Updated Version {{history.version}}</h3>&ndash;&gt;
-&lt;!&ndash;                                <p>on {{history.modifiedAt | date:'shortDate'}} by {{history.modifiedBy}}</p>&ndash;&gt;
-&lt;!&ndash;                              </div>&ndash;&gt;
-&lt;!&ndash;                            </div>&ndash;&gt;
-
-&lt;!&ndash;                          </ng-container>&ndash;&gt;
-&lt;!&ndash;                        </ng-container>&ndash;&gt;
-
-&lt;!&ndash;                      </div>&ndash;&gt;
-&lt;!&ndash;                    </div>&ndash;&gt;
-&lt;!&ndash;                  </section>&ndash;&gt;
-
-&lt;!&ndash;                </div>&ndash;&gt;
-
-              </div>-->
-
               <!-- RIGHT HELP CONTENT -->
               <app-aside-help-content #rightHelperContent [position]="'right'"
                                       [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
@@ -225,7 +122,6 @@
 
             </div>
           </div>
-
 
           <!-- BOTTOM HELP CONTENT -->
           <app-help-content #bottomHelperContent [position]="'bottom'"
