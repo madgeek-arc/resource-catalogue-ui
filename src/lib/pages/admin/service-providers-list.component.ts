@@ -78,6 +78,7 @@ export class ServiceProvidersListComponent implements OnInit {
   public geographicalVocabulary: Vocabulary[] = null;
   public languagesVocabulary: Vocabulary[] = null;
   public languagesVocIdArray: string[] = [];
+  public statusesVocabulary: Vocabulary[] = null;
 
   public statuses: Array<string> = [
     'approved', 'pending initial approval', 'rejected',
