@@ -59,7 +59,7 @@
                         <label class="status-value uk-margin-small-left">
                           <input #checkboxes class="uk-checkbox" type="checkbox" [value]="statusValue"
                                  (change)="onStatusSelectionChange($event)" [checked]="isStatusChecked(statusValue)">
-                          {{labels[statuses.indexOf(statusValue)] }}
+                          {{labels[statuses.indexOf(statusValue)] | titlecase}}
                         </label>
                       </div>
                     </div>
