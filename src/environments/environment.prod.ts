@@ -11,5 +11,6 @@ export const environment = {
   hasUserConsent: true,
   privacyPolicyURL: 'https://www.eosc-portal.eu/privacy-policy-summary',
   marketplaceBaseURL: 'https://marketplace.eosc-portal.eu/services/',
-  API_TOKEN_ENDPOINT: 'https://aai.eosc-portal.eu/providers-api'
+  API_TOKEN_ENDPOINT: 'https://aai.eosc-portal.eu/providers-api',
+  showHelpContent: false
 };

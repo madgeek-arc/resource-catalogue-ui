@@ -15,7 +15,8 @@ export const environment = {
   hasUserConsent: true,
   privacyPolicyURL: 'https://www.eosc-portal.eu/privacy-policy-summary',
   marketplaceBaseURL: 'https://marketplace-beta.docker-fid.grid.cyf-kr.edu.pl/services/',
-  API_TOKEN_ENDPOINT: 'https://aai.eosc-portal.eu/providers-api'
+  API_TOKEN_ENDPOINT: 'https://aai.eosc-portal.eu/providers-api',
+  showHelpContent: false
 };
 
 /*
