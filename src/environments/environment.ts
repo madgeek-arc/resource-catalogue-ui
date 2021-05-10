@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   beta: false,
+  MATOMO_URL: '',
+  MATOMO_SITE: 3,
   FAQ_ENDPOINT: 'https://dl105.madgik.di.uoa.gr/faq/api',
   API_ENDPOINT: '/eic-registry', // to change the end point go to proxy.conf.json file
   projectName: 'EOSC',
@@ -13,7 +15,8 @@ export const environment = {
   hasUserConsent: true,
   privacyPolicyURL: 'https://www.eosc-portal.eu/privacy-policy-summary',
   marketplaceBaseURL: 'https://marketplace-beta.docker-fid.grid.cyf-kr.edu.pl/services/',
-  API_TOKEN_ENDPOINT: 'https://aai.eosc-portal.eu/providers-api'
+  API_TOKEN_ENDPOINT: 'https://aai.eosc-portal.eu/providers-api',
+  showHelpContent: false
 };
 
 /*

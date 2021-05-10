@@ -26,10 +26,10 @@ export class MyServiceProvidersComponent implements OnInit {
   myRejectedProviders: ProviderBundle[] = [];
   myIncompleteProviders: ProviderBundle[] = [];
 
-  isApprovedChecked: boolean = true;
-  isPendingChecked: boolean = true;
-  isRejectedChecked: boolean = true;
-  isIncompleteChecked: boolean = true;
+  isApprovedChecked = true;
+  isPendingChecked = true;
+  isRejectedChecked = true;
+  isIncompleteChecked = true;
 
   constructor(
     private serviceProviderService: ServiceProviderService,

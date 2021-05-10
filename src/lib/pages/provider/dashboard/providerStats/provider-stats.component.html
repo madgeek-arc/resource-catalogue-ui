@@ -1,118 +1,279 @@
 <div class="uk-section uk-section-xsmall">
   <div class="uk-container uk-container-expand">
-
     <div class="uk-padding-remove-bottom" style="min-height: 500px">
 
-      <h3>User engagement</h3>
-
-      <div class="uk-grid">
-        <div class="uk-width-4-5"></div>
-        <div class="uk-width-1-5">
-          <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
-                  (change)="onPeriodChange($event)">
-            <option value="DAY">Daily</option>
-            <option value="WEEK">Weekly</option>
-            <option value="MONTH" selected>Monthly</option>
-            <option value="YEAR">Yearly</option>
-          </select>
-          <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
-        </div>
-      </div>
-
-
-      <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
-
-        <div>
-          <div class="uk-card">
-            <div class="uk-card-body">
-              <chart [options]="providerFavouritesOptions" style="width: 100%; display: block;"></chart>
-            </div>
+      <div class="services-provider-container">
+        <div *ngIf="providerBundle" class="uk-flex">
+          <div>
+            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
           </div>
-        </div>
-
-        <div>
-          <div class="uk-card">
-            <div class="uk-card-body">
-              <chart [options]="providerVisitsOptions" style="width: 100%; display: block;"></chart>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <h3>Geographical distribution of {{serviceORresource | lowercase}}s</h3>
-      <div class="uk-grid">
-        <div class="uk-width-1-1 uk-card">
-          <div class="uk-card-body">
-            <chart type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">
-              <series (click)="onMapSeriesClick($event)">
-              </series>
-            </chart>
+          <div class="uk-margin-medium-left">
+            <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
+            <div><span class="status-label">Status: </span>{{providerBundle.status | titlecase}}</div>
           </div>
         </div>
       </div>
 
+      <ul class="uk-visible@m uk-tab uk-tab-large uk-margin-medium-top" data-uk-tab="{connect:'#terminology_tabbed',animation: 'slide-bottom'}">
+        <li class="uk-active" aria-expanded="true"><a>User engagement</a></li>
+        <li aria-expanded="false"><a>Geographical distribution of {{serviceORresource | lowercase}}s</a></li>
+        <li aria-expanded="false"><a>Distribution of {{serviceORresource | lowercase}}s per {{serviceORresource | lowercase}} attribute</a></li>
+      </ul>
 
-      <h3>Distribution of {{serviceORresource | lowercase}}s per {{serviceORresource | lowercase}} attribute</h3>
-      <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
+      <ul id="terminology_tabbed" class="uk-switcher">
+        <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
 
-        <div>
-          <div class="uk-card">
-            <div class="uk-card-body">
-              <chart [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+          <div class="uk-grid">
+            <div class="uk-width-4-5"></div>
+            <div class="uk-width-1-5 ">
+              <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
+                      (change)="onPeriodChange($event)">
+                <option value="DAY" selected>Daily</option>
+                <option value="WEEK">Weekly</option>
+                <option value="MONTH">Monthly</option>
+                <option value="YEAR">Yearly</option>
+              </select>
+              <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
             </div>
           </div>
-        </div>
 
-        <div>
-          <div class="uk-card">
-            <div class="uk-card-body">
-              <chart [options]="domainsPerServiceForProvider" style="width: 100%; display: block;"></chart>
+          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l uk-margin-remove-top">
+
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body" *ngIf="projectName==='CatRIS'">
+                  <chart [options]="providerFavouritesOptions" style="width: 100%; display: block;"></chart>
+                </div>
+                <div class="uk-card-body" *ngIf="projectName==='EOSC'">
+                  <chart [options]="providerAddsToProjectOptions" style="width: 100%; display: block;"></chart>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <chart [options]="providerVisitsOptions" style="width: 100%; display: block;"></chart>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <chart [options]="providerRatingsOptions" style="width: 100%; display: block;"></chart>
+                </div>
+              </div>
+            </div>
+
+            <!--        <div *ngIf="projectName==='EOSC'">-->
+            <!--          <div class="uk-card">-->
+            <!--            <div class="uk-card-body">-->
+            <!--              <chart [options]="providerOrdersOptions" style="width: 100%; display: block;"></chart>-->
+            <!--            </div>-->
+            <!--          </div>-->
+            <!--        </div>-->
+
+          </div>
+
+        </li>
+        <li aria-hidden="true" style="animation-duration: 200ms;">
+
+          <div class="uk-grid uk-margin-remove-top">
+            <div class="uk-width-1-1 uk-card">
+              <div class="uk-card-body uk-padding-remove-top">
+                <chart type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">
+                  <series (click)="onMapSeriesClick($event)">
+                  </series>
+                </chart>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div>
-          <div class="uk-card">
-            <div class="uk-card-body">
-              <chart [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></chart>
+        </li>
+        <li aria-hidden="true" style="animation-duration: 200ms;">
+
+          <div class="uk-grid">
+            <div class="uk-width-4-5"></div>
+            <div class="uk-width-1-5 ">
+              <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
+                      (change)="onPeriodChange($event)">
+                <option value="DAY" selected>Daily</option>
+                <option value="WEEK">Weekly</option>
+                <option value="MONTH">Monthly</option>
+                <option value="YEAR">Yearly</option>
+              </select>
+              <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
             </div>
           </div>
-        </div>
 
-        <div>
-          <div class="uk-card">
-            <div class="uk-card-body">
-              <chart [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l uk-margin-remove-top">
+
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <chart [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-
-        <div>
-          <div class="uk-card">
-            <div class="uk-card-body">
-              <chart [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <chart [options]="domainsPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div>
-          <div class="uk-card">
-            <div class="uk-card-body">
-              <chart [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <chart [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                </div>
+              </div>
             </div>
+
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <chart [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <chart [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <chart [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                </div>
+              </div>
+            </div>
+
           </div>
-        </div>
+        </li>
+      </ul>
 
+<!--      <ul class="uk-tab-left uk-tab" uk-tab>-->
+<!--        <li class="uk-active"><a href="#">User engagement</a>-->
+<!--          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">-->
 
-      </div>
+<!--            <div>-->
+<!--              <div class="uk-card">-->
+<!--                <div class="uk-card-body" *ngIf="projectName==='CatRIS'">-->
+<!--                  <chart [options]="providerFavouritesOptions" style="width: 100%; display: block;"></chart>-->
+<!--                </div>-->
+<!--                <div class="uk-card-body" *ngIf="projectName==='EOSC'">-->
+<!--                  <chart [options]="providerAddsToProjectOptions" style="width: 100%; display: block;"></chart>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div>-->
+<!--              <div class="uk-card">-->
+<!--                <div class="uk-card-body">-->
+<!--                  <chart [options]="providerVisitsOptions" style="width: 100%; display: block;"></chart>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div>-->
+<!--              <div class="uk-card">-->
+<!--                <div class="uk-card-body">-->
+<!--                  <chart [options]="providerRatingsOptions" style="width: 100%; display: block;"></chart>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash;        <div *ngIf="projectName==='EOSC'">&ndash;&gt;-->
+<!--            &lt;!&ndash;          <div class="uk-card">&ndash;&gt;-->
+<!--            &lt;!&ndash;            <div class="uk-card-body">&ndash;&gt;-->
+<!--            &lt;!&ndash;              <chart [options]="providerOrdersOptions" style="width: 100%; display: block;"></chart>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;          </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;        </div>&ndash;&gt;-->
+
+<!--          </div>-->
+<!--        </li>-->
+
+<!--        <li><a href="#">Geographical distribution of {{serviceORresource | lowercase}}s</a>-->
+<!--          <div class="uk-grid">-->
+<!--            <div class="uk-width-1-1 uk-card">-->
+<!--              <div class="uk-card-body">-->
+<!--                <chart type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">-->
+<!--                  <series (click)="onMapSeriesClick($event)">-->
+<!--                  </series>-->
+<!--                </chart>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </li>-->
+
+<!--        <li><a href="#">Distribution of {{serviceORresource | lowercase}}s per {{serviceORresource | lowercase}} attribute</a>-->
+<!--          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">-->
+
+<!--            <div>-->
+<!--              <div class="uk-card">-->
+<!--                <div class="uk-card-body">-->
+<!--                  <chart [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></chart>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div>-->
+<!--              <div class="uk-card">-->
+<!--                <div class="uk-card-body">-->
+<!--                  <chart [options]="domainsPerServiceForProvider" style="width: 100%; display: block;"></chart>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div>-->
+<!--              <div class="uk-card">-->
+<!--                <div class="uk-card-body">-->
+<!--                  <chart [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></chart>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div>-->
+<!--              <div class="uk-card">-->
+<!--                <div class="uk-card-body">-->
+<!--                  <chart [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div>-->
+<!--              <div class="uk-card">-->
+<!--                <div class="uk-card-body">-->
+<!--                  <chart [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></chart>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div>-->
+<!--              <div class="uk-card">-->
+<!--                <div class="uk-card-body">-->
+<!--                  <chart [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--          </div>-->
+<!--        </li>-->
+<!--      </ul>-->
 
     </div>
-
   </div>
 </div>
-
 
 
 
@@ -133,20 +294,4 @@
     <!--</ul>-->
   </div>
 </div>
-
-
-<!--  &lt;!&ndash; TODO: enable comments below to add ratings chart &ndash;&gt;-->
-<!--  <div class="uk-grid uk-margin-bottom">-->
-<!--  &lt;!&ndash;                    <div class="uk-width-1-2@m">&ndash;&gt;-->
-<!--      <div style="width:100%" *ngIf="providerFavouritesOptions">-->
-<!--        <chart [options]="providerFavouritesOptions"></chart>-->
-<!--      </div>-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                    <div class="uk-width-1-2@m">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div style="width:100%" *ngIf="providerRatingsOptions">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <chart [options]="providerRatingsOptions"></chart>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--  </div>-->
 

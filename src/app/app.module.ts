@@ -41,7 +41,6 @@ import {StatsComponent} from '../lib/pages/stats/stats.component';
 import {CompareServicesComponent} from '../lib/pages/compare/compare-services.component';
 import {ServiceFormComponent} from '../lib/pages/provider-resources/service-form.component';
 import {ServiceUploadComponent} from '../lib/pages/provider-resources/service-upload.component';
-import {CKEditorModule} from 'ng2-ckeditor';
 import {ServiceEditComponent} from '../lib/pages/provider-resources/service-edit.component';
 import {MeasurementsComponent} from '../lib/pages/indicators/measurements.component';
 import {IndicatorFromComponent} from '../lib/pages/indicators/indicator-from.component';
@@ -52,6 +51,9 @@ import {TreeviewModule} from 'ngx-treeview';
 import {EOSCFooterComponent} from './shared/footer/footer.component';
 import {EOSCTopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
+import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
+import {MatomoModule} from 'ngx-matomo';
+import {MarkdownModule} from "ngx-markdown";
 
 
 declare var require: any;
@@ -98,6 +100,7 @@ export function highchartsFactory() {
     // AddFirstServiceComponent,
     // MyServiceProvidersComponent,
     // ADMIN
+    VocabularyRequestsComponent,
     // ServiceProvidersListComponent,
     // INDICATORS
     MeasurementsComponent,
@@ -120,10 +123,11 @@ export function highchartsFactory() {
     UserModule,
     // ProviderModule,
     // ProviderDashboardModule,
-    // CKEditorModule,
     ChartModule,
     AngularFontAwesomeModule,
     CookieLawModule,
+    MatomoModule,
+    MarkdownModule.forRoot(),
     AppRoutingModule,
   ],
   providers: [

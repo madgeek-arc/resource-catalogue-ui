@@ -64,7 +64,8 @@
             <label class="" for="status">Status </label>
             <div class="uk-inline">
               <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="active">
-                <option value="true" selected>Active</option>
+                <option value="statusAll" selected>All</option>
+                <option value="true">Active</option>
                 <option value="false">Inactive</option>
               </select>
             </div>
@@ -126,10 +127,21 @@
                   <h4 class="uk-margin-remove">
                     <a (click)="navigate(providerService.service.id)">{{providerService.service.name}}</a>
                   </h4>
-                  <span *ngIf="providerService.service.description" class="uk-margin-small-top">{{providerService.service.description}}</span>
+                  <div class="uk-margin-small-top">
+                    <span *ngIf="providerService.service.description" class="uk-margin-small-top">{{providerService.service.description}}</span>
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <span class="statusLabel">Creation Date: </span>{{ providerService.metadata.registeredAt | date }}
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <span class="statusLabel">Last Update: </span>{{ providerService.metadata.modifiedAt | date }}
+                  </div>
                 </div>
                 <div class="uk-width-1-6">
                   <div class="action-buttons">
+                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="useAsTemplate(providerService.service.id)">
+                      <i class="fa fa-copy fa-lg" aria-hidden="true"></i> Use as template
+                    </button>
                     <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(providerService)">
                       <ng-container *ngIf="providerService.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
                       <ng-container *ngIf="!providerService.active"><i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate</ng-container>

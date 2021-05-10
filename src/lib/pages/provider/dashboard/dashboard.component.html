@@ -14,6 +14,18 @@
               Statistics
             </a>
           </li>
+          <li [routerLinkActive]="['current_section']" #history="routerLinkActive">
+            <a [routerLink]="['/dashboard/' + providerId + '/history']">
+              <img src="{{history.isActive ? 'lib/assets/images/new-icons/history-active.svg' : 'lib/assets/images/new-icons/history.svg'}}" class="uk-margin-small-right">
+              Update History
+            </a>
+          </li>
+          <li [routerLinkActive]="['current_section']" #info="routerLinkActive">
+            <a [routerLink]="['/dashboard/' + providerId + '/info']">
+              <img src="{{info.isActive ? 'lib/assets/images/new-icons/info.svg' : 'lib/assets/images/new-icons/info.svg'}}" class="uk-margin-small-right">
+              Info
+            </a>
+          </li>
           <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
             <a [routerLink]="['/dashboard/' + providerId + '/resources']">
               <img src="{{services.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">

@@ -19,8 +19,9 @@ import {environment} from '../../../../../environments/environment';
 })
 export class ServiceStatsComponent implements OnInit, OnDestroy {
 
-  _marketplaceBaseURL = environment.marketplaceBaseURL;
+  // _marketplaceBaseURL = environment.marketplaceBaseURL;
   serviceORresource = environment.serviceORresource;
+  projectName = environment.projectName;
 
   public service: Service;
   public errorMessage: string;
@@ -32,6 +33,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
   serviceVisitsOptions: any = null;
   serviceRatingsOptions: any = null;
   serviceFavouritesOptions: any = null;
+  serviceAddsToProjectOptions: any = null;
   serviceMapOptions: any = null;
 
   serviceHistory: Paging<ServiceHistory>;
@@ -85,18 +87,35 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.resourceService.getFavouritesForService(this.service.id, period).pipe(
-      map(data => {
-      // THESE 3 weird lines should be deleted when pgl makes everything ok :)
-      return Object.entries(data).map((d) => {
-        return [new Date(d[0]).getTime(), d[1]];
-      }).sort((l, r) => l[0] - r[0]);
-    })).subscribe(
-      data => this.setFavouritesForService(data),
-      err => {
-        this.errorMessage = 'An error occurred while retrieving favourites for this service. ' + err.error;
-      }
-    );
+    if (this.projectName === 'CatRIS') {
+      this.resourceService.getFavouritesForService(this.service.id, period).pipe(
+        map(data => {
+          // THESE 3 weird lines should be deleted when pgl makes everything ok :)
+          return Object.entries(data).map((d) => {
+            return [new Date(d[0]).getTime(), d[1]];
+          }).sort((l, r) => l[0] - r[0]);
+        })).subscribe(
+        data => this.setFavouritesForService(data),
+        err => {
+          this.errorMessage = 'An error occurred while retrieving favourites for this service. ' + err.error;
+        }
+      );
+    }
+
+    if (this.projectName === 'EOSC') {
+      this.resourceService.getAddToProjectForService(this.service.id, period).pipe(
+        map(data => {
+          // THESE 3 weird lines should be deleted when pgl makes everything ok :)
+          return Object.entries(data).map((d) => {
+            return [new Date(d[0]).getTime(), d[1]];
+          }).sort((l, r) => l[0] - r[0]);
+        })).subscribe(
+        data => this.setAddsToProjectForService(data),
+        err => {
+          this.errorMessage = 'An error occurred while retrieving favourites for this service. ' + err.error;
+        }
+      );
+    }
 
     this.resourceService.getRatingsForService(this.service.id, period).pipe(
       map(data => {
@@ -132,7 +151,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
     if (data) {
       this.serviceVisitsOptions = {
         title: {
-          text: ''
+          text: 'Number of visits over time'
         },
         xAxis: {
           type: 'datetime',
@@ -162,7 +181,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
     if (data) {
       this.serviceFavouritesOptions = {
         title: {
-          text: ''
+          text: 'Number of favorites over time'
         },
         xAxis: {
           type: 'datetime',
@@ -189,11 +208,41 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
     }
   }
 
+  setAddsToProjectForService(data: any) {
+    if (data) {
+      this.serviceAddsToProjectOptions = {
+        title: {
+          text: 'Number of adds to project over time'
+        },
+        xAxis: {
+          type: 'datetime',
+          dateTimeLabelFormats: { // don't display the dummy year
+            month: '%e. %b',
+            year: '%b'
+          },
+          title: {
+            text: 'Date'
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Number of adds to project'
+          }
+        },
+        series: [{
+          name: 'Adds to project over time',
+          color: '#C36000',
+          data: data
+        }]
+      };
+    }
+  }
+
   setRatingsForService(data: any) {
     if (data) {
       this.serviceRatingsOptions = {
         title: {
-          text: ''
+          text: 'Number of ratings over time'
         },
         xAxis: {
           type: 'datetime',
@@ -225,7 +274,8 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
 
     this.serviceMapOptions = {
       chart: {
-        map: 'custom/europe',
+        // map: 'custom/europe',
+        map: 'custom/world-highres2',
         // borderWidth: 1
       },
       title: {

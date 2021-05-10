@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Content, PageContent} from '../../domain/page-content';
 import {HelpContentService} from '../../services/help-content.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
     selector: 'app-help-content',
@@ -25,8 +26,10 @@ export class HelpContentComponent implements OnInit {
 
     ngOnInit() {
         this.errorMessage = null;
-        this._helpContentService.getActivePageContent(this.router.url).subscribe(
+        if (environment.showHelpContent) {
+          this._helpContentService.getActivePageContent(this.router.url).subscribe(
             pageContent => this.shiftThroughContent(pageContent));
+        }
     }
 
     shiftThroughContent(pageContent: PageContent) {

@@ -1,0 +1,96 @@
+<div class="uk-section uk-section-xsmall uk-padding-remove-bottom">
+  <div class="uk-container uk-container-expand">
+
+        <div class="services-provider-container">
+          <div *ngIf="providerBundle" class="uk-flex">
+            <div>
+              <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+            </div>
+            <div class="uk-margin-medium-left">
+              <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
+              <div><span class="status-label">Status: </span>{{providerBundle.status | titlecase}}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TOP HELP CONTENT -->
+        <app-help-content #topHelperContent [position]="'top'"
+                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </app-help-content>
+
+        <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+          <div class="uk-grid">
+
+            <!-- LEFT HELP CONTENT -->
+            <app-aside-help-content #leftHelperContent [position]="'left'"
+                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
+
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m">
+
+              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
+              <!--              <div *ngIf="loadingMessage" class="loading-big">-->
+              <!--                <div class="loader-big" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">-->
+              <!--                  {{ loadingMessage }}-->
+              <!--                </div>-->
+              <!--                <div class="transparentFilm"></div>-->
+              <!--              </div>-->
+              <!--              <div *ngIf="noAggregations">{{ noAggregations }}</div>-->
+              <div *ngIf="providerHistory?.results?.length>0">
+                <div  class="uk-width-1-1@m uk-margin-medium-bottom">
+
+                  <div class="uk-card uk-card-default uk-margin-medium-bottom">
+                    <div class="uk-overflow-container">
+                      <table class="uk-table uk-table-divider uk-table-nowrap">
+                        <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Modified By</th>
+                          <th >Source</th>
+                          <th class="uk-text-center">Version</th>
+                          <th class="uk-text-center">Version changed</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let history of providerHistory.results">
+                          <td><span *ngIf="history.modifiedAt">{{ history.modifiedAt | date : "MM-dd-yyyy" }}</span></td>
+                          <td class=""><span *ngIf="history.modifiedBy">{{ history.modifiedBy }}</span></td>
+                          <td class=""><span *ngIf="history.source">{{ history.source }}</span></td>
+                          <td class="uk-text-center"><span *ngIf="history.version">{{ history.version }}</span></td>
+                          <td class="uk-text-center"><span
+                            *ngIf="history.versionChange !== null && (history.versionChange === true)" class="uk-badge">✓</span>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+
+              <button [routerLink]="['/dashboard/' + providerId + '/history']"
+                      class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+              </button>
+
+            </div>
+
+            <!-- RIGHT HELP CONTENT -->
+            <app-aside-help-content #rightHelperContent [position]="'right'"
+                                    [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
+
+          </div>
+        </div>
+
+
+        <!-- BOTTOM HELP CONTENT -->
+        <app-help-content #bottomHelperContent [position]="'bottom'"
+                          [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </app-help-content>
+
+  </div>
+</div>

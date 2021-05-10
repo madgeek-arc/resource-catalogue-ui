@@ -2,6 +2,8 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {CanActivateViaAuthGuard} from '../../../../services/can-activate-auth-guard.service';
 import {ServiceStatsComponent} from './service-stats.component';
+import {ServiceHistoryComponent} from './service-history.component';
+import {ServiceFullHistoryComponent} from './service-full-history.component';
 import {ResourceDashboardComponent} from './resource-dashboard.component';
 import {environment} from '../../../../../environments/environment';
 
@@ -27,6 +29,14 @@ const resourceDashboardRoutes: Routes = [
       {
         path: 'stats',
         component: ServiceStatsComponent
+      },
+      {
+        path: 'history',
+        component: ServiceHistoryComponent
+      },
+      {
+        path: 'fullHistory',
+        component: ServiceFullHistoryComponent
       }
     ]
   },

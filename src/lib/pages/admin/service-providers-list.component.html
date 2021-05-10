@@ -54,14 +54,19 @@
 
                   <h5>Status</h5>
                   <form [formGroup]="dataForm">
-                    <div formArrayName="status">
+                    <div formArrayName="status" class="uk-padding">
                       <div *ngFor="let statusValue of statuses;" class="uk-margin-small-top">
                         <label class="status-value uk-margin-small-left">
-                          <input class="uk-checkbox" type="checkbox" [value]="statusValue"
+                          <input #checkboxes class="uk-checkbox" type="checkbox" [value]="statusValue"
                                  (change)="onStatusSelectionChange($event)" [checked]="isStatusChecked(statusValue)">
-                          {{labels[statuses.indexOf(statusValue)] }}
+                          {{labels[statuses.indexOf(statusValue)] | titlecase}}
                         </label>
                       </div>
+                    </div>
+                    <div class="">
+                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(false)"> Uncheck All </button>
+                      &nbsp;
+                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(true)"> Check All </button>
                     </div>
                   </form>
 
@@ -144,13 +149,13 @@
                       </div>
 
                       <ul class="uk-pagination">
-                        <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous="" class="uk-icon uk-pagination-previous"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-previous"><polyline fill="none" stroke="#000" stroke-width="1.2" points="6 1 1 6 6 11"></polyline></svg><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-previous"><polyline fill="none" stroke="#000" stroke-width="1.2" points="6 1 1 6 6 11"></polyline></svg></span></a></li>
+                        <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous></span><span uk-pagination-previous></span></a></li>
                         <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
                         <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
                           <a (click)="goToPage(i)">{{i}}</a>
                         </li>
                         <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
-                        <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next="" class="uk-icon uk-pagination-next"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-next"><polyline fill="none" stroke="#000" stroke-width="1.2" points="1 1 6 6 1 11"></polyline></svg></span><span uk-pagination-next="" class="uk-icon uk-pagination-next"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-next"><polyline fill="none" stroke="#000" stroke-width="1.2" points="1 1 6 6 1 11"></polyline></svg></span></a></li>
+                        <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next></span><span uk-pagination-next></span></a></li>
                       </ul>
 
                     </div>
@@ -164,10 +169,12 @@
                         <div *ngIf="providerBundle.status === 'approved'" class="approved">
                           <div class="uk-card-badge uk-label">Approved</div>
                         </div>
+                        <div *ngIf="providerBundle.status === 'pending template submission'" class="pending">
+                          <div class="uk-card-badge uk-label">Pending (Provider)</div>
+                        </div>
                         <div *ngIf="(providerBundle.status === 'pending initial approval')
-                                || (providerBundle.status === 'pending template submission')
-                                || (providerBundle.status === 'pending template approval')" class="pending">
-                          <div class="uk-card-badge uk-label">Pending</div>
+                                || (providerBundle.status === 'pending template approval')" class="pending-EPOT">
+                          <div class="uk-card-badge uk-label">Pending ({{serviceORresource === 'Resource'?'EPOT':'CPOT'}})</div>
                         </div>
                         <div *ngIf="(providerBundle.status === 'rejected template')
                                 || (providerBundle.status === 'rejected')" class="rejected">
@@ -209,16 +216,22 @@
                                 <ng-container *ngIf="!providerBundle.provider.abbreviation || (providerBundle.provider.abbreviation===null)">not available</ng-container>
                               </div>
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Status: </span>{{ providerBundle.status | titlecase }}
+                                <span class="statusLabel">Status: </span>{{ labels[statuses.indexOf(providerBundle.status)] | titlecase }}
+                              </div>
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Creation Date: </span>{{ providerBundle.metadata.registeredAt | date }}
+                              </div>
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Last Update: </span>{{ providerBundle.metadata.modifiedAt | date }}
                               </div>
                             </div>
 
                             <div class="uk-width-1-5">
                               <div class="action-buttons">
 
-                                <ng-container *ngIf="((providerBundle.status !== 'pending template approval') &&
-                                                                 (providerBundle.status !== 'rejected template')) ||
-                                                                 (hasCreatedFirstService(providerBundle.id))">
+                                <ng-container *ngIf="((providerBundle.status !== 'pending template approval')
+                                                      && (providerBundle.status !== 'rejected template'))
+                                                      || (hasCreatedFirstService(providerBundle.id))">
                                   <button *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"
                                      (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true)"
                                           class="uk-button uk-button-action uk-display-block">
@@ -293,13 +306,13 @@
                     </div>
 
                     <ul class="uk-pagination uk-flex-right uk-margin">
-                      <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous="" class="uk-icon uk-pagination-previous"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-previous"><polyline fill="none" stroke="#000" stroke-width="1.2" points="6 1 1 6 6 11"></polyline></svg><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-previous"><polyline fill="none" stroke="#000" stroke-width="1.2" points="6 1 1 6 6 11"></polyline></svg></span></a></li>
+                      <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous></span><span uk-pagination-previous></span></a></li>
                       <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
                       <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
                         <a (click)="goToPage(i)">{{i}}</a>
                       </li>
                       <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
-                      <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next="" class="uk-icon uk-pagination-next"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-next"><polyline fill="none" stroke="#000" stroke-width="1.2" points="1 1 6 6 1 11"></polyline></svg></span><span uk-pagination-next="" class="uk-icon uk-pagination-next"><svg width="7" height="12" viewBox="0 0 7 12" xmlns="http://www.w3.org/2000/svg" data-svg="pagination-next"><polyline fill="none" stroke="#000" stroke-width="1.2" points="1 1 6 6 1 11"></polyline></svg></span></a></li>
+                      <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next></span><span uk-pagination-next></span></a></li>
                     </ul>
 
                   </div>

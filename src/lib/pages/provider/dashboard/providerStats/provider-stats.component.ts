@@ -7,7 +7,7 @@ import { ResourceService } from '../../../../services/resource.service';
 import { NavigationService } from '../../../../services/navigation.service';
 import { ActivatedRoute } from '@angular/router';
 import { ServiceProviderService } from '../../../../services/service-provider.service';
-import {InfraService, Provider, Service} from '../../../../domain/eic-model';
+import {InfraService, Provider, ProviderBundle, Service} from '../../../../domain/eic-model';
 import { map } from 'rxjs/operators';
 import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
@@ -24,10 +24,12 @@ declare var UIkit: any;
 export class ProviderStatsComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
+  projectName = environment.projectName;
 
   providerId: string;
   statisticPeriod: string;
   provider: Provider;
+  providerBundle: ProviderBundle;
   providerServices: Paging<InfraService>;
   providerServicesGroupedByPlace: any;
   providerCoverage: string[];
@@ -39,6 +41,8 @@ export class ProviderStatsComponent implements OnInit {
   providerVisitsOptions: any = null;
   providerRatingsOptions: any = null;
   providerFavouritesOptions: any = null;
+  providerAddsToProjectOptions: any = null;
+  providerOrdersOptions: any = null;
   providerVisitationPercentageOptions: any = null;
   providerMapOptions: any = null;
   mapDistributionOfServicesOptions: any = null;
@@ -69,12 +73,12 @@ export class ProviderStatsComponent implements OnInit {
       zip(
         this.resourceService.getEU(),
         this.resourceService.getWW(),
-        this.providerService.getServiceProviderById(this.providerId)
+        this.providerService.getServiceProviderBundleById(this.providerId)
         /*this.resourceService.getProvidersNames()*/
       ).subscribe(suc => {
         this.EU = <string[]>suc[0];
         this.WW = <string[]>suc[1];
-        this.provider = suc[2];
+        this.providerBundle = suc[2];
         this.getDataForProvider(this.statisticPeriod);
       });
     } else {
@@ -84,12 +88,12 @@ export class ProviderStatsComponent implements OnInit {
           zip(
             this.resourceService.getEU(),
             this.resourceService.getWW(),
-            this.providerService.getServiceProviderById(this.providerId)
+            this.providerService.getServiceProviderBundleById(this.providerId)
             /*this.resourceService.getProvidersNames()*/
           ).subscribe(suc => {
             this.EU = <string[]>suc[0];
             this.WW = <string[]>suc[1];
-            this.provider = suc[2];
+            this.providerBundle = suc[2];
             this.getDataForProvider(this.statisticPeriod);
           });
         },
@@ -104,7 +108,7 @@ export class ProviderStatsComponent implements OnInit {
   getDataForProvider(period: string, dontGetServices?: boolean) {
 
     if (!dontGetServices) {
-      this.providerService.getServicesOfProvider(this.providerId, '0', '50', 'ASC', 'name', true)
+      this.providerService.getServicesOfProvider(this.providerId, '0', '50', 'ASC', 'name', 'true')
         .subscribe(res => {
           this.providerServices = res;
           this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices.results);
@@ -133,19 +137,6 @@ export class ProviderStatsComponent implements OnInit {
       }
     );
 
-    this.resourceService.getFavouritesForProvider(this.providerId, period).pipe(
-      map(data => {
-        // THESE 3 weird lines should be deleted when pgl makes everything ok :)
-        return Object.entries(data).map((d) => {
-          return [new Date(d[0]).getTime(), d[1]];
-        }).sort((l, r) => l[0] - r[0]);
-      })).subscribe(
-      data => this.setFavouritesForProvider(data),
-      err => {
-        this.errorMessage = 'An error occurred while retrieving favourites for this provider. ' + err.error;
-      }
-    );
-
     this.resourceService.getRatingsForProvider(this.providerId, period).pipe(
       map(data => {
         // THESE 3 weird lines should be deleted when pgl makes everything ok :)
@@ -158,6 +149,51 @@ export class ProviderStatsComponent implements OnInit {
         this.errorMessage = 'An error occurred while retrieving ratings for this provider. ' + err.error;
       }
     );
+
+    if (this.projectName === 'CatRIS') {
+      this.resourceService.getFavouritesForProvider(this.providerId, period).pipe(
+        map(data => {
+          // THESE 3 weird lines should be deleted when pgl makes everything ok :)
+          return Object.entries(data).map((d) => {
+            return [new Date(d[0]).getTime(), d[1]];
+          }).sort((l, r) => l[0] - r[0]);
+        })).subscribe(
+        data => this.setFavouritesForProvider(data),
+        err => {
+          this.errorMessage = 'An error occurred while retrieving favourites for this provider. ' + err.error;
+        }
+      );
+    }
+
+    if (this.projectName === 'EOSC') {
+
+      this.resourceService.getAddsToProjectForProvider(this.providerId, period).pipe(
+        map(data => {
+          // THESE 3 weird lines should be deleted when pgl makes everything ok :)
+          return Object.entries(data).map((d) => {
+            return [new Date(d[0]).getTime(), d[1]];
+          }).sort((l, r) => l[0] - r[0]);
+        })).subscribe(
+        data => this.setAddsToProjectOptions(data),
+        err => {
+          this.errorMessage = 'An error occurred while retrieving favourites for this provider. ' + err.error;
+        }
+      );
+
+      // this.resourceService.getOrdersForProvider(this.providerId, period).pipe(
+      //   map(data => {
+      //     // THESE 3 weird lines should be deleted when pgl makes everything ok :)
+      //     return Object.entries(data).map((d) => {
+      //       return [new Date(d[0]).getTime(), d[1]];
+      //     }).sort((l, r) => l[0] - r[0]);
+      //   })).subscribe(
+      //   data => this.setOrdersOptions(data),
+      //   err => {
+      //     this.errorMessage = 'An error occurred while retrieving favourites for this provider. ' + err.error;
+      //   }
+      // );
+
+    }
 
     /* bar charts */
     this.resourceService.getCategoriesPerServiceForProvider(this.providerId).subscribe(
@@ -381,6 +417,72 @@ export class ProviderStatsComponent implements OnInit {
     }
   }
 
+  setAddsToProjectOptions(data: any) {
+    if (data) {
+      this.providerAddsToProjectOptions = {
+        chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
+        },
+        title: {
+          text: 'Number of adds to project over time'
+        },
+        xAxis: {
+          type: 'datetime',
+          dateTimeLabelFormats: { // don't display the dummy year
+            month: '%e. %b',
+            year: '%b'
+          },
+          title: {
+            text: 'Date'
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Number of adds to project'
+          }
+        },
+        series: [{
+          name: 'Number of adds to project over time',
+          color: '#C72B28',
+          data: data
+        }]
+      };
+    }
+  }
+
+  setOrdersOptions(data: any) {
+    if (data) {
+      this.providerOrdersOptions = {
+        chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
+        },
+        title: {
+          text: 'Number of orders over time'
+        },
+        xAxis: {
+          type: 'datetime',
+          dateTimeLabelFormats: { // don't display the dummy year
+            month: '%e. %b',
+            year: '%b'
+          },
+          title: {
+            text: 'Date'
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Number of orders'
+          }
+        },
+        series: [{
+          name: 'Favourites orders time',
+          color: '#C72B28',
+          data: data
+        }]
+      };
+    }
+  }
+
   setRatingsForProvider(data: any) {
     if (data) {
       this.providerRatingsOptions = {
@@ -388,7 +490,7 @@ export class ProviderStatsComponent implements OnInit {
           height: (3 / 4 * 100) + '%', // 3:4 ratio
         },
         title: {
-          text: ''
+          text: 'Number of Ratings over time'
         },
         xAxis: {
           type: 'datetime',
@@ -460,7 +562,7 @@ export class ProviderStatsComponent implements OnInit {
         // borderWidth: 1
       },
       title: {
-        text: 'Countries serviced by ' + this.provider.name
+        text: 'Countries serviced by ' + this.providerBundle.provider.name
       },
       // subtitle: {
       //     text: 'Demo of drawing all areas in the map, only highlighting partial data'
@@ -511,7 +613,7 @@ export class ProviderStatsComponent implements OnInit {
           height: (3 / 4 * 100) + '%', // 3:4 ratio
         },
         title: {
-          // text: 'Countries serviced by ' + this.provider.name
+          // text: 'Countries serviced by ' + this.providerBundle.provider.name
           text: ''
         },
         colorAxis: {
@@ -533,6 +635,7 @@ export class ProviderStatsComponent implements OnInit {
         // },
         mapNavigation: {
           enabled: true,
+          enableMouseWheelZoom: false,
           buttonOptions: {
             verticalAlign: 'top'
           }

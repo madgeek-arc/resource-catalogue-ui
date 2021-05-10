@@ -55,7 +55,14 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
             }
           },
           err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error,
-          () => this.initServiceBitSets()
+          () => {
+            if (window.location.href.indexOf('/add/use-template') > -1) {
+              this.editMode = false;
+              this.serviceForm.get('id').setValue('');
+              this.serviceForm.get('name').setValue('');
+            }
+            this.initServiceBitSets();
+          }
         );
       });
     }

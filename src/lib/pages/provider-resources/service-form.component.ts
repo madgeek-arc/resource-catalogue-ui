@@ -14,7 +14,6 @@ import {environment} from '../../../environments/environment';
 import BitSet from 'bitset/bitset';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
-import {timeout} from 'rxjs/operators';
 
 declare var UIkit: any;
 
@@ -38,13 +37,14 @@ export class ServiceFormComponent implements OnInit {
   serviceForm: FormGroup;
   provider: Provider;
   service: Service;
-  serviceID: string;
+  serviceID: string = null;
   errorMessage = '';
   successMessage: string = null;
   weights: string[] = [];
   tabs: boolean[] = [false, false, false, false, false, false, false, false, false, false, false, false];
   fb: FormBuilder = this.injector.get(FormBuilder);
   disable = false;
+  isPortalAdmin = false;
 
   requiredOnTab0 = 3;
   requiredOnTab1 = 3;
@@ -77,6 +77,27 @@ export class ServiceFormComponent implements OnInit {
   allRequiredFields = 21;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
+
+  vocabularyEntryForm: FormGroup;
+  suggestionsForm = {
+    fundingBodyVocabularyEntryValueName: '',
+    fundingProgramVocabularyEntryValueName: '',
+    targetUsersVocabularyEntryValueName: '',
+    accessTypesVocabularyEntryValueName: '',
+    accessModesVocabularyEntryValueName: '',
+    orderTypeVocabularyEntryValueName: '',
+    phaseVocabularyEntryValueName: '',
+    categoriesVocabularyEntryValueName: '',
+    subCategoriesVocabularyEntryValueName: '',
+    scientificDomainVocabularyEntryValueName: '',
+    scientificSubDomainVocabularyEntryValueName: '',
+    placesVocabularyEntryValueName: '',
+    geographicalVocabularyEntryValueName: '',
+    languagesVocabularyEntryValueName: '',
+    vocabulary: '',
+    errorMessage: '',
+    successMessage: ''
+  };
 
   readonly nameDesc: sd.Description = sd.serviceDescMap.get('nameDesc');
   readonly webpageDesc: sd.Description = sd.serviceDescMap.get('webpageDesc');
@@ -262,25 +283,6 @@ export class ServiceFormComponent implements OnInit {
 
     this.errorMessage = '';
 
-    // if (!tempSave) {
-    //   this.getFieldAsFormArray('categories').controls = [];
-    //   this.getFieldAsFormArray('scientificDomains').controls = [];
-    // }
-
-    // for (const category of this.categoryArray.controls) {
-    //   if (category.get('subcategory').value) {
-    //     this.getFieldAsFormArray('category').push(this.fb.control(category.get('category').value));
-    //     this.getFieldAsFormArray('subcategory').push(this.fb.control(category.get('subcategory').value));
-    //   }
-    // }
-
-    // for (const scientificDomain of this.scientificDomainArray.controls) {
-    //   if (scientificDomain.get('scientificSubdomain').value) {
-    //     this.getFieldAsFormArray('scientificDomain').push(this.fb.control(scientificDomain.get('scientificDomain').value));
-    //     this.getFieldAsFormArray('scientificSubdomain').push(this.fb.control(scientificDomain.get('scientificSubdomain').value));
-    //   }
-    // }
-
     // this.scientificDomainArray.disable();
     this.showLoader = true;
     // console.log('this.serviceForm.valid ', this.serviceForm.valid);
@@ -417,6 +419,10 @@ export class ServiceFormComponent implements OnInit {
       }
     );
 
+    this.isPortalAdmin = this.authenticationService.isAdmin();
+
+    this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
+
     this.pushCategory();
     this.pushScientificDomain();
 
@@ -451,9 +457,7 @@ export class ServiceFormComponent implements OnInit {
 
   public setAsTouched() {
     const ret = {};
-    // console.log(this.serviceForm);
     this.setAsTouched_(this.serviceForm, ret);
-    // console.log(ret);
   }
 
   private setAsTouched_(form: FormGroup, ret: any) {
@@ -612,7 +616,7 @@ export class ServiceFormComponent implements OnInit {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
-      console.log('added non mandatory url field');
+      // console.log('added non mandatory url field');
       this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
@@ -687,8 +691,8 @@ export class ServiceFormComponent implements OnInit {
     return this.fb.group({
       firstName: [''],
       lastName: [''],
-      email: [''],
-      phone: [''],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      phone: ['', Validators.pattern('[+]?\\d+$')],
       position: [''],
       organisation: ['']
     });
@@ -707,34 +711,6 @@ export class ServiceFormComponent implements OnInit {
   }
 
   /** <--Service Contact Info **/
-
-  /*
-  newContact(): FormGroup {
-    return this.fb.group({
-      firstName: [''],
-      lastName: [''],
-      email: [''],
-      tel: [''],
-      position: [''],
-    });
-  }
-
-  getContactArray(index: number) {
-    return this.getFieldAsFormArray('options').controls[index].get('contacts') as FormArray;
-  }
-
-  getAttributesArray(index: number) {
-    return this.getFieldAsFormArray('options').controls[index].get('attributes') as FormArray;
-  }
-
-  pushContact(index: number) {
-    this.getContactArray(index).push(this.newContact());
-  }
-
-  removeContact(index: number, i: number) {
-    this.getContactArray(index).removeAt(i);
-  }
-*/
 
   getVocabularyById(vocabularies: Vocabulary[], id: string) {
     return vocabularies.find(entry => entry.id === id);
@@ -836,7 +812,7 @@ export class ServiceFormComponent implements OnInit {
     }
     if (richService.service.publicContacts) {
       for (let i = 0; i < richService.service.publicContacts.length - 1; i++) {
-        this.push('publicContacts', false);
+        this.pushPublicContact();
       }
     }
     if (richService.service.certifications) {
@@ -1080,51 +1056,26 @@ export class ServiceFormComponent implements OnInit {
 
   /** <--BitSets **/
 
-  /** URL Validation--> **/
-  checkUrlValidity(formControlName: string) {
-    let urlValidity;
-    if (this.serviceForm.get(formControlName).valid && this.serviceForm.get(formControlName).value !== '') {
-      // if (this.newProviderForm.get(formControlName).value !== '') {
-      const url = this.serviceForm.get(formControlName).value;
-      console.log(url);
-      this.serviceProviderService.validateUrl(url).subscribe(
-        boolean => { urlValidity = boolean; },
-        error => { console.log(error); },
-        () => {
-          if (!urlValidity) {
-            console.log('invalid');
-            window.scrollTo(0, 0);
-            this.errorMessage = url + ' is not a valid URL. Please enter a valid URL.';
-          }
-        }
-      );
-    }
-  }
-
-  checkUrlValidityForArrays(formArrayName: string, position: number) {
-    let urlValidity;
-    // console.log(this.serviceForm.get(formArrayName).value[position]);
-    if (this.serviceForm.get(formArrayName).value[position] !== '') {
-      const url = this.serviceForm.get(formArrayName).value[position];
-      console.log(url);
-      this.serviceProviderService.validateUrl(url).subscribe(
-        boolean => { urlValidity = boolean; },
-        error => { console.log(error); },
-        () => {
-          if (!urlValidity) {
-            console.log('invalid');
-            window.scrollTo(0, 0);
-            this.errorMessage = url + ' is not a valid ' + formArrayName + ' URL. Please enter a valid URL.';
-          }
-        }
-      );
-    }
-  }
-
-  /** <--URL Validation **/
-
   openPreviewModal() {
     // console.log('Resource ==>', this.serviceForm.value);
     UIkit.modal('#modal-preview').show();
   }
+
+  submitSuggestion(entryValueName, vocabulary, parent) {
+    if (entryValueName.trim() !== '') {
+      this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'service', this.providerId, this.serviceID).subscribe(
+        res => {
+        },
+        error => {
+          console.log(error);
+          this.vocabularyEntryForm.get('errorMessage').setValue(error.error.error);
+        },
+        () => {
+          this.vocabularyEntryForm.reset();
+          this.vocabularyEntryForm.get('successMessage').setValue('Suggestion submitted!');
+        }
+      );
+    }
+  }
+
 }

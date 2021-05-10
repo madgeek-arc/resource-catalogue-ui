@@ -213,6 +213,7 @@ export class StatsComponent implements OnInit {
         // },
         mapNavigation: {
           enabled: true,
+          enableMouseWheelZoom: false,
           buttonOptions: {
             verticalAlign: 'top'
           }

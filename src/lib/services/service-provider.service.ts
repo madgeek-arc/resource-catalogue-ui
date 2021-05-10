@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
-import {InfraService, Provider, ProviderBundle, ProviderRequest, Service} from '../domain/eic-model';
+import {InfraService, Provider, ProviderBundle, ProviderRequest, Service, ServiceHistory, VocabularyCuration} from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {Paging} from '../domain/paging';
+import {st} from '@angular/core/src/render3';
 
 @Injectable()
 export class ServiceProviderService {
@@ -32,12 +33,12 @@ export class ServiceProviderService {
   }
 
   createNewServiceProvider(newProvider: any) {
-    console.log(`knocking on: ${this.base}/provider`);
+    // console.log(`knocking on: ${this.base}/provider`);
     return this.http.post(this.base + '/provider', newProvider, this.options);
   }
 
   updateServiceProvider(updatedFields: any): Observable<Provider> {
-    console.log(`knocking on: ${this.base}/provider`);
+    // console.log(`knocking on: ${this.base}/provider`);
     return this.http.put<Provider>(this.base + '/provider', updatedFields, this.options);
   }
 
@@ -77,8 +78,12 @@ export class ServiceProviderService {
     return this.http.get<Provider>(this.base + `/pendingProvider/provider/${id}`, this.options);
   }
 
-  getServicesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: boolean, query?: string) {
+  getServicesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: string, query?: string) {
     if (!query) { query = ''; }
+    if (active === 'statusAll') {
+      return this.http.get<Paging<InfraService>>(this.base +
+        `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`);
+    }
     return this.http.get<Paging<InfraService>>(this.base +
       `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&query=${query}`);
   }
@@ -126,8 +131,51 @@ export class ServiceProviderService {
   }
 
   validateUrl(url: string) {
-    console.log(`knocking on: ${this.base}/provider/validateUrl?urlForValidation=${url}`);
+    // console.log(`knocking on: ${this.base}/provider/validateUrl?urlForValidation=${url}`);
     return this.http.get<boolean>(this.base + `/provider/validateUrl?urlForValidation=${url}`);
+  }
+
+  submitVocabularyEntry(entryValueName: string, vocabulary: string, parent: string, resourceType: string, providerId?: string, resourceId?: string) {
+    // console.log(`knocking on: ${this.base}/vocabularyCuration/addFront?entryValueName=${entryValueName}&vocabulary=${vocabulary}&parent=${parent}&resourceType=${resourceType}&providerId=${providerId}&resourceId=${resourceId}`);
+    if (providerId && resourceId) {
+      return this.http.post(this.base + `/vocabularyCuration/addFront?entryValueName=${entryValueName}&vocabulary=${vocabulary}&parent=${parent}&resourceType=${resourceType}&providerId=${providerId}&resourceId=${resourceId}`, this.options);
+    } else if (providerId) {
+      return this.http.post(this.base + `/vocabularyCuration/addFront?entryValueName=${entryValueName}&vocabulary=${vocabulary}&parent=${parent}&resourceType=${resourceType}&providerId=${providerId}`, this.options);
+    } else {
+      return this.http.post(this.base + `/vocabularyCuration/addFront?entryValueName=${entryValueName}&vocabulary=${vocabulary}&parent=${parent}&resourceType=${resourceType}`, this.options);
+    }
+  }
+
+  getVocabularyCuration(status: string, from: string, quantity: string, order: string, orderField: string, vocabulary?: string, query?: string) {
+    let params = new HttpParams();
+    params = params.append('status', status);
+    params = params.append('from', from);
+    params = params.append('quantity', quantity);
+    params = params.append('order', order);
+    params = params.append('orderField', orderField);
+    if (query && query !== '') {
+      params = params.append('query', query);
+    }
+    if (vocabulary && vocabulary.length > 0) {
+      for (const voc of vocabulary) {
+        params = params.append('vocabulary', voc);
+      }
+    }
+    return this.http.get<VocabularyCuration[]>(this.base + `/vocabularyCuration/vocabularyCurationRequests/all`, {params});
+  }
+
+  approveVocabularyEntry(curation: VocabularyCuration, approve: boolean, rejectionReason?: string): Observable<VocabularyCuration> {
+    if (!rejectionReason) {
+      rejectionReason = 'Not provided';
+    }
+    if (approve) {
+      return this.http.put<VocabularyCuration>(this.base + `/vocabularyCuration/approveOrRejectVocabularyCuration?approved=true`, curation, this.options);
+    }
+    return this.http.put<VocabularyCuration>(this.base + `/vocabularyCuration/approveOrRejectVocabularyCuration?approved=false&rejectionReason=${rejectionReason}`, curation, this.options);
+  }
+
+  getProviderHistory(providerId: string) {
+    return this.http.get<Paging<ServiceHistory>>(this.base + `/provider/history/${providerId}/`);
   }
 
 }

@@ -3,11 +3,14 @@ import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from './dashboard.component';
 import {CanActivateViaAuthGuard} from '../../../services/can-activate-auth-guard.service';
 import {ProviderStatsComponent} from './providerStats/provider-stats.component';
+import {ProviderInfoComponent} from './providerInfo/provider-info.component';
 import {ServicesComponent} from './services/services.component';
 import {PendingServicesComponent} from './pendingservices/pending-services.component';
 import {MessagesComponent} from './messages/messages.component';
 import {ServiceStatsComponent} from './resource-dashboard/service-stats.component';
 import {ResourceDashboardModule} from './resource-dashboard/resource-dashboard.module';
+import {ProviderHistoryComponent} from './providerHistory/provider-history.component';
+import {ProviderFullHistoryComponent} from './providerHistory/provider-full-history.component';
 
 const providerDashboardRoutes: Routes = [
   {
@@ -31,6 +34,21 @@ const providerDashboardRoutes: Routes = [
       {
         path: 'stats',
         component: ProviderStatsComponent,
+        data: {
+          isResource: false
+        }
+      },
+      {
+        path: 'history',
+        component: ProviderHistoryComponent
+      },
+      {
+        path: 'fullHistory',
+        component: ProviderFullHistoryComponent
+      },
+      {
+        path: 'info',
+        component: ProviderInfoComponent,
         data: {
           isResource: false
         }

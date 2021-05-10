@@ -3,11 +3,13 @@ import {RouterModule, Routes} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {CanActivateViaAuthGuard} from '../lib/services/can-activate-auth-guard.service';
 import {ServiceLandingPageComponent} from '../lib/pages/landingpages/service/service-landing-page.component';
+import {StatsComponent} from '../lib/pages/stats/stats.component';
 import {ForbiddenPageComponent} from '../lib/shared/forbidden-page/forbidden-page.component';
 import {NotFoundPageComponent} from '../lib/shared/not-found-page/not-found-page.component';
 import {DevelopersComponent} from '../lib/pages/support/developers/developers.component';
 import {OpenAPIComponent} from '../lib/pages/support/openapi/openapi.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
+import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
 
 const appRoutes: Routes = [
   {
@@ -26,6 +28,11 @@ const appRoutes: Routes = [
     data: {
       breadcrumb: 'Become A Provider'
     }
+  },
+  {
+    path: 'stats',
+    component: StatsComponent,
+    pathMatch: 'full'
   },
   {
     path: 'provider',
@@ -55,6 +62,13 @@ const appRoutes: Routes = [
     component: ServiceLandingPageComponent,
     data: {
       breadcrumb: 'Service'
+    }
+  },
+  {
+    path: 'vocabulary-requests',
+    component: VocabularyRequestsComponent,
+    data: {
+      breadcrumb: 'Vocabulary Requests'
     }
   },
   {

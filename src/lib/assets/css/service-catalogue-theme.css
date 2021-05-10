@@ -116,6 +116,20 @@ a:hover, a:focus, a:active {
   opacity: 1;
 }
 
+.button-gray {
+  background-color: #ededec;
+  color: #000000FF;
+  border: 1px solid transparent;
+}
+
+.button-gray:hover,
+.button-gray:focus,
+.button-gray:active,
+.button-gray.uk-active {
+  background-color: #bdbdbc;
+  color: #000000FF;
+}
+
 /* ========================================================================
    Pagination
  ========================================================================== */
@@ -599,7 +613,11 @@ a.remove-element i {
 }
 
 .pending .uk-label {
-  background: #FFAE0D 0% 0% no-repeat padding-box;
+  background: #f5c400 0% 0% no-repeat padding-box;
+}
+
+.pending-EPOT .uk-label {
+  background: #f57200 0% 0% no-repeat padding-box;
 }
 
 .rejected .uk-label {

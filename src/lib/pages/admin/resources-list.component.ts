@@ -15,7 +15,7 @@ import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-service-providers-list',
+  selector: 'app-resources-list',
   templateUrl: './resources-list.component.html'
 })
 export class ResourcesListComponent implements OnInit {

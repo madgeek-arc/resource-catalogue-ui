@@ -7,7 +7,8 @@ COPY package.json ./
 
 RUN npm install
 COPY . .
-RUN npm run build:prod
+ARG configuration=prod
+RUN npm run build:$configuration
 
 
 ### Create Container ###

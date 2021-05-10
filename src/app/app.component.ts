@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
+import {environment} from '../environments/environment';
+import {MatomoInjector} from 'ngx-matomo';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +13,9 @@ export class AppComponent implements OnInit {
 
   breadcrumbs: string[] = [];
 
-  constructor(public router: Router) {}
+  constructor(public router: Router, private matomoInjector: MatomoInjector) {
+    this.matomoInjector.init(environment.MATOMO_URL, environment.MATOMO_SITE);
+  }
 
   ngOnInit() {
     this.router.events.subscribe((evt: any) => {

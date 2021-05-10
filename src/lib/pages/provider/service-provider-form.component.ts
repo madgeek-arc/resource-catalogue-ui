@@ -26,7 +26,7 @@ export class ServiceProviderFormComponent implements OnInit {
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
-  providerId: string;
+  providerId: string = null;
   providerName = '';
   errorMessage = '';
   userInfo = {family_name: '', given_name: '', email: ''};
@@ -40,6 +40,7 @@ export class ServiceProviderFormComponent implements OnInit {
   disable = false;
   showLoader = false;
   tabs: boolean[] = [false, false, false, false, false, false, false, false];
+  isPortalAdmin = false;
 
   requiredOnTab0 = 3;
   requiredOnTab1 = 2;
@@ -72,6 +73,25 @@ export class ServiceProviderFormComponent implements OnInit {
   authorizedRepresentative = false;
   agreedToTerms: boolean;
 
+  vocabularyEntryForm: FormGroup;
+  suggestionsForm = {
+    legalStatusVocabularyEntryValueName: '',
+    domainsVocabularyEntryValueName: '',
+    categoriesVocabularyEntryValueName: '',
+    placesVocabularyEntryValueName: '',
+    providerLCSVocabularyEntryValueName: '',
+    networksVocabularyEntryValueName: '',
+    providerTypeVocabularyEntryValueName: '',
+    esfriDomainVocabularyEntryValueName: '',
+    esfriVocabularyEntryValueName: '',
+    merilDomainsVocabularyEntryValueName: '',
+    merilCategoriesVocabularyEntryValueName: '',
+    areasOfActivityVocabularyEntryValueName: '',
+    societalGrandChallengesVocabularyEntryValueName: '',
+    vocabulary: '',
+    errorMessage: '',
+    successMessage: ''
+  };
 
   readonly fullNameDesc: sd.Description = sd.providerDescMap.get('fullNameDesc');
   readonly abbreviationDesc: sd.Description = sd.providerDescMap.get('abbreviationDesc');
@@ -261,7 +281,11 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
 
+    this.isPortalAdmin = this.authService.isAdmin();
+
     this.initUserBitSets(); // Admin + mainContact
+
+    this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
   }
 
   registerProvider(tempSave: boolean) {
@@ -291,7 +315,7 @@ export class ServiceProviderFormComponent implements OnInit {
     for (let i = 0; i < this.merilDomainArray.length ; i++) {
       if (this.merilDomainArray.controls[i].get('merilScientificDomain').value === ''
           || this.merilDomainArray.controls[i].get('merilScientificDomain').value === null) {
-        console.log(this.merilDomainArray.controls[i]);
+        // console.log(this.merilDomainArray.controls[i]);
         this.removeMerilDomain(i);
       }
     }
@@ -336,7 +360,7 @@ export class ServiceProviderFormComponent implements OnInit {
         }
       );
     } else {
-      console.log(this.newProviderForm);
+      // console.log(this.newProviderForm);
       this.markFormAsDirty();
       window.scrollTo(0, 0);
       this.markTabs();
@@ -350,23 +374,23 @@ export class ServiceProviderFormComponent implements OnInit {
     const ret = {};
     Object.entries(service).forEach(([name, values]) => {
       let newValues = values;
-      console.log(name);
+      // console.log(name);
       if (Array.isArray(values)) {
         newValues = [];
         values.forEach(e => {
-          console.log('is array');
+          // console.log('is array');
           if (typeof e === 'string' || e instanceof String) {
             if (e !== '') {
               newValues.push(e.trim().replace(/\s\s+/g, ' '));
             }
           } else {
-            console.log('array with objects');
+            // console.log('array with objects');
           }
         });
       } else if (typeof newValues === 'string' || newValues instanceof String) {
         newValues = newValues.trim().replace(/\s\s+/g, ' ');
       } else {
-        console.log('single object');
+        // console.log('single object');
       }
       ret[name] = newValues;
     });
@@ -917,13 +941,13 @@ export class ServiceProviderFormComponent implements OnInit {
     let urlValidity;
     if (this.newProviderForm.get(formControlName).valid && this.newProviderForm.get(formControlName).value !== '') {
       const url = this.newProviderForm.get(formControlName).value;
-      console.log(url);
+      // console.log(url);
       this.serviceProviderService.validateUrl(url).subscribe(
         boolean => { urlValidity = boolean; },
         error => { console.log(error); },
         () => {
           if (!urlValidity) {
-            console.log('invalid');
+            // console.log('invalid');
             window.scrollTo(0, 0);
             this.errorMessage = url + ' is not a valid URL. Please enter a valid URL.';
           }
@@ -934,16 +958,16 @@ export class ServiceProviderFormComponent implements OnInit {
 
   checkUrlValidityForArrays(formArrayName: string, position: number) {
     let urlValidity;
-    console.log(this.newProviderForm.get(formArrayName).value[position]);
+    // console.log(this.newProviderForm.get(formArrayName).value[position]);
     if (this.newProviderForm.get(formArrayName).value[position] !== '') {
       const url = this.newProviderForm.get(formArrayName).value[position];
-      console.log(url);
+      // console.log(url);
       this.serviceProviderService.validateUrl(url).subscribe(
         boolean => { urlValidity = boolean; },
         error => { console.log(error); },
         () => {
           if (!urlValidity) {
-            console.log('invalid');
+            // console.log('invalid');
             window.scrollTo(0, 0);
             this.errorMessage = url + ' is not a valid ' + formArrayName + ' URL. Please enter a valid URL.';
           }
@@ -953,5 +977,22 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   /** <--URL Validation **/
+
+  submitSuggestion(entryValueName, vocabulary, parent) {
+    if (entryValueName.trim() !== '') {
+      this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'provider', this.providerId, null).subscribe(
+        res => {
+        },
+        error => {
+          console.log(error);
+          this.vocabularyEntryForm.get('errorMessage').setValue(error.error.error);
+        },
+        () => {
+          this.vocabularyEntryForm.reset();
+          this.vocabularyEntryForm.get('successMessage').setValue('Suggestion submitted!');
+        }
+      );
+    }
+  }
 
 }

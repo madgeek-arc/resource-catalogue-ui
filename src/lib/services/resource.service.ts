@@ -160,6 +160,12 @@ export class ResourceService {
     return this.http.delete(this.base + '/pendingService/' + id, this.options);
   }
 
+  /** Recommendations **/
+
+  getRecommendedServices(limit: number) {
+    return this.http.get<RichService[]>(this.base + `/recommendation/getRecommendationServices/${limit}/`, this.options);
+  }
+
   /** STATS **/
   getVisitsForProvider(provider: string, period?: string) {
     let params = new HttpParams();
@@ -251,6 +257,26 @@ export class ResourceService {
     }
   }
 
+  getAddsToProjectForProvider(provider: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/provider/addToProject/${provider}`, {params});
+    } else {
+      return this.http.get(this.base + `/stats/provider/addToProject/${provider}`);
+    }
+  }
+
+  getOrdersForProvider(provider: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/provider/orders/${provider}`, {params});
+    } else {
+      return this.http.get(this.base + `/stats/provider/orders/${provider}`);
+    }
+  }
+
   getRatingsForProvider(provider: string, period?: string) {
     let params = new HttpParams();
     if (period) {
@@ -285,6 +311,15 @@ export class ResourceService {
       return this.http.get(this.base + `/stats/service/favourites/${service}`, {params});
     }
     return this.http.get(this.base + `/stats/service/favourites/${service}`);
+  }
+
+  getAddToProjectForService(service: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/service/addToProject/${service}`, {params});
+    }
+    return this.http.get(this.base + `/stats/service/addToProject/${service}`);
   }
 
   getRatingsForService(service: string, period?: string) {
@@ -426,8 +461,8 @@ export class ResourceService {
   }
 
   uploadService(service: Service, shouldPut: boolean) {
-    console.log(JSON.stringify(service));
-    console.log(`knocking on: ${this.base}/service`);
+    // console.log(JSON.stringify(service));
+    // console.log(`knocking on: ${this.base}/service`);
     return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + '/service', service, this.options);
   }
 

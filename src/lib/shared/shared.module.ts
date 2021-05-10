@@ -14,7 +14,6 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {StarRatingModule} from 'angular-star-rating';
 import {BreadcrumbsComponent} from './breadcrumbs/breadcrumbs.component';
 import {RouterModule} from '@angular/router';
-import {CKEditorModule} from 'ng2-ckeditor';
 import {PendingServicesComponent} from '../pages/provider/dashboard/pendingservices/pending-services.component';
 import {PreviewResourceComponent} from '../pages/previewresource/preview-resource.component';
 import {ChartModule} from 'angular2-highcharts';
@@ -24,7 +23,6 @@ import {ChartModule} from 'angular2-highcharts';
     CommonModule,
     ReactiveFormsModule,
     StarRatingModule.forRoot(),
-    CKEditorModule,
     RouterModule,
     ChartModule
   ],
@@ -56,7 +54,6 @@ import {ChartModule} from 'angular2-highcharts';
     EmailModalComponent,
     StarRatingModule,
     BreadcrumbsComponent,
-    CKEditorModule,
     PendingServicesComponent,
     PreviewResourceComponent
   ]
