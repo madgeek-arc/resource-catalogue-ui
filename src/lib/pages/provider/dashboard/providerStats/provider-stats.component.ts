@@ -635,6 +635,7 @@ export class ProviderStatsComponent implements OnInit {
         // },
         mapNavigation: {
           enabled: true,
+          enableMouseWheelZoom: false,
           buttonOptions: {
             verticalAlign: 'top'
           }
