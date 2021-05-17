@@ -193,7 +193,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     });
 
-    if (this.authenticationService.isLoggedIn()) {
+    if ( environment.projectName === 'CatRIS' && this.authenticationService.isLoggedIn()) {
       this.resourceService.getRecommendedServices(5).subscribe(
         suc => {
           this.recommendations = suc;
