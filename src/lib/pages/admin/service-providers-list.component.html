@@ -273,7 +273,7 @@
                             </button>
                             <button *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id)"
                                     class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">
-                              <i class="fa fa-eye"></i>View {{serviceORresource | lowercase}} template
+                              <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template
                             </button>
                             <button routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}"
                                     class="uk-button uk-button-link uk-margin-medium-left">
@@ -344,7 +344,7 @@
 
 
 <div id="actionModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedProvider">
       <h6>Proceed with changing the status of "{{ selectedProvider.provider.name }}"</h6>
       <p *ngIf="selectedProvider.status !== newStatus">The status will change from "{{ selectedProvider.status }}" to
@@ -367,7 +367,7 @@
 </div>
 
 <div id="deletionModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedProvider">
       <h6>Are you sure you want to delete "{{ selectedProvider.provider.name }}" ?</h6>
       <p>Deleting a provider is an irreversible action.</p>

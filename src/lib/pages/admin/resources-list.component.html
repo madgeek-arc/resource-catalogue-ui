@@ -52,10 +52,11 @@
 
                   <hr class="uk-margin-large-right">
 
-                  <div *ngIf="facets !== null && facets !== undefined" class="refineCategory uk-grid-margin">
+                  <div *ngIf="facets" class="refineCategory uk-grid-margin">
                     <h2 class="uk-h2">{{facets[0].label}}</h2>
-                    <label class="uk-margin-small-left uk-margin-medium-bottom">
-                        <input class="uk-search-input" [(ngModel)]="searchFacet" placeholder="Search with provider id or provider name">
+                    <label class="uk-margin-small-left uk-margin-medium-bottom uk-search uk-search-default uk-width-3-4@m">
+                        <span uk-search-icon></span>
+                        <input class="uk-search-input" [(ngModel)]="searchFacet" placeholder="Search with provider name or id">
                     </label>
                       <div class="uk-margin-small-top" *ngFor="let provider of facets[0].values">
                         <div *ngIf="!searchFacet || searchFacet.toLowerCase() === provider.value.toLowerCase()
@@ -349,7 +350,7 @@
 </div>
 
 <div id="deletionModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedService">
       <h6>Are you sure you want to delete "{{ selectedService.service.name }}" ?</h6>
       <p>Deleting a {{serviceORresource}} is an irreversible action.</p>
