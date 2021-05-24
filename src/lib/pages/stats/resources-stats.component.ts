@@ -10,12 +10,12 @@ declare var UIkit: any;
 
 
 @Component({
-  selector: 'app-provider-stats',
-  templateUrl: './stats.component.html',
+  selector: 'app-resources-stats',
+  templateUrl: './resources-stats.component.html',
   // styleUrls: ['']
 })
 
-export class StatsComponent implements OnInit {
+export class ResourcesStatsComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
 
