@@ -33,12 +33,18 @@ const appRoutes: Routes = [
   {
     path: 'stats/providers',
     component: ProvidersStatsComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    data: {
+      breadcrumb: 'Providers Statistics'
+    }
   },
   {
     path: 'stats/resources',
     component: ResourcesStatsComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    data: {
+      breadcrumb: 'Resources Statistics'
+    }
   },
   {
     path: 'provider',
