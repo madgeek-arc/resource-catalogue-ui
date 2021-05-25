@@ -1,7 +1,8 @@
-<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom uk-padding-remove-top" style="min-height: 325px">
   <div class="uk-container">
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
+        <h2 class="uk-h2 uk-text-center">Resources Statistics</h2>
 
         <!--<h1 class="uk-h3">Statistics Dashboard</h1>-->
 
@@ -24,77 +25,88 @@
 
               <div class="" style="min-height: 500px">
 
+                <ul class="uk-visible@m uk-tab uk-tab-large uk-flex-center uk-margin-remove-bottom" data-uk-tab="{connect:'#terminology_tabbed',animation: 'slide-bottom'}">
+                  <li class="uk-active" aria-expanded="true"><a>Geographical distribution of {{serviceORresource | lowercase}}s</a></li>
+                  <li aria-expanded="false"><a>Distribution of {{serviceORresource | lowercase}}s per {{serviceORresource | lowercase}} attribute</a></li>
+                </ul>
 
-                <h3>Geographical distribution of {{serviceORresource | lowercase}}s</h3>
-                <div class="uk-grid">
-                  <div class="uk-width-1-1 uk-card">
-                    <div class="uk-card-body">
-                      <chart type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">
-                        <series (click)="onMapSeriesClick($event)">
-                        </series>
-                      </chart>
-                    </div>
-                  </div>
-                </div>
-
-
-                <h3>Distribution of {{serviceORresource | lowercase}}s per {{serviceORresource | lowercase}} attribute</h3>
-                <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
-
-                  <div>
-                    <div class="uk-card">
-                      <div class="uk-card-body">
-                        <chart [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                <ul id="terminology_tabbed" class="uk-switcher">
+                  <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
+                    <div class="uk-grid">
+                      <div *ngIf="!mapDistributionOfServicesOptions" class="uk-position-center uk-padding-large" style="z-index: 100">
+                        <div uk-spinner="ratio: 3"></div>
+                      </div>
+                      <div class="uk-width-1-1 uk-card">
+                        <div class="uk-card-body">
+                          <chart type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">
+                            <series (click)="onMapSeriesClick($event)">
+                            </series>
+                          </chart>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </li>
 
-                  <div>
-                    <div class="uk-card">
-                      <div class="uk-card-body">
-                        <chart [options]="domainsPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                  <li aria-hidden="true" style="animation-duration: 200ms;">
+
+                    <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l uk-margin-medium-top">
+
+                      <div>
+                        <div class="uk-card">
+                          <div class="uk-card-body">
+                            <chart [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
 
-                  <div>
-                    <div class="uk-card">
-                      <div class="uk-card-body">
-                        <chart [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                      <div>
+                        <div class="uk-card">
+                          <div class="uk-card-body">
+                            <chart [options]="domainsPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
 
-                  <div>
-                    <div class="uk-card">
-                      <div class="uk-card-body">
-                        <chart [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                      <div>
+                        <div class="uk-card">
+                          <div class="uk-card-body">
+                            <chart [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
 
-
-                  <div>
-                    <div class="uk-card">
-                      <div class="uk-card-body">
-                        <chart [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                      <div>
+                        <div class="uk-card">
+                          <div class="uk-card-body">
+                            <chart [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
 
-                  <div>
-                    <div class="uk-card">
-                      <div class="uk-card-body">
-                        <chart [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+
+                      <div>
+                        <div class="uk-card">
+                          <div class="uk-card-body">
+                            <chart [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                          </div>
+                        </div>
                       </div>
+
+                      <div>
+                        <div class="uk-card">
+                          <div class="uk-card-body">
+                            <chart [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
-                  </div>
-
-
-                </div>
+                  </li>
+                </ul>
 
 
               </div>
+
 
             </div>
 
