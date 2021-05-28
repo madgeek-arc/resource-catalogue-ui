@@ -460,17 +460,17 @@ export class ResourceService {
     return places;
   }
 
-  uploadService(service: Service, shouldPut: boolean) {
+  uploadService(service: Service, shouldPut: boolean, comment: string) {
     // console.log(JSON.stringify(service));
     // console.log(`knocking on: ${this.base}/service`);
-    return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + '/service', service, this.options);
+    return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + `/service?comment=${comment}`, service, this.options);
   }
 
   uploadServiceWithMeasurements(service: Service, measurements: Measurement[]) {
     return this.http.put<Service>(this.base + '/service/serviceWithMeasurements', {service, measurements}, this.options);
   }
 
-  uploadPendingService(service: Service, shouldPut: boolean) {
+  uploadPendingService(service: Service, shouldPut: boolean, comment: string) {
     return this.http.put<Service>(this.base + '/pendingService/transform/resource', service, this.options);
   }
 

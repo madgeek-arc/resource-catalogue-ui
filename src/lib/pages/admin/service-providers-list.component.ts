@@ -312,7 +312,7 @@ export class ServiceProvidersListComponent implements OnInit {
         active: active
       });
 
-      this.serviceProviderService.updateServiceProvider(updatedFields).pipe(
+      this.serviceProviderService.updateServiceProvider(updatedFields, null).pipe(
         mergeMap(res => this.serviceProviderService.getServiceProviderById(res.id)))
         .subscribe(
           res => {
