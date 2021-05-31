@@ -50,6 +50,10 @@ export class ServiceProviderService {
     return this.http.patch(this.base + `/provider/verifyProvider/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
+  auditProvider(id: string, action: string, comment: string) {
+    return this.http.patch(this.base + `/provider/auditProvider/${id}?actionType=${action}&comment=${comment}`, this.options);
+  }
+
   requestProviderDeletion(id: string) {
     return this.http.get(this.base + `/provider/requestProviderDeletion?providerId=${id}`, this.options);
   }

@@ -36,6 +36,9 @@ export class ServiceProvidersListComponent implements OnInit {
 
   urlParams: URLParameter[] = [];
 
+  commentControl = new FormControl();
+  auditingProviderId: string;
+
   errorMessage: string;
   loadingMessage = '';
 
@@ -386,6 +389,26 @@ export class ServiceProvidersListComponent implements OnInit {
         () => {
           this.loadingMessage = '';
         }
+      );
+  }
+
+  showAuditModal(action: string, provider: ProviderBundle) {
+    this.selectedProvider = provider;
+    if (action === 'VALID') {
+      UIkit.modal('#validateModal').show();
+    } else if (action === 'INVALID') {
+        UIkit.modal('#invalidateModal').show();
+      }
+  }
+
+  auditProviderAction(action: string) {
+    this.serviceProviderService.auditProvider(this.selectedProvider.id, action, this.commentControl.value)
+      .subscribe(
+        res => {
+          this.getProviders();
+        },
+        err => { console.log(err); },
+        () => {}
       );
   }
 

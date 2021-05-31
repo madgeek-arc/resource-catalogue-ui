@@ -36,6 +36,8 @@ export class ResourcesListComponent implements OnInit {
 
   urlParams: URLParameter[] = [];
 
+  commentControl = new FormControl();
+
   errorMessage: string;
   loadingMessage = '';
 
@@ -325,6 +327,24 @@ export class ResourcesListComponent implements OnInit {
         UIkit.modal('#spinnerModal').hide();
       }
     );
+  }
+
+  showAuditModal(action: string, resource: InfraService) {
+    this.selectedService = resource;
+    if (action === 'VALID') {
+      UIkit.modal('#validateModal').show();
+    } else if (action === 'INVALID') {
+      UIkit.modal('#invalidateModal').show();
+    }
+  }
+
+  auditProviderAction(action: string) {
+    this.resourceService.auditResource(this.selectedService.id, action, this.commentControl.value)
+      .subscribe(
+        res => {},
+        err => { console.log(err); },
+        () => {}
+      );
   }
 
   hasCreatedFirstService(id: string) {

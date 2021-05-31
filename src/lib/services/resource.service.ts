@@ -494,6 +494,10 @@ export class ResourceService {
     return this.http.get<Info>(this.base + `/info/all`);
   }
 
+  auditResource(id: string, action: string, comment: string) {
+    return this.http.patch(this.base + `/resource/auditResource/${id}?actionType=${action}&comment=${comment}`, this.options);
+  }
+
   public handleError(error: HttpErrorResponse) {
     // const message = 'Server error';
     const message = error.error;
