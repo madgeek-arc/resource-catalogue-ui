@@ -107,16 +107,25 @@
                         <div class="uk-inline">
                           <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
                             <option value="name" selected>Name</option>
+                            <option value="abbreviation">Abbreviation</option>
                             <option value="registeredAt">Creation Date</option>
                             <option value="modifiedAt">Modification Date</option>
-                            <option value="abbreviation">Abbreviation</option>
+                            <option *ngIf="!production" value="latestAuditDate">Audit Date</option>
                           </select>
                         </div>
                       </div>
 
                     </div>
 
-                    <div class="" style="margin-left:auto; margin-right:0;">
+                    <div *ngIf="!production" class="uk-margin-auto-left uk-margin-remove-right">
+                      <div uk-tooltip="title:Get 10 randomly selected providers to audit.">
+                        <button class="uk-button uk-button-link">
+                          <i class="fa fa-check-circle-o uk-margin-small-right"></i>Audit
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="" style="margin-left:25px; margin-right:0;">
                       <button class="uk-button uk-button-link">
                         <i class="fa fa-download uk-margin-small-right"></i>Export to CSV
                       </button>
@@ -224,8 +233,9 @@
                               <div class="uk-margin-small-top">
                                 <span class="statusLabel">Last Update: </span>{{ providerBundle.metadata.modifiedAt | date }}
                               </div>
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">Last Audit: </span>-
+                              <div *ngIf="providerBundle.latestAuditInfo && !production" class="uk-margin-small-top">
+                                <span class="statusLabel">
+                                  Last Audit: </span>{{ providerBundle.latestAuditInfo.date | date}} - {{providerBundle.latestAuditInfo.actionType | titlecase}}ated
                               </div>
                             </div>
 
@@ -300,7 +310,7 @@
                           </div>
                         </ng-container>
 
-                        <ng-container *ngIf="providerBundle.status == 'approved'">
+                        <ng-container *ngIf="providerBundle.status == 'approved' && !production">
                           <hr class="uk-margin-top">
                           <button
                             class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc"

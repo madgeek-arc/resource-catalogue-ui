@@ -21,6 +21,7 @@ declare var UIkit: any;
 export class ResourcesListComponent implements OnInit {
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
+  production = environment.production;
 
   formPrepare = {
     query: '',
@@ -341,7 +342,9 @@ export class ResourcesListComponent implements OnInit {
   auditProviderAction(action: string) {
     this.resourceService.auditResource(this.selectedService.id, action, this.commentControl.value)
       .subscribe(
-        res => {},
+        res => {
+          this.getServices();
+        },
         err => { console.log(err); },
         () => {}
       );

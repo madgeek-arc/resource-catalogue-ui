@@ -111,6 +111,7 @@
                             <option value="name" selected>Name</option>
                             <option value="registeredAt">Creation Date</option>
                             <option value="modifiedAt">Modification Date</option>
+                            <option *ngIf="!production" value="latestAuditDate">Audit Date</option>
 <!--                            <option value="id">ID</option>-->
                           </select>
                         </div>
@@ -233,8 +234,9 @@
                               <div class="uk-margin-small-top">
                                 <span class="statusLabel">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}
                               </div>
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">Last Audit: </span>-
+                              <div *ngIf="serviceBundle.latestAuditInfo && !production" class="uk-margin-small-top">
+                                <span class="statusLabel">
+                                  Last Audit: </span>{{ serviceBundle.latestAuditInfo.date | date}} - {{serviceBundle.latestAuditInfo.actionType | titlecase}}ated
                               </div>
                             </div>
 
@@ -274,7 +276,7 @@
                           </div>
                         </div>
 
-                        <ng-container>
+                        <ng-container *ngIf="!production">
                           <hr class="uk-margin-top">
                           <button
                             class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc"
