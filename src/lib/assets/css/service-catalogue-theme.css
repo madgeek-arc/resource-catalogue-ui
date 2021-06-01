@@ -1060,3 +1060,53 @@ a[class*="wk-"]:hover {
   top: 0;
   left: 0;
 }
+
+/* ========================
+          Statistics
+ ========================== */
+
+.chartCard.uk-card {
+  box-shadow: 1px 10px 12px #00000026;
+  border: 1px solid #E0E0E0;
+  border-radius: 5px;
+}
+
+/* ========================
+          Tabs
+ ========================== */
+
+.uk-tab > .uk-active > a {
+  color: #212121 !important;
+  font-weight: 600;
+  background: none;
+  opacity: 1;
+  border-radius: 0px;
+}
+
+#sect-tabs .uk-tab > li > a {
+  text-transform: none;
+}
+
+.uk-tab > li.uk-active > a {
+  border-bottom-color: var(--primary-color);
+}
+
+.uk-tab > li > a:hover, .uk-tab > li > a:focus {
+  background: none;
+  color: #212121;
+  border-bottom-color: var(--primary-color);
+}
+
+/*.uk-tab::before {*/
+  /*border-bottom: none;*/
+/*}*/
+
+
+/* ========================
+          Section
+ ========================== */
+
+.uk-section {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
