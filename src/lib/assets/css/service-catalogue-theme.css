@@ -1100,13 +1100,3 @@ a[class*="wk-"]:hover {
 /*.uk-tab::before {*/
   /*border-bottom: none;*/
 /*}*/
-
-
-/* ========================
-          Section
- ========================== */
-
-.uk-section {
-  padding-top: 50px;
-  padding-bottom: 50px;
-}
