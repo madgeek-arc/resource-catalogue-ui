@@ -22,6 +22,7 @@ export class ServiceProvidersListComponent implements OnInit {
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
+  production = environment.production;
 
   formPrepare = {
     query: '',
@@ -35,6 +36,9 @@ export class ServiceProvidersListComponent implements OnInit {
   dataForm: FormGroup;
 
   urlParams: URLParameter[] = [];
+
+  commentControl = new FormControl();
+  auditingProviderId: string;
 
   errorMessage: string;
   loadingMessage = '';
@@ -294,6 +298,41 @@ export class ServiceProvidersListComponent implements OnInit {
     );
   }
 
+  getRandomProviders(quantity: string) {
+    this.loadingMessage = 'Loading Providers...';
+    this.providers = [];
+    this.serviceProviderService.getRandomProviders(quantity).subscribe(
+      res => {
+        this.providers = res['results'];
+        this.total = res['total'];
+        // this.total = +quantity;
+        this.paginationInit();
+      },
+      err => {
+        console.log(err);
+        this.errorMessage = 'The list could not be retrieved';
+        this.loadingMessage = '';
+      },
+      () => {
+        this.loadingMessage = '';
+        this.providers.forEach(
+          p => {
+            if ((p.status === 'pending template approval') ||
+              (p.status === 'rejected template')) {
+              this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
+                res => {
+                  if (res && (res.length > 0)) {
+                    this.pendingFirstServicePerProvider.push({providerId: p.id, serviceId: res[0].id});
+                  }
+                }
+              );
+            }
+          }
+        );
+      }
+    );
+  }
+
   approveStatusChange(provider: ProviderBundle) {
     this.selectedProvider = provider;
     UIkit.modal('#approveModal').show();
@@ -312,7 +351,7 @@ export class ServiceProvidersListComponent implements OnInit {
         active: active
       });
 
-      this.serviceProviderService.updateServiceProvider(updatedFields).pipe(
+      this.serviceProviderService.updateServiceProvider(updatedFields, null).pipe(
         mergeMap(res => this.serviceProviderService.getServiceProviderById(res.id)))
         .subscribe(
           res => {
@@ -386,6 +425,26 @@ export class ServiceProvidersListComponent implements OnInit {
         () => {
           this.loadingMessage = '';
         }
+      );
+  }
+
+  showAuditModal(action: string, provider: ProviderBundle) {
+    this.selectedProvider = provider;
+    if (action === 'VALID') {
+      UIkit.modal('#validateModal').show();
+    } else if (action === 'INVALID') {
+        UIkit.modal('#invalidateModal').show();
+      }
+  }
+
+  auditProviderAction(action: string) {
+    this.serviceProviderService.auditProvider(this.selectedProvider.id, action, this.commentControl.value)
+      .subscribe(
+        res => {
+          this.getProviders();
+        },
+        err => { console.log(err); },
+        () => {}
       );
   }
 

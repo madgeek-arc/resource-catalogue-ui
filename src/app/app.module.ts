@@ -37,7 +37,8 @@ import {StarRatingModule} from 'angular-star-rating';
 import {ServiceLandingPageComponent} from '../lib/pages/landingpages/service/service-landing-page.component';
 import {BrowseCategoriesComponent} from '../lib/pages/browsecategories/browse-categories.component';
 import {SearchComponent} from '../lib/pages/search/search.component';
-import {StatsComponent} from '../lib/pages/stats/stats.component';
+import {ProvidersStatsComponent} from '../lib/pages/stats/providers-stats.component';
+import {ResourcesStatsComponent} from '../lib/pages/stats/resources-stats.component';
 import {CompareServicesComponent} from '../lib/pages/compare/compare-services.component';
 import {ServiceFormComponent} from '../lib/pages/provider-resources/service-form.component';
 import {ServiceUploadComponent} from '../lib/pages/provider-resources/service-upload.component';
@@ -79,7 +80,8 @@ export function highchartsFactory() {
     CompareServicesComponent,
     HomeComponent,
     SearchComponent,
-    StatsComponent,
+    ProvidersStatsComponent,
+    ResourcesStatsComponent,
     ServiceLandingPageComponent,
     BecomeAProviderComponent,
     // PERSISTENT

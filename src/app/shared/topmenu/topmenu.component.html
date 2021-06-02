@@ -146,8 +146,25 @@
           </div>
           <div class="uk-navbar-right align-self-center">
             <ul class="uk-navbar-nav">
+<!--              <li class="uk-parent" [routerLinkActive]="['uk-active']">-->
+<!--                <a [routerLink]="['/stats']" routerLinkActive="uk-active">Statistics</a>-->
+<!--              </li>-->
+
               <li class="uk-parent" [routerLinkActive]="['uk-active']">
-                <a [routerLink]="['/stats']" routerLinkActive="uk-active">Statistics</a>
+                <a href="#" class="" aria-expanded="false">
+                  Statistics
+                </a>
+                <div class="uk-navbar-dropdown uk-navbar-dropdown-bottom-left" style="top: 80px; left: 106.55px;"
+                     id="statistics" (click)="onClick('statistics')">
+                  <div class="uk-navbar-dropdown-grid uk-child-width-1-1 uk-grid uk-grid-stack" uk-grid="">
+                    <div class="uk-first-column">
+                      <ul class="uk-nav uk-navbar-dropdown-nav">
+                        <li><a [routerLink]="['/stats/providers']" routerLinkActive="uk-active">Providers</a></li>
+                        <li><a [routerLink]="['/stats/resources']" routerLinkActive="uk-active">Resources</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </li>
 
               <li class="uk-parent" [routerLinkActive]="['uk-active']">

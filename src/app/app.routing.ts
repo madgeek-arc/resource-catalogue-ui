@@ -3,7 +3,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {CanActivateViaAuthGuard} from '../lib/services/can-activate-auth-guard.service';
 import {ServiceLandingPageComponent} from '../lib/pages/landingpages/service/service-landing-page.component';
-import {StatsComponent} from '../lib/pages/stats/stats.component';
+import {ProvidersStatsComponent} from '../lib/pages/stats/providers-stats.component';
+import {ResourcesStatsComponent} from '../lib/pages/stats/resources-stats.component';
 import {ForbiddenPageComponent} from '../lib/shared/forbidden-page/forbidden-page.component';
 import {NotFoundPageComponent} from '../lib/shared/not-found-page/not-found-page.component';
 import {DevelopersComponent} from '../lib/pages/support/developers/developers.component';
@@ -30,9 +31,20 @@ const appRoutes: Routes = [
     }
   },
   {
-    path: 'stats',
-    component: StatsComponent,
-    pathMatch: 'full'
+    path: 'stats/providers',
+    component: ProvidersStatsComponent,
+    pathMatch: 'full',
+    data: {
+      breadcrumb: 'Providers Statistics'
+    }
+  },
+  {
+    path: 'stats/resources',
+    component: ResourcesStatsComponent,
+    pathMatch: 'full',
+    data: {
+      breadcrumb: 'Resources Statistics'
+    }
   },
   {
     path: 'provider',

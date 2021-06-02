@@ -280,7 +280,7 @@
 </div>
 
 <div id="approvalModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedCuration">
       <h6>Are you sure you want to approve this vocabulary entry?</h6>
 <!--      <p>Are you sure you want to approve this vocabulary entry?</p>-->
@@ -297,7 +297,7 @@
 </div>
 
 <div id="rejectionModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedCuration">
       <h6>Are you sure you want to reject this vocabulary entry?</h6>
       <form>
@@ -321,7 +321,7 @@
 </div>
 
 <div id="viewMoreModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body">
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedVocabularyEntryRequests && selectedCuration">
       <h6><span style="color: #808080">Details regarding vocabulary entry request: </span>{{ this.selectedCuration.entryValueName }}</h6>
       <h6 class="uk-margin-medium-bottom"><span style="color: #808080">Vocabulary: </span>{{ this.selectedCuration.vocabulary | titlecase }}</h6>
