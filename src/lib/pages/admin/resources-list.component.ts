@@ -195,6 +195,28 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
+  getRandomResources(quantity: string) {
+    this.loadingMessage = 'Loading ' + this.serviceORresource + 's...';
+    this.services = [];
+    this.resourceService.getRandomResources(quantity).subscribe(
+      res => {
+        this.services = res['results'];
+        this.facets = res['facets'];
+        this.total = res['total'];
+        // this.total = +quantity;
+        this.paginationInit();
+      },
+      err => {
+        console.log(err);
+        this.errorMessage = 'The list could not be retrieved';
+        this.loadingMessage = '';
+      },
+      () => {
+        this.loadingMessage = '';
+      }
+    );
+  }
+
   isProviderActive(id: string) {
     let active = false;
     for (let i = 0; this.providers[i]; i++ ) {

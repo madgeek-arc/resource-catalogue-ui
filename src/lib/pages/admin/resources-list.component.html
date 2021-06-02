@@ -132,7 +132,15 @@
                       </div>
                     </div>
 
-                    <div class="" style="margin-left:auto; margin-right:0;">
+                    <div *ngIf="!production" class="uk-margin-auto-left uk-margin-remove-right">
+                      <div uk-tooltip="title:Get 10 randomly selected resources to audit.">
+                        <button class="uk-button uk-button-link" (click)="getRandomResources('10')">
+                          <i class="fa fa-check-circle-o uk-margin-small-right"></i>Audit
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="" style="margin-left:25px; margin-right:0;">
                       <button class="uk-button uk-button-link">
                         <i class="fa fa-download uk-margin-small-right"></i>Export to CSV
                       </button>

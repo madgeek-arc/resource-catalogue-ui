@@ -70,6 +70,10 @@ export class ServiceProviderService {
     return this.http.get<ProviderBundle[]>(this.base + '/provider/getMyServiceProviders', this.options);
   }
 
+  getRandomProviders(quantity: string) {
+    return this.http.get<ProviderBundle[]>(this.base + `/provider/randomProviders?quantity=${quantity}`, this.options);
+  }
+
   getServiceProviderBundleById(id: string) {
     return this.http.get<ProviderBundle>(this.base + `/provider/bundle/${id}`, this.options);
   }

@@ -298,6 +298,41 @@ export class ServiceProvidersListComponent implements OnInit {
     );
   }
 
+  getRandomProviders(quantity: string) {
+    this.loadingMessage = 'Loading Providers...';
+    this.providers = [];
+    this.serviceProviderService.getRandomProviders(quantity).subscribe(
+      res => {
+        this.providers = res['results'];
+        this.total = res['total'];
+        // this.total = +quantity;
+        this.paginationInit();
+      },
+      err => {
+        console.log(err);
+        this.errorMessage = 'The list could not be retrieved';
+        this.loadingMessage = '';
+      },
+      () => {
+        this.loadingMessage = '';
+        this.providers.forEach(
+          p => {
+            if ((p.status === 'pending template approval') ||
+              (p.status === 'rejected template')) {
+              this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
+                res => {
+                  if (res && (res.length > 0)) {
+                    this.pendingFirstServicePerProvider.push({providerId: p.id, serviceId: res[0].id});
+                  }
+                }
+              );
+            }
+          }
+        );
+      }
+    );
+  }
+
   approveStatusChange(provider: ProviderBundle) {
     this.selectedProvider = provider;
     UIkit.modal('#approveModal').show();

@@ -119,7 +119,7 @@
 
                     <div *ngIf="!production" class="uk-margin-auto-left uk-margin-remove-right">
                       <div uk-tooltip="title:Get 10 randomly selected providers to audit.">
-                        <button class="uk-button uk-button-link">
+                        <button class="uk-button uk-button-link" (click)="getRandomProviders('10')">
                           <i class="fa fa-check-circle-o uk-margin-small-right"></i>Audit
                         </button>
                       </div>

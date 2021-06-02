@@ -11,7 +11,7 @@ import {
   Service,
   ServiceHistory,
   Vocabulary,
-  Type
+  Type, ProviderBundle, InfraService
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
@@ -435,6 +435,10 @@ export class ResourceService {
 
   getMyServiceProviders() {
     return this.http.get<Provider[]>(this.base + '/provider/getMyServiceProviders');
+  }
+
+  getRandomResources(quantity: string) {
+    return this.http.get<InfraService[]>(this.base + `/resource/randomResources?quantity=${quantity}`, this.options);
   }
 
   getEU() {
