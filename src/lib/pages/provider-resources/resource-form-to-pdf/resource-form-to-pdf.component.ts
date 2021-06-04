@@ -328,7 +328,7 @@ export class ResourceFormToPdfComponent implements OnInit {
     } else if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
       this.resourceService[pendingService ? 'uploadPendingService' : 'uploadService']
-      (this.serviceForm.value, this.editMode, null).subscribe(
+      (this.serviceForm.value, this.editMode).subscribe(
         _service => {
           // console.log(_service);
           this.showLoader = false;

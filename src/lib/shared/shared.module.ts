@@ -11,7 +11,7 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { EmailModalComponent } from './email-modal/email-modal.component';
 import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
-import {StarRatingModule} from 'angular-star-rating';
+// import {StarRatingModule} from 'angular-star-rating'; // FIXME: not supported on this angular version
 import {BreadcrumbsComponent} from './breadcrumbs/breadcrumbs.component';
 import {RouterModule} from '@angular/router';
 import {PendingServicesComponent} from '../pages/provider/dashboard/pendingservices/pending-services.component';
@@ -22,7 +22,7 @@ import {ChartModule} from 'angular2-highcharts';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    StarRatingModule.forRoot(),
+    // StarRatingModule.forRoot(), // FIXME: not supported on this angular version
     RouterModule,
     ChartModule
   ],
@@ -52,7 +52,7 @@ import {ChartModule} from 'angular2-highcharts';
     SafePipe,
     ValuesPipe,
     EmailModalComponent,
-    StarRatingModule,
+    // StarRatingModule, // FIXME: not supported on this angular version
     BreadcrumbsComponent,
     PendingServicesComponent,
     PreviewResourceComponent

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import * as sd from '../provider-resources/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
@@ -92,8 +92,6 @@ export class ServiceProviderFormComponent implements OnInit {
     errorMessage: '',
     successMessage: ''
   };
-
-  commentControl = new FormControl();
 
   readonly fullNameDesc: sd.Description = sd.providerDescMap.get('fullNameDesc');
   readonly abbreviationDesc: sd.Description = sd.providerDescMap.get('abbreviationDesc');
@@ -291,9 +289,8 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   registerProvider(tempSave: boolean) {
-    // console.log('Submit');
-    // console.log(this.commentControl.value);
     if (!this.authService.isLoggedIn()) {
+      console.log('Submit');
       sessionStorage.setItem('provider', JSON.stringify(this.newProviderForm.value));
       this.authService.login();
     }
@@ -345,7 +342,7 @@ export class ServiceProviderFormComponent implements OnInit {
       this.showLoader = true;
       window.scrollTo(0, 0);
 
-      this.serviceProviderService[method](this.newProviderForm.value, this.commentControl.value).subscribe(
+      this.serviceProviderService[method](this.newProviderForm.value).subscribe(
         res => {
         },
         err => {
@@ -938,17 +935,6 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   /** <--Terms Modal **/
-
-  /** Submit Comment Modal--> **/
-  showCommentModal() {
-    if (this.edit && !this.pendingProvider) {
-      UIkit.modal('#commentModal').show();
-    } else {
-      this.registerProvider(false);
-    }
-  }
-
-  /** <--Submit Comment Modal **/
 
   /** URL Validation--> **/
   checkUrlValidity(formControlName: string) {

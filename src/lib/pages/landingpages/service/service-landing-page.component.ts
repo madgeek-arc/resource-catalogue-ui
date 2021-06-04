@@ -12,7 +12,7 @@ import {flatMap} from 'rxjs/operators';
 import {zip} from 'rxjs/internal/observable/zip';
 import {EmailService} from '../../../services/email.service';
 import {environment} from '../../../../environments/environment';
-import {MatomoTracker} from 'ngx-matomo';
+import {MatomoTracker} from 'ngx-matomo-v9';
 
 declare var UIkit: any;
 

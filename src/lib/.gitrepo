@@ -5,8 +5,8 @@
 ;
 [subrepo]
 	remote = https://github.com/madgeek-arc/resource-catalogue-lib.git
-	branch = master
-	commit = 95baa850595104c913beedf871fa4e7f04c0ffb5
-	parent = aa2615174c2e78bcf297e907229f991141aded17
+	branch = upgrade_angular
+	commit = fc4ddd19b8b4cbafa1200920c8c3c0d88e935de1
+	parent = 4f377aa5f811ef1b562cb9f813a3e87f1b71f644
 	method = merge
-	cmdver = 0.4.1
+	cmdver = 0.4.3

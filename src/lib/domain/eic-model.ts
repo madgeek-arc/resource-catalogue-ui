@@ -7,10 +7,6 @@ export class Bundle<T> implements Identifiable {
   metadata: Metadata;
   active: boolean;
   status: string;
-  loggingInfo: LoggingInfo[];
-  latestAuditInfo: LoggingInfo;
-  latestOnboardingInfo: LoggingInfo;
-  latestUpdateInfo: LoggingInfo;
 }
 
 export class EmailMessage {
@@ -61,15 +57,6 @@ export class Indicator implements Identifiable {
 export class InfraService extends Bundle<Service> {
   latest: boolean;
   service: Service;
-}
-
-export class LoggingInfo {
-  date: string;
-  userEmail: string;
-  userRole: string;
-  type: string;
-  comment: string;
-  actionType: string;
 }
 
 export class Measurement implements Identifiable {
