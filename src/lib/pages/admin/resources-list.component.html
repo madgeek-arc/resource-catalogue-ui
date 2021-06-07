@@ -237,14 +237,17 @@
                                 <span class="statusLabel">Status: </span>{{ serviceBundle.active ? 'Active' : 'Inactive' }}
                               </div>
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Creation Date: </span>{{ serviceBundle.metadata.registeredAt | date }}
+                                <span class="statusLabel">Creation Date: </span>
+                                <ng-container *ngIf="serviceBundle.metadata.registeredAt>0; else noCreationDate">{{ serviceBundle.metadata.registeredAt | date }}</ng-container>
+                                <ng-template #noCreationDate><i>Unknown</i></ng-template>
                               </div>
                               <div class="uk-margin-small-top">
                                 <span class="statusLabel">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}
                               </div>
-                              <div *ngIf="serviceBundle.latestAuditInfo && !production" class="uk-margin-small-top">
-                                <span class="statusLabel">
-                                  Last Audit: </span>{{ serviceBundle.latestAuditInfo.date | date}} - {{serviceBundle.latestAuditInfo.actionType | titlecase}}ated
+                              <div *ngIf="!production" class="uk-margin-small-top">
+                                <span class="statusLabel">Last Audit: </span>
+                                <ng-container *ngIf="serviceBundle.latestAuditInfo">{{ serviceBundle.latestAuditInfo.date | date}} - {{serviceBundle.latestAuditInfo.actionType | titlecase}}ated</ng-container>
+                                <ng-container *ngIf="!serviceBundle.latestAuditInfo"><i>Never audited</i></ng-container>
                               </div>
                             </div>
 
