@@ -15,7 +15,6 @@ import {FooterComponent} from '../lib/shared/footer/footer.component';
 import {TopMenuComponent} from '../lib/shared/topmenu/topmenu.component';
 import {BreadcrumbsComponent} from '../lib/shared/breadcrumbs/breadcrumbs.component';
 import {FeedbackComponent} from '../lib/shared/feedback/feedback.component';
-import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {ServiceProviderFormComponent} from '../lib/pages/provider/service-provider-form.component';
 import {MyServiceProvidersComponent} from '../lib/pages/provider/my-service-providers.component';
 import {AddFirstServiceComponent} from '../lib/pages/provider/add-first-service.component';
@@ -125,7 +124,6 @@ export function highchartsFactory() {
     // ProviderModule,
     // ProviderDashboardModule,
     ChartModule,
-    AngularFontAwesomeModule,
     CookieLawModule,
     MatomoModule,
     MarkdownModule.forRoot(),

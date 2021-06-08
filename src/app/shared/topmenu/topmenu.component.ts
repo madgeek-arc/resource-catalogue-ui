@@ -24,7 +24,7 @@ export class EOSCTopMenuComponent implements OnInit, OnDestroy {
 
   urlParameters: URLParameter[] = [];
   //
-  @ViewChild('categoriesDropdown', { static: false }) categoriesDropdown: ElementRef;
+  @ViewChild('categoriesDropdown') categoriesDropdown: ElementRef;
   // @ViewChild('supportDropdown') supportDropdown: ElementRef;
 
   categoriesOpen = false;
