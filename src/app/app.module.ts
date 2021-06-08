@@ -33,7 +33,6 @@ import {DashboardComponent} from '../lib/pages/provider/dashboard/dashboard.comp
 import {UserService} from '../lib/services/user.service';
 import {ComparisonService} from '../lib/services/comparison.service';
 import {UserModule} from '../lib/pages/user/user.module';
-import {StarRatingModule} from 'angular-star-rating';
 import {ServiceLandingPageComponent} from '../lib/pages/landingpages/service/service-landing-page.component';
 import {BrowseCategoriesComponent} from '../lib/pages/browsecategories/browse-categories.component';
 import {SearchComponent} from '../lib/pages/search/search.component';
@@ -53,7 +52,7 @@ import {EOSCFooterComponent} from './shared/footer/footer.component';
 import {EOSCTopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
-import {MatomoModule} from 'ngx-matomo';
+import {MatomoModule} from 'ngx-matomo-v9';
 import {MarkdownModule} from "ngx-markdown";
 
 

@@ -24,7 +24,7 @@ export class TopMenuComponent implements OnInit, OnDestroy {
 
   urlParameters: URLParameter[] = [];
   //
-  @ViewChild('categoriesDropdown') categoriesDropdown: ElementRef;
+  @ViewChild('categoriesDropdown', { static: false }) categoriesDropdown: ElementRef;
   // @ViewChild('supportDropdown') supportDropdown: ElementRef;
 
   categoriesOpen = false;

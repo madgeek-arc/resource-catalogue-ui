@@ -7,18 +7,20 @@ import {UserRouting} from './user.routing';
 import {ChartModule} from 'angular2-highcharts';
 import {MyFavouritesComponent} from './favourites/my-favourites.component';
 import {RecommendationsComponent} from './recommendations/recommendations.component';
+import {NgxStarRatingModule} from "ngx-star-rating";
 
 @NgModule({
-  imports: [
-    SharedModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    UserRouting,
-    ReusableComponentsModule,
-    ChartModule,
+    imports: [
+        SharedModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        UserRouting,
+        ReusableComponentsModule,
+        ChartModule,
+        NgxStarRatingModule,
 
-  ],
+    ],
   declarations: [
     MyFavouritesComponent,
     RecommendationsComponent
