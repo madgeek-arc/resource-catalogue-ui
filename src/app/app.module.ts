@@ -15,7 +15,6 @@ import {FooterComponent} from '../lib/shared/footer/footer.component';
 import {TopMenuComponent} from '../lib/shared/topmenu/topmenu.component';
 import {BreadcrumbsComponent} from '../lib/shared/breadcrumbs/breadcrumbs.component';
 import {FeedbackComponent} from '../lib/shared/feedback/feedback.component';
-import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {ServiceProviderFormComponent} from '../lib/pages/provider/service-provider-form.component';
 import {MyServiceProvidersComponent} from '../lib/pages/provider/my-service-providers.component';
 import {AddFirstServiceComponent} from '../lib/pages/provider/add-first-service.component';
@@ -33,7 +32,6 @@ import {DashboardComponent} from '../lib/pages/provider/dashboard/dashboard.comp
 import {UserService} from '../lib/services/user.service';
 import {ComparisonService} from '../lib/services/comparison.service';
 import {UserModule} from '../lib/pages/user/user.module';
-import {StarRatingModule} from 'angular-star-rating';
 import {ServiceLandingPageComponent} from '../lib/pages/landingpages/service/service-landing-page.component';
 import {BrowseCategoriesComponent} from '../lib/pages/browsecategories/browse-categories.component';
 import {SearchComponent} from '../lib/pages/search/search.component';
@@ -53,7 +51,7 @@ import {EOSCFooterComponent} from './shared/footer/footer.component';
 import {EOSCTopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
-import {MatomoModule} from 'ngx-matomo';
+import {MatomoModule} from 'ngx-matomo-v9';
 import {MarkdownModule} from "ngx-markdown";
 
 
@@ -126,7 +124,6 @@ export function highchartsFactory() {
     // ProviderModule,
     // ProviderDashboardModule,
     ChartModule,
-    AngularFontAwesomeModule,
     CookieLawModule,
     MatomoModule,
     MarkdownModule.forRoot(),

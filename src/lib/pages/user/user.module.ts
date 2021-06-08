@@ -9,16 +9,15 @@ import {MyFavouritesComponent} from './favourites/my-favourites.component';
 import {RecommendationsComponent} from './recommendations/recommendations.component';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    UserRouting,
-    ReusableComponentsModule,
-    ChartModule,
-
-  ],
+    imports: [
+        SharedModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        UserRouting,
+        ReusableComponentsModule,
+        ChartModule,
+    ],
   declarations: [
     MyFavouritesComponent,
     RecommendationsComponent

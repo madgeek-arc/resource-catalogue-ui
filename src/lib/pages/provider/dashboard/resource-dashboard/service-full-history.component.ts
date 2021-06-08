@@ -5,7 +5,7 @@ import {Service, ServiceHistory} from '../../../../domain/eic-model';
 import {NavigationService} from '../../../../services/navigation.service';
 import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
-import {zip} from 'rxjs/internal/observable/zip';
+import {zip} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
 
 @Component({

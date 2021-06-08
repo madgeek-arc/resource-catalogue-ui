@@ -22,7 +22,7 @@ export class ReadMoreComponent implements AfterContentInit {
     //@Input() text: string;
     //maximum height of the container
     @Input("maxHeight") maxHeight: number = 100;
-    @ViewChild("readMoreDiv")
+    @ViewChild("readMoreDiv", { static: true })
     readMoreDiv: ElementRef;
     //set these to false to get the height of the expended container
     public isCollapsed: boolean = false;

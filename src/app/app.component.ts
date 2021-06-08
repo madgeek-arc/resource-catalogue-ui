@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {environment} from '../environments/environment';
-import {MatomoInjector} from 'ngx-matomo';
+import {MatomoInjector} from 'ngx-matomo-v9';
 
 @Component({
   selector: 'app-root',
