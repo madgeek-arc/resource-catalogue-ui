@@ -1,11 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Subscription, Observable} from 'rxjs';
+import {Subscription, zip} from 'rxjs';
 import {Service, ServiceHistory} from '../../../../domain/eic-model';
 import {NavigationService} from '../../../../services/navigation.service';
 import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
-import {zip} from 'rxjs/internal/observable/zip';
 import {environment} from '../../../../../environments/environment';
 
 @Component({
@@ -48,12 +47,12 @@ export class ServiceHistoryComponent implements OnInit, OnDestroy {
   }
 
   getDataForService() {
-      this.resourceService.getServiceHistory(this.service.id).subscribe(
-        searchResults => this.serviceHistory = searchResults,
-        err => {
-          this.errorMessage = 'An error occurred while retrieving the history of this service. ' + err.error;
-        }
-      );
+    this.resourceService.getServiceHistory(this.service.id).subscribe(
+      searchResults => this.serviceHistory = searchResults,
+      err => {
+        this.errorMessage = 'An error occurred while retrieving the history of this service. ' + err.error;
+      }
+    );
   }
 
   ngOnDestroy(): void {

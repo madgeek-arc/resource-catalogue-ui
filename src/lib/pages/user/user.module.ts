@@ -7,7 +7,6 @@ import {UserRouting} from './user.routing';
 import {ChartModule} from 'angular2-highcharts';
 import {MyFavouritesComponent} from './favourites/my-favourites.component';
 import {RecommendationsComponent} from './recommendations/recommendations.component';
-import {NgxStarRatingModule} from "ngx-star-rating";
 
 @NgModule({
     imports: [
@@ -18,8 +17,6 @@ import {NgxStarRatingModule} from "ngx-star-rating";
         UserRouting,
         ReusableComponentsModule,
         ChartModule,
-        NgxStarRatingModule,
-
     ],
   declarations: [
     MyFavouritesComponent,
