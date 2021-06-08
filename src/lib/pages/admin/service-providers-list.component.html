@@ -219,10 +219,17 @@
                                 <span class="statusLabel">Status: </span>{{ labels[statuses.indexOf(providerBundle.status)] | titlecase }}
                               </div>
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Creation Date: </span>{{ providerBundle.metadata.registeredAt | date }}
+                                <span class="statusLabel">Creation Date: </span>
+                                <ng-container *ngIf="providerBundle.metadata.registeredAt>0; else noCreationDate">{{providerBundle.metadata.registeredAt | date}}</ng-container>
+                                <ng-template #noCreationDate><i>Unknown</i></ng-template>
                               </div>
                               <div class="uk-margin-small-top">
                                 <span class="statusLabel">Last Update: </span>{{ providerBundle.metadata.modifiedAt | date }}
+                              </div>
+                              <div *ngIf="!production" class="uk-margin-small-top">
+                                <span class="statusLabel">Last Audit: </span>
+                                <ng-container *ngIf="providerBundle.latestAuditInfo">{{ providerBundle.latestAuditInfo.date | date}} - {{providerBundle.latestAuditInfo.actionType | titlecase}}ated</ng-container>
+                                <ng-container *ngIf="!providerBundle.latestAuditInfo"><i>Never audited</i></ng-container>
                               </div>
                             </div>
 
