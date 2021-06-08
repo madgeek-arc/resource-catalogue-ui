@@ -21,7 +21,7 @@
                     class="uk-button uk-button-primary uk-margin-left" (click)="this.onSubmit(this.service, true)">Save as draft
             </button>
             <button *ngIf="loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left"
-                    (click)="onSubmit(serviceForm.value, false)" type="submit">Submit
+                    (click)="showCommentModal()" type="submit">Submit
             </button>
           </div>
         </div>
@@ -1943,5 +1943,19 @@
       <app-preview-resource [resource]="serviceForm.value" [vocabularies]="vocabularies" [providers]="providersPage.results"></app-preview-resource>
     </ng-container>
 
+  </div>
+</div>
+
+<div id="commentModal" uk-modal>
+  <div *ngIf="!showLoader" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <h4>Add a comment <span style="color: grey">(optional)</span></h4>
+    <p class="uk-margin">Before submitting your changes for "{{ serviceName }}", please provide us with the reason of your update and any comments you may have.</p>
+    <form>
+      <div class="uk-margin">
+        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
+      </div>
+    </form>
+    <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="submit" (click)="onSubmit(this.serviceForm.value, false)">Submit</button>
+    <!--    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>-->
   </div>
 </div>

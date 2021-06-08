@@ -40,7 +40,7 @@
               <div class="uk-flex uk-flex-right">
                 <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
                   <span uk-search-icon></span>
-                  <input class="uk-search-input" type="search" placeholder="Locate {{serviceORresource}}..." formControlName="query">
+                  <input class="uk-search-input" type="search" placeholder="Locate {{serviceORresource | lowercase}}..." formControlName="query">
                 </form>
               </div>
 
@@ -111,6 +111,7 @@
                             <option value="name" selected>Name</option>
                             <option value="registeredAt">Creation Date</option>
                             <option value="modifiedAt">Modification Date</option>
+                            <option *ngIf="!production" value="latestAuditDate">Audit Date</option>
 <!--                            <option value="id">ID</option>-->
                           </select>
                         </div>
@@ -131,7 +132,15 @@
                       </div>
                     </div>
 
-                    <div class="" style="margin-left:auto; margin-right:0;">
+                    <div *ngIf="!production" class="uk-margin-auto-left uk-margin-remove-right">
+                      <div uk-tooltip="title:Get 10 randomly selected resources to audit.">
+                        <button class="uk-button uk-button-link" (click)="getRandomResources('10')">
+                          <i class="fa fa-check-circle-o uk-margin-small-right"></i>Audit
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="" style="margin-left:25px; margin-right:0;">
                       <button class="uk-button uk-button-link">
                         <i class="fa fa-download uk-margin-small-right"></i>Export to CSV
                       </button>
@@ -228,10 +237,17 @@
                                 <span class="statusLabel">Status: </span>{{ serviceBundle.active ? 'Active' : 'Inactive' }}
                               </div>
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Creation Date: </span>{{ serviceBundle.metadata.registeredAt | date }}
+                                <span class="statusLabel">Creation Date: </span>
+                                <ng-container *ngIf="serviceBundle.metadata.registeredAt>0; else noCreationDate">{{ serviceBundle.metadata.registeredAt | date }}</ng-container>
+                                <ng-template #noCreationDate><i>Unknown</i></ng-template>
                               </div>
                               <div class="uk-margin-small-top">
                                 <span class="statusLabel">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}
+                              </div>
+                              <div *ngIf="!production" class="uk-margin-small-top">
+                                <span class="statusLabel">Last Audit: </span>
+                                <ng-container *ngIf="serviceBundle.latestAuditInfo">{{ serviceBundle.latestAuditInfo.date | date}} - {{serviceBundle.latestAuditInfo.actionType | titlecase}}ated</ng-container>
+                                <ng-container *ngIf="!serviceBundle.latestAuditInfo"><i>Never audited</i></ng-container>
                               </div>
                             </div>
 
@@ -241,8 +257,8 @@
                                 <div *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlock">
                                   <button class="uk-button uk-button-action uk-display-block uk-margin-small-top"
                                           (click)="toggleService(serviceBundle)">
-                                    <ng-container *ngIf="serviceBundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
-                                    <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
+                                    <ng-container *ngIf="serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
+                                    <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
                                   </button>
                                 </div>
 
@@ -250,8 +266,8 @@
                                   <div uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
                                     <button class="uk-button uk-button-action uk-display-block uk-margin-small-top uk-disabled"
                                             (click)="toggleService(serviceBundle)">
-                                      <ng-container *ngIf="serviceBundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
-                                      <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
+                                      <ng-container *ngIf="serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
+                                      <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
                                     </button>
                                   </div>
                                 </ng-template>
@@ -271,6 +287,21 @@
                           </div>
                         </div>
 
+                        <ng-container *ngIf="!production">
+                          <hr class="uk-margin-top">
+                          <button
+                            class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc"
+                            (click)="showAuditModal('VALID', serviceBundle)">
+                            <i class="fa fa-check fa-lg"></i> Validate
+                          </button>
+                          <button
+                            class="uk-button uk-button-link uk-margin-medium-left"
+                            (click)="showAuditModal('INVALID', serviceBundle)">
+                            <i class="fa fa-close fa-lg"></i> Invalidate
+                          </button>
+                        </ng-container>
+
+<!--                        TODO: review-->
                         <ng-container *ngIf="hasCreatedFirstService(serviceBundle.id)">
                           <hr class="uk-margin-top">
                           <button routerLink="{{ getLinkToFirstService(serviceBundle.id) }}"
@@ -363,5 +394,39 @@
       {{ loadingMessage }}
     </div>
     <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
+<div id="validateModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <h4>Audit</h4>
+    <div *ngIf="selectedService">
+      <p>You are about to validate "{{ selectedService.service.name }}".</p>
+      <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
+    </div>
+    <form>
+      <div class="uk-margin">
+        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
+      </div>
+    </form>
+    <button class="uk-button uk-button-secondary uk-modal-close uk-align-right" type="submit" (click)="auditProviderAction('VALID')">Validate</button>
+    <!--    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>-->
+  </div>
+</div>
+
+<div id="invalidateModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <h4>Audit</h4>
+    <div *ngIf="selectedService">
+      <p>You are about to invalidate "{{ selectedService.service.name }}".</p>
+      <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
+    </div>
+    <form>
+      <div class="uk-margin">
+        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
+      </div>
+    </form>
+    <button class="uk-button uk-button-danger uk-modal-close uk-align-right" type="submit" (click)="auditProviderAction('INVALID')">Invalidate</button>
+    <!--    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>-->
   </div>
 </div>
