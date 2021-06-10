@@ -107,25 +107,16 @@
                         <div class="uk-inline">
                           <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
                             <option value="name" selected>Name</option>
-                            <option value="abbreviation">Abbreviation</option>
                             <option value="registeredAt">Creation Date</option>
                             <option value="modifiedAt">Modification Date</option>
-                            <option *ngIf="!production" value="latestAuditDate">Audit Date</option>
+                            <option value="abbreviation">Abbreviation</option>
                           </select>
                         </div>
                       </div>
 
                     </div>
 
-                    <div *ngIf="!production" class="uk-margin-auto-left uk-margin-remove-right">
-                      <div uk-tooltip="title:Get 10 randomly selected providers to audit.">
-                        <button class="uk-button uk-button-link" (click)="getRandomProviders('10')">
-                          <i class="fa fa-check-circle-o uk-margin-small-right"></i>Audit
-                        </button>
-                      </div>
-                    </div>
-
-                    <div class="" style="margin-left:25px; margin-right:0;">
+                    <div class="" style="margin-left:auto; margin-right:0;">
                       <button class="uk-button uk-button-link">
                         <i class="fa fa-download uk-margin-small-right"></i>Export to CSV
                       </button>
@@ -228,17 +219,10 @@
                                 <span class="statusLabel">Status: </span>{{ labels[statuses.indexOf(providerBundle.status)] | titlecase }}
                               </div>
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Creation Date: </span>
-                                <ng-container *ngIf="providerBundle.metadata.registeredAt>0; else noCreationDate">{{providerBundle.metadata.registeredAt | date}}</ng-container>
-                                <ng-template #noCreationDate><i>Unknown</i></ng-template>
+                                <span class="statusLabel">Creation Date: </span>{{ providerBundle.metadata.registeredAt | date }}
                               </div>
                               <div class="uk-margin-small-top">
                                 <span class="statusLabel">Last Update: </span>{{ providerBundle.metadata.modifiedAt | date }}
-                              </div>
-                              <div *ngIf="!production" class="uk-margin-small-top">
-                                <span class="statusLabel">Last Audit: </span>
-                                <ng-container *ngIf="providerBundle.latestAuditInfo">{{ providerBundle.latestAuditInfo.date | date}} - {{providerBundle.latestAuditInfo.actionType | titlecase}}ated</ng-container>
-                                <ng-container *ngIf="!providerBundle.latestAuditInfo"><i>Never audited</i></ng-container>
                               </div>
                             </div>
 
@@ -273,7 +257,7 @@
                                   <i class="fa fa-edit" aria-hidden="true"></i> Edit Provider
                                 </button>
                                 <button (click)="showDeletionModal(providerBundle)"
-                                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
+                                        class="uk-button uk-button-action uk-display-block uk-margin-small-top">
                                   <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete Provider
                                 </button>
                               </div>
@@ -311,20 +295,6 @@
                               <li class="uk-active"><a routerLink="/developers">Use API</a></li>
                             </ul>
                           </div>
-                        </ng-container>
-
-                        <ng-container *ngIf="providerBundle.status == 'approved' && !production">
-                          <hr class="uk-margin-top">
-                          <button
-                            class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc"
-                            (click)="showAuditModal('VALID', providerBundle)">
-                            <i class="fa fa-check fa-lg"></i> Validate
-                          </button>
-                          <button
-                            class="uk-button uk-button-link uk-margin-medium-left"
-                            (click)="showAuditModal('INVALID', providerBundle)">
-                            <i class="fa fa-close fa-lg"></i> Invalidate
-                          </button>
                         </ng-container>
 
                         <!--fixme what is active or not?-->
@@ -420,39 +390,5 @@
       <app-preview-resource [resource]="resourceToPreview" [vocabularies]="vocabularies" [providers]="providersPage.results"></app-preview-resource>
     </ng-container>
 
-  </div>
-</div>
-
-<div id="validateModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h4>Audit</h4>
-    <div *ngIf="selectedProvider">
-      <p>You are about to validate "{{ selectedProvider.provider.name }}".</p>
-      <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
-    </div>
-    <form>
-      <div class="uk-margin">
-        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
-      </div>
-    </form>
-    <button class="uk-button uk-button-secondary uk-modal-close uk-align-right" type="submit" (click)="auditProviderAction('VALID')">Validate</button>
-    <!--    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>-->
-  </div>
-</div>
-
-<div id="invalidateModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h4>Audit</h4>
-    <div *ngIf="selectedProvider">
-      <p>You are about to invalidate "{{ selectedProvider.provider.name }}".</p>
-      <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
-    </div>
-    <form>
-      <div class="uk-margin">
-        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
-      </div>
-    </form>
-    <button class="uk-button uk-button-danger uk-modal-close uk-align-right" type="submit" (click)="auditProviderAction('INVALID')">Invalidate</button>
-    <!--    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>-->
   </div>
 </div>

@@ -1,203 +1,133 @@
-<div class="uk-section uk-section-small">
-  <div class="uk-container uk-container-expand">
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom uk-padding-remove-top" style="min-height: 325px">
+  <div class="uk-container">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+        <h2 class="uk-h2 uk-text-center">Resources Statistics</h2>
 
-    <h2 class="uk-h2">Resources Statistics</h2>
+        <!--<h1 class="uk-h3">Statistics Dashboard</h1>-->
 
-    <div class="uk-margin-medium-top">
+        <!-- TOP HELP CONTENT -->
+        <app-help-content #topHelperContent [position]="'top'"
+                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </app-help-content>
 
-      <!--LAPTOP & PAD LANDSCAPE-->
-      <ul class="uk-visible@m uk-tab uk-tab-large uk-flex-left" data-uk-tab="{connect:'#team_tabbed',animation: 'slide-bottom'}">
-        <li class="uk-active" aria-expanded="true"><a (click)="changeView('general')">General</a></li>
-        <li aria-expanded="false"><a (click)="changeView('classification')">Classification</a></li>
-        <li aria-expanded="false"><a (click)="changeView('availability')">Usage & Availability</a></li>
-        <li aria-expanded="false"><a (click)="changeView('maturity')">Maturity</a></li>
-        <li aria-expanded="false"><a (click)="changeView('funder')">Funder</a></li>
-      </ul>
+        <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+          <div class="uk-grid">
 
-      <ul id="team_tabbed" class="uk-switcher dataContainer">
+            <!-- LEFT HELP CONTENT -->
+            <app-aside-help-content #leftHelperContent [position]="'left'"
+                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
 
-        <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
 
-          <div class="uk-grid uk-grid-match uk-grid-row-medium uk-margin-small-top uk-child-width-1-1@m uk-child-width-1-1@l uk-child-width-1-1@s">
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m">
 
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="onboardingTimelineChartURL" width="100%" height="350" [src]="onboardingTimelineChartURL"></iframe>
-                </div>
+              <div class="" style="min-height: 500px">
+
+                <ul class="uk-visible@m uk-tab uk-tab-large uk-flex-center uk-margin-remove-bottom" data-uk-tab="{connect:'#terminology_tabbed',animation: 'slide-bottom'}">
+                  <li class="uk-active" aria-expanded="true"><a>Geographical distribution of {{serviceORresource | lowercase}}s</a></li>
+                  <li aria-expanded="false"><a>Distribution of {{serviceORresource | lowercase}}s per {{serviceORresource | lowercase}} attribute</a></li>
+                </ul>
+
+                <ul id="terminology_tabbed" class="uk-switcher">
+                  <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
+                    <div class="uk-grid">
+                      <div *ngIf="!mapDistributionOfServicesOptions" class="uk-position-center uk-padding-large" style="z-index: 100">
+                        <div uk-spinner="ratio: 3"></div>
+                      </div>
+                      <div class="uk-width-1-1 uk-card">
+                        <div class="uk-card-body">
+                          <chart type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">
+                            <series (click)="onMapSeriesClick($event)">
+                            </series>
+                          </chart>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li aria-hidden="true" style="animation-duration: 200ms;">
+
+                    <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l uk-margin-medium-top">
+
+                      <div>
+                        <div class="uk-card">
+                          <div class="uk-card-body">
+                            <chart [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <div class="uk-card">
+                          <div class="uk-card-body">
+                            <chart [options]="domainsPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <div class="uk-card">
+                          <div class="uk-card-body">
+                            <chart [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <div class="uk-card">
+                          <div class="uk-card-body">
+                            <chart [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div>
+                        <div class="uk-card">
+                          <div class="uk-card-body">
+                            <chart [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <div class="uk-card">
+                          <div class="uk-card-body">
+                            <chart [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </li>
+                </ul>
+
+
               </div>
+
+
             </div>
 
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="byProviderChartURL" width="100%" height="450" [src]="byProviderChartURL"></iframe>
-                </div>
-              </div>
-            </div>
+            <!-- RIGHT HELP CONTENT -->
+            <app-aside-help-content #rightHelperContent [position]="'right'"
+                                    [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
 
           </div>
 
-        </li>
+          <!-- BOTTOM HELP CONTENT -->
+          <app-help-content #bottomHelperContent [position]="'bottom'"
+                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+          </app-help-content>
 
-        <li aria-hidden="true" style="animation-duration: 200ms;">
-          <div class="uk-grid uk-grid-match uk-grid-row-medium uk-margin-small-top uk-child-width-1-2@m uk-child-width-1-2@l uk-child-width-1-1@s">
-
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="byScientificDomainChartURL" width="100%" height="450" [src]="byScientificDomainChartURL"></iframe>
-                </div>
-              </div>
-            </div>
-
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="byScientificSubdomainChartURL" width="100%" height="450" [src]="byScientificSubdomainChartURL"></iframe>
-                </div>
-              </div>
-            </div>
-
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="byCategoryChartURL" width="100%" height="450" [src]="byCategoryChartURL"></iframe>
-                </div>
-              </div>
-            </div>
-
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="bySubcategoryChartURL" width="100%" height="450" [src]="bySubcategoryChartURL"></iframe>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </li>
-
-        <li aria-hidden="true" style="animation-duration: 200ms;">
-
-          <div class="uk-grid uk-grid-match uk-grid-row-medium uk-margin-small-top uk-child-width-1-3@m uk-child-width-1-3@l uk-child-width-1-1@s">
-
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="byAccessTypeChartURL" width="100%" height="450" [src]="byAccessTypeChartURL"></iframe>
-                </div>
-              </div>
-            </div>
-
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="byAccessModeChartURL" width="100%" height="450" [src]="byAccessModeChartURL"></iframe>
-                </div>
-              </div>
-            </div>
-
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="byOrderTypeChartURL" width="100%" height="450" [src]="byOrderTypeChartURL"></iframe>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="uk-grid uk-grid-match uk-grid-row-medium uk-margin-small-top uk-child-width-1-2@m uk-child-width-1-2@l uk-child-width-1-1@s">
-
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="byTargetUsersChartURL" width="100%" height="450" [src]="byTargetUsersChartURL"></iframe>
-                </div>
-              </div>
-            </div>
-
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="byLanguageChartURL" width="100%" height="450" [src]="byLanguageChartURL"></iframe>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="uk-grid uk-grid-match uk-grid-row-medium uk-margin-small-top uk-child-width-1-1@m uk-child-width-1-1@l uk-child-width-1-1@s">
-
-            <div class="uk-grid-margin">
-
-              <div *ngIf="!mapDistributionOfServicesOptions" class="uk-position-center uk-padding-large" style="z-index: 100">
-                <div uk-spinner="ratio: 3"></div>
-              </div>
-              <div class="uk-width-1-1 uk-card chartCard">
-                <div class="uk-card-body">
-                  <chart type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">
-                    <series (click)="onMapSeriesClick($event)">
-                    </series>
-                  </chart>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-        </li>
-
-        <li aria-hidden="true" style="animation-duration: 200ms;">
-          <div class="uk-grid uk-grid-match uk-grid-row-medium uk-margin-small-top uk-child-width-1-2@m uk-child-width-1-2@l uk-child-width-1-1@s">
-
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="byTRLChartURL" width="100%" height="450" [src]="byTRLChartURL"></iframe>
-                </div>
-              </div>
-            </div>
-
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="byLifecycleChartURL" width="100%" height="450" [src]="byLifecycleChartURL"></iframe>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </li>
-
-        <li aria-hidden="true" style="animation-duration: 200ms;">
-          <div class="uk-grid uk-grid-match uk-grid-row-medium uk-margin-small-top uk-child-width-1-2@m uk-child-width-1-2@l uk-child-width-1-1@s">
-
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="byFundingBodyChartURL" width="100%" height="450" [src]="byFundingBodyChartURL"></iframe>
-                </div>
-              </div>
-            </div>
-
-            <div class="uk-grid-margin">
-              <div class="uk-card chartCard">
-                <div class="uk-card-body">
-                  <iframe *ngIf="byFundingProgramChartURL" width="100%" height="450" [src]="byFundingProgramChartURL"></iframe>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </li>
-      </ul>
-
+        </div>
+      </div>
     </div>
-
   </div>
 </div>
+
 
 <div id="servicesPerCountryModal" uk-modal>
 

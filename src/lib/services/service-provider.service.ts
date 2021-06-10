@@ -31,26 +31,22 @@ export class ServiceProviderService {
     return url;
   }
 
-  createNewServiceProvider(newProvider: any, comment: string) {
+  createNewServiceProvider(newProvider: any) {
     // console.log(`knocking on: ${this.base}/provider`);
     return this.http.post(this.base + '/provider', newProvider, this.options);
   }
 
-  updateServiceProvider(updatedFields: any, comment: string): Observable<Provider> {
-    console.log(`knocking on: ${this.base}/provider`);
-    return this.http.put<Provider>(this.base + `/provider?comment=${comment}`, updatedFields, this.options);
+  updateServiceProvider(updatedFields: any): Observable<Provider> {
+    // console.log(`knocking on: ${this.base}/provider`);
+    return this.http.put<Provider>(this.base + '/provider', updatedFields, this.options);
   }
 
-  updateAndPublishPendingProvider(updatedFields: any, comment: string): Observable<Provider> {
+  updateAndPublishPendingProvider(updatedFields: any): Observable<Provider> {
     return this.http.put<Provider>(this.base + '/pendingProvider/transform/active', updatedFields, this.options);
   }
 
   verifyServiceProvider(id: string, active: boolean, status: string) {
     return this.http.patch(this.base + `/provider/verifyProvider/${id}?active=${active}&status=${status}`, {}, this.options);
-  }
-
-  auditProvider(id: string, action: string, comment: string) {
-    return this.http.patch(this.base + `/provider/auditProvider/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
   requestProviderDeletion(id: string) {
@@ -67,10 +63,6 @@ export class ServiceProviderService {
 
   getMyServiceProviders() {
     return this.http.get<ProviderBundle[]>(this.base + '/provider/getMyServiceProviders', this.options);
-  }
-
-  getRandomProviders(quantity: string) {
-    return this.http.get<ProviderBundle[]>(this.base + `/provider/randomProviders?quantity=${quantity}`, this.options);
   }
 
   getServiceProviderBundleById(id: string) {

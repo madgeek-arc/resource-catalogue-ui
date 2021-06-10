@@ -21,7 +21,6 @@ declare var UIkit: any;
 export class ResourcesListComponent implements OnInit {
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
-  production = environment.production;
 
   formPrepare = {
     query: '',
@@ -36,8 +35,6 @@ export class ResourcesListComponent implements OnInit {
   dataForm: FormGroup;
 
   urlParams: URLParameter[] = [];
-
-  commentControl = new FormControl();
 
   errorMessage: string;
   loadingMessage = '';
@@ -195,28 +192,6 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  getRandomResources(quantity: string) {
-    this.loadingMessage = 'Loading ' + this.serviceORresource + 's...';
-    this.services = [];
-    this.resourceService.getRandomResources(quantity).subscribe(
-      res => {
-        this.services = res['results'];
-        this.facets = res['facets'];
-        this.total = res['total'];
-        // this.total = +quantity;
-        this.paginationInit();
-      },
-      err => {
-        console.log(err);
-        this.errorMessage = 'The list could not be retrieved';
-        this.loadingMessage = '';
-      },
-      () => {
-        this.loadingMessage = '';
-      }
-    );
-  }
-
   isProviderActive(id: string) {
     let active = false;
     for (let i = 0; this.providers[i]; i++ ) {
@@ -350,26 +325,6 @@ export class ResourcesListComponent implements OnInit {
         UIkit.modal('#spinnerModal').hide();
       }
     );
-  }
-
-  showAuditModal(action: string, resource: InfraService) {
-    this.selectedService = resource;
-    if (action === 'VALID') {
-      UIkit.modal('#validateModal').show();
-    } else if (action === 'INVALID') {
-      UIkit.modal('#invalidateModal').show();
-    }
-  }
-
-  auditProviderAction(action: string) {
-    this.resourceService.auditResource(this.selectedService.id, action, this.commentControl.value)
-      .subscribe(
-        res => {
-          this.getServices();
-        },
-        err => { console.log(err); },
-        () => {}
-      );
   }
 
   hasCreatedFirstService(id: string) {
