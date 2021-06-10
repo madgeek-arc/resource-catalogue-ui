@@ -6,7 +6,11 @@ import { NavigationService } from '../../services/navigation.service';
 import {Provider} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import * as Highcharts from 'highcharts';
+import MapModule from 'highcharts/modules/map';
+MapModule(Highcharts);
 
+const mapWorld = require('@highcharts/map-collection/custom/world.geo.json');
+declare var require: any;
 declare var UIkit: any;
 
 
@@ -183,12 +187,11 @@ export class ResourcesStatsComponent implements OnInit {
   }
 
   setMapDistributionOfServices(mapData: any) {
-
+    console.log(mapData);
     if (mapData) {
-
       this.mapDistributionOfServicesOptions = {
         chart: {
-          map: 'custom/world-highres2',
+          map: mapWorld,
           // map: 'custom/world',
           height: (3 / 4 * 100) + '%', // 3:4 ratio
         },

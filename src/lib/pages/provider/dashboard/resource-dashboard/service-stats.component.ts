@@ -10,6 +10,13 @@ import {Paging} from '../../../../domain/paging';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
+import * as Highcharts from 'highcharts';
+import MapModule from 'highcharts/modules/map';
+MapModule(Highcharts);
+
+declare var require: any;
+// const mapWorld = require('@highcharts/map-collection/custom/world.geo.json');
+const mapWorld = require('@highcharts/map-collection/custom/world.geo.json');
 
 @Component({
   selector: 'app-service-dashboard',
@@ -29,6 +36,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
   public EU: string[];
   public WW: string[];
 
+  Highcharts: typeof Highcharts = Highcharts;
   serviceVisitsOptions: any = null;
   serviceRatingsOptions: any = null;
   serviceFavouritesOptions: any = null;
@@ -274,7 +282,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
     this.serviceMapOptions = {
       chart: {
         // map: 'custom/europe',
-        map: 'custom/world-highres2',
+        map: mapWorld,
         // borderWidth: 1
       },
       title: {

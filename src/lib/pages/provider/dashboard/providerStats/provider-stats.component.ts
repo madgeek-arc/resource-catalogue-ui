@@ -11,7 +11,11 @@ import {map} from 'rxjs/operators';
 import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
 import * as Highcharts from 'highcharts';
+import MapModule from 'highcharts/modules/map';
+MapModule(Highcharts);
 
+const mapWorld = require('@highcharts/map-collection/custom/world.geo.json');
+declare var require: any;
 declare var UIkit: any;
 
 
@@ -610,7 +614,7 @@ export class ProviderStatsComponent implements OnInit {
 
       this.mapDistributionOfServicesOptions = {
         chart: {
-          map: 'custom/world-highres2',
+          map: mapWorld,
           // map: 'custom/world',
           height: (3 / 4 * 100) + '%', // 3:4 ratio
         },

@@ -38,10 +38,12 @@
                       </div>
                       <div class="uk-width-1-1 uk-card">
                         <div class="uk-card-body">
-                          <chart type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">
-                            <series (click)="onMapSeriesClick($event)">
-                            </series>
-                          </chart>
+<!--                          <highcharts-chart [Highcharts]="Highcharts"-->
+<!--                                            [options]="mapDistributionOfServicesOptions"-->
+<!--                                            style="width: 100%; display: block;">-->
+<!--&lt;!&ndash;                            <series (click)="onMapSeriesClick($event)">&ndash;&gt;-->
+<!--&lt;!&ndash;                            </series>&ndash;&gt;-->
+<!--                          </highcharts-chart>-->
                         </div>
                       </div>
                     </div>
@@ -54,7 +56,7 @@
                       <div>
                         <div class="uk-card">
                           <div class="uk-card-body">
-                            <chart [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                            <highcharts-chart [Highcharts]="Highcharts" [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
                           </div>
                         </div>
                       </div>
@@ -62,7 +64,7 @@
                       <div>
                         <div class="uk-card">
                           <div class="uk-card-body">
-                            <chart [options]="domainsPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                            <highcharts-chart [Highcharts]="Highcharts" [options]="domainsPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
                           </div>
                         </div>
                       </div>
@@ -70,7 +72,7 @@
                       <div>
                         <div class="uk-card">
                           <div class="uk-card-body">
-                            <chart [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                            <highcharts-chart [Highcharts]="Highcharts" [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
                           </div>
                         </div>
                       </div>
@@ -78,7 +80,7 @@
                       <div>
                         <div class="uk-card">
                           <div class="uk-card-body">
-                            <chart [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                            <highcharts-chart [Highcharts]="Highcharts" [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
                           </div>
                         </div>
                       </div>
@@ -87,7 +89,7 @@
                       <div>
                         <div class="uk-card">
                           <div class="uk-card-body">
-                            <chart [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                            <highcharts-chart [Highcharts]="Highcharts" [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
                           </div>
                         </div>
                       </div>
@@ -95,7 +97,7 @@
                       <div>
                         <div class="uk-card">
                           <div class="uk-card-body">
-                            <chart [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                            <highcharts-chart [Highcharts]="Highcharts" [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
                           </div>
                         </div>
                       </div>
