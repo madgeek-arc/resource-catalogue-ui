@@ -10,6 +10,7 @@ import {InfraService, Provider, ProviderBundle} from '../../../../domain/eic-mod
 import {map} from 'rxjs/operators';
 import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
+import * as Highcharts from 'highcharts';
 
 declare var UIkit: any;
 
@@ -55,6 +56,7 @@ export class ProviderStatsComponent implements OnInit {
   selectedCountryName: string = null;
   selectedCountryServices: any = null;
   geographicalDistributionMap: any = null;
+  Highcharts: typeof Highcharts = Highcharts;
 
   constructor(
     public authenticationService: AuthenticationService,

@@ -5,6 +5,7 @@ import { ResourceService } from '../../services/resource.service';
 import { NavigationService } from '../../services/navigation.service';
 import {Provider} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
+import * as Highcharts from 'highcharts';
 
 declare var UIkit: any;
 
@@ -26,6 +27,7 @@ export class ResourcesStatsComponent implements OnInit {
   public EU: string[];
   public WW: string[];
 
+  Highcharts: typeof Highcharts = Highcharts;
   mapDistributionOfServicesOptions: any = null;
   categoriesPerServiceForProvider: any = null;
   domainsPerServiceForProvider: any = null;

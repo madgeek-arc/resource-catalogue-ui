@@ -23,7 +23,6 @@ import {UpdateServiceProviderComponent} from '../lib/pages/provider/update-servi
 import {ReusableComponentsModule} from '../lib/shared/reusablecomponents/reusable-components.module';
 import {ServiceProviderService} from '../lib/services/service-provider.service';
 import {ServiceProvidersListComponent} from '../lib/pages/admin/service-providers-list.component';
-import {HighchartsChartComponent, HighchartsChartModule} from 'highcharts-angular';
 import {SupportModule} from '../lib/pages/support/support.module';
 import {ServiceStatsComponent} from '../lib/pages/provider/dashboard/resource-dashboard/service-stats.component';
 import {MyFavouritesComponent} from '../lib/pages/user/favourites/my-favourites.component';
@@ -52,6 +51,8 @@ import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provide
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
 import {MatomoModule} from 'ngx-matomo-v9';
 import {MarkdownModule} from "ngx-markdown";
+import {HighchartsChartModule} from "highcharts-angular";
+
 
 
 declare var require: any;
@@ -143,10 +144,6 @@ export function highchartsFactory() {
     UserService,
     ServiceProviderService,
     EmailService,
-    {
-      provide: HighchartsChartComponent,
-      useFactory: highchartsFactory
-    },
     DatePipe
   ],
   exports: [
