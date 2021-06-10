@@ -39,11 +39,14 @@ export class ServiceProvidersListComponent implements OnInit {
 
   commentControl = new FormControl();
   auditingProviderId: string;
+  showValidateForm = false;
+  showInvalidateForm = false;
 
   errorMessage: string;
   loadingMessage = '';
 
   providers: ProviderBundle[] = [];
+  providersForAudit: ProviderBundle[] = [];
   selectedProvider: ProviderBundle;
   newStatus: string;
   pushedApprove: boolean;
@@ -300,13 +303,13 @@ export class ServiceProvidersListComponent implements OnInit {
 
   getRandomProviders(quantity: string) {
     this.loadingMessage = 'Loading Providers...';
-    this.providers = [];
+    this.providersForAudit = [];
     this.serviceProviderService.getRandomProviders(quantity).subscribe(
       res => {
-        this.providers = res['results'];
-        this.total = res['total'];
+        this.providersForAudit = res['results'];
+        // this.total = res['total'];
         // this.total = +quantity;
-        this.paginationInit();
+        // this.paginationInit();
       },
       err => {
         console.log(err);
@@ -315,7 +318,7 @@ export class ServiceProvidersListComponent implements OnInit {
       },
       () => {
         this.loadingMessage = '';
-        this.providers.forEach(
+        this.providersForAudit.forEach(
           p => {
             if ((p.status === 'pending template approval') ||
               (p.status === 'rejected template')) {
@@ -437,14 +440,33 @@ export class ServiceProvidersListComponent implements OnInit {
       }
   }
 
+  auditFromSideView(action: string, provider: ProviderBundle) {
+    this.selectedProvider = provider;
+    if (action === 'VALID') {
+      this.showValidateForm = true;
+    } else if (action === 'INVALID') {
+      this.showInvalidateForm = true;
+    }
+  }
+
+  resetSideView() {
+    this.showValidateForm = false;
+    this.showInvalidateForm = false;
+    this.commentControl.reset();
+  }
+
   auditProviderAction(action: string) {
     this.serviceProviderService.auditProvider(this.selectedProvider.id, action, this.commentControl.value)
       .subscribe(
         res => {
-          this.getProviders();
+          if (!this.showValidateForm && !this.showInvalidateForm) {
+            this.getProviders();
+          }
         },
         err => { console.log(err); },
-        () => {}
+        () => {
+          this.resetSideView();
+        }
       );
   }
 

@@ -1100,3 +1100,72 @@ a[class*="wk-"]:hover {
 /*.uk-tab::before {*/
   /*border-bottom: none;*/
 /*}*/
+
+/* ========================
+        Audit overlay
+ ========================== */
+
+.audit-overlay-toolbar {
+  position: fixed;
+  z-index: 100;
+  right: 0;
+  top: 33%;
+}
+
+.audit-overlay-button {
+  background-color: #fff;
+  padding: 0;
+}
+
+.audit-overlay-button span {
+  background-color: #DEDEDE;
+  border-radius: 2px;
+  padding: 7px;
+}
+
+.audit-overlay-button span i {
+  color: #6299EC;
+}
+
+.offcanvas-audit {
+  /*padding-top: 150px;*/
+  left: 320px;
+  z-index: 1200;
+}
+
+.offcanvas-audit .uk-offcanvas-bar.uk-light {
+  width: 800px;
+  background: #F9F9F9 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  color: #000;
+  opacity: 1;
+}
+
+.uk-light hr {
+  border-top-color: #ddd;
+}
+
+.offcanvas-audit .uk-offcanvas-bar h4 {
+  font: Bold 18px/24px "Open Sans";
+  letter-spacing: 0;
+  color: #000000;
+  opacity: 0.8;
+}
+
+.offcanvas-audit .uk-offcanvas-bar h5 {
+  font-weight: 400;
+  font-size: 18px;
+  font-family: "Open Sans", sans-serif;
+  letter-spacing: 0;
+  color: #000000;
+  opacity: 1;
+}
+
+.offcanvas-audit .uk-offcanvas-bar a {
+  color: #6299EC;
+}
+
+.offcanvas-audit .uk-offcanvas-bar textarea {
+  color: #000000 !important;
+}
+
