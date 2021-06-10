@@ -23,8 +23,7 @@ import {UpdateServiceProviderComponent} from '../lib/pages/provider/update-servi
 import {ReusableComponentsModule} from '../lib/shared/reusablecomponents/reusable-components.module';
 import {ServiceProviderService} from '../lib/services/service-provider.service';
 import {ServiceProvidersListComponent} from '../lib/pages/admin/service-providers-list.component';
-import {HighchartsStatic} from 'angular2-highcharts/dist/HighchartsService';
-import {ChartModule} from 'angular2-highcharts';
+import {HighchartsChartComponent, HighchartsChartModule} from 'highcharts-angular';
 import {SupportModule} from '../lib/pages/support/support.module';
 import {ServiceStatsComponent} from '../lib/pages/provider/dashboard/resource-dashboard/service-stats.component';
 import {MyFavouritesComponent} from '../lib/pages/user/favourites/my-favourites.component';
@@ -123,7 +122,7 @@ export function highchartsFactory() {
     UserModule,
     // ProviderModule,
     // ProviderDashboardModule,
-    ChartModule,
+    HighchartsChartModule,
     CookieLawModule,
     MatomoModule,
     MarkdownModule.forRoot(),
@@ -145,7 +144,7 @@ export function highchartsFactory() {
     ServiceProviderService,
     EmailService,
     {
-      provide: HighchartsStatic,
+      provide: HighchartsChartComponent,
       useFactory: highchartsFactory
     },
     DatePipe
