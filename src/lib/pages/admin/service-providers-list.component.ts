@@ -39,8 +39,8 @@ export class ServiceProvidersListComponent implements OnInit {
 
   commentControl = new FormControl();
   auditingProviderId: string;
-  showValidateForm = false;
-  showInvalidateForm = false;
+  showSideAuditForm = false;
+  showMainAuditForm = false;
 
   errorMessage: string;
   loadingMessage = '';
@@ -440,18 +440,13 @@ export class ServiceProvidersListComponent implements OnInit {
       }
   }
 
-  auditFromSideView(action: string, provider: ProviderBundle) {
+  showAuditForm(provider: ProviderBundle) {
     this.selectedProvider = provider;
-    if (action === 'VALID') {
-      this.showValidateForm = true;
-    } else if (action === 'INVALID') {
-      this.showInvalidateForm = true;
-    }
+    this.showSideAuditForm = true;
   }
 
   resetSideView() {
-    this.showValidateForm = false;
-    this.showInvalidateForm = false;
+    this.showSideAuditForm = false;
     this.commentControl.reset();
   }
 
@@ -459,7 +454,7 @@ export class ServiceProvidersListComponent implements OnInit {
     this.serviceProviderService.auditProvider(this.selectedProvider.id, action, this.commentControl.value)
       .subscribe(
         res => {
-          if (!this.showValidateForm && !this.showInvalidateForm) {
+          if (!this.showSideAuditForm) {
             this.getProviders();
           }
         },
