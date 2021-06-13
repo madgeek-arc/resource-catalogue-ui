@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/c
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
-import {Provider, ProviderBundle, Service, Type, Vocabulary} from '../../domain/eic-model';
+import {LoggingInfo, Provider, ProviderBundle, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -11,6 +11,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 import {Paging} from '../../domain/paging';
 import {zip} from 'rxjs/internal/observable/zip';
+import {getLocaleDateFormat} from '@angular/common';
 
 declare var UIkit: any;
 
@@ -38,9 +39,10 @@ export class ServiceProvidersListComponent implements OnInit {
   urlParams: URLParameter[] = [];
 
   commentControl = new FormControl();
-  auditingProviderId: string;
+  // auditingProviderId: string;
   showSideAuditForm = false;
   showMainAuditForm = false;
+  initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userRole: '', type: '', comment: '', actionType: ''};
 
   errorMessage: string;
   loadingMessage = '';
@@ -460,6 +462,15 @@ export class ServiceProvidersListComponent implements OnInit {
         },
         err => { console.log(err); },
         () => {
+          this.providersForAudit.forEach(
+            p => {
+              if (p.id === this.selectedProvider.id) {
+                p.latestAuditInfo = this.initLatestAuditInfo;
+                p.latestAuditInfo.date = Date.now().toString();
+                p.latestAuditInfo.actionType = action;
+              }
+            }
+          );
           this.resetSideView();
         }
       );
@@ -531,7 +542,7 @@ export class ServiceProvidersListComponent implements OnInit {
   checkAll(check: boolean) {
 
     const formArray: FormArray = this.dataForm.get('status') as FormArray;
-    if (check){
+    if (check) {
       formArray.controls.length = 0;
       for (let i = 0; i < this.statuses.length; i++) {
         formArray.push(new FormControl(this.statuses[i]));
