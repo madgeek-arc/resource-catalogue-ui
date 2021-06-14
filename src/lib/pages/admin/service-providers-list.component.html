@@ -192,14 +192,7 @@
 
                         <div class="">
                           <div class="uk-grid">
-                            <div class="uk-width-1-5">
-                              <div>
-                                <img class="el-image uk-border-rounded"
-                                     src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
-                              </div>
-                            </div>
-
-                            <div class="uk-width-3-5">
+                            <div class="uk-width-4-5">
                               <div class="providerName">
                                 <span *ngIf="providerBundle.status!=='approved'" class="uk-margin-auto-vertical">
                                   <h5 class="uk-display-inline-block" data-uk-tooltip
@@ -243,41 +236,48 @@
                             </div>
 
                             <div class="uk-width-1-5">
-                              <div class="action-buttons">
-
-                                <ng-container *ngIf="((providerBundle.status !== 'pending template approval')
-                                                      && (providerBundle.status !== 'rejected template'))
-                                                      || (hasCreatedFirstService(providerBundle.id))">
-                                  <button *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"
-                                     (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true)"
-                                          class="uk-button uk-button-action uk-display-block">
-                                    <i aria-hidden="true" class="fa fa-thumbs-up"></i>
-                                    {{ adminActionsMap[providerBundle.status].appButtonTitle }}
-                                  </button>
-                                  <button *ngIf="(providerBundle.status === 'approved') && (!providerBundle.active)"
-                                     (click)="showActionModal(providerBundle, 'approved', true)"
-                                          class="uk-button uk-button-action uk-display-block uk-margin-small-top">
-                                    <i aria-hidden="true" class="fa fa-thumbs-up"></i> Activate
-                                  </button>
-                                </ng-container>
-                                <button *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||
-                                        ((providerBundle.status !== 'approved') && (adminActionsMap[providerBundle.status]
-                                        && adminActionsMap[providerBundle.status].rejButtonTitle))"
-                                      (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)"
-                                        class="uk-button uk-button-action uk-display-block uk-margin-small-top">
-                                  <i class="fa fa-thumbs-down " aria-hidden="true"></i>
-                                  {{ adminActionsMap[providerBundle.status].rejButtonTitle }}
-                                </button>
-                                <button [routerLink]="['/provider/update/', providerBundle.id]"
-                                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
-                                  <i class="fa fa-edit" aria-hidden="true"></i> Edit Provider
-                                </button>
-                                <button (click)="showDeletionModal(providerBundle)"
-                                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
-                                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete Provider
-                                </button>
+                              <div>
+                                <img class="el-image uk-border-rounded"
+                                     src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
                               </div>
                             </div>
+
+<!--                            <div class="uk-width-1-5">-->
+<!--                              <div class="action-buttons">-->
+
+<!--                                <ng-container *ngIf="((providerBundle.status !== 'pending template approval')-->
+<!--                                                      && (providerBundle.status !== 'rejected template'))-->
+<!--                                                      || (hasCreatedFirstService(providerBundle.id))">-->
+<!--                                  <button *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"-->
+<!--                                     (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true)"-->
+<!--                                          class="uk-button uk-button-action uk-display-block">-->
+<!--                                    <i aria-hidden="true" class="fa fa-thumbs-up"></i>-->
+<!--                                    {{ adminActionsMap[providerBundle.status].appButtonTitle }}-->
+<!--                                  </button>-->
+<!--                                  <button *ngIf="(providerBundle.status === 'approved') && (!providerBundle.active)"-->
+<!--                                     (click)="showActionModal(providerBundle, 'approved', true)"-->
+<!--                                          class="uk-button uk-button-action uk-display-block uk-margin-small-top">-->
+<!--                                    <i aria-hidden="true" class="fa fa-thumbs-up"></i> Activate-->
+<!--                                  </button>-->
+<!--                                </ng-container>-->
+<!--                                <button *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||-->
+<!--                                        ((providerBundle.status !== 'approved') && (adminActionsMap[providerBundle.status]-->
+<!--                                        && adminActionsMap[providerBundle.status].rejButtonTitle))"-->
+<!--                                      (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)"-->
+<!--                                        class="uk-button uk-button-action uk-display-block uk-margin-small-top">-->
+<!--                                  <i class="fa fa-thumbs-down " aria-hidden="true"></i>-->
+<!--                                  {{ adminActionsMap[providerBundle.status].rejButtonTitle }}-->
+<!--                                </button>-->
+<!--                                <button [routerLink]="['/provider/update/', providerBundle.id]"-->
+<!--                                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">-->
+<!--                                  <i class="fa fa-edit" aria-hidden="true"></i> Edit Provider-->
+<!--                                </button>-->
+<!--                                <button (click)="showDeletionModal(providerBundle)"-->
+<!--                                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">-->
+<!--                                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete Provider-->
+<!--                                </button>-->
+<!--                              </div>-->
+<!--                            </div>-->
                           </div>
                         </div>
 
