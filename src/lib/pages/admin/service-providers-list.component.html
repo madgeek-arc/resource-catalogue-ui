@@ -316,15 +316,25 @@
                         <ng-container *ngIf="providerBundle.status == 'approved' && !production">
                           <hr class="uk-margin-top">
                           <button
-                            class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc"
-                            (click)="showAuditModal('VALID', providerBundle)">
-                            <i class="fa fa-check fa-lg"></i> Validate
-                          </button>
-                          <button
                             class="uk-button uk-button-link uk-margin-medium-left"
-                            (click)="showAuditModal('INVALID', providerBundle)">
-                            <i class="fa fa-close fa-lg"></i> Invalidate
+                            (click)="showAuditForm('main', providerBundle)">
+                            <i class="fa fa-check-circle-o fa-lg"></i> Audit
                           </button>
+                          <div *ngIf="showMainAuditForm && selectedProvider === providerBundle">
+                            <hr>
+                            <div>
+                              <p>You are about to audit "{{ selectedProvider.provider.name }}".</p>
+                              <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
+                            </div>
+                            <form>
+                              <div class="uk-margin">
+                                <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
+                              </div>
+                            </form>
+                            <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetAuditView()">Close</button>
+                            <button class="uk-button uk-button-secondary uk-align-right" type="submit" (click)="auditProviderAction('VALID')">Validate</button>
+                            <button class="uk-button uk-button-danger uk-align-right" type="submit" (click)="auditProviderAction('INVALID')">Invalidate</button>
+                          </div>
                         </ng-container>
 
                         <!--fixme what is active or not?-->
@@ -423,41 +433,6 @@
   </div>
 </div>
 
-<div id="validateModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h4>Audit</h4>
-    <div *ngIf="selectedProvider">
-      <p>You are about to validate "{{ selectedProvider.provider.name }}".</p>
-      <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
-    </div>
-    <form>
-      <div class="uk-margin">
-        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
-      </div>
-    </form>
-    <button class="uk-button uk-button-secondary uk-modal-close uk-align-right" type="submit" (click)="auditProviderAction('VALID')">Validate</button>
-    <!--    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>-->
-  </div>
-</div>
-
-<div id="invalidateModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h4>Audit</h4>
-    <div *ngIf="selectedProvider">
-      <p>You are about to invalidate "{{ selectedProvider.provider.name }}".</p>
-      <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
-    </div>
-    <form>
-      <div class="uk-margin">
-        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
-      </div>
-    </form>
-    <button class="uk-button uk-button-danger uk-modal-close uk-align-right" type="submit" (click)="auditProviderAction('INVALID')">Invalidate</button>
-    <!--    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>-->
-  </div>
-</div>
-
-
 <div class="audit-overlay-toolbar uk-animation-scale-up ng-star-inserted">
   <button class="uk-button audit-overlay-button" type="button" uk-toggle="target: #offcanvas-overlay" (click)="getRandomProviders('10')">
     <span class=""><i class="fa fa-check-circle-o fa-lg"></i></span>
@@ -467,7 +442,7 @@
 <div class="offcanvas-audit" id="offcanvas-overlay" uk-offcanvas="flip: true; overlay: true; esc-close: true; bg-close: false">
   <div class="uk-offcanvas-bar uk-light">
 
-    <button class="uk-offcanvas-close" type="button" uk-close style="color:#000000;" (click)="resetSideView()"></button>
+    <button class="uk-offcanvas-close" type="button" uk-close style="color:#000000;" (click)="resetAuditView()"></button>
 <!--    <button *ngIf="showValidateForm || showInvalidateForm" class="fa fa-arrow-left" type="button" style="color:#000000;" (click)="resetSideView()"></button>-->
 
     <h4>Audit Providers</h4>
@@ -617,7 +592,7 @@
           <hr class="uk-margin-top">
           <button
             class="uk-button uk-button-link uk-margin-medium-left"
-            (click)="showAuditForm(providerBundle)">
+            (click)="showAuditForm('side', providerBundle)">
             <i class="fa fa-check-circle-o fa-lg"></i> Audit
           </button>
           <div *ngIf="showSideAuditForm && selectedProvider === providerBundle">
@@ -631,9 +606,9 @@
                 <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
               </div>
             </form>
-            <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetSideView()">Close</button>
-            <button class="uk-button uk-button-secondary uk-modal-close uk-align-right" type="submit" (click)="auditProviderAction('VALID')">Validate</button>
-            <button class="uk-button uk-button-danger uk-modal-close uk-align-right" type="submit" (click)="auditProviderAction('INVALID')">Invalidate</button>
+            <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetAuditView()">Close</button>
+            <button class="uk-button uk-button-secondary uk-align-right" type="submit" (click)="auditProviderAction('VALID')">Validate</button>
+            <button class="uk-button uk-button-danger uk-align-right" type="submit" (click)="auditProviderAction('INVALID')">Invalidate</button>
           </div>
         </ng-container>
 

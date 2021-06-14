@@ -433,23 +433,19 @@ export class ServiceProvidersListComponent implements OnInit {
       );
   }
 
-  showAuditModal(action: string, provider: ProviderBundle) {
-    this.selectedProvider = provider;
-    if (action === 'VALID') {
-      UIkit.modal('#validateModal').show();
-    } else if (action === 'INVALID') {
-        UIkit.modal('#invalidateModal').show();
-      }
-  }
-
-  showAuditForm(provider: ProviderBundle) {
+  showAuditForm(view: string, provider: ProviderBundle) {
     this.commentControl.reset();
     this.selectedProvider = provider;
-    this.showSideAuditForm = true;
+    if (view === 'side') {
+      this.showSideAuditForm = true;
+    } else if (view === 'main') {
+      this.showMainAuditForm = true;
+    }
   }
 
-  resetSideView() {
+  resetAuditView() {
     this.showSideAuditForm = false;
+    this.showMainAuditForm = false;
     this.commentControl.reset();
   }
 
@@ -472,7 +468,7 @@ export class ServiceProvidersListComponent implements OnInit {
               }
             }
           );
-          this.resetSideView();
+          this.resetAuditView();
         }
       );
   }
