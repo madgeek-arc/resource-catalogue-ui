@@ -443,6 +443,7 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   showAuditForm(provider: ProviderBundle) {
+    this.commentControl.reset();
     this.selectedProvider = provider;
     this.showSideAuditForm = true;
   }
