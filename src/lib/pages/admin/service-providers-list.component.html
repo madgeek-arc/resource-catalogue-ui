@@ -539,7 +539,7 @@
               </div>
             </div>
 
-            <div class="uk-width-2-5">
+            <div class="uk-width-4-5">
               <div class="providerName">
                                 <span *ngIf="providerBundle.status!=='approved'" class="uk-margin-auto-vertical">
                                   <h5 class="uk-display-inline-block" data-uk-tooltip
@@ -582,84 +582,82 @@
               </div>
             </div>
 
-            <div class="uk-width-2-5">
-              <div class="action-buttons">
+<!--            <div class="uk-width-2-5">-->
+<!--              <div class="action-buttons">-->
 
-                <ng-container *ngIf="((providerBundle.status !== 'pending template approval')
-                                                      && (providerBundle.status !== 'rejected template'))
-                                                      || (hasCreatedFirstService(providerBundle.id))">
-                  <button *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"
-                          (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true)"
-                          class="uk-button uk-button-action uk-display-block">
-                    <i aria-hidden="true" class="fa fa-thumbs-up"></i>
-                    {{ adminActionsMap[providerBundle.status].appButtonTitle }}
-                  </button>
-                  <button *ngIf="(providerBundle.status === 'approved') && (!providerBundle.active)"
-                          (click)="showActionModal(providerBundle, 'approved', true)"
-                          class="uk-button uk-button-action uk-display-block uk-margin-small-top">
-                    <i aria-hidden="true" class="fa fa-thumbs-up"></i> Activate
-                  </button>
-                </ng-container>
-                <button *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||
-                                        ((providerBundle.status !== 'approved') && (adminActionsMap[providerBundle.status]
-                                        && adminActionsMap[providerBundle.status].rejButtonTitle))"
-                        (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)"
-                        class="uk-button uk-button-action uk-display-block uk-margin-small-top">
-                  <i class="fa fa-thumbs-down " aria-hidden="true"></i>
-                  {{ adminActionsMap[providerBundle.status].rejButtonTitle }}
-                </button>
-                <button [routerLink]="['/provider/update/', providerBundle.id]"
-                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
-                  <i class="fa fa-edit" aria-hidden="true"></i> Edit Provider
-                </button>
-                <button (click)="showDeletionModal(providerBundle)"
-                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
-                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete Provider
-                </button>
-              </div>
-            </div>
+<!--                <ng-container *ngIf="((providerBundle.status !== 'pending template approval')-->
+<!--                                                      && (providerBundle.status !== 'rejected template'))-->
+<!--                                                      || (hasCreatedFirstService(providerBundle.id))">-->
+<!--                  <button *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"-->
+<!--                          (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true)"-->
+<!--                          class="uk-button uk-button-action uk-display-block">-->
+<!--                    <i aria-hidden="true" class="fa fa-thumbs-up"></i>-->
+<!--                    {{ adminActionsMap[providerBundle.status].appButtonTitle }}-->
+<!--                  </button>-->
+<!--                  <button *ngIf="(providerBundle.status === 'approved') && (!providerBundle.active)"-->
+<!--                          (click)="showActionModal(providerBundle, 'approved', true)"-->
+<!--                          class="uk-button uk-button-action uk-display-block uk-margin-small-top">-->
+<!--                    <i aria-hidden="true" class="fa fa-thumbs-up"></i> Activate-->
+<!--                  </button>-->
+<!--                </ng-container>-->
+<!--                <button *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||-->
+<!--                                        ((providerBundle.status !== 'approved') && (adminActionsMap[providerBundle.status]-->
+<!--                                        && adminActionsMap[providerBundle.status].rejButtonTitle))"-->
+<!--                        (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)"-->
+<!--                        class="uk-button uk-button-action uk-display-block uk-margin-small-top">-->
+<!--                  <i class="fa fa-thumbs-down " aria-hidden="true"></i>-->
+<!--                  {{ adminActionsMap[providerBundle.status].rejButtonTitle }}-->
+<!--                </button>-->
+<!--                <button [routerLink]="['/provider/update/', providerBundle.id]"-->
+<!--                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">-->
+<!--                  <i class="fa fa-edit" aria-hidden="true"></i> Edit Provider-->
+<!--                </button>-->
+<!--                <button (click)="showDeletionModal(providerBundle)"-->
+<!--                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">-->
+<!--                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete Provider-->
+<!--                </button>-->
+<!--              </div>-->
+<!--            </div>-->
           </div>
         </div>
 
-        <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
-          <hr class="uk-margin-top">
-          <button *ngIf="projectName!='EOSC'" routerLink="{{ getLinkToFirstService(providerBundle.id) }}"
-                  class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">
-            <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template
-          </button>
-          <button *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id)"
-                  class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">
-            <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template
-          </button>
-          <button routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}"
-                  class="uk-button uk-button-link uk-margin-medium-left">
-            <i class="fa fa-pencil"></i> Edit {{serviceORresource | lowercase}} template
-          </button>
-        </ng-container>
-
-        <ng-container *ngIf="providerBundle.status == 'pending template submission'">
-          <button class="uk-button uk-button-action uk-margin-small-left">
-            <i class="fa fa-plus"></i>
-            Add {{serviceORresource | lowercase}} template
-          </button>
-          <div uk-dropdown>
-            <ul class="uk-nav uk-dropdown-nav">
-              <li class="uk-active">
-                <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Create {{serviceORresource | lowercase}} template</a>
-              </li>
-              <li class="uk-nav-divider"></li>
-              <li class="uk-active"><a routerLink="/developers">Use API</a></li>
-            </ul>
-          </div>
-        </ng-container>
+        <hr class="uk-margin-top">
+        <button *ngIf="providerBundle.status == 'approved' && !production"
+          class="uk-button uk-button-link uk-margin-medium-right"
+          (click)="showAuditForm('side', providerBundle)">
+          <i class="fa fa-check-circle-o fa-lg"></i> Audit
+        </button>
+        <button class="uk-button uk-button-link">
+          <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
+        </button>
+        <div uk-dropdown="mode: click">
+          <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+            <li *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||
+                                        ((providerBundle.status !== 'approved') && (adminActionsMap[providerBundle.status]
+                                        && adminActionsMap[providerBundle.status].rejButtonTitle))"
+                class="uk-margin-small-top"
+                (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)">
+              <a><i class="fa fa-thumbs-down uk-margin-small-right" aria-hidden="true"></i>
+                {{ adminActionsMap[providerBundle.status].rejButtonTitle }}</a>
+            </li>
+            <li [routerLink]="['/provider/update/', providerBundle.id]"
+                class="uk-margin-small-top">
+              <a><i class="fa fa-edit uk-margin-small-right" aria-hidden="true"></i>Edit Provider</a>
+            </li>
+            <li (click)="showDeletionModal(providerBundle)"
+                class="uk-margin-small-top">
+              <a><i class="fa fa-trash uk-margin-small-right" aria-hidden="true"></i>Delete Provider</a>
+            </li>
+          </ul>
+        </div>
 
         <ng-container *ngIf="providerBundle.status == 'approved' && !production">
-          <hr class="uk-margin-top">
-          <button
-            class="uk-button uk-button-link uk-margin-medium-left"
-            (click)="showAuditForm('side', providerBundle)">
-            <i class="fa fa-check-circle-o fa-lg"></i> Audit
-          </button>
+<!--          <hr class="uk-margin-top">-->
+<!--          <button-->
+<!--            class="uk-button uk-button-link uk-margin-medium-left"-->
+<!--            (click)="showAuditForm('side', providerBundle)">-->
+<!--            <i class="fa fa-check-circle-o fa-lg"></i> Audit-->
+<!--          </button>-->
           <div *ngIf="showSideAuditForm && selectedProvider === providerBundle">
             <hr>
             <div>
