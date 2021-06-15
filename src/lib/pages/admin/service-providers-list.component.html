@@ -125,7 +125,7 @@
 <!--                      </div>-->
 <!--                    </div>-->
 
-                    <div class="" style="margin-left:25px; margin-right:0;">
+                    <div class="uk-margin-auto-left uk-margin-remove-right" style="margin-left:25px; margin-right:0;">
                       <button class="uk-button uk-button-link">
                         <i class="fa fa-download uk-margin-small-right"></i>Export to CSV
                       </button>
@@ -192,6 +192,12 @@
 
                         <div class="">
                           <div class="uk-grid">
+                            <div class="uk-width-1-5">
+                              <div>
+                                <img class="el-image uk-border-rounded"
+                                     src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
+                              </div>
+                            </div>
                             <div class="uk-width-4-5">
                               <div class="providerName">
                                 <span *ngIf="providerBundle.status!=='approved'" class="uk-margin-auto-vertical">
@@ -232,13 +238,6 @@
                                 <span class="statusLabel">Last Audit: </span>
                                 <ng-container *ngIf="providerBundle.latestAuditInfo">{{ providerBundle.latestAuditInfo.date | date}} - {{providerBundle.latestAuditInfo.actionType | titlecase}}ated</ng-container>
                                 <ng-container *ngIf="!providerBundle.latestAuditInfo"><i>Never audited</i></ng-container>
-                              </div>
-                            </div>
-
-                            <div class="uk-width-1-5">
-                              <div>
-                                <img class="el-image uk-border-rounded"
-                                     src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
                               </div>
                             </div>
 
@@ -315,68 +314,69 @@
 
                         <ng-container>
                           <hr class="uk-margin-top">
-                          <button [routerLink]="['/provider/update/', providerBundle.id]"
-                                  class="uk-button uk-button-link"
-                                  style="padding-right: 40px; border-right: 1px solid #ccc">
-                            <i class="fa fa-edit fa-lg uk-margin-small-right" aria-hidden="true"></i> Edit Provider
-                          </button>
-                          <button (click)="showDeletionModal(providerBundle)"
-                                  class="uk-button uk-button-link uk-margin-medium-left">
-                            <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i> Delete Provider
-                          </button>
-                        </ng-container>
-
-                        <div class="uk-align-right" style="margin-left:25px; margin-right:0;">
-                          <button class="uk-button uk-button-link">
-                            <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
-                          </button>
-                          <div uk-dropdown="mode: click">
-                            <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                              <ng-container *ngIf="providerBundle.status == 'approved' && !production">
-                                <li class="uk-margin-small-bottom"
-                                    (click)="showAuditForm('main', providerBundle)">
-                                  <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
-                                </li>
-                                <li class="uk-nav-divider"></li>
-                              </ng-container>
-                              <ng-container *ngIf="providerBundle.status == 'pending template submission'">
-                                <i class="">Add {{serviceORresource | lowercase}} template</i>
-                                <li class="uk-active">
-                                  <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
-                                    <i class="fa fa-dot-circle-o uk-margin-small-right"></i>
-                                    Create {{serviceORresource | lowercase}} template</a>
-                                </li>
-                                <li class="uk-active"><a routerLink="/developers">
-                                  <i class="fa fa-dot-circle-o uk-margin-small-right"></i>Use API</a>
-                                </li>
-                                <li class="uk-nav-divider"></li>
-                              </ng-container>
-                              <li *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||
+                          <div class="uk-align-right">
+                            <button [routerLink]="['/provider/update/', providerBundle.id]"
+                                    class="uk-button uk-button-link"
+                                    style="padding-right: 40px; border-right: 1px solid #ccc">
+                              <i class="fa fa-edit fa-lg uk-margin-small-right" aria-hidden="true"></i> Edit Provider
+                            </button>
+                            <button (click)="showDeletionModal(providerBundle)"
+                                    class="uk-button uk-button-link uk-margin-medium-left"
+                                    style="padding-right: 40px; border-right: 1px solid #ccc">
+                              <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i> Delete Provider
+                            </button>
+                            <button class="uk-button uk-button-link uk-margin-medium-left">
+                              <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
+                            </button>
+                            <div uk-dropdown="mode: click">
+                              <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+                                <ng-container *ngIf="providerBundle.status == 'approved' && !production">
+                                  <li class="uk-margin-small-bottom"
+                                      (click)="showAuditForm('main', providerBundle)">
+                                    <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
+                                  </li>
+                                  <li class="uk-nav-divider"></li>
+                                </ng-container>
+                                <ng-container *ngIf="providerBundle.status == 'pending template submission'">
+                                  <i class="">Add {{serviceORresource | lowercase}} template</i>
+                                  <li class="uk-active">
+                                    <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
+                                      <i class="fa fa-dot-circle-o uk-margin-small-right"></i>
+                                      Create {{serviceORresource | lowercase}} template</a>
+                                  </li>
+                                  <li class="uk-active"><a routerLink="/developers">
+                                    <i class="fa fa-dot-circle-o uk-margin-small-right"></i>Use API</a>
+                                  </li>
+                                  <li class="uk-nav-divider"></li>
+                                </ng-container>
+                                <li *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||
                                         ((providerBundle.status !== 'approved') && (adminActionsMap[providerBundle.status]
                                         && adminActionsMap[providerBundle.status].rejButtonTitle))"
-                                  class="uk-margin-small-top"
-                                  (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)">
-                                <a><i class="fa fa-thumbs-down uk-margin-small-right" aria-hidden="true"></i>
-                                {{ adminActionsMap[providerBundle.status].rejButtonTitle }}</a>
-                              </li>
-                              <ng-container *ngIf="((providerBundle.status !== 'pending template approval')
+                                    class="uk-margin-small-top"
+                                    (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)">
+                                  <a><i class="fa fa-thumbs-down uk-margin-small-right" aria-hidden="true"></i>
+                                    {{ adminActionsMap[providerBundle.status].rejButtonTitle }}</a>
+                                </li>
+                                <ng-container *ngIf="((providerBundle.status !== 'pending template approval')
                                                       && (providerBundle.status !== 'rejected template'))
                                                       || (hasCreatedFirstService(providerBundle.id))">
-                                <li *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"
-                                        (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true)"
-                                        class="uk-margin-small-top">
-                                  <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>
-                                  {{ adminActionsMap[providerBundle.status].appButtonTitle }}</a>
-                                </li>
-                                <li *ngIf="(providerBundle.status === 'approved') && (!providerBundle.active)"
-                                        (click)="showActionModal(providerBundle, 'approved', true)"
-                                        class="uk-margin-small-top">
-                                  <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
-                                </li>
-                              </ng-container>
-                            </ul>
+                                  <li
+                                    *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"
+                                    (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true)"
+                                    class="uk-margin-small-top">
+                                    <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>
+                                      {{ adminActionsMap[providerBundle.status].appButtonTitle }}</a>
+                                  </li>
+                                  <li *ngIf="(providerBundle.status === 'approved') && (!providerBundle.active)"
+                                      (click)="showActionModal(providerBundle, 'approved', true)"
+                                      class="uk-margin-small-top">
+                                    <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
+                                  </li>
+                                </ng-container>
+                              </ul>
+                            </div>
                           </div>
-                        </div>
+                        </ng-container>
 
                         <ng-container *ngIf="providerBundle.status == 'approved' && !production">
 <!--                          <hr class="uk-margin-top">-->
