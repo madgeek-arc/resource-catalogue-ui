@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
-import {InfraService, ProviderBundle} from '../../domain/eic-model';
+import {InfraService, LoggingInfo, ProviderBundle} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -38,6 +38,9 @@ export class ResourcesListComponent implements OnInit {
   urlParams: URLParameter[] = [];
 
   commentControl = new FormControl();
+  showSideAuditForm = false;
+  showMainAuditForm = false;
+  initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userRole: '', type: '', comment: '', actionType: ''};
 
   errorMessage: string;
   loadingMessage = '';
@@ -47,6 +50,7 @@ export class ResourcesListComponent implements OnInit {
   providersTotal: number;
 
   services: InfraService[] = [];
+  servicesForAudit: InfraService[] = [];
   selectedService: InfraService;
   facets: any;
   searchFacet = '';
@@ -197,14 +201,15 @@ export class ResourcesListComponent implements OnInit {
 
   getRandomResources(quantity: string) {
     this.loadingMessage = 'Loading ' + this.serviceORresource + 's...';
-    this.services = [];
+    this.servicesForAudit = [];
     this.resourceService.getRandomResources(quantity).subscribe(
       res => {
-        this.services = res['results'];
-        this.facets = res['facets'];
-        this.total = res['total'];
+        this.servicesForAudit = res['results'];
+        // this.services = res['results'];
+        // this.facets = res['facets'];
+        // this.total = res['total'];
         // this.total = +quantity;
-        this.paginationInit();
+        // this.paginationInit();
       },
       err => {
         console.log(err);
@@ -352,23 +357,43 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  showAuditModal(action: string, resource: InfraService) {
+  showAuditForm(view: string, resource: InfraService) {
+    this.commentControl.reset();
     this.selectedService = resource;
-    if (action === 'VALID') {
-      UIkit.modal('#validateModal').show();
-    } else if (action === 'INVALID') {
-      UIkit.modal('#invalidateModal').show();
+    if (view === 'side') {
+      this.showSideAuditForm = true;
+    } else if (view === 'main') {
+      this.showMainAuditForm = true;
     }
   }
 
-  auditProviderAction(action: string) {
+  resetAuditView() {
+    this.showSideAuditForm = false;
+    this.showMainAuditForm = false;
+    this.commentControl.reset();
+  }
+
+  auditResourceAction(action: string) {
     this.resourceService.auditResource(this.selectedService.id, action, this.commentControl.value)
       .subscribe(
         res => {
-          this.getServices();
+          if (!this.showSideAuditForm) {
+            this.getServices();
+          }
         },
         err => { console.log(err); },
-        () => {}
+        () => {
+          this.servicesForAudit.forEach(
+            s => {
+              if (s.id === this.selectedService.id) {
+                s.latestAuditInfo = this.initLatestAuditInfo;
+                s.latestAuditInfo.date = Date.now().toString();
+                s.latestAuditInfo.actionType = action;
+              }
+            }
+          );
+          this.resetAuditView();
+        }
       );
   }
 
