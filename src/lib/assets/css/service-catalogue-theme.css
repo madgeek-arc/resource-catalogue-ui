@@ -789,6 +789,12 @@ a.remove-element i {
 /********************/
 /*     Timeline     */
 /********************/
+.todayBadge {
+  /*background-color: #D1303A; */
+  background: var(--breadcrumb-active-color);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
 .al_timeline {
   position: relative;
   padding: 24px 20px 32px;
@@ -797,14 +803,15 @@ a.remove-element i {
 
 .al_timeline::after {
   position: absolute;
-  top: 0;
+  top: 4px;
   bottom: 0;
   margin-left: -2px;
   left: 50%;
   content: '';
   width: 4px;
   /*background: rgba(255, 255, 255, 0.5);*/
-  background: #D1303A;
+  /*background: #D1303A;*/
+  background: #707070;
   display: block;
 }
 
@@ -849,7 +856,8 @@ a.remove-element i {
   width: 24px;
   height: 24px;
   margin-left: -12px;
-  background: #D1303A;
+  /*background: #D1303A;*/
+  background: #707070;
   border-radius: 50%;
   text-align: center;
   z-index: 10;
@@ -866,7 +874,7 @@ a.remove-element i {
   box-sizing: border-box;
   background: #fff;
   width: 44%;
-  padding: 8px 15px;
+  padding: 25px 25px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   position: relative;
   border-radius: 4px;
@@ -891,7 +899,8 @@ a.remove-element i {
   display: block;
   border: 10px solid transparent;
   /*border-left-color: transparent;*/
-  border-left-color: #214c9c;
+  /*border-left-color: #214c9c;*/
+  border-left-color: #fff;
 }
 
 .al_timeline_block:nth-child(2n) .al_timeline_content::after {
@@ -903,7 +912,8 @@ a.remove-element i {
 
 .update.al_timeline_block:nth-child(2n) .al_timeline_content::after {
   border-left-color: transparent;
-  border-right-color: #214c9c;
+  /*border-right-color: #214c9c;*/
+  border-right-color: #fff;
   right: auto;
   left: -20px;
 }
@@ -917,13 +927,18 @@ a.remove-element i {
 }
 
 .al_timeline_block.update .al_timeline_content {
-  background: #214c9c;
-  box-shadow: none;
-  color: #fff;
+  /*background: #214c9c;*/
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 1px 10px 25px #00000026;
+  border: 1px solid #E0E0E0;
+  /*box-shadow: none;*/
+  /*color: #fff;*/
+  color: #1A1A1A;
 }
 
 .al_timeline_block.update .al_timeline_content h3 {
-  color: #fff;
+  /*color: #fff;*/
+  color: #333432;
 }
 
 /******************************************************/
