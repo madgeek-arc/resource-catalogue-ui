@@ -132,14 +132,6 @@
                       </div>
                     </div>
 
-<!--                    <div *ngIf="!production" class="uk-margin-auto-left uk-margin-remove-right">-->
-<!--                      <div uk-tooltip="title:Get 10 randomly selected resources to audit.">-->
-<!--                        <button class="uk-button uk-button-link" (click)="getRandomResources('10')">-->
-<!--                          <i class="fa fa-check-circle-o uk-margin-small-right"></i>Audit-->
-<!--                        </button>-->
-<!--                      </div>-->
-<!--                    </div>-->
-
                     <div class="uk-margin-auto-left uk-margin-remove-right" style="margin-left:25px; margin-right:0;">
                       <button class="uk-button uk-button-link">
                         <i class="fa fa-download uk-margin-small-right"></i>Export to CSV
@@ -207,7 +199,7 @@
                               </div>
                             </div>
 
-                            <div class="uk-width-3-5">
+                            <div class="uk-width-4-5">
                               <div class="providerName">
 <!--                                <span *ngIf="serviceBundle.status!=='approved'" class="uk-margin-auto-vertical">-->
 <!--                                  <h5 class="uk-display-inline-block" data-uk-tooltip-->
@@ -251,7 +243,7 @@
                               </div>
                             </div>
 
-                            <div class="uk-width-1-5">
+                            <!--<div class="uk-width-1-5">
                               <div class="action-buttons">
 
                                 <div *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlock">
@@ -283,7 +275,7 @@
                                 </button>
 
                               </div>
-                            </div>
+                            </div>-->
                           </div>
                         </div>
 
@@ -301,13 +293,58 @@
 <!--                          </button>-->
 <!--                        </ng-container>-->
 
-                        <ng-container *ngIf="!production">
+                        <ng-container>
                           <hr class="uk-margin-top">
-                          <button
-                            class="uk-button uk-button-link uk-margin-medium-left"
-                            (click)="showAuditForm('main', serviceBundle)">
-                            <i class="fa fa-check-circle-o fa-lg"></i> Audit
-                          </button>
+                          <div class="uk-align-right">
+                            <button
+                              routerLink="/provider/{{serviceBundle.service.resourceOrganisation}}/resource/update/{{serviceBundle.id}}"
+                              class="uk-button uk-button-link"
+                              style="padding-right: 40px; border-right: 1px solid #ccc">
+                              <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                              Update {{serviceORresource}}
+                            </button>
+                            <button (click)="showDeletionModal(serviceBundle)"
+                                    class="uk-button uk-button-link uk-margin-medium-left"
+                                    style="padding-right: 40px; border-right: 1px solid #ccc">
+                              <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                              Delete {{serviceORresource}}
+                            </button>
+                            <button class="uk-button uk-button-link uk-margin-medium-left">
+                              <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
+                            </button>
+                            <div uk-dropdown="mode: click">
+                              <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+                                <ng-container *ngIf="serviceBundle.active && !production">
+                                  <li class="uk-margin-small-bottom"
+                                      (click)="showAuditForm('main', serviceBundle)">
+                                    <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
+                                  </li>
+                                  <li class="uk-nav-divider"></li>
+                                </ng-container>
+
+                                <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlockList">
+                                  <li class="uk-button uk-button-link uk-margin-small-top"
+                                          (click)="toggleService(serviceBundle)">
+                                    <ng-container *ngIf="serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
+                                    <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
+                                  </li>
+                                </ng-container>
+
+                                <ng-template #elseBlockList>
+                                  <div uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
+                                    <li class="uk-button uk-button-link uk-disabled"
+                                            (click)="toggleService(serviceBundle)">
+                                      <ng-container *ngIf="serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
+                                      <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
+                                    </li>
+                                  </div>
+                                </ng-template>
+                              </ul>
+                            </div>
+                          </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="serviceBundle.active && !production">
                           <div *ngIf="showMainAuditForm && selectedService === serviceBundle">
                             <hr>
                             <div>
@@ -617,7 +654,7 @@
         <!--<i class="fa fa-{{ serviceBundle.active ? 'check':'close' }}"></i>-->
         <!--</td>-->
 
-        <ng-container *ngIf="!production">
+        <ng-container>
           <hr class="uk-margin-top">
           <button
             class="uk-button uk-button-link uk-margin-medium-left"
