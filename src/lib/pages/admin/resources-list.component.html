@@ -526,7 +526,7 @@
               </div>
             </div>
 
-            <div class="uk-width-2-5">
+            <div class="uk-width-4-5">
               <div class="providerName">
                 <!--                                <span *ngIf="serviceBundle.status!=='approved'" class="uk-margin-auto-vertical">-->
                 <!--                                  <h5 class="uk-display-inline-block" data-uk-tooltip-->
@@ -570,7 +570,7 @@
               </div>
             </div>
 
-            <div class="uk-width-2-5">
+            <!--<div class="uk-width-2-5">
               <div class="action-buttons">
 
                 <div *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlock">
@@ -602,7 +602,7 @@
                 </button>
 
               </div>
-            </div>
+            </div>-->
           </div>
         </div>
 
@@ -620,8 +620,7 @@
 <!--          </button>-->
 <!--        </ng-container>-->
 
-        <!--                        TODO: review-->
-        <ng-container *ngIf="hasCreatedFirstService(serviceBundle.id)">
+        <!--<ng-container *ngIf="hasCreatedFirstService(serviceBundle.id)">
           <hr class="uk-margin-top">
           <button routerLink="{{ getLinkToFirstService(serviceBundle.id) }}"
                   class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">
@@ -647,35 +646,68 @@
               <li class="uk-active"><a routerLink="/developers">Use API</a></li>
             </ul>
           </div>
-        </ng-container>
-
-        <!--fixme what is active or not?-->
-        <!--<td class="uk-text-center">-->
-        <!--<i class="fa fa-{{ serviceBundle.active ? 'check':'close' }}"></i>-->
-        <!--</td>-->
+        </ng-container>-->
 
         <ng-container>
           <hr class="uk-margin-top">
-          <button
-            class="uk-button uk-button-link uk-margin-medium-left"
-            (click)="showAuditForm('side', serviceBundle)">
-            <i class="fa fa-check-circle-o fa-lg"></i> Audit
-          </button>
-          <div *ngIf="showSideAuditForm && selectedService === serviceBundle">
-            <hr>
-            <div>
-              <p>You are about to audit "{{ selectedService.service.name }}".</p>
-              <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
+            <button *ngIf="serviceBundle.active && !production"
+              class="uk-button uk-button-link"
+              (click)="showAuditForm('side', serviceBundle)">
+              <i class="fa fa-check-circle-o fa-lg"></i> Audit
+            </button>
+
+            <button class="uk-button uk-button-link uk-align-right uk-margin-remove-bottom">
+              <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
+            </button>
+            <div uk-dropdown="mode: click">
+              <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+                <li
+                  routerLink="/provider/{{serviceBundle.service.resourceOrganisation}}/resource/update/{{serviceBundle.id}}"
+                  class="uk-button uk-button-link">
+                  <a><i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                  Update {{serviceORresource}}</a>
+                </li>
+                <li (click)="showDeletionModal(serviceBundle)"
+                        class="uk-button uk-button-link">
+                  <a><i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                  Delete {{serviceORresource}}</a>
+                </li>
+
+                <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlockList">
+                  <li class="uk-button uk-button-link uk-margin-small-top"
+                      (click)="toggleService(serviceBundle)">
+                    <ng-container *ngIf="serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
+                    <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
+                  </li>
+                </ng-container>
+
+                <ng-template #elseBlockList>
+                  <div uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
+                    <li class="uk-button uk-button-link uk-disabled"
+                        (click)="toggleService(serviceBundle)">
+                      <ng-container *ngIf="serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
+                      <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
+                    </li>
+                  </div>
+                </ng-template>
+              </ul>
             </div>
-            <form>
-              <div class="uk-margin">
-                <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
+
+            <div *ngIf="showSideAuditForm && selectedService === serviceBundle">
+              <hr>
+              <div>
+                <p>You are about to audit "{{ selectedService.service.name }}".</p>
+                <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
               </div>
-            </form>
-            <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetAuditView()">Close</button>
-            <button class="uk-button uk-button-secondary uk-align-right" type="submit" (click)="auditResourceAction('VALID')">Validate</button>
-            <button class="uk-button uk-button-danger uk-align-right" type="submit" (click)="auditResourceAction('INVALID')">Invalidate</button>
-          </div>
+              <form>
+                <div class="uk-margin">
+                  <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
+                </div>
+              </form>
+              <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetAuditView()">Close</button>
+              <button class="uk-button uk-button-secondary uk-align-right" type="submit" (click)="auditResourceAction('VALID')">Validate</button>
+              <button class="uk-button uk-button-danger uk-align-right" type="submit" (click)="auditResourceAction('INVALID')">Invalidate</button>
+            </div>
         </ng-container>
 
       </div>
