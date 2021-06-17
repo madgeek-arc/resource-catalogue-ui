@@ -40,7 +40,7 @@ export class ResourcesListComponent implements OnInit {
   commentControl = new FormControl();
   showSideAuditForm = false;
   showMainAuditForm = false;
-  initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userRole: '', type: '', comment: '', actionType: ''};
+  initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userFullName: '', userRole: '', type: '', comment: '', actionType: ''};
 
   errorMessage: string;
   loadingMessage = '';
