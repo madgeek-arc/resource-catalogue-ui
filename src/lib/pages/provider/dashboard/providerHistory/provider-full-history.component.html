@@ -46,20 +46,24 @@
                         <thead>
                         <tr>
                           <th>Date</th>
-                          <th>Modified By</th>
-                          <th >Source</th>
-                          <th class="uk-text-center">Version</th>
+                          <th>User</th>
+                          <th >Action</th>
+                          <th class="uk-text-center">Comment</th>
                           <th class="uk-text-center">Version changed</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr *ngFor="let history of providerHistory.results">
-                          <td><span *ngIf="history.modifiedAt">{{ history.modifiedAt | date : "MM-dd-yyyy" }}</span></td>
-                          <td class=""><span *ngIf="history.modifiedBy">{{ history.modifiedBy }}</span></td>
-                          <td class=""><span *ngIf="history.source">{{ history.source }}</span></td>
-                          <td class="uk-text-center"><span *ngIf="history.version">{{ history.version }}</span></td>
+                          <td><span *ngIf="history.date">{{ history.date | date : "MM-dd-yyyy" }}</span></td>
+                          <td class="">
+                            <span *ngIf="history.userFullName">{{ history.userFullName }}</span>
+                            <span *ngIf="history.userFullName && history.userEmail"> - </span>
+                            <span *ngIf="history.userEmail">{{ history.userEmail }}</span>
+                            <span *ngIf="history.userRole"> ({{ history.userRole }})</span></td>
+                          <td class=""><span *ngIf="history.actionType">{{ history.actionType }}</span></td>
+                          <td class="uk-text-center"><span *ngIf="history.comment">{{ history.comment }}</span></td>
                           <td class="uk-text-center"><span
-                            *ngIf="history.versionChange !== null && (history.versionChange === true)" class="uk-badge">✓</span>
+                            *ngIf="history.actionType === 'updated version'" class="uk-badge">✓</span>
                           </td>
                         </tr>
                         </tbody>
