@@ -63,7 +63,7 @@ export class VocabularyRequestsComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN')) {
+    if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
       this.router.navigateByUrl('/home');
     } else {
       this.dataForm = this.fb.group(this.formPrepare);
