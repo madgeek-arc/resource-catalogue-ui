@@ -50,7 +50,9 @@
                                 </div>
                                 <div
                                   class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">
-                                  <h3>{{history.actionType | titlecase}}</h3>
+                                  <h3 *ngIf="history.type === 'audit'">Audited as {{history.actionType | titlecase}}</h3>
+                                  <h3 *ngIf="history.type === 'draft'">Saved as Draft</h3>
+                                  <h3 *ngIf="history.type !== 'audit' && history.type !== 'draft'">{{history.actionType | titlecase}}</h3>
                                   <p>on {{history.date | date:'MM/dd/yy'}}
                                     by {{history.userFullName ? history.userFullName : history.userRole}}</p>
                                   <div *ngIf="history.comment && history.comment!=='null'">
