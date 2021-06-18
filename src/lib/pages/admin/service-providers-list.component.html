@@ -228,7 +228,11 @@
                               </div>
                               <div *ngIf="!production" class="uk-margin-small-top">
                                 <span class="statusLabel">Last Audit: </span>
-                                <ng-container *ngIf="providerBundle.latestAuditInfo">{{ providerBundle.latestAuditInfo.date | date}} - {{providerBundle.latestAuditInfo.actionType | titlecase}}ated</ng-container>
+                                <ng-container *ngIf="providerBundle.latestAuditInfo">
+                                  {{providerBundle.latestAuditInfo.actionType | titlecase}}ated
+                                  on {{providerBundle.latestAuditInfo.date | date}}
+                                  by {{providerBundle.latestAuditInfo.userFullName}}
+                                </ng-container>
                                 <ng-container *ngIf="!providerBundle.latestAuditInfo"><i>Never audited</i></ng-container>
                               </div>
                             </div>
@@ -569,7 +573,10 @@
               </div>
               <div *ngIf="!production" class="uk-margin-small-top">
                 <span class="statusLabel">Last Audit: </span>
-                <ng-container *ngIf="providerBundle.latestAuditInfo">{{ providerBundle.latestAuditInfo.date | date}} - {{providerBundle.latestAuditInfo.actionType | titlecase}}ated</ng-container>
+                <ng-container *ngIf="providerBundle.latestAuditInfo">
+                  {{providerBundle.latestAuditInfo.actionType | titlecase}}ated
+                  on {{providerBundle.latestAuditInfo.date | date}}
+                </ng-container>
                 <ng-container *ngIf="!providerBundle.latestAuditInfo"><i>Never audited</i></ng-container>
               </div>
             </div>
