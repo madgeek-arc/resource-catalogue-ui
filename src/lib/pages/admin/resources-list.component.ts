@@ -413,6 +413,10 @@ export class ResourcesListComponent implements OnInit {
     return '/edit/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
   }
 
+  editResourceInNewTab(providerId, resourceId) {
+    window.open(`/provider/${providerId}/resource/update/${resourceId}`, '_blank');
+  }
+
   paginationInit() {
     let addToEndCounter = 0;
     let addToStartCounter = 0;

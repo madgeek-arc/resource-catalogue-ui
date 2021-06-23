@@ -639,7 +639,7 @@
               <a><i class="fa fa-thumbs-down uk-margin-small-right" aria-hidden="true"></i>
                 {{ adminActionsMap[providerBundle.status].rejButtonTitle }}</a>
             </li>
-            <li [routerLink]="['/provider/update/', providerBundle.id]"
+            <li (click)="editProviderInNewTab(providerBundle.id)"
                 class="uk-margin-small-top">
               <a><i class="fa fa-edit uk-margin-small-right" aria-hidden="true"></i>Edit Provider</a>
             </li>

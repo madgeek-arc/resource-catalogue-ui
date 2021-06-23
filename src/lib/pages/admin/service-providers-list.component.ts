@@ -489,6 +489,10 @@ export class ServiceProvidersListComponent implements OnInit {
     return '/provider/' + id + '/resource/update/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
   }
 
+  editProviderInNewTab(providerId) {
+    window.open(`/provider/update/${providerId}`, '_blank');
+  }
+
   paginationInit() {
     let addToEndCounter = 0;
     let addToStartCounter = 0;
