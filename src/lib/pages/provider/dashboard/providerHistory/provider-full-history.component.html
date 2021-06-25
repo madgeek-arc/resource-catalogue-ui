@@ -49,7 +49,7 @@
                           <th>User</th>
                           <th >Action</th>
                           <th class="uk-text-center">Comment</th>
-                          <th class="uk-text-center">Version changed</th>
+<!--                          <th class="uk-text-center">Version changed</th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -62,9 +62,9 @@
                             <span *ngIf="history.userRole"> ({{ history.userRole }})</span></td>
                           <td class=""><span *ngIf="history.actionType">{{ history.actionType }}</span></td>
                           <td class="uk-text-center"><span *ngIf="history.comment">{{ history.comment }}</span></td>
-                          <td class="uk-text-center"><span
-                            *ngIf="history.actionType === 'updated version'" class="uk-badge">✓</span>
-                          </td>
+<!--                          <td class="uk-text-center"><span-->
+<!--                            *ngIf="history.actionType === 'updated version'" class="uk-badge">✓</span>-->
+<!--                          </td>-->
                         </tr>
                         </tbody>
                       </table>
