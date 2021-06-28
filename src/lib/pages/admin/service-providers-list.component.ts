@@ -304,7 +304,7 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   getRandomProviders(quantity: string) {
-    this.loadingMessage = 'Loading Providers...';
+    this.loadingMessage = 'Loading ' + quantity + ' random Providers...';
     this.providersForAudit = [];
     this.serviceProviderService.getRandomProviders(quantity).subscribe(
       res => {

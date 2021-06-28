@@ -200,7 +200,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   getRandomResources(quantity: string) {
-    this.loadingMessage = 'Loading ' + this.serviceORresource + 's...';
+    this.loadingMessage = 'Loading ' + quantity + ' random ' + this.serviceORresource + 's...';
     this.servicesForAudit = [];
     this.resourceService.getRandomResources(quantity).subscribe(
       res => {

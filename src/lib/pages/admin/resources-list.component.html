@@ -510,6 +510,12 @@
 
     <h4>Audit {{serviceORresource}}s</h4>
 
+    <div *ngIf="loadingMessage">
+      <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(43,43,43); font-weight: bold;">
+        {{ loadingMessage }}
+      </div>
+    </div>
+
     <div *ngFor="let serviceBundle of servicesForAudit" class="uk-card provider-card uk-margin-medium-top">
       <div class="uk-card-body" style="padding-bottom: 20px;">
 
