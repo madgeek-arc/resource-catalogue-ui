@@ -42,10 +42,17 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body" *ngIf="projectName==='CatRIS'">
-                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerFavouritesOptions" style="width: 100%; display: block;"></highcharts-chart>
+                  <highcharts-chart *ngIf="providerFavouritesOptions" [Highcharts]="Highcharts"
+                                    [options]="providerFavouritesOptions"
+                                    style="width: 100%; height: auto; display: block;">
+                  </highcharts-chart>
                 </div>
                 <div class="uk-card-body" *ngIf="projectName==='EOSC'">
-                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerAddsToProjectOptions" style="width: 100%; display: block;"></highcharts-chart>
+                  <highcharts-chart *ngIf="providerAddsToProjectOptions"
+                                    [Highcharts]="Highcharts"
+                                    [options]="providerAddsToProjectOptions"
+                                    style="width: 100%; height: auto; display: block;">
+                  </highcharts-chart>
                 </div>
               </div>
             </div>
@@ -53,7 +60,11 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerVisitsOptions" style="width: 100%; display: block;"></highcharts-chart>
+                  <highcharts-chart *ngIf="providerVisitsOptions"
+                                    [Highcharts]="Highcharts"
+                                    [options]="providerVisitsOptions"
+                                    style="width: 100%; height: auto; display: block;">
+                  </highcharts-chart>
                 </div>
               </div>
             </div>
@@ -61,19 +72,13 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerRatingsOptions" style="width: 100%; display: block;"></highcharts-chart>
+                  <highcharts-chart *ngIf="providerRatingsOptions" [Highcharts]="Highcharts"
+                                    [options]="providerRatingsOptions"
+                                    style="width: 100%; height: auto; display: block;">
+                  </highcharts-chart>
                 </div>
               </div>
             </div>
-
-            <!--        <div *ngIf="projectName==='EOSC'">-->
-            <!--          <div class="uk-card">-->
-            <!--            <div class="uk-card-body">-->
-            <!--              <highcharts-chart [Highcharts]="Highcharts" [options]="providerOrdersOptions" style="width: 100%; display: block;"></highcharts-chart>-->
-            <!--            </div>-->
-            <!--          </div>-->
-            <!--        </div>-->
-
           </div>
 
         </li>
@@ -82,9 +87,13 @@
           <div class="uk-grid uk-margin-remove-top">
             <div class="uk-width-1-1 uk-card">
               <div class="uk-card-body uk-padding-remove-top">
-                <highcharts-chart [Highcharts]="Highcharts" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">
-<!--                  <series (click)="onMapSeriesClick($event)">-->
-<!--                  </series>-->
+                <highcharts-chart *ngIf="mapDistributionOfServicesOptions"
+                                  [Highcharts]="Highcharts"
+                                  [constructorType]="chartConstructor"
+                                  [options]="mapDistributionOfServicesOptions"
+                                  style="width: 100%; height: auto; display: block;">
+                  <!--                  <series (click)="onMapSeriesClick($event)">-->
+                  <!--                  </series>-->
                 </highcharts-chart>
               </div>
             </div>

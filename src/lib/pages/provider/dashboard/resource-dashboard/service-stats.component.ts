@@ -15,8 +15,7 @@ import MapModule from 'highcharts/modules/map';
 MapModule(Highcharts);
 
 declare var require: any;
-// const mapWorld = require('@highcharts/map-collection/custom/world.geo.json');
-const mapWorld = require('@highcharts/map-collection/custom/world.geo.json');
+const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
 
 @Component({
   selector: 'app-service-dashboard',
@@ -37,6 +36,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
   public WW: string[];
 
   Highcharts: typeof Highcharts = Highcharts;
+  chartConstructor = 'mapChart';
   serviceVisitsOptions: any = null;
   serviceRatingsOptions: any = null;
   serviceFavouritesOptions: any = null;
@@ -278,6 +278,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
 
   setCountriesForService(data: any) {
     const places = this.resourceService.expandRegion(JSON.parse(JSON.stringify(data || [])), this.EU, this.WW);
+    console.log(places.map(e => e.toLowerCase()).map(e => [e, 1]));
 
     this.serviceMapOptions = {
       chart: {
@@ -295,6 +296,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
         enabled: false
       },
       series: [{
+        type: 'map',
         name: 'Country',
         data: places.map(e => e.toLowerCase()).map(e => [e, 1]),
         dataLabels: {

@@ -13,7 +13,12 @@ import {zip} from 'rxjs';
 import {EmailService} from '../../../services/email.service';
 import {environment} from '../../../../environments/environment';
 import {MatomoTracker} from 'ngx-matomo-v9';
+import * as Highcharts from 'highcharts';
+import MapModule from 'highcharts/modules/map';
+MapModule(Highcharts);
 
+declare var require: any;
+const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
 declare var UIkit: any;
 
 @Component({
@@ -27,6 +32,8 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
   serviceORresource = environment.serviceORresource;
 
+  Highcharts: typeof Highcharts = Highcharts;
+  chartConstructor = 'mapChart';
   services: RichService[] = [];
   public richService: RichService;
   public errorMessage: string;

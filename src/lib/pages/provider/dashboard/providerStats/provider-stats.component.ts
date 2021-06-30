@@ -14,8 +14,9 @@ import * as Highcharts from 'highcharts';
 import MapModule from 'highcharts/modules/map';
 MapModule(Highcharts);
 
-const mapWorld = require('@highcharts/map-collection/custom/world.geo.json');
 declare var require: any;
+// const mapWorld = require('@highcharts/map-collection/custom/world.geo.json');
+const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
 declare var UIkit: any;
 
 
@@ -61,6 +62,7 @@ export class ProviderStatsComponent implements OnInit {
   selectedCountryServices: any = null;
   geographicalDistributionMap: any = null;
   Highcharts: typeof Highcharts = Highcharts;
+  chartConstructor = "mapChart";
 
   constructor(
     public authenticationService: AuthenticationService,
@@ -609,7 +611,7 @@ export class ProviderStatsComponent implements OnInit {
   }
 
   setMapDistributionOfServices(mapData: any) {
-
+    console.log(mapData);
     if (mapData) {
 
       this.mapDistributionOfServicesOptions = {
