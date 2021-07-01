@@ -276,21 +276,21 @@
                           </div>
                         </div>
 
-                        <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
-                          <hr class="uk-margin-top">
-                            <button *ngIf="projectName!='EOSC'" routerLink="{{ getLinkToFirstService(providerBundle.id) }}"
-                                    class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">
-                              <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template
-                            </button>
-                            <button *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id)"
-                                    class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">
-                              <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template
-                            </button>
-                            <button routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}"
-                                    class="uk-button uk-button-link uk-margin-medium-left">
-                              <i class="fa fa-pencil"></i> Edit {{serviceORresource | lowercase}} template
-                            </button>
-                        </ng-container>
+<!--                        <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">-->
+<!--                          <hr class="uk-margin-top">-->
+<!--                            <button *ngIf="projectName!='EOSC'" routerLink="{{ getLinkToFirstService(providerBundle.id) }}"-->
+<!--                                    class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">-->
+<!--                              <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template-->
+<!--                            </button>-->
+<!--                            <button *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id)"-->
+<!--                                    class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">-->
+<!--                              <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template-->
+<!--                            </button>-->
+<!--                            <button routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}"-->
+<!--                                    class="uk-button uk-button-link uk-margin-medium-left">-->
+<!--                              <i class="fa fa-pencil"></i> Edit {{serviceORresource | lowercase}} template-->
+<!--                            </button>-->
+<!--                        </ng-container>-->
 
 <!--                        <ng-container *ngIf="providerBundle.status == 'pending template submission'">-->
 <!--                          <button class="uk-button uk-button-action uk-margin-small-left">-->
@@ -344,6 +344,25 @@
                                     <i class="fa fa-dot-circle-o uk-margin-small-right"></i>Use API</a>
                                   </li>
                                   <li class="uk-nav-divider"></li>
+                                </ng-container>
+                                <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
+                                  <li class="uk-active">
+                                    <a *ngIf="projectName!='EOSC'"
+                                       routerLink="{{ getLinkToFirstService(providerBundle.id) }}"
+                                       class="">
+                                      <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template
+                                    </a>
+                                    <a *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id)"
+                                       class="">
+                                      <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template
+                                    </a>
+                                  </li>
+                                  <li class="uk-active">
+                                    <a routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}"
+                                       class="uk-margin-small-top">
+                                      <i class="fa fa-pencil"></i> Edit {{serviceORresource | lowercase}} template
+                                    </a>
+                                  </li>
                                 </ng-container>
                                 <li *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||
                                         ((providerBundle.status !== 'approved') && (adminActionsMap[providerBundle.status]
