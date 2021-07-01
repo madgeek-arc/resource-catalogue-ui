@@ -795,6 +795,34 @@ a.remove-element i {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
+.date-comment {
+  letter-spacing: 0px;
+  color: #1A1A1A;
+  opacity: 0.6;
+}
+
+.al_timeline_content {
+  font: normal normal normal 14px/19px Open Sans;
+  letter-spacing: 0px;
+  color: #1A1A1A;
+}
+
+.al_timeline_content .comment {
+  font: normal normal normal 14px/19px Open Sans;
+  letter-spacing: 0px;
+  color: #1A1A1A;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+.al_timeline_content h4 {
+  font: normal normal 600 21px/28px Open Sans;
+  letter-spacing: 0px;
+  color: #333432;
+  text-transform: capitalize;
+  opacity: 1;
+}
+
 .al_timeline {
   position: relative;
   padding: 24px 20px 32px;
@@ -1214,3 +1242,13 @@ a[class*="wk-"]:hover {
 .offcanvas-audit .uk-light .uk-textarea {
   border-color: #cccccc;
 }
+
+
+/* ========================
+        Label
+ ========================== */
+
+.uk-label-gray {
+  background-color: #bbbbbb !important;
+}
+
