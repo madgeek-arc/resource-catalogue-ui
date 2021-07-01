@@ -595,6 +595,7 @@ a.remove-element i {
 }
 
 .uk-card-badge {
+  height: auto;
   position: absolute;
   top: 0px;
   left: 0px;
