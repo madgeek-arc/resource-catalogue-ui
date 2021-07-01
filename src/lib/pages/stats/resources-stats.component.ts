@@ -32,6 +32,7 @@ export class ResourcesStatsComponent implements OnInit {
   public WW: string[];
 
   Highcharts: typeof Highcharts = Highcharts;
+  chartConstructor = 'mapChart'
   mapDistributionOfServicesOptions: any = null;
   categoriesPerServiceForProvider: any = null;
   domainsPerServiceForProvider: any = null;
@@ -175,8 +176,8 @@ export class ResourcesStatsComponent implements OnInit {
   }
 
   onMapSeriesClick(e) {
-    this.selectedCountryName = e.originalEvent.point.name;
-    this.selectedCountryServices = this.geographicalDistributionMap.get(e.originalEvent.point['hc-key']);
+    this.selectedCountryName = e.point.name;
+    this.selectedCountryServices = this.geographicalDistributionMap.get(e.point.options['hc-key']);
 
     UIkit.modal('#servicesPerCountryModal').show();
   }
@@ -187,7 +188,6 @@ export class ResourcesStatsComponent implements OnInit {
   }
 
   setMapDistributionOfServices(mapData: any) {
-    console.log(mapData);
     if (mapData) {
       this.mapDistributionOfServicesOptions = {
         chart: {
@@ -206,6 +206,16 @@ export class ResourcesStatsComponent implements OnInit {
             [0.5, '#7BB4EB'],
             [1, '#1f3e5b']
           ]
+        },
+
+        plotOptions: {
+          series: {
+            events: {
+              click: function(e) {
+                this.onMapSeriesClick(e);
+              }.bind(this)
+            }
+          }
         },
 
         legend: {

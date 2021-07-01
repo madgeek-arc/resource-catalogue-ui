@@ -599,8 +599,8 @@ export class ProviderStatsComponent implements OnInit {
   }
 
   onMapSeriesClick(e) {
-    this.selectedCountryName = e.originalEvent.point.name;
-    this.selectedCountryServices = this.geographicalDistributionMap.get(e.originalEvent.point['hc-key']);
+    this.selectedCountryName = e.point.name;
+    this.selectedCountryServices = this.geographicalDistributionMap.get(e.point.options['hc-key']);
 
     UIkit.modal('#servicesPerCountryModal').show();
   }
@@ -611,7 +611,6 @@ export class ProviderStatsComponent implements OnInit {
   }
 
   setMapDistributionOfServices(mapData: any) {
-    console.log(mapData);
     if (mapData) {
 
       this.mapDistributionOfServicesOptions = {
@@ -631,6 +630,16 @@ export class ProviderStatsComponent implements OnInit {
             [0.5, '#7BB4EB'],
             [1, '#1f3e5b']
           ]
+        },
+
+        plotOptions: {
+          series: {
+            events: {
+              click: function(e) {
+                this.onMapSeriesClick(e);
+              }.bind(this)
+            }
+          }
         },
 
         legend: {

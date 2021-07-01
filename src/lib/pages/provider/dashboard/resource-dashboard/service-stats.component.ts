@@ -278,7 +278,6 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
 
   setCountriesForService(data: any) {
     const places = this.resourceService.expandRegion(JSON.parse(JSON.stringify(data || [])), this.EU, this.WW);
-    console.log(places.map(e => e.toLowerCase()).map(e => [e, 1]));
 
     this.serviceMapOptions = {
       chart: {

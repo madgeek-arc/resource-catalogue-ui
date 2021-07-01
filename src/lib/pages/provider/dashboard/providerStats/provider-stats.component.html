@@ -28,9 +28,9 @@
             <div class="uk-width-1-5 ">
               <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
                       (change)="onPeriodChange($event)">
-                <option value="DAY" selected>Daily</option>
+                <option value="DAY">Daily</option>
                 <option value="WEEK">Weekly</option>
-                <option value="MONTH">Monthly</option>
+                <option value="MONTH" selected>Monthly</option>
                 <option value="YEAR">Yearly</option>
               </select>
               <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
@@ -92,8 +92,6 @@
                                   [constructorType]="chartConstructor"
                                   [options]="mapDistributionOfServicesOptions"
                                   style="width: 100%; height: auto; display: block;">
-                  <!--                  <series (click)="onMapSeriesClick($event)">-->
-                  <!--                  </series>-->
                 </highcharts-chart>
               </div>
             </div>
@@ -121,7 +119,10 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart [Highcharts]="Highcharts" [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
+                  <highcharts-chart *ngIf="categoriesPerServiceForProvider" [Highcharts]="Highcharts"
+                                    [options]="categoriesPerServiceForProvider"
+                                    style="width: 100%; height: auto; display: block;">
+                  </highcharts-chart>
                 </div>
               </div>
             </div>
@@ -129,7 +130,10 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart [Highcharts]="Highcharts" [options]="domainsPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
+                  <highcharts-chart *ngIf="domainsPerServiceForProvider" [Highcharts]="Highcharts"
+                                    [options]="domainsPerServiceForProvider"
+                                    style="width: 100%; height: auto; display: block;">
+                  </highcharts-chart>
                 </div>
               </div>
             </div>
@@ -137,7 +141,10 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart [Highcharts]="Highcharts" [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
+                  <highcharts-chart *ngIf="targetUsersPerServiceForProvider" [Highcharts]="Highcharts"
+                                    [options]="targetUsersPerServiceForProvider"
+                                    style="width: 100%; height: auto; display: block;">
+                  </highcharts-chart>
                 </div>
               </div>
             </div>
@@ -145,7 +152,10 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart [Highcharts]="Highcharts" [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
+                  <highcharts-chart *ngIf="accessTypesPerServiceForProvider" [Highcharts]="Highcharts"
+                                    [options]="accessTypesPerServiceForProvider"
+                                    style="width: 100%; height: auto; display: block;">
+                  </highcharts-chart>
                 </div>
               </div>
             </div>
@@ -153,7 +163,10 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart [Highcharts]="Highcharts" [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
+                  <highcharts-chart *ngIf="accessModesPerServiceForProvider" [Highcharts]="Highcharts"
+                                    [options]="accessModesPerServiceForProvider"
+                                    style="width: 100%; display: block;">
+                  </highcharts-chart>
                 </div>
               </div>
             </div>
@@ -161,7 +174,10 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart [Highcharts]="Highcharts" [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
+                  <highcharts-chart *ngIf="orderTypesPerServiceForProvider" [Highcharts]="Highcharts"
+                                    [options]="orderTypesPerServiceForProvider"
+                                    style="width: 100%; display: block;">
+                  </highcharts-chart>
                 </div>
               </div>
             </div>
