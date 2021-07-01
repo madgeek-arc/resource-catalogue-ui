@@ -68,7 +68,13 @@
                                       <h4 *ngIf="history.type === 'audit'">Audited as {{history.actionType | titlecase}}</h4>
                                       <h4 *ngIf="history.type === 'draft'">Saved as Draft</h4>
 
-                                      <div>by {{history.userFullName}} - {{history.userEmail}} ({{history.userRole}})</div>
+                                      <div>
+                                        <span *ngIf="history.userFullName || history.userEmail || history.userRole">by</span>
+                                        {{history.userFullName}}
+                                        <span *ngIf="history.userFullName && history.userEmail">-</span>
+                                        {{history.userEmail}}
+                                        <span *ngIf="history.userRole">({{history.userRole}})</span>
+                                      </div>
                                       <div *ngIf="history.comment && history.comment!=='null'" class="uk-margin-medium-top">
                                         <span class="comment"><i class="fa fa-comment uk-margin-small-right"></i>{{history.comment}}</span>
                                       </div>
