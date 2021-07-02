@@ -66,7 +66,7 @@
                               <span *ngIf="history.userEmail">{{ history.userEmail }}</span>
                               <span *ngIf="history.userRole"> ({{ history.userRole }})</span></td>
                             <td class=""><span *ngIf="history.actionType">{{ history.actionType }}</span></td>
-                            <td class="uk-text-center"><span *ngIf="history.comment">{{ history.comment }}</span></td>
+                            <td class="uk-text-center"><span *ngIf="history.comment && history.comment!=='null'">{{ history.comment }}</span></td>
                             <td class="uk-text-center"><span
                               *ngIf="history.actionType === 'updated version'" class="uk-badge">✓</span>
                             </td>
