@@ -12,7 +12,7 @@ import {flatMap} from 'rxjs/operators';
 import {zip} from 'rxjs';
 import {EmailService} from '../../../services/email.service';
 import {environment} from '../../../../environments/environment';
-import {MatomoTracker} from 'ngx-matomo-v9';
+import {MatomoTracker} from 'ngx-matomo';
 import * as Highcharts from 'highcharts';
 import MapModule from 'highcharts/modules/map';
 MapModule(Highcharts);

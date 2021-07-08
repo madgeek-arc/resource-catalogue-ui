@@ -5,7 +5,7 @@ import {AuthenticationService} from './authentication.service';
 import {NavigationService} from './navigation.service';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {MatomoTracker} from 'ngx-matomo-v9';
+import {MatomoTracker} from 'ngx-matomo';
 
 declare var UIkit: any;
 
