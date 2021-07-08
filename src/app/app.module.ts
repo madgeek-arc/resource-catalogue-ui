@@ -135,7 +135,7 @@ export function highchartsFactory() {
         }
       ],
       routeTracking: {
-        enable: false
+        enable: true
       }
     }),
     MarkdownModule.forRoot(),
