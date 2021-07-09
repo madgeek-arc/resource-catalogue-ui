@@ -21,7 +21,6 @@ declare var UIkit: any;
 export class ResourcesListComponent implements OnInit {
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
-  production = environment.production;
 
   formPrepare = {
     query: '',

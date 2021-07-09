@@ -110,7 +110,7 @@
                             <option value="abbreviation">Abbreviation</option>
                             <option value="registeredAt">Creation Date</option>
                             <option value="modifiedAt">Modification Date</option>
-                            <option *ngIf="!production" value="latestAuditDate">Audit Date</option>
+                            <option value="latestAuditDate">Audit Date</option>
                           </select>
                         </div>
                       </div>
@@ -226,7 +226,7 @@
                               <div class="uk-margin-small-top">
                                 <span class="statusLabel">Last Update: </span>{{ providerBundle.metadata.modifiedAt | date }}
                               </div>
-                              <div *ngIf="!production" class="uk-margin-small-top">
+                              <div class="uk-margin-small-top">
                                 <span class="statusLabel">Last Audit: </span>
                                 <ng-container *ngIf="providerBundle.latestAuditInfo">
                                   {{providerBundle.latestAuditInfo.actionType | titlecase}}ated
@@ -326,7 +326,7 @@
                             </button>
                             <div uk-dropdown="mode: click">
                               <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                                <ng-container *ngIf="providerBundle.status == 'approved' && !production">
+                                <ng-container *ngIf="providerBundle.status == 'approved'">
                                   <li class="uk-margin-small-bottom"
                                       (click)="showAuditForm('main', providerBundle)">
                                     <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
@@ -393,7 +393,7 @@
                           </div>
                         </ng-container>
 
-                        <ng-container *ngIf="providerBundle.status == 'approved' && !production">
+                        <ng-container *ngIf="providerBundle.status == 'approved'">
 <!--                          <hr class="uk-margin-top">-->
 <!--                          <button-->
 <!--                            class="uk-button uk-button-link uk-margin-medium-left"-->
@@ -596,7 +596,7 @@
               <div class="uk-margin-small-top">
                 <span class="statusLabel">Last Update: </span>{{ providerBundle.metadata.modifiedAt | date }}
               </div>
-              <div *ngIf="!production" class="uk-margin-small-top">
+              <div class="uk-margin-small-top">
                 <span class="statusLabel">Last Audit: </span>
                 <ng-container *ngIf="providerBundle.latestAuditInfo">
                   {{providerBundle.latestAuditInfo.actionType | titlecase}}ated
@@ -646,7 +646,7 @@
         </div>
 
         <hr class="uk-margin-top">
-        <button *ngIf="providerBundle.status == 'approved' && !production"
+        <button *ngIf="providerBundle.status == 'approved'"
           class="uk-button uk-button-link uk-margin-medium-right"
           (click)="showAuditForm('side', providerBundle)">
           <i class="fa fa-check-circle-o fa-lg"></i> Audit
@@ -675,7 +675,7 @@
           </ul>
         </div>
 
-        <ng-container *ngIf="providerBundle.status == 'approved' && !production">
+        <ng-container *ngIf="providerBundle.status == 'approved'">
 <!--          <hr class="uk-margin-top">-->
 <!--          <button-->
 <!--            class="uk-button uk-button-link uk-margin-medium-left"-->

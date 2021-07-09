@@ -23,7 +23,6 @@ export class ServiceProvidersListComponent implements OnInit {
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
-  production = environment.production;
 
   formPrepare = {
     query: '',
