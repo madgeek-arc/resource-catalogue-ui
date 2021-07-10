@@ -1,7 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
-import {InfraService, Provider, ProviderBundle, ProviderRequest, Service, ServiceHistory, VocabularyCuration} from '../domain/eic-model';
+import {
+  InfraService,
+  LoggingInfo,
+  Provider,
+  ProviderBundle,
+  ProviderRequest,
+  Service,
+  ServiceHistory,
+  VocabularyCuration
+} from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {Paging} from '../domain/paging';
@@ -184,6 +193,10 @@ export class ServiceProviderService {
 
   getProviderHistory(providerId: string) {
     return this.http.get<Paging<ServiceHistory>>(this.base + `/provider/history/${providerId}/`);
+  }
+
+  getProviderLoggingInfoHistory(providerId: string) {
+    return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}/`);
   }
 
 }

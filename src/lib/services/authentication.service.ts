@@ -172,7 +172,7 @@ export class AuthenticationService {
 
   isAdmin() {
     if (this.isLoggedIn()) {
-      return this.user.roles !== undefined ? this.user.roles.some(x => x === 'ROLE_ADMIN') : false;
+      return this.user.roles !== undefined ? this.user.roles.some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT') : false;
     }
   }
 }

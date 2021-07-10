@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ProviderBundle, Service, ServiceHistory} from '../../../../domain/eic-model';
+import {LoggingInfo, ProviderBundle, Service} from '../../../../domain/eic-model';
 import {NavigationService} from '../../../../services/navigation.service';
 import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
@@ -19,11 +19,10 @@ export class ProviderHistoryComponent implements OnInit {
 
   providerId: string;
   providerBundle: ProviderBundle;
+  providerHistory: Paging<LoggingInfo>;
 
   public service: Service;
   public errorMessage: string;
-
-  providerHistory: Paging<ServiceHistory>;
 
   constructor(private route: ActivatedRoute,
               private router: NavigationService,
@@ -35,8 +34,8 @@ export class ProviderHistoryComponent implements OnInit {
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     this.getProvider();
 
-    this.providerService.getProviderHistory(this.providerId).subscribe(
-      searchResults => this.providerHistory = searchResults,
+    this.providerService.getProviderLoggingInfoHistory(this.providerId).subscribe(
+      res => this.providerHistory = res,
       err => {
         this.errorMessage = 'An error occurred while retrieving the history of this service. ' + err.error;
       }

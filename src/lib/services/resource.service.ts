@@ -11,7 +11,7 @@ import {
   Service,
   ServiceHistory,
   Vocabulary,
-  Type, ProviderBundle, InfraService
+  Type, ProviderBundle, InfraService, LoggingInfo
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
@@ -492,6 +492,10 @@ export class ResourceService {
 
   getServiceHistory(serviceId: string) {
     return this.http.get<Paging<ServiceHistory>>(this.base + `/service/history/${serviceId}/`);
+  }
+
+  getServiceLoggingInfoHistory(serviceId: string) {
+    return this.http.get<Paging<LoggingInfo>>(this.base + `/resource/loggingInfoHistory/${serviceId}/`);
   }
 
   getInfo() {
