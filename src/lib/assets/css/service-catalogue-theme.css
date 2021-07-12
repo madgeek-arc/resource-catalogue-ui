@@ -33,6 +33,7 @@ h3 {
 
 a, .uk-link {
   color: var(--link-color);
+  text-decoration: none !important;
 }
 
 a:hover, a:focus, a:active {

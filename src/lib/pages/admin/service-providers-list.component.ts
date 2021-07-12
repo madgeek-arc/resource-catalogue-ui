@@ -10,8 +10,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 import {Paging} from '../../domain/paging';
-import {zip} from 'rxjs/internal/observable/zip';
 import {getLocaleDateFormat} from '@angular/common';
+import {zip} from 'rxjs';
 
 declare var UIkit: any;
 
