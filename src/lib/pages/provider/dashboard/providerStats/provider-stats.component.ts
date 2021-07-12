@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {isNullOrUndefined} from 'util';
+import {isNullOrUndefined} from '../../../../shared/tools';
 import {zip} from 'rxjs';
 import {AuthenticationService} from '../../../../services/authentication.service';
 import {ResourceService} from '../../../../services/resource.service';

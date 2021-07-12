@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {deleteCookie, getCookie, setCookie} from '../domain/utils';
 import {NavigationService} from './navigation.service';
-import {isNullOrUndefined} from 'util';
+import {isNullOrUndefined} from '../shared/tools';
 import {environment} from '../../environments/environment';
 
 import * as moment from 'moment';

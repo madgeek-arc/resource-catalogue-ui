@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import * as util from 'util';
 import {environment} from '../../../../environments/environment';
 
 @Component({
@@ -28,9 +27,5 @@ export class DevelopersComponent implements OnInit {
             // element.scrollIntoView();
             element.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});
         }
-    }
-
-    getModifiedURL(p) {
-        return util.format('%s//%s%s', window.location.protocol, window.location.hostname, p != null ? ':' + p : '');
     }
 }
