@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
-import {InfraService, ProviderBundle} from '../../domain/eic-model';
+import {InfraService, LoggingInfo, ProviderBundle} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -36,6 +36,11 @@ export class ResourcesListComponent implements OnInit {
 
   urlParams: URLParameter[] = [];
 
+  commentControl = new FormControl();
+  showSideAuditForm = false;
+  showMainAuditForm = false;
+  initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userFullName: '', userRole: '', type: '', comment: '', actionType: ''};
+
   errorMessage: string;
   loadingMessage = '';
 
@@ -44,6 +49,7 @@ export class ResourcesListComponent implements OnInit {
   providersTotal: number;
 
   services: InfraService[] = [];
+  servicesForAudit: InfraService[] = [];
   selectedService: InfraService;
   facets: any;
   searchFacet = '';
@@ -69,7 +75,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN')) {
+    if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
       this.router.navigateByUrl('/home');
     } else {
       this.dataForm = this.fb.group(this.formPrepare);
@@ -180,6 +186,29 @@ export class ResourcesListComponent implements OnInit {
         this.facets = res['facets'];
         this.total = res['total'];
         this.paginationInit();
+      },
+      err => {
+        console.log(err);
+        this.errorMessage = 'The list could not be retrieved';
+        this.loadingMessage = '';
+      },
+      () => {
+        this.loadingMessage = '';
+      }
+    );
+  }
+
+  getRandomResources(quantity: string) {
+    this.loadingMessage = 'Loading ' + quantity + ' random ' + this.serviceORresource + 's...';
+    this.servicesForAudit = [];
+    this.resourceService.getRandomResources(quantity).subscribe(
+      res => {
+        this.servicesForAudit = res['results'];
+        // this.services = res['results'];
+        // this.facets = res['facets'];
+        // this.total = res['total'];
+        // this.total = +quantity;
+        // this.paginationInit();
       },
       err => {
         console.log(err);
@@ -327,6 +356,46 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
+  showAuditForm(view: string, resource: InfraService) {
+    this.commentControl.reset();
+    this.selectedService = resource;
+    if (view === 'side') {
+      this.showSideAuditForm = true;
+    } else if (view === 'main') {
+      this.showMainAuditForm = true;
+    }
+  }
+
+  resetAuditView() {
+    this.showSideAuditForm = false;
+    this.showMainAuditForm = false;
+    this.commentControl.reset();
+  }
+
+  auditResourceAction(action: string) {
+    this.resourceService.auditResource(this.selectedService.id, action, this.commentControl.value)
+      .subscribe(
+        res => {
+          if (!this.showSideAuditForm) {
+            this.getServices();
+          }
+        },
+        err => { console.log(err); },
+        () => {
+          this.servicesForAudit.forEach(
+            s => {
+              if (s.id === this.selectedService.id) {
+                s.latestAuditInfo = this.initLatestAuditInfo;
+                s.latestAuditInfo.date = Date.now().toString();
+                s.latestAuditInfo.actionType = action;
+              }
+            }
+          );
+          this.resetAuditView();
+        }
+      );
+  }
+
   hasCreatedFirstService(id: string) {
     return this.pendingFirstServicePerProvider.some(x => x.providerId === id);
   }
@@ -341,6 +410,10 @@ export class ResourcesListComponent implements OnInit {
 
   getLinkToEditFirstService(id: string) {
     return '/edit/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
+  }
+
+  editResourceInNewTab(providerId, resourceId) {
+    window.open(`/provider/${providerId}/resource/update/${resourceId}`, '_blank');
   }
 
   paginationInit() {

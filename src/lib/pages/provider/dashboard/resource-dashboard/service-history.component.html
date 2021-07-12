@@ -11,9 +11,9 @@
             <div class="uk-margin-medium-left">
               <h3 class="uk-margin-remove">{{service.name}}</h3>
 <!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
-              <div *ngIf="serviceHistory?.results[0]?.registeredBy && serviceHistory?.results[0]?.registeredAt">
+<!--              <div *ngIf="serviceHistory?.results[0]?.registeredBy && serviceHistory?.results[0]?.registeredAt">
                 <span class="status-label">Registered by: </span>{{ serviceHistory.results[0].registeredBy }} on {{ serviceHistory.results[0].registeredAt | date}}
-              </div>
+              </div>-->
             </div>
           </div>
         </div>
@@ -40,10 +40,9 @@
 
                 <div class="uk-width-1-1">
 
-                  <section class="section project-bg-color">
+                  <section class="section">
                     <div class="uk-container uk-container-center">
-                    <div class="uk-button uk-button-danger uk-disabled uk-position-top-center uk-margin-small-top"
-                         style="background-color: #D1303A; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)">Today</div>
+                    <div class="uk-button uk-button-danger uk-disabled uk-position-top-center uk-margin-small-top todayBadge">Today</div>
 
                       <div class="al_timeline">
 
@@ -51,28 +50,37 @@
                           <ng-container *ngFor="let history of serviceHistory.results; let i = index">
                             <ng-container *ngIf="i < 10">
 
-                              <div *ngIf="history.versionChange" class="al_timeline_block versionChange">
-                                <div
-                                  class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">
-                                </div>
-                                <div
-                                  class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-left">
-                                  <h3>New Version {{history.version}}</h3>
-                                  <p>Updated to this version on {{history.modifiedAt | date:'MM/dd/yy'}}
-                                    by {{history.modifiedBy}}</p>
-                                  <!--<a class="md-btn md-btn-primary"-->
-                                  <!--[routerLink]="['/service/',service.id,history.version]">View version details</a>-->
-                                </div>
-                              </div>
+                              <div class="al_timeline_block update">
+                                <div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up"></div>
+                                <div class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">
+                                  <div class="">
+                                    <div>
+                                      <div class="uk-card-badge uk-label uk-label-gray">
+                                        <span class="">{{history.type | titlecase}}</span></div>
+                                    </div>
+                                    <div class="uk-position-top-right uk-margin-small uk-padding-small uk-padding-remove-top uk-padding-remove-bottom date-comment">
+                                      {{history.date | date:'dd/MM/yyyy'}}
+                                    </div>
 
-                              <div *ngIf="!history.versionChange" class="al_timeline_block update">
-                                <div
-                                  class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up">
-                                </div>
-                                <div
-                                  class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">
-                                  <h3>Updated Version {{history.version}}</h3>
-                                  <p>on {{history.modifiedAt | date:'MM/dd/yy'}} by {{history.modifiedBy}}</p>
+                                    <div class="uk-margin-medium uk-text-left">
+                                      <h4 *ngIf="history.type === 'onboard'">Onboarding - {{history.actionType | titlecase}}</h4>
+                                      <h4 *ngIf="history.type === 'update'">Update - {{history.actionType | titlecase}}</h4>
+                                      <h4 *ngIf="history.type === 'audit'">Audited as {{history.actionType | titlecase}}</h4>
+                                      <h4 *ngIf="history.type === 'draft'">Saved as Draft</h4>
+
+                                      <div>
+                                        <span *ngIf="history.userFullName || history.userEmail || history.userRole">by</span>
+                                        {{history.userFullName}}
+                                        <span *ngIf="history.userFullName && history.userEmail">-</span>
+                                        {{history.userEmail}}
+                                        <span *ngIf="history.userRole">({{history.userRole}})</span>
+                                      </div>
+                                      <div *ngIf="history.comment && history.comment!=='null'" class="uk-margin-medium-top">
+                                        <span class="comment"><i class="fa fa-comment uk-margin-small-right"></i>{{history.comment}}</span>
+                                      </div>
+                                    </div>
+
+                                  </div>
                                 </div>
                               </div>
 

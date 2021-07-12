@@ -1,10 +1,20 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
-import {InfraService, Provider, ProviderBundle, ProviderRequest, Service, ServiceHistory, VocabularyCuration} from '../domain/eic-model';
+import {
+  InfraService,
+  LoggingInfo,
+  Provider,
+  ProviderBundle,
+  ProviderRequest,
+  Service,
+  ServiceHistory,
+  VocabularyCuration
+} from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {Paging} from '../domain/paging';
+import {st} from '@angular/core/src/render3';
 
 @Injectable()
 export class ServiceProviderService {
@@ -31,22 +41,26 @@ export class ServiceProviderService {
     return url;
   }
 
-  createNewServiceProvider(newProvider: any) {
+  createNewServiceProvider(newProvider: any, comment: string) {
     // console.log(`knocking on: ${this.base}/provider`);
     return this.http.post(this.base + '/provider', newProvider, this.options);
   }
 
-  updateServiceProvider(updatedFields: any): Observable<Provider> {
-    // console.log(`knocking on: ${this.base}/provider`);
-    return this.http.put<Provider>(this.base + '/provider', updatedFields, this.options);
+  updateServiceProvider(updatedFields: any, comment: string): Observable<Provider> {
+    console.log(`knocking on: ${this.base}/provider`);
+    return this.http.put<Provider>(this.base + `/provider?comment=${comment}`, updatedFields, this.options);
   }
 
-  updateAndPublishPendingProvider(updatedFields: any): Observable<Provider> {
+  updateAndPublishPendingProvider(updatedFields: any, comment: string): Observable<Provider> {
     return this.http.put<Provider>(this.base + '/pendingProvider/transform/active', updatedFields, this.options);
   }
 
   verifyServiceProvider(id: string, active: boolean, status: string) {
     return this.http.patch(this.base + `/provider/verifyProvider/${id}?active=${active}&status=${status}`, {}, this.options);
+  }
+
+  auditProvider(id: string, action: string, comment: string) {
+    return this.http.patch(this.base + `/provider/auditProvider/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
   requestProviderDeletion(id: string) {
@@ -63,6 +77,10 @@ export class ServiceProviderService {
 
   getMyServiceProviders() {
     return this.http.get<ProviderBundle[]>(this.base + '/provider/getMyServiceProviders', this.options);
+  }
+
+  getRandomProviders(quantity: string) {
+    return this.http.get<ProviderBundle[]>(this.base + `/provider/randomProviders?quantity=${quantity}`, this.options);
   }
 
   getServiceProviderBundleById(id: string) {
@@ -175,6 +193,10 @@ export class ServiceProviderService {
 
   getProviderHistory(providerId: string) {
     return this.http.get<Paging<ServiceHistory>>(this.base + `/provider/history/${providerId}/`);
+  }
+
+  getProviderLoggingInfoHistory(providerId: string) {
+    return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}/`);
   }
 
 }

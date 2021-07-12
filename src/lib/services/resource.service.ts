@@ -11,7 +11,7 @@ import {
   Service,
   ServiceHistory,
   Vocabulary,
-  Type
+  Type, ProviderBundle, InfraService, LoggingInfo
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
@@ -437,6 +437,10 @@ export class ResourceService {
     return this.http.get<Provider[]>(this.base + '/provider/getMyServiceProviders');
   }
 
+  getRandomResources(quantity: string) {
+    return this.http.get<InfraService[]>(this.base + `/resource/randomResources?quantity=${quantity}`, this.options);
+  }
+
   getEU() {
     return this.http.get(this.base + '/vocabulary/countries/EU');
   }
@@ -460,17 +464,17 @@ export class ResourceService {
     return places;
   }
 
-  uploadService(service: Service, shouldPut: boolean) {
+  uploadService(service: Service, shouldPut: boolean, comment: string) {
     // console.log(JSON.stringify(service));
     // console.log(`knocking on: ${this.base}/service`);
-    return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + '/service', service, this.options);
+    return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + `/service?comment=${comment}`, service, this.options);
   }
 
   uploadServiceWithMeasurements(service: Service, measurements: Measurement[]) {
     return this.http.put<Service>(this.base + '/service/serviceWithMeasurements', {service, measurements}, this.options);
   }
 
-  uploadPendingService(service: Service, shouldPut: boolean) {
+  uploadPendingService(service: Service, shouldPut: boolean, comment: string) {
     return this.http.put<Service>(this.base + '/pendingService/transform/resource', service, this.options);
   }
 
@@ -490,8 +494,16 @@ export class ResourceService {
     return this.http.get<Paging<ServiceHistory>>(this.base + `/service/history/${serviceId}/`);
   }
 
+  getServiceLoggingInfoHistory(serviceId: string) {
+    return this.http.get<Paging<LoggingInfo>>(this.base + `/resource/loggingInfoHistory/${serviceId}/`);
+  }
+
   getInfo() {
     return this.http.get<Info>(this.base + `/info/all`);
+  }
+
+  auditResource(id: string, action: string, comment: string) {
+    return this.http.patch(this.base + `/resource/auditResource/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
   public handleError(error: HttpErrorResponse) {

@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/c
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
-import {Provider, ProviderBundle, Service, Type, Vocabulary} from '../../domain/eic-model';
+import {LoggingInfo, Provider, ProviderBundle, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -10,7 +10,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 import {Paging} from '../../domain/paging';
-import {zip} from 'rxjs';
+import {zip} from 'rxjs/internal/observable/zip';
+import {getLocaleDateFormat} from '@angular/common';
 
 declare var UIkit: any;
 
@@ -36,10 +37,17 @@ export class ServiceProvidersListComponent implements OnInit {
 
   urlParams: URLParameter[] = [];
 
+  commentControl = new FormControl();
+  // auditingProviderId: string;
+  showSideAuditForm = false;
+  showMainAuditForm = false;
+  initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userFullName: '', userRole: '', type: '', comment: '', actionType: ''};
+
   errorMessage: string;
   loadingMessage = '';
 
   providers: ProviderBundle[] = [];
+  providersForAudit: ProviderBundle[] = [];
   selectedProvider: ProviderBundle;
   newStatus: string;
   pushedApprove: boolean;
@@ -103,7 +111,7 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN')) {
+    if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
       this.router.navigateByUrl('/home');
     } else {
       this.dataForm = this.fb.group(this.formPrepare);
@@ -294,6 +302,41 @@ export class ServiceProvidersListComponent implements OnInit {
     );
   }
 
+  getRandomProviders(quantity: string) {
+    this.loadingMessage = 'Loading ' + quantity + ' random Providers...';
+    this.providersForAudit = [];
+    this.serviceProviderService.getRandomProviders(quantity).subscribe(
+      res => {
+        this.providersForAudit = res['results'];
+        // this.total = res['total'];
+        // this.total = +quantity;
+        // this.paginationInit();
+      },
+      err => {
+        console.log(err);
+        this.errorMessage = 'The list could not be retrieved';
+        this.loadingMessage = '';
+      },
+      () => {
+        this.loadingMessage = '';
+        this.providersForAudit.forEach(
+          p => {
+            if ((p.status === 'pending template approval') ||
+              (p.status === 'rejected template')) {
+              this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
+                res => {
+                  if (res && (res.length > 0)) {
+                    this.pendingFirstServicePerProvider.push({providerId: p.id, serviceId: res[0].id});
+                  }
+                }
+              );
+            }
+          }
+        );
+      }
+    );
+  }
+
   approveStatusChange(provider: ProviderBundle) {
     this.selectedProvider = provider;
     UIkit.modal('#approveModal').show();
@@ -312,7 +355,7 @@ export class ServiceProvidersListComponent implements OnInit {
         active: active
       });
 
-      this.serviceProviderService.updateServiceProvider(updatedFields).pipe(
+      this.serviceProviderService.updateServiceProvider(updatedFields, null).pipe(
         mergeMap(res => this.serviceProviderService.getServiceProviderById(res.id)))
         .subscribe(
           res => {
@@ -389,6 +432,46 @@ export class ServiceProvidersListComponent implements OnInit {
       );
   }
 
+  showAuditForm(view: string, provider: ProviderBundle) {
+    this.commentControl.reset();
+    this.selectedProvider = provider;
+    if (view === 'side') {
+      this.showSideAuditForm = true;
+    } else if (view === 'main') {
+      this.showMainAuditForm = true;
+    }
+  }
+
+  resetAuditView() {
+    this.showSideAuditForm = false;
+    this.showMainAuditForm = false;
+    this.commentControl.reset();
+  }
+
+  auditProviderAction(action: string) {
+    this.serviceProviderService.auditProvider(this.selectedProvider.id, action, this.commentControl.value)
+      .subscribe(
+        res => {
+          if (!this.showSideAuditForm) {
+            this.getProviders();
+          }
+        },
+        err => { console.log(err); },
+        () => {
+          this.providersForAudit.forEach(
+            p => {
+              if (p.id === this.selectedProvider.id) {
+                p.latestAuditInfo = this.initLatestAuditInfo;
+                p.latestAuditInfo.date = Date.now().toString();
+                p.latestAuditInfo.actionType = action;
+              }
+            }
+          );
+          this.resetAuditView();
+        }
+      );
+  }
+
   hasCreatedFirstService(id: string) {
     return this.pendingFirstServicePerProvider.some(x => x.providerId === id);
   }
@@ -403,6 +486,10 @@ export class ServiceProvidersListComponent implements OnInit {
 
   getLinkToEditFirstService(id: string) {
     return '/provider/' + id + '/resource/update/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
+  }
+
+  editProviderInNewTab(providerId) {
+    window.open(`/provider/update/${providerId}`, '_blank');
   }
 
   paginationInit() {
@@ -455,7 +542,7 @@ export class ServiceProvidersListComponent implements OnInit {
   checkAll(check: boolean) {
 
     const formArray: FormArray = this.dataForm.get('status') as FormArray;
-    if (check){
+    if (check) {
       formArray.controls.length = 0;
       for (let i = 0; i < this.statuses.length; i++) {
         formArray.push(new FormControl(this.statuses[i]));

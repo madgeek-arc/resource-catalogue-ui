@@ -11,20 +11,20 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { EmailModalComponent } from './email-modal/email-modal.component';
 import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
-// import {StarRatingModule} from 'angular-star-rating'; // FIXME: not supported on this angular version
+import {StarRatingModule} from 'angular-star-rating';
 import {BreadcrumbsComponent} from './breadcrumbs/breadcrumbs.component';
 import {RouterModule} from '@angular/router';
 import {PendingServicesComponent} from '../pages/provider/dashboard/pendingservices/pending-services.component';
 import {PreviewResourceComponent} from '../pages/previewresource/preview-resource.component';
-import { HighchartsChartModule } from 'highcharts-angular';
+import {ChartModule} from 'angular2-highcharts';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    // StarRatingModule.forRoot(), // FIXME: not supported on this angular version
+    StarRatingModule.forRoot(),
     RouterModule,
-    HighchartsChartModule
+    ChartModule
   ],
   declarations: [
     JoinPipe,
@@ -52,7 +52,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
     SafePipe,
     ValuesPipe,
     EmailModalComponent,
-    // StarRatingModule, // FIXME: not supported on this angular version
+    StarRatingModule,
     BreadcrumbsComponent,
     PendingServicesComponent,
     PreviewResourceComponent

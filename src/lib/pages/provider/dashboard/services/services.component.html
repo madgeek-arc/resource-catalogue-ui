@@ -210,10 +210,12 @@
       <!--</div>-->
       <!--</div>-->
 
-      <div id="spinnerModal" uk-modal>
-        <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+      <div *ngIf="toggleLoading">
+        <div class="loader-small">
+          <div class="greyFilm"></div>
         </div>
       </div>
+
     </div>
 
   </div>

@@ -67,9 +67,39 @@
                             <div class="uk-margin-small-top">
                               <span class="statusLabel">Status: </span>{{ providerBundle.status | titlecase }}
                             </div>
-                            <div class="uk-margin-top cardActionButtons">
-                              <button class="uk-button uk-button-action" routerLink="/provider/update/{{providerBundle.id}}">
-                                <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider</button>
+<!--                            <div class="uk-margin-top cardActionButtons">-->
+<!--                              <button class="uk-button uk-button-action" routerLink="/provider/update/{{providerBundle.id}}">-->
+<!--                                <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider</button>-->
+<!--                            </div>-->
+                            <hr class="uk-margin-top">
+                            <div class="uk-align-center uk-flex uk-flex-center">
+                              <button [routerLink]="['/provider/update/', providerBundle.id]"
+                                      class="uk-button uk-button-link"
+                                      style="padding-right: 40px; border-right: 1px solid #ccc">
+                                <i class="fa fa-edit fa-lg uk-margin-small-right" aria-hidden="true"></i> Update Provider
+                              </button>
+                              <button class="uk-button uk-button-link uk-margin-medium-left">
+                                <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
+                              </button>
+                              <div uk-dropdown="mode: click">
+                                <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+                                  <li class="uk-margin-small-bottom">
+                                    <a [routerLink]="['/dashboard', providerBundle.id]">
+                                      Go to Dashboard
+                                    </a>
+                                  </li>
+                                  <li class="uk-margin-small-bottom">
+                                    <a [routerLink]="['/dashboard/' + providerBundle.id + '/resources']">
+                                      View {{serviceORresource}}s
+                                    </a>
+                                  </li>
+                                  <li class="uk-margin-small-bottom">
+                                    <a [routerLink]="['/provider/' + providerBundle.id + '/resource/add/']">
+                                      Add new {{serviceORresource}}
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -104,14 +134,14 @@
                             </div>
                             <div class="uk-margin-top cardActionButtons">
                               <button class="uk-button uk-button-action" routerLink="/provider/update/{{providerBundle.id}}">
-                                <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider
+                                <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider
                               </button>
                               <ng-container *ngIf="(providerBundle.status === 'pending template submission')
                                         || (providerBundle.status === 'pending template approval')">
                                 <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
                                   <button class="uk-button uk-button-action uk-margin-small-left"
                                           routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
-                                    <i class="fa fa-pencil"></i>
+                                    <i class="fa fa-lg fa-edit"></i>
                                     Update {{serviceORresource | lowercase}} template
                                   </button>
                                 </ng-container>
@@ -170,10 +200,10 @@
                             </div>
                             <div class="uk-margin-top cardActionButtons">
                               <button class="uk-button uk-button-action" routerLink="/provider/update/{{providerBundle.id}}">
-                                <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider</button>
+                                <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider</button>
                               <button class="uk-button uk-button-action" *ngIf="providerBundle.status === 'rejected template'"
                                  routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
-                                <i class="fa fa-pencil"></i>
+                                <i class="fa fa-lg fa-edit"></i>
                                 Update {{serviceORresource | lowercase}} template
                               </button>
                             </div>
@@ -209,7 +239,7 @@
                             </div>
                             <div class="uk-margin-top cardActionButtons">
                               <button class="uk-button uk-button-action" routerLink="/provider/add/{{providerBundle.id}}">
-                                <i class="fa fa-lg fa-pencil uk-margin-small-right"></i>Update provider</button>
+                                <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider</button>
                             </div>
                           </div>
                         </div>

@@ -32,6 +32,7 @@ export class ServicesComponent implements OnInit {
   dataForm: FormGroup;
 
   errorMessage = '';
+  toggleLoading = false;
   urlParams: URLParameter[] = [];
   providerId;
   providerBundle: ProviderBundle;
@@ -103,18 +104,18 @@ export class ServicesComponent implements OnInit {
   }
 
   toggleService(providerService: InfraService) {
-    UIkit.modal('#spinnerModal').show();
+    this.toggleLoading = true;
     this.providerService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
       res => {},
       error => {
         this.errorMessage = 'Something went bad. ' + error.error ;
         this.getServices();
-        UIkit.modal('#spinnerModal').hide();
+        this.toggleLoading = false;
         // console.log(error);
       },
       () => {
         this.getServices();
-        UIkit.modal('#spinnerModal').hide();
+        this.toggleLoading = false;
       }
     );
   }

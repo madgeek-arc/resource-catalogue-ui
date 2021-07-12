@@ -1,4 +1,4 @@
-<div class="uk-section uk-section-xsmall">
+<div class="uk-section uk-section-xsmall stats">
   <div class="uk-container uk-container-expand">
     <div class="uk-padding-remove-bottom" style="min-height: 500px">
 
@@ -28,9 +28,9 @@
             <div class="uk-width-1-5 ">
               <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
                       (change)="onPeriodChange($event)">
-                <option value="DAY">Daily</option>
+                <option value="DAY" selected>Daily</option>
                 <option value="WEEK">Weekly</option>
-                <option value="MONTH" selected>Monthly</option>
+                <option value="MONTH">Monthly</option>
                 <option value="YEAR">Yearly</option>
               </select>
               <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
@@ -42,17 +42,10 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body" *ngIf="projectName==='CatRIS'">
-                  <highcharts-chart *ngIf="providerFavouritesOptions" [Highcharts]="Highcharts"
-                                    [options]="providerFavouritesOptions"
-                                    style="width: 100%; height: auto; display: block;">
-                  </highcharts-chart>
+                  <chart [options]="providerFavouritesOptions" style="width: 100%; display: block;"></chart>
                 </div>
                 <div class="uk-card-body" *ngIf="projectName==='EOSC'">
-                  <highcharts-chart *ngIf="providerAddsToProjectOptions"
-                                    [Highcharts]="Highcharts"
-                                    [options]="providerAddsToProjectOptions"
-                                    style="width: 100%; height: auto; display: block;">
-                  </highcharts-chart>
+                  <chart [options]="providerAddsToProjectOptions" style="width: 100%; display: block;"></chart>
                 </div>
               </div>
             </div>
@@ -60,11 +53,7 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart *ngIf="providerVisitsOptions"
-                                    [Highcharts]="Highcharts"
-                                    [options]="providerVisitsOptions"
-                                    style="width: 100%; height: auto; display: block;">
-                  </highcharts-chart>
+                  <chart [options]="providerVisitsOptions" style="width: 100%; display: block;"></chart>
                 </div>
               </div>
             </div>
@@ -72,13 +61,19 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart *ngIf="providerRatingsOptions" [Highcharts]="Highcharts"
-                                    [options]="providerRatingsOptions"
-                                    style="width: 100%; height: auto; display: block;">
-                  </highcharts-chart>
+                  <chart [options]="providerRatingsOptions" style="width: 100%; display: block;"></chart>
                 </div>
               </div>
             </div>
+
+            <!--        <div *ngIf="projectName==='EOSC'">-->
+            <!--          <div class="uk-card">-->
+            <!--            <div class="uk-card-body">-->
+            <!--              <chart [options]="providerOrdersOptions" style="width: 100%; display: block;"></chart>-->
+            <!--            </div>-->
+            <!--          </div>-->
+            <!--        </div>-->
+
           </div>
 
         </li>
@@ -87,12 +82,10 @@
           <div class="uk-grid uk-margin-remove-top">
             <div class="uk-width-1-1 uk-card">
               <div class="uk-card-body uk-padding-remove-top">
-                <highcharts-chart *ngIf="mapDistributionOfServicesOptions"
-                                  [Highcharts]="Highcharts"
-                                  [constructorType]="chartConstructor"
-                                  [options]="mapDistributionOfServicesOptions"
-                                  style="width: 100%; height: auto; display: block;">
-                </highcharts-chart>
+                <chart type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">
+                  <series (click)="onMapSeriesClick($event)">
+                  </series>
+                </chart>
               </div>
             </div>
           </div>
@@ -119,10 +112,7 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart *ngIf="categoriesPerServiceForProvider" [Highcharts]="Highcharts"
-                                    [options]="categoriesPerServiceForProvider"
-                                    style="width: 100%; height: auto; display: block;">
-                  </highcharts-chart>
+                  <chart [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></chart>
                 </div>
               </div>
             </div>
@@ -130,10 +120,7 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart *ngIf="domainsPerServiceForProvider" [Highcharts]="Highcharts"
-                                    [options]="domainsPerServiceForProvider"
-                                    style="width: 100%; height: auto; display: block;">
-                  </highcharts-chart>
+                  <chart [options]="domainsPerServiceForProvider" style="width: 100%; display: block;"></chart>
                 </div>
               </div>
             </div>
@@ -141,10 +128,7 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart *ngIf="targetUsersPerServiceForProvider" [Highcharts]="Highcharts"
-                                    [options]="targetUsersPerServiceForProvider"
-                                    style="width: 100%; height: auto; display: block;">
-                  </highcharts-chart>
+                  <chart [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></chart>
                 </div>
               </div>
             </div>
@@ -152,10 +136,7 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart *ngIf="accessTypesPerServiceForProvider" [Highcharts]="Highcharts"
-                                    [options]="accessTypesPerServiceForProvider"
-                                    style="width: 100%; height: auto; display: block;">
-                  </highcharts-chart>
+                  <chart [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
                 </div>
               </div>
             </div>
@@ -163,10 +144,7 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart *ngIf="accessModesPerServiceForProvider" [Highcharts]="Highcharts"
-                                    [options]="accessModesPerServiceForProvider"
-                                    style="width: 100%; display: block;">
-                  </highcharts-chart>
+                  <chart [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></chart>
                 </div>
               </div>
             </div>
@@ -174,10 +152,7 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <highcharts-chart *ngIf="orderTypesPerServiceForProvider" [Highcharts]="Highcharts"
-                                    [options]="orderTypesPerServiceForProvider"
-                                    style="width: 100%; display: block;">
-                  </highcharts-chart>
+                  <chart [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>
                 </div>
               </div>
             </div>
@@ -193,10 +168,10 @@
 <!--            <div>-->
 <!--              <div class="uk-card">-->
 <!--                <div class="uk-card-body" *ngIf="projectName==='CatRIS'">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerFavouritesOptions" style="width: 100%; display: block;"></highcharts-chart>-->
+<!--                  <chart [options]="providerFavouritesOptions" style="width: 100%; display: block;"></chart>-->
 <!--                </div>-->
 <!--                <div class="uk-card-body" *ngIf="projectName==='EOSC'">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerAddsToProjectOptions" style="width: 100%; display: block;"></highcharts-chart>-->
+<!--                  <chart [options]="providerAddsToProjectOptions" style="width: 100%; display: block;"></chart>-->
 <!--                </div>-->
 <!--              </div>-->
 <!--            </div>-->
@@ -204,7 +179,7 @@
 <!--            <div>-->
 <!--              <div class="uk-card">-->
 <!--                <div class="uk-card-body">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerVisitsOptions" style="width: 100%; display: block;"></highcharts-chart>-->
+<!--                  <chart [options]="providerVisitsOptions" style="width: 100%; display: block;"></chart>-->
 <!--                </div>-->
 <!--              </div>-->
 <!--            </div>-->
@@ -212,7 +187,7 @@
 <!--            <div>-->
 <!--              <div class="uk-card">-->
 <!--                <div class="uk-card-body">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerRatingsOptions" style="width: 100%; display: block;"></highcharts-chart>-->
+<!--                  <chart [options]="providerRatingsOptions" style="width: 100%; display: block;"></chart>-->
 <!--                </div>-->
 <!--              </div>-->
 <!--            </div>-->
@@ -220,7 +195,7 @@
 <!--            &lt;!&ndash;        <div *ngIf="projectName==='EOSC'">&ndash;&gt;-->
 <!--            &lt;!&ndash;          <div class="uk-card">&ndash;&gt;-->
 <!--            &lt;!&ndash;            <div class="uk-card-body">&ndash;&gt;-->
-<!--            &lt;!&ndash;              <highcharts-chart [Highcharts]="Highcharts" [options]="providerOrdersOptions" style="width: 100%; display: block;"></highcharts-chart>&ndash;&gt;-->
+<!--            &lt;!&ndash;              <chart [options]="providerOrdersOptions" style="width: 100%; display: block;"></chart>&ndash;&gt;-->
 <!--            &lt;!&ndash;            </div>&ndash;&gt;-->
 <!--            &lt;!&ndash;          </div>&ndash;&gt;-->
 <!--            &lt;!&ndash;        </div>&ndash;&gt;-->
@@ -232,10 +207,10 @@
 <!--          <div class="uk-grid">-->
 <!--            <div class="uk-width-1-1 uk-card">-->
 <!--              <div class="uk-card-body">-->
-<!--                <highcharts-chart [Highcharts]="Highcharts" type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">-->
+<!--                <chart type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">-->
 <!--                  <series (click)="onMapSeriesClick($event)">-->
 <!--                  </series>-->
-<!--                </highcharts-chart>-->
+<!--                </chart>-->
 <!--              </div>-->
 <!--            </div>-->
 <!--          </div>-->
@@ -247,7 +222,7 @@
 <!--            <div>-->
 <!--              <div class="uk-card">-->
 <!--                <div class="uk-card-body">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>-->
+<!--                  <chart [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></chart>-->
 <!--                </div>-->
 <!--              </div>-->
 <!--            </div>-->
@@ -263,7 +238,7 @@
 <!--            <div>-->
 <!--              <div class="uk-card">-->
 <!--                <div class="uk-card-body">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>-->
+<!--                  <chart [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></chart>-->
 <!--                </div>-->
 <!--              </div>-->
 <!--            </div>-->
@@ -271,7 +246,7 @@
 <!--            <div>-->
 <!--              <div class="uk-card">-->
 <!--                <div class="uk-card-body">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>-->
+<!--                  <chart [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>-->
 <!--                </div>-->
 <!--              </div>-->
 <!--            </div>-->
@@ -279,7 +254,7 @@
 <!--            <div>-->
 <!--              <div class="uk-card">-->
 <!--                <div class="uk-card-body">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>-->
+<!--                  <chart [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></chart>-->
 <!--                </div>-->
 <!--              </div>-->
 <!--            </div>-->
@@ -287,7 +262,7 @@
 <!--            <div>-->
 <!--              <div class="uk-card">-->
 <!--                <div class="uk-card-body">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>-->
+<!--                  <chart [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></chart>-->
 <!--                </div>-->
 <!--              </div>-->
 <!--            </div>-->

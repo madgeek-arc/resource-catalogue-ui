@@ -1,4 +1,4 @@
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
@@ -8,10 +8,10 @@ import * as sd from './services.description';
 import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
 import {urlAsyncValidator, UrlValidator, URLValidator} from '../../shared/validators/generic.validator';
-import {zip} from 'rxjs';
+import {zip} from 'rxjs/internal/observable/zip';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
-import BitSet from 'bitset';
+import BitSet from 'bitset/bitset';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
 
@@ -98,6 +98,8 @@ export class ServiceFormComponent implements OnInit {
     errorMessage: '',
     successMessage: ''
   };
+
+  commentControl = new FormControl();
 
   readonly nameDesc: sd.Description = sd.serviceDescMap.get('nameDesc');
   readonly webpageDesc: sd.Description = sd.serviceDescMap.get('webpageDesc');
@@ -275,8 +277,9 @@ export class ServiceFormComponent implements OnInit {
   }
 
   onSubmit(service: Service, tempSave: boolean, pendingService?: boolean) {
+    // console.log('Submit');
+    // console.log(this.commentControl.value);
     if (!this.authenticationService.isLoggedIn()) {
-      console.log('Submit');
       sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
       this.authenticationService.login();
     }
@@ -309,7 +312,7 @@ export class ServiceFormComponent implements OnInit {
     } else if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
       this.resourceService[pendingService ? 'uploadPendingService' : 'uploadService']
-      (this.serviceForm.value, this.editMode).subscribe(
+      (this.serviceForm.value, this.editMode, this.commentControl.value).subscribe(
         _service => {
           // console.log(_service);
           this.showLoader = false;
@@ -1056,10 +1059,21 @@ export class ServiceFormComponent implements OnInit {
 
   /** <--BitSets **/
 
+  /** Modals--> **/
+  showCommentModal() {
+    if (this.editMode && !this.pendingService) {
+      UIkit.modal('#commentModal').show();
+    } else {
+      this.onSubmit(this.serviceForm.value, false);
+    }
+  }
+
   openPreviewModal() {
     // console.log('Resource ==>', this.serviceForm.value);
     UIkit.modal('#modal-preview').show();
   }
+
+  /** <--Modals **/
 
   submitSuggestion(entryValueName, vocabulary, parent) {
     if (entryValueName.trim() !== '') {

@@ -1,4 +1,131 @@
-<div class="uk-padding-large">
-  <h3 class="uk-text-center">COMING SOON</h3>
+<div class="uk-section uk-section-small stats">
+  <div class="uk-container uk-container-expand">
+
+    <h2 class="uk-h2">Providers Statistics</h2>
+
+    <div class="uk-margin-medium-top">
+
+      <!--LAPTOP & PAD LANDSCAPE-->
+      <ul class="uk-visible@m uk-tab uk-tab-large uk-flex-left" data-uk-tab="{connect:'#team_tabbed',animation: 'slide-bottom'}">
+        <li class="uk-active" aria-expanded="true"><a (click)="changeView('general')">General</a></li>
+        <li aria-expanded="false"><a (click)="changeView('classification')">Classification</a></li>
+        <li aria-expanded="false"><a (click)="changeView('availability')">Availability</a></li>
+      </ul>
+
+      <ul id="team_tabbed" class="uk-switcher dataContainer">
+
+        <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
+
+          <div class="uk-grid uk-grid-match uk-grid-row-medium uk-margin-small-top uk-child-width-1-1@m uk-child-width-1-1@l uk-child-width-1-1@s">
+
+            <div class="uk-grid-margin">
+              <div class="uk-card chartCard">
+                <div class="uk-card-body">
+                  <iframe *ngIf="onboardingTimelineChartURL" width="100%" height="350" [src]="onboardingTimelineChartURL"></iframe>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="uk-grid uk-grid-match uk-grid-row-medium uk-margin-small-top uk-child-width-1-2@m uk-child-width-1-2@l uk-child-width-1-1@s">
+
+            <div class="uk-grid-margin">
+              <div class="uk-card chartCard">
+                <div class="uk-card-body">
+                  <iframe *ngIf="byLegalStatusChartURL" width="100%" height="450" [src]="byLegalStatusChartURL"></iframe>
+                </div>
+              </div>
+            </div>
+
+            <div class="uk-grid-margin">
+              <div class="uk-card chartCard">
+                <div class="uk-card-body">
+                  <iframe *ngIf="byLifecycleStatusChartURL" width="100%" height="450" [src]="byLifecycleStatusChartURL"></iframe>
+                </div>
+              </div>
+            </div>
+
+            <div class="uk-grid-margin">
+              <div class="uk-card chartCard">
+                <div class="uk-card-body">
+                  <iframe *ngIf="byNetworksChartURL" width="100%" height="450" [src]="byNetworksChartURL"></iframe>
+                </div>
+              </div>
+            </div>
+
+            <div class="uk-grid-margin">
+              <div class="uk-card chartCard">
+                <div class="uk-card-body">
+                  <iframe *ngIf="byAreaOfActivityChartURL" width="100%" height="450" [src]="byAreaOfActivityChartURL"></iframe>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </li>
+
+        <li aria-hidden="true" style="animation-duration: 200ms;">
+          <div class="uk-grid uk-grid-match uk-grid-row-medium uk-margin-small-top uk-child-width-1-2@m uk-child-width-1-2@l uk-child-width-1-1@s">
+
+            <div class="uk-grid-margin">
+              <div class="uk-card chartCard">
+                <div class="uk-card-body">
+                  <iframe *ngIf="byScientificDomainChartURL" width="100%" height="450" [src]="byScientificDomainChartURL"></iframe>
+                </div>
+              </div>
+            </div>
+
+            <div class="uk-grid-margin">
+              <div class="uk-card chartCard">
+                <div class="uk-card-body">
+                  <iframe *ngIf="byScientificSubdomainChartURL" width="100%" height="450" [src]="byScientificSubdomainChartURL"></iframe>
+                </div>
+              </div>
+            </div>
+
+            <div class="uk-grid-margin">
+              <div class="uk-card chartCard">
+                <div class="uk-card-body">
+                  <iframe *ngIf="byMerilDomainChartURL" width="100%" height="450" [src]="byMerilDomainChartURL"></iframe>
+                </div>
+              </div>
+            </div>
+
+            <div class="uk-grid-margin">
+              <div class="uk-card chartCard">
+                <div class="uk-card-body">
+                  <iframe *ngIf="byMerilSubdomainChartURL" width="100%" height="450" [src]="byMerilSubdomainChartURL"></iframe>
+                </div>
+              </div>
+            </div>
+
+            <div class="uk-grid-margin">
+              <div class="uk-card chartCard">
+                <div class="uk-card-body">
+                  <iframe *ngIf="byESFRIDomainChartURL" width="100%" height="450" [src]="byESFRIDomainChartURL"></iframe>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </li>
+
+        <li aria-hidden="true" style="animation-duration: 200ms;">
+          <div class="uk-grid uk-grid-match uk-grid-row-medium uk-margin-small-top uk-child-width-1-2@m uk-child-width-1-2@l uk-child-width-1-1@s">
+
+            <div class="uk-grid-margin">
+              Coming soon....
+            </div>
+
+          </div>
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
 </div>
 
