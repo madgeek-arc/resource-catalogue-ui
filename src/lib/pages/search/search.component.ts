@@ -10,7 +10,7 @@ import {ComparisonService} from '../../services/comparison.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {UserService} from '../../services/user.service';
-import {zip} from 'rxjs';
+import {zip} from 'rxjs/internal/observable/zip';
 import {flatMap} from 'rxjs/operators';
 import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
 import {OrderDownlineTreeviewEventParser, TreeviewConfig, TreeviewEventParser, TreeviewItem} from 'ngx-treeview';

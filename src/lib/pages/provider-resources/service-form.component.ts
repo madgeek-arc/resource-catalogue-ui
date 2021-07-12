@@ -8,10 +8,10 @@ import * as sd from './services.description';
 import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
 import {urlAsyncValidator, UrlValidator, URLValidator} from '../../shared/validators/generic.validator';
-import {zip} from 'rxjs';
+import {zip} from 'rxjs/internal/observable/zip';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
-import BitSet from 'bitset';
+import BitSet from 'bitset/bitset';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
 

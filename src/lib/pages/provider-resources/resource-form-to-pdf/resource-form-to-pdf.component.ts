@@ -8,13 +8,13 @@ import * as sd from '../services.description';
 import {Provider, RichService, Service, Type, Vocabulary} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {URLValidator} from '../../../shared/validators/generic.validator';
+import {zip} from 'rxjs/internal/observable/zip';
 import {PremiumSortPipe} from '../../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../../environments/environment';
-import BitSet from 'bitset';
+import BitSet from 'bitset/bitset';
 import {ActivatedRoute} from '@angular/router';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import {zip} from "rxjs";
 
 @Component({
   selector: 'app-resource-form-to-pdf',

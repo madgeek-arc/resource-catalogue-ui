@@ -23,8 +23,6 @@ import {UpdateServiceProviderComponent} from '../lib/pages/provider/update-servi
 import {ReusableComponentsModule} from '../lib/shared/reusablecomponents/reusable-components.module';
 import {ServiceProviderService} from '../lib/services/service-provider.service';
 import {ServiceProvidersListComponent} from '../lib/pages/admin/service-providers-list.component';
-import {HighchartsStatic} from 'angular2-highcharts/dist/HighchartsService';
-import {ChartModule} from 'angular2-highcharts';
 import {SupportModule} from '../lib/pages/support/support.module';
 import {ServiceStatsComponent} from '../lib/pages/provider/dashboard/resource-dashboard/service-stats.component';
 import {MyFavouritesComponent} from '../lib/pages/user/favourites/my-favourites.component';
@@ -51,8 +49,11 @@ import {EOSCFooterComponent} from './shared/footer/footer.component';
 import {EOSCTopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
-import {MatomoModule} from 'ngx-matomo-v9';
+import {MatomoModule} from 'ngx-matomo';
 import {MarkdownModule} from "ngx-markdown";
+import {HighchartsChartModule} from "highcharts-angular";
+import {environment} from '../environments/environment';
+
 
 
 declare var require: any;
@@ -123,9 +124,20 @@ export function highchartsFactory() {
     UserModule,
     // ProviderModule,
     // ProviderDashboardModule,
-    ChartModule,
+    HighchartsChartModule,
     CookieLawModule,
-    MatomoModule,
+    MatomoModule.forRoot({
+      scriptUrl: environment.MATOMO_URL + 'matomo.js',
+      trackers: [
+        {
+          trackerUrl: environment.MATOMO_URL + 'matomo.php',
+          siteId: environment.MATOMO_SITE
+        }
+      ],
+      routeTracking: {
+        enable: true
+      }
+    }),
     MarkdownModule.forRoot(),
     AppRoutingModule,
   ],
@@ -144,10 +156,6 @@ export function highchartsFactory() {
     UserService,
     ServiceProviderService,
     EmailService,
-    {
-      provide: HighchartsStatic,
-      useFactory: highchartsFactory
-    },
     DatePipe
   ],
   exports: [

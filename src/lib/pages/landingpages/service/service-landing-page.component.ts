@@ -9,10 +9,10 @@ import {UserService} from '../../../services/user.service';
 import {ServiceProviderService} from '../../../services/service-provider.service';
 import {FormBuilder} from '@angular/forms';
 import {flatMap} from 'rxjs/operators';
-import {zip} from 'rxjs';
+import {zip} from 'rxjs/internal/observable/zip';
 import {EmailService} from '../../../services/email.service';
 import {environment} from '../../../../environments/environment';
-import {MatomoTracker} from 'ngx-matomo-v9';
+import {MatomoTracker} from 'ngx-matomo';
 
 declare var UIkit: any;
 

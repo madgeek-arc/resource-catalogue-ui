@@ -66,6 +66,7 @@ export class InfraService extends Bundle<Service> {
 export class LoggingInfo {
   date: string;
   userEmail: string;
+  userFullName: string;
   userRole: string;
   type: string;
   comment: string;

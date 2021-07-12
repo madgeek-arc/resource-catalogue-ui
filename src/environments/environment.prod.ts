@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   beta: false,
-  MATOMO_URL: 'providers.eosc-portal.eu/matomo',
+  MATOMO_URL: 'https://providers.eosc-portal.eu/matomo/',
   MATOMO_SITE: 1,
   FAQ_ENDPOINT: '/faq/api',
   API_ENDPOINT: '/api',

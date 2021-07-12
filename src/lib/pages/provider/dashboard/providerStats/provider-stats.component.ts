@@ -1,13 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {isNullOrUndefined} from 'util';
-import {zip} from 'rxjs';
-import {AuthenticationService} from '../../../../services/authentication.service';
-import {ResourceService} from '../../../../services/resource.service';
-import {NavigationService} from '../../../../services/navigation.service';
-import {ActivatedRoute} from '@angular/router';
-import {ServiceProviderService} from '../../../../services/service-provider.service';
-import {InfraService, Provider, ProviderBundle} from '../../../../domain/eic-model';
-import {map} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { isNullOrUndefined } from 'util';
+import { zip } from 'rxjs/internal/observable/zip';
+import {Observable} from 'rxjs';
+import { AuthenticationService } from '../../../../services/authentication.service';
+import { ResourceService } from '../../../../services/resource.service';
+import { NavigationService } from '../../../../services/navigation.service';
+import { ActivatedRoute } from '@angular/router';
+import { ServiceProviderService } from '../../../../services/service-provider.service';
+import {InfraService, Provider, ProviderBundle, Service} from '../../../../domain/eic-model';
+import { map } from 'rxjs/operators';
 import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
 
@@ -63,8 +64,7 @@ export class ProviderStatsComponent implements OnInit {
     public router: NavigationService,
     private route: ActivatedRoute,
     private providerService: ServiceProviderService
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.statisticPeriod = 'MONTH';
@@ -110,14 +110,14 @@ export class ProviderStatsComponent implements OnInit {
     if (!dontGetServices) {
       this.providerService.getServicesOfProvider(this.providerId, '0', '50', 'ASC', 'name', 'true')
         .subscribe(res => {
-            this.providerServices = res;
-            this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices.results);
-            if (this.providerServicesGroupedByPlace) {
-              this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
+          this.providerServices = res;
+          this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices.results);
+          if (this.providerServicesGroupedByPlace) {
+            this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
 
-              this.setCountriesForProvider(this.providerCoverage);
-            }
-          },
+            this.setCountriesForProvider(this.providerCoverage);
+          }
+        },
           err => {
             this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
           }
@@ -237,8 +237,8 @@ export class ProviderStatsComponent implements OnInit {
         for (let i = 0; i < Object.keys(data).length; i++) {
           const str = (Object.values(data[i])[0]).toString();
           const key = str.substring(str.lastIndexOf('-') + 1).replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase());
-          barChartCategories.push(key);
-          barChartData.push(Object.keys(Object.values(data[i])[1]).length);
+            barChartCategories.push(key);
+            barChartData.push(Object.keys(Object.values(data[i])[1]).length);
         }
         this.setTargetUsersPerServiceForProvider(barChartCategories, barChartData);
       },
@@ -287,7 +287,7 @@ export class ProviderStatsComponent implements OnInit {
         const barChartData: number[] = [];
         for (let i = 0; i < Object.keys(data).length; i++) {
           const str = (Object.values(data[i])[0]).toString();
-          const key = str.substring(str.lastIndexOf('-') + 1).replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase());
+        const key = str.substring(str.lastIndexOf('-') + 1).replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase());
           barChartCategories.push(key);
           barChartData.push(Object.keys(Object.values(data[i])[1]).length);
         }
@@ -309,11 +309,11 @@ export class ProviderStatsComponent implements OnInit {
             }
           });
         })).subscribe(
-        data => this.setVisitationsForProvider(data),
-        err => {
-          this.errorMessage = 'An error occurred while retrieving service visitation percentages for this provider. ' + err.error;
-        }
-      );
+          data => this.setVisitationsForProvider(data),
+          err => {
+            this.errorMessage = 'An error occurred while retrieving service visitation percentages for this provider. ' + err.error;
+          }
+        );
     }
 
     this.resourceService.getMapDistributionOfServices(this.providerId).subscribe(
