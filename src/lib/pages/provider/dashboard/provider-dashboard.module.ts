@@ -1,7 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ChartModule} from 'angular2-highcharts';
 import {SharedModule} from '../../../shared/shared.module';
 import {ProviderDashboardRouting} from './provider-dashboard.routing';
 import {ReusableComponentsModule} from '../../../shared/reusablecomponents/reusable-components.module';
@@ -14,6 +13,7 @@ import {ServiceStatsComponent} from './resource-dashboard/service-stats.componen
 import {MarkdownModule} from 'ngx-markdown';
 import {ProviderHistoryComponent} from './providerHistory/provider-history.component';
 import {ProviderFullHistoryComponent} from './providerHistory/provider-full-history.component';
+import {HighchartsChartModule} from "highcharts-angular";
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import {ProviderFullHistoryComponent} from './providerHistory/provider-full-hist
     ReactiveFormsModule,
     ProviderDashboardRouting,
     ReusableComponentsModule,
-    ChartModule,
+    HighchartsChartModule,
     MarkdownModule.forChild(),
 
   ],

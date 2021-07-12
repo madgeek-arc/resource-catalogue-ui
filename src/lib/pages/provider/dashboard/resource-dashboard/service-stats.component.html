@@ -62,9 +62,9 @@
                 <div class="uk-width-1-5">
                   <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
                           (change)="onPeriodChange($event)">
-                    <option value="DAY" selected>Daily</option>
+                    <option value="DAY">Daily</option>
                     <option value="WEEK">Weekly</option>
-                    <option value="MONTH">Monthly</option>
+                    <option value="MONTH" selected>Monthly</option>
                     <option value="YEAR">Yearly</option>
                   </select>
                   <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
@@ -76,7 +76,10 @@
                 <div *ngIf="serviceFavouritesOptions && projectName==='CatRIS'">
                   <div class="uk-card">
                     <div class="uk-card-body">
-                      <chart [options]="serviceFavouritesOptions"></chart>
+                      <highcharts-chart *ngIf="serviceFavouritesOptions" [Highcharts]="Highcharts"
+                                        [options]="serviceFavouritesOptions"
+                                        style="width: 100%; height: auto; display: block;">
+                      </highcharts-chart>
                     </div>
                   </div>
                 </div>
@@ -84,7 +87,10 @@
                 <div *ngIf="serviceAddsToProjectOptions && projectName==='EOSC'">
                   <div class="uk-card">
                     <div class="uk-card-body">
-                      <chart [options]="serviceAddsToProjectOptions"></chart>
+                      <highcharts-chart *ngIf="serviceAddsToProjectOptions" [Highcharts]="Highcharts"
+                                        [options]="serviceAddsToProjectOptions"
+                                        style="width: 100%; height: auto; display: block;">
+                      </highcharts-chart>
                     </div>
                   </div>
                 </div>
@@ -92,7 +98,10 @@
                 <div *ngIf="serviceRatingsOptions">
                   <div class="uk-card">
                     <div class="uk-card-body">
-                      <chart [options]="serviceRatingsOptions"></chart>
+                      <highcharts-chart *ngIf="serviceRatingsOptions" [Highcharts]="Highcharts"
+                                        [options]="serviceRatingsOptions"
+                                        style="width: 100%; height: auto; display: block;">
+                      </highcharts-chart>
                     </div>
                   </div>
                 </div>
@@ -100,15 +109,24 @@
                 <div *ngIf="serviceVisitsOptions">
                   <div class="uk-card">
                     <div class="uk-card-body">
-                      <chart [options]="serviceVisitsOptions"></chart>
+                      <highcharts-chart *ngIf="serviceVisitsOptions"
+                        [Highcharts]="Highcharts"
+                        [options]="serviceVisitsOptions"
+                        style="width: 100%; height: auto; display: block;">
+                      </highcharts-chart>
                     </div>
                   </div>
                 </div>
 
                 <div class="uk-grid uk-margin-bottom">
                   <div class="uk-width-1-1">
-                    <div style="width:100%" *ngIf="serviceMapOptions">
-                      <chart type="Map" [options]="serviceMapOptions"></chart>
+                    <div style="width:100%">
+                      <highcharts-chart *ngIf="serviceMapOptions"
+                                        [Highcharts]="Highcharts"
+                                        [options]="serviceMapOptions"
+                                        [constructorType]="chartConstructor"
+                                        style="width: 100%; height: auto; display: block;">
+                      </highcharts-chart>
                     </div>
                   </div>
                 </div>

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Subscription, Observable} from 'rxjs';
-import {Provider, ProviderBundle, Service, ServiceHistory} from '../../../../domain/eic-model';
+import {Subscription, zip} from 'rxjs';
+import {Service, ServiceHistory} from '../../../../domain/eic-model';
 import {AuthenticationService} from '../../../../services/authentication.service';
 import {NavigationService} from '../../../../services/navigation.service';
 import {ResourceService} from '../../../../services/resource.service';
@@ -9,8 +9,13 @@ import {UserService} from '../../../../services/user.service';
 import {Paging} from '../../../../domain/paging';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {map} from 'rxjs/operators';
-import {zip} from 'rxjs/internal/observable/zip';
 import {environment} from '../../../../../environments/environment';
+import * as Highcharts from 'highcharts';
+import MapModule from 'highcharts/modules/map';
+MapModule(Highcharts);
+
+declare var require: any;
+const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
 
 @Component({
   selector: 'app-service-dashboard',
@@ -30,6 +35,8 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
   public EU: string[];
   public WW: string[];
 
+  Highcharts: typeof Highcharts = Highcharts;
+  chartConstructor = 'mapChart';
   serviceVisitsOptions: any = null;
   serviceRatingsOptions: any = null;
   serviceFavouritesOptions: any = null;
@@ -119,12 +126,12 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
 
     this.resourceService.getRatingsForService(this.service.id, period).pipe(
       map(data => {
-      // console.log('Ratings', data);
-      // THESE 3 weird lines should be deleted when pgl makes everything ok :)
-      return Object.entries(data).map((d) => {
-        return [new Date(d[0]).getTime(), d[1]];
-      }).sort((l, r) => l[0] - r[0]);
-    })).subscribe(
+        // console.log('Ratings', data);
+        // THESE 3 weird lines should be deleted when pgl makes everything ok :)
+        return Object.entries(data).map((d) => {
+          return [new Date(d[0]).getTime(), d[1]];
+        }).sort((l, r) => l[0] - r[0]);
+      })).subscribe(
       data => this.setRatingsForService(data),
       err => {
         this.errorMessage = 'An error occurred while retrieving ratings for this service. ' + err.error;
@@ -275,7 +282,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
     this.serviceMapOptions = {
       chart: {
         // map: 'custom/europe',
-        map: 'custom/world-highres2',
+        map: mapWorld,
         // borderWidth: 1
       },
       title: {
@@ -288,6 +295,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
         enabled: false
       },
       series: [{
+        type: 'map',
         name: 'Country',
         data: places.map(e => e.toLowerCase()).map(e => [e, 1]),
         dataLabels: {
