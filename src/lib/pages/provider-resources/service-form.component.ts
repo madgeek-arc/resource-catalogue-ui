@@ -356,7 +356,7 @@ export class ServiceFormComponent implements OnInit {
 
   ngOnInit() {
     zip(
-      this.resourceService.getProvidersNames(),
+      this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
       this.resourceService.getServices()
     ).subscribe(suc => {
