@@ -878,6 +878,21 @@ export class ServiceFormComponent implements OnInit {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  checkForDuplicates(formControlName) {
+    if (this.serviceForm.get(formControlName).value.length > 1) {
+      for (let i = 0; i < this.serviceForm.get(formControlName).value.length; i++) {
+        const val = this.serviceForm.get(formControlName).value[i];
+        for (let j = 0; j < this.serviceForm.get(formControlName).value.length; j++) {
+          console.log(i, j);
+          if (i !== j && val === this.serviceForm.get(formControlName).value[j]) {
+            this.showNotification();
+            return;
+          }
+        }
+      }
+    }
+  }
+
   /** BitSets -->**/
   /** TODO: maybe timeout can be removed with subject **/
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
@@ -1071,6 +1086,16 @@ export class ServiceFormComponent implements OnInit {
   openPreviewModal() {
     // console.log('Resource ==>', this.serviceForm.value);
     UIkit.modal('#modal-preview').show();
+  }
+
+  showNotification() {
+    UIkit.notification({
+      // message: `Please remove duplicate entries for ${label}.`,
+      message: 'Please remove duplicate entries.',
+      status: 'danger',
+      pos: 'top-center',
+      timeout: 7000
+    });
   }
 
   /** <--Modals **/

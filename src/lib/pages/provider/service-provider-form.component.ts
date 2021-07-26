@@ -767,6 +767,21 @@ export class ServiceProviderFormComponent implements OnInit {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  checkForDuplicates(formControlName) {
+    if (this.newProviderForm.get(formControlName).value.length > 1) {
+      for (let i = 0; i < this.newProviderForm.get(formControlName).value.length; i++) {
+        const val = this.newProviderForm.get(formControlName).value[i];
+        for (let j = 0; j < this.newProviderForm.get(formControlName).value.length; j++) {
+          console.log(i, j);
+          if (i !== j && val === this.newProviderForm.get(formControlName).value[j]) {
+            this.showNotification();
+            return;
+          }
+        }
+      }
+    }
+  }
+
   /** BitSets -->**/
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
     if (bitIndex === 0) {
@@ -1007,6 +1022,15 @@ export class ServiceProviderFormComponent implements OnInit {
         }
       );
     }
+  }
+
+  showNotification() {
+    UIkit.notification({
+      message: 'Please remove duplicate entries.',
+      status: 'danger',
+      pos: 'top-center',
+      timeout: 7000
+    });
   }
 
 }
