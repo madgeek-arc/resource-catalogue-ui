@@ -392,7 +392,7 @@
                                      class="uk-margin-bottom">
                                   <input id="multimedia" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                                          type="text" [formControlName]="i" placeholder="use http:// or https://"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('multimedia')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode)}">
                                   <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('multimedia').value[i]" class="uk-icon">
                                     <a href="{{this.serviceForm.get('multimedia').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
@@ -422,7 +422,7 @@
                                      class="uk-margin-bottom">
                                   <input id="useCases" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                                          type="text" [formControlName]="i" placeholder="use http:// or https://"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('useCases')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i, this.editMode)}">
                                   <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('useCases').value[i]" class="uk-icon">
                                     <a href="{{this.serviceForm.get('useCases').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
@@ -814,7 +814,7 @@
                                      class="uk-margin-bottom">
                                   <input id="tags" class="uk-input uk-animation-slide-top-small uk-width-9-10"
                                          type="text" [formControlName]="i"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('tags')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('tags', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('tags').length > 1"
                                      class="remove-element uk-padding-small"
@@ -1300,7 +1300,7 @@
                                   class="uk-margin-bottom">
                                   <input id="certifications" class="uk-input uk-animation-slide-top-small uk-width-9-10"
                                          type="text" [formControlName]="i"
-
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('certifications')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('certifications', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('certifications').length > 1"
                                      class="remove-element uk-padding-small"
@@ -1327,7 +1327,7 @@
                                      class="uk-margin-bottom">
                                   <input id="standards" class="uk-input uk-animation-slide-top-small uk-width-9-10"
                                          type="text" [formControlName]="i"
-
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('standards')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('standards', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('standards').length > 1"
                                      class="remove-element uk-padding-small"
@@ -1357,7 +1357,7 @@
                                   <input id="openSourceTechnologies"
                                          class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text"
                                          [formControlName]="i"
-
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('openSourceTechnologies')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('openSourceTechnologies', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('openSourceTechnologies').length > 1"
                                      class="remove-element uk-padding-small"
@@ -1411,7 +1411,7 @@
                                      class="uk-margin-bottom">
                                   <input id="changeLog" class="uk-input uk-animation-slide-top-small uk-width-9-10"
                                          type="text" [formControlName]="i"
-
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('changeLog')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('changeLog', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('changeLog').length > 1"
                                      class="remove-element uk-padding-small"
@@ -1510,7 +1510,7 @@
                                   <input id="relatedPlatforms"
                                          class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text"
                                          [formControlName]="i"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('relatedPlatforms')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedPlatforms', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('relatedPlatforms').length > 1"
                                      class="remove-element uk-padding-small"
@@ -1645,7 +1645,7 @@
                                   <input id="grantProjectNames"
                                          class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text"
                                          [formControlName]="i"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('grantProjectNames')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('grantProjectNames', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('grantProjectNames').length > 1"
                                      class="remove-element uk-padding-small"

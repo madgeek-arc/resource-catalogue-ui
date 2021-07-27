@@ -336,7 +336,7 @@
                                      class="uk-margin-bottom">
                                   <input id="multimedia" class="uk-input uk-width-9-10" type="text"
                                          [formControlName]="i" placeholder="use http:// or https://"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('multimedia')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.edit)}">
                                   <div *ngIf="this.edit && this.isPortalAdmin && this.newProviderForm.get('multimedia').value[i]" class="uk-icon">
                                     <a href="{{this.newProviderForm.get('multimedia').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
@@ -468,7 +468,7 @@
                                 <div *ngFor="let provider of getFieldAsFormArray('tags').controls; let i=index"
                                      class="uk-margin-bottom">
                                   <input id="tags" class="uk-input uk-width-9-10" type="text" [formControlName]="i"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('tags')"
                                          [ngClass]="{'uk-form-danger': checkFormValidity('tags', this.edit)}">
                                   <a *ngIf="getFieldAsFormArray('tags').length > 1 && !disable"
                                      class="remove-element uk-padding-small"
@@ -808,7 +808,7 @@
                                   class="uk-margin-bottom">
                                   <input id="certifications" class="uk-input uk-width-9-10" type="text"
                                          [formControlName]="i"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('certifications')"
                                          [ngClass]="{'uk-form-danger': checkFormValidity('certifications', this.edit)}">
                                   <a *ngIf="getFieldAsFormArray('certifications').length > 1 && !disable"
                                      class="remove-element uk-padding-small"
@@ -903,7 +903,7 @@
                                      class="uk-margin-bottom">
                                   <input id="affiliations" class="uk-input uk-width-9-10" type="text"
                                          [formControlName]="i"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('affiliations')"
                                          [ngClass]="{'uk-form-danger': checkFormValidity('affiliations', this.edit)}">
                                   <a *ngIf="getFieldAsFormArray('affiliations').length > 1 && !disable"
                                      class="remove-element uk-padding-small"
@@ -1316,7 +1316,7 @@
                                   class="uk-margin-bottom">
                                   <input id="nationalRoadmaps" class="uk-input uk-width-9-10" type="text"
                                          [formControlName]="i"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('nationalRoadmaps')"
                                          [ngClass]="{'uk-form-danger': checkFormValidity('nationalRoadmaps', this.edit)}">
                                   <a *ngIf="getFieldAsFormArray('nationalRoadmaps').length > 1 && !disable"
                                      class="remove-element uk-padding-small"
