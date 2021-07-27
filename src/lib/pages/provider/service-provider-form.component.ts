@@ -767,15 +767,37 @@ export class ServiceProviderFormComponent implements OnInit {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  checkForDuplicates(formControlName) {
-    if (this.newProviderForm.get(formControlName).value.length > 1) {
-      for (let i = 0; i < this.newProviderForm.get(formControlName).value.length; i++) {
-        const val = this.newProviderForm.get(formControlName).value[i];
-        for (let j = 0; j < this.newProviderForm.get(formControlName).value.length; j++) {
-          console.log(i, j);
-          if (i !== j && val === this.newProviderForm.get(formControlName).value[j]) {
-            this.showNotification();
-            return;
+  checkForDuplicates(formControlName, group?) {
+    if (group === 'scientificDomains') {
+      for (let i = 0; i < this.domainArray.controls.length; i++) {
+        for (let j = 0; j <  this.domainArray.controls.length; j++) {
+          if (i !== j && this.domainArray.controls[i].get('scientificDomain').value === this.domainArray.controls[j].get('scientificDomain').value ) {
+            if (this.domainArray.controls[i].get('scientificSubdomain').value === this.domainArray.controls[j].get('scientificSubdomain').value) {
+              this.showNotification();
+              return;
+            }
+          }
+        }
+      }
+    } else if (group === 'merilScientificDomains') {
+      for (let i = 0; i < this.merilDomainArray.controls.length; i++) {
+        for (let j = 0; j <  this.merilDomainArray.controls.length; j++) {
+          if (i !== j && this.merilDomainArray.controls[i].get('merilScientificDomain').value === this.merilDomainArray.controls[j].get('merilScientificDomain').value ) {
+            if (this.merilDomainArray.controls[i].get('merilScientificSubdomain').value === this.merilDomainArray.controls[j].get('merilScientificSubdomain').value) {
+              this.showNotification();
+              return;
+            }
+          }
+        }
+      }
+    } else {
+      if (this.newProviderForm.get(formControlName).value.length > 1) {
+        for (let i = 0; i < this.newProviderForm.get(formControlName).value.length; i++) {
+          for (let j = 0; j < this.newProviderForm.get(formControlName).value.length; j++) {
+            if (i !== j && this.newProviderForm.get(formControlName).value[i] === this.newProviderForm.get(formControlName).value[j]) {
+              this.showNotification();
+              return;
+            }
           }
         }
       }

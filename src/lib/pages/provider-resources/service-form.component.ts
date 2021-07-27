@@ -878,15 +878,37 @@ export class ServiceFormComponent implements OnInit {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  checkForDuplicates(formControlName) {
-    if (this.serviceForm.get(formControlName).value.length > 1) {
-      for (let i = 0; i < this.serviceForm.get(formControlName).value.length; i++) {
-        const val = this.serviceForm.get(formControlName).value[i];
-        for (let j = 0; j < this.serviceForm.get(formControlName).value.length; j++) {
-          console.log(i, j);
-          if (i !== j && val === this.serviceForm.get(formControlName).value[j]) {
-            this.showNotification();
-            return;
+  checkForDuplicates(formControlName, group?) {
+    if (group === 'scientificDomains') {
+      for (let i = 0; i < this.scientificDomainArray.controls.length; i++) {
+        for (let j = 0; j <  this.scientificDomainArray.controls.length; j++) {
+          if (i !== j && this.scientificDomainArray.controls[i].get('scientificDomain').value === this.scientificDomainArray.controls[j].get('scientificDomain').value ) {
+            if (this.scientificDomainArray.controls[i].get('scientificSubdomain').value === this.scientificDomainArray.controls[j].get('scientificSubdomain').value) {
+              this.showNotification();
+              return;
+            }
+          }
+        }
+      }
+    } else if (group === 'categories') {
+      for (let i = 0; i < this.categoryArray.controls.length; i++) {
+        for (let j = 0; j <  this.categoryArray.controls.length; j++) {
+          if (i !== j && this.categoryArray.controls[i].get('category').value === this.categoryArray.controls[j].get('category').value ) {
+            if (this.categoryArray.controls[i].get('subcategory').value === this.categoryArray.controls[j].get('subcategory').value) {
+              this.showNotification();
+              return;
+            }
+          }
+        }
+      }
+    } else {
+      if (this.serviceForm.get(formControlName).value.length > 1) {
+        for (let i = 0; i < this.serviceForm.get(formControlName).value.length; i++) {
+          for (let j = 0; j < this.serviceForm.get(formControlName).value.length; j++) {
+            if (i !== j && this.serviceForm.get(formControlName).value[i] === this.serviceForm.get(formControlName).value[j]) {
+              this.showNotification();
+              return;
+            }
           }
         }
       }

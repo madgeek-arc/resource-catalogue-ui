@@ -504,7 +504,8 @@
                                         <ng-select *ngIf="scientificSubDomainVocabulary" id="{{'scientificSubdomain ' + i}}"
                                                    class="uk-width-1-1"
                                                    [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, this.editMode, 'scientificSubdomain')}"
-                                                   (change)="handleBitSetsOfGroups(2, 7, 'scientificSubdomain', 'scientificDomains'); unsavedChangesPrompt()"
+                                                   (change)="handleBitSetsOfGroups(2, 7, 'scientificSubdomain', 'scientificDomains');
+                                                    checkForDuplicates('scientificSubdomain','scientificDomains'); unsavedChangesPrompt()"
                                                    [items]="getSortedChildrenCategories(scientificSubDomainVocabulary, scientificDomainArray.controls[i].get('scientificDomain').value)"
                                                    bindLabel="name"
                                                    bindValue="id"
@@ -611,7 +612,8 @@
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <ng-select *ngIf="subCategoriesVocabulary" id="{{'subcategory ' + i}}"
                                                    class="uk-width-1-1"
-                                                   (change)="handleBitSetsOfGroups(2, 9, 'subcategory', 'categories'); unsavedChangesPrompt()"
+                                                   (change)="handleBitSetsOfGroups(2, 9, 'subcategory', 'categories');
+                                                    checkForDuplicates('subcategory','categories'); unsavedChangesPrompt()"
                                                    [ngClass]="{'uk-form-danger': checkFormArrayValidity('categories', i, this.editMode, 'subcategory')}"
                                                    [items]="getSortedChildrenCategories(subCategoriesVocabulary, categoryArray.controls[i].get('category').value)"
                                                    bindLabel="name"
