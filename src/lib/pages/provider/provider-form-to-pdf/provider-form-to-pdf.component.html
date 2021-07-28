@@ -3,7 +3,7 @@
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
 
-        <form [formGroup]="newProviderForm" class="uk-form uk-margin uk-width-3-4">
+        <form [formGroup]="providerForm" class="uk-form uk-margin uk-width-3-4">
 
           <div id="page1">
 
@@ -51,7 +51,7 @@
                 <label>
                   <span class="uk-form-description uk-margin-small-right">{{legalEntityDesc.desc}}</span>
                   <input class="uk-checkbox" type="checkbox" id="legalEntityYes" formControlName="legalEntity" value="true"
-                         [checked]="this.newProviderForm.get('legalEntity').value == true && edit">
+                         [checked]="this.providerForm.get('legalEntity').value == true && edit">
                 </label>
               </div>
             </div>
@@ -62,8 +62,8 @@
               <div class="uk-form-description uk-margin-top uk-width-9-10">{{legalStatusDesc.desc}}</div>
               <div class="uk-form-controls uk-margin-medium-top">
                 <select id="legalStatus" class="uk-input uk-select uk-width-9-10" formControlName="legalStatus"
-                        [ngClass]="{'uk-disabled': this.newProviderForm.get('legalEntity').value == false, 'uk-form-danger': checkFormValidity('legalStatus')}">
-                  <ng-container *ngIf="this.newProviderForm.get('legalEntity').value == true">
+                        [ngClass]="{'uk-disabled': this.providerForm.get('legalEntity').value == false, 'uk-form-danger': checkFormValidity('legalStatus')}">
+                  <ng-container *ngIf="this.providerForm.get('legalEntity').value == true">
                     <!--                                  <option value=""></option>-->
                     <option>
 
@@ -804,7 +804,7 @@
               <div *ngIf="!edit"><i>An administrator for managing the Provider information in {{projectName}} will be added using your user information</i></div>
               <div class="uk-width-9-10"><i>An administrator has full edit privileges for the provider’s information via the web and the API (add a new {{serviceORresource | lowercase}},
                 update information regarding the provider’s organization and {{serviceORresource | lowercase}}s, activate or delete a {{serviceORresource | lowercase}}, add or remove administrators and issue tokens for API use).</i></div>
-              <div *ngIf="newProviderForm.get('users').value" class="uk-form-controls uk-margin-top">
+              <div *ngIf="providerForm.get('users').value" class="uk-form-controls uk-margin-top">
                 <div formArrayName="users" *ngFor="let user of usersArray.controls; let i = index">
                   <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                     <div class="uk-margin-bottom">
