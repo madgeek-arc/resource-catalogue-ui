@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ChartModule} from 'angular2-highcharts';
+import { HighchartsChartModule } from 'highcharts-angular';
 import {SharedModule} from '../../shared/shared.module';
 import {ProviderRouting} from './provider.routing';
 import {ReusableComponentsModule} from '../../shared/reusablecomponents/reusable-components.module';
@@ -30,7 +30,7 @@ import {LMarkdownEditorModule} from 'ngx-markdown-editor';
     ReactiveFormsModule,
     ProviderRouting,
     ReusableComponentsModule,
-    ChartModule,
+    HighchartsChartModule,
     NgSelectModule,
 
   ],

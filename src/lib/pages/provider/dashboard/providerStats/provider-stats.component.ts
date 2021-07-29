@@ -1,17 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { isNullOrUndefined } from 'util';
-import { zip } from 'rxjs/internal/observable/zip';
-import {Observable} from 'rxjs';
-import { AuthenticationService } from '../../../../services/authentication.service';
-import { ResourceService } from '../../../../services/resource.service';
-import { NavigationService } from '../../../../services/navigation.service';
-import { ActivatedRoute } from '@angular/router';
-import { ServiceProviderService } from '../../../../services/service-provider.service';
-import {InfraService, Provider, ProviderBundle, Service} from '../../../../domain/eic-model';
-import { map } from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {isNullOrUndefined} from '../../../../shared/tools';
+import {zip} from 'rxjs';
+import {AuthenticationService} from '../../../../services/authentication.service';
+import {ResourceService} from '../../../../services/resource.service';
+import {NavigationService} from '../../../../services/navigation.service';
+import {ActivatedRoute} from '@angular/router';
+import {ServiceProviderService} from '../../../../services/service-provider.service';
+import {InfraService, Provider, ProviderBundle} from '../../../../domain/eic-model';
+import {map} from 'rxjs/operators';
 import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
+import * as Highcharts from 'highcharts';
+import MapModule from 'highcharts/modules/map';
+MapModule(Highcharts);
 
+declare var require: any;
+// const mapWorld = require('@highcharts/map-collection/custom/world.geo.json');
+const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
 declare var UIkit: any;
 
 
@@ -56,6 +61,8 @@ export class ProviderStatsComponent implements OnInit {
   selectedCountryName: string = null;
   selectedCountryServices: any = null;
   geographicalDistributionMap: any = null;
+  Highcharts: typeof Highcharts = Highcharts;
+  chartConstructor = "mapChart";
 
   constructor(
     public authenticationService: AuthenticationService,
@@ -64,7 +71,8 @@ export class ProviderStatsComponent implements OnInit {
     public router: NavigationService,
     private route: ActivatedRoute,
     private providerService: ServiceProviderService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.statisticPeriod = 'MONTH';
@@ -110,14 +118,14 @@ export class ProviderStatsComponent implements OnInit {
     if (!dontGetServices) {
       this.providerService.getServicesOfProvider(this.providerId, '0', '50', 'ASC', 'name', 'true')
         .subscribe(res => {
-          this.providerServices = res;
-          this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices.results);
-          if (this.providerServicesGroupedByPlace) {
-            this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
+            this.providerServices = res;
+            this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices.results);
+            if (this.providerServicesGroupedByPlace) {
+              this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
 
-            this.setCountriesForProvider(this.providerCoverage);
-          }
-        },
+              this.setCountriesForProvider(this.providerCoverage);
+            }
+          },
           err => {
             this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
           }
@@ -237,8 +245,8 @@ export class ProviderStatsComponent implements OnInit {
         for (let i = 0; i < Object.keys(data).length; i++) {
           const str = (Object.values(data[i])[0]).toString();
           const key = str.substring(str.lastIndexOf('-') + 1).replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase());
-            barChartCategories.push(key);
-            barChartData.push(Object.keys(Object.values(data[i])[1]).length);
+          barChartCategories.push(key);
+          barChartData.push(Object.keys(Object.values(data[i])[1]).length);
         }
         this.setTargetUsersPerServiceForProvider(barChartCategories, barChartData);
       },
@@ -287,7 +295,7 @@ export class ProviderStatsComponent implements OnInit {
         const barChartData: number[] = [];
         for (let i = 0; i < Object.keys(data).length; i++) {
           const str = (Object.values(data[i])[0]).toString();
-        const key = str.substring(str.lastIndexOf('-') + 1).replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase());
+          const key = str.substring(str.lastIndexOf('-') + 1).replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase());
           barChartCategories.push(key);
           barChartData.push(Object.keys(Object.values(data[i])[1]).length);
         }
@@ -309,11 +317,11 @@ export class ProviderStatsComponent implements OnInit {
             }
           });
         })).subscribe(
-          data => this.setVisitationsForProvider(data),
-          err => {
-            this.errorMessage = 'An error occurred while retrieving service visitation percentages for this provider. ' + err.error;
-          }
-        );
+        data => this.setVisitationsForProvider(data),
+        err => {
+          this.errorMessage = 'An error occurred while retrieving service visitation percentages for this provider. ' + err.error;
+        }
+      );
     }
 
     this.resourceService.getMapDistributionOfServices(this.providerId).subscribe(
@@ -591,8 +599,8 @@ export class ProviderStatsComponent implements OnInit {
   }
 
   onMapSeriesClick(e) {
-    this.selectedCountryName = e.originalEvent.point.name;
-    this.selectedCountryServices = this.geographicalDistributionMap.get(e.originalEvent.point['hc-key']);
+    this.selectedCountryName = e.point.name;
+    this.selectedCountryServices = this.geographicalDistributionMap.get(e.point.options['hc-key']);
 
     UIkit.modal('#servicesPerCountryModal').show();
   }
@@ -603,12 +611,11 @@ export class ProviderStatsComponent implements OnInit {
   }
 
   setMapDistributionOfServices(mapData: any) {
-
     if (mapData) {
 
       this.mapDistributionOfServicesOptions = {
         chart: {
-          map: 'custom/world-highres2',
+          map: mapWorld,
           // map: 'custom/world',
           height: (3 / 4 * 100) + '%', // 3:4 ratio
         },
@@ -623,6 +630,16 @@ export class ProviderStatsComponent implements OnInit {
             [0.5, '#7BB4EB'],
             [1, '#1f3e5b']
           ]
+        },
+
+        plotOptions: {
+          series: {
+            events: {
+              click: function(e) {
+                this.onMapSeriesClick(e);
+              }.bind(this)
+            }
+          }
         },
 
         legend: {

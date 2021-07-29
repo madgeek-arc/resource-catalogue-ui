@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ResourceService } from '../../services/resource.service';
 import { NavigationService } from '../../services/navigation.service';
 import {Provider} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import * as Highcharts from 'highcharts';
+import MapModule from 'highcharts/modules/map';
+MapModule(Highcharts);
 
+const mapWorld = require('@highcharts/map-collection/custom/world.geo.json');
+declare var require: any;
 declare var UIkit: any;
 
 
@@ -31,13 +35,9 @@ export class ResourcesStatsComponent implements OnInit {
   public EU: string[];
   public WW: string[];
 
+  Highcharts: typeof Highcharts = Highcharts;
+  chartConstructor = 'mapChart'
   mapDistributionOfServicesOptions: any = null;
-  categoriesPerServiceForProvider: any = null;
-  domainsPerServiceForProvider: any = null;
-  targetUsersPerServiceForProvider: any = null;
-  accessModesPerServiceForProvider: any = null;
-  accessTypesPerServiceForProvider: any = null;
-  orderTypesPerServiceForProvider: any = null;
 
   selectedCountryName: string = null;
   selectedCountryServices: any = null;
@@ -190,8 +190,8 @@ export class ResourcesStatsComponent implements OnInit {
   }
 
   onMapSeriesClick(e) {
-    this.selectedCountryName = e.originalEvent.point.name;
-    this.selectedCountryServices = this.geographicalDistributionMap.get(e.originalEvent.point['hc-key']);
+    this.selectedCountryName = e.point.name;
+    this.selectedCountryServices = this.geographicalDistributionMap.get(e.point.options['hc-key']);
 
     UIkit.modal('#servicesPerCountryModal').show();
   }
@@ -202,12 +202,10 @@ export class ResourcesStatsComponent implements OnInit {
   }
 
   setMapDistributionOfServices(mapData: any) {
-
     if (mapData) {
-
       this.mapDistributionOfServicesOptions = {
         chart: {
-          map: 'custom/world-highres2',
+          map: mapWorld,
           // map: 'custom/world',
           height: (3 / 4 * 100) + '%', // 3:4 ratio
         },
@@ -222,6 +220,16 @@ export class ResourcesStatsComponent implements OnInit {
             [0.5, '#7BB4EB'],
             [1, '#1f3e5b']
           ]
+        },
+
+        plotOptions: {
+          series: {
+            events: {
+              click: function(e) {
+                this.onMapSeriesClick(e);
+              }.bind(this)
+            }
+          }
         },
 
         legend: {
@@ -262,281 +270,5 @@ export class ResourcesStatsComponent implements OnInit {
         }]
       };
     }
-  }
-
-  setCategoriesPerServiceForProvider(categories: string[], data: number[]) {
-    this.categoriesPerServiceForProvider = {
-      chart: {
-        type: 'bar',
-        height: (3 / 4 * 100) + '%' // 3:4 ratio
-      },
-      title: {
-        text: environment.serviceORresource + ' distribution in categories'
-      },
-      xAxis: {
-        categories: categories,
-        title: {
-          text: ''
-        }
-      },
-      series: [{
-        name: 'Categories',
-        color: '#7720b6',
-        data: data
-      }],
-      yAxis: {
-        min: 0,
-        title: {
-          text: 'Number of services'
-        },
-        labels: {
-          overflow: 'justify',
-          display: 'none'
-        }
-      },
-      tooltip: {
-        valueSuffix: ' services'
-      },
-      plotOptions: {
-        bar: {
-          dataLabels: {
-            enabled: true
-          }
-        }
-      },
-      credits: {
-        enabled: true
-      }
-    };
-  }
-
-  setDomainsPerServiceForProvider(categories: string[], data: number[]) {
-    this.domainsPerServiceForProvider = {
-      chart: {
-        type: 'bar',
-        height: (3 / 4 * 100) + '%' // 3:4 ratio
-      },
-      title: {
-        text: environment.serviceORresource + ' distribution in scientific domains'
-      },
-      xAxis: {
-        categories: categories,
-        title: {
-          text: ''
-        }
-      },
-      series: [{
-        name: 'Scientific Domains',
-        color: '#1326a8',
-        data: data
-      }],
-      yAxis: {
-        min: 0,
-        title: {
-          text: 'Number of services'
-        },
-        labels: {
-          overflow: 'justify',
-          display: 'none'
-        }
-      },
-      tooltip: {
-        valueSuffix: ' services'
-      },
-      plotOptions: {
-        bar: {
-          dataLabels: {
-            enabled: true
-          }
-        }
-      },
-      credits: {
-        enabled: true
-      }
-    };
-  }
-
-  setTargetUsersPerServiceForProvider(categories: string[], data: number[]) {
-    this.targetUsersPerServiceForProvider = {
-      chart: {
-        type: 'bar',
-        height: (3 / 4 * 100) + '%' // 3:4 ratio
-      },
-      title: {
-        text: environment.serviceORresource + ' distribution in target users'
-      },
-      xAxis: {
-        categories: categories,
-        title: {
-          text: ''
-        }
-      },
-      series: [{
-        name: 'Target users',
-        color: '#80116d',
-        data: data
-      }],
-      yAxis: {
-        min: 0,
-        title: {
-          text: 'Number of services'
-        },
-        labels: {
-          overflow: 'justify',
-          display: 'none'
-        }
-      },
-      tooltip: {
-        valueSuffix: ' services'
-      },
-      plotOptions: {
-        bar: {
-          dataLabels: {
-            enabled: true
-          }
-        }
-      },
-      credits: {
-        enabled: true
-      }
-    };
-  }
-
-  setAccessModesPerServiceForProvider(categories: string[], data: number[]) {
-    this.accessModesPerServiceForProvider = {
-      chart: {
-        type: 'bar',
-        height: (3 / 4 * 100) + '%' // 3:4 ratio
-      },
-      title: {
-        text: environment.serviceORresource + ' distribution in access modes'
-      },
-      xAxis: {
-        categories: categories,
-        title: {
-          text: ''
-        }
-      },
-      series: [{
-        name: 'Access modes',
-        color: '#de882d',
-        data: data
-      }],
-      yAxis: {
-        min: 0,
-        title: {
-          text: 'Number of services'
-        },
-        labels: {
-          overflow: 'justify',
-          display: 'none'
-        }
-      },
-      tooltip: {
-        valueSuffix: ' services'
-      },
-      plotOptions: {
-        bar: {
-          dataLabels: {
-            enabled: true
-          }
-        }
-      },
-      credits: {
-        enabled: true
-      }
-    };
-  }
-
-  setAccessTypesPerServiceForProvider(categories: string[], data: number[]) {
-    this.accessTypesPerServiceForProvider = {
-      chart: {
-        type: 'bar',
-        height: (3 / 4 * 100) + '%' // 3:4 ratio
-      },
-      title: {
-        text: environment.serviceORresource + ' distribution in access types'
-      },
-      xAxis: {
-        categories: categories,
-        title: {
-          text: ''
-        }
-      },
-      series: [{
-        name: 'Access types',
-        color: '#db510b',
-        data: data
-      }],
-      yAxis: {
-        min: 0,
-        title: {
-          text: 'Number of services'
-        },
-        labels: {
-          overflow: 'justify',
-          display: 'none'
-        }
-      },
-      tooltip: {
-        valueSuffix: ' services'
-      },
-      plotOptions: {
-        bar: {
-          dataLabels: {
-            enabled: true
-          }
-        }
-      },
-      credits: {
-        enabled: true
-      }
-    };
-  }
-
-  setOrderTypesPerServiceForProvider(categories: string[], data: number[]) {
-    this.orderTypesPerServiceForProvider = {
-      chart: {
-        type: 'bar',
-        height: (3 / 4 * 100) + '%' // 3:4 ratio
-      },
-      title: {
-        text: environment.serviceORresource + ' distribution in order types'
-      },
-      xAxis: {
-        categories: categories,
-        title: {
-          text: ''
-        }
-      },
-      series: [{
-        name: 'Order types',
-        color: '#298e13',
-        data: data
-      }],
-      yAxis: {
-        min: 0,
-        title: {
-          text: 'Number of services'
-        },
-        labels: {
-          overflow: 'justify',
-          display: 'none'
-        }
-      },
-      tooltip: {
-        valueSuffix: ' services'
-      },
-      plotOptions: {
-        bar: {
-          dataLabels: {
-            enabled: true
-          }
-        }
-      },
-      credits: {
-        enabled: true
-      }
-    };
   }
 }

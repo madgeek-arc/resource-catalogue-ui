@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Provider, ProviderBundle, ProviderRequest} from '../../../../domain/eic-model';
 import {ActivatedRoute} from '@angular/router';
-import {isNullOrUndefined} from 'util';
+import {isNullOrUndefined} from '../../../../shared/tools';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 
 @Component({

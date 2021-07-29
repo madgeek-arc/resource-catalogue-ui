@@ -7,7 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {Vocabulary, Type, Provider} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
-import BitSet from 'bitset/bitset';
+import BitSet from 'bitset';
 import {environment} from '../../../environments/environment';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 
