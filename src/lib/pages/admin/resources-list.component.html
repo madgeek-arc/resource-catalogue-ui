@@ -211,7 +211,7 @@
 <!--                                  </a>-->
 <!--                                </span>-->
 <!--                                <span *ngIf="serviceBundle.status==='approved'" class="uk-margin-auto-vertical">-->
-                                <span      class="uk-margin-auto-vertical">
+                                <span class="uk-margin-auto-vertical">
                                   <a [routerLink]="['/resource-dashboard', serviceBundle.service.resourceOrganisation ,serviceBundle.id]" data-uk-tooltip title="'Go to the resource dashboard'">
                                       {{ serviceBundle.service.name }}
                                   </a>
@@ -538,24 +538,14 @@
 
             <div class="uk-width-4-5">
               <div class="providerName">
-                <!--                                <span *ngIf="serviceBundle.status!=='approved'" class="uk-margin-auto-vertical">-->
-                <!--                                  <h5 class="uk-display-inline-block" data-uk-tooltip-->
-                <!--                                      title="'Your resource provider is not yet active, therefore you cannot access its monitoring dashboard'">-->
-                <!--                                    {{ serviceBundle.service.name }}-->
-                <!--                                  </h5>-->
-                <!--                                  <a [routerLink]="['/provider/info',serviceBundle.id]" class="uk-display-inline-block">-->
-                <!--                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
-                <!--                                  </a>-->
-                <!--                                </span>-->
-                <!--                                <span *ngIf="serviceBundle.status==='approved'" class="uk-margin-auto-vertical">-->
-                <span      class="uk-margin-auto-vertical">
-                                  <a [routerLink]="['/resource-dashboard', serviceBundle.service.resourceOrganisation ,serviceBundle.id]" target="_blank" data-uk-tooltip title="'Go to the resource dashboard'">
-                                      {{ serviceBundle.service.name }}
-                                  </a>
-                  <!--                                  <a [routerLink]="['/provider/info',serviceBundle.id]" class="uk-display-inline-block">-->
-                  <!--                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
-                  <!--                                  </a>-->
-                                </span>
+                <span class="uk-margin-auto-vertical">
+                  <a [routerLink]="['/resource-dashboard', serviceBundle.service.resourceOrganisation ,serviceBundle.id]" target="_blank" data-uk-tooltip title="'Go to the resource dashboard'">
+                      {{ serviceBundle.service.name }}
+                  </a>
+<!--                  <a [routerLink]="['/provider/info',serviceBundle.id]" class="uk-display-inline-block">-->
+<!--                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
+<!--                  </a>-->
+                </span>
               </div>
               <div class="uk-margin-small-top">
                 <span class="statusLabel">ID: </span>

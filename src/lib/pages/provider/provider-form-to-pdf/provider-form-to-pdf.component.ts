@@ -31,7 +31,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   providerName = '';
   errorMessage = '';
   userInfo = {family_name: '', given_name: '', email: ''};
-  newProviderForm: FormGroup;
+  providerForm: FormGroup;
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   premiumSort = new PremiumSortPipe();
@@ -187,12 +187,12 @@ export class ProviderFormToPdfComponent implements OnInit {
     //   this.pendingProvider = true;
     // }
     // this.setVocabularies();
-    this.newProviderForm = this.fb.group(this.formDefinition);
+    this.providerForm = this.fb.group(this.formDefinition);
     if (this.edit === false) {
       this.pushDomain();
       this.pushMerilDomain();
       // this.addDefaultUser();  // Admin
-      this.newProviderForm.get('legalEntity').setValue(false);
+      this.providerForm.get('legalEntity').setValue(false);
     }
 
     if (sessionStorage.getItem('provider')) {
@@ -221,7 +221,7 @@ export class ProviderFormToPdfComponent implements OnInit {
           }
         }
       }
-      this.newProviderForm.patchValue(data);
+      this.providerForm.patchValue(data);
       if (!this.edit) {
         sessionStorage.removeItem('provider');
       }
@@ -263,7 +263,7 @@ export class ProviderFormToPdfComponent implements OnInit {
 
   /** check form fields and tabs validity--> **/
   checkFormValidity(name: string): boolean {
-    return (!this.newProviderForm.get(name).valid && this.newProviderForm.get(name).dirty);
+    return (!this.providerForm.get(name).valid && this.providerForm.get(name).dirty);
   }
 
   checkFormArrayValidity(name: string, position: number, groupName?: string): boolean {
@@ -342,7 +342,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   }
 
   get domainArray() {
-    return this.newProviderForm.get('scientificDomains') as FormArray;
+    return this.providerForm.get('scientificDomains') as FormArray;
   }
 
   pushDomain() {
@@ -370,7 +370,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   }
 
   get merilDomainArray() {
-    return this.newProviderForm.get('merilScientificDomains') as FormArray;
+    return this.providerForm.get('merilScientificDomains') as FormArray;
   }
 
   pushMerilDomain() {
@@ -391,7 +391,7 @@ export class ProviderFormToPdfComponent implements OnInit {
 
   /** handle form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.newProviderForm.get(field) as FormArray;
+    return this.providerForm.get(field) as FormArray;
   }
 
   remove(field: string, i: number) {
@@ -426,7 +426,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   }
 
   get publicContactArray() {
-    return this.newProviderForm.get('publicContacts') as FormArray;
+    return this.providerForm.get('publicContacts') as FormArray;
   }
 
   pushPublicContact() {
@@ -450,7 +450,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   }
 
   get usersArray() { // return form fields as array
-    return this.newProviderForm.get('users') as FormArray;
+    return this.providerForm.get('users') as FormArray;
   }
 
   addUser() {

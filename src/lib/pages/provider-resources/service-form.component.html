@@ -288,7 +288,7 @@
                                   <ng-select *ngIf="providersPage?.results?.length > 0" class="uk-width-9-10" id="serviceProviders"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('resourceProviders', i, this.editMode)}"
                                              [items]="providersPage.results"
-                                             (change)="unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('resourceProviders'); unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -392,7 +392,7 @@
                                      class="uk-margin-bottom">
                                   <input id="multimedia" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                                          type="text" [formControlName]="i" placeholder="use http:// or https://"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('multimedia')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode)}">
                                   <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('multimedia').value[i]" class="uk-icon">
                                     <a href="{{this.serviceForm.get('multimedia').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
@@ -422,7 +422,7 @@
                                      class="uk-margin-bottom">
                                   <input id="useCases" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                                          type="text" [formControlName]="i" placeholder="use http:// or https://"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('useCases')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i, this.editMode)}">
                                   <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('useCases').value[i]" class="uk-icon">
                                     <a href="{{this.serviceForm.get('useCases').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
@@ -504,7 +504,8 @@
                                         <ng-select *ngIf="scientificSubDomainVocabulary" id="{{'scientificSubdomain ' + i}}"
                                                    class="uk-width-1-1"
                                                    [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, this.editMode, 'scientificSubdomain')}"
-                                                   (change)="handleBitSetsOfGroups(2, 7, 'scientificSubdomain', 'scientificDomains'); unsavedChangesPrompt()"
+                                                   (change)="handleBitSetsOfGroups(2, 7, 'scientificSubdomain', 'scientificDomains');
+                                                    checkForDuplicates('scientificSubdomain','scientificDomains'); unsavedChangesPrompt()"
                                                    [items]="getSortedChildrenCategories(scientificSubDomainVocabulary, scientificDomainArray.controls[i].get('scientificDomain').value)"
                                                    bindLabel="name"
                                                    bindValue="id"
@@ -611,7 +612,8 @@
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <ng-select *ngIf="subCategoriesVocabulary" id="{{'subcategory ' + i}}"
                                                    class="uk-width-1-1"
-                                                   (change)="handleBitSetsOfGroups(2, 9, 'subcategory', 'categories'); unsavedChangesPrompt()"
+                                                   (change)="handleBitSetsOfGroups(2, 9, 'subcategory', 'categories');
+                                                    checkForDuplicates('subcategory','categories'); unsavedChangesPrompt()"
                                                    [ngClass]="{'uk-form-danger': checkFormArrayValidity('categories', i, this.editMode, 'subcategory')}"
                                                    [items]="getSortedChildrenCategories(subCategoriesVocabulary, categoryArray.controls[i].get('category').value)"
                                                    bindLabel="name"
@@ -669,7 +671,7 @@
                                   <ng-select *ngIf="targetUsersVocabulary" class="uk-width-9-10" id="targetUsers"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('targetUsers', i, this.editMode)}"
                                              [items]="sortVocabulariesByName(targetUsersVocabulary)"
-                                             (change)="handleBitSets(2, 10, 'targetUsers');unsavedChangesPrompt()"
+                                             (change)="handleBitSets(2, 10, 'targetUsers');checkForDuplicates('targetUsers');unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -715,7 +717,7 @@
                                 <div *ngFor="let provider of getFieldAsFormArray('accessTypes').controls; let i=index"
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('accessTypes').controls.length-1 !== i}">
                                   <ng-select *ngIf="accessTypesVocabulary" class="uk-width-9-10" id="accessTypes"
-                                             (change)="unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('accessTypes'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('accessTypes', i, this.editMode)}"
                                              [items]="sortVocabulariesByName(accessTypesVocabulary)"
                                              bindLabel="name"
@@ -763,7 +765,7 @@
                                 <div *ngFor="let provider of getFieldAsFormArray('accessModes').controls; let i=index"
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('accessModes').controls.length-1 !== i}">
                                   <ng-select *ngIf="accessTypesVocabulary" class="uk-width-9-10" id="accessModes"
-                                             (change)="unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('accessModes'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('accessModes', i, this.editMode)}"
                                              [items]="sortVocabulariesByName(accessModesVocabulary)"
                                              bindLabel="name"
@@ -812,7 +814,7 @@
                                      class="uk-margin-bottom">
                                   <input id="tags" class="uk-input uk-animation-slide-top-small uk-width-9-10"
                                          type="text" [formControlName]="i"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('tags')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('tags', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('tags').length > 1"
                                      class="remove-element uk-padding-small"
@@ -846,7 +848,7 @@
                                   <ng-select *ngIf="geographicalVocabulary" class="uk-width-9-10" id="geographicalAvailabilities"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('geographicalAvailabilities', i, this.editMode)}"
                                              [items]="geographicalVocabulary"
-                                             (change)="handleBitSets(3, 11, 'geographicalAvailabilities'); unsavedChangesPrompt()"
+                                             (change)="handleBitSets(3, 11, 'geographicalAvailabilities');checkForDuplicates('geographicalAvailabilities');unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -898,7 +900,7 @@
                                   <ng-select *ngIf="languagesVocabulary" class="uk-width-9-10" id="languageAvailabilities"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('languageAvailabilities', i, this.editMode)}"
                                              [items]="languagesVocabulary"
-                                             (change)="handleBitSets(3, 12, 'languageAvailabilities'); unsavedChangesPrompt()"
+                                             (change)="handleBitSets(3, 12, 'languageAvailabilities');checkForDuplicates('languageAvailabilities');unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -953,7 +955,7 @@
                                   <ng-select *ngIf="geographicalVocabulary" class="uk-width-9-10" id="resourceGeographicLocations"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('resourceGeographicLocations', i, this.editMode)}"
                                              [items]="geographicalVocabulary"
-                                             (change)="unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('resourceGeographicLocations'); unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -1298,7 +1300,7 @@
                                   class="uk-margin-bottom">
                                   <input id="certifications" class="uk-input uk-animation-slide-top-small uk-width-9-10"
                                          type="text" [formControlName]="i"
-
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('certifications')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('certifications', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('certifications').length > 1"
                                      class="remove-element uk-padding-small"
@@ -1325,7 +1327,7 @@
                                      class="uk-margin-bottom">
                                   <input id="standards" class="uk-input uk-animation-slide-top-small uk-width-9-10"
                                          type="text" [formControlName]="i"
-
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('standards')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('standards', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('standards').length > 1"
                                      class="remove-element uk-padding-small"
@@ -1355,7 +1357,7 @@
                                   <input id="openSourceTechnologies"
                                          class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text"
                                          [formControlName]="i"
-
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('openSourceTechnologies')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('openSourceTechnologies', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('openSourceTechnologies').length > 1"
                                      class="remove-element uk-padding-small"
@@ -1409,7 +1411,7 @@
                                      class="uk-margin-bottom">
                                   <input id="changeLog" class="uk-input uk-animation-slide-top-small uk-width-9-10"
                                          type="text" [formControlName]="i"
-
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('changeLog')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('changeLog', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('changeLog').length > 1"
                                      class="remove-element uk-padding-small"
@@ -1442,7 +1444,7 @@
                                   <ng-select *ngIf="requiredResources" class="uk-width-9-10" id="requiredResources"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('requiredResources', i, this.editMode)}"
                                              [items]="requiredResources"
-                                             (change)="unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('requiredResources'); unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -1475,7 +1477,7 @@
                                   <ng-select *ngIf="relatedResources" class="uk-width-9-10" id="relatedResources"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedResources', i, this.editMode)}"
                                              [items]="relatedResources"
-                                             (change)="unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('relatedResources'); unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -1508,7 +1510,7 @@
                                   <input id="relatedPlatforms"
                                          class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text"
                                          [formControlName]="i"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('relatedPlatforms')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedPlatforms', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('relatedPlatforms').length > 1"
                                      class="remove-element uk-padding-small"
@@ -1540,7 +1542,7 @@
                                   <ng-select *ngIf="fundingBodyVocabulary" class="uk-width-9-10" id="fundingBody"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('fundingBody', i, this.editMode)}"
                                              [items]="sortVocabulariesByName(fundingBodyVocabulary)"
-                                             (change)="unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('fundingBody'); unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -1591,7 +1593,7 @@
                                   <ng-select *ngIf="fundingProgramVocabulary" class="uk-width-9-10" id="fundingPrograms"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('fundingPrograms', i, this.editMode)}"
                                              [items]="sortVocabulariesByName(fundingProgramVocabulary)"
-                                             (change)="unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('fundingPrograms'); unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -1643,7 +1645,7 @@
                                   <input id="grantProjectNames"
                                          class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text"
                                          [formControlName]="i"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('grantProjectNames')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('grantProjectNames', i, this.editMode)}">
                                   <a *ngIf="getFieldAsFormArray('grantProjectNames').length > 1"
                                      class="remove-element uk-padding-small"

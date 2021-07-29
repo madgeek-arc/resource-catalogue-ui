@@ -192,19 +192,17 @@
                             </div>
                             <div class="uk-width-4-5">
                               <div class="providerName">
-                                <span *ngIf="providerBundle.status!=='approved'" class="uk-margin-auto-vertical">
-                                  <h5 class="uk-display-inline-block" data-uk-tooltip
-                                      title="'Your resource provider is not yet active, therefore you cannot access its monitoring dashboard'">
-                                    {{ providerBundle.provider.name }}
-                                  </h5>
-                                  <a [routerLink]="['/provider/info',providerBundle.id]" class="uk-display-inline-block">
-                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
-                                  </a>
-                                </span>
-                                <span *ngIf="providerBundle.status==='approved'" class="uk-margin-auto-vertical">
-                                  <a [routerLink]="['/dashboard', providerBundle.id]" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
+                                <span class="uk-margin-auto-vertical">
+                                  <ng-container *ngIf="providerBundle.status === 'approved'">
+                                    <a [routerLink]="['/dashboard', providerBundle.id, 'stats']" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
                                       {{ providerBundle.provider.name }}
-                                  </a>
+                                    </a>
+                                  </ng-container>
+                                  <ng-container *ngIf="providerBundle.status !== 'approved'">
+                                    <a [routerLink]="['/dashboard', providerBundle.id]" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
+                                      {{ providerBundle.provider.name }}
+                                    </a>
+                                  </ng-container>
                                   <a [routerLink]="['/provider/info',providerBundle.id]" class="uk-display-inline-block">
                                     <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
                                   </a>
@@ -562,23 +560,14 @@
 
             <div class="uk-width-4-5">
               <div class="providerName">
-                                <span *ngIf="providerBundle.status!=='approved'" class="uk-margin-auto-vertical">
-                                  <h5 class="uk-display-inline-block" data-uk-tooltip
-                                      title="'Your resource provider is not yet active, therefore you cannot access its monitoring dashboard'">
-                                    {{ providerBundle.provider.name }}
-                                  </h5>
-                                  <a [routerLink]="['/provider/info',providerBundle.id]" target="_blank" class="uk-display-inline-block">
-                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
-                                  </a>
-                                </span>
-                <span *ngIf="providerBundle.status==='approved'" class="uk-margin-auto-vertical">
-                                  <a [routerLink]="['/dashboard', providerBundle.id]" target="_blank" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
-                                      {{ providerBundle.provider.name }}
-                                  </a>
-                                  <a [routerLink]="['/provider/info',providerBundle.id]" target="_blank" class="uk-display-inline-block">
-                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
-                                  </a>
-                                </span>
+                <span class="uk-margin-auto-vertical">
+                  <a [routerLink]="['/dashboard', providerBundle.id, 'stats']" target="_blank" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
+                      {{ providerBundle.provider.name }}
+                  </a>
+                  <a [routerLink]="['/provider/info',providerBundle.id]" target="_blank" class="uk-display-inline-block">
+                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
+                  </a>
+                </span>
               </div>
               <div class="uk-margin-small-top">
                 <span class="statusLabel">Abbreviation: </span>

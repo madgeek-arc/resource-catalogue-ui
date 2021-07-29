@@ -38,6 +38,10 @@
                    class="uk-offcanvas-close offcanvas-close">Providers Dashboard</a>
               </li>
               <li class="uk-nav-header" [routerLinkActive]="['uk-active']">
+                <a href="https://eosc-portal.eu/providers-documentation" routerLinkActive="uk-active"
+                   class="uk-offcanvas-close offcanvas-close">Providers Documentation</a>
+              </li>
+              <li class="uk-nav-header" [routerLinkActive]="['uk-active']">
                 <a *ngIf="authenticationService.isLoggedIn(); else loggedOut" routerLink="/home" (click)="this.authenticationService.logout()">
                                 <span> {{authenticationService.getUserName()}} {{authenticationService.getUserSurname()}} | Logout
                                     <span class="uk-margin-small-right uk-icon"><svg width="20" height="20"
@@ -96,9 +100,9 @@
     <div id="top-header" class="uk-visible@m">
     <div class="uk-container">
       <div class="uk-grid">
-        <div class="uk-width-1-4@m uk-text-right">
+        <div class="uk-width-1-5@m uk-text-right">
         </div>
-        <div class="uk-width-3-4@m uk-text-right">
+        <div class="uk-width-4-5@m uk-text-right">
           <div class="region region-header-right">
             <div id="block-system-user-menu" class="block block-system block-border block-menu">
               <div class="content">
@@ -107,6 +111,7 @@
                   <li class="leaf"><a href="https://eosc-portal.eu">Portal Home</a></li>
                   <li class="leaf"><a href="https://marketplace.eosc-portal.eu/">Catalogue & Marketplace</a></li>
                   <li class="leaf"><a class="active" href="https://providers.eosc-portal.eu/provider/my">Providers Dashboard</a></li>
+                  <li class="leaf"><a href="https://eosc-portal.eu/providers-documentation">Providers Documentation</a></li>
                   <ng-container *ngIf="!authenticationService.isLoggedIn()">
                     <li class="leaf"><a class="loginLink" (click)="authenticationService.login()">Login</a></li>
                   </ng-container>

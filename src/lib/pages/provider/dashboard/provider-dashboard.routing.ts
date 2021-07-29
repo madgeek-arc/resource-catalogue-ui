@@ -25,7 +25,7 @@ const providerDashboardRoutes: Routes = [
     children : [
       {
         path: '',
-        redirectTo: 'stats',
+        redirectTo: 'history',
         pathMatch: 'full',
         data: {
           isResource: false
@@ -40,11 +40,17 @@ const providerDashboardRoutes: Routes = [
       },
       {
         path: 'history',
-        component: ProviderHistoryComponent
+        component: ProviderHistoryComponent,
+        data: {
+          isResource: false
+        }
       },
       {
         path: 'fullHistory',
-        component: ProviderFullHistoryComponent
+        component: ProviderFullHistoryComponent,
+        data: {
+          isResource: false
+        }
       },
       {
         path: 'info',

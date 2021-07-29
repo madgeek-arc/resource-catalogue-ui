@@ -25,7 +25,7 @@
         <!--<h1 class="uk-h3">-->
           <!--<a (click)="showLogoUrlModal()" title="Click to add the url with the {{serviceORresource}} Provider Logo">-->
             <!--<img class="el-image uk-border-rounded"-->
-                 <!--src="{{(newProviderForm && newProviderForm.get('logo').value) ? newProviderForm.get('logo').value-->
+                 <!--src="{{(providerForm && providerForm.get('logo').value) ? providerForm.get('logo').value-->
                  <!--: 'src/lib/assets/images/broken_image-black-48dp.svg'}}"-->
                  <!--width="70">-->
           <!--</a>{{disable ? ' ' : edit ? ' Update' : ' Add New'}} {{serviceORresource}} Provider {{disable ? 'Info' : ''}}-->
@@ -188,7 +188,7 @@
                   </div>
 
                   <!--<div class="uk-width-3-4">-->
-                    <form *ngIf="vocabularies" [formGroup]="newProviderForm" class="uk-form uk-margin uk-width-3-4">
+                    <form *ngIf="vocabularies" [formGroup]="providerForm" class="uk-form uk-margin uk-width-3-4">
 
                       <div class="formContainer">
                         <ul id="top-navigation-tabs" class="uk-switcher uk-margin-top uk-margin-bottom">
@@ -232,8 +232,8 @@
                                        placeholder="use http:// or https://"
                                        (input)="handleBitSets(0, 2, 'website'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('website', this.edit)}">
-                                <div *ngIf="this.edit && this.isPortalAdmin && this.newProviderForm.get('website').value" class="uk-icon">
-                                  <a href="{{this.newProviderForm.get('website').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                <div *ngIf="this.edit && this.isPortalAdmin && this.providerForm.get('website').value" class="uk-icon">
+                                  <a href="{{this.providerForm.get('website').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
                                 </div>
                               </div>
                             </div>
@@ -247,8 +247,8 @@
                                     class="uk-form-description uk-margin-small-right">{{legalEntityDesc.desc}}</span>
                                   <input class="uk-checkbox" type="checkbox" id="legalEntityYes"
                                          formControlName="legalEntity" value="true"
-                                         (input)="this.newProviderForm.get('legalStatus').setValue(''); unsavedChangesPrompt()"
-                                         [checked]="this.newProviderForm.get('legalEntity').value == true && edit">
+                                         (input)="this.providerForm.get('legalStatus').setValue(''); unsavedChangesPrompt()"
+                                         [checked]="this.providerForm.get('legalEntity').value == true && edit">
                                 </label>
                               </div>
                             </div>
@@ -260,7 +260,7 @@
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{legalStatusDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <ng-select class="uk-width-9-10" id="legalStatus"
-                                           [ngClass]="{'uk-disabled': this.newProviderForm.get('legalEntity').value == false, 'uk-form-danger': checkFormValidity('legalStatus', this.edit)}"
+                                           [ngClass]="{'uk-disabled': this.providerForm.get('legalEntity').value == false, 'uk-form-danger': checkFormValidity('legalStatus', this.edit)}"
                                            [items]="sortVocabulariesByName(legalStatusVocabulary)"
                                            (change)="unsavedChangesPrompt()"
                                            bindLabel="name"
@@ -273,7 +273,7 @@
                                 <i><small>For suggestions in amending the
                                   "{{legalStatusDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                               </div>
-                              <div *ngIf="this.newProviderForm.get('legalStatus').value === 'provider_legal_status-other'" class="uk-flex uk-flex-left">
+                              <div *ngIf="this.providerForm.get('legalStatus').value === 'provider_legal_status-other'" class="uk-flex uk-flex-left">
                                 <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                   <label>
                                     <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="providerLCSVocabularyEntryValueName">
@@ -319,8 +319,8 @@
                                        placeholder="use http:// or https://"
                                        (input)="handleBitSets(1, 4, 'logo'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('logo', this.edit)}">
-                                <div *ngIf="this.edit && this.isPortalAdmin && this.newProviderForm.get('logo').value" class="uk-icon">
-                                  <a href="{{this.newProviderForm.get('logo').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                <div *ngIf="this.edit && this.isPortalAdmin && this.providerForm.get('logo').value" class="uk-icon">
+                                  <a href="{{this.providerForm.get('logo').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
                                 </div>
                               </div>
                               <i><small>{{providerLogoDesc.desc}}</small></i>
@@ -336,10 +336,10 @@
                                      class="uk-margin-bottom">
                                   <input id="multimedia" class="uk-input uk-width-9-10" type="text"
                                          [formControlName]="i" placeholder="use http:// or https://"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('multimedia')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.edit)}">
-                                  <div *ngIf="this.edit && this.isPortalAdmin && this.newProviderForm.get('multimedia').value[i]" class="uk-icon">
-                                    <a href="{{this.newProviderForm.get('multimedia').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                  <div *ngIf="this.edit && this.isPortalAdmin && this.providerForm.get('multimedia').value[i]" class="uk-icon">
+                                    <a href="{{this.providerForm.get('multimedia').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
                                   </div>
                                   <a *ngIf="getFieldAsFormArray('multimedia').length > 1 && !disable"
                                      class="remove-element uk-padding-small"
@@ -417,7 +417,7 @@
                                         <ng-select class="uk-width-1-1" id="{{'scientificSubdomain ' + i}}"
                                                    [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, this.edit, 'scientificDomain')}"
                                                    [items]="getSortedChildrenCategories(categoriesVocabulary, domainArray.controls[i].get('scientificDomain').value)"
-                                                   (change)="unsavedChangesPrompt()"
+                                                   (change)="checkForDuplicates('scientificSubdomain','scientificDomains'); unsavedChangesPrompt()"
                                                    bindLabel="name"
                                                    bindValue="id"
                                                    clearAllText="Clear"
@@ -468,7 +468,7 @@
                                 <div *ngFor="let provider of getFieldAsFormArray('tags').controls; let i=index"
                                      class="uk-margin-bottom">
                                   <input id="tags" class="uk-input uk-width-9-10" type="text" [formControlName]="i"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('tags')"
                                          [ngClass]="{'uk-form-danger': checkFormValidity('tags', this.edit)}">
                                   <a *ngIf="getFieldAsFormArray('tags').length > 1 && !disable"
                                      class="remove-element uk-padding-small"
@@ -572,7 +572,7 @@
                                   <i><small>For suggestions in amending the
                                     "{{countryDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                 </div>
-                                <div *ngIf="this.newProviderForm.controls['location'].get('country').value === 'OT'" class="uk-flex uk-flex-left">
+                                <div *ngIf="this.providerForm.controls['location'].get('country').value === 'OT'" class="uk-flex uk-flex-left">
                                   <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                     <label>
                                       <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="placesVocabularyEntryValueName">
@@ -783,7 +783,7 @@
                                 <i><small>For suggestions in amending the
                                   "{{lifeCycleStatusDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                               </div>
-                              <div *ngIf="this.newProviderForm.get('lifeCycleStatus').value === 'provider_life_cycle_status-other'" class="uk-flex uk-flex-left">
+                              <div *ngIf="this.providerForm.get('lifeCycleStatus').value === 'provider_life_cycle_status-other'" class="uk-flex uk-flex-left">
                                 <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                   <label>
                                     <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="providerLCSVocabularyEntryValueName">
@@ -808,7 +808,7 @@
                                   class="uk-margin-bottom">
                                   <input id="certifications" class="uk-input uk-width-9-10" type="text"
                                          [formControlName]="i"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('certifications')"
                                          [ngClass]="{'uk-form-danger': checkFormValidity('certifications', this.edit)}">
                                   <a *ngIf="getFieldAsFormArray('certifications').length > 1 && !disable"
                                      class="remove-element uk-padding-small"
@@ -855,7 +855,7 @@
                                   <ng-select class="uk-width-9-10" id="participatingCountries"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('participatingCountries', i, this.edit)}"
                                              [items]="placesVocabulary"
-                                             (change)="unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('participatingCountries'); unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -872,7 +872,7 @@
                                     "{{participatingCountriesDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                 </div>
                                 <div *ngFor="let provider of getFieldAsFormArray('participatingCountries').controls; let i=index">
-                                  <div *ngIf="this.newProviderForm.get('participatingCountries').value[i] === 'OT'" class="uk-flex uk-flex-left">
+                                  <div *ngIf="this.providerForm.get('participatingCountries').value[i] === 'OT'" class="uk-flex uk-flex-left">
                                     <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                       <label>
                                         <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="placesVocabularyEntryValueName">
@@ -903,7 +903,7 @@
                                      class="uk-margin-bottom">
                                   <input id="affiliations" class="uk-input uk-width-9-10" type="text"
                                          [formControlName]="i"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('affiliations')"
                                          [ngClass]="{'uk-form-danger': checkFormValidity('affiliations', this.edit)}">
                                   <a *ngIf="getFieldAsFormArray('affiliations').length > 1 && !disable"
                                      class="remove-element uk-padding-small"
@@ -939,7 +939,7 @@
                                   <ng-select class="uk-width-9-10" id="networks"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('networks', i, this.edit)}"
                                              [items]="sortVocabulariesByName(networksVocabulary)"
-                                             (change)="unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('networks'); unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -956,7 +956,7 @@
                                     "{{networksDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                 </div>
                                 <div *ngFor="let provider of getFieldAsFormArray('networks').controls; let i=index">
-                                  <div *ngIf="this.newProviderForm.get('networks').value[i] === 'provider_network-other'" class="uk-flex uk-flex-left">
+                                  <div *ngIf="this.providerForm.get('networks').value[i] === 'provider_network-other'" class="uk-flex uk-flex-left">
                                     <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                       <label>
                                         <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="networksVocabularyEntryValueName">
@@ -988,7 +988,7 @@
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('structureTypes', i, this.edit)}"
                                              *ngIf="providerTypeVocabulary"
                                              [items]="sortVocabulariesByName(providerTypeVocabulary)"
-                                             (change)="unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('structureTypes'); unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -1005,7 +1005,7 @@
                                     "{{structureTypesDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                 </div>
                                 <div *ngFor="let provider of getFieldAsFormArray('structureTypes').controls; let i=index">
-                                  <div *ngIf="this.newProviderForm.get('structureTypes').value[i] === 'provider_structure_type-other'" class="uk-flex uk-flex-left">
+                                  <div *ngIf="this.providerForm.get('structureTypes').value[i] === 'provider_structure_type-other'" class="uk-flex uk-flex-left">
                                     <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                       <label>
                                         <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="providerTypeVocabularyEntryValueName">
@@ -1037,7 +1037,7 @@
                                   <ng-select class="uk-width-9-10" id="esfriDomains"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('esfriDomains', i, this.edit)}"
                                              [items]="sortVocabulariesByName(esfriDomainVocabulary)"
-                                             (change)="unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('esfriDomains'); unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -1054,7 +1054,7 @@
                                     "{{ESFRIDomainDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                 </div>
                                 <div *ngFor="let provider of getFieldAsFormArray('esfriDomains').controls; let i=index">
-                                  <div *ngIf="this.newProviderForm.get('esfriDomains').value[i] === 'provider_esfri_domain-other'" class="uk-flex uk-flex-left">
+                                  <div *ngIf="this.providerForm.get('esfriDomains').value[i] === 'provider_esfri_domain-other'" class="uk-flex uk-flex-left">
                                     <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                       <label>
                                         <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="esfriDomainVocabularyEntryValueName">
@@ -1093,7 +1093,7 @@
                                 <i><small>For suggestions in amending the
                                   "{{ESFRITypeDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                               </div>
-                              <div *ngIf="this.newProviderForm.get('esfriType').value === 'provider_esfri_type-other'" class="uk-flex uk-flex-left">
+                              <div *ngIf="this.providerForm.get('esfriType').value === 'provider_esfri_type-other'" class="uk-flex uk-flex-left">
                                 <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                   <label>
                                     <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="esfriVocabularyEntryValueName">
@@ -1164,7 +1164,7 @@
                                         <ng-select class="uk-width-1-1" id="{{'merilScientificSubdomain ' + i}}"
                                                    [ngClass]="{'uk-form-danger': checkFormArrayValidity('merilScientificDomains', i, this.edit, 'merilScientificSubdomain')}"
                                                    [items]="getSortedChildrenCategories(merilCategoriesVocabulary, merilDomainArray.controls[i].get('merilScientificDomain').value)"
-                                                   (change)="unsavedChangesPrompt()"
+                                                   (change)="checkForDuplicates('merilScientificSubdomain','merilScientificDomains'); unsavedChangesPrompt()"
                                                    bindLabel="name"
                                                    bindValue="id"
                                                    clearAllText="Clear"
@@ -1218,7 +1218,7 @@
                                   <ng-select class="uk-width-9-10" id="areasOfActivity"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('areasOfActivity', i, this.edit)}"
                                              [items]="sortVocabulariesByName(areasOfActivityVocabulary)"
-                                             (change)="unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('areasOfActivity'); unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -1235,7 +1235,7 @@
                                     "{{areasOfActivityDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                 </div>
                                 <div *ngFor="let provider of getFieldAsFormArray('areasOfActivity').controls; let i=index">
-                                  <div *ngIf="this.newProviderForm.get('areasOfActivity').value[i] === 'provider_area_of_activity-other'" class="uk-flex uk-flex-left">
+                                  <div *ngIf="this.providerForm.get('areasOfActivity').value[i] === 'provider_area_of_activity-other'" class="uk-flex uk-flex-left">
                                     <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                       <label>
                                         <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="areasOfActivityVocabularyEntryValueName">
@@ -1267,7 +1267,7 @@
                                   <ng-select class="uk-width-9-10" id="societalGrandChallenges"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('societalGrandChallenges', i, this.edit)}"
                                              [items]="sortVocabulariesByName(societalGrandChallengesVocabulary)"
-                                             (change)="unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('societalGrandChallenges'); unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -1284,7 +1284,7 @@
                                     "{{societalGrandChallengesDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                 </div>
                                 <div *ngFor="let provider of getFieldAsFormArray('societalGrandChallenges').controls; let i=index">
-                                  <div *ngIf="this.newProviderForm.get('societalGrandChallenges').value[i] === 'provider_societal_grand_challenge-other'" class="uk-flex uk-flex-left">
+                                  <div *ngIf="this.providerForm.get('societalGrandChallenges').value[i] === 'provider_societal_grand_challenge-other'" class="uk-flex uk-flex-left">
                                     <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                       <label>
                                         <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="societalGrandChallengesVocabularyEntryValueName">
@@ -1316,7 +1316,7 @@
                                   class="uk-margin-bottom">
                                   <input id="nationalRoadmaps" class="uk-input uk-width-9-10" type="text"
                                          [formControlName]="i"
-                                         (input)="unsavedChangesPrompt()"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('nationalRoadmaps')"
                                          [ngClass]="{'uk-form-danger': checkFormValidity('nationalRoadmaps', this.edit)}">
                                   <a *ngIf="getFieldAsFormArray('nationalRoadmaps').length > 1 && !disable"
                                      class="remove-element uk-padding-small"
@@ -1345,7 +1345,7 @@
                                 and {{serviceORresource | lowercase}}s, activate or delete
                                 a {{serviceORresource | lowercase}}, add or remove administrators and issue tokens for
                                 API use).</i></div>
-                              <div *ngIf="newProviderForm.get('users').value" class="uk-form-controls uk-margin-top">
+                              <div *ngIf="providerForm.get('users').value" class="uk-form-controls uk-margin-top">
                                 <div formArrayName="users" *ngFor="let user of usersArray.controls; let i = index">
                                   <div [formGroupName]="i"
                                        class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
@@ -1413,7 +1413,7 @@
                         </ul>
                       </div>
 <!--                      <pre>-->
-<!--                        {{newProviderForm.value | json}}-->
+<!--                        {{providerForm.value | json}}-->
 <!--                      </pre>-->
                     </form>
 
