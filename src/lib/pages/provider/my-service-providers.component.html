@@ -58,11 +58,10 @@
                           <div class="uk-card-body">
                             <div class="providerName">
                               <span class="uk-margin-auto-vertical" data-uk-tooltip title="'Go to the {{serviceORresource | lowercase}} provider monitoring dashboard'">
-                                <a [routerLink]="['/dashboard', providerBundle.id]">
+                                <a [routerLink]="['/dashboard', providerBundle.id, 'stats']">
                                     {{ providerBundle.provider.name }}
                                 </a>
                               </span>
-                              <!--{{ providerBundle.provider.name }}-->
                             </div>
                             <div class="uk-margin-small-top">
                               <span class="statusLabel">Status: </span>{{ providerBundle.status | titlecase }}
@@ -84,9 +83,16 @@
                               <div uk-dropdown="mode: click">
                                 <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
                                   <li class="uk-margin-small-bottom">
-                                    <a [routerLink]="['/dashboard', providerBundle.id]">
-                                      Go to Dashboard
-                                    </a>
+                                    <ng-container *ngIf="providerBundle.status === 'approved'">
+                                      <a [routerLink]="['/dashboard', providerBundle.id, 'stats']">
+                                        Go to Dashboard
+                                      </a>
+                                    </ng-container>
+                                    <ng-container *ngIf="providerBundle.status !== 'approved'">
+                                      <a [routerLink]="['/dashboard', providerBundle.id]">
+                                        Go to Dashboard
+                                      </a>
+                                    </ng-container>
                                   </li>
                                   <li class="uk-margin-small-bottom">
                                     <a [routerLink]="['/dashboard/' + providerBundle.id + '/resources']">
@@ -123,11 +129,11 @@
                           </div>
                           <div class="uk-card-body">
                             <div class="providerName">
-                              <span class="uk-margin-auto-vertical" data-uk-tooltip
-                                    title="'Your {{serviceORresource | lowercase}} provider is not yet active, therefore you cannot access its monitoring dashboard'">
-                                <h5>{{ providerBundle.provider.name }}</h5>
+                              <span class="uk-margin-auto-vertical" data-uk-tooltip title="'Go to the {{serviceORresource | lowercase}} provider monitoring dashboard'">
+                                <a [routerLink]="['/dashboard', providerBundle.id]">
+                                    {{ providerBundle.provider.name }}
+                                </a>
                               </span>
-                              <!--{{ providerBundle.provider.name }}-->
                             </div>
                             <div class="uk-margin-small-top">
                               <span class="statusLabel">Status: </span>{{ providerBundle.status | titlecase }}
@@ -190,9 +196,10 @@
                           </div>
                           <div class="uk-card-body">
                             <div class="providerName">
-                              <span class="uk-margin-auto-vertical" data-uk-tooltip
-                                    title="'Your {{serviceORresource | lowercase}} provider is not yet active, therefore you cannot access its monitoring dashboard'">
-                                <h5>{{ providerBundle.provider.name }}</h5>
+                              <span class="uk-margin-auto-vertical" data-uk-tooltip title="'Go to the {{serviceORresource | lowercase}} provider monitoring dashboard'">
+                                <a [routerLink]="['/dashboard', providerBundle.id]">
+                                    {{ providerBundle.provider.name }}
+                                </a>
                               </span>
                             </div>
                             <div class="uk-margin-small-top">
@@ -230,7 +237,7 @@
                           <div class="uk-card-body">
                             <div class="providerName">
                               <span class="uk-margin-auto-vertical" data-uk-tooltip
-                                    title="'Your {{serviceORresource | lowercase}} provider is not yet active, therefore you cannot access its monitoring dashboard'">
+                                    title="'Your {{serviceORresource | lowercase}} provider is incomplete, therefore you cannot access its monitoring dashboard'">
                                 <h5>{{ providerBundle.provider.name }}</h5>
                               </span>
                             </div>
