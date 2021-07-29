@@ -15,7 +15,6 @@ import {FooterComponent} from '../lib/shared/footer/footer.component';
 import {TopMenuComponent} from '../lib/shared/topmenu/topmenu.component';
 import {BreadcrumbsComponent} from '../lib/shared/breadcrumbs/breadcrumbs.component';
 import {FeedbackComponent} from '../lib/shared/feedback/feedback.component';
-import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {ServiceProviderFormComponent} from '../lib/pages/provider/service-provider-form.component';
 import {MyServiceProvidersComponent} from '../lib/pages/provider/my-service-providers.component';
 import {AddFirstServiceComponent} from '../lib/pages/provider/add-first-service.component';
@@ -24,8 +23,6 @@ import {UpdateServiceProviderComponent} from '../lib/pages/provider/update-servi
 import {ReusableComponentsModule} from '../lib/shared/reusablecomponents/reusable-components.module';
 import {ServiceProviderService} from '../lib/services/service-provider.service';
 import {ServiceProvidersListComponent} from '../lib/pages/admin/service-providers-list.component';
-import {HighchartsStatic} from 'angular2-highcharts/dist/HighchartsService';
-import {ChartModule} from 'angular2-highcharts';
 import {SupportModule} from '../lib/pages/support/support.module';
 import {ServiceStatsComponent} from '../lib/pages/provider/dashboard/resource-dashboard/service-stats.component';
 import {MyFavouritesComponent} from '../lib/pages/user/favourites/my-favourites.component';
@@ -33,7 +30,6 @@ import {DashboardComponent} from '../lib/pages/provider/dashboard/dashboard.comp
 import {UserService} from '../lib/services/user.service';
 import {ComparisonService} from '../lib/services/comparison.service';
 import {UserModule} from '../lib/pages/user/user.module';
-import {StarRatingModule} from 'angular-star-rating';
 import {ServiceLandingPageComponent} from '../lib/pages/landingpages/service/service-landing-page.component';
 import {BrowseCategoriesComponent} from '../lib/pages/browsecategories/browse-categories.component';
 import {SearchComponent} from '../lib/pages/search/search.component';
@@ -55,6 +51,9 @@ import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provide
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
 import {MatomoModule} from 'ngx-matomo';
 import {MarkdownModule} from "ngx-markdown";
+import {HighchartsChartModule} from "highcharts-angular";
+import {environment} from '../environments/environment';
+
 
 
 declare var require: any;
@@ -125,10 +124,20 @@ export function highchartsFactory() {
     UserModule,
     // ProviderModule,
     // ProviderDashboardModule,
-    ChartModule,
-    AngularFontAwesomeModule,
+    HighchartsChartModule,
     CookieLawModule,
-    MatomoModule,
+    MatomoModule.forRoot({
+      scriptUrl: environment.MATOMO_URL + 'matomo.js',
+      trackers: [
+        {
+          trackerUrl: environment.MATOMO_URL + 'matomo.php',
+          siteId: environment.MATOMO_SITE
+        }
+      ],
+      routeTracking: {
+        enable: true
+      }
+    }),
     MarkdownModule.forRoot(),
     AppRoutingModule,
   ],
@@ -147,10 +156,6 @@ export function highchartsFactory() {
     UserService,
     ServiceProviderService,
     EmailService,
-    {
-      provide: HighchartsStatic,
-      useFactory: highchartsFactory
-    },
     DatePipe
   ],
   exports: [
