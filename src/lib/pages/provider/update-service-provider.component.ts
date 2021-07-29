@@ -86,7 +86,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         // const keys = Object.keys(this.provider);
         // for (const key of keys) {
         //   if (key === 'id' || key === 'active' || key === 'status') { continue; }
-        //   if (this.newProviderForm.controls[key].value.constructor === Array) {
+        //   if (this.providerForm.controls[key].value.constructor === Array) {
         //     for (let i = 0; i < this.provider[key].length - 1; i++) {
         //       console.log(key);
         //       if (key === 'users') {
@@ -200,10 +200,10 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             this.push('societalGrandChallenges', this.societalGrandChallengesDesc.mandatory);
           }
         }
-        this.newProviderForm.patchValue(this.provider);
-        this.newProviderForm.updateValueAndValidity();
+        this.providerForm.patchValue(this.provider);
+        this.providerForm.updateValueAndValidity();
         if (this.disable) {
-          this.newProviderForm.disable();
+          this.providerForm.disable();
         }
         this.initProviderBitSets();
       }
@@ -212,7 +212,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
 
   toggleDisable() {
     this.disable = !this.disable;
-    this.newProviderForm.enable();
+    this.providerForm.enable();
   }
 
   initProviderBitSets() {

@@ -356,7 +356,7 @@ export class ServiceFormComponent implements OnInit {
 
   ngOnInit() {
     zip(
-      this.resourceService.getProvidersNames(),
+      this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
       this.resourceService.getServices()
     ).subscribe(suc => {
@@ -878,6 +878,43 @@ export class ServiceFormComponent implements OnInit {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  checkForDuplicates(formControlName, group?) {
+    if (group === 'scientificDomains') {
+      for (let i = 0; i < this.scientificDomainArray.controls.length; i++) {
+        for (let j = 0; j <  this.scientificDomainArray.controls.length; j++) {
+          if (i !== j && this.scientificDomainArray.controls[i].get('scientificDomain').value === this.scientificDomainArray.controls[j].get('scientificDomain').value ) {
+            if (this.scientificDomainArray.controls[i].get('scientificSubdomain').value === this.scientificDomainArray.controls[j].get('scientificSubdomain').value) {
+              this.showNotification();
+              return;
+            }
+          }
+        }
+      }
+    } else if (group === 'categories') {
+      for (let i = 0; i < this.categoryArray.controls.length; i++) {
+        for (let j = 0; j <  this.categoryArray.controls.length; j++) {
+          if (i !== j && this.categoryArray.controls[i].get('category').value === this.categoryArray.controls[j].get('category').value ) {
+            if (this.categoryArray.controls[i].get('subcategory').value === this.categoryArray.controls[j].get('subcategory').value) {
+              this.showNotification();
+              return;
+            }
+          }
+        }
+      }
+    } else {
+      if (this.serviceForm.get(formControlName).value.length > 1) {
+        for (let i = 0; i < this.serviceForm.get(formControlName).value.length; i++) {
+          for (let j = 0; j < this.serviceForm.get(formControlName).value.length; j++) {
+            if (i !== j && this.serviceForm.get(formControlName).value[i] === this.serviceForm.get(formControlName).value[j]) {
+              this.showNotification();
+              return;
+            }
+          }
+        }
+      }
+    }
+  }
+
   /** BitSets -->**/
   /** TODO: maybe timeout can be removed with subject **/
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
@@ -1071,6 +1108,16 @@ export class ServiceFormComponent implements OnInit {
   openPreviewModal() {
     // console.log('Resource ==>', this.serviceForm.value);
     UIkit.modal('#modal-preview').show();
+  }
+
+  showNotification() {
+    UIkit.notification({
+      // message: `Please remove duplicate entries for ${label}.`,
+      message: 'Please remove duplicate entries.',
+      status: 'danger',
+      pos: 'top-center',
+      timeout: 7000
+    });
   }
 
   /** <--Modals **/
