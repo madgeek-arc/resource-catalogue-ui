@@ -24,13 +24,6 @@
                 <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{ errorMessage }}</div>
                 <div *ngIf="noProvidersMessage" class="uk-alert">{{ noProvidersMessage }}</div>
 
-                <div class="uk-alert-warning" uk-alert>
-                  <a class="uk-alert-close" uk-close></a>
-                  <p>Due to reduced staff availability, onboarding progress during August may be slower than normal,
-                    but all requests will be received and processed by the EOSC Portal Onboarding Team.
-                    Contact <a href="mailto:onboarding@eosc-portal.eu">onboarding@eosc-portal.eu</a> in case of issues.</p>
-                </div>
-
                 <div *ngIf="myProviders && (myProviders.length > 0) || myPendingProviders && (myPendingProviders.length > 0)" class="">
 
                   <div class="uk-margin-bottom uk-grid-small uk-child-width-auto uk-grid serviceStatuses">
