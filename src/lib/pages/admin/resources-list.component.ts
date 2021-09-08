@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
@@ -29,7 +29,8 @@ export class ResourcesListComponent implements OnInit {
     quantity: '10',
     from: '0',
     active: '',
-    resource_organisation: new FormArray([])
+    resource_organisation: new FormArray([]),
+    auditState: new FormArray([])
   };
 
   dataForm: FormGroup;
@@ -64,6 +65,16 @@ export class ResourcesListComponent implements OnInit {
 
   pendingFirstServicePerProvider: any[] = [];
 
+  public auditStates: Array<string> = [
+    'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
+  ];
+
+  public auditLabels: Array<string> = [
+    'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
+  ];
+
+  @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
+
   constructor(private resourceService: ResourceService,
               private serviceProviderService: ServiceProviderService,
               private authenticationService: AuthenticationService,
@@ -84,6 +95,8 @@ export class ResourcesListComponent implements OnInit {
       this.route.queryParams
         .subscribe(params => {
 
+            let foundState = false;
+
             for (const i in params) {
               if (i === 'resource_organisation') {
 
@@ -96,6 +109,20 @@ export class ResourcesListComponent implements OnInit {
                     }
                   }
                 }
+              } else if (i === 'auditState') {
+
+                if (this.dataForm.get('auditState').value.length === 0) {
+                  const formArrayNew: FormArray = this.dataForm.get('auditState') as FormArray;
+                  // formArrayNew = this.fb.array([]);
+
+                  for (const auditState of params[i].split(',')) {
+                    if (auditState !== '') {
+                      formArrayNew.push(new FormControl(auditState));
+                    }
+                  }
+                }
+
+                foundState = true;
               } else {
                 this.dataForm.get(i).setValue(params[i]);
               }
@@ -154,6 +181,34 @@ export class ResourcesListComponent implements OnInit {
     // this.getServices();
   }
 
+  onSelectionChange(event: any, formControlName: string) {
+
+    const formArray: FormArray = this.dataForm.get(formControlName) as FormArray;
+
+    if (event.target.checked) {
+      // Add a new control in the arrayForm
+      formArray.push(new FormControl(event.target.value));
+    } else {
+      // find the unselected element
+      let i = 0;
+      formArray.controls.forEach((ctrl: FormControl) => {
+        if (ctrl.value === event.target.value) {
+          // Remove the unselected element from the arrayForm
+          formArray.removeAt(i);
+          return;
+        }
+
+        i++;
+      });
+    }
+
+    this.handleChangeAndResetPage();
+  }
+
+  isAuditStateChecked(value: string) {
+    return this.dataForm.get('auditState').value.includes(value);
+  }
+
   handleChangeAndResetPage() {
     this.dataForm.get('from').setValue(0);
     this.handleChange();
@@ -161,7 +216,7 @@ export class ResourcesListComponent implements OnInit {
 
   getProviders() {
     this.providers = [];
-    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', []).subscribe(
+    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', [], []).subscribe(
       res => {
         this.providers = res['results'];
         this.providersTotal = res['total'];
@@ -180,7 +235,7 @@ export class ResourcesListComponent implements OnInit {
     this.services = [];
     this.resourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('active').value, this.dataForm.get('resource_organisation').value).subscribe(
+      this.dataForm.get('active').value, this.dataForm.get('resource_organisation').value, this.dataForm.get('auditState').value).subscribe(
       res => {
         this.services = res['results'];
         this.facets = res['facets'];

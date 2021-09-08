@@ -52,6 +52,19 @@
 
                   <hr class="uk-margin-large-right">
 
+                  <h5>Audit State</h5>
+                  <form [formGroup]="dataForm">
+                    <div formArrayName="auditState" class="uk-padding uk-padding-remove-top">
+                      <div *ngFor="let auditState of auditStates;" class="uk-margin-small-top">
+                        <label class="status-value uk-margin-small-left">
+                          <input #auditCheckboxes class="uk-checkbox" type="checkbox" [value]="auditState"
+                                 (change)="onSelectionChange($event, 'auditState')" [checked]="isAuditStateChecked(auditState)">
+                          {{auditLabels[auditStates.indexOf(auditState)] | titlecase}}
+                        </label>
+                      </div>
+                    </div>
+                  </form>
+
                   <div *ngIf="facets" class="refineCategory uk-grid-margin">
                     <h2 class="uk-h2">{{facets[0].label}}</h2>
                     <label class="uk-margin-small-left uk-margin-medium-bottom uk-search uk-search-default uk-width-3-4@m">

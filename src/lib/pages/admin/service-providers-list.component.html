@@ -52,13 +52,26 @@
 
                   <hr class="uk-margin-large-right">
 
+                  <h5>Audit State</h5>
+                  <form [formGroup]="dataForm">
+                    <div formArrayName="auditState" class="uk-padding uk-padding-remove-top">
+                      <div *ngFor="let auditState of auditStates;" class="uk-margin-small-top">
+                        <label class="status-value uk-margin-small-left">
+                          <input #auditCheckboxes class="uk-checkbox" type="checkbox" [value]="auditState"
+                                 (change)="onSelectionChange($event, 'auditState')" [checked]="isAuditStateChecked(auditState)">
+                          {{auditLabels[auditStates.indexOf(auditState)] | titlecase}}
+                        </label>
+                      </div>
+                    </div>
+                  </form>
+
                   <h5>Status</h5>
                   <form [formGroup]="dataForm">
-                    <div formArrayName="status" class="uk-padding">
+                    <div formArrayName="status" class="uk-padding uk-padding-remove-top">
                       <div *ngFor="let statusValue of statuses;" class="uk-margin-small-top">
                         <label class="status-value uk-margin-small-left">
                           <input #checkboxes class="uk-checkbox" type="checkbox" [value]="statusValue"
-                                 (change)="onStatusSelectionChange($event)" [checked]="isStatusChecked(statusValue)">
+                                 (change)="onSelectionChange($event, 'status')" [checked]="isStatusChecked(statusValue)">
                           {{labels[statuses.indexOf(statusValue)] | titlecase}}
                         </label>
                       </div>
@@ -73,7 +86,7 @@
                 </div>
 
                 <div class="uk-width-3-4">
-
+                  <pre>{{ dataForm.value | json}}</pre>
                   <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters">
 
                     <div class="uk-margin-right">

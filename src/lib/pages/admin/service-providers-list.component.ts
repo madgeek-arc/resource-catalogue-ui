@@ -31,6 +31,7 @@ export class ServiceProvidersListComponent implements OnInit {
     quantity: '10',
     from: '0',
     status: new FormArray([]),
+    auditState: new FormArray([])
   };
 
   dataForm: FormGroup;
@@ -88,6 +89,16 @@ export class ServiceProvidersListComponent implements OnInit {
   public languagesVocIdArray: string[] = [];
   public statusesVocabulary: Vocabulary[] = null;
 
+  public auditStates: Array<string> = [
+    'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
+  ];
+
+  public auditLabels: Array<string> = [
+    'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
+  ];
+
+  @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
+
   public statuses: Array<string> = [
     'approved', 'pending initial approval', 'rejected',
     'pending template submission', 'pending template approval', 'rejected template'
@@ -121,6 +132,7 @@ export class ServiceProvidersListComponent implements OnInit {
         .subscribe(params => {
 
             let foundStatus = false;
+            let foundState = false;
             for (const i in params) {
               if (i === 'status') {
 
@@ -136,6 +148,20 @@ export class ServiceProvidersListComponent implements OnInit {
                 }
 
                 foundStatus = true;
+              } else if (i === 'auditState') {
+
+                if (this.dataForm.get('auditState').value.length === 0) {
+                  const formArrayNew: FormArray = this.dataForm.get('auditState') as FormArray;
+                  // formArrayNew = this.fb.array([]);
+
+                  for (const auditState of params[i].split(',')) {
+                    if (auditState !== '') {
+                      formArrayNew.push(new FormControl(auditState));
+                    }
+                  }
+                }
+
+                foundState = true;
               } else {
                 this.dataForm.get(i).setValue(params[i]);
               }
@@ -199,9 +225,9 @@ export class ServiceProvidersListComponent implements OnInit {
     );
   }
 
-  onStatusSelectionChange(event: any) {
+  onSelectionChange(event: any, formControlName: string) {
 
-    const formArray: FormArray = this.dataForm.get('status') as FormArray;
+    const formArray: FormArray = this.dataForm.get(formControlName) as FormArray;
 
     if (event.target.checked) {
       // Add a new control in the arrayForm
@@ -221,6 +247,34 @@ export class ServiceProvidersListComponent implements OnInit {
     }
 
     this.handleChangeAndResetPage();
+  }
+
+  // onStatusSelectionChange(event: any) {
+  //
+  //   const formArray: FormArray = this.dataForm.get('status') as FormArray;
+  //
+  //   if (event.target.checked) {
+  //     // Add a new control in the arrayForm
+  //     formArray.push(new FormControl(event.target.value));
+  //   } else {
+  //     // find the unselected element
+  //     let i = 0;
+  //     formArray.controls.forEach((ctrl: FormControl) => {
+  //       if (ctrl.value === event.target.value) {
+  //         // Remove the unselected element from the arrayForm
+  //         formArray.removeAt(i);
+  //         return;
+  //       }
+  //
+  //       i++;
+  //     });
+  //   }
+  //
+  //   this.handleChangeAndResetPage();
+  // }
+
+  isAuditStateChecked(value: string) {
+    return this.dataForm.get('auditState').value.includes(value);
   }
 
   isStatusChecked(value: string) {
@@ -271,7 +325,7 @@ export class ServiceProvidersListComponent implements OnInit {
     this.providers = [];
     this.resourceService.getProviderBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('status').value).subscribe(
+      this.dataForm.get('status').value, this.dataForm.get('auditState').value).subscribe(
       res => {
         this.providers = res['results'];
         this.total = res['total'];
