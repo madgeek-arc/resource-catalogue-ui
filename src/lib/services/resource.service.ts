@@ -119,7 +119,7 @@ export class ResourceService {
   }
 
   getServices() {
-    return this.http.get(this.base + '/service/by/id/');
+    return this.http.get(this.base + '/service/by/ID/'); // needs capitalized 'ID' after back changes
   }
 
   getService(id: string, version?: string) {
