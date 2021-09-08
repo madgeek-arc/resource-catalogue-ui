@@ -249,30 +249,6 @@ export class ServiceProvidersListComponent implements OnInit {
     this.handleChangeAndResetPage();
   }
 
-  // onStatusSelectionChange(event: any) {
-  //
-  //   const formArray: FormArray = this.dataForm.get('status') as FormArray;
-  //
-  //   if (event.target.checked) {
-  //     // Add a new control in the arrayForm
-  //     formArray.push(new FormControl(event.target.value));
-  //   } else {
-  //     // find the unselected element
-  //     let i = 0;
-  //     formArray.controls.forEach((ctrl: FormControl) => {
-  //       if (ctrl.value === event.target.value) {
-  //         // Remove the unselected element from the arrayForm
-  //         formArray.removeAt(i);
-  //         return;
-  //       }
-  //
-  //       i++;
-  //     });
-  //   }
-  //
-  //   this.handleChangeAndResetPage();
-  // }
-
   isAuditStateChecked(value: string) {
     return this.dataForm.get('auditState').value.includes(value);
   }
