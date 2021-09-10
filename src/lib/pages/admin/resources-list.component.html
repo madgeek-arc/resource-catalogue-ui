@@ -54,7 +54,7 @@
 
                   <h5>Audit State</h5>
                   <form [formGroup]="dataForm">
-                    <div formArrayName="auditState" class="uk-padding uk-padding-remove-top">
+                    <div formArrayName="auditState" class="">
                       <div *ngFor="let auditState of auditStates;" class="uk-margin-small-top">
                         <label class="status-value uk-margin-small-left">
                           <input #auditCheckboxes class="uk-checkbox" type="checkbox" [value]="auditState"
@@ -66,8 +66,8 @@
                   </form>
 
                   <div *ngIf="facets" class="refineCategory uk-grid-margin">
-                    <h2 class="uk-h2">{{facets[0].label}}</h2>
-                    <label class="uk-margin-small-left uk-margin-medium-bottom uk-search uk-search-default uk-width-3-4@m">
+                    <h5 class="">{{facets[0].label}}</h5>
+                    <label class="uk-margin-small-left uk-margin-small-bottom uk-search uk-search-default uk-width-3-4@m">
                         <span uk-search-icon></span>
                         <input class="uk-search-input" [(ngModel)]="searchFacet" placeholder="Search with provider name or id">
                     </label>
