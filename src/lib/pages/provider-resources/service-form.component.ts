@@ -238,6 +238,7 @@ export class ServiceFormComponent implements OnInit {
   requiredResources: any;
   relatedResources: any;
   vocabularies: Map<string, Vocabulary[]> = null;
+  subVocabularies: Map<string, Vocabulary[]> = null;
   premiumSort = new PremiumSortPipe();
   resourceService: ResourceService = this.injector.get(ResourceService);
 
@@ -391,6 +392,9 @@ export class ServiceFormComponent implements OnInit {
         this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'Worldwide']);
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
+
+        let voc: Vocabulary[] = this.vocabularies[Type.SUBCATEGORY].concat(this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN]);
+        this.subVocabularies = this.groupByKey(voc, 'parentId');
 
         // fixme: should simplify if-else statement but route.snapshot.paramMap is empty for aire
         if (this.projectName === 'OpenAIRE Catalogue') {
@@ -1137,6 +1141,15 @@ export class ServiceFormComponent implements OnInit {
         }
       );
     }
+  }
+
+  groupByKey(array, key) {
+    return array.reduce((hash, obj) => {
+      if (obj[key] === undefined) {
+        return hash;
+      }
+      return Object.assign(hash, {[obj[key]]: (hash[obj[key]] || []).concat(obj)});
+    }, {});
   }
 
 }
