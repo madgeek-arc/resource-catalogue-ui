@@ -506,7 +506,7 @@
                                                    [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, this.editMode, 'scientificSubdomain')}"
                                                    (change)="handleBitSetsOfGroups(2, 7, 'scientificSubdomain', 'scientificDomains');
                                                     checkForDuplicates('scientificSubdomain','scientificDomains'); unsavedChangesPrompt()"
-                                                   [items]="getSortedChildrenCategories(scientificSubDomainVocabulary, scientificDomainArray.controls[i].get('scientificDomain').value)"
+                                                   [items]="subVocabularies[scientificDomainArray.controls[i].get('scientificDomain').value]"
                                                    bindLabel="name"
                                                    bindValue="id"
                                                    clearAllText="Clear"
@@ -615,7 +615,7 @@
                                                    (change)="handleBitSetsOfGroups(2, 9, 'subcategory', 'categories');
                                                     checkForDuplicates('subcategory','categories'); unsavedChangesPrompt()"
                                                    [ngClass]="{'uk-form-danger': checkFormArrayValidity('categories', i, this.editMode, 'subcategory')}"
-                                                   [items]="getSortedChildrenCategories(subCategoriesVocabulary, categoryArray.controls[i].get('category').value)"
+                                                   [items]="subVocabularies[categoryArray.controls[i].get('category').value]"
                                                    bindLabel="name"
                                                    bindValue="id"
                                                    clearAllText="Clear"
