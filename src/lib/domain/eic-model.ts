@@ -7,6 +7,7 @@ export class Bundle<T> implements Identifiable {
   metadata: Metadata;
   active: boolean;
   status: string;
+  templateStatus: string;
   loggingInfo: LoggingInfo[];
   latestAuditInfo: LoggingInfo;
   latestOnboardingInfo: LoggingInfo;

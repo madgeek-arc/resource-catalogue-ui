@@ -104,7 +104,7 @@ export class PendingServicesComponent implements OnInit {
   }
 
   getPendingServices() {
-    this.providerService.getPendingServicesByProvider(this.providerId, this.dataForm.get('from').value,
+    this.providerService.getDraftServicesByProvider(this.providerId, this.dataForm.get('from').value,
       this.itemsPerPage + '', 'ASC', 'name')
       .subscribe(res => {
           this.providerServices = res;

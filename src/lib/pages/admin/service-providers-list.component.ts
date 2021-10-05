@@ -61,8 +61,9 @@ export class ServiceProvidersListComponent implements OnInit {
   pages: number[] = [];
   offset = 2;
 
+  serviceTemplatePerProvider: any[] = [];
+
   statusList = statusList;
-  pendingFirstServicePerProvider: any[] = [];
   adminActionsMap = statusChangeMap;
 
   providersPage: Paging<Provider>;
@@ -100,14 +101,11 @@ export class ServiceProvidersListComponent implements OnInit {
   @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
 
   public statuses: Array<string> = [
-    'approved', 'pending initial approval', 'rejected',
-    'pending template submission', 'pending template approval', 'rejected template'
+    'approved provider', 'pending provider', 'rejected provider'
   ];
 
   public labels: Array<string> = [
-    `Approved Provider`, `Provider submitted application`,
-    `Rejected Provider`, `Approved provider without ${this.serviceORresource}`,
-    `Pending first ${this.serviceORresource} approval `, `Rejected ${this.serviceORresource}`
+    `Approved Provider`, `Pending Provider`, `Rejected Provider`
   ];
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
@@ -316,12 +314,12 @@ export class ServiceProvidersListComponent implements OnInit {
         this.loadingMessage = '';
         this.providers.forEach(
           p => {
-            if ((p.status === 'pending template approval') ||
-              (p.status === 'rejected template')) {
-              this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
+            // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
+            if (p.templateStatus === 'pending template') {
+              this.serviceProviderService.getServiceTemplate(p.id).subscribe(
                 res => {
-                  if (res && (res.length > 0)) {
-                    this.pendingFirstServicePerProvider.push({providerId: p.id, serviceId: res[0].id});
+                  if (res) {
+                    this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
                   }
                 }
               );
@@ -351,12 +349,12 @@ export class ServiceProvidersListComponent implements OnInit {
         this.loadingMessage = '';
         this.providersForAudit.forEach(
           p => {
-            if ((p.status === 'pending template approval') ||
-              (p.status === 'rejected template')) {
-              this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
+            // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
+            if (p.templateStatus === 'pending template') {
+              this.serviceProviderService.getServiceTemplate(p.id).subscribe(
                 res => {
-                  if (res && (res.length > 0)) {
-                    this.pendingFirstServicePerProvider.push({providerId: p.id, serviceId: res[0].id});
+                  if (res) {
+                    this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
                   }
                 }
               );
@@ -373,10 +371,10 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   updateSelectedProvider() {
-    if (this.selectedProvider && (this.selectedProvider.status !== 'approved')) {
+    if (this.selectedProvider && (this.selectedProvider.status !== 'approved provider')) {
       const i = this.statusList.indexOf(this.selectedProvider.status);
       let active = false;
-      if (this.statusList[i + 1] === 'approved') {
+      if (this.statusList[i + 1] === 'approved provider') {
         active = true;
       }
       const updatedFields = Object.assign({
@@ -441,7 +439,7 @@ export class ServiceProvidersListComponent implements OnInit {
 
   statusChangeAction() {
     this.loadingMessage = '';
-    const active = this.pushedApprove && (this.newStatus === 'approved');
+    const active = this.pushedApprove && (this.newStatus === 'approved provider');
     this.serviceProviderService.verifyServiceProvider(this.selectedProvider.id, active, this.adminActionsMap[this.newStatus].statusId)
       .subscribe(
         res => {
@@ -458,6 +456,24 @@ export class ServiceProvidersListComponent implements OnInit {
         },
         () => {
           this.loadingMessage = '';
+        }
+      );
+  }
+
+  templateAction(id, active, status) {
+    this.loadingMessage = '';
+    UIkit.modal('#spinnerModal').show();
+    const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
+    this.resourceService.verifyResource(templateId, active, status).subscribe(
+        res => {
+          this.getProviders();
+        },
+        err => {
+          UIkit.modal('#spinnerModal').hide();
+          console.log(err);
+        },
+        () => {
+          UIkit.modal('#spinnerModal').hide();
         }
       );
   }
@@ -503,19 +519,19 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   hasCreatedFirstService(id: string) {
-    return this.pendingFirstServicePerProvider.some(x => x.providerId === id);
+    return this.serviceTemplatePerProvider.some(x => x.providerId === id);
   }
 
   getLinkToFirstService(id: string) {
     if (this.hasCreatedFirstService(id)) {
-      return '/service/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
+      return '/service/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
     } else {
       return '/provider/' + id + '/add-resource-template';
     }
   }
 
   getLinkToEditFirstService(id: string) {
-    return '/provider/' + id + '/resource/update/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
+    return '/provider/' + id + '/resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
   }
 
   editProviderInNewTab(providerId) {
@@ -596,7 +612,7 @@ export class ServiceProvidersListComponent implements OnInit {
 
   openPreviewModal(providerBundleId) {
     if (this.hasCreatedFirstService(providerBundleId)) {
-      const resourceId = this.pendingFirstServicePerProvider.filter(x => x.providerId === providerBundleId)[0].serviceId;
+      const resourceId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerBundleId)[0].serviceId;
       this.resourceService.getService(resourceId).subscribe(
         res => { this.resourceToPreview = res; },
         error => console.log(error),

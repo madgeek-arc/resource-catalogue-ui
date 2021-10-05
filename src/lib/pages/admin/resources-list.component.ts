@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
-import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
+import {resourceStatusChangeMap, statusList} from '../../domain/resource-status-list';
 import {InfraService, LoggingInfo, ProviderBundle} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
@@ -11,6 +11,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 import {NavigationService} from '../../services/navigation.service';
 import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
+import {statusChangeMap} from '../../domain/service-provider-status-list';
 
 declare var UIkit: any;
 
@@ -30,7 +31,8 @@ export class ResourcesListComponent implements OnInit {
     from: '0',
     active: '',
     resource_organisation: new FormArray([]),
-    auditState: new FormArray([])
+    auditState: new FormArray([]),
+    status: new FormArray([])
   };
 
   dataForm: FormGroup;
@@ -65,6 +67,9 @@ export class ResourcesListComponent implements OnInit {
 
   pendingFirstServicePerProvider: any[] = [];
 
+  statusList = statusList;
+  adminActionsMap = resourceStatusChangeMap;
+
   public auditStates: Array<string> = [
     'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
   ];
@@ -74,6 +79,16 @@ export class ResourcesListComponent implements OnInit {
   ];
 
   @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
+
+  public statuses: Array<string> = [
+    'approved resource', 'pending resource', 'rejected resource'
+  ];
+
+  public labels: Array<string> = [
+    `Approved Resource`, `Pending Resource`, `Rejected Resource`
+  ];
+
+  @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
   constructor(private resourceService: ResourceService,
               private serviceProviderService: ServiceProviderService,
@@ -95,10 +110,25 @@ export class ResourcesListComponent implements OnInit {
       this.route.queryParams
         .subscribe(params => {
 
+            let foundStatus = false;
             let foundState = false;
 
             for (const i in params) {
-              if (i === 'resource_organisation') {
+              if (i === 'status') {
+
+                if (this.dataForm.get('status').value.length === 0) {
+                  const formArrayNew: FormArray = this.dataForm.get('status') as FormArray;
+                  // formArrayNew = this.fb.array([]);
+
+                  for (const status of params[i].split(',')) {
+                    if (status !== '') {
+                      formArrayNew.push(new FormControl(status));
+                    }
+                  }
+                }
+
+                foundStatus = true;
+              } else if (i === 'resource_organisation') {
 
                 if (this.dataForm.get('resource_organisation').value.length === 0) {
                   const formArrayNew: FormArray = this.dataForm.get('resource_organisation') as FormArray;
@@ -128,6 +158,16 @@ export class ResourcesListComponent implements OnInit {
               }
             }
 
+            // if no status in URL, check all statuses by default
+            if (!foundStatus) {
+              const formArray: FormArray = this.dataForm.get('status') as FormArray;
+              // formArray = this.fb.array([]);
+
+              this.statuses.forEach(status => {
+                formArray.push(new FormControl(status));
+              });
+            }
+
             for (const i in this.dataForm.controls) {
               if (this.dataForm.get(i).value) {
                 const urlParam = new URLParameter();
@@ -144,6 +184,10 @@ export class ResourcesListComponent implements OnInit {
           error => this.errorMessage = <any>error
         );
     }
+  }
+
+  isStatusChecked(value: string) {
+    return this.dataForm.get('status').value.includes(value);
   }
 
   handleChange() {
@@ -235,7 +279,8 @@ export class ResourcesListComponent implements OnInit {
     this.services = [];
     this.resourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('active').value, this.dataForm.get('resource_organisation').value, this.dataForm.get('auditState').value).subscribe(
+      this.dataForm.get('active').value, this.dataForm.get('resource_organisation').value,
+      this.dataForm.get('status').value, this.dataForm.get('auditState').value).subscribe(
       res => {
         this.services = res['results'];
         this.facets = res['facets'];

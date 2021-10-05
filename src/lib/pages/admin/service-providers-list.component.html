@@ -180,19 +180,21 @@
                     <div *ngFor="let providerBundle of providers" class="uk-card provider-card uk-margin-medium-top">
                       <div class="uk-card-body" style="padding-bottom: 20px;">
 
-                        <div *ngIf="providerBundle.status === 'approved'" class="approved">
+                        <div *ngIf="providerBundle.status === 'approved provider'" class="approved">
                           <div class="uk-card-badge uk-label">Approved</div>
                         </div>
-                        <div *ngIf="providerBundle.status === 'pending template submission'" class="pending">
-                          <div class="uk-card-badge uk-label">Pending (Provider)</div>
+                        <div *ngIf="providerBundle.status === 'pending provider'" class="pending">
+                          <div class="uk-card-badge uk-label">Pending</div>
                         </div>
-                        <div *ngIf="(providerBundle.status === 'pending initial approval')
-                                || (providerBundle.status === 'pending template approval')" class="pending-EPOT">
-                          <div class="uk-card-badge uk-label">Pending ({{serviceORresource === 'Resource'?'EPOT':'CPOT'}})</div>
-                        </div>
-                        <div *ngIf="(providerBundle.status === 'rejected template')
-                                || (providerBundle.status === 'rejected')" class="rejected">
+                        <div *ngIf="(providerBundle.status === 'rejected provider')" class="rejected">
                           <div class="uk-card-badge uk-label">Rejected</div>
+                        </div>
+
+                        <div *ngIf="providerBundle.active" class="approved">
+                          <div class="uk-label uk-align-right">Active</div>
+                        </div>
+                        <div *ngIf="!providerBundle.active" class="rejected">
+                          <div class="uk-label uk-align-right">Inactive</div>
                         </div>
 
                         <div class="">
@@ -206,12 +208,12 @@
                             <div class="uk-width-4-5">
                               <div class="providerName">
                                 <span class="uk-margin-auto-vertical">
-                                  <ng-container *ngIf="providerBundle.status === 'approved'">
+                                  <ng-container *ngIf="providerBundle.status === 'approved provider'">
                                     <a [routerLink]="['/dashboard', providerBundle.id, 'stats']" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
                                       {{ providerBundle.provider.name }}
                                     </a>
                                   </ng-container>
-                                  <ng-container *ngIf="providerBundle.status !== 'approved'">
+                                  <ng-container *ngIf="providerBundle.status !== 'approved provider'">
                                     <a [routerLink]="['/dashboard', providerBundle.id]" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
                                       {{ providerBundle.provider.name }}
                                     </a>
@@ -227,7 +229,10 @@
                                 <ng-container *ngIf="!providerBundle.provider.abbreviation || (providerBundle.provider.abbreviation===null)">not available</ng-container>
                               </div>
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Status: </span>{{ labels[statuses.indexOf(providerBundle.status)] | titlecase }}
+                                <span class="statusLabel">Provider Status: </span>{{ labels[statuses.indexOf(providerBundle.status)] | titlecase }}
+                              </div>
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Template Status: </span>{{ providerBundle.templateStatus | titlecase }}
                               </div>
                               <div class="uk-margin-small-top">
                                 <span class="statusLabel">Creation Date: </span>
@@ -260,14 +265,14 @@
 <!--                                    <i aria-hidden="true" class="fa fa-thumbs-up"></i>-->
 <!--                                    {{ adminActionsMap[providerBundle.status].appButtonTitle }}-->
 <!--                                  </button>-->
-<!--                                  <button *ngIf="(providerBundle.status === 'approved') && (!providerBundle.active)"-->
-<!--                                     (click)="showActionModal(providerBundle, 'approved', true)"-->
+<!--                                  <button *ngIf="(providerBundle.status === 'approved provider') && (!providerBundle.active)"-->
+<!--                                     (click)="showActionModal(providerBundle, 'approved provider', true)"-->
 <!--                                          class="uk-button uk-button-action uk-display-block uk-margin-small-top">-->
 <!--                                    <i aria-hidden="true" class="fa fa-thumbs-up"></i> Activate-->
 <!--                                  </button>-->
 <!--                                </ng-container>-->
-<!--                                <button *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||-->
-<!--                                        ((providerBundle.status !== 'approved') && (adminActionsMap[providerBundle.status]-->
+<!--                                <button *ngIf="((providerBundle.status === 'approved provider') && (providerBundle.active)) ||-->
+<!--                                        ((providerBundle.status !== 'approved provider') && (adminActionsMap[providerBundle.status]-->
 <!--                                        && adminActionsMap[providerBundle.status].rejButtonTitle))"-->
 <!--                                      (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)"-->
 <!--                                        class="uk-button uk-button-action uk-display-block uk-margin-small-top">-->
@@ -337,14 +342,14 @@
                             </button>
                             <div uk-dropdown="mode: click">
                               <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                                <ng-container *ngIf="providerBundle.status == 'approved'">
+                                <ng-container *ngIf="providerBundle.status === 'approved provider'">
                                   <li class="uk-margin-small-bottom"
                                       (click)="showAuditForm('main', providerBundle)">
                                     <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
                                   </li>
                                   <li class="uk-nav-divider"></li>
                                 </ng-container>
-                                <ng-container *ngIf="providerBundle.status == 'pending template submission'">
+                                <ng-container *ngIf="providerBundle.status === 'approved provider' && providerBundle.templateStatus === 'no template status'">
                                   <i class="">Add {{serviceORresource | lowercase}} template</i>
                                   <li class="uk-active">
                                     <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
@@ -356,7 +361,7 @@
                                   </li>
                                   <li class="uk-nav-divider"></li>
                                 </ng-container>
-                                <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
+                                <ng-container *ngIf="hasCreatedFirstService(providerBundle.id) && providerBundle.templateStatus==='pending template'">
                                   <li class="uk-active">
                                     <a *ngIf="projectName!='EOSC'"
                                        routerLink="{{ getLinkToFirstService(providerBundle.id) }}"
@@ -374,17 +379,25 @@
                                       <i class="fa fa-pencil"></i> Edit {{serviceORresource | lowercase}} template
                                     </a>
                                   </li>
+                                  <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'approved resource')">
+                                    <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve {{serviceORresource | lowercase}} template</a>
+                                  </li>
+                                  <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'rejected resource')">
+                                    <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject {{serviceORresource | lowercase}} template</a>
+                                  </li>
+                                  <li class="uk-nav-divider ng-star-inserted"></li>
                                 </ng-container>
-                                <li *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||
-                                        ((providerBundle.status !== 'approved') && (adminActionsMap[providerBundle.status]
+                                <li *ngIf="((providerBundle.status === 'approved provider') && (providerBundle.active)) ||
+                                        ((providerBundle.status !== 'approved provider') && (adminActionsMap[providerBundle.status]
                                         && adminActionsMap[providerBundle.status].rejButtonTitle))"
                                     class="uk-margin-small-top"
-                                    (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)">
+                                    (click)="
+                                    showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)">
                                   <a><i class="fa fa-thumbs-down uk-margin-small-right" aria-hidden="true"></i>
                                     {{ adminActionsMap[providerBundle.status].rejButtonTitle }}</a>
                                 </li>
-                                <ng-container *ngIf="((providerBundle.status !== 'pending template approval')
-                                                      && (providerBundle.status !== 'rejected template'))
+                                <ng-container *ngIf="((providerBundle.templateStatus !== 'pending template')
+                                                      && (providerBundle.templateStatus !== 'rejected template'))
                                                       || (hasCreatedFirstService(providerBundle.id))">
                                   <li
                                     *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"
@@ -393,18 +406,18 @@
                                     <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>
                                       {{ adminActionsMap[providerBundle.status].appButtonTitle }}</a>
                                   </li>
-                                  <li *ngIf="(providerBundle.status === 'approved') && (!providerBundle.active)"
-                                      (click)="showActionModal(providerBundle, 'approved', true)"
-                                      class="uk-margin-small-top">
-                                    <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
-                                  </li>
                                 </ng-container>
+                                <li *ngIf="(providerBundle.status === 'approved provider') && (!providerBundle.active)"
+                                    (click)="showActionModal(providerBundle, 'approved provider', true)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
+                                </li>
                               </ul>
                             </div>
                           </div>
                         </ng-container>
 
-                        <ng-container *ngIf="providerBundle.status == 'approved'">
+                        <ng-container *ngIf="providerBundle.status == 'approved provider'">
 <!--                          <hr class="uk-margin-top">-->
 <!--                          <button-->
 <!--                            class="uk-button uk-button-link uk-margin-medium-left"-->
@@ -473,6 +486,10 @@
   </div>
 </div>
 
+<div id="spinnerModal" uk-modal>
+  <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+  </div>
+</div>
 
 <div id="actionModal" uk-modal>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
@@ -481,8 +498,8 @@
       <p *ngIf="selectedProvider.status !== newStatus">The status will change from "{{ selectedProvider.status }}" to
         "{{ newStatus }}"</p>
       <p *ngIf="selectedProvider.status === newStatus">
-        {{ ((selectedProvider.status === 'approved') && !pushedApprove) ? 'The resource provider will be deactivated.' :
-        (((selectedProvider.status === 'approved') && pushedApprove) ? 'The resource provider will be activated.' :
+        {{ ((selectedProvider.status === 'approved provider') && !pushedApprove) ? 'The resource provider will be deactivated.' :
+        (((selectedProvider.status === 'approved provider') && pushedApprove) ? 'The resource provider will be activated.' :
           'The Provider will be prompted to update the resource template.')}}
       </p>
     </div>
@@ -547,19 +564,21 @@
     <div *ngFor="let providerBundle of providersForAudit" class="uk-card provider-card uk-margin-medium-top">
       <div class="uk-card-body" style="padding-bottom: 20px;">
 
-        <div *ngIf="providerBundle.status === 'approved'" class="approved">
+        <div *ngIf="providerBundle.status === 'approved provider'" class="approved">
           <div class="uk-card-badge uk-label">Approved</div>
         </div>
-        <div *ngIf="providerBundle.status === 'pending template submission'" class="pending">
-          <div class="uk-card-badge uk-label">Pending (Provider)</div>
+        <div *ngIf="providerBundle.status === 'pending provider'" class="pending">
+          <div class="uk-card-badge uk-label">Pending</div>
         </div>
-        <div *ngIf="(providerBundle.status === 'pending initial approval')
-                                || (providerBundle.status === 'pending template approval')" class="pending-EPOT">
-          <div class="uk-card-badge uk-label">Pending ({{serviceORresource === 'Resource'?'EPOT':'CPOT'}})</div>
-        </div>
-        <div *ngIf="(providerBundle.status === 'rejected template')
-                                || (providerBundle.status === 'rejected')" class="rejected">
+        <div *ngIf="(providerBundle.status === 'rejected provider')" class="rejected">
           <div class="uk-card-badge uk-label">Rejected</div>
+        </div>
+
+        <div *ngIf="providerBundle.active" class="approved">
+          <div class="uk-label uk-align-right">Active</div>
+        </div>
+        <div *ngIf="!providerBundle.active" class="rejected">
+          <div class="uk-label uk-align-right">Inactive</div>
         </div>
 
         <div class="">
@@ -620,14 +639,14 @@
 <!--                    <i aria-hidden="true" class="fa fa-thumbs-up"></i>-->
 <!--                    {{ adminActionsMap[providerBundle.status].appButtonTitle }}-->
 <!--                  </button>-->
-<!--                  <button *ngIf="(providerBundle.status === 'approved') && (!providerBundle.active)"-->
-<!--                          (click)="showActionModal(providerBundle, 'approved', true)"-->
+<!--                  <button *ngIf="(providerBundle.status === 'approved provider') && (!providerBundle.active)"-->
+<!--                          (click)="showActionModal(providerBundle, 'approved provider', true)"-->
 <!--                          class="uk-button uk-button-action uk-display-block uk-margin-small-top">-->
 <!--                    <i aria-hidden="true" class="fa fa-thumbs-up"></i> Activate-->
 <!--                  </button>-->
 <!--                </ng-container>-->
-<!--                <button *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||-->
-<!--                                        ((providerBundle.status !== 'approved') && (adminActionsMap[providerBundle.status]-->
+<!--                <button *ngIf="((providerBundle.status === 'approved provider') && (providerBundle.active)) ||-->
+<!--                                        ((providerBundle.status !== 'approved provider') && (adminActionsMap[providerBundle.status]-->
 <!--                                        && adminActionsMap[providerBundle.status].rejButtonTitle))"-->
 <!--                        (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)"-->
 <!--                        class="uk-button uk-button-action uk-display-block uk-margin-small-top">-->
@@ -648,7 +667,7 @@
         </div>
 
         <hr class="uk-margin-top">
-        <button *ngIf="providerBundle.status == 'approved'"
+        <button *ngIf="providerBundle.status == 'approved provider'"
           class="uk-button uk-button-link uk-margin-medium-right"
           (click)="showAuditForm('side', providerBundle)">
           <i class="fa fa-check-circle-o fa-lg"></i> Audit
@@ -658,8 +677,8 @@
         </button>
         <div uk-dropdown="mode: click">
           <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-            <li *ngIf="((providerBundle.status === 'approved') && (providerBundle.active)) ||
-                                        ((providerBundle.status !== 'approved') && (adminActionsMap[providerBundle.status]
+            <li *ngIf="((providerBundle.status === 'approved provider') && (providerBundle.active)) ||
+                                        ((providerBundle.status !== 'approved provider') && (adminActionsMap[providerBundle.status]
                                         && adminActionsMap[providerBundle.status].rejButtonTitle))"
                 class="uk-margin-small-top"
                 (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)">
@@ -677,7 +696,7 @@
           </ul>
         </div>
 
-        <ng-container *ngIf="providerBundle.status == 'approved'">
+        <ng-container *ngIf="providerBundle.status == 'approved provider'">
 <!--          <hr class="uk-margin-top">-->
 <!--          <button-->
 <!--            class="uk-button uk-button-link uk-margin-medium-left"-->
