@@ -33,6 +33,7 @@ export class ServiceProviderFormComponent implements OnInit {
   providerForm: FormGroup;
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
+  subVocabularies: Map<string, Vocabulary[]> = null;
   premiumSort = new PremiumSortPipe();
   edit = false;
   hasChanges = false;
@@ -504,6 +505,10 @@ export class ServiceProviderFormComponent implements OnInit {
       error => console.log(JSON.stringify(error.error)),
       () => {
         this.premiumSort.transform(this.placesVocabulary, ['Europe', 'Worldwide']);
+
+        let voc: Vocabulary[] = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN].concat(this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN]);
+        this.subVocabularies = this.groupByKey(voc, 'parentId');
+
         return this.vocabularies;
       }
     );
@@ -1053,6 +1058,15 @@ export class ServiceProviderFormComponent implements OnInit {
       pos: 'top-center',
       timeout: 7000
     });
+  }
+
+  groupByKey(array, key) {
+    return array.reduce((hash, obj) => {
+      if (obj[key] === undefined) {
+        return hash;
+      }
+      return Object.assign(hash, {[obj[key]]: (hash[obj[key]] || []).concat(obj)});
+    }, {});
   }
 
 }
