@@ -416,7 +416,7 @@
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <ng-select class="uk-width-1-1" id="{{'scientificSubdomain ' + i}}"
                                                    [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, this.edit, 'scientificDomain')}"
-                                                   [items]="getSortedChildrenCategories(categoriesVocabulary, domainArray.controls[i].get('scientificDomain').value)"
+                                                   [items]="subVocabularies[domainArray.controls[i].get('scientificDomain').value]"
                                                    (change)="checkForDuplicates('scientificSubdomain','scientificDomains'); unsavedChangesPrompt()"
                                                    bindLabel="name"
                                                    bindValue="id"
@@ -1163,7 +1163,7 @@
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <ng-select class="uk-width-1-1" id="{{'merilScientificSubdomain ' + i}}"
                                                    [ngClass]="{'uk-form-danger': checkFormArrayValidity('merilScientificDomains', i, this.edit, 'merilScientificSubdomain')}"
-                                                   [items]="getSortedChildrenCategories(merilCategoriesVocabulary, merilDomainArray.controls[i].get('merilScientificDomain').value)"
+                                                   [items]="subVocabularies[merilDomainArray.controls[i].get('merilScientificDomain').value]"
                                                    (change)="checkForDuplicates('merilScientificSubdomain','merilScientificDomains'); unsavedChangesPrompt()"
                                                    bindLabel="name"
                                                    bindValue="id"
