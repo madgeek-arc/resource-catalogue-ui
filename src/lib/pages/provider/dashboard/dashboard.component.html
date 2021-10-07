@@ -63,7 +63,7 @@
 
         <ul>
 
-          <ng-container *ngIf="providerStatus === 'approved provider'">
+          <ng-container *ngIf="providerBundle?.templateStatus === 'approved template'">
             <li>
               <a [routerLink]="['/provider/' + providerId + '/resource/add/']">
                 <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
@@ -71,7 +71,7 @@
               </a>
             </li>
           </ng-container>
-          <ng-container *ngIf="providerStatus !== 'approved provider'">
+          <ng-container *ngIf="providerBundle?.templateStatus !== 'approved template'">
             <li title="This action is disabled until your Provider completes the onboarding process.">
               <a>
                 <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
