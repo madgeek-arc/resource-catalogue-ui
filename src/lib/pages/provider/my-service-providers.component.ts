@@ -81,17 +81,13 @@ export class MyServiceProvidersComponent implements OnInit {
                 );
               }
               if ((p.templateStatus === 'rejected template')) {
-                // console.log(p.id);
                 this.serviceProviderService.getRejectedServicesOfProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
                   res => {
-                    console.log(JSON.parse(JSON.stringify(res)).id);
-                    // console.log(res[0].id);
                     if (res.results.length > 0) {
                       this.hasRejectedServices.push({id: p.id, flag: true});
                     } else {
                       this.hasRejectedServices.push({id: p.id, flag: false});
                     }
-                    console.log(this.hasRejectedServices);
                   }
                 );
               }

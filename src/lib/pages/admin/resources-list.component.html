@@ -428,35 +428,6 @@
                           </div>
                         </ng-container>
 
-                        <!-- TODO: review-->
-                        <ng-container *ngIf="hasCreatedFirstService(serviceBundle.id)">
-                          <hr class="uk-margin-top">
-                          <button routerLink="{{ getLinkToFirstService(serviceBundle.id) }}"
-                                  class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">
-                            <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template
-                          </button>
-                          <button routerLink="{{ getLinkToEditFirstService(serviceBundle.id) }}"
-                                  class="uk-button uk-button-link uk-margin-medium-left">
-                            <i class="fa fa-pencil"></i> Edit {{serviceORresource | lowercase}} template
-                          </button>
-                        </ng-container>
-
-                        <ng-container *ngIf="serviceBundle.status == 'pending template submission'">
-                          <button class="uk-button uk-button-action uk-margin-small-left">
-                            <i class="fa fa-plus"></i>
-                            Add {{serviceORresource | lowercase}} template
-                          </button>
-                          <div uk-dropdown>
-                            <ul class="uk-nav uk-dropdown-nav">
-                              <li class="uk-active">
-                                <a routerLink="{{ getLinkToFirstService(serviceBundle.id) }}">Create {{serviceORresource | lowercase}} template</a>
-                              </li>
-                              <li class="uk-nav-divider"></li>
-                              <li class="uk-active"><a routerLink="/developers">Use API</a></li>
-                            </ul>
-                          </div>
-                        </ng-container>
-
                         <!--active/inactive label alternative-->
                         <td class="uk-text-center">
                         <i class="fa fa-{{ serviceBundle.active ? 'check':'close' }}"></i>

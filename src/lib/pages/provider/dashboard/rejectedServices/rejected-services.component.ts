@@ -103,7 +103,9 @@ export class RejectedServicesComponent implements OnInit {
         err => {
           this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
         },
-        () => {console.log(this.providerServices)}
+        () => {
+        // console.log(this.providerServices)
+      }
       );
   }
 
