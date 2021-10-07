@@ -66,6 +66,7 @@ export class ResourcesListComponent implements OnInit {
   offset = 2;
 
   pendingFirstServicePerProvider: any[] = [];
+  serviceTemplatePerProvider: any[] = [];
 
   statusList = statusList;
   adminActionsMap = resourceStatusChangeMap;
@@ -270,6 +271,19 @@ export class ResourcesListComponent implements OnInit {
         this.errorMessage = 'The list could not be retrieved';
       },
       () => {
+        this.providers.forEach(
+          p => {
+            if (p.templateStatus === 'pending template') {
+              this.serviceProviderService.getServiceTemplate(p.id).subscribe(
+                res => {
+                  if (res) {
+                    this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
+                  }
+                }
+              );
+            }
+          }
+        );
       }
     );
   }
@@ -452,6 +466,25 @@ export class ResourcesListComponent implements OnInit {
       () => {
         this.getServices();
         UIkit.modal('#spinnerModal').hide();
+      }
+    );
+  }
+
+  templateAction(id, active, status) {
+    this.loadingMessage = '';
+    UIkit.modal('#spinnerModal').show();
+    const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
+    this.resourceService.verifyResource(templateId, active, status).subscribe(
+      res => {
+        this.getProviders();
+      },
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        console.log(err);
+      },
+      () => {
+        UIkit.modal('#spinnerModal').hide();
+        // TODO: refresh page
       }
     );
   }
