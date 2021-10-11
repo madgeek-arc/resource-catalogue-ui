@@ -135,14 +135,19 @@
                 <div class="uk-card-badge uk-label">Rejected</div>
               </div>
 
-              <div *ngIf="providerService.active" class="approved">
-                <div class="uk-label uk-align-right">Active</div>
-              </div>
-              <div *ngIf="!providerService.active" class="rejected">
-                <div class="uk-label uk-align-right">Inactive</div>
+              <div class="uk-grid">
+                <div class="uk-width-9-10"></div>
+                <div class="uk-width-1-10">
+                  <div *ngIf="providerService.active" class="approved">
+                    <div class="uk-label uk-align-right">Active</div>
+                  </div>
+                  <div *ngIf="!providerService.active" class="rejected">
+                    <div class="uk-label uk-align-right">Inactive</div>
+                  </div>
+                </div>
               </div>
 
-              <div class="uk-grid uk-flex-middle">
+              <div class="uk-grid uk-flex-middle uk-margin-remove-top">
                 <div class="uk-width-1-6">
                   <img src="{{providerService.service.logo ? providerService.service.logo : 'src/lib/assets/images/broken_image-black-48dp.svg'}}">
                 </div>
@@ -178,6 +183,11 @@
                   </div>
                 </div>
               </div>
+
+<!--&lt;!&ndash;              active/inactive label alternative&ndash;&gt;-->
+<!--              <td class="uk-text-center">-->
+<!--                <i class="fa fa-{{ providerService.active ? 'check':'close' }}"></i>-->
+<!--              </td>-->
 
             </div>
 
