@@ -528,6 +528,11 @@ export class ResourceService {
     return this.http.patch(this.base + `/resource/verifyResource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
+  getServiceTemplate(id: string) {  // gets oldest pending resource of the provider
+    console.log('getServiceTemplate');
+    return this.http.get<Service[]>(this.base + `/resource/getServiceTemplate/${id}`);
+  }
+
   public handleError(error: HttpErrorResponse) {
     // const message = 'Server error';
     const message = error.error;

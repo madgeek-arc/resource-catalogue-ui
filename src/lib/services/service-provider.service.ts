@@ -105,10 +105,6 @@ export class ServiceProviderService {
       `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
   }
 
-  getServiceTemplate(id: string) {  // gets oldest pending resource of the provider TODO: move to resource.service
-    return this.http.get<Service[]>(this.base + `/resource/getServiceTemplate/${id}`);
-  }
-
   getPendingServicesOfProvider(id: string) {  // we use new /resource/getServiceTemplate/${id} instead TODO: rename front & back! - gets INACTIVE services
     return this.http.get<Service[]>(this.base + `/provider/services/pending/${id}`);
   }

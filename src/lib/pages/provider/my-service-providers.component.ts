@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ServiceProviderService} from '../../services/service-provider.service';
+import {ResourceService} from '../../services/resource.service';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ProviderBundle} from '../../domain/eic-model';
 import {zip} from 'rxjs';
@@ -34,6 +35,7 @@ export class MyServiceProvidersComponent implements OnInit {
 
   constructor(
     private serviceProviderService: ServiceProviderService,
+    private resourceService: ResourceService,
     public authenticationService: AuthenticationService
   ) {
   }
@@ -58,7 +60,7 @@ export class MyServiceProvidersComponent implements OnInit {
               // if ((p.status === 'pending template approval') || (p.status === 'rejected template')) {
               // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
               if (p.templateStatus === 'pending template') {
-                this.serviceProviderService.getServiceTemplate(p.id).subscribe(
+                this.resourceService.getServiceTemplate(p.id).subscribe(
                   res => {
                     if (res) {
                       this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});

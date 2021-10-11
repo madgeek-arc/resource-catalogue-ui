@@ -316,7 +316,7 @@ export class ServiceProvidersListComponent implements OnInit {
           p => {
             // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
             if (p.templateStatus === 'pending template') {
-              this.serviceProviderService.getServiceTemplate(p.id).subscribe(
+              this.resourceService.getServiceTemplate(p.id).subscribe(
                 res => {
                   if (res) {
                     this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
@@ -351,7 +351,7 @@ export class ServiceProvidersListComponent implements OnInit {
           p => {
             // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
             if (p.templateStatus === 'pending template') {
-              this.serviceProviderService.getServiceTemplate(p.id).subscribe(
+              this.resourceService.getServiceTemplate(p.id).subscribe(
                 res => {
                   if (res) {
                     this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
