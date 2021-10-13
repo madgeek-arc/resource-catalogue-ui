@@ -31,6 +31,7 @@ export class ServiceProvidersListComponent implements OnInit {
     quantity: '10',
     from: '0',
     status: new FormArray([]),
+    templateStatus: new FormArray([]),
     auditState: new FormArray([])
   };
 
@@ -90,25 +91,17 @@ export class ServiceProvidersListComponent implements OnInit {
   public languagesVocIdArray: string[] = [];
   public statusesVocabulary: Vocabulary[] = null;
 
-  public auditStates: Array<string> = [
-    'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
-  ];
-
-  public auditLabels: Array<string> = [
-    'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
-  ];
-
+  public auditStates: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
+  public auditLabels: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
   @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
 
-  public statuses: Array<string> = [
-    'approved provider', 'pending provider', 'rejected provider'
-  ];
-
-  public labels: Array<string> = [
-    `Approved Provider`, `Pending Provider`, `Rejected Provider`
-  ];
-
+  public statuses: Array<string> = ['approved provider', 'pending provider', 'rejected provider'];
+  public labels: Array<string> = ['Approved Provider', 'Pending Provider', 'Rejected Provider'];
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
+
+  public templateStatuses: Array<string> = ['approved template', 'pending template', 'rejected template', 'no template status'];
+  public templateLabels: Array<string> = ['Approved Template', 'Pending Template', 'Rejected Template', 'No Template Status'];
+  @ViewChildren("templateCheckboxes") templateCheckboxes: QueryList<ElementRef>;
 
   constructor(private resourceService: ResourceService,
               private serviceProviderService: ServiceProviderService,
@@ -130,10 +123,11 @@ export class ServiceProvidersListComponent implements OnInit {
         .subscribe(params => {
 
             let foundStatus = false;
+            let foundTemplateStatus = false;
             let foundState = false;
+
             for (const i in params) {
               if (i === 'status') {
-
                 if (this.dataForm.get('status').value.length === 0) {
                   const formArrayNew: FormArray = this.dataForm.get('status') as FormArray;
                   // formArrayNew = this.fb.array([]);
@@ -144,8 +138,19 @@ export class ServiceProvidersListComponent implements OnInit {
                     }
                   }
                 }
-
                 foundStatus = true;
+              } else if (i === 'templateStatus') {
+                if (this.dataForm.get('templateStatus').value.length === 0) {
+                  const formArrayNew: FormArray = this.dataForm.get('templateStatus') as FormArray;
+                  // formArrayNew = this.fb.array([]);
+
+                  for (const templateStatus of params[i].split(',')) {
+                    if (templateStatus !== '') {
+                      formArrayNew.push(new FormControl(templateStatus));
+                    }
+                  }
+                }
+                foundTemplateStatus = true;
               } else if (i === 'auditState') {
 
                 if (this.dataForm.get('auditState').value.length === 0) {
@@ -158,7 +163,6 @@ export class ServiceProvidersListComponent implements OnInit {
                     }
                   }
                 }
-
                 foundState = true;
               } else {
                 this.dataForm.get(i).setValue(params[i]);
@@ -168,10 +172,14 @@ export class ServiceProvidersListComponent implements OnInit {
             // if no status in URL, check all statuses by default
             if (!foundStatus) {
               const formArray: FormArray = this.dataForm.get('status') as FormArray;
-              // formArray = this.fb.array([]);
-
               this.statuses.forEach(status => {
                 formArray.push(new FormControl(status));
+              });
+            }
+            if (!foundTemplateStatus) {
+              const formArray: FormArray = this.dataForm.get('templateStatus') as FormArray;
+              this.templateStatuses.forEach(templateStatus => {
+                formArray.push(new FormControl(templateStatus));
               });
             }
 
@@ -255,6 +263,10 @@ export class ServiceProvidersListComponent implements OnInit {
     return this.dataForm.get('status').value.includes(value);
   }
 
+  isTemplateStatusChecked(value: string) {
+    return this.dataForm.get('templateStatus').value.includes(value);
+  }
+
   handleChange() {
     this.urlParams = [];
     // const map: { [name: string]: string; } = {};
@@ -299,7 +311,7 @@ export class ServiceProvidersListComponent implements OnInit {
     this.providers = [];
     this.resourceService.getProviderBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('status').value, this.dataForm.get('auditState').value).subscribe(
+      this.dataForm.get('status').value, this.dataForm.get('templateStatus').value, this.dataForm.get('auditState').value).subscribe(
       res => {
         this.providers = res['results'];
         this.total = res['total'];
@@ -585,21 +597,34 @@ export class ServiceProvidersListComponent implements OnInit {
     }
   }
 
-  checkAll(check: boolean) {
-
-    const formArray: FormArray = this.dataForm.get('status') as FormArray;
-    if (check) {
-      formArray.controls.length = 0;
-      for (let i = 0; i < this.statuses.length; i++) {
-        formArray.push(new FormControl(this.statuses[i]));
+  checkAll(check: boolean, name: string) {
+    if (name === 'statuses') {
+      const formArray: FormArray = this.dataForm.get('status') as FormArray;
+      if (check) {
+        formArray.controls.length = 0;
+        for (let i = 0; i < this.statuses.length; i++) {
+          formArray.push(new FormControl(this.statuses[i]));
+        }
+      } else {
+        while (formArray.controls.length > 0 ) {
+          formArray.removeAt(0);
+        }
       }
-    } else {
-      while (formArray.controls.length > 0 ) {
-        formArray.removeAt(0);
+    } else if (name === 'templateStatuses') {
+      const formArray: FormArray = this.dataForm.get('templateStatus') as FormArray;
+      console.log('in');
+      if (check) {
+        formArray.controls.length = 0;
+        for (let i = 0; i < this.templateStatuses.length; i++) {
+          formArray.push(new FormControl(this.templateStatuses[i]));
+        }
+      } else {
+        while (formArray.controls.length > 0 ) {
+          formArray.removeAt(0);
+        }
       }
     }
     this.handleChangeAndResetPage();
-
   }
 
   DownloadProvidersCSV() {

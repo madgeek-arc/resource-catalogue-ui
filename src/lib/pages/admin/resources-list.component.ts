@@ -261,7 +261,7 @@ export class ResourcesListComponent implements OnInit {
 
   getProviders() {
     this.providers = [];
-    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', [], []).subscribe(
+    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', [], [], []).subscribe(
       res => {
         this.providers = res['results'];
         this.providersTotal = res['total'];

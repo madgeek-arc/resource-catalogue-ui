@@ -65,7 +65,7 @@
                     </div>
                   </form>
 
-                  <h5>Status</h5>
+                  <h5>Provider Status</h5>
                   <form [formGroup]="dataForm">
                     <div formArrayName="status" class="uk-padding uk-padding-remove-top">
                       <div *ngFor="let statusValue of statuses;" class="uk-margin-small-top">
@@ -76,10 +76,28 @@
                         </label>
                       </div>
                     </div>
-                    <div class="">
-                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(false)"> Uncheck All </button>
+                    <div class="uk-padding uk-padding-remove-top uk-padding-remove-left">
+                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(false, 'statuses')"> Uncheck All </button>
                       &nbsp;
-                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(true)"> Check All </button>
+                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(true, 'statuses')"> Check All </button>
+                    </div>
+                  </form>
+
+                  <h5>Template Status</h5>
+                  <form [formGroup]="dataForm">
+                    <div formArrayName="templateStatus" class="uk-padding uk-padding-remove-top">
+                      <div *ngFor="let statusValue of templateStatuses;" class="uk-margin-small-top">
+                        <label class="status-value uk-margin-small-left">
+                          <input #templateCheckboxes class="uk-checkbox" type="checkbox" [value]="statusValue"
+                                 (change)="onSelectionChange($event, 'templateStatus')" [checked]="isTemplateStatusChecked(statusValue)">
+                          {{templateLabels[templateStatuses.indexOf(statusValue)] | titlecase}}
+                        </label>
+                      </div>
+                    </div>
+                    <div class="">
+                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(false, 'templateStatuses')"> Uncheck All </button>
+                      &nbsp;
+                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(true, 'templateStatuses')"> Check All </button>
                     </div>
                   </form>
 

@@ -396,7 +396,7 @@ export class ResourceService {
     // return this.getAll("provider");
   }
 
-  getProviderBundles(from: string, quantity: string, orderField: string, order: string, query: string, status: string[], auditState: string[]) {
+  getProviderBundles(from: string, quantity: string, orderField: string, order: string, query: string, status: string[], templateStatus: string[], auditState: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
@@ -408,6 +408,11 @@ export class ResourceService {
     if (status && status.length > 0) {
       for (const statusValue of status) {
         params = params.append('status', statusValue);
+      }
+    }
+    if (templateStatus && templateStatus.length > 0) {
+      for (const templateStatusValue of templateStatus) {
+        params = params.append('templateStatus', templateStatusValue);
       }
     }
     if (auditState && auditState.length > 0) {
@@ -529,7 +534,6 @@ export class ResourceService {
   }
 
   getServiceTemplate(id: string) {  // gets oldest pending resource of the provider
-    console.log('getServiceTemplate');
     return this.http.get<Service[]>(this.base + `/resource/getServiceTemplate/${id}`);
   }
 
