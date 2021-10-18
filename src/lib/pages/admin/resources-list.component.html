@@ -376,6 +376,13 @@
                                     <li class="uk-nav-divider"></li>
                                   </ng-container>
 
+                                  <ng-container class="uk-margin-small-bottom">
+                                    <li (click)="sendMail(serviceBundle.id)">
+                                      <a><i class="fa fa-envelope fa-lg uk-margin-small-right"></i>Send mail</a>
+                                    </li>
+                                    <li class="uk-nav-divider"></li>
+                                  </ng-container>
+
                                   <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlockList">
                                     <li class="uk-button uk-button-link uk-margin-small-top"
                                             (click)="toggleService(serviceBundle)">

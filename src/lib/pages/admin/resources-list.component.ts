@@ -529,6 +529,13 @@ export class ResourcesListComponent implements OnInit {
       );
   }
 
+  sendMail(id: string) {
+    this.resourceService.sendEmailForOutdatedResource(id).subscribe(
+      res => {},
+      err => { console.log(err); }
+    );
+  }
+
   hasCreatedFirstService(id: string) {
     return this.pendingFirstServicePerProvider.some(x => x.providerId === id);
   }

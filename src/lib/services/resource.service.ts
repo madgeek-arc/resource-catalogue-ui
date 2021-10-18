@@ -537,6 +537,10 @@ export class ResourceService {
     return this.http.get<Service[]>(this.base + `/resource/getServiceTemplate/${id}`);
   }
 
+  sendEmailForOutdatedResource(id: string) {
+    return this.http.get(this.base + `/resource/sendEmailForOutdatedResource/${id}`);
+  }
+
   public handleError(error: HttpErrorResponse) {
     // const message = 'Server error';
     const message = error.error;
