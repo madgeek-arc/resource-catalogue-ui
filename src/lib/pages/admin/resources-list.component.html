@@ -383,6 +383,13 @@
                                     <li class="uk-nav-divider"></li>
                                   </ng-container>
 
+                                  <ng-container class="uk-margin-small-bottom">
+                                    <li (click)="showMoveResourceModal(serviceBundle)">
+                                      <a><i class="fa fa-clone fa-lg uk-margin-small-right"></i>Move {{serviceORresource}}</a>
+                                    </li>
+                                    <li class="uk-nav-divider"></li>
+                                  </ng-container>
+
                                   <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlockList">
                                     <li class="uk-button uk-button-link uk-margin-small-top"
                                             (click)="toggleService(serviceBundle)">
@@ -491,8 +498,43 @@
       <h6>Are you sure you want to delete "{{ selectedService.service.name }}" ?</h6>
       <p>Deleting a {{serviceORresource}} is an irreversible action.</p>
     </div>
-    <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteService(selectedService.service.id)">Delete</button>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="deleteService(selectedService.service.id)">Delete</button>
+    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+  </div>
+  <div *ngIf="loadingMessage">
+    <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+      {{ loadingMessage }}
+    </div>
+    <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
+<div id="moveResourceModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <div *ngIf="selectedService">
+      <p>{{serviceORresource}} "{{ selectedService.service.name }}" is currently managed by provider "{{ selectedService.service.resourceOrganisation }}."</p>
+      <p>Choose another provider to move "{{ selectedService.service.name }}".</p>
+      <p style="color: grey">The initial {{serviceORresource | lowercase}} will be deleted from its current provider.</p>
+
+      <form [formGroup]="providersDropdownForm">
+        <div class="uk-form-controls uk-margin-medium-top">
+          <ng-select *ngIf="providersPage?.results?.length > 0" class="uk-width-9-10" id="resourceOrganisation"
+                     [items]="providersPage.results"
+                     bindLabel="name"
+                     bindValue="id"
+                     clearAllText="Clear"
+                     formControlName="resourceOrganisation">
+          </ng-select>
+        </div>
+        <br>
+<!--        <pre>{{providersDropdownForm.value | json }}</pre>-->
+        <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button"
+                (click)="moveResourceToProvider(selectedService.service.id, providersDropdownForm.get('resourceOrganisation').value)">OK</button>
+        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+      </form>
+
+    </div>
+
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">

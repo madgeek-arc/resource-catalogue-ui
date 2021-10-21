@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/c
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {resourceStatusChangeMap, statusList} from '../../domain/resource-status-list';
-import {InfraService, LoggingInfo, ProviderBundle} from '../../domain/eic-model';
+import {InfraService, LoggingInfo, Provider, ProviderBundle, Type, Vocabulary} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -12,6 +12,8 @@ import {URLParameter} from '../../domain/url-parameter';
 import {NavigationService} from '../../services/navigation.service';
 import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
 import {statusChangeMap} from '../../domain/service-provider-status-list';
+import {zip} from 'rxjs';
+import {Paging} from '../../domain/paging';
 
 declare var UIkit: any;
 
@@ -32,7 +34,7 @@ export class ResourcesListComponent implements OnInit {
     active: '',
     resource_organisation: new FormArray([]),
     auditState: new FormArray([]),
-    status: new FormArray([])
+    status: new FormArray([]),
   };
 
   dataForm: FormGroup;
@@ -67,6 +69,12 @@ export class ResourcesListComponent implements OnInit {
 
   pendingFirstServicePerProvider: any[] = [];
   serviceTemplatePerProvider: any[] = [];
+
+  providersFormPrepare = {
+    resourceOrganisation: ''
+  };
+  providersDropdownForm: FormGroup;
+  providersPage: Paging<Provider>;
 
   statusList = statusList;
   adminActionsMap = resourceStatusChangeMap;
@@ -106,6 +114,7 @@ export class ResourcesListComponent implements OnInit {
       this.router.navigateByUrl('/home');
     } else {
       this.dataForm = this.fb.group(this.formPrepare);
+      this.providersDropdownForm = this.fb.group(this.providersFormPrepare);
 
       this.urlParams = [];
       this.route.queryParams
@@ -184,6 +193,17 @@ export class ResourcesListComponent implements OnInit {
           },
           error => this.errorMessage = <any>error
         );
+
+      this.resourceService.getProvidersNames('approved').subscribe(suc => {
+          this.providersPage = <Paging<Provider>>suc;
+        },
+        error => {
+          this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
+        },
+        () => {
+          this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
+        }
+      );
     }
   }
 
@@ -436,6 +456,13 @@ export class ResourcesListComponent implements OnInit {
     }
   }
 
+  showMoveResourceModal(resource: InfraService) {
+    this.selectedService = resource;
+    if (this.selectedService) {
+      UIkit.modal('#moveResourceModal').show();
+    }
+  }
+
   deleteService(id: string) {
     // UIkit.modal('#spinnerModal').show();
     this.resourceService.deleteService(id).subscribe(
@@ -485,6 +512,24 @@ export class ResourcesListComponent implements OnInit {
       () => {
         UIkit.modal('#spinnerModal').hide();
         // TODO: refresh page
+      }
+    );
+  }
+
+  moveResourceToProvider(resourceId, providerId ) {
+    UIkit.modal('#spinnerModal').show();
+    this.resourceService.moveResourceToProvider(resourceId, providerId).subscribe(
+      res => {},
+      error => {
+        // console.log(error);
+        UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = 'Something went bad. ' + error.error ;
+        this.getServices();
+      },
+      () => {
+        // this.getServices();
+        UIkit.modal('#spinnerModal').hide();
+        window.location.reload();
       }
     );
   }
