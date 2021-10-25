@@ -245,10 +245,17 @@
                                 <label>
                                   <span
                                     class="uk-form-description uk-margin-small-right">{{legalEntityDesc.desc}}</span>
-                                  <input class="uk-checkbox" type="checkbox" id="legalEntityYes"
-                                         formControlName="legalEntity" value="true"
-                                         (input)="this.providerForm.get('legalStatus').setValue(''); unsavedChangesPrompt()"
-                                         [checked]="this.providerForm.get('legalEntity').value == true && edit">
+                                  <label class="uk-margin-small-left uk-margin-small-right">
+                                    <input class="uk-radio" type="radio" name="legalEntity" id="legalEntityNo"
+                                           formControlName="legalEntity" [value]=false
+                                           (input)="handleBitSets(0, 16, 'legalEntity'); unsavedChangesPrompt(); resetLegalStatus();"
+                                           [checked]="(this.providerForm.get('legalEntity').value === false)">
+                                    No</label>
+                                  <label><input class="uk-radio" type="radio" name="legalEntity" id="legalEntityYes"
+                                            formControlName="legalEntity" [value]=true
+                                            (input)="handleBitSets(0, 16, 'legalEntity'); unsavedChangesPrompt()"
+                                            [checked]="this.providerForm.get('legalEntity').value === true">
+                                    Yes</label>
                                 </label>
                               </div>
                             </div>
@@ -260,7 +267,7 @@
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{legalStatusDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <ng-select class="uk-width-9-10" id="legalStatus"
-                                           [ngClass]="{'uk-disabled': this.providerForm.get('legalEntity').value == false, 'uk-form-danger': checkFormValidity('legalStatus', this.edit)}"
+                                           [ngClass]="{'uk-disabled': (this.providerForm.get('legalEntity').value === false), 'uk-form-danger': checkFormValidity('legalStatus', this.edit)}"
                                            [items]="sortVocabulariesByName(legalStatusVocabulary)"
                                            (change)="unsavedChangesPrompt()"
                                            bindLabel="name"
@@ -285,6 +292,20 @@
                                 </button>
                                 <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                               </div>
+                            </div>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="hostingLegalEntity">
+                                {{hostingLegalEntityDesc.label + (hostingLegalEntityDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div
+                                class="uk-form-description uk-margin-top uk-width-9-10">{{hostingLegalEntityDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <input id="hostingLegalEntity" class="uk-input uk-width-9-10" type="text"
+                                       formControlName="hostingLegalEntity"
+                                       (input)="unsavedChangesPrompt()"
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('hostingLegalEntity', this.edit)}">
+                              </div>
+                              <i><small>Suggested length is 80 characters</small></i>
                             </div>
                           </li>
                           <!--MARKETING-->
@@ -828,20 +849,6 @@
                           </li>
                           <!--OTHER-->
                           <li>
-                            <div class="uk-margin-large-bottom">
-                              <label class="uk-form-label uk-text-right" for="hostingLegalEntity">
-                                {{hostingLegalEntityDesc.label + (hostingLegalEntityDesc.mandatory ? ' (*)' : '')}}
-                              </label>
-                              <div
-                                class="uk-form-description uk-margin-top uk-width-9-10">{{hostingLegalEntityDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
-                                <input id="hostingLegalEntity" class="uk-input uk-width-9-10" type="text"
-                                       formControlName="hostingLegalEntity"
-                                       (input)="unsavedChangesPrompt()"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('hostingLegalEntity', this.edit)}">
-                              </div>
-                              <i><small>Suggested length is 80 characters</small></i>
-                            </div>
                             <div formArrayName="participatingCountries" class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="participatingCountries">
                                 {{participatingCountriesDesc.label + (participatingCountriesDesc.mandatory ? ' (*)' : '')}}

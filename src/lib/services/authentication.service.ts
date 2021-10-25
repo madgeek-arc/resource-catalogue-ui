@@ -101,6 +101,7 @@ export class AuthenticationService {
     sessionStorage.setItem('redirect_url', redirectUrl);
     // console.log(redirectUrl);
     window.location.href = environment.API_ENDPOINT + '/openid_connect_login';
+    // console.log(window.location.href);
   }
 
   public login() {

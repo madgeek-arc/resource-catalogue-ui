@@ -8,7 +8,7 @@
         </div>
         <div class="uk-margin-medium-left">
           <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
-          <div><span class="status-label">Status: </span>{{providerBundle.status | titlecase}}</div>
+          <div><span class="status-label">Provider Status: </span>{{providerBundle.status | titlecase}}</div>
         </div>
       </div>
     </div>
@@ -63,7 +63,21 @@
           <div class="uk-inline uk-margin-right">
             <label class="" for="status">Status </label>
             <div class="uk-inline">
-              <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="active">
+              <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
+                <option value="" selected>All</option>
+                <option value="approved resource">Approved Resource</option>
+                <option value="pending resource">Pending Resource</option>
+                <option value="rejected resource">Rejected Resource</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="uk-margin-right">
+          <div class="uk-inline uk-margin-right">
+            <label class="" for="isActive">Is Active </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="isActive" (change)="handleChangeAndResetPage()" formControlName="active">
                 <option value="statusAll" selected>All</option>
                 <option value="true">Active</option>
                 <option value="false">Inactive</option>
@@ -111,15 +125,29 @@
 
             <div class="uk-card-body">
 
-              <div *ngIf="providerService.active" class="approved">
-                <div class="uk-card-badge uk-label">Active</div>
+              <div *ngIf="providerService.status === 'approved resource'" class="approved">
+                <div class="uk-card-badge uk-label">Approved</div>
+              </div>
+              <div *ngIf="providerService.status === 'pending resource'" class="pending">
+                <div class="uk-card-badge uk-label">Pending</div>
+              </div>
+              <div *ngIf="(providerService.status === 'rejected resource')" class="rejected">
+                <div class="uk-card-badge uk-label">Rejected</div>
               </div>
 
-              <div *ngIf="!providerService.active" class="rejected">
-                <div class="uk-card-badge uk-label">Inactive</div>
+              <div class="uk-grid">
+                <div class="uk-width-9-10"></div>
+                <div class="uk-width-1-10">
+                  <div *ngIf="providerService.active" class="approved">
+                    <div class="uk-label uk-align-right">Active</div>
+                  </div>
+                  <div *ngIf="!providerService.active" class="rejected">
+                    <div class="uk-label uk-align-right">Inactive</div>
+                  </div>
+                </div>
               </div>
 
-              <div class="uk-grid uk-flex-middle">
+              <div class="uk-grid uk-flex-middle uk-margin-remove-top">
                 <div class="uk-width-1-6">
                   <img src="{{providerService.service.logo ? providerService.service.logo : 'src/lib/assets/images/broken_image-black-48dp.svg'}}">
                 </div>
@@ -131,10 +159,10 @@
                     <span *ngIf="providerService.service.description" class="uk-margin-small-top">{{providerService.service.description}}</span>
                   </div>
                   <div class="uk-margin-small-top">
-                    <span class="statusLabel">Creation Date: </span>{{ providerService.metadata.registeredAt | date }}
+                    <span class="">Creation Date: </span>{{ providerService.metadata.registeredAt | date }}
                   </div>
                   <div class="uk-margin-small-top">
-                    <span class="statusLabel">Last Update: </span>{{ providerService.metadata.modifiedAt | date }}
+                    <span class="">Last Update: </span>{{ providerService.metadata.modifiedAt | date }}
                   </div>
                 </div>
                 <div class="uk-width-1-6">
@@ -155,6 +183,11 @@
                   </div>
                 </div>
               </div>
+
+<!--&lt;!&ndash;              active/inactive label alternative&ndash;&gt;-->
+<!--              <td class="uk-text-center">-->
+<!--                <i class="fa fa-{{ providerService.active ? 'check':'close' }}"></i>-->
+<!--              </td>-->
 
             </div>
 
@@ -223,7 +256,7 @@
 
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h6 *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} {{selectedService.service.name}}</h6>
+    <h6 *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} '{{selectedService.service.name}}'</h6>
     <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteService(selectedService.id)">Delete</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>

@@ -13,6 +13,7 @@ import {ServiceUploadComponent} from '../provider-resources/service-upload.compo
 import {ProviderFormToPdfComponent} from './provider-form-to-pdf/provider-form-to-pdf.component';
 import {ResourceFormToPdfComponent} from '../provider-resources/resource-form-to-pdf/resource-form-to-pdf.component';
 import {environment} from '../../../environments/environment';
+import {RejectedServicesComponent} from './dashboard/rejectedServices/rejected-services.component';
 
 const providerRoutes: Routes = [
 
@@ -63,6 +64,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Draft ' + environment.serviceORresource + 's'
+    }
+  },
+  {
+    path: 'rejected-resources/:providerId',
+    component: RejectedServicesComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Rejected ' + environment.serviceORresource + 's'
     }
   },
   {

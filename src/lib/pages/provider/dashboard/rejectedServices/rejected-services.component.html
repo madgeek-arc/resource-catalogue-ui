@@ -18,16 +18,16 @@
         <p>{{errorMessage}}</p>
       </div>
 
-      <div *ngIf="providerServices && providerServices.results.length === 0">
-        <p>No pending {{serviceORresource | lowercase}}s found</p>
+      <div *ngIf="providerServices && providerServices?.results?.length === 0">
+        <p>No rejected {{serviceORresource | lowercase}}s found</p>
       </div>
 
-      <div *ngIf="providerServices && providerServices.results.length > 0">
+      <div *ngIf="providerServices && providerServices?.results?.length > 0">
 
         <div class="uk-flex uk-flex-middle uk-flex-between">
 
           <div class="resultsInfo">
-            <span class="number">{{total}}</span> DRAFT {{serviceORresource | uppercase}}S, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+            <span class="number">{{total}}</span> REJECTED {{serviceORresource | uppercase}}S, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
           </div>
 
           <ul class="uk-pagination" uk-margin>
@@ -68,36 +68,6 @@
 
             </div>
 
-
-
-            <!--<div class="uk-margin uk-grid-match uk-child-width-1-1 uk-animation-slide-top-medium uk-grid-stack">-->
-            <!--<div class="uk-first-column uk-padding-remove-left">-->
-
-            <!--<div class="uk-panel uk-scrollspy-inview uk-animation-slide-top-medium">-->
-            <!--<div class="uk-child-width-expand uk-flex-middle uk-grid uk-grid-stack uk-padding-small" uk-grid="">-->
-            <!--<div class="uk-width-1-6@m uk-first-column">-->
-            <!--<img src="{{providerService.service.logo ? providerService.service.logo : 'src/lib/assets/images/broken_image-black-48dp.svg'}}">-->
-            <!--</div>-->
-            <!--<div class="uk-width-2-3@m uk-padding-remove">-->
-            <!--<h3 class="uk-margin uk-h5 uk-margin-small-bottom">-->
-            <!--<a (click)="navigate(providerService.service.id)">{{providerService.service.name}}</a></h3>-->
-            <!--<span>{{providerService.service.description}}</span>-->
-            <!--</div>-->
-            <!--<div class="uk-width-1-6@m">-->
-            <!--<div>-->
-            <!--<a class="uk-padding-small" (click)="navigate(providerService.service.id)">-->
-            <!--<i class="fa fa-pencil fa-2x"></i>-->
-            <!--</a>-->
-            <!--<a class="uk-padding-small" (click)="setSelectedService(providerService)">-->
-            <!--<i class="fa fa-trash fa-2x" aria-hidden="true"></i>-->
-            <!--</a>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-
-            <!--</div>-->
-            <!--</div>-->
           </div>
         </div>
 

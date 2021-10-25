@@ -8,7 +8,7 @@
 
         <ul>
 
-          <ng-container *ngIf="providerStatus === 'approved'">
+          <ng-container *ngIf="providerStatus === 'approved provider'">
             <li [routerLinkActive]="['current_section']" #stats="routerLinkActive">
               <a [routerLink]="['/dashboard/' + providerId + '/stats']">
                 <img src="{{stats.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
@@ -16,7 +16,7 @@
               </a>
             </li>
           </ng-container>
-          <ng-container *ngIf="providerStatus !== 'approved'">
+          <ng-container *ngIf="providerStatus !== 'approved provider'">
             <li [routerLinkActive]="['current_section']" #stats="routerLinkActive" title="Statistics are disabled until your Provider completes the onboarding process.">
               <a>
                 <img src="{{stats.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
@@ -63,7 +63,7 @@
 
         <ul>
 
-          <ng-container *ngIf="providerStatus === 'approved'">
+          <ng-container *ngIf="providerBundle?.templateStatus === 'approved template'">
             <li>
               <a [routerLink]="['/provider/' + providerId + '/resource/add/']">
                 <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
@@ -71,7 +71,7 @@
               </a>
             </li>
           </ng-container>
-          <ng-container *ngIf="providerStatus !== 'approved'">
+          <ng-container *ngIf="providerBundle?.templateStatus !== 'approved template'">
             <li title="This action is disabled until your Provider completes the onboarding process.">
               <a>
                 <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">

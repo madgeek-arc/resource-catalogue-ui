@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ServiceProviderService} from '../../services/service-provider.service';
+import {ResourceService} from '../../services/resource.service';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ProviderBundle} from '../../domain/eic-model';
 import {zip} from 'rxjs';
@@ -18,8 +19,9 @@ export class MyServiceProvidersComponent implements OnInit {
 
   myProviders: ProviderBundle[];
   myPendingProviders: ProviderBundle[];
-  pendingFirstServicePerProvider: any[] = [];
-  hasPendingServices: { id: string, flag: boolean }[] = [];
+  serviceTemplatePerProvider: any[] = [];
+  hasDraftServices: { id: string, flag: boolean }[] = [];
+  hasRejectedServices: { id: string, flag: boolean }[] = [];
 
   myApprovedProviders: ProviderBundle[] = [];
   myPendingActionProviders: ProviderBundle[] = [];
@@ -33,6 +35,7 @@ export class MyServiceProvidersComponent implements OnInit {
 
   constructor(
     private serviceProviderService: ServiceProviderService,
+    private resourceService: ResourceService,
     public authenticationService: AuthenticationService
   ) {
   }
@@ -54,25 +57,39 @@ export class MyServiceProvidersComponent implements OnInit {
         () => {
           this.myProviders.forEach(
             p => {
-              if ((p.status === 'pending template approval') || (p.status === 'rejected template')) {
-                this.serviceProviderService.getPendingServicesOfProvider(p.id).subscribe(
+              // if ((p.status === 'pending template approval') || (p.status === 'rejected template')) {
+              // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
+              if (p.templateStatus === 'pending template') {
+                this.resourceService.getServiceTemplate(p.id).subscribe(
                   res => {
-                    if (res && (res.length > 0)) {
-                      this.pendingFirstServicePerProvider.push({providerId: p.id, serviceId: res[0].id});
+                    if (res) {
+                      this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
                     }
                   }
                 );
               }
-              if (p.status === 'pending template submission') {
+              // if (p.status === 'pending template submission') {
+              if (p.status === 'approved provider') {
                 // console.log(p.id);
-                this.serviceProviderService.getPendingServicesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
+                this.serviceProviderService.getDraftServicesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
                   res => {
                     if (res.results.length > 0) {
-                      this.hasPendingServices.push({id: p.id, flag: true});
+                      this.hasDraftServices.push({id: p.id, flag: true});
                     } else {
-                      this.hasPendingServices.push({id: p.id, flag: false});
+                      this.hasDraftServices.push({id: p.id, flag: false});
                     }
-                    // console.log(this.hasPendingServices);
+                    // console.log(this.hasDraftServices);
+                  }
+                );
+              }
+              if ((p.templateStatus === 'rejected template')) {
+                this.serviceProviderService.getRejectedServicesOfProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
+                  res => {
+                    if (res.results.length > 0) {
+                      this.hasRejectedServices.push({id: p.id, flag: true});
+                    } else {
+                      this.hasRejectedServices.push({id: p.id, flag: false});
+                    }
                   }
                 );
               }
@@ -87,30 +104,41 @@ export class MyServiceProvidersComponent implements OnInit {
   }
 
   hasCreatedFirstService(id: string) {
-    return this.pendingFirstServicePerProvider.some(x => x.providerId === id);
+    return this.serviceTemplatePerProvider.some(x => x.providerId === id);
   }
 
-  checkForPendingServices(id: string): boolean {
-    for (let i = 0; i < this.hasPendingServices.length; i++) {
-      if (this.hasPendingServices[i].id === id) {
-        return this.hasPendingServices[i].flag;
+  checkForDraftServices(id: string): boolean {
+    for (let i = 0; i < this.hasDraftServices.length; i++) {
+      if (this.hasDraftServices[i].id === id) {
+        return this.hasDraftServices[i].flag;
       }
     }
     return false;
   }
 
+  checkForRejectedServices(id: string): boolean {
+    for (let i = 0; i < this.hasRejectedServices.length; i++) {
+      if (this.hasRejectedServices[i].id === id) {
+        // console.log('rejected flag', id, 'returns', this.hasRejectedServices[i].flag);
+        return this.hasRejectedServices[i].flag;
+      }
+    }
+    // console.log('rejected return false', id);
+    return false;
+  }
+
   getLinkToFirstService(id: string) {
     if (this.hasCreatedFirstService(id)) {
-      return '/provider/' + id + '/resource/update/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
+      return '/provider/' + id + '/resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
     } else {
       return '/provider/' + id + '/add-resource-template';
     }
   }
 
   assignProviderToList(p: ProviderBundle) {
-    if ((p.status === 'rejected template') || (p.status === 'rejected')) {
+    if (p.status === 'rejected provider') {
       this.myRejectedProviders.push(p);
-    } else if ((p.status === 'approved')) {
+    } else if ((p.status === 'approved provider')) {
       this.myApprovedProviders.push(p);
     } else {
       this.myPendingActionProviders.push(p);
@@ -119,11 +147,11 @@ export class MyServiceProvidersComponent implements OnInit {
 
   onCheckChanged(e, status: string) {
 
-    if (status === 'approved') {
+    if (status === 'approved provider') {
       this.isApprovedChecked = e.target.checked;
-    } else if (status === 'pending') {
+    } else if (status === 'pending provider') {
       this.isPendingChecked = e.target.checked;
-    } else if (status === 'rejected') {
+    } else if (status === 'rejected provider') {
       this.isRejectedChecked = e.target.checked;
     } else if (status === 'incomplete') {
       this.isIncompleteChecked = e.target.checked;

@@ -43,7 +43,7 @@ export class ServiceProviderFormComponent implements OnInit {
   tabs: boolean[] = [false, false, false, false, false, false, false, false];
   isPortalAdmin = false;
 
-  requiredOnTab0 = 3;
+  requiredOnTab0 = 4;
   requiredOnTab1 = 2;
   requiredOnTab3 = 4;
   requiredOnTab4 = 2;
@@ -65,7 +65,7 @@ export class ServiceProviderFormComponent implements OnInit {
   completedTabs = 0;
   completedTabsBitSet = new BitSet;
 
-  allRequiredFields = 16;
+  allRequiredFields = 17;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
@@ -231,7 +231,7 @@ export class ServiceProviderFormComponent implements OnInit {
       this.pushDomain();
       this.pushMerilDomain();
       this.addDefaultUser();  // Admin + mainContact
-      this.providerForm.get('legalEntity').setValue(false);
+      // this.providerForm.get('legalEntity').setValue(false);
     }
 
     if (sessionStorage.getItem('provider')) {
@@ -359,7 +359,8 @@ export class ServiceProviderFormComponent implements OnInit {
           if (this.edit) {
             this.router.navigate(['/provider/my']);
           } else {
-            this.authService.refreshLogin('/provider/my');
+            this.router.navigate(['/provider/my']);
+            // this.authService.refreshLogin('/provider/my'); // fixme: not redirecting
           }
         }
       );
@@ -1069,4 +1070,7 @@ export class ServiceProviderFormComponent implements OnInit {
     }, {});
   }
 
+  resetLegalStatus() {
+    this.providerForm.get('legalStatus').setValue('');
+  }
 }

@@ -94,30 +94,40 @@ export class ServiceProviderService {
     return this.http.get<Provider>(this.base + `/pendingProvider/provider/${id}`, this.options);
   }
 
-  getServicesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: string, query?: string) {
+  getServicesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
     if (!query) { query = ''; }
+    if (!status) { status = 'approved resource,pending resource,rejected resource'; }
     if (active === 'statusAll') {
       return this.http.get<Paging<InfraService>>(this.base +
-        `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`);
+        `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
     }
     return this.http.get<Paging<InfraService>>(this.base +
-      `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&query=${query}`);
+      `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
   }
 
-  getPendingServicesOfProvider(id: string) {
+  getPendingServicesOfProvider(id: string) {  // we use new /resource/getServiceTemplate/${id} instead TODO: rename front & back! - gets INACTIVE services
     return this.http.get<Service[]>(this.base + `/provider/services/pending/${id}`);
   }
 
-  getPendingServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+  getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
     return this.http.get<Paging<InfraService>>(this.base +
       `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 
-  publishService(id: string, version: string, active: boolean) {
+  getRejectedServicesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+    return this.http.get<Paging<InfraService>>(this.base +
+      `/provider/services/rejected/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+  }
+
+  publishService(id: string, version: string, active: boolean) { // toggles active/inactive service
     if (version === null) {
       return this.http.patch(this.base + `/service/publish/${id}?active=${active}`, this.options);
     }
-    return this.http.patch(this.base + `/service/publish/${id}?active=${active}&version=${version}`, this.options);
+    return this.http.patch(this.base + `/service/publish/${id}?active=${active}&version=${version}`, this.options); // copy for provider without version
+  }
+
+  publishProvider(id: string, active: boolean) { // toggles active/inactive provider TODO: check
+    return this.http.patch(this.base + `/provider/publish/${id}?active=${active}`, this.options);
   }
 
   temporarySaveProvider(provider: Provider, providerExists: boolean) {
