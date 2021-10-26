@@ -368,9 +368,8 @@
 
                                 <ng-container *ngIf="serviceBundle.status=='approved resource'">
 
-                                  <ng-container *ngIf="serviceBundle.active">
-                                    <li class="uk-margin-small-bottom"
-                                        (click)="showAuditForm('main', serviceBundle)">
+                                  <ng-container class="uk-margin-small-bottom" *ngIf="serviceBundle.active">
+                                    <li (click)="showAuditForm('main', serviceBundle)">
                                       <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
                                     </li>
                                     <li class="uk-nav-divider"></li>
@@ -391,7 +390,7 @@
                                   </ng-container>
 
                                   <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlockList">
-                                    <li class="uk-button uk-button-link uk-margin-small-top"
+                                    <li class="uk-button uk-button-link uk-padding-small"
                                             (click)="toggleService(serviceBundle)">
                                       <ng-container *ngIf="serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
                                       <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
@@ -400,7 +399,7 @@
 
                                   <ng-template #elseBlockList>
                                     <div uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
-                                      <li class="uk-button uk-button-link uk-disabled"
+                                      <li class="uk-button uk-button-link uk-disabled uk-padding-small"
                                               (click)="toggleService(serviceBundle)">
                                         <ng-container *ngIf="serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
                                         <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
@@ -433,7 +432,7 @@
                             </div>
                             <form>
                               <div class="uk-margin">
-                                <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
+                                <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentAuditControl"></textarea>
                               </div>
                             </form>
                             <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetAuditView()">Close</button>
@@ -518,7 +517,7 @@
 
       <form [formGroup]="providersDropdownForm">
         <div class="uk-form-controls uk-margin-medium-top">
-          <ng-select *ngIf="providersPage?.results?.length > 0" class="uk-width-9-10" id="resourceOrganisation"
+          <ng-select *ngIf="providersPage?.results?.length > 0" class="uk-width-10-10" id="resourceOrganisation"
                      [items]="providersPage.results"
                      bindLabel="name"
                      bindValue="id"
@@ -526,11 +525,19 @@
                      formControlName="resourceOrganisation">
           </ng-select>
         </div>
-        <br>
+
+        <div class="uk-margin-medium-top">
+          <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
+        </div>
+        <form>
+          <div class="uk-margin">
+            <textarea class="uk-textarea" rows="5" placeholder="optional comment" [formControl]="commentMoveControl"></textarea>
+          </div>
+        </form>
 <!--        <pre>{{providersDropdownForm.value | json }}</pre>-->
         <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button"
                 (click)="moveResourceToProvider(selectedService.service.id, providersDropdownForm.get('resourceOrganisation').value)">OK</button>
-        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+        <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
       </form>
 
     </div>
@@ -553,7 +560,7 @@
 <!--    </div>-->
 <!--    <form>-->
 <!--      <div class="uk-margin">-->
-<!--        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>-->
+<!--        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentAuditControl"></textarea>-->
 <!--      </div>-->
 <!--    </form>-->
 <!--    <button class="uk-button uk-button-secondary uk-modal-close uk-align-right" type="submit" (click)="auditResourceAction('VALID')">Validate</button>-->
@@ -570,7 +577,7 @@
 <!--    </div>-->
 <!--    <form>-->
 <!--      <div class="uk-margin">-->
-<!--        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>-->
+<!--        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentAuditControl"></textarea>-->
 <!--      </div>-->
 <!--    </form>-->
 <!--    <button class="uk-button uk-button-danger uk-modal-close uk-align-right" type="submit" (click)="auditResourceAction('INVALID')">Invalidate</button>-->
@@ -795,7 +802,7 @@
               </div>
               <form>
                 <div class="uk-margin">
-                  <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
+                  <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentAuditControl"></textarea>
                 </div>
               </form>
               <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetAuditView()">Close</button>

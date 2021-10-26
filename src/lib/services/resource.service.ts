@@ -541,8 +541,8 @@ export class ResourceService {
     return this.http.get(this.base + `/resource/sendEmailForOutdatedResource/${id}`);
   }
 
-  moveResourceToProvider(resourceId: string, providerId: string) {
-    return this.http.post(this.base + `/resource/changeProvider?resourceId=${resourceId}&newProvider=${providerId}`, this.options);
+  moveResourceToProvider(resourceId: string, providerId: string, comment: string) {
+    return this.http.post(this.base + `/resource/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
   }
 
   public handleError(error: HttpErrorResponse) {

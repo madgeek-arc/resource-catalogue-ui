@@ -41,7 +41,7 @@ export class ResourcesListComponent implements OnInit {
 
   urlParams: URLParameter[] = [];
 
-  commentControl = new FormControl();
+  commentAuditControl = new FormControl();
   showSideAuditForm = false;
   showMainAuditForm = false;
   initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userFullName: '', userRole: '', type: '', comment: '', actionType: ''};
@@ -75,6 +75,7 @@ export class ResourcesListComponent implements OnInit {
   };
   providersDropdownForm: FormGroup;
   providersPage: Paging<Provider>;
+  commentMoveControl = new FormControl();
 
   statusList = statusList;
   adminActionsMap = resourceStatusChangeMap;
@@ -457,6 +458,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   showMoveResourceModal(resource: InfraService) {
+    this.commentMoveControl.reset();
     this.selectedService = resource;
     if (this.selectedService) {
       UIkit.modal('#moveResourceModal').show();
@@ -516,9 +518,9 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  moveResourceToProvider(resourceId, providerId ) {
+  moveResourceToProvider(resourceId, providerId) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceService.moveResourceToProvider(resourceId, providerId).subscribe(
+    this.resourceService.moveResourceToProvider(resourceId, providerId, this.commentMoveControl.value).subscribe(
       res => {},
       error => {
         // console.log(error);
@@ -535,7 +537,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   showAuditForm(view: string, resource: InfraService) {
-    this.commentControl.reset();
+    this.commentAuditControl.reset();
     this.selectedService = resource;
     if (view === 'side') {
       this.showSideAuditForm = true;
@@ -547,11 +549,11 @@ export class ResourcesListComponent implements OnInit {
   resetAuditView() {
     this.showSideAuditForm = false;
     this.showMainAuditForm = false;
-    this.commentControl.reset();
+    this.commentAuditControl.reset();
   }
 
   auditResourceAction(action: string) {
-    this.resourceService.auditResource(this.selectedService.id, action, this.commentControl.value)
+    this.resourceService.auditResource(this.selectedService.id, action, this.commentAuditControl.value)
       .subscribe(
         res => {
           if (!this.showSideAuditForm) {
