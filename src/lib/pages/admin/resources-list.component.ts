@@ -203,6 +203,7 @@ export class ResourcesListComponent implements OnInit {
         },
         () => {
           this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
+          console.log(this.providersPage.results);
         }
       );
     }
@@ -656,5 +657,17 @@ export class ResourcesListComponent implements OnInit {
 
   DownloadServicesCSV() {
     window.open(this.url + '/exportToCSV/services', '_blank');
+  }
+
+  getProviderNameWithId(id: string) {
+    return this.providersPage.results.find( x => x.id === id ).name;
+  }
+
+  getProviderNamesWithIds(idsArray: string[]) {
+    let namesArray = [];
+    for (let i=0; i<idsArray.length; i++) {
+      namesArray.push(this.providersPage.results.find( x => x.id == idsArray[i] ).name);
+    }
+    return namesArray;
   }
 }
