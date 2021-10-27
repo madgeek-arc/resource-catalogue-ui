@@ -100,7 +100,7 @@ export class ServiceProvidersListComponent implements OnInit {
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
   public templateStatuses: Array<string> = ['approved template', 'pending template', 'rejected template', 'no template status'];
-  public templateLabels: Array<string> = ['Approved Template', 'Pending Template', 'Rejected Template', 'No Template Status'];
+  public templateLabels: Array<string> = ['Approved First Resource', 'Pending First Resource', 'Rejected First Resource', 'No Status'];
   @ViewChildren("templateCheckboxes") templateCheckboxes: QueryList<ElementRef>;
 
   constructor(private resourceService: ResourceService,

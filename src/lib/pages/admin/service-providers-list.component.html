@@ -83,14 +83,14 @@
                     </div>
                   </form>
 
-                  <h5>Template Status</h5>
+                  <h5>First {{serviceORresource}} Status</h5>
                   <form [formGroup]="dataForm">
                     <div formArrayName="templateStatus" class="uk-padding uk-padding-remove-top">
                       <div *ngFor="let statusValue of templateStatuses;" class="uk-margin-small-top">
                         <label class="status-value uk-margin-small-left">
                           <input #templateCheckboxes class="uk-checkbox" type="checkbox" [value]="statusValue"
                                  (change)="onSelectionChange($event, 'templateStatus')" [checked]="isTemplateStatusChecked(statusValue)">
-                          {{templateLabels[templateStatuses.indexOf(statusValue)] | titlecase}}
+                          {{templateLabels[templateStatuses.indexOf(statusValue)]}}
                         </label>
                       </div>
                     </div>
@@ -250,7 +250,7 @@
                                 <span class="statusLabel">Provider Status: </span>{{ labels[statuses.indexOf(providerBundle.status)] | titlecase }}
                               </div>
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Template Status: </span>{{ providerBundle.templateStatus | titlecase }}
+                                <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)]}}
                               </div>
                               <div class="uk-margin-small-top">
                                 <span class="statusLabel">Creation Date: </span>
@@ -314,27 +314,27 @@
 <!--                          <hr class="uk-margin-top">-->
 <!--                            <button *ngIf="projectName!='EOSC'" routerLink="{{ getLinkToFirstService(providerBundle.id) }}"-->
 <!--                                    class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">-->
-<!--                              <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template-->
+<!--                              <i class="fa fa-eye"></i> View First {{serviceORresource}}-->
 <!--                            </button>-->
 <!--                            <button *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id)"-->
 <!--                                    class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">-->
-<!--                              <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template-->
+<!--                              <i class="fa fa-eye"></i> View First {{serviceORresource}}-->
 <!--                            </button>-->
 <!--                            <button routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}"-->
 <!--                                    class="uk-button uk-button-link uk-margin-medium-left">-->
-<!--                              <i class="fa fa-pencil"></i> Edit {{serviceORresource | lowercase}} template-->
+<!--                              <i class="fa fa-pencil"></i> Edit First {{serviceORresource}}-->
 <!--                            </button>-->
 <!--                        </ng-container>-->
 
 <!--                        <ng-container *ngIf="providerBundle.status == 'pending template submission'">-->
 <!--                          <button class="uk-button uk-button-action uk-margin-small-left">-->
 <!--                            <i class="fa fa-plus"></i>-->
-<!--                            Add {{serviceORresource | lowercase}} template-->
+<!--                            Add First {{serviceORresource}}-->
 <!--                          </button>-->
 <!--                          <div uk-dropdown>-->
 <!--                            <ul class="uk-nav uk-dropdown-nav">-->
 <!--                              <li class="uk-active">-->
-<!--                                <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Create {{serviceORresource | lowercase}} template</a>-->
+<!--                                <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Create First {{serviceORresource}}</a>-->
 <!--                              </li>-->
 <!--                              <li class="uk-nav-divider"></li>-->
 <!--                              <li class="uk-active"><a routerLink="/developers">Use API</a></li>-->
@@ -368,11 +368,11 @@
                                   <li class="uk-nav-divider"></li>
                                 </ng-container>
                                 <ng-container *ngIf="providerBundle.status === 'approved provider' && providerBundle.templateStatus === 'no template status'">
-                                  <i class="">Add {{serviceORresource | lowercase}} template</i>
+                                  <i class="">Add First {{serviceORresource}}</i>
                                   <li class="uk-active">
                                     <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
                                       <i class="fa fa-dot-circle-o uk-margin-small-right"></i>
-                                      Create {{serviceORresource | lowercase}} template</a>
+                                      Create First {{serviceORresource}}</a>
                                   </li>
                                   <li class="uk-active"><a routerLink="/developers">
                                     <i class="fa fa-dot-circle-o uk-margin-small-right"></i>Use API</a>
@@ -384,24 +384,24 @@
                                     <a *ngIf="projectName!='EOSC'"
                                        routerLink="{{ getLinkToFirstService(providerBundle.id) }}"
                                        class="">
-                                      <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template
+                                      <i class="fa fa-eye"></i> View First {{serviceORresource}}
                                     </a>
                                     <a *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id)"
                                        class="">
-                                      <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template
+                                      <i class="fa fa-eye"></i> View First {{serviceORresource}}
                                     </a>
                                   </li>
                                   <li class="uk-active">
                                     <a routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}"
                                        class="uk-margin-small-top">
-                                      <i class="fa fa-pencil"></i> Edit {{serviceORresource | lowercase}} template
+                                      <i class="fa fa-pencil"></i> Edit First {{serviceORresource}}
                                     </a>
                                   </li>
                                   <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'approved resource')">
-                                    <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve {{serviceORresource | lowercase}} template</a>
+                                    <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve First {{serviceORresource}}</a>
                                   </li>
                                   <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'rejected resource')">
-                                    <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject {{serviceORresource | lowercase}} template</a>
+                                    <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First {{serviceORresource}}</a>
                                   </li>
                                   <li class="uk-nav-divider ng-star-inserted"></li>
                                 </ng-container>
