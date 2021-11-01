@@ -464,6 +464,11 @@ export class ResourceService {
     return this.http.get<InfraService[]>(this.base + `/resource/randomResources?quantity=${quantity}`, this.options);
   }
 
+  getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+    return this.http.get<Paging<InfraService>>(this.base +
+      `/resource/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+  }
+
   getEU() {
     return this.http.get(this.base + '/vocabulary/countries/EU');
   }

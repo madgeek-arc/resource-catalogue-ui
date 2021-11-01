@@ -15,6 +15,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {BreadcrumbsComponent} from './breadcrumbs/breadcrumbs.component';
 import {RouterModule} from '@angular/router';
 import {PendingServicesComponent} from '../pages/provider/dashboard/pendingservices/pending-services.component';
+import {SharedServicesComponent} from "../pages/provider/dashboard/sharedServices/shared-services.component";
 import {RejectedServicesComponent} from '../pages/provider/dashboard/rejectedServices/rejected-services.component';
 import {PreviewResourceComponent} from '../pages/previewresource/preview-resource.component';
 import { HighchartsChartModule } from 'highcharts-angular';
@@ -41,6 +42,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
     EmailModalComponent,
     BreadcrumbsComponent,
     PendingServicesComponent,
+    SharedServicesComponent,
     RejectedServicesComponent,
     PreviewResourceComponent
   ],
@@ -57,6 +59,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
     // StarRatingModule, // FIXME: not supported on this angular version
     BreadcrumbsComponent,
     PendingServicesComponent,
+    SharedServicesComponent,
     RejectedServicesComponent,
     PreviewResourceComponent
   ]

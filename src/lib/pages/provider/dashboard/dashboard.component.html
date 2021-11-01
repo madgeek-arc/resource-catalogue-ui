@@ -42,6 +42,12 @@
               {{serviceORresource}}s
             </a>
           </li>
+          <li [routerLinkActive]="['current_section']" #sharedServices="routerLinkActive">
+            <a [routerLink]="['/dashboard/' + providerId + '/shared-resources']">
+              <img src="{{sharedServices.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+              Shared {{serviceORresource | lowercase}}s
+            </a>
+          </li>
           <li [routerLinkActive]="['current_section']" #draftServices="routerLinkActive">
             <a [routerLink]="['/dashboard/' + providerId + '/draft-resources']">
               <img src="{{draftServices.isActive ? 'lib/assets/images/new-icons/draft-services-active.svg' : 'lib/assets/images/new-icons/draft-services.svg'}}" class="uk-margin-small-right">
