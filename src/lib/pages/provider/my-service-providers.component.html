@@ -64,7 +64,9 @@
                               </span>
                             </div>
                             <div class="uk-margin-small-top">
-                              <span class="statusLabel">Provider Status: </span>{{ providerBundle.status | titlecase }}
+<!--                              <span class="statusLabel">Provider Status: </span>{{ providerBundle.status.substr(0,providerBundle.status.indexOf(' ')) | titlecase }}-->
+<!--                              <span class="statusLabel">Provider Status: </span>{{labels[statuses.indexOf(providerBundle.status)]}}-->
+                              <span class="statusLabel">Provider Status: </span>Approved
                               <br>
                               <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)]}}
                             </div>
@@ -208,7 +210,7 @@
                               </span>
                             </div>
                             <div class="uk-margin-small-top">
-                              <span class="statusLabel">Provider Status: </span>{{ providerBundle.status | titlecase }}
+                              <span class="statusLabel">Provider Status: </span>Pending
                               <br>
                               <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)]}}
                             </div>
@@ -283,7 +285,7 @@
                               </span>
                             </div>
                             <div class="uk-margin-small-top">
-                              <span class="statusLabel">Provider Status: </span>{{ providerBundle.status | titlecase }}
+                              <span class="statusLabel">Provider Status: </span>Rejected
                               <br>
                               <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)]}}
                             </div>

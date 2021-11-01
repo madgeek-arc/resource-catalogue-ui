@@ -96,11 +96,11 @@ export class ServiceProvidersListComponent implements OnInit {
   @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
 
   public statuses: Array<string> = ['approved provider', 'pending provider', 'rejected provider'];
-  public labels: Array<string> = ['Approved Provider', 'Pending Provider', 'Rejected Provider'];
+  public labels: Array<string> = ['Approved', 'Pending', 'Rejected'];
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
   public templateStatuses: Array<string> = ['approved template', 'pending template', 'rejected template', 'no template status'];
-  public templateLabels: Array<string> = ['Approved First Resource', 'Pending First Resource', 'Rejected First Resource', 'No Status'];
+  public templateLabels: Array<string> = ['Approved', 'Pending', 'Rejected', 'No Status'];
   @ViewChildren("templateCheckboxes") templateCheckboxes: QueryList<ElementRef>;
 
   constructor(private resourceService: ResourceService,

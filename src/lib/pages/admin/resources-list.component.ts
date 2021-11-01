@@ -95,7 +95,7 @@ export class ResourcesListComponent implements OnInit {
   ];
 
   public labels: Array<string> = [
-    `Approved Resource`, `Pending Resource`, `Rejected Resource`
+    `Approved`, `Pending`, `Rejected`
   ];
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;

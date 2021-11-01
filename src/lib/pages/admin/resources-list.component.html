@@ -65,7 +65,7 @@
                     </div>
                   </form>
 
-                  <h5>Status</h5>
+                  <h5>{{serviceORresource}} Status</h5>
                   <form [formGroup]="dataForm">
                     <div formArrayName="status" class="uk-padding uk-padding-remove-top">
                       <div *ngFor="let statusValue of statuses;" class="uk-margin-small-top">
@@ -272,7 +272,7 @@
                                     <ng-container *ngIf="!serviceBundle.service.id || (serviceBundle.service.id===null)">not available</ng-container>
                                   </div>
                                   <div class="uk-margin-small-top">
-                                    <span class="statusLabel">{{serviceORresource}} Status: </span>{{ serviceBundle.status | titlecase }}
+                                    <span class="statusLabel">{{serviceORresource}} Status: </span>{{labels[statuses.indexOf(serviceBundle.status)]}}
                                   </div>
                                   <div class="uk-margin-small-top">
                                     <span class="statusLabel">Resource Organisation: </span>{{ getProviderNameWithId(serviceBundle.service.resourceOrganisation) }}

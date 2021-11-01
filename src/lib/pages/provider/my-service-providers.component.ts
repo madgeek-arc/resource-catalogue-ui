@@ -34,7 +34,7 @@ export class MyServiceProvidersComponent implements OnInit {
   isIncompleteChecked = true;
 
   public templateStatuses: Array<string> = ['approved template', 'pending template', 'rejected template', 'no template status'];
-  public templateLabels: Array<string> = ['Approved First Resource', 'Pending First Resource', 'Rejected First Resource', 'No Status'];
+  public templateLabels: Array<string> = ['Approved', 'Pending', 'Rejected', 'No Status'];
 
   constructor(
     private serviceProviderService: ServiceProviderService,
