@@ -262,40 +262,51 @@
 <!--                                  </a>-->
                                 </span>
                               </div>
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">ID: </span>
-                                <ng-container *ngIf="serviceBundle.service.id && (serviceBundle.service.id!==null)">{{ serviceBundle.service.id }}</ng-container>
-                                <ng-container *ngIf="!serviceBundle.service.id || (serviceBundle.service.id===null)">not available</ng-container>
+
+                              <div class="uk-grid uk-child-width-1-2">
+
+                                <div>
+                                  <div class="uk-margin-small-top uk-text-break">
+                                    <span class="statusLabel">ID: </span>
+                                    <ng-container *ngIf="serviceBundle.service.id && (serviceBundle.service.id!==null)">{{ serviceBundle.service.id }}</ng-container>
+                                    <ng-container *ngIf="!serviceBundle.service.id || (serviceBundle.service.id===null)">not available</ng-container>
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">{{serviceORresource}} Status: </span>{{ serviceBundle.status | titlecase }}
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Resource Organisation: </span>{{ getProviderNameWithId(serviceBundle.service.resourceOrganisation) }}
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Resource Providers: </span>{{ getProviderNamesWithIds(serviceBundle.service.resourceProviders) }}
+                                  </div>
+                                  <!--                              <div class="uk-margin-small-top">-->
+                                  <!--                                <span class="statusLabel">Status: </span>{{ serviceBundle.active ? 'Active' : 'Inactive' }}-->
+                                  <!--                              </div>-->
+                                </div>
+
+                                <div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Creation Date: </span>
+                                    <ng-container *ngIf="serviceBundle.metadata.registeredAt>0; else noCreationDate">{{ serviceBundle.metadata.registeredAt | date }}</ng-container>
+                                    <ng-template #noCreationDate><i>Unknown</i></ng-template>
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Last Audit: </span>
+                                    <ng-container *ngIf="serviceBundle.latestAuditInfo">
+                                      {{serviceBundle.latestAuditInfo.actionType | titlecase}}ated
+                                      on {{ serviceBundle.latestAuditInfo.date | date}}
+                                      by {{ serviceBundle.latestAuditInfo.userFullName}}
+                                    </ng-container>
+                                    <ng-container *ngIf="!serviceBundle.latestAuditInfo"><i>Never audited</i></ng-container>
+                                  </div>
+                                </div>
+
                               </div>
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">{{serviceORresource}} Status: </span>{{ serviceBundle.status | titlecase }}
-                              </div>
-<!--                              <div class="uk-margin-small-top">-->
-<!--                                <span class="statusLabel">Status: </span>{{ serviceBundle.active ? 'Active' : 'Inactive' }}-->
-<!--                              </div>-->
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">Creation Date: </span>
-                                <ng-container *ngIf="serviceBundle.metadata.registeredAt>0; else noCreationDate">{{ serviceBundle.metadata.registeredAt | date }}</ng-container>
-                                <ng-template #noCreationDate><i>Unknown</i></ng-template>
-                              </div>
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}
-                              </div>
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">Last Audit: </span>
-                                <ng-container *ngIf="serviceBundle.latestAuditInfo">
-                                  {{serviceBundle.latestAuditInfo.actionType | titlecase}}ated
-                                  on {{ serviceBundle.latestAuditInfo.date | date}}
-                                  by {{ serviceBundle.latestAuditInfo.userFullName}}
-                                </ng-container>
-                                <ng-container *ngIf="!serviceBundle.latestAuditInfo"><i>Never audited</i></ng-container>
-                              </div>
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">Resource Organisation: </span>{{ getProviderNameWithId(serviceBundle.service.resourceOrganisation) }}
-                              </div>
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">Resource Providers: </span>{{ getProviderNamesWithIds(serviceBundle.service.resourceProviders) }}
-                              </div>
+
                             </div>
 
                             <!--<div class="uk-width-1-5">
