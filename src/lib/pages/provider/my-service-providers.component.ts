@@ -134,7 +134,7 @@ export class MyServiceProvidersComponent implements OnInit {
     if (this.hasCreatedFirstService(id)) {
       return '/provider/' + id + '/resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
     } else {
-      return '/provider/' + id + '/add-resource-template';
+      return '/provider/' + id + '/add-first-resource';
     }
   }
 

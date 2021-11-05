@@ -75,7 +75,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':providerId/add-resource-template',
+    path: ':providerId/add-first-resource',
     component: AddFirstServiceComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {

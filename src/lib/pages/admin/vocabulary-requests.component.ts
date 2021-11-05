@@ -306,7 +306,7 @@ export class VocabularyRequestsComponent implements OnInit {
   }
 
   viewMoreModal(curation: VocabularyCuration) {
-    console.log(curation.vocabularyEntryRequests);
+    // console.log(curation.vocabularyEntryRequests);
     this.selectedCuration = curation;
     this.selectedVocabularyEntryRequests = curation.vocabularyEntryRequests;
     if (this.selectedVocabularyEntryRequests) {

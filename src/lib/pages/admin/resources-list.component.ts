@@ -203,7 +203,7 @@ export class ResourcesListComponent implements OnInit {
         },
         () => {
           this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
-          console.log(this.providersPage.results);
+          // console.log(this.providersPage.results);
         }
       );
     }
@@ -592,7 +592,7 @@ export class ResourcesListComponent implements OnInit {
     if (this.hasCreatedFirstService(id)) {
       return '/service/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
     } else {
-      return '/provider/' + id + '/add-resource-template';
+      return '/provider/' + id + '/add-first-resource';
     }
   }
 
