@@ -167,7 +167,9 @@
                 </div>
                 <div class="uk-width-1-6">
                   <div class="action-buttons">
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="useAsTemplate(providerService.service.id)">
+                    <button *ngIf="providerBundle.templateStatus === 'approved template'"
+                            class="uk-button uk-button-action uk-display-block uk-margin-small-top"
+                            (click)="useAsTemplate(providerService.service.id)">
                       <i class="fa fa-copy fa-lg" aria-hidden="true"></i> Use as template
                     </button>
                     <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(providerService)">

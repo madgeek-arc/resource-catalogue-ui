@@ -77,11 +77,27 @@
               </a>
             </li>
           </ng-container>
-          <ng-container *ngIf="providerBundle?.templateStatus !== 'approved template'">
-            <li title="This action is disabled until your Provider completes the onboarding process.">
+          <ng-container *ngIf="providerBundle?.templateStatus === 'rejected template' || (providerBundle?.status === 'approved provider' && providerBundle?.templateStatus === 'no template status')">
+            <li>
+              <a [routerLink]="['/provider/' + providerId + '/add-resource-template/']">
+                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Add first {{serviceORresource | lowercase}}
+              </a>
+            </li>
+          </ng-container>
+<!--          <ng-container *ngIf="providerBundle?.templateStatus === 'pending template'">-->
+<!--            <li>-->
+<!--              <a [routerLink]="['/provider/' + providerId + '/resource/update/' + templateId]">-->
+<!--                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">-->
+<!--                Update first {{serviceORresource | lowercase}}-->
+<!--              </a>-->
+<!--            </li>-->
+<!--          </ng-container>-->
+          <ng-container *ngIf="providerBundle?.status === 'pending provider' || providerBundle?.status === 'rejected provider'">
+            <li title="This action is disabled until your Provider proceeds on the onboarding process.">
               <a>
                 <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                Add new {{serviceORresource | lowercase}}
+                Add first {{serviceORresource | lowercase}}
               </a>
             </li>
           </ng-container>
