@@ -64,9 +64,11 @@
                               </span>
                             </div>
                             <div class="uk-margin-small-top">
-                              <span class="statusLabel">Provider Status: </span>{{ providerBundle.status | titlecase }}
+<!--                              <span class="statusLabel">Provider Status: </span>{{ providerBundle.status.substr(0,providerBundle.status.indexOf(' ')) | titlecase }}-->
+<!--                              <span class="statusLabel">Provider Status: </span>{{labels[statuses.indexOf(providerBundle.status)]}}-->
+                              <span class="statusLabel">Provider Status: </span>Approved
                               <br>
-                              <span class="statusLabel">Template Status: </span>{{ providerBundle.templateStatus | titlecase }}
+                              <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)]}}
                             </div>
                             <div class="uk-margin-top cardActionButtons">
                               <button class="uk-button uk-button-action" routerLink="/provider/update/{{providerBundle.id}}">
@@ -78,18 +80,18 @@
                                   <button class="uk-button uk-button-action uk-margin-small-left"
                                           routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
                                     <i class="fa fa-lg fa-edit"></i>
-                                    Update template
+                                    Update First {{serviceORresource}}
                                   </button>
                                 </ng-container>
                                 <ng-container *ngIf="!hasCreatedFirstService(providerBundle.id)">
                                   <button class="uk-button uk-button-action uk-margin-small-left">
                                     <i class="fa fa-plus"></i>
-                                    Add {{serviceORresource | lowercase}} template
+                                    Add First {{serviceORresource}}
                                   </button>
                                   <div uk-dropdown>
                                     <ul class="uk-nav uk-dropdown-nav">
                                       <li class="uk-active">
-                                        <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Create {{serviceORresource | lowercase}} template</a>
+                                        <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Create First {{serviceORresource}}</a>
                                       </li>
                                       <li *ngIf="checkForDraftServices(providerBundle.id)" class="uk-active">
                                         <a [routerLink]="['/provider/draft-resources/' + providerBundle.id] ">
@@ -208,9 +210,9 @@
                               </span>
                             </div>
                             <div class="uk-margin-small-top">
-                              <span class="statusLabel">Provider Status: </span>{{ providerBundle.status | titlecase }}
+                              <span class="statusLabel">Provider Status: </span>Pending
                               <br>
-                              <span class="statusLabel">Template Status: </span>{{ providerBundle.templateStatus | titlecase }}
+                              <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)]}}
                             </div>
                             <div class="uk-margin-top cardActionButtons">
                               <button class="uk-button uk-button-action" routerLink="/provider/update/{{providerBundle.id}}">
@@ -222,18 +224,18 @@
 <!--                                  <button class="uk-button uk-button-action uk-margin-small-left"-->
 <!--                                          routerLink="{{ getLinkToFirstService(providerBundle.id) }}">-->
 <!--                                    <i class="fa fa-lg fa-edit"></i>-->
-<!--                                    Update {{serviceORresource | lowercase}} template-->
+<!--                                    Update First {{serviceORresource}}-->
 <!--                                  </button>-->
 <!--                                </ng-container>-->
 <!--                                <ng-container *ngIf="!hasCreatedFirstService(providerBundle.id)">-->
 <!--                                  <button class="uk-button uk-button-action uk-margin-small-left">-->
 <!--                                    <i class="fa fa-plus"></i>-->
-<!--                                    Add {{serviceORresource | lowercase}} template-->
+<!--                                    Add First {{serviceORresource}}-->
 <!--                                  </button>-->
 <!--                                  <div uk-dropdown>-->
 <!--                                    <ul class="uk-nav uk-dropdown-nav">-->
 <!--                                      <li class="uk-active">-->
-<!--                                        <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Create {{serviceORresource | lowercase}} template</a>-->
+<!--                                        <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Create First {{serviceORresource}}</a>-->
 <!--                                      </li>-->
 <!--                                      <li *ngIf="checkForPendingServices(providerBundle.id)" class="uk-active">-->
 <!--                                        <a [routerLink]="['/provider/draft-resources/' + providerBundle.id] ">-->
@@ -283,9 +285,9 @@
                               </span>
                             </div>
                             <div class="uk-margin-small-top">
-                              <span class="statusLabel">Provider Status: </span>{{ providerBundle.status | titlecase }}
+                              <span class="statusLabel">Provider Status: </span>Rejected
                               <br>
-                              <span class="statusLabel">Template Status: </span>{{ providerBundle.templateStatus | titlecase }}
+                              <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)]}}
                             </div>
                             <div class="uk-margin-top cardActionButtons">
                               <button class="uk-button uk-button-action" routerLink="/provider/update/{{providerBundle.id}}">
@@ -293,7 +295,7 @@
                               <button class="uk-button uk-button-action" *ngIf="providerBundle.templateStatus === 'rejected template'"
                                  routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
                                 <i class="fa fa-lg fa-edit"></i>
-                                Update {{serviceORresource | lowercase}} template
+                                Update First {{serviceORresource}}
                               </button>
                             </div>
                           </div>
@@ -326,7 +328,7 @@
                             <div class="uk-margin-small-top">
                               <span class="statusLabel">Provider Status: </span> Not available
                               <br>
-                              <span class="statusLabel">Template Status: </span> Not available
+                              <span class="statusLabel">First {{serviceORresource}} Status: </span> Not available
                             </div>
                             <div class="uk-margin-top cardActionButtons">
                               <button class="uk-button uk-button-action" routerLink="/provider/add/{{providerBundle.id}}">

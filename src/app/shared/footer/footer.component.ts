@@ -17,4 +17,8 @@ export class EOSCFooterComponent {
     sessionStorage.setItem('forward_url', '/provider/add');
     this.navigationService.router.navigateByUrl('/provider/add');
   }
+
+  scrollToTop(){
+    window.scroll(0,0);
+  }
 }

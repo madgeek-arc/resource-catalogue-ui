@@ -65,7 +65,7 @@
                     </div>
                   </form>
 
-                  <h5>Status</h5>
+                  <h5>{{serviceORresource}} Status</h5>
                   <form [formGroup]="dataForm">
                     <div formArrayName="status" class="uk-padding uk-padding-remove-top">
                       <div *ngFor="let statusValue of statuses;" class="uk-margin-small-top">
@@ -262,34 +262,51 @@
 <!--                                  </a>-->
                                 </span>
                               </div>
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">ID: </span>
-                                <ng-container *ngIf="serviceBundle.service.id && (serviceBundle.service.id!==null)">{{ serviceBundle.service.id }}</ng-container>
-                                <ng-container *ngIf="!serviceBundle.service.id || (serviceBundle.service.id===null)">not available</ng-container>
+
+                              <div class="uk-grid uk-child-width-1-2">
+
+                                <div>
+                                  <div class="uk-margin-small-top uk-text-break">
+                                    <span class="statusLabel">ID: </span>
+                                    <ng-container *ngIf="serviceBundle.service.id && (serviceBundle.service.id!==null)">{{ serviceBundle.service.id }}</ng-container>
+                                    <ng-container *ngIf="!serviceBundle.service.id || (serviceBundle.service.id===null)">not available</ng-container>
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">{{serviceORresource}} Status: </span>{{labels[statuses.indexOf(serviceBundle.status)]}}
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Resource Organisation: </span>{{ getProviderNameWithId(serviceBundle.service.resourceOrganisation) }}
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Resource Providers: </span>{{ getProviderNamesWithIds(serviceBundle.service.resourceProviders) }}
+                                  </div>
+                                  <!--                              <div class="uk-margin-small-top">-->
+                                  <!--                                <span class="statusLabel">Status: </span>{{ serviceBundle.active ? 'Active' : 'Inactive' }}-->
+                                  <!--                              </div>-->
+                                </div>
+
+                                <div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Creation Date: </span>
+                                    <ng-container *ngIf="serviceBundle.metadata.registeredAt>0; else noCreationDate">{{ serviceBundle.metadata.registeredAt | date }}</ng-container>
+                                    <ng-template #noCreationDate><i>Unknown</i></ng-template>
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Last Audit: </span>
+                                    <ng-container *ngIf="serviceBundle.latestAuditInfo">
+                                      {{serviceBundle.latestAuditInfo.actionType | titlecase}}ated
+                                      on {{ serviceBundle.latestAuditInfo.date | date}}
+                                      by {{ serviceBundle.latestAuditInfo.userFullName}}
+                                    </ng-container>
+                                    <ng-container *ngIf="!serviceBundle.latestAuditInfo"><i>Never audited</i></ng-container>
+                                  </div>
+                                </div>
+
                               </div>
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">{{serviceORresource}} Status: </span>{{ serviceBundle.status | titlecase }}
-                              </div>
-<!--                              <div class="uk-margin-small-top">-->
-<!--                                <span class="statusLabel">Status: </span>{{ serviceBundle.active ? 'Active' : 'Inactive' }}-->
-<!--                              </div>-->
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">Creation Date: </span>
-                                <ng-container *ngIf="serviceBundle.metadata.registeredAt>0; else noCreationDate">{{ serviceBundle.metadata.registeredAt | date }}</ng-container>
-                                <ng-template #noCreationDate><i>Unknown</i></ng-template>
-                              </div>
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}
-                              </div>
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">Last Audit: </span>
-                                <ng-container *ngIf="serviceBundle.latestAuditInfo">
-                                  {{serviceBundle.latestAuditInfo.actionType | titlecase}}ated
-                                  on {{ serviceBundle.latestAuditInfo.date | date}}
-                                  by {{ serviceBundle.latestAuditInfo.userFullName}}
-                                </ng-container>
-                                <ng-container *ngIf="!serviceBundle.latestAuditInfo"><i>Never audited</i></ng-container>
-                              </div>
+
                             </div>
 
                             <!--<div class="uk-width-1-5">
@@ -368,9 +385,8 @@
 
                                 <ng-container *ngIf="serviceBundle.status=='approved resource'">
 
-                                  <ng-container *ngIf="serviceBundle.active">
-                                    <li class="uk-margin-small-bottom"
-                                        (click)="showAuditForm('main', serviceBundle)">
+                                  <ng-container class="uk-margin-small-bottom" *ngIf="serviceBundle.active">
+                                    <li (click)="showAuditForm('main', serviceBundle)">
                                       <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
                                     </li>
                                     <li class="uk-nav-divider"></li>
@@ -391,7 +407,7 @@
                                   </ng-container>
 
                                   <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlockList">
-                                    <li class="uk-button uk-button-link uk-margin-small-top"
+                                    <li class="uk-button uk-button-link uk-padding-small"
                                             (click)="toggleService(serviceBundle)">
                                       <ng-container *ngIf="serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
                                       <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
@@ -400,7 +416,7 @@
 
                                   <ng-template #elseBlockList>
                                     <div uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
-                                      <li class="uk-button uk-button-link uk-disabled"
+                                      <li class="uk-button uk-button-link uk-disabled uk-padding-small"
                                               (click)="toggleService(serviceBundle)">
                                         <ng-container *ngIf="serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
                                         <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
@@ -412,10 +428,10 @@
 
                                 <ng-container *ngIf="serviceBundle.status=='pending resource'">
                                   <li class="uk-active" (click)="templateAction(serviceBundle.id.substring(0, serviceBundle.id.lastIndexOf('.')), true, 'approved resource')">
-                                    <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve {{serviceORresource | lowercase}} template</a>
+                                    <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve First {{serviceORresource}}</a>
                                   </li>
                                   <li class="uk-active" (click)="templateAction(serviceBundle.id.substring(0, serviceBundle.id.lastIndexOf('.')), true, 'rejected resource')">
-                                    <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject {{serviceORresource | lowercase}} template</a>
+                                    <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First {{serviceORresource}}</a>
                                   </li>
                                 </ng-container>
 
@@ -433,7 +449,7 @@
                             </div>
                             <form>
                               <div class="uk-margin">
-                                <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
+                                <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentAuditControl"></textarea>
                               </div>
                             </form>
                             <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetAuditView()">Close</button>
@@ -518,7 +534,7 @@
 
       <form [formGroup]="providersDropdownForm">
         <div class="uk-form-controls uk-margin-medium-top">
-          <ng-select *ngIf="providersPage?.results?.length > 0" class="uk-width-9-10" id="resourceOrganisation"
+          <ng-select *ngIf="providersPage?.results?.length > 0" class="uk-width-10-10" id="resourceOrganisation"
                      [items]="providersPage.results"
                      bindLabel="name"
                      bindValue="id"
@@ -526,11 +542,19 @@
                      formControlName="resourceOrganisation">
           </ng-select>
         </div>
-        <br>
+
+        <div class="uk-margin-medium-top">
+          <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
+        </div>
+        <form>
+          <div class="uk-margin">
+            <textarea class="uk-textarea" rows="5" placeholder="optional comment" [formControl]="commentMoveControl"></textarea>
+          </div>
+        </form>
 <!--        <pre>{{providersDropdownForm.value | json }}</pre>-->
         <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button"
                 (click)="moveResourceToProvider(selectedService.service.id, providersDropdownForm.get('resourceOrganisation').value)">OK</button>
-        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+        <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
       </form>
 
     </div>
@@ -553,7 +577,7 @@
 <!--    </div>-->
 <!--    <form>-->
 <!--      <div class="uk-margin">-->
-<!--        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>-->
+<!--        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentAuditControl"></textarea>-->
 <!--      </div>-->
 <!--    </form>-->
 <!--    <button class="uk-button uk-button-secondary uk-modal-close uk-align-right" type="submit" (click)="auditResourceAction('VALID')">Validate</button>-->
@@ -570,7 +594,7 @@
 <!--    </div>-->
 <!--    <form>-->
 <!--      <div class="uk-margin">-->
-<!--        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>-->
+<!--        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentAuditControl"></textarea>-->
 <!--      </div>-->
 <!--    </form>-->
 <!--    <button class="uk-button uk-button-danger uk-modal-close uk-align-right" type="submit" (click)="auditResourceAction('INVALID')">Invalidate</button>-->
@@ -644,8 +668,11 @@
                 <ng-container *ngIf="!serviceBundle.service.id || (serviceBundle.service.id===null)">not available</ng-container>
               </div>
               <div class="uk-margin-small-top">
-                <span class="statusLabel">Status: </span>{{ serviceBundle.active ? 'Active' : 'Inactive' }}
+                <span class="statusLabel">{{serviceORresource}} Status: </span>{{ serviceBundle.status | titlecase }}
               </div>
+<!--              <div class="uk-margin-small-top">-->
+<!--                <span class="statusLabel">Status: </span>{{ serviceBundle.active ? 'Active' : 'Inactive' }}-->
+<!--              </div>-->
               <div class="uk-margin-small-top">
                 <span class="statusLabel">Creation Date: </span>
                 <ng-container *ngIf="serviceBundle.metadata.registeredAt>0; else noCreationDate">{{ serviceBundle.metadata.registeredAt | date }}</ng-container>
@@ -661,6 +688,12 @@
                   on {{ serviceBundle.latestAuditInfo.date | date}}
                 </ng-container>
                 <ng-container *ngIf="!serviceBundle.latestAuditInfo"><i>Never audited</i></ng-container>
+              </div>
+              <div class="uk-margin-small-top">
+                <span class="statusLabel">Resource Organisation: </span>{{ getProviderNameWithId(serviceBundle.service.resourceOrganisation) }}
+              </div>
+              <div class="uk-margin-small-top">
+                <span class="statusLabel">Resource Providers: </span>{{ getProviderNamesWithIds(serviceBundle.service.resourceProviders) }}
               </div>
             </div>
 
@@ -718,23 +751,23 @@
           <hr class="uk-margin-top">
           <button routerLink="{{ getLinkToFirstService(serviceBundle.id) }}"
                   class="uk-button uk-button-link" style="padding-right: 40px; border-right: 1px solid #ccc">
-            <i class="fa fa-eye"></i> View {{serviceORresource | lowercase}} template
+            <i class="fa fa-eye"></i> View First {{serviceORresource}}
           </button>
           <button routerLink="{{ getLinkToEditFirstService(serviceBundle.id) }}"
                   class="uk-button uk-button-link uk-margin-medium-left">
-            <i class="fa fa-pencil"></i> Edit {{serviceORresource | lowercase}} template
+            <i class="fa fa-pencil"></i> Edit First {{serviceORresource}}
           </button>
         </ng-container>
 
         <ng-container *ngIf="serviceBundle.status == 'pending template submission'">
           <button class="uk-button uk-button-action uk-margin-small-left">
             <i class="fa fa-plus"></i>
-            Add {{serviceORresource | lowercase}} template
+            Add First {{serviceORresource}}
           </button>
           <div uk-dropdown>
             <ul class="uk-nav uk-dropdown-nav">
               <li class="uk-active">
-                <a routerLink="{{ getLinkToFirstService(serviceBundle.id) }}">Create {{serviceORresource | lowercase}} template</a>
+                <a routerLink="{{ getLinkToFirstService(serviceBundle.id) }}">Create First {{serviceORresource | lowercase}}</a>
               </li>
               <li class="uk-nav-divider"></li>
               <li class="uk-active"><a routerLink="/developers">Use API</a></li>
@@ -795,7 +828,7 @@
               </div>
               <form>
                 <div class="uk-margin">
-                  <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
+                  <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentAuditControl"></textarea>
                 </div>
               </form>
               <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetAuditView()">Close</button>

@@ -33,6 +33,9 @@ export class MyServiceProvidersComponent implements OnInit {
   isRejectedChecked = true;
   isIncompleteChecked = true;
 
+  public templateStatuses: Array<string> = ['approved template', 'pending template', 'rejected template', 'no template status'];
+  public templateLabels: Array<string> = ['Approved', 'Pending', 'Rejected', 'No Status'];
+
   constructor(
     private serviceProviderService: ServiceProviderService,
     private resourceService: ResourceService,
@@ -131,7 +134,7 @@ export class MyServiceProvidersComponent implements OnInit {
     if (this.hasCreatedFirstService(id)) {
       return '/provider/' + id + '/resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
     } else {
-      return '/provider/' + id + '/add-resource-template';
+      return '/provider/' + id + '/add-first-resource';
     }
   }
 

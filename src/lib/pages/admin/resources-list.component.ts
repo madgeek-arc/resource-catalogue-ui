@@ -41,7 +41,7 @@ export class ResourcesListComponent implements OnInit {
 
   urlParams: URLParameter[] = [];
 
-  commentControl = new FormControl();
+  commentAuditControl = new FormControl();
   showSideAuditForm = false;
   showMainAuditForm = false;
   initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userFullName: '', userRole: '', type: '', comment: '', actionType: ''};
@@ -75,6 +75,7 @@ export class ResourcesListComponent implements OnInit {
   };
   providersDropdownForm: FormGroup;
   providersPage: Paging<Provider>;
+  commentMoveControl = new FormControl();
 
   statusList = statusList;
   adminActionsMap = resourceStatusChangeMap;
@@ -94,7 +95,7 @@ export class ResourcesListComponent implements OnInit {
   ];
 
   public labels: Array<string> = [
-    `Approved Resource`, `Pending Resource`, `Rejected Resource`
+    `Approved`, `Pending`, `Rejected`
   ];
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
@@ -202,6 +203,7 @@ export class ResourcesListComponent implements OnInit {
         },
         () => {
           this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
+          // console.log(this.providersPage.results);
         }
       );
     }
@@ -457,6 +459,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   showMoveResourceModal(resource: InfraService) {
+    this.commentMoveControl.reset();
     this.selectedService = resource;
     if (this.selectedService) {
       UIkit.modal('#moveResourceModal').show();
@@ -516,9 +519,9 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  moveResourceToProvider(resourceId, providerId ) {
+  moveResourceToProvider(resourceId, providerId) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceService.moveResourceToProvider(resourceId, providerId).subscribe(
+    this.resourceService.moveResourceToProvider(resourceId, providerId, this.commentMoveControl.value).subscribe(
       res => {},
       error => {
         // console.log(error);
@@ -535,7 +538,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   showAuditForm(view: string, resource: InfraService) {
-    this.commentControl.reset();
+    this.commentAuditControl.reset();
     this.selectedService = resource;
     if (view === 'side') {
       this.showSideAuditForm = true;
@@ -547,11 +550,11 @@ export class ResourcesListComponent implements OnInit {
   resetAuditView() {
     this.showSideAuditForm = false;
     this.showMainAuditForm = false;
-    this.commentControl.reset();
+    this.commentAuditControl.reset();
   }
 
   auditResourceAction(action: string) {
-    this.resourceService.auditResource(this.selectedService.id, action, this.commentControl.value)
+    this.resourceService.auditResource(this.selectedService.id, action, this.commentAuditControl.value)
       .subscribe(
         res => {
           if (!this.showSideAuditForm) {
@@ -589,7 +592,7 @@ export class ResourcesListComponent implements OnInit {
     if (this.hasCreatedFirstService(id)) {
       return '/service/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
     } else {
-      return '/provider/' + id + '/add-resource-template';
+      return '/provider/' + id + '/add-first-resource';
     }
   }
 
@@ -654,5 +657,17 @@ export class ResourcesListComponent implements OnInit {
 
   DownloadServicesCSV() {
     window.open(this.url + '/exportToCSV/services', '_blank');
+  }
+
+  getProviderNameWithId(id: string) {
+    return this.providersPage.results.find( x => x.id === id ).name;
+  }
+
+  getProviderNamesWithIds(idsArray: string[]) {
+    let namesArray = [];
+    for (let i=0; i<idsArray.length; i++) {
+      namesArray.push(this.providersPage.results.find( x => x.id == idsArray[i] ).name);
+    }
+    return namesArray;
   }
 }

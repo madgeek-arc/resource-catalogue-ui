@@ -42,6 +42,12 @@
               {{serviceORresource}}s
             </a>
           </li>
+          <li [routerLinkActive]="['current_section']" #sharedServices="routerLinkActive">
+            <a [routerLink]="['/dashboard/' + providerId + '/shared-resources']">
+              <img src="{{sharedServices.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+              Shared {{serviceORresource | lowercase}}s
+            </a>
+          </li>
           <li [routerLinkActive]="['current_section']" #draftServices="routerLinkActive">
             <a [routerLink]="['/dashboard/' + providerId + '/draft-resources']">
               <img src="{{draftServices.isActive ? 'lib/assets/images/new-icons/draft-services-active.svg' : 'lib/assets/images/new-icons/draft-services.svg'}}" class="uk-margin-small-right">
@@ -71,11 +77,19 @@
               </a>
             </li>
           </ng-container>
-          <ng-container *ngIf="providerBundle?.templateStatus !== 'approved template'">
-            <li title="This action is disabled until your Provider completes the onboarding process.">
+          <ng-container *ngIf="providerBundle?.templateStatus === 'rejected template' || (providerBundle?.status === 'approved provider' && providerBundle?.templateStatus === 'no template status')">
+            <li>
+              <a [routerLink]="['/provider/' + providerId + '/add-first-resource/']">
+                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Add first {{serviceORresource | lowercase}}
+              </a>
+            </li>
+          </ng-container>
+          <ng-container *ngIf="providerBundle?.status === 'pending provider' || providerBundle?.status === 'rejected provider'">
+            <li title="This action is disabled until your Provider proceeds on the onboarding process.">
               <a>
                 <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                Add new {{serviceORresource | lowercase}}
+                Add first {{serviceORresource | lowercase}}
               </a>
             </li>
           </ng-container>
