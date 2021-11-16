@@ -174,7 +174,11 @@
                     </button>
                     <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(providerService)">
                       <ng-container *ngIf="providerService.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
-                      <ng-container *ngIf="!providerService.active"><i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate</ng-container>
+                      <ng-container *ngIf="!providerService.active">
+<!--                        <div *ngIf="providerService.status === 'pending resource' || providerService.status === 'rejected resource'"-->
+<!--                             uk-tooltip="title:Cannot activate a pending/rejected resource."></div>-->
+                        <i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate
+                      </ng-container>
                     </button>
                     <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">-->
                     <!--<i class="fa fa-pencil fa-lg"></i> Edit {{serviceORresource | lowercase}}-->
