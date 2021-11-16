@@ -52,16 +52,15 @@ const appRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard]
   },
   {
+    path: 'dashboard/:providerId/resource-dashboard',
+    loadChildren: () => import('../lib/pages/provider/dashboard/resource-dashboard/resource-dashboard.module').then(m => m.ResourceDashboardModule),
+    canActivate: [CanActivateViaAuthGuard]
+  },
+  {
     path: 'dashboard',
     loadChildren: () => import('../lib/pages/provider/dashboard/provider-dashboard.module').then(m => m.ProviderDashboardModule),
     canActivate: [CanActivateViaAuthGuard]
   },
-  {
-    path: 'resource-dashboard',
-    loadChildren: () => import('../lib/pages/provider/dashboard/resource-dashboard/resource-dashboard.module').then(m => m.ResourceDashboardModule),
-    canActivate: [CanActivateViaAuthGuard]
-  },
-
   {
     path: 'service/:id',
     component: ServiceLandingPageComponent,
