@@ -660,13 +660,15 @@ export class ResourcesListComponent implements OnInit {
   }
 
   getProviderNameWithId(id: string) {
-    return this.providersPage.results.find( x => x.id === id ).name;
+    return this.providersPage.results.find( x => x.id === id )?.name;
   }
 
   getProviderNamesWithIds(idsArray: string[]) {
     let namesArray = [];
-    for (let i=0; i<idsArray.length; i++) {
-      namesArray.push(this.providersPage.results.find( x => x.id == idsArray[i] ).name);
+    if (idsArray) {
+      for (let i=0; i<idsArray.length; i++) {
+        namesArray.push(this.providersPage.results.find( x => x.id == idsArray[i] )?.name);
+      }
     }
     return namesArray;
   }
