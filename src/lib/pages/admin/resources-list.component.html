@@ -393,7 +393,7 @@
                                   </ng-container>
 
                                   <ng-container class="uk-margin-small-bottom">
-                                    <li (click)="sendMail(serviceBundle.id)">
+                                    <li (click)="showSendMailModal(serviceBundle)">
                                       <a><i class="fa fa-envelope fa-lg uk-margin-small-right"></i>Request Update</a>
                                     </li>
                                     <li class="uk-nav-divider"></li>
@@ -515,7 +515,24 @@
       <p>Deleting a {{serviceORresource}} is an irreversible action.</p>
     </div>
     <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="deleteService(selectedService.service.id)">Delete</button>
-    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+    <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
+  </div>
+  <div *ngIf="loadingMessage">
+    <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+      {{ loadingMessage }}
+    </div>
+    <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
+<div id="sendMailModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <div *ngIf="selectedService">
+      <p>You are about to send a notification email to the admins of "{{ selectedService.service.name }}", requesting an update for this {{serviceORresource}}.</p>
+      <p>Proceed?</p>
+    </div>
+    <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="sendMailForUpdate(selectedService.service.id)">OK</button>
+    <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
