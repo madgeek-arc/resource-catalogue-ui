@@ -11,6 +11,7 @@ import {DevelopersComponent} from '../lib/pages/support/developers/developers.co
 import {OpenAPIComponent} from '../lib/pages/support/openapi/openapi.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
+import {SharedResourceDashboardModule} from "../lib/pages/provider/dashboard/resource-dashboard/shared-resource-dashboard.module";
 
 const appRoutes: Routes = [
   {
@@ -54,6 +55,11 @@ const appRoutes: Routes = [
   {
     path: 'dashboard/:providerId/resource-dashboard',
     loadChildren: () => import('../lib/pages/provider/dashboard/resource-dashboard/resource-dashboard.module').then(m => m.ResourceDashboardModule),
+    canActivate: [CanActivateViaAuthGuard]
+  },
+  {
+    path: 'dashboard/:providerId/shared-resource-dashboard',
+    loadChildren: () => import('../lib/pages/provider/dashboard/resource-dashboard/shared-resource-dashboard.module').then(m => m.SharedResourceDashboardModule),
     canActivate: [CanActivateViaAuthGuard]
   },
   {
