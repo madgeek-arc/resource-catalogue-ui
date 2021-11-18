@@ -29,7 +29,7 @@ export class NavigationService {
     }
 
     resourceDashboard(providerId: string, serviceId: string) {
-      return this.router.navigate([`/dashboard/${providerId}/resource-dashboard/${providerId}/${serviceId}/stats`]);
+      return this.router.navigate([`/dashboard/${providerId}/resource-dashboard/${serviceId}/stats`]);
     }
 
     edit(id: string) {
