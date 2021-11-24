@@ -11,18 +11,19 @@ import {DevelopersComponent} from '../lib/pages/support/developers/developers.co
 import {OpenAPIComponent} from '../lib/pages/support/openapi/openapi.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
-import {SharedResourceDashboardModule} from "../lib/pages/provider/dashboard/resource-dashboard/shared-resource-dashboard.module";
+import {HomeComponent} from './pages/home/home.component';
 
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'becomeAProvider',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
     path: 'home',
-    redirectTo: 'becomeAProvider',
-    pathMatch: 'full'
+    component: HomeComponent,
+    // redirectTo: 'becomeAProvider',
+    // pathMatch: 'full'
   },
   {
     path: 'becomeAProvider',

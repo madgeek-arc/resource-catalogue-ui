@@ -3,7 +3,7 @@ import {CommonModule, DatePipe} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
-import {HomeComponent} from '../lib/pages/home/home.component';
+// import {HomeComponent} from '../lib/pages/home/home.component';
 import {SharedModule} from '../lib/shared/shared.module';
 import {AppRoutingModule} from './app.routing';
 import {AuthenticationService} from '../lib/services/authentication.service';
@@ -54,6 +54,7 @@ import {MatomoModule} from 'ngx-matomo';
 import {MarkdownModule} from "ngx-markdown";
 import {HighchartsChartModule} from "highcharts-angular";
 import {environment} from '../environments/environment';
+import {HomeComponent} from './pages/home/home.component';
 
 
 
