@@ -14,6 +14,7 @@ import {CanActivateViaPubGuard} from '../lib/services/can-activate-pub-guard.ser
 import {FooterComponent} from '../lib/shared/footer/footer.component';
 import {TopMenuComponent} from '../lib/shared/topmenu/topmenu.component';
 import {BreadcrumbsComponent} from '../lib/shared/breadcrumbs/breadcrumbs.component';
+import {DashboardBreadcrumbsComponent} from '../lib/shared/breadcrumbs/dashboard-breadcrumbs.component';
 import {FeedbackComponent} from '../lib/shared/feedback/feedback.component';
 import {ServiceProviderFormComponent} from '../lib/pages/provider/service-provider-form.component';
 import {MyServiceProvidersComponent} from '../lib/pages/provider/my-service-providers.component';
@@ -164,6 +165,7 @@ export function highchartsFactory() {
     // TopMenuComponent,
     EOSCTopMenuComponent,
     BreadcrumbsComponent,
+    DashboardBreadcrumbsComponent,
     FeedbackComponent
   ],
   bootstrap: [AppComponent]
