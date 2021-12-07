@@ -1,0 +1,7 @@
+.home-section {
+  /*background-color: #F4F4F4;*/
+  background-image: url("../../../assets/images/bg-page.png");
+  background-repeat: no-repeat;
+  background-position: left center;
+  /*background: #F4F4F4 url("../../../assets/images/bg-page.png") no-repeat 0% 20%;*/
+}

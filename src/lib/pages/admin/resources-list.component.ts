@@ -458,6 +458,13 @@ export class ResourcesListComponent implements OnInit {
     }
   }
 
+  showSendMailModal(resource: InfraService) {
+    this.selectedService = resource;
+    if (this.selectedService) {
+      UIkit.modal('#sendMailModal').show();
+    }
+  }
+
   showMoveResourceModal(resource: InfraService) {
     this.commentMoveControl.reset();
     this.selectedService = resource;
@@ -577,7 +584,7 @@ export class ResourcesListComponent implements OnInit {
       );
   }
 
-  sendMail(id: string) {
+  sendMailForUpdate(id: string) {
     this.resourceService.sendEmailForOutdatedResource(id).subscribe(
       res => {},
       err => { console.log(err); }
@@ -660,13 +667,15 @@ export class ResourcesListComponent implements OnInit {
   }
 
   getProviderNameWithId(id: string) {
-    return this.providersPage.results.find( x => x.id === id ).name;
+    return this.providersPage.results.find( x => x.id === id )?.name;
   }
 
   getProviderNamesWithIds(idsArray: string[]) {
     let namesArray = [];
-    for (let i=0; i<idsArray.length; i++) {
-      namesArray.push(this.providersPage.results.find( x => x.id == idsArray[i] ).name);
+    if (idsArray) {
+      for (let i=0; i<idsArray.length; i++) {
+        namesArray.push(this.providersPage.results.find( x => x.id == idsArray[i] )?.name);
+      }
     }
     return namesArray;
   }

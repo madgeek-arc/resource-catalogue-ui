@@ -19,6 +19,7 @@ import {SharedServicesComponent} from "../pages/provider/dashboard/sharedService
 import {RejectedServicesComponent} from '../pages/provider/dashboard/rejectedServices/rejected-services.component';
 import {PreviewResourceComponent} from '../pages/previewresource/preview-resource.component';
 import { HighchartsChartModule } from 'highcharts-angular';
+import {DashboardBreadcrumbsComponent} from "./breadcrumbs/dashboard-breadcrumbs.component";
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
     NotFoundPageComponent,
     EmailModalComponent,
     BreadcrumbsComponent,
+    DashboardBreadcrumbsComponent,
     PendingServicesComponent,
     SharedServicesComponent,
     RejectedServicesComponent,
@@ -58,6 +60,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
     EmailModalComponent,
     // StarRatingModule, // FIXME: not supported on this angular version
     BreadcrumbsComponent,
+    DashboardBreadcrumbsComponent,
     PendingServicesComponent,
     SharedServicesComponent,
     RejectedServicesComponent,

@@ -86,8 +86,7 @@ export class ServicesComponent implements OnInit {
   }
 
   navigate(id: string) {
-    this.router.navigate([`/resource-dashboard/${this.providerId}`, id]);
-    // this.router.navigate([`/resource-dashboard/${this.providerId}/resource/dashboard`, id]);
+    this.router.navigate([`/dashboard/${this.providerId}/resource-dashboard/`, id]);
   }
 
   useAsTemplate(id: string) {
@@ -105,6 +104,11 @@ export class ServicesComponent implements OnInit {
   }
 
   toggleService(providerService: InfraService) {
+    if (providerService.status === 'pending resource' || providerService.status === 'rejected resource') {
+      this.errorMessage = `You cannot activate a ${providerService.status}.`;
+      window.scrollTo(0, 0);
+      return;
+    }
     this.toggleLoading = true;
     this.providerService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
       res => {},

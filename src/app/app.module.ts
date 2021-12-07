@@ -3,7 +3,7 @@ import {CommonModule, DatePipe} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
-import {HomeComponent} from '../lib/pages/home/home.component';
+// import {HomeComponent} from '../lib/pages/home/home.component';
 import {SharedModule} from '../lib/shared/shared.module';
 import {AppRoutingModule} from './app.routing';
 import {AuthenticationService} from '../lib/services/authentication.service';
@@ -14,6 +14,7 @@ import {CanActivateViaPubGuard} from '../lib/services/can-activate-pub-guard.ser
 import {FooterComponent} from '../lib/shared/footer/footer.component';
 import {TopMenuComponent} from '../lib/shared/topmenu/topmenu.component';
 import {BreadcrumbsComponent} from '../lib/shared/breadcrumbs/breadcrumbs.component';
+import {DashboardBreadcrumbsComponent} from '../lib/shared/breadcrumbs/dashboard-breadcrumbs.component';
 import {FeedbackComponent} from '../lib/shared/feedback/feedback.component';
 import {ServiceProviderFormComponent} from '../lib/pages/provider/service-provider-form.component';
 import {MyServiceProvidersComponent} from '../lib/pages/provider/my-service-providers.component';
@@ -53,6 +54,7 @@ import {MatomoModule} from 'ngx-matomo';
 import {MarkdownModule} from "ngx-markdown";
 import {HighchartsChartModule} from "highcharts-angular";
 import {environment} from '../environments/environment';
+import {HomeComponent} from './pages/home/home.component';
 
 
 
@@ -164,6 +166,7 @@ export function highchartsFactory() {
     // TopMenuComponent,
     EOSCTopMenuComponent,
     BreadcrumbsComponent,
+    DashboardBreadcrumbsComponent,
     FeedbackComponent
   ],
   bootstrap: [AppComponent]

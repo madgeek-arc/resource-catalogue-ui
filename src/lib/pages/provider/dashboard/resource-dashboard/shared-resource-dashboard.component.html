@@ -9,13 +9,13 @@
         <ul>
 
           <li [routerLinkActive]="['current_section']" #stats="routerLinkActive">
-            <a [routerLink]="['/dashboard/' + providerId + '/resource-dashboard/' + resourceId + '/stats']">
+            <a [routerLink]="['/dashboard/' + providerId + '/shared-resource-dashboard/' + resourceId + '/stats']">
               <img src="{{stats.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
               Statistics
             </a>
           </li>
           <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
-            <a [routerLink]="['/dashboard/' + providerId + '/resource-dashboard/' + resourceId + '/history']">
+            <a [routerLink]="['/dashboard/' + providerId + '/shared-resource-dashboard/' + resourceId + '/history']">
               <img src="{{services.isActive ? 'lib/assets/images/new-icons/history-active.svg' : 'lib/assets/images/new-icons/history.svg'}}" class="uk-margin-small-right">
               Update History
             </a>
@@ -29,12 +29,12 @@
 
         <ul>
 
-          <li>
-            <a [routerLink]="['/provider/' + providerId + '/resource/update/' + resourceId]">
-              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-              Update {{serviceORresource}}
-            </a>
-          </li>
+<!--          <li>-->
+<!--            <a [routerLink]="['/provider/' + providerId + '/resource/update/' + resourceId]">-->
+<!--              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">-->
+<!--              Update {{serviceORresource}}-->
+<!--            </a>-->
+<!--          </li>-->
           <li>
             <a href="{{_marketplaceBaseURL}}{{(serviceORresource === 'Service' ? '/service/': '') + resourceId}}" target="_blank">
               <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">
@@ -59,5 +59,3 @@
     </div>
   </div>
 </div>
-
-

@@ -11,17 +11,19 @@ import {DevelopersComponent} from '../lib/pages/support/developers/developers.co
 import {OpenAPIComponent} from '../lib/pages/support/openapi/openapi.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
+import {HomeComponent} from './pages/home/home.component';
 
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'becomeAProvider',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
     path: 'home',
-    redirectTo: 'becomeAProvider',
-    pathMatch: 'full'
+    component: HomeComponent,
+    // redirectTo: 'becomeAProvider',
+    // pathMatch: 'full'
   },
   {
     path: 'becomeAProvider',
@@ -52,16 +54,20 @@ const appRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard]
   },
   {
+    path: 'dashboard/:providerId/resource-dashboard',
+    loadChildren: () => import('../lib/pages/provider/dashboard/resource-dashboard/resource-dashboard.module').then(m => m.ResourceDashboardModule),
+    canActivate: [CanActivateViaAuthGuard]
+  },
+  {
+    path: 'dashboard/:providerId/shared-resource-dashboard',
+    loadChildren: () => import('../lib/pages/provider/dashboard/resource-dashboard/shared-resource-dashboard.module').then(m => m.SharedResourceDashboardModule),
+    canActivate: [CanActivateViaAuthGuard]
+  },
+  {
     path: 'dashboard',
     loadChildren: () => import('../lib/pages/provider/dashboard/provider-dashboard.module').then(m => m.ProviderDashboardModule),
     canActivate: [CanActivateViaAuthGuard]
   },
-  {
-    path: 'resource-dashboard',
-    loadChildren: () => import('../lib/pages/provider/dashboard/resource-dashboard/resource-dashboard.module').then(m => m.ResourceDashboardModule),
-    canActivate: [CanActivateViaAuthGuard]
-  },
-
   {
     path: 'service/:id',
     component: ServiceLandingPageComponent,

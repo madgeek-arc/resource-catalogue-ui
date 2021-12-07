@@ -4,16 +4,16 @@ import {CanActivateViaAuthGuard} from '../../../../services/can-activate-auth-gu
 import {ServiceStatsComponent} from './service-stats.component';
 import {ServiceHistoryComponent} from './service-history.component';
 import {ServiceFullHistoryComponent} from './service-full-history.component';
-import {ResourceDashboardComponent} from './resource-dashboard.component';
+import {SharedResourceDashboardComponent} from './shared-resource-dashboard.component';
 import {environment} from '../../../../../environments/environment';
 
-const resourceDashboardRoutes: Routes = [
+const sharedResourceDashboardRoutes: Routes = [
   {
     path: ':resourceId',
-    component: ResourceDashboardComponent,
+    component: SharedResourceDashboardComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: environment.serviceORresource + ' Dashboard'
+      breadcrumb: 'Shared ' + environment.serviceORresource + ' Dashboard'
       // breadcrumb: 'My Service Providers',
       // link: '/provider/my'
     },
@@ -43,9 +43,9 @@ const resourceDashboardRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(resourceDashboardRoutes)],
+  imports: [RouterModule.forChild(sharedResourceDashboardRoutes)],
   exports: [RouterModule]
 })
 
-export class ResourceDashboardRouting {
+export class SharedResourceDashboardRouting {
 }
