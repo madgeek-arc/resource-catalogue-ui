@@ -90,7 +90,7 @@ export class ProviderInfoComponent implements OnInit {
   }
 
   getNameFromVocabulary(vocabulary: Vocabulary[], id: string) {
-    if (id) {
+    if (vocabulary && id) {
       return vocabulary.find(x => x.id === id).name;
     }
   }
