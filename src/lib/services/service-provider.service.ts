@@ -54,7 +54,7 @@ export class ServiceProviderService {
     return this.http.put<Provider>(this.base + '/pendingProvider/transform/active', updatedFields, this.options);
   }
 
-  verifyServiceProvider(id: string, active: boolean, status: string) {
+  verifyServiceProvider(id: string, active: boolean, status: string) { //used for onboarding process
     return this.http.patch(this.base + `/provider/verifyProvider/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
@@ -126,7 +126,7 @@ export class ServiceProviderService {
     return this.http.patch(this.base + `/service/publish/${id}?active=${active}&version=${version}`, this.options); // copy for provider without version
   }
 
-  publishProvider(id: string, active: boolean) { // toggles active/inactive provider TODO: check
+  publishProvider(id: string, active: boolean) { // toggles active/inactive provider
     return this.http.patch(this.base + `/provider/publish/${id}?active=${active}`, this.options);
   }
 

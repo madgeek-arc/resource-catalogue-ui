@@ -405,30 +405,34 @@
                                   </li>
                                   <li class="uk-nav-divider ng-star-inserted"></li>
                                 </ng-container>
-                                <li *ngIf="((providerBundle.status === 'approved provider') && (providerBundle.active)) ||
-                                        ((providerBundle.status !== 'approved provider') && (adminActionsMap[providerBundle.status]
-                                        && adminActionsMap[providerBundle.status].rejButtonTitle))"
-                                    class="uk-margin-small-top"
-                                    (click)="
-                                    showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)">
-                                  <a><i class="fa fa-thumbs-down uk-margin-small-right" aria-hidden="true"></i>
-                                    {{ adminActionsMap[providerBundle.status].rejButtonTitle }}</a>
-                                </li>
-                                <ng-container *ngIf="((providerBundle.templateStatus !== 'pending template')
-                                                      && (providerBundle.templateStatus !== 'rejected template'))
-                                                      || (hasCreatedFirstService(providerBundle.id))">
+                                <ng-container *ngIf="((providerBundle.status === 'pending provider') || (providerBundle.status === 'rejected provider'))">
+<!--                                  TODO: simplify more-->
                                   <li
                                     *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"
-                                    (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true)"
+                                    (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true, true)"
                                     class="uk-margin-small-top">
                                     <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>
                                       {{ adminActionsMap[providerBundle.status].appButtonTitle }}</a>
                                   </li>
                                 </ng-container>
+                                <li *ngIf="((providerBundle.status !== 'approved provider') && (adminActionsMap[providerBundle.status]
+                                        && adminActionsMap[providerBundle.status].rejButtonTitle))"
+                                    class="uk-margin-small-top"
+                                    (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false, true)">
+                                  <a><i class="fa fa-thumbs-down uk-margin-small-right" aria-hidden="true"></i>
+                                    {{ adminActionsMap[providerBundle.status].rejButtonTitle }}</a>
+                                </li>
+<!--                                Those 2 above use the verify method to proceed with the onboarding process-->
+<!--                                These 2 below use the publish method and are not related with the onboarding process-->
                                 <li *ngIf="(providerBundle.status === 'approved provider') && (!providerBundle.active)"
-                                    (click)="showActionModal(providerBundle, 'approved provider', true)"
+                                    (click)="showActionModal(providerBundle, 'approved provider', true, false)"
                                     class="uk-margin-small-top">
                                   <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
+                                </li>
+                                <li *ngIf="(providerBundle.status === 'approved provider') && (providerBundle.active)"
+                                    (click)="showActionModal(providerBundle, 'approved provider', false, false)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Deactivate</a>
                                 </li>
                               </ul>
                             </div>
@@ -695,13 +699,10 @@
         </button>
         <div uk-dropdown="mode: click">
           <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-            <li *ngIf="((providerBundle.status === 'approved provider') && (providerBundle.active)) ||
-                                        ((providerBundle.status !== 'approved provider') && (adminActionsMap[providerBundle.status]
-                                        && adminActionsMap[providerBundle.status].rejButtonTitle))"
-                class="uk-margin-small-top"
-                (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onReject, false)">
-              <a><i class="fa fa-thumbs-down uk-margin-small-right" aria-hidden="true"></i>
-                {{ adminActionsMap[providerBundle.status].rejButtonTitle }}</a>
+            <li *ngIf="(providerBundle.status === 'approved provider') && (providerBundle.active)"
+                (click)="showActionModal(providerBundle, 'approved provider', false, false)"
+                class="uk-margin-small-top">
+              <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Deactivate</a>
             </li>
             <li (click)="editProviderInNewTab(providerBundle.id)"
                 class="uk-margin-small-top">
