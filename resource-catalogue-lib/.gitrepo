@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/madgeek-arc/resource-catalogue-lib.git
+	branch = master
+	commit = a425d228b806406b4a6ad3aad41df1d29268a339
+	parent = 21134410c6e7d6fd175d0391b0f5bb8bd7249e61
+	method = merge
+	cmdver = 0.4.1

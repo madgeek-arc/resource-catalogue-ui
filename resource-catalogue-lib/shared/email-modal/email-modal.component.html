@@ -1,0 +1,54 @@
+<!--Email modal-->
+<div id="email-modal" class="uk-modal-container" uk-modal="bg-close: false">
+  <div class="uk-modal-dialog">
+    <div *ngIf="emailErrorMessage" class="uk-modal-header uk-alert-danger">
+      {{emailErrorMessage}}
+    </div>
+    <div class="uk-modal-body">
+      <form class="uk-form-horizontal uk-margin-large" [formGroup]="emailForm">
+
+        <div class="uk-margin">
+          <label class="uk-form-label" for="email">Email</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="email" type="text" placeholder="An email to contact you"
+                   formControlName="senderEmail"
+                   [ngClass]="{'uk-form-danger': !emailForm.get('senderEmail').valid && emailForm.get('senderEmail').dirty}">
+          </div>
+        </div>
+
+        <div class="uk-margin">
+          <label class="uk-form-label" for="name">Name</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="name" type="text" placeholder="Your name" formControlName="senderName"
+                   [ngClass]="{'uk-form-danger': !emailForm.get('senderName').valid && emailForm.get('senderName').dirty}">
+          </div>
+        </div>
+
+        <div class="uk-margin">
+          <label class="uk-form-label" for="subject">Subject</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="subject" type="text" placeholder="Quick description of your question"
+                   formControlName="subject"
+                   [ngClass]="{'uk-form-danger': !emailForm.get('subject').valid && emailForm.get('subject').dirty}">
+          </div>
+        </div>
+
+        <div class="uk-margin">
+          <label class="uk-form-label" for="textarea">Text</label>
+          <div class="uk-form-controls">
+          <textarea class="uk-textarea" id="textarea" rows="4" formControlName="message"
+                    [ngClass]="{'uk-form-danger': !emailForm.get('message').valid && emailForm.get('message').dirty}">
+          </textarea>
+          </div>
+        </div>
+
+      </form>
+      <!--    <pre>{{emailForm.value | json}}</pre>-->
+      <div class="uk-float-right">
+        <button class="uk-button butn theme uk-modal-close" type="button" (click)="resetForm()">Cancel</button>
+        <button class="uk-button butn theme uk-margin-small-left" type="button" (click)="sendMail()">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Email modal end-->
