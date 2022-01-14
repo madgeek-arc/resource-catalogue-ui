@@ -1,0 +1,63 @@
+<div class="dashboard">
+  <div class="sidebar_main_swipe sidebar_main_active">
+    <aside id="sidebar_main">
+
+      <div class="menu_section uk-margin-medium-top">
+
+        <div class="sidebar_heading">MONITOR</div>
+
+        <ul>
+
+          <li [routerLinkActive]="['current_section']" #stats="routerLinkActive">
+            <a [routerLink]="['/dashboard/' + providerId + '/resource-dashboard/' + resourceId + '/stats']">
+              <img src="{{stats.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
+              Statistics
+            </a>
+          </li>
+          <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
+            <a [routerLink]="['/dashboard/' + providerId + '/resource-dashboard/' + resourceId + '/history']">
+              <img src="{{services.isActive ? 'lib/assets/images/new-icons/history-active.svg' : 'lib/assets/images/new-icons/history.svg'}}" class="uk-margin-small-right">
+              Update History
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+      <div class="menu_section border_top">
+        <div class="sidebar_heading">ACTIONS</div>
+
+        <ul>
+
+          <li>
+            <a [routerLink]="['/provider/' + providerId + '/resource/update/' + resourceId]">
+              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+              Update {{serviceORresource}}
+            </a>
+          </li>
+          <li>
+            <a href="{{_marketplaceBaseURL}}{{(serviceORresource === 'Service' ? '/service/': '') + resourceId}}" target="_blank">
+              <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">
+              View in Catalogue
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/dashboard/' + providerId + '/stats/']">
+              <img src="lib/assets/images/new-icons/stats.svg" class="uk-margin-small-right">
+              Back to Provider Dashboard
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+    </aside><!-- main sidebar end -->
+
+    <div id="page_content">
+      <app-dashboard-breadcrumbs></app-dashboard-breadcrumbs>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+

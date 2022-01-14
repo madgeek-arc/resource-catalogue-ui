@@ -1,0 +1,25 @@
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
+  <div class="uk-container uk-padding-large uk-padding-remove-horizontal uk-padding-remove-top">
+
+    <table *ngIf="measurements" class="uk-table uk-table-striped uk-table-divider uk-table-responsive">
+      <thead>
+        <tr>
+          <th>Indicator Name</th>
+          <th>Value</th>
+          <th>Date</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let measurement of measurements">
+          <td>{{getIndicatorName(measurement.indicatorId)}}</td>
+          <td>{{measurement.valueIsRange ? (measurement.rangeValue.fromValue + ' - ' + measurement.rangeValue.toValue + ' ' + setUnit(measurement.indicatorId)) : (measurement.value + ' ' + setUnit(measurement.indicatorId))}}</td>
+          <td>{{measurement.time ? (measurement.time | date) : '-'}}</td>
+          <td>{{measurement.locations ? setLocationName(measurement.locations) : '-'}}</td>
+        </tr>
+      </tbody>
+    </table>
+<!--    <pre>{{measurements | json}}</pre>-->
+
+  </div>
+</div>

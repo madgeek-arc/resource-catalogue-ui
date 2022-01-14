@@ -1,0 +1,350 @@
+<div id="tm-main" class="tm-main uk-section uk-section-default" uk-height-viewport="expand: true"
+     style="box-sizing: border-box;">
+  <div class="uk-container uk-container-large">
+    <div class="uk-grid uk-margin-large-top" uk-grid="">
+
+      <div class="uk-width-expand@m uk-first-column">
+
+      <div *ngIf="errorMessage" class="uk-margin-large-top">
+        <div data-uk-alert="" class="uk-alert uk-alert-danger">
+          <p>{{errorMessage}}</p>
+<!--          <div class="loader-big"></div>-->
+        </div>
+      </div>
+
+      <div *ngIf="!errorMessage && recommendations">
+
+        <div *ngIf="loadingMessage" class="">
+          <div class="loader-big"></div>
+        </div>
+
+        <div *ngIf="recommendations.length === 0 && !loadingMessage">
+          <div data-uk-alert="" class="uk-alert uk-alert-warning">
+            <p>No recommendations can be made yet</p>
+          </div>
+        </div>
+
+        <div *ngIf="recommendations.length > 0">
+
+<!--          <div *ngIf="urlParameters && urlParameters.length > 0" class="uk-width-1-1 uk-row-first uk-margin-bottom">-->
+<!--            <ul class="facets-selected cf">-->
+<!--              <ng-template ngFor let-urlParameter [ngForOf]="urlParameters">-->
+<!--                <ng-template-->
+<!--                  [ngIf]="urlParameter.key!='from' && urlParameter.key!='quantity' && urlParameter.values!=''">-->
+<!--                  <li *ngFor="let facet of urlParameter.values" class="search-tag">-->
+<!--                    <span class="title">{{urlParameter.key}}:</span> {{facet | uppercase}}-->
+<!--                    <a (click)="this.deselectFacet(urlParameter.key, facet)" data-role="remove"></a>-->
+<!--                  </li>-->
+<!--                </ng-template>-->
+<!--              </ng-template>-->
+<!--            </ul>-->
+<!--          </div>-->
+
+          <div class="uk-flex uk-flex-middle uk-flex-between">
+            <div>
+<!--              <div class="">-->
+<!--                <label class="" for="pageSize">Results per page </label>-->
+<!--                <div class="uk-inline">-->
+<!--                  <select class="uk-input uk-select" id="pageSize" [ngModel]="pageSize" (change)="onPageSizeChange($event)" style="height: 40px !important;">-->
+<!--                    <option value="10" selected>10</option>-->
+<!--                    <option value="25">25</option>-->
+<!--                    <option value="50">50</option>-->
+<!--                    <option value="100">100</option>-->
+<!--                  </select>-->
+<!--                </div>-->
+<!--              </div>-->
+            </div>
+            <div class="" title="Toggle between list and grid view">
+              <a *ngIf="listViewActive" (click)="toggleListGrid()">
+                <img src="../../../assets/images/icons/switch_view_list_active.svg">
+              </a>
+              <a *ngIf="!listViewActive" (click)="toggleListGrid()">
+                <img src="../../../assets/images/icons/switch_view_grid_active.svg">
+              </a>
+            </div>
+          </div>
+
+          <div class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">
+            <div class="uk-width-1-1">
+
+              <div class="uk-flex uk-flex-between uk-flex-middle">
+
+                <div>
+                  <span>Showing {{from + 1}} - {{to}} of {{total}} results</span>
+                </div>
+
+                <div style="width: 300px;">
+                  <ul class="uk-pagination">
+
+                    <li class="uk-disabled" *ngIf="isPreviousPageDisabled">
+                      <a class="uk-disabled" href="#">
+                        <span class="uk-margin-small-right" uk-pagination-previous></span> Previous
+                      </a>
+                    </li>
+                    <li *ngIf="!isPreviousPageDisabled">
+                      <a (click)="this.goToPreviousPage()">
+                        <span class="uk-margin-small-right" uk-pagination-previous></span> Previous
+                      </a>
+                    </li>
+
+                    <li class="uk-margin-auto-left uk-disabled" *ngIf="isNextPageDisabled">
+                      <a class="uk-disabled" href="#">Next
+                        <span class="uk-margin-small-left" uk-pagination-next></span>
+                      </a>
+                    </li>
+                    <li class="uk-margin-auto-left" *ngIf="!isNextPageDisabled">
+                      <a (click)="this.goToNextPage()">Next
+                        <span class="uk-margin-small-left" uk-pagination-next></span>
+                      </a>
+                    </li>
+                  </ul>
+                  <div class="resultsPageLabel">page {{currentPage}} of {{totalPages}}</div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <div *ngIf="serviceIdsArray.length > 0" class="uk-float-right uk-animation-scale-up"
+               style="z-index: 100; bottom: 40px; position: fixed; right: 30px;">
+            <button class="uk-button" href="#email-modal" uk-toggle>Ask for info
+              <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <hr class="adminResultsHeader">
+
+          <div *ngIf="listViewActive" class="uk-grid-margin-small">
+
+            <ng-container *ngFor="let resourceInfo of recommendationsToShow; let i = index">
+
+              <div class="serviceDetails uk-card uk-card-default uk-margin-bottom">
+
+                <div class="uk-grid" uk-grid="">
+
+                  <div class="uk-width-1-5@m symbolAndProvider uk-card-body uk-text-center">
+
+                    <div class="">
+                      <a (click)="this.router.service(resourceInfo.service.id)">
+                        <span>
+                          <img src="{{resourceInfo.service.logo || 'src/lib/assets/images/broken_image-black-48dp.svg'}}"
+                            style="max-width: 90px;">
+                        </span>
+                      </a>
+                    </div>
+                    <div *ngIf="projectName!='OpenAIRE Catalogue'" class="uk-margin-small-top">
+                      <span class="provider">{{getResourceOrganizationAbbreviation(resourceInfo) | uppercase}}</span>
+                    </div>
+                  </div>
+                  <div class="uk-width-4-5@m uk-first-column uk-card-body serviceInfo">
+                    <div>
+                      <h2
+                        class="uk-margin-remove uk-text-left@m uk-text-center uk-h3 uk-scrollspy-inview uk-animation-fade uk-inline"
+                        uk-scrollspy-class="" style="">
+                        <a [routerLink]="['/service/' + resourceInfo.service.id]">
+                          {{resourceInfo.service.name || "Not Available"}}
+                        </a>
+                      </h2>
+                      <!--                        <span class="uk-inline uk-float-right" style="margin-top:5px;">-->
+                      <!--                          <star-rating-comp #rating (click)="rateService(i, rating.rating)"-->
+                      <!--                                                                      [starType]="'svg'" [rating]="resourceInfo.hasRate"-->
+                      <!--                                                                      [step]="1"-->
+                      <!--                                                                      [showHalfStars]="true"-->
+                      <!--                                                                      [readOnly]=!this.authenticationService.isLoggedIn()-->
+                      <!--                                                                      [size]="'medium'"-->
+                      <!--                                                                      [staticColor]="'ok'" title="Rate this resource"-->
+                      <!--                                                                      uk-tooltip="delay: 500"-->
+                      <!--                                                                      labelText="{{resourceInfo.hasRate}} ({{ resourceInfo.ratings }})"-->
+                      <!--                                                                      [labelVisible]="true" [labelPosition]="'right'"-->
+                      <!--                                                                      [hoverEnabled]="true">-->
+                      <!--                                                    </star-rating-comp>-->
+                      <!--                        </span>-->
+                    </div>
+                    <div *ngIf="resourceInfo.service.tagline" class="uk-margin-small-top serviceTagLine" >
+                      "{{resourceInfo.service.tagline}}"
+                    </div>
+                    <div class="uk-margin-small-top uk-scrollspy-inview uk-animation-fade serviceDescription"
+                         uk-scrollspy-class="" style="">
+                      <read-more-text [text]="resourceInfo.service.description" [maxHeight]="58">
+                      </read-more-text>
+                    </div>
+
+                    <div *ngIf="projectName!='OpenAIRE Catalogue'" class="addenda uk-margin-small-top">
+                      <span class="uk-margin-medium-right">
+                        {{resourceInfo.isFavourite}}
+                        <a (click)="addToFavourites(i)">
+                              <i [ngClass]="!!resourceInfo.isFavourite?'fa fa-heart fa-lg':'fa fa-heart-o fa-lg'"></i>
+                          </a>
+                          <span class="statsNumbers">&nbsp;{{ resourceInfo.favourites }}</span>
+                      </span>
+                      <span class="uk-margin-medium-right">
+                        <input type="checkbox" class="uk-margin-small-right"
+                               [checked]="isSelected(resourceInfo.service)"
+                               (change)="comparisonService.addOrRemove(resourceInfo.service)">
+                        <a (click)="comparisonService.addOrRemove(resourceInfo.service)">{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
+                      </span>
+                      <span class="uk-margin-medium-right">
+                        <input type="checkbox" class="uk-margin-small-right"
+                               [checked]="isChecked(resourceInfo.service.id)"
+                               (change)="addOrRemove(resourceInfo.service.id)">
+                        <a (click)="addOrRemove(resourceInfo.service.id)">{{isChecked(resourceInfo.service.id) ? 'Selected' : 'Ask for info'}}</a>
+                      </span>
+
+                      <span class="uk-float-right">
+                        <i title="Number of Views" class="fa fa-eye fa-lg"></i>
+                        <span class="statsNumbers">&nbsp;{{ resourceInfo.views }}</span>
+                      </span>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </ng-container>
+
+          </div>
+          <div *ngIf="!listViewActive" class="uk-grid uk-grid-margin-small uk-child-width-1-2@m gridView">
+
+            <ng-container *ngFor="let resourceInfo of recommendationsToShow; let i = index">
+
+              <div class="serviceDetails uk-margin-bottom">
+
+                <div class="uk-card uk-card-default">
+
+                  <div class="symbolAndProvider uk-card-body uk-text-center">
+
+                    <a (click)="this.router.service(resourceInfo.service.id)">
+                      <span>
+                        <img src="{{resourceInfo.service.logo || 'src/lib/assets/images/broken_image-black-48dp.svg'}}"
+                             style="height: 51px;">
+                      </span>
+                    </a>
+                    <span *ngIf="projectName!='OpenAIRE Catalogue'" class="provider">{{getResourceOrganizationAbbreviation(resourceInfo) | uppercase}}</span>
+                  </div>
+                  <div class="uk-first-column uk-card-body serviceInfo">
+                    <div style="position: relative">
+                      <div style="position: absolute;left: -5px;height: 20px;">
+                        <!--                        <star-rating-comp #rating2 (click)="rateService(i, rating2.rating)" [starType]="'svg'"-->
+                        <!--                                          [rating]="resourceInfo.hasRate" [step]="1"-->
+                        <!--                                          [showHalfStars]="true" [readOnly]=!this.authenticationService.isLoggedIn()-->
+                        <!--                                          [size]="'medium'"-->
+                        <!--                                          [staticColor]="'ok'" title="Rate this service" uk-tooltip="delay: 500"-->
+                        <!--                                          labelText="{{resourceInfo.hasRate}} ({{ resourceInfo.ratings }})"-->
+                        <!--                                          [labelVisible]="true" [labelPosition]="'right'"-->
+                        <!--                                          [hoverEnabled]="true">-->
+                        <!--                        </star-rating-comp>-->
+                      </div>
+                    </div>
+                    <div>
+                      <h2 class="uk-margin-remove uk-h3 uk-scrollspy-inview uk-animation-fade uk-inline serviceName"
+                          uk-scrollspy-class="">
+                        <a [routerLink]="['/service/' + resourceInfo.service.id]">
+                          {{resourceInfo.service.name || "Not Available"}}
+                        </a>
+                      </h2>
+                    </div>
+
+                    <div class="uk-margin-small-top serviceTagLine">
+                      "{{resourceInfo.service.tagline}}"
+                    </div>
+                    <div class="uk-margin-small-top uk-scrollspy-inview uk-animation-fade" uk-scrollspy-class="">
+                      <!--<read-more-text [text]="resourceInfo.service.description" [maxHeight]="38">-->
+                      <!--</read-more-text>-->
+                      <div class="serviceDescription" [innerHTML]="resourceInfo.service.description"></div>
+                      <a [routerLink]="['/service/' + resourceInfo.service.id]">View more...</a>
+                    </div>
+
+
+                    <div *ngIf="projectName!='OpenAIRE Catalogue'" class="addenda uk-margin-small-top">
+                      <span class="uk-margin-medium-right">
+                        <a (click)="addToFavourites(i)">
+                          <i [ngClass]="resourceInfo.isFavourite?'fa fa-heart fa-lg':'fa fa-heart-o fa-lg'"></i>
+                        </a>
+                        <span class="statsNumbers">&nbsp;{{ resourceInfo.favourites }}</span>
+                      </span>
+                      <span class="uk-margin-medium-right">
+                        <input type="checkbox" class="uk-margin-small-right"
+                               [checked]="isSelected(resourceInfo.service)"
+                               (change)="comparisonService.addOrRemove(resourceInfo.service)">
+                        <a>{{isSelected(resourceInfo.service) ? 'Added' : 'Add to compare'}}</a>
+                      </span>
+                      <span class="uk-float-right">
+                        <img src="../../lib/assets/images/icons/ic_visit_icon.svg">
+                        <span class="statsNumbers">&nbsp;{{ resourceInfo.views }}</span>
+                      </span>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!--<hr uk-scrollspy-class="" style="" class="uk-scrollspy-inview uk-animation-slide-top-medium">-->
+
+            </ng-container>
+          </div>
+
+          <div class="uk-width-1-1 uk-row-first">
+            <ul class="uk-pagination">
+
+              <li class="uk-disabled" *ngIf="isPreviousPageDisabled">
+                <a class="uk-disabled" href="#">
+                  <span class="uk-margin-small-right" uk-pagination-previous></span> Previous
+                </a>
+              </li>
+              <li *ngIf="!isPreviousPageDisabled">
+                <a (click)="this.goToPreviousPage()">
+                  <span class="uk-margin-small-right" uk-pagination-previous></span> Previous
+                </a>
+              </li>
+
+              <li class="uk-margin-auto-left uk-disabled" *ngIf="isNextPageDisabled">
+                <a class="uk-disabled" href="#">Next
+                  <span class="uk-margin-small-left" uk-pagination-next></span>
+                </a>
+              </li>
+              <li class="uk-margin-auto-left" *ngIf="!isNextPageDisabled">
+                <a (click)="this.goToNextPage()">Next
+                  <span class="uk-margin-small-left" uk-pagination-next></span>
+                </a>
+              </li>
+            </ul>
+            <div class="resultsPageLabel">page {{currentPage}} of {{totalPages}}</div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    </div>
+  </div>
+</div>
+
+<div *ngIf="this.comparisonService.servicesToCompare && this.comparisonService.servicesToCompare.length>0"
+     class="compareWrapper">
+  <div class="uk-grid uk-margin-top uk-margin-medium-left">
+    <div *ngFor="let serviceToCompare of this.comparisonService.servicesToCompare"
+         class="uk-width-1-5 serviceToCompareCard uk-margin-right">
+      <div class="">
+        <div class="removeService uk-text-right">
+          <a (click)="this.comparisonService.addOrRemove(serviceToCompare)">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </a>
+        </div>
+        <div class="uk-margin-small-bottom">{{serviceToCompare.name}}</div>
+        <div>
+          {{serviceToCompare.tagline}}
+        </div>
+      </div>
+    </div>
+    <div class="actions uk-float-right">
+      <a (click)="comparisonService.clearAll()" class="clearAllLink uk-margin-right">Clear all</a>
+      <button (click)="this.comparisonService.go()" class="uk-button uk-button-white">Compare</button>
+    </div>
+
+  </div>
+</div>
+
+<app-email-modal [serviceIdsArray]="this.serviceIdsArray"></app-email-modal>
