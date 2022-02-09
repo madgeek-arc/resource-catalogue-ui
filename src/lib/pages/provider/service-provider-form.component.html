@@ -163,12 +163,17 @@
                       </li>
                       <li>
                         <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[6]}" href="#">
-                          <span>7. Other</span>
+                          <span>7. Dependencies</span>
                         </a>
                       </li>
                       <li>
                         <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[7]}" href="#">
-                          <span>8. Admins *</span>
+                          <span>8. Other</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[8]}" href="#">
+                          <span>9. Admins *</span>
                           <span class="circle-number">
                             <i *ngIf="remainingOnTab7==0" aria-hidden="true" class="fa fa-check"></i>
                             {{remainingOnTab7!=0 ? remainingOnTab7 +'*' : ''}}
@@ -503,6 +508,55 @@
                                 <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('tags', false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{providerTagsDesc.label}}
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div formArrayName="structureTypes" class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="structureTypes">
+                                {{structureTypesDesc.label + (structureTypesDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div
+                                class="uk-form-description uk-margin-top uk-width-9-10">{{structureTypesDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <div *ngFor="let provider of getFieldAsFormArray('structureTypes').controls; let i=index"
+                                     [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('networks').controls.length-1 !== i}">
+                                  <ng-select class="uk-width-9-10" id="structureTypes"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('structureTypes', i, this.edit)}"
+                                             *ngIf="providerTypeVocabulary"
+                                             [items]="sortVocabulariesByName(providerTypeVocabulary)"
+                                             (change)="checkForDuplicates('structureTypes'); unsavedChangesPrompt()"
+                                             bindLabel="name"
+                                             bindValue="id"
+                                             clearAllText="Clear"
+                                             [formControlName]="i">
+                                  </ng-select>
+                                  <a *ngIf="getFieldAsFormArray('structureTypes').length > 1 && !disable"
+                                     class="remove-element uk-padding-small"
+                                     (click)="remove('structureTypes', i); unsavedChangesPrompt()">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                                <div class="uk-margin-small-top">
+                                  <i><small>For suggestions in amending the
+                                    "{{structureTypesDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
+                                </div>
+                                <div *ngFor="let provider of getFieldAsFormArray('structureTypes').controls; let i=index">
+                                  <div *ngIf="this.providerForm.get('structureTypes').value[i] === 'provider_structure_type-other'" class="uk-flex uk-flex-left">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                      <label>
+                                        <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="providerTypeVocabularyEntryValueName">
+                                      </label>
+                                    </form>
+                                    <button class="uk-button uk-button-default" type="submit"
+                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('providerTypeVocabularyEntryValueName').value, 'PROVIDER STRUCTURE TYPE', null)">
+                                      Submit
+                                    </button>
+                                    <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>                                  </div>
+                                </div>
+                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                  <a class="add-new-element" (click)="push('structureTypes', true)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{structureTypesDesc.label}}
                                   </a>
                                 </div>
                               </div>
@@ -847,7 +901,7 @@
                               </div>
                             </div>
                           </li>
-                          <!--OTHER-->
+                          <!--DEPENDENCIES-->
                           <li>
                             <div formArrayName="participatingCountries" class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="participatingCountries">
@@ -934,15 +988,15 @@
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <div *ngFor="let provider of getFieldAsFormArray('networks').controls; let i=index"
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('networks').controls.length-1 !== i}">
-<!--                                  <select id="networks" class="uk-input uk-select uk-width-9-10" [formControlName]="i"-->
-<!--                                          (change)="unsavedChangesPrompt()"-->
-<!--                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('networks', i)}">-->
-<!--                                    <option value=""></option>-->
-<!--                                    <option *ngFor="let entry of sortVocabulariesByName(networksVocabulary)"-->
-<!--                                            value="{{entry.id}}">-->
-<!--                                      {{entry.name}}-->
-<!--                                    </option>-->
-<!--                                  </select>-->
+                                  <!--                                  <select id="networks" class="uk-input uk-select uk-width-9-10" [formControlName]="i"-->
+                                  <!--                                          (change)="unsavedChangesPrompt()"-->
+                                  <!--                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('networks', i)}">-->
+                                  <!--                                    <option value=""></option>-->
+                                  <!--                                    <option *ngFor="let entry of sortVocabulariesByName(networksVocabulary)"-->
+                                  <!--                                            value="{{entry.id}}">-->
+                                  <!--                                      {{entry.name}}-->
+                                  <!--                                    </option>-->
+                                  <!--                                  </select>-->
                                   <ng-select class="uk-width-9-10" id="networks"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('networks', i, this.edit)}"
                                              [items]="sortVocabulariesByName(networksVocabulary)"
@@ -982,55 +1036,9 @@
                                 </div>
                               </div>
                             </div>
-                            <div formArrayName="structureTypes" class="uk-margin-large-bottom">
-                              <label class="uk-form-label uk-text-right" for="structureTypes">
-                                {{structureTypesDesc.label + (structureTypesDesc.mandatory ? ' (*)' : '')}}
-                              </label>
-                              <div
-                                class="uk-form-description uk-margin-top uk-width-9-10">{{structureTypesDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
-                                <div *ngFor="let provider of getFieldAsFormArray('structureTypes').controls; let i=index"
-                                  [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('networks').controls.length-1 !== i}">
-                                  <ng-select class="uk-width-9-10" id="structureTypes"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('structureTypes', i, this.edit)}"
-                                             *ngIf="providerTypeVocabulary"
-                                             [items]="sortVocabulariesByName(providerTypeVocabulary)"
-                                             (change)="checkForDuplicates('structureTypes'); unsavedChangesPrompt()"
-                                             bindLabel="name"
-                                             bindValue="id"
-                                             clearAllText="Clear"
-                                             [formControlName]="i">
-                                  </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('structureTypes').length > 1 && !disable"
-                                     class="remove-element uk-padding-small"
-                                     (click)="remove('structureTypes', i); unsavedChangesPrompt()">
-                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                  </a>
-                                </div>
-                                <div class="uk-margin-small-top">
-                                  <i><small>For suggestions in amending the
-                                    "{{structureTypesDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
-                                </div>
-                                <div *ngFor="let provider of getFieldAsFormArray('structureTypes').controls; let i=index">
-                                  <div *ngIf="this.providerForm.get('structureTypes').value[i] === 'provider_structure_type-other'" class="uk-flex uk-flex-left">
-                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
-                                      <label>
-                                        <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="providerTypeVocabularyEntryValueName">
-                                      </label>
-                                    </form>
-                                    <button class="uk-button uk-button-default" type="submit"
-                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('providerTypeVocabularyEntryValueName').value, 'PROVIDER STRUCTURE TYPE', null)">
-                                      Submit
-                                    </button>
-                                    <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>                                  </div>
-                                </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                                  <a class="add-new-element" (click)="push('structureTypes', true)">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{structureTypesDesc.label}}
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
+                          </li>
+                          <!--OTHER-->
+                          <li>
                             <div formArrayName="esfriDomains" class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="esfriDomains">
                                 {{ESFRIDomainDesc.label + (ESFRIDomainDesc.mandatory ? ' (*)' : '')}}

@@ -440,13 +440,15 @@ export class ServiceProviderFormComponent implements OnInit {
       || this.checkFormValidity('abbreviation', this.edit)
       || this.checkFormValidity('website', this.edit)
       || this.checkEveryArrayFieldValidity('legalEntity', this.edit)
-      || this.checkFormValidity('legalStatus', this.edit));
+      || this.checkFormValidity('legalStatus', this.edit)
+      || this.checkFormValidity('hostingLegalEntity', this.edit));
     this.tabs[1] = (this.checkFormValidity('description', this.edit)
       || this.checkFormValidity('logo', this.edit)
       || this.checkEveryArrayFieldValidity('multimedia', this.edit));
     this.tabs[2] = (this.checkEveryArrayFieldValidity('tags', this.edit)
       || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificDomain')
-      || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificSubdomain'));
+      || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificSubdomain')
+      || this.checkEveryArrayFieldValidity('structureTypes', this.edit));
     this.tabs[3] = (this.checkFormValidity('location.streetNameAndNumber', this.edit)
       || this.checkFormValidity('location.postalCode', this.edit)
       || this.checkFormValidity('location.city', this.edit)
@@ -464,19 +466,17 @@ export class ServiceProviderFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'position'));
     this.tabs[5] = (this.checkFormValidity('lifeCycleStatus', this.edit)
       || this.checkEveryArrayFieldValidity('certifications', this.edit));
-    this.tabs[6] = (this.checkFormValidity('hostingLegalEntity', this.edit)
-      || this.checkEveryArrayFieldValidity('participatingCountries', this.edit)
+    this.tabs[6] = (this.checkEveryArrayFieldValidity('participatingCountries', this.edit)
       || this.checkEveryArrayFieldValidity('affiliations', this.edit)
-      || this.checkEveryArrayFieldValidity('networks', this.edit)
-      || this.checkEveryArrayFieldValidity('structureTypes', this.edit)
-      || this.checkEveryArrayFieldValidity('esfriDomains', this.edit)
+      || this.checkEveryArrayFieldValidity('networks', this.edit));
+    this.tabs[7] = (this.checkEveryArrayFieldValidity('esfriDomains', this.edit)
       || this.checkFormValidity('esfriType', this.edit)
       || this.checkEveryArrayFieldValidity('merilScientificDomains', this.edit, 'merilScientificDomain')
       || this.checkEveryArrayFieldValidity('merilScientificDomains', this.edit, 'merilScientificSubdomain')
       || this.checkEveryArrayFieldValidity('areasOfActivity', this.edit)
       || this.checkEveryArrayFieldValidity('societalGrandChallenges', this.edit)
       || this.checkEveryArrayFieldValidity('nationalRoadmaps', this.edit));
-    this.tabs[6] = (this.checkEveryArrayFieldValidity('users', this.edit, 'name')
+    this.tabs[8] = (this.checkEveryArrayFieldValidity('users', this.edit, 'name')
       || this.checkEveryArrayFieldValidity('users', this.edit, 'surname')
       || this.checkEveryArrayFieldValidity('users', this.edit, 'email'));
   }
