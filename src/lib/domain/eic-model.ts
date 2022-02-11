@@ -103,7 +103,7 @@ export class Provider implements Identifiable {
   legalStatus: string;
   description: string;
   logo: URL;
-  multimedia: URL[];
+  multimedia: Multimedia[];
   scientificDomains: ServiceProviderDomain[];
   // scientificSubdomains: string[];
   tags: string[];
@@ -215,8 +215,8 @@ export class Service implements Identifiable {
   description: string;
   tagline: string;
   logo: URL;
-  multimedia: URL[];
-  useCases: URL[];
+  multimedia: Multimedia[];
+  useCases: UseCase[];
   scientificDomains: ServiceProviderDomain[];
   // scientificSubdomains: string[];
   categories: ServiceCategory[];  // anchor
@@ -285,6 +285,11 @@ export class ServicePublicContact {
   organisation: string;
 }
 
+export class UseCase {
+  useCaseURL: string;
+  useCaseName: string;
+}
+
 export class User implements Identifiable {
   id: string;
   email: string;
@@ -331,6 +336,11 @@ export class Category {
 export class MapValues {
   key: string;
   values: Value[];
+}
+
+export class Multimedia {
+  multimediaURL: string;
+  multimediaName: string;
 }
 
 export class PlaceCount {

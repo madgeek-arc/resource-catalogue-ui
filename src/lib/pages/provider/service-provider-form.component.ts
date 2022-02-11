@@ -101,7 +101,8 @@ export class ServiceProviderFormComponent implements OnInit {
   readonly websiteDesc: sd.Description = sd.providerDescMap.get('websiteDesc');
   readonly providerDescriptionDesc: sd.Description = sd.providerDescMap.get('providerDescriptionDesc');
   readonly providerLogoDesc: sd.Description = sd.providerDescMap.get('providerLogoDesc');
-  readonly providerMultimediaDesc: sd.Description = sd.providerDescMap.get('providerMultimediaDesc');
+  readonly providerMultimediaURLDesc: sd.Description = sd.providerDescMap.get('providerMultimediaURLDesc');
+  readonly providerMultimediaNameDesc: sd.Description = sd.providerDescMap.get('providerMultimediaNameDesc');
   readonly providerScientificDomainDesc: sd.Description = sd.providerDescMap.get('providerScientificDomainDesc');
   readonly providerScientificSubdomainsDesc: sd.Description = sd.providerDescMap.get('providerScientificSubdomainsDesc');
   readonly structureTypesDesc: sd.Description = sd.providerDescMap.get('structureTypesDesc');
@@ -160,7 +161,14 @@ export class ServiceProviderFormComponent implements OnInit {
     legalStatus: [''],
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
-    multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
+    // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
+    // multimediaNames: this.fb.array([this.fb.control('')]),
+    multimedia: this.fb.array([
+      this.fb.group({
+        multimediaURL: ['', Validators.compose([URLValidator, urlAsyncValidator(this.serviceProviderService)])],
+        multimediaName: ['']
+      })
+    ]),
     scientificDomains: this.fb.array([]),
     // scientificDomain: this.fb.array([]),
     // scientificSubdomains: this.fb.array([]),
@@ -252,7 +260,7 @@ export class ServiceProviderFormComponent implements OnInit {
               } else if (i === 'structureTypes') {
                 this.push(i, true);
               } else if (i === 'multimedia') {
-                this.push(i, false, true);
+                this.pushMultimedia();
               } else {
                 this.push(i, false);
               }
@@ -444,7 +452,8 @@ export class ServiceProviderFormComponent implements OnInit {
       || this.checkFormValidity('hostingLegalEntity', this.edit));
     this.tabs[1] = (this.checkFormValidity('description', this.edit)
       || this.checkFormValidity('logo', this.edit)
-      || this.checkEveryArrayFieldValidity('multimedia', this.edit));
+      || this.checkEveryArrayFieldValidity('multimedia', this.edit, 'multimediaURL')
+      || this.checkEveryArrayFieldValidity('multimedia', this.edit, 'multimediaName'));
     this.tabs[2] = (this.checkEveryArrayFieldValidity('tags', this.edit)
       || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificDomain')
       || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificSubdomain')
@@ -596,6 +605,28 @@ export class ServiceProviderFormComponent implements OnInit {
 
   /** <--handle form arrays**/
 
+  /** Multimedia -->**/
+  newMultimedia(): FormGroup {
+    return this.fb.group({
+      multimediaURL: [''],
+      multimediaName: ['']
+    });
+  }
+
+  get multimediaArray() {
+    return this.providerForm.get('multimedia') as FormArray;
+  }
+
+  pushMultimedia() {
+    this.multimediaArray.push(this.newMultimedia());
+  }
+
+  removeMultimedia(index: number) {
+    this.multimediaArray.removeAt(index);
+  }
+
+  /** <--Multimedia**/
+
   /** Contact Info -->**/
   newContact(): FormGroup {
     return this.fb.group({
@@ -603,7 +634,7 @@ export class ServiceProviderFormComponent implements OnInit {
       lastName: [''],
       email: [''],
       phone: [''],
-      position: [''],
+      position: ['']
     });
   }
 

@@ -351,34 +351,50 @@
                               </div>
                               <i><small>{{providerLogoDesc.desc}}</small></i>
                             </div>
-                            <div formArrayName="multimedia" class="uk-margin-large-bottom">
-                              <label class="uk-form-label uk-text-right" for="multimedia">
-                                {{providerMultimediaDesc.label + (providerMultimediaDesc.mandatory ? ' (*)' : '')}}
-                              </label>
-                              <div
-                                class="uk-form-description uk-margin-top uk-width-9-10">{{providerMultimediaDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
-                                <div *ngFor="let media of getFieldAsFormArray('multimedia').controls; let i=index"
-                                     class="uk-margin-bottom">
-                                  <input id="multimedia" class="uk-input uk-width-9-10" type="text"
-                                         [formControlName]="i" placeholder="use http:// or https://"
-                                         (input)="unsavedChangesPrompt(); checkForDuplicates('multimedia')"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.edit)}">
-                                  <div *ngIf="this.edit && this.isPortalAdmin && this.providerForm.get('multimedia').value[i]" class="uk-icon">
-                                    <a href="{{this.providerForm.get('multimedia').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">Multimedia</label>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div formArrayName="multimedia"
+                                     *ngFor="let multi of multimediaArray.controls; let i = index">
+                                  <div [formGroupName]="i"
+                                       class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="multimediaURL">
+                                        {{ providerMultimediaURLDesc.label + (providerMultimediaURLDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerMultimediaURLDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <input id="multimediaURL" class="uk-input" type="text" formControlName="multimediaURL" placeholder="use http:// or https://"
+                                               (input)="unsavedChangesPrompt()">
+<!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.edit, 'multimediaURL')}">-->
+                                      </div>
+                                    </div>
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="multimediaName">
+                                        {{ providerMultimediaNameDesc.label + (providerMultimediaNameDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div
+                                        class="uk-form-description uk-margin-top uk-width-9-10">{{providerMultimediaNameDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <input id="multimediaName" class="uk-input" type="text" formControlName="multimediaName"
+                                               (input)="unsavedChangesPrompt()">
+<!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.edit, 'multimediaName')}">-->
+                                      </div>
+                                      <i><small>Suggested length is 100 characters</small></i>
+                                    </div>
+
                                   </div>
                                   <a *ngIf="getFieldAsFormArray('multimedia').length > 1 && !disable"
-                                     class="remove-element uk-padding-small"
-                                     (click)="remove('multimedia', i); unsavedChangesPrompt()">
+                                     class="remove-element uk-padding-small uk-display-inline-block"
+                                     (click)="removeMultimedia(i); unsavedChangesPrompt();">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                                  <a class="add-new-element" (click)="push('multimedia', false, true)">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{providerMultimediaDesc.label}}
-                                  </a>
-                                </div>
-                                <!--<i><small>{{providerMultimediaDesc.desc}}</small></i>-->
+                              </div>
+                              <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                                <a class="add-new-element" (click)="pushMultimedia()">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add multimedia
+                                </a>
                               </div>
                             </div>
                           </li>
@@ -1427,9 +1443,9 @@
                           </li>
                         </ul>
                       </div>
-<!--                      <pre>-->
-<!--                        {{providerForm.value | json}}-->
-<!--                      </pre>-->
+                      <pre>
+                        {{providerForm.value | json}}
+                      </pre>
                     </form>
 
                 </div>

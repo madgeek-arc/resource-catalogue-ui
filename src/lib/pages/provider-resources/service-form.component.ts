@@ -106,7 +106,8 @@ export class ServiceFormComponent implements OnInit {
   readonly descriptionDesc: sd.Description = sd.serviceDescMap.get('descriptionDesc');
   readonly taglineDesc: sd.Description = sd.serviceDescMap.get('taglineDesc');
   readonly logoDesc: sd.Description = sd.serviceDescMap.get('logoDesc');
-  readonly multimediaDesc: sd.Description = sd.serviceDescMap.get('multimediaDesc');
+  readonly multimediaURLDesc: sd.Description = sd.serviceDescMap.get('multimediaURLDesc');
+  readonly multimediaNameDesc: sd.Description = sd.serviceDescMap.get('multimediaNameDesc');
   readonly targetUsersDesc: sd.Description = sd.serviceDescMap.get('targetUsersDesc');
   readonly resourceProvidersDesc: sd.Description = sd.serviceDescMap.get('resourceProvidersDesc');
   readonly resourceOrganisationDesc: sd.Description = sd.serviceDescMap.get('resourceOrganisationDesc');
@@ -161,7 +162,8 @@ export class ServiceFormComponent implements OnInit {
   readonly accessPolicyDesc: sd.Description = sd.serviceDescMap.get('accessPolicyDesc');
   readonly paymentModelDesc: sd.Description = sd.serviceDescMap.get('paymentModelDesc');
   readonly pricingDesc: sd.Description = sd.serviceDescMap.get('pricingDesc');
-  readonly useCasesDesc: sd.Description = sd.serviceDescMap.get('useCasesDesc');
+  readonly useCaseURLDesc: sd.Description = sd.serviceDescMap.get('useCaseURLDesc');
+  readonly useCaseNameDesc: sd.Description = sd.serviceDescMap.get('useCaseNameDesc');
 
 
   formGroupMeta = {
@@ -171,8 +173,22 @@ export class ServiceFormComponent implements OnInit {
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     tagline: ['', Validators.required],
-    useCases: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
-    multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
+    // useCases: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
+    // useCasesNames: this.fb.array([this.fb.control('')]),
+    useCases: this.fb.array([
+      this.fb.group({
+        useCaseURL: ['', Validators.compose([URLValidator, urlAsyncValidator(this.serviceProviderService)])],
+        useCaseName: ['']
+      })
+    ]),
+    // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
+    // multimediaNames: this.fb.array([this.fb.control('')]),
+    multimedia: this.fb.array([
+      this.fb.group({
+        multimediaURL: ['', Validators.compose([URLValidator, urlAsyncValidator(this.serviceProviderService)])],
+        multimediaName: ['']
+      })
+    ]),
     requiredResources: this.fb.array([this.fb.control('')]),
     relatedResources: this.fb.array([this.fb.control('')]),
     relatedPlatforms: this.fb.array([this.fb.control('')]),
@@ -550,8 +566,10 @@ export class ServiceFormComponent implements OnInit {
     this.tabs[1] = (this.checkFormValidity('description', this.editMode)
       || this.checkFormValidity('tagline', this.editMode)
       || this.checkFormValidity('logo', this.editMode)
-      || this.checkEveryArrayFieldValidity('multimedia', this.editMode)
-      || this.checkEveryArrayFieldValidity('useCases', this.editMode));
+      || this.checkEveryArrayFieldValidity('multimedia', this.editMode, 'multimediaURL')
+      || this.checkEveryArrayFieldValidity('multimedia', this.editMode, 'multimediaName')
+      || this.checkEveryArrayFieldValidity('useCases', this.editMode, 'useCaseURL')
+      || this.checkEveryArrayFieldValidity('useCases', this.editMode, 'useCaseName'));
     this.tabs[2] = (this.checkEveryArrayFieldValidity('scientificDomains', this.editMode, 'scientificDomain')
       || this.checkEveryArrayFieldValidity('scientificDomains', this.editMode, 'scientificSubdomain')
       || this.checkEveryArrayFieldValidity('categories', this.editMode, 'category')
@@ -692,6 +710,49 @@ export class ServiceFormComponent implements OnInit {
 
   /** <-- Categorization & Scientific Domain**/
 
+  /** Multimedia -->**/
+  newMultimedia(): FormGroup {
+    return this.fb.group({
+      url: [''],
+      name: ['']
+    });
+  }
+
+  get multimediaArray() {
+    return this.serviceForm.get('multimedia') as FormArray;
+  }
+
+  pushMultimedia() {
+    this.multimediaArray.push(this.newMultimedia());
+  }
+
+  removeMultimedia(index: number) {
+    this.multimediaArray.removeAt(index);
+  }
+  /** <--Multimedia**/
+
+  /** Use Cases-->**/
+  newUseCase(): FormGroup {
+    return this.fb.group({
+      useCaseURL: [''],
+      useCaseName: ['']
+    });
+  }
+
+  get useCasesArray() {
+    return this.serviceForm.get('useCases') as FormArray;
+  }
+
+  pushUseCase() {
+    this.useCasesArray.push(this.newUseCase());
+  }
+
+  removeUseCase(index: number) {
+    this.useCasesArray.removeAt(index);
+  }
+
+  /** <--Use Cases**/
+
   /** Service Contact Info -->**/
 
   newContact(): FormGroup {
@@ -774,12 +835,12 @@ export class ServiceFormComponent implements OnInit {
     }
     if (richService.service.multimedia) {
       for (let i = 0; i < richService.service.multimedia.length - 1; i++) {
-        this.push('multimedia', false);
+        this.pushMultimedia();
       }
     }
     if (richService.service.useCases) {
       for (let i = 0; i < richService.service.useCases.length - 1; i++) {
-        this.push('useCases', false);
+        this.pushUseCase();
       }
     }
     if (richService.service.targetUsers) {

@@ -382,63 +382,96 @@
                                 <i><small>{{logoDesc.desc}}</small></i>
                               </div>
                             </div>
-                            <div formArrayName="multimedia" class="uk-margin-large-bottom">
-                              <label class="uk-form-label uk-text-right" for="multimedia">
-                                {{multimediaDesc.label + (multimediaDesc.mandatory ? ' (*)' : '')}}
-                              </label>
-                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
-                                <div *ngFor="let multimedia of getFieldAsFormArray('multimedia').controls; let i=index"
-                                     class="uk-margin-bottom">
-                                  <input id="multimedia" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
-                                         type="text" [formControlName]="i" placeholder="use http:// or https://"
-                                         (input)="unsavedChangesPrompt(); checkForDuplicates('multimedia')"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode)}">
-                                  <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('multimedia').value[i]" class="uk-icon">
-                                    <a href="{{this.serviceForm.get('multimedia').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">Multimedia</label>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div formArrayName="multimedia"
+                                     *ngFor="let multi of multimediaArray.controls; let i = index">
+                                  <div [formGroupName]="i"
+                                       class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="multimediaURL">
+                                        {{ multimediaURLDesc.label + (multimediaURLDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaURLDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <input id="multimediaURL" class="uk-input" type="text" formControlName="multimediaURL" placeholder="use http:// or https://"
+                                               (input)="unsavedChangesPrompt()">
+<!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaURL')}">-->
+                                      </div>
+                                    </div>
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="multimediaName">
+                                        {{ multimediaNameDesc.label + (multimediaNameDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div
+                                        class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaNameDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <input id="multimediaName" class="uk-input" type="text" formControlName="multimediaName"
+                                               (input)="unsavedChangesPrompt()">
+<!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaName')}">-->
+                                      </div>
+                                      <i><small>Suggested length is 100 characters</small></i>
+                                    </div>
+
                                   </div>
-                                  <a *ngIf="getFieldAsFormArray('multimedia').length > 1"
-                                     class="remove-element uk-padding-small"
-                                     (click)="remove('multimedia', i); unsavedChangesPrompt()">
+                                  <a *ngIf="getFieldAsFormArray('multimedia').length > 1 && !disable"
+                                     class="remove-element uk-padding-small uk-display-inline-block"
+                                     (click)="removeMultimedia(i); unsavedChangesPrompt();">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                                  <a class="add-new-element"
-                                     (click)="push('multimedia', multimediaDesc.mandatory, true)">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{multimediaDesc.label}}
-                                  </a>
-                                </div>
-                                <!--<i><small>{{multimediaDesc.desc}}</small></i>-->
+                              </div>
+                              <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                                <a class="add-new-element" (click)="pushMultimedia()">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add multimedia
+                                </a>
                               </div>
                             </div>
-                            <div formArrayName="useCases" class="uk-margin-large-bottom">
-                              <label class="uk-form-label uk-text-right" for="useCases">
-                                {{useCasesDesc.label + (useCasesDesc.mandatory ? ' (*)' : '')}}
-                              </label>
-                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{useCasesDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
-                                <div *ngFor="let useCase of getFieldAsFormArray('useCases').controls; let i=index"
-                                     class="uk-margin-bottom">
-                                  <input id="useCases" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
-                                         type="text" [formControlName]="i" placeholder="use http:// or https://"
-                                         (input)="unsavedChangesPrompt(); checkForDuplicates('useCases')"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i, this.editMode)}">
-                                  <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('useCases').value[i]" class="uk-icon">
-                                    <a href="{{this.serviceForm.get('useCases').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">Use Cases</label>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div formArrayName="useCases"
+                                     *ngFor="let useCase of useCasesArray.controls; let i = index">
+                                  <div [formGroupName]="i"
+                                       class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="useCaseURL">
+                                        {{ useCaseURLDesc.label + (useCaseURLDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div class="uk-form-description uk-margin-top uk-width-9-10">{{useCaseURLDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <input id="useCaseURL" class="uk-input" type="text" formControlName="useCaseURL" placeholder="use http:// or https://"
+                                               (input)="unsavedChangesPrompt()">
+                                        <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i, this.editMode, 'useCaseURL')}">-->
+                                      </div>
+                                    </div>
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="useCaseName">
+                                        {{ useCaseNameDesc.label + (useCaseNameDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div
+                                        class="uk-form-description uk-margin-top uk-width-9-10">{{useCaseNameDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <input id="useCaseName" class="uk-input" type="text" formControlName="useCaseName"
+                                               (input)="unsavedChangesPrompt()">
+                                        <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i, this.editMode, 'useCaseName')}">-->
+                                      </div>
+                                      <i><small>Suggested length is 100 characters</small></i>
+                                    </div>
+
                                   </div>
-                                  <a *ngIf="getFieldAsFormArray('useCases').length > 1"
-                                     class="remove-element uk-padding-small"
-                                     (click)="remove('useCases', i); unsavedChangesPrompt()">
+                                  <a *ngIf="getFieldAsFormArray('useCases').length > 1 && !disable"
+                                     class="remove-element uk-padding-small uk-display-inline-block"
+                                     (click)="removeUseCase(i); unsavedChangesPrompt();">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                                  <a class="add-new-element" (click)="push('useCases', useCasesDesc.mandatory, true)">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{useCasesDesc.label}}
-                                  </a>
-                                </div>
-                                <!--<i><small>{{useCasesDesc.desc}}</small></i>-->
+                              </div>
+                              <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                                <a class="add-new-element" (click)="pushUseCase()">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add Use Case
+                                </a>
                               </div>
                             </div>
                           </li>
