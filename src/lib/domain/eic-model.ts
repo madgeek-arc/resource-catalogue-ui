@@ -116,6 +116,7 @@ export class Provider implements Identifiable {
   participatingCountries: string[];
   affiliations: string[];
   networks: string[];
+  catalogueId: string;
   structureTypes: string[];
   esfriDomains: string[];
   esfriType: string;
@@ -243,6 +244,7 @@ export class Service implements Identifiable {
   requiredResources: string[];
   relatedResources: string[];
   relatedPlatforms: string[];
+  catalogueId: string;
   fundingBody: string[];
   fundingPrograms: string[];
   grantProjectNames: string[];

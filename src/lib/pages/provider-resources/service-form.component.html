@@ -1560,6 +1560,19 @@
                                 </div>
                               </div>
                             </div>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="catalogueId">
+                                {{resourceCatalogueIdDesc.label + (resourceCatalogueIdDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div
+                                class="uk-form-description uk-margin-top uk-width-9-10">{{resourceCatalogueIdDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <input id="catalogueId" class="uk-input uk-width-9-10" type="text"
+                                       formControlName="catalogueId"
+                                       (input)="unsavedChangesPrompt()"
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('catalogueId', this.editMode)}">
+                              </div>
+                            </div>
                           </li>
                           <!--ATTRIBUTION-->
                           <li>

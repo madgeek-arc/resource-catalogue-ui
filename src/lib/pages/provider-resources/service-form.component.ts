@@ -146,6 +146,7 @@ export class ServiceFormComponent implements OnInit {
   readonly requiredServicesDesc: sd.Description = sd.serviceDescMap.get('requiredServicesDesc');
   readonly relatedServicesDesc: sd.Description = sd.serviceDescMap.get('relatedServicesDesc');
   readonly relatedPlatformsDesc: sd.Description = sd.serviceDescMap.get('relatedPlatformsDesc');
+  readonly resourceCatalogueIdDesc: sd.Description = sd.serviceDescMap.get('resourceCatalogueIdDesc');
   readonly fundingBodyDesc: sd.Description = sd.serviceDescMap.get('fundingBodyDesc');
   readonly fundingProgramDesc: sd.Description = sd.serviceDescMap.get('fundingProgramDesc');
   readonly grantProjectNameDesc: sd.Description = sd.serviceDescMap.get('grantProjectNameDesc');
@@ -192,6 +193,7 @@ export class ServiceFormComponent implements OnInit {
     requiredResources: this.fb.array([this.fb.control('')]),
     relatedResources: this.fb.array([this.fb.control('')]),
     relatedPlatforms: this.fb.array([this.fb.control('')]),
+    catalogueId: [''],
     resourceOrganisation: ['', Validators.required],
     resourceProviders: this.fb.array([this.fb.control('')]),
     resourceGeographicLocations: this.fb.array([this.fb.control('')]),
@@ -605,7 +607,8 @@ export class ServiceFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('changeLog', this.editMode));
     this.tabs[7] = (this.checkEveryArrayFieldValidity('requiredResources', this.editMode)
       || this.checkEveryArrayFieldValidity('relatedResources', this.editMode)
-      || this.checkEveryArrayFieldValidity('relatedPlatforms', this.editMode));
+      || this.checkEveryArrayFieldValidity('relatedPlatforms', this.editMode)
+      || this.checkEveryArrayFieldValidity('catalogueId', this.editMode));
     this.tabs[8] = (this.checkEveryArrayFieldValidity('fundingBody', this.editMode)
       || this.checkEveryArrayFieldValidity('fundingPrograms', this.editMode)
       || this.checkEveryArrayFieldValidity('grantProjectNames', this.editMode));

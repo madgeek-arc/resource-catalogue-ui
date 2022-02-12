@@ -137,6 +137,7 @@ export class ServiceProviderFormComponent implements OnInit {
   readonly legalEntityDesc: sd.Description = sd.providerDescMap.get('legalEntityDesc');
   readonly legalStatusDesc: sd.Description = sd.providerDescMap.get('legalStatusDesc');
   readonly networksDesc: sd.Description = sd.providerDescMap.get('networksDesc');
+  readonly providerCatalogueIdDesc: sd.Description = sd.providerDescMap.get('providerCatalogueIdDesc');
 
   placesVocabulary: Vocabulary[] = null;
   providerTypeVocabulary: Vocabulary[] = null;
@@ -202,6 +203,7 @@ export class ServiceProviderFormComponent implements OnInit {
     participatingCountries: this.fb.array([this.fb.control('')]),
     affiliations: this.fb.array([this.fb.control('')]),
     networks: this.fb.array([this.fb.control('')]),
+    catalogueId: [''],
     structureTypes: this.fb.array([this.fb.control('')]),
     esfriDomains: this.fb.array([this.fb.control('')]),
     esfriType: [''],
@@ -477,7 +479,8 @@ export class ServiceProviderFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('certifications', this.edit));
     this.tabs[6] = (this.checkEveryArrayFieldValidity('participatingCountries', this.edit)
       || this.checkEveryArrayFieldValidity('affiliations', this.edit)
-      || this.checkEveryArrayFieldValidity('networks', this.edit));
+      || this.checkEveryArrayFieldValidity('networks', this.edit)
+      || this.checkEveryArrayFieldValidity('catalogueId', this.edit));
     this.tabs[7] = (this.checkEveryArrayFieldValidity('esfriDomains', this.edit)
       || this.checkFormValidity('esfriType', this.edit)
       || this.checkEveryArrayFieldValidity('merilScientificDomains', this.edit, 'merilScientificDomain')
