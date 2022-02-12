@@ -165,7 +165,7 @@ export class ServiceProviderFormComponent implements OnInit {
     // multimediaNames: this.fb.array([this.fb.control('')]),
     multimedia: this.fb.array([
       this.fb.group({
-        multimediaURL: ['', Validators.compose([URLValidator, urlAsyncValidator(this.serviceProviderService)])],
+        multimediaURL: [''],
         multimediaName: ['']
       })
     ]),

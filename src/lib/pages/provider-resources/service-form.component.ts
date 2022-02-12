@@ -173,20 +173,20 @@ export class ServiceFormComponent implements OnInit {
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     tagline: ['', Validators.required],
-    // useCases: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
-    // useCasesNames: this.fb.array([this.fb.control('')]),
-    useCases: this.fb.array([
-      this.fb.group({
-        useCaseURL: ['', Validators.compose([URLValidator, urlAsyncValidator(this.serviceProviderService)])],
-        useCaseName: ['']
-      })
-    ]),
     // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
     // multimediaNames: this.fb.array([this.fb.control('')]),
     multimedia: this.fb.array([
       this.fb.group({
-        multimediaURL: ['', Validators.compose([URLValidator, urlAsyncValidator(this.serviceProviderService)])],
+        multimediaURL: [''],
         multimediaName: ['']
+      })
+    ]),
+    // useCases: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
+    // useCasesNames: this.fb.array([this.fb.control('')]),
+    useCases: this.fb.array([
+      this.fb.group({
+        useCaseURL: [''],
+        useCaseName: ['']
       })
     ]),
     requiredResources: this.fb.array([this.fb.control('')]),
