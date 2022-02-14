@@ -52,6 +52,7 @@ export class ServiceFormComponent implements OnInit {
   requiredOnTab3 = 2;
   requiredOnTab5 = 4;
   requiredOnTab6 = 1;
+  requiredOnTab9 = 2;
   requiredOnTab10 = 1;
 
   remainingOnTab0 = this.requiredOnTab0;
@@ -60,6 +61,7 @@ export class ServiceFormComponent implements OnInit {
   remainingOnTab3 = this.requiredOnTab3;
   remainingOnTab5 = this.requiredOnTab5;
   remainingOnTab6 = this.requiredOnTab6;
+  remainingOnTab9 = this.requiredOnTab9;
   remainingOnTab10 = this.requiredOnTab10;
 
   BitSetTab0 = new BitSet;
@@ -68,13 +70,14 @@ export class ServiceFormComponent implements OnInit {
   BitSetTab3 = new BitSet;
   BitSetTab5 = new BitSet;
   BitSetTab6 = new BitSet;
+  BitSetTab9 = new BitSet;
   BitSetTab10 = new BitSet;
 
-  requiredTabs = 7;
+  requiredTabs = 8;
   completedTabs = 0;
   completedTabsBitSet = new BitSet;
 
-  allRequiredFields = 22;
+  allRequiredFields = 24;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
@@ -221,8 +224,8 @@ export class ServiceFormComponent implements OnInit {
     helpdeskEmail: ['', Validators.compose([Validators.required, Validators.email])],
     securityContactEmail: ['', Validators.compose([Validators.required, Validators.email])],
     serviceLevel: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
-    termsOfUse: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
-    privacyPolicy: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    termsOfUse: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+    privacyPolicy: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     accessPolicy: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
     paymentModel: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
     pricing: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
@@ -1104,6 +1107,12 @@ export class ServiceFormComponent implements OnInit {
       if (this.remainingOnTab6 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
         this.calcCompletedTabs(tabNum, 1);
       }
+    } else if (tabNum === 9) {
+      this.BitSetTab9.set(bitIndex, 1);
+      this.remainingOnTab9 = this.requiredOnTab9 - this.BitSetTab9.cardinality();
+      if (this.remainingOnTab9 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
+        this.calcCompletedTabs(tabNum, 1);
+      }
     } else if (tabNum === 10) {
       this.BitSetTab10.set(bitIndex, 1);
       this.remainingOnTab10 = this.requiredOnTab10 - this.BitSetTab10.cardinality();
@@ -1148,6 +1157,12 @@ export class ServiceFormComponent implements OnInit {
     } else if (tabNum === 6) {
       this.BitSetTab6.set(bitIndex, 0);
       this.remainingOnTab6 = this.requiredOnTab6 - this.BitSetTab6.cardinality();
+      if (this.completedTabsBitSet.get(tabNum) !== 0) {
+        this.calcCompletedTabs(tabNum, 0);
+      }
+    } else if (tabNum === 9) {
+      this.BitSetTab9.set(bitIndex, 0);
+      this.remainingOnTab9 = this.requiredOnTab9 - this.BitSetTab9.cardinality();
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }

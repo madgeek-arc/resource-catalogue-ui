@@ -88,13 +88,13 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     this.handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact');
     this.handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact');
     this.handleBitSetsOfGroups(5, 15, 'email', 'mainContact');
+    this.handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts');
     this.handleBitSets(5, 16, 'helpdeskEmail');
     this.handleBitSets(5, 17, 'securityContactEmail');
     this.handleBitSets(6, 18, 'trl');
-
-
+    this.handleBitSets(9, 22, 'termsOfUse');
+    this.handleBitSets(9, 23, 'privacyPolicy');
     this.handleBitSets(10, 19, 'orderType');
-    this.handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts');
   }
 
 }
