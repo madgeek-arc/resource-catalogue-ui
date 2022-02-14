@@ -255,6 +255,21 @@
                             </div>
 
                             <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label" for="abbreviation">
+                                {{ abbreviationDesc.label + (abbreviationDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div
+                                class="uk-form-description uk-margin-top uk-width-9-10">{{abbreviationDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <input id="abbreviation" class="uk-input uk-width-9-10" type="text"
+                                       formControlName="abbreviation"
+                                       (input)="handleBitSets(0, 21, 'abbreviation'); unsavedChangesPrompt()"
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('abbreviation', this.editMode)}">
+                              </div>
+                              <i><small>Suggested length is 20 characters</small></i>
+                            </div>
+
+                            <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="resourceOrganisation">
                                 {{resourceOrganisationDesc.label + (resourceOrganisationDesc.mandatory ? ' (*)' : '')}}
                               </label>

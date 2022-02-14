@@ -46,7 +46,7 @@ export class ServiceFormComponent implements OnInit {
   disable = false;
   isPortalAdmin = false;
 
-  requiredOnTab0 = 3;
+  requiredOnTab0 = 4;
   requiredOnTab1 = 3;
   requiredOnTab2 = 3;
   requiredOnTab3 = 2;
@@ -74,7 +74,7 @@ export class ServiceFormComponent implements OnInit {
   completedTabs = 0;
   completedTabsBitSet = new BitSet;
 
-  allRequiredFields = 21;
+  allRequiredFields = 22;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
@@ -102,6 +102,7 @@ export class ServiceFormComponent implements OnInit {
   commentControl = new FormControl();
 
   readonly nameDesc: sd.Description = sd.serviceDescMap.get('nameDesc');
+  readonly abbreviationDesc: sd.Description = sd.serviceDescMap.get('abbreviationDesc');
   readonly webpageDesc: sd.Description = sd.serviceDescMap.get('webpageDesc');
   readonly descriptionDesc: sd.Description = sd.serviceDescMap.get('descriptionDesc');
   readonly taglineDesc: sd.Description = sd.serviceDescMap.get('taglineDesc');
@@ -170,6 +171,7 @@ export class ServiceFormComponent implements OnInit {
   formGroupMeta = {
     id: [''],
     name: ['', Validators.required],
+    abbreviation: ['', Validators.required],
     webpage: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
@@ -562,6 +564,7 @@ export class ServiceFormComponent implements OnInit {
 
   markTabs() {
     this.tabs[0] = (this.checkFormValidity('name', this.editMode)
+      || this.checkFormValidity('abbreviation', this.editMode)
       || this.checkFormValidity('resourceOrganisation', this.editMode)
       || this.checkEveryArrayFieldValidity('resourceProviders', this.editMode)
       || this.checkFormValidity('webpage', this.editMode));

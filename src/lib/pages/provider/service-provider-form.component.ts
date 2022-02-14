@@ -97,7 +97,7 @@ export class ServiceProviderFormComponent implements OnInit {
   commentControl = new FormControl();
 
   readonly fullNameDesc: sd.Description = sd.providerDescMap.get('fullNameDesc');
-  readonly abbreviationDesc: sd.Description = sd.providerDescMap.get('abbreviationDesc');
+  readonly providerAbbreviationDesc: sd.Description = sd.providerDescMap.get('providerAbbreviationDesc');
   readonly websiteDesc: sd.Description = sd.providerDescMap.get('websiteDesc');
   readonly providerDescriptionDesc: sd.Description = sd.providerDescMap.get('providerDescriptionDesc');
   readonly providerLogoDesc: sd.Description = sd.providerDescMap.get('providerLogoDesc');

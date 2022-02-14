@@ -209,6 +209,7 @@ export class ServiceCategory {
 
 export class Service implements Identifiable {
   id: string;
+  abbreviation: string;
   name: string;
   resourceOrganisation: string;
   resourceProviders: string[];

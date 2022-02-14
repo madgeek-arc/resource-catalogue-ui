@@ -10,7 +10,7 @@ export class Description {
 export const providerDescMap = new Map()
   // Basic Information //
   .set('fullNameDesc', {mandatory: true, label: 'Name', placeholder: 'Write full name...', desc: 'Full Name of the Provider/Organisation offering Resources and acting as main contact point for the Resources.'})
-  .set('abbreviationDesc', {mandatory: true, label: 'Abbreviation', placeholder: 'Write abbreviation...', desc: 'Abbreviation or short name of the Provider.'})
+  .set('providerAbbreviationDesc', {mandatory: true, label: 'Abbreviation', placeholder: 'Write abbreviation...', desc: 'Abbreviation or short name of the Provider.'})
   .set('websiteDesc', {mandatory: true, label: 'Website', placeholder: 'webpage URL', desc: 'Webpage of the Provider.'})
   .set('legalEntityDesc', {mandatory: true, label: 'Legal Entity', desc: 'Is the Provider a Legal Entity?'})
   .set('legalStatusDesc', {mandatory: false, label: 'Legal Status', placeholder: 'Write legal status...', desc: 'Legal status of the Provider. The legal status is usually noted in the registration act/statutes. For independent legal entities this should be the legal status of the Provider. For embedded Providers this should be the legal status of the hosting legal entity. It is also possible to select "Not a Legal Entity".'})
@@ -68,6 +68,7 @@ export const providerDescMap = new Map()
 export const serviceDescMap = new Map()
 // Basic Information //
   .set('nameDesc', {mandatory: true, label: 'Name', placeholder: 'Write full name...', desc: 'Brief and descriptive name of the Resource as assigned by the Provider.'})
+  .set('abbreviationDesc', {mandatory: true, label: 'Abbreviation', placeholder: 'Write abbreviation...', desc: 'Abbreviation or short name of the Resource.'})
   .set('resourceOrganisationDesc', {mandatory: true, label: 'Resource Organisation', placeholder: 'Select resource organisation...', desc: 'The name (or abbreviation) of the organisation that manages or delivers the resource, or that coordinates resource delivery in a federated scenario.'})
   .set('resourceProvidersDesc', {mandatory: false, label: 'Resource Providers', addTitle: 'Resource Provider', placeholder: 'Select resource provider...', desc: 'The name(s) (or abbreviation(s)) of Provider(s) that manage or deliver the Resource in federated scenarios.'})
   .set('webpageDesc', {mandatory: true,  label: 'Webpage', placeholder: 'Write webpage url...', desc: 'Webpage with information about the Resource usually hosted and maintained by the Provider.'})
