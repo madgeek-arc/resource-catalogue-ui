@@ -311,9 +311,20 @@ export class ServiceFormComponent implements OnInit {
     }
 
     this.errorMessage = '';
-
-    // this.scientificDomainArray.disable();
     this.showLoader = true;
+    // this.scientificDomainArray.disable();
+    for (let i = 0; i < this.multimediaArray.length; i++) {
+      if (this.multimediaArray.controls[i].get('multimediaURL').value === ''
+        || this.multimediaArray.controls[i].get('multimediaURL').value === null) {
+        this.removeMultimedia(i);
+      }
+    }
+    for (let i = 0; i < this.useCasesArray.length; i++) {
+      if (this.useCasesArray.controls[i].get('useCaseURL').value === ''
+        || this.useCasesArray.controls[i].get('useCaseURL').value === null) {
+        this.removeUseCase(i);
+      }
+    }
     // console.log('this.serviceForm.valid ', this.serviceForm.valid);
     // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);

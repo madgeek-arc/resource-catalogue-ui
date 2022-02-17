@@ -320,18 +320,25 @@ export class ServiceProviderFormComponent implements OnInit {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
     }
 
-    for (let i = 0; i < this.domainArray.length ; i++) {
+    for (let i = 0; i < this.domainArray.length; i++) {
       if (this.domainArray.controls[i].get('scientificDomain').value === ''
-          || this.domainArray.controls[i].get('scientificDomain').value === null) {
+        || this.domainArray.controls[i].get('scientificDomain').value === null) {
         this.removeDomain(i);
       }
     }
 
-    for (let i = 0; i < this.merilDomainArray.length ; i++) {
+    for (let i = 0; i < this.merilDomainArray.length; i++) {
       if (this.merilDomainArray.controls[i].get('merilScientificDomain').value === ''
-          || this.merilDomainArray.controls[i].get('merilScientificDomain').value === null) {
+        || this.merilDomainArray.controls[i].get('merilScientificDomain').value === null) {
         // console.log(this.merilDomainArray.controls[i]);
         this.removeMerilDomain(i);
+      }
+    }
+
+    for (let i = 0; i < this.multimediaArray.length; i++) {
+      if (this.multimediaArray.controls[i].get('multimediaURL').value === ''
+        || this.multimediaArray.controls[i].get('multimediaURL').value === null) {
+        this.removeMultimedia(i);
       }
     }
 
