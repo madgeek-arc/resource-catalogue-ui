@@ -45,14 +45,15 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             this.placesVocabulary = this.vocabularies[Type.COUNTRY];
             this.providerTypeVocabulary = this.vocabularies[Type.PROVIDER_STRUCTURE_TYPE];
             this.providerLCSVocabulary = this.vocabularies[Type.PROVIDER_LIFE_CYCLE_STATUS];
-            this.domainsVocabulary =  this.vocabularies[Type.SCIENTIFIC_DOMAIN];
-            this.categoriesVocabulary =  this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
-            this.esfriDomainVocabulary =  this.vocabularies[Type.PROVIDER_ESFRI_DOMAIN];
-            this.legalStatusVocabulary =  this.vocabularies[Type.PROVIDER_LEGAL_STATUS];
-            this.esfriVocabulary =  this.vocabularies[Type.PROVIDER_ESFRI_TYPE];
-            this.areasOfActivityVocabulary =  this.vocabularies[Type.PROVIDER_AREA_OF_ACTIVITY];
-            this.networksVocabulary =  this.vocabularies[Type.PROVIDER_NETWORK];
-            this.societalGrandChallengesVocabulary =  this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
+            this.domainsVocabulary = this.vocabularies[Type.SCIENTIFIC_DOMAIN];
+            this.categoriesVocabulary = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
+            this.esfriDomainVocabulary = this.vocabularies[Type.PROVIDER_ESFRI_DOMAIN];
+            this.legalStatusVocabulary = this.vocabularies[Type.PROVIDER_LEGAL_STATUS];
+            this.esfriVocabulary = this.vocabularies[Type.PROVIDER_ESFRI_TYPE];
+            this.areasOfActivityVocabulary = this.vocabularies[Type.PROVIDER_AREA_OF_ACTIVITY];
+            this.networksVocabulary = this.vocabularies[Type.PROVIDER_NETWORK];
+            this.societalGrandChallengesVocabulary = this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
+            this.hostingLegalEntityVocabulary = this.vocabularies[Type.PROVIDER_HOSTING_LEGAL_ENTITY];
           },
           error => console.log(error),
           () => {

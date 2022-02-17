@@ -30,6 +30,7 @@ export class ProviderInfoComponent implements OnInit {
   areasOfActivityVocabulary: Vocabulary[] = null;
   networksVocabulary: Vocabulary[] = null;
   societalGrandChallengesVocabulary: Vocabulary[] = null;
+  hostingLegalEntityVocabulary: Vocabulary[] = null;
 
   constructor(private route: ActivatedRoute,
               private providerService: ServiceProviderService,
@@ -80,6 +81,7 @@ export class ProviderInfoComponent implements OnInit {
         this.areasOfActivityVocabulary = this.vocabularies[Type.PROVIDER_AREA_OF_ACTIVITY];
         this.networksVocabulary = this.vocabularies[Type.PROVIDER_NETWORK];
         this.societalGrandChallengesVocabulary = this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
+        this.hostingLegalEntityVocabulary = this.vocabularies[Type.PROVIDER_HOSTING_LEGAL_ENTITY];
         return this.vocabularies;
       },
       error => console.log(JSON.stringify(error.error)),

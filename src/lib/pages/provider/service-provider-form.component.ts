@@ -152,6 +152,7 @@ export class ServiceProviderFormComponent implements OnInit {
   areasOfActivityVocabulary: Vocabulary[] = null;
   networksVocabulary: Vocabulary[] = null;
   societalGrandChallengesVocabulary: Vocabulary[] = null;
+  hostingLegalEntityVocabulary: Vocabulary[] = null;
 
   readonly formDefinition = {
     id: [''],
@@ -160,6 +161,7 @@ export class ServiceProviderFormComponent implements OnInit {
     website: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     legalEntity: [''],
     legalStatus: [''],
+    hostingLegalEntity: [''],
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
@@ -199,7 +201,6 @@ export class ServiceProviderFormComponent implements OnInit {
     ]),
     lifeCycleStatus: [''],
     certifications: this.fb.array([this.fb.control('')]),
-    hostingLegalEntity: [''],
     participatingCountries: this.fb.array([this.fb.control('')]),
     affiliations: this.fb.array([this.fb.control('')]),
     networks: this.fb.array([this.fb.control('')]),
@@ -513,6 +514,7 @@ export class ServiceProviderFormComponent implements OnInit {
         this.areasOfActivityVocabulary = this.vocabularies[Type.PROVIDER_AREA_OF_ACTIVITY];
         this.networksVocabulary = this.vocabularies[Type.PROVIDER_NETWORK];
         this.societalGrandChallengesVocabulary = this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
+        this.hostingLegalEntityVocabulary = this.vocabularies[Type.PROVIDER_HOSTING_LEGAL_ENTITY];
         return this.vocabularies;
       },
       error => console.log(JSON.stringify(error.error)),

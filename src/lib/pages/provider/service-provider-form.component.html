@@ -300,17 +300,20 @@
                             </div>
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="hostingLegalEntity">
-                                {{hostingLegalEntityDesc.label + (hostingLegalEntityDesc.mandatory ? ' (*)' : '')}}
+                                {{ hostingLegalEntityDesc.label + (hostingLegalEntityDesc.mandatory ? ' (*)' : '')}}
                               </label>
-                              <div
-                                class="uk-form-description uk-margin-top uk-width-9-10">{{hostingLegalEntityDesc.desc}}</div>
+                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{hostingLegalEntityDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
-                                <input id="hostingLegalEntity" class="uk-input uk-width-9-10" type="text"
-                                       formControlName="hostingLegalEntity"
-                                       (input)="unsavedChangesPrompt()"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('hostingLegalEntity', this.edit)}">
+                                <ng-select class="uk-width-9-10" id="hostingLegalEntity"
+                                           [ngClass]="{'uk-form-danger': checkFormValidity('hostingLegalEntity', this.edit)}"
+                                           [items]="sortVocabulariesByName(hostingLegalEntityVocabulary)"
+                                           (change)="unsavedChangesPrompt()"
+                                           bindLabel="name"
+                                           bindValue="id"
+                                           clearAllText="Clear"
+                                           formControlName="hostingLegalEntity">
+                                </ng-select>
                               </div>
-                              <i><small>Suggested length is 80 characters</small></i>
                             </div>
                           </li>
                           <!--MARKETING-->
@@ -1147,7 +1150,8 @@
                                         (click)="submitSuggestion(this.vocabularyEntryForm.get('esfriVocabularyEntryValueName').value, 'PROVIDER ESFRI TYPE', null)">
                                   Submit
                                 </button>
-                                <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>                              </div>
+                                <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
+                              </div>
                             </div>
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right">MERIL Scientific Categorisation</label>
@@ -1456,9 +1460,10 @@
                           </li>
                         </ul>
                       </div>
-                      <pre>
-                        {{providerForm.value | json}}
-                      </pre>
+<!--                      <pre>-->
+<!--                        {{providerForm.value | json}}-->
+<!--                        {{vocabularyEntryForm.value | json}}-->
+<!--                      </pre>-->
                     </form>
 
                 </div>
