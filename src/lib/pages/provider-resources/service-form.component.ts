@@ -85,6 +85,7 @@ export class ServiceFormComponent implements OnInit {
   suggestionsForm = {
     fundingBodyVocabularyEntryValueName: '',
     fundingProgramVocabularyEntryValueName: '',
+    relatedPlatformsVocabularyEntryValueName: '',
     targetUsersVocabularyEntryValueName: '',
     accessTypesVocabularyEntryValueName: '',
     accessModesVocabularyEntryValueName: '',
@@ -270,6 +271,7 @@ export class ServiceFormComponent implements OnInit {
 
   public fundingBodyVocabulary: Vocabulary[] = null;
   public fundingProgramVocabulary: Vocabulary[] = null;
+  public relatedPlatformsVocabulary: Vocabulary[] = null;
   public targetUsersVocabulary: Vocabulary[] = null;
   public accessTypesVocabulary: Vocabulary[] = null;
   public accessModesVocabulary: Vocabulary[] = null;
@@ -402,6 +404,7 @@ export class ServiceFormComponent implements OnInit {
         this.scientificSubDomainVocabulary = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
         this.fundingBodyVocabulary = this.vocabularies[Type.FUNDING_BODY];
         this.fundingProgramVocabulary = this.vocabularies[Type.FUNDING_PROGRAM];
+        this.relatedPlatformsVocabulary = this.vocabularies[Type.RELATED_PLATFORM];
         // this.placesVocabulary = this.vocabularies[Type.COUNTRY];
         this.geographicalVocabulary = this.vocabularies[Type.COUNTRY];
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];

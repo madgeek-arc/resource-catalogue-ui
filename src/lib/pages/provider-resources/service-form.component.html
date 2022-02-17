@@ -1559,24 +1559,28 @@
                                 <div
                                   *ngFor="let provider of getFieldAsFormArray('relatedPlatforms').controls; let i=index"
                                   class="uk-margin-bottom">
-                                  <input id="relatedPlatforms"
-                                         class="uk-input uk-animation-slide-top-small uk-width-9-10" type="text"
-                                         [formControlName]="i"
-                                         (input)="unsavedChangesPrompt(); checkForDuplicates('relatedPlatforms')"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedPlatforms', i, this.editMode)}">
+                                  <ng-select *ngIf="relatedPlatformsVocabulary" class="uk-width-9-10" id="relatedPlatforms"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedPlatforms', i, this.editMode)}"
+                                             [items]="sortVocabulariesByName(relatedPlatformsVocabulary)"
+                                             (change)="checkForDuplicates('relatedPlatforms'); unsavedChangesPrompt()"
+                                             bindLabel="name"
+                                             bindValue="id"
+                                             clearAllText="Clear"
+                                             [formControlName]="i">
+                                  </ng-select>
                                   <a *ngIf="getFieldAsFormArray('relatedPlatforms').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('relatedPlatforms', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <i><small>Suggested length is 50 characters</small></i>
+<!--                                TODO: add Other value suggestion when VOC is ready-->
                                 <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                                  <a class="add-new-element"
-                                     (click)="push('relatedPlatforms', relatedPlatformsDesc.mandatory)">
+                                  <a class="add-new-element" (click)="push('relatedPlatforms', false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{relatedPlatformsDesc.label}}
                                   </a>
                                 </div>
+                                <!--<i><small>{{relatedPlatformsDesc.desc}}</small></i>-->
                               </div>
                             </div>
                             <div class="uk-margin-large-bottom">
