@@ -149,3 +149,46 @@ export const serviceDescMap = new Map()
   .set('pricingDesc', {mandatory: false, label: 'Pricing', placeholder: 'pricing URL', desc: 'Webpage with the information on the price scheme for the Resource in case the customer is charged for.'})
 ;
 
+export const catalogueDescMap = new Map()
+  // Basic Information //
+  .set('fullNameDesc', {mandatory: true, label: 'Name', placeholder: 'Write full name...', desc: 'Full Name of the (Multi-Provider Regional or Thematic) Catalogue.'})
+  .set('providerAbbreviationDesc', {mandatory: true, label: 'Abbreviation', placeholder: 'Write abbreviation...', desc: 'An abbreviation of the (Multi-Provider Regional or Thematic) Catalogue Name.'})
+  .set('websiteDesc', {mandatory: true, label: 'Website', placeholder: 'webpage URL', desc: 'Website with information about the (Multi-Provider Regional or Thematic) Catalogue.'})
+  .set('legalEntityDesc', {mandatory: true, label: 'Legal Entity', desc: 'Is the Catalogue a Legal Entity?'})
+  .set('legalStatusDesc', {mandatory: false, label: 'Legal Status', placeholder: 'Write legal status...', desc: 'Legal status of the (Multi-Provider Regional or Thematic ) Catalogue Owner. The legal status is usually noted in the registration act/statutes. For independent legal entities (1) - legal status of the Catalogue. For embedded Catalogues (2) - legal status of the hosting legal entity. It is also possible to select Not a legal entity.'})
+  .set('hostingLegalEntityDesc', {mandatory: false, label: 'Hosting Legal Entity', placeholder: 'Write hosting legal entity...', desc: 'Name of the organisation legally hosting (housing) the Catalogue or its coordinating centre.'})
+  // Marketing Information //
+  .set('providerDescriptionDesc', {mandatory: true, label: 'Description', placeholder: 'Write a description...', desc: 'A high-level description of the Catalogue in fairly non-technical terms, with the vision, mission, objectives, background, experience.'})
+  .set('providerLogoDesc', {mandatory: true, label: 'Logo', placeholder: 'logo URL', desc: 'Link to the logo/visual identity of the Catalogue. Go to the Catalogue\'s website --> Right Click on the Catalogue\'s logo on the website --> Select "Copy Image Link" --> Paste it in the field below.'})
+  .set('providerMultimediaURLDesc', {mandatory: false, label: 'Multimedia URL', addTitle: 'Multimedia URL', placeholder: 'Write link to multimedia...', desc: 'Links to video, slideshow, photos, screenshots with details of the Catalogue.'})
+  .set('providerMultimediaNameDesc', {mandatory: false, label: 'Multimedia Name', addTitle: 'Multimedia Name', placeholder: 'Write multimedia name...', desc: 'Short description of the Multimedia content.'})
+  // Classification Information //
+  .set('providerScientificDomainDesc', {mandatory: false, label: 'Scientific Domain', placeholder: 'Select scientific domain...', desc: 'A named group of Catalogues that offer access to the same type of resources or capabilities.'})
+  .set('providerScientificSubdomainsDesc', {mandatory: false, label: 'Scientific Subdomain', placeholder: 'Select scientific subdomain after selecting scientific domain...', desc: 'A named group of Catalogues that offer access to the same type of resources or capabilities, within the defined domain.'})
+  .set('providerTagsDesc', {mandatory: false, label: 'Tags', addTitle: 'Tag', placeholder: 'Write tag...', desc: 'Keywords associated to the Catalogue to simplify search by relevant keywords.'})
+  // Location Information //
+  .set('streetNameAndNumberDesc', {mandatory: true, label: 'Street Name and Number', placeholder: 'Write street name and number...', desc: 'Street and Number of incorporation or Physical location of the Catalogue Coordinating Entity.'})
+  .set('postalCodeDesc', {mandatory: true, label: 'Postal Code', placeholder: 'Write postal code...', desc: 'Postal code of incorporation or Physical location of the Catalogue Coordinating Entity.'})
+  .set('cityDesc', {mandatory: true, label: 'City', placeholder: 'Write city...', desc: 'City of incorporation or Physical location of the Catalogue Coordinating Entity.'})
+  .set('regionDesc', {mandatory: false, label: 'Region', placeholder: 'Write region...', desc: 'Region of incorporation or Physical location of the Catalogue Coordinating Entity.'})
+  .set('countryDesc', {mandatory: true, label: 'Country', placeholder: 'Write country...', desc: 'Country of incorporation or Physical location of the Catalogue Coordinating Entity.'})
+  // Contact Information --> //
+  // Main Contact/Provider Manager
+  .set('providerMainContactFirstNameDesc', {mandatory: true, label: 'First Name', placeholder: 'Write first name...', desc: 'First Name of the Catalogue\'s main contact person/Provider Manager.'})
+  .set('providerMainContactLastNameDesc', {mandatory: false, label: 'Last Name', placeholder: 'Write last name...', desc: 'Last Name of the Catalogue\'s main contact person/Provider Manager.'})
+  .set('providerMainContactEmailDesc', {mandatory: true, label: 'Email', placeholder: 'Write email...', desc: 'Email of the Catalogue\'s main contact person/Provider manager.'})
+  .set('providerMainContactPhoneDesc', {mandatory: false, label: 'Phone', placeholder: 'Write phone...', desc: 'Phone of the Catalogue\'s main contact person/Provider manager.'})
+  .set('providerMainContactPositionDesc', {mandatory: false, label: 'Position', placeholder: 'Write position...', desc: 'Position of the Catalogue\'s main contact person/Provider manager.'})
+  // Public Contact
+  .set('providerPublicContactFirstNameDesc', {mandatory: false, label: 'First Name', placeholder: 'Write first name...', desc: 'First Name of the Catalogue\'s contact person to be displayed at the portal.'})
+  .set('providerPublicContactLastNameDesc', {mandatory: false, label: 'Last Name', placeholder: 'Write last name...', desc: 'Last Name of the Catalogue\'s contact person to be displayed at the portal.'})
+  .set('providerPublicContactEmailDesc', {mandatory: true, label: 'Email', placeholder: 'Write email...', desc: 'Email of the Catalogue\'s contact person to be displayed at the portal or general email to contact Catalogue.'})
+  .set('providerPublicContactPhoneDesc', {mandatory: false, label: 'Phone', placeholder: 'Write phone...', desc: 'Phone of the Catalogue\'s contact person to be displayed at the portal or general phone to contact Catalogue.'})
+  .set('providerPublicContactPositionDesc', {mandatory: false, label: 'Position', placeholder: 'Write position...', desc: 'Position of the Catalogue\'s contact person to be displayed at the portal.'})
+  // <-- Contact Information //
+  // Dependencies Information //
+  .set('participatingCountriesDesc', {mandatory: false, label: 'Participating Countries', addTitle: 'Participating Country', placeholder: 'Select participating countries...', desc: 'Catalogues that are funded/supported by several countries should list here all supporting countries (including the Coordinating country).'})
+  .set('affiliationDesc', {mandatory: false, label: 'Affiliations', addTitle: 'Affiliation', placeholder: 'Write affiliations...', desc: 'Catalogues that are members or affiliated or associated with other organisations should list those organisations here.'})
+  .set('networksDesc', {mandatory: false, label: 'Networks', addTitle: 'Network', placeholder: 'Select network...', desc: 'Catalogues that are members of networks should list those networks here.'})
+;
+

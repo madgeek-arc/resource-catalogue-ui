@@ -14,6 +14,28 @@ export class Bundle<T> implements Identifiable {
   latestUpdateInfo: LoggingInfo;
 }
 
+export class Catalogue implements Identifiable {
+  id: string;
+  abbreviation: string;
+  name: string;
+  website: URL;
+  legalEntity: boolean;
+  legalStatus: string;
+  hostingLegalEntity: string;
+  description: string;
+  logo: URL;
+  multimedia: Multimedia[];
+  scientificDomains: ServiceProviderDomain[];
+  // scientificSubdomains: string[];
+  tags: string[];
+  location: ProviderLocation;
+  mainContact: ProviderMainContact;
+  publicContacts: ProviderPublicContact[];
+  participatingCountries: string[];
+  affiliations: string[];
+  networks: string[];
+}
+
 export class EmailMessage {
   recipientEmail: string;
   senderEmail: string;
@@ -96,11 +118,12 @@ export class Metadata {
 
 export class Provider implements Identifiable {
   id: string;
-  name: string;
   abbreviation: string;
+  name: string;
   website: URL;
   legalEntity: boolean;
   legalStatus: string;
+  hostingLegalEntity: string;
   description: string;
   logo: URL;
   multimedia: Multimedia[];
@@ -112,7 +135,6 @@ export class Provider implements Identifiable {
   publicContacts: ProviderPublicContact[];
   lifeCycleStatus: string;
   certifications: string[];
-  hostingLegalEntity: string;
   participatingCountries: string[];
   affiliations: string[];
   networks: string[];
