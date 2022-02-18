@@ -175,7 +175,7 @@ export const catalogueDescMap = new Map()
   // Contact Information --> //
   // Main Contact/Provider Manager
   .set('providerMainContactFirstNameDesc', {mandatory: true, label: 'First Name', placeholder: 'Write first name...', desc: 'First Name of the Catalogue\'s main contact person/Provider Manager.'})
-  .set('providerMainContactLastNameDesc', {mandatory: false, label: 'Last Name', placeholder: 'Write last name...', desc: 'Last Name of the Catalogue\'s main contact person/Provider Manager.'})
+  .set('providerMainContactLastNameDesc', {mandatory: true, label: 'Last Name', placeholder: 'Write last name...', desc: 'Last Name of the Catalogue\'s main contact person/Provider Manager.'})
   .set('providerMainContactEmailDesc', {mandatory: true, label: 'Email', placeholder: 'Write email...', desc: 'Email of the Catalogue\'s main contact person/Provider manager.'})
   .set('providerMainContactPhoneDesc', {mandatory: false, label: 'Phone', placeholder: 'Write phone...', desc: 'Phone of the Catalogue\'s main contact person/Provider manager.'})
   .set('providerMainContactPositionDesc', {mandatory: false, label: 'Position', placeholder: 'Write position...', desc: 'Position of the Catalogue\'s main contact person/Provider manager.'})

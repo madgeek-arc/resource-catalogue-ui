@@ -4,6 +4,7 @@ import {AuthenticationService} from './authentication.service';
 import {
   InfraService,
   LoggingInfo,
+  Catalogue,
   Provider,
   ProviderBundle,
   ProviderRequest,
@@ -39,6 +40,22 @@ export class ServiceProviderService {
     }
     return url;
   }
+
+  /** Catalogue -->**/
+  createNewCatalogue(newProvider: any) {
+    console.log(`knocking on: ${this.base}/catalogue`);
+    return this.http.post(this.base + '/catalogue', newProvider, this.options);
+  }
+
+  getCatalogueById(id: string) {
+    return this.http.get<Catalogue>(this.base + `/catalogue/${id}`, this.options);
+  }
+
+  updateCatalogue(updatedFields: any): Observable<Catalogue> {
+    console.log(`knocking on: ${this.base}/catalogue`);
+    return this.http.put<Catalogue>(this.base + `/catalogue`, updatedFields, this.options);
+  }
+  /**<-- Catalogue **/
 
   createNewServiceProvider(newProvider: any, comment: string) {
     // console.log(`knocking on: ${this.base}/provider`);
