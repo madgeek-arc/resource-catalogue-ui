@@ -25,7 +25,7 @@ export class CatalogueFormComponent implements OnInit {
   projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
   catalogueId: string = null;
-  providerName = '';
+  catalogueName = '';
   errorMessage = '';
   userInfo = {family_name: '', given_name: '', email: ''};
   catalogueForm: FormGroup;
@@ -664,7 +664,7 @@ export class CatalogueFormComponent implements OnInit {
   /** BitSets -->**/
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
     if (bitIndex === 0) {
-      this.providerName = this.catalogueForm.get(formControlName).value;
+      this.catalogueName = this.catalogueForm.get(formControlName).value;
     }
     if (this.catalogueForm.get(formControlName).valid || (this.catalogueForm.get(formControlName).disabled && this.catalogueForm.get(formControlName).value != '')) {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);

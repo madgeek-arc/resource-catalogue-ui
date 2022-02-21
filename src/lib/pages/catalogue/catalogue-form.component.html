@@ -10,7 +10,7 @@
               {{disable ? ' ' : edit ? ' Update' : ' Add New'}} Catalogue {{disable ? 'Info' : ''}}
             </div>
             <div class="providerName uk-margin-small-top">
-              <strong>{{providerName!='' ? providerName : 'Catalogue Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
+              <strong>{{catalogueName!='' ? catalogueName : 'Catalogue Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
             </div>
           </div>
           <div class="">
@@ -167,7 +167,7 @@
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{fullNameDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <input id="providerName" class="uk-input uk-width-9-10" type="text"
+                              <input id="catalogueName" class="uk-input uk-width-9-10" type="text"
                                      formControlName="name"
                                      (input)="handleBitSets(0, 0, 'name'); unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('name', this.edit)}">
@@ -303,8 +303,7 @@
                             <label class="uk-form-label uk-text-right" for="logo">
                               {{ logoDesc.label + (logoDesc.mandatory ? ' (*)' : '')}}
                             </label>
-                            <!--                              <div-->
-                            <!--                                class="uk-form-description uk-margin-top uk-width-9-10">{{providerLogoDesc.desc}}</div>-->
+<!--                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{logoDesc.desc}}</div>-->
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo"
                                      placeholder="use http:// or https://"
@@ -472,7 +471,7 @@
                             <div
                               class="uk-form-description uk-margin-top uk-width-9-10">{{tagsDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <div *ngFor="let provider of getFieldAsFormArray('tags').controls; let i=index"
+                              <div *ngFor="let item of getFieldAsFormArray('tags').controls; let i=index"
                                    class="uk-margin-bottom">
                                 <input id="tags" class="uk-input uk-width-9-10" type="text" [formControlName]="i"
                                        (input)="unsavedChangesPrompt(); checkForDuplicates('tags')"
@@ -638,7 +637,7 @@
                                     <input id="mainContactEmail" class="uk-input" type="text" formControlName="email"
                                            (input)="handleBitSetsOfGroups(4, 11, 'email', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.email', this.edit)}">
-                                    <!--<i><small>{{ providerMainContactEmailDesc.desc }}</small></i>-->
+                                    <!--<i><small>{{ mainContactEmailDesc.desc }}</small></i>-->
                                   </div>
                                 </div>
                                 <div class="uk-margin-bottom">
@@ -722,7 +721,7 @@
                                       <input id="email" class="uk-input" type="text" formControlName="email"
                                              (input)="handleBitSetsOfPublicContact(4, 15, 'email', 'publicContacts'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.edit, 'email')}">
-                                      <!--<i><small>{{ providerPublicContactEmailDesc.desc }}</small></i>-->
+                                      <!--<i><small>{{ publicContactEmailDesc.desc }}</small></i>-->
                                     </div>
                                   </div>
                                   <div class="uk-margin-bottom">
@@ -777,7 +776,7 @@
                               class="uk-form-description uk-margin-top uk-width-9-10">{{participatingCountriesDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div
-                                *ngFor="let provider of getFieldAsFormArray('participatingCountries').controls; let i=index"
+                                *ngFor="let item of getFieldAsFormArray('participatingCountries').controls; let i=index"
                                 [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('participatingCountries').controls.length-1 !== i}">
                                 <ng-select class="uk-width-9-10" id="participatingCountries"
                                            [ngClass]="{'uk-form-danger': checkFormArrayValidity('participatingCountries', i, this.edit)}"
@@ -798,7 +797,7 @@
                                 <i><small>For suggestions in amending the
                                   "{{participatingCountriesDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                               </div>
-                              <div *ngFor="let provider of getFieldAsFormArray('participatingCountries').controls; let i=index">
+                              <div *ngFor="let item of getFieldAsFormArray('participatingCountries').controls; let i=index">
                                 <div *ngIf="this.catalogueForm.get('participatingCountries').value[i] === 'OT'" class="uk-flex uk-flex-left">
                                   <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                     <label>
@@ -826,7 +825,7 @@
                             <div
                               class="uk-form-description uk-margin-top uk-width-9-10">{{affiliationDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <div *ngFor="let provider of getFieldAsFormArray('affiliations').controls; let i=index"
+                              <div *ngFor="let item of getFieldAsFormArray('affiliations').controls; let i=index"
                                    class="uk-margin-bottom">
                                 <input id="affiliations" class="uk-input uk-width-9-10" type="text"
                                        [formControlName]="i"
@@ -852,7 +851,7 @@
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{networksDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <div *ngFor="let provider of getFieldAsFormArray('networks').controls; let i=index"
+                              <div *ngFor="let item of getFieldAsFormArray('networks').controls; let i=index"
                                    [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('networks').controls.length-1 !== i}">
                                 <!--                                  <select id="networks" class="uk-input uk-select uk-width-9-10" [formControlName]="i"-->
                                 <!--                                          (change)="unsavedChangesPrompt()"-->
@@ -882,7 +881,7 @@
                                 <i><small>For suggestions in amending the
                                   "{{networksDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                               </div>
-                              <div *ngFor="let provider of getFieldAsFormArray('networks').controls; let i=index">
+                              <div *ngFor="let item of getFieldAsFormArray('networks').controls; let i=index">
                                 <div *ngIf="this.catalogueForm.get('networks').value[i] === 'provider_network-other'" class="uk-flex uk-flex-left">
                                   <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                     <label>
