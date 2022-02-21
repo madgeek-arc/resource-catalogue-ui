@@ -101,7 +101,7 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
 
           if (this.catalogue.multimedia && this.catalogue.multimedia.length > 1) {
             for (let i = 0; i < this.catalogue.multimedia.length - 1; i++) {
-              this.push('multimedia', this.providerMultimediaURLDesc.mandatory, true);
+              this.push('multimedia', this.multimediaURLDesc.mandatory, true);
             }
           }
 
@@ -128,7 +128,7 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
           }
           if (this.catalogue.tags && this.catalogue.tags.length > 1) {
             for (let i = 0; i < this.catalogue.tags.length - 1; i++) {
-              this.push('tags', this.providerTagsDesc.mandatory);
+              this.push('tags', this.tagsDesc.mandatory);
             }
           }
           if (this.catalogue.participatingCountries && this.catalogue.participatingCountries.length > 1) {

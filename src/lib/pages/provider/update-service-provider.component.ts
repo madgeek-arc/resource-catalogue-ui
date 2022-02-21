@@ -111,7 +111,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         }
         if (this.provider.multimedia && this.provider.multimedia.length > 1) {
           for (let i = 0; i < this.provider.multimedia.length - 1; i++) {
-            this.push('multimedia', this.providerMultimediaURLDesc.mandatory, true);
+            this.push('multimedia', this.multimediaURLDesc.mandatory, true);
           }
         }
         if (this.provider.structureTypes && this.provider.structureTypes.length > 1) {
@@ -163,12 +163,12 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         }
         if (this.provider.tags && this.provider.tags.length > 1) {
           for (let i = 0; i < this.provider.tags.length - 1; i++) {
-            this.push('tags', this.providerTagsDesc.mandatory);
+            this.push('tags', this.tagsDesc.mandatory);
           }
         }
         if (this.provider.certifications && this.provider.certifications.length > 1) {
           for (let i = 0; i < this.provider.certifications.length - 1; i++) {
-            this.push('certifications', this.providerCertificationsDesc.mandatory);
+            this.push('certifications', this.certificationsDesc.mandatory);
           }
         }
         if (this.provider.participatingCountries && this.provider.participatingCountries.length > 1) {

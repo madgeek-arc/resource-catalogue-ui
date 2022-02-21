@@ -176,10 +176,10 @@
                           </div>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label" for="abbreviation">
-                              {{ providerAbbreviationDesc.label + (providerAbbreviationDesc.mandatory ? ' (*)' : '')}}
+                              {{ abbreviationDesc.label + (abbreviationDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div
-                              class="uk-form-description uk-margin-top uk-width-9-10">{{providerAbbreviationDesc.desc}}</div>
+                              class="uk-form-description uk-margin-top uk-width-9-10">{{abbreviationDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <input id="abbreviation" class="uk-input uk-width-9-10" type="text"
                                      formControlName="abbreviation"
@@ -282,10 +282,10 @@
                         <li>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="description">
-                              {{ providerDescriptionDesc.label + (providerDescriptionDesc.mandatory ? ' (*)' : '')}}
+                              {{ descriptionDesc.label + (descriptionDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div
-                              class="uk-form-description uk-margin-top uk-width-9-10">{{providerDescriptionDesc.desc}}</div>
+                              class="uk-form-description uk-margin-top uk-width-9-10">{{descriptionDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top uk-width-9-10">
                               <md-editor  id="description"
                                           [ngClass]="{'uk-form-danger': checkFormValidity('description', this.edit)}"
@@ -301,7 +301,7 @@
                           </div>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="logo">
-                              {{ providerLogoDesc.label + (providerLogoDesc.mandatory ? ' (*)' : '')}}
+                              {{ logoDesc.label + (logoDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <!--                              <div-->
                             <!--                                class="uk-form-description uk-margin-top uk-width-9-10">{{providerLogoDesc.desc}}</div>-->
@@ -314,7 +314,7 @@
                                 <a href="{{this.catalogueForm.get('logo').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
                               </div>
                             </div>
-                            <i><small>{{providerLogoDesc.desc}}</small></i>
+                            <i><small>{{logoDesc.desc}}</small></i>
                           </div>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right">Multimedia</label>
@@ -325,9 +325,9 @@
                                      class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                   <div class="uk-margin-bottom">
                                     <label class="uk-form-label uk-text-right" for="multimediaURL">
-                                      {{ providerMultimediaURLDesc.label + (providerMultimediaURLDesc.mandatory ? ' (*)' : '') }}
+                                      {{ multimediaURLDesc.label + (multimediaURLDesc.mandatory ? ' (*)' : '') }}
                                     </label>
-                                    <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerMultimediaURLDesc.desc}}</div>
+                                    <div class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaURLDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="multimediaURL" class="uk-input" type="text" formControlName="multimediaURL" placeholder="use http:// or https://"
                                              (input)="unsavedChangesPrompt()">
@@ -336,10 +336,10 @@
                                   </div>
                                   <div class="uk-margin-bottom">
                                     <label class="uk-form-label uk-text-right" for="multimediaName">
-                                      {{ providerMultimediaNameDesc.label + (providerMultimediaNameDesc.mandatory ? ' (*)' : '') }}
+                                      {{ multimediaNameDesc.label + (multimediaNameDesc.mandatory ? ' (*)' : '') }}
                                     </label>
                                     <div
-                                      class="uk-form-description uk-margin-top uk-width-9-10">{{providerMultimediaNameDesc.desc}}</div>
+                                      class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaNameDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="multimediaName" class="uk-input" type="text" formControlName="multimediaName"
                                              (input)="unsavedChangesPrompt()">
@@ -379,9 +379,9 @@
 
                                   <div *ngIf="domainsVocabulary" class="uk-margin-bottom">
                                     <label class="uk-form-label uk-text-right" for="{{'scientificDomain ' + i}}">
-                                      {{providerScientificDomainDesc.label + (providerScientificDomainDesc.mandatory ? ' (*)' : '')}}
+                                      {{scientificDomainDesc.label + (scientificDomainDesc.mandatory ? ' (*)' : '')}}
                                     </label>
-                                    <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerScientificDomainDesc.desc}}</div>
+                                    <div class="uk-form-description uk-margin-top uk-width-9-10">{{scientificDomainDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <ng-select class="uk-width-1-1" id="{{'scientificDomain ' + i}}"
                                                  [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, this.edit, 'scientificDomain')}"
@@ -394,7 +394,7 @@
                                       </ng-select>
                                       <div class="uk-margin-small-top">
                                         <i><small>For suggestions in amending the
-                                          "{{providerScientificDomainDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
+                                          "{{scientificDomainDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                       </div>
                                       <div *ngIf="this.domainArray.controls[i].get('scientificDomain').value">
                                         <div *ngIf="this.domainArray.controls[i].get('scientificDomain').value === 'scientific_domain-other'" class="uk-flex uk-flex-left">
@@ -416,10 +416,10 @@
 
                                   <div *ngIf="categoriesVocabulary" class="uk-margin-bottom">
                                     <label class="uk-form-label uk-text-right" for="{{'scientificSubdomain ' + i}}">
-                                      {{providerScientificSubdomainsDesc.label + (providerScientificSubdomainsDesc.mandatory ? ' (*)' : '')}}
+                                      {{scientificSubdomainsDesc.label + (scientificSubdomainsDesc.mandatory ? ' (*)' : '')}}
                                     </label>
                                     <div
-                                      class="uk-form-description uk-margin-top uk-width-9-10">{{providerScientificSubdomainsDesc.desc}}</div>
+                                      class="uk-form-description uk-margin-top uk-width-9-10">{{scientificSubdomainsDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <ng-select class="uk-width-1-1" id="{{'scientificSubdomain ' + i}}"
                                                  [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, this.edit, 'scientificDomain')}"
@@ -432,7 +432,7 @@
                                       </ng-select>
                                       <div class="uk-margin-small-top">
                                         <i><small>For suggestions in amending the
-                                          "{{providerScientificSubdomainsDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
+                                          "{{scientificSubdomainsDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                       </div>
                                       <div *ngIf="this.domainArray.controls[i].get('scientificDomain').value && this.domainArray.controls[i].get('scientificSubdomain').value">
                                         <div *ngIf="this.domainArray.controls[i].get('scientificSubdomain').value.includes('-other')" class="uk-flex uk-flex-left">
@@ -467,10 +467,10 @@
                           </div>
                           <div formArrayName="tags" class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="tags">
-                              {{providerTagsDesc.label + (providerTagsDesc.mandatory ? ' (*)' : '')}}
+                              {{tagsDesc.label + (tagsDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div
-                              class="uk-form-description uk-margin-top uk-width-9-10">{{providerTagsDesc.desc}}</div>
+                              class="uk-form-description uk-margin-top uk-width-9-10">{{tagsDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
                               <div *ngFor="let provider of getFieldAsFormArray('tags').controls; let i=index"
                                    class="uk-margin-bottom">
@@ -488,7 +488,7 @@
                                 Suggested length is 20 characters</small></i>
                               <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                 <a class="add-new-element" (click)="push('tags', false)">
-                                  <i class="fa fa-plus" aria-hidden="true"></i> Add {{providerTagsDesc.label}}
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add {{tagsDesc.label}}
                                 </a>
                               </div>
                             </div>
@@ -602,10 +602,10 @@
                                    class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                 <div class="uk-margin-bottom">
                                   <label class="uk-form-label uk-text-right" for="mainContactFirstName">
-                                    {{ providerMainContactFirstNameDesc.label + (providerMainContactFirstNameDesc.mandatory ? ' (*)' : '') }}
+                                    {{ mainContactFirstNameDesc.label + (mainContactFirstNameDesc.mandatory ? ' (*)' : '') }}
                                   </label>
                                   <div
-                                    class="uk-form-description uk-margin-top uk-width-9-10">{{providerMainContactFirstNameDesc.desc}}</div>
+                                    class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactFirstNameDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactFirstName" class="uk-input" type="text"
                                            formControlName="firstName"
@@ -616,10 +616,10 @@
                                 </div>
                                 <div class="uk-margin-bottom">
                                   <label class="uk-form-label uk-text-right" for="mainContactLastName">
-                                    {{ providerMainContactLastNameDesc.label + (providerMainContactLastNameDesc.mandatory ? ' (*)' : '') }}
+                                    {{ mainContactLastNameDesc.label + (mainContactLastNameDesc.mandatory ? ' (*)' : '') }}
                                   </label>
                                   <div
-                                    class="uk-form-description uk-margin-top uk-width-9-10">{{providerMainContactLastNameDesc.desc}}</div>
+                                    class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactLastNameDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactLastName" class="uk-input" type="text"
                                            formControlName="lastName"
@@ -630,10 +630,10 @@
                                 </div>
                                 <div class="uk-margin-bottom">
                                   <label class="uk-form-label uk-text-right" for="mainContactEmail">
-                                    {{ providerMainContactEmailDesc.label + (providerMainContactEmailDesc.mandatory ? ' (*)' : '') }}
+                                    {{ mainContactEmailDesc.label + (mainContactEmailDesc.mandatory ? ' (*)' : '') }}
                                   </label>
                                   <div
-                                    class="uk-form-description uk-margin-top uk-width-9-10">{{providerMainContactEmailDesc.desc}}</div>
+                                    class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactEmailDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactEmail" class="uk-input" type="text" formControlName="email"
                                            (input)="handleBitSetsOfGroups(4, 11, 'email', 'mainContact'); unsavedChangesPrompt()"
@@ -643,10 +643,10 @@
                                 </div>
                                 <div class="uk-margin-bottom">
                                   <label class="uk-form-label uk-text-right" for="mainContactPhone">
-                                    {{ providerMainContactPhoneDesc.label + (providerMainContactPhoneDesc.mandatory ? ' (*)' : '') }}
+                                    {{ mainContactPhoneDesc.label + (mainContactPhoneDesc.mandatory ? ' (*)' : '') }}
                                   </label>
                                   <div
-                                    class="uk-form-description uk-margin-top uk-width-9-10">{{providerMainContactPhoneDesc.desc}}</div>
+                                    class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactPhoneDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactPhone" class="uk-input" type="text" formControlName="phone"
                                            (input)="unsavedChangesPrompt()"
@@ -656,10 +656,10 @@
                                 </div>
                                 <div class="uk-margin-bottom">
                                   <label class="uk-form-label uk-text-right" for="mainContactPosition">
-                                    {{ providerMainContactPositionDesc.label + (providerMainContactPositionDesc.mandatory ? ' (*)' : '') }}
+                                    {{ mainContactPositionDesc.label + (mainContactPositionDesc.mandatory ? ' (*)' : '') }}
                                   </label>
                                   <div
-                                    class="uk-form-description uk-margin-top uk-width-9-10">{{providerMainContactPositionDesc.desc}}</div>
+                                    class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactPositionDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <input id="mainContactPosition" class="uk-input" type="text"
                                            formControlName="position"
@@ -689,9 +689,9 @@
                                   <!--</div>-->
                                   <div class="uk-margin-bottom">
                                     <label class="uk-form-label uk-text-right" for="firstName">
-                                      {{ providerPublicContactFirstNameDesc.label + (providerPublicContactFirstNameDesc.mandatory ? ' (*)' : '') }}
+                                      {{ publicContactFirstNameDesc.label + (publicContactFirstNameDesc.mandatory ? ' (*)' : '') }}
                                     </label>
-                                    <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerPublicContactFirstNameDesc.desc}}</div>
+                                    <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactFirstNameDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="firstName" class="uk-input" type="text" formControlName="firstName"
                                              (input)="unsavedChangesPrompt()"
@@ -701,10 +701,10 @@
                                   </div>
                                   <div class="uk-margin-bottom">
                                     <label class="uk-form-label uk-text-right" for="lastName">
-                                      {{ providerPublicContactLastNameDesc.label + (providerPublicContactLastNameDesc.mandatory ? ' (*)' : '') }}
+                                      {{ publicContactLastNameDesc.label + (publicContactLastNameDesc.mandatory ? ' (*)' : '') }}
                                     </label>
                                     <div
-                                      class="uk-form-description uk-margin-top uk-width-9-10">{{providerPublicContactLastNameDesc.desc}}</div>
+                                      class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactLastNameDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="lastName" class="uk-input" type="text" formControlName="lastName"
                                              (input)="unsavedChangesPrompt()"
@@ -714,10 +714,10 @@
                                   </div>
                                   <div class="uk-margin-bottom">
                                     <label class="uk-form-label uk-text-right" for="email">
-                                      {{ providerPublicContactEmailDesc.label + (providerPublicContactEmailDesc.mandatory ? ' (*)' : '')}}
+                                      {{ publicContactEmailDesc.label + (publicContactEmailDesc.mandatory ? ' (*)' : '')}}
                                     </label>
                                     <div
-                                      class="uk-form-description uk-margin-top uk-width-9-10">{{providerPublicContactEmailDesc.desc}}</div>
+                                      class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactEmailDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="email" class="uk-input" type="text" formControlName="email"
                                              (input)="handleBitSetsOfPublicContact(4, 15, 'email', 'publicContacts'); unsavedChangesPrompt()"
@@ -727,10 +727,10 @@
                                   </div>
                                   <div class="uk-margin-bottom">
                                     <label class="uk-form-label uk-text-right" for="phone">
-                                      {{ providerPublicContactPhoneDesc.label + (providerPublicContactPhoneDesc.mandatory ? ' (*)' : '') }}
+                                      {{ publicContactPhoneDesc.label + (publicContactPhoneDesc.mandatory ? ' (*)' : '') }}
                                     </label>
                                     <div
-                                      class="uk-form-description uk-margin-top uk-width-9-10">{{providerPublicContactPhoneDesc.desc}}</div>
+                                      class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPhoneDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="phone" class="uk-input" type="text" formControlName="phone"
                                              (input)="unsavedChangesPrompt()"
@@ -740,10 +740,10 @@
                                   </div>
                                   <div class="uk-margin-bottom">
                                     <label class="uk-form-label uk-text-right" for="position">
-                                      {{ providerPublicContactPositionDesc.label + (providerPublicContactPositionDesc.mandatory ? ' (*)' : '') }}
+                                      {{ publicContactPositionDesc.label + (publicContactPositionDesc.mandatory ? ' (*)' : '') }}
                                     </label>
                                     <div
-                                      class="uk-form-description uk-margin-top uk-width-9-10">{{providerPublicContactPositionDesc.desc}}</div>
+                                      class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPositionDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="position" class="uk-input" type="text" formControlName="position"
                                              (input)="unsavedChangesPrompt()"
