@@ -12,7 +12,7 @@ export const environment = {
   STATS_ENDPOINT: 'https://providers.eosc-portal.eu/stats-api/',
   projectName: 'EOSC',
   projectMail: 'onboarding@eosc-portal.eu', // used for suggestions
-  serviceORresource: 'Resource',
+  serviceORresource: 'Service',
   hasUserConsent: true,
   privacyPolicyURL: 'https://www.eosc-portal.eu/privacy-policy-summary',
   marketplaceBaseURL: 'https://marketplace-beta.docker-fid.grid.cyf-kr.edu.pl/services/',

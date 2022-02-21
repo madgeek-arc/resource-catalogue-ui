@@ -8,7 +8,7 @@ export const environment = {
   STATS_ENDPOINT: 'https://providers.eosc-portal.eu/stats-api/',
   projectName: 'EOSC',
   projectMail: 'onboarding@eosc-portal.eu',
-  serviceORresource: 'Resource',
+  serviceORresource: 'Service',
   hasUserConsent: true,
   privacyPolicyURL: 'https://www.eosc-portal.eu/privacy-policy-summary',
   marketplaceBaseURL: 'https://marketplace.eosc-portal.eu/services/',
