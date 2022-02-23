@@ -175,8 +175,8 @@
                         <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[8]}" href="#">
                           <span>9. Admins *</span>
                           <span class="circle-number">
-                            <i *ngIf="remainingOnTab7==0" aria-hidden="true" class="fa fa-check"></i>
-                            {{remainingOnTab7!=0 ? remainingOnTab7 +'*' : ''}}
+                            <i *ngIf="remainingOnTab8==0" aria-hidden="true" class="fa fa-check"></i>
+                            {{remainingOnTab8!=0 ? remainingOnTab8 +'*' : ''}}
                           </span>
                           <!--                          <span class="circle-number"><i aria-hidden="true" class="fa fa-check"></i></span>-->
                         </a>
@@ -194,7 +194,12 @@
 
                   <!--<div class="uk-width-3-4">-->
                     <form *ngIf="vocabularies" [formGroup]="providerForm" class="uk-form uk-margin uk-width-3-4">
-
+<!--                      <pre>-->
+<!--                        {{providerForm.value | json}}-->
+<!--                        {{vocabularyEntryForm.value | json}}-->
+<!--                        {{this.loaderBitSet.toString(2)}}-->
+<!--                        {{this.loaderBitSet.cardinality()}}-->
+<!--                      </pre>-->
                       <div class="formContainer">
                         <ul id="top-navigation-tabs" class="uk-switcher uk-margin-top uk-margin-bottom">
                           <!--BASIC-->

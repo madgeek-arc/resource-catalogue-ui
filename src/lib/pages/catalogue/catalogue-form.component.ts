@@ -45,27 +45,25 @@ export class CatalogueFormComponent implements OnInit {
   requiredOnTab1 = 2;
   requiredOnTab3 = 4;
   requiredOnTab4 = 2;
-  requiredOnTab7 = 1;
+  requiredOnTab6 = 1;
 
   remainingOnTab0 = this.requiredOnTab0;
   remainingOnTab1 = this.requiredOnTab1;
   remainingOnTab3 = this.requiredOnTab3;
   remainingOnTab4 = this.requiredOnTab4;
-  remainingOnTab7 = this.requiredOnTab7;
+  remainingOnTab6 = this.requiredOnTab6;
 
   BitSetTab0 = new BitSet;
   BitSetTab1 = new BitSet;
   BitSetTab3 = new BitSet;
   BitSetTab4 = new BitSet;
-  BitSetTab7 = new BitSet;
+  BitSetTab6 = new BitSet;
 
   requiredTabs = 5;
   completedTabs = 0;
   completedTabsBitSet = new BitSet;
 
-  // allRequiredFields = 17;
-  // allRequiredFields = 13;
-  allRequiredFields = 14;
+  allRequiredFields = 17;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
@@ -173,7 +171,8 @@ export class CatalogueFormComponent implements OnInit {
     ]),
     participatingCountries: this.fb.array([this.fb.control('')]),
     affiliations: this.fb.array([this.fb.control('')]),
-    networks: this.fb.array([this.fb.control('')])
+    networks: this.fb.array([this.fb.control('')]),
+    users: this.fb.array([this.user()])
   };
 
   constructor(public fb: FormBuilder,
@@ -197,6 +196,7 @@ export class CatalogueFormComponent implements OnInit {
     this.catalogueForm = this.fb.group(this.formDefinition);
     if (this.edit === false) {
       this.pushDomain();
+      this.addDefaultUser();  // Admin + mainContact
       // this.providerForm.get('legalEntity').setValue(false);
     }
 
@@ -211,6 +211,8 @@ export class CatalogueFormComponent implements OnInit {
                 this.domainArray.push(this.newScientificDomain());
               } else if (i === 'publicContacts') {
                 this.pushPublicContact();
+              } else if (i === 'users') {
+                this.addUser();
               } else if (i === 'multimedia') {
                 this.pushMultimedia();
               } else {
@@ -227,6 +229,8 @@ export class CatalogueFormComponent implements OnInit {
     }
 
     this.isPortalAdmin = this.authService.isAdmin();
+
+    this.initUserBitSets(); // Admin + mainContact
 
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
   }
@@ -405,6 +409,9 @@ export class CatalogueFormComponent implements OnInit {
     this.tabs[5] = (this.checkEveryArrayFieldValidity('participatingCountries', this.edit)
       || this.checkEveryArrayFieldValidity('affiliations', this.edit)
       || this.checkEveryArrayFieldValidity('networks', this.edit));
+    this.tabs[6] = (this.checkEveryArrayFieldValidity('users', this.edit, 'name')
+      || this.checkEveryArrayFieldValidity('users', this.edit, 'surname')
+      || this.checkEveryArrayFieldValidity('users', this.edit, 'email'));
   }
 
   /** check form fields and tabs validity--> **/
@@ -533,6 +540,47 @@ export class CatalogueFormComponent implements OnInit {
   }
 
   /** <--Contact Info **/
+
+  /** User Array -->**/
+  user(): FormGroup {
+    return this.fb.group({
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      id: [''],
+      name: ['', Validators.required],
+      surname: ['', Validators.required]
+    });
+  }
+
+  get usersArray() { // return form fields as array
+    return this.catalogueForm.get('users') as FormArray;
+  }
+
+  addUser() {
+    this.usersArray.push(this.user());
+  }
+
+  deleteUser(index) {
+    if (this.usersArray.length === 1) {
+      this.errorMessage = 'There must be at least one provider!';
+      window.scrollTo(0, 0);
+      return;
+    }
+    this.usersArray.removeAt(index);
+  }
+
+  addDefaultUser() {
+    this.userInfo.given_name = this.authService.getUserProperty('given_name');
+    this.userInfo.family_name = this.authService.getUserProperty('family_name');
+    this.userInfo.email = this.authService.getUserProperty('email');
+    this.usersArray.controls[0].get('name').setValue(this.userInfo.given_name);
+    this.usersArray.controls[0].get('surname').setValue(this.userInfo.family_name);
+    this.usersArray.controls[0].get('email').setValue(this.userInfo.email);
+    this.catalogueForm.controls['mainContact'].get('firstName').setValue(this.userInfo.given_name);
+    this.catalogueForm.controls['mainContact'].get('lastName').setValue(this.userInfo.family_name);
+    this.catalogueForm.controls['mainContact'].get('email').setValue(this.userInfo.email);
+  }
+
+  /** <-- User Array**/
 
   showLogoUrlModal() {
     if (this.catalogueForm && this.catalogueForm.get('logo').value) {
@@ -712,6 +760,15 @@ export class CatalogueFormComponent implements OnInit {
     this.updateLoaderPercentage();
   }
 
+  initUserBitSets() {
+    this.handleBitSetsOfUsers(6, 12, 'name', 'users');
+    this.handleBitSetsOfUsers(6, 13, 'surname', 'users');
+    this.handleBitSetsOfUsers(6, 14, 'email', 'users');
+    this.handleBitSetsOfGroups(4, 9, 'firstName', 'mainContact');
+    this.handleBitSetsOfGroups(4, 10, 'lastName', 'mainContact');
+    this.handleBitSetsOfGroups(4, 11, 'email', 'mainContact');
+  }
+
   updateLoaderPercentage() {
     // console.log(this.loaderBitSet.toString(2));
     // console.log('cardinality: ', this.loaderBitSet.cardinality());
@@ -745,10 +802,10 @@ export class CatalogueFormComponent implements OnInit {
       if (this.remainingOnTab4 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
         this.calcCompletedTabs(tabNum, 1);
       }
-    } else if (tabNum === 7) { // Admins
-      this.BitSetTab7.set(bitIndex, 1);
-      if (this.BitSetTab7.cardinality() === 3) {
-        this.remainingOnTab7 = 0;
+    } else if (tabNum === 6) { // Admins
+      this.BitSetTab6.set(bitIndex, 1);
+      if (this.BitSetTab6.cardinality() === 3) {
+        this.remainingOnTab6 = 0;
         if (this.completedTabsBitSet.get(tabNum) !== 1) {
           this.calcCompletedTabs(tabNum, 1);
         }
@@ -782,9 +839,9 @@ export class CatalogueFormComponent implements OnInit {
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }
-    } else if (tabNum === 7) { // Admins
-      this.BitSetTab7.set(bitIndex, 0);
-      this.remainingOnTab7 = this.requiredOnTab7;
+    } else if (tabNum === 6) { // Admins
+      this.BitSetTab6.set(bitIndex, 0);
+      this.remainingOnTab6 = this.requiredOnTab6;
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }

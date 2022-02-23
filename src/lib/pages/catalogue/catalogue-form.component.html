@@ -143,6 +143,16 @@
                           <span>6. Dependencies</span>
                         </a>
                       </li>
+                      <li>
+                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[6]}" href="#">
+                          <span>7. Admins *</span>
+                          <span class="circle-number">
+                            <i *ngIf="remainingOnTab6==0" aria-hidden="true" class="fa fa-check"></i>
+                            {{remainingOnTab6!=0 ? remainingOnTab6 +'*' : ''}}
+                          </span>
+                          <!--                          <span class="circle-number"><i aria-hidden="true" class="fa fa-check"></i></span>-->
+                        </a>
+                      </li>
                     </ul>
 
                     <div class="requiredFields uk-text-right">*Required fields</div>
@@ -156,7 +166,12 @@
 
                   <!--<div class="uk-width-3-4">-->
                   <form *ngIf="vocabularies" [formGroup]="catalogueForm" class="uk-form uk-margin uk-width-3-4">
-
+                    <pre>
+                      <!--{{catalogueForm.value | json}}-->
+                      <!--{{vocabularyEntryForm.value | json}}-->
+                      {{this.loaderBitSet.toString(2)}}
+                      {{this.loaderBitSet.cardinality()}}
+                    </pre>
                     <div class="formContainer">
                       <ul id="top-navigation-tabs" class="uk-switcher uk-margin-top uk-margin-bottom">
                         <!--BASIC-->
@@ -902,12 +917,91 @@
                             </div>
                           </div>
                         </li>
+                        <!--ADMINS-->
+                        <li>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right">Administrators (*)</label>
+                            <div *ngIf="!edit" class="uk-width-9-10"><i>An administrator for managing the Catalogue
+                              information in {{projectName}} will be added using your user information.</i></div>
+                            <div class="uk-width-9-10"><i>An administrator has full edit privileges for the catalogue’s
+                              information via the web and the API (add a new {{serviceORresource | lowercase}},
+                              update information regarding the provider’s organization
+                              and {{serviceORresource | lowercase}}s, activate or delete
+                              a {{serviceORresource | lowercase}}, add or remove administrators and issue tokens for
+                              API use).</i></div>
+                            <div *ngIf="catalogueForm.get('users').value" class="uk-form-controls uk-margin-top">
+                              <div formArrayName="users" *ngFor="let user of usersArray.controls; let i = index">
+                                <div [formGroupName]="i"
+                                     class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                  <div class="uk-margin-bottom">
+                                    <label class="uk-form-label uk-text-right" for="name">
+                                      First name (*)
+                                    </label>
+                                    <div class="uk-form-description uk-margin-top uk-width-9-10">First Name of the
+                                      Catalogue's administrator.
+                                    </div>
+                                    <div class="uk-form-controls uk-margin-medium-top">
+                                      <input id="name" class="uk-input" type="text" formControlName="name"
+                                             (input)="handleBitSetsOfUsers(6, 12, 'name', 'users'); unsavedChangesPrompt()"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, this.edit, 'name')}">
+                                      <!--<i><small>{{ publicContactFirstNameDesc.desc }}</small></i>-->
+                                    </div>
+                                  </div>
+                                  <div class="uk-margin-bottom">
+                                    <label class="uk-form-label uk-text-right" for="surname">
+                                      Last name (*)
+                                    </label>
+                                    <div class="uk-form-description uk-margin-top uk-width-9-10">Last Name of the
+                                      Catalogue's administrator.
+                                    </div>
+                                    <div class="uk-form-controls uk-margin-medium-top">
+                                      <input id="surname" class="uk-input" type="text" formControlName="surname"
+                                             (input)="handleBitSetsOfUsers(6, 13, 'surname', 'users'); unsavedChangesPrompt()"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, this.edit, 'surname')}">
+                                      <!--<i><small>{{ publicContactLastNameDesc.desc }}</small></i>-->
+                                    </div>
+                                  </div>
+                                  <div class="uk-margin-bottom">
+                                    <label class="uk-form-label uk-text-right" for="email">
+                                      Email (*)
+                                    </label>
+                                    <div class="uk-form-description uk-margin-top uk-width-9-10">Email of the
+                                      Catalogue's administrator.
+                                    </div>
+                                    <div class="uk-form-controls uk-margin-medium-top">
+                                      <input class="uk-input" type="text" formControlName="email"
+                                             (input)="handleBitSetsOfUsers(6, 14, 'email', 'users'); unsavedChangesPrompt()"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, this.edit, 'email')}">
+                                      <!--<i><small>{{ publicContactEmailDesc.desc }}</small></i>-->
+                                    </div>
+                                    <b><i><small>Use this email when you login in AAI for gaining administrator
+                                      privileges for your catalogue.</small></i></b>
+                                  </div>
+
+                                </div>
+                                <a *ngIf="usersArray.length > 1 && !disable"
+                                   class="remove-element uk-padding-small uk-display-inline-block"
+                                   (click)="deleteUser(i); initUserBitSets()">
+                                  <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+                              </div>
+                            </div>
+                            <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                              <a class="add-new-element" (click)="addUser()">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add provider admin
+                              </a>
+                            </div>
+                          </div>
+
+                        </li>
                       </ul>
                     </div>
-                    <!--                      <pre>-->
-                    <!--                        {{providerForm.value | json}}-->
-                    <!--                        {{vocabularyEntryForm.value | json}}-->
-                    <!--                      </pre>-->
+                                          <pre>
+<!--                                            {{catalogueForm.value | json}}-->
+<!--                                            {{vocabularyEntryForm.value | json}}-->
+<!--                                            {{this.loaderBitSet.toString(2)}}-->
+<!--                                            {{this.loaderBitSet.cardinality()}}-->
+                                          </pre>
                   </form>
 
                 </div>

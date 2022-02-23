@@ -34,6 +34,7 @@ export class Catalogue implements Identifiable {
   participatingCountries: string[];
   affiliations: string[];
   networks: string[];
+  users: User[];
 }
 
 export class EmailMessage {

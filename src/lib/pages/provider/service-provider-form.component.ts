@@ -47,13 +47,13 @@ export class ServiceProviderFormComponent implements OnInit {
   requiredOnTab1 = 2;
   requiredOnTab3 = 4;
   requiredOnTab4 = 2;
-  requiredOnTab7 = 1;
+  requiredOnTab8 = 1;
 
   remainingOnTab0 = this.requiredOnTab0;
   remainingOnTab1 = this.requiredOnTab1;
   remainingOnTab3 = this.requiredOnTab3;
   remainingOnTab4 = this.requiredOnTab4;
-  remainingOnTab7 = this.requiredOnTab7;
+  remainingOnTab8 = this.requiredOnTab8;
 
   BitSetTab0 = new BitSet;
   BitSetTab1 = new BitSet;
@@ -214,9 +214,7 @@ export class ServiceProviderFormComponent implements OnInit {
     areasOfActivity: this.fb.array([this.fb.control('')]),
     societalGrandChallenges: this.fb.array([this.fb.control('')]),
     nationalRoadmaps: this.fb.array([this.fb.control('')]),
-    users: this.fb.array([
-      this.user()
-    ])
+    users: this.fb.array([this.user()])
   };
 
   constructor(public fb: FormBuilder,
@@ -949,7 +947,7 @@ export class ServiceProviderFormComponent implements OnInit {
     } else if (tabNum === 7) { // Admins
       this.BitSetTab7.set(bitIndex, 1);
       if (this.BitSetTab7.cardinality() === 3) {
-        this.remainingOnTab7 = 0;
+        this.remainingOnTab8 = 0;
         if (this.completedTabsBitSet.get(tabNum) !== 1) {
           this.calcCompletedTabs(tabNum, 1);
         }
@@ -985,7 +983,7 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     } else if (tabNum === 7) { // Admins
       this.BitSetTab7.set(bitIndex, 0);
-      this.remainingOnTab7 = this.requiredOnTab7;
+      this.remainingOnTab8 = this.requiredOnTab8;
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }

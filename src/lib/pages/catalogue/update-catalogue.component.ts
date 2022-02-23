@@ -98,6 +98,13 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
           //     }
           //   }
           // }
+          if (this.catalogue.users && this.catalogue.users.length > 1) {
+            for (let i = 0; i < this.catalogue.users.length - 1; i++) {
+              this.addUser();
+            }
+          } else if (path === 'add/:providerId') {
+            this.addDefaultUser();
+          }
 
           if (this.catalogue.multimedia && this.catalogue.multimedia.length > 1) {
             for (let i = 0; i < this.catalogue.multimedia.length - 1; i++) {
@@ -176,6 +183,7 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
     this.handleBitSetsOfGroups(4, 10, 'lastName', 'mainContact');
     this.handleBitSetsOfGroups(4, 11, 'email', 'mainContact');
     this.handleBitSetsOfPublicContact(4, 15, 'email', 'publicContacts');
+    this.initUserBitSets();
   }
 
 }
