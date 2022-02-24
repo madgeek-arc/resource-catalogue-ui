@@ -15,7 +15,7 @@
           </div>
           <div class="">
             <!--<button class="uk-button uk-button-primary">Discard</button>-->
-            <button *ngIf="!disable && (!edit || pendingProvider)" class="uk-button uk-button-primary uk-margin-left" (click)="this.registerCatalogue(true)">Save as draft</button>
+<!--            <button *ngIf="!disable && (!edit || pendingProvider)" class="uk-button uk-button-primary uk-margin-left" (click)="this.registerCatalogue(true)">Save as draft</button>-->
             <button *ngIf="!disable && loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left" type="button" (click)="this.registerCatalogue(false)">Submit</button>
             <button *ngIf="disable" class="uk-button uk-button-secondary uk-margin-left" (click)="toggleDisable()">Edit</button>
           </div>
