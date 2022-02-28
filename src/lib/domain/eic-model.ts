@@ -37,6 +37,39 @@ export class Catalogue implements Identifiable {
   users: User[];
 }
 
+export class Datasource extends Bundle<Service> {
+  submissionPolicyURL: URL[];
+  preservationPolicyURL: URL[];
+  versionControl: boolean;
+  persistentIdentitySystems: PersistentIdentitySystems[];
+
+  jurisdiction: string;
+  dataSourceClassification: string;
+  researchEntityTypes: string[];
+  thematic: boolean;
+
+  researchProductLicensing: ResearchProductLicensing[];
+  researchProductAccessPolicy: string[];
+
+  researchProductMetadataLicensing: ResearchProductMetadataLicensing[];
+  researchProductMetadataAccessPolicy: string[];
+
+  service: Service;
+}
+
+export class PersistentIdentitySystems {
+  persistentIdentityEntityType: string;
+  persistentIdentityEntityTypeScheme: string;
+}
+export class ResearchProductLicensing {
+  researchProductLicenseName: string;
+  researchProductLicenseURL: string;
+}
+export class ResearchProductMetadataLicensing {
+  researchProductMetadataLicenseName: string;
+  researchProductMetadataLicenseURL: string;
+}
+
 export class EmailMessage {
   recipientEmail: string;
   senderEmail: string;

@@ -1,42 +1,42 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {CanActivateViaAuthGuard} from '../../services/can-activate-auth-guard.service';
-import {CatalogueFormComponent} from './catalogue-form.component';
-import {UpdateCatalogueComponent} from "./update-catalogue.component";
+import {DatasourceFormComponent} from "./datasource-form.component";
+import {UpdateDatasourceComponent} from "./update-datasource.component";
 
 
-const catalogueRoutes: Routes = [
+const datasourceRoutes: Routes = [
 
   {
     path: 'add',
-    component: CatalogueFormComponent,
+    component: DatasourceFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'New Catalogue'
+      breadcrumb: 'New Datasource'
     }
   },
   // {
-  //   path: 'add/:catalogueId',
+  //   path: 'add/:datasourceId',
   //   component: UpdateServiceProviderComponent,
   //   canActivate: [CanActivateViaAuthGuard],
   //   data: {
-  //     breadcrumb: 'New Catalogue'
+  //     breadcrumb: 'New Datasource'
   //   }
   // },
   {
-    path: 'update/:catalogueId',
-    component: UpdateCatalogueComponent,
+    path: 'update/:datasourceId',
+    component: UpdateDatasourceComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'Update Catalogue'
+      breadcrumb: 'Update Datasource'
     }
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(catalogueRoutes)],
+  imports: [RouterModule.forChild(datasourceRoutes)],
   exports: [RouterModule]
 })
 
-export class CatalogueRouting {
+export class DatasourceRouting {
 }
