@@ -289,7 +289,7 @@ export class DatasourceFormComponent implements OnInit {
 
     jurisdiction: [''],
     dataSourceClassification: [''],
-    researchEntityTypes: [''],
+    researchEntityTypes: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
     thematic: [''],
 
     researchProductLicensing: [''],
@@ -333,6 +333,11 @@ export class DatasourceFormComponent implements OnInit {
   public geographicalVocabulary: Vocabulary[] = null;
   public languagesVocabulary: Vocabulary[] = null;
   public languagesVocIdArray: string[] = [];
+  public jurisdictionVocabulary: Vocabulary[] = null;
+  public classificationVocabulary: Vocabulary[] = null;
+  public researchEntityTypeVocabulary: Vocabulary[] = null;
+  public persistentIdentitySchemeVocabulary: Vocabulary[] = null;
+  public accessRightsVocabulary: Vocabulary[] = null;
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -466,6 +471,11 @@ export class DatasourceFormComponent implements OnInit {
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
         // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
         // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
+        this.jurisdictionVocabulary = this.vocabularies[Type.DS_JURISDICTION];
+        this.classificationVocabulary = this.vocabularies[Type.DS_CLASSIFICATION];
+        this.researchEntityTypeVocabulary = this.vocabularies[Type.DS_RESEARCH_ENTITY_TYPE];
+        this.persistentIdentitySchemeVocabulary = this.vocabularies[Type.DS_PERSISTENT_IDENTITY_SCHEME];
+        this.accessRightsVocabulary = this.vocabularies[Type.DS_COAR_ACCESS_RIGHTS_1_0];
       },
       error => {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
@@ -698,7 +708,7 @@ export class DatasourceFormComponent implements OnInit {
       || this.checkFormValidity('pricing', this.editMode));
     this.tabs[15] = (this.checkFormValidity('paymentModel', this.editMode)
       || this.checkFormValidity('pricing', this.editMode));
-
+//TODO: add the extra tabs
     // console.log(this.tabs);
   }
 
