@@ -106,9 +106,15 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
             this.addDefaultUser();
           }
 
+          // if (this.catalogue.multimedia && this.catalogue.multimedia.length > 1) {
+          //   for (let i = 0; i < this.catalogue.multimedia.length - 1; i++) {
+          //     this.push('multimedia', this.multimediaURLDesc.mandatory, true);
+          //   }
+          // }
+
           if (this.catalogue.multimedia && this.catalogue.multimedia.length > 1) {
             for (let i = 0; i < this.catalogue.multimedia.length - 1; i++) {
-              this.push('multimedia', this.multimediaURLDesc.mandatory, true);
+              this.multimediaArray.push(this.newMultimedia());
             }
           }
 
@@ -124,9 +130,7 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
               //   }
               // }
             }
-          } else {
-            this.domainArray.push(this.newScientificDomain());
-          }
+          } else this.domainArray.push(this.newScientificDomain());
 
           if (this.catalogue.publicContacts && this.catalogue.publicContacts.length > 1) {
             for (let i = 0; i < this.catalogue.publicContacts.length - 1; i++) {

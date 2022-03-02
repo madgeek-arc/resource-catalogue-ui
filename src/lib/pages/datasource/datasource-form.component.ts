@@ -7,7 +7,7 @@ import {UserService} from '../../services/user.service';
 import * as sd from '../provider-resources/services.description';
 import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
-import {urlAsyncValidator, UrlValidator, URLValidator} from '../../shared/validators/generic.validator';
+import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
@@ -207,7 +207,7 @@ export class DatasourceFormComponent implements OnInit {
     // multimediaNames: this.fb.array([this.fb.control('')]),
     multimedia: this.fb.array([
       this.fb.group({
-        multimediaURL: [''],
+        multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
         multimediaName: ['']
       })
     ]),
@@ -215,7 +215,7 @@ export class DatasourceFormComponent implements OnInit {
     // useCasesNames: this.fb.array([this.fb.control('')]),
     useCases: this.fb.array([
       this.fb.group({
-        useCaseURL: [''],
+        useCaseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
         useCaseName: ['']
       })
     ]),
@@ -799,8 +799,8 @@ export class DatasourceFormComponent implements OnInit {
   /** Multimedia -->**/
   newMultimedia(): FormGroup {
     return this.fb.group({
-      url: [''],
-      name: ['']
+      multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+      multimediaName: ['']
     });
   }
 
@@ -820,7 +820,7 @@ export class DatasourceFormComponent implements OnInit {
   /** Use Cases-->**/
   newUseCase(): FormGroup {
     return this.fb.group({
-      useCaseURL: [''],
+      useCaseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
       useCaseName: ['']
     });
   }

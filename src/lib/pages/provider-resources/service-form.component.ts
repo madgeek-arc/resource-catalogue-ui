@@ -7,7 +7,7 @@ import {UserService} from '../../services/user.service';
 import * as sd from './services.description';
 import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
-import {urlAsyncValidator, UrlValidator, URLValidator} from '../../shared/validators/generic.validator';
+import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
@@ -184,7 +184,7 @@ export class ServiceFormComponent implements OnInit {
     // multimediaNames: this.fb.array([this.fb.control('')]),
     multimedia: this.fb.array([
       this.fb.group({
-        multimediaURL: [''],
+        multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
         multimediaName: ['']
       })
     ]),
@@ -192,7 +192,7 @@ export class ServiceFormComponent implements OnInit {
     // useCasesNames: this.fb.array([this.fb.control('')]),
     useCases: this.fb.array([
       this.fb.group({
-        useCaseURL: [''],
+        useCaseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
         useCaseName: ['']
       })
     ]),
@@ -483,6 +483,7 @@ export class ServiceFormComponent implements OnInit {
                 this.categoryArray.push(this.newCategory());
                 // } else if (i === 'options') {
                 //   this.pushOption();
+                //TODO: add multimedia and use cases (also for DS)
               } else if (i === 'providers' || i === 'targetUsers' || i === 'geographicalAvailabilities' || i === 'languageAvailabilities') {
                 this.push(i, true);
               } else {
@@ -736,8 +737,8 @@ export class ServiceFormComponent implements OnInit {
   /** Multimedia -->**/
   newMultimedia(): FormGroup {
     return this.fb.group({
-      url: [''],
-      name: ['']
+      multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+      multimediaName: ['']
     });
   }
 
@@ -757,7 +758,7 @@ export class ServiceFormComponent implements OnInit {
   /** Use Cases-->**/
   newUseCase(): FormGroup {
     return this.fb.group({
-      useCaseURL: [''],
+      useCaseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
       useCaseName: ['']
     });
   }

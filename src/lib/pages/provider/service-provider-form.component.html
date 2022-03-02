@@ -373,8 +373,8 @@
                                       <div class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaURLDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <input id="multimediaURL" class="uk-input" type="text" formControlName="multimediaURL" placeholder="use http:// or https://"
-                                               (input)="unsavedChangesPrompt()">
-<!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.edit, 'multimediaURL')}">-->
+                                               (input)="unsavedChangesPrompt()"
+                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.edit, 'multimediaURL')}">
                                       </div>
                                     </div>
                                     <div class="uk-margin-bottom">

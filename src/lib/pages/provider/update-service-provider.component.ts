@@ -109,14 +109,20 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         } else if (path === 'add/:providerId') {
           this.addDefaultUser();
         }
-        if (this.provider.multimedia && this.provider.multimedia.length > 1) {
-          for (let i = 0; i < this.provider.multimedia.length - 1; i++) {
-            this.push('multimedia', this.multimediaURLDesc.mandatory, true);
-          }
-        }
+        // if (this.provider.multimedia && this.provider.multimedia.length > 1) {
+        //   for (let i = 0; i < this.provider.multimedia.length - 1; i++) {
+        //     this.push('multimedia', this.multimediaURLDesc.mandatory, true);
+        //   }
+        // }
         if (this.provider.structureTypes && this.provider.structureTypes.length > 1) {
           for (let i = 0; i < this.provider.structureTypes.length - 1; i++) {
             this.push('structureTypes', this.structureTypesDesc.mandatory);
+          }
+        }
+
+        if (this.provider.multimedia && this.provider.multimedia.length > 1) {
+          for (let i = 0; i < this.provider.multimedia.length - 1; i++) {
+            this.multimediaArray.push(this.newMultimedia());
           }
         }
 
@@ -132,9 +138,8 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             //   }
             // }
           }
-        } else {
-          this.domainArray.push(this.newScientificDomain());
-        }
+        } else this.domainArray.push(this.newScientificDomain());
+
         if (this.provider.merilScientificDomains) {
           // this.removeDomain(0);
           for (let i = 0; i < this.provider.merilScientificDomains.length; i++) {
@@ -147,9 +152,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             //   }
             // }
           }
-        } else {
-          this.merilDomainArray.push(this.newMerilScientificDomain());
-        }
+        } else this.merilDomainArray.push(this.newMerilScientificDomain());
 
         if (this.provider.esfriDomains && this.provider.esfriDomains.length > 1) {
           for (let i = 0; i < this.provider.esfriDomains.length - 1; i++) {
