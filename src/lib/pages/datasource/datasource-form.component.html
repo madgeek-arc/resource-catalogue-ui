@@ -2009,12 +2009,12 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                                  <a class="add-new-element"
-                                     (click)="push('submissionPolicyURL', submissionPolicyURLDesc.mandatory, true)">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{submissionPolicyURLDesc.label}}
-                                  </a>
-                                </div>
+<!--                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">-->
+<!--                                  <a class="add-new-element"-->
+<!--                                     (click)="push('submissionPolicyURL', submissionPolicyURLDesc.mandatory, true)">-->
+<!--                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{submissionPolicyURLDesc.label}}-->
+<!--                                  </a>-->
+<!--                                </div>-->
                                 <!--<i><small>{{submissionPolicyURLDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -2039,12 +2039,12 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                                  <a class="add-new-element"
-                                     (click)="push('preservationPolicyURL', preservationPolicyURLDesc.mandatory, true)">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{preservationPolicyURLDesc.label}}
-                                  </a>
-                                </div>
+<!--                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">-->
+<!--                                  <a class="add-new-element"-->
+<!--                                     (click)="push('preservationPolicyURL', preservationPolicyURLDesc.mandatory, true)">-->
+<!--                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{preservationPolicyURLDesc.label}}-->
+<!--                                  </a>-->
+<!--                                </div>-->
                                 <!--<i><small>{{preservationPolicyURLDesc.desc}}</small></i>-->
                               </div>
                             </div>
@@ -2073,6 +2073,75 @@
                                 </label>
                               </div>
                             </div>
+
+
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">Persistent Identity Systems</label>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div formArrayName="persistentIdentitySystems"
+                                     *ngFor="let p of persistentIdentitySystemArray.controls; let i = index">
+                                  <div [formGroupName]="i"
+                                       class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="persistentIdentityEntityType">
+                                        {{ persistentIdentityEntityTypeDesc.label + (persistentIdentityEntityTypeDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div
+                                        class="uk-form-description uk-margin-top uk-width-9-10">{{persistentIdentityEntityTypeDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <ng-select *ngIf="researchEntityTypeVocabulary" class="uk-width-1-1" id="persistentIdentityEntityType"
+                                                   (change)="unsavedChangesPrompt()"
+                                                   [items]="sortVocabulariesByName(researchEntityTypeVocabulary)"
+                                                   bindLabel="name"
+                                                   bindValue="id"
+                                                   clearAllText="Clear"
+                                                   formControlName="persistentIdentityEntityType">
+<!--                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'organisation')}">-->
+                                        </ng-select>
+                                      </div>
+                                    </div>
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="persistentIdentityEntityTypeScheme">
+                                        {{ persistentIdentityEntityTypeSchemeDesc.label + (persistentIdentityEntityTypeSchemeDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div
+                                        class="uk-form-description uk-margin-top uk-width-9-10">{{persistentIdentityEntityTypeSchemeDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <ng-select *ngIf="persistentIdentitySchemeVocabulary" class="uk-width-1-1" id="persistentIdentityEntityTypeScheme"
+                                                   (change)="unsavedChangesPrompt()"
+                                                   [items]="sortVocabulariesByName(persistentIdentitySchemeVocabulary)"
+                                                   bindLabel="name"
+                                                   bindValue="id"
+                                                   clearAllText="Clear"
+                                                   formControlName="persistentIdentityEntityTypeScheme">
+                                          <!--                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'organisation')}">-->
+                                        </ng-select>
+                                      </div>
+                                    </div>
+                                    <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                      <a class="add-new-element">
+<!--                                         (click)="push('persistentIdentityEntityTypeScheme', persistentIdentityEntityTypeSchemeDesc.mandatory)">-->
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                        Add {{persistentIdentityEntityTypeSchemeDesc.label}}
+                                      </a>
+                                    </div>
+                                  </div>
+                                  <a *ngIf="getFieldAsFormArray('persistentIdentitySystems').length > 1 && !disable"
+                                     class="remove-element uk-padding-small uk-display-inline-block"
+                                     (click)="removePersistentIdentitySystem(i); unsavedChangesPrompt(); ">
+<!--                                     handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts')">-->
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                              </div>
+                              <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                                <a class="add-new-element" (click)="pushPersistentIdentitySystem()">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add Persistent Identity System
+                                </a>
+                              </div>
+                            </div>
+
+
                           </li>
                           <!--DATA SOURCE CONTENT-->
                           <li>
@@ -2219,8 +2288,52 @@
                           </li>
                           <!--RESEARCH PRODUCT POLICIES-->
                           <li>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">Research Product Licensing</label>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div formArrayName="researchProductLicensings"
+                                     *ngFor="let l of licensingArray.controls; let i = index">
+                                  <div [formGroupName]="i"
+                                       class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="researchProductLicenseURL">
+                                        {{ researchProductLicenseURLDesc.label + (researchProductLicenseURLDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductLicenseURLDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <input id="researchProductLicenseURL" class="uk-input" type="text" formControlName="researchProductLicenseURL" placeholder="use http:// or https://"
+                                               (input)="unsavedChangesPrompt()">
+<!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaURL')}">-->
+                                      </div>
+                                    </div>
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="researchProductLicenseName">
+                                        {{ researchProductLicenseNameDesc.label + (researchProductLicenseNameDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div
+                                        class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductLicenseNameDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <input id="researchProductLicenseName" class="uk-input" type="text" formControlName="researchProductLicenseName"
+                                               (input)="unsavedChangesPrompt()">
+                                        <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaName')}">-->
+                                      </div>
+                                      <i><small>Suggested length is 100 characters</small></i>
+                                    </div>
 
-
+                                  </div>
+                                  <a *ngIf="getFieldAsFormArray('researchProductLicensings').length > 1 && !disable"
+                                     class="remove-element uk-padding-small uk-display-inline-block"
+                                     (click)="removeLicensing(i); unsavedChangesPrompt();">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                              </div>
+                              <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                                <a class="add-new-element" (click)="pushLicensing()">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add Research Product Licensing
+                                </a>
+                              </div>
+                            </div>
                             <div formArrayName="researchProductAccessPolicy" class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="researchProductAccessPolicy">
                                 {{researchProductAccessPolicyDesc.label + (researchProductAccessPolicyDesc.mandatory ? ' (*)' : '')}}
@@ -2254,8 +2367,47 @@
                           </li>
                           <!--RESEARCH PRODUCT METADATA-->
                           <li>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">Research Product Metadata Licensing</label>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div formArrayName="researchProductMetadataLicensings"
+                                     *ngFor="let l of licensingArray.controls; let i = index">
+                                  <div [formGroupName]="i"
+                                       class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="researchProductMetadataLicenseURL">
+                                        {{ researchProductMetadataLicenseURLDesc.label + (researchProductMetadataLicenseURLDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductMetadataLicenseURLDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <input id="researchProductMetadataLicenseURL" class="uk-input" type="text" formControlName="researchProductMetadataLicenseURL" placeholder="use http:// or https://"
+                                               (input)="unsavedChangesPrompt()">
+                                        <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaURL')}">-->
+                                      </div>
+                                    </div>
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="researchProductMetadataLicenseName">
+                                        {{ researchProductMetadataLicenseNameDesc.label + (researchProductMetadataLicenseNameDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div
+                                        class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductMetadataLicenseNameDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <input id="researchProductMetadataLicenseName" class="uk-input" type="text" formControlName="researchProductMetadataLicenseName"
+                                               (input)="unsavedChangesPrompt()">
+                                        <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaName')}">-->
+                                      </div>
+                                      <i><small>Suggested length is 100 characters</small></i>
+                                    </div>
 
-
+                                  </div>
+                                  <a *ngIf="getFieldAsFormArray('researchProductMetadataLicensings').length > 1 && !disable"
+                                     class="remove-element uk-padding-small uk-display-inline-block"
+                                     (click)="removeLicensing(i); unsavedChangesPrompt();">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
                             <div formArrayName="researchProductMetadataAccessPolicy" class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="researchProductMetadataAccessPolicy">
                                 {{researchProductMetadataAccessPolicyDesc.label + (researchProductMetadataAccessPolicyDesc.mandatory ? ' (*)' : '')}}
@@ -2288,9 +2440,9 @@
                             </div>
                           </li>
                         </ul>
-                                                <pre>
-                                                  {{serviceForm.value | json}}
-                                                </pre>
+<!--                                                <pre>-->
+<!--                                                  {{serviceForm.value | json}}-->
+<!--                                                </pre>-->
                       </div>
                       <!--<button type="submit" class="btn btn-primary butn theme block full-width m-b">-->
                       <!--{{editMode ? "Update" : "Add"}}-->

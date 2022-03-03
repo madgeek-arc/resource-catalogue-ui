@@ -283,23 +283,32 @@ export class DatasourceFormComponent implements OnInit {
     submissionPolicyURL: this.fb.array([this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService))]),
     preservationPolicyURL: this.fb.array([this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService))]),
     versionControl: [''],
-    persistentIdentitySystems: [''],
-    // persistentIdentityEntityType: [''],
-    // persistentIdentityEntityTypeScheme: [''],
+    persistentIdentitySystems: this.fb.array([
+      this.fb.group({
+        persistentIdentityEntityType: ['', Validators.required],
+        persistentIdentityEntityTypeScheme: this.fb.array([this.fb.control('', Validators.required)], Validators.required)
+      })
+    ]),
 
     jurisdiction: [''],
     dataSourceClassification: [''],
     researchEntityTypes: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
     thematic: [''],
 
-    researchProductLicensing: [''],
-    // researchProductLicenseName: [''],
-    // researchProductLicenseURL: [''],
+    researchProductLicensings: this.fb.array([
+      this.fb.group({
+        researchProductLicenseName: [''],
+        researchProductLicenseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)]
+      })
+    ]),
     researchProductAccessPolicy: this.fb.array([this.fb.control('')]),
 
-    researchProductMetadataLicensing: [''],
-    // researchProductMetadataLicenseName: [''],
-    // researchProductMetadataLicenseURL: [''],
+    researchProductMetadataLicensings: this.fb.array([
+      this.fb.group({
+        researchProductMetadataLicenseName: [''],
+        researchProductMetadataLicenseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)]
+      })
+    ]),
     researchProductMetadataAccessPolicy: this.fb.array([this.fb.control('')]),
   };
 
@@ -375,6 +384,8 @@ export class DatasourceFormComponent implements OnInit {
         this.removeUseCase(i);
       }
     }
+    //TODO: ^^do the same for Licensing & Persistent Identity Systems (etc?)
+
     // console.log('this.serviceForm.valid ', this.serviceForm.valid);
     // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);
@@ -483,7 +494,7 @@ export class DatasourceFormComponent implements OnInit {
       () => {
         this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'Worldwide']);
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
-        this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
+        this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1)); //fixme: error?
 
         let voc: Vocabulary[] = this.vocabularies[Type.SUBCATEGORY].concat(this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN]);
         this.subVocabularies = this.groupByKey(voc, 'parentId');
@@ -838,6 +849,70 @@ export class DatasourceFormComponent implements OnInit {
   }
 
   /** <--Use Cases**/
+
+  /** Licensing -->**/
+  newLicensing(): FormGroup {
+    return this.fb.group({
+      researchProductLicenseName: [''],
+      researchProductLicenseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)]
+    });
+  }
+
+  get licensingArray() {
+    return this.serviceForm.get('researchProductLicensings') as FormArray;
+  }
+
+  pushLicensing() {
+    this.licensingArray.push(this.newLicensing());
+  }
+
+  removeLicensing(index: number) {
+    this.licensingArray.removeAt(index);
+  }
+  /** <--Licensing**/
+
+  /** Metadata Licensing -->**/ //TODO: revisit to simplify
+  newMetadataLicensing(): FormGroup {
+    return this.fb.group({
+      researchProductMetadataLicenseName: [''],
+      researchProductMetadataLicenseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)]
+    });
+  }
+
+  get metadataLicensingArray() {
+    return this.serviceForm.get('researchProductMetadataLicensings') as FormArray;
+  }
+
+  pushMetadataLicensing() {
+    this.metadataLicensingArray.push(this.newMetadataLicensing());
+  }
+
+  removeMetadataLicensing(index: number) {
+    this.metadataLicensingArray.removeAt(index);
+  }
+  /** <--Metadata Licensing**/
+
+  /** Persistent Identity Systems--> **/
+  newPersistentIdentitySystem(): FormGroup {
+    return this.fb.group({
+      persistentIdentityEntityType: [''],
+      persistentIdentityEntityTypeScheme: this.fb.array([this.fb.control('', Validators.required)], Validators.required)
+    });
+  }
+
+  get persistentIdentitySystemArray() {
+    return this.serviceForm.get('publicContacts') as FormArray;
+  }
+
+  pushPersistentIdentitySystem() {
+    this.persistentIdentitySystemArray.push(this.newPersistentIdentitySystem());
+  }
+
+  removePersistentIdentitySystem(index: number) {
+    this.persistentIdentitySystemArray.removeAt(index);
+  }
+
+  /** <--Persistent Identity Systems**/
 
   /** Service Contact Info -->**/
 

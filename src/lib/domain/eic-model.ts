@@ -41,23 +41,23 @@ export class Datasource extends Bundle<Service> {
   submissionPolicyURL: URL[];
   preservationPolicyURL: URL[];
   versionControl: boolean;
-  persistentIdentitySystems: PersistentIdentitySystems[];
+  persistentIdentitySystems: PersistentIdentitySystem[];
 
   jurisdiction: string;
   dataSourceClassification: string;
   researchEntityTypes: string[];
   thematic: boolean;
 
-  researchProductLicensing: ResearchProductLicensing[];
+  researchProductLicensings: ResearchProductLicensing[];
   researchProductAccessPolicy: string[];
 
-  researchProductMetadataLicensing: ResearchProductMetadataLicensing[];
+  researchProductMetadataLicensings: ResearchProductMetadataLicensing[];
   researchProductMetadataAccessPolicy: string[];
 
   service: Service;
 }
 
-export class PersistentIdentitySystems {
+export class PersistentIdentitySystem {
   persistentIdentityEntityType: string;
   persistentIdentityEntityTypeScheme: string;
 }
