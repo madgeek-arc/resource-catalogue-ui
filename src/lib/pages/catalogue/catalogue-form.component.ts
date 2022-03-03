@@ -14,23 +14,21 @@ import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-new-service-provider',
-  templateUrl: './service-provider-form.component.html',
-  styleUrls: ['./service-provider-form.component.css']
+  selector: 'app-catalogue-form',
+  templateUrl: './catalogue-form.component.html',
+  // styleUrls: ['./service-provider-form.component.css']
 })
-export class ServiceProviderFormComponent implements OnInit {
-
-  private _hasUserConsent = environment.hasUserConsent;
+export class CatalogueFormComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
-  providerId: string = null;
-  providerName = '';
+  catalogueId: string = null;
+  catalogueName = '';
   errorMessage = '';
   userInfo = {family_name: '', given_name: '', email: ''};
-  providerForm: FormGroup;
+  catalogueForm: FormGroup;
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
@@ -47,19 +45,19 @@ export class ServiceProviderFormComponent implements OnInit {
   requiredOnTab1 = 2;
   requiredOnTab3 = 4;
   requiredOnTab4 = 2;
-  requiredOnTab8 = 1;
+  requiredOnTab6 = 1;
 
   remainingOnTab0 = this.requiredOnTab0;
   remainingOnTab1 = this.requiredOnTab1;
   remainingOnTab3 = this.requiredOnTab3;
   remainingOnTab4 = this.requiredOnTab4;
-  remainingOnTab8 = this.requiredOnTab8;
+  remainingOnTab6 = this.requiredOnTab6;
 
   BitSetTab0 = new BitSet;
   BitSetTab1 = new BitSet;
   BitSetTab3 = new BitSet;
   BitSetTab4 = new BitSet;
-  BitSetTab7 = new BitSet;
+  BitSetTab6 = new BitSet;
 
   requiredTabs = 5;
   completedTabs = 0;
@@ -72,7 +70,6 @@ export class ServiceProviderFormComponent implements OnInit {
   codeOfConduct = false;
   privacyPolicy = false;
   authorizedRepresentative = false;
-  agreedToTerms: boolean;
 
   vocabularyEntryForm: FormGroup;
   suggestionsForm = {
@@ -80,78 +77,51 @@ export class ServiceProviderFormComponent implements OnInit {
     domainsVocabularyEntryValueName: '',
     categoriesVocabularyEntryValueName: '',
     placesVocabularyEntryValueName: '',
-    providerLCSVocabularyEntryValueName: '',
     networksVocabularyEntryValueName: '',
     providerTypeVocabularyEntryValueName: '',
-    esfriDomainVocabularyEntryValueName: '',
-    esfriVocabularyEntryValueName: '',
-    merilDomainsVocabularyEntryValueName: '',
-    merilCategoriesVocabularyEntryValueName: '',
-    areasOfActivityVocabularyEntryValueName: '',
-    societalGrandChallengesVocabularyEntryValueName: '',
     vocabulary: '',
     errorMessage: '',
     successMessage: ''
   };
 
-  commentControl = new FormControl();
-
-  readonly fullNameDesc: sd.Description = sd.providerDescMap.get('fullNameDesc');
-  readonly abbreviationDesc: sd.Description = sd.providerDescMap.get('abbreviationDesc');
-  readonly websiteDesc: sd.Description = sd.providerDescMap.get('websiteDesc');
-  readonly descriptionDesc: sd.Description = sd.providerDescMap.get('descriptionDesc');
-  readonly logoDesc: sd.Description = sd.providerDescMap.get('logoDesc');
-  readonly multimediaURLDesc: sd.Description = sd.providerDescMap.get('multimediaURLDesc');
-  readonly multimediaNameDesc: sd.Description = sd.providerDescMap.get('multimediaNameDesc');
-  readonly scientificDomainDesc: sd.Description = sd.providerDescMap.get('scientificDomainDesc');
-  readonly scientificSubdomainsDesc: sd.Description = sd.providerDescMap.get('scientificSubdomainsDesc');
-  readonly structureTypesDesc: sd.Description = sd.providerDescMap.get('structureTypesDesc');
-  readonly participatingCountriesDesc: sd.Description = sd.providerDescMap.get('participatingCountriesDesc');
-  readonly affiliationDesc: sd.Description = sd.providerDescMap.get('affiliationDesc');
-  readonly tagsDesc: sd.Description = sd.providerDescMap.get('tagsDesc');
-  readonly streetNameAndNumberDesc: sd.Description = sd.providerDescMap.get('streetNameAndNumberDesc');
-  readonly postalCodeDesc: sd.Description = sd.providerDescMap.get('postalCodeDesc');
-  readonly cityDesc: sd.Description = sd.providerDescMap.get('cityDesc');
-  readonly regionDesc: sd.Description = sd.providerDescMap.get('regionDesc');
-  readonly countryDesc: sd.Description = sd.providerDescMap.get('countryDesc');
-  readonly mainContactFirstNameDesc: sd.Description = sd.providerDescMap.get('mainContactFirstNameDesc');
-  readonly mainContactLastNameDesc: sd.Description = sd.providerDescMap.get('mainContactLastNameDesc');
-  readonly mainContactEmailDesc: sd.Description = sd.providerDescMap.get('mainContactEmailDesc');
-  readonly mainContactPhoneDesc: sd.Description = sd.providerDescMap.get('mainContactPhoneDesc');
-  readonly mainContactPositionDesc: sd.Description = sd.providerDescMap.get('mainContactPositionDesc');
-  readonly publicContactFirstNameDesc: sd.Description = sd.providerDescMap.get('publicContactFirstNameDesc');
-  readonly publicContactLastNameDesc: sd.Description = sd.providerDescMap.get('publicContactLastNameDesc');
-  readonly publicContactEmailDesc: sd.Description = sd.providerDescMap.get('publicContactEmailDesc');
-  readonly publicContactPhoneDesc: sd.Description = sd.providerDescMap.get('publicContactPhoneDesc');
-  readonly publicContactPositionDesc: sd.Description = sd.providerDescMap.get('publicContactPositionDesc');
-  readonly certificationsDesc: sd.Description = sd.providerDescMap.get('certificationsDesc');
-  readonly lifeCycleStatusDesc: sd.Description = sd.providerDescMap.get('lifeCycleStatusDesc');
-  readonly ESFRIDomainDesc: sd.Description = sd.providerDescMap.get('ESFRIDomainDesc');
-  readonly hostingLegalEntityDesc: sd.Description = sd.providerDescMap.get('hostingLegalEntityDesc');
-  readonly ESFRITypeDesc: sd.Description = sd.providerDescMap.get('ESFRITypeDesc');
-  readonly merilScientificDomainsDesc: sd.Description = sd.providerDescMap.get('merilScientificDomainsDesc');
-  readonly merilScientificSubdomainsDesc: sd.Description = sd.providerDescMap.get('merilScientificSubdomainsDesc');
-  readonly areasOfActivityDesc: sd.Description = sd.providerDescMap.get('areasOfActivityDesc');
-  readonly societalGrandChallengesDesc: sd.Description = sd.providerDescMap.get('societalGrandChallengesDesc');
-  readonly nationalRoadmapsDesc: sd.Description = sd.providerDescMap.get('nationalRoadmapsDesc');
-  readonly legalEntityDesc: sd.Description = sd.providerDescMap.get('legalEntityDesc');
-  readonly legalStatusDesc: sd.Description = sd.providerDescMap.get('legalStatusDesc');
-  readonly networksDesc: sd.Description = sd.providerDescMap.get('networksDesc');
-  readonly catalogueIdDesc: sd.Description = sd.providerDescMap.get('catalogueIdDesc');
+  readonly fullNameDesc: sd.Description = sd.catalogueDescMap.get('fullNameDesc');
+  readonly abbreviationDesc: sd.Description = sd.catalogueDescMap.get('abbreviationDesc');
+  readonly websiteDesc: sd.Description = sd.catalogueDescMap.get('websiteDesc');
+  readonly descriptionDesc: sd.Description = sd.catalogueDescMap.get('descriptionDesc');
+  readonly logoDesc: sd.Description = sd.catalogueDescMap.get('logoDesc');
+  readonly multimediaURLDesc: sd.Description = sd.catalogueDescMap.get('multimediaURLDesc');
+  readonly multimediaNameDesc: sd.Description = sd.catalogueDescMap.get('multimediaNameDesc');
+  readonly scientificDomainDesc: sd.Description = sd.catalogueDescMap.get('scientificDomainDesc');
+  readonly scientificSubdomainsDesc: sd.Description = sd.catalogueDescMap.get('scientificSubdomainsDesc');
+  readonly participatingCountriesDesc: sd.Description = sd.catalogueDescMap.get('participatingCountriesDesc');
+  readonly affiliationDesc: sd.Description = sd.catalogueDescMap.get('affiliationDesc');
+  readonly tagsDesc: sd.Description = sd.catalogueDescMap.get('tagsDesc');
+  readonly streetNameAndNumberDesc: sd.Description = sd.catalogueDescMap.get('streetNameAndNumberDesc');
+  readonly postalCodeDesc: sd.Description = sd.catalogueDescMap.get('postalCodeDesc');
+  readonly cityDesc: sd.Description = sd.catalogueDescMap.get('cityDesc');
+  readonly regionDesc: sd.Description = sd.catalogueDescMap.get('regionDesc');
+  readonly countryDesc: sd.Description = sd.catalogueDescMap.get('countryDesc');
+  readonly mainContactFirstNameDesc: sd.Description = sd.catalogueDescMap.get('mainContactFirstNameDesc');
+  readonly mainContactLastNameDesc: sd.Description = sd.catalogueDescMap.get('mainContactLastNameDesc');
+  readonly mainContactEmailDesc: sd.Description = sd.catalogueDescMap.get('mainContactEmailDesc');
+  readonly mainContactPhoneDesc: sd.Description = sd.catalogueDescMap.get('mainContactPhoneDesc');
+  readonly mainContactPositionDesc: sd.Description = sd.catalogueDescMap.get('mainContactPositionDesc');
+  readonly publicContactFirstNameDesc: sd.Description = sd.catalogueDescMap.get('publicContactFirstNameDesc');
+  readonly publicContactLastNameDesc: sd.Description = sd.catalogueDescMap.get('publicContactLastNameDesc');
+  readonly publicContactEmailDesc: sd.Description = sd.catalogueDescMap.get('publicContactEmailDesc');
+  readonly publicContactPhoneDesc: sd.Description = sd.catalogueDescMap.get('publicContactPhoneDesc');
+  readonly publicContactPositionDesc: sd.Description = sd.catalogueDescMap.get('publicContactPositionDesc');
+  readonly hostingLegalEntityDesc: sd.Description = sd.catalogueDescMap.get('hostingLegalEntityDesc');
+  readonly legalEntityDesc: sd.Description = sd.catalogueDescMap.get('legalEntityDesc');
+  readonly legalStatusDesc: sd.Description = sd.catalogueDescMap.get('legalStatusDesc');
+  readonly networksDesc: sd.Description = sd.catalogueDescMap.get('networksDesc');
 
   placesVocabulary: Vocabulary[] = null;
   providerTypeVocabulary: Vocabulary[] = null;
-  providerLCSVocabulary: Vocabulary[] = null;
   domainsVocabulary: Vocabulary[] = null;
   categoriesVocabulary: Vocabulary[] = null;
-  merilDomainsVocabulary: Vocabulary[] = null;
-  merilCategoriesVocabulary: Vocabulary[] = null;
-  esfriDomainVocabulary: Vocabulary[] = null;
   legalStatusVocabulary: Vocabulary[] = null;
-  esfriVocabulary: Vocabulary[] = null;
-  areasOfActivityVocabulary: Vocabulary[] = null;
   networksVocabulary: Vocabulary[] = null;
-  societalGrandChallengesVocabulary: Vocabulary[] = null;
   hostingLegalEntityVocabulary: Vocabulary[] = null;
 
   readonly formDefinition = {
@@ -199,21 +169,9 @@ export class ServiceProviderFormComponent implements OnInit {
         position: [''],
       })
     ]),
-    lifeCycleStatus: [''],
-    certifications: this.fb.array([this.fb.control('')]),
     participatingCountries: this.fb.array([this.fb.control('')]),
     affiliations: this.fb.array([this.fb.control('')]),
     networks: this.fb.array([this.fb.control('')]),
-    catalogueId: [''],
-    structureTypes: this.fb.array([this.fb.control('')]),
-    esfriDomains: this.fb.array([this.fb.control('')]),
-    esfriType: [''],
-    merilScientificDomains: this.fb.array([]),
-    // merilScientificDomain: this.fb.array([]),
-    // merilScientificSubdomains: this.fb.array([]),
-    areasOfActivity: this.fb.array([this.fb.control('')]),
-    societalGrandChallenges: this.fb.array([this.fb.control('')]),
-    nationalRoadmaps: this.fb.array([this.fb.control('')]),
     users: this.fb.array([this.user()])
   };
 
@@ -228,17 +186,16 @@ export class ServiceProviderFormComponent implements OnInit {
   ngOnInit() {
 
     const path = this.route.snapshot.routeConfig.path;
-    if (path.includes('add/:providerId')) {
+    if (path.includes('add/:catalogueId')) {
       this.pendingProvider = true;
     }
-    // if (path.includes('info/:providerId')) {
+    // if (path.includes('info/:catalogueId')) {
     //   this.pendingProvider = true;
     // }
     this.setVocabularies();
-    this.providerForm = this.fb.group(this.formDefinition);
+    this.catalogueForm = this.fb.group(this.formDefinition);
     if (this.edit === false) {
       this.pushDomain();
-      this.pushMerilDomain();
       this.addDefaultUser();  // Admin + mainContact
       // this.providerForm.get('legalEntity').setValue(false);
     }
@@ -252,14 +209,10 @@ export class ServiceProviderFormComponent implements OnInit {
             for (let j = 0; j < data[i].length - 1; j++) {
               if (i === 'scientificDomains') {
                 this.domainArray.push(this.newScientificDomain());
-              } else if (i === 'merilScientificDomains') {
-                this.merilDomainArray.push(this.newMerilScientificDomain());
               } else if (i === 'publicContacts') {
                 this.pushPublicContact();
               } else if (i === 'users') {
                 this.addUser();
-              } else if (i === 'structureTypes') {
-                this.push(i, true);
               } else if (i === 'multimedia') {
                 this.pushMultimedia();
               } else {
@@ -269,27 +222,9 @@ export class ServiceProviderFormComponent implements OnInit {
           }
         }
       }
-      this.providerForm.patchValue(data);
+      this.catalogueForm.patchValue(data);
       if (!this.edit) {
         sessionStorage.removeItem('provider');
-      }
-    }
-
-    if (this._hasUserConsent) {
-      if (this.edit) {
-        this.serviceProviderService.hasAdminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
-          boolean => { this.agreedToTerms = boolean; },
-          error => console.log(error),
-          () => {
-            if (!this.agreedToTerms) {
-              UIkit.modal('#modal-consent').show();
-            }
-          }
-        );
-      } else {
-        if (!this.agreedToTerms) {
-          UIkit.modal('#modal-consent').show();
-        }
       }
     }
 
@@ -300,11 +235,10 @@ export class ServiceProviderFormComponent implements OnInit {
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
   }
 
-  registerProvider(tempSave: boolean) {
+  registerCatalogue(tempSave: boolean) {
     // console.log('Submit');
-    // console.log(this.commentControl.value);
     if (!this.authService.isLoggedIn()) {
-      sessionStorage.setItem('provider', JSON.stringify(this.providerForm.value));
+      sessionStorage.setItem('provider', JSON.stringify(this.catalogueForm.value));
       this.authService.login();
     }
 
@@ -312,24 +246,16 @@ export class ServiceProviderFormComponent implements OnInit {
     // this.trimFormWhiteSpaces();
     const path = this.route.snapshot.routeConfig.path;
     let method;
-    if (path === 'add/:providerId') {
+    if (path === 'add/:catalogueId') {
       method = 'updateAndPublishPendingProvider';
     } else {
-      method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
+      method = this.edit ? 'updateCatalogue' : 'createNewCatalogue';
     }
 
     for (let i = 0; i < this.domainArray.length; i++) {
       if (this.domainArray.controls[i].get('scientificDomain').value === ''
         || this.domainArray.controls[i].get('scientificDomain').value === null) {
         this.removeDomain(i);
-      }
-    }
-
-    for (let i = 0; i < this.merilDomainArray.length; i++) {
-      if (this.merilDomainArray.controls[i].get('merilScientificDomain').value === ''
-        || this.merilDomainArray.controls[i].get('merilScientificDomain').value === null) {
-        // console.log(this.merilDomainArray.controls[i]);
-        this.removeMerilDomain(i);
       }
     }
 
@@ -343,7 +269,7 @@ export class ServiceProviderFormComponent implements OnInit {
     if (tempSave) {
       this.showLoader = true;
       window.scrollTo(0, 0);
-      this.serviceProviderService.temporarySaveProvider(this.providerForm.value, (path !== 'add/:providerId' && this.edit))
+      this.serviceProviderService.temporarySaveProvider(this.catalogueForm.value, (path !== 'add/:catalogueId' && this.edit))
         .subscribe(
           res => {
             this.showLoader = false;
@@ -358,11 +284,11 @@ export class ServiceProviderFormComponent implements OnInit {
             this.showLoader = false;
           }
         );
-    } else if (this.providerForm.valid) {
+    } else if (this.catalogueForm.valid) {
       this.showLoader = true;
       window.scrollTo(0, 0);
 
-      this.serviceProviderService[method](this.providerForm.value, this.commentControl.value).subscribe(
+      this.serviceProviderService[method](this.catalogueForm.value).subscribe(
         res => {
         },
         err => {
@@ -415,16 +341,16 @@ export class ServiceProviderFormComponent implements OnInit {
       }
       ret[name] = newValues;
     });
-    // if ( (this.firstServiceForm === true) && this.providerId) {
+    // if ( (this.firstServiceForm === true) && this.catalogueId) {
     //   ret['providers'] = [];
-    //   ret['providers'].push(this.providerId);
+    //   ret['providers'].push(this.catalogueId);
     // }
     return <Provider>ret;
   }
 
   /** check form fields and tabs validity--> **/
   checkFormValidity(name: string, edit: boolean): boolean {
-    return (!this.providerForm.get(name).valid && (edit || this.providerForm.get(name).dirty));
+    return (!this.catalogueForm.get(name).valid && (edit || this.catalogueForm.get(name).dirty));
   }
 
   checkFormArrayValidity(name: string, position: number, edit: boolean, groupName?: string): boolean {
@@ -464,8 +390,7 @@ export class ServiceProviderFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('multimedia', this.edit, 'multimediaName'));
     this.tabs[2] = (this.checkEveryArrayFieldValidity('tags', this.edit)
       || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificDomain')
-      || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificSubdomain')
-      || this.checkEveryArrayFieldValidity('structureTypes', this.edit));
+      || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificSubdomain'));
     this.tabs[3] = (this.checkFormValidity('location.streetNameAndNumber', this.edit)
       || this.checkFormValidity('location.postalCode', this.edit)
       || this.checkFormValidity('location.city', this.edit)
@@ -481,20 +406,10 @@ export class ServiceProviderFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'email')
       || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'phone')
       || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'position'));
-    this.tabs[5] = (this.checkFormValidity('lifeCycleStatus', this.edit)
-      || this.checkEveryArrayFieldValidity('certifications', this.edit));
-    this.tabs[6] = (this.checkEveryArrayFieldValidity('participatingCountries', this.edit)
+    this.tabs[5] = (this.checkEveryArrayFieldValidity('participatingCountries', this.edit)
       || this.checkEveryArrayFieldValidity('affiliations', this.edit)
-      || this.checkEveryArrayFieldValidity('networks', this.edit)
-      || this.checkEveryArrayFieldValidity('catalogueId', this.edit));
-    this.tabs[7] = (this.checkEveryArrayFieldValidity('esfriDomains', this.edit)
-      || this.checkFormValidity('esfriType', this.edit)
-      || this.checkEveryArrayFieldValidity('merilScientificDomains', this.edit, 'merilScientificDomain')
-      || this.checkEveryArrayFieldValidity('merilScientificDomains', this.edit, 'merilScientificSubdomain')
-      || this.checkEveryArrayFieldValidity('areasOfActivity', this.edit)
-      || this.checkEveryArrayFieldValidity('societalGrandChallenges', this.edit)
-      || this.checkEveryArrayFieldValidity('nationalRoadmaps', this.edit));
-    this.tabs[8] = (this.checkEveryArrayFieldValidity('users', this.edit, 'name')
+      || this.checkEveryArrayFieldValidity('networks', this.edit));
+    this.tabs[6] = (this.checkEveryArrayFieldValidity('users', this.edit, 'name')
       || this.checkEveryArrayFieldValidity('users', this.edit, 'surname')
       || this.checkEveryArrayFieldValidity('users', this.edit, 'email'));
   }
@@ -507,18 +422,10 @@ export class ServiceProviderFormComponent implements OnInit {
       res => {
         this.vocabularies = res;
         this.placesVocabulary = this.vocabularies[Type.COUNTRY];
-        this.providerTypeVocabulary = this.vocabularies[Type.PROVIDER_STRUCTURE_TYPE];
-        this.providerLCSVocabulary = this.vocabularies[Type.PROVIDER_LIFE_CYCLE_STATUS];
         this.domainsVocabulary = this.vocabularies[Type.SCIENTIFIC_DOMAIN];
         this.categoriesVocabulary = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
-        this.merilDomainsVocabulary = this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_DOMAIN];
-        this.merilCategoriesVocabulary = this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN];
-        this.esfriDomainVocabulary = this.vocabularies[Type.PROVIDER_ESFRI_DOMAIN];
         this.legalStatusVocabulary = this.vocabularies[Type.PROVIDER_LEGAL_STATUS];
-        this.esfriVocabulary = this.vocabularies[Type.PROVIDER_ESFRI_TYPE];
-        this.areasOfActivityVocabulary = this.vocabularies[Type.PROVIDER_AREA_OF_ACTIVITY];
         this.networksVocabulary = this.vocabularies[Type.PROVIDER_NETWORK];
-        this.societalGrandChallengesVocabulary = this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
         this.hostingLegalEntityVocabulary = this.vocabularies[Type.PROVIDER_HOSTING_LEGAL_ENTITY];
         return this.vocabularies;
       },
@@ -543,7 +450,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   get domainArray() {
-    return this.providerForm.get('scientificDomains') as FormArray;
+    return this.catalogueForm.get('scientificDomains') as FormArray;
   }
 
   pushDomain() {
@@ -562,37 +469,9 @@ export class ServiceProviderFormComponent implements OnInit {
 
   /** <-- Categorization **/
 
-  /** MERIL scientificDomains --> **/
-  newMerilScientificDomain(): FormGroup {
-    return this.fb.group({
-      merilScientificDomain: [''],
-      merilScientificSubdomain: ['']
-    });
-  }
-
-  get merilDomainArray() {
-    return this.providerForm.get('merilScientificDomains') as FormArray;
-  }
-
-  pushMerilDomain() {
-    this.merilDomainArray.push(this.newMerilScientificDomain());
-    this.merilDomainArray.controls[this.merilDomainArray.length - 1].get('merilScientificSubdomain').disable();
-  }
-
-  removeMerilDomain(index: number) {
-    this.merilDomainArray.removeAt(index);
-  }
-
-  onMerilDomainChange(index: number) {
-    this.merilDomainArray.controls[index].get('merilScientificSubdomain').enable();
-    this.merilDomainArray.controls[index].get('merilScientificSubdomain').reset();
-  }
-
-  /** <-- MERIL Categorization **/
-
   /** handle form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.providerForm.get(field) as FormArray;
+    return this.catalogueForm.get(field) as FormArray;
   }
 
   remove(field: string, i: number) {
@@ -624,7 +503,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   get multimediaArray() {
-    return this.providerForm.get('multimedia') as FormArray;
+    return this.catalogueForm.get('multimedia') as FormArray;
   }
 
   pushMultimedia() {
@@ -649,7 +528,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   get publicContactArray() {
-    return this.providerForm.get('publicContacts') as FormArray;
+    return this.catalogueForm.get('publicContacts') as FormArray;
   }
 
   pushPublicContact() {
@@ -673,7 +552,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   get usersArray() { // return form fields as array
-    return this.providerForm.get('users') as FormArray;
+    return this.catalogueForm.get('users') as FormArray;
   }
 
   addUser() {
@@ -696,16 +575,16 @@ export class ServiceProviderFormComponent implements OnInit {
     this.usersArray.controls[0].get('name').setValue(this.userInfo.given_name);
     this.usersArray.controls[0].get('surname').setValue(this.userInfo.family_name);
     this.usersArray.controls[0].get('email').setValue(this.userInfo.email);
-    this.providerForm.controls['mainContact'].get('firstName').setValue(this.userInfo.given_name);
-    this.providerForm.controls['mainContact'].get('lastName').setValue(this.userInfo.family_name);
-    this.providerForm.controls['mainContact'].get('email').setValue(this.userInfo.email);
+    this.catalogueForm.controls['mainContact'].get('firstName').setValue(this.userInfo.given_name);
+    this.catalogueForm.controls['mainContact'].get('lastName').setValue(this.userInfo.family_name);
+    this.catalogueForm.controls['mainContact'].get('email').setValue(this.userInfo.email);
   }
 
   /** <-- User Array**/
 
   showLogoUrlModal() {
-    if (this.providerForm && this.providerForm.get('logo').value) {
-      this.logoUrl = this.providerForm.get('logo').value;
+    if (this.catalogueForm && this.catalogueForm.get('logo').value) {
+      this.logoUrl = this.catalogueForm.get('logo').value;
     }
     UIkit.modal('#logoUrlModal').show();
   }
@@ -713,8 +592,8 @@ export class ServiceProviderFormComponent implements OnInit {
   addLogoUrl(logoUrl: string) {
     UIkit.modal('#logoUrlModal').hide();
     this.logoUrl = logoUrl;
-    this.providerForm.get('logo').setValue(logoUrl);
-    this.providerForm.get('logo').updateValueAndValidity();
+    this.catalogueForm.get('logo').setValue(logoUrl);
+    this.catalogueForm.get('logo').updateValueAndValidity();
   }
 
   getSortedChildrenCategories(childrenCategory: Vocabulary[], parentId: string) {
@@ -734,21 +613,21 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   markFormAsDirty() {
-    for (const i in this.providerForm.controls) {
-      for (const j in this.providerForm.controls[i].value) {
+    for (const i in this.catalogueForm.controls) {
+      for (const j in this.catalogueForm.controls[i].value) {
         // console.log(this.providerForm.controls[i].value);
-        if (this.providerForm.controls[i].value.hasOwnProperty(j)) {
-          if (this.providerForm.controls[i].get(j)) {
-            if (this.providerForm.controls[i].get(j).value.constructor !== Array) {
-              this.providerForm.controls[i].get(j).markAsDirty();
-              this.providerForm.controls[i].get(j).markAsTouched();
+        if (this.catalogueForm.controls[i].value.hasOwnProperty(j)) {
+          if (this.catalogueForm.controls[i].get(j)) {
+            if (this.catalogueForm.controls[i].get(j).value.constructor !== Array) {
+              this.catalogueForm.controls[i].get(j).markAsDirty();
+              this.catalogueForm.controls[i].get(j).markAsTouched();
             }
           }
         }
       }
-      if (this.providerForm.controls[i].value.constructor === Array) {
+      if (this.catalogueForm.controls[i].value.constructor === Array) {
         for (let j = 0; j < this.getFieldAsFormArray(i).controls.length; j++) {
-          const keys = Object.keys(this.providerForm.controls[i].value[j]);
+          const keys = Object.keys(this.catalogueForm.controls[i].value[j]);
           for (let k = 0; k < keys.length; k++) {
             if (this.getFieldAsFormArray(i).controls[j].get(keys[k])) {
               this.getFieldAsFormArray(i).controls[j].get(keys[k]).markAsTouched();
@@ -757,11 +636,11 @@ export class ServiceProviderFormComponent implements OnInit {
           }
         }
       }
-      this.providerForm.controls[i].markAsDirty();
+      this.catalogueForm.controls[i].markAsDirty();
     }
   }
 
-  trimFormWhiteSpaces() {
+  /*trimFormWhiteSpaces() {
     for (const i in this.providerForm.controls) {
       // console.log(i);
       if (this.providerForm.controls[i].value && this.providerForm.controls[i].value.constructor === Array) {
@@ -794,17 +673,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
       }
     }
-    if (this.providerForm.controls['merilScientificDomains'] && this.providerForm.controls['merilScientificDomains'].value) {
-
-      if (this.providerForm.controls['merilScientificDomains'].value.length === 1
-        && !this.providerForm.controls['merilScientificDomains'].value[0].merilScientificDomain
-        && !this.providerForm.controls['merilScientificDomains'].value[0].merilScientificSubdomain) {
-
-        this.removeMerilDomain(0);
-
-      }
-    }
-  }
+  }*/
 
   unsavedChangesPrompt() {
     this.hasChanges = true;
@@ -826,22 +695,11 @@ export class ServiceProviderFormComponent implements OnInit {
           }
         }
       }
-    } else if (group === 'merilScientificDomains') {
-      for (let i = 0; i < this.merilDomainArray.controls.length; i++) {
-        for (let j = 0; j <  this.merilDomainArray.controls.length; j++) {
-          if (i !== j && this.merilDomainArray.controls[i].get('merilScientificDomain').value === this.merilDomainArray.controls[j].get('merilScientificDomain').value ) {
-            if (this.merilDomainArray.controls[i].get('merilScientificSubdomain').value === this.merilDomainArray.controls[j].get('merilScientificSubdomain').value) {
-              this.showNotification();
-              return;
-            }
-          }
-        }
-      }
     } else {
-      if (this.providerForm.get(formControlName).value.length > 1) {
-        for (let i = 0; i < this.providerForm.get(formControlName).value.length; i++) {
-          for (let j = 0; j < this.providerForm.get(formControlName).value.length; j++) {
-            if (i !== j && this.providerForm.get(formControlName).value[i] === this.providerForm.get(formControlName).value[j]) {
+      if (this.catalogueForm.get(formControlName).value.length > 1) {
+        for (let i = 0; i < this.catalogueForm.get(formControlName).value.length; i++) {
+          for (let j = 0; j < this.catalogueForm.get(formControlName).value.length; j++) {
+            if (i !== j && this.catalogueForm.get(formControlName).value[i] === this.catalogueForm.get(formControlName).value[j]) {
               this.showNotification();
               return;
             }
@@ -854,15 +712,15 @@ export class ServiceProviderFormComponent implements OnInit {
   /** BitSets -->**/
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
     if (bitIndex === 0) {
-      this.providerName = this.providerForm.get(formControlName).value;
+      this.catalogueName = this.catalogueForm.get(formControlName).value;
     }
-    if (this.providerForm.get(formControlName).valid || (this.providerForm.get(formControlName).disabled && this.providerForm.get(formControlName).value != '')) {
+    if (this.catalogueForm.get(formControlName).valid || (this.catalogueForm.get(formControlName).disabled && this.catalogueForm.get(formControlName).value != '')) {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 1);
-    } else if (this.providerForm.get(formControlName).invalid) {
+    } else if (this.catalogueForm.get(formControlName).invalid) {
       this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 0);
-    } else if (this.providerForm.get(formControlName).pending) {
+    } else if (this.catalogueForm.get(formControlName).pending) {
       this.timeOut(300).then( () => this.handleBitSets(tabNum, bitIndex, formControlName));
       return;
     }
@@ -870,10 +728,10 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-    if (this.providerForm.controls[group].get(formControlName).valid || (this.providerForm.controls[group].get(formControlName).disabled && this.providerForm.controls[group].get(formControlName).value != '')) {
+    if (this.catalogueForm.controls[group].get(formControlName).valid || (this.catalogueForm.controls[group].get(formControlName).disabled && this.catalogueForm.controls[group].get(formControlName).value != '')) {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 1);
-    } else if (this.providerForm.controls[group].get(formControlName).invalid) {
+    } else if (this.catalogueForm.controls[group].get(formControlName).invalid) {
       this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 0);
     }
@@ -881,7 +739,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   handleBitSetsOfPublicContact(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-    if (this.providerForm.get(group).value[0][formControlName] !== '' && this.providerForm.controls[group].valid || this.providerForm.controls[group].disabled) {
+    if (this.catalogueForm.get(group).value[0][formControlName] !== '' && this.catalogueForm.controls[group].valid || this.catalogueForm.controls[group].disabled) {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 1);
     } else {
@@ -892,7 +750,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   handleBitSetsOfUsers(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-    if (this.providerForm.get(group).value[0][formControlName] !== '') {
+    if (this.catalogueForm.get(group).value[0][formControlName] !== '') {
       this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
       this.loaderBitSet.set(bitIndex, 1);
     } else {
@@ -903,9 +761,9 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   initUserBitSets() {
-    this.handleBitSetsOfUsers(7, 12, 'name', 'users');
-    this.handleBitSetsOfUsers(7, 13, 'surname', 'users');
-    this.handleBitSetsOfUsers(7, 14, 'email', 'users');
+    this.handleBitSetsOfUsers(6, 12, 'name', 'users');
+    this.handleBitSetsOfUsers(6, 13, 'surname', 'users');
+    this.handleBitSetsOfUsers(6, 14, 'email', 'users');
     this.handleBitSetsOfGroups(4, 9, 'firstName', 'mainContact');
     this.handleBitSetsOfGroups(4, 10, 'lastName', 'mainContact');
     this.handleBitSetsOfGroups(4, 11, 'email', 'mainContact');
@@ -944,10 +802,10 @@ export class ServiceProviderFormComponent implements OnInit {
       if (this.remainingOnTab4 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
         this.calcCompletedTabs(tabNum, 1);
       }
-    } else if (tabNum === 7) { // Admins
-      this.BitSetTab7.set(bitIndex, 1);
-      if (this.BitSetTab7.cardinality() === 3) {
-        this.remainingOnTab8 = 0;
+    } else if (tabNum === 6) { // Admins
+      this.BitSetTab6.set(bitIndex, 1);
+      if (this.BitSetTab6.cardinality() === 3) {
+        this.remainingOnTab6 = 0;
         if (this.completedTabsBitSet.get(tabNum) !== 1) {
           this.calcCompletedTabs(tabNum, 1);
         }
@@ -981,9 +839,9 @@ export class ServiceProviderFormComponent implements OnInit {
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }
-    } else if (tabNum === 7) { // Admins
-      this.BitSetTab7.set(bitIndex, 0);
-      this.remainingOnTab8 = this.requiredOnTab8;
+    } else if (tabNum === 6) { // Admins
+      this.BitSetTab6.set(bitIndex, 0);
+      this.remainingOnTab6 = this.requiredOnTab6;
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }
@@ -997,46 +855,9 @@ export class ServiceProviderFormComponent implements OnInit {
 
   /** <--BitSets **/
 
-  /** Terms Modal--> **/
-  toggleTerm(term) {
-    if (term === 'privacyPolicy') {
-      this.privacyPolicy = !this.privacyPolicy;
-    } else if (term === 'authorizedRepresentative') {
-      this.authorizedRepresentative = !this.authorizedRepresentative;
-    }
-    this.checkTerms();
-  }
-
-  checkTerms() {
-    this.agreedToTerms = this.privacyPolicy && this.authorizedRepresentative;
-  }
-
-  acceptTerms() {
-    if (this._hasUserConsent && this.edit) {
-      this.serviceProviderService.adminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
-        res => {},
-        error => { console.log(error); },
-        () => {}
-      );
-    }
-  }
-
-  /** <--Terms Modal **/
-
-  /** Submit Comment Modal--> **/
-  showCommentModal() {
-    if (this.edit && !this.pendingProvider) {
-      UIkit.modal('#commentModal').show();
-    } else {
-      this.registerProvider(false);
-    }
-  }
-
-  /** <--Submit Comment Modal **/
-
   submitSuggestion(entryValueName, vocabulary, parent) {
     if (entryValueName.trim() !== '') {
-      this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'provider', this.providerId, null).subscribe(
+      this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'provider', this.catalogueId, null).subscribe(
         res => {
         },
         error => {
@@ -1070,6 +891,6 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   resetLegalStatus() {
-    this.providerForm.get('legalStatus').setValue('');
+    this.catalogueForm.get('legalStatus').setValue('');
   }
 }

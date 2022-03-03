@@ -1,19 +1,20 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DatePipe} from '@angular/common';
-import {ServiceFormComponent} from './service-form.component';
+import {DatasourceFormComponent} from "./datasource-form.component";
 import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
 import {Service} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 
+
 @Component({
-  selector: 'app-service-edit',
-  templateUrl: './service-form.component.html',
-  styleUrls: ['../provider/service-provider-form.component.css']
+  selector: 'app-update-datasource',
+  templateUrl: './datasource-form.component.html',
+  // styleUrls: ['../provider/service-provider-form.component.css']
 })
-export class ServiceEditComponent extends ServiceFormComponent implements OnInit {
+export class UpdateDatasourceComponent extends DatasourceFormComponent implements OnInit {
   private sub: Subscription;
 
   // private serviceID: string;
@@ -41,29 +42,29 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
         // this.resourceService.getService(this.serviceID).subscribe(service => {
         this.resourceService[this.pendingService ? 'getPendingService' : 'getRichService'](this.serviceID)
           .subscribe(richService => {
-            ResourceService.removeNulls(richService.service);
-            this.formPrepare(richService);
-            this.serviceForm.patchValue(richService.service);
-            for (const i in this.serviceForm.controls) {
-              if (this.serviceForm.controls[i].value === null) {
-                this.serviceForm.controls[i].setValue('');
+              ResourceService.removeNulls(richService.service);
+              this.formPrepare(richService);
+              this.serviceForm.patchValue(richService.service);
+              for (const i in this.serviceForm.controls) {
+                if (this.serviceForm.controls[i].value === null) {
+                  this.serviceForm.controls[i].setValue('');
+                }
               }
+              if (this.serviceForm.get('lastUpdate').value) {
+                const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
+                this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
+              }
+            },
+            err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error,
+            () => {
+              if (window.location.href.indexOf('/add/use-template') > -1) {
+                this.editMode = false;
+                this.serviceForm.get('id').setValue('');
+                this.serviceForm.get('name').setValue('');
+              }
+              this.initServiceBitSets();
             }
-            if (this.serviceForm.get('lastUpdate').value) {
-              const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
-              this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
-            }
-          },
-          err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error,
-          () => {
-            if (window.location.href.indexOf('/add/use-template') > -1) {
-              this.editMode = false;
-              this.serviceForm.get('id').setValue('');
-              this.serviceForm.get('name').setValue('');
-            }
-            this.initServiceBitSets();
-          }
-        );
+          );
       });
     }
   }

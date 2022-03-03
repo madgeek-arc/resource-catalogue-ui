@@ -4,7 +4,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {UserService} from '../../services/user.service';
-import * as sd from './services.description';
+import * as sd from '../provider-resources/services.description';
 import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
 import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
@@ -18,11 +18,11 @@ import {ServiceProviderService} from '../../services/service-provider.service';
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-service-form',
-  templateUrl: './service-form.component.html',
-  styleUrls: ['../provider/service-provider-form.component.css']
+  selector: 'app-datasource-form',
+  templateUrl: './datasource-form.component.html',
+  // styleUrls: ['../provider/service-provider-form.component.css']
 })
-export class ServiceFormComponent implements OnInit {
+export class DatasourceFormComponent implements OnInit {
   protected _marketplaceBaseURL = environment.marketplaceBaseURL;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
@@ -41,7 +41,7 @@ export class ServiceFormComponent implements OnInit {
   errorMessage = '';
   successMessage: string = null;
   weights: string[] = [];
-  tabs: boolean[] = [false, false, false, false, false, false, false, false, false, false, false, false];
+  tabs: boolean[] = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
   fb: FormBuilder = this.injector.get(FormBuilder);
   disable = false;
   isPortalAdmin = false;
@@ -54,6 +54,7 @@ export class ServiceFormComponent implements OnInit {
   requiredOnTab6 = 1;
   requiredOnTab9 = 2;
   requiredOnTab10 = 1;
+  requiredOnTab13 = 4;
 
   remainingOnTab0 = this.requiredOnTab0;
   remainingOnTab1 = this.requiredOnTab1;
@@ -63,6 +64,7 @@ export class ServiceFormComponent implements OnInit {
   remainingOnTab6 = this.requiredOnTab6;
   remainingOnTab9 = this.requiredOnTab9;
   remainingOnTab10 = this.requiredOnTab10;
+  remainingOnTab13 = this.requiredOnTab13;
 
   BitSetTab0 = new BitSet;
   BitSetTab1 = new BitSet;
@@ -72,12 +74,15 @@ export class ServiceFormComponent implements OnInit {
   BitSetTab6 = new BitSet;
   BitSetTab9 = new BitSet;
   BitSetTab10 = new BitSet;
+  BitSetTab13 = new BitSet;
 
-  requiredTabs = 8;
+  // requiredTabs = 8;
+  requiredTabs = 9;
   completedTabs = 0;
   completedTabsBitSet = new BitSet;
 
-  allRequiredFields = 24;
+  // allRequiredFields = 24;
+  allRequiredFields = 28;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
@@ -171,6 +176,24 @@ export class ServiceFormComponent implements OnInit {
   readonly useCaseURLDesc: sd.Description = sd.serviceDescMap.get('useCaseURLDesc');
   readonly useCaseNameDesc: sd.Description = sd.serviceDescMap.get('useCaseNameDesc');
 
+  readonly submissionPolicyURLDesc: sd.Description = sd.datasourceDescMap.get('submissionPolicyURLDesc');
+  readonly preservationPolicyURLDesc: sd.Description = sd.datasourceDescMap.get('preservationPolicyURLDesc');
+  readonly versionControlDesc: sd.Description = sd.datasourceDescMap.get('versionControlDesc');
+  readonly persistentIdentityEntityTypeDesc: sd.Description = sd.datasourceDescMap.get('persistentIdentityEntityTypeDesc');
+  readonly persistentIdentityEntityTypeSchemeDesc: sd.Description = sd.datasourceDescMap.get('persistentIdentityEntityTypeSchemeDesc');
+
+  readonly jurisdictionDesc: sd.Description = sd.datasourceDescMap.get('jurisdictionDesc');
+  readonly dataSourceClassificationDesc: sd.Description = sd.datasourceDescMap.get('dataSourceClassificationDesc');
+  readonly researchEntityTypesDesc: sd.Description = sd.datasourceDescMap.get('researchEntityTypesDesc');
+  readonly thematicDesc: sd.Description = sd.datasourceDescMap.get('thematicDesc');
+
+  readonly researchProductLicenseNameDesc: sd.Description = sd.datasourceDescMap.get('researchProductLicenseNameDesc');
+  readonly researchProductLicenseURLDesc: sd.Description = sd.datasourceDescMap.get('researchProductLicenseURLDesc');
+  readonly researchProductAccessPolicyDesc: sd.Description = sd.datasourceDescMap.get('researchProductAccessPolicyDesc');
+
+  readonly researchProductMetadataLicenseNameDesc: sd.Description = sd.datasourceDescMap.get('researchProductMetadataLicenseNameDesc');
+  readonly researchProductMetadataLicenseURLDesc: sd.Description = sd.datasourceDescMap.get('researchProductMetadataLicenseURLDesc');
+  readonly researchProductMetadataAccessPolicyDesc: sd.Description = sd.datasourceDescMap.get('researchProductMetadataAccessPolicyDesc');
 
   formGroupMeta = {
     id: [''],
@@ -255,7 +278,38 @@ export class ServiceFormComponent implements OnInit {
     ]),
 
     categories: this.fb.array([], Validators.required),
-    scientificDomains: this.fb.array([], Validators.required)
+    scientificDomains: this.fb.array([], Validators.required),
+
+    submissionPolicyURL: this.fb.array([this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService))]),
+    preservationPolicyURL: this.fb.array([this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService))]),
+    versionControl: [''],
+    persistentIdentitySystems: this.fb.array([
+      this.fb.group({
+        persistentIdentityEntityType: ['', Validators.required],
+        persistentIdentityEntityTypeScheme: this.fb.array([this.fb.control('', Validators.required)], Validators.required)
+      })
+    ]),
+
+    jurisdiction: [''],
+    dataSourceClassification: [''],
+    researchEntityTypes: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
+    thematic: [''],
+
+    researchProductLicensings: this.fb.array([
+      this.fb.group({
+        researchProductLicenseName: [''],
+        researchProductLicenseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)]
+      })
+    ]),
+    researchProductAccessPolicy: this.fb.array([this.fb.control('')]),
+
+    researchProductMetadataLicensings: this.fb.array([
+      this.fb.group({
+        researchProductMetadataLicenseName: [''],
+        researchProductMetadataLicenseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)]
+      })
+    ]),
+    researchProductMetadataAccessPolicy: this.fb.array([this.fb.control('')]),
   };
 
   providersPage: Paging<Provider>;
@@ -288,6 +342,11 @@ export class ServiceFormComponent implements OnInit {
   public geographicalVocabulary: Vocabulary[] = null;
   public languagesVocabulary: Vocabulary[] = null;
   public languagesVocIdArray: string[] = [];
+  public jurisdictionVocabulary: Vocabulary[] = null;
+  public classificationVocabulary: Vocabulary[] = null;
+  public researchEntityTypeVocabulary: Vocabulary[] = null;
+  public persistentIdentitySchemeVocabulary: Vocabulary[] = null;
+  public accessRightsVocabulary: Vocabulary[] = null;
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -325,6 +384,8 @@ export class ServiceFormComponent implements OnInit {
         this.removeUseCase(i);
       }
     }
+    //TODO: ^^do the same for Licensing & Persistent Identity Systems (etc?)
+
     // console.log('this.serviceForm.valid ', this.serviceForm.valid);
     // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);
@@ -421,6 +482,11 @@ export class ServiceFormComponent implements OnInit {
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
         // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
         // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
+        this.jurisdictionVocabulary = this.vocabularies[Type.DS_JURISDICTION];
+        this.classificationVocabulary = this.vocabularies[Type.DS_CLASSIFICATION];
+        this.researchEntityTypeVocabulary = this.vocabularies[Type.DS_RESEARCH_ENTITY_TYPE];
+        this.persistentIdentitySchemeVocabulary = this.vocabularies[Type.DS_PERSISTENT_IDENTITY_SCHEME];
+        this.accessRightsVocabulary = this.vocabularies[Type.DS_COAR_ACCESS_RIGHTS_1_0];
       },
       error => {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
@@ -428,7 +494,7 @@ export class ServiceFormComponent implements OnInit {
       () => {
         this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'Worldwide']);
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
-        this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
+        this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1)); //fixme: error?
 
         let voc: Vocabulary[] = this.vocabularies[Type.SUBCATEGORY].concat(this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN]);
         this.subVocabularies = this.groupByKey(voc, 'parentId');
@@ -443,22 +509,22 @@ export class ServiceFormComponent implements OnInit {
         this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
         this.handleBitSets(0, 1, 'resourceOrganisation');
 
-        if (!this.editMode) { // prefill main contact info
-          this.serviceProviderService.getServiceProviderById(this.providerId).subscribe(
-            res => { this.provider = res; },
-            err => { console.log(err); },
-            () => {
-              Object.entries(this.provider.mainContact).forEach(([key, val]) => {
-                if (val !== '' && val != null) {
-                  this.serviceForm.controls['mainContact'].get(key).setValue(val);
-                }
-              });
-              this.handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact');
-              this.handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact');
-              this.handleBitSetsOfGroups(5, 15, 'email', 'mainContact');
-            }
-          );
-        }
+        // if (!this.editMode) { // prefill main contact info
+        //   this.serviceProviderService.getServiceProviderById(this.providerId).subscribe(
+        //     res => { this.provider = res; },
+        //     err => { console.log(err); },
+        //     () => {
+        //       Object.entries(this.provider.mainContact).forEach(([key, val]) => {
+        //         if (val !== '' && val != null) {
+        //           this.serviceForm.controls['mainContact'].get(key).setValue(val);
+        //         }
+        //       });
+        //       this.handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact');
+        //       this.handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact');
+        //       this.handleBitSetsOfGroups(5, 15, 'email', 'mainContact');
+        //     }
+        //   );
+        // }
 
       }
     );
@@ -483,7 +549,6 @@ export class ServiceFormComponent implements OnInit {
                 this.categoryArray.push(this.newCategory());
                 // } else if (i === 'options') {
                 //   this.pushOption();
-                //TODO: add multimedia and use cases (also for DS)
               } else if (i === 'providers' || i === 'targetUsers' || i === 'geographicalAvailabilities' || i === 'languageAvailabilities') {
                 this.push(i, true);
               } else {
@@ -646,7 +711,15 @@ export class ServiceFormComponent implements OnInit {
       || this.checkFormValidity('order', this.editMode));
     this.tabs[11] = (this.checkFormValidity('paymentModel', this.editMode)
       || this.checkFormValidity('pricing', this.editMode));
-
+    this.tabs[12] = (this.checkFormValidity('paymentModel', this.editMode)
+      || this.checkFormValidity('pricing', this.editMode));
+    this.tabs[13] = (this.checkFormValidity('paymentModel', this.editMode)
+      || this.checkFormValidity('pricing', this.editMode));
+    this.tabs[14] = (this.checkFormValidity('paymentModel', this.editMode)
+      || this.checkFormValidity('pricing', this.editMode));
+    this.tabs[15] = (this.checkFormValidity('paymentModel', this.editMode)
+      || this.checkFormValidity('pricing', this.editMode));
+//TODO: add the extra tabs
     // console.log(this.tabs);
   }
 
@@ -777,6 +850,70 @@ export class ServiceFormComponent implements OnInit {
 
   /** <--Use Cases**/
 
+  /** Licensing -->**/
+  newLicensing(): FormGroup {
+    return this.fb.group({
+      researchProductLicenseName: [''],
+      researchProductLicenseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)]
+    });
+  }
+
+  get licensingArray() {
+    return this.serviceForm.get('researchProductLicensings') as FormArray;
+  }
+
+  pushLicensing() {
+    this.licensingArray.push(this.newLicensing());
+  }
+
+  removeLicensing(index: number) {
+    this.licensingArray.removeAt(index);
+  }
+  /** <--Licensing**/
+
+  /** Metadata Licensing -->**/ //TODO: revisit to simplify
+  newMetadataLicensing(): FormGroup {
+    return this.fb.group({
+      researchProductMetadataLicenseName: [''],
+      researchProductMetadataLicenseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)]
+    });
+  }
+
+  get metadataLicensingArray() {
+    return this.serviceForm.get('researchProductMetadataLicensings') as FormArray;
+  }
+
+  pushMetadataLicensing() {
+    this.metadataLicensingArray.push(this.newMetadataLicensing());
+  }
+
+  removeMetadataLicensing(index: number) {
+    this.metadataLicensingArray.removeAt(index);
+  }
+  /** <--Metadata Licensing**/
+
+  /** Persistent Identity Systems--> **/
+  newPersistentIdentitySystem(): FormGroup {
+    return this.fb.group({
+      persistentIdentityEntityType: [''],
+      persistentIdentityEntityTypeScheme: this.fb.array([this.fb.control('', Validators.required)], Validators.required)
+    });
+  }
+
+  get persistentIdentitySystemArray() {
+    return this.serviceForm.get('publicContacts') as FormArray;
+  }
+
+  pushPersistentIdentitySystem() {
+    this.persistentIdentitySystemArray.push(this.newPersistentIdentitySystem());
+  }
+
+  removePersistentIdentitySystem(index: number) {
+    this.persistentIdentitySystemArray.removeAt(index);
+  }
+
+  /** <--Persistent Identity Systems**/
+
   /** Service Contact Info -->**/
 
   newContact(): FormGroup {
@@ -877,7 +1014,7 @@ export class ServiceFormComponent implements OnInit {
         this.push('accessTypes', false);
       }
     }
-    if (richService.service.accessModes) {
+    if (richService.service.accessModes) { //TODO: add this for new similar fields as well
       for (let i = 0; i < richService.service.accessModes.length - 1; i++) {
         this.push('accessModes', false);
       }

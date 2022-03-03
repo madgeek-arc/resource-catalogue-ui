@@ -6,33 +6,33 @@
         <div class="titleAndActionsBar">
           <div class="">
             <div class="pageTitle">
-              {{editMode ? "Update" : "Add New"}} {{serviceORresource}}
+              {{editMode ? "Update" : "Add New"}} Data Source
             </div>
             <div class="providerName uk-margin-small-top">
-              <strong>{{serviceName!='' ? serviceName : serviceORresource + ' Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
+              <strong>{{serviceName!='' ? serviceName : 'Data Source' + ' Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
             </div>
           </div>
-          <div class="">
-            <!--<button class="uk-button uk-button-primary">Discard</button>-->
-            <button *ngIf="projectName=='EOSC'" class="uk-button uk-button-primary uk-margin-left"
-                    (click)="openPreviewModal()">Preview
-            </button>
-            <button *ngIf="(!editMode || pendingService) && (projectName == 'EOSC' || projectName == 'CatRIS')"
-                    class="uk-button uk-button-primary uk-margin-left" (click)="this.onSubmit(this.service, true)">Save as draft
-            </button>
-            <button *ngIf="loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left"
-                    (click)="showCommentModal()" type="submit">Submit
-            </button>
-          </div>
+<!--          <div class="">-->
+<!--            &lt;!&ndash;<button class="uk-button uk-button-primary">Discard</button>&ndash;&gt;-->
+<!--            <button *ngIf="projectName=='EOSC'" class="uk-button uk-button-primary uk-margin-left"-->
+<!--                    (click)="openPreviewModal()">Preview-->
+<!--            </button>-->
+<!--            <button *ngIf="(!editMode || pendingService) && (projectName == 'EOSC' || projectName == 'CatRIS')"-->
+<!--                    class="uk-button uk-button-primary uk-margin-left" (click)="this.onSubmit(this.service, true)">Save as draft-->
+<!--            </button>-->
+<!--            <button *ngIf="loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left"-->
+<!--                    (click)="showCommentModal()" type="submit">Submit-->
+<!--            </button>-->
+<!--          </div>-->
         </div>
 
 
         <!--<h2 class="uk-text-center uk-h2 uk-scrollspy-inview uk-animation-slide-bottom-small" uk-scrollspy-class=""-->
-            <!--style="">-->
-          <!--<img class="el-image uk-border-rounded"-->
-               <!--src="{{(serviceForm && serviceForm.get('logo').value) ? serviceForm.get('logo').value : 'src/lib/assets/images/broken_image-black-48dp.svg'}}"-->
-               <!--width="50">-->
-          <!--{{editMode ? "Edit" : "Add"}} a {{serviceName}} service-->
+        <!--style="">-->
+        <!--<img class="el-image uk-border-rounded"-->
+        <!--src="{{(serviceForm && serviceForm.get('logo').value) ? serviceForm.get('logo').value : 'src/lib/assets/images/broken_image-black-48dp.svg'}}"-->
+        <!--width="50">-->
+        <!--{{editMode ? "Edit" : "Add"}} a {{serviceName}} service-->
         <!--</h2>-->
 
         <!-- TOP HELP CONTENT -->
@@ -116,7 +116,7 @@
                   <div class="uk-grid">
 
                     <div class="uk-width-1-4">
-                      <div class="tabsTitle uk-margin-bottom">{{serviceORresource}} Profile Information Blocks</div>
+                      <div class="tabsTitle uk-margin-bottom">Data Source Profile Information Blocks</div>
                       <ul class="uk-width-1-1 uk-margin-remove uk-tab uk-tab-left form-tabs" uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
                         <li class="uk-active">
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[0]}" href="#">
@@ -210,25 +210,36 @@
                             <span>12. Financial</span>
                           </a>
                         </li>
-
-                        <!--<li class="uk-active"><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[0]}" href="#">Basic *</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[1]}" href="#">Marketing *</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[2]}" href="#">Classification *</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[3]}" href="#">Availability *</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[4]}" href="#">Location</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[5]}" href="#">Contact *</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[6]}" href="#">Maturity *</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[7]}" href="#">Dependencies</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[8]}" href="#">Attribution</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[9]}" href="#">Management</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[10]}" href="#">Order *</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[11]}" href="#">Financial</a></li>-->
+                        <li>
+                          <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[12]}" href="#">
+                            <span>13. Data Source Policies</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[13]}" href="#">
+                            <span>14. Data Source Content</span>
+                            <span class="circle-number">
+                              <i *ngIf="remainingOnTab13==0" aria-hidden="true" class="fa fa-check"></i>
+                              {{remainingOnTab13!=0 ? remainingOnTab13 +'*' : ''}}
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[14]}" href="#">
+                            <span>15. Research Product Policies</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[15]}" href="#">
+                            <span>16. Research Product Metadata</span>
+                          </a>
+                        </li>
                       </ul>
 
                       <div class="requiredFields uk-text-right">*Required fields</div>
                       <div class="stepsCompleted uk-margin-top uk-text-center">{{completedTabs}} of {{requiredTabs}}</div>
                       <div class="uk-margin-small-top">
-                          <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>
+                        <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>
                         <div class="percentageNumber" [ngStyle]="{'margin-left.%': (loaderPercentage*0.9).toLocaleString()}">{{loaderPercentage}}%</div>
                       </div>
                     </div>
@@ -355,18 +366,18 @@
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{descriptionDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top uk-width-9-10">
-<!--                              <textarea id="description" class="uk-textarea uk-width-9-10" rows="4"-->
-<!--                                        formControlName="description"-->
-<!--                                        (input)="handleBitSets(1, 3, 'description'); unsavedChangesPrompt()"-->
-<!--                                        [ngClass]="{'uk-form-danger': checkFormValidity('description', this.editMode)}"></textarea>-->
+                                <!--                              <textarea id="description" class="uk-textarea uk-width-9-10" rows="4"-->
+                                <!--                                        formControlName="description"-->
+                                <!--                                        (input)="handleBitSets(1, 3, 'description'); unsavedChangesPrompt()"-->
+                                <!--                                        [ngClass]="{'uk-form-danger': checkFormValidity('description', this.editMode)}"></textarea>-->
                                 <md-editor  id="description"
-                                  [ngClass]="{'uk-form-danger': checkFormValidity('description', this.editMode)}"
-                                  [height]="'250px'"
-                                  [mode]="'editor'"
-                                  [options]="{markedjsOpt: { breaks: true }, showPreviewPanel: true, resizable: true, enablePreviewContentClick: true}"
-                                  (ngModelChange)="handleBitSets(1, 3, 'description')"
-                                  formControlName="description"
-                                  required>
+                                            [ngClass]="{'uk-form-danger': checkFormValidity('description', this.editMode)}"
+                                            [height]="'250px'"
+                                            [mode]="'editor'"
+                                            [options]="{markedjsOpt: { breaks: true }, showPreviewPanel: true, resizable: true, enablePreviewContentClick: true}"
+                                            (ngModelChange)="handleBitSets(1, 3, 'description')"
+                                            formControlName="description"
+                                            required>
                                 </md-editor>
                               </div>
                               <i><small>Suggested length is 1000 characters</small></i>
@@ -428,7 +439,7 @@
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <input id="multimediaName" class="uk-input" type="text" formControlName="multimediaName"
                                                (input)="unsavedChangesPrompt()">
-<!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaName')}">-->
+                                        <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaName')}">-->
                                       </div>
                                       <i><small>Suggested length is 100 characters</small></i>
                                     </div>
@@ -816,7 +827,7 @@
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <div *ngFor="let provider of getFieldAsFormArray('accessModes').controls; let i=index"
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('accessModes').controls.length-1 !== i}">
-                                  <ng-select *ngIf="accessTypesVocabulary" class="uk-width-9-10" id="accessModes"
+                                  <ng-select *ngIf="accessModesVocabulary" class="uk-width-9-10" id="accessModes"
                                              (change)="checkForDuplicates('accessModes'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('accessModes', i, this.editMode)}"
                                              [items]="sortVocabulariesByName(accessModesVocabulary)"
@@ -1574,7 +1585,7 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-<!--                                TODO: add Other value suggestion when VOC is ready-->
+                                <!--                                TODO: add Other value suggestion when VOC is ready-->
                                 <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('relatedPlatforms', false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{relatedPlatformsDesc.label}}
@@ -1975,10 +1986,463 @@
                               </div>
                             </div>
                           </li>
+                          <!--DATA SOURCE POLICIES-->
+                          <li>
+                            <div formArrayName="submissionPolicyURL" class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="submissionPolicyURL">
+                                {{submissionPolicyURLDesc.label + (submissionPolicyURLDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{submissionPolicyURLDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <div *ngFor="let url of getFieldAsFormArray('submissionPolicyURL').controls; let i=index"
+                                     class="uk-margin-bottom">
+                                  <input id="submissionPolicyURL" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
+                                         type="text" [formControlName]="i" placeholder="use http:// or https://"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('submissionPolicyURL')"
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('submissionPolicyURL', i, this.editMode)}">
+                                  <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('submissionPolicyURL').value[i]" class="uk-icon">
+                                    <a href="{{this.serviceForm.get('submissionPolicyURL').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                  </div>
+                                  <a *ngIf="getFieldAsFormArray('submissionPolicyURL').length > 1"
+                                     class="remove-element uk-padding-small"
+                                     (click)="remove('submissionPolicyURL', i); unsavedChangesPrompt()">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+<!--                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">-->
+<!--                                  <a class="add-new-element"-->
+<!--                                     (click)="push('submissionPolicyURL', submissionPolicyURLDesc.mandatory, true)">-->
+<!--                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{submissionPolicyURLDesc.label}}-->
+<!--                                  </a>-->
+<!--                                </div>-->
+                                <!--<i><small>{{submissionPolicyURLDesc.desc}}</small></i>-->
+                              </div>
+                            </div>
+                            <div formArrayName="preservationPolicyURL" class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="preservationPolicyURL">
+                                {{preservationPolicyURLDesc.label + (preservationPolicyURLDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{preservationPolicyURLDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <div *ngFor="let url of getFieldAsFormArray('preservationPolicyURL').controls; let i=index"
+                                     class="uk-margin-bottom">
+                                  <input id="preservationPolicyURL" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
+                                         type="text" [formControlName]="i" placeholder="use http:// or https://"
+                                         (input)="unsavedChangesPrompt(); checkForDuplicates('preservationPolicyURL')"
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('preservationPolicyURL', i, this.editMode)}">
+                                  <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('preservationPolicyURL').value[i]" class="uk-icon">
+                                    <a href="{{this.serviceForm.get('preservationPolicyURL').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                  </div>
+                                  <a *ngIf="getFieldAsFormArray('preservationPolicyURL').length > 1"
+                                     class="remove-element uk-padding-small"
+                                     (click)="remove('preservationPolicyURL', i); unsavedChangesPrompt()">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+<!--                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">-->
+<!--                                  <a class="add-new-element"-->
+<!--                                     (click)="push('preservationPolicyURL', preservationPolicyURLDesc.mandatory, true)">-->
+<!--                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{preservationPolicyURLDesc.label}}-->
+<!--                                  </a>-->
+<!--                                </div>-->
+                                <!--<i><small>{{preservationPolicyURLDesc.desc}}</small></i>-->
+                              </div>
+                            </div>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">
+                                {{ versionControlDesc.label + (versionControlDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <label>
+                                  <span class="uk-form-description uk-margin-small-right">{{versionControlDesc.desc}}</span>
+                                  <br>
+                                  <label class="uk-margin-small-top">
+                                    <span class="uk-form-description uk-margin-small-right">Is version control available?</span>
+                                  </label>
+                                  <label class="uk-margin-small-left uk-margin-small-right">
+                                    <input class="uk-radio" type="radio" name="versionControl" id="versionControlNo"
+                                           formControlName="versionControl" [value]=false
+                                           (input)="unsavedChangesPrompt()"
+                                           [checked]="(this.serviceForm.get('versionControl').value === false)">
+                                    No</label>
+                                  <label><input class="uk-radio" type="radio" name="versionControl" id="versionControlYes"
+                                                formControlName="versionControl" [value]=true
+                                                (input)="unsavedChangesPrompt()"
+                                                [checked]="this.serviceForm.get('versionControl').value === true">
+                                    Yes</label>
+                                </label>
+                              </div>
+                            </div>
+
+
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">Persistent Identity Systems</label>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div formArrayName="persistentIdentitySystems"
+                                     *ngFor="let p of persistentIdentitySystemArray.controls; let i = index">
+                                  <div [formGroupName]="i"
+                                       class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="persistentIdentityEntityType">
+                                        {{ persistentIdentityEntityTypeDesc.label + (persistentIdentityEntityTypeDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div
+                                        class="uk-form-description uk-margin-top uk-width-9-10">{{persistentIdentityEntityTypeDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <ng-select *ngIf="researchEntityTypeVocabulary" class="uk-width-1-1" id="persistentIdentityEntityType"
+                                                   (change)="unsavedChangesPrompt()"
+                                                   [items]="sortVocabulariesByName(researchEntityTypeVocabulary)"
+                                                   bindLabel="name"
+                                                   bindValue="id"
+                                                   clearAllText="Clear"
+                                                   formControlName="persistentIdentityEntityType">
+<!--                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'organisation')}">-->
+                                        </ng-select>
+                                      </div>
+                                    </div>
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="persistentIdentityEntityTypeScheme">
+                                        {{ persistentIdentityEntityTypeSchemeDesc.label + (persistentIdentityEntityTypeSchemeDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div
+                                        class="uk-form-description uk-margin-top uk-width-9-10">{{persistentIdentityEntityTypeSchemeDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <ng-select *ngIf="persistentIdentitySchemeVocabulary" class="uk-width-1-1" id="persistentIdentityEntityTypeScheme"
+                                                   (change)="unsavedChangesPrompt()"
+                                                   [items]="sortVocabulariesByName(persistentIdentitySchemeVocabulary)"
+                                                   bindLabel="name"
+                                                   bindValue="id"
+                                                   clearAllText="Clear"
+                                                   formControlName="persistentIdentityEntityTypeScheme">
+                                          <!--                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'organisation')}">-->
+                                        </ng-select>
+                                      </div>
+                                    </div>
+                                    <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                      <a class="add-new-element">
+<!--                                         (click)="push('persistentIdentityEntityTypeScheme', persistentIdentityEntityTypeSchemeDesc.mandatory)">-->
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                        Add {{persistentIdentityEntityTypeSchemeDesc.label}}
+                                      </a>
+                                    </div>
+                                  </div>
+                                  <a *ngIf="getFieldAsFormArray('persistentIdentitySystems').length > 1 && !disable"
+                                     class="remove-element uk-padding-small uk-display-inline-block"
+                                     (click)="removePersistentIdentitySystem(i); unsavedChangesPrompt(); ">
+<!--                                     handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts')">-->
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                              </div>
+                              <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                                <a class="add-new-element" (click)="pushPersistentIdentitySystem()">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add Persistent Identity System
+                                </a>
+                              </div>
+                            </div>
+
+
+                          </li>
+                          <!--DATA SOURCE CONTENT-->
+                          <li>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="jurisdiction">
+                                {{jurisdictionDesc.label + (jurisdictionDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{jurisdictionDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <ng-select *ngIf="jurisdictionVocabulary" class="uk-width-9-10" id="jurisdiction"
+                                           (change)="handleBitSets(13, 99, 'jurisdiction'); unsavedChangesPrompt()"
+                                           [ngClass]="{'uk-form-danger': checkFormValidity('jurisdiction', this.editMode)}"
+                                           [items]="sortVocabulariesByName(jurisdictionVocabulary)"
+                                           bindLabel="name"
+                                           bindValue="id"
+                                           clearAllText="Clear"
+                                           formControlName="jurisdiction">
+                                </ng-select>
+                              </div>
+  <!--                            <div class="uk-margin-small-top">-->
+  <!--                              <i><small>For suggestions in amending the-->
+  <!--                                "{{jurisdictionDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>-->
+  <!--                            </div>-->
+  <!--                            <div *ngIf="this.serviceForm.get('jurisdiction').value === 'order_type-other'" class="uk-flex uk-flex-left">-->
+  <!--                              <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">-->
+  <!--                                <label>-->
+  <!--                                  <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="orderTypeVocabularyEntryValueName">-->
+  <!--                                </label>-->
+  <!--                              </form>-->
+  <!--                              <button class="uk-button uk-button-default" type="submit"-->
+  <!--                                      (click)="submitSuggestion(this.vocabularyEntryForm.get('orderTypeVocabularyEntryValueName').value, 'ORDER TYPE', null)">-->
+  <!--                                Submit-->
+  <!--                              </button>-->
+  <!--                              <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>-->
+  <!--                            </div>-->
+                            </div>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="dataSourceClassification">
+                                {{dataSourceClassificationDesc.label + (dataSourceClassificationDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{dataSourceClassificationDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <ng-select *ngIf="classificationVocabulary" class="uk-width-9-10" id="dataSourceClassification"
+                                           (change)="handleBitSets(13, 99, 'dataSourceClassification'); unsavedChangesPrompt()"
+                                           [ngClass]="{'uk-form-danger': checkFormValidity('dataSourceClassification', this.editMode)}"
+                                           [items]="sortVocabulariesByName(classificationVocabulary)"
+                                           bindLabel="name"
+                                           bindValue="id"
+                                           clearAllText="Clear"
+                                           formControlName="dataSourceClassification">
+                                </ng-select>
+                              </div>
+  <!--                            <div class="uk-margin-small-top">-->
+  <!--                              <i><small>For suggestions in amending the-->
+  <!--                                "{{orderTypeDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>-->
+  <!--                            </div>-->
+  <!--                            <div *ngIf="this.serviceForm.get('orderType').value === 'order_type-other'" class="uk-flex uk-flex-left">-->
+  <!--                              <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">-->
+  <!--                                <label>-->
+  <!--                                  <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="orderTypeVocabularyEntryValueName">-->
+  <!--                                </label>-->
+  <!--                              </form>-->
+  <!--                              <button class="uk-button uk-button-default" type="submit"-->
+  <!--                                      (click)="submitSuggestion(this.vocabularyEntryForm.get('orderTypeVocabularyEntryValueName').value, 'ORDER TYPE', null)">-->
+  <!--                                Submit-->
+  <!--                              </button>-->
+  <!--                              <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>-->
+  <!--                            </div>-->
+                            </div>
+                            <div formArrayName="researchEntityTypes" class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="researchEntityTypes">
+                                {{researchEntityTypesDesc.label + (researchEntityTypesDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div
+                                class="uk-form-description uk-margin-top uk-width-9-10">{{researchEntityTypesDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <div *ngFor="let provider of getFieldAsFormArray('researchEntityTypes').controls; let i=index"
+                                     [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchEntityTypes').controls.length-1 !== i}">
+                                  <ng-select *ngIf="researchEntityTypeVocabulary" class="uk-width-9-10" id="researchEntityTypes"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('researchEntityTypes', i, this.editMode)}"
+                                             [items]="sortVocabulariesByName(researchEntityTypeVocabulary)"
+                                             (change)="handleBitSets(2, 10, 'researchEntityTypes');checkForDuplicates('researchEntityTypes');unsavedChangesPrompt()"
+                                             bindLabel="name"
+                                             bindValue="id"
+                                             clearAllText="Clear"
+                                             [formControlName]="i">
+                                  </ng-select>
+                                  <a *ngIf="getFieldAsFormArray('researchEntityTypes').length > 1"
+                                     class="remove-element uk-padding-small" (click)="remove('researchEntityTypes', i); unsavedChangesPrompt();
+                                     handleBitSets(13, 99, 'researchEntityTypes')">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+  <!--                              <div class="uk-margin-small-top">-->
+  <!--                                <i><small>For suggestions in amending the-->
+  <!--                                  "{{researchEntityTypesDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>-->
+  <!--                              </div>-->
+  <!--                              <div *ngFor="let provider of getFieldAsFormArray('researchEntityTypes').controls; let i=index">-->
+  <!--                                <div *ngIf="this.serviceForm.get('researchEntityTypes').value[i] === 'target_user-other'" class="uk-flex uk-flex-left">-->
+  <!--                                  <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">-->
+  <!--                                    <label>-->
+  <!--                                      <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="targetUsersVocabularyEntryValueName">-->
+  <!--                                    </label>-->
+  <!--                                  </form>-->
+  <!--                                  <button class="uk-button uk-button-default" type="submit"-->
+  <!--                                          (click)="submitSuggestion(this.vocabularyEntryForm.get('targetUsersVocabularyEntryValueName').value, 'TARGET USER', null)">-->
+  <!--                                    Submit-->
+  <!--                                  </button>-->
+  <!--                                  <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>-->
+  <!--                                </div>-->
+  <!--                              </div>-->
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                  <a class="add-new-element" (click)="push('researchEntityTypes', researchEntityTypesDesc.mandatory)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{researchEntityTypesDesc.label}}
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">
+                                {{ thematicDesc.label + (thematicDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <label>
+                                  <span class="uk-form-description uk-margin-small-right">{{thematicDesc.desc}}</span>
+  <!--                                <br>-->
+  <!--                                <label class="uk-margin-small-top">-->
+  <!--                                  <span class="uk-form-description uk-margin-small-right">thematic?</span>-->
+  <!--                                </label>-->
+                                  <label class="uk-margin-small-left uk-margin-small-right">
+                                    <input class="uk-radio" type="radio" name="thematic" id="thematicNo"
+                                           formControlName="thematic" [value]=false
+                                           (input)="unsavedChangesPrompt()"
+                                           [checked]="(this.serviceForm.get('thematic').value === false)">
+                                    No</label>
+                                  <label><input class="uk-radio" type="radio" name="thematic" id="thematicYes"
+                                                formControlName="thematic" [value]=true
+                                                (input)="unsavedChangesPrompt()"
+                                                [checked]="this.serviceForm.get('thematic').value === true">
+                                    Yes</label>
+                                </label>
+                              </div>
+                            </div>
+                          </li>
+                          <!--RESEARCH PRODUCT POLICIES-->
+                          <li>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">Research Product Licensing</label>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div formArrayName="researchProductLicensings"
+                                     *ngFor="let l of licensingArray.controls; let i = index">
+                                  <div [formGroupName]="i"
+                                       class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="researchProductLicenseURL">
+                                        {{ researchProductLicenseURLDesc.label + (researchProductLicenseURLDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductLicenseURLDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <input id="researchProductLicenseURL" class="uk-input" type="text" formControlName="researchProductLicenseURL" placeholder="use http:// or https://"
+                                               (input)="unsavedChangesPrompt()">
+<!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaURL')}">-->
+                                      </div>
+                                    </div>
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="researchProductLicenseName">
+                                        {{ researchProductLicenseNameDesc.label + (researchProductLicenseNameDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div
+                                        class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductLicenseNameDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <input id="researchProductLicenseName" class="uk-input" type="text" formControlName="researchProductLicenseName"
+                                               (input)="unsavedChangesPrompt()">
+                                        <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaName')}">-->
+                                      </div>
+                                      <i><small>Suggested length is 100 characters</small></i>
+                                    </div>
+
+                                  </div>
+                                  <a *ngIf="getFieldAsFormArray('researchProductLicensings').length > 1 && !disable"
+                                     class="remove-element uk-padding-small uk-display-inline-block"
+                                     (click)="removeLicensing(i); unsavedChangesPrompt();">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                              </div>
+                              <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                                <a class="add-new-element" (click)="pushLicensing()">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add Research Product Licensing
+                                </a>
+                              </div>
+                            </div>
+                            <div formArrayName="researchProductAccessPolicy" class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="researchProductAccessPolicy">
+                                {{researchProductAccessPolicyDesc.label + (researchProductAccessPolicyDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductAccessPolicyDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <div *ngFor="let provider of getFieldAsFormArray('researchProductAccessPolicy').controls; let i=index"
+                                     [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchProductAccessPolicy').controls.length-1 !== i}">
+                                  <ng-select *ngIf="accessRightsVocabulary" class="uk-width-9-10" id="researchProductAccessPolicy"
+                                             (change)="checkForDuplicates('researchProductAccessPolicy'); unsavedChangesPrompt()"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('researchProductAccessPolicy', i, this.editMode)}"
+                                             [items]="sortVocabulariesByName(accessRightsVocabulary)"
+                                             bindLabel="name"
+                                             bindValue="id"
+                                             clearAllText="Clear"
+                                             [formControlName]="i">
+                                  </ng-select>
+                                  <a *ngIf="getFieldAsFormArray('researchProductAccessPolicy').length > 1"
+                                     class="remove-element uk-padding-small"
+                                     (click)="remove('researchProductAccessPolicy', i); unsavedChangesPrompt()">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                  <a class="add-new-element" (click)="push('researchProductAccessPolicy', researchProductAccessPolicyDesc.mandatory)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{researchProductAccessPolicyDesc.label}}
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                          <!--RESEARCH PRODUCT METADATA-->
+                          <li>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">Research Product Metadata Licensing</label>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div formArrayName="researchProductMetadataLicensings"
+                                     *ngFor="let l of licensingArray.controls; let i = index">
+                                  <div [formGroupName]="i"
+                                       class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="researchProductMetadataLicenseURL">
+                                        {{ researchProductMetadataLicenseURLDesc.label + (researchProductMetadataLicenseURLDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductMetadataLicenseURLDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <input id="researchProductMetadataLicenseURL" class="uk-input" type="text" formControlName="researchProductMetadataLicenseURL" placeholder="use http:// or https://"
+                                               (input)="unsavedChangesPrompt()">
+                                        <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaURL')}">-->
+                                      </div>
+                                    </div>
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="researchProductMetadataLicenseName">
+                                        {{ researchProductMetadataLicenseNameDesc.label + (researchProductMetadataLicenseNameDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div
+                                        class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductMetadataLicenseNameDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-medium-top">
+                                        <input id="researchProductMetadataLicenseName" class="uk-input" type="text" formControlName="researchProductMetadataLicenseName"
+                                               (input)="unsavedChangesPrompt()">
+                                        <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaName')}">-->
+                                      </div>
+                                      <i><small>Suggested length is 100 characters</small></i>
+                                    </div>
+
+                                  </div>
+                                  <a *ngIf="getFieldAsFormArray('researchProductMetadataLicensings').length > 1 && !disable"
+                                     class="remove-element uk-padding-small uk-display-inline-block"
+                                     (click)="removeLicensing(i); unsavedChangesPrompt();">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div formArrayName="researchProductMetadataAccessPolicy" class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="researchProductMetadataAccessPolicy">
+                                {{researchProductMetadataAccessPolicyDesc.label + (researchProductMetadataAccessPolicyDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductMetadataAccessPolicyDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <div *ngFor="let provider of getFieldAsFormArray('researchProductMetadataAccessPolicy').controls; let i=index"
+                                     [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchProductMetadataAccessPolicy').controls.length-1 !== i}">
+                                  <ng-select *ngIf="accessRightsVocabulary" class="uk-width-9-10" id="researchProductMetadataAccessPolicy"
+                                             (change)="checkForDuplicates('researchProductMetadataAccessPolicy'); unsavedChangesPrompt()"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('researchProductMetadataAccessPolicy', i, this.editMode)}"
+                                             [items]="sortVocabulariesByName(accessRightsVocabulary)"
+                                             bindLabel="name"
+                                             bindValue="id"
+                                             clearAllText="Clear"
+                                             [formControlName]="i">
+                                  </ng-select>
+                                  <a *ngIf="getFieldAsFormArray('researchProductMetadataAccessPolicy').length > 1"
+                                     class="remove-element uk-padding-small"
+                                     (click)="remove('researchProductMetadataAccessPolicy', i); unsavedChangesPrompt()">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                  <a class="add-new-element" (click)="push('researchProductMetadataAccessPolicy', researchProductMetadataAccessPolicyDesc.mandatory)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{researchProductMetadataAccessPolicyDesc.label}}
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
                         </ul>
-<!--                        <pre>-->
-<!--                          {{serviceForm.value | json}}-->
-<!--                        </pre>-->
+<!--                                                <pre>-->
+<!--                                                  {{serviceForm.value | json}}-->
+<!--                                                </pre>-->
                       </div>
                       <!--<button type="submit" class="btn btn-primary butn theme block full-width m-b">-->
                       <!--{{editMode ? "Update" : "Add"}}-->
