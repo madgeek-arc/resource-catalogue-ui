@@ -12,18 +12,18 @@
               <strong>{{serviceName!='' ? serviceName : 'Data Source' + ' Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
             </div>
           </div>
-          <div class="">
-            <!--<button class="uk-button uk-button-primary">Discard</button>-->
-            <button *ngIf="projectName=='EOSC'" class="uk-button uk-button-primary uk-margin-left"
-                    (click)="openPreviewModal()">Preview
-            </button>
-            <button *ngIf="(!editMode || pendingService) && (projectName == 'EOSC' || projectName == 'CatRIS')"
-                    class="uk-button uk-button-primary uk-margin-left" (click)="this.onSubmit(this.service, true)">Save as draft
-            </button>
-            <button *ngIf="loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left"
-                    (click)="showCommentModal()" type="submit">Submit
-            </button>
-          </div>
+<!--          <div class="">-->
+<!--            &lt;!&ndash;<button class="uk-button uk-button-primary">Discard</button>&ndash;&gt;-->
+<!--            <button *ngIf="projectName=='EOSC'" class="uk-button uk-button-primary uk-margin-left"-->
+<!--                    (click)="openPreviewModal()">Preview-->
+<!--            </button>-->
+<!--            <button *ngIf="(!editMode || pendingService) && (projectName == 'EOSC' || projectName == 'CatRIS')"-->
+<!--                    class="uk-button uk-button-primary uk-margin-left" (click)="this.onSubmit(this.service, true)">Save as draft-->
+<!--            </button>-->
+<!--            <button *ngIf="loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left"-->
+<!--                    (click)="showCommentModal()" type="submit">Submit-->
+<!--            </button>-->
+<!--          </div>-->
         </div>
 
 
