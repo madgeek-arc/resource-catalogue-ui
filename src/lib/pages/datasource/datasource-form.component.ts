@@ -295,12 +295,12 @@ export class DatasourceFormComponent implements OnInit {
     researchProductLicensing: [''],
     // researchProductLicenseName: [''],
     // researchProductLicenseURL: [''],
-    researchProductAccessPolicy: [''],
+    researchProductAccessPolicy: this.fb.array([this.fb.control('')]),
 
     researchProductMetadataLicensing: [''],
     // researchProductMetadataLicenseName: [''],
     // researchProductMetadataLicenseURL: [''],
-    researchProductMetadataAccessPolicy: [''],
+    researchProductMetadataAccessPolicy: this.fb.array([this.fb.control('')]),
   };
 
   providersPage: Paging<Provider>;
@@ -939,7 +939,7 @@ export class DatasourceFormComponent implements OnInit {
         this.push('accessTypes', false);
       }
     }
-    if (richService.service.accessModes) {
+    if (richService.service.accessModes) { //TODO: add this for new similar fields as well
       for (let i = 0; i < richService.service.accessModes.length - 1; i++) {
         this.push('accessModes', false);
       }

@@ -827,7 +827,7 @@
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <div *ngFor="let provider of getFieldAsFormArray('accessModes').controls; let i=index"
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('accessModes').controls.length-1 !== i}">
-                                  <ng-select *ngIf="accessTypesVocabulary" class="uk-width-9-10" id="accessModes"
+                                  <ng-select *ngIf="accessModesVocabulary" class="uk-width-9-10" id="accessModes"
                                              (change)="checkForDuplicates('accessModes'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('accessModes', i, this.editMode)}"
                                              [items]="sortVocabulariesByName(accessModesVocabulary)"
@@ -2219,9 +2219,73 @@
                           </li>
                           <!--RESEARCH PRODUCT POLICIES-->
                           <li>
+
+
+                            <div formArrayName="researchProductAccessPolicy" class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="researchProductAccessPolicy">
+                                {{researchProductAccessPolicyDesc.label + (researchProductAccessPolicyDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductAccessPolicyDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <div *ngFor="let provider of getFieldAsFormArray('researchProductAccessPolicy').controls; let i=index"
+                                     [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchProductAccessPolicy').controls.length-1 !== i}">
+                                  <ng-select *ngIf="accessRightsVocabulary" class="uk-width-9-10" id="researchProductAccessPolicy"
+                                             (change)="checkForDuplicates('researchProductAccessPolicy'); unsavedChangesPrompt()"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('researchProductAccessPolicy', i, this.editMode)}"
+                                             [items]="sortVocabulariesByName(accessRightsVocabulary)"
+                                             bindLabel="name"
+                                             bindValue="id"
+                                             clearAllText="Clear"
+                                             [formControlName]="i">
+                                  </ng-select>
+                                  <a *ngIf="getFieldAsFormArray('researchProductAccessPolicy').length > 1"
+                                     class="remove-element uk-padding-small"
+                                     (click)="remove('researchProductAccessPolicy', i); unsavedChangesPrompt()">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                  <a class="add-new-element" (click)="push('researchProductAccessPolicy', researchProductAccessPolicyDesc.mandatory)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{researchProductAccessPolicyDesc.label}}
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
                           </li>
                           <!--RESEARCH PRODUCT METADATA-->
                           <li>
+
+
+                            <div formArrayName="researchProductMetadataAccessPolicy" class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="researchProductMetadataAccessPolicy">
+                                {{researchProductMetadataAccessPolicyDesc.label + (researchProductMetadataAccessPolicyDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductMetadataAccessPolicyDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-medium-top">
+                                <div *ngFor="let provider of getFieldAsFormArray('researchProductMetadataAccessPolicy').controls; let i=index"
+                                     [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchProductMetadataAccessPolicy').controls.length-1 !== i}">
+                                  <ng-select *ngIf="accessRightsVocabulary" class="uk-width-9-10" id="researchProductMetadataAccessPolicy"
+                                             (change)="checkForDuplicates('researchProductMetadataAccessPolicy'); unsavedChangesPrompt()"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('researchProductMetadataAccessPolicy', i, this.editMode)}"
+                                             [items]="sortVocabulariesByName(accessRightsVocabulary)"
+                                             bindLabel="name"
+                                             bindValue="id"
+                                             clearAllText="Clear"
+                                             [formControlName]="i">
+                                  </ng-select>
+                                  <a *ngIf="getFieldAsFormArray('researchProductMetadataAccessPolicy').length > 1"
+                                     class="remove-element uk-padding-small"
+                                     (click)="remove('researchProductMetadataAccessPolicy', i); unsavedChangesPrompt()">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                  <a class="add-new-element" (click)="push('researchProductMetadataAccessPolicy', researchProductMetadataAccessPolicyDesc.mandatory)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{researchProductMetadataAccessPolicyDesc.label}}
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
                           </li>
                         </ul>
                                                 <pre>
