@@ -55,7 +55,7 @@ import {MarkdownModule} from "ngx-markdown";
 import {HighchartsChartModule} from "highcharts-angular";
 import {environment} from '../environments/environment';
 import {HomeComponent} from './pages/home/home.component';
-
+import { RouterModule } from '@angular/router';
 
 
 declare var require: any;
@@ -114,6 +114,7 @@ export function highchartsFactory() {
     // ServiceUploadComponent,
   ],
   imports: [
+    RouterModule,
     CommonModule,
     HttpClientModule,
     FormsModule,
