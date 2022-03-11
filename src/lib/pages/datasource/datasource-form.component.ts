@@ -280,6 +280,7 @@ export class DatasourceFormComponent implements OnInit {
     categories: this.fb.array([], Validators.required),
     scientificDomains: this.fb.array([], Validators.required),
 
+    //TODO: those 2 URLs have multiplicity 1
     submissionPolicyURL: this.fb.array([this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService))]),
     preservationPolicyURL: this.fb.array([this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService))]),
     versionControl: [''],
@@ -719,7 +720,22 @@ export class DatasourceFormComponent implements OnInit {
       || this.checkFormValidity('pricing', this.editMode));
     this.tabs[15] = (this.checkFormValidity('paymentModel', this.editMode)
       || this.checkFormValidity('pricing', this.editMode));
-//TODO: add the extra tabs
+    //TODO: review new tabs on submit
+    this.tabs[16] = (this.checkFormValidity('submissionPolicyURL', this.editMode)
+      || this.checkFormValidity('preservationPolicyURL', this.editMode)
+      || this.checkFormValidity('versionControl', this.editMode)
+      || this.checkEveryArrayFieldValidity('persistentIdentitySystems', this.editMode, 'persistentIdentityEntityType')
+      || this.checkEveryArrayFieldValidity('persistentIdentitySystems', this.editMode, 'persistentIdentityEntityTypeScheme'));
+    this.tabs[17] = (this.checkFormValidity('jurisdiction', this.editMode)
+      || this.checkFormValidity('dataSourceClassification', this.editMode)
+      || this.checkEveryArrayFieldValidity('researchEntityTypes', this.editMode)
+      || this.checkFormValidity('thematic', this.editMode));
+    this.tabs[18] = (this.checkEveryArrayFieldValidity('researchProductLicensings', this.editMode, 'researchProductLicenseName')
+      || this.checkEveryArrayFieldValidity('researchProductLicensings', this.editMode, 'researchProductLicenseURL')
+      || this.checkEveryArrayFieldValidity('researchProductAccessPolicy', this.editMode));
+    this.tabs[19] = (this.checkEveryArrayFieldValidity('researchProductMetadataLicensings', this.editMode, 'researchProductMetadataLicenseName')
+      || this.checkEveryArrayFieldValidity('researchProductMetadataLicensings', this.editMode, 'researchProductMetadataLicenseURL')
+      || this.checkEveryArrayFieldValidity('researchProductMetadataAccessPolicy', this.editMode));
     // console.log(this.tabs);
   }
 
