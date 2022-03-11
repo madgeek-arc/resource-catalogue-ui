@@ -1287,6 +1287,12 @@ export class DatasourceFormComponent implements OnInit {
       if (this.remainingOnTab10 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
         this.calcCompletedTabs(tabNum, 1);
       }
+    } else if (tabNum === 13) {
+      this.BitSetTab13.set(bitIndex, 1);
+      this.remainingOnTab13 = this.requiredOnTab13 - this.BitSetTab13.cardinality();
+      if (this.remainingOnTab13 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
+        this.calcCompletedTabs(tabNum, 1);
+      }
     }
   }
 
@@ -1337,6 +1343,12 @@ export class DatasourceFormComponent implements OnInit {
     } else if (tabNum === 10) {
       this.BitSetTab10.set(bitIndex, 0);
       this.remainingOnTab10 = this.requiredOnTab10 - this.BitSetTab10.cardinality();
+      if (this.completedTabsBitSet.get(tabNum) !== 0) {
+        this.calcCompletedTabs(tabNum, 0);
+      }
+    } else if (tabNum === 13) {
+      this.BitSetTab13.set(bitIndex, 0);
+      this.remainingOnTab13 = this.requiredOnTab13 - this.BitSetTab13.cardinality();
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }

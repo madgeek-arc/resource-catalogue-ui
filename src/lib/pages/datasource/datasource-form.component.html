@@ -2152,7 +2152,7 @@
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{jurisdictionDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <ng-select *ngIf="jurisdictionVocabulary" class="uk-width-9-10" id="jurisdiction"
-                                           (change)="handleBitSets(13, 99, 'jurisdiction'); unsavedChangesPrompt()"
+                                           (change)="handleBitSets(13, 24, 'jurisdiction'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('jurisdiction', this.editMode)}"
                                            [items]="sortVocabulariesByName(jurisdictionVocabulary)"
                                            bindLabel="name"
@@ -2185,7 +2185,7 @@
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{dataSourceClassificationDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <ng-select *ngIf="classificationVocabulary" class="uk-width-9-10" id="dataSourceClassification"
-                                           (change)="handleBitSets(13, 99, 'dataSourceClassification'); unsavedChangesPrompt()"
+                                           (change)="handleBitSets(13, 25, 'dataSourceClassification'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('dataSourceClassification', this.editMode)}"
                                            [items]="sortVocabulariesByName(classificationVocabulary)"
                                            bindLabel="name"
@@ -2231,7 +2231,7 @@
                                   </ng-select>
                                   <a *ngIf="getFieldAsFormArray('researchEntityTypes').length > 1"
                                      class="remove-element uk-padding-small" (click)="remove('researchEntityTypes', i); unsavedChangesPrompt();
-                                     handleBitSets(13, 99, 'researchEntityTypes')">
+                                     handleBitSets(13, 26, 'researchEntityTypes')">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
@@ -2274,12 +2274,12 @@
                                   <label class="uk-margin-small-left uk-margin-small-right">
                                     <input class="uk-radio" type="radio" name="thematic" id="thematicNo"
                                            formControlName="thematic" [value]=false
-                                           (input)="unsavedChangesPrompt()"
+                                           (input)="handleBitSets(13, 27, 'researchEntityTypes'); unsavedChangesPrompt()"
                                            [checked]="(this.serviceForm.get('thematic').value === false)">
                                     No</label>
                                   <label><input class="uk-radio" type="radio" name="thematic" id="thematicYes"
                                                 formControlName="thematic" [value]=true
-                                                (input)="unsavedChangesPrompt()"
+                                                (input)="handleBitSets(13, 27, 'researchEntityTypes'); unsavedChangesPrompt()"
                                                 [checked]="this.serviceForm.get('thematic').value === true">
                                     Yes</label>
                                 </label>
