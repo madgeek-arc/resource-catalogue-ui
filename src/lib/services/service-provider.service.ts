@@ -47,14 +47,15 @@ export class ServiceProviderService {
     return this.http.post(this.base + '/catalogue', newProvider, this.options);
   }
 
+  updateCatalogue(updatedFields: any, comment: string): Observable<Catalogue> {
+    console.log(`knocking on: ${this.base}/catalogue`);
+    return this.http.put<Catalogue>(this.base + `/catalogue?comment=${comment}`, updatedFields, this.options);
+  }
+
   getCatalogueById(id: string) {
     return this.http.get<Catalogue>(this.base + `/catalogue/${id}`, this.options);
   }
 
-  updateCatalogue(updatedFields: any): Observable<Catalogue> {
-    console.log(`knocking on: ${this.base}/catalogue`);
-    return this.http.put<Catalogue>(this.base + `/catalogue`, updatedFields, this.options);
-  }
   /**<-- Catalogue **/
 
   createNewServiceProvider(newProvider: any, comment: string) {

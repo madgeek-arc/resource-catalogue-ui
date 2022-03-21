@@ -84,6 +84,8 @@ export class CatalogueFormComponent implements OnInit {
     successMessage: ''
   };
 
+  commentControl = new FormControl();
+
   readonly fullNameDesc: sd.Description = sd.catalogueDescMap.get('fullNameDesc');
   readonly abbreviationDesc: sd.Description = sd.catalogueDescMap.get('abbreviationDesc');
   readonly websiteDesc: sd.Description = sd.catalogueDescMap.get('websiteDesc');
@@ -237,6 +239,7 @@ export class CatalogueFormComponent implements OnInit {
 
   registerCatalogue(tempSave: boolean) {
     // console.log('Submit');
+    // console.log(this.commentControl.value);
     if (!this.authService.isLoggedIn()) {
       sessionStorage.setItem('provider', JSON.stringify(this.catalogueForm.value));
       this.authService.login();
@@ -288,7 +291,7 @@ export class CatalogueFormComponent implements OnInit {
       this.showLoader = true;
       window.scrollTo(0, 0);
 
-      this.serviceProviderService[method](this.catalogueForm.value).subscribe(
+      this.serviceProviderService[method](this.catalogueForm.value, this.commentControl.value).subscribe(
         res => {
         },
         err => {
@@ -854,6 +857,43 @@ export class CatalogueFormComponent implements OnInit {
   }
 
   /** <--BitSets **/
+
+  // /** Terms Modal--> **/
+  // toggleTerm(term) {
+  //   if (term === 'privacyPolicy') {
+  //     this.privacyPolicy = !this.privacyPolicy;
+  //   } else if (term === 'authorizedRepresentative') {
+  //     this.authorizedRepresentative = !this.authorizedRepresentative;
+  //   }
+  //   this.checkTerms();
+  // }
+  //
+  // checkTerms() {
+  //   this.agreedToTerms = this.privacyPolicy && this.authorizedRepresentative;
+  // }
+  //
+  // acceptTerms() {
+  //   if (this._hasUserConsent && this.edit) {
+  //     this.serviceProviderService.adminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
+  //       res => {},
+  //       error => { console.log(error); },
+  //       () => {}
+  //     );
+  //   }
+  // }
+  //
+  // /** <--Terms Modal **/
+
+  /** Submit Comment Modal--> **/
+  showCommentModal() {
+    if (this.edit && !this.pendingProvider) {
+      UIkit.modal('#commentModal').show();
+    } else {
+      this.registerCatalogue(false);
+    }
+  }
+
+  /** <--Submit Comment Modal **/
 
   submitSuggestion(entryValueName, vocabulary, parent) {
     if (entryValueName.trim() !== '') {
