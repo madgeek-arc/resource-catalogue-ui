@@ -84,6 +84,21 @@
                 </ul>
               </li>
 
+              <li class="uk-nav-header uk-parent" [routerLinkActive]="['uk-active']">For Catalogues
+                <ul class="uk-nav-sub">
+                  <li><a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active"
+                         class="uk-offcanvas-close offcanvas-close">Add a Catalogue</a></li>
+                  <!--                  &lt;!&ndash; If user is logged in &ndash;&gt;-->
+                  <!--                  <ng-container *ngIf="authenticationService.isLoggedIn()">-->
+                  <!-- If user is provider admin and has at least 1 provider -->
+                  <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/catalogue/my']"
+                                                                                                       routerLinkActive="uk-active"
+                                                                                                       class="uk-offcanvas-close offcanvas-close">My Catalogues</a>
+                  </li>
+                  <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/catalogue/all']" routerLinkActive="uk-active">View Catalogues</a></li>
+                  <!--                  </ng-container>-->
+                </ul>
+              </li>
 
             </ul>
           </div>
@@ -186,8 +201,26 @@
                         <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/provider/my']"
                                                                                                              routerLinkActive="uk-active">My Providers</a></li>
 <!--                        <li *ngIf="authenticationService.isLoggedIn()" class="uk-nav-divider"></li>-->
-                        <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public
-                          API</a></li>
+                        <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li class="uk-parent" [routerLinkActive]="['uk-active']">
+                <a href="#" class="" aria-expanded="false">
+                  For Catalogues
+                </a>
+                <div class="uk-navbar-dropdown uk-navbar-dropdown-bottom-left" style="top: 80px; left: 106.55px;"
+                     id="forCatalogues" (click)="onClick('forCatalogues')">
+                  <div class="uk-navbar-dropdown-grid uk-child-width-1-1 uk-grid uk-grid-stack" uk-grid="">
+                    <div class="uk-first-column">
+                      <ul class="uk-nav uk-navbar-dropdown-nav">
+                        <li><a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active">Add a Catalogue</a></li>
+                        <!-- If user is provider admin and has at least 1 catalogue TODO: check conditions and roles-->
+                        <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/catalogue/my']"
+                                                                                                             routerLinkActive="uk-active">My Catalogues</a></li>
                       </ul>
                     </div>
                   </div>
@@ -205,6 +238,7 @@
                       <ul class="uk-nav uk-navbar-dropdown-nav">
                         <li><a [routerLink]="['/provider/all']" routerLinkActive="uk-active">Providers</a></li>
                         <li><a [routerLink]="['/provider/resource/all']" routerLinkActive="uk-active">Resources</a></li>
+                        <li><a [routerLink]="['/catalogue/all']" routerLinkActive="uk-active">Catalogues</a></li>
                         <li><a [routerLink]="['/vocabulary-requests']" routerLinkActive="uk-active">Vocabulary Requests</a></li>
                       </ul>
                     </div>
