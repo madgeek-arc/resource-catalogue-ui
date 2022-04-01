@@ -196,7 +196,7 @@ export class CataloguesListComponent implements OnInit {
               }
             }
 
-            this.getProviders();
+            this.getCatalogues();
             // this.handleChange();
           },
           error => this.errorMessage = <any>error
@@ -301,8 +301,8 @@ export class CataloguesListComponent implements OnInit {
       map[urlParameter.key] = concatValue;
     }
 
-    this.router.navigate([`/provider/all`], {queryParams: map});
-    // this.getProviders();
+    this.router.navigate([`/catalogue/all`], {queryParams: map});
+    // this.getCatalogues();
   }
 
   handleChangeAndResetPage() {
@@ -310,7 +310,7 @@ export class CataloguesListComponent implements OnInit {
     this.handleChange();
   }
 
-  getProviders() {
+  getCatalogues() {
     this.loadingMessage = 'Loading Providers...';
     this.catalogues = [];
     this.resourceService.getCatalogueBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
@@ -399,7 +399,7 @@ export class CataloguesListComponent implements OnInit {
         res => {
           UIkit.modal('#deletionModal').hide();
           location.reload();
-          // this.getProviders();
+          // this.getCatalogues();
         },
         err => {
           UIkit.modal('#deletionModal').hide();
@@ -436,7 +436,7 @@ export class CataloguesListComponent implements OnInit {
       .subscribe(
         res => {
           UIkit.modal('#actionModal').hide();
-          this.getProviders();
+          this.getCatalogues();
         },
         err => {
           UIkit.modal('#actionModal').hide();
@@ -459,7 +459,7 @@ export class CataloguesListComponent implements OnInit {
   //           /*this.providers = [];
   //           this.providers = res;*/
   //           UIkit.modal('#actionModal').hide();
-  //           this.getProviders();
+  //           this.getCatalogues();
   //         },
   //         err => {
   //           UIkit.modal('#actionModal').hide();
@@ -477,7 +477,7 @@ export class CataloguesListComponent implements OnInit {
   //           /*this.providers = [];
   //           this.providers = res;*/
   //           UIkit.modal('#actionModal').hide();
-  //           this.getProviders();
+  //           this.getCatalogues();
   //         },
   //         err => {
   //           UIkit.modal('#actionModal').hide();
@@ -497,7 +497,7 @@ export class CataloguesListComponent implements OnInit {
   //   const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
   //   this.resourceService.verifyResource(templateId, active, status).subscribe(
   //     res => {
-  //       this.getProviders();
+  //       this.getCatalogues();
   //     },
   //     err => {
   //       UIkit.modal('#spinnerModal').hide();
@@ -532,7 +532,7 @@ export class CataloguesListComponent implements OnInit {
   //     .subscribe(
   //       res => {
   //         if (!this.showSideAuditForm) {
-  //           this.getProviders();
+  //           this.getCatalogues();
   //         }
   //       },
   //       err => { console.log(err); },

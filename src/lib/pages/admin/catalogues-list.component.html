@@ -148,19 +148,19 @@
 
                     </div>
 
-                    <div class="uk-margin-auto-left uk-margin-remove-right" style="margin-left:25px; margin-right:0;">
-                      <button class="uk-button uk-button-link">
-                        <i class="fa fa-download uk-margin-small-right"></i>Export to CSV
-                      </button>
-                      <!--<button class="uk-button" type="button">Export to csv</button>-->
-                      <div uk-dropdown="mode: click">
-                        <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                          <li class="" (click)="DownloadProvidersCSV()"><a>Providers</a></li>
-                          <!--<li class="uk-nav-divider"></li>-->
-                          <li class="" (click)="DownloadServicesCSV()"><a>{{serviceORresource}}s</a></li>
-                        </ul>
-                      </div>
-                    </div>
+<!--                    <div class="uk-margin-auto-left uk-margin-remove-right" style="margin-left:25px; margin-right:0;">-->
+<!--                      <button class="uk-button uk-button-link">-->
+<!--                        <i class="fa fa-download uk-margin-small-right"></i>Export to CSV-->
+<!--                      </button>-->
+<!--                      &lt;!&ndash;<button class="uk-button" type="button">Export to csv</button>&ndash;&gt;-->
+<!--                      <div uk-dropdown="mode: click">-->
+<!--                        <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">-->
+<!--                          <li class="" (click)="DownloadProvidersCSV()"><a>Providers</a></li>-->
+<!--                          &lt;!&ndash;<li class="uk-nav-divider"></li>&ndash;&gt;-->
+<!--                          <li class="" (click)="DownloadServicesCSV()"><a>{{serviceORresource}}s</a></li>-->
+<!--                        </ul>-->
+<!--                      </div>-->
+<!--                    </div>-->
 
                   </form>
 
@@ -169,7 +169,7 @@
                   </div>
 
                   <div *ngIf="!loadingMessage && (!catalogues || (catalogues.length==0))" class="uk-margin-large-top">
-                    No providers found for your selections.
+                    No catalogues found for your selections.
                   </div>
 
                   <div *ngIf="catalogues && (catalogues.length>0)" id="serviceForm" class="uk-margin-medium-top">
@@ -198,13 +198,13 @@
                     <div *ngFor="let catalogueBundle of catalogues" class="uk-card provider-card uk-margin-medium-top">
                       <div class="uk-card-body" style="padding-bottom: 20px;">
 
-                        <div *ngIf="catalogueBundle.status === 'approved provider'" class="approved">
+                        <div *ngIf="catalogueBundle.status === 'approved catalogue'" class="approved">
                           <div class="uk-card-badge uk-label">Approved</div>
                         </div>
-                        <div *ngIf="catalogueBundle.status === 'pending provider'" class="pending">
+                        <div *ngIf="catalogueBundle.status === 'pending catalogue'" class="pending">
                           <div class="uk-card-badge uk-label">Pending</div>
                         </div>
-                        <div *ngIf="(catalogueBundle.status === 'rejected provider')" class="rejected">
+                        <div *ngIf="(catalogueBundle.status === 'rejected catalogue')" class="rejected">
                           <div class="uk-card-badge uk-label">Rejected</div>
                         </div>
 
@@ -226,19 +226,19 @@
                             <div class="uk-width-4-5">
                               <div class="providerName">
                                 <span class="uk-margin-auto-vertical">
-                                  <ng-container *ngIf="catalogueBundle.status === 'approved provider'">
-                                    <a [routerLink]="['/dashboard', catalogueBundle.id, 'stats']" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
+                                  <ng-container *ngIf="catalogueBundle.status === 'approved catalogue'">
+<!--                                    <a [routerLink]="['/dashboard', catalogueBundle.id, 'stats']" data-uk-tooltip title="'Go to the resource catalogue monitoring dashboard'">-->
                                       {{ catalogueBundle.catalogue.name }}
-                                    </a>
+<!--                                    </a>-->
                                   </ng-container>
-                                  <ng-container *ngIf="catalogueBundle.status !== 'approved provider'">
-                                    <a [routerLink]="['/dashboard', catalogueBundle.id]" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
+                                  <ng-container *ngIf="catalogueBundle.status !== 'approved catalogue'">
+<!--                                    <a [routerLink]="['/dashboard', catalogueBundle.id]" data-uk-tooltip title="'Go to the resource catalogue monitoring dashboard'">-->
                                       {{ catalogueBundle.catalogue.name }}
-                                    </a>
+<!--                                    </a>-->
                                   </ng-container>
-                                  <a [routerLink]="['/provider/info',catalogueBundle.id]" class="uk-display-inline-block">
-                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
-                                  </a>
+<!--                                  <a [routerLink]="['/catalogue/info',catalogueBundle.id]" class="uk-display-inline-block">-->
+<!--                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
+<!--                                  </a>-->
                                 </span>
                               </div>
                               <div class="uk-margin-small-top">
@@ -292,7 +292,7 @@
                             </button>
                             <div uk-dropdown="mode: click">
                               <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-<!--                                <ng-container *ngIf="catalogueBundle.status === 'approved provider'">-->
+<!--                                <ng-container *ngIf="catalogueBundle.status === 'approved catalogue'">-->
 <!--                                  <li class="uk-margin-small-bottom"-->
 <!--                                      (click)="showAuditForm('main', catalogueBundle)">-->
 <!--                                    <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>-->
@@ -314,7 +314,7 @@
                           </div>
                         </ng-container>
 
-                        <!--<ng-container *ngIf="catalogueBundle.status == 'approved provider'">
+                        <!--<ng-container *ngIf="catalogueBundle.status == 'approved catalogue'">
                           &lt;!&ndash;                          <hr class="uk-margin-top">&ndash;&gt;
                           &lt;!&ndash;                          <button&ndash;&gt;
                           &lt;!&ndash;                            class="uk-button uk-button-link uk-margin-medium-left"&ndash;&gt;
@@ -395,8 +395,8 @@
       <p *ngIf="selectedCatalogue.status !== newStatus">The status will change from "{{ selectedCatalogue.status }}" to
         "{{ newStatus }}"</p>
       <p *ngIf="selectedCatalogue.status === newStatus">
-        {{ ((selectedCatalogue.status === 'approved provider') && !pushedApprove) ? 'The resource provider will be deactivated.' :
-        (((selectedCatalogue.status === 'approved provider') && pushedApprove) ? 'The resource provider will be activated.' :
+        {{ ((selectedCatalogue.status === 'approved catalogue') && !pushedApprove) ? 'The catalogue will be deactivated.' :
+        (((selectedCatalogue.status === 'approved catalogue') && pushedApprove) ? 'The catalogue will be activated.' :
           'The Catalogue will be prompted to update the resource template.')}}
       </p>
     </div>
@@ -450,7 +450,7 @@
     <button class="uk-offcanvas-close" type="button" uk-close style="color:#000000;" (click)="resetAuditView()"></button>
     &lt;!&ndash;    <button *ngIf="showValidateForm || showInvalidateForm" class="fa fa-arrow-left" type="button" style="color:#000000;" (click)="resetSideView()"></button>&ndash;&gt;
 
-    <h4>Audit Providers</h4>
+    <h4>Audit Catalogues</h4>
 
     <div *ngIf="loadingMessage">
       <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(43,43,43); font-weight: bold;">
@@ -461,13 +461,13 @@
     <div *ngFor="let catalogueBundle of cataloguesForAudit" class="uk-card provider-card uk-margin-medium-top">
       <div class="uk-card-body" style="padding-bottom: 20px;">
 
-        <div *ngIf="catalogueBundle.status === 'approved provider'" class="approved">
+        <div *ngIf="catalogueBundle.status === 'approved catalogue'" class="approved">
           <div class="uk-card-badge uk-label">Approved</div>
         </div>
-        <div *ngIf="catalogueBundle.status === 'pending provider'" class="pending">
+        <div *ngIf="catalogueBundle.status === 'pending catalogue'" class="pending">
           <div class="uk-card-badge uk-label">Pending</div>
         </div>
-        <div *ngIf="(catalogueBundle.status === 'rejected provider')" class="rejected">
+        <div *ngIf="(catalogueBundle.status === 'rejected catalogue')" class="rejected">
           <div class="uk-card-badge uk-label">Rejected</div>
         </div>
 
@@ -490,10 +490,10 @@
             <div class="uk-width-4-5">
               <div class="providerName">
                 <span class="uk-margin-auto-vertical">
-                  <a [routerLink]="['/dashboard', catalogueBundle.id, 'stats']" target="_blank" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
+                  <a [routerLink]="['/dashboard', catalogueBundle.id, 'stats']" target="_blank" data-uk-tooltip title="'Go to the catalogue monitoring dashboard'">
                       {{ catalogueBundle.catalogue.name }}
                   </a>
-                  <a [routerLink]="['/provider/info',catalogueBundle.id]" target="_blank" class="uk-display-inline-block">
+                  <a [routerLink]="['/catalogue/info',catalogueBundle.id]" target="_blank" class="uk-display-inline-block">
                     <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
                   </a>
                 </span>
@@ -527,7 +527,7 @@
         </div>
 
         <hr class="uk-margin-top">
-        <button *ngIf="catalogueBundle.status == 'approved provider'"
+        <button *ngIf="catalogueBundle.status == 'approved catalogue'"
                 class="uk-button uk-button-link uk-margin-medium-right"
                 (click)="showAuditForm('side', catalogueBundle)">
           <i class="fa fa-check-circle-o fa-lg"></i> Audit
@@ -537,8 +537,8 @@
         </button>
         <div uk-dropdown="mode: click">
           <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-            <li *ngIf="(catalogueBundle.status === 'approved provider') && (catalogueBundle.active)"
-                (click)="showActionModal(catalogueBundle, 'approved provider', false, false)"
+            <li *ngIf="(catalogueBundle.status === 'approved catalogue') && (catalogueBundle.active)"
+                (click)="showActionModal(catalogueBundle, 'approved catalogue', false, false)"
                 class="uk-margin-small-top">
               <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Deactivate</a>
             </li>
@@ -553,7 +553,7 @@
           </ul>
         </div>
 
-        <ng-container *ngIf="catalogueBundle.status == 'approved provider'">
+        <ng-container *ngIf="catalogueBundle.status == 'approved catalogue'">
           &lt;!&ndash;          <hr class="uk-margin-top">&ndash;&gt;
           &lt;!&ndash;          <button&ndash;&gt;
           &lt;!&ndash;            class="uk-button uk-button-link uk-margin-medium-left"&ndash;&gt;
