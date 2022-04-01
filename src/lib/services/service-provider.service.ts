@@ -10,7 +10,7 @@ import {
   ProviderRequest,
   Service,
   ServiceHistory,
-  VocabularyCuration
+  VocabularyCuration, CatalogueBundle
 } from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
@@ -52,10 +52,21 @@ export class ServiceProviderService {
     return this.http.put<Catalogue>(this.base + `/catalogue?comment=${comment}`, updatedFields, this.options);
   }
 
+  deleteCatalogue(id: string) {
+    return this.http.delete(this.base + `/catalogue/${id}`, this.options);
+  }
+
   getCatalogueById(id: string) {
     return this.http.get<Catalogue>(this.base + `/catalogue/${id}`, this.options);
   }
 
+  verifyCatalogue(id: string, active: boolean, status: string) { //used for onboarding process
+    return this.http.patch(this.base + `/catalogue/verifyCatalogue/${id}?active=${active}&status=${status}`, {}, this.options);
+  }
+
+  getMyCatalogues() {
+    return this.http.get<CatalogueBundle[]>(this.base + '/catalogue/getMyCatalogues', this.options);
+  }
   /**<-- Catalogue **/
 
   createNewServiceProvider(newProvider: any, comment: string) {

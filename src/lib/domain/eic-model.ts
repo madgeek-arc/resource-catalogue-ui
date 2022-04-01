@@ -188,6 +188,10 @@ export class ProviderBundle extends Bundle<Provider> {
   provider: Provider;
 }
 
+export class CatalogueBundle extends Bundle<Catalogue> {
+  catalogue: Catalogue;
+}
+
 export class ProviderLocation {
   streetNameAndNumber: string;
   postalCode: string;
