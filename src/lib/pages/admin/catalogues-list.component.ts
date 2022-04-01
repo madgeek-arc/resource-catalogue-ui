@@ -2,8 +2,7 @@ import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/c
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 // import {CatalogueService} from "../../services/catalogue.service";
-// import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
-import {statusChangeMap, statusList} from '../../domain/catalogue-status-list';
+// import {statusChangeMap, statusList} from '../../domain/catalogue-status-list';
 import {LoggingInfo, Provider, CatalogueBundle, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
@@ -67,8 +66,8 @@ export class CataloguesListComponent implements OnInit {
 
   serviceTemplatePerProvider: any[] = [];
 
-  statusList = statusList;
-  adminActionsMap = statusChangeMap;
+  // statusList = statusList;
+  // adminActionsMap = statusChangeMap;
 
   providersPage: Paging<Provider>;
   vocabularies: Map<string, Vocabulary[]> = null;
@@ -387,38 +386,6 @@ export class CataloguesListComponent implements OnInit {
     UIkit.modal('#approveModal').show();
   }
 
-  updateSelectedProvider() {
-    if (this.selectedCatalogue && (this.selectedCatalogue.status !== 'approved provider')) {
-      const i = this.statusList.indexOf(this.selectedCatalogue.status);
-      let active = false;
-      if (this.statusList[i + 1] === 'approved provider') {
-        active = true;
-      }
-      const updatedFields = Object.assign({
-        id: this.selectedCatalogue.id,
-        status: this.statusList[i + 1],
-        active: active
-      });
-
-      this.serviceProviderService.updateServiceProvider(updatedFields, null).pipe(
-        mergeMap(res => this.serviceProviderService.getServiceProviderById(res.id)))
-        .subscribe(
-          res => {
-            const i = this.catalogues.findIndex(p => p.id === res.id);
-            if (i > -1) {
-              Object.assign(this.catalogues[i], res);
-            }
-          },
-          err => console.log(err),
-          () => {
-            UIkit.modal('#approveModal').hide();
-            this.selectedCatalogue = null;
-          }
-        );
-    }
-
-  }
-
   showDeletionModal(catalogue: CatalogueBundle) {
     this.selectedCatalogue = catalogue;
     if (this.selectedCatalogue) {
@@ -445,24 +412,34 @@ export class CataloguesListComponent implements OnInit {
       );
   }
 
-  showActionModal(catalogue: CatalogueBundle, newStatus: string, pushedApprove: boolean, verify: boolean) {
+  showActionModal(catalogue: CatalogueBundle, newStatus: string) {
     this.selectedCatalogue = catalogue;
     this.newStatus = newStatus;
-    this.pushedApprove = pushedApprove;
-    this.verify = verify;
     if (this.selectedCatalogue) {
       UIkit.modal('#actionModal').show();
     }
   }
 
-  statusChangeActionCatalogue(catalogue: CatalogueBundle, active, newStatus: string){
-      this.selectedCatalogue = catalogue;
-      this.serviceProviderService.verifyCatalogue(this.selectedCatalogue.id, active, newStatus)
+  // showActionModal(catalogue: CatalogueBundle, newStatus: string, pushedApprove: boolean, verify: boolean) {
+  //   this.selectedCatalogue = catalogue;
+  //   this.newStatus = newStatus;
+  //   this.pushedApprove = pushedApprove;
+  //   this.verify = verify;
+  //   if (this.selectedCatalogue) {
+  //     UIkit.modal('#actionModal').show();
+  //   }
+  // }
+
+  statusChangeActionCatalogue(){
+      const active = this.newStatus === 'approved catalogue';
+      this.serviceProviderService.verifyCatalogue(this.selectedCatalogue.id, active, this.newStatus)
       .subscribe(
         res => {
+          UIkit.modal('#actionModal').hide();
           this.getProviders();
         },
         err => {
+          UIkit.modal('#actionModal').hide();
           this.loadingMessage = '';
           console.log(err);
         },
@@ -472,65 +449,65 @@ export class CataloguesListComponent implements OnInit {
       );
   }
 
-  statusChangeAction() {
-    this.loadingMessage = '';
-    const active = this.pushedApprove && (this.newStatus === 'approved provider');
-    if(this.verify){ //use verify method
-      this.serviceProviderService.verifyServiceProvider(this.selectedCatalogue.id, active, this.adminActionsMap[this.newStatus].statusId)
-        .subscribe(
-          res => {
-            /*this.providers = [];
-            this.providers = res;*/
-            UIkit.modal('#actionModal').hide();
-            this.getProviders();
-          },
-          err => {
-            UIkit.modal('#actionModal').hide();
-            this.loadingMessage = '';
-            console.log(err);
-          },
-          () => {
-            this.loadingMessage = '';
-          }
-        );
-    } else { //use publish method
-      this.serviceProviderService.publishProvider(this.selectedCatalogue.id, active)
-        .subscribe(
-          res => {
-            /*this.providers = [];
-            this.providers = res;*/
-            UIkit.modal('#actionModal').hide();
-            this.getProviders();
-          },
-          err => {
-            UIkit.modal('#actionModal').hide();
-            this.loadingMessage = '';
-            console.log(err);
-          },
-          () => {
-            this.loadingMessage = '';
-          }
-        );
-    }
-  }
+  // statusChangeAction() {
+  //   this.loadingMessage = '';
+  //   const active = this.pushedApprove && (this.newStatus === 'approved provider');
+  //   if(this.verify){ //use verify method
+  //     this.serviceProviderService.verifyServiceProvider(this.selectedCatalogue.id, active, this.adminActionsMap[this.newStatus].statusId)
+  //       .subscribe(
+  //         res => {
+  //           /*this.providers = [];
+  //           this.providers = res;*/
+  //           UIkit.modal('#actionModal').hide();
+  //           this.getProviders();
+  //         },
+  //         err => {
+  //           UIkit.modal('#actionModal').hide();
+  //           this.loadingMessage = '';
+  //           console.log(err);
+  //         },
+  //         () => {
+  //           this.loadingMessage = '';
+  //         }
+  //       );
+  //   } else { //use publish method
+  //     this.serviceProviderService.publishProvider(this.selectedCatalogue.id, active)
+  //       .subscribe(
+  //         res => {
+  //           /*this.providers = [];
+  //           this.providers = res;*/
+  //           UIkit.modal('#actionModal').hide();
+  //           this.getProviders();
+  //         },
+  //         err => {
+  //           UIkit.modal('#actionModal').hide();
+  //           this.loadingMessage = '';
+  //           console.log(err);
+  //         },
+  //         () => {
+  //           this.loadingMessage = '';
+  //         }
+  //       );
+  //   }
+  // }
 
-  templateAction(id, active, status) {
-    this.loadingMessage = '';
-    UIkit.modal('#spinnerModal').show();
-    const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
-    this.resourceService.verifyResource(templateId, active, status).subscribe(
-      res => {
-        this.getProviders();
-      },
-      err => {
-        UIkit.modal('#spinnerModal').hide();
-        console.log(err);
-      },
-      () => {
-        UIkit.modal('#spinnerModal').hide();
-      }
-    );
-  }
+  // templateAction(id, active, status) {
+  //   this.loadingMessage = '';
+  //   UIkit.modal('#spinnerModal').show();
+  //   const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
+  //   this.resourceService.verifyResource(templateId, active, status).subscribe(
+  //     res => {
+  //       this.getProviders();
+  //     },
+  //     err => {
+  //       UIkit.modal('#spinnerModal').hide();
+  //       console.log(err);
+  //     },
+  //     () => {
+  //       UIkit.modal('#spinnerModal').hide();
+  //     }
+  //   );
+  // }
 
   /* Audit */
 

@@ -302,11 +302,11 @@
 
                                 <!--                                Those 2  use the verify method to proceed with the onboarding process-->
                                 <li *ngIf="(catalogueBundle.status === 'pending catalogue') || (catalogueBundle.status === 'rejected catalogue')"
-                                    (click)="statusChangeActionCatalogue(catalogueBundle, true, 'approved catalogue')" class="uk-margin-small-top">
+                                    (click)="showActionModal(catalogueBundle, 'approved catalogue')" class="uk-margin-small-top">
                                   <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Approve</a>
                                 </li>
                                 <li *ngIf="(catalogueBundle.status === 'pending catalogue')"
-                                    (click)="statusChangeActionCatalogue(catalogueBundle, false, 'rejected catalogue')" class="uk-margin-small-top">
+                                    (click)="showActionModal(catalogueBundle, 'rejected catalogue')" class="uk-margin-small-top">
                                   <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Reject</a>
                                 </li>
                               </ul>
@@ -400,7 +400,7 @@
           'The Catalogue will be prompted to update the resource template.')}}
       </p>
     </div>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="statusChangeAction()">Proceed</button>
+    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="statusChangeActioCatalogue()">Proceed</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>
   <div *ngIf="loadingMessage">
