@@ -302,10 +302,10 @@ export class CatalogueFormComponent implements OnInit {
         () => {
           this.showLoader = false;
           if (this.edit) {
-            this.router.navigate(['/provider/my']);
+            this.router.navigate(['/catalogue/my']);
           } else {
-            this.router.navigate(['/provider/my']);
-            // this.authService.refreshLogin('/provider/my'); // fixme: not redirecting
+            this.router.navigate(['/catalogue/my']);
+            // this.authService.refreshLogin('/catalogue/my'); // fixme: not redirecting
           }
         }
       );
