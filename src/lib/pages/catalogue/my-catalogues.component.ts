@@ -5,6 +5,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {CatalogueBundle} from '../../domain/eic-model';
 import {zip} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {CatalogueService} from "../../services/catalogue.service";
 
 @Component({
   selector: 'app-my-catalogues',
@@ -37,13 +38,14 @@ export class MyCataloguesComponent implements OnInit {
 
   constructor(
     private serviceProviderService: ServiceProviderService,
+    private catalogueService: CatalogueService,
     private resourceService: ResourceService,
     public authenticationService: AuthenticationService
   ) {
   }
 
   ngOnInit() {
-    zip(this.serviceProviderService.getMyCatalogues())
+    zip(this.catalogueService.getMyCatalogues())
       .subscribe(
         res => {
           this.myCatalogues = res[0];

@@ -3,10 +3,11 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import * as sd from '../provider-resources/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
+import {CatalogueService} from "../../services/catalogue.service";
+import {ResourceService} from '../../services/resource.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {Vocabulary, Type, Provider} from '../../domain/eic-model';
-import {ResourceService} from '../../services/resource.service';
 import BitSet from 'bitset';
 import {environment} from '../../../environments/environment';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
@@ -20,6 +21,7 @@ declare var UIkit: any;
 })
 export class CatalogueFormComponent implements OnInit {
 
+  _hasUserConsent = environment.hasUserConsent;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
@@ -35,7 +37,7 @@ export class CatalogueFormComponent implements OnInit {
   premiumSort = new PremiumSortPipe();
   edit = false;
   hasChanges = false;
-  pendingProvider = false;
+  pendingCatalogue = false;
   disable = false;
   showLoader = false;
   tabs: boolean[] = [false, false, false, false, false, false, false, false];
@@ -70,6 +72,7 @@ export class CatalogueFormComponent implements OnInit {
   codeOfConduct = false;
   privacyPolicy = false;
   authorizedRepresentative = false;
+  agreedToTerms: boolean;
 
   vocabularyEntryForm: FormGroup;
   suggestionsForm = {
@@ -180,6 +183,7 @@ export class CatalogueFormComponent implements OnInit {
   constructor(public fb: FormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
+              public catalogueService: CatalogueService,
               public resourceService: ResourceService,
               public router: Router,
               public route: ActivatedRoute) {
@@ -189,10 +193,10 @@ export class CatalogueFormComponent implements OnInit {
 
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes('add/:catalogueId')) {
-      this.pendingProvider = true;
+      this.pendingCatalogue = true;
     }
     // if (path.includes('info/:catalogueId')) {
-    //   this.pendingProvider = true;
+    //   this.pendingCatalogue = true;
     // }
     this.setVocabularies();
     this.catalogueForm = this.fb.group(this.formDefinition);
@@ -227,6 +231,24 @@ export class CatalogueFormComponent implements OnInit {
       this.catalogueForm.patchValue(data);
       if (!this.edit) {
         sessionStorage.removeItem('provider');
+      }
+    }
+
+    if (this._hasUserConsent) {
+      if (this.edit) {
+        this.catalogueService.hasAdminAcceptedTerms(this.catalogueId, this.pendingCatalogue).subscribe(
+          boolean => { this.agreedToTerms = boolean; },
+          error => console.log(error),
+          () => {
+            if (!this.agreedToTerms) {
+              UIkit.modal('#modal-consent').show();
+            }
+          }
+        );
+      } else {
+        if (!this.agreedToTerms) {
+          UIkit.modal('#modal-consent').show();
+        }
       }
     }
 
@@ -291,7 +313,7 @@ export class CatalogueFormComponent implements OnInit {
       this.showLoader = true;
       window.scrollTo(0, 0);
 
-      this.serviceProviderService[method](this.catalogueForm.value, this.commentControl.value).subscribe(
+      this.catalogueService[method](this.catalogueForm.value, this.commentControl.value).subscribe(
         res => {
         },
         err => {
@@ -858,35 +880,35 @@ export class CatalogueFormComponent implements OnInit {
 
   /** <--BitSets **/
 
-  // /** Terms Modal--> **/
-  // toggleTerm(term) {
-  //   if (term === 'privacyPolicy') {
-  //     this.privacyPolicy = !this.privacyPolicy;
-  //   } else if (term === 'authorizedRepresentative') {
-  //     this.authorizedRepresentative = !this.authorizedRepresentative;
-  //   }
-  //   this.checkTerms();
-  // }
-  //
-  // checkTerms() {
-  //   this.agreedToTerms = this.privacyPolicy && this.authorizedRepresentative;
-  // }
-  //
-  // acceptTerms() {
-  //   if (this._hasUserConsent && this.edit) {
-  //     this.serviceProviderService.adminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
-  //       res => {},
-  //       error => { console.log(error); },
-  //       () => {}
-  //     );
-  //   }
-  // }
-  //
-  // /** <--Terms Modal **/
+  /** Terms Modal--> **/
+  toggleTerm(term) {
+    if (term === 'privacyPolicy') {
+      this.privacyPolicy = !this.privacyPolicy;
+    } else if (term === 'authorizedRepresentative') {
+      this.authorizedRepresentative = !this.authorizedRepresentative;
+    }
+    this.checkTerms();
+  }
+
+  checkTerms() {
+    this.agreedToTerms = this.privacyPolicy && this.authorizedRepresentative;
+  }
+
+  acceptTerms() {
+    if (this._hasUserConsent && this.edit) {
+      this.catalogueService.adminAcceptedTerms(this.catalogueId, this.pendingCatalogue).subscribe(
+        res => {},
+        error => { console.log(error); },
+        () => {}
+      );
+    }
+  }
+
+  /** <--Terms Modal **/
 
   /** Submit Comment Modal--> **/
   showCommentModal() {
-    if (this.edit && !this.pendingProvider) {
+    if (this.edit && !this.pendingCatalogue) {
       UIkit.modal('#commentModal').show();
     } else {
       this.registerCatalogue(false);

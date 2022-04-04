@@ -424,33 +424,6 @@ export class ResourceService {
     // return this.getAll("provider");
   }
 
-  getCatalogueBundles(from: string, quantity: string, orderField: string, order: string, query: string, status: string[], templateStatus: string[], auditState: string[]) {
-    let params = new HttpParams();
-    params = params.append('from', from);
-    params = params.append('quantity', quantity);
-    params = params.append('orderField', orderField);
-    params = params.append('order', order);
-    if (query && query !== '') {
-      params = params.append('query', query);
-    }
-    if (status && status.length > 0) {
-      for (const statusValue of status) {
-        params = params.append('status', statusValue);
-      }
-    }
-    // if (templateStatus && templateStatus.length > 0) {
-    //   for (const templateStatusValue of templateStatus) {
-    //     params = params.append('templateStatus', templateStatusValue);
-    //   }
-    // }
-    if (auditState && auditState.length > 0) {
-      for (const auditValue of auditState) {
-        params = params.append('auditState', auditValue);
-      }
-    }
-    return this.http.get(this.base + `/catalogue/bundle/all`, {params});
-  }
-
   getResourceBundles(from: string, quantity: string, orderField: string, order: string, query: string, active: string, resource_organisation: string[], status: string[], auditState: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);

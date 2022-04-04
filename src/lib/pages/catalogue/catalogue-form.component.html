@@ -996,12 +996,12 @@
                         </li>
                       </ul>
                     </div>
-                                          <pre>
+<!--                                          <pre>-->
 <!--                                            {{catalogueForm.value | json}}-->
 <!--                                            {{vocabularyEntryForm.value | json}}-->
 <!--                                            {{this.loaderBitSet.toString(2)}}-->
 <!--                                            {{this.loaderBitSet.cardinality()}}-->
-                                          </pre>
+<!--                                          </pre>-->
                   </form>
 
                 </div>
@@ -1027,46 +1027,46 @@
   </div>
 </div>
 
-<!--<div id="modal-consent" class="uk-flex-top" uk-modal="bg-close: false; esc-close: false;">-->
-<!--  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">-->
+<div id="modal-consent" class="uk-flex-top" uk-modal="bg-close: false; esc-close: false;">
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
 
-<!--    <div class="uk-margin-medium-bottom">-->
-<!--      In order to be able to register a {{serviceORresource | lowercase}} provider to {{projectName}} you need to agree-->
-<!--      to the following:-->
-<!--    </div>-->
+    <div class="uk-margin-medium-bottom">
+      In order to be able to register a Catalogue to {{projectName}} you need to agree
+      to the following:
+    </div>
 
-<!--    <div class="uk-margin-medium-bottom">-->
-<!--      &lt;!&ndash;      <div class="uk-form-controls uk-margin-bottom">&ndash;&gt;-->
-<!--      &lt;!&ndash;        <label>&ndash;&gt;-->
-<!--      &lt;!&ndash;          <input class="uk-checkbox" type="checkbox" id="codeOfConduct"  value="true"&ndash;&gt;-->
-<!--      &lt;!&ndash;                 (change)="toggleTerm('codeOfConduct')">&ndash;&gt;-->
-<!--      &lt;!&ndash;          <span class="uk-margin-small-left">I agree with the <a>EOSC Code of Conduct</a></span>&ndash;&gt;-->
-<!--      &lt;!&ndash;        </label>&ndash;&gt;-->
-<!--      &lt;!&ndash;      </div>&ndash;&gt;-->
-<!--      <div class="uk-form-controls uk-margin-bottom">-->
-<!--        <label>-->
-<!--          <input class="uk-checkbox" type="checkbox" id="privacyPolicy"  value="true"-->
-<!--                 (change)="toggleTerm('privacyPolicy')">-->
-<!--          <span class="uk-margin-small-left">I agree to the <a href="{{privacyPolicyURL}}" target="_blank">Privacy Policy</a></span>-->
-<!--        </label>-->
-<!--      </div>-->
-<!--      <div class="uk-form-controls uk-margin-bottom">-->
-<!--        <label>-->
-<!--          <input class="uk-checkbox" type="checkbox" id="authorizedRepresentative"  value="true"-->
-<!--                 (change)="toggleTerm('authorizedRepresentative')">-->
-<!--          <span class="uk-margin-small-left">I assert that I am an authorized representative of this {{serviceORresource}} Provider</span>-->
-<!--        </label>-->
-<!--      </div>-->
-<!--    </div>-->
+    <div class="uk-margin-medium-bottom">
+      <!--      <div class="uk-form-controls uk-margin-bottom">-->
+      <!--        <label>-->
+      <!--          <input class="uk-checkbox" type="checkbox" id="codeOfConduct"  value="true"-->
+      <!--                 (change)="toggleTerm('codeOfConduct')">-->
+      <!--          <span class="uk-margin-small-left">I agree with the <a>EOSC Code of Conduct</a></span>-->
+      <!--        </label>-->
+      <!--      </div>-->
+      <div class="uk-form-controls uk-margin-bottom">
+        <label>
+          <input class="uk-checkbox" type="checkbox" id="privacyPolicy"  value="true"
+                 (change)="toggleTerm('privacyPolicy')">
+          <span class="uk-margin-small-left">I agree to the <a href="{{privacyPolicyURL}}" target="_blank">Privacy Policy</a></span>
+        </label>
+      </div>
+      <div class="uk-form-controls uk-margin-bottom">
+        <label>
+          <input class="uk-checkbox" type="checkbox" id="authorizedRepresentative"  value="true"
+                 (change)="toggleTerm('authorizedRepresentative')">
+          <span class="uk-margin-small-left">I assert that I am an authorized representative of this Catalogue</span>
+        </label>
+      </div>
+    </div>
 
-<!--    <div class="uk-text-right">-->
-<!--      <button class="uk-button uk-button-default uk-modal-close" type="button" routerLink="/home">Cancel</button>-->
-<!--      <button class="uk-button  uk-modal-close" type="button" (click)="acceptTerms()"-->
-<!--              [ngClass]="{'uk-disabled' : !agreedToTerms, 'uk-button-secondary' : !agreedToTerms, 'uk-button-primary': agreedToTerms}">-->
-<!--        Apply</button>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close" type="button" routerLink="/home">Cancel</button>
+      <button class="uk-button  uk-modal-close" type="button" (click)="acceptTerms()"
+              [ngClass]="{'uk-disabled' : !agreedToTerms, 'uk-button-secondary' : !agreedToTerms, 'uk-button-primary': agreedToTerms}">
+        Apply</button>
+    </div>
+  </div>
+</div>
 
 <div id="commentModal" uk-modal>
   <div *ngIf="!showLoader" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">

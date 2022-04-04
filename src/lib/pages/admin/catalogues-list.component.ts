@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
-// import {CatalogueService} from "../../services/catalogue.service";
+import {CatalogueService} from "../../services/catalogue.service";
 // import {statusChangeMap, statusList} from '../../domain/catalogue-status-list';
 import {LoggingInfo, Provider, CatalogueBundle, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
@@ -108,7 +108,7 @@ export class CataloguesListComponent implements OnInit {
 
   constructor(private resourceService: ResourceService,
               private serviceProviderService: ServiceProviderService,
-              // private catalogueService: CatalogueService,
+              private catalogueService: CatalogueService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               private router: Router,
@@ -313,7 +313,7 @@ export class CataloguesListComponent implements OnInit {
   getCatalogues() {
     this.loadingMessage = 'Loading Providers...';
     this.catalogues = [];
-    this.resourceService.getCatalogueBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
+    this.catalogueService.getCatalogueBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
       this.dataForm.get('status').value, this.dataForm.get('templateStatus').value, this.dataForm.get('auditState').value).subscribe(
       res => {
@@ -394,7 +394,7 @@ export class CataloguesListComponent implements OnInit {
   }
 
   deleteCatalogue(catalogueId) {
-    this.serviceProviderService.deleteCatalogue(catalogueId)
+    this.catalogueService.deleteCatalogue(catalogueId)
       .subscribe(
         res => {
           UIkit.modal('#deletionModal').hide();
@@ -432,7 +432,7 @@ export class CataloguesListComponent implements OnInit {
 
   statusChangeActionCatalogue(){
       const active = this.newStatus === 'approved catalogue';
-      this.serviceProviderService.verifyCatalogue(this.selectedCatalogue.id, active, this.newStatus)
+      this.catalogueService.verifyCatalogue(this.selectedCatalogue.id, active, this.newStatus)
       .subscribe(
         res => {
           UIkit.modal('#actionModal').hide();
