@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/madgeek-arc/resource-catalogue-lib.git
 	branch = onboarding-v4
-	commit = 443d7a9e32b1c633ec8462f95f00efa6380d5b31
-	parent = 25f4c4615f85ad0ac41127d2d37ae415c6d69251
+	commit = 89b62a1f61b4e05d15fbc61b680621e4d059ce8d
+	parent = 9cfdf1d1d10fc9d34689fb43873187920dc14dde
 	method = merge
 	cmdver = 0.4.1
