@@ -79,6 +79,11 @@ const appRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard]
   },
   {
+    path: 'catalogue-dashboard',
+    loadChildren: () => import('../lib/pages/catalogue/dashboard/catalogue-dashboard.module').then(m => m.CatalogueDashboardModule),
+    canActivate: [CanActivateViaAuthGuard]
+  },
+  {
     path: 'service/:id',
     component: ServiceLandingPageComponent,
     data: {

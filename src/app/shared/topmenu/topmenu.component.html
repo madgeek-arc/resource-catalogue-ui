@@ -96,6 +96,7 @@
                                                                                                        class="uk-offcanvas-close offcanvas-close">My Catalogues</a>
                   </li>
                   <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/catalogue/all']" routerLinkActive="uk-active">View Catalogues</a></li>
+                  <li><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
                   <!--                  </ng-container>-->
                 </ul>
               </li>
@@ -221,6 +222,7 @@
                         <!-- If user is provider admin and has at least 1 catalogue TODO: check conditions and roles-->
                         <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/catalogue/my']"
                                                                                                              routerLinkActive="uk-active">My Catalogues</a></li>
+                        <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
                       </ul>
                     </div>
                   </div>

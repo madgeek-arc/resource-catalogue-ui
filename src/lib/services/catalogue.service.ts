@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {
   Catalogue,
-  CatalogueBundle
+  CatalogueBundle, ProviderBundle
 } from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
@@ -49,6 +49,10 @@ export class CatalogueService {
 
   getMyCatalogues() {
     return this.http.get<CatalogueBundle[]>(this.base + '/catalogue/getMyCatalogues', this.options);
+  }
+
+  getCatalogueBundleById(id: string) {
+    return this.http.get<CatalogueBundle>(this.base + `/catalogue/bundle/${id}`, this.options);
   }
 
   getCatalogueBundles(from: string, quantity: string, orderField: string, order: string, query: string, status: string[], templateStatus: string[], auditState: string[]) {
