@@ -242,7 +242,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   }
 
   getLocations() {
-    this.resourceService.getNewVocabulariesByType(Type.COUNTRY).subscribe(
+    this.resourceService.getNewVocabulariesByType(Type.COUNTRY).subscribe( //TODO: maybe merge COUNTRY with REGION if Catris will use the new vocs
       suc => {
         this.places = suc;
         this.placesVocIdArray = this.places.map(place => place.id);
