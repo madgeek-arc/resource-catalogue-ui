@@ -3,12 +3,13 @@ import {RouterModule, Routes} from '@angular/router';
 import {CanActivateViaAuthGuard} from '../../../services/can-activate-auth-guard.service';
 // import {ProviderStatsComponent} from './providerStats/provider-stats.component';
 import {CatalogueInfoComponent} from './catalogueInfo/catalogue-info.component';
-// import {ServicesComponent} from './services/services.component';
 // import {ServiceStatsComponent} from './resource-dashboard/service-stats.component';
 // import {ResourceDashboardModule} from './resource-dashboard/resource-dashboard.module';
 // import {ProviderHistoryComponent} from './providerHistory/provider-history.component';
 // import {ProviderFullHistoryComponent} from './providerHistory/provider-full-history.component';
 import {CatalogueDashboardComponent} from "./catalogue-dashboard.component";
+import {CatalogueServicesComponent} from "./catalogueServices/catalogue-services.component";
+import {CatalogueProvidersComponent} from "./catalogueProviders/catalogue-providers.component";
 
 const catalogueDashboardRoutes: Routes = [
   {
@@ -55,14 +56,20 @@ const catalogueDashboardRoutes: Routes = [
           isResource: false
         }
       },
-      // {
-      //   path: 'resources',
-      //   component: ServicesComponent,
-      //   data: {
-      //     isResource: false
-      //   }
-      // },
-
+      {
+        path: 'providers',
+        component: CatalogueProvidersComponent,
+        data: {
+          isResource: false
+        }
+      },
+      {
+        path: 'services',
+        component: CatalogueServicesComponent,
+        data: {
+          isResource: false
+        }
+      },
       // fixme den mou kanoun edw giati den thelw na exoun dashboard route
       // {
       //   path: 'resource/add',
