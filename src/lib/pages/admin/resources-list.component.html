@@ -83,39 +83,45 @@
 <!--                    </div>-->
                   </form>
 
-                  <div *ngIf="facets && facets.length>12" class="refineCategory uk-grid-margin">
-                    <h5 class="">{{facets[12].label}}</h5>
-                    <div class="uk-padding uk-padding-remove-top">
-                      <div class="uk-margin-small-top" *ngFor="let catalogue of facets[12].values">
-                        <label class="uk-margin-small-left">
-                          <input class="uk-checkbox" type="checkbox" name="filter" value="catalogue" data-md-icheck
-                                 (change)="this.onSelection($event, 'catalogue_id', catalogue.value)"
-                                 [checked]="isChecked(catalogue.value, 'catalogue_id')">
-                        </label>
-                        <span> {{catalogue.label ? catalogue.label : catalogue.value}}</span>
-                        <span> ({{catalogue.count}})</span>
-                      </div>
-                    </div>
+                  <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
+                    <ng-container *ngFor="let f of facets">
+                      <ng-container *ngIf="f.field === 'catalogue_id'">
+                        <h5 class="uk-margin-top">{{f.label}}</h5>
+                        <div class="uk-padding uk-padding-remove-top uk-padding-remove-left">
+                          <div class="uk-margin-small-top" *ngFor="let catalogue of f.values">
+                            <label class="uk-margin-small-left">
+                              <input class="uk-checkbox" type="checkbox" name="filter" value="catalogue" data-md-icheck
+                                     (change)="this.onSelection($event, 'catalogue_id', catalogue.value)"
+                                     [checked]="isChecked(catalogue.value, 'catalogue_id')">
+                            </label>
+                            <span> {{catalogue.label ? catalogue.label : catalogue.value}}</span>
+                            <span> ({{catalogue.count}})</span>
+                          </div>
+                        </div>
+                      </ng-container>
 
-                    <h5 class="">{{facets[1].label}}</h5>
-                    <label
-                      class="uk-margin-small-left uk-margin-small-bottom uk-search uk-search-default uk-width-3-4@m">
-                      <span uk-search-icon></span>
-                      <input class="uk-search-input" [(ngModel)]="searchFacet"
-                             placeholder="Search with provider name or id">
-                    </label>
-                    <div class="uk-margin-small-top" *ngFor="let provider of facets[1].values">
-                      <div *ngIf="!searchFacet || searchFacet.toLowerCase() === provider.value.toLowerCase()
-                                                 || (provider.label!=null && provider.label.toLowerCase().includes(searchFacet.toLowerCase()))">
-                        <label class="uk-margin-small-left">
-                          <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
-                                 (change)="this.onSelection($event, 'resource_organisation', provider.value)"
-                                 [checked]="isChecked(provider.value, 'catalogue_id')">
+                      <ng-container *ngIf="f.field === 'resource_organisation'">
+                        <h5 class="uk-margin-top">{{f.label}}</h5>
+                        <label
+                          class="uk-margin-small-left uk-margin-small-bottom uk-search uk-search-default uk-width-3-4@m">
+                          <span uk-search-icon></span>
+                          <input class="uk-search-input" [(ngModel)]="searchFacet"
+                                 placeholder="Search with provider name or id">
                         </label>
-                        <span> {{provider.label ? provider.label : provider.value}}</span>
-                        <span> ({{provider.count}})</span>
-                      </div>
-                    </div>
+                        <div class="uk-margin-small-top" *ngFor="let provider of f.values">
+                          <div *ngIf="!searchFacet || searchFacet.toLowerCase() === provider.value.toLowerCase()
+                                                     || (provider.label!=null && provider.label.toLowerCase().includes(searchFacet.toLowerCase()))">
+                            <label class="uk-margin-small-left">
+                              <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
+                                     (change)="this.onSelection($event, 'resource_organisation', provider.value)"
+                                     [checked]="isChecked(provider.value, 'catalogue_id')">
+                            </label>
+                            <span> {{provider.label ? provider.label : provider.value}}</span>
+                            <span> ({{provider.count}})</span>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </ng-container>
                   </div>
 
                 </div>

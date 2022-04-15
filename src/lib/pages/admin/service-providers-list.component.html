@@ -101,19 +101,23 @@
                     </div>
                   </form>
 
-                  <div *ngIf="facets && facets.length>11" class="refineCategory uk-grid-margin">
-                    <h5 class="">{{facets[11].label}}</h5>
-                    <div class="uk-padding uk-padding-remove-top">
-                      <div class="uk-margin-small-top" *ngFor="let catalogue of facets[11].values">
-                        <label class="uk-margin-small-left">
-                          <input class="uk-checkbox" type="checkbox" name="filter" value="catalogue" data-md-icheck
-                                 (change)="this.onSelection($event, 'catalogue_id', catalogue.value)"
-                                 [checked]="isCatalogueChecked(catalogue.value)">
-                        </label>
-                        <span> {{catalogue.label ? catalogue.label : catalogue.value}}</span>
-                        <span> ({{catalogue.count}})</span>
-                      </div>
-                    </div>
+                  <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
+                    <ng-container *ngFor="let f of facets">
+                      <ng-container *ngIf="f.field === 'catalogue_id'">
+                        <h5 class="">{{f.label}}</h5>
+                        <div class="uk-padding uk-padding-remove-top">
+                          <div class="uk-margin-small-top" *ngFor="let catalogue of f.values">
+                            <label class="uk-margin-small-left">
+                              <input class="uk-checkbox" type="checkbox" name="filter" value="catalogue" data-md-icheck
+                                     (change)="this.onSelection($event, 'catalogue_id', catalogue.value)"
+                                     [checked]="isCatalogueChecked(catalogue.value)">
+                            </label>
+                            <span> {{catalogue.label ? catalogue.label : catalogue.value}}</span>
+                            <span> ({{catalogue.count}})</span>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </ng-container>
                   </div>
 
                 </div>
