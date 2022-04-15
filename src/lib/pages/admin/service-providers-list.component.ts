@@ -32,7 +32,8 @@ export class ServiceProvidersListComponent implements OnInit {
     from: '0',
     status: new FormArray([]),
     templateStatus: new FormArray([]),
-    auditState: new FormArray([])
+    auditState: new FormArray([]),
+    catalogue_id: new FormArray([])
   };
 
   dataForm: FormGroup;
@@ -67,6 +68,8 @@ export class ServiceProvidersListComponent implements OnInit {
 
   statusList = statusList;
   adminActionsMap = statusChangeMap;
+
+  facets: any;
 
   providersPage: Paging<Provider>;
   vocabularies: Map<string, Vocabulary[]> = null;
@@ -132,7 +135,6 @@ export class ServiceProvidersListComponent implements OnInit {
                 if (this.dataForm.get('status').value.length === 0) {
                   const formArrayNew: FormArray = this.dataForm.get('status') as FormArray;
                   // formArrayNew = this.fb.array([]);
-
                   for (const status of params[i].split(',')) {
                     if (status !== '') {
                       formArrayNew.push(new FormControl(status));
@@ -144,7 +146,6 @@ export class ServiceProvidersListComponent implements OnInit {
                 if (this.dataForm.get('templateStatus').value.length === 0) {
                   const formArrayNew: FormArray = this.dataForm.get('templateStatus') as FormArray;
                   // formArrayNew = this.fb.array([]);
-
                   for (const templateStatus of params[i].split(',')) {
                     if (templateStatus !== '') {
                       formArrayNew.push(new FormControl(templateStatus));
@@ -153,11 +154,9 @@ export class ServiceProvidersListComponent implements OnInit {
                 }
                 foundTemplateStatus = true;
               } else if (i === 'auditState') {
-
                 if (this.dataForm.get('auditState').value.length === 0) {
                   const formArrayNew: FormArray = this.dataForm.get('auditState') as FormArray;
                   // formArrayNew = this.fb.array([]);
-
                   for (const auditState of params[i].split(',')) {
                     if (auditState !== '') {
                       formArrayNew.push(new FormControl(auditState));
@@ -165,6 +164,16 @@ export class ServiceProvidersListComponent implements OnInit {
                   }
                 }
                 foundState = true;
+              } else if (i === 'catalogue_id') {
+                if (this.dataForm.get('catalogue_id').value.length === 0) {
+                  const formArrayNew: FormArray = this.dataForm.get('catalogue_id') as FormArray;
+                  // formArrayNew = this.fb.array([]);
+                  for (const catalogue_id of params[i].split(',')) {
+                    if (catalogue_id !== '') {
+                      formArrayNew.push(new FormControl(catalogue_id));
+                    }
+                  }
+                }
               } else {
                 this.dataForm.get(i).setValue(params[i]);
               }
@@ -312,9 +321,10 @@ export class ServiceProvidersListComponent implements OnInit {
     this.providers = [];
     this.resourceService.getProviderBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('status').value, this.dataForm.get('templateStatus').value, this.dataForm.get('auditState').value).subscribe(
+      this.dataForm.get('status').value, this.dataForm.get('templateStatus').value, this.dataForm.get('auditState').value, this.dataForm.get('catalogue_id').value).subscribe(
       res => {
         this.providers = res['results'];
+        this.facets = res['facets'];
         this.total = res['total'];
         this.paginationInit();
       },
@@ -377,6 +387,90 @@ export class ServiceProvidersListComponent implements OnInit {
       }
     );
   }
+
+  /** for facets--> **/
+  isCatalogueChecked(value: string) {
+    return this.dataForm.get('catalogue_id').value.includes(value);
+  }
+
+  onSelection(e, category: string, value: string) {
+    const formArrayNew: FormArray = this.dataForm.get(category) as FormArray;
+    if (e.target.checked) {
+      this.addParameterToURL(category, value);
+      formArrayNew.push(new FormControl(value));
+    } else {
+      let categoryIndex = 0;
+      for (const urlParameter of this.urlParams) {
+        if (urlParameter.key === category) {
+          const valueIndex = urlParameter.values.indexOf(value, 0);
+          if (valueIndex > -1) {
+            urlParameter.values.splice(valueIndex, 1);
+            if (urlParameter.values.length === 0) {
+              this.urlParams.splice(categoryIndex, 1);
+            }
+          }
+          const formArrayIndex = formArrayNew.value.indexOf(value, 0);
+          if (formArrayIndex > -1 ) {
+            formArrayNew.removeAt(formArrayIndex);
+          }
+        }
+        categoryIndex++;
+      }
+    }
+    // this.getServices();
+    return this.navigateUsingParameters();
+  }
+
+  private addParameterToURL(category: string, value: string) {
+    let foundCategory = false;
+    for (const urlParameter of this.urlParams) {
+      if (urlParameter.key === category) {
+        foundCategory = true;
+        const valueIndex = urlParameter.values.indexOf(value, 0);
+        if (valueIndex < 0) {
+          urlParameter.values.push(value);
+          this.updatePagingURLParameters(0);
+        }
+      }
+    }
+    if (!foundCategory) {
+      this.updatePagingURLParameters(0);
+      const newParameter: URLParameter = {
+        key: category,
+        values: [value]
+      };
+      this.urlParams.push(newParameter);
+    }
+  }
+
+  navigateUsingParameters() {
+    const map: { [name: string]: string; } = {};
+    for (const urlParameter of this.urlParams) {
+      map[urlParameter.key] = urlParameter.values.join(',');
+    }
+    this.handleChange();
+    // return this.navigator.resourcesList(map);  // problematic semi-colon in url
+  }
+
+  updatePagingURLParameters(from: number) {
+    let foundFromCategory = false;
+    for (const urlParameter of this.urlParams) {
+      if (urlParameter.key === 'from') {
+        foundFromCategory = true;
+        urlParameter.values = [];
+        urlParameter.values.push(from + '');
+        break;
+      }
+    }
+    if (!foundFromCategory) {
+      const newFromParameter: URLParameter = {
+        key: 'from',
+        values: [from + '']
+      };
+      this.urlParams.push(newFromParameter);
+    }
+  }
+  /** <--for facets **/
 
   approveStatusChange(provider: ProviderBundle) {
     this.selectedProvider = provider;

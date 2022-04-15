@@ -396,7 +396,8 @@ export class ResourceService {
     // return this.getAll("provider");
   }
 
-  getProviderBundles(from: string, quantity: string, orderField: string, order: string, query: string, status: string[], templateStatus: string[], auditState: string[]) {
+  getProviderBundles(from: string, quantity: string, orderField: string, order: string, query: string,
+                     status: string[], templateStatus: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
@@ -420,11 +421,17 @@ export class ResourceService {
         params = params.append('auditState', auditValue);
       }
     }
+    if (catalogue_id && catalogue_id.length > 0) {
+      for (const catalogueValue of catalogue_id) {
+        params = params.append('catalogue_id', catalogueValue);
+      }
+    }
     return this.http.get(this.base + `/provider/bundle/all`, {params});
     // return this.getAll("provider");
   }
 
-  getResourceBundles(from: string, quantity: string, orderField: string, order: string, query: string, active: string, resource_organisation: string[], status: string[], auditState: string[]) {
+  getResourceBundles(from: string, quantity: string, orderField: string, order: string, query: string,
+                     active: string, resource_organisation: string[], status: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
@@ -445,6 +452,11 @@ export class ResourceService {
     if (resource_organisation && resource_organisation.length > 0) {
       for (const providerValue of resource_organisation) {
         params = params.append('resource_organisation', providerValue);
+      }
+    }
+    if (catalogue_id && catalogue_id.length > 0) {
+      for (const catalogueValue of catalogue_id) {
+        params = params.append('catalogue_id', catalogueValue);
       }
     }
     if (auditState && auditState.length > 0) {

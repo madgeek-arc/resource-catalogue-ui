@@ -101,6 +101,21 @@
                     </div>
                   </form>
 
+                  <div *ngIf="facets && facets.length>11" class="refineCategory uk-grid-margin">
+                    <h5 class="">{{facets[11].label}}</h5>
+                    <div class="uk-padding uk-padding-remove-top">
+                      <div class="uk-margin-small-top" *ngFor="let catalogue of facets[11].values">
+                        <label class="uk-margin-small-left">
+                          <input class="uk-checkbox" type="checkbox" name="filter" value="catalogue" data-md-icheck
+                                 (change)="this.onSelection($event, 'catalogue_id', catalogue.value)"
+                                 [checked]="isCatalogueChecked(catalogue.value)">
+                        </label>
+                        <span> {{catalogue.label ? catalogue.label : catalogue.value}}</span>
+                        <span> ({{catalogue.count}})</span>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
 
                 <div class="uk-width-3-4">
