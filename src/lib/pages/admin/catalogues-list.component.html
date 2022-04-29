@@ -226,15 +226,10 @@
                             <div class="uk-width-4-5">
                               <div class="providerName">
                                 <span class="uk-margin-auto-vertical">
-                                  <ng-container *ngIf="catalogueBundle.status === 'approved catalogue'">
-<!--                                    <a [routerLink]="['/dashboard', catalogueBundle.id, 'stats']" data-uk-tooltip title="'Go to the resource catalogue monitoring dashboard'">-->
+                                  <ng-container>
+                                    <a [routerLink]="['/catalogue-dashboard', catalogueBundle.id, 'info']" data-uk-tooltip title="'Go to the resource catalogue monitoring dashboard'">
                                       {{ catalogueBundle.catalogue.name }}
-<!--                                    </a>-->
-                                  </ng-container>
-                                  <ng-container *ngIf="catalogueBundle.status !== 'approved catalogue'">
-<!--                                    <a [routerLink]="['/dashboard', catalogueBundle.id]" data-uk-tooltip title="'Go to the resource catalogue monitoring dashboard'">-->
-                                      {{ catalogueBundle.catalogue.name }}
-<!--                                    </a>-->
+                                    </a>
                                   </ng-container>
 <!--                                  <a [routerLink]="['/catalogue/info',catalogueBundle.id]" class="uk-display-inline-block">-->
 <!--                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->

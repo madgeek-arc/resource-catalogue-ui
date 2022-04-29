@@ -82,15 +82,11 @@ export class CatalogueService {
     return this.http.get(this.base + `/catalogue/bundle/all`, {params});
   }
 
-  getProvidersOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
+  getProvidersOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, status?: string, query?: string) {
     if (!query) { query = ''; }
-    if (!status) { status = 'approved resource,pending resource,rejected resource'; }
-    if (active === 'statusAll') {
-      return this.http.get<Paging<InfraService>>(this.base +
-        `/service/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
-    }
-    return this.http.get<Paging<InfraService>>(this.base +
-      `/service/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
+    if (!status) { status = 'approved provider,pending provider,rejected provider'; }
+    return this.http.get<Paging<ProviderBundle>>(this.base +
+      `/provider/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
   }
 
   getServicesOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {

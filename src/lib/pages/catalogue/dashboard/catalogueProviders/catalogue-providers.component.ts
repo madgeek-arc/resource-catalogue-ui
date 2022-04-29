@@ -27,7 +27,7 @@ export class CatalogueProvidersComponent implements OnInit {
     order: 'ASC',
     orderField: 'name',
     query: '',
-    active: 'statusAll',
+    // active: 'statusAll',
     status: ''
   };
 
@@ -38,10 +38,10 @@ export class CatalogueProvidersComponent implements OnInit {
   urlParams: URLParameter[] = [];
   catalogueId;
   catalogueBundle: CatalogueBundle;
-  providerServices: Paging<InfraService>; // change to providerBundle
+  catalogueProviders: Paging<ProviderBundle>; // change to providerBundle
   // providerCoverage: string[];
   // providerServicesGroupedByPlace: any;
-  selectedService: InfraService = null;
+  selectedProvider: ProviderBundle = null;
   path: string;
 
   total: number;
@@ -91,10 +91,6 @@ export class CatalogueProvidersComponent implements OnInit {
     this.router.navigate([`/dashboard/${this.catalogueId}/resource-dashboard/`, id]);
   }
 
-  useAsTemplate(id: string) {
-    this.router.navigate([`/provider/${this.catalogueId}/resource/add/use-template`, id]);
-  }
-
   getCatalogue() {
     this.catalogueService.getCatalogueBundleById(this.catalogueId).subscribe(
       catalogueBundle => {
@@ -105,34 +101,34 @@ export class CatalogueProvidersComponent implements OnInit {
     );
   }
 
-  toggleService(providerService: InfraService) {
-    if (providerService.status === 'pending resource' || providerService.status === 'rejected resource') {
-      this.errorMessage = `You cannot activate a ${providerService.status}.`;
-      window.scrollTo(0, 0);
-      return;
-    }
-    this.toggleLoading = true;
-    this.providerService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
-      res => {},
-      error => {
-        this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getProviders();
-        this.toggleLoading = false;
-        // console.log(error);
-      },
-      () => {
-        this.getProviders();
-        this.toggleLoading = false;
-      }
-    );
-  }
+  // toggleService(providerService: ProviderBundle) {  //TODO: delete?
+  //   if (providerService.status === 'pending resource' || providerService.status === 'rejected resource') {
+  //     this.errorMessage = `You cannot activate a ${providerService.status}.`;
+  //     window.scrollTo(0, 0);
+  //     return;
+  //   }
+  //   this.toggleLoading = true;
+  //   this.providerService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
+  //     res => {},
+  //     error => {
+  //       this.errorMessage = 'Something went bad. ' + error.error ;
+  //       this.getProviders();
+  //       this.toggleLoading = false;
+  //       // console.log(error);
+  //     },
+  //     () => {
+  //       this.getProviders();
+  //       this.toggleLoading = false;
+  //     }
+  //   );
+  // }
 
   getProviders() {
     this.catalogueService.getProvidersOfCatalogue(this.catalogueId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('order').value, this.dataForm.get('orderField').value,
-      this.dataForm.get('active').value, this.dataForm.get('status').value, this.dataForm.get('query').value)
+      this.dataForm.get('status').value, this.dataForm.get('query').value)
       .subscribe(res => {
-          this.providerServices = res;
+          this.catalogueProviders = res;
           this.total = res['total'];
           this.paginationInit();
         },
@@ -142,8 +138,8 @@ export class CatalogueProvidersComponent implements OnInit {
       );
   }
 
-  setSelectedService(service: InfraService) {
-    this.selectedService = service;
+  setSelectedProvider(provider: ProviderBundle) {
+    this.selectedProvider = provider;
     UIkit.modal('#actionModal').show();
   }
 
