@@ -9,7 +9,6 @@ import {Vocabulary, Type, Provider} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import BitSet from 'bitset';
 import {environment} from '../../../environments/environment';
-import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 
 declare var UIkit: any;
 
@@ -20,8 +19,7 @@ declare var UIkit: any;
 })
 export class ServiceProviderFormComponent implements OnInit {
 
-  private _hasUserConsent = environment.hasUserConsent;
-
+  _hasUserConsent = environment.hasUserConsent;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
@@ -34,7 +32,6 @@ export class ServiceProviderFormComponent implements OnInit {
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
-  premiumSort = new PremiumSortPipe();
   edit = false;
   hasChanges = false;
   pendingProvider = false;
@@ -524,8 +521,6 @@ export class ServiceProviderFormComponent implements OnInit {
       },
       error => console.log(JSON.stringify(error.error)),
       () => {
-        this.premiumSort.transform(this.placesVocabulary, ['Europe', 'Worldwide']);
-
         let voc: Vocabulary[] = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN].concat(this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN]);
         this.subVocabularies = this.groupByKey(voc, 'parentId');
 

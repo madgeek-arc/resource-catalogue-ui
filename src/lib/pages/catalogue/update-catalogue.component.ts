@@ -7,6 +7,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CatalogueFormComponent} from "./catalogue-form.component";
+import {CatalogueService} from "../../services/catalogue.service";
 
 declare var UIkit: any;
 
@@ -22,10 +23,11 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
   constructor(public fb: FormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
+              public catalogueService: CatalogueService,
               public resourceService: ResourceService,
               public router: Router,
               public route: ActivatedRoute) {
-    super(fb, authService, serviceProviderService, resourceService, router, route);
+    super(fb, authService, serviceProviderService, catalogueService, resourceService, router, route);
   }
 
   ngOnInit() {
@@ -69,7 +71,7 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
   getProvider() {
     this.errorMessage = '';
     const path = this.route.snapshot.routeConfig.path;
-    this.serviceProviderService[(path === 'add/:catalogueId' ? 'getPendingProviderById' : 'getCatalogueById')](this.catalogueId)
+    this.catalogueService[(path === 'add/:catalogueId' ? 'getPendingProviderById' : 'getCatalogueById')](this.catalogueId)
       .subscribe(
         catalogue => this.catalogue = catalogue,
         err => {

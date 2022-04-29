@@ -1,8 +1,9 @@
 import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
-import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
-import {LoggingInfo, Provider, ProviderBundle, Service, Type, Vocabulary} from '../../domain/eic-model';
+import {CatalogueService} from "../../services/catalogue.service";
+// import {statusChangeMap, statusList} from '../../domain/catalogue-status-list';
+import {LoggingInfo, Provider, CatalogueBundle, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -16,10 +17,10 @@ import {zip} from 'rxjs';
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-service-providers-list',
-  templateUrl: './service-providers-list.component.html'
+  selector: 'app-catalogues-list',
+  templateUrl: './catalogues-list.component.html'
 })
-export class ServiceProvidersListComponent implements OnInit {
+export class CataloguesListComponent implements OnInit {
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
@@ -32,8 +33,7 @@ export class ServiceProvidersListComponent implements OnInit {
     from: '0',
     status: new FormArray([]),
     templateStatus: new FormArray([]),
-    auditState: new FormArray([]),
-    catalogue_id: new FormArray([])
+    auditState: new FormArray([])
   };
 
   dataForm: FormGroup;
@@ -49,9 +49,9 @@ export class ServiceProvidersListComponent implements OnInit {
   errorMessage: string;
   loadingMessage = '';
 
-  providers: ProviderBundle[] = [];
-  providersForAudit: ProviderBundle[] = [];
-  selectedProvider: ProviderBundle;
+  catalogues: CatalogueBundle[] = [];
+  cataloguesForAudit: CatalogueBundle[] = [];
+  selectedCatalogue: CatalogueBundle;
   newStatus: string;
   pushedApprove: boolean;
   verify: boolean;
@@ -66,10 +66,8 @@ export class ServiceProvidersListComponent implements OnInit {
 
   serviceTemplatePerProvider: any[] = [];
 
-  statusList = statusList;
-  adminActionsMap = statusChangeMap;
-
-  facets: any;
+  // statusList = statusList;
+  // adminActionsMap = statusChangeMap;
 
   providersPage: Paging<Provider>;
   vocabularies: Map<string, Vocabulary[]> = null;
@@ -99,7 +97,8 @@ export class ServiceProvidersListComponent implements OnInit {
   public auditLabels: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
   @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
 
-  public statuses: Array<string> = ['approved provider', 'pending provider', 'rejected provider'];
+  // public statuses: Array<string> = ['approved provider', 'pending provider', 'rejected provider'];
+  public statuses: Array<string> = ['approved catalogue', 'pending catalogue', 'rejected catalogue'];
   public labels: Array<string> = ['Approved', 'Pending', 'Rejected'];
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
@@ -109,6 +108,7 @@ export class ServiceProvidersListComponent implements OnInit {
 
   constructor(private resourceService: ResourceService,
               private serviceProviderService: ServiceProviderService,
+              private catalogueService: CatalogueService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               private router: Router,
@@ -135,6 +135,7 @@ export class ServiceProvidersListComponent implements OnInit {
                 if (this.dataForm.get('status').value.length === 0) {
                   const formArrayNew: FormArray = this.dataForm.get('status') as FormArray;
                   // formArrayNew = this.fb.array([]);
+
                   for (const status of params[i].split(',')) {
                     if (status !== '') {
                       formArrayNew.push(new FormControl(status));
@@ -146,6 +147,7 @@ export class ServiceProvidersListComponent implements OnInit {
                 if (this.dataForm.get('templateStatus').value.length === 0) {
                   const formArrayNew: FormArray = this.dataForm.get('templateStatus') as FormArray;
                   // formArrayNew = this.fb.array([]);
+
                   for (const templateStatus of params[i].split(',')) {
                     if (templateStatus !== '') {
                       formArrayNew.push(new FormControl(templateStatus));
@@ -154,9 +156,11 @@ export class ServiceProvidersListComponent implements OnInit {
                 }
                 foundTemplateStatus = true;
               } else if (i === 'auditState') {
+
                 if (this.dataForm.get('auditState').value.length === 0) {
                   const formArrayNew: FormArray = this.dataForm.get('auditState') as FormArray;
                   // formArrayNew = this.fb.array([]);
+
                   for (const auditState of params[i].split(',')) {
                     if (auditState !== '') {
                       formArrayNew.push(new FormControl(auditState));
@@ -164,16 +168,6 @@ export class ServiceProvidersListComponent implements OnInit {
                   }
                 }
                 foundState = true;
-              } else if (i === 'catalogue_id') {
-                if (this.dataForm.get('catalogue_id').value.length === 0) {
-                  const formArrayNew: FormArray = this.dataForm.get('catalogue_id') as FormArray;
-                  // formArrayNew = this.fb.array([]);
-                  for (const catalogue_id of params[i].split(',')) {
-                    if (catalogue_id !== '') {
-                      formArrayNew.push(new FormControl(catalogue_id));
-                    }
-                  }
-                }
               } else {
                 this.dataForm.get(i).setValue(params[i]);
               }
@@ -202,7 +196,7 @@ export class ServiceProvidersListComponent implements OnInit {
               }
             }
 
-            this.getProviders();
+            this.getCatalogues();
             // this.handleChange();
           },
           error => this.errorMessage = <any>error
@@ -265,9 +259,9 @@ export class ServiceProvidersListComponent implements OnInit {
     this.handleChangeAndResetPage();
   }
 
-  isAuditStateChecked(value: string) {
-    return this.dataForm.get('auditState').value.includes(value);
-  }
+  // isAuditStateChecked(value: string) {
+  //   return this.dataForm.get('auditState').value.includes(value);
+  // }
 
   isStatusChecked(value: string) {
     return this.dataForm.get('status').value.includes(value);
@@ -307,8 +301,8 @@ export class ServiceProvidersListComponent implements OnInit {
       map[urlParameter.key] = concatValue;
     }
 
-    this.router.navigate([`/provider/all`], {queryParams: map});
-    // this.getProviders();
+    this.router.navigate([`/catalogue/all`], {queryParams: map});
+    // this.getCatalogues();
   }
 
   handleChangeAndResetPage() {
@@ -316,15 +310,14 @@ export class ServiceProvidersListComponent implements OnInit {
     this.handleChange();
   }
 
-  getProviders() {
+  getCatalogues() {
     this.loadingMessage = 'Loading Providers...';
-    this.providers = [];
-    this.resourceService.getProviderBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
+    this.catalogues = [];
+    this.catalogueService.getCatalogueBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('status').value, this.dataForm.get('templateStatus').value, this.dataForm.get('auditState').value, this.dataForm.get('catalogue_id').value).subscribe(
+      this.dataForm.get('status').value, this.dataForm.get('templateStatus').value, this.dataForm.get('auditState').value).subscribe(
       res => {
-        this.providers = res['results'];
-        this.facets = res['facets'];
+        this.catalogues = res['results'];
         this.total = res['total'];
         this.paginationInit();
       },
@@ -335,7 +328,7 @@ export class ServiceProvidersListComponent implements OnInit {
       },
       () => {
         this.loadingMessage = '';
-        this.providers.forEach(
+        this.catalogues.forEach(
           p => {
             // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
             if (p.templateStatus === 'pending template') {
@@ -353,176 +346,60 @@ export class ServiceProvidersListComponent implements OnInit {
     );
   }
 
-  getRandomProviders(quantity: string) {
-    this.loadingMessage = 'Loading ' + quantity + ' random Providers...';
-    this.providersForAudit = [];
-    this.serviceProviderService.getRandomProviders(quantity).subscribe(
-      res => {
-        this.providersForAudit = res['results'];
-        // this.total = res['total'];
-        // this.total = +quantity;
-        // this.paginationInit();
-      },
-      err => {
-        console.log(err);
-        this.errorMessage = 'The list could not be retrieved';
-        this.loadingMessage = '';
-      },
-      () => {
-        this.loadingMessage = '';
-        this.providersForAudit.forEach(
-          p => {
-            // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
-            if (p.templateStatus === 'pending template') {
-              this.resourceService.getServiceTemplate(p.id).subscribe(
-                res => {
-                  if (res) {
-                    this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
-                  }
-                }
-              );
-            }
-          }
-        );
-      }
-    );
-  }
+  // getRandomProviders(quantity: string) {
+  //   this.loadingMessage = 'Loading ' + quantity + ' random Providers...';
+  //   this.cataloguesForAudit = [];
+  //   this.serviceProviderService.getRandomProviders(quantity).subscribe(
+  //     res => {
+  //       this.cataloguesForAudit = res['results'];
+  //       // this.total = res['total'];
+  //       // this.total = +quantity;
+  //       // this.paginationInit();
+  //     },
+  //     err => {
+  //       console.log(err);
+  //       this.errorMessage = 'The list could not be retrieved';
+  //       this.loadingMessage = '';
+  //     },
+  //     () => {
+  //       this.loadingMessage = '';
+  //       this.cataloguesForAudit.forEach(
+  //         p => {
+  //           // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
+  //           if (p.templateStatus === 'pending template') {
+  //             this.resourceService.getServiceTemplate(p.id).subscribe(
+  //               res => {
+  //                 if (res) {
+  //                   this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
+  //                 }
+  //               }
+  //             );
+  //           }
+  //         }
+  //       );
+  //     }
+  //   );
+  // }
 
-  /** for facets--> **/
-  isCatalogueChecked(value: string) {
-    return this.dataForm.get('catalogue_id').value.includes(value);
-  }
-
-  onSelection(e, category: string, value: string) {
-    const formArrayNew: FormArray = this.dataForm.get(category) as FormArray;
-    if (e.target.checked) {
-      this.addParameterToURL(category, value);
-      formArrayNew.push(new FormControl(value));
-    } else {
-      let categoryIndex = 0;
-      for (const urlParameter of this.urlParams) {
-        if (urlParameter.key === category) {
-          const valueIndex = urlParameter.values.indexOf(value, 0);
-          if (valueIndex > -1) {
-            urlParameter.values.splice(valueIndex, 1);
-            if (urlParameter.values.length === 0) {
-              this.urlParams.splice(categoryIndex, 1);
-            }
-          }
-          const formArrayIndex = formArrayNew.value.indexOf(value, 0);
-          if (formArrayIndex > -1 ) {
-            formArrayNew.removeAt(formArrayIndex);
-          }
-        }
-        categoryIndex++;
-      }
-    }
-    // this.getServices();
-    return this.navigateUsingParameters();
-  }
-
-  private addParameterToURL(category: string, value: string) {
-    let foundCategory = false;
-    for (const urlParameter of this.urlParams) {
-      if (urlParameter.key === category) {
-        foundCategory = true;
-        const valueIndex = urlParameter.values.indexOf(value, 0);
-        if (valueIndex < 0) {
-          urlParameter.values.push(value);
-          this.updatePagingURLParameters(0);
-        }
-      }
-    }
-    if (!foundCategory) {
-      this.updatePagingURLParameters(0);
-      const newParameter: URLParameter = {
-        key: category,
-        values: [value]
-      };
-      this.urlParams.push(newParameter);
-    }
-  }
-
-  navigateUsingParameters() {
-    const map: { [name: string]: string; } = {};
-    for (const urlParameter of this.urlParams) {
-      map[urlParameter.key] = urlParameter.values.join(',');
-    }
-    this.handleChange();
-    // return this.navigator.resourcesList(map);  // problematic semi-colon in url
-  }
-
-  updatePagingURLParameters(from: number) {
-    let foundFromCategory = false;
-    for (const urlParameter of this.urlParams) {
-      if (urlParameter.key === 'from') {
-        foundFromCategory = true;
-        urlParameter.values = [];
-        urlParameter.values.push(from + '');
-        break;
-      }
-    }
-    if (!foundFromCategory) {
-      const newFromParameter: URLParameter = {
-        key: 'from',
-        values: [from + '']
-      };
-      this.urlParams.push(newFromParameter);
-    }
-  }
-  /** <--for facets **/
-
-  approveStatusChange(provider: ProviderBundle) {
-    this.selectedProvider = provider;
+  approveStatusChange(catalogue: CatalogueBundle) {
+    this.selectedCatalogue = catalogue;
     UIkit.modal('#approveModal').show();
   }
 
-  updateSelectedProvider() {
-    if (this.selectedProvider && (this.selectedProvider.status !== 'approved provider')) {
-      const i = this.statusList.indexOf(this.selectedProvider.status);
-      let active = false;
-      if (this.statusList[i + 1] === 'approved provider') {
-        active = true;
-      }
-      const updatedFields = Object.assign({
-        id: this.selectedProvider.id,
-        status: this.statusList[i + 1],
-        active: active
-      });
-
-      this.serviceProviderService.updateServiceProvider(updatedFields, null).pipe(
-        mergeMap(res => this.serviceProviderService.getServiceProviderById(res.id)))
-        .subscribe(
-          res => {
-            const i = this.providers.findIndex(p => p.id === res.id);
-            if (i > -1) {
-              Object.assign(this.providers[i], res);
-            }
-          },
-          err => console.log(err),
-          () => {
-            UIkit.modal('#approveModal').hide();
-            this.selectedProvider = null;
-          }
-        );
-    }
-
-  }
-
-  showDeletionModal(provider: ProviderBundle) {
-    this.selectedProvider = provider;
-    if (this.selectedProvider) {
+  showDeletionModal(catalogue: CatalogueBundle) {
+    this.selectedCatalogue = catalogue;
+    if (this.selectedCatalogue) {
       UIkit.modal('#deletionModal').show();
     }
   }
 
-  deleteProvider(providerId) {
-    this.serviceProviderService.deleteServiceProvider(providerId)
+  deleteCatalogue(catalogueId) {
+    this.catalogueService.deleteCatalogue(catalogueId)
       .subscribe(
         res => {
           UIkit.modal('#deletionModal').hide();
           location.reload();
-          // this.getProviders();
+          // this.getCatalogues();
         },
         err => {
           UIkit.modal('#deletionModal').hide();
@@ -535,115 +412,144 @@ export class ServiceProvidersListComponent implements OnInit {
       );
   }
 
-  showActionModal(provider: ProviderBundle, newStatus: string, pushedApprove: boolean, verify: boolean) {
-    this.selectedProvider = provider;
+  showActionModal(catalogue: CatalogueBundle, newStatus: string) {
+    this.selectedCatalogue = catalogue;
     this.newStatus = newStatus;
-    this.pushedApprove = pushedApprove;
-    this.verify = verify;
-    if (this.selectedProvider) {
+    if (this.selectedCatalogue) {
       UIkit.modal('#actionModal').show();
     }
   }
 
-  statusChangeAction() {
-    this.loadingMessage = '';
-    const active = this.pushedApprove && (this.newStatus === 'approved provider');
-    if(this.verify){ //use verify method
-      this.serviceProviderService.verifyServiceProvider(this.selectedProvider.id, active, this.adminActionsMap[this.newStatus].statusId)
-        .subscribe(
-          res => {
-            /*this.providers = [];
-            this.providers = res;*/
-            UIkit.modal('#actionModal').hide();
-            this.getProviders();
-          },
-          err => {
-            UIkit.modal('#actionModal').hide();
-            this.loadingMessage = '';
-            console.log(err);
-          },
-          () => {
-            this.loadingMessage = '';
-          }
-        );
-    } else { //use publish method
-      this.serviceProviderService.publishProvider(this.selectedProvider.id, active)
-        .subscribe(
-          res => {
-            /*this.providers = [];
-            this.providers = res;*/
-            UIkit.modal('#actionModal').hide();
-            this.getProviders();
-          },
-          err => {
-            UIkit.modal('#actionModal').hide();
-            this.loadingMessage = '';
-            console.log(err);
-          },
-          () => {
-            this.loadingMessage = '';
-          }
-        );
-    }
-  }
+  // showActionModal(catalogue: CatalogueBundle, newStatus: string, pushedApprove: boolean, verify: boolean) {
+  //   this.selectedCatalogue = catalogue;
+  //   this.newStatus = newStatus;
+  //   this.pushedApprove = pushedApprove;
+  //   this.verify = verify;
+  //   if (this.selectedCatalogue) {
+  //     UIkit.modal('#actionModal').show();
+  //   }
+  // }
 
-  templateAction(id, active, status) {
-    this.loadingMessage = '';
-    UIkit.modal('#spinnerModal').show();
-    const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
-    this.resourceService.verifyResource(templateId, active, status).subscribe(
+  statusChangeActionCatalogue(){
+      const active = this.newStatus === 'approved catalogue';
+      this.catalogueService.verifyCatalogue(this.selectedCatalogue.id, active, this.newStatus)
+      .subscribe(
         res => {
-          this.getProviders();
+          UIkit.modal('#actionModal').hide();
+          this.getCatalogues();
         },
         err => {
-          UIkit.modal('#spinnerModal').hide();
+          UIkit.modal('#actionModal').hide();
+          this.loadingMessage = '';
           console.log(err);
         },
         () => {
-          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
         }
       );
   }
 
-  showAuditForm(view: string, provider: ProviderBundle) {
-    this.commentControl.reset();
-    this.selectedProvider = provider;
-    if (view === 'side') {
-      this.showSideAuditForm = true;
-    } else if (view === 'main') {
-      this.showMainAuditForm = true;
-    }
-  }
+  // statusChangeAction() {
+  //   this.loadingMessage = '';
+  //   const active = this.pushedApprove && (this.newStatus === 'approved provider');
+  //   if(this.verify){ //use verify method
+  //     this.serviceProviderService.verifyServiceProvider(this.selectedCatalogue.id, active, this.adminActionsMap[this.newStatus].statusId)
+  //       .subscribe(
+  //         res => {
+  //           /*this.providers = [];
+  //           this.providers = res;*/
+  //           UIkit.modal('#actionModal').hide();
+  //           this.getCatalogues();
+  //         },
+  //         err => {
+  //           UIkit.modal('#actionModal').hide();
+  //           this.loadingMessage = '';
+  //           console.log(err);
+  //         },
+  //         () => {
+  //           this.loadingMessage = '';
+  //         }
+  //       );
+  //   } else { //use publish method
+  //     this.serviceProviderService.publishProvider(this.selectedCatalogue.id, active)
+  //       .subscribe(
+  //         res => {
+  //           /*this.providers = [];
+  //           this.providers = res;*/
+  //           UIkit.modal('#actionModal').hide();
+  //           this.getCatalogues();
+  //         },
+  //         err => {
+  //           UIkit.modal('#actionModal').hide();
+  //           this.loadingMessage = '';
+  //           console.log(err);
+  //         },
+  //         () => {
+  //           this.loadingMessage = '';
+  //         }
+  //       );
+  //   }
+  // }
 
-  resetAuditView() {
-    this.showSideAuditForm = false;
-    this.showMainAuditForm = false;
-    this.commentControl.reset();
-  }
+  // templateAction(id, active, status) {
+  //   this.loadingMessage = '';
+  //   UIkit.modal('#spinnerModal').show();
+  //   const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
+  //   this.resourceService.verifyResource(templateId, active, status).subscribe(
+  //     res => {
+  //       this.getCatalogues();
+  //     },
+  //     err => {
+  //       UIkit.modal('#spinnerModal').hide();
+  //       console.log(err);
+  //     },
+  //     () => {
+  //       UIkit.modal('#spinnerModal').hide();
+  //     }
+  //   );
+  // }
 
-  auditProviderAction(action: string) {
-    this.serviceProviderService.auditProvider(this.selectedProvider.id, action, this.commentControl.value)
-      .subscribe(
-        res => {
-          if (!this.showSideAuditForm) {
-            this.getProviders();
-          }
-        },
-        err => { console.log(err); },
-        () => {
-          this.providersForAudit.forEach(
-            p => {
-              if (p.id === this.selectedProvider.id) {
-                p.latestAuditInfo = this.initLatestAuditInfo;
-                p.latestAuditInfo.date = Date.now().toString();
-                p.latestAuditInfo.actionType = action;
-              }
-            }
-          );
-          this.resetAuditView();
-        }
-      );
-  }
+  /* Audit */
+
+  // showAuditForm(view: string, catalogue: CatalogueBundle) {
+  //   this.commentControl.reset();
+  //   this.selectedCatalogue = catalogue;
+  //   if (view === 'side') {
+  //     this.showSideAuditForm = true;
+  //   } else if (view === 'main') {
+  //     this.showMainAuditForm = true;
+  //   }
+  // }
+  //
+  // resetAuditView() {
+  //   this.showSideAuditForm = false;
+  //   this.showMainAuditForm = false;
+  //   this.commentControl.reset();
+  // }
+  //
+  // auditProviderAction(action: string) {
+  //   this.serviceProviderService.auditProvider(this.selectedCatalogue.id, action, this.commentControl.value)
+  //     .subscribe(
+  //       res => {
+  //         if (!this.showSideAuditForm) {
+  //           this.getCatalogues();
+  //         }
+  //       },
+  //       err => { console.log(err); },
+  //       () => {
+  //         this.cataloguesForAudit.forEach(
+  //           p => {
+  //             if (p.id === this.selectedCatalogue.id) {
+  //               p.latestAuditInfo = this.initLatestAuditInfo;
+  //               p.latestAuditInfo.date = Date.now().toString();
+  //               p.latestAuditInfo.actionType = action;
+  //             }
+  //           }
+  //         );
+  //         this.resetAuditView();
+  //       }
+  //     );
+  // }
 
   hasCreatedFirstService(id: string) {
     return this.serviceTemplatePerProvider.some(x => x.providerId === id);

@@ -188,6 +188,10 @@ export class ProviderBundle extends Bundle<Provider> {
   provider: Provider;
 }
 
+export class CatalogueBundle extends Bundle<Catalogue> {
+  catalogue: Catalogue;
+}
+
 export class ProviderLocation {
   streetNameAndNumber: string;
   postalCode: string;
@@ -472,6 +476,7 @@ export const enum Type {
   SUBCATEGORY = "SUBCATEGORY",
   LANGUAGE = "LANGUAGE",
   COUNTRY = "COUNTRY",
+  REGION = "REGION",
   TRL = "TRL",
   SCIENTIFIC_DOMAIN = "SCIENTIFIC_DOMAIN",
   SCIENTIFIC_SUBDOMAIN = "SCIENTIFIC_SUBDOMAIN",

@@ -16,8 +16,8 @@
           <div class="">
             <!--<button class="uk-button uk-button-primary">Discard</button>-->
 <!--            <button *ngIf="!disable && (!edit || pendingProvider)" class="uk-button uk-button-primary uk-margin-left" (click)="this.registerCatalogue(true)">Save as draft</button>-->
-<!--            <button *ngIf="!disable && loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left" type="button" (click)="this.registerCatalogue(false)">Submit</button>-->
-<!--            <button *ngIf="disable" class="uk-button uk-button-secondary uk-margin-left" (click)="toggleDisable()">Edit</button>-->
+            <button *ngIf="!disable && loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left" type="button" (click)="showCommentModal()">Submit</button>
+            <button *ngIf="disable" class="uk-button uk-button-secondary uk-margin-left" (click)="toggleDisable()">Edit</button>
           </div>
         </div>
 
@@ -996,12 +996,12 @@
                         </li>
                       </ul>
                     </div>
-                                          <pre>
+<!--                                          <pre>-->
 <!--                                            {{catalogueForm.value | json}}-->
 <!--                                            {{vocabularyEntryForm.value | json}}-->
 <!--                                            {{this.loaderBitSet.toString(2)}}-->
 <!--                                            {{this.loaderBitSet.cardinality()}}-->
-                                          </pre>
+<!--                                          </pre>-->
                   </form>
 
                 </div>
@@ -1024,5 +1024,60 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div id="modal-consent" class="uk-flex-top" uk-modal="bg-close: false; esc-close: false;">
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+
+    <div class="uk-margin-medium-bottom">
+      In order to be able to register a Catalogue to {{projectName}} you need to agree
+      to the following:
+    </div>
+
+    <div class="uk-margin-medium-bottom">
+      <!--      <div class="uk-form-controls uk-margin-bottom">-->
+      <!--        <label>-->
+      <!--          <input class="uk-checkbox" type="checkbox" id="codeOfConduct"  value="true"-->
+      <!--                 (change)="toggleTerm('codeOfConduct')">-->
+      <!--          <span class="uk-margin-small-left">I agree with the <a>EOSC Code of Conduct</a></span>-->
+      <!--        </label>-->
+      <!--      </div>-->
+      <div class="uk-form-controls uk-margin-bottom">
+        <label>
+          <input class="uk-checkbox" type="checkbox" id="privacyPolicy"  value="true"
+                 (change)="toggleTerm('privacyPolicy')">
+          <span class="uk-margin-small-left">I agree to the <a href="{{privacyPolicyURL}}" target="_blank">Privacy Policy</a></span>
+        </label>
+      </div>
+      <div class="uk-form-controls uk-margin-bottom">
+        <label>
+          <input class="uk-checkbox" type="checkbox" id="authorizedRepresentative"  value="true"
+                 (change)="toggleTerm('authorizedRepresentative')">
+          <span class="uk-margin-small-left">I assert that I am an authorized representative of this Catalogue</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close" type="button" routerLink="/home">Cancel</button>
+      <button class="uk-button  uk-modal-close" type="button" (click)="acceptTerms()"
+              [ngClass]="{'uk-disabled' : !agreedToTerms, 'uk-button-secondary' : !agreedToTerms, 'uk-button-primary': agreedToTerms}">
+        Apply</button>
+    </div>
+  </div>
+</div>
+
+<div id="commentModal" uk-modal>
+  <div *ngIf="!showLoader" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <h4>Add a comment <span style="color: grey">(optional)</span></h4>
+    <p class="uk-margin">Before submitting your changes for "{{ catalogueName }}", please provide us with the reason of your update and any comments you may have.</p>
+    <form>
+      <div class="uk-margin">
+        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
+      </div>
+    </form>
+    <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="submit" (click)="registerCatalogue(false)">Submit</button>
+    <!--    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>-->
   </div>
 </div>

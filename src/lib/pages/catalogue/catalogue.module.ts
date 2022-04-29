@@ -8,6 +8,8 @@ import {ReusableComponentsModule} from '../../shared/reusablecomponents/reusable
 // import {MyServiceProvidersComponent} from './my-service-providers.component';
 import {CatalogueFormComponent} from './catalogue-form.component';
 import {UpdateCatalogueComponent} from "./update-catalogue.component";
+import {MyCataloguesComponent} from "./my-catalogues.component";
+import {CataloguesListComponent} from "../admin/catalogues-list.component";
 import {NgSelectModule} from '@ng-select/ng-select';
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
 
@@ -28,7 +30,9 @@ import {LMarkdownEditorModule} from 'ngx-markdown-editor';
   declarations: [
     // MyServiceProvidersComponent,
     CatalogueFormComponent,
-    UpdateCatalogueComponent
+    UpdateCatalogueComponent,
+    MyCataloguesComponent,
+    CataloguesListComponent
   ]
 })
 

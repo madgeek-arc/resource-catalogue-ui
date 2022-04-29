@@ -3,13 +3,13 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import * as sd from '../provider-resources/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
+import {CatalogueService} from "../../services/catalogue.service";
+import {ResourceService} from '../../services/resource.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {Vocabulary, Type, Provider} from '../../domain/eic-model';
-import {ResourceService} from '../../services/resource.service';
 import BitSet from 'bitset';
 import {environment} from '../../../environments/environment';
-import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 
 declare var UIkit: any;
 
@@ -20,6 +20,7 @@ declare var UIkit: any;
 })
 export class CatalogueFormComponent implements OnInit {
 
+  _hasUserConsent = environment.hasUserConsent;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
@@ -32,10 +33,9 @@ export class CatalogueFormComponent implements OnInit {
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
-  premiumSort = new PremiumSortPipe();
   edit = false;
   hasChanges = false;
-  pendingProvider = false;
+  pendingCatalogue = false;
   disable = false;
   showLoader = false;
   tabs: boolean[] = [false, false, false, false, false, false, false, false];
@@ -70,6 +70,7 @@ export class CatalogueFormComponent implements OnInit {
   codeOfConduct = false;
   privacyPolicy = false;
   authorizedRepresentative = false;
+  agreedToTerms: boolean;
 
   vocabularyEntryForm: FormGroup;
   suggestionsForm = {
@@ -83,6 +84,8 @@ export class CatalogueFormComponent implements OnInit {
     errorMessage: '',
     successMessage: ''
   };
+
+  commentControl = new FormControl();
 
   readonly fullNameDesc: sd.Description = sd.catalogueDescMap.get('fullNameDesc');
   readonly abbreviationDesc: sd.Description = sd.catalogueDescMap.get('abbreviationDesc');
@@ -178,6 +181,7 @@ export class CatalogueFormComponent implements OnInit {
   constructor(public fb: FormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
+              public catalogueService: CatalogueService,
               public resourceService: ResourceService,
               public router: Router,
               public route: ActivatedRoute) {
@@ -187,10 +191,10 @@ export class CatalogueFormComponent implements OnInit {
 
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes('add/:catalogueId')) {
-      this.pendingProvider = true;
+      this.pendingCatalogue = true;
     }
     // if (path.includes('info/:catalogueId')) {
-    //   this.pendingProvider = true;
+    //   this.pendingCatalogue = true;
     // }
     this.setVocabularies();
     this.catalogueForm = this.fb.group(this.formDefinition);
@@ -228,6 +232,24 @@ export class CatalogueFormComponent implements OnInit {
       }
     }
 
+    if (this._hasUserConsent) {
+      if (this.edit) {
+        this.catalogueService.hasAdminAcceptedTerms(this.catalogueId, this.pendingCatalogue).subscribe(
+          boolean => { this.agreedToTerms = boolean; },
+          error => console.log(error),
+          () => {
+            if (!this.agreedToTerms) {
+              UIkit.modal('#modal-consent').show();
+            }
+          }
+        );
+      } else {
+        if (!this.agreedToTerms) {
+          UIkit.modal('#modal-consent').show();
+        }
+      }
+    }
+
     this.isPortalAdmin = this.authService.isAdmin();
 
     this.initUserBitSets(); // Admin + mainContact
@@ -237,6 +259,7 @@ export class CatalogueFormComponent implements OnInit {
 
   registerCatalogue(tempSave: boolean) {
     // console.log('Submit');
+    // console.log(this.commentControl.value);
     if (!this.authService.isLoggedIn()) {
       sessionStorage.setItem('provider', JSON.stringify(this.catalogueForm.value));
       this.authService.login();
@@ -288,7 +311,7 @@ export class CatalogueFormComponent implements OnInit {
       this.showLoader = true;
       window.scrollTo(0, 0);
 
-      this.serviceProviderService[method](this.catalogueForm.value).subscribe(
+      this.catalogueService[method](this.catalogueForm.value, this.commentControl.value).subscribe(
         res => {
         },
         err => {
@@ -299,10 +322,10 @@ export class CatalogueFormComponent implements OnInit {
         () => {
           this.showLoader = false;
           if (this.edit) {
-            this.router.navigate(['/provider/my']);
+            this.router.navigate(['/catalogue/my']);
           } else {
-            this.router.navigate(['/provider/my']);
-            // this.authService.refreshLogin('/provider/my'); // fixme: not redirecting
+            this.router.navigate(['/catalogue/my']);
+            // this.authService.refreshLogin('/catalogue/my'); // fixme: not redirecting
           }
         }
       );
@@ -414,7 +437,7 @@ export class CatalogueFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('users', this.edit, 'email'));
   }
 
-  /** check form fields and tabs validity--> **/
+  /** <--check form fields and tabs validity**/
 
   /** get and set vocabularies **/
   setVocabularies() {
@@ -431,8 +454,6 @@ export class CatalogueFormComponent implements OnInit {
       },
       error => console.log(JSON.stringify(error.error)),
       () => {
-        this.premiumSort.transform(this.placesVocabulary, ['Europe', 'Worldwide']);
-
         let voc: Vocabulary[] = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN].concat(this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN]);
         this.subVocabularies = this.groupByKey(voc, 'parentId');
 
@@ -854,6 +875,43 @@ export class CatalogueFormComponent implements OnInit {
   }
 
   /** <--BitSets **/
+
+  /** Terms Modal--> **/
+  toggleTerm(term) {
+    if (term === 'privacyPolicy') {
+      this.privacyPolicy = !this.privacyPolicy;
+    } else if (term === 'authorizedRepresentative') {
+      this.authorizedRepresentative = !this.authorizedRepresentative;
+    }
+    this.checkTerms();
+  }
+
+  checkTerms() {
+    this.agreedToTerms = this.privacyPolicy && this.authorizedRepresentative;
+  }
+
+  acceptTerms() {
+    if (this._hasUserConsent && this.edit) {
+      this.catalogueService.adminAcceptedTerms(this.catalogueId, this.pendingCatalogue).subscribe(
+        res => {},
+        error => { console.log(error); },
+        () => {}
+      );
+    }
+  }
+
+  /** <--Terms Modal **/
+
+  /** Submit Comment Modal--> **/
+  showCommentModal() {
+    if (this.edit && !this.pendingCatalogue) {
+      UIkit.modal('#commentModal').show();
+    } else {
+      this.registerCatalogue(false);
+    }
+  }
+
+  /** <--Submit Comment Modal **/
 
   submitSuggestion(entryValueName, vocabulary, parent) {
     if (entryValueName.trim() !== '') {

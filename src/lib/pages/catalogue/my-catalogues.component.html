@@ -1,0 +1,365 @@
+<div class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom" style="min-height: 325px">
+  <div class="uk-container" style="min-height: 500px">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+
+        <!--<h1 class="uk-h3">My Catalogues</h1>-->
+
+        <!-- TOP HELP CONTENT -->
+        <app-help-content #topHelperContent [position]="'top'"
+                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </app-help-content>
+
+        <div class="uk-container uk-margin-medium-bottom">
+          <div class="uk-grid">
+
+            <!-- LEFT HELP CONTENT -->
+            <app-aside-help-content #leftHelperContent [position]="'left'"
+                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
+
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m">
+              <div>
+                <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{ errorMessage }}</div>
+                <div *ngIf="noCataloguesMessage" class="uk-alert">{{ noCataloguesMessage }}</div>
+
+                <div *ngIf="myCatalogues && (myCatalogues.length > 0)" class="">
+
+                  <div class="uk-margin-bottom uk-grid-small uk-child-width-auto uk-grid serviceStatuses">
+                    <span class="status-label">Show:</span>
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'approved catalogue')" [checked]="isApprovedChecked"> Approved
+                    </label>
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'pending catalogue')" [checked]="isPendingChecked"> Pending
+                    </label>
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'rejected catalogue')" [checked]="isRejectedChecked"> Rejected
+                    </label>
+<!--                    <label class="status-value uk-margin-small-left">-->
+<!--                      <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'incomplete')" [checked]="isIncompleteChecked"> Incomplete-->
+<!--                    </label>-->
+                  </div>
+
+                  <div *ngIf="isApprovedChecked && (myApprovedCatalogues.length > 0)">
+                    <h3 class="uk-margin-remove">Approved</h3>
+                    <div class="uk-grid uk-grid-match uk-child-width-1-2">
+                      <div *ngFor="let catalogueBundle of myApprovedCatalogues" class="uk-grid-margin">
+
+                        <div class="uk-card uk-card-default provider-card">
+                          <div class="uk-card-media-top approved">
+                            <div class="uk-card-badge uk-label">Approved</div>
+                          </div>
+                          <div class="provider-logo">
+                            <span class="provider-logo-helper"></span>
+                            <img src="{{ catalogueBundle.catalogue.logo ? catalogueBundle.catalogue.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
+                          </div>
+                          <div class="uk-card-body">
+                            <div class="providerName">
+                              <span class="uk-margin-auto-vertical" data-uk-tooltip title="'Go to the {{serviceORresource | lowercase}} catalogue monitoring dashboard'">
+                                <a [routerLink]="['/catalogue-dashboard', catalogueBundle.id, 'info']">
+                                    {{ catalogueBundle.catalogue.name }}
+                                </a>
+                              </span>
+                            </div>
+                            <div class="uk-margin-small-top">
+                              <!--                              <span class="statusLabel">Catalogue Status: </span>{{ catalogueBundle.status.substr(0,catalogueBundle.status.indexOf(' ')) | titlecase }}-->
+                              <!--                              <span class="statusLabel">Catalogue Status: </span>{{labels[statuses.indexOf(catalogueBundle.status)]}}-->
+                              <span class="statusLabel">Catalogue Status: </span>Approved
+<!--                              <br>-->
+<!--                              <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(catalogueBundle.templateStatus)]}}-->
+                            </div>
+                            <div class="uk-margin-top cardActionButtons">
+                              <button class="uk-button uk-button-action" routerLink="/catalogue/update/{{catalogueBundle.id}}">
+                                <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Catalogue</button>
+
+                              <!--<ng-container *ngIf="(catalogueBundle.templateStatus !== 'approved template')">
+                                <ng-container *ngIf="hasCreatedFirstService(catalogueBundle.id)">
+                                  &lt;!&ndash;                                <ng-container *ngIf="(catalogueBundle.templateStatus === 'pending template')">&ndash;&gt;
+                                  <button class="uk-button uk-button-action uk-margin-small-left"
+                                          routerLink="{{ getLinkToFirstService(catalogueBundle.id) }}">
+                                    <i class="fa fa-lg fa-edit"></i>
+                                    Update First {{serviceORresource}}
+                                  </button>
+                                </ng-container>
+                                <ng-container *ngIf="!hasCreatedFirstService(catalogueBundle.id)">
+&lt;!&ndash;                                  <button class="uk-button uk-button-action uk-margin-small-left">&ndash;&gt;
+&lt;!&ndash;                                    <i class="fa fa-plus"></i>&ndash;&gt;
+&lt;!&ndash;                                    Add First {{serviceORresource}}&ndash;&gt;
+&lt;!&ndash;                                  </button>&ndash;&gt;
+                                  <div uk-dropdown>
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                      <li class="uk-active">
+                                        <a routerLink="{{ getLinkToFirstService(catalogueBundle.id) }}">Create First {{serviceORresource}}</a>
+                                      </li>
+                                      <li *ngIf="checkForDraftServices(catalogueBundle.id)" class="uk-active">
+                                        <a [routerLink]="['/provider/draft-resources/' + catalogueBundle.id] ">
+                                          Select from draft {{serviceORresource | lowercase}}s
+                                        </a>
+                                      </li>
+                                      <li *ngIf="checkForRejectedServices(catalogueBundle.id)" class="uk-active">
+                                        &lt;!&ndash;                                                                              <li class="uk-active">&ndash;&gt;
+                                        <a [routerLink]="['/provider/rejected-resources/' + catalogueBundle.id] ">
+                                          Select from rejected {{serviceORresource | lowercase}}s
+                                        </a>
+                                      </li>
+                                      <li class="uk-nav-divider"></li>
+                                      <li class="uk-active"><a routerLink="/developers">Use API</a></li>
+                                    </ul>
+                                  </div>
+                                </ng-container>
+                              </ng-container>-->
+
+                              <!--<button [disabled]="true" class="uk-button uk-margin-small-left uk-button-action" routerLink="">
+                                <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More
+                              </button>
+                              <div uk-dropdown>
+                                <ul class="uk-nav uk-dropdown-nav">
+                                  &lt;!&ndash;                              <div uk-dropdown="mode: click">&ndash;&gt;
+                                  &lt;!&ndash;                                <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">&ndash;&gt;
+                                  <li class="uk-margin-small-bottom">
+                                    &lt;!&ndash;                                    <ng-container *ngIf="catalogueBundle.status === 'approved provider'">&ndash;&gt;
+                                    <a [routerLink]="['/dashboard', catalogueBundle.id, 'stats']">
+                                      Go to Dashboard
+                                    </a>
+                                    &lt;!&ndash;                                    </ng-container>&ndash;&gt;
+                                    &lt;!&ndash;                                    <ng-container *ngIf="catalogueBundle.status !== 'approved provider'">&ndash;&gt;
+                                    &lt;!&ndash;                                      <a [routerLink]="['/dashboard', catalogueBundle.id]">&ndash;&gt;
+                                    &lt;!&ndash;                                        Go to Dashboard&ndash;&gt;
+                                    &lt;!&ndash;                                      </a>&ndash;&gt;
+                                    &lt;!&ndash;                                    </ng-container>&ndash;&gt;
+                                  </li>
+                                  <li *ngIf="catalogueBundle.templateStatus==='approved template'" class="uk-margin-small-bottom">
+                                    <a [routerLink]="['/dashboard/' + catalogueBundle.id + '/resources']">
+                                      View {{serviceORresource}}s
+                                    </a>
+                                  </li>
+                                  <li *ngIf="catalogueBundle.templateStatus==='approved template'" class="uk-margin-small-bottom">
+                                    <a [routerLink]="['/provider/' + catalogueBundle.id + '/resource/add/']">
+                                      Add new {{serviceORresource}}
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>-->
+                            </div>
+
+                            <!--                            <hr class="uk-margin-top">-->
+                            <!--                            <div class="uk-align-center uk-flex uk-flex-center">-->
+                            <!--                              <button [routerLink]="['/catalogue/update/', catalogueBundle.id]"-->
+                            <!--                                      class="uk-button uk-button-link"-->
+                            <!--                                      style="padding-right: 40px; border-right: 1px solid #ccc">-->
+                            <!--                                <i class="fa fa-edit fa-lg uk-margin-small-right" aria-hidden="true"></i> Update Catalogue-->
+                            <!--                              </button>-->
+                            <!--                              <button class="uk-button uk-button-link uk-margin-medium-left">-->
+                            <!--                                <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options-->
+                            <!--                              </button>-->
+                            <!--                              <div uk-dropdown="mode: click">-->
+                            <!--                                <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">-->
+                            <!--                                  <li class="uk-margin-small-bottom">-->
+                            <!--                                    <ng-container *ngIf="catalogueBundle.status === 'approved provider'">-->
+                            <!--                                      <a [routerLink]="['/dashboard', catalogueBundle.id, 'stats']">-->
+                            <!--                                        Go to Dashboard-->
+                            <!--                                      </a>-->
+                            <!--                                    </ng-container>-->
+                            <!--                                    <ng-container *ngIf="catalogueBundle.status !== 'approved provider'">-->
+                            <!--                                      <a [routerLink]="['/dashboard', catalogueBundle.id]">-->
+                            <!--                                        Go to Dashboard-->
+                            <!--                                      </a>-->
+                            <!--                                    </ng-container>-->
+                            <!--                                  </li>-->
+                            <!--                                  <li class="uk-margin-small-bottom">-->
+                            <!--                                    <a [routerLink]="['/dashboard/' + catalogueBundle.id + '/resources']">-->
+                            <!--                                      View {{serviceORresource}}s-->
+                            <!--                                    </a>-->
+                            <!--                                  </li>-->
+                            <!--                                  <li class="uk-margin-small-bottom">-->
+                            <!--                                    <a [routerLink]="['/provider/' + catalogueBundle.id + '/resource/add/']">-->
+                            <!--                                      Add new {{serviceORresource}}-->
+                            <!--                                    </a>-->
+                            <!--                                  </li>-->
+                            <!--                                </ul>-->
+                            <!--                              </div>-->
+                            <!--                            </div>-->
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="isPendingChecked && (myPendingActionCatalogues.length > 0)" class="uk-margin-medium-top">
+                    <h3 class="uk-margin-remove">Pending</h3>
+                    <div class="uk-grid uk-grid-match uk-child-width-1-2">
+                      <div *ngFor="let catalogueBundle of myPendingActionCatalogues" class="uk-grid-margin">
+
+                        <div class="uk-card uk-card-default provider-card">
+                          <div class="uk-card-media-top pending">
+                            <div class="uk-card-badge uk-label">Pending</div>
+                          </div>
+                          <div class="provider-logo">
+                            <span class="provider-logo-helper"></span>
+                            <img src="{{ catalogueBundle.catalogue.logo ? catalogueBundle.catalogue.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
+                          </div>
+                          <div class="uk-card-body">
+                            <div class="providerName">
+                              <span class="uk-margin-auto-vertical" data-uk-tooltip title="'Go to the {{serviceORresource | lowercase}} catalogue monitoring dashboard'">
+                                <a [routerLink]="['/catalogue-dashboard', catalogueBundle.id, 'info']">
+                                    {{ catalogueBundle.catalogue.name }}
+                                </a>
+                              </span>
+                            </div>
+                            <div class="uk-margin-small-top">
+                              <span class="statusLabel">Catalogue Status: </span>Pending
+<!--                              <br>-->
+<!--                              <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(catalogueBundle.templateStatus)]}}-->
+                            </div>
+                            <div class="uk-margin-top cardActionButtons">
+                              <button class="uk-button uk-button-action" routerLink="/catalogue/update/{{catalogueBundle.id}}">
+                                <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Catalogue
+                              </button>
+                              <!--                              <ng-container *ngIf="(catalogueBundle.templateStatus === 'no template status')-->
+                              <!--                                        || (catalogueBundle.templateStatus === 'pending template')">-->
+                              <!--                                <ng-container *ngIf="hasCreatedFirstService(catalogueBundle.id)">-->
+                              <!--                                  <button class="uk-button uk-button-action uk-margin-small-left"-->
+                              <!--                                          routerLink="{{ getLinkToFirstService(catalogueBundle.id) }}">-->
+                              <!--                                    <i class="fa fa-lg fa-edit"></i>-->
+                              <!--                                    Update First {{serviceORresource}}-->
+                              <!--                                  </button>-->
+                              <!--                                </ng-container>-->
+                              <!--                                <ng-container *ngIf="!hasCreatedFirstService(catalogueBundle.id)">-->
+                              <!--                                  <button class="uk-button uk-button-action uk-margin-small-left">-->
+                              <!--                                    <i class="fa fa-plus"></i>-->
+                              <!--                                    Add First {{serviceORresource}}-->
+                              <!--                                  </button>-->
+                              <!--                                  <div uk-dropdown>-->
+                              <!--                                    <ul class="uk-nav uk-dropdown-nav">-->
+                              <!--                                      <li class="uk-active">-->
+                              <!--                                        <a routerLink="{{ getLinkToFirstService(catalogueBundle.id) }}">Create First {{serviceORresource}}</a>-->
+                              <!--                                      </li>-->
+                              <!--                                      <li *ngIf="checkForPendingServices(catalogueBundle.id)" class="uk-active">-->
+                              <!--                                        <a [routerLink]="['/provider/draft-resources/' + catalogueBundle.id] ">-->
+                              <!--                                          Select from draft {{serviceORresource | lowercase}}s-->
+                              <!--                                        </a>-->
+                              <!--                                      </li>-->
+                              <!--                                      <li *ngIf="checkForRejectedServices(catalogueBundle.id)" class="uk-active">-->
+                              <!--&lt;!&ndash;                                      <li class="uk-active">&ndash;&gt;-->
+                              <!--                                        <a [routerLink]="['/provider/rejected-resources/' + catalogueBundle.id] ">-->
+                              <!--                                          Select from rejected {{serviceORresource | lowercase}}s-->
+                              <!--                                        </a>-->
+                              <!--                                      </li>-->
+                              <!--                                      <li class="uk-nav-divider"></li>-->
+                              <!--                                      <li class="uk-active"><a routerLink="/developers">Use API</a></li>-->
+                              <!--                                    </ul>-->
+                              <!--                                  </div>-->
+                              <!--                                </ng-container>-->
+                              <!--                              </ng-container>-->
+
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="isRejectedChecked && (myRejectedCatalogues.length > 0)" class="uk-margin-medium-top">
+                    <h3 class="uk-margin-remove">Rejected</h3>
+                    <div class="uk-grid uk-grid-match uk-child-width-1-2">
+                      <div *ngFor="let catalogueBundle of myRejectedCatalogues" class="uk-grid-margin">
+
+                        <div class="uk-card uk-card-default provider-card">
+                          <div class="uk-card-media-top rejected">
+                            <div class="uk-card-badge uk-label">Rejected</div>
+                          </div>
+                          <div class="provider-logo">
+                            <span class="provider-logo-helper"></span>
+                            <img src="{{ catalogueBundle.catalogue.logo ? catalogueBundle.catalogue.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
+                          </div>
+                          <div class="uk-card-body">
+                            <div class="providerName">
+                              <span class="uk-margin-auto-vertical" data-uk-tooltip title="'Go to the {{serviceORresource | lowercase}} catalogue monitoring dashboard'">
+                                <a [routerLink]="['/catalogue-dashboard', catalogueBundle.id, 'info']">
+                                    {{ catalogueBundle.catalogue.name }}
+                                </a>
+                              </span>
+                            </div>
+                            <div class="uk-margin-small-top">
+                              <span class="statusLabel">Catalogue Status: </span>Rejected
+<!--                              <br>-->
+<!--                              <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(catalogueBundle.templateStatus)]}}-->
+                            </div>
+                            <div class="uk-margin-top cardActionButtons">
+                              <button class="uk-button uk-button-action" routerLink="/catalogue/update/{{catalogueBundle.id}}">
+                                <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Catalogue</button>
+<!--                              <button class="uk-button uk-button-action" *ngIf="catalogueBundle.templateStatus === 'rejected template'"-->
+<!--                                      routerLink="{{ getLinkToFirstService(catalogueBundle.id) }}">-->
+<!--                                <i class="fa fa-lg fa-edit"></i>-->
+<!--                                Update First {{serviceORresource}}-->
+<!--                              </button>-->
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+<!--                  <div *ngIf="isIncompleteChecked && (myIncompleteCatalogues.length > 0)" class="uk-margin-medium-top">-->
+<!--                    <h3 class="uk-margin-remove">Incomplete</h3>-->
+<!--                    <div class="uk-grid uk-grid-match uk-child-width-1-2">-->
+<!--                      <div *ngFor="let catalogueBundle of myIncompleteCatalogues" class="uk-grid-margin">-->
+
+<!--                        <div class="uk-card uk-card-default provider-card">-->
+<!--                          <div class="uk-card-media-top incomplete">-->
+<!--                            <div class="uk-card-badge uk-label">Incomplete</div>-->
+<!--                          </div>-->
+<!--                          <div class="provider-logo">-->
+<!--                            <span class="provider-logo-helper"></span>-->
+<!--                            <img src="{{ catalogueBundle.catalogue.logo ? catalogueBundle.catalogue.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">-->
+<!--                          </div>-->
+<!--                          <div class="uk-card-body">-->
+<!--                            <div class="providerName">-->
+<!--                              <span class="uk-margin-auto-vertical" data-uk-tooltip-->
+<!--                                    title="'Your {{serviceORresource | lowercase}} provider is incomplete, therefore you cannot access its monitoring dashboard'">-->
+<!--                                <h5>{{ catalogueBundle.catalogue.name }}</h5>-->
+<!--                              </span>-->
+<!--                            </div>-->
+<!--                            <div class="uk-margin-small-top">-->
+<!--                              <span class="statusLabel">Catalogue Status: </span> Not available-->
+<!--                              <br>-->
+<!--                              <span class="statusLabel">First {{serviceORresource}} Status: </span> Not available-->
+<!--                            </div>-->
+<!--                            <div class="uk-margin-top cardActionButtons">-->
+<!--                              <button class="uk-button uk-button-action" routerLink="/provider/add/{{catalogueBundle.id}}">-->
+<!--                                <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Catalogue</button>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+
+                </div>
+
+              </div>
+
+              <!-- RIGHT HELP CONTENT -->
+              <app-aside-help-content #rightHelperContent [position]="'right'"
+                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+              </app-aside-help-content>
+
+            </div>
+          </div>
+
+          <!-- BOTTOM HELP CONTENT -->
+          <app-help-content #bottomHelperContent [position]="'bottom'"
+                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+          </app-help-content>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
