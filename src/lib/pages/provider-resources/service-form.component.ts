@@ -817,11 +817,9 @@ export class ServiceFormComponent implements OnInit {
       if (vocabulary1.name > vocabulary2.name) {
         return 1;
       }
-
       if (vocabulary1.name < vocabulary2.name) {
         return -1;
       }
-
       return 0;
     });
   }

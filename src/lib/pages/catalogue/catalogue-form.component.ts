@@ -437,7 +437,7 @@ export class CatalogueFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('users', this.edit, 'email'));
   }
 
-  /** check form fields and tabs validity--> **/
+  /** <--check form fields and tabs validity**/
 
   /** get and set vocabularies **/
   setVocabularies() {
