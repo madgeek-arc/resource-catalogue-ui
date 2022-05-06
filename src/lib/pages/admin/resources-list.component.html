@@ -108,18 +108,20 @@
                           <input class="uk-search-input" [(ngModel)]="searchFacet"
                                  placeholder="Search with provider name or id">
                         </label>
-                        <div class="uk-margin-small-top" *ngFor="let provider of f.values">
-                          <div *ngIf="!searchFacet || searchFacet.toLowerCase() === provider.value.toLowerCase()
-                                                     || (provider.label!=null && provider.label.toLowerCase().includes(searchFacet.toLowerCase()))">
-                            <label class="uk-margin-small-left">
-                              <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
-                                     (change)="this.onSelection($event, 'resource_organisation', provider.value)"
-                                     [checked]="isChecked(provider.value, 'catalogue_id')">
-                            </label>
-                            <span> {{provider.label ? provider.label : provider.value}}</span>
-                            <span> ({{provider.count}})</span>
+                        <read-more [maxHeight]="230">
+                          <div class="uk-margin-small-top" *ngFor="let provider of f.values">
+                            <div *ngIf="!searchFacet || searchFacet.toLowerCase() === provider.value.toLowerCase()
+                                                       || (provider.label!=null && provider.label.toLowerCase().includes(searchFacet.toLowerCase()))">
+                              <label class="uk-margin-small-left">
+                                <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
+                                       (change)="this.onSelection($event, 'resource_organisation', provider.value)"
+                                       [checked]="isChecked(provider.value, 'catalogue_id')">
+                              </label>
+                              <span> {{provider.label ? provider.label : provider.value}}</span>
+                              <span> ({{provider.count}})</span>
+                            </div>
                           </div>
-                        </div>
+                        </read-more>
                       </ng-container>
                     </ng-container>
                   </div>
