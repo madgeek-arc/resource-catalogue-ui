@@ -288,6 +288,9 @@
                                 </ng-container>
                                 <ng-container *ngIf="!providerBundle.latestAuditInfo"><i>Never audited</i></ng-container>
                               </div>
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Catalogue id: </span>{{ providerBundle.provider.catalogueId }}
+                              </div>
                             </div>
 
 <!--                            <div class="uk-width-1-5">-->
@@ -665,6 +668,9 @@
                   on {{providerBundle.latestAuditInfo.date | date}}
                 </ng-container>
                 <ng-container *ngIf="!providerBundle.latestAuditInfo"><i>Never audited</i></ng-container>
+              </div>
+              <div class="uk-margin-small-top">
+                <span class="statusLabel">Catalogue id: </span>{{ providerBundle.provider.catalogueId }}
               </div>
             </div>
 

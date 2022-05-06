@@ -326,6 +326,9 @@
                                     </ng-container>
                                     <ng-container *ngIf="!serviceBundle.latestAuditInfo"><i>Never audited</i></ng-container>
                                   </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Catalogue id: </span>{{ serviceBundle.service.catalogueId }}
+                                  </div>
                                 </div>
 
                               </div>
@@ -734,6 +737,9 @@
               </div>
               <div class="uk-margin-small-top">
                 <span class="statusLabel">Resource Providers: </span>{{ getProviderNamesWithIds(serviceBundle.service.resourceProviders) }}
+              </div>
+              <div class="uk-margin-small-top">
+                <span class="statusLabel">Catalogue id: </span>{{ serviceBundle.service.catalogueId }}
               </div>
             </div>
 
