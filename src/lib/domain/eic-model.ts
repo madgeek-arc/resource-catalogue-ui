@@ -2,6 +2,9 @@
 /* eslint-disable */
 // Generated using typescript-generator version 2.16.538 on 2020-06-10 11:50:49.
 
+import {Validators} from "@angular/forms";
+import {urlAsyncValidator, URLValidator} from "../shared/validators/generic.validator";
+
 export class Bundle<T> implements Identifiable {
   id: string;
   metadata: Metadata;
@@ -148,6 +151,36 @@ export class Metadata {
   modifiedAt: string;
   source: string;
   originalId: string;
+}
+
+export class Monitoring {
+  id: string;
+  serviceId: string;
+  monitoredBy: string;
+  monitoringGroups: MonitoringGroups[];
+}
+
+export class Helpdesk {
+  id: string;
+  serviceId: string;
+  helpdeskType: string;
+  services: string[];
+  supportGroups: string[];
+  organisation: string;
+  emails: string[];
+  emailForTicket: string[];
+  agents: string[];
+  signatures: string[];
+  webform: boolean;
+  ticketPreservation: boolean;
+}
+
+export class MonitoringBundle extends Bundle<Monitoring> {
+  monitoring: Monitoring;
+}
+
+export class HelpdeskBundle extends Bundle<Helpdesk> {
+  helpdesk: Helpdesk;
 }
 
 export class Provider implements Identifiable {
@@ -401,6 +434,17 @@ export class MapValues {
   values: Value[];
 }
 
+export class Metrics {
+  probe: string[];
+  metric: string[];
+}
+
+export class MonitoringGroups {
+  serviceType: string;
+  endpoint: string;
+  // metrics: Metrics[];
+}
+
 export class Multimedia {
   multimediaURL: string;
   multimediaName: string;
@@ -503,5 +547,7 @@ export const enum Type {
   DS_CLASSIFICATION = "DS_CLASSIFICATION",
   DS_RESEARCH_ENTITY_TYPE = "DS_RESEARCH_ENTITY_TYPE",
   DS_PERSISTENT_IDENTITY_SCHEME = "DS_PERSISTENT_IDENTITY_SCHEME",
-  DS_COAR_ACCESS_RIGHTS_1_0 = "DS_COAR_ACCESS_RIGHTS_1_0"
+  DS_COAR_ACCESS_RIGHTS_1_0 = "DS_COAR_ACCESS_RIGHTS_1_0",
+  MONITORING_MONITORED_BY = "MONITORING_MONITORED_BY",
+  MONITORING_SERVICE_TYPE = "MONITORING_SERVICE_TYPE"
 }

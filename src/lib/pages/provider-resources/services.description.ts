@@ -216,3 +216,23 @@ export const datasourceDescMap = new Map()
   .set('researchProductMetadataLicenseURLDesc', {mandatory: true, label: 'Research Product Metadata License URL', placeholder: '', desc: ''})
   .set('researchProductMetadataAccessPolicyDesc', {mandatory: false, label: 'Research Product Metadata Access Policy', placeholder: '', desc: ''})
 ;
+
+export const monitoringDescMap = new Map()
+  .set('monitoredByDesc', {mandatory: true, label: 'Monitored By', placeholder: '', desc: 'Who is responsible for the monitoring of this Service'})
+  .set('serviceTypeDesc', {mandatory: true, label: 'Service Type', placeholder: '', desc: 'Unique identifier of the service type with reverse dns format'})
+  .set('endpointDesc', {mandatory: true, label: 'Endpoint', placeholder: '', desc: 'The URL of the endpoint of the service'})
+  .set('probeDesc', {mandatory: false, label: 'Probe', placeholder: '', desc: 'The URL to the repository hosting the code'})
+  .set('metricDesc', {mandatory: false, label: 'Metric', placeholder: '', desc: 'The metric URL'})
+;
+
+export const helpdeskDescMap = new Map()
+  .set('servicesDesc', {mandatory: false, label: 'Service', placeholder: '', desc: 'Name of the resource or service to be shown in the helpdesk fields'})
+  .set('supportGroupsDesc', {mandatory: true, label: 'Group', placeholder: '', desc: 'Support group to be created in the helpdesk for the provider'})
+  .set('organisationDesc', {mandatory: false, label: 'Organisation', placeholder: '', desc: 'Name of organisation'})
+  .set('emailsDesc', {mandatory: false, label: 'E-mail', placeholder: '', desc: 'E-mail associated with support group'})
+  .set('emailForTicketDesc', {mandatory: true, label: 'E-mail', placeholder: '', desc: 'E-mail for direct assignment of the tickets, bypassing the L1 support'})
+  .set('agentsDesc', {mandatory: true, label: 'Agent', placeholder: '', desc: 'Person involved in ticket management'})
+  .set('signaturesDesc', {mandatory: false, label: 'Signature', placeholder: '', desc: 'Automatic signature to be used in the answers to the tickets'})
+  .set('webformDesc', {mandatory: false, label: 'Webform', placeholder: '', desc: 'Webform required to generate ticket directly on webpage'})
+  .set('ticketPreservationDesc', {mandatory: false, label: 'Ticket preservation', placeholder: '', desc: 'Should the tickets be stored in the helpdesk system in dedicated group'})
+;

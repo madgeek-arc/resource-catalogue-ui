@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {AuthenticationService} from '../../../../services/authentication.service';
 import {ResourceService} from '../../../../services/resource.service';
+import {ServiceExtensionsService} from '../../../../services/service-extensions.service';
 import {NavigationService} from '../../../../services/navigation.service';
 import {environment} from '../../../../../environments/environment';
 
@@ -20,6 +21,7 @@ export class ResourceDashboardComponent implements OnInit {
 
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,
+              public serviceExtensionService: ServiceExtensionsService,
               public router: NavigationService,
               private route: ActivatedRoute) {
   }
@@ -27,5 +29,13 @@ export class ResourceDashboardComponent implements OnInit {
   ngOnInit() {
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.resourceId = this.route.snapshot.paramMap.get('resourceId');
+    // this.serviceExtensionService.getMonitoringBundleByServiceId(this.resourceId).subscribe()
+    // {
+    //
+    // }
+    // this.serviceExtensionService.getHelpdeskBundleByServiceId(this.resourceId).subscribe()
+    // {
+    //
+    // }
   }
 }

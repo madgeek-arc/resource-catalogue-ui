@@ -1,0 +1,323 @@
+<div class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom" style="min-height: 325px">
+  <div class="uk-container uk-container-expand">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+
+        <div class="titleAndActionsBar">
+          <div class="">
+            <div class="pageTitle">
+              Monitoring Extension
+            </div>
+            <div class="providerName uk-margin-small-top">
+              <strong>{{serviceName!='' ? serviceName : serviceORresource + ' Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
+            </div>
+          </div>
+          <div class="">
+            <button class="uk-button uk-button-secondary uk-margin-left" type="submit" (click)="this.onSubmit(false)">Submit
+            </button>
+          </div>
+        </div>
+
+
+
+        <!-- TOP HELP CONTENT -->
+        <app-help-content #topHelperContent [position]="'top'"
+                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </app-help-content>
+        <div class="uk-margin-medium-bottom">
+          <div class="uk-grid">
+            <!-- LEFT HELP CONTENT -->
+            <app-aside-help-content #leftHelperContent [position]="'left'"
+                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m uk-margin-medium-top">
+              <div *ngIf="showLoader" class="uk-position-center">
+                <div uk-spinner="ratio: 2"></div>
+              </div>
+
+              <div [ngClass]="{'blur-filter': showLoader}">
+
+                <div class="requiredFields">Fields with (*) are mandatory and must be completed in order to save this form. Leaving
+                  optional fields blank will remove the relevant heading from the published resource/provider
+                  profile.</div>
+
+                <div id="serviceForm">
+
+                  <div class="uk-margin-bottom uk-flex uk-flex-right">
+                    <div>
+                      <button class="uk-button uk-button-link" type="button">Do you need help?</button>
+                      <div uk-drop="pos: bottom-left">
+                        <div class="uk-card uk-card-body uk-card-default">
+                          <ng-container *ngIf="projectName === 'EOSC' || projectName === 'OpenAIRE Catalogue'">
+                            <p class="uk-margin-remove-bottom">For questions related to the information that needs to be
+                              filled in and suggestions on the portal, please contact us in <a
+                                href="mailto:onboarding@eosc-portal.eu">onboarding@eosc-portal.eu</a></p>
+                            <!--                        <p>For technical issues and questions, please contact us in <a href="mailto:providers@eosc-portal.eu">providers@eosc-portal.eu</a></p>-->
+                          </ng-container>
+                          <ng-container *ngIf="projectName === 'CatRIS'">
+                            <p>For questions related to the information that needs to be filled in and suggestions on the
+                              portal, please contact us in <a href="mailto:support@catris.eu">support@catris.eu</a></p>
+                            <p>For technical issues and questions, please contact us in <a
+                              href="mailto:tech-support@catris.eu">tech-support@catris.eu</a></p>
+                            <p>For instructions on onboarding Providers and Services, click <a
+                              href="../../../assets/files/CatRIS%20Provider%20and%20Service%20Onboarding%20Guide.pdf"
+                              target="_blank">here</a></p>
+                            <p>For a description of Provider and Service Profiles, click <a
+                              href="../../../assets/files/CatRIS%20Provider%20and%20Service%20Profile%20Guide.pdf"
+                              target="_blank">here</a></p>
+                            <p>For a description of the Provider Dashboards, click <a
+                              href="../../../assets/files/CatRIS%20Provider%20Dashboard%20Guide.pdf"
+                              target="_blank">here</a></p>
+                            <p>For a description of the CatRIS API, click <a
+                              href="../../../assets/files/CatRIS%20Catalogue%20API%20Guide.pdf"
+                              target="_blank">here</a></p>
+                          </ng-container>
+                          <!-- TOP HELP CONTENT -->
+                          <app-help-content #topHelperContent [position]="'top'"
+                                            [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                          </app-help-content>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div *ngIf="errorMessage" data-uk-alert="" class="uk-alert uk-alert-danger">
+                    <p>{{errorMessage}}</p>
+                  </div>
+                  <div *ngIf="successMessage" data-uk-alert="" class="uk-alert uk-alert-success">
+                    <p>{{successMessage}}</p>
+                  </div>
+
+                  <div class="uk-grid">
+
+                    <form [formGroup]="serviceForm" role="form" class="uk-form uk-margin uk-width-1-1">
+
+                      <div class="formContainer">
+
+<!--                        <div formArrayName="monitoredBy" class="uk-margin-large-bottom">-->
+<!--                          <label class="uk-form-label uk-text-right" for="monitoredBy">-->
+<!--                            {{monitoredByDesc.label + (monitoredByDesc.mandatory ? ' (*)' : '')}}-->
+<!--                          </label>-->
+<!--                          <div class="uk-form-description uk-margin-top uk-width-9-10">{{monitoredByDesc.desc}}</div>-->
+<!--                          <div class="uk-form-controls uk-margin-medium-top">-->
+<!--                            <div *ngFor="let provider of getFieldAsFormArray('monitoredBy').controls; let i=index"-->
+<!--                                 [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('monitoredBy').controls.length-1 !== i}">-->
+<!--                              <ng-select *ngIf="monitoredByVocabulary" class="uk-width-9-10" id="monitoredBy"-->
+<!--                                         (change)="unsavedChangesPrompt()"-->
+<!--                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('monitoredBy', i, this.editMode)}"-->
+<!--                                         [items]="sortVocabulariesByName(monitoredByVocabulary)"-->
+<!--                                         bindLabel="name"-->
+<!--                                         bindValue="id"-->
+<!--                                         clearAllText="Clear"-->
+<!--                                         [formControlName]="i">-->
+<!--                              </ng-select>-->
+<!--                              <a *ngIf="getFieldAsFormArray('monitoredBy').length > 1"-->
+<!--                                 class="remove-element uk-padding-small"-->
+<!--                                 (click)="remove('monitoredBy', i); unsavedChangesPrompt()">-->
+<!--                                <i class="fa fa-times" aria-hidden="true"></i>-->
+<!--                              </a>-->
+<!--                            </div>-->
+<!--                            <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">-->
+<!--                              <a class="add-new-element" (click)="push('monitoredBy', monitoredByDesc.mandatory)">-->
+<!--                                <i class="fa fa-plus" aria-hidden="true"></i> Add {{monitoredByDesc.label}}-->
+<!--                              </a>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+
+                        <div class="uk-margin-large-bottom">
+                          <label class="uk-form-label uk-text-right" for="monitoredBy">
+                            {{ monitoredByDesc.label + (monitoredByDesc.mandatory ? ' (*)' : '')}}
+                          </label>
+                          <div class="uk-form-description uk-margin-top uk-width-9-10">{{monitoredByDesc.desc}}</div>
+                          <div class="uk-form-controls uk-margin-medium-top">
+                            <ng-select class="uk-width-9-10" id="monitoredBy"
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('monitoredBy', this.editMode)}"
+                                       [items]="sortVocabulariesByName(monitoredByVocabulary)"
+                                       (change)="unsavedChangesPrompt()"
+                                       bindLabel="name"
+                                       bindValue="id"
+                                       clearAllText="Clear"
+                                       formControlName="monitoredBy">
+                            </ng-select>
+                          </div>
+                        </div>
+
+                        <div class="uk-margin-large-bottom">
+                          <label class="uk-form-label uk-text-right">Monitoring Group</label>
+                          <div class="uk-form-controls uk-margin-top">
+                            <div formArrayName="monitoringGroups" *ngFor="let m of monitoringGroupsArray.controls; let i = index">
+                              <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+
+                                <div class="uk-margin-bottom">
+                                  <label class="uk-form-label uk-text-right" for="serviceType">
+                                    {{ serviceTypeDesc.label + (serviceTypeDesc.mandatory ? ' (*)' : '') }}
+                                  </label>
+                                  <div
+                                    class="uk-form-description uk-margin-top uk-width-9-10">{{serviceTypeDesc.desc}}</div>
+                                  <div class="uk-form-controls uk-margin-medium-top">
+                                    <input id="serviceType" class="uk-input" type="text" formControlName="serviceType"
+                                           (input)="unsavedChangesPrompt()">
+                                    <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('monitoringGroups', i, this.editMode, 'serviceType')}">-->
+                                  </div>
+                                </div>
+
+                                <div class="uk-margin-bottom">
+                                  <label class="uk-form-label uk-text-right" for="endpoint">
+                                    {{ endpointDesc.label + (endpointDesc.mandatory ? ' (*)' : '') }}
+                                  </label>
+                                  <div class="uk-form-description uk-margin-top uk-width-9-10">{{endpointDesc.desc}}</div>
+                                  <div class="uk-form-controls uk-margin-medium-top">
+                                    <input id="endpoint" class="uk-input" type="text" formControlName="endpoint" placeholder="use http:// or https://"
+                                           (input)="unsavedChangesPrompt()"
+                                           [ngClass]="{'uk-form-danger': checkFormArrayValidity('monitoringGroups', i, this.editMode, 'endpoint')}">
+                                  </div>
+                                </div>
+
+                              </div>
+                              <a *ngIf="getFieldAsFormArray('monitoringGroups').length > 1 && !disable"
+                                 class="remove-element uk-padding-small uk-display-inline-block"
+                                 (click)="removeMonitoringGroup(i); unsavedChangesPrompt();">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </a>
+                            </div>
+                          </div>
+                          <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                            <a class="add-new-element" (click)="pushMonitoringGroup()">
+                              <i class="fa fa-plus" aria-hidden="true"></i> Add GroupName
+                            </a>
+                          </div>
+                        </div>
+
+<!--                        <div class="uk-margin-large-bottom">-->
+<!--                          <label class="uk-form-label uk-text-right">Metrics</label>-->
+<!--                          <div class="uk-form-controls uk-margin-top">-->
+<!--                            <div formArrayName="metrics" *ngFor="let m of metricsGroupsArray.controls; let i = index">-->
+<!--                              <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">-->
+
+<!--                                <div class="uk-margin-bottom">-->
+<!--                                  <label class="uk-form-label uk-text-right" for="probe">-->
+<!--                                    {{ probeDesc.label + (probeDesc.mandatory ? ' (*)' : '') }}-->
+<!--                                  </label>-->
+<!--                                  <div-->
+<!--                                    class="uk-form-description uk-margin-top uk-width-9-10">{{probeDesc.desc}}</div>-->
+<!--                                  <div class="uk-form-controls uk-margin-medium-top">-->
+<!--                                    <input id="probe" class="uk-input" type="text" formControlName="probe"-->
+<!--                                           (input)="unsavedChangesPrompt()">-->
+<!--                                    &lt;!&ndash;                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('metrics', i, this.editMode, 'probe')}">&ndash;&gt;-->
+<!--                                  </div>-->
+<!--                                </div>-->
+
+<!--                                <div class="uk-margin-bottom">-->
+<!--                                  <label class="uk-form-label uk-text-right" for="metric">-->
+<!--                                    {{ metricDesc.label + (metricDesc.mandatory ? ' (*)' : '') }}-->
+<!--                                  </label>-->
+<!--                                  <div class="uk-form-description uk-margin-top uk-width-9-10">{{metricDesc.desc}}</div>-->
+<!--                                  <div class="uk-form-controls uk-margin-medium-top">-->
+<!--                                    <input id="metric" class="uk-input" type="text" formControlName="metric" placeholder="use http:// or https://"-->
+<!--                                           (input)="unsavedChangesPrompt()"-->
+<!--                                           [ngClass]="{'uk-form-danger': checkFormArrayValidity('metrics', i, this.editMode, 'metric')}">-->
+<!--                                  </div>-->
+<!--                                </div>-->
+
+<!--                              </div>-->
+<!--                              <a *ngIf="getFieldAsFormArray('metrics').length > 1 && !disable"-->
+<!--                                 class="remove-element uk-padding-small uk-display-inline-block"-->
+<!--                                 (click)="removeMetricsGroup(i); unsavedChangesPrompt();">-->
+<!--                                <i class="fa fa-times" aria-hidden="true"></i>-->
+<!--                              </a>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                          <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">-->
+<!--                            <a class="add-new-element" (click)="pushMetricsGroup()">-->
+<!--                              <i class="fa fa-plus" aria-hidden="true"></i> Add Metrics-->
+<!--                            </a>-->
+<!--                          </div>-->
+<!--                        </div>-->
+
+<!--                            <div formArrayName="probe" class="uk-margin-large-bottom">-->
+<!--                              <label class="uk-form-label uk-text-right" for="probe">-->
+<!--                                {{probeDesc.label + (probeDesc.mandatory ? ' (*)' : '')}}-->
+<!--                              </label>-->
+<!--                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{probeDesc.desc}}</div>-->
+<!--                              <div class="uk-form-controls uk-margin-medium-top">-->
+<!--                                <div *ngFor="let p of getFieldAsFormArray('probe').controls; let i=index"-->
+<!--                                     class="uk-margin-bottom">-->
+<!--                                  <input id="probe" class="uk-input uk-animation-slide-top-small uk-width-9-10"-->
+<!--                                         type="text" [formControlName]="i"-->
+<!--                                         placeholder="use http:// or https://"-->
+<!--                                         (input)="unsavedChangesPrompt()"-->
+<!--                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('probe', i, this.editMode)}">-->
+<!--                                  <a *ngIf="getFieldAsFormArray('probe').length > 1"-->
+<!--                                     class="remove-element uk-padding-small"-->
+<!--                                     (click)="remove('probe', i); unsavedChangesPrompt()">-->
+<!--                                    <i class="fa fa-times" aria-hidden="true"></i>-->
+<!--                                  </a>-->
+<!--                                </div>-->
+<!--                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">-->
+<!--                                  <a class="add-new-element" (click)="push('probe', probeDesc.mandatory)">-->
+<!--                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{probeDesc.label}}-->
+<!--                                  </a>-->
+<!--                                </div>-->
+<!--                              </div>-->
+<!--                            </div>-->
+
+<!--                            <div formArrayName="metric" class="uk-margin-large-bottom">-->
+<!--                              <label class="uk-form-label uk-text-right" for="metric">-->
+<!--                                {{metricDesc.label + (metricDesc.mandatory ? ' (*)' : '')}}-->
+<!--                              </label>-->
+<!--                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{metricDesc.desc}}</div>-->
+<!--                              <div class="uk-form-controls uk-margin-medium-top">-->
+<!--                                <div *ngFor="let provider of getFieldAsFormArray('metric').controls; let i=index"-->
+<!--                                     class="uk-margin-bottom">-->
+<!--                                  <input id="metric" class="uk-input uk-animation-slide-top-small uk-width-9-10"-->
+<!--                                         type="text" [formControlName]="i"-->
+<!--                                         placeholder="use http:// or https://"-->
+<!--                                         (input)="unsavedChangesPrompt()"-->
+<!--                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('metric', i, this.editMode)}">-->
+<!--                                  <a *ngIf="getFieldAsFormArray('metric').length > 1"-->
+<!--                                     class="remove-element uk-padding-small"-->
+<!--                                     (click)="remove('metric', i); unsavedChangesPrompt()">-->
+<!--                                    <i class="fa fa-times" aria-hidden="true"></i>-->
+<!--                                  </a>-->
+<!--                                </div>-->
+<!--                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">-->
+<!--                                  <a class="add-new-element" (click)="push('metric', metricDesc.mandatory)">-->
+<!--                                    <i class="fa fa-plus" aria-hidden="true"></i> Add {{metricDesc.label}}-->
+<!--                                  </a>-->
+<!--                                </div>-->
+<!--                              </div>-->
+<!--                            </div>-->
+
+
+                                                <pre>
+                                                  {{serviceForm.value | json}}
+                                                </pre>
+                      </div>
+                      <!--<button type="submit" class="btn btn-primary butn theme block full-width m-b">-->
+                      <!--{{editMode ? "Update" : "Add"}}-->
+                      <!--</button>-->
+
+                    </form>
+
+                  </div>
+
+                </div>
+              </div>
+              <!-- RIGHT HELP CONTENT -->
+              <app-aside-help-content #rightHelperContent [position]="'right'"
+                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+              </app-aside-help-content>
+            </div>
+          </div>
+          <!-- BOTTOM HELP CONTENT -->
+          <app-help-content #bottomHelperContent [position]="'bottom'"
+                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+          </app-help-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

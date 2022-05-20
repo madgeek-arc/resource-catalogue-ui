@@ -12,8 +12,11 @@ import {ServiceEditComponent} from '../provider-resources/service-edit.component
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
 import {ProviderFormToPdfComponent} from './provider-form-to-pdf/provider-form-to-pdf.component';
 import {ResourceFormToPdfComponent} from '../provider-resources/resource-form-to-pdf/resource-form-to-pdf.component';
+import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring-extension/monitoring-extension-form.component";
+import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
 import {environment} from '../../../environments/environment';
 import {RejectedServicesComponent} from './dashboard/rejectedServices/rejected-services.component';
+
 
 const providerRoutes: Routes = [
 
@@ -136,6 +139,22 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Provider Form To PDF'
+    }
+  },
+  {
+    path: ':providerId/resource/monitoring/:resourceId',
+    component: MonitoringExtensionFormComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Monitoring Extension'
+    }
+  },
+  {
+    path: ':providerId/resource/helpdesk/:resourceId',
+    component: HelpdeskExtensionFormComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Helpdesk Extension'
     }
   },
   {
