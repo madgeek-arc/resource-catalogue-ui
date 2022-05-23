@@ -65,11 +65,11 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     serviceId: [''],
     helpdeskType: ['', Validators.required],
     services: this.fb.array([this.fb.control('')]),
-    supportGroups: this.fb.array([this.fb.control('')]), //Validators.required,
+    supportGroups: this.fb.array([this.fb.control('')], Validators.required),
     organisation: [''],
     emails: this.fb.array([this.fb.control('')]),
     emailForTicket: this.fb.array([this.fb.control('')]), //Validators.required,
-    agents: this.fb.array([this.fb.control('')]), //Validators.required,
+    agents: this.fb.array([this.fb.control('')], Validators.required),
     signatures: this.fb.array([this.fb.control('')]),
     webform: [''],
     ticketPreservation: ['']
@@ -117,6 +117,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);
     if (this.serviceForm.valid) {
+      console.log('valid');
       window.scrollTo(0, 0);
       if(this.serviceForm.get('helpdeskType').value==='direct usage'){
         this.serviceForm.get('ticketPreservation').setValue('');
@@ -138,20 +139,21 @@ export class HelpdeskExtensionFormComponent implements OnInit {
           this.getFieldAsFormArray('signatures').removeAt(0);
         }
       }
-      this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode).subscribe(
-        _service => {
-          console.log(_service);
-          this.showLoader = false;
-          return this.router.resourceDashboard(this.providerId, this.serviceId);  // redirect to resource-dashboard
-        },
-        err => {
-          this.showLoader = false;
-          window.scrollTo(0, 0);
-          // this.monitoringGroupsArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
-        }
-      );
+      // this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode).subscribe(
+      //   _service => {
+      //     console.log(_service);
+      //     this.showLoader = false;
+      //     return this.router.resourceDashboard(this.providerId, this.serviceId);  // redirect to resource-dashboard
+      //   },
+      //   err => {
+      //     this.showLoader = false;
+      //     window.scrollTo(0, 0);
+      //     // this.monitoringGroupsArray.enable();
+      //     this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
+      //   }
+      // );
     } else {
+      console.log('invalid');
       window.scrollTo(0, 0);
       this.showLoader = false;
 
