@@ -18,10 +18,12 @@ export class ResourceDashboardComponent implements OnInit {
 
   providerId: string;
   resourceId: string;
+  monitoringId: string;
+  helpdeskId: string;
 
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,
-              public serviceExtensionService: ServiceExtensionsService,
+              public serviceExtensionsService: ServiceExtensionsService,
               public router: NavigationService,
               private route: ActivatedRoute) {
   }
@@ -29,13 +31,11 @@ export class ResourceDashboardComponent implements OnInit {
   ngOnInit() {
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.resourceId = this.route.snapshot.paramMap.get('resourceId');
-    // this.serviceExtensionService.getMonitoringBundleByServiceId(this.resourceId).subscribe()
-    // {
-    //
-    // }
-    // this.serviceExtensionService.getHelpdeskBundleByServiceId(this.resourceId).subscribe()
-    // {
-    //
-    // }
+    this.serviceExtensionsService.getMonitoringBundleByServiceId(this.resourceId).subscribe(
+      res => { if (res!=null) this.monitoringId = res.id }
+    );
+    this.serviceExtensionsService.getHelpdeskBundleByServiceId(this.resourceId).subscribe(
+      res => { if (res!=null) this.helpdeskId = res.id }
+    );
   }
 }

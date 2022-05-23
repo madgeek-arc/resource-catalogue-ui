@@ -6,7 +6,7 @@ import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
 import {UserService} from '../../../services/user.service';
 import * as sd from '../services.description';
-import {Provider, RichService, Service, Type, Vocabulary} from '../../../domain/eic-model';
+import {Provider, RichService, Service, Type, Vocabulary, Helpdesk, HelpdeskBundle} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {urlAsyncValidator, URLValidator} from '../../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
@@ -39,6 +39,8 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   provider: Provider;
   service: Service;
   serviceId: string = null;
+  helpdesk: Helpdesk;
+  helpdeskBundle: HelpdeskBundle;
   errorMessage = '';
   successMessage: string = null;
   weights: string[] = [];
@@ -97,8 +99,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  onSubmit(edit: boolean) {
-    console.log('Submit');
+  onSubmit() {
     if (!this.authenticationService.isLoggedIn()) {
       sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
       this.authenticationService.login();
@@ -117,7 +118,6 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);
     if (this.serviceForm.valid) {
-      console.log('valid');
       window.scrollTo(0, 0);
       if(this.serviceForm.get('helpdeskType').value==='direct usage'){
         this.serviceForm.get('ticketPreservation').setValue('');
@@ -139,21 +139,20 @@ export class HelpdeskExtensionFormComponent implements OnInit {
           this.getFieldAsFormArray('signatures').removeAt(0);
         }
       }
-      // this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode).subscribe(
-      //   _service => {
-      //     console.log(_service);
-      //     this.showLoader = false;
-      //     return this.router.resourceDashboard(this.providerId, this.serviceId);  // redirect to resource-dashboard
-      //   },
-      //   err => {
-      //     this.showLoader = false;
-      //     window.scrollTo(0, 0);
-      //     // this.monitoringGroupsArray.enable();
-      //     this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
-      //   }
-      // );
+      this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode).subscribe(
+        _service => {
+          console.log(_service);
+          this.showLoader = false;
+          return this.router.resourceDashboard(this.providerId, this.serviceId);  // redirect to resource-dashboard
+        },
+        err => {
+          this.showLoader = false;
+          window.scrollTo(0, 0);
+          // this.monitoringGroupsArray.enable();
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
+        }
+      );
     } else {
-      console.log('invalid');
       window.scrollTo(0, 0);
       this.showLoader = false;
 
@@ -169,6 +168,20 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   ngOnInit() {
     this.serviceId = this.route.snapshot.paramMap.get('resourceId');
     this.serviceForm.get('serviceId').setValue(this.serviceId);
+
+    this.serviceExtensionsService.getHelpdeskBundleByServiceId(this.serviceId).subscribe(
+      res => { if(res!=null) {
+          this.helpdesk = res.helpdesk;
+          this.editMode = true;
+        }
+      },
+      err => { console.log(err); },
+      () => {
+        this.formPrepare(this.helpdesk);
+        this.serviceForm.patchValue(this.helpdesk);
+      }
+    );
+
   }
 
   checkFormValidity(name: string, edit: boolean): boolean {
@@ -208,6 +221,34 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   }
 
   /** <--manage form arrays **/
+
+  formPrepare(helpdesk: Helpdesk) {
+    if (helpdesk.services) {
+      for (let i = 0; i < helpdesk.services.length - 1; i++) {
+        this.push('services', false);
+      }
+    }
+    if (helpdesk.supportGroups) {
+      for (let i = 0; i < helpdesk.supportGroups.length - 1; i++) {
+        this.push('supportGroups', true);
+      }
+    }
+    if (helpdesk.emails) {
+      for (let i = 0; i < helpdesk.emails.length - 1; i++) {
+        this.push('emails', false);
+      }
+    }
+    if (helpdesk.agents) {
+      for (let i = 0; i < helpdesk.agents.length - 1; i++) {
+        this.push('agents', true);
+      }
+    }
+    if (helpdesk.signatures) {
+      for (let i = 0; i < helpdesk.signatures.length - 1; i++) {
+        this.push('signatures', false);
+      }
+    }
+  }
 
   unsavedChangesPrompt() {
     this.hasChanges = true;

@@ -6,7 +6,16 @@ import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
 import {UserService} from '../../../services/user.service';
 import * as sd from '../services.description';
-import {Provider, RichService, Service, Type, Vocabulary} from '../../../domain/eic-model';
+import {
+  Provider,
+  RichService,
+  Service,
+  Type,
+  Vocabulary,
+  Monitoring,
+  MonitoringBundle,
+  Helpdesk
+} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {urlAsyncValidator, URLValidator} from '../../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
@@ -40,6 +49,8 @@ export class MonitoringExtensionFormComponent implements OnInit {
   provider: Provider;
   service: Service;
   serviceId: string = null;
+  monitoring: Monitoring;
+  monitoringBundle: MonitoringBundle;
   errorMessage = '';
   successMessage: string = null;
   weights: string[] = [];
@@ -103,8 +114,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  onSubmit(edit: boolean) {
-    console.log('Submit');
+  onSubmit() {
     if (!this.authenticationService.isLoggedIn()) {
       sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
       this.authenticationService.login();
@@ -153,6 +163,23 @@ export class MonitoringExtensionFormComponent implements OnInit {
   ngOnInit() {
     this.serviceId = this.route.snapshot.paramMap.get('resourceId');
     this.serviceForm.get('serviceId').setValue(this.serviceId);
+
+    this.serviceExtensionsService.getMonitoringBundleByServiceId(this.serviceId).subscribe(
+      res => { if(res!=null) {
+        this.monitoring = res.monitoring;
+        this.editMode = true;
+        console.log(this.monitoring);
+      }
+      },
+      err => {
+        console.log(err);
+      },
+      () => {
+        this.formPrepare(this.monitoring);
+        this.serviceForm.patchValue(this.monitoring);
+      }
+    );
+
     zip(
       this.resourceService.getAllVocabulariesByType(),
     ).subscribe(suc => {
@@ -261,5 +288,33 @@ export class MonitoringExtensionFormComponent implements OnInit {
     this.metricsGroupsArray.removeAt(index);
   }
   /** <--MetricsGroups**/
+
+  formPrepare(monitoring: Monitoring) {
+
+    this.removeMonitoringGroup(0);
+    if (monitoring.monitoringGroups) {
+      for (let i = 0; i < monitoring.monitoringGroups.length; i++) {
+        this.monitoringGroupsArray.push(this.newMonitoringGroup());
+        this.monitoringGroupsArray.controls[this.monitoringGroupsArray.length - 1].get('serviceType').setValue(monitoring.monitoringGroups[i].serviceType);
+        this.monitoringGroupsArray.controls[this.monitoringGroupsArray.length - 1].get('endpoint').setValue(monitoring.monitoringGroups[i].endpoint);
+      }
+    } else {
+      this.monitoringGroupsArray.push(this.newMonitoringGroup());
+    }
+    //
+    // this.removeScientificDomain(0);
+    // if (helpdesk.scientificDomains) {
+    //   for (let i = 0; i < helpdesk.scientificDomains.length; i++) {
+    //     this.scientificDomainArray.push(this.newScientificDomain());
+    //     this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
+    //       .get('scientificDomain').setValue(helpdesk.scientificDomains[i].scientificDomain);
+    //     this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
+    //       .get('scientificSubdomain').setValue(helpdesk.scientificDomains[i].scientificSubdomain);
+    //   }
+    // } else {
+    //   this.scientificDomainArray.push(this.newScientificDomain());
+    // }
+
+  }
 
 }

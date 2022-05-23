@@ -38,13 +38,13 @@
           <li>
             <a [routerLink]="['/provider/' + providerId + '/resource/monitoring/' + resourceId]">
               <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-              Monitoring Extension
+               {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension
             </a>
           </li>
           <li>
             <a [routerLink]="['/provider/' + providerId + '/resource/helpdesk/' + resourceId]">
               <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-              Helpdesk Extension
+              {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension
             </a>
           </li>
           <li>
