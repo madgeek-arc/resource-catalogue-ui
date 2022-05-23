@@ -63,7 +63,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   formGroupMeta = {
     id: [''],
     serviceId: [''],
-    helpdeskType: [''],
+    helpdeskType: ['', Validators.required],
     services: this.fb.array([this.fb.control('')]),
     supportGroups: this.fb.array([this.fb.control('')]), //Validators.required,
     organisation: [''],
@@ -118,6 +118,26 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     // console.log('Submitted service value--> ', this.serviceForm.value);
     if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
+      if(this.serviceForm.get('helpdeskType').value==='direct usage'){
+        this.serviceForm.get('ticketPreservation').setValue('');
+      }
+      else if(this.serviceForm.get('helpdeskType').value==='ticket redirection')
+      {
+        while (this.getFieldAsFormArray('supportGroups').length !== 0) {
+          this.getFieldAsFormArray('supportGroups').removeAt(0);
+        }
+        while (this.getFieldAsFormArray('agents').length !== 0) {
+          this.getFieldAsFormArray('agents').removeAt(0);
+        }
+        while (this.getFieldAsFormArray('signatures').length !== 0) {
+          this.getFieldAsFormArray('signatures').removeAt(0);
+        }
+      } else if(this.serviceForm.get('helpdeskType').value==='full integration') {
+        this.serviceForm.get('ticketPreservation').setValue('');
+        while (this.getFieldAsFormArray('signatures').length !== 0) {
+          this.getFieldAsFormArray('signatures').removeAt(0);
+        }
+      }
       this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode).subscribe(
         _service => {
           console.log(_service);
