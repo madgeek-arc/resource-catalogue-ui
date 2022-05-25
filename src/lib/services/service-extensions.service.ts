@@ -44,12 +44,12 @@ export class ServiceExtensionsService {
     }
   }
 
-  getMonitoringBundleByServiceId(serviceId: string) {
-    return this.http.get<MonitoringBundle>(this.base + `/service-extensions/monitoring/byService/${serviceId}`, this.options);
+  getMonitoringByServiceId(serviceId: string) {
+    return this.http.get<Monitoring>(this.base + `/service-extensions/monitoring/byService/${serviceId}`, this.options);
   }
 
-  getHelpdeskBundleByServiceId(serviceId: string) {
-    return this.http.get<HelpdeskBundle>(this.base + `/service-extensions/helpdesk/byService/${serviceId}`, this.options);
+  getHelpdeskByServiceId(serviceId: string) {
+    return this.http.get<Helpdesk>(this.base + `/service-extensions/helpdesk/byService/${serviceId}`, this.options);
   }
 
   getMonitoringService(id: string) {
@@ -70,6 +70,10 @@ export class ServiceExtensionsService {
     // console.log(JSON.stringify(service));
     // console.log(`knocking on: ${this.base}/service`);
     return this.http[shouldPut ? 'put' : 'post']<Helpdesk>(this.base + `/service-extensions/helpdesk`, helpdeskService, this.options);
+  }
+
+  getServiceTypes() {
+    return this.http.get<any>(this.base + `/service-extensions/monitoring/serviceTypes`);
   }
 
   public handleError(error: HttpErrorResponse) {

@@ -135,7 +135,7 @@
                           <div class="uk-form-controls uk-margin-medium-top">
                             <ng-select class="uk-width-9-10" id="monitoredBy"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('monitoredBy', this.editMode)}"
-                                       [items]="sortVocabulariesByName(monitoredByVocabulary)"
+                                       [items]="monitoredByVocabulary"
                                        (change)="unsavedChangesPrompt()"
                                        bindLabel="name"
                                        bindValue="id"

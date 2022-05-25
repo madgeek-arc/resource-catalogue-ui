@@ -6,7 +6,7 @@ import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
 import {UserService} from '../../../services/user.service';
 import * as sd from '../services.description';
-import {Provider, RichService, Service, Type, Vocabulary, Helpdesk, HelpdeskBundle} from '../../../domain/eic-model';
+import {Provider, RichService, Service, Type, Vocabulary, Helpdesk} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {urlAsyncValidator, URLValidator} from '../../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
@@ -40,7 +40,6 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   service: Service;
   serviceId: string = null;
   helpdesk: Helpdesk;
-  helpdeskBundle: HelpdeskBundle;
   errorMessage = '';
   successMessage: string = null;
   weights: string[] = [];
@@ -169,9 +168,9 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     this.serviceId = this.route.snapshot.paramMap.get('resourceId');
     this.serviceForm.get('serviceId').setValue(this.serviceId);
 
-    this.serviceExtensionsService.getHelpdeskBundleByServiceId(this.serviceId).subscribe(
+    this.serviceExtensionsService.getHelpdeskByServiceId(this.serviceId).subscribe(
       res => { if(res!=null) {
-          this.helpdesk = res.helpdesk;
+          this.helpdesk = res;
           this.editMode = true;
         }
       },

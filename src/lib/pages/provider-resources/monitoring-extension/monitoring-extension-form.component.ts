@@ -6,16 +6,7 @@ import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
 import {UserService} from '../../../services/user.service';
 import * as sd from '../services.description';
-import {
-  Provider,
-  RichService,
-  Service,
-  Type,
-  Vocabulary,
-  Monitoring,
-  MonitoringBundle,
-  Helpdesk
-} from '../../../domain/eic-model';
+import {Provider, RichService, Service, Type, Vocabulary, Monitoring} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {urlAsyncValidator, URLValidator} from '../../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
@@ -50,7 +41,6 @@ export class MonitoringExtensionFormComponent implements OnInit {
   service: Service;
   serviceId: string = null;
   monitoring: Monitoring;
-  monitoringBundle: MonitoringBundle;
   errorMessage = '';
   successMessage: string = null;
   weights: string[] = [];
@@ -91,6 +81,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
   relatedResources: any;
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
+  serviceTypesVoc: any;
   premiumSort = new PremiumSortPipe();
   resourceService: ResourceService = this.injector.get(ResourceService);
   serviceExtensionsService: ServiceExtensionsService = this.injector.get(ServiceExtensionsService);
@@ -164,9 +155,11 @@ export class MonitoringExtensionFormComponent implements OnInit {
     this.serviceId = this.route.snapshot.paramMap.get('resourceId');
     this.serviceForm.get('serviceId').setValue(this.serviceId);
 
-    this.serviceExtensionsService.getMonitoringBundleByServiceId(this.serviceId).subscribe(
+    this.setServiceTypes();
+
+    this.serviceExtensionsService.getMonitoringByServiceId(this.serviceId).subscribe(
       res => { if(res!=null) {
-        this.monitoring = res.monitoring;
+        this.monitoring = res;
         this.editMode = true;
         console.log(this.monitoring);
       }
@@ -203,18 +196,6 @@ export class MonitoringExtensionFormComponent implements OnInit {
         && (edit || this.getFieldAsFormArray(name).get([position]).get(groupName).dirty);
     }
     return (!this.getFieldAsFormArray(name).get([position]).valid && (edit || this.getFieldAsFormArray(name).get([position]).dirty));
-  }
-
-  sortVocabulariesByName(vocabularies: Vocabulary[]): Vocabulary[] {
-    return vocabularies.sort((vocabulary1, vocabulary2) => {
-      if (vocabulary1.name > vocabulary2.name) {
-        return 1;
-      }
-      if (vocabulary1.name < vocabulary2.name) {
-        return -1;
-      }
-      return 0;
-    });
   }
 
   /** manage form arrays--> **/
@@ -315,6 +296,19 @@ export class MonitoringExtensionFormComponent implements OnInit {
     //   this.scientificDomainArray.push(this.newScientificDomain());
     // }
 
+  }
+
+  setServiceTypes() {
+    this.serviceExtensionsService.getServiceTypes().subscribe(
+      res => {
+        this.serviceTypesVoc = res;
+      },
+      error => console.log(JSON.stringify(error.error)),
+      () => {
+        console.log(this.serviceTypesVoc);
+        return this.serviceTypesVoc;
+      }
+    );
   }
 
 }

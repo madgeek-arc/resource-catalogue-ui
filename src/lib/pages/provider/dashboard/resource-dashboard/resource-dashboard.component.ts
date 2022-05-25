@@ -31,11 +31,11 @@ export class ResourceDashboardComponent implements OnInit {
   ngOnInit() {
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.resourceId = this.route.snapshot.paramMap.get('resourceId');
-    this.serviceExtensionsService.getMonitoringBundleByServiceId(this.resourceId).subscribe(
-      res => { if (res!=null) this.monitoringId = res.id }
+    this.serviceExtensionsService.getMonitoringByServiceId(this.resourceId).subscribe(
+      res => { if (res!=null) this.monitoringId = res.id } //id not used atm
     );
-    this.serviceExtensionsService.getHelpdeskBundleByServiceId(this.resourceId).subscribe(
-      res => { if (res!=null) this.helpdeskId = res.id }
+    this.serviceExtensionsService.getHelpdeskByServiceId(this.resourceId).subscribe(
+      res => { if (res!=null) this.helpdeskId = res.id } //id not used atm
     );
   }
 }
