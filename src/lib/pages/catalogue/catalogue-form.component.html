@@ -384,8 +384,7 @@
                             <div class="uk-form-controls uk-margin-top">
                               <div formArrayName="scientificDomains"
                                    *ngFor="let category of domainArray.controls; let i = index">
-                                <div [formGroupName]="i"
-                                     class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                   <!--<a *ngIf="domainArray.length > 1 && !disable" class="remove-element uk-padding-small"-->
                                   <!--(click)="removeDomain(i); unsavedChangesPrompt()">-->
                                   <!--<i class="fa fa-times" aria-hidden="true"></i>-->

@@ -65,7 +65,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
     monitoringGroups: this.fb.array([
       this.fb.group({
         serviceType: ['', Validators.required],
-        endpoint: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+        endpoint: ['', Validators.required]
       })
     ]),
     // metrics: this.fb.array([
@@ -168,8 +168,10 @@ export class MonitoringExtensionFormComponent implements OnInit {
         console.log(err);
       },
       () => {
-        this.formPrepare(this.monitoring);
-        this.serviceForm.patchValue(this.monitoring);
+        if (this.monitoring) { //fill the form -->
+          this.formPrepare(this.monitoring);
+          this.serviceForm.patchValue(this.monitoring);
+        }
       }
     );
 
@@ -232,7 +234,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
   newMonitoringGroup(): FormGroup {
     return this.fb.group({
       serviceType: ['', Validators.required],
-      endpoint: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+      endpoint: ['', Validators.required]
     });
   }
 
@@ -305,7 +307,6 @@ export class MonitoringExtensionFormComponent implements OnInit {
       },
       error => console.log(JSON.stringify(error.error)),
       () => {
-        console.log(this.serviceTypesVoc);
         return this.serviceTypesVoc;
       }
     );

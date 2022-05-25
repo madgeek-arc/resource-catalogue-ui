@@ -9,7 +9,7 @@
               Monitoring Extension
             </div>
             <div class="providerName uk-margin-small-top">
-              <strong>{{serviceName!='' ? serviceName : serviceORresource + ' Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
+              <strong>{{serviceName!='' ? serviceORresource + ' Name' : serviceId}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
             </div>
           </div>
           <div class="">
@@ -155,11 +155,18 @@
                                   <label class="uk-form-label uk-text-right" for="serviceType">
                                     {{ serviceTypeDesc.label + (serviceTypeDesc.mandatory ? ' (*)' : '') }}
                                   </label>
-                                  <div
-                                    class="uk-form-description uk-margin-top uk-width-9-10">{{serviceTypeDesc.desc}}</div>
+                                  <div class="uk-form-description uk-margin-top uk-width-9-10">{{serviceTypeDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
-                                    <input id="serviceType" class="uk-input" type="text" formControlName="serviceType"
-                                           (input)="unsavedChangesPrompt()">
+                                    <ng-select class="uk-width-9-10" id="serviceType"
+                                               [items]="serviceTypesVoc"
+                                               (change)="unsavedChangesPrompt()"
+                                               bindLabel="item"
+                                               bindValue="item"
+                                               clearAllText="Clear"
+                                               formControlName="serviceType">
+                                    </ng-select>
+<!--                                    <input id="serviceType" class="uk-input" type="text" formControlName="serviceType"-->
+<!--                                           (input)="unsavedChangesPrompt()">-->
                                     <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('monitoringGroups', i, this.editMode, 'serviceType')}">-->
                                   </div>
                                 </div>
@@ -170,7 +177,7 @@
                                   </label>
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{endpointDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
-                                    <input id="endpoint" class="uk-input" type="text" formControlName="endpoint" placeholder="use http:// or https://"
+                                    <input id="endpoint" class="uk-input" type="text" formControlName="endpoint"
                                            (input)="unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormArrayValidity('monitoringGroups', i, this.editMode, 'endpoint')}">
                                   </div>

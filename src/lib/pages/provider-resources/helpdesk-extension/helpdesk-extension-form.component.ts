@@ -176,8 +176,10 @@ export class HelpdeskExtensionFormComponent implements OnInit {
       },
       err => { console.log(err); },
       () => {
-        this.formPrepare(this.helpdesk);
-        this.serviceForm.patchValue(this.helpdesk);
+        if (this.helpdesk) { //fill the form -->
+          this.formPrepare(this.helpdesk);
+          this.serviceForm.patchValue(this.helpdesk);
+        }
       }
     );
 
