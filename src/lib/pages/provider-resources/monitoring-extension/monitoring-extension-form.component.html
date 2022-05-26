@@ -96,37 +96,6 @@
 
                       <div class="formContainer">
 
-<!--                        <div formArrayName="monitoredBy" class="uk-margin-large-bottom">-->
-<!--                          <label class="uk-form-label uk-text-right" for="monitoredBy">-->
-<!--                            {{monitoredByDesc.label + (monitoredByDesc.mandatory ? ' (*)' : '')}}-->
-<!--                          </label>-->
-<!--                          <div class="uk-form-description uk-margin-top uk-width-9-10">{{monitoredByDesc.desc}}</div>-->
-<!--                          <div class="uk-form-controls uk-margin-medium-top">-->
-<!--                            <div *ngFor="let provider of getFieldAsFormArray('monitoredBy').controls; let i=index"-->
-<!--                                 [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('monitoredBy').controls.length-1 !== i}">-->
-<!--                              <ng-select *ngIf="monitoredByVocabulary" class="uk-width-9-10" id="monitoredBy"-->
-<!--                                         (change)="unsavedChangesPrompt()"-->
-<!--                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('monitoredBy', i, this.editMode)}"-->
-<!--                                         [items]="sortVocabulariesByName(monitoredByVocabulary)"-->
-<!--                                         bindLabel="name"-->
-<!--                                         bindValue="id"-->
-<!--                                         clearAllText="Clear"-->
-<!--                                         [formControlName]="i">-->
-<!--                              </ng-select>-->
-<!--                              <a *ngIf="getFieldAsFormArray('monitoredBy').length > 1"-->
-<!--                                 class="remove-element uk-padding-small"-->
-<!--                                 (click)="remove('monitoredBy', i); unsavedChangesPrompt()">-->
-<!--                                <i class="fa fa-times" aria-hidden="true"></i>-->
-<!--                              </a>-->
-<!--                            </div>-->
-<!--                            <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">-->
-<!--                              <a class="add-new-element" (click)="push('monitoredBy', monitoredByDesc.mandatory)">-->
-<!--                                <i class="fa fa-plus" aria-hidden="true"></i> Add {{monitoredByDesc.label}}-->
-<!--                              </a>-->
-<!--                            </div>-->
-<!--                          </div>-->
-<!--                        </div>-->
-
                         <div class="uk-margin-large-bottom">
                           <label class="uk-form-label uk-text-right" for="monitoredBy">
                             {{ monitoredByDesc.label + (monitoredByDesc.mandatory ? ' (*)' : '')}}
@@ -157,7 +126,7 @@
                                   </label>
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{serviceTypeDesc.desc}}</div>
                                   <div class="uk-form-controls uk-margin-medium-top">
-                                    <ng-select class="uk-width-9-10" id="serviceType"
+                                    <ng-select class="uk-width-1-1" id="serviceType"
                                                [items]="serviceTypesVoc"
                                                (change)="unsavedChangesPrompt()"
                                                bindLabel="item"
