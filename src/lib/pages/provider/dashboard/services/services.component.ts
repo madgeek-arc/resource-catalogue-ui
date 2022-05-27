@@ -33,7 +33,7 @@ export class ServicesComponent implements OnInit {
   dataForm: FormGroup;
 
   errorMessage = '';
-  toggleLoading = false;
+  // toggleLoading = false;
   urlParams: URLParameter[] = [];
   providerId;
   providerBundle: ProviderBundle;
@@ -109,18 +109,18 @@ export class ServicesComponent implements OnInit {
       window.scrollTo(0, 0);
       return;
     }
-    this.toggleLoading = true;
+    UIkit.modal('#spinnerModal').show();
     this.providerService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
       res => {},
       error => {
         this.errorMessage = 'Something went bad. ' + error.error ;
         this.getServices();
-        this.toggleLoading = false;
+        UIkit.modal('#spinnerModal').hide();
         // console.log(error);
       },
       () => {
-        this.getServices();
-        this.toggleLoading = false;
+        UIkit.modal('#spinnerModal').hide();
+        location.reload();
       }
     );
   }
@@ -146,18 +146,17 @@ export class ServicesComponent implements OnInit {
   }
 
   deleteService(id: string) {
-    // UIkit.modal('#spinnerModal').show();
+    UIkit.modal('#spinnerModal').show();
     this.service.deleteService(id).subscribe(
       res => {},
       error => {
-        // console.log(error);
-        // UIkit.modal('#spinnerModal').hide();
+        UIkit.modal('#spinnerModal').hide();
         this.errorMessage = 'Something went bad. ' + error.error ;
         this.getServices();
       },
       () => {
-        this.getServices();
-        // UIkit.modal('#spinnerModal').hide();
+        UIkit.modal('#spinnerModal').hide();
+        location.reload();
       }
     );
   }

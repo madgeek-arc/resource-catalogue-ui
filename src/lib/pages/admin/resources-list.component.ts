@@ -539,7 +539,7 @@ export class ResourcesListComponent implements OnInit {
       },
       () => {
         UIkit.modal('#spinnerModal').hide();
-        // TODO: refresh page
+        location.reload();
       }
     );
   }

@@ -601,6 +601,7 @@ export class ServiceProvidersListComponent implements OnInit {
         },
         () => {
           UIkit.modal('#spinnerModal').hide();
+          location.reload();
         }
       );
   }
