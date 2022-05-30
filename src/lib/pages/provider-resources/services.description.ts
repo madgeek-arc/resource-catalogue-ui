@@ -219,8 +219,8 @@ export const datasourceDescMap = new Map()
 
 export const monitoringDescMap = new Map()
   .set('monitoredByDesc', {mandatory: true, label: 'Monitored By', placeholder: '', desc: 'Who is responsible for the monitoring of this Service'})
-  .set('serviceTypeDesc', {mandatory: true, label: 'Service Type', placeholder: '', desc: 'Unique identifier of the service type with reverse dns format'})
-  .set('endpointDesc', {mandatory: true, label: 'Endpoint', placeholder: '', desc: 'The URL of the endpoint of the service'})
+  .set('serviceTypeDesc', {mandatory: true, label: 'Service Type', placeholder: '', desc: 'Service type is a unique identifier of technology used to provide a given service endpoint. For example, eu.eosc.generic.http represents generic service speaking HTTP protocol.'})
+  .set('endpointDesc', {mandatory: true, label: 'Endpoint', placeholder: '', desc: 'URL of the service endpoint that can be used to verify service health.'})
   .set('probeDesc', {mandatory: false, label: 'Probe', placeholder: '', desc: 'The URL to the repository hosting the code'})
   .set('metricDesc', {mandatory: false, label: 'Metric', placeholder: '', desc: 'The metric URL'})
 ;
