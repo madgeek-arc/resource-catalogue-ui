@@ -66,11 +66,11 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     serviceId: [''],
     helpdeskType: ['', Validators.required],
     services: this.fb.array([this.fb.control('')]),
-    supportGroups: this.fb.array([this.fb.control('')], Validators.required),
+    supportGroups: this.fb.array([this.fb.control('')]), //Validators.required,
     organisation: [''],
     emails: this.fb.array([this.fb.control('')]),
-    emailForTicket: this.fb.array([this.fb.control('')]), //Validators.required,
-    agents: this.fb.array([this.fb.control('')], Validators.required),
+    // emailForTicket: this.fb.array([this.fb.control('')]), //Validators.required,
+    agents: this.fb.array([this.fb.control('')]), //Validators.required,
     signatures: this.fb.array([this.fb.control('')]),
     webform: [''],
     ticketPreservation: ['']
@@ -114,15 +114,13 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     // }
 
     // console.log('this.serviceForm.valid ', this.serviceForm.valid);
-    // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);
     if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
       if(this.serviceForm.get('helpdeskType').value==='direct usage'){
         this.serviceForm.get('ticketPreservation').setValue('');
       }
-      else if(this.serviceForm.get('helpdeskType').value==='ticket redirection')
-      {
+      else if(this.serviceForm.get('helpdeskType').value==='ticket redirection'){
         while (this.getFieldAsFormArray('supportGroups').length !== 0) {
           this.getFieldAsFormArray('supportGroups').removeAt(0);
         }
@@ -131,6 +129,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
         }
         while (this.getFieldAsFormArray('signatures').length !== 0) {
           this.getFieldAsFormArray('signatures').removeAt(0);
+          // (this.serviceForm.controls['signatures'] as FormArray).clear(); //alt
         }
       } else if(this.serviceForm.get('helpdeskType').value==='full integration') {
         this.serviceForm.get('ticketPreservation').setValue('');

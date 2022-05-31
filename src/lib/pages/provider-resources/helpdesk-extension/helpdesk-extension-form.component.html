@@ -198,26 +198,26 @@
                             </div>
                           </div>
                         </div>
-                        <div *ngIf="this.serviceForm.get('helpdeskType').value==='ticket redirection'" formArrayName="emailForTicket" class="uk-margin-large-bottom">
+                        <div *ngIf="this.serviceForm.get('helpdeskType').value==='ticket redirection'" formArrayName="emails" class="uk-margin-large-bottom">
                           <label class="uk-form-label uk-text-right" for="emailForTicket">
                             {{emailForTicketDesc.label + (emailForTicketDesc.mandatory ? ' (*)' : '')}}
                           </label>
                           <div
                             class="uk-form-description uk-margin-top uk-width-9-10">{{emailForTicketDesc.desc}}</div>
                           <div class="uk-form-controls uk-margin-medium-top">
-                            <div *ngFor="let item of getFieldAsFormArray('emailForTicket').controls; let i=index"
+                            <div *ngFor="let item of getFieldAsFormArray('emails').controls; let i=index"
                                  class="uk-margin-bottom">
                               <input id="emailForTicket" class="uk-input uk-width-9-10" type="text" [formControlName]="i"
                                      (input)="unsavedChangesPrompt()"
-                                     [ngClass]="{'uk-form-danger': checkFormValidity('emailForTicket', this.editMode)}">
-                              <a *ngIf="getFieldAsFormArray('emailForTicket').length > 1 && !disable"
+                                     [ngClass]="{'uk-form-danger': checkFormValidity('emails', this.editMode)}">
+                              <a *ngIf="getFieldAsFormArray('emails').length > 1 && !disable"
                                  class="remove-element uk-padding-small"
-                                 (click)="remove('emailForTicket', i); unsavedChangesPrompt()">
+                                 (click)="remove('emails', i); unsavedChangesPrompt()">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                               </a>
                             </div>
                             <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                              <a class="add-new-element" (click)="push('emailForTicket', false)">
+                              <a class="add-new-element" (click)="push('emails', false)">
                                 <i class="fa fa-plus" aria-hidden="true"></i> Add {{emailForTicketDesc.label}}
                               </a>
                             </div>
