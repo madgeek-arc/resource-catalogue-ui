@@ -59,7 +59,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
       zip(
         this.resourceService.getEU(),
         this.resourceService.getWW(),
-        this.resourceService.getService(params['resourceId'])
+        this.resourceService.getService(params['resourceId'], params['catalogueId'])
       ).subscribe(suc => {
           this.EU = <string[]>suc[0];
           this.WW = <string[]>suc[1];

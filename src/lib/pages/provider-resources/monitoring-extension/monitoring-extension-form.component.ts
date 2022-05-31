@@ -127,7 +127,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
       window.scrollTo(0, 0);
       this.serviceExtensionsService.uploadMonitoringService(this.serviceForm.value, this.editMode).subscribe(
         _service => {
-          console.log(_service);
+          // console.log(_service);
           this.showLoader = false;
           return this.router.resourceDashboard(this.providerId, this.serviceId);  // redirect to resource-dashboard
         },
@@ -161,7 +161,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
       res => { if(res!=null) {
         this.monitoring = res;
         this.editMode = true;
-        console.log(this.monitoring);
+        // console.log(this.monitoring);
       }
       },
       err => {

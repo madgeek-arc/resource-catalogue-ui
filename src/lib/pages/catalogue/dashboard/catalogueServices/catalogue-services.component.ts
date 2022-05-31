@@ -87,8 +87,8 @@ export class CatalogueServicesComponent implements OnInit {
       );
   }
 
-  navigate(id: string) {
-    this.router.navigate([`/dashboard/${this.catalogueId}/resource-dashboard/`, id]);
+  navigate(serviceId: string) {
+    this.router.navigate([`/dashboard/${this.catalogueId}/${serviceId.split('.')[0]}/resource-dashboard/`, serviceId]);
   }
 
   useAsTemplate(id: string) {

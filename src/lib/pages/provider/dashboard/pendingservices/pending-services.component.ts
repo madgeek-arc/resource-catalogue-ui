@@ -27,7 +27,8 @@ export class PendingServicesComponent implements OnInit {
 
   errorMessage = '';
   urlParams: URLParameter[] = [];
-  providerId;
+  providerId: string;
+  catalogueId: string;
   providerBundle: ProviderBundle;
   providerServices: Paging<InfraService>;
   selectedService: InfraService = null;
@@ -56,6 +57,7 @@ export class PendingServicesComponent implements OnInit {
 
     if (this.path.includes('dashboard')) {
       this.providerId = this.route.parent.snapshot.paramMap.get('provider');
+      this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     } else {
       this.providerId = this.route.snapshot.paramMap.get('providerId');
     }
@@ -94,7 +96,7 @@ export class PendingServicesComponent implements OnInit {
   }
 
   getProvider() {
-    this.providerService.getServiceProviderBundleById(this.providerId).subscribe(
+    this.providerService.getServiceProviderBundleById(this.providerId, this.catalogueId).subscribe(
       providerBundle => {
         this.providerBundle = providerBundle;
       }, error => {

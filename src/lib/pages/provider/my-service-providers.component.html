@@ -58,7 +58,7 @@
                           <div class="uk-card-body">
                             <div class="providerName">
                               <span class="uk-margin-auto-vertical" data-uk-tooltip title="'Go to the {{serviceORresource | lowercase}} provider monitoring dashboard'">
-                                <a [routerLink]="['/dashboard', providerBundle.id, 'stats']">
+                                <a [routerLink]="['/dashboard/', providerBundle.provider.catalogueId, providerBundle.id, 'stats']">
                                     {{ providerBundle.provider.name }}
                                 </a>
                               </span>

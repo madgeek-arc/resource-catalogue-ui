@@ -88,7 +88,7 @@ export class CatalogueProvidersComponent implements OnInit {
   }
 
   navigate(id: string) {
-    this.router.navigate([`/dashboard/${this.catalogueId}/resource-dashboard/`, id]);
+    this.router.navigate([`/dashboard/${this.catalogueId}/${id}`]);
   }
 
   getCatalogue() {

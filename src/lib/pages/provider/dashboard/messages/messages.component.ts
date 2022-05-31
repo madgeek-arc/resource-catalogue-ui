@@ -10,6 +10,7 @@ import {ServiceProviderService} from '../../../../services/service-provider.serv
 })
 export class MessagesComponent implements OnInit {
 
+  catalogueId: string;
   providerId: string;
   providerBundle: ProviderBundle;
   requests: ProviderRequest[] = [];
@@ -20,6 +21,7 @@ export class MessagesComponent implements OnInit {
   ngOnInit(): void {
 
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
+    this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     this.getProvider();
 
     if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
@@ -31,7 +33,7 @@ export class MessagesComponent implements OnInit {
   }
 
   getProvider() {
-    this.providerService.getServiceProviderBundleById(this.providerId).subscribe(
+    this.providerService.getServiceProviderBundleById(this.providerId, this.catalogueId).subscribe(
       providerBundle => {
         this.providerBundle = providerBundle;
       }, error => {

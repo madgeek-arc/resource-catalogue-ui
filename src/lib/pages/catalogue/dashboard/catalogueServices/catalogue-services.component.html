@@ -165,7 +165,7 @@
                     <span class="">Last Update: </span>{{ providerService.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div class="uk-width-1-6">
+                <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
                   <div class="action-buttons">
                     <button *ngIf="catalogueBundle.templateStatus === 'approved template'"
                             class="uk-button uk-button-action uk-display-block uk-margin-small-top"

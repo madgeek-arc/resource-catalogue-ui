@@ -35,7 +35,8 @@ export class ServicesComponent implements OnInit {
   errorMessage = '';
   // toggleLoading = false;
   urlParams: URLParameter[] = [];
-  providerId;
+  providerId: string;
+  catalogueId: string;
   providerBundle: ProviderBundle;
   providerServices: Paging<InfraService>;
   // providerCoverage: string[];
@@ -59,6 +60,7 @@ export class ServicesComponent implements OnInit {
 
   ngOnInit(): void {
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
+    this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
 
     this.getProvider();
 
@@ -86,7 +88,7 @@ export class ServicesComponent implements OnInit {
   }
 
   navigate(id: string) {
-    this.router.navigate([`/dashboard/${this.providerId}/resource-dashboard/`, id]);
+    this.router.navigate([`/dashboard/${this.catalogueId}/${this.providerId}/resource-dashboard/`, id]);
   }
 
   useAsTemplate(id: string) {
@@ -94,7 +96,7 @@ export class ServicesComponent implements OnInit {
   }
 
   getProvider() {
-    this.providerService.getServiceProviderBundleById(this.providerId).subscribe(
+    this.providerService.getServiceProviderBundleById(this.providerId, this.catalogueId).subscribe(
       providerBundle => {
         this.providerBundle = providerBundle;
       }, error => {

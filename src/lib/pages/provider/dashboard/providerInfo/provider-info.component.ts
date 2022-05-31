@@ -11,6 +11,7 @@ import {ResourceService} from '../../../../services/resource.service';
 })
 export class ProviderInfoComponent implements OnInit {
 
+  catalogueId: string;
   providerId: string;
   provider: Provider;
   providerBundle: ProviderBundle;
@@ -41,6 +42,7 @@ export class ProviderInfoComponent implements OnInit {
     this.setVocabularies();
 
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
+    this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     this.getProviderBundle();
     // this.getProvider();
 
@@ -53,7 +55,7 @@ export class ProviderInfoComponent implements OnInit {
   }
 
   getProviderBundle() {
-    this.providerService.getServiceProviderBundleById(this.providerId).subscribe(
+    this.providerService.getServiceProviderBundleById(this.providerId, this.catalogueId).subscribe(
       providerBundle => {
         this.providerBundle = providerBundle;
       }, error => {

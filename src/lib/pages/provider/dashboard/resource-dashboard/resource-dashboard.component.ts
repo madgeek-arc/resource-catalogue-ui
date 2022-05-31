@@ -16,6 +16,7 @@ export class ResourceDashboardComponent implements OnInit {
   _marketplaceBaseURL = environment.marketplaceBaseURL;
   serviceORresource = environment.serviceORresource;
 
+  catalogueId: string;
   providerId: string;
   resourceId: string;
   monitoringId: string;
@@ -29,6 +30,7 @@ export class ResourceDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.resourceId = this.route.snapshot.paramMap.get('resourceId');
     this.serviceExtensionsService.getMonitoringByServiceId(this.resourceId).subscribe(

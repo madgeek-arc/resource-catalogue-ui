@@ -105,7 +105,7 @@
         <div class="uk-flex uk-flex-middle uk-flex-between">
 
           <div class="resultsInfo">
-            <span class="number">{{total}}</span> {{serviceORresource | uppercase}}S, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+            <span class="number">{{total}}</span> PROVIDERS, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
           </div>
 
           <ul class="uk-pagination" uk-margin>
@@ -165,7 +165,7 @@
                     <span class="">Last Update: </span>{{ providerService.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div class="uk-width-1-6">
+                <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
                   <div class="action-buttons">
 <!--                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(providerService)">-->
 <!--                      <ng-container *ngIf="providerService.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>-->

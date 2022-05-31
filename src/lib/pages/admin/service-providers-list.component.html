@@ -245,22 +245,23 @@
                             <div class="uk-width-4-5">
                               <div class="providerName">
                                 <span class="uk-margin-auto-vertical">
-                                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' else anotherCatalogue">
+<!--                                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' else anotherCatalogue">-->
                                     <ng-container *ngIf="providerBundle.status === 'approved provider'">
-                                      <a [routerLink]="['/dashboard', providerBundle.id, 'stats']" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
+                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'stats']" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
                                         {{ providerBundle.provider.name }}
                                       </a>
                                     </ng-container>
                                     <ng-container *ngIf="providerBundle.status !== 'approved provider'">
-                                      <a [routerLink]="['/dashboard', providerBundle.id]" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
+                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id]" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
                                         {{ providerBundle.provider.name }}
                                       </a>
                                     </ng-container>
+                                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' ">
                                     <a [routerLink]="['/provider/info',providerBundle.id]" class="uk-display-inline-block">
                                       <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
                                     </a>
                                   </ng-container>
-                                  <ng-template #anotherCatalogue>{{ providerBundle.provider.name }}</ng-template>
+<!--                                  <ng-template #anotherCatalogue>{{ providerBundle.provider.name }}</ng-template>-->
                                 </span>
                               </div>
                               <div class="uk-margin-small-top">
@@ -640,15 +641,16 @@
             <div class="uk-width-4-5">
               <div class="providerName">
                 <span class="uk-margin-auto-vertical">
-                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' else anotherCatalogue">
-                    <a [routerLink]="['/dashboard', providerBundle.id, 'stats']" target="_blank" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
+<!--                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' else anotherCatalogue">-->
+                    <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'stats']" target="_blank" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
                         {{ providerBundle.provider.name }}
                     </a>
+                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc'">
                     <a [routerLink]="['/provider/info',providerBundle.id]" target="_blank" class="uk-display-inline-block">
                       <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
                     </a>
                   </ng-container>
-                  <ng-template #anotherCatalogue>{{ providerBundle.provider.name }}</ng-template>
+<!--                  <ng-template #anotherCatalogue>{{ providerBundle.provider.name }}</ng-template>-->
                 </span>
               </div>
               <div class="uk-margin-small-top">

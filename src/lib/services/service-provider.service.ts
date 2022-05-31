@@ -83,12 +83,16 @@ export class ServiceProviderService {
     return this.http.get<ProviderBundle[]>(this.base + `/provider/randomProviders?quantity=${quantity}`, this.options);
   }
 
-  getServiceProviderBundleById(id: string) {
-    return this.http.get<ProviderBundle>(this.base + `/provider/bundle/${id}`, this.options);
+  getServiceProviderBundleById(id: string, catalogue_id?: string) {
+    if(!catalogue_id) catalogue_id = 'eosc';
+    // return this.http.get<ProviderBundle>(this.base + `/provider/bundle/${id}`, this.options);
+    return this.http.get<ProviderBundle>(this.base + `/provider/bundle/${id}?catalogue_id=${catalogue_id}`, this.options);
   }
 
-  getServiceProviderById(id: string) {
-    return this.http.get<Provider>(this.base + `/provider/${id}`, this.options);
+  getServiceProviderById(id: string, catalogue_id?: string) {
+    if(!catalogue_id) catalogue_id = 'eosc';
+    // return this.http.get<Provider>(this.base + `/provider/${id}`, this.options);
+    return this.http.get<Provider>(this.base + `/provider/${id}?catalogue_id=${catalogue_id}`, this.options);
   }
 
   getPendingProviderById(id: string) {
@@ -205,8 +209,9 @@ export class ServiceProviderService {
     return this.http.get<Paging<ServiceHistory>>(this.base + `/provider/history/${providerId}/`);
   }
 
-  getProviderLoggingInfoHistory(providerId: string) {
-    return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}/`);
+  getProviderLoggingInfoHistory(providerId: string, catalogue_id: string) {
+    // return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}/`);
+    return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}?catalogue_id=${catalogue_id}`);
   }
 
 }
