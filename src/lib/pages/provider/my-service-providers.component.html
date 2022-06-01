@@ -58,7 +58,7 @@
                           <div class="uk-card-body">
                             <div class="providerName">
                               <span class="uk-margin-auto-vertical" data-uk-tooltip title="'Go to the {{serviceORresource | lowercase}} provider monitoring dashboard'">
-                                <a [routerLink]="['/dashboard/', providerBundle.provider.catalogueId, providerBundle.id, 'stats']">
+                                <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'stats']">
                                     {{ providerBundle.provider.name }}
                                 </a>
                               </span>
@@ -120,7 +120,7 @@
 <!--                                <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">-->
                                   <li class="uk-margin-small-bottom">
 <!--                                    <ng-container *ngIf="providerBundle.status === 'approved provider'">-->
-                                      <a [routerLink]="['/dashboard', providerBundle.id, 'stats']">
+                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'stats']">
                                         Go to Dashboard
                                       </a>
 <!--                                    </ng-container>-->
@@ -131,7 +131,7 @@
 <!--                                    </ng-container>-->
                                   </li>
                                   <li *ngIf="providerBundle.templateStatus==='approved template'" class="uk-margin-small-bottom">
-                                    <a [routerLink]="['/dashboard/' + providerBundle.id + '/resources']">
+                                    <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'resources']">
                                       View {{serviceORresource}}s
                                     </a>
                                   </li>
@@ -204,7 +204,7 @@
                           <div class="uk-card-body">
                             <div class="providerName">
                               <span class="uk-margin-auto-vertical" data-uk-tooltip title="'Go to the {{serviceORresource | lowercase}} provider monitoring dashboard'">
-                                <a [routerLink]="['/dashboard', providerBundle.id]">
+                                <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id]">
                                     {{ providerBundle.provider.name }}
                                 </a>
                               </span>
@@ -279,7 +279,7 @@
                           <div class="uk-card-body">
                             <div class="providerName">
                               <span class="uk-margin-auto-vertical" data-uk-tooltip title="'Go to the {{serviceORresource | lowercase}} provider monitoring dashboard'">
-                                <a [routerLink]="['/dashboard', providerBundle.id]">
+                                <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id]">
                                     {{ providerBundle.provider.name }}
                                 </a>
                               </span>

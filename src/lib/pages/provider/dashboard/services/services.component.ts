@@ -181,7 +181,7 @@ export class ServicesComponent implements OnInit {
       }
     }
 
-    this.router.navigate([`/dashboard/` + this.providerId + `/resources`], {queryParams: map});
+    this.router.navigate([`/dashboard`, this.catalogueId, this.providerId, `resources`], {queryParams: map});
   }
 
   paginationInit() {
