@@ -18,7 +18,7 @@
         <p>{{errorMessage}}</p>
       </div>
 
-      <!--<form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters uk-margin-bottom">
+      <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters uk-margin-bottom">
 
         <div class="uk-margin-right">
           <div class="">
@@ -73,18 +73,18 @@
           </div>
         </div>
 
-&lt;!&ndash;        <div class="uk-margin-right">&ndash;&gt;
-&lt;!&ndash;          <div class="uk-inline uk-margin-right">&ndash;&gt;
-&lt;!&ndash;            <label class="" for="isActive">Is Active </label>&ndash;&gt;
-&lt;!&ndash;            <div class="uk-inline">&ndash;&gt;
-&lt;!&ndash;              <select class="uk-input uk-select" id="isActive" (change)="handleChangeAndResetPage()" formControlName="active">&ndash;&gt;
-&lt;!&ndash;                <option value="statusAll" selected>All</option>&ndash;&gt;
-&lt;!&ndash;                <option value="true">Active</option>&ndash;&gt;
-&lt;!&ndash;                <option value="false">Inactive</option>&ndash;&gt;
-&lt;!&ndash;              </select>&ndash;&gt;
-&lt;!&ndash;            </div>&ndash;&gt;
-&lt;!&ndash;          </div>&ndash;&gt;
-&lt;!&ndash;        </div>&ndash;&gt;
+<!--        <div class="uk-margin-right">-->
+<!--          <div class="uk-inline uk-margin-right">-->
+<!--            <label class="" for="isActive">Is Active </label>-->
+<!--            <div class="uk-inline">-->
+<!--              <select class="uk-input uk-select" id="isActive" (change)="handleChangeAndResetPage()" formControlName="active">-->
+<!--                <option value="statusAll" selected>All</option>-->
+<!--                <option value="true">Active</option>-->
+<!--                <option value="false">Inactive</option>-->
+<!--              </select>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
 
         <div class="uk-flex uk-flex-right">
           <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
@@ -93,7 +93,7 @@
           </form>
         </div>
 
-      </form>-->
+      </form>
 
 
       <div *ngIf="catalogueProviders && catalogueProviders.results.length === 0">

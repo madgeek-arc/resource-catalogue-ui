@@ -182,7 +182,7 @@ export class CatalogueServicesComponent implements OnInit {
       }
     }
 
-    this.router.navigate([`/dashboard/` + this.catalogueId + `/services`], {queryParams: map});
+    this.router.navigate([`/catalogue-dashboard/` + this.catalogueId + `/services`], {queryParams: map});
   }
 
   paginationInit() {

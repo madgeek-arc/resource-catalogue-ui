@@ -178,7 +178,7 @@ export class CatalogueProvidersComponent implements OnInit {
       }
     }
 
-    this.router.navigate([`/dashboard/` + this.catalogueId + `/providers`], {queryParams: map});
+    this.router.navigate([`/catalogue-dashboard/` + this.catalogueId + `/providers`], {queryParams: map});
   }
 
   paginationInit() {
