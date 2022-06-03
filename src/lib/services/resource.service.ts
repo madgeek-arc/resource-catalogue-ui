@@ -427,7 +427,7 @@ export class ResourceService {
       for (const catalogueValue of catalogue_id) {
         params = params.append('catalogue_id', catalogueValue);
       }
-    }
+    } else params = params.append('catalogue_id', 'all');
     return this.http.get(this.base + `/provider/bundle/all`, {params});
     // return this.getAll("provider");
   }
@@ -456,16 +456,16 @@ export class ResourceService {
         params = params.append('resource_organisation', providerValue);
       }
     }
-    if (catalogue_id && catalogue_id.length > 0) {
-      for (const catalogueValue of catalogue_id) {
-        params = params.append('catalogue_id', catalogueValue);
-      }
-    }
     if (auditState && auditState.length > 0) {
       for (const auditValue of auditState) {
         params = params.append('auditState', auditValue);
       }
     }
+    if (catalogue_id && catalogue_id.length > 0) {
+      for (const catalogueValue of catalogue_id) {
+        params = params.append('catalogue_id', catalogueValue);
+      }
+    } else params = params.append('catalogue_id', 'all');
     return this.http.get(this.base + `/service/adminPage/all`, {params});
     // return this.getAll("provider");
   }
