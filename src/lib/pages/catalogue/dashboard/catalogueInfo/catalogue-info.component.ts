@@ -94,7 +94,7 @@ export class CatalogueInfoComponent implements OnInit {
 
   getNameFromVocabulary(vocabulary: Vocabulary[], id: string) {
     if (vocabulary && id) {
-      return vocabulary.find(x => x.id === id).name;
+      return vocabulary.find(x => x.id === id)?.name;
     }
   }
 
