@@ -301,10 +301,10 @@
                                     <span class="statusLabel">{{serviceORresource}} Status: </span>{{labels[statuses.indexOf(serviceBundle.status)]}}
                                   </div>
                                   <div class="uk-margin-small-top">
-                                    <span class="statusLabel">Resource Organisation: </span>{{ providersPage.results ? getProviderNameWithId(serviceBundle.service.resourceOrganisation) : ''}}
+                                    <span class="statusLabel">Resource Organisation: </span>{{ providersPage?.results ? getProviderNameWithId(serviceBundle.service.resourceOrganisation) : ''}}
                                   </div>
                                   <div class="uk-margin-small-top">
-                                    <span class="statusLabel">Resource Providers: </span>{{ providersPage.results ? getProviderNamesWithIds(serviceBundle.service.resourceProviders) : ''}}
+                                    <span class="statusLabel">Resource Providers: </span>{{ providersPage?.results ? getProviderNamesWithIds(serviceBundle.service.resourceProviders) : ''}}
                                   </div>
                                   <!--                              <div class="uk-margin-small-top">-->
                                   <!--                                <span class="statusLabel">Status: </span>{{ serviceBundle.active ? 'Active' : 'Inactive' }}-->
