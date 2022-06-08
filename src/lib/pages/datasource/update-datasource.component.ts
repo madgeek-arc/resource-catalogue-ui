@@ -7,6 +7,7 @@ import {Subscription} from 'rxjs';
 import {Service} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
+import {NavigationService} from "../../services/navigation.service";
 
 
 @Component({
@@ -23,7 +24,8 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
               public authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
               protected injector: Injector,
-              public datePipe: DatePipe) {
+              public datePipe: DatePipe,
+              public navigationService: NavigationService) {
     super(injector, authenticationService, serviceProviderService, route);
     this.editMode = true;
   }
@@ -42,6 +44,8 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
         // this.resourceService.getService(this.serviceID).subscribe(service => {
         this.resourceService[this.pendingService ? 'getPendingService' : 'getRichService'](this.serviceID)
           .subscribe(richService => {
+              if (richService.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
+                this.navigationService.go('/forbidden') // TODO: recheck with backend
               ResourceService.removeNulls(richService.service);
               this.formPrepare(richService);
               this.serviceForm.patchValue(richService.service);

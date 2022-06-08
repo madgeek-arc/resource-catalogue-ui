@@ -6,6 +6,7 @@ import {FormBuilder} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NavigationService} from "../../services/navigation.service";
 
 declare var UIkit: any;
 
@@ -23,7 +24,8 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
               public serviceProviderService: ServiceProviderService,
               public resourceService: ResourceService,
               public router: Router,
-              public route: ActivatedRoute) {
+              public route: ActivatedRoute,
+              public navigationService: NavigationService) {
     super(fb, authService, serviceProviderService, resourceService, router, route);
   }
 
@@ -81,6 +83,8 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         this.errorMessage = 'Something went wrong.';
       },
       () => {
+        if(this.provider.users===null && this.provider.mainContact===null) //in case of unauthorized access backend will not show sensitive info
+          this.navigationService.go('/forbidden')
         // console.log(Object.keys(this.provider));
         ResourceService.removeNulls(this.provider);
         // TODO: get it done this way
