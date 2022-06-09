@@ -8,7 +8,6 @@ import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CatalogueFormComponent} from "./catalogue-form.component";
 import {CatalogueService} from "../../services/catalogue.service";
-import {NavigationService} from "../../services/navigation.service";
 
 declare var UIkit: any;
 
@@ -27,8 +26,7 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
               public catalogueService: CatalogueService,
               public resourceService: ResourceService,
               public router: Router,
-              public route: ActivatedRoute,
-              public navigationService: NavigationService) {
+              public route: ActivatedRoute) {
     super(fb, authService, serviceProviderService, catalogueService, resourceService, router, route);
   }
 
@@ -82,7 +80,7 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
         },
         () => {
           if(this.catalogue.users===null && this.catalogue.mainContact===null) //in case of unauthorized access backend will not show sensitive info
-            this.navigationService.go('/forbidden') // TODO: recheck with backend
+            this.router.navigateByUrl('/forbidden')
           // console.log(Object.keys(this.catalogue));
           ResourceService.removeNulls(this.catalogue);
           // TODO: get it done this way
