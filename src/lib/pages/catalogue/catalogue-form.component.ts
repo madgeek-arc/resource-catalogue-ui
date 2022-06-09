@@ -373,26 +373,26 @@ export class CatalogueFormComponent implements OnInit {
 
   /** check form fields and tabs validity--> **/
   checkFormValidity(name: string, edit: boolean): boolean {
-    return (!this.catalogueForm.get(name).valid && (edit || this.catalogueForm.get(name).dirty));
+    return (this.catalogueForm.get(name).invalid && (edit || this.catalogueForm.get(name).dirty));
   }
 
   checkFormArrayValidity(name: string, position: number, edit: boolean, groupName?: string): boolean {
     if (groupName) {
-      return (!this.getFieldAsFormArray(name).get([position]).get(groupName).valid
+      return (this.getFieldAsFormArray(name).get([position]).get(groupName).invalid
         && (edit || this.getFieldAsFormArray(name).get([position]).get(groupName).dirty));
     }
-    return (!this.getFieldAsFormArray(name).get([position]).valid
+    return (this.getFieldAsFormArray(name).get([position]).invalid
       && (edit || this.getFieldAsFormArray(name).get([position]).dirty));
   }
 
   checkEveryArrayFieldValidity(name: string, edit: boolean, groupName?: string): boolean {
     for (let i = 0; i < this.getFieldAsFormArray(name).length; i++) {
       if (groupName) {
-        if (!this.getFieldAsFormArray(name).get([i]).get(groupName).valid
+        if (this.getFieldAsFormArray(name).get([i]).get(groupName).invalid
           && (edit || this.getFieldAsFormArray(name).get([i]).get(groupName).dirty)) {
           return true;
         }
-      } else if (!this.getFieldAsFormArray(name).get([i]).valid
+      } else if (this.getFieldAsFormArray(name).get([i]).invalid
         && (edit || this.getFieldAsFormArray(name).get([i]).dirty)) {
         return true;
       }

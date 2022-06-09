@@ -610,7 +610,7 @@ export class DatasourceFormComponent implements OnInit {
 
   /** check form fields and tabs validity--> **/
   checkFormValidity(name: string, edit: boolean): boolean {
-    return (!this.serviceForm.get(name).valid && (edit || this.serviceForm.get(name).dirty));
+    return (this.serviceForm.get(name).invalid && (edit || this.serviceForm.get(name).dirty));
   }
 
   checkFormArrayValidity(name: string, position: number, edit: boolean, groupName?: string, position2?: number, contactField?: string): boolean {
@@ -619,10 +619,10 @@ export class DatasourceFormComponent implements OnInit {
         && (edit || this.getFieldAsFormArray(name).controls[position].get(groupName).get([position2]).get(contactField).dirty);
     }
     if (groupName) {
-      return !this.getFieldAsFormArray(name).get([position]).get(groupName).valid
+      return this.getFieldAsFormArray(name).get([position]).get(groupName).invalid
         && (edit || this.getFieldAsFormArray(name).get([position]).get(groupName).dirty);
     }
-    return (!this.getFieldAsFormArray(name).get([position]).valid && (edit || this.getFieldAsFormArray(name).get([position]).dirty));
+    return (this.getFieldAsFormArray(name).get([position]).invalid && (edit || this.getFieldAsFormArray(name).get([position]).dirty));
   }
 
   checkEveryArrayFieldValidity(name: string, edit: boolean, groupName?: string, contactField?: string): boolean {
@@ -636,10 +636,10 @@ export class DatasourceFormComponent implements OnInit {
         }
       }
       if (groupName) {
-        if (!this.getFieldAsFormArray(name).get([i]).get(groupName).valid && (edit || this.getFieldAsFormArray(name).get([i]).get(groupName).dirty)) {
+        if (this.getFieldAsFormArray(name).get([i]).get(groupName).invalid && (edit || this.getFieldAsFormArray(name).get([i]).get(groupName).dirty)) {
           return true;
         }
-      } else if (!this.getFieldAsFormArray(name).get([i]).valid && (edit || this.getFieldAsFormArray(name).get([i]).dirty)) {
+      } else if (this.getFieldAsFormArray(name).get([i]).invalid && (edit || this.getFieldAsFormArray(name).get([i]).dirty)) {
         return true;
       }
     }

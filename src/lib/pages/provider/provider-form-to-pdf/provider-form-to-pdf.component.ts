@@ -263,23 +263,23 @@ export class ProviderFormToPdfComponent implements OnInit {
 
   /** check form fields and tabs validity--> **/
   checkFormValidity(name: string): boolean {
-    return (!this.providerForm.get(name).valid && this.providerForm.get(name).dirty);
+    return (this.providerForm.get(name).invalid && this.providerForm.get(name).dirty);
   }
 
   checkFormArrayValidity(name: string, position: number, groupName?: string): boolean {
     if (groupName) {
-      return !this.getFieldAsFormArray(name).get([position]).get(groupName).valid && this.getFieldAsFormArray(name).get([position]).get(groupName).dirty;
+      return this.getFieldAsFormArray(name).get([position]).get(groupName).invalid && this.getFieldAsFormArray(name).get([position]).get(groupName).dirty;
     }
-    return !this.getFieldAsFormArray(name).get([position]).valid && this.getFieldAsFormArray(name).get([position]).dirty;
+    return this.getFieldAsFormArray(name).get([position]).invalid && this.getFieldAsFormArray(name).get([position]).dirty;
   }
 
   checkEveryArrayFieldValidity(name: string, groupName?: string): boolean {
     for (let i = 0; i < this.getFieldAsFormArray(name).length; i++) {
       if (groupName) {
-        if (!this.getFieldAsFormArray(name).get([i]).get(groupName).valid && this.getFieldAsFormArray(name).get([i]).get(groupName).dirty) {
+        if (this.getFieldAsFormArray(name).get([i]).get(groupName).invalid && this.getFieldAsFormArray(name).get([i]).get(groupName).dirty) {
           return true;
         }
-      } else if (!this.getFieldAsFormArray(name).get([i]).valid && this.getFieldAsFormArray(name).get([i]).dirty) {
+      } else if (this.getFieldAsFormArray(name).get([i]).invalid && this.getFieldAsFormArray(name).get([i]).dirty) {
         return true;
       }
     }

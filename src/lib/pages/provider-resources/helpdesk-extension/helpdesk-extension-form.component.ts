@@ -185,15 +185,15 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   }
 
   checkFormValidity(name: string, edit: boolean): boolean {
-    return (!this.serviceForm.get(name).valid && (edit || this.serviceForm.get(name).dirty));
+    return (this.serviceForm.get(name).invalid && (edit || this.serviceForm.get(name).dirty));
   }
 
   checkFormArrayValidity(name: string, position: number, edit: boolean, groupName?: string): boolean {
     if (groupName) {
-      return !this.getFieldAsFormArray(name).get([position]).get(groupName).valid
+      return this.getFieldAsFormArray(name).get([position]).get(groupName).invalid
         && (edit || this.getFieldAsFormArray(name).get([position]).get(groupName).dirty);
     }
-    return (!this.getFieldAsFormArray(name).get([position]).valid && (edit || this.getFieldAsFormArray(name).get([position]).dirty));
+    return (this.getFieldAsFormArray(name).get([position]).invalid && (edit || this.getFieldAsFormArray(name).get([position]).dirty));
   }
 
   /** manage form arrays--> **/
