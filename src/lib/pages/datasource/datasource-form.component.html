@@ -1140,15 +1140,10 @@
                                     <div
                                       class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactOrganisationDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
-                                      <ng-select *ngIf="providersPage?.results?.length > 0" class="uk-width-1-1" id="mainContactOrganisation"
-                                                 [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.organisation', this.editMode)}"
-                                                 [items]="providersPage.results"
-                                                 (change)="unsavedChangesPrompt()"
-                                                 bindLabel="name"
-                                                 bindValue="id"
-                                                 clearAllText="Clear"
-                                                 formControlName="organisation">
-                                      </ng-select>
+                                      <input id="mainContactOrganisation" class="uk-input" type="text"
+                                             formControlName="organisation"
+                                             (input)="unsavedChangesPrompt()"
+                                             [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.organisation', this.editMode)}">
                                     </div>
                                     <i><small>Suggested length is 50 characters</small></i>
                                   </div>
@@ -1241,15 +1236,10 @@
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactOrganisationDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
-                                        <ng-select *ngIf="providersPage?.results?.length > 0" class="uk-width-1-1" id="organisation"
-                                                   (change)="unsavedChangesPrompt()"
-                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'organisation')}"
-                                                   [items]="providersPage.results"
-                                                   bindLabel="name"
-                                                   bindValue="id"
-                                                   clearAllText="Clear"
-                                                   formControlName="organisation">
-                                        </ng-select>
+                                        <input id="organisation" class="uk-input" type="text"
+                                               formControlName="organisation"
+                                               (input)="unsavedChangesPrompt()"
+                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'organisation')}">
                                       </div>
                                       <i><small>Suggested length is 50 characters</small></i>
                                     </div>
