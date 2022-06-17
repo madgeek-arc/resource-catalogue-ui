@@ -10,8 +10,8 @@ export class Description {
 export const providerDescMap = new Map()
   // Basic Information //
   .set('fullNameDesc', {mandatory: true, label: 'Name', placeholder: 'Write full name...', desc: 'Full Name of the Provider/Organisation offering Resources and acting as main contact point for the Resources.'})
-  .set('abbreviationDesc', {mandatory: true, label: 'Abbreviation', placeholder: 'Write abbreviation...', desc: 'Abbreviation or short name of the Provider.'})
-  .set('websiteDesc', {mandatory: true, label: 'Website', placeholder: 'webpage URL', desc: 'Webpage of the Provider.'})
+  .set('abbreviationDesc', {mandatory: true, label: 'Abbreviation', placeholder: 'Write abbreviation...', desc: 'Abbreviation of the Provider Name.'})
+  .set('websiteDesc', {mandatory: true, label: 'Website', placeholder: 'webpage URL', desc: 'Website with information about the Provider.'})
   .set('legalEntityDesc', {mandatory: true, label: 'Legal Entity', desc: 'Is the Provider a Legal Entity?'})
   .set('legalStatusDesc', {mandatory: false, label: 'Legal Status', placeholder: 'Write legal status...', desc: 'Legal status of the Provider. The legal status is usually noted in the registration act/statutes. For independent legal entities this should be the legal status of the Provider. For embedded Providers this should be the legal status of the hosting legal entity.'})
   .set('hostingLegalEntityDesc', {mandatory: false, label: 'Hosting Legal Entity', placeholder: 'Write hosting legal entity...', desc: 'A Hosting Legal Entity (HLE) is an institution registered as an EOSC resource provider, that is a legal entity and agrees to be accountable for resources onboarded to EOSC. Resources may be onboarded by a resource provider which is not a legal entity, but only if the Hosting Legal Entity field includes one legal entity already registered as resource provider, if this has been agreed in advance with them.'})
@@ -24,6 +24,7 @@ export const providerDescMap = new Map()
   .set('scientificDomainDesc', {mandatory: false, label: 'Scientific Domain', placeholder: 'Select scientific domain...', desc: 'A named group of Providers that offer access to the same type of Resources.'})
   .set('scientificSubdomainsDesc', {mandatory: false, label: 'Scientific Subdomain', placeholder: 'Select scientific subdomain after selecting scientific domain...', desc: 'A named group of Providers that offer access to the same type of Resources, within the defined domain.'})
   .set('tagsDesc', {mandatory: false, label: 'Tags', placeholder: 'Write tag...', desc: 'Keywords associated to the Provider to simplify search by relevant keywords.'})
+  .set('structureTypesDesc', {mandatory: false, label: 'Structure Type', placeholder: 'Select structure type...', desc: 'Structure Type of the Provider (single-sited, distributed, mobile, virtual, etc.).'})
   // Location Information //
   .set('streetNameAndNumberDesc', {mandatory: true, label: 'Street Name and Number', placeholder: 'Write street name and number...', desc: 'Street and Number of incorporation or Physical location of the Provider or its coordinating centre in the case of distributed, virtual, and mobile Providers.'})
   .set('postalCodeDesc', {mandatory: true, label: 'Postal Code', placeholder: 'Write postal code...', desc: 'Postal code of incorporation or physical location of the Provider or its coordinating centre in the case of distributed, virtual, and mobile Providers.'})
@@ -47,17 +48,17 @@ export const providerDescMap = new Map()
   // Maturity Information //
   .set('lifeCycleStatusDesc', {mandatory: false, label: 'Life Cycle Status', placeholder: 'Write life cycle status...', desc: 'Current status of the Provider life-cycle.'})
   .set('certificationsDesc', {mandatory: false, label: 'Certifications', placeholder: 'Write certifications...', desc: 'List of certifications obtained for the Provider (including the certification body, the certificate number or URL if available).'})
-  // Other //
+  // Dependencies //
   .set('participatingCountriesDesc', {mandatory: false, label: 'Participating Countries', placeholder: 'Select participating countries...', desc: 'Providers that are funded by several countries should list here all supporting countries (including the coordinating country first).'})
   .set('affiliationDesc', {mandatory: false, label: 'Affiliations', placeholder: 'Write affiliations...', desc: 'Providers that are members or affiliated or associated with other organisations should list those organisations here.'})
   .set('networksDesc', {mandatory: false, label: 'Networks', placeholder: 'Select network...', desc: 'Providers that are members of networks should list those networks here.'})
-  .set('catalogueIdDesc', {mandatory: false, label: 'Catalogue', placeholder: 'Select catalogue...', desc: 'The Catalogue this Provider is originally registered at.'})
-  .set('structureTypesDesc', {mandatory: false, label: 'Structure Type', placeholder: 'Select structure type...', desc: 'Structure Type of the Provider (single-sited, distributed, mobile, virtual, etc.).'})
-  .set('ESFRIDomainDesc', {mandatory: false, label: 'ESFRI Domain', placeholder: 'Select ESFRI domain...', desc: 'ESFRI domain classification. '})
-  .set('ESFRITypeDesc', {mandatory: false, label: 'ESFRI Type', placeholder: 'Select ESFRI type...', desc: 'If the RI is (part of) an ESFRI project indicate how the RI participates: a) RI is node of an ESFRI project, b) RI is an ESFRI project, c) RI is an ESFRI landmark.'})
+  .set('catalogueIdDesc', {mandatory: false, label: 'Catalogue', placeholder: 'Select catalogue...', desc: 'The ID of the Catalogue this Provider is originally registered at.'})
+  // Other //
+  .set('ESFRIDomainDesc', {mandatory: false, label: 'ESFRI Domain', placeholder: 'Select ESFRI domain...', desc: 'ESFRI domain classification (Applicable to ESFRIs only).'})
+  .set('ESFRITypeDesc', {mandatory: false, label: 'ESFRI Type', placeholder: 'Select ESFRI type...', desc: 'If the research infrastructure is (part of) an ESFRI project indicate how the RI participates: a) is a node of an ESFRI project, b) is an ESFRI project, c) is an ESFRI landmark, d) is not an ESFRI project or landmark.'})
   .set('merilScientificDomainsDesc', {mandatory: false, label: 'MERIL Scientific Domain', placeholder: 'Select MERIL scientific domain...', desc: 'MERIL scientific domain classification.'})
   .set('merilScientificSubdomainsDesc', {mandatory: false, label: 'MERIL Scientific Subdomain', placeholder: 'Select MERIL scientific subdomain after selecting MERIL scientific domain...', desc: 'MERIL scientific subdomain classification.'})
-  .set('areasOfActivityDesc', {mandatory: false, label: 'Area of Activity', placeholder: 'Write areas of activity...', desc: 'Basic research, Applied research or Technological development'})
+  .set('areasOfActivityDesc', {mandatory: false, label: 'Area of Activity', placeholder: 'Write areas of activity...', desc: 'Basic research, Applied research or Technological development.'})
   .set('societalGrandChallengesDesc', {mandatory: false, label: 'Societal Grand Challenges', placeholder: 'Write societal grand challenges...', desc: 'Provider’s participation in the Grand Societal Challenges defined by the European Commission.'})
   .set('nationalRoadmapsDesc', {mandatory: false, label: 'National Roadmaps', placeholder: 'Write national roadmaps...', desc: 'Provider\'s participation in a national roadmap.'})
 ;
@@ -69,8 +70,8 @@ export const serviceDescMap = new Map()
 // Basic Information //
   .set('nameDesc', {mandatory: true, label: 'Name', placeholder: 'Write full name...', desc: 'Brief and descriptive name of the Resource as assigned by the Provider.'})
   .set('abbreviationDesc', {mandatory: true, label: 'Abbreviation', placeholder: 'Write abbreviation...', desc: 'Abbreviation or short name of the Resource.'})
-  .set('resourceOrganisationDesc', {mandatory: true, label: 'Resource Organisation', placeholder: 'Select resource organisation...', desc: 'The name (or abbreviation) of the organisation that manages or delivers the resource, or that coordinates resource delivery in a federated scenario.'})
-  .set('resourceProvidersDesc', {mandatory: false, label: 'Resource Providers', placeholder: 'Select resource provider...', desc: 'The name(s) (or abbreviation(s)) of Provider(s) that manage or deliver the Resource in federated scenarios.'})
+  .set('resourceOrganisationDesc', {mandatory: true, label: 'Resource Organisation', placeholder: 'Select resource organisation...', desc: 'The name of the organisation that manages or delivers the resource, or that coordinates the Resource delivery in a federated scenario.'})
+  .set('resourceProvidersDesc', {mandatory: false, label: 'Resource Providers', placeholder: 'Select resource provider...', desc: 'The name(s) of (all) the Provider(s) that manage or deliver the Resource in federated scenarios.'})
   .set('webpageDesc', {mandatory: true,  label: 'Webpage', placeholder: 'Write webpage url...', desc: 'Webpage with information about the Resource usually hosted and maintained by the Provider.'})
 // Marketing Information //
   .set('descriptionDesc', {mandatory: true,  label: 'Description', placeholder: 'Write a description...', desc: 'A high-level description in fairly non-technical terms of a) what the Resource does, functionality it provides and Resources it enables to access, b) the benefit to a user/customer delivered by a Resource; benefits are usually related to alleviating pains (e.g., eliminate undesired outcomes, obstacles or risks) or producing gains (e.g. increased performance, social gains, positive emotions or cost saving), c) list of customers, communities, users, etc. using the Resource.'})
@@ -93,7 +94,7 @@ export const serviceDescMap = new Map()
   .set('geographicalAvailabilityDesc', {mandatory: true, label: 'Geographical Availability', placeholder: 'Select geographical availability...', desc: 'Locations where the Resource is offered.'})
   .set('languageAvailabilitiesDesc', {mandatory: true, label: 'Language Availability', placeholder: 'Select language availability...', desc: 'Languages of the (user interface of the) Resource.'})
 // Location Information //
-  .set('resourceGeographicLocationsDesc', {mandatory: false, label: 'Geographic Location', placeholder: 'Select geographic locations...', desc: 'List of geographic locations where data, samples, etc. are stored and processed when offering the Resource.'})
+  .set('resourceGeographicLocationsDesc', {mandatory: false, label: 'Geographic Location', placeholder: 'Select geographic locations...', desc: 'List of geographic locations where data, samples, etc. are stored and processed.'})
 // Contact Information --> //
 // Main Contact/Service Owner
   .set('mainContactFirstNameDesc', {mandatory: true,  label: 'First Name ', placeholder: 'Write first name...', desc: 'First Name of the Resource\'s main contact person/Resource manager.'})
@@ -126,7 +127,7 @@ export const serviceDescMap = new Map()
   .set('requiredServicesDesc', {mandatory: false, label: 'Required Resources', placeholder: 'Select required resources...', desc: 'List of other Resources required to use this Resource.'})
   .set('relatedServicesDesc', {mandatory: false, label: 'Related Resources', placeholder: 'Select related resources...', desc: 'List of other Resources that are commonly used with this Resource.'})
   .set('relatedPlatformsDesc', {mandatory: false, label: 'Related Platforms', placeholder: 'Write related platform...', desc: 'List of suites or thematic platforms in which the Resource is engaged or Providers (Provider groups) contributing to this Resource.'})
-  .set('resourceCatalogueIdDesc', {mandatory: false, label: 'Catalogue', placeholder: 'Select catalogue...', desc: 'The Catalogue this Resource is originally registered at.'})
+  .set('resourceCatalogueIdDesc', {mandatory: false, label: 'Catalogue', placeholder: 'Select catalogue...', desc: 'The ID of the Catalogue this Resource is originally registered at.'})
 // Attribution Information //
   .set('fundingBodyDesc', {mandatory: false, label: 'Funding Body', placeholder: 'Select funding body...', desc: 'Name of the funding body that supported the development and/or operation of the Resource.'})
   .set('fundingProgramDesc', {mandatory: false, label: 'Funding Program', placeholder: 'Select funding program...', desc: 'Name of the funding program that supported the development and/or operation of the Resource.'})
@@ -136,16 +137,16 @@ export const serviceDescMap = new Map()
   .set('userManualDesc', {mandatory: false, label: 'User Manual', placeholder: 'user manual URL', desc: 'Link to the Resource user manual and documentation.'})
   .set('termsOfUseDesc', {mandatory: false, label: 'Terms Of Use', placeholder: 'terms of use URL', desc: 'Webpage describing the rules, Resource conditions and usage policy which one must agree to abide by in order to use the Resource.'})
   .set('privacyPolicyDesc', {mandatory: false, label: 'Privacy Policy', placeholder: 'privacy policy URL', desc: 'Link to the privacy policy applicable to the Resource.'})
-  .set('accessPolicyDesc', {mandatory: false, label: 'Access Policy', placeholder: 'access policy URL', desc: 'Information about the access policies that apply to the Resource.'})
+  .set('accessPolicyDesc', {mandatory: false, label: 'Access Policy', placeholder: 'access policy URL', desc: 'Information about the access policies that apply.'})
   .set('serviceLevelDesc', {mandatory: false, label: 'Resource Level', placeholder: 'service level URL', desc: 'Webpage with the information about the levels of performance of the Resource that a Provider is expected to deliver.'})
   .set('trainingInformationDesc', {mandatory: false, label: 'Training Information', placeholder: 'training information URL', desc: 'Webpage to training information on the Resource.'})
   .set('statusMonitoringDesc', {mandatory: false, label: 'Status Monitoring', placeholder: 'status monitoring URL', desc: 'Webpage with monitoring information about the Resource.'})
   .set('maintenanceDesc', {mandatory: false, label: 'Maintenance', placeholder: 'maintenance URL', desc: 'Webpage with information about planned maintenance windows for the Resource.'})
 // Access and Order Information //
-  .set('orderTypeDesc', {mandatory: true,  label: 'Order Type', placeholder: 'Select order type...', desc: 'Define the type of the ordering process.'})
+  .set('orderTypeDesc', {mandatory: true,  label: 'Order Type', placeholder: 'Select order type...', desc: 'Information on the ordering process type.'})
   .set('orderDesc', {mandatory: false, label: 'Order', placeholder: 'order URL', desc: 'Webpage through which an order for the Resource can be placed.'})
 // Financial Information //
-  .set('paymentModelDesc', {mandatory: false, label: 'Payment Model', placeholder: 'payment model URL', desc: 'Webpage with the supported payment models for the Resource and restrictions that apply to each of them.'})
+  .set('paymentModelDesc', {mandatory: false, label: 'Payment Model', placeholder: 'payment model URL', desc: 'Webpage with the supported payment models and restrictions that apply to the Resource.'})
   .set('pricingDesc', {mandatory: false, label: 'Pricing', placeholder: 'pricing URL', desc: 'Webpage with the information on the price scheme for the Resource in case the customer is charged for.'})
 ;
 
