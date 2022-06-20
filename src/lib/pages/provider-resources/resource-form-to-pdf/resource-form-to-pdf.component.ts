@@ -196,7 +196,7 @@ export class ResourceFormToPdfComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', Validators.compose([Validators.required, Validators.email])],
-      phone: ['', Validators.pattern('[+]?\\d+$')],
+      phone: ['', Validators.pattern('^(((\\+)|(00))\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$')],
       position: [''],
       organisation: ['']
     }, Validators.required),
@@ -205,7 +205,7 @@ export class ResourceFormToPdfComponent implements OnInit {
         firstName: [''],
         lastName: [''],
         email: ['', Validators.compose([Validators.required, Validators.email])],
-        phone: ['', Validators.pattern('[+]?\\d+$')],
+        phone: ['', Validators.pattern('^(((\\+)|(00))\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$')],
         position: [''],
         organisation: ['']
       })
