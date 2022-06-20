@@ -1000,9 +1000,9 @@
                                 <div
                                   *ngFor="let provider of getFieldAsFormArray('resourceGeographicLocations').controls; let i=index"
                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('resourceGeographicLocations').controls.length-1 !== i}">
-                                  <ng-select *ngIf="geographicalVocabulary" class="uk-width-9-10" id="resourceGeographicLocations"
+                                  <ng-select *ngIf="placesVocabulary" class="uk-width-9-10" id="resourceGeographicLocations"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('resourceGeographicLocations', i, this.editMode)}"
-                                             [items]="geographicalVocabulary"
+                                             [items]="placesVocabulary"
                                              (change)="checkForDuplicates('resourceGeographicLocations'); unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
