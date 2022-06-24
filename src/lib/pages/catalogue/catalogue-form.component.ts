@@ -661,41 +661,6 @@ export class CatalogueFormComponent implements OnInit {
     }
   }
 
-  /*trimFormWhiteSpaces() {
-    for (const i in this.providerForm.controls) {
-      // console.log(i);
-      if (this.providerForm.controls[i].value && this.providerForm.controls[i].value.constructor === Array) {
-
-      } else if (this.providerForm.controls[i].value && (i === 'location' || i === 'mainContact')) {
-        // TODO
-      } else if (typeof this.providerForm.controls[i].value === 'boolean') {
-        // console.log('skip boolean value');
-      } else {
-        // console.log('this.providerForm.controls[i].value: ', this.providerForm.controls[i].value);
-        this.providerForm.controls[i].setValue(this.providerForm.controls[i].value.trim().replace(/\s\s+/g, ' '));
-      }
-    }
-    for (let j = 0; j < this.providerForm.controls['users'].value.length; j++) {
-      this.providerForm.controls['users'].value[j].email = this.providerForm.controls['users'].value[j].email
-        .trim().replace(/\s\s+/g, ' ');
-      this.providerForm.controls['users'].value[j].name = this.providerForm.controls['users'].value[j].name
-        .trim().replace(/\s\s+/g, ' ');
-      this.providerForm.controls['users'].value[j].surname = this.providerForm.controls['users'].value[j].surname
-        .trim().replace(/\s\s+/g, ' ');
-    }
-
-    if (this.providerForm.controls['scientificDomains'] && this.providerForm.controls['scientificDomains'].value) {
-
-      if (this.providerForm.controls['scientificDomains'].value.length === 1
-        && !this.providerForm.controls['scientificDomains'].value[0].scientificDomain
-        && !this.providerForm.controls['scientificDomains'].value[0].scientificSubdomain) {
-
-        this.removeDomain(0);
-
-      }
-    }
-  }*/
-
   unsavedChangesPrompt() {
     this.hasChanges = true;
   }
