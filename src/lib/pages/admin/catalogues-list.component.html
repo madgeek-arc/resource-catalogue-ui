@@ -3,21 +3,6 @@
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
 
-        <!--<div class="uk-grid ">-->
-        <!--&lt;!&ndash;<h1 class="uk-h3 uk-width-2-3@m">Service Providers</h1>&ndash;&gt;-->
-        <!--<div class="uk-width-1-1@m">-->
-        <!--<div class="uk-inline uk-float-right">-->
-        <!--<button class="uk-button" type="button">Export to csv</button>-->
-        <!--<div uk-dropdown="mode: click">-->
-        <!--<ul class="uk-nav uk-dropdown-nav">-->
-        <!--<li class="" (click)="DownloadProvidersCSV()"><a>Providers</a></li>-->
-        <!--&lt;!&ndash;<li class="uk-nav-divider"></li>&ndash;&gt;-->
-        <!--<li class="" (click)="DownloadServicesCSV()"><a>Services</a></li>-->
-        <!--</ul>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
         <!-- TOP HELP CONTENT -->
         <app-help-content #topHelperContent [position]="'top'"
                           [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
@@ -52,19 +37,6 @@
 
                   <hr class="uk-margin-large-right">
 
-<!--                  <h5>Audit State</h5>-->
-<!--                  <form [formGroup]="dataForm">-->
-<!--                    <div formArrayName="auditState" class="uk-padding uk-padding-remove-top">-->
-<!--                      <div *ngFor="let auditState of auditStates;" class="uk-margin-small-top">-->
-<!--                        <label class="status-value uk-margin-small-left">-->
-<!--                          <input #auditCheckboxes class="uk-checkbox" type="checkbox" [value]="auditState"-->
-<!--                                 (change)="onSelectionChange($event, 'auditState')" [checked]="isAuditStateChecked(auditState)">-->
-<!--                          {{auditLabels[auditStates.indexOf(auditState)] | titlecase}}-->
-<!--                        </label>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </form>-->
-
                   <h5>Catalogue Status</h5>
                   <form [formGroup]="dataForm">
                     <div formArrayName="status" class="uk-padding uk-padding-remove-top">
@@ -82,24 +54,6 @@
                       <button type="button" class="uk-button uk-button-primary" (click)="checkAll(true, 'statuses')"> Check All </button>
                     </div>
                   </form>
-
-<!--                  <h5>First {{serviceORresource}} Status</h5>-->
-<!--                  <form [formGroup]="dataForm">-->
-<!--                    <div formArrayName="templateStatus" class="uk-padding uk-padding-remove-top">-->
-<!--                      <div *ngFor="let statusValue of templateStatuses;" class="uk-margin-small-top">-->
-<!--                        <label class="status-value uk-margin-small-left">-->
-<!--                          <input #templateCheckboxes class="uk-checkbox" type="checkbox" [value]="statusValue"-->
-<!--                                 (change)="onSelectionChange($event, 'templateStatus')" [checked]="isTemplateStatusChecked(statusValue)">-->
-<!--                          {{templateLabels[templateStatuses.indexOf(statusValue)]}}-->
-<!--                        </label>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                    <div class="">-->
-<!--                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(false, 'templateStatuses')"> Uncheck All </button>-->
-<!--                      &nbsp;-->
-<!--                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(true, 'templateStatuses')"> Check All </button>-->
-<!--                    </div>-->
-<!--                  </form>-->
 
                 </div>
 
@@ -147,20 +101,6 @@
                       </div>
 
                     </div>
-
-<!--                    <div class="uk-margin-auto-left uk-margin-remove-right" style="margin-left:25px; margin-right:0;">-->
-<!--                      <button class="uk-button uk-button-link">-->
-<!--                        <i class="fa fa-download uk-margin-small-right"></i>Export to CSV-->
-<!--                      </button>-->
-<!--                      &lt;!&ndash;<button class="uk-button" type="button">Export to csv</button>&ndash;&gt;-->
-<!--                      <div uk-dropdown="mode: click">-->
-<!--                        <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">-->
-<!--                          <li class="" (click)="DownloadProvidersCSV()"><a>Providers</a></li>-->
-<!--                          &lt;!&ndash;<li class="uk-nav-divider"></li>&ndash;&gt;-->
-<!--                          <li class="" (click)="DownloadServicesCSV()"><a>{{serviceORresource}}s</a></li>-->
-<!--                        </ul>-->
-<!--                      </div>-->
-<!--                    </div>-->
 
                   </form>
 
@@ -432,148 +372,3 @@
 
   </div>
 </div>
-
-<!--<div class="audit-overlay-toolbar uk-animation-scale-up ng-star-inserted">
-  <button class="uk-button audit-overlay-button" type="button" uk-toggle="target: #offcanvas-overlay" (click)="getRandomProviders('10')">
-    <span class=""><i class="fa fa-check-circle-o fa-lg"></i></span>
-  </button>
-</div>
-
-<div class="offcanvas-audit" id="offcanvas-overlay" uk-offcanvas="flip: true; overlay: true; esc-close: true; bg-close: false">
-  <div class="uk-offcanvas-bar uk-light">
-
-    <button class="uk-offcanvas-close" type="button" uk-close style="color:#000000;" (click)="resetAuditView()"></button>
-    &lt;!&ndash;    <button *ngIf="showValidateForm || showInvalidateForm" class="fa fa-arrow-left" type="button" style="color:#000000;" (click)="resetSideView()"></button>&ndash;&gt;
-
-    <h4>Audit Catalogues</h4>
-
-    <div *ngIf="loadingMessage">
-      <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(43,43,43); font-weight: bold;">
-        {{ loadingMessage }}
-      </div>
-    </div>
-
-    <div *ngFor="let catalogueBundle of cataloguesForAudit" class="uk-card provider-card uk-margin-medium-top">
-      <div class="uk-card-body" style="padding-bottom: 20px;">
-
-        <div *ngIf="catalogueBundle.status === 'approved catalogue'" class="approved">
-          <div class="uk-card-badge uk-label">Approved</div>
-        </div>
-        <div *ngIf="catalogueBundle.status === 'pending catalogue'" class="pending">
-          <div class="uk-card-badge uk-label">Pending</div>
-        </div>
-        <div *ngIf="(catalogueBundle.status === 'rejected catalogue')" class="rejected">
-          <div class="uk-card-badge uk-label">Rejected</div>
-        </div>
-
-        <div *ngIf="catalogueBundle.active" class="approved">
-          <div class="uk-label uk-align-right">Active</div>
-        </div>
-        <div *ngIf="!catalogueBundle.active" class="rejected">
-          <div class="uk-label uk-align-right">Inactive</div>
-        </div>
-
-        <div class="">
-          <div class="uk-grid">
-            <div class="uk-width-1-5">
-              <div>
-                <img class="el-image uk-border-rounded"
-                     src="{{ catalogueBundle.catalogue.logo ? catalogueBundle.catalogue.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
-              </div>
-            </div>
-
-            <div class="uk-width-4-5">
-              <div class="providerName">
-                <span class="uk-margin-auto-vertical">
-                  <a [routerLink]="['/dashboard', catalogueBundle.id, 'stats']" target="_blank" data-uk-tooltip title="'Go to the catalogue monitoring dashboard'">
-                      {{ catalogueBundle.catalogue.name }}
-                  </a>
-                  <a [routerLink]="['/catalogue/info',catalogueBundle.id]" target="_blank" class="uk-display-inline-block">
-                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
-                  </a>
-                </span>
-              </div>
-              <div class="uk-margin-small-top">
-                <span class="statusLabel">Abbreviation: </span>
-                <ng-container *ngIf="catalogueBundle.catalogue.abbreviation && (catalogueBundle.catalogue.abbreviation!==null)">{{ catalogueBundle.catalogue.abbreviation }}</ng-container>
-                <ng-container *ngIf="!catalogueBundle.catalogue.abbreviation || (catalogueBundle.catalogue.abbreviation===null)">not available</ng-container>
-              </div>
-              <div class="uk-margin-small-top">
-                <span class="statusLabel">Status: </span>{{ labels[statuses.indexOf(catalogueBundle.status)] | titlecase }}
-              </div>
-              <div class="uk-margin-small-top">
-                <span class="statusLabel">Creation Date: </span>
-                <ng-container *ngIf="catalogueBundle.metadata.registeredAt>0; else noCreationDate">{{catalogueBundle.metadata.registeredAt | date}}</ng-container>
-                <ng-template #noCreationDate><i>Unknown</i></ng-template>
-              </div>
-              <div class="uk-margin-small-top">
-                <span class="statusLabel">Last Update: </span>{{ catalogueBundle.metadata.modifiedAt | date }}
-              </div>
-              <div class="uk-margin-small-top">
-                <span class="statusLabel">Last Audit: </span>
-                <ng-container *ngIf="catalogueBundle.latestAuditInfo">
-                  {{catalogueBundle.latestAuditInfo.actionType | titlecase}}ated
-                  on {{catalogueBundle.latestAuditInfo.date | date}}
-                </ng-container>
-                <ng-container *ngIf="!catalogueBundle.latestAuditInfo"><i>Never audited</i></ng-container>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <hr class="uk-margin-top">
-        <button *ngIf="catalogueBundle.status == 'approved catalogue'"
-                class="uk-button uk-button-link uk-margin-medium-right"
-                (click)="showAuditForm('side', catalogueBundle)">
-          <i class="fa fa-check-circle-o fa-lg"></i> Audit
-        </button>
-        <button class="uk-button uk-button-link">
-          <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
-        </button>
-        <div uk-dropdown="mode: click">
-          <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-            <li *ngIf="(catalogueBundle.status === 'approved catalogue') && (catalogueBundle.active)"
-                (click)="showActionModal(catalogueBundle, 'approved catalogue', false, false)"
-                class="uk-margin-small-top">
-              <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Deactivate</a>
-            </li>
-            <li (click)="editProviderInNewTab(catalogueBundle.id)"
-                class="uk-margin-small-top">
-              <a><i class="fa fa-edit uk-margin-small-right" aria-hidden="true"></i>Edit Catalogue</a>
-            </li>
-            <li (click)="showDeletionModal(catalogueBundle)"
-                class="uk-margin-small-top">
-              <a><i class="fa fa-trash uk-margin-small-right" aria-hidden="true"></i>Delete Catalogue</a>
-            </li>
-          </ul>
-        </div>
-
-        <ng-container *ngIf="catalogueBundle.status == 'approved catalogue'">
-          &lt;!&ndash;          <hr class="uk-margin-top">&ndash;&gt;
-          &lt;!&ndash;          <button&ndash;&gt;
-          &lt;!&ndash;            class="uk-button uk-button-link uk-margin-medium-left"&ndash;&gt;
-          &lt;!&ndash;            (click)="showAuditForm('side', catalogueBundle)">&ndash;&gt;
-          &lt;!&ndash;            <i class="fa fa-check-circle-o fa-lg"></i> Audit&ndash;&gt;
-          &lt;!&ndash;          </button>&ndash;&gt;
-          <div *ngIf="showSideAuditForm && selectedCatalogue === catalogueBundle">
-            <hr>
-            <div>
-              <p>You are about to audit "{{ selectedCatalogue.catalogue.name }}".</p>
-              <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
-            </div>
-            <form>
-              <div class="uk-margin">
-                <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
-              </div>
-            </form>
-            <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetAuditView()">Close</button>
-            <button class="uk-button uk-button-secondary uk-align-right" type="submit" (click)="auditProviderAction('VALID')">Validate</button>
-            <button class="uk-button uk-button-danger uk-align-right" type="submit" (click)="auditProviderAction('INVALID')">Invalidate</button>
-          </div>
-        </ng-container>
-
-      </div>
-    </div>
-
-  </div>
-</div>-->
