@@ -27,7 +27,8 @@ export class RejectedServicesComponent implements OnInit {
 
   errorMessage = '';
   urlParams: URLParameter[] = [];
-  providerId;
+  providerId: string;
+  catalogueId: string;
   providerBundle: ProviderBundle;
   providerServices: Paging<InfraService>;
   selectedService: InfraService = null;
@@ -51,6 +52,7 @@ export class RejectedServicesComponent implements OnInit {
   ngOnInit(): void {
     this.path = window.location.pathname;
     this.providerId = this.route.snapshot.paramMap.get('providerId');
+    this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
 
     this.getProvider();
 
@@ -83,7 +85,7 @@ export class RejectedServicesComponent implements OnInit {
   }
 
   getProvider() {
-    this.providerService.getServiceProviderBundleById(this.providerId).subscribe(
+    this.providerService.getServiceProviderBundleById(this.providerId, this.catalogueId).subscribe(
       providerBundle => {
         this.providerBundle = providerBundle;
       }, error => {

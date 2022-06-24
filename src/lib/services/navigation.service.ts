@@ -16,7 +16,8 @@ export class NavigationService {
         return this.router.navigate(['/service', id]);
     }
 
-    dashboard(id: string) {
+    dashboard(id: string, catalogueId?: string) {
+      if(!catalogueId) return this.router.navigate([`/dashboard/eosc`, id]);
         return this.router.navigate([`/dashboard`, id]);
     }
 
@@ -28,7 +29,8 @@ export class NavigationService {
       return this.router.navigate([`/dashboard/${providerId}/draft-resources`]);
     }
 
-    resourceDashboard(providerId: string, serviceId: string) {
+    resourceDashboard(providerId: string, serviceId: string, catalogueId?: string) {
+      if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/resource-dashboard/${serviceId}/stats`]);
       return this.router.navigate([`/dashboard/${providerId}/resource-dashboard/${serviceId}/stats`]);
     }
 

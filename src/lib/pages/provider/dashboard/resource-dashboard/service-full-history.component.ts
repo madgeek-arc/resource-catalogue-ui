@@ -31,7 +31,7 @@ export class ServiceFullHistoryComponent implements OnInit, OnDestroy {
     // this.sub = this.route.params.subscribe(params => {
     this.sub = this.route.parent.params.subscribe(params => {
       zip(
-        this.resourceService.getService(params['resourceId'])
+        this.resourceService.getService(params['resourceId'], params['catalogueId'])
       ).subscribe(suc => {
           this.service = <Service>suc[0];
           this.getDataForService();

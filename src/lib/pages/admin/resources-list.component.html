@@ -84,23 +84,46 @@
                   </form>
 
                   <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
-                    <h5 class="">{{facets[0].label}}</h5>
-                    <label class="uk-margin-small-left uk-margin-small-bottom uk-search uk-search-default uk-width-3-4@m">
-                        <span uk-search-icon></span>
-                        <input class="uk-search-input" [(ngModel)]="searchFacet" placeholder="Search with provider name or id">
-                    </label>
-                      <div class="uk-margin-small-top" *ngFor="let provider of facets[0].values">
-                        <div *ngIf="!searchFacet || searchFacet.toLowerCase() === provider.value.toLowerCase()
-                                                 || (provider.label!=null && provider.label.toLowerCase().includes(searchFacet.toLowerCase()))">
-                          <label class="uk-margin-small-left">
-                            <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
-                                   (change)="this.onSelection($event, 'resource_organisation', provider.value)"
-                                   [checked]="isProviderChecked(provider.value)">
-                          </label>
-                          <span> {{provider.label ? provider.label : provider.value}}</span>
-                          <span> ({{provider.count}})</span>
+                    <ng-container *ngFor="let f of facets">
+                      <ng-container *ngIf="f.field === 'catalogue_id'">
+                        <h5 class="uk-margin-top">{{f.label}}</h5>
+                        <div class="uk-padding uk-padding-remove-top uk-padding-remove-left">
+                          <div class="uk-margin-small-top" *ngFor="let catalogue of f.values">
+                            <label class="uk-margin-small-left">
+                              <input class="uk-checkbox" type="checkbox" name="filter" value="catalogue" data-md-icheck
+                                     (change)="this.onSelection($event, 'catalogue_id', catalogue.value)"
+                                     [checked]="isChecked(catalogue.value, 'catalogue_id')">
+                            </label>
+                            <span> {{catalogue.label ? catalogue.label : catalogue.value}}</span>
+                            <span> ({{catalogue.count}})</span>
+                          </div>
                         </div>
-                      </div>
+                      </ng-container>
+
+                      <ng-container *ngIf="f.field === 'resource_organisation'">
+                        <h5 class="uk-margin-top">{{f.label}}</h5>
+                        <label
+                          class="uk-margin-small-left uk-margin-small-bottom uk-search uk-search-default uk-width-3-4@m">
+                          <span uk-search-icon></span>
+                          <input class="uk-search-input" [(ngModel)]="searchFacet"
+                                 placeholder="Search with provider name or id">
+                        </label>
+                        <read-more [maxHeight]="230">
+                          <div class="uk-margin-small-top" *ngFor="let provider of f.values">
+                            <div *ngIf="!searchFacet || searchFacet.toLowerCase() === provider.value.toLowerCase()
+                                                       || (provider.label!=null && provider.label.toLowerCase().includes(searchFacet.toLowerCase()))">
+                              <label class="uk-margin-small-left">
+                                <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
+                                       (change)="this.onSelection($event, 'resource_organisation', provider.value)"
+                                       [checked]="isChecked(provider.value, 'catalogue_id')">
+                              </label>
+                              <span> {{provider.label ? provider.label : provider.value}}</span>
+                              <span> ({{provider.count}})</span>
+                            </div>
+                          </div>
+                        </read-more>
+                      </ng-container>
+                    </ng-container>
                   </div>
 
                 </div>
@@ -243,6 +266,8 @@
 
                             <div class="uk-width-4-5">
                               <div class="providerName">
+                                <span class="uk-margin-auto-vertical">
+<!--                                  <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc' else anotherCatalogue">-->
 <!--                                <span *ngIf="serviceBundle.status!=='approved'" class="uk-margin-auto-vertical">-->
 <!--                                  <h5 class="uk-display-inline-block" data-uk-tooltip-->
 <!--                                      title="'Your resource provider is not yet active, therefore you cannot access its monitoring dashboard'">-->
@@ -253,13 +278,14 @@
 <!--                                  </a>-->
 <!--                                </span>-->
 <!--                                <span *ngIf="serviceBundle.status==='approved'" class="uk-margin-auto-vertical">-->
-                                <span class="uk-margin-auto-vertical">
-                                  <a [routerLink]="['/dashboard/' + serviceBundle.service.resourceOrganisation + '/resource-dashboard', serviceBundle.id]" data-uk-tooltip title="'Go to the resource dashboard'">
+                                  <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, serviceBundle.service.resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="'Go to the resource dashboard'">
                                       {{ serviceBundle.service.name }}
                                   </a>
 <!--                                  <a [routerLink]="['/provider/info',serviceBundle.id]" class="uk-display-inline-block">-->
 <!--                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
 <!--                                  </a>-->
+<!--                                  </ng-container>-->
+<!--                                  <ng-template #anotherCatalogue>{{ serviceBundle.service.name }}</ng-template>-->
                                 </span>
                               </div>
 
@@ -302,6 +328,9 @@
                                       by {{ serviceBundle.latestAuditInfo.userFullName}}
                                     </ng-container>
                                     <ng-container *ngIf="!serviceBundle.latestAuditInfo"><i>Never audited</i></ng-container>
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Catalogue id: </span>{{ serviceBundle.service.catalogueId }}
                                   </div>
                                 </div>
 
@@ -359,7 +388,7 @@
 <!--                          </button>-->
 <!--                        </ng-container>-->
 
-                        <ng-container>
+                        <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc'">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
@@ -671,12 +700,15 @@
             <div class="uk-width-4-5">
               <div class="providerName">
                 <span class="uk-margin-auto-vertical">
+<!--                <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc' else anotherCatalogue">-->
                   <a [routerLink]="['/dashboard/' + serviceBundle.service.resourceOrganisation + '/resource-dashboard', serviceBundle.id]" target="_blank" data-uk-tooltip title="'Go to the resource dashboard'">
                       {{ serviceBundle.service.name }}
                   </a>
 <!--                  <a [routerLink]="['/provider/info',serviceBundle.id]" class="uk-display-inline-block">-->
 <!--                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
 <!--                  </a>-->
+<!--                </ng-container>-->
+<!--                <ng-template #anotherCatalogue>{{ serviceBundle.service.name }}</ng-template>-->
                 </span>
               </div>
               <div class="uk-margin-small-top">
@@ -711,6 +743,9 @@
               </div>
               <div class="uk-margin-small-top">
                 <span class="statusLabel">Resource Providers: </span>{{ getProviderNamesWithIds(serviceBundle.service.resourceProviders) }}
+              </div>
+              <div class="uk-margin-small-top">
+                <span class="statusLabel">Catalogue id: </span>{{ serviceBundle.service.catalogueId }}
               </div>
             </div>
 
@@ -792,7 +827,7 @@
           </div>
         </ng-container>-->
 
-
+        <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc'">
           <hr class="uk-margin-top">
             <button *ngIf="serviceBundle.active"
               class="uk-button uk-button-link uk-margin-medium-right"
@@ -836,6 +871,7 @@
 
               </ul>
             </div>
+        </ng-container>
         <ng-container>
             <div *ngIf="showSideAuditForm && selectedService === serviceBundle">
               <hr>

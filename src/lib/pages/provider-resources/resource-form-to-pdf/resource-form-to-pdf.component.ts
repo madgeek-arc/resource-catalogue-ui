@@ -196,7 +196,7 @@ export class ResourceFormToPdfComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', Validators.compose([Validators.required, Validators.email])],
-      phone: ['', Validators.pattern('[+]?\\d+$')],
+      phone: ['', Validators.pattern('^(((\\+)|(00))\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$')],
       position: [''],
       organisation: ['']
     }, Validators.required),
@@ -205,7 +205,7 @@ export class ResourceFormToPdfComponent implements OnInit {
         firstName: [''],
         lastName: [''],
         email: ['', Validators.compose([Validators.required, Validators.email])],
-        phone: ['', Validators.pattern('[+]?\\d+$')],
+        phone: ['', Validators.pattern('^(((\\+)|(00))\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$')],
         position: [''],
         organisation: ['']
       })
@@ -388,7 +388,7 @@ export class ResourceFormToPdfComponent implements OnInit {
         this.fundingBodyVocabulary = this.vocabularies[Type.FUNDING_BODY];
         this.fundingProgramVocabulary = this.vocabularies[Type.FUNDING_PROGRAM];
         // this.placesVocabulary = this.vocabularies[Type.COUNTRY];
-        this.geographicalVocabulary = this.vocabularies[Type.COUNTRY];
+        this.geographicalVocabulary = Object.assign(this.vocabularies[Type.COUNTRY],this.vocabularies[Type.REGION]);
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
         // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
         // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);

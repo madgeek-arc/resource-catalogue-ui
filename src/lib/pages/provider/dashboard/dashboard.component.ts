@@ -15,6 +15,7 @@ declare var UIkit: any;
 })
 export class DashboardComponent implements OnInit {
 
+  catalogueId: string;
   providerId: string;
   providerStatus: string;
   providerBundle: ProviderBundle;
@@ -29,12 +30,13 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     // this.activeTab = this.route.firstChild.snapshot.routeConfig.path;
+    this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     this.providerId = this.route.snapshot.paramMap.get('provider');
     this.getProvider();
   }
 
   getProvider() {
-    this.serviceProviderService.getServiceProviderBundleById(this.providerId).subscribe(
+    this.serviceProviderService.getServiceProviderBundleById(this.providerId, this.catalogueId).subscribe(
       providerBundle => this.providerBundle = providerBundle,
       error =>  console.log(error),
       () => this.providerStatus = this.providerBundle.status

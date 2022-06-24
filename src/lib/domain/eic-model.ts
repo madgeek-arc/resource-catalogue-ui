@@ -2,6 +2,9 @@
 /* eslint-disable */
 // Generated using typescript-generator version 2.16.538 on 2020-06-10 11:50:49.
 
+import {Validators} from "@angular/forms";
+import {urlAsyncValidator, URLValidator} from "../shared/validators/generic.validator";
+
 export class Bundle<T> implements Identifiable {
   id: string;
   metadata: Metadata;
@@ -12,6 +15,62 @@ export class Bundle<T> implements Identifiable {
   latestAuditInfo: LoggingInfo;
   latestOnboardingInfo: LoggingInfo;
   latestUpdateInfo: LoggingInfo;
+}
+
+export class Catalogue implements Identifiable {
+  id: string;
+  abbreviation: string;
+  name: string;
+  website: URL;
+  legalEntity: boolean;
+  legalStatus: string;
+  hostingLegalEntity: string;
+  description: string;
+  logo: URL;
+  multimedia: Multimedia[];
+  scientificDomains: ServiceProviderDomain[];
+  // scientificSubdomains: string[];
+  tags: string[];
+  location: ProviderLocation;
+  mainContact: ProviderMainContact;
+  publicContacts: ProviderPublicContact[];
+  participatingCountries: string[];
+  affiliations: string[];
+  networks: string[];
+  users: User[];
+}
+
+export class Datasource extends Bundle<Service> {
+  submissionPolicyURL: URL[];
+  preservationPolicyURL: URL[];
+  versionControl: boolean;
+  persistentIdentitySystems: PersistentIdentitySystem[];
+
+  jurisdiction: string;
+  dataSourceClassification: string;
+  researchEntityTypes: string[];
+  thematic: boolean;
+
+  researchProductLicensings: ResearchProductLicensing[];
+  researchProductAccessPolicy: string[];
+
+  researchProductMetadataLicensings: ResearchProductMetadataLicensing[];
+  researchProductMetadataAccessPolicy: string[];
+
+  service: Service;
+}
+
+export class PersistentIdentitySystem {
+  persistentIdentityEntityType: string;
+  persistentIdentityEntityTypeScheme: string;
+}
+export class ResearchProductLicensing {
+  researchProductLicenseName: string;
+  researchProductLicenseURL: string;
+}
+export class ResearchProductMetadataLicensing {
+  researchProductMetadataLicenseName: string;
+  researchProductMetadataLicenseURL: string;
 }
 
 export class EmailMessage {
@@ -94,16 +153,47 @@ export class Metadata {
   originalId: string;
 }
 
+export class Monitoring {
+  id: string;
+  serviceId: string;
+  monitoredBy: string;
+  monitoringGroups: MonitoringGroups[];
+}
+
+export class Helpdesk {
+  id: string;
+  serviceId: string;
+  helpdeskType: string;
+  services: string[];
+  supportGroups: string[];
+  organisation: string;
+  emails: string[];
+  emailForTicket: string[];
+  agents: string[];
+  signatures: string[];
+  webform: boolean;
+  ticketPreservation: boolean;
+}
+
+export class MonitoringBundle extends Bundle<Monitoring> {
+  monitoring: Monitoring;
+}
+
+export class HelpdeskBundle extends Bundle<Helpdesk> {
+  helpdesk: Helpdesk;
+}
+
 export class Provider implements Identifiable {
   id: string;
-  name: string;
   abbreviation: string;
+  name: string;
   website: URL;
   legalEntity: boolean;
   legalStatus: string;
+  hostingLegalEntity: string;
   description: string;
   logo: URL;
-  multimedia: URL[];
+  multimedia: Multimedia[];
   scientificDomains: ServiceProviderDomain[];
   // scientificSubdomains: string[];
   tags: string[];
@@ -112,10 +202,10 @@ export class Provider implements Identifiable {
   publicContacts: ProviderPublicContact[];
   lifeCycleStatus: string;
   certifications: string[];
-  hostingLegalEntity: string;
   participatingCountries: string[];
   affiliations: string[];
   networks: string[];
+  catalogueId: string;
   structureTypes: string[];
   esfriDomains: string[];
   esfriType: string;
@@ -129,6 +219,10 @@ export class Provider implements Identifiable {
 
 export class ProviderBundle extends Bundle<Provider> {
   provider: Provider;
+}
+
+export class CatalogueBundle extends Bundle<Catalogue> {
+  catalogue: Catalogue;
 }
 
 export class ProviderLocation {
@@ -208,6 +302,7 @@ export class ServiceCategory {
 
 export class Service implements Identifiable {
   id: string;
+  abbreviation: string;
   name: string;
   resourceOrganisation: string;
   resourceProviders: string[];
@@ -215,8 +310,8 @@ export class Service implements Identifiable {
   description: string;
   tagline: string;
   logo: URL;
-  multimedia: URL[];
-  useCases: URL[];
+  multimedia: Multimedia[];
+  useCases: UseCase[];
   scientificDomains: ServiceProviderDomain[];
   // scientificSubdomains: string[];
   categories: ServiceCategory[];  // anchor
@@ -243,6 +338,7 @@ export class Service implements Identifiable {
   requiredResources: string[];
   relatedResources: string[];
   relatedPlatforms: string[];
+  catalogueId: string;
   fundingBody: string[];
   fundingPrograms: string[];
   grantProjectNames: string[];
@@ -283,6 +379,11 @@ export class ServicePublicContact {
   phone: string;
   position: string;
   organisation: string;
+}
+
+export class UseCase {
+  useCaseURL: string;
+  useCaseName: string;
 }
 
 export class User implements Identifiable {
@@ -331,6 +432,22 @@ export class Category {
 export class MapValues {
   key: string;
   values: Value[];
+}
+
+export class Metrics {
+  probe: string[];
+  metric: string[];
+}
+
+export class MonitoringGroups {
+  serviceType: string;
+  endpoint: string;
+  // metrics: Metrics[];
+}
+
+export class Multimedia {
+  multimediaURL: string;
+  multimediaName: string;
 }
 
 export class PlaceCount {
@@ -403,6 +520,7 @@ export const enum Type {
   SUBCATEGORY = "SUBCATEGORY",
   LANGUAGE = "LANGUAGE",
   COUNTRY = "COUNTRY",
+  REGION = "REGION",
   TRL = "TRL",
   SCIENTIFIC_DOMAIN = "SCIENTIFIC_DOMAIN",
   SCIENTIFIC_SUBDOMAIN = "SCIENTIFIC_SUBDOMAIN",
@@ -412,6 +530,7 @@ export const enum Type {
   ORDER_TYPE = "ORDER_TYPE",
   FUNDING_BODY = "FUNDING_BODY",
   FUNDING_PROGRAM = "FUNDING_PROGRAM",
+  RELATED_PLATFORM = "RELATED_PLATFORM",
   LIFE_CYCLE_STATUS = "LIFE_CYCLE_STATUS",
   PROVIDER_AREA_OF_ACTIVITY = "PROVIDER_AREA_OF_ACTIVITY",
   PROVIDER_ESFRI_TYPE = "PROVIDER_ESFRI_TYPE",
@@ -420,7 +539,15 @@ export const enum Type {
   PROVIDER_LIFE_CYCLE_STATUS = "PROVIDER_LIFE_CYCLE_STATUS",
   PROVIDER_NETWORK = "PROVIDER_NETWORK",
   PROVIDER_SOCIETAL_GRAND_CHALLENGE = "PROVIDER_SOCIETAL_GRAND_CHALLENGE",
+  PROVIDER_HOSTING_LEGAL_ENTITY = "PROVIDER_HOSTING_LEGAL_ENTITY",
   PROVIDER_STRUCTURE_TYPE = "PROVIDER_STRUCTURE_TYPE",
   PROVIDER_MERIL_SCIENTIFIC_DOMAIN = "PROVIDER_MERIL_SCIENTIFIC_DOMAIN",
   PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN = "PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN",
+  DS_JURISDICTION = "DS_JURISDICTION",
+  DS_CLASSIFICATION = "DS_CLASSIFICATION",
+  DS_RESEARCH_ENTITY_TYPE = "DS_RESEARCH_ENTITY_TYPE",
+  DS_PERSISTENT_IDENTITY_SCHEME = "DS_PERSISTENT_IDENTITY_SCHEME",
+  DS_COAR_ACCESS_RIGHTS_1_0 = "DS_COAR_ACCESS_RIGHTS_1_0",
+  MONITORING_MONITORED_BY = "MONITORING_MONITORED_BY",
+  MONITORING_SERVICE_TYPE = "MONITORING_SERVICE_TYPE"
 }

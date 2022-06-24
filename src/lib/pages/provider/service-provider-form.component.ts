@@ -9,7 +9,6 @@ import {Vocabulary, Type, Provider} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import BitSet from 'bitset';
 import {environment} from '../../../environments/environment';
-import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 
 declare var UIkit: any;
 
@@ -20,8 +19,7 @@ declare var UIkit: any;
 })
 export class ServiceProviderFormComponent implements OnInit {
 
-  private _hasUserConsent = environment.hasUserConsent;
-
+  _hasUserConsent = environment.hasUserConsent;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
@@ -34,7 +32,6 @@ export class ServiceProviderFormComponent implements OnInit {
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
-  premiumSort = new PremiumSortPipe();
   edit = false;
   hasChanges = false;
   pendingProvider = false;
@@ -47,13 +44,13 @@ export class ServiceProviderFormComponent implements OnInit {
   requiredOnTab1 = 2;
   requiredOnTab3 = 4;
   requiredOnTab4 = 2;
-  requiredOnTab7 = 1;
+  requiredOnTab8 = 1;
 
   remainingOnTab0 = this.requiredOnTab0;
   remainingOnTab1 = this.requiredOnTab1;
   remainingOnTab3 = this.requiredOnTab3;
   remainingOnTab4 = this.requiredOnTab4;
-  remainingOnTab7 = this.requiredOnTab7;
+  remainingOnTab8 = this.requiredOnTab8;
 
   BitSetTab0 = new BitSet;
   BitSetTab1 = new BitSet;
@@ -99,31 +96,32 @@ export class ServiceProviderFormComponent implements OnInit {
   readonly fullNameDesc: sd.Description = sd.providerDescMap.get('fullNameDesc');
   readonly abbreviationDesc: sd.Description = sd.providerDescMap.get('abbreviationDesc');
   readonly websiteDesc: sd.Description = sd.providerDescMap.get('websiteDesc');
-  readonly providerDescriptionDesc: sd.Description = sd.providerDescMap.get('providerDescriptionDesc');
-  readonly providerLogoDesc: sd.Description = sd.providerDescMap.get('providerLogoDesc');
-  readonly providerMultimediaDesc: sd.Description = sd.providerDescMap.get('providerMultimediaDesc');
-  readonly providerScientificDomainDesc: sd.Description = sd.providerDescMap.get('providerScientificDomainDesc');
-  readonly providerScientificSubdomainsDesc: sd.Description = sd.providerDescMap.get('providerScientificSubdomainsDesc');
+  readonly descriptionDesc: sd.Description = sd.providerDescMap.get('descriptionDesc');
+  readonly logoDesc: sd.Description = sd.providerDescMap.get('logoDesc');
+  readonly multimediaURLDesc: sd.Description = sd.providerDescMap.get('multimediaURLDesc');
+  readonly multimediaNameDesc: sd.Description = sd.providerDescMap.get('multimediaNameDesc');
+  readonly scientificDomainDesc: sd.Description = sd.providerDescMap.get('scientificDomainDesc');
+  readonly scientificSubdomainsDesc: sd.Description = sd.providerDescMap.get('scientificSubdomainsDesc');
   readonly structureTypesDesc: sd.Description = sd.providerDescMap.get('structureTypesDesc');
   readonly participatingCountriesDesc: sd.Description = sd.providerDescMap.get('participatingCountriesDesc');
   readonly affiliationDesc: sd.Description = sd.providerDescMap.get('affiliationDesc');
-  readonly providerTagsDesc: sd.Description = sd.providerDescMap.get('providerTagsDesc');
+  readonly tagsDesc: sd.Description = sd.providerDescMap.get('tagsDesc');
   readonly streetNameAndNumberDesc: sd.Description = sd.providerDescMap.get('streetNameAndNumberDesc');
   readonly postalCodeDesc: sd.Description = sd.providerDescMap.get('postalCodeDesc');
   readonly cityDesc: sd.Description = sd.providerDescMap.get('cityDesc');
   readonly regionDesc: sd.Description = sd.providerDescMap.get('regionDesc');
   readonly countryDesc: sd.Description = sd.providerDescMap.get('countryDesc');
-  readonly providerMainContactFirstNameDesc: sd.Description = sd.providerDescMap.get('providerMainContactFirstNameDesc');
-  readonly providerMainContactLastNameDesc: sd.Description = sd.providerDescMap.get('providerMainContactLastNameDesc');
-  readonly providerMainContactEmailDesc: sd.Description = sd.providerDescMap.get('providerMainContactEmailDesc');
-  readonly providerMainContactPhoneDesc: sd.Description = sd.providerDescMap.get('providerMainContactPhoneDesc');
-  readonly providerMainContactPositionDesc: sd.Description = sd.providerDescMap.get('providerMainContactPositionDesc');
-  readonly providerPublicContactFirstNameDesc: sd.Description = sd.providerDescMap.get('providerPublicContactFirstNameDesc');
-  readonly providerPublicContactLastNameDesc: sd.Description = sd.providerDescMap.get('providerPublicContactLastNameDesc');
-  readonly providerPublicContactEmailDesc: sd.Description = sd.providerDescMap.get('providerPublicContactEmailDesc');
-  readonly providerPublicContactPhoneDesc: sd.Description = sd.providerDescMap.get('providerPublicContactPhoneDesc');
-  readonly providerPublicContactPositionDesc: sd.Description = sd.providerDescMap.get('providerPublicContactPositionDesc');
-  readonly providerCertificationsDesc: sd.Description = sd.providerDescMap.get('providerCertificationsDesc');
+  readonly mainContactFirstNameDesc: sd.Description = sd.providerDescMap.get('mainContactFirstNameDesc');
+  readonly mainContactLastNameDesc: sd.Description = sd.providerDescMap.get('mainContactLastNameDesc');
+  readonly mainContactEmailDesc: sd.Description = sd.providerDescMap.get('mainContactEmailDesc');
+  readonly mainContactPhoneDesc: sd.Description = sd.providerDescMap.get('mainContactPhoneDesc');
+  readonly mainContactPositionDesc: sd.Description = sd.providerDescMap.get('mainContactPositionDesc');
+  readonly publicContactFirstNameDesc: sd.Description = sd.providerDescMap.get('publicContactFirstNameDesc');
+  readonly publicContactLastNameDesc: sd.Description = sd.providerDescMap.get('publicContactLastNameDesc');
+  readonly publicContactEmailDesc: sd.Description = sd.providerDescMap.get('publicContactEmailDesc');
+  readonly publicContactPhoneDesc: sd.Description = sd.providerDescMap.get('publicContactPhoneDesc');
+  readonly publicContactPositionDesc: sd.Description = sd.providerDescMap.get('publicContactPositionDesc');
+  readonly certificationsDesc: sd.Description = sd.providerDescMap.get('certificationsDesc');
   readonly lifeCycleStatusDesc: sd.Description = sd.providerDescMap.get('lifeCycleStatusDesc');
   readonly ESFRIDomainDesc: sd.Description = sd.providerDescMap.get('ESFRIDomainDesc');
   readonly hostingLegalEntityDesc: sd.Description = sd.providerDescMap.get('hostingLegalEntityDesc');
@@ -136,6 +134,7 @@ export class ServiceProviderFormComponent implements OnInit {
   readonly legalEntityDesc: sd.Description = sd.providerDescMap.get('legalEntityDesc');
   readonly legalStatusDesc: sd.Description = sd.providerDescMap.get('legalStatusDesc');
   readonly networksDesc: sd.Description = sd.providerDescMap.get('networksDesc');
+  readonly catalogueIdDesc: sd.Description = sd.providerDescMap.get('catalogueIdDesc');
 
   placesVocabulary: Vocabulary[] = null;
   providerTypeVocabulary: Vocabulary[] = null;
@@ -150,6 +149,7 @@ export class ServiceProviderFormComponent implements OnInit {
   areasOfActivityVocabulary: Vocabulary[] = null;
   networksVocabulary: Vocabulary[] = null;
   societalGrandChallengesVocabulary: Vocabulary[] = null;
+  hostingLegalEntityVocabulary: Vocabulary[] = null;
 
   readonly formDefinition = {
     id: [''],
@@ -158,9 +158,17 @@ export class ServiceProviderFormComponent implements OnInit {
     website: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     legalEntity: [''],
     legalStatus: [''],
+    hostingLegalEntity: [''],
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
-    multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
+    // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
+    // multimediaNames: this.fb.array([this.fb.control('')]),
+    multimedia: this.fb.array([
+      this.fb.group({
+        multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+        multimediaName: ['']
+      })
+    ]),
     scientificDomains: this.fb.array([]),
     // scientificDomain: this.fb.array([]),
     // scientificSubdomains: this.fb.array([]),
@@ -176,7 +184,7 @@ export class ServiceProviderFormComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', Validators.compose([Validators.required, Validators.email])],
-      phone: ['', Validators.pattern('[+]?\\d+$')],
+      phone: ['', Validators.pattern('^(((\\+)|(00))\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$')],
       position: [''],
     }, Validators.required),
     publicContacts: this.fb.array([
@@ -184,16 +192,16 @@ export class ServiceProviderFormComponent implements OnInit {
         firstName: [''],
         lastName: [''],
         email: ['', Validators.compose([Validators.required, Validators.email])],
-        phone: ['', Validators.pattern('[+]?\\d+$')],
+        phone: ['', Validators.pattern('^(((\\+)|(00))\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$')],
         position: [''],
       })
     ]),
     lifeCycleStatus: [''],
     certifications: this.fb.array([this.fb.control('')]),
-    hostingLegalEntity: [''],
     participatingCountries: this.fb.array([this.fb.control('')]),
     affiliations: this.fb.array([this.fb.control('')]),
     networks: this.fb.array([this.fb.control('')]),
+    catalogueId: [''],
     structureTypes: this.fb.array([this.fb.control('')]),
     esfriDomains: this.fb.array([this.fb.control('')]),
     esfriType: [''],
@@ -203,9 +211,7 @@ export class ServiceProviderFormComponent implements OnInit {
     areasOfActivity: this.fb.array([this.fb.control('')]),
     societalGrandChallenges: this.fb.array([this.fb.control('')]),
     nationalRoadmaps: this.fb.array([this.fb.control('')]),
-    users: this.fb.array([
-      this.user()
-    ])
+    users: this.fb.array([this.user()])
   };
 
   constructor(public fb: FormBuilder,
@@ -252,7 +258,7 @@ export class ServiceProviderFormComponent implements OnInit {
               } else if (i === 'structureTypes') {
                 this.push(i, true);
               } else if (i === 'multimedia') {
-                this.push(i, false, true);
+                this.pushMultimedia();
               } else {
                 this.push(i, false);
               }
@@ -309,18 +315,25 @@ export class ServiceProviderFormComponent implements OnInit {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
     }
 
-    for (let i = 0; i < this.domainArray.length ; i++) {
+    for (let i = 0; i < this.domainArray.length; i++) {
       if (this.domainArray.controls[i].get('scientificDomain').value === ''
-          || this.domainArray.controls[i].get('scientificDomain').value === null) {
+        || this.domainArray.controls[i].get('scientificDomain').value === null) {
         this.removeDomain(i);
       }
     }
 
-    for (let i = 0; i < this.merilDomainArray.length ; i++) {
+    for (let i = 0; i < this.merilDomainArray.length; i++) {
       if (this.merilDomainArray.controls[i].get('merilScientificDomain').value === ''
-          || this.merilDomainArray.controls[i].get('merilScientificDomain').value === null) {
+        || this.merilDomainArray.controls[i].get('merilScientificDomain').value === null) {
         // console.log(this.merilDomainArray.controls[i]);
         this.removeMerilDomain(i);
+      }
+    }
+
+    for (let i = 0; i < this.multimediaArray.length; i++) {
+      if (this.multimediaArray.controls[i].get('multimediaURL').value === ''
+        || this.multimediaArray.controls[i].get('multimediaURL').value === null) {
+        this.removeMultimedia(i);
       }
     }
 
@@ -440,13 +453,16 @@ export class ServiceProviderFormComponent implements OnInit {
       || this.checkFormValidity('abbreviation', this.edit)
       || this.checkFormValidity('website', this.edit)
       || this.checkEveryArrayFieldValidity('legalEntity', this.edit)
-      || this.checkFormValidity('legalStatus', this.edit));
+      || this.checkFormValidity('legalStatus', this.edit)
+      || this.checkFormValidity('hostingLegalEntity', this.edit));
     this.tabs[1] = (this.checkFormValidity('description', this.edit)
       || this.checkFormValidity('logo', this.edit)
-      || this.checkEveryArrayFieldValidity('multimedia', this.edit));
+      || this.checkEveryArrayFieldValidity('multimedia', this.edit, 'multimediaURL')
+      || this.checkEveryArrayFieldValidity('multimedia', this.edit, 'multimediaName'));
     this.tabs[2] = (this.checkEveryArrayFieldValidity('tags', this.edit)
       || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificDomain')
-      || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificSubdomain'));
+      || this.checkEveryArrayFieldValidity('scientificDomains', this.edit, 'scientificSubdomain')
+      || this.checkEveryArrayFieldValidity('structureTypes', this.edit));
     this.tabs[3] = (this.checkFormValidity('location.streetNameAndNumber', this.edit)
       || this.checkFormValidity('location.postalCode', this.edit)
       || this.checkFormValidity('location.city', this.edit)
@@ -464,19 +480,18 @@ export class ServiceProviderFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('publicContacts', this.edit, 'position'));
     this.tabs[5] = (this.checkFormValidity('lifeCycleStatus', this.edit)
       || this.checkEveryArrayFieldValidity('certifications', this.edit));
-    this.tabs[6] = (this.checkFormValidity('hostingLegalEntity', this.edit)
-      || this.checkEveryArrayFieldValidity('participatingCountries', this.edit)
+    this.tabs[6] = (this.checkEveryArrayFieldValidity('participatingCountries', this.edit)
       || this.checkEveryArrayFieldValidity('affiliations', this.edit)
       || this.checkEveryArrayFieldValidity('networks', this.edit)
-      || this.checkEveryArrayFieldValidity('structureTypes', this.edit)
-      || this.checkEveryArrayFieldValidity('esfriDomains', this.edit)
+      || this.checkEveryArrayFieldValidity('catalogueId', this.edit));
+    this.tabs[7] = (this.checkEveryArrayFieldValidity('esfriDomains', this.edit)
       || this.checkFormValidity('esfriType', this.edit)
       || this.checkEveryArrayFieldValidity('merilScientificDomains', this.edit, 'merilScientificDomain')
       || this.checkEveryArrayFieldValidity('merilScientificDomains', this.edit, 'merilScientificSubdomain')
       || this.checkEveryArrayFieldValidity('areasOfActivity', this.edit)
       || this.checkEveryArrayFieldValidity('societalGrandChallenges', this.edit)
       || this.checkEveryArrayFieldValidity('nationalRoadmaps', this.edit));
-    this.tabs[6] = (this.checkEveryArrayFieldValidity('users', this.edit, 'name')
+    this.tabs[8] = (this.checkEveryArrayFieldValidity('users', this.edit, 'name')
       || this.checkEveryArrayFieldValidity('users', this.edit, 'surname')
       || this.checkEveryArrayFieldValidity('users', this.edit, 'email'));
   }
@@ -501,12 +516,11 @@ export class ServiceProviderFormComponent implements OnInit {
         this.areasOfActivityVocabulary = this.vocabularies[Type.PROVIDER_AREA_OF_ACTIVITY];
         this.networksVocabulary = this.vocabularies[Type.PROVIDER_NETWORK];
         this.societalGrandChallengesVocabulary = this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
+        this.hostingLegalEntityVocabulary = this.vocabularies[Type.PROVIDER_HOSTING_LEGAL_ENTITY];
         return this.vocabularies;
       },
       error => console.log(JSON.stringify(error.error)),
       () => {
-        this.premiumSort.transform(this.placesVocabulary, ['Europe', 'Worldwide']);
-
         let voc: Vocabulary[] = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN].concat(this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN]);
         this.subVocabularies = this.groupByKey(voc, 'parentId');
 
@@ -596,6 +610,28 @@ export class ServiceProviderFormComponent implements OnInit {
 
   /** <--handle form arrays**/
 
+  /** Multimedia -->**/
+  newMultimedia(): FormGroup {
+    return this.fb.group({
+      multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+      multimediaName: ['']
+    });
+  }
+
+  get multimediaArray() {
+    return this.providerForm.get('multimedia') as FormArray;
+  }
+
+  pushMultimedia() {
+    this.multimediaArray.push(this.newMultimedia());
+  }
+
+  removeMultimedia(index: number) {
+    this.multimediaArray.removeAt(index);
+  }
+
+  /** <--Multimedia**/
+
   /** Contact Info -->**/
   newContact(): FormGroup {
     return this.fb.group({
@@ -603,7 +639,7 @@ export class ServiceProviderFormComponent implements OnInit {
       lastName: [''],
       email: [''],
       phone: [''],
-      position: [''],
+      position: ['']
     });
   }
 
@@ -906,7 +942,7 @@ export class ServiceProviderFormComponent implements OnInit {
     } else if (tabNum === 7) { // Admins
       this.BitSetTab7.set(bitIndex, 1);
       if (this.BitSetTab7.cardinality() === 3) {
-        this.remainingOnTab7 = 0;
+        this.remainingOnTab8 = 0;
         if (this.completedTabsBitSet.get(tabNum) !== 1) {
           this.calcCompletedTabs(tabNum, 1);
         }
@@ -942,7 +978,7 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     } else if (tabNum === 7) { // Admins
       this.BitSetTab7.set(bitIndex, 0);
-      this.remainingOnTab7 = this.requiredOnTab7;
+      this.remainingOnTab8 = this.requiredOnTab8;
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }
@@ -992,48 +1028,6 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   /** <--Submit Comment Modal **/
-
-  /** URL Validation--> **/
-  checkUrlValidity(formControlName: string) {
-    let urlValidity;
-    if (this.providerForm.get(formControlName).valid && this.providerForm.get(formControlName).value !== '') {
-      const url = this.providerForm.get(formControlName).value;
-      // console.log(url);
-      this.serviceProviderService.validateUrl(url).subscribe(
-        boolean => { urlValidity = boolean; },
-        error => { console.log(error); },
-        () => {
-          if (!urlValidity) {
-            // console.log('invalid');
-            window.scrollTo(0, 0);
-            this.errorMessage = url + ' is not a valid URL. Please enter a valid URL.';
-          }
-        }
-      );
-    }
-  }
-
-  checkUrlValidityForArrays(formArrayName: string, position: number) {
-    let urlValidity;
-    // console.log(this.providerForm.get(formArrayName).value[position]);
-    if (this.providerForm.get(formArrayName).value[position] !== '') {
-      const url = this.providerForm.get(formArrayName).value[position];
-      // console.log(url);
-      this.serviceProviderService.validateUrl(url).subscribe(
-        boolean => { urlValidity = boolean; },
-        error => { console.log(error); },
-        () => {
-          if (!urlValidity) {
-            // console.log('invalid');
-            window.scrollTo(0, 0);
-            this.errorMessage = url + ' is not a valid ' + formArrayName + ' URL. Please enter a valid URL.';
-          }
-        }
-      );
-    }
-  }
-
-  /** <--URL Validation **/
 
   submitSuggestion(entryValueName, vocabulary, parent) {
     if (entryValueName.trim() !== '') {

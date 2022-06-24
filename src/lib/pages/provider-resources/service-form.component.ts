@@ -7,7 +7,7 @@ import {UserService} from '../../services/user.service';
 import * as sd from './services.description';
 import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
-import {urlAsyncValidator, UrlValidator, URLValidator} from '../../shared/validators/generic.validator';
+import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
@@ -46,7 +46,7 @@ export class ServiceFormComponent implements OnInit {
   disable = false;
   isPortalAdmin = false;
 
-  requiredOnTab0 = 3;
+  requiredOnTab0 = 4;
   requiredOnTab1 = 3;
   requiredOnTab2 = 3;
   requiredOnTab3 = 2;
@@ -74,7 +74,7 @@ export class ServiceFormComponent implements OnInit {
   completedTabs = 0;
   completedTabsBitSet = new BitSet;
 
-  allRequiredFields = 21;
+  allRequiredFields = 22;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
@@ -82,6 +82,7 @@ export class ServiceFormComponent implements OnInit {
   suggestionsForm = {
     fundingBodyVocabularyEntryValueName: '',
     fundingProgramVocabularyEntryValueName: '',
+    relatedPlatformsVocabularyEntryValueName: '',
     targetUsersVocabularyEntryValueName: '',
     accessTypesVocabularyEntryValueName: '',
     accessModesVocabularyEntryValueName: '',
@@ -102,11 +103,13 @@ export class ServiceFormComponent implements OnInit {
   commentControl = new FormControl();
 
   readonly nameDesc: sd.Description = sd.serviceDescMap.get('nameDesc');
+  readonly abbreviationDesc: sd.Description = sd.serviceDescMap.get('abbreviationDesc');
   readonly webpageDesc: sd.Description = sd.serviceDescMap.get('webpageDesc');
   readonly descriptionDesc: sd.Description = sd.serviceDescMap.get('descriptionDesc');
   readonly taglineDesc: sd.Description = sd.serviceDescMap.get('taglineDesc');
   readonly logoDesc: sd.Description = sd.serviceDescMap.get('logoDesc');
-  readonly multimediaDesc: sd.Description = sd.serviceDescMap.get('multimediaDesc');
+  readonly multimediaURLDesc: sd.Description = sd.serviceDescMap.get('multimediaURLDesc');
+  readonly multimediaNameDesc: sd.Description = sd.serviceDescMap.get('multimediaNameDesc');
   readonly targetUsersDesc: sd.Description = sd.serviceDescMap.get('targetUsersDesc');
   readonly resourceProvidersDesc: sd.Description = sd.serviceDescMap.get('resourceProvidersDesc');
   readonly resourceOrganisationDesc: sd.Description = sd.serviceDescMap.get('resourceOrganisationDesc');
@@ -145,6 +148,7 @@ export class ServiceFormComponent implements OnInit {
   readonly requiredServicesDesc: sd.Description = sd.serviceDescMap.get('requiredServicesDesc');
   readonly relatedServicesDesc: sd.Description = sd.serviceDescMap.get('relatedServicesDesc');
   readonly relatedPlatformsDesc: sd.Description = sd.serviceDescMap.get('relatedPlatformsDesc');
+  readonly resourceCatalogueIdDesc: sd.Description = sd.serviceDescMap.get('resourceCatalogueIdDesc');
   readonly fundingBodyDesc: sd.Description = sd.serviceDescMap.get('fundingBodyDesc');
   readonly fundingProgramDesc: sd.Description = sd.serviceDescMap.get('fundingProgramDesc');
   readonly grantProjectNameDesc: sd.Description = sd.serviceDescMap.get('grantProjectNameDesc');
@@ -161,21 +165,38 @@ export class ServiceFormComponent implements OnInit {
   readonly accessPolicyDesc: sd.Description = sd.serviceDescMap.get('accessPolicyDesc');
   readonly paymentModelDesc: sd.Description = sd.serviceDescMap.get('paymentModelDesc');
   readonly pricingDesc: sd.Description = sd.serviceDescMap.get('pricingDesc');
-  readonly useCasesDesc: sd.Description = sd.serviceDescMap.get('useCasesDesc');
+  readonly useCaseURLDesc: sd.Description = sd.serviceDescMap.get('useCaseURLDesc');
+  readonly useCaseNameDesc: sd.Description = sd.serviceDescMap.get('useCaseNameDesc');
 
 
   formGroupMeta = {
     id: [''],
     name: ['', Validators.required],
+    abbreviation: ['', Validators.required],
     webpage: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     tagline: ['', Validators.required],
-    useCases: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
-    multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
+    // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
+    // multimediaNames: this.fb.array([this.fb.control('')]),
+    multimedia: this.fb.array([
+      this.fb.group({
+        multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+        multimediaName: ['']
+      })
+    ]),
+    // useCases: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
+    // useCasesNames: this.fb.array([this.fb.control('')]),
+    useCases: this.fb.array([
+      this.fb.group({
+        useCaseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+        useCaseName: ['']
+      })
+    ]),
     requiredResources: this.fb.array([this.fb.control('')]),
     relatedResources: this.fb.array([this.fb.control('')]),
     relatedPlatforms: this.fb.array([this.fb.control('')]),
+    catalogueId: [''],
     resourceOrganisation: ['', Validators.required],
     resourceProviders: this.fb.array([this.fb.control('')]),
     resourceGeographicLocations: this.fb.array([this.fb.control('')]),
@@ -215,7 +236,7 @@ export class ServiceFormComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', Validators.compose([Validators.required, Validators.email])],
-      phone: ['', Validators.pattern('[+]?\\d+$')],
+      phone: ['', Validators.pattern('^(((\\+)|(00))\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$')],
       position: [''],
       organisation: ['']
     }, Validators.required),
@@ -224,7 +245,7 @@ export class ServiceFormComponent implements OnInit {
         firstName: [''],
         lastName: [''],
         email: ['', Validators.compose([Validators.required, Validators.email])],
-        phone: ['', Validators.pattern('[+]?\\d+$')],
+        phone: ['', Validators.pattern('^(((\\+)|(00))\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$')],
         position: [''],
         organisation: ['']
       })
@@ -247,6 +268,7 @@ export class ServiceFormComponent implements OnInit {
 
   public fundingBodyVocabulary: Vocabulary[] = null;
   public fundingProgramVocabulary: Vocabulary[] = null;
+  public relatedPlatformsVocabulary: Vocabulary[] = null;
   public targetUsersVocabulary: Vocabulary[] = null;
   public accessTypesVocabulary: Vocabulary[] = null;
   public accessModesVocabulary: Vocabulary[] = null;
@@ -286,9 +308,20 @@ export class ServiceFormComponent implements OnInit {
     }
 
     this.errorMessage = '';
-
-    // this.scientificDomainArray.disable();
     this.showLoader = true;
+    // this.scientificDomainArray.disable();
+    for (let i = 0; i < this.multimediaArray.length; i++) {
+      if (this.multimediaArray.controls[i].get('multimediaURL').value === ''
+        || this.multimediaArray.controls[i].get('multimediaURL').value === null) {
+        this.removeMultimedia(i);
+      }
+    }
+    for (let i = 0; i < this.useCasesArray.length; i++) {
+      if (this.useCasesArray.controls[i].get('useCaseURL').value === ''
+        || this.useCasesArray.controls[i].get('useCaseURL').value === null) {
+        this.removeUseCase(i);
+      }
+    }
     // console.log('this.serviceForm.valid ', this.serviceForm.valid);
     // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);
@@ -379,8 +412,9 @@ export class ServiceFormComponent implements OnInit {
         this.scientificSubDomainVocabulary = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
         this.fundingBodyVocabulary = this.vocabularies[Type.FUNDING_BODY];
         this.fundingProgramVocabulary = this.vocabularies[Type.FUNDING_PROGRAM];
-        // this.placesVocabulary = this.vocabularies[Type.COUNTRY];
-        this.geographicalVocabulary = this.vocabularies[Type.COUNTRY];
+        this.relatedPlatformsVocabulary = this.vocabularies[Type.RELATED_PLATFORM];
+        this.placesVocabulary = this.vocabularies[Type.COUNTRY];
+        this.geographicalVocabulary = Object.assign(this.vocabularies[Type.COUNTRY],this.vocabularies[Type.REGION]);
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
         // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
         // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
@@ -446,6 +480,7 @@ export class ServiceFormComponent implements OnInit {
                 this.categoryArray.push(this.newCategory());
                 // } else if (i === 'options') {
                 //   this.pushOption();
+                //TODO: add multimedia and use cases (also for DS)
               } else if (i === 'providers' || i === 'targetUsers' || i === 'geographicalAvailabilities' || i === 'languageAvailabilities') {
                 this.push(i, true);
               } else {
@@ -544,14 +579,17 @@ export class ServiceFormComponent implements OnInit {
 
   markTabs() {
     this.tabs[0] = (this.checkFormValidity('name', this.editMode)
+      || this.checkFormValidity('abbreviation', this.editMode)
       || this.checkFormValidity('resourceOrganisation', this.editMode)
       || this.checkEveryArrayFieldValidity('resourceProviders', this.editMode)
       || this.checkFormValidity('webpage', this.editMode));
     this.tabs[1] = (this.checkFormValidity('description', this.editMode)
       || this.checkFormValidity('tagline', this.editMode)
       || this.checkFormValidity('logo', this.editMode)
-      || this.checkEveryArrayFieldValidity('multimedia', this.editMode)
-      || this.checkEveryArrayFieldValidity('useCases', this.editMode));
+      || this.checkEveryArrayFieldValidity('multimedia', this.editMode, 'multimediaURL')
+      || this.checkEveryArrayFieldValidity('multimedia', this.editMode, 'multimediaName')
+      || this.checkEveryArrayFieldValidity('useCases', this.editMode, 'useCaseURL')
+      || this.checkEveryArrayFieldValidity('useCases', this.editMode, 'useCaseName'));
     this.tabs[2] = (this.checkEveryArrayFieldValidity('scientificDomains', this.editMode, 'scientificDomain')
       || this.checkEveryArrayFieldValidity('scientificDomains', this.editMode, 'scientificSubdomain')
       || this.checkEveryArrayFieldValidity('categories', this.editMode, 'category')
@@ -587,7 +625,8 @@ export class ServiceFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('changeLog', this.editMode));
     this.tabs[7] = (this.checkEveryArrayFieldValidity('requiredResources', this.editMode)
       || this.checkEveryArrayFieldValidity('relatedResources', this.editMode)
-      || this.checkEveryArrayFieldValidity('relatedPlatforms', this.editMode));
+      || this.checkEveryArrayFieldValidity('relatedPlatforms', this.editMode)
+      || this.checkEveryArrayFieldValidity('catalogueId', this.editMode));
     this.tabs[8] = (this.checkEveryArrayFieldValidity('fundingBody', this.editMode)
       || this.checkEveryArrayFieldValidity('fundingPrograms', this.editMode)
       || this.checkEveryArrayFieldValidity('grantProjectNames', this.editMode));
@@ -692,6 +731,49 @@ export class ServiceFormComponent implements OnInit {
 
   /** <-- Categorization & Scientific Domain**/
 
+  /** Multimedia -->**/
+  newMultimedia(): FormGroup {
+    return this.fb.group({
+      multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+      multimediaName: ['']
+    });
+  }
+
+  get multimediaArray() {
+    return this.serviceForm.get('multimedia') as FormArray;
+  }
+
+  pushMultimedia() {
+    this.multimediaArray.push(this.newMultimedia());
+  }
+
+  removeMultimedia(index: number) {
+    this.multimediaArray.removeAt(index);
+  }
+  /** <--Multimedia**/
+
+  /** Use Cases-->**/
+  newUseCase(): FormGroup {
+    return this.fb.group({
+      useCaseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+      useCaseName: ['']
+    });
+  }
+
+  get useCasesArray() {
+    return this.serviceForm.get('useCases') as FormArray;
+  }
+
+  pushUseCase() {
+    this.useCasesArray.push(this.newUseCase());
+  }
+
+  removeUseCase(index: number) {
+    this.useCasesArray.removeAt(index);
+  }
+
+  /** <--Use Cases**/
+
   /** Service Contact Info -->**/
 
   newContact(): FormGroup {
@@ -699,7 +781,7 @@ export class ServiceFormComponent implements OnInit {
       firstName: [''],
       lastName: [''],
       email: ['', Validators.compose([Validators.required, Validators.email])],
-      phone: ['', Validators.pattern('[+]?\\d+$')],
+      phone: ['', Validators.pattern('^(((\\+)|(00))\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$')],
       position: [''],
       organisation: ['']
     });
@@ -732,11 +814,9 @@ export class ServiceFormComponent implements OnInit {
       if (vocabulary1.name > vocabulary2.name) {
         return 1;
       }
-
       if (vocabulary1.name < vocabulary2.name) {
         return -1;
       }
-
       return 0;
     });
   }
@@ -774,12 +854,12 @@ export class ServiceFormComponent implements OnInit {
     }
     if (richService.service.multimedia) {
       for (let i = 0; i < richService.service.multimedia.length - 1; i++) {
-        this.push('multimedia', false);
+        this.pushMultimedia();
       }
     }
     if (richService.service.useCases) {
       for (let i = 0; i < richService.service.useCases.length - 1; i++) {
-        this.push('useCases', false);
+        this.pushUseCase();
       }
     }
     if (richService.service.targetUsers) {

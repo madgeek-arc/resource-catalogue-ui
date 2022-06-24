@@ -31,6 +31,7 @@ export class ProviderStatsComponent implements OnInit {
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
 
+  catalogueId: string;
   providerId: string;
   statisticPeriod: string;
   provider: Provider;
@@ -77,11 +78,12 @@ export class ProviderStatsComponent implements OnInit {
   ngOnInit(): void {
     this.statisticPeriod = 'MONTH';
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
+    this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
       zip(
         this.resourceService.getEU(),
         this.resourceService.getWW(),
-        this.providerService.getServiceProviderBundleById(this.providerId)
+        this.providerService.getServiceProviderBundleById(this.providerId, this.catalogueId)
         /*this.resourceService.getProvidersNames()*/
       ).subscribe(suc => {
         this.EU = <string[]>suc[0];
@@ -96,7 +98,7 @@ export class ProviderStatsComponent implements OnInit {
           zip(
             this.resourceService.getEU(),
             this.resourceService.getWW(),
-            this.providerService.getServiceProviderBundleById(this.providerId)
+            this.providerService.getServiceProviderBundleById(this.providerId, this.catalogueId)
             /*this.resourceService.getProvidersNames()*/
           ).subscribe(suc => {
             this.EU = <string[]>suc[0];

@@ -15,16 +15,6 @@ export function URLListValidator(control: AbstractControl) {
     }
 }
 
-export class UrlValidator {
-  static createValidator(service: ServiceProviderService): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors> => {
-      return service.validateUrl(control.value).pipe(
-        map((result: boolean) => (result ? null : {invalidAsync: true}))
-      );
-    };
-  }
-}
-
 /** Increase time var to reduce server calls **/
 export const urlAsyncValidator = (service: ServiceProviderService, time: number = 0) => {
   return (control: AbstractControl): Observable<ValidationErrors> => {
@@ -37,8 +27,7 @@ export const urlAsyncValidator = (service: ServiceProviderService, time: number 
     }
     return timer(time).pipe(
       switchMap(() => service.validateUrl(control.value)),
-      map(res => {
-        return res ? null : {invalidAsync: true};
+      map(res => { return res ? null : {invalidAsync: true};
       })
     );
   };

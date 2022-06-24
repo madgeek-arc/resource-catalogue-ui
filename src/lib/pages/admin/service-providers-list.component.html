@@ -101,6 +101,25 @@
                     </div>
                   </form>
 
+                  <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
+                    <ng-container *ngFor="let f of facets">
+                      <ng-container *ngIf="f.field === 'catalogue_id'">
+                        <h5 class="">{{f.label}}</h5>
+                        <div class="uk-padding uk-padding-remove-top">
+                          <div class="uk-margin-small-top" *ngFor="let catalogue of f.values">
+                            <label class="uk-margin-small-left">
+                              <input class="uk-checkbox" type="checkbox" name="filter" value="catalogue" data-md-icheck
+                                     (change)="this.onSelection($event, 'catalogue_id', catalogue.value)"
+                                     [checked]="isCatalogueChecked(catalogue.value)">
+                            </label>
+                            <span> {{catalogue.label ? catalogue.label : catalogue.value}}</span>
+                            <span> ({{catalogue.count}})</span>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+
                 </div>
 
                 <div class="uk-width-3-4">
@@ -226,19 +245,23 @@
                             <div class="uk-width-4-5">
                               <div class="providerName">
                                 <span class="uk-margin-auto-vertical">
-                                  <ng-container *ngIf="providerBundle.status === 'approved provider'">
-                                    <a [routerLink]="['/dashboard', providerBundle.id, 'stats']" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
-                                      {{ providerBundle.provider.name }}
+<!--                                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' else anotherCatalogue">-->
+                                    <ng-container *ngIf="providerBundle.status === 'approved provider'">
+                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'stats']" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
+                                        {{ providerBundle.provider.name }}
+                                      </a>
+                                    </ng-container>
+                                    <ng-container *ngIf="providerBundle.status !== 'approved provider'">
+                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id]" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
+                                        {{ providerBundle.provider.name }}
+                                      </a>
+                                    </ng-container>
+                                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' ">
+                                    <a [routerLink]="['/provider/info',providerBundle.id]" class="uk-display-inline-block">
+                                      <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
                                     </a>
                                   </ng-container>
-                                  <ng-container *ngIf="providerBundle.status !== 'approved provider'">
-                                    <a [routerLink]="['/dashboard', providerBundle.id]" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
-                                      {{ providerBundle.provider.name }}
-                                    </a>
-                                  </ng-container>
-                                  <a [routerLink]="['/provider/info',providerBundle.id]" class="uk-display-inline-block">
-                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
-                                  </a>
+<!--                                  <ng-template #anotherCatalogue>{{ providerBundle.provider.name }}</ng-template>-->
                                 </span>
                               </div>
                               <div class="uk-margin-small-top">
@@ -268,6 +291,9 @@
                                   by {{providerBundle.latestAuditInfo.userFullName}}
                                 </ng-container>
                                 <ng-container *ngIf="!providerBundle.latestAuditInfo"><i>Never audited</i></ng-container>
+                              </div>
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Catalogue id: </span>{{ providerBundle.provider.catalogueId }}
                               </div>
                             </div>
 
@@ -342,7 +368,7 @@
 <!--                          </div>-->
 <!--                        </ng-container>-->
 
-                        <ng-container>
+                        <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc'">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button [routerLink]="['/provider/update/', providerBundle.id]"
@@ -615,12 +641,16 @@
             <div class="uk-width-4-5">
               <div class="providerName">
                 <span class="uk-margin-auto-vertical">
-                  <a [routerLink]="['/dashboard', providerBundle.id, 'stats']" target="_blank" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
-                      {{ providerBundle.provider.name }}
-                  </a>
-                  <a [routerLink]="['/provider/info',providerBundle.id]" target="_blank" class="uk-display-inline-block">
-                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
-                  </a>
+<!--                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' else anotherCatalogue">-->
+                    <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'stats']" target="_blank" data-uk-tooltip title="'Go to the resource provider monitoring dashboard'">
+                        {{ providerBundle.provider.name }}
+                    </a>
+                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc'">
+                    <a [routerLink]="['/provider/info',providerBundle.id]" target="_blank" class="uk-display-inline-block">
+                      <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
+                    </a>
+                  </ng-container>
+<!--                  <ng-template #anotherCatalogue>{{ providerBundle.provider.name }}</ng-template>-->
                 </span>
               </div>
               <div class="uk-margin-small-top">
@@ -646,6 +676,9 @@
                   on {{providerBundle.latestAuditInfo.date | date}}
                 </ng-container>
                 <ng-container *ngIf="!providerBundle.latestAuditInfo"><i>Never audited</i></ng-container>
+              </div>
+              <div class="uk-margin-small-top">
+                <span class="statusLabel">Catalogue id: </span>{{ providerBundle.provider.catalogueId }}
               </div>
             </div>
 
@@ -688,33 +721,34 @@
           </div>
         </div>
 
-        <hr class="uk-margin-top">
-        <button *ngIf="providerBundle.status == 'approved provider'"
-          class="uk-button uk-button-link uk-margin-medium-right"
-          (click)="showAuditForm('side', providerBundle)">
-          <i class="fa fa-check-circle-o fa-lg"></i> Audit
-        </button>
-        <button class="uk-button uk-button-link">
-          <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
-        </button>
-        <div uk-dropdown="mode: click">
-          <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-            <li *ngIf="(providerBundle.status === 'approved provider') && (providerBundle.active)"
-                (click)="showActionModal(providerBundle, 'approved provider', false, false)"
-                class="uk-margin-small-top">
-              <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Deactivate</a>
-            </li>
-            <li (click)="editProviderInNewTab(providerBundle.id)"
-                class="uk-margin-small-top">
-              <a><i class="fa fa-edit uk-margin-small-right" aria-hidden="true"></i>Edit Provider</a>
-            </li>
-            <li (click)="showDeletionModal(providerBundle)"
-                class="uk-margin-small-top">
-              <a><i class="fa fa-trash uk-margin-small-right" aria-hidden="true"></i>Delete Provider</a>
-            </li>
-          </ul>
-        </div>
-
+        <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc'">
+          <hr class="uk-margin-top">
+          <button *ngIf="providerBundle.status == 'approved provider'"
+            class="uk-button uk-button-link uk-margin-medium-right"
+            (click)="showAuditForm('side', providerBundle)">
+            <i class="fa fa-check-circle-o fa-lg"></i> Audit
+          </button>
+          <button class="uk-button uk-button-link">
+            <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
+          </button>
+          <div uk-dropdown="mode: click">
+            <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+              <li *ngIf="(providerBundle.status === 'approved provider') && (providerBundle.active)"
+                  (click)="showActionModal(providerBundle, 'approved provider', false, false)"
+                  class="uk-margin-small-top">
+                <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Deactivate</a>
+              </li>
+              <li (click)="editProviderInNewTab(providerBundle.id)"
+                  class="uk-margin-small-top">
+                <a><i class="fa fa-edit uk-margin-small-right" aria-hidden="true"></i>Edit Provider</a>
+              </li>
+              <li (click)="showDeletionModal(providerBundle)"
+                  class="uk-margin-small-top">
+                <a><i class="fa fa-trash uk-margin-small-right" aria-hidden="true"></i>Delete Provider</a>
+              </li>
+            </ul>
+          </div>
+        </ng-container>
         <ng-container *ngIf="providerBundle.status == 'approved provider'">
 <!--          <hr class="uk-margin-top">-->
 <!--          <button-->

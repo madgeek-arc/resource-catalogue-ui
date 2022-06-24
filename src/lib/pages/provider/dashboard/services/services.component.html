@@ -165,7 +165,7 @@
                     <span class="">Last Update: </span>{{ providerService.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div class="uk-width-1-6">
+                <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
                   <div class="action-buttons">
                     <button *ngIf="providerBundle.templateStatus === 'approved template'"
                             class="uk-button uk-button-action uk-display-block uk-margin-small-top"
@@ -249,11 +249,11 @@
       <!--</div>-->
       <!--</div>-->
 
-      <div *ngIf="toggleLoading">
-        <div class="loader-small">
-          <div class="greyFilm"></div>
-        </div>
-      </div>
+<!--      <div *ngIf="toggleLoading">-->
+<!--        <div class="loader-small">-->
+<!--          <div class="greyFilm"></div>-->
+<!--        </div>-->
+<!--      </div>-->
 
     </div>
 
@@ -265,5 +265,10 @@
     <h6 *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} '{{selectedService.service.name}}'</h6>
     <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteService(selectedService.id)">Delete</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+  </div>
+</div>
+
+<div id="spinnerModal" uk-modal>
+  <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
   </div>
 </div>

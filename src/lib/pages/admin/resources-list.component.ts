@@ -32,9 +32,10 @@ export class ResourcesListComponent implements OnInit {
     quantity: '10',
     from: '0',
     active: '',
-    resource_organisation: new FormArray([]),
     auditState: new FormArray([]),
     status: new FormArray([]),
+    resource_organisation: new FormArray([]),
+    catalogue_id: new FormArray([])
   };
 
   dataForm: FormGroup;
@@ -130,7 +131,6 @@ export class ResourcesListComponent implements OnInit {
                 if (this.dataForm.get('status').value.length === 0) {
                   const formArrayNew: FormArray = this.dataForm.get('status') as FormArray;
                   // formArrayNew = this.fb.array([]);
-
                   for (const status of params[i].split(',')) {
                     if (status !== '') {
                       formArrayNew.push(new FormControl(status));
@@ -150,12 +150,24 @@ export class ResourcesListComponent implements OnInit {
                     }
                   }
                 }
+
+              } else if (i === 'catalogue_id') {
+
+                if (this.dataForm.get('catalogue_id').value.length === 0) {
+                  const formArrayNew: FormArray = this.dataForm.get('catalogue_id') as FormArray;
+                  // formArrayNew = this.fb.array([]);
+                  for (const catalogue_id of params[i].split(',')) {
+                    if (catalogue_id !== '') {
+                      formArrayNew.push(new FormControl(catalogue_id));
+                    }
+                  }
+                }
+
               } else if (i === 'auditState') {
 
                 if (this.dataForm.get('auditState').value.length === 0) {
                   const formArrayNew: FormArray = this.dataForm.get('auditState') as FormArray;
                   // formArrayNew = this.fb.array([]);
-
                   for (const auditState of params[i].split(',')) {
                     if (auditState !== '') {
                       formArrayNew.push(new FormControl(auditState));
@@ -283,7 +295,7 @@ export class ResourcesListComponent implements OnInit {
 
   getProviders() {
     this.providers = [];
-    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', [], [], []).subscribe(
+    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', [], [], [], []).subscribe(
       res => {
         this.providers = res['results'];
         this.providersTotal = res['total'];
@@ -316,7 +328,7 @@ export class ResourcesListComponent implements OnInit {
     this.resourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
       this.dataForm.get('active').value, this.dataForm.get('resource_organisation').value,
-      this.dataForm.get('status').value, this.dataForm.get('auditState').value).subscribe(
+      this.dataForm.get('status').value, this.dataForm.get('auditState').value, this.dataForm.get('catalogue_id').value).subscribe(
       res => {
         this.services = res['results'];
         this.facets = res['facets'];
@@ -368,12 +380,17 @@ export class ResourcesListComponent implements OnInit {
     return active;
   }
 
-  isProviderChecked(value: string) {
-    return this.dataForm.get('resource_organisation').value.includes(value);
+  /** for facets--> **/
+  // isCatalogueChecked(value: string) {
+  //   return this.dataForm.get('catalogue_id').value.includes(value);
+  // }
+
+  isChecked(value: string, category) {
+    return this.dataForm.get(category).value.includes(value);
   }
 
   onSelection(e, category: string, value: string) {
-    const formArrayNew: FormArray = this.dataForm.get('resource_organisation') as FormArray;
+    const formArrayNew: FormArray = this.dataForm.get(category) as FormArray;
     if (e.target.checked) {
       this.addParameterToURL(category, value);
       formArrayNew.push(new FormControl(value));
@@ -449,6 +466,7 @@ export class ResourcesListComponent implements OnInit {
       this.urlParams.push(newFromParameter);
     }
   }
+  /** <--for facets **/
 
 
   showDeletionModal(resource: InfraService) {
@@ -521,7 +539,7 @@ export class ResourcesListComponent implements OnInit {
       },
       () => {
         UIkit.modal('#spinnerModal').hide();
-        // TODO: refresh page
+        location.reload();
       }
     );
   }

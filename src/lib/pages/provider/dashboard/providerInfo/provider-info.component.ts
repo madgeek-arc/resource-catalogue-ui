@@ -11,6 +11,7 @@ import {ResourceService} from '../../../../services/resource.service';
 })
 export class ProviderInfoComponent implements OnInit {
 
+  catalogueId: string;
   providerId: string;
   provider: Provider;
   providerBundle: ProviderBundle;
@@ -30,6 +31,7 @@ export class ProviderInfoComponent implements OnInit {
   areasOfActivityVocabulary: Vocabulary[] = null;
   networksVocabulary: Vocabulary[] = null;
   societalGrandChallengesVocabulary: Vocabulary[] = null;
+  hostingLegalEntityVocabulary: Vocabulary[] = null;
 
   constructor(private route: ActivatedRoute,
               private providerService: ServiceProviderService,
@@ -40,6 +42,7 @@ export class ProviderInfoComponent implements OnInit {
     this.setVocabularies();
 
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
+    this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     this.getProviderBundle();
     // this.getProvider();
 
@@ -52,7 +55,7 @@ export class ProviderInfoComponent implements OnInit {
   }
 
   getProviderBundle() {
-    this.providerService.getServiceProviderBundleById(this.providerId).subscribe(
+    this.providerService.getServiceProviderBundleById(this.providerId, this.catalogueId).subscribe(
       providerBundle => {
         this.providerBundle = providerBundle;
       }, error => {
@@ -80,6 +83,7 @@ export class ProviderInfoComponent implements OnInit {
         this.areasOfActivityVocabulary = this.vocabularies[Type.PROVIDER_AREA_OF_ACTIVITY];
         this.networksVocabulary = this.vocabularies[Type.PROVIDER_NETWORK];
         this.societalGrandChallengesVocabulary = this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
+        this.hostingLegalEntityVocabulary = this.vocabularies[Type.PROVIDER_HOSTING_LEGAL_ENTITY];
         return this.vocabularies;
       },
       error => console.log(JSON.stringify(error.error)),

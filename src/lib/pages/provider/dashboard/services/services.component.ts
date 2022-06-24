@@ -33,9 +33,10 @@ export class ServicesComponent implements OnInit {
   dataForm: FormGroup;
 
   errorMessage = '';
-  toggleLoading = false;
+  // toggleLoading = false;
   urlParams: URLParameter[] = [];
-  providerId;
+  providerId: string;
+  catalogueId: string;
   providerBundle: ProviderBundle;
   providerServices: Paging<InfraService>;
   // providerCoverage: string[];
@@ -59,6 +60,7 @@ export class ServicesComponent implements OnInit {
 
   ngOnInit(): void {
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
+    this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
 
     this.getProvider();
 
@@ -86,7 +88,7 @@ export class ServicesComponent implements OnInit {
   }
 
   navigate(id: string) {
-    this.router.navigate([`/dashboard/${this.providerId}/resource-dashboard/`, id]);
+    this.router.navigate([`/dashboard/${this.catalogueId}/${this.providerId}/resource-dashboard/`, id]);
   }
 
   useAsTemplate(id: string) {
@@ -94,7 +96,7 @@ export class ServicesComponent implements OnInit {
   }
 
   getProvider() {
-    this.providerService.getServiceProviderBundleById(this.providerId).subscribe(
+    this.providerService.getServiceProviderBundleById(this.providerId, this.catalogueId).subscribe(
       providerBundle => {
         this.providerBundle = providerBundle;
       }, error => {
@@ -109,18 +111,18 @@ export class ServicesComponent implements OnInit {
       window.scrollTo(0, 0);
       return;
     }
-    this.toggleLoading = true;
+    UIkit.modal('#spinnerModal').show();
     this.providerService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
       res => {},
       error => {
         this.errorMessage = 'Something went bad. ' + error.error ;
         this.getServices();
-        this.toggleLoading = false;
+        UIkit.modal('#spinnerModal').hide();
         // console.log(error);
       },
       () => {
-        this.getServices();
-        this.toggleLoading = false;
+        UIkit.modal('#spinnerModal').hide();
+        location.reload();
       }
     );
   }
@@ -146,18 +148,17 @@ export class ServicesComponent implements OnInit {
   }
 
   deleteService(id: string) {
-    // UIkit.modal('#spinnerModal').show();
+    UIkit.modal('#spinnerModal').show();
     this.service.deleteService(id).subscribe(
       res => {},
       error => {
-        // console.log(error);
-        // UIkit.modal('#spinnerModal').hide();
+        UIkit.modal('#spinnerModal').hide();
         this.errorMessage = 'Something went bad. ' + error.error ;
         this.getServices();
       },
       () => {
-        this.getServices();
-        // UIkit.modal('#spinnerModal').hide();
+        UIkit.modal('#spinnerModal').hide();
+        location.reload();
       }
     );
   }
@@ -180,7 +181,7 @@ export class ServicesComponent implements OnInit {
       }
     }
 
-    this.router.navigate([`/dashboard/` + this.providerId + `/resources`], {queryParams: map});
+    this.router.navigate([`/dashboard`, this.catalogueId, this.providerId, `resources`], {queryParams: map});
   }
 
   paginationInit() {

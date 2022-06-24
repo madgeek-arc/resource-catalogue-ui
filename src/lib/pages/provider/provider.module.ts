@@ -17,6 +17,8 @@ import {ServiceUploadComponent} from '../provider-resources/service-upload.compo
 import {ServiceFormComponent} from '../provider-resources/service-form.component';
 import { ProviderFormToPdfComponent } from './provider-form-to-pdf/provider-form-to-pdf.component';
 import { ResourceFormToPdfComponent } from '../provider-resources/resource-form-to-pdf/resource-form-to-pdf.component';
+import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring-extension/monitoring-extension-form.component";
+import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
 import {NgSelectModule} from '@ng-select/ng-select';
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
 
@@ -47,7 +49,9 @@ import {LMarkdownEditorModule} from 'ngx-markdown-editor';
     ServiceFormComponent,
     ServiceUploadComponent,
     ProviderFormToPdfComponent,
-    ResourceFormToPdfComponent
+    ResourceFormToPdfComponent,
+    MonitoringExtensionFormComponent,
+    HelpdeskExtensionFormComponent
   ]
 })
 

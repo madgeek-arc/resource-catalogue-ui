@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/madgeek-arc/resource-catalogue-lib.git
 	branch = master
-	commit = 2485bbd45f01302f90f173aec1121a6f428652d3
-	parent = 7f47950fd88a060ce5935744ee26a6ff5f7ffb10
+	commit = 03c32df52990d3877f69795555afb35dfb42e859
+	parent = 545e05ab70c3a3f7e127b1538a1bafcf5874436d
 	method = merge
 	cmdver = 0.4.1

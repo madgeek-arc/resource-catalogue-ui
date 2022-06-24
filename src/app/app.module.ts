@@ -56,6 +56,8 @@ import {HighchartsChartModule} from "highcharts-angular";
 import {environment} from '../environments/environment';
 import {HomeComponent} from './pages/home/home.component';
 import { RouterModule } from '@angular/router';
+import {CatalogueService} from "../lib/services/catalogue.service";
+import {ServiceExtensionsService} from "../lib/services/service-extensions.service";
 
 
 declare var require: any;
@@ -158,6 +160,8 @@ export function highchartsFactory() {
     ResourceService,
     UserService,
     ServiceProviderService,
+    ServiceExtensionsService,
+    CatalogueService,
     EmailService,
     DatePipe
   ],

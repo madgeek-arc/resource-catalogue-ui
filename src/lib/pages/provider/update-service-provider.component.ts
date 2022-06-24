@@ -45,14 +45,15 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             this.placesVocabulary = this.vocabularies[Type.COUNTRY];
             this.providerTypeVocabulary = this.vocabularies[Type.PROVIDER_STRUCTURE_TYPE];
             this.providerLCSVocabulary = this.vocabularies[Type.PROVIDER_LIFE_CYCLE_STATUS];
-            this.domainsVocabulary =  this.vocabularies[Type.SCIENTIFIC_DOMAIN];
-            this.categoriesVocabulary =  this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
-            this.esfriDomainVocabulary =  this.vocabularies[Type.PROVIDER_ESFRI_DOMAIN];
-            this.legalStatusVocabulary =  this.vocabularies[Type.PROVIDER_LEGAL_STATUS];
-            this.esfriVocabulary =  this.vocabularies[Type.PROVIDER_ESFRI_TYPE];
-            this.areasOfActivityVocabulary =  this.vocabularies[Type.PROVIDER_AREA_OF_ACTIVITY];
-            this.networksVocabulary =  this.vocabularies[Type.PROVIDER_NETWORK];
-            this.societalGrandChallengesVocabulary =  this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
+            this.domainsVocabulary = this.vocabularies[Type.SCIENTIFIC_DOMAIN];
+            this.categoriesVocabulary = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
+            this.esfriDomainVocabulary = this.vocabularies[Type.PROVIDER_ESFRI_DOMAIN];
+            this.legalStatusVocabulary = this.vocabularies[Type.PROVIDER_LEGAL_STATUS];
+            this.esfriVocabulary = this.vocabularies[Type.PROVIDER_ESFRI_TYPE];
+            this.areasOfActivityVocabulary = this.vocabularies[Type.PROVIDER_AREA_OF_ACTIVITY];
+            this.networksVocabulary = this.vocabularies[Type.PROVIDER_NETWORK];
+            this.societalGrandChallengesVocabulary = this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
+            this.hostingLegalEntityVocabulary = this.vocabularies[Type.PROVIDER_HOSTING_LEGAL_ENTITY];
           },
           error => console.log(error),
           () => {
@@ -110,14 +111,20 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         } else if (path === 'add/:providerId') {
           this.addDefaultUser();
         }
-        if (this.provider.multimedia && this.provider.multimedia.length > 1) {
-          for (let i = 0; i < this.provider.multimedia.length - 1; i++) {
-            this.push('multimedia', this.providerMultimediaDesc.mandatory, true);
-          }
-        }
+        // if (this.provider.multimedia && this.provider.multimedia.length > 1) {
+        //   for (let i = 0; i < this.provider.multimedia.length - 1; i++) {
+        //     this.push('multimedia', this.multimediaURLDesc.mandatory, true);
+        //   }
+        // }
         if (this.provider.structureTypes && this.provider.structureTypes.length > 1) {
           for (let i = 0; i < this.provider.structureTypes.length - 1; i++) {
             this.push('structureTypes', this.structureTypesDesc.mandatory);
+          }
+        }
+
+        if (this.provider.multimedia && this.provider.multimedia.length > 1) {
+          for (let i = 0; i < this.provider.multimedia.length - 1; i++) {
+            this.multimediaArray.push(this.newMultimedia());
           }
         }
 
@@ -133,9 +140,8 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             //   }
             // }
           }
-        } else {
-          this.domainArray.push(this.newScientificDomain());
-        }
+        } else this.domainArray.push(this.newScientificDomain());
+
         if (this.provider.merilScientificDomains) {
           // this.removeDomain(0);
           for (let i = 0; i < this.provider.merilScientificDomains.length; i++) {
@@ -148,9 +154,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             //   }
             // }
           }
-        } else {
-          this.merilDomainArray.push(this.newMerilScientificDomain());
-        }
+        } else this.merilDomainArray.push(this.newMerilScientificDomain());
 
         if (this.provider.esfriDomains && this.provider.esfriDomains.length > 1) {
           for (let i = 0; i < this.provider.esfriDomains.length - 1; i++) {
@@ -164,12 +168,12 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         }
         if (this.provider.tags && this.provider.tags.length > 1) {
           for (let i = 0; i < this.provider.tags.length - 1; i++) {
-            this.push('tags', this.providerTagsDesc.mandatory);
+            this.push('tags', this.tagsDesc.mandatory);
           }
         }
         if (this.provider.certifications && this.provider.certifications.length > 1) {
           for (let i = 0; i < this.provider.certifications.length - 1; i++) {
-            this.push('certifications', this.providerCertificationsDesc.mandatory);
+            this.push('certifications', this.certificationsDesc.mandatory);
           }
         }
         if (this.provider.participatingCountries && this.provider.participatingCountries.length > 1) {

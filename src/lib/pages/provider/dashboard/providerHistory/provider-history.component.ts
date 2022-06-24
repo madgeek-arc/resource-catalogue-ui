@@ -17,6 +17,7 @@ export class ProviderHistoryComponent implements OnInit {
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
 
+  catalogueId: string;
   providerId: string;
   providerBundle: ProviderBundle;
   providerHistory: Paging<LoggingInfo>;
@@ -32,9 +33,10 @@ export class ProviderHistoryComponent implements OnInit {
 
   ngOnInit() {
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
+    this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     this.getProvider();
 
-    this.providerService.getProviderLoggingInfoHistory(this.providerId).subscribe(
+    this.providerService.getProviderLoggingInfoHistory(this.providerId, this.catalogueId).subscribe(
       res => this.providerHistory = res,
       err => {
         this.errorMessage = 'An error occurred while retrieving the history of this service. ' + err.error;
@@ -43,7 +45,7 @@ export class ProviderHistoryComponent implements OnInit {
   }
 
   getProvider() {
-    this.providerService.getServiceProviderBundleById(this.providerId).subscribe(
+    this.providerService.getServiceProviderBundleById(this.providerId, this.catalogueId).subscribe(
       providerBundle => {
         this.providerBundle = providerBundle;
       }, error => {

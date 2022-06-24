@@ -78,6 +78,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
 
   initServiceBitSets() {
     this.handleBitSets(0, 0, 'name');
+    this.handleBitSets(0, 21, 'abbreviation');
     this.handleBitSets(0, 1, 'resourceOrganisation');
     this.handleBitSets(0, 2, 'webpage');
     this.handleBitSets(1, 3, 'description');
@@ -91,11 +92,11 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     this.handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact');
     this.handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact');
     this.handleBitSetsOfGroups(5, 15, 'email', 'mainContact');
+    this.handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts');
     this.handleBitSets(5, 16, 'helpdeskEmail');
     this.handleBitSets(5, 17, 'securityContactEmail');
     this.handleBitSets(6, 18, 'trl');
     this.handleBitSets(10, 19, 'orderType');
-    this.handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts');
   }
 
 }

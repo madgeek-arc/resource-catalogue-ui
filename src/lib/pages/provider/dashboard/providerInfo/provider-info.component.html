@@ -48,6 +48,11 @@
         </li>
         <li>
           <a class="" href="#">
+            <span>Dependencies</span>
+          </a>
+        </li>
+        <li>
+          <a class="" href="#">
             <span>Other</span>
           </a>
         </li>
@@ -95,6 +100,12 @@
                   <span>{{getNameFromVocabulary(legalStatusVocabulary, provider.legalStatus)}}</span></div>
               </div>
             </li>
+            <li>
+              <div class="uk-grid">
+                <div class="uk-width-1-4">Hosting Legal Entity</div>
+                <div class="uk-width-3-4">{{getNameFromVocabulary(hostingLegalEntityVocabulary, provider.hostingLegalEntity)}}</div>
+              </div>
+            </li>
           </ul>
         </li>
         <!--MARKETING-->
@@ -112,12 +123,25 @@
                 <div class="uk-width-3-4">{{provider.logo}}</div>
               </div>
             </li>
-            <li>
-              <div *ngFor="let multimedia of provider.multimedia; let i=index;" class="uk-grid uk-margin-remove-top">
-                <div class="uk-width-1-4"><span *ngIf="i==0">Multimedia</span></div>
-                <div class="uk-width-3-4">{{multimedia}}</div>
-              </div>
-            </li>
+            <ng-container *ngFor="let m of provider.multimedia; let i=index;" class="uk-list uk-width-1-1">
+              <h5 *ngIf="i==0" class="uk-margin-medium-top">Multimedia</h5>
+              <li>
+                <div class="uk-grid">
+                  <div class="uk-width-1-4">Multimedia URL</div>
+                  <div class="uk-width-3-4">
+                    <span>{{m.multimediaURL}}</span>
+                  </div>
+                </div>
+              </li>
+              <li class="uk-margin-medium-bottom">
+                <div class="uk-grid">
+                  <div class="uk-width-1-4">Multimedia Name</div>
+                  <div class="uk-width-3-4">
+                    <span>{{m.multimediaName}}</span>
+                  </div>
+                </div>
+              </li>
+            </ng-container>
           </ul>
         </li>
         <!--CLASSIFICATION-->
@@ -145,6 +169,14 @@
               <div *ngFor="let tag of provider.tags; let i=index;" class="uk-grid uk-margin-remove-top">
                 <div class="uk-width-1-4"><span *ngIf="i==0">Tags</span></div>
                 <div class="uk-width-3-4">{{tag}}</div>
+              </div>
+            </li>
+            <li>
+              <div *ngFor="let structureType of provider.structureTypes; let i=index;"
+                   class="uk-grid uk-margin-remove-top">
+                <div class="uk-width-1-4"><span *ngIf="i==0">Structure Type</span></div>
+                <div class="uk-width-3-4"><span>{{getNameFromVocabulary(providerTypeVocabulary, structureType)}}</span>
+                </div>
               </div>
             </li>
           </ul>
@@ -277,15 +309,9 @@
             </li>
           </ul>
         </li>
-        <!--OTHER-->
+        <!--DEPENDENCIES-->
         <li>
           <ul class="uk-list uk-width-1-1">
-            <li>
-              <div class="uk-grid">
-                <div class="uk-width-1-4">Hosting Legal Entity</div>
-                <div class="uk-width-3-4">{{provider.hostingLegalEntity}}</div>
-              </div>
-            </li>
             <li>
               <div *ngFor="let participatingCountry of provider.participatingCountries; let i=index;"
                    class="uk-grid uk-margin-remove-top">
@@ -306,13 +332,16 @@
               </div>
             </li>
             <li>
-              <div *ngFor="let structureType of provider.structureTypes; let i=index;"
-                   class="uk-grid uk-margin-remove-top">
-                <div class="uk-width-1-4"><span *ngIf="i==0">Structure Type</span></div>
-                <div class="uk-width-3-4"><span>{{getNameFromVocabulary(providerTypeVocabulary, structureType)}}</span>
-                </div>
+              <div class="uk-grid">
+                <div class="uk-width-1-4">Catalogue</div>
+                <div class="uk-width-3-4">{{provider.catalogueId}}</div>
               </div>
             </li>
+          </ul>
+        </li>
+        <!--OTHER-->
+        <li>
+          <ul class="uk-list uk-width-1-1">
             <li>
               <div *ngFor="let esfriDomain of provider.esfriDomains; let i=index;" class="uk-grid uk-margin-remove-top">
                 <div class="uk-width-1-4"><span *ngIf="i==0">ESFRI Domain</span></div>
