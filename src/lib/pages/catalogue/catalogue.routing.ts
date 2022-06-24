@@ -17,14 +17,6 @@ const catalogueRoutes: Routes = [
       breadcrumb: 'New Catalogue'
     }
   },
-  // {
-  //   path: 'add/:catalogueId',
-  //   component: UpdateServiceProviderComponent,
-  //   canActivate: [CanActivateViaAuthGuard],
-  //   data: {
-  //     breadcrumb: 'New Catalogue'
-  //   }
-  // },
   {
     path: 'update/:catalogueId',
     component: UpdateCatalogueComponent,
