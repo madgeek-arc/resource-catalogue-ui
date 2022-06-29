@@ -372,9 +372,12 @@
                                       </label>
                                       <div class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaURLDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
-                                        <input id="multimediaURL" class="uk-input" type="text" formControlName="multimediaURL" placeholder="use http:// or https://"
+                                        <input id="multimediaURL" class="uk-input uk-width-9-10" type="text" formControlName="multimediaURL" placeholder="use http:// or https://"
                                                (input)="unsavedChangesPrompt()"
                                                [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.edit, 'multimediaURL')}">
+                                              <div *ngIf="this.edit && this.isPortalAdmin && this.providerForm.get('multimedia').value[i]['multimediaURL']" class="uk-icon">
+                                                <a href="{{this.providerForm.get('multimedia').value[i]['multimediaURL']}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                              </div>
                                       </div>
                                     </div>
                                     <div class="uk-margin-bottom">
@@ -384,7 +387,7 @@
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaNameDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
-                                        <input id="multimediaName" class="uk-input" type="text" formControlName="multimediaName"
+                                        <input id="multimediaName" class="uk-input uk-width-9-10" type="text" formControlName="multimediaName"
                                                (input)="unsavedChangesPrompt()">
 <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.edit, 'multimediaName')}">-->
                                       </div>
