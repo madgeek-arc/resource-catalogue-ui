@@ -69,10 +69,7 @@
                 <ul class="uk-nav-sub">
                   <li><a [routerLink]="['/becomeAProvider']" routerLinkActive="uk-active"
                          class="uk-offcanvas-close offcanvas-close">Become a Provider</a></li>
-<!--                  &lt;!&ndash; If user is logged in &ndash;&gt;-->
-<!--                  <ng-container *ngIf="authenticationService.isLoggedIn()">-->
-                    <!-- If user is provider admin and has at least 1 provider -->
-                    <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/provider/my']"
+                    <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/provider/my']"
                                                              routerLinkActive="uk-active"
                                                              class="uk-offcanvas-close offcanvas-close">My Providers</a>
                     </li>
@@ -80,7 +77,6 @@
                       Providers</a></li>
                     <li class="uk-nav-divider"></li>
                     <li><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
-<!--                  </ng-container>-->
                 </ul>
               </li>
 
@@ -88,16 +84,12 @@
                 <ul class="uk-nav-sub">
                   <li><a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active"
                          class="uk-offcanvas-close offcanvas-close">Add a Catalogue</a></li>
-                  <!--                  &lt;!&ndash; If user is logged in &ndash;&gt;-->
-                  <!--                  <ng-container *ngIf="authenticationService.isLoggedIn()">-->
-                  <!-- If user is provider admin and has at least 1 provider -->
-                  <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/catalogue/my']"
+                  <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/catalogue/my']"
                                                                                                        routerLinkActive="uk-active"
                                                                                                        class="uk-offcanvas-close offcanvas-close">My Catalogues</a>
                   </li>
                   <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/catalogue/all']" routerLinkActive="uk-active">View Catalogues</a></li>
                   <li><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
-                  <!--                  </ng-container>-->
                 </ul>
               </li>
 
@@ -198,8 +190,7 @@
                     <div class="uk-first-column">
                       <ul class="uk-nav uk-navbar-dropdown-nav">
                         <li><a [routerLink]="['/becomeAProvider']" routerLinkActive="uk-active">Become a Provider</a></li>
-                        <!-- If user is provider admin and has at least 1 provider -->
-                        <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/provider/my']"
+                        <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/provider/my']"
                                                                                                              routerLinkActive="uk-active">My Providers</a></li>
 <!--                        <li *ngIf="authenticationService.isLoggedIn()" class="uk-nav-divider"></li>-->
                         <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
@@ -219,8 +210,7 @@
                     <div class="uk-first-column">
                       <ul class="uk-nav uk-navbar-dropdown-nav">
                         <li><a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active">Add a Catalogue</a></li>
-                        <!-- If user is provider admin and has at least 1 catalogue TODO: check conditions and roles-->
-                        <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/catalogue/my']"
+                        <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/catalogue/my']"
                                                                                                              routerLinkActive="uk-active">My Catalogues</a></li>
                         <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
                       </ul>
