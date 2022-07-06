@@ -410,9 +410,12 @@
                                       </label>
                                       <div class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaURLDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
-                                        <input id="multimediaURL" class="uk-input" type="text" formControlName="multimediaURL" placeholder="use http:// or https://"
+                                        <input id="multimediaURL" class="uk-input uk-width-9-10" type="text" formControlName="multimediaURL" placeholder="use http:// or https://"
                                                (input)="unsavedChangesPrompt()"
                                                [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaURL')}">
+                                            <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('multimedia').value[i]['multimediaURL']" class="uk-icon">
+                                              <a href="{{this.serviceForm.get('multimedia').value[i]['multimediaURL']}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                            </div>
                                       </div>
                                     </div>
                                     <div class="uk-margin-bottom">
@@ -422,7 +425,7 @@
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaNameDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
-                                        <input id="multimediaName" class="uk-input" type="text" formControlName="multimediaName"
+                                        <input id="multimediaName" class="uk-input uk-width-9-10" type="text" formControlName="multimediaName"
                                                (input)="unsavedChangesPrompt()">
 <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaName')}">-->
                                       </div>
@@ -456,9 +459,12 @@
                                       </label>
                                       <div class="uk-form-description uk-margin-top uk-width-9-10">{{useCaseURLDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
-                                        <input id="useCaseURL" class="uk-input" type="text" formControlName="useCaseURL" placeholder="use http:// or https://"
+                                        <input id="useCaseURL" class="uk-input uk-width-9-10" type="text" formControlName="useCaseURL" placeholder="use http:// or https://"
                                                (input)="unsavedChangesPrompt()"
                                                [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i, this.editMode, 'useCaseURL')}">
+                                            <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('useCases').value[i]['useCaseURL']" class="uk-icon">
+                                              <a href="{{this.serviceForm.get('useCases').value[i]['useCaseURL']}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                            </div>
                                       </div>
                                     </div>
                                     <div class="uk-margin-bottom">
@@ -468,7 +474,7 @@
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{useCaseNameDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
-                                        <input id="useCaseName" class="uk-input" type="text" formControlName="useCaseName"
+                                        <input id="useCaseName" class="uk-input uk-width-9-10" type="text" formControlName="useCaseName"
                                                (input)="unsavedChangesPrompt()">
                                         <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i, this.editMode, 'useCaseName')}">-->
                                       </div>

@@ -155,7 +155,7 @@
                         <ul class="footer_links_main-menu total-items-3 parent-items-0 single-items-0">
                           <li class="menu-756 depth-1 fs-no-children  first"><a [routerLink]="['/becomeAProvider']">Become
                             a provider</a></li>
-                          <li *ngIf="this.authenticationService.isProvider() || this.authenticationService.isAdmin()" class="menu-757 depth-1 fs-no-children"><a
+                          <li *ngIf="authenticationService.isLoggedIn()" class="menu-757 depth-1 fs-no-children"><a
                             [routerLink]="['/provider/my']">My Providers</a></li>
                           <li *ngIf="this.authenticationService.isAdmin()" class="menu-758 depth-1 fs-no-children"><a
                             [routerLink]="['/provider/all']">View Providers</a></li>

@@ -24,7 +24,7 @@
               </li>
               <li class="uk-nav-header uk-parent" [routerLinkActive]="['uk-active']">Dashboard
                 <ul class="uk-nav-sub">
-                  <li *ngIf="authenticationService.isLoggedIn() && (authenticationService.isProvider() || authenticationService.isAdmin())">
+                  <li *ngIf="authenticationService.isLoggedIn()">
                     <a [routerLink]="['/myServiceProviders']" routerLinkActive="uk-active"
                        class="uk-offcanvas-close offcanvas-close">Providers</a>
                   </li>
@@ -113,7 +113,7 @@
                 <div class="uk-navbar-dropdown-grid uk-child-width-1-1 uk-grid uk-grid-stack" uk-grid="">
                   <div class="uk-first-column">
                     <ul class="uk-nav uk-navbar-dropdown-nav">
-                      <li *ngIf="authenticationService.isLoggedIn() && (authenticationService.isProvider() || authenticationService.isAdmin())">
+                      <li *ngIf="authenticationService.isLoggedIn()">
                         <a [routerLink]="['/provider/my']" routerLinkActive="uk-active">Providers</a>
                       </li>
                     </ul>
@@ -183,8 +183,7 @@
 
                       <li><a [routerLink]="['/myFavourites']" routerLinkActive="uk-active">My Favourites</a></li>
 
-                      <!-- If user is provider admin and has at least 1 provider -->
-                      <li *ngIf="authenticationService.isProvider() || authenticationService.isAdmin()"><a [routerLink]="['/provider/my']"
+                      <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/provider/my']"
                                                                routerLinkActive="uk-active">My {{serviceORresource}} Providers</a>
                       </li>
 
