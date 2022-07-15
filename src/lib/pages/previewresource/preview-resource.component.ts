@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs';
 import {ResourceService} from '../../services/resource.service';
 import {ActivatedRoute} from '@angular/router';
 import {NavigationService} from '../../services/navigation.service';
+import {environment} from "../../../environments/environment";
 
 @Component({
     selector: 'app-preview-resource',
@@ -17,6 +18,8 @@ export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
   @Input() vocabularies: Map<string, Vocabulary[]>;
   @Input() providers: Provider[];
 
+  serviceORresource = environment.serviceORresource;
+
   // public richResource: RichService;
   public errorMessage: string;
 
@@ -25,7 +28,6 @@ export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
   serviceMapOptions: any = null;
 
   private sub: Subscription;
-
 
   public fundingBodyVocabulary: Vocabulary[] = null;
   public fundingProgramVocabulary: Vocabulary[] = null;

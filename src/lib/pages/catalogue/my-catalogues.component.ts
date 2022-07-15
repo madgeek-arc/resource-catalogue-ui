@@ -61,7 +61,7 @@ export class MyCataloguesComponent implements OnInit {
             }
           );
           if (this.myCatalogues.length === 0) {
-            this.noCataloguesMessage = 'You have not yet registered any catalogues.';
+            this.noCataloguesMessage = 'You have not yet registered any Catalogues.';
           }
         }
       );
