@@ -435,12 +435,38 @@
                                     <li class="uk-nav-divider"></li>
                                   </ng-container>
 
-                                  <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlockList">
-                                    <li class="uk-button uk-button-link uk-padding-small"
-                                            (click)="toggleService(serviceBundle)">
-                                      <ng-container *ngIf="serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
-                                      <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
+                                  <ng-container class="uk-margin-small-bottom">
+                                    <li (click)="toggleHorizontalService(serviceBundle)">
+                                      <a><i class="fa fa-toggle-right fa-lg uk-margin-small-right"></i>
+                                        {{serviceBundle?.resourceExtras?.horizontalService===true ? 'Unmark' : 'Mark'}} as Horizontal Service</a>
                                     </li>
+                                    <li class="uk-nav-divider"></li>
+                                  </ng-container>
+
+                                  <ng-container class="uk-margin-small-bottom">
+<!--                                    <li (click)="addResearchCategories(serviceBundle)">-->
+                                    <li>
+                                      <a><i class="fa fa-plus fa-lg uk-margin-small-right"></i>Add Research Categories</a>
+                                    </li>
+                                    <li class="uk-nav-divider"></li>
+                                  </ng-container>
+
+                                  <ng-container class="uk-margin-small-bottom">
+<!--                                    <li (click)="addEoscIFguidelines(serviceBundle)">-->
+                                    <li>
+                                      <a><i class="fa fa-plus fa-lg uk-margin-small-right"></i>Add EoscIFguidelines</a>
+                                    </li>
+                                    <li class="uk-nav-divider"></li>
+                                  </ng-container>
+
+                                  <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlockList">
+                                    <div>
+                                      <li class="uk-button uk-button-link uk-padding-small"
+                                              (click)="toggleService(serviceBundle)">
+                                        <ng-container *ngIf="serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
+                                        <ng-container *ngIf="!serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
+                                      </li>
+                                    </div>
                                   </ng-container>
 
                                   <ng-template #elseBlockList>

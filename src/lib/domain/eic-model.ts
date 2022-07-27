@@ -73,12 +73,25 @@ export class ResearchProductMetadataLicensing {
   researchProductMetadataLicenseURL: string;
 }
 
+export class resourceExtras {
+  eoscIFGuidelines: EOSCIFGuidelines[];
+  researchCategories: string[];
+  horizontalService: boolean;
+}
+
 export class EmailMessage {
   recipientEmail: string;
   senderEmail: string;
   senderName: string;
   subject: string;
   message: string;
+}
+
+export class EOSCIFGuidelines {
+  label: string;
+  pid: string;
+  semanticRelationship: string;
+  url: string;
 }
 
 export class Event implements Identifiable {
@@ -121,6 +134,7 @@ export class Indicator implements Identifiable {
 export class InfraService extends Bundle<Service> {
   latest: boolean;
   service: Service;
+  resourceExtras: resourceExtras;
 }
 
 export class LoggingInfo {

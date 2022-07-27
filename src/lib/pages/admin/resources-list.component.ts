@@ -14,6 +14,7 @@ import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
 import {statusChangeMap} from '../../domain/service-provider-status-list';
 import {zip} from 'rxjs';
 import {Paging} from '../../domain/paging';
+import {ResourceExtrasService} from "../../services/resource-extras.service";
 
 declare var UIkit: any;
 
@@ -103,6 +104,7 @@ export class ResourcesListComponent implements OnInit {
 
   constructor(private resourceService: ResourceService,
               private serviceProviderService: ServiceProviderService,
+              private resourceExtrasService: ResourceExtrasService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               private router: Router,
@@ -507,6 +509,17 @@ export class ResourcesListComponent implements OnInit {
       }
     );
   }
+
+  /** resourceExtras--> **/
+  toggleHorizontalService(resource: InfraService) {
+    this.resourceExtrasService.updateHorizontalService(resource.id, resource.service.catalogueId, !resource?.resourceExtras?.horizontalService).subscribe(
+      res => {},
+      err => console.log(err),
+      () => location.reload()
+    );
+  }
+
+  /** <--resourceExtras **/
 
   toggleService(providerService: InfraService) {
     UIkit.modal('#spinnerModal').show();
