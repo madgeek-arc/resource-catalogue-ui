@@ -36,12 +36,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.resourceService.getNewVocabulariesByType(Type.SUPERCATEGORY).subscribe(
+    this.resourceService.getVocabularyByType(Type.SUPERCATEGORY).subscribe(
       suc => {
         this.categories = suc;
       }
     );
-    this.resourceService.getNewVocabulariesByType(Type.SCIENTIFIC_DOMAIN).subscribe(
+    this.resourceService.getVocabularyByType(Type.SCIENTIFIC_DOMAIN).subscribe(
       suc => {
         this.scientificDomain = suc;
       }

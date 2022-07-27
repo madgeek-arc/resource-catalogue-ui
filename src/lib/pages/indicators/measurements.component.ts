@@ -32,7 +32,7 @@ export class MeasurementsComponent implements OnInit {
   }
 
   getLocations() {
-    this.resourceService.getNewVocabulariesByType(Type.COUNTRY).subscribe(
+    this.resourceService.getVocabularyByType(Type.COUNTRY).subscribe(
       suc => {
         this.places = suc;
         this.placesVocabulary = this.places;
