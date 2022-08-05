@@ -14,7 +14,6 @@ export class MeasurementsComponent implements OnInit {
   measurements: Measurement[] = [];
   indicators: Paging<Indicator>;
   serviceId: string;
-  places: Vocabulary[] = null;
   placesVocabulary: Vocabulary[] = null;
 
   constructor(private resourceService: ResourceService,
@@ -34,8 +33,7 @@ export class MeasurementsComponent implements OnInit {
   getLocations() {
     this.resourceService.getVocabularyByType(Type.COUNTRY).subscribe(
       suc => {
-        this.places = suc;
-        this.placesVocabulary = this.places;
+        this.placesVocabulary = suc;
       }
     );
   }
