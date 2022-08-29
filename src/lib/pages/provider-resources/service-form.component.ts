@@ -435,7 +435,7 @@ export class ServiceFormComponent implements OnInit {
           this.providerId = 'openaire';
         } else {
           this.providerId = this.route.snapshot.paramMap.get('providerId');
-          if (this.projectName === 'EOSC' && !(this.route.snapshot.paramMap.get('resourceId').startsWith(this.providerId+'.'))) {
+          if (this.editMode && this.projectName === 'EOSC' && !(this.route.snapshot.paramMap.get('resourceId').startsWith(this.providerId+'.'))) {
             return this.router.go('/404');
           }
         }
