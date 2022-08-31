@@ -444,16 +444,14 @@
                                   </ng-container>
 
                                   <ng-container class="uk-margin-small-bottom">
-<!--                                    <li (click)="addResearchCategories(serviceBundle)">-->
-                                    <li>
+                                    <li (click)="showResourceCategories(serviceBundle)">
                                       <a><i class="fa fa-plus fa-lg uk-margin-small-right"></i>Add Research Categories</a>
                                     </li>
                                     <li class="uk-nav-divider"></li>
                                   </ng-container>
 
                                   <ng-container class="uk-margin-small-bottom">
-<!--                                    <li (click)="addEoscIFguidelines(serviceBundle)">-->
-                                    <li>
+                                    <li (click)="showEoscIFGuidelines(serviceBundle)">
                                       <a><i class="fa fa-plus fa-lg uk-margin-small-right"></i>Add EoscIFguidelines</a>
                                     </li>
                                     <li class="uk-nav-divider"></li>
@@ -637,6 +635,131 @@
       {{ loadingMessage }}
     </div>
     <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
+<div id="researchCategoriesModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <div *ngIf="selectedService">
+
+      <div class="uk-h3 uk-padding uk-text-center">{{selectedService.service.name}}</div>
+
+      <form [formGroup]="extrasForm" role="form" class="uk-form uk-margin uk-width-1-1">
+        <div formArrayName="researchCategories" class="uk-margin-large-bottom">
+          <label class="uk-form-label uk-text-right" for="researchCategories">Research Category</label>
+          <div class="uk-form-description uk-margin-top uk-width-9-10">A description may be added here</div>
+          <div class="uk-form-controls uk-margin-medium-top">
+            <div *ngFor="let researchCategory of getFieldAsFormArray('researchCategories').controls; let i=index"
+                 [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchCategories').controls.length-1 !== i}">
+              <ng-select *ngIf="researchCategoriesVoc" class="uk-width-9-10" id="researchCategories"
+                         [items]="researchCategoriesVoc"
+                         bindLabel="name"
+                         bindValue="id"
+                         clearAllText="Clear"
+                         [formControlName]="i">
+              </ng-select>
+              <a *ngIf="getFieldAsFormArray('researchCategories').length > 1"
+                 class="remove-element uk-padding-small"
+                 (click)="remove('researchCategories', i)">
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </a>
+            </div>
+            <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+              <a class="add-new-element" (click)="push('researchCategories')">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add an additional Research Category
+              </a>
+            </div>
+          </div>
+        </div>
+      </form>
+<pre>{{selectedService.resourceExtras|json}}</pre>
+<pre>{{extrasForm.value|json}}</pre>
+    </div>
+
+    <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="updateResearchCategories(selectedService)">Submit</button>
+    <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
+  </div>
+</div>
+
+<div id="eoscIFGuidelinesModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <div *ngIf="selectedService">
+
+      <div class="uk-h3 uk-padding uk-text-center">{{selectedService.service.name}}</div>
+
+      <form [formGroup]="extrasForm" role="form" class="uk-form uk-margin uk-width-1-1">
+        <div class="uk-margin-large-bottom">
+          <label class="uk-form-label uk-text-right">EOSC Guidelines</label>
+          <div class="uk-form-controls uk-margin-top">
+            <div formArrayName="eoscIFGuidelines"
+                 *ngFor="let guidelines of eoscIFGuidelinesArray.controls; let i = index">
+              <div [formGroupName]="i"
+                   class="uk-margin-bottom formGroupElement uk-width-1-1 uk-display-inline-block">
+
+                <div class="uk-margin-bottom">
+                  <label class="uk-form-label uk-text-right" for="label">
+                    {{ 'Label' + ' (*)' }}
+                  </label>
+                  <div class="uk-form-description uk-margin-top uk-width-9-10">Some description</div>
+                  <div class="uk-form-controls uk-margin-medium-top">
+                    <input id="label" class="uk-input uk-width-9-10" type="text" formControlName="label">
+                  </div>
+                </div>
+
+                <div class="uk-margin-bottom">
+                  <label class="uk-form-label uk-text-right" for="pid">
+                    {{ 'Pid' + ' (*)' }}
+                  </label>
+                  <div class="uk-form-description uk-margin-top uk-width-9-10">Some description</div>
+                  <div class="uk-form-controls uk-margin-medium-top">
+                    <input id="pid" class="uk-input uk-width-9-10" type="text" formControlName="pid">
+                  </div>
+                </div>
+
+                <div class="uk-margin-bottom">
+                  <label class="uk-form-label uk-text-right" for="semanticRelationship">
+                    {{ 'Semantic Relationship' + ' (*)' }}
+                  </label>
+                  <div class="uk-form-description uk-margin-top uk-width-9-10">Some description</div>
+                  <div class="uk-form-controls uk-margin-medium-top">
+                    <input id="semanticRelationship" class="uk-input uk-width-9-10" type="text" formControlName="semanticRelationship">
+                  </div>
+                </div>
+
+                <div class="uk-margin-bottom">
+                  <label class="uk-form-label uk-text-right" for="url">
+                    {{ 'URL' + ' (optional)' }}
+                  </label>
+                  <div class="uk-form-description uk-margin-top uk-width-9-10">Some description</div>
+                  <div class="uk-form-controls uk-margin-medium-top">
+                    <input id="url" class="uk-input uk-width-9-10" type="text" formControlName="url" placeholder="use http:// or https://">
+                    <div *ngIf="this.extrasForm.get('eoscIFGuidelines').value[i]['url']" class="uk-icon">
+                      <a href="{{this.extrasForm.get('eoscIFGuidelines').value[i]['url']}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <a *ngIf="getFieldAsFormArray('eoscIFGuidelines').length > 1"
+                 class="remove-element uk-padding-small uk-display-inline-block"
+                 (click)="removeEoscIFGuidelines(i)">
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+          <div class="uk-width-9-10 uk-text-center uk-margin-top">
+            <a class="add-new-element" (click)="pushEoscIFGuidelines()">
+              <i class="fa fa-plus" aria-hidden="true"></i> Add EOSC Guidelines
+            </a>
+          </div>
+        </div>
+      </form>
+      <pre>{{selectedService.resourceExtras|json}}</pre>
+      <pre>{{extrasForm.value|json}}</pre>
+    </div>
+
+    <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="updateEoscIFGuidelines(selectedService)">Submit</button>
+    <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
   </div>
 </div>
 

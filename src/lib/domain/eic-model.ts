@@ -73,7 +73,7 @@ export class ResearchProductMetadataLicensing {
   researchProductMetadataLicenseURL: string;
 }
 
-export class resourceExtras {
+export class ResourceExtras {
   eoscIFGuidelines: EOSCIFGuidelines[];
   researchCategories: string[];
   horizontalService: boolean;
@@ -134,7 +134,7 @@ export class Indicator implements Identifiable {
 export class InfraService extends Bundle<Service> {
   latest: boolean;
   service: Service;
-  resourceExtras: resourceExtras;
+  resourceExtras: ResourceExtras;
 }
 
 export class LoggingInfo {
