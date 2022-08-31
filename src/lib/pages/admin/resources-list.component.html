@@ -435,27 +435,27 @@
                                     <li class="uk-nav-divider"></li>
                                   </ng-container>
 
-<!--                                  <ng-container class="uk-margin-small-bottom">-->
-<!--                                    <li (click)="toggleHorizontalService(serviceBundle)">-->
-<!--                                      <a><i class="fa fa-toggle-right fa-lg uk-margin-small-right"></i>-->
-<!--                                        {{serviceBundle?.resourceExtras?.horizontalService===true ? 'Unmark' : 'Mark'}} as Horizontal Service</a>-->
-<!--                                    </li>-->
-<!--                                    <li class="uk-nav-divider"></li>-->
-<!--                                  </ng-container>-->
+                                  <ng-container class="uk-margin-small-bottom">
+                                    <li (click)="toggleHorizontalService(serviceBundle)">
+                                      <a><i class="fa fa-toggle-right fa-lg uk-margin-small-right"></i>
+                                        {{serviceBundle?.resourceExtras?.horizontalService===true ? 'Unmark' : 'Mark'}} as Horizontal Service</a>
+                                    </li>
+                                    <li class="uk-nav-divider"></li>
+                                  </ng-container>
 
-<!--                                  <ng-container class="uk-margin-small-bottom">-->
-<!--                                    <li (click)="showResourceCategories(serviceBundle)">-->
-<!--                                      <a><i class="fa fa-plus fa-lg uk-margin-small-right"></i>Add Research Categories</a>-->
-<!--                                    </li>-->
-<!--                                    <li class="uk-nav-divider"></li>-->
-<!--                                  </ng-container>-->
+                                  <ng-container class="uk-margin-small-bottom">
+                                    <li (click)="showResourceCategories(serviceBundle)">
+                                      <a><i class="fa fa-plus fa-lg uk-margin-small-right"></i>Add Research Categories</a>
+                                    </li>
+                                    <li class="uk-nav-divider"></li>
+                                  </ng-container>
 
-<!--                                  <ng-container class="uk-margin-small-bottom">-->
-<!--                                    <li (click)="showEoscIFGuidelines(serviceBundle)">-->
-<!--                                      <a><i class="fa fa-plus fa-lg uk-margin-small-right"></i>Add EoscIFguidelines</a>-->
-<!--                                    </li>-->
-<!--                                    <li class="uk-nav-divider"></li>-->
-<!--                                  </ng-container>-->
+                                  <ng-container class="uk-margin-small-bottom">
+                                    <li (click)="showEoscIFGuidelines(serviceBundle)">
+                                      <a><i class="fa fa-plus fa-lg uk-margin-small-right"></i>Add EoscIFguidelines</a>
+                                    </li>
+                                    <li class="uk-nav-divider"></li>
+                                  </ng-container>
 
                                   <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlockList">
                                     <div>
@@ -672,8 +672,8 @@
           </div>
         </div>
       </form>
-<pre>{{selectedService.resourceExtras|json}}</pre>
-<pre>{{extrasForm.value|json}}</pre>
+<!--<pre>{{selectedService.resourceExtras|json}}</pre>-->
+<!--<pre>{{extrasForm.value|json}}</pre>-->
     </div>
 
     <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="updateResearchCategories(selectedService)">Submit</button>
@@ -754,8 +754,8 @@
           </div>
         </div>
       </form>
-      <pre>{{selectedService.resourceExtras|json}}</pre>
-      <pre>{{extrasForm.value|json}}</pre>
+<!--      <pre>{{selectedService.resourceExtras|json}}</pre>-->
+<!--      <pre>{{extrasForm.value|json}}</pre>-->
     </div>
 
     <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="updateEoscIFGuidelines(selectedService)">Submit</button>
