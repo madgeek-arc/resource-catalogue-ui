@@ -25,7 +25,7 @@
               <li class="uk-nav-header uk-parent" [routerLinkActive]="['uk-active']">Dashboard
                 <ul class="uk-nav-sub">
                   <li *ngIf="authenticationService.isLoggedIn()">
-                    <a [routerLink]="['/myServiceProviders']" routerLinkActive="uk-active"
+                    <a [routerLink]="['/provider/my']" routerLinkActive="uk-active"
                        class="uk-offcanvas-close offcanvas-close">Providers</a>
                   </li>
                 </ul>

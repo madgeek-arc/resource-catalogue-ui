@@ -400,7 +400,6 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{scientificDomainDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <ng-select class="uk-width-1-1" id="{{'scientificDomain ' + i}}"
-                                                 [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, this.edit, 'scientificDomain')}"
                                                  [items]="sortVocabulariesByName(domainsVocabulary)"
                                                  (change)="onDomainChange(i); unsavedChangesPrompt()"
                                                  bindLabel="name"
@@ -438,7 +437,6 @@
                                       class="uk-form-description uk-margin-top uk-width-9-10">{{scientificSubdomainsDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <ng-select class="uk-width-1-1" id="{{'scientificSubdomain ' + i}}"
-                                                 [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, this.edit, 'scientificDomain')}"
                                                  [items]="subVocabularies[domainArray.controls[i].get('scientificDomain').value]"
                                                  (change)="checkForDuplicates('scientificSubdomain','scientificDomains'); unsavedChangesPrompt()"
                                                  bindLabel="name"
@@ -796,7 +794,6 @@
                                 *ngFor="let item of getFieldAsFormArray('participatingCountries').controls; let i=index"
                                 [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('participatingCountries').controls.length-1 !== i}">
                                 <ng-select class="uk-width-9-10" id="participatingCountries"
-                                           [ngClass]="{'uk-form-danger': checkFormArrayValidity('participatingCountries', i, this.edit)}"
                                            [items]="placesVocabulary"
                                            (change)="checkForDuplicates('participatingCountries'); unsavedChangesPrompt()"
                                            bindLabel="name"
@@ -880,7 +877,6 @@
                                 <!--                                    </option>-->
                                 <!--                                  </select>-->
                                 <ng-select class="uk-width-9-10" id="networks"
-                                           [ngClass]="{'uk-form-danger': checkFormArrayValidity('networks', i, this.edit)}"
                                            [items]="sortVocabulariesByName(networksVocabulary)"
                                            (change)="checkForDuplicates('networks'); unsavedChangesPrompt()"
                                            bindLabel="name"

@@ -430,7 +430,6 @@
                                       <div class="uk-form-description uk-margin-top uk-width-9-10">{{scientificDomainDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <ng-select class="uk-width-1-1" id="{{'scientificDomain ' + i}}"
-                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, this.edit, 'scientificDomain')}"
                                                    [items]="sortVocabulariesByName(domainsVocabulary)"
                                                    (change)="onDomainChange(i); unsavedChangesPrompt()"
                                                    bindLabel="name"
@@ -468,7 +467,6 @@
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{scientificSubdomainsDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <ng-select class="uk-width-1-1" id="{{'scientificSubdomain ' + i}}"
-                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('scientificDomains', i, this.edit, 'scientificDomain')}"
                                                    [items]="subVocabularies[domainArray.controls[i].get('scientificDomain').value]"
                                                    (change)="checkForDuplicates('scientificSubdomain','scientificDomains'); unsavedChangesPrompt()"
                                                    bindLabel="name"
@@ -549,7 +547,6 @@
                                 <div *ngFor="let provider of getFieldAsFormArray('structureTypes').controls; let i=index"
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('networks').controls.length-1 !== i}">
                                   <ng-select class="uk-width-9-10" id="structureTypes"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('structureTypes', i, this.edit)}"
                                              *ngIf="providerTypeVocabulary"
                                              [items]="sortVocabulariesByName(providerTypeVocabulary)"
                                              (change)="checkForDuplicates('structureTypes'); unsavedChangesPrompt()"
@@ -941,7 +938,6 @@
                                   *ngFor="let provider of getFieldAsFormArray('participatingCountries').controls; let i=index"
                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('participatingCountries').controls.length-1 !== i}">
                                   <ng-select class="uk-width-9-10" id="participatingCountries"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('participatingCountries', i, this.edit)}"
                                              [items]="placesVocabulary"
                                              (change)="checkForDuplicates('participatingCountries'); unsavedChangesPrompt()"
                                              bindLabel="name"
@@ -1025,7 +1021,6 @@
                                   <!--                                    </option>-->
                                   <!--                                  </select>-->
                                   <ng-select class="uk-width-9-10" id="networks"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('networks', i, this.edit)}"
                                              [items]="sortVocabulariesByName(networksVocabulary)"
                                              (change)="checkForDuplicates('networks'); unsavedChangesPrompt()"
                                              bindLabel="name"
@@ -1090,7 +1085,6 @@
                                 <div *ngFor="let provider of getFieldAsFormArray('esfriDomains').controls; let i=index"
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('esfriDomains').controls.length-1 !== i}">
                                   <ng-select class="uk-width-9-10" id="esfriDomains"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('esfriDomains', i, this.edit)}"
                                              [items]="sortVocabulariesByName(esfriDomainVocabulary)"
                                              (change)="checkForDuplicates('esfriDomains'); unsavedChangesPrompt()"
                                              bindLabel="name"
@@ -1181,7 +1175,6 @@
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{merilScientificDomainsDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <ng-select class="uk-width-1-1" id="{{'merilScientificDomain ' + i}}"
-                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('merilScientificDomains', i, this.edit, 'merilScientificDomain')}"
                                                    [items]="sortVocabulariesByName(merilDomainsVocabulary)"
                                                    (change)="onMerilDomainChange(i); unsavedChangesPrompt()"
                                                    bindLabel="name"
@@ -1218,7 +1211,6 @@
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{merilScientificSubdomainsDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <ng-select class="uk-width-1-1" id="{{'merilScientificSubdomain ' + i}}"
-                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('merilScientificDomains', i, this.edit, 'merilScientificSubdomain')}"
                                                    [items]="subVocabularies[merilDomainArray.controls[i].get('merilScientificDomain').value]"
                                                    (change)="checkForDuplicates('merilScientificSubdomain','merilScientificDomains'); unsavedChangesPrompt()"
                                                    bindLabel="name"
@@ -1272,7 +1264,6 @@
                                   *ngFor="let provider of getFieldAsFormArray('areasOfActivity').controls; let i=index"
                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('areasOfActivity').controls.length-1 !== i}">
                                   <ng-select class="uk-width-9-10" id="areasOfActivity"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('areasOfActivity', i, this.edit)}"
                                              [items]="sortVocabulariesByName(areasOfActivityVocabulary)"
                                              (change)="checkForDuplicates('areasOfActivity'); unsavedChangesPrompt()"
                                              bindLabel="name"
@@ -1321,7 +1312,6 @@
                                   *ngFor="let provider of getFieldAsFormArray('societalGrandChallenges').controls; let i=index"
                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('societalGrandChallenges').controls.length-1 !== i}">
                                   <ng-select class="uk-width-9-10" id="societalGrandChallenges"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('societalGrandChallenges', i, this.edit)}"
                                              [items]="sortVocabulariesByName(societalGrandChallengesVocabulary)"
                                              (change)="checkForDuplicates('societalGrandChallenges'); unsavedChangesPrompt()"
                                              bindLabel="name"

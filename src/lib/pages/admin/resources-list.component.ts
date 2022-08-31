@@ -2,18 +2,28 @@ import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/c
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {resourceStatusChangeMap, statusList} from '../../domain/resource-status-list';
-import {InfraService, LoggingInfo, Provider, ProviderBundle, Type, Vocabulary} from '../../domain/eic-model';
+import {
+  InfraService,
+  LoggingInfo,
+  Provider,
+  ProviderBundle,
+  ResourceExtras,
+  Type,
+  Vocabulary
+} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 import {NavigationService} from '../../services/navigation.service';
 import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
 import {statusChangeMap} from '../../domain/service-provider-status-list';
 import {zip} from 'rxjs';
 import {Paging} from '../../domain/paging';
+import {ResourceExtrasService} from "../../services/resource-extras.service";
+import {urlAsyncValidator, URLValidator} from "../../shared/validators/generic.validator";
 
 declare var UIkit: any;
 
@@ -37,8 +47,20 @@ export class ResourcesListComponent implements OnInit {
     resource_organisation: new FormArray([]),
     catalogue_id: new FormArray([])
   };
-
   dataForm: FormGroup;
+
+  extrasFormPrepare = {
+    researchCategories: this.fb.array([this.fb.control('')]),
+    eoscIFGuidelines: this.fb.array([
+      this.fb.group({
+        label: [''],
+        pid: [''],
+        semanticRelationship: [''],
+        url: ['']
+      })
+    ])
+  };
+  extrasForm: FormGroup;
 
   urlParams: URLParameter[] = [];
 
@@ -101,8 +123,12 @@ export class ResourcesListComponent implements OnInit {
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
+  researchCategoriesVoc: Vocabulary[] = null;
+  semanticRelationshipVoc: Vocabulary[] = null;
+
   constructor(private resourceService: ResourceService,
               private serviceProviderService: ServiceProviderService,
+              private resourceExtrasService: ResourceExtrasService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               private router: Router,
@@ -117,6 +143,7 @@ export class ResourcesListComponent implements OnInit {
     } else {
       this.dataForm = this.fb.group(this.formPrepare);
       this.providersDropdownForm = this.fb.group(this.providersFormPrepare);
+      this.extrasForm = this.fb.group(this.extrasFormPrepare);
 
       this.urlParams = [];
       this.route.queryParams
@@ -218,6 +245,9 @@ export class ResourcesListComponent implements OnInit {
           // console.log(this.providersPage.results);
         }
       );
+
+      this.getResearchCategoriesVoc();
+      this.getSemanticRelationshipVoc();
     }
   }
 
@@ -508,6 +538,108 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
+  /** resourceExtras--> **/
+  toggleHorizontalService(resource: InfraService) {
+    this.resourceExtrasService.updateHorizontalService(resource.id, resource.service.catalogueId, !resource?.resourceExtras?.horizontalService).subscribe(
+      res => {},
+      err => console.log(err),
+      () => location.reload()
+    );
+  }
+
+  showResourceCategories(resource: InfraService) {
+    this.selectedService = resource;
+    if (this.selectedService) {
+      this.extrasFormPrep(this.selectedService);
+      this.extrasForm.patchValue(this.selectedService.resourceExtras);
+      UIkit.modal('#researchCategoriesModal').show();
+    }
+  }
+
+  showEoscIFGuidelines(resource: InfraService) {
+    this.selectedService = resource;
+    if (this.selectedService) {
+      this.extrasFormPrep(this.selectedService);
+      this.extrasForm.patchValue(this.selectedService.resourceExtras);
+      UIkit.modal('#eoscIFGuidelinesModal').show();
+    }
+  }
+
+  updateResearchCategories(resource: InfraService) {
+    this.resourceExtrasService.updateResearchCategories(resource.id, resource.service.catalogueId, this.extrasForm.value.researchCategories).subscribe(
+      res => {},
+      err => console.log(err),
+      () => location.reload()
+    );
+  }
+
+  updateEoscIFGuidelines(resource: InfraService) {
+    this.resourceExtrasService.updateEoscIFGuidelines(resource.id, resource.service.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
+      res => {},
+      err => console.log(err),
+      () => location.reload()
+    );
+  }
+
+  extrasFormPrep(resource: InfraService){
+    console.log(this.extrasForm.value);
+    // this.extrasForm.reset();
+    this.extrasForm.setControl('researchCategories', this.fb.array([this.fb.control('')])); //resets part of the form
+    this.extrasForm.setControl('eoscIFGuidelines', this.fb.array([this.fb.control('')])); //resets part of the form
+    console.log(this.extrasForm.value);
+    if ( resource?.resourceExtras?.researchCategories ) {
+      for (let i = 0; i < resource.resourceExtras.researchCategories.length - 1; i++) {
+        this.push('researchCategories');
+      }
+    }
+    console.log(this.extrasForm.value);
+    if ( resource?.resourceExtras?.eoscIFGuidelines ) {
+      for (let i = 0; i < resource.resourceExtras.researchCategories.length - 1; i++) {
+        this.pushEoscIFGuidelines();
+      }
+    }
+  }
+  /** <--resourceExtras **/
+
+  /** eoscIFGuidelines--> **/
+  newEoscIFGuidelines(): FormGroup {
+    return this.fb.group({
+      label: [''],
+      pid: [''],
+      semanticRelationship: [''],
+      url: ['']
+    });
+  }
+
+  get eoscIFGuidelinesArray() {
+    return this.extrasForm.get('eoscIFGuidelines') as FormArray;
+  }
+
+  pushEoscIFGuidelines() {
+    this.eoscIFGuidelinesArray.push(this.newEoscIFGuidelines());
+  }
+
+  removeEoscIFGuidelines(index: number) {
+    this.eoscIFGuidelinesArray.removeAt(index);
+  }
+
+  /** <--eoscIFGuidelines **/
+
+  /** manage form arrays--> **/
+  getFieldAsFormArray(field: string) {
+    return this.extrasForm.get(field) as FormArray;
+  }
+
+  push(field: string) {
+      this.getFieldAsFormArray(field).push(this.fb.control(''));
+  }
+
+  remove(field: string, i: number) {
+    this.getFieldAsFormArray(field).removeAt(i);
+  }
+
+  /** <--manage form arrays **/
+
   toggleService(providerService: InfraService) {
     UIkit.modal('#spinnerModal').show();
     this.serviceProviderService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
@@ -697,4 +829,17 @@ export class ResourcesListComponent implements OnInit {
     }
     return namesArray;
   }
+
+  getResearchCategoriesVoc() {
+    this.resourceService.getVocabularyByType('RESEARCH_CATEGORY').subscribe(
+      suc => this.researchCategoriesVoc = suc
+    );
+  }
+
+  getSemanticRelationshipVoc() {
+    this.resourceService.getVocabularyByType('SEMANTIC_RELATIONSHIP').subscribe(
+      suc => this.semanticRelationshipVoc = suc
+    );
+  }
+
 }

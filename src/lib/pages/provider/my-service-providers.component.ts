@@ -100,7 +100,7 @@ export class MyServiceProvidersComponent implements OnInit {
             }
           );
           if (this.myProviders.length === 0) {
-            this.noProvidersMessage = 'You have not yet registered any service providers.';
+            this.noProvidersMessage = 'You have not yet registered any '+this.serviceORresource+' Providers.';
           }
         }
       );
