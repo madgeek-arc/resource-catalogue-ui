@@ -126,7 +126,7 @@ export class ResourceService {
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
     if (!catalogue_id) catalogue_id = 'eosc';
-    return this.http.get<Service>(this.base + `/service/${id}/latest?catalogue_id=${catalogue_id}`, this.options);
+    return this.http.get<Service>(this.base + `/service/${id}/?catalogue_id=${catalogue_id}`, this.options);
   }
 
   getRichService(id: string, version?: string) {
