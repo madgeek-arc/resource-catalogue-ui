@@ -246,8 +246,8 @@ export class ResourcesListComponent implements OnInit {
         }
       );
 
-      // this.getResearchCategoriesVoc();
-      // this.getSemanticRelationshipVoc();
+      this.getResearchCategoriesVoc();
+      this.getSemanticRelationshipVoc();
     }
   }
 
