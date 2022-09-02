@@ -445,14 +445,14 @@
 
                                   <ng-container class="uk-margin-small-bottom">
                                     <li (click)="showResourceCategories(serviceBundle)">
-                                      <a><i class="fa fa-plus fa-lg uk-margin-small-right"></i>Add Research Categories</a>
+                                      <a><i class="fa fa-edit fa-lg uk-margin-small-right"></i>Update Research Categories</a>
                                     </li>
                                     <li class="uk-nav-divider"></li>
                                   </ng-container>
 
                                   <ng-container class="uk-margin-small-bottom">
                                     <li (click)="showEoscIFGuidelines(serviceBundle)">
-                                      <a><i class="fa fa-plus fa-lg uk-margin-small-right"></i>Add EoscIFguidelines</a>
+                                      <a><i class="fa fa-edit fa-lg uk-margin-small-right"></i>Update EOSC IF Guidelines</a>
                                     </li>
                                     <li class="uk-nav-divider"></li>
                                   </ng-container>
@@ -647,7 +647,6 @@
       <form [formGroup]="extrasForm" role="form" class="uk-form uk-margin uk-width-1-1">
         <div formArrayName="researchCategories" class="uk-margin-large-bottom">
           <label class="uk-form-label uk-text-right" for="researchCategories">Research Category</label>
-          <div class="uk-form-description uk-margin-top uk-width-9-10">A description may be added here</div>
           <div class="uk-form-controls uk-margin-medium-top">
             <div *ngFor="let researchCategory of getFieldAsFormArray('researchCategories').controls; let i=index"
                  [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchCategories').controls.length-1 !== i}">
@@ -672,8 +671,8 @@
           </div>
         </div>
       </form>
-<!--<pre>{{selectedService.resourceExtras|json}}</pre>-->
-<!--<pre>{{extrasForm.value|json}}</pre>-->
+<pre>{{selectedService.resourceExtras|json}}</pre>
+<pre>{{extrasForm.value|json}}</pre>
     </div>
 
     <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="updateResearchCategories(selectedService)">Submit</button>
@@ -700,7 +699,6 @@
                   <label class="uk-form-label uk-text-right" for="label">
                     {{ 'Label' + ' (*)' }}
                   </label>
-                  <div class="uk-form-description uk-margin-top uk-width-9-10">Some description</div>
                   <div class="uk-form-controls uk-margin-medium-top">
                     <input id="label" class="uk-input uk-width-9-10" type="text" formControlName="label">
                   </div>
@@ -710,7 +708,6 @@
                   <label class="uk-form-label uk-text-right" for="pid">
                     {{ 'Pid' + ' (*)' }}
                   </label>
-                  <div class="uk-form-description uk-margin-top uk-width-9-10">Some description</div>
                   <div class="uk-form-controls uk-margin-medium-top">
                     <input id="pid" class="uk-input uk-width-9-10" type="text" formControlName="pid">
                   </div>
@@ -720,9 +717,14 @@
                   <label class="uk-form-label uk-text-right" for="semanticRelationship">
                     {{ 'Semantic Relationship' + ' (*)' }}
                   </label>
-                  <div class="uk-form-description uk-margin-top uk-width-9-10">Some description</div>
                   <div class="uk-form-controls uk-margin-medium-top">
-                    <input id="semanticRelationship" class="uk-input uk-width-9-10" type="text" formControlName="semanticRelationship">
+                    <ng-select *ngIf="semanticRelationshipVoc" class="uk-width-9-10" id="semanticRelationship"
+                               [items]="semanticRelationshipVoc"
+                               bindLabel="name"
+                               bindValue="id"
+                               clearAllText="Clear"
+                               [formControlName]="i">
+                    </ng-select>
                   </div>
                 </div>
 
@@ -730,7 +732,6 @@
                   <label class="uk-form-label uk-text-right" for="url">
                     {{ 'URL' + ' (optional)' }}
                   </label>
-                  <div class="uk-form-description uk-margin-top uk-width-9-10">Some description</div>
                   <div class="uk-form-controls uk-margin-medium-top">
                     <input id="url" class="uk-input uk-width-9-10" type="text" formControlName="url" placeholder="use http:// or https://">
                     <div *ngIf="this.extrasForm.get('eoscIFGuidelines').value[i]['url']" class="uk-icon">
@@ -754,8 +755,8 @@
           </div>
         </div>
       </form>
-<!--      <pre>{{selectedService.resourceExtras|json}}</pre>-->
-<!--      <pre>{{extrasForm.value|json}}</pre>-->
+      <pre>{{selectedService.resourceExtras|json}}</pre>
+      <pre>{{extrasForm.value|json}}</pre>
     </div>
 
     <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="updateEoscIFGuidelines(selectedService)">Submit</button>
