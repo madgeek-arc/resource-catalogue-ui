@@ -255,6 +255,10 @@
                           <div class="uk-label uk-align-right">Inactive</div>
                         </div>
 
+                        <div *ngIf="serviceBundle?.resourceExtras?.horizontalService" class="">
+                          <div class="uk-label uk-position-bottom-right uk-margin-large" >Horizontal Service</div>
+                        </div>
+
                         <div class="">
                           <div class="uk-grid">
                             <div class="uk-width-1-5">
@@ -697,7 +701,7 @@
 
                 <div class="uk-margin-bottom">
                   <label class="uk-form-label uk-text-right" for="label">
-                    {{ 'Label' + ' (*)' }}
+                     Label (*)
                   </label>
                   <div class="uk-form-controls uk-margin-medium-top">
                     <input id="label" class="uk-input uk-width-9-10" type="text" formControlName="label">
@@ -706,7 +710,7 @@
 
                 <div class="uk-margin-bottom">
                   <label class="uk-form-label uk-text-right" for="pid">
-                    {{ 'Pid' + ' (*)' }}
+                    Pid (*)
                   </label>
                   <div class="uk-form-controls uk-margin-medium-top">
                     <input id="pid" class="uk-input uk-width-9-10" type="text" formControlName="pid">
@@ -715,7 +719,7 @@
 
                 <div class="uk-margin-bottom">
                   <label class="uk-form-label uk-text-right" for="semanticRelationship">
-                    {{ 'Semantic Relationship' + ' (*)' }}
+                    Semantic Relationship (*)
                   </label>
                   <div class="uk-form-controls uk-margin-medium-top">
                     <ng-select *ngIf="semanticRelationshipVoc" class="uk-width-9-10" id="semanticRelationship"
@@ -730,7 +734,7 @@
 
                 <div class="uk-margin-bottom">
                   <label class="uk-form-label uk-text-right" for="url">
-                    {{ 'URL' + ' (optional)' }}
+                    URL (optional)
                   </label>
                   <div class="uk-form-controls uk-margin-medium-top">
                     <input id="url" class="uk-input uk-width-9-10" type="text" formControlName="url" placeholder="use http:// or https://">
