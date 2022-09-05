@@ -110,6 +110,17 @@ export class ServiceProviderService {
       `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
   }
 
+  getDatasourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
+    if (!query) { query = ''; }
+    if (!status) { status = 'approved resource,pending resource,rejected resource'; }
+    if (active === 'statusAll') {
+      return this.http.get<Paging<InfraService>>(this.base +
+        `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+    }
+    return this.http.get<Paging<InfraService>>(this.base +
+      `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
+  }
+
   getPendingServicesOfProvider(id: string) {  // we use new /resource/getServiceTemplate/${id} instead TODO: rename front & back! - gets INACTIVE services
     return this.http.get<Service[]>(this.base + `/provider/services/pending/${id}`);
   }

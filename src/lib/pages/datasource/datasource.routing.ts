@@ -3,12 +3,15 @@ import {RouterModule, Routes} from '@angular/router';
 import {CanActivateViaAuthGuard} from '../../services/can-activate-auth-guard.service';
 import {DatasourceFormComponent} from "./datasource-form.component";
 import {UpdateDatasourceComponent} from "./update-datasource.component";
+import {ServiceUploadComponent} from "../provider-resources/service-upload.component";
+import {environment} from "../../../environments/environment";
+import {DatasourceSelectComponent} from "../provider/dashboard/datasources/datasource-select.component";
 
 
 const datasourceRoutes: Routes = [
 
   {
-    path: 'add',
+    path: 'add', //just for testing
     component: DatasourceFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -23,12 +26,28 @@ const datasourceRoutes: Routes = [
   //     breadcrumb: 'New Datasource'
   //   }
   // },
+  // {
+  //   path: ':providerId/datasource/select',
+  //   component: DatasourceSelectComponent,
+  //   canActivate: [CanActivateViaAuthGuard],
+  //   data: {
+  //     breadcrumb: 'Add Datasource'
+  //   }
+  // },
+  // {
+  //   path: ':providerId/datasource/add',
+  //   component: DatasourceFormComponent,
+  //   canActivate: [CanActivateViaAuthGuard],
+  //   data: {
+  //     breadcrumb: 'Add Datasource'
+  //   }
+  // },
   {
-    path: 'update/:datasourceId',
+    path: ':providerId/datasource/update/:datasourceId',
     component: UpdateDatasourceComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'Update Datasource'
+      breadcrumb: 'Edit Datasource'
     }
   },
 ];

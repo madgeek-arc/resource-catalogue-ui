@@ -10,6 +10,8 @@ import {DatasourceFormComponent} from "./datasource-form.component";
 import {UpdateDatasourceComponent} from "./update-datasource.component";
 import {NgSelectModule} from '@ng-select/ng-select';
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
+import {DatasourcesComponent} from "../provider/dashboard/datasources/datasources.component";
+import {DatasourceSelectComponent} from "../provider/dashboard/datasources/datasource-select.component";
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import {LMarkdownEditorModule} from 'ngx-markdown-editor';
   declarations: [
     // MyServiceProvidersComponent,
     DatasourceFormComponent,
-    UpdateDatasourceComponent
+    UpdateDatasourceComponent,
+    DatasourcesComponent,
+    DatasourceSelectComponent
   ]
 })
 

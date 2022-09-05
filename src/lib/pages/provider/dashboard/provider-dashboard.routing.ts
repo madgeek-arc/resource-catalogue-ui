@@ -12,6 +12,7 @@ import {ServiceStatsComponent} from './resource-dashboard/service-stats.componen
 import {ResourceDashboardModule} from './resource-dashboard/resource-dashboard.module';
 import {ProviderHistoryComponent} from './providerHistory/provider-history.component';
 import {ProviderFullHistoryComponent} from './providerHistory/provider-full-history.component';
+import {DatasourcesComponent} from "./datasources/datasources.component";
 
 const providerDashboardRoutes: Routes = [
   {
@@ -68,6 +69,13 @@ const providerDashboardRoutes: Routes = [
         }
       },
       {
+        path: 'shared-resources',
+        component: SharedServicesComponent,
+        data: {
+          isResource: false
+        }
+      },
+      {
         path: 'draft-resources',
         component: PendingServicesComponent,
         data: {
@@ -75,8 +83,8 @@ const providerDashboardRoutes: Routes = [
         }
       },
       {
-        path: 'shared-resources',
-        component: SharedServicesComponent,
+        path: 'datasources',
+        component: DatasourcesComponent,
         data: {
           isResource: false
         }

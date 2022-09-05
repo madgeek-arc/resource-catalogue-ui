@@ -16,6 +16,8 @@ import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring
 import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
 import {environment} from '../../../environments/environment';
 import {RejectedServicesComponent} from './dashboard/rejectedServices/rejected-services.component';
+import {DatasourceSelectComponent} from "./dashboard/datasources/datasource-select.component";
+import {DatasourceFormComponent} from "../datasource/datasource-form.component";
 
 
 const providerRoutes: Routes = [
@@ -107,6 +109,22 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Add ' + environment.serviceORresource
+    }
+  },
+  {
+    path: ':providerId/datasource/select',
+    component: DatasourceSelectComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Select Datasource'
+    }
+  },
+  {
+    path: ':providerId/datasource/add',
+    component: DatasourceFormComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Add Datasource'
     }
   },
   {

@@ -12,18 +12,18 @@
               <strong>{{serviceName!='' ? serviceName : 'Data Source' + ' Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
             </div>
           </div>
-<!--          <div class="">-->
-<!--            &lt;!&ndash;<button class="uk-button uk-button-primary">Discard</button>&ndash;&gt;-->
+          <div class="">
+            <!--<button class="uk-button uk-button-primary">Discard</button>-->
 <!--            <button *ngIf="projectName=='EOSC'" class="uk-button uk-button-primary uk-margin-left"-->
 <!--                    (click)="openPreviewModal()">Preview-->
 <!--            </button>-->
 <!--            <button *ngIf="(!editMode || pendingService) && (projectName == 'EOSC' || projectName == 'CatRIS')"-->
 <!--                    class="uk-button uk-button-primary uk-margin-left" (click)="this.onSubmit(this.service, true)">Save as draft-->
 <!--            </button>-->
-<!--            <button *ngIf="loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left"-->
-<!--                    (click)="showCommentModal()" type="submit">Submit-->
-<!--            </button>-->
-<!--          </div>-->
+            <button *ngIf="loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left"
+                    (click)="showCommentModal()" type="submit">Submit
+            </button>
+          </div>
         </div>
 
 
@@ -2202,7 +2202,7 @@
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchEntityTypes').controls.length-1 !== i}">
                                   <ng-select *ngIf="researchEntityTypeVocabulary" class="uk-width-9-10" id="researchEntityTypes"
                                              [items]="sortVocabulariesByName(researchEntityTypeVocabulary)"
-                                             (change)="handleBitSets(2, 10, 'researchEntityTypes');checkForDuplicates('researchEntityTypes');unsavedChangesPrompt()"
+                                             (change)="handleBitSets(13, 26, 'researchEntityTypes');checkForDuplicates('researchEntityTypes');unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -2417,9 +2417,9 @@
                             </div>
                           </li>
                         </ul>
-<!--                                                <pre>-->
-<!--                                                  {{serviceForm.value | json}}-->
-<!--                                                </pre>-->
+                                                <pre>
+                                                  {{serviceForm.value | json}}
+                                                </pre>
                       </div>
                       <!--<button type="submit" class="btn btn-primary butn theme block full-width m-b">-->
                       <!--{{editMode ? "Update" : "Add"}}-->
@@ -2448,15 +2448,15 @@
 </div>
 
 
-<div id="modal-preview" class="uk-flex-top uk-modal-container" uk-modal="bg-close: true; esc-close: true;">
-  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+<!--<div id="modal-preview" class="uk-flex-top uk-modal-container" uk-modal="bg-close: true; esc-close: true;">-->
+<!--  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">-->
 
-    <ng-container *ngIf="providersPage?.results?.length > 0">
-      <app-preview-resource [resource]="serviceForm.value" [vocabularies]="vocabularies" [providers]="providersPage.results"></app-preview-resource>
-    </ng-container>
+<!--    <ng-container *ngIf="providersPage?.results?.length > 0">-->
+<!--      <app-preview-resource [resource]="serviceForm.value" [vocabularies]="vocabularies" [providers]="providersPage.results"></app-preview-resource>-->
+<!--    </ng-container>-->
 
-  </div>
-</div>
+<!--  </div>-->
+<!--</div>-->
 
 <div id="commentModal" uk-modal>
   <div *ngIf="!showLoader" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">

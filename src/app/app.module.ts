@@ -59,6 +59,7 @@ import { RouterModule } from '@angular/router';
 import {CatalogueService} from "../lib/services/catalogue.service";
 import {ServiceExtensionsService} from "../lib/services/service-extensions.service";
 import {ResourceExtrasService} from "../lib/services/resource-extras.service";
+import {DatasourceService} from "../lib/services/datasource.service";
 
 
 declare var require: any;
@@ -159,6 +160,7 @@ export function highchartsFactory() {
     CanActivateViaPubGuard,
     NavigationService,
     ResourceService,
+    DatasourceService,
     UserService,
     ServiceProviderService,
     ServiceExtensionsService,

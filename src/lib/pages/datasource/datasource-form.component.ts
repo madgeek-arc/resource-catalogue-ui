@@ -3,6 +3,7 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
+import {DatasourceService} from "../../services/datasource.service";
 import {UserService} from '../../services/user.service';
 import * as sd from '../provider-resources/services.description';
 import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
@@ -320,6 +321,7 @@ export class DatasourceFormComponent implements OnInit {
   subVocabularies: Map<string, Vocabulary[]> = null;
   premiumSort = new PremiumSortPipe();
   resourceService: ResourceService = this.injector.get(ResourceService);
+  datasourceService: DatasourceService = this.injector.get(DatasourceService);
 
   router: NavigationService = this.injector.get(NavigationService);
   userService: UserService = this.injector.get(UserService);
@@ -355,6 +357,7 @@ export class DatasourceFormComponent implements OnInit {
               protected route: ActivatedRoute
   ) {
     this.resourceService = this.injector.get(ResourceService);
+    this.datasourceService = this.injector.get(DatasourceService);
     this.fb = this.injector.get(FormBuilder);
     this.router = this.injector.get(NavigationService);
     this.userService = this.injector.get(UserService);
@@ -363,8 +366,11 @@ export class DatasourceFormComponent implements OnInit {
   }
 
   onSubmit(service: Service, tempSave: boolean, pendingService?: boolean) {
-    // console.log('Submit');
+    console.log('Submit');
     // console.log(this.commentControl.value);
+    console.log(this.serviceForm.status);
+    console.log(this.serviceForm.value);
+    this.findInvalidControls();
     if (!this.authenticationService.isLoggedIn()) {
       sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
       this.authenticationService.login();
@@ -387,7 +393,8 @@ export class DatasourceFormComponent implements OnInit {
     }
     //TODO: ^^do the same for Licensing & Persistent Identity Systems (etc?)
 
-    // console.log('this.serviceForm.valid ', this.serviceForm.valid);
+    this.findInvalidControls();
+    console.log('this.serviceForm.status ', this.serviceForm.status);
     // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);
     if (tempSave) {
@@ -408,9 +415,9 @@ export class DatasourceFormComponent implements OnInit {
           this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
         }
       );
-    } else if (this.serviceForm.valid) {
+    } else if (!this.serviceForm.valid) {
       window.scrollTo(0, 0);
-      this.resourceService[pendingService ? 'uploadPendingService' : 'uploadService']
+      this.datasourceService[pendingService ? 'uploadPendingService' : 'uploadDatasource']
       (this.serviceForm.value, this.editMode, this.commentControl.value).subscribe(
         _service => {
           // console.log(_service);
@@ -1371,10 +1378,10 @@ export class DatasourceFormComponent implements OnInit {
     }
   }
 
-  openPreviewModal() {
-    // console.log('Resource ==>', this.serviceForm.value);
-    UIkit.modal('#modal-preview').show();
-  }
+  // openPreviewModal() {
+  //   // console.log('Resource ==>', this.serviceForm.value);
+  //   UIkit.modal('#modal-preview').show();
+  // }
 
   showNotification() {
     UIkit.notification({
@@ -1412,6 +1419,18 @@ export class DatasourceFormComponent implements OnInit {
       }
       return Object.assign(hash, {[obj[key]]: (hash[obj[key]] || []).concat(obj)});
     }, {});
+  }
+
+  public findInvalidControls() {
+    const invalid = [];
+    const controls = this.serviceForm.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
+    }
+    // return invalid;
+    console.log(invalid);
   }
 
 }
