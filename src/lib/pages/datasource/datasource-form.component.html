@@ -190,10 +190,6 @@
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[9]}" href="#">
                             <span>10. Management</span>
-                            <span class="circle-number">
-                              <i *ngIf="remainingOnTab9==0" aria-hidden="true" class="fa fa-check"></i>
-                              {{remainingOnTab9!=0 ? remainingOnTab9 +'*' : ''}}
-                            </span>
                           </a>
                         </li>
                         <li>
@@ -1767,7 +1763,7 @@
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <input id="termsOfUse" class="uk-input uk-width-9-10" type="text"
                                        formControlName="termsOfUse" placeholder="use http:// or https://"
-                                       (input)="handleBitSets(9, 22, 'termsOfUse'); unsavedChangesPrompt()"
+                                       (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('termsOfUse', this.editMode)}">
                                 <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('termsOfUse').value" class="uk-icon">
                                   <a href="{{this.serviceForm.get('termsOfUse').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
@@ -1784,7 +1780,7 @@
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <input id="privacyPolicy" class="uk-input uk-width-9-10" type="text"
                                        formControlName="privacyPolicy" placeholder="use http:// or https://"
-                                       (input)="handleBitSets(9, 23, 'privacyPolicy'); unsavedChangesPrompt()"
+                                       (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('privacyPolicy', this.editMode)}">
                                 <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('privacyPolicy').value" class="uk-icon">
                                   <a href="{{this.serviceForm.get('privacyPolicy').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
