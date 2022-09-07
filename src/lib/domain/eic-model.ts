@@ -40,45 +40,6 @@ export class Catalogue implements Identifiable {
   users: User[];
 }
 
-export class Datasource extends Bundle<Service> {
-  submissionPolicyURL: URL[];
-  preservationPolicyURL: URL[];
-  versionControl: boolean;
-  persistentIdentitySystems: PersistentIdentitySystem[];
-
-  jurisdiction: string;
-  dataSourceClassification: string;
-  researchEntityTypes: string[];
-  thematic: boolean;
-
-  researchProductLicensings: ResearchProductLicensing[];
-  researchProductAccessPolicy: string[];
-
-  researchProductMetadataLicensings: ResearchProductMetadataLicensing[];
-  researchProductMetadataAccessPolicy: string[];
-
-  service: Service;
-}
-
-export class PersistentIdentitySystem {
-  persistentIdentityEntityType: string;
-  persistentIdentityEntityTypeScheme: string;
-}
-export class ResearchProductLicensing {
-  researchProductLicenseName: string;
-  researchProductLicenseURL: string;
-}
-export class ResearchProductMetadataLicensing {
-  researchProductMetadataLicenseName: string;
-  researchProductMetadataLicenseURL: string;
-}
-
-export class ResourceExtras {
-  eoscIFGuidelines: EOSCIFGuidelines[];
-  researchCategories: string[];
-  horizontalService: boolean;
-}
-
 export class EmailMessage {
   recipientEmail: string;
   senderEmail: string;
@@ -369,6 +330,43 @@ export class Service implements Identifiable {
   order: URL;
   paymentModel: URL;
   pricing: URL;
+}
+
+export class Datasource extends Service {
+  submissionPolicyURL: URL[];
+  preservationPolicyURL: URL[];
+  versionControl: boolean;
+  persistentIdentitySystems: PersistentIdentitySystem[];
+
+  jurisdiction: string;
+  dataSourceClassification: string;
+  researchEntityTypes: string[];
+  thematic: boolean;
+
+  researchProductLicensings: ResearchProductLicensing[];
+  researchProductAccessPolicy: string[];
+
+  researchProductMetadataLicensings: ResearchProductMetadataLicensing[];
+  researchProductMetadataAccessPolicy: string[];
+}
+
+export class PersistentIdentitySystem {
+  persistentIdentityEntityType: string;
+  persistentIdentityEntityTypeScheme: string;
+}
+export class ResearchProductLicensing {
+  researchProductLicenseName: string;
+  researchProductLicenseURL: string;
+}
+export class ResearchProductMetadataLicensing {
+  researchProductMetadataLicenseName: string;
+  researchProductMetadataLicenseURL: string;
+}
+
+export class ResourceExtras {
+  eoscIFGuidelines: EOSCIFGuidelines[];
+  researchCategories: string[];
+  horizontalService: boolean;
 }
 
 export class ServiceHistory extends Metadata {

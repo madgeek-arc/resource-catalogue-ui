@@ -1,11 +1,145 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title></title>
-</head>
-<body>
-<h3 class="uk-padding">Datasources</h3>
-<h5 class="uk-padding">Select from OpenAIRE or <a [routerLink]="['/provider/' + providerId + '/datasource/add/']">open empty form</a></h5>
-</body>
-</html>
+<div class="uk-section uk-section-xsmall">
+  <div class="uk-container uk-container-expand">
+
+    <div *ngIf="providerBundle" class="services-provider-container">
+      <div class="uk-flex">
+        <div>
+          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+        </div>
+        <div class="uk-margin-medium-left">
+          <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
+          <div><span class="status-label">Provider Status: </span>{{ providerBundle.status.substr(0,providerBundle.status.indexOf(' ')) | titlecase }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h5 class="uk-padding uk-padding-remove-left uk-margin-remove">
+        Select a datasource from the list (provided by OpenAIRE) or <a [routerLink]="['/provider/' + providerId + '/datasource/add/']">create one from scratch</a>
+        for {{providerBundle.provider.name}}
+      </h5>
+    </div>
+
+    <div class="">
+      <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">
+        <p>{{errorMessage}}</p>
+      </div>
+
+      <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters uk-margin-bottom">
+
+        <div class="uk-margin-right">
+          <div class="">
+            <label class="" for="quantity">Results per page </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="quantity" (change)="handleChangeAndResetPage()" formControlName="quantity">
+                <option value="10" selected>10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="999">999</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="uk-margin-right">
+
+          <div class="uk-inline uk-margin-right">
+            <label class="" for="orderBy">Order by </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="orderBy" (change)="handleChangeAndResetPage()" formControlName="order">
+                <option value="ASC" selected>Ascending</option>
+                <option value="DESC">Descending</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="uk-inline">
+            <label class="" for="orderField">Sort by </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
+                <option value="name" selected>Name</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+      </form>
+
+      <div *ngIf="datasources && datasources.results.length === 0">
+        <p>No datasources found</p>
+      </div>
+
+      <div *ngIf="datasources && datasources.results.length > 0">
+
+        <div class="uk-flex uk-flex-middle uk-flex-between">
+
+          <div class="resultsInfo">
+            <span class="number">{{total}}</span> DATASOURCES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+          </div>
+
+          <ul class="uk-pagination" uk-margin>
+            <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+            <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
+              <a (click)="goToPage(i)">{{i}}</a>
+            </li>
+            <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+          </ul>
+
+        </div>
+
+        <hr class="adminResultsHeader">
+
+        <div class="uk-margin-medium-top">
+          <div *ngFor="let datasource of datasources.results" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+
+            <div class="uk-card-body">
+
+              <div class="uk-grid uk-flex-middle uk-margin-remove-top">
+                <div class="uk-width-1-6">
+                  <img src="{{datasource.logo ? datasource.logo : 'src/lib/assets/images/broken_image-black-48dp.svg'}}">
+                </div>
+                <div class="uk-width-2-3">
+                  <h4 class="uk-margin-remove">
+                    <a (click)="navigate(datasource.id)">{{datasource.name}}</a>
+                  </h4>
+                  <div class="uk-margin-small-top">
+                    <span class="">Id: </span>{{ datasource.id }}
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <span *ngIf="datasource.description" class="uk-margin-small-top">{{datasource.description}}</span>
+                  </div>
+<!--                  <div class="uk-margin-small-top">-->
+<!--                    <span class="">Creation Date: </span>{{ datasource.metadata.registeredAt | date }}-->
+<!--                  </div>-->
+<!--                  <div class="uk-margin-small-top">-->
+<!--                    <span class="">Last Update: </span>{{ datasource.metadata.modifiedAt | date }}-->
+<!--                  </div>-->
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <ul class="uk-pagination uk-flex-right" uk-margin>
+          <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+          <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
+            <a (click)="goToPage(i)">{{i}}</a>
+          </li>
+          <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+        </ul>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="spinnerModal" uk-modal>
+  <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+  </div>
+</div>

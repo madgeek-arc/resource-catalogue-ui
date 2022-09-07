@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {InfraService, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {Datasource, InfraService, ProviderBundle, Service} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -7,6 +7,7 @@ import {Paging} from '../../../../domain/paging';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
+import {DatasourceService} from "../../../../services/datasource.service";
 
 declare var UIkit: any;
 
@@ -22,12 +23,9 @@ export class DatasourceSelectComponent implements OnInit {
 
   formPrepare = {
     from: '0',
-    quantity: '10',
+    quantity: '999',
     order: 'ASC',
-    orderField: 'name',
-    query: '',
-    active: 'statusAll',
-    status: ''
+    orderField: 'name'
   };
 
   dataForm: FormGroup;
@@ -39,7 +37,8 @@ export class DatasourceSelectComponent implements OnInit {
   catalogueId: string;
   providerBundle: ProviderBundle;
   providerServices: Paging<InfraService>;
-  selectedService: InfraService = null;
+  datasources: any;
+  selectedDatasource: Datasource = null;
   path: string;
 
   total: number;
@@ -53,13 +52,14 @@ export class DatasourceSelectComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
-    private service: ResourceService
+    private service: ResourceService,
+    private datasourceService: DatasourceService
   ) {}
 
   ngOnInit(): void {
     this.providerId = this.route.snapshot.paramMap.get('providerId');
 
-    // this.getProvider();
+    this.getProvider();
 
     this.dataForm = this.fb.group(this.formPrepare);
     this.urlParams = [];
@@ -78,83 +78,43 @@ export class DatasourceSelectComponent implements OnInit {
           }
 
           // this.handleChange();
-          this.getDatasources();
+          this.getOpenAIREDatasources();
         },
         error => this.errorMessage = <any>error
       );
   }
 
   navigate(id: string) {
-    this.router.navigate([`/dashboard/${this.catalogueId}/${this.providerId}/resource-dashboard/`, id]);
+    // this.router.navigate([`/dashboard/${this.catalogueId}/${this.providerId}/resource-dashboard/`, id]);
   }
 
-  useAsTemplate(id: string) {
-    this.router.navigate([`/provider/${this.providerId}/resource/add/use-template`, id]);
-  }
-
-  // getProvider() {
-  //   this.providerService.getServiceProviderBundleById(this.providerId, this.catalogueId).subscribe(
-  //     providerBundle => this.providerBundle = providerBundle,
-  //     error => console.log(error)
-  //   );
-  // }
-
-  toggleService(providerService: InfraService) {
-    if (providerService.status === 'pending resource' || providerService.status === 'rejected resource') {
-      this.errorMessage = `You cannot activate a ${providerService.status}.`;
-      window.scrollTo(0, 0);
-      return;
-    }
-    UIkit.modal('#spinnerModal').show();
-    this.providerService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
-      res => {},
-      error => {
-        this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getDatasources();
-        UIkit.modal('#spinnerModal').hide();
-        // console.log(error);
-      },
-      () => {
-        UIkit.modal('#spinnerModal').hide();
-        location.reload();
-      }
+  getProvider() {
+    this.providerService.getServiceProviderBundleById(this.providerId, this.catalogueId).subscribe(
+      providerBundle => this.providerBundle = providerBundle,
+      error => console.log(error)
     );
   }
 
-  getDatasources() {
-    this.providerService.getDatasourcesOfProvider(this.providerId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('order').value, this.dataForm.get('orderField').value,
-      this.dataForm.get('active').value, this.dataForm.get('status').value, this.dataForm.get('query').value)
+  getOpenAIREDatasources() {
+    UIkit.modal('#spinnerModal').show();
+    this.datasourceService.getOpenAIREDatasources(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
+      this.dataForm.get('orderField').value, this.dataForm.get('order').value)
       .subscribe(res => {
-          this.providerServices = res;
+          this.datasources = res;
           this.total = res['total'];
           this.paginationInit();
         },
         err => {
+          UIkit.modal('#spinnerModal').hide();
           this.errorMessage = 'An error occurred while retrieving the datasources of this provider. ' + err.error;
-        }
+        },
+        () => UIkit.modal('#spinnerModal').hide()
       );
   }
 
-  setSelectedService(service: InfraService) {
-    this.selectedService = service;
-    UIkit.modal('#actionModal').show();
-  }
+  handleSelectedDatasource(datasource: Datasource) {
+    this.selectedDatasource = datasource;
 
-  deleteDatasource(id: string) {
-    UIkit.modal('#spinnerModal').show();
-    this.service.deleteService(id).subscribe(
-      res => {},
-      error => {
-        UIkit.modal('#spinnerModal').hide();
-        this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getDatasources();
-      },
-      () => {
-        UIkit.modal('#spinnerModal').hide();
-        location.reload();
-      }
-    );
   }
 
   handleChangeAndResetPage() {
@@ -175,7 +135,7 @@ export class DatasourceSelectComponent implements OnInit {
       }
     }
 
-    this.router.navigate([`/dashboard`, this.catalogueId, this.providerId, `resources`], {queryParams: map});
+    this.router.navigate([`/provider/${this.providerId}/datasource/select`], {queryParams: map});
   }
 
   paginationInit() {

@@ -85,14 +85,23 @@ export class DatasourceService {
     return this.http.get(this.base + `/datasource/adminPage/all`, {params});
   }
 
+  getOpenAIREDatasources(from: string, quantity: string, orderField: string, order: string) {
+    let params = new HttpParams();
+    params = params.append('from', from);
+    params = params.append('quantity', quantity);
+    params = params.append('orderField', orderField);
+    params = params.append('order', order);
+    return this.http.get(this.base + '/datasource/getAllOpenAIREDatasources', {params});
+  }
+
+  getOpenAIREDatasourcesById(id: string) {
+    return this.http.get(this.base + `/datasource/getOpenAIREDatasourceById/${id}`, this.options);
+  }
+
   uploadDatasource(datasource: Datasource, shouldPut: boolean, comment: string) {
     // console.log(JSON.stringify(datasource));
     // console.log(`knocking on: ${this.base}/datasource`);
     return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + `/datasource?comment=${comment}`, datasource, this.options);
-  }
-
-  getOpenAIREDatasources(id: string) {
-    return this.http.delete(this.base + '/datasource/getOpenAIREDatasources', this.options);
   }
 
 }
