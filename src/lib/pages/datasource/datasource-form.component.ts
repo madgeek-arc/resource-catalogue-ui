@@ -385,7 +385,19 @@ export class DatasourceFormComponent implements OnInit {
         this.removeUseCase(i);
       }
     }
-    //TODO: ^^do the same for "persistentIdentitySystems", "researchProductLicensings", "researchProductMetadataLicensings"
+    for (let i = 0; i < this.licensingArray.length; i++) {
+      if ((this.licensingArray.controls[i].get('researchProductLicenseName').value === '' || this.licensingArray.controls[i].get('researchProductLicenseName').value === null)
+        && (this.licensingArray.controls[i].get('researchProductLicenseURL').value === '' || this.licensingArray.controls[i].get('researchProductLicenseURL').value === null)) {
+        this.removeLicensing(i);
+      }
+    }
+    for (let i = 0; i < this.metadataLicensingArray.length; i++) {
+      if ((this.metadataLicensingArray.controls[i].get('researchProductMetadataLicenseName').value === '' || this.metadataLicensingArray.controls[i].get('researchProductMetadataLicenseName').value === null)
+        && (this.metadataLicensingArray.controls[i].get('researchProductMetadataLicenseURL').value === '' || this.metadataLicensingArray.controls[i].get('researchProductMetadataLicenseURL').value === null)) {
+        this.removeMetadataLicensing(i);
+      }
+    }
+    //TODO: ^^do the same for "persistentIdentitySystems"
 
     this.findInvalidControls();
     console.log('this.serviceForm.status ', this.serviceForm.status);
