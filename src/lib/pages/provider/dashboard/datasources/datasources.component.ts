@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {InfraService, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {InfraService, ProviderBundle, Service, Datasource} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -38,8 +38,8 @@ export class DatasourcesComponent implements OnInit {
   providerId: string;
   catalogueId: string;
   providerBundle: ProviderBundle;
-  providerServices: Paging<InfraService>;
-  selectedService: InfraService = null;
+  datasources: Paging<Datasource>;
+  selectedDatasource: Datasource = null;
   path: string;
 
   total: number;
@@ -130,7 +130,7 @@ export class DatasourcesComponent implements OnInit {
       this.dataForm.get('order').value, this.dataForm.get('orderField').value,
       this.dataForm.get('active').value, this.dataForm.get('status').value, this.dataForm.get('query').value)
       .subscribe(res => {
-          this.providerServices = res;
+          this.datasources = res;
           this.total = res['total'];
           this.paginationInit();
         },
@@ -140,8 +140,8 @@ export class DatasourcesComponent implements OnInit {
       );
   }
 
-  setSelectedService(service: InfraService) {
-    this.selectedService = service;
+  setSelectedService(datasource: Datasource) {
+    this.selectedDatasource = datasource;
     UIkit.modal('#actionModal').show();
   }
 

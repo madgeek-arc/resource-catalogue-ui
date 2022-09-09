@@ -582,17 +582,22 @@ export class ResourcesListComponent implements OnInit {
   }
 
   extrasFormPrep(resource: InfraService){
-    console.log(this.extrasForm.value);
     // this.extrasForm.reset();
     this.extrasForm.setControl('researchCategories', this.fb.array([this.fb.control('')])); //resets part of the form
-    this.extrasForm.setControl('eoscIFGuidelines', this.fb.array([this.fb.control('')])); //resets part of the form
-    console.log(this.extrasForm.value);
+    // this.extrasForm.setControl('eoscIFGuidelines', this.fb.array([this.fb.control('')])); //resets part of the form
+    this.extrasForm.setControl('eoscIFGuidelines',
+      this.fb.array([this.fb.group({
+        label: [''],
+        pid: [''],
+        semanticRelationship: [''],
+        url: ['']
+      })
+      ]));
     if ( resource?.resourceExtras?.researchCategories ) {
       for (let i = 0; i < resource.resourceExtras.researchCategories.length - 1; i++) {
         this.push('researchCategories');
       }
     }
-    console.log(this.extrasForm.value);
     if ( resource?.resourceExtras?.eoscIFGuidelines ) {
       for (let i = 0; i < resource.resourceExtras.researchCategories.length - 1; i++) {
         this.pushEoscIFGuidelines();

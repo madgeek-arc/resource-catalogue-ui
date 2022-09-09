@@ -36,8 +36,7 @@ export class DatasourceSelectComponent implements OnInit {
   providerId: string;
   catalogueId: string;
   providerBundle: ProviderBundle;
-  providerServices: Paging<InfraService>;
-  datasources: any;
+  datasources: Paging<Datasource>;
   selectedDatasource: Datasource = null;
   path: string;
 

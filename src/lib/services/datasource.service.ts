@@ -91,7 +91,7 @@ export class DatasourceService {
     params = params.append('quantity', quantity);
     params = params.append('orderField', orderField);
     params = params.append('order', order);
-    return this.http.get(this.base + '/datasource/getAllOpenAIREDatasources', {params});
+    return this.http.get<Paging<Datasource>>(this.base + '/datasource/getAllOpenAIREDatasources', {params});
   }
 
   getOpenAIREDatasourcesById(id: string) {

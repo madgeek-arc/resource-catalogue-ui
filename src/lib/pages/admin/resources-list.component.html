@@ -738,8 +738,8 @@
                   </label>
                   <div class="uk-form-controls uk-margin-medium-top">
                     <input id="url" class="uk-input uk-width-9-10" type="text" formControlName="url" placeholder="use http:// or https://">
-                    <div *ngIf="this.extrasForm.get('eoscIFGuidelines').value[i]['url']" class="uk-icon">
-                      <a href="{{this.extrasForm.get('eoscIFGuidelines').value[i]['url']}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                    <div *ngIf="eoscIFGuidelinesArray.controls[i].get('url').value" class="uk-icon">
+                      <a href="{{eoscIFGuidelinesArray.controls[i].get('url').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
                     </div>
                   </div>
                 </div>
