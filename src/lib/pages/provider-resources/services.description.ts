@@ -203,7 +203,7 @@ export const datasourceDescMap = new Map()
   .set('persistentIdentityEntityTypeSchemeDesc', {mandatory: true, label: 'Persistent Identity EntityType Scheme', placeholder: '', desc: 'Specify the list of persistent identifier schemes used to refer to EntityTypes.'})
 // Data Source Content //
   .set('jurisdictionDesc', {mandatory: true, label: 'Jurisdiction', placeholder: '', desc: 'The property defines the jurisdiction of the users of the data source, based on the vocabulary for this property.'})
-  .set('dataSourceClassificationDesc', {mandatory: true, label: 'Data Source Classification', placeholder: '', desc: 'The specific type of the data source based on the vocabulary defined for this property.'})
+  .set('datasourceClassificationDesc', {mandatory: true, label: 'Data Source Classification', placeholder: '', desc: 'The specific type of the data source based on the vocabulary defined for this property.'})
   .set('researchEntityTypesDesc', {mandatory: true, label: 'Research Entity Types', placeholder: '', desc: 'The types of OpenAIRE entities managed by the data source, based on the vocabulary for this property.'})
   .set('thematicDesc', {mandatory: true, label: 'Thematic', placeholder: '', desc: 'Boolean value specifying if the data source is dedicated to a given discipline or is instead discipline agnostic.'})
 // Research Product Policies //

@@ -2155,19 +2155,19 @@
   <!--                            </div>-->
                             </div>
                             <div class="uk-margin-large-bottom">
-                              <label class="uk-form-label uk-text-right" for="dataSourceClassification">
-                                {{dataSourceClassificationDesc.label + (dataSourceClassificationDesc.mandatory ? ' (*)' : '')}}
+                              <label class="uk-form-label uk-text-right" for="datasourceClassification">
+                                {{datasourceClassificationDesc.label + (datasourceClassificationDesc.mandatory ? ' (*)' : '')}}
                               </label>
-                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{dataSourceClassificationDesc.desc}}</div>
+                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{datasourceClassificationDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
-                                <ng-select *ngIf="classificationVocabulary" class="uk-width-9-10" id="dataSourceClassification"
-                                           (change)="handleBitSets(13, 25, 'dataSourceClassification'); unsavedChangesPrompt()"
-                                           [ngClass]="{'uk-form-danger': checkFormValidity('dataSourceClassification', this.editMode)}"
+                                <ng-select *ngIf="classificationVocabulary" class="uk-width-9-10" id="datasourceClassification"
+                                           (change)="handleBitSets(13, 25, 'datasourceClassification'); unsavedChangesPrompt()"
+                                           [ngClass]="{'uk-form-danger': checkFormValidity('datasourceClassification', this.editMode)}"
                                            [items]="sortVocabulariesByName(classificationVocabulary)"
                                            bindLabel="name"
                                            bindValue="id"
                                            clearAllText="Clear"
-                                           formControlName="dataSourceClassification">
+                                           formControlName="datasourceClassification">
                                 </ng-select>
                               </div>
   <!--                            <div class="uk-margin-small-top">-->

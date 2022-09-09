@@ -339,7 +339,7 @@ export class Datasource extends Service {
   persistentIdentitySystems: PersistentIdentitySystem[];
 
   jurisdiction: string;
-  dataSourceClassification: string;
+  datasourceClassification: string;
   researchEntityTypes: string[];
   thematic: boolean;
 
@@ -352,7 +352,7 @@ export class Datasource extends Service {
 
 export class PersistentIdentitySystem {
   persistentIdentityEntityType: string;
-  persistentIdentityEntityTypeScheme: string;
+  persistentIdentityEntityTypeSchemes: string;
 }
 export class ResearchProductLicensing {
   researchProductLicenseName: string;

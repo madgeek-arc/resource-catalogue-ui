@@ -179,7 +179,7 @@ export class DatasourceFormComponent implements OnInit {
   readonly persistentIdentityEntityTypeSchemeDesc: sd.Description = sd.datasourceDescMap.get('persistentIdentityEntityTypeSchemeDesc');
 
   readonly jurisdictionDesc: sd.Description = sd.datasourceDescMap.get('jurisdictionDesc');
-  readonly dataSourceClassificationDesc: sd.Description = sd.datasourceDescMap.get('dataSourceClassificationDesc');
+  readonly datasourceClassificationDesc: sd.Description = sd.datasourceDescMap.get('datasourceClassificationDesc');
   readonly researchEntityTypesDesc: sd.Description = sd.datasourceDescMap.get('researchEntityTypesDesc');
   readonly thematicDesc: sd.Description = sd.datasourceDescMap.get('thematicDesc');
 
@@ -287,7 +287,7 @@ export class DatasourceFormComponent implements OnInit {
     ]),
 
     jurisdiction: [''],
-    dataSourceClassification: [''],
+    datasourceClassification: [''],
     researchEntityTypes: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
     thematic: [''],
 
@@ -748,7 +748,7 @@ export class DatasourceFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('persistentIdentitySystems', this.editMode, 'persistentIdentityEntityType')
       || this.checkEveryArrayFieldValidity('persistentIdentitySystems', this.editMode, 'persistentIdentityEntityTypeSchemes'));
     this.tabs[17] = (this.checkFormValidity('jurisdiction', this.editMode)
-      || this.checkFormValidity('dataSourceClassification', this.editMode)
+      || this.checkFormValidity('datasourceClassification', this.editMode)
       || this.checkEveryArrayFieldValidity('researchEntityTypes', this.editMode)
       || this.checkFormValidity('thematic', this.editMode));
     this.tabs[18] = (this.checkEveryArrayFieldValidity('researchProductLicensings', this.editMode, 'researchProductLicenseName')
