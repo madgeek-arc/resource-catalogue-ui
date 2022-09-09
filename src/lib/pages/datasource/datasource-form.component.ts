@@ -398,12 +398,14 @@ export class DatasourceFormComponent implements OnInit {
       }
     }
     for (let i = 0; i < this.persistentIdentitySystemArray.length; i++) {
+      console.log(this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes'));
+      console.log(this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes').value[0]);
       if ((this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityType').value === '' || this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityType').value === null)
-        && (this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeScheme').value === '' || this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeScheme').value === null)) {
+        && (this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes').value[0] === '' || this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes').value[0] === null)) {
         this.removePersistentIdentitySystem(i);
       }
     }
-    //TODO: ^^do the same for "persistentIdentitySystems"
+    //TODO: ^^fix persistentIdentityEntityTypeSchemes ....value[0]
 
     this.findInvalidControls();
     console.log('this.serviceForm.status ', this.serviceForm.status);
@@ -1451,7 +1453,7 @@ export class DatasourceFormComponent implements OnInit {
       }
     }
     // return invalid;
-    console.log(invalid);
+    console.log('findInvalidControls ', invalid);
   }
 
 }
