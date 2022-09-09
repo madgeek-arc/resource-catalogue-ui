@@ -281,8 +281,8 @@ export class DatasourceFormComponent implements OnInit {
     versionControl: [''],
     persistentIdentitySystems: this.fb.array([
       this.fb.group({
-        persistentIdentityEntityType: ['', Validators.required],
-        persistentIdentityEntityTypeScheme: this.fb.array([this.fb.control('', Validators.required)], Validators.required)
+        persistentIdentityEntityType: [''],
+        persistentIdentityEntityTypeSchemes: this.fb.array([this.initPersistentIdentityEntityTypeScheme()])
       })
     ]),
 
@@ -397,6 +397,12 @@ export class DatasourceFormComponent implements OnInit {
         this.removeMetadataLicensing(i);
       }
     }
+    for (let i = 0; i < this.persistentIdentitySystemArray.length; i++) {
+      if ((this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityType').value === '' || this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityType').value === null)
+        && (this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeScheme').value === '' || this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeScheme').value === null)) {
+        this.removePersistentIdentitySystem(i);
+      }
+    }
     //TODO: ^^do the same for "persistentIdentitySystems"
 
     this.findInvalidControls();
@@ -421,7 +427,7 @@ export class DatasourceFormComponent implements OnInit {
           this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
         }
       );
-    } else if (!this.serviceForm.valid) {
+    } else if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
       this.datasourceService[pendingService ? 'uploadPendingService' : 'uploadDatasource']
       (this.serviceForm.value, this.editMode, this.commentControl.value).subscribe(
@@ -443,7 +449,7 @@ export class DatasourceFormComponent implements OnInit {
           window.scrollTo(0, 0);
           this.categoryArray.enable();
           this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error.error);
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
         }
       );
     } else {
@@ -738,7 +744,7 @@ export class DatasourceFormComponent implements OnInit {
       || this.checkFormValidity('preservationPolicyURL', this.editMode)
       || this.checkFormValidity('versionControl', this.editMode)
       || this.checkEveryArrayFieldValidity('persistentIdentitySystems', this.editMode, 'persistentIdentityEntityType')
-      || this.checkEveryArrayFieldValidity('persistentIdentitySystems', this.editMode, 'persistentIdentityEntityTypeScheme'));
+      || this.checkEveryArrayFieldValidity('persistentIdentitySystems', this.editMode, 'persistentIdentityEntityTypeSchemes'));
     this.tabs[17] = (this.checkFormValidity('jurisdiction', this.editMode)
       || this.checkFormValidity('dataSourceClassification', this.editMode)
       || this.checkEveryArrayFieldValidity('researchEntityTypes', this.editMode)
@@ -925,12 +931,12 @@ export class DatasourceFormComponent implements OnInit {
   newPersistentIdentitySystem(): FormGroup {
     return this.fb.group({
       persistentIdentityEntityType: [''],
-      persistentIdentityEntityTypeScheme: this.fb.array([this.fb.control('', Validators.required)], Validators.required)
+      persistentIdentityEntityTypeSchemes: this.fb.array([this.initPersistentIdentityEntityTypeScheme()])
     });
   }
 
   get persistentIdentitySystemArray() {
-    return this.serviceForm.get('publicContacts') as FormArray;
+    return this.serviceForm.get('persistentIdentitySystems') as FormArray;
   }
 
   pushPersistentIdentitySystem() {
@@ -941,6 +947,27 @@ export class DatasourceFormComponent implements OnInit {
     this.persistentIdentitySystemArray.removeAt(index);
   }
 
+
+  initPersistentIdentityEntityTypeScheme() {
+    return this.fb.group({
+      persistentIdentityEntityTypeScheme: ['']
+    });
+  }
+
+  // get persistentIdentityEntityTypeSchemeArray() {
+  //   return this.serviceForm.get('persistentIdentityEntityTypeScheme') as FormArray;
+  // }
+
+  pushPersistentIdentityEntityTypeScheme(i) {
+    const control = (<FormArray>this.serviceForm.controls['persistentIdentitySystems']).at(i).get('persistentIdentityEntityTypeSchemes') as FormArray;
+    console.log(control);
+    control.push(this.initPersistentIdentityEntityTypeScheme());
+    // this.persistentIdentityEntityTypeSchemeArray.push(this.initPersistentIdentityEntityTypeScheme());
+  }
+
+  // removePersistentIdentityEntityTypeScheme(index: number) {
+  //   this.persistentIdentityEntityTypeSchemeArray.removeAt(index);
+  // }
   /** <--Persistent Identity Systems**/
 
   /** Service Contact Info -->**/

@@ -23,7 +23,7 @@ export class DatasourceSelectComponent implements OnInit {
 
   formPrepare = {
     from: '0',
-    quantity: '999',
+    quantity: '10',
     order: 'ASC',
     orderField: 'name'
   };

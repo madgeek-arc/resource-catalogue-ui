@@ -2055,9 +2055,8 @@
                               <label class="uk-form-label uk-text-right">Persistent Identity Systems</label>
                               <div class="uk-form-controls uk-margin-top">
                                 <div formArrayName="persistentIdentitySystems"
-                                     *ngFor="let p of persistentIdentitySystemArray.controls; let i = index">
-                                  <div [formGroupName]="i"
-                                       class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                     *ngFor="let p of serviceForm['controls'].persistentIdentitySystems['controls']; let i = index">
+                                  <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                     <div class="uk-margin-bottom">
                                       <label class="uk-form-label uk-text-right" for="persistentIdentityEntityType">
                                         {{ persistentIdentityEntityTypeDesc.label + (persistentIdentityEntityTypeDesc.mandatory ? ' (*)' : '') }}
@@ -2072,40 +2071,41 @@
                                                    bindValue="id"
                                                    clearAllText="Clear"
                                                    formControlName="persistentIdentityEntityType">
-<!--                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'organisation')}">-->
                                         </ng-select>
                                       </div>
                                     </div>
-                                    <div class="uk-margin-bottom">
-                                      <label class="uk-form-label uk-text-right" for="persistentIdentityEntityTypeScheme">
-                                        {{ persistentIdentityEntityTypeSchemeDesc.label + (persistentIdentityEntityTypeSchemeDesc.mandatory ? ' (*)' : '') }}
-                                      </label>
-                                      <div
-                                        class="uk-form-description uk-margin-top uk-width-9-10">{{persistentIdentityEntityTypeSchemeDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
-                                        <ng-select *ngIf="persistentIdentitySchemeVocabulary" class="uk-width-1-1" id="persistentIdentityEntityTypeScheme"
-                                                   (change)="unsavedChangesPrompt()"
-                                                   [items]="sortVocabulariesByName(persistentIdentitySchemeVocabulary)"
-                                                   bindLabel="name"
-                                                   bindValue="id"
-                                                   clearAllText="Clear"
-                                                   formControlName="persistentIdentityEntityTypeScheme">
-                                          <!--                                                   [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'organisation')}">-->
-                                        </ng-select>
+                                    <div formArrayName="persistentIdentityEntityTypeSchemes"
+                                         *ngFor="let scheme of p['controls'].persistentIdentityEntityTypeSchemes['controls']; let index = index">
+                                      <div [formGroupName]="index" class="uk-margin-bottom formGroupElement uk-width-1-1 uk-display-inline-block">
+                                        <div class="uk-margin-bottom">
+                                          <label class="uk-form-label uk-text-right" for="persistentIdentityEntityTypeScheme">
+                                            {{ persistentIdentityEntityTypeSchemeDesc.label + (persistentIdentityEntityTypeSchemeDesc.mandatory ? ' (*)' : '') }}
+                                          </label>
+                                          <div
+                                            class="uk-form-description uk-margin-top uk-width-9-10">{{persistentIdentityEntityTypeSchemeDesc.desc}}</div>
+                                          <div class="uk-form-controls uk-margin-medium-top">
+                                            <ng-select *ngIf="persistentIdentitySchemeVocabulary" class="uk-width-1-1" id="persistentIdentityEntityTypeScheme"
+                                                       (change)="unsavedChangesPrompt()"
+                                                       [items]="sortVocabulariesByName(persistentIdentitySchemeVocabulary)"
+                                                       bindLabel="name"
+                                                       bindValue="id"
+                                                       clearAllText="Clear"
+                                                       formControlName="persistentIdentityEntityTypeScheme">
+                                            </ng-select>
+                                          </div>
+                                        </div>
+                                        <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                          <a class="add-new-element" (click)="pushPersistentIdentityEntityTypeScheme(index)">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                            Add {{persistentIdentityEntityTypeSchemeDesc.label}}
+                                          </a>
+                                        </div>
                                       </div>
-                                    </div>
-                                    <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                                      <a class="add-new-element">
-<!--                                         (click)="push('persistentIdentityEntityTypeScheme', persistentIdentityEntityTypeSchemeDesc.mandatory)">-->
-                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                        Add {{persistentIdentityEntityTypeSchemeDesc.label}}
-                                      </a>
                                     </div>
                                   </div>
                                   <a *ngIf="getFieldAsFormArray('persistentIdentitySystems').length > 1 && !disable"
                                      class="remove-element uk-padding-small uk-display-inline-block"
                                      (click)="removePersistentIdentitySystem(i); unsavedChangesPrompt(); ">
-<!--                                     handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts')">-->
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>

@@ -16,7 +16,7 @@
     <div>
       <h5 class="uk-padding uk-padding-remove-left uk-margin-remove">
         Select a datasource from the list (provided by OpenAIRE) or <a [routerLink]="['/provider/' + providerId + '/datasource/add/']">create one from scratch</a>
-        for {{providerBundle.provider.name}}
+        {{providerBundle?.provider?.name ? 'for ' + providerBundle?.provider?.name : ''}}
       </h5>
     </div>
 
@@ -36,7 +36,6 @@
                 <option value="25">25</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
-                <option value="999">999</option>
               </select>
             </div>
           </div>
