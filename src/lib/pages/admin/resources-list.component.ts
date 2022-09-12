@@ -582,9 +582,8 @@ export class ResourcesListComponent implements OnInit {
   }
 
   extrasFormPrep(resource: InfraService){
-    // this.extrasForm.reset();
-    this.extrasForm.setControl('researchCategories', this.fb.array([this.fb.control('')])); //resets part of the form
-    // this.extrasForm.setControl('eoscIFGuidelines', this.fb.array([this.fb.control('')])); //resets part of the form
+    //resets the 2 parts of the form and then fills them
+    this.extrasForm.setControl('researchCategories', this.fb.array([this.fb.control('')]));
     this.extrasForm.setControl('eoscIFGuidelines',
       this.fb.array([this.fb.group({
         label: [''],
@@ -599,7 +598,7 @@ export class ResourcesListComponent implements OnInit {
       }
     }
     if ( resource?.resourceExtras?.eoscIFGuidelines ) {
-      for (let i = 0; i < resource.resourceExtras.researchCategories.length - 1; i++) {
+      for (let i = 0; i < resource.resourceExtras.eoscIFGuidelines.length - 1; i++) {
         this.pushEoscIFGuidelines();
       }
     }

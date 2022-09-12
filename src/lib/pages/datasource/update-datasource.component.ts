@@ -36,19 +36,19 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
       sessionStorage.removeItem('service');
     } else {
       this.sub = this.route.params.subscribe(params => {
-        this.serviceID = params['resourceId'];
+        this.serviceID = params['datasourceId']; //refactor rename
         const pathName = window.location.pathname;
         if (pathName.includes('draft-resource/update')) {
           this.pendingService = true;
         }
         // this.resourceService.getService(this.serviceID).subscribe(service => {
-        this.resourceService[this.pendingService ? 'getPendingService' : 'getRichService'](this.serviceID)
-          .subscribe(richService => {
-              if (richService.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
+        this.datasourceService[this.pendingService ? 'getPendingService' : 'getDatasource'](this.serviceID)
+          .subscribe(datasource => {
+              if (datasource.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
                 this.navigationService.go('/forbidden') // TODO: recheck with backend
-              ResourceService.removeNulls(richService.service);
-              this.formPrepare(richService);
-              this.serviceForm.patchValue(richService.service);
+              ResourceService.removeNulls(datasource);
+              this.formPrepare(datasource);
+              this.serviceForm.patchValue(datasource);
               for (const i in this.serviceForm.controls) {
                 if (this.serviceForm.controls[i].value === null) {
                   this.serviceForm.controls[i].setValue('');

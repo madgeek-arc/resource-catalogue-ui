@@ -25,7 +25,8 @@ export class DatasourceSelectComponent implements OnInit {
     from: '0',
     quantity: '10',
     order: 'ASC',
-    orderField: 'name'
+    orderField: 'name',
+    query: '',
   };
 
   dataForm: FormGroup;
@@ -97,7 +98,7 @@ export class DatasourceSelectComponent implements OnInit {
   getOpenAIREDatasources() {
     UIkit.modal('#spinnerModal').show();
     this.datasourceService.getOpenAIREDatasources(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('orderField').value, this.dataForm.get('order').value)
+      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value)
       .subscribe(res => {
           this.datasources = res;
           this.total = res['total'];

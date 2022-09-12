@@ -53,13 +53,20 @@
             </div>
           </div>
 
-          <div class="uk-inline">
+          <div class="uk-inline uk-margin-right">
             <label class="" for="orderField">Sort by </label>
             <div class="uk-inline">
               <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
                 <option value="name" selected>Name</option>
               </select>
             </div>
+          </div>
+
+          <div class="uk-inline">
+            <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
+              <span uk-search-icon></span>
+              <input class="uk-search-input" type="search" placeholder="Search..." formControlName="query">
+            </form>
           </div>
 
         </div>

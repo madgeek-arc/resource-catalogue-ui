@@ -42,14 +42,14 @@ const datasourceRoutes: Routes = [
   //     breadcrumb: 'Add Datasource'
   //   }
   // },
-  {
-    path: ':providerId/datasource/update/:datasourceId',
-    component: UpdateDatasourceComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Edit Datasource'
-    }
-  },
+  // {
+  //   path: 'provider/:providerId/datasource/update/:datasourceId',
+  //   component: UpdateDatasourceComponent,
+  //   canActivate: [CanActivateViaAuthGuard],
+  //   data: {
+  //     breadcrumb: 'Edit Datasource'
+  //   }
+  // },
 ];
 
 @NgModule({

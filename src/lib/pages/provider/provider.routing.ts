@@ -18,6 +18,7 @@ import {environment} from '../../../environments/environment';
 import {RejectedServicesComponent} from './dashboard/rejectedServices/rejected-services.component';
 import {DatasourceSelectComponent} from "./dashboard/datasources/datasource-select.component";
 import {DatasourceFormComponent} from "../datasource/datasource-form.component";
+import {UpdateDatasourceComponent} from "../datasource/update-datasource.component";
 
 
 const providerRoutes: Routes = [
@@ -141,6 +142,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit ' + environment.serviceORresource
+    }
+  },
+  {
+    path: ':providerId/datasource/update/:datasourceId',
+    component: UpdateDatasourceComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Edit Datasource'
     }
   },
   {

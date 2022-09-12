@@ -6,7 +6,7 @@ import {ResourceService} from '../../services/resource.service';
 import {DatasourceService} from "../../services/datasource.service";
 import {UserService} from '../../services/user.service';
 import * as sd from '../provider-resources/services.description';
-import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
+import {Provider, RichService, Service, Datasource, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
 import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
@@ -768,16 +768,19 @@ export class DatasourceFormComponent implements OnInit {
   }
 
   push(field: string, required: boolean, url?: boolean) {
+    console.log('in push');
     if (required) {
+      console.log('req');
       if (url) {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
-      // console.log('added non mandatory url field');
+      console.log('added non mandatory url field');
       this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
     } else {
+      console.log('else');
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }
   }
@@ -1021,135 +1024,145 @@ export class DatasourceFormComponent implements OnInit {
     });
   }
 
-  formPrepare(richService: RichService) {
+  formPrepare(datasource: Datasource) {
 
     this.removeCategory(0);
-    if (richService.service.categories) {
-      for (let i = 0; i < richService.service.categories.length; i++) {
+    if (datasource.categories) {
+      for (let i = 0; i < datasource.categories.length; i++) {
         this.categoryArray.push(this.newCategory());
-        this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.service.categories[i].category);
-        this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.service.categories[i].subcategory);
+        this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(datasource.categories[i].category);
+        this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(datasource.categories[i].subcategory);
       }
     } else {
       this.categoryArray.push(this.newCategory());
     }
 
     this.removeScientificDomain(0);
-    if (richService.service.scientificDomains) {
-      for (let i = 0; i < richService.service.scientificDomains.length; i++) {
+    if (datasource.scientificDomains) {
+      for (let i = 0; i < datasource.scientificDomains.length; i++) {
         this.scientificDomainArray.push(this.newScientificDomain());
         this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-          .get('scientificDomain').setValue(richService.service.scientificDomains[i].scientificDomain);
+          .get('scientificDomain').setValue(datasource.scientificDomains[i].scientificDomain);
         this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-          .get('scientificSubdomain').setValue(richService.service.scientificDomains[i].scientificSubdomain);
+          .get('scientificSubdomain').setValue(datasource.scientificDomains[i].scientificSubdomain);
       }
     } else {
       this.scientificDomainArray.push(this.newScientificDomain());
     }
 
-    if (richService.service.resourceProviders) {
-      for (let i = 0; i < richService.service.resourceProviders.length - 1; i++) {
+    if (datasource.resourceProviders) {
+      for (let i = 0; i < datasource.resourceProviders.length - 1; i++) {
         this.push('resourceProviders', true);
       }
     }
-    if (richService.service.multimedia) {
-      for (let i = 0; i < richService.service.multimedia.length - 1; i++) {
+    if (datasource.multimedia) {
+      for (let i = 0; i < datasource.multimedia.length - 1; i++) {
         this.pushMultimedia();
       }
     }
-    if (richService.service.useCases) {
-      for (let i = 0; i < richService.service.useCases.length - 1; i++) {
+    if (datasource.useCases) {
+      for (let i = 0; i < datasource.useCases.length - 1; i++) {
         this.pushUseCase();
       }
     }
-    if (richService.service.targetUsers) {
-      for (let i = 0; i < richService.service.targetUsers.length - 1; i++) {
+    if (datasource.targetUsers) {
+      for (let i = 0; i < datasource.targetUsers.length - 1; i++) {
         this.push('targetUsers', true);
       }
     }
-    if (richService.service.accessTypes) {
-      for (let i = 0; i < richService.service.accessTypes.length - 1; i++) {
+    if (datasource.accessTypes) {
+      for (let i = 0; i < datasource.accessTypes.length - 1; i++) {
         this.push('accessTypes', false);
       }
     }
-    if (richService.service.accessModes) { //TODO: add this for new similar fields as well
-      for (let i = 0; i < richService.service.accessModes.length - 1; i++) {
+    if (datasource.accessModes) { //TODO: add this for new similar fields as well
+      for (let i = 0; i < datasource.accessModes.length - 1; i++) {
         this.push('accessModes', false);
       }
     }
-    if (richService.service.tags) {
-      for (let i = 0; i < richService.service.tags.length - 1; i++) {
+    if (datasource.tags) {
+      for (let i = 0; i < datasource.tags.length - 1; i++) {
         this.push('tags', false);
       }
     }
-    if (richService.service.geographicalAvailabilities) {
-      for (let i = 0; i < richService.service.geographicalAvailabilities.length - 1; i++) {
+    if (datasource.geographicalAvailabilities) {
+      for (let i = 0; i < datasource.geographicalAvailabilities.length - 1; i++) {
         this.push('geographicalAvailabilities', true);
       }
     }
-    if (richService.service.languageAvailabilities) {
-      for (let i = 0; i < richService.service.languageAvailabilities.length - 1; i++) {
+    if (datasource.languageAvailabilities) {
+      for (let i = 0; i < datasource.languageAvailabilities.length - 1; i++) {
         this.push('languageAvailabilities', true);
       }
     }
-    if (richService.service.resourceGeographicLocations) {
-      for (let i = 0; i < richService.service.resourceGeographicLocations.length - 1; i++) {
+    if (datasource.resourceGeographicLocations) {
+      for (let i = 0; i < datasource.resourceGeographicLocations.length - 1; i++) {
         this.push('resourceGeographicLocations', true);
       }
     }
-    if (richService.service.publicContacts) {
-      for (let i = 0; i < richService.service.publicContacts.length - 1; i++) {
+    if (datasource.publicContacts) {
+      for (let i = 0; i < datasource.publicContacts.length - 1; i++) {
         this.pushPublicContact();
       }
     }
-    if (richService.service.certifications) {
-      for (let i = 0; i < richService.service.certifications.length - 1; i++) {
+    if (datasource.certifications) {
+      for (let i = 0; i < datasource.certifications.length - 1; i++) {
         this.push('certifications', false);
       }
     }
-    if (richService.service.standards) {
-      for (let i = 0; i < richService.service.standards.length - 1; i++) {
+    if (datasource.standards) {
+      for (let i = 0; i < datasource.standards.length - 1; i++) {
         this.push('standards', false);
       }
     }
-    if (richService.service.openSourceTechnologies) {
-      for (let i = 0; i < richService.service.openSourceTechnologies.length - 1; i++) {
+    if (datasource.openSourceTechnologies) {
+      for (let i = 0; i < datasource.openSourceTechnologies.length - 1; i++) {
         this.push('openSourceTechnologies', false);
       }
     }
-    if (richService.service.changeLog) {
-      for (let i = 0; i < richService.service.changeLog.length - 1; i++) {
+    if (datasource.changeLog) {
+      for (let i = 0; i < datasource.changeLog.length - 1; i++) {
         this.push('changeLog', false);
       }
     }
-    if (richService.service.requiredResources) {
-      for (let i = 0; i < richService.service.requiredResources.length - 1; i++) {
+    if (datasource.requiredResources) {
+      for (let i = 0; i < datasource.requiredResources.length - 1; i++) {
         this.push('requiredResources', false);
       }
     }
-    if (richService.service.relatedResources) {
-      for (let i = 0; i < richService.service.relatedResources.length - 1; i++) {
+    if (datasource.relatedResources) {
+      for (let i = 0; i < datasource.relatedResources.length - 1; i++) {
         this.push('relatedResources', false);
       }
     }
-    if (richService.service.relatedPlatforms) {
-      for (let i = 0; i < richService.service.relatedPlatforms.length - 1; i++) {
+    if (datasource.relatedPlatforms) {
+      for (let i = 0; i < datasource.relatedPlatforms.length - 1; i++) {
         this.push('relatedPlatforms', false);
       }
     }
-    if (richService.service.fundingBody) {
-      for (let i = 0; i < richService.service.fundingBody.length - 1; i++) {
+    if (datasource.fundingBody) {
+      for (let i = 0; i < datasource.fundingBody.length - 1; i++) {
         this.push('fundingBody', false);
       }
     }
-    if (richService.service.fundingPrograms) {
-      for (let i = 0; i < richService.service.fundingPrograms.length - 1; i++) {
+    if (datasource.fundingPrograms) {
+      for (let i = 0; i < datasource.fundingPrograms.length - 1; i++) {
         this.push('fundingPrograms', false);
       }
     }
-    if (richService.service.grantProjectNames) {
-      for (let i = 0; i < richService.service.grantProjectNames.length - 1; i++) {
+    if (datasource.grantProjectNames) {
+      for (let i = 0; i < datasource.grantProjectNames.length - 1; i++) {
         this.push('grantProjectNames', false);
+      }
+    }
+    if (datasource.submissionPolicyURL) {
+      for (let i = 0; i < datasource.submissionPolicyURL.length - 1; i++) {
+        this.push('submissionPolicyURL', false);
+      }
+    }
+    if (datasource.preservationPolicyURL) {
+      for (let i = 0; i < datasource.preservationPolicyURL.length - 1; i++) {
+        this.push('preservationPolicyURL', false);
       }
     }
   }

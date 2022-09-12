@@ -85,8 +85,8 @@ export class DatasourcesComponent implements OnInit {
       );
   }
 
-  navigate(id: string) {
-    this.router.navigate([`/dashboard/${this.catalogueId}/${this.providerId}/resource-dashboard/`, id]);
+  navigateToUpdate(id: string) {
+    this.router.navigate([`/provider/${this.providerId}/datasource/update/${id}`]);
   }
 
   useAsTemplate(id: string) {
@@ -179,7 +179,7 @@ export class DatasourcesComponent implements OnInit {
       }
     }
 
-    this.router.navigate([`/dashboard`, this.catalogueId, this.providerId, `resources`], {queryParams: map});
+    this.router.navigate([`/dashboard`, this.catalogueId, this.providerId, `datasources`], {queryParams: map});
   }
 
   paginationInit() {

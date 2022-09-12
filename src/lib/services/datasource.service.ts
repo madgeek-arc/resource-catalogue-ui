@@ -30,7 +30,7 @@ export class DatasourceService {
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
     if (!catalogue_id) catalogue_id = 'eosc';
-    return this.http.get<Service>(this.base + `/datasource/${id}/?catalogue_id=${catalogue_id}`, this.options);
+    return this.http.get<Datasource>(this.base + `/datasource/${id}/?catalogue_id=${catalogue_id}`, this.options);
   }
 
   getRichDatasource(id: string, version?: string) {
@@ -41,7 +41,7 @@ export class DatasourceService {
   getSelectedDatasources(ids: string[]) {
     /*return this.getSome("service", ids).map(res => <Service[]> <any> res);*/
     // return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
-    return this.http.get<RichService[]>(this.base + `/datasource/rich/byID/${ids.toString()}/`, this.options);
+    return this.http.get<Datasource[]>(this.base + `/datasource/rich/byID/${ids.toString()}/`, this.options);
   }
 
   deleteDatasource(id: string) {
@@ -85,12 +85,13 @@ export class DatasourceService {
     return this.http.get(this.base + `/datasource/adminPage/all`, {params});
   }
 
-  getOpenAIREDatasources(from: string, quantity: string, orderField: string, order: string) {
+  getOpenAIREDatasources(from: string, quantity: string, orderField: string, order: string, query: string) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
     params = params.append('orderField', orderField);
     params = params.append('order', order);
+    params = params.append('query', query);
     return this.http.get<Paging<Datasource>>(this.base + '/datasource/getAllOpenAIREDatasources', {params});
   }
 
