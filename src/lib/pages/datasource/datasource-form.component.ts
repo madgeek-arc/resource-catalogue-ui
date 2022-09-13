@@ -282,7 +282,8 @@ export class DatasourceFormComponent implements OnInit {
     persistentIdentitySystems: this.fb.array([
       this.fb.group({
         persistentIdentityEntityType: [''],
-        persistentIdentityEntityTypeSchemes: this.fb.array([this.initPersistentIdentityEntityTypeScheme()])
+        persistentIdentityEntityTypeSchemes: this.fb.array([this.fb.control('')])
+        // persistentIdentityEntityTypeSchemes: this.fb.array([this.initPersistentIdentityEntityTypeScheme()])
       })
     ]),
 
@@ -768,20 +769,15 @@ export class DatasourceFormComponent implements OnInit {
   }
 
   push(field: string, required: boolean, url?: boolean) {
-    console.log('in push');
     if (required) {
-      console.log('req');
       if (url) {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
-      console.log('add non mandatory url field');
-      console.log(field);
       this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
     } else {
-      console.log('else');
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }
   }
@@ -955,9 +951,7 @@ export class DatasourceFormComponent implements OnInit {
 
 
   initPersistentIdentityEntityTypeScheme() {
-    return this.fb.group({
-      persistentIdentityEntityTypeScheme: ['']
-    });
+    return this.fb.array([this.fb.control('')])
   }
 
   // get persistentIdentityEntityTypeSchemeArray() {
@@ -966,9 +960,7 @@ export class DatasourceFormComponent implements OnInit {
 
   pushPersistentIdentityEntityTypeScheme(i) {
     const control = (<FormArray>this.serviceForm.controls['persistentIdentitySystems']).at(i).get('persistentIdentityEntityTypeSchemes') as FormArray;
-    console.log(control);
-    control.push(this.initPersistentIdentityEntityTypeScheme());
-    // this.persistentIdentityEntityTypeSchemeArray.push(this.initPersistentIdentityEntityTypeScheme());
+    control.push(this.fb.control(''));
   }
 
   // removePersistentIdentityEntityTypeScheme(index: number) {
@@ -1076,7 +1068,7 @@ export class DatasourceFormComponent implements OnInit {
         this.push('accessTypes', false);
       }
     }
-    if (datasource.accessModes) { //TODO: add this for new similar fields as well
+    if (datasource.accessModes) {
       for (let i = 0; i < datasource.accessModes.length - 1; i++) {
         this.push('accessModes', false);
       }
@@ -1164,6 +1156,31 @@ export class DatasourceFormComponent implements OnInit {
     if (datasource.preservationPolicyURL) {
       for (let i = 0; i < datasource.preservationPolicyURL.length - 1; i++) {
         this.push('preservationPolicyURL', false);
+      }
+    }
+    if (datasource.researchEntityTypes) {
+      for (let i = 0; i < datasource.researchEntityTypes.length - 1; i++) {
+        this.push('researchEntityTypes', true);
+      }
+    }
+    if (datasource.researchProductLicensings) {
+      for (let i = 0; i < datasource.useCases.length - 1; i++) {
+        this.pushLicensing();
+      }
+    }
+    if (datasource.researchProductAccessPolicy) {
+      for (let i = 0; i < datasource.researchProductAccessPolicy.length - 1; i++) {
+        this.push('researchProductAccessPolicy', false);
+      }
+    }
+    if (datasource.researchProductMetadataLicensings) {
+      for (let i = 0; i < datasource.useCases.length - 1; i++) {
+        this.pushMetadataLicensing();
+      }
+    }
+    if (datasource.researchProductMetadataAccessPolicy) {
+      for (let i = 0; i < datasource.researchProductMetadataAccessPolicy.length - 1; i++) {
+        this.push('researchProductMetadataAccessPolicy', false);
       }
     }
   }

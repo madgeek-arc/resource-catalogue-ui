@@ -25,6 +25,10 @@
         <p>{{errorMessage}}</p>
       </div>
 
+      <div *ngIf="showLoader" class="uk-position-center">
+        <div uk-spinner="ratio: 2"></div>
+      </div>
+
       <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters uk-margin-bottom">
 
         <div class="uk-margin-right">
@@ -142,10 +146,5 @@
 
     </div>
 
-  </div>
-</div>
-
-<div id="spinnerModal" uk-modal>
-  <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
   </div>
 </div>

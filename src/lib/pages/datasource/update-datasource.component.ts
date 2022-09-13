@@ -44,7 +44,7 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
         // this.resourceService.getService(this.serviceID).subscribe(service => {
         this.datasourceService[this.pendingService ? 'getPendingService' : 'getDatasource'](this.serviceID)
           .subscribe(datasource => {
-              if (datasource.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
+              if (datasource.mainContact === null) //in case of unauthorized access backend will not show sensitive info
                 this.navigationService.go('/forbidden') // TODO: recheck with backend
               ResourceService.removeNulls(datasource);
               this.formPrepare(datasource);

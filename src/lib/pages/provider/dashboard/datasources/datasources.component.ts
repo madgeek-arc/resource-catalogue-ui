@@ -7,6 +7,7 @@ import {Paging} from '../../../../domain/paging';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
+import {DatasourceService} from "../../../../services/datasource.service";
 
 declare var UIkit: any;
 
@@ -53,7 +54,8 @@ export class DatasourcesComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
-    private service: ResourceService
+    private service: ResourceService,
+    private datasourceService: DatasourceService
   ) {}
 
   ngOnInit(): void {
@@ -142,12 +144,13 @@ export class DatasourcesComponent implements OnInit {
 
   setSelectedService(datasource: Datasource) {
     this.selectedDatasource = datasource;
+    console.log(this.selectedDatasource);
     UIkit.modal('#actionModal').show();
   }
 
   deleteDatasource(id: string) {
     UIkit.modal('#spinnerModal').show();
-    this.service.deleteService(id).subscribe(
+    this.datasourceService.deleteDatasource(id).subscribe(
       res => {},
       error => {
         UIkit.modal('#spinnerModal').hide();

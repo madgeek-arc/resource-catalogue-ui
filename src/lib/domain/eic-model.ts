@@ -352,7 +352,7 @@ export class Datasource extends Service {
 
 export class PersistentIdentitySystem {
   persistentIdentityEntityType: string;
-  persistentIdentityEntityTypeSchemes: string;
+  persistentIdentityEntityTypeSchemes: string[];
 }
 export class ResearchProductLicensing {
   researchProductLicenseName: string;

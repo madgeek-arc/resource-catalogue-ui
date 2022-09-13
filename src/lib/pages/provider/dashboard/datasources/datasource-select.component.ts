@@ -32,7 +32,7 @@ export class DatasourceSelectComponent implements OnInit {
   dataForm: FormGroup;
 
   errorMessage = '';
-  // toggleLoading = false;
+  showLoader = false;
   urlParams: URLParameter[] = [];
   providerId: string;
   catalogueId: string;
@@ -96,7 +96,7 @@ export class DatasourceSelectComponent implements OnInit {
   }
 
   getOpenAIREDatasources() {
-    UIkit.modal('#spinnerModal').show();
+    this.showLoader = true;
     this.datasourceService.getOpenAIREDatasources(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value)
       .subscribe(res => {
@@ -105,10 +105,10 @@ export class DatasourceSelectComponent implements OnInit {
           this.paginationInit();
         },
         err => {
-          UIkit.modal('#spinnerModal').hide();
+          this.showLoader = false;
           this.errorMessage = 'An error occurred while retrieving the datasources of this provider. ' + err.error;
         },
-        () => UIkit.modal('#spinnerModal').hide()
+        () => this.showLoader = false
       );
   }
 

@@ -161,13 +161,17 @@
                     <span *ngIf="datasource.datasource.description" class="uk-margin-small-top">{{datasource.datasource.description}}</span>
                   </div>
                 </div>
-                <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
+<!--                <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">-->
                   <div class="action-buttons">
+                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top"
+                            [routerLink]="['/provider/' + this.providerId + '/datasource/update/' + datasource.id]">
+                      <i class="fa fa-edit fa-lg" aria-hidden="true"></i> Update datasource
+                    </button>
                     <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedService(datasource)">
                       <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete datasource
                     </button>
                   </div>
-                </div>
+<!--                </div>-->
               </div>
 
             </div>
@@ -192,7 +196,7 @@
 
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h6 *ngIf="selectedDatasource">Are you sure you want to delete the datasource '{{selectedDatasource.name}}'</h6>
+    <h6 *ngIf="selectedDatasource">Are you sure you want to delete the datasource '{{selectedDatasource.datasource.name}}'?</h6>
     <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteDatasource(selectedDatasource.id)">Delete</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>
