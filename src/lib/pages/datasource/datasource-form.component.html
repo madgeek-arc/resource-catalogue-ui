@@ -1973,9 +1973,10 @@
                                 <div *ngFor="let url of getFieldAsFormArray('submissionPolicyURL').controls; let i=index"
                                      class="uk-margin-bottom">
                                   <input id="submissionPolicyURL" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
-                                         type="text" [formControlName]="i" placeholder="use http:// or https://"
+                                         type="text" placeholder="use http:// or https://"
                                          (input)="unsavedChangesPrompt(); checkForDuplicates('submissionPolicyURL')"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('submissionPolicyURL', i, this.editMode)}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('submissionPolicyURL', i, this.editMode)}"
+                                         [formControlName]="i">
                                   <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('submissionPolicyURL').value[i]" class="uk-icon">
                                     <a href="{{this.serviceForm.get('submissionPolicyURL').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
                                   </div>
@@ -2003,9 +2004,10 @@
                                 <div *ngFor="let url of getFieldAsFormArray('preservationPolicyURL').controls; let i=index"
                                      class="uk-margin-bottom">
                                   <input id="preservationPolicyURL" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
-                                         type="text" [formControlName]="i" placeholder="use http:// or https://"
+                                         type="text" placeholder="use http:// or https://"
                                          (input)="unsavedChangesPrompt(); checkForDuplicates('preservationPolicyURL')"
-                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('preservationPolicyURL', i, this.editMode)}">
+                                         [ngClass]="{'uk-form-danger': checkFormArrayValidity('preservationPolicyURL', i, this.editMode)}"
+                                         [formControlName]="i">
                                   <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('preservationPolicyURL').value[i]" class="uk-icon">
                                     <a href="{{this.serviceForm.get('preservationPolicyURL').value[i]}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
                                   </div>

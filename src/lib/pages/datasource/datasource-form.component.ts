@@ -276,8 +276,8 @@ export class DatasourceFormComponent implements OnInit {
     categories: this.fb.array([], Validators.required),
     scientificDomains: this.fb.array([], Validators.required),
 
-    submissionPolicyURL: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
-    preservationPolicyURL: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    submissionPolicyURL: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
+    preservationPolicyURL: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
     versionControl: [''],
     persistentIdentitySystems: this.fb.array([
       this.fb.group({
@@ -777,7 +777,8 @@ export class DatasourceFormComponent implements OnInit {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
-      console.log('added non mandatory url field');
+      console.log('add non mandatory url field');
+      console.log(field);
       this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
     } else {
       console.log('else');
