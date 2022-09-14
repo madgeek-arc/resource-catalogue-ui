@@ -71,7 +71,6 @@ export class ResourcesListComponent implements OnInit {
 
   errorMessage: string;
   loadingMessage = '';
-  showLoader = false;
 
   providers: ProviderBundle[] = [];
   selectedProvider: ProviderBundle;
@@ -541,14 +540,15 @@ export class ResourcesListComponent implements OnInit {
 
   /** resourceExtras--> **/
   toggleHorizontalService(resource: InfraService) {
+    UIkit.modal('#spinnerModal').show();
     this.resourceExtrasService.updateHorizontalService(resource.id, resource.service.catalogueId, !resource?.resourceExtras?.horizontalService).subscribe(
-      res => this.showLoader = true,
+      res => {},
       err => {
-        this.showLoader = false;
+        UIkit.modal('#spinnerModal').hide();
         console.log(err)
       },
       () => {
-        this.showLoader = false;
+        UIkit.modal('#spinnerModal').hide();
         location.reload();
       }
     );
@@ -573,28 +573,30 @@ export class ResourcesListComponent implements OnInit {
   }
 
   updateResearchCategories(resource: InfraService) {
+    UIkit.modal('#spinnerModal').show();
     this.resourceExtrasService.updateResearchCategories(resource.id, resource.service.catalogueId, this.extrasForm.value.researchCategories).subscribe(
-      res => this.showLoader = true,
+      res => {},
       err => {
-        this.showLoader = false;
+        UIkit.modal('#spinnerModal').hide();
         console.log(err);
       },
       () => {
-        this.showLoader = false;
+        UIkit.modal('#spinnerModal').hide();
         location.reload();
       }
     );
   }
 
   updateEoscIFGuidelines(resource: InfraService) {
+    UIkit.modal('#spinnerModal').show();
     this.resourceExtrasService.updateEoscIFGuidelines(resource.id, resource.service.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
-      res => this.showLoader = true,
+      res => {},
       err => {
-        this.showLoader = false;
+        UIkit.modal('#spinnerModal').hide();
         console.log(err);
       },
       () => {
-        this.showLoader = false;
+        UIkit.modal('#spinnerModal').hide();
         location.reload();
       }
     );
