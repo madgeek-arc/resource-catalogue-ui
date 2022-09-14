@@ -2113,22 +2113,6 @@
                                            formControlName="jurisdiction">
                                 </ng-select>
                               </div>
-  <!--                            <div class="uk-margin-small-top">-->
-  <!--                              <i><small>For suggestions in amending the-->
-  <!--                                "{{jurisdictionDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>-->
-  <!--                            </div>-->
-  <!--                            <div *ngIf="this.serviceForm.get('jurisdiction').value === 'order_type-other'" class="uk-flex uk-flex-left">-->
-  <!--                              <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">-->
-  <!--                                <label>-->
-  <!--                                  <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="orderTypeVocabularyEntryValueName">-->
-  <!--                                </label>-->
-  <!--                              </form>-->
-  <!--                              <button class="uk-button uk-button-default" type="submit"-->
-  <!--                                      (click)="submitSuggestion(this.vocabularyEntryForm.get('orderTypeVocabularyEntryValueName').value, 'ORDER TYPE', null)">-->
-  <!--                                Submit-->
-  <!--                              </button>-->
-  <!--                              <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>-->
-  <!--                            </div>-->
                             </div>
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="datasourceClassification">
@@ -2146,22 +2130,6 @@
                                            formControlName="datasourceClassification">
                                 </ng-select>
                               </div>
-  <!--                            <div class="uk-margin-small-top">-->
-  <!--                              <i><small>For suggestions in amending the-->
-  <!--                                "{{orderTypeDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>-->
-  <!--                            </div>-->
-  <!--                            <div *ngIf="this.serviceForm.get('orderType').value === 'order_type-other'" class="uk-flex uk-flex-left">-->
-  <!--                              <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">-->
-  <!--                                <label>-->
-  <!--                                  <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="orderTypeVocabularyEntryValueName">-->
-  <!--                                </label>-->
-  <!--                              </form>-->
-  <!--                              <button class="uk-button uk-button-default" type="submit"-->
-  <!--                                      (click)="submitSuggestion(this.vocabularyEntryForm.get('orderTypeVocabularyEntryValueName').value, 'ORDER TYPE', null)">-->
-  <!--                                Submit-->
-  <!--                              </button>-->
-  <!--                              <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>-->
-  <!--                            </div>-->
                             </div>
                             <div formArrayName="researchEntityTypes" class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="researchEntityTypes">
@@ -2186,24 +2154,6 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-  <!--                              <div class="uk-margin-small-top">-->
-  <!--                                <i><small>For suggestions in amending the-->
-  <!--                                  "{{researchEntityTypesDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>-->
-  <!--                              </div>-->
-  <!--                              <div *ngFor="let provider of getFieldAsFormArray('researchEntityTypes').controls; let i=index">-->
-  <!--                                <div *ngIf="this.serviceForm.get('researchEntityTypes').value[i] === 'target_user-other'" class="uk-flex uk-flex-left">-->
-  <!--                                  <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">-->
-  <!--                                    <label>-->
-  <!--                                      <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="targetUsersVocabularyEntryValueName">-->
-  <!--                                    </label>-->
-  <!--                                  </form>-->
-  <!--                                  <button class="uk-button uk-button-default" type="submit"-->
-  <!--                                          (click)="submitSuggestion(this.vocabularyEntryForm.get('targetUsersVocabularyEntryValueName').value, 'TARGET USER', null)">-->
-  <!--                                    Submit-->
-  <!--                                  </button>-->
-  <!--                                  <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>-->
-  <!--                                </div>-->
-  <!--                              </div>-->
                                 <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('researchEntityTypes', researchEntityTypesDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{researchEntityTypesDesc.label}}
@@ -2378,9 +2328,9 @@
                             </div>
                           </li>
                         </ul>
-                              <pre>
-                                {{serviceForm.value | json}}
-                              </pre>
+<!--                              <pre>-->
+<!--                                {{serviceForm.value | json}}-->
+<!--                              </pre>-->
                       </div>
                       <!--<button type="submit" class="btn btn-primary butn theme block full-width m-b">-->
                       <!--{{editMode ? "Update" : "Add"}}-->

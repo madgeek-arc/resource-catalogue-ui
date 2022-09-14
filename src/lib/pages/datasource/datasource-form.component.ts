@@ -897,12 +897,6 @@ export class DatasourceFormComponent implements OnInit {
   }
   /** <--Licensing**/
 
-  /** Metadata Licensing -->**/
-  get metadataLicensingArray() {
-    return this.serviceForm.get('researchProductMetadataLicensing') as FormArray;
-  }
-  /** <--Metadata Licensing**/
-
   /** Persistent Identity Systems--> **/
   newPersistentIdentitySystem(): FormGroup {
     return this.fb.group({
