@@ -71,6 +71,7 @@ export class ResourcesListComponent implements OnInit {
 
   errorMessage: string;
   loadingMessage = '';
+  showLoader = false;
 
   providers: ProviderBundle[] = [];
   selectedProvider: ProviderBundle;
@@ -541,9 +542,15 @@ export class ResourcesListComponent implements OnInit {
   /** resourceExtras--> **/
   toggleHorizontalService(resource: InfraService) {
     this.resourceExtrasService.updateHorizontalService(resource.id, resource.service.catalogueId, !resource?.resourceExtras?.horizontalService).subscribe(
-      res => {},
-      err => console.log(err),
-      () => location.reload()
+      res => this.showLoader = true,
+      err => {
+        this.showLoader = false;
+        console.log(err)
+      },
+      () => {
+        this.showLoader = false;
+        location.reload();
+      }
     );
   }
 
@@ -567,17 +574,29 @@ export class ResourcesListComponent implements OnInit {
 
   updateResearchCategories(resource: InfraService) {
     this.resourceExtrasService.updateResearchCategories(resource.id, resource.service.catalogueId, this.extrasForm.value.researchCategories).subscribe(
-      res => {},
-      err => console.log(err),
-      () => location.reload()
+      res => this.showLoader = true,
+      err => {
+        this.showLoader = false;
+        console.log(err);
+      },
+      () => {
+        this.showLoader = false;
+        location.reload();
+      }
     );
   }
 
   updateEoscIFGuidelines(resource: InfraService) {
     this.resourceExtrasService.updateEoscIFGuidelines(resource.id, resource.service.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
-      res => {},
-      err => console.log(err),
-      () => location.reload()
+      res => this.showLoader = true,
+      err => {
+        this.showLoader = false;
+        console.log(err);
+      },
+      () => {
+        this.showLoader = false;
+        location.reload();
+      }
     );
   }
 
