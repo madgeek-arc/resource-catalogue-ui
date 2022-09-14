@@ -210,12 +210,12 @@ export const datasourceDescMap = new Map()
   .set('researchProductLicensingDesc', {mandatory: false, label: 'Research Product Licensing', placeholder: '', desc: 'Licenses under which the research products contained within the data sources can be made available. Repositories can allow a license to be defined for each research product, while for scientific databases the database is typically provided under a single license.'})
   .set('researchProductLicenseNameDesc', {mandatory: true, label: 'Research Product License Name', placeholder: '', desc: ''})
   .set('researchProductLicenseURLDesc', {mandatory: true, label: 'Research Product License URL', placeholder: '', desc: ''})
-  .set('researchProductAccessPolicyDesc', {mandatory: false, label: 'Research Product Access Policy', placeholder: '', desc: ''})
+  .set('researchProductAccessPoliciesDesc', {mandatory: false, label: 'Research Product Access Policy', placeholder: '', desc: ''})
 // Research Product Metadata //
   .set('researchProductMetadataLicensingDesc', {mandatory: false, label: 'Research Product Metadata Licensing', placeholder: '', desc: 'Metadata Policy for information describing items in the repository: Access and re-use of metadata'})
   .set('researchProductMetadataLicenseNameDesc', {mandatory: true, label: 'Research Product Metadata License Name', placeholder: '', desc: ''})
   .set('researchProductMetadataLicenseURLDesc', {mandatory: true, label: 'Research Product Metadata License URL', placeholder: '', desc: ''})
-  .set('researchProductMetadataAccessPolicyDesc', {mandatory: false, label: 'Research Product Metadata Access Policy', placeholder: '', desc: ''})
+  .set('researchProductMetadataAccessPoliciesDesc', {mandatory: false, label: 'Research Product Metadata Access Policy', placeholder: '', desc: ''})
 ;
 
 export const monitoringDescMap = new Map()

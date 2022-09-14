@@ -99,7 +99,7 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
     this.handleBitSets(6, 18, 'trl');
     this.handleBitSets(10, 19, 'orderType');
     this.handleBitSets(13, 24, 'jurisdiction');
-    this.handleBitSets(13, 25, 'dataSourceClassification');
+    this.handleBitSets(13, 25, 'datasourceClassification');
     this.handleBitSets(13, 26, 'researchEntityTypes');
     this.handleBitSets(13, 27, 'thematic');
   }

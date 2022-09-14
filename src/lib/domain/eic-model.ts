@@ -333,8 +333,8 @@ export class Service implements Identifiable {
 }
 
 export class Datasource extends Service {
-  submissionPolicyURL: URL[];
-  preservationPolicyURL: URL[];
+  submissionPolicyURL: URL;
+  preservationPolicyURL: URL;
   versionControl: boolean;
   persistentIdentitySystems: PersistentIdentitySystem[];
 
@@ -344,10 +344,10 @@ export class Datasource extends Service {
   thematic: boolean;
 
   researchProductLicensings: ResearchProductLicensing[];
-  researchProductAccessPolicy: string[];
+  researchProductAccessPolicies: string[];
 
-  researchProductMetadataLicensings: ResearchProductMetadataLicensing[];
-  researchProductMetadataAccessPolicy: string[];
+  researchProductMetadataLicensing: ResearchProductMetadataLicensing;
+  researchProductMetadataAccessPolicies: string[];
 }
 
 export class PersistentIdentitySystem {
