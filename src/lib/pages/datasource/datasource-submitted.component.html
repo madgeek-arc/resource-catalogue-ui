@@ -1,6 +1,6 @@
 <div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
   <div class="uk-container uk-container-large">
-    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+    <div class="uk-grid-margin uk-grid uk-grid-stack">
       <div class="uk-width-1-1@m uk-first-column">
         <h2 class="uk-h2 uk-text-center">Datasource submitted sucessfully!</h2>
         <div class="uk-container uk-container-large uk-margin-medium-top uk-margin-medium-bottom">
@@ -16,6 +16,10 @@
         </div>
       </div>
     </div>
+      <button [routerLink]="['/dashboard/'+this.datasource.catalogueId+'/'+this.datasource.resourceOrganisation+'/datasources']"
+              class="uk-button uk-button-action uk-display-block uk-margin-medium-top" style="padding-left: 30px">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i> Dashboard
+      </button>
   </div>
 </div>
 </div>
