@@ -89,12 +89,14 @@
             <span class="number">{{total}}</span> DATASOURCES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
           </div>
 
-          <ul class="uk-pagination" uk-margin>
-            <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+          <ul class="uk-pagination">
+            <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous></span><span uk-pagination-previous></span></a></li>
+            <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
             <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
               <a (click)="goToPage(i)">{{i}}</a>
             </li>
-            <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+            <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+            <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next></span><span uk-pagination-next></span></a></li>
           </ul>
 
         </div>
@@ -134,12 +136,14 @@
           </div>
         </div>
 
-        <ul class="uk-pagination uk-flex-right" uk-margin>
-          <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+        <ul class="uk-pagination uk-flex-right uk-margin">
+          <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous></span><span uk-pagination-previous></span></a></li>
+          <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
           <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
             <a (click)="goToPage(i)">{{i}}</a>
           </li>
-          <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+          <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+          <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next></span><span uk-pagination-next></span></a></li>
         </ul>
 
       </div>

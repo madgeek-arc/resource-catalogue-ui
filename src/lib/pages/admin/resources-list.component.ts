@@ -83,8 +83,6 @@ export class ResourcesListComponent implements OnInit {
   searchFacet = '';
 
   total: number;
-  // from = 0;
-  // itemsPerPage = 10;
   currentPage = 1;
   pageTotal: number;
   pages: number[] = [];

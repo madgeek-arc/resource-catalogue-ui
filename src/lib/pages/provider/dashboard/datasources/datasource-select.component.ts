@@ -42,10 +42,10 @@ export class DatasourceSelectComponent implements OnInit {
   path: string;
 
   total: number;
-  // itemsPerPage = 10;
   currentPage = 1;
   pageTotal: number;
   pages: number[] = [];
+  offset = 2;
 
   constructor(
     private fb: FormBuilder,
@@ -139,24 +139,40 @@ export class DatasourceSelectComponent implements OnInit {
   }
 
   paginationInit() {
+    let addToEndCounter = 0;
+    let addToStartCounter = 0;
     this.pages = [];
     this.currentPage = (this.dataForm.get('from').value / (this.dataForm.get('quantity').value)) + 1;
     this.pageTotal = Math.ceil(this.total / (this.dataForm.get('quantity').value));
-    for (let i = 0; i < this.pageTotal; i++) {
-      this.pages.push(i + 1);
+    for ( let i = (+this.currentPage - this.offset); i < (+this.currentPage + 1 + this.offset); ++i ) {
+      if ( i < 1 ) { addToEndCounter++; }
+      if ( i > this.pageTotal ) { addToStartCounter++; }
+      if ((i >= 1) && (i <= this.pageTotal)) {
+        this.pages.push(i);
+      }
+    }
+    for ( let i = 0; i < addToEndCounter; ++i ) {
+      if (this.pages.length < this.pageTotal) {
+        this.pages.push(this.pages.length + 1);
+      }
+    }
+    for ( let i = 0; i < addToStartCounter; ++i ) {
+      if (this.pages[0] > 1) {
+        this.pages.unshift(this.pages[0] - 1 );
+      }
     }
   }
 
   goToPage(page: number) {
     this.currentPage = page;
-    this.dataForm.get('from').setValue((this.currentPage - 1) * (this.dataForm.get('quantity').value));
+    this.dataForm.get('from').setValue((this.currentPage - 1) * (+this.dataForm.get('quantity').value));
     this.handleChange();
   }
 
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.dataForm.get('from').setValue(+this.dataForm.get('from').value - +(this.dataForm.get('quantity').value));
+      this.dataForm.get('from').setValue(+this.dataForm.get('from').value - +this.dataForm.get('quantity').value);
       this.handleChange();
     }
   }
@@ -164,7 +180,7 @@ export class DatasourceSelectComponent implements OnInit {
   nextPage() {
     if (this.currentPage < this.pageTotal) {
       this.currentPage++;
-      this.dataForm.get('from').setValue(+this.dataForm.get('from').value + +(this.dataForm.get('quantity').value));
+      this.dataForm.get('from').setValue(+this.dataForm.get('from').value + +this.dataForm.get('quantity').value);
       this.handleChange();
     }
   }
