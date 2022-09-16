@@ -3,9 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CanActivateViaAuthGuard} from '../../services/can-activate-auth-guard.service';
 import {DatasourceFormComponent} from "./datasource-form.component";
 import {UpdateDatasourceComponent} from "./update-datasource.component";
-import {ServiceUploadComponent} from "../provider-resources/service-upload.component";
-import {environment} from "../../../environments/environment";
-import {DatasourceSelectComponent} from "../provider/dashboard/datasources/datasource-select.component";
+import {DatasourceSubmittedComponent} from "./datasource-submitted.component";
 
 
 const datasourceRoutes: Routes = [
@@ -26,30 +24,14 @@ const datasourceRoutes: Routes = [
   //     breadcrumb: 'New Datasource'
   //   }
   // },
-  // {
-  //   path: ':providerId/datasource/select',
-  //   component: DatasourceSelectComponent,
-  //   canActivate: [CanActivateViaAuthGuard],
-  //   data: {
-  //     breadcrumb: 'Add Datasource'
-  //   }
-  // },
-  // {
-  //   path: ':providerId/datasource/add',
-  //   component: DatasourceFormComponent,
-  //   canActivate: [CanActivateViaAuthGuard],
-  //   data: {
-  //     breadcrumb: 'Add Datasource'
-  //   }
-  // },
-  // {
-  //   path: 'provider/:providerId/datasource/update/:datasourceId',
-  //   component: UpdateDatasourceComponent,
-  //   canActivate: [CanActivateViaAuthGuard],
-  //   data: {
-  //     breadcrumb: 'Edit Datasource'
-  //   }
-  // },
+  {
+    path: 'submitted/:datasourceId',
+    component: DatasourceSubmittedComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Datasource Submitted'
+    }
+  }
 ];
 
 @NgModule({

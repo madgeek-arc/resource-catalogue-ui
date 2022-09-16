@@ -426,15 +426,12 @@ export class DatasourceFormComponent implements OnInit {
       window.scrollTo(0, 0);
       this.datasourceService[pendingService ? 'uploadPendingService' : 'uploadDatasource']
       (this.serviceForm.value, this.editMode, this.commentControl.value).subscribe(
-        _service => {
-          // console.log(_service);
+        _ds => {
+          // console.log(_ds);
           this.showLoader = false;
-          // return this.router.resourceDashboard(this.providerId, _service.id);  // redirect to resource-dashboard, wrong Id
-          // return this.router.dashboardResources(this.providerId);                  // redirect to provider dashboard -> resource list
-          // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
-          return this.router.dashboardDatasources(this.providerId, _service.catalogueId); // redirect to datasources of provider
-          // return this.router.service(_service.id);                               // redirect to old service info page
-          // return window.location.href = this._marketplaceBaseURL + _service.id; // redirect to marketplace
+          if (this.editMode)
+          return this.router.dashboardDatasources(this.providerId, _ds.catalogueId); // redirect to datasources of provider
+          return this.router.datasourceSubmitted(_ds.id); // redirect to datasource submitted page
         },
         err => {
           this.showLoader = false;

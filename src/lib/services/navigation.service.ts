@@ -47,6 +47,10 @@ export class NavigationService {
       return this.router.navigate(['/provider/openaire/resource/update', id]);
     }
 
+    datasourceSubmitted(id: string) {
+      return this.router.navigate(['datasource/submitted', id]);
+    }
+
     search(any: any) {
         return this.router.navigate(['/search', any]);
     }

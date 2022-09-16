@@ -5,13 +5,13 @@ import {HighchartsChartModule} from 'highcharts-angular';
 import {SharedModule} from '../../shared/shared.module';
 import {DatasourceRouting} from "./datasource.routing";
 import {ReusableComponentsModule} from '../../shared/reusablecomponents/reusable-components.module';
-// import {MyServiceProvidersComponent} from './my-service-providers.component';
 import {DatasourceFormComponent} from "./datasource-form.component";
 import {UpdateDatasourceComponent} from "./update-datasource.component";
 import {NgSelectModule} from '@ng-select/ng-select';
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
 import {DatasourcesComponent} from "../provider/dashboard/datasources/datasources.component";
 import {DatasourceSelectComponent} from "../provider/dashboard/datasources/datasource-select.component";
+import {DatasourceSubmittedComponent} from "./datasource-submitted.component";
 
 
 @NgModule({
@@ -28,11 +28,11 @@ import {DatasourceSelectComponent} from "../provider/dashboard/datasources/datas
 
   ],
   declarations: [
-    // MyServiceProvidersComponent,
     DatasourceFormComponent,
     UpdateDatasourceComponent,
     DatasourcesComponent,
-    DatasourceSelectComponent
+    DatasourceSelectComponent,
+    DatasourceSubmittedComponent
   ]
 })
 
