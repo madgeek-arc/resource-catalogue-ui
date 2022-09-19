@@ -104,8 +104,6 @@
             </ng-container>
             <ng-container *ngIf="providerBundle?.templateStatus === 'approved template'"> <!--TODO: check if this ok-->
               <li>
-                <!-- <a [routerLink]="['/datasource/add']">  TODO: fix path-->
-<!--                <a [routerLink]="['/provider/' + providerId + '/datasource/add/']">-->
                 <a [routerLink]="['/provider/' + providerId + '/datasource/select/']">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add new datasource

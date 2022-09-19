@@ -96,7 +96,7 @@ export class DatasourceService {
   }
 
   getOpenAIREDatasourcesById(id: string) {
-    return this.http.get(this.base + `/datasource/getOpenAIREDatasourceById/${id}`, this.options);
+    return this.http.get<Datasource>(this.base + `/datasource/getOpenAIREDatasourceById?datasourceId=${id}`, this.options);
   }
 
   uploadDatasource(datasource: Datasource, shouldPut: boolean, comment: string) {

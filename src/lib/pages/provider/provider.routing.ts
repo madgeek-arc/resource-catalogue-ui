@@ -129,6 +129,14 @@ const providerRoutes: Routes = [
     }
   },
   {
+    path: ':providerId/datasource/addOpenAIRE/:datasourceId',
+    component: UpdateDatasourceComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Add Datasource from OpenAIRE'
+    }
+  },
+  {
     path: ':providerId/resource/add/use-template/:resourceId',
     component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard],
