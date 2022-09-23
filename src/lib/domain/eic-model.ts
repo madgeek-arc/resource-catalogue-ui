@@ -98,6 +98,11 @@ export class InfraService extends Bundle<Service> {
   resourceExtras: ResourceExtras;
 }
 
+export class DatasourceBundle extends Bundle<Datasource> {
+  datasource: Datasource;
+  resourceExtras: ResourceExtras;
+}
+
 export class LoggingInfo {
   date: string;
   userEmail: string;

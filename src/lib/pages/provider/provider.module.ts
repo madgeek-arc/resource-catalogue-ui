@@ -12,6 +12,7 @@ import {ServiceProviderInfoComponent} from './service-provider-info.component';
 import {UpdateServiceProviderComponent} from './update-service-provider.component';
 import {ServiceProvidersListComponent} from '../admin/service-providers-list.component';
 import {ResourcesListComponent} from '../admin/resources-list.component';
+import {DatasourcesListComponent} from '../admin/datasources-list.component';
 import {ServiceEditComponent} from '../provider-resources/service-edit.component';
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
 import {ServiceFormComponent} from '../provider-resources/service-form.component';
@@ -44,6 +45,7 @@ import {LMarkdownEditorModule} from 'ngx-markdown-editor';
     UpdateServiceProviderComponent,
     ServiceProvidersListComponent,
     ResourcesListComponent,
+    DatasourcesListComponent,
     // FORMS
     ServiceEditComponent,
     ServiceFormComponent,
