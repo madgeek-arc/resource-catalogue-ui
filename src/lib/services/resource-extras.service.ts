@@ -12,32 +12,31 @@ export class ResourceExtrasService {
   base = environment.API_ENDPOINT;
   private options = {withCredentials: true};
 
-  addEoscIFGuideline(serviceId: string, catalogueId: string, pid: string, label: string, url: string, semanticRelationship: string) {
-    return this.http.put(this.base + `/resource-extras/add/eoscIFGuideline?serviceId=${serviceId}&catalogueId=${catalogueId}&pid=${pid}&label=${label}&url=${url}&semanticRelationship=${semanticRelationship}`, this.options);
+  addEoscIFGuideline(resourceId: string, catalogueId: string, pid: string, label: string, url: string, semanticRelationship: string) {
+    return this.http.put(this.base + `/resource-extras/add/eoscIFGuideline?resourceId=${resourceId}&catalogueId=${catalogueId}&pid=${pid}&label=${label}&url=${url}&semanticRelationship=${semanticRelationship}`, this.options);
   }
 
-  addResearchCategory(serviceId: string, catalogueId: string, researchCategory: string) {
-    return this.http.put(this.base + `/resource-extras/add/researchCategory?serviceId=${serviceId}&catalogueId=${catalogueId}&researchCategory=${researchCategory}`, this.options);
+  addResearchCategory(resourceId: string, catalogueId: string, researchCategory: string) {
+    return this.http.put(this.base + `/resource-extras/add/researchCategory?resourceId=${resourceId}&catalogueId=${catalogueId}&researchCategory=${researchCategory}`, this.options);
   }
 
-  deleteEoscIFGuideline(serviceId: string, catalogueId: string, pid: string) {
-    return this.http.put(this.base + `/resource-extras/delete/eoscIFGuideline?serviceId=${serviceId}&catalogueId=${catalogueId}&pid=${pid}`, this.options);
+  deleteEoscIFGuideline(resourceId: string, catalogueId: string, pid: string) {
+    return this.http.put(this.base + `/resource-extras/delete/eoscIFGuideline?resourceId=${resourceId}&catalogueId=${catalogueId}&pid=${pid}`, this.options);
   }
 
-  deleteResearchCategory(serviceId: string, catalogueId: string, researchCategory: string) {
-    return this.http.put(this.base + `/resource-extras/delete/researchCategory?serviceId=${serviceId}&catalogueId=${catalogueId}&researchCategory=${researchCategory}`, this.options);
+  deleteResearchCategory(resourceId: string, catalogueId: string, researchCategory: string) {
+    return this.http.put(this.base + `/resource-extras/delete/researchCategory?resourceId=${resourceId}&catalogueId=${catalogueId}&researchCategory=${researchCategory}`, this.options);
   }
 
-  updateEoscIFGuidelines(serviceId: string, catalogueId: string, eoscIFGuidelines: EOSCIFGuidelines[]) {
-    return this.http.put<EOSCIFGuidelines[]>(this.base + `/resource-extras/update/eoscIFGuidelines?serviceId=${serviceId}&catalogueId=${catalogueId}`, eoscIFGuidelines, this.options);
+  updateHorizontalService(resourceId: string, catalogueId: string, horizontalService: boolean) {
+    return this.http.put(this.base + `/resource-extras/update/horizontalService?resourceId=${resourceId}&catalogueId=${catalogueId}&horizontalService=${horizontalService}`, this.options);
   }
 
-  updateHorizontalService(serviceId: string, catalogueId: string, horizontalService: boolean) {
-    return this.http.put(this.base + `/resource-extras/update/horizontalService?serviceId=${serviceId}&catalogueId=${catalogueId}&horizontalService=${horizontalService}`, this.options);
+  updateResearchCategories(resourceId: string, catalogueId: string, researchCategories: string[]) {
+    return this.http.put<string[]>(this.base + `/resource-extras/update/researchCategories?resourceId=${resourceId}&catalogueId=${catalogueId}`, researchCategories, this.options);
   }
 
-  updateResearchCategories(serviceId: string, catalogueId: string, researchCategories: string[]) {
-    return this.http.put<string[]>(this.base + `/resource-extras/update/researchCategories?serviceId=${serviceId}&catalogueId=${catalogueId}`, researchCategories, this.options);
+  updateEoscIFGuidelines(resourceId: string, catalogueId: string, eoscIFGuidelines: EOSCIFGuidelines[]) {
+    return this.http.put<EOSCIFGuidelines[]>(this.base + `/resource-extras/update/eoscIFGuidelines?resourceId=${resourceId}&catalogueId=${catalogueId}`, eoscIFGuidelines, this.options);
   }
-
 }
