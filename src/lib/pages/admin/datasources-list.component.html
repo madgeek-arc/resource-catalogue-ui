@@ -439,27 +439,27 @@
                                     <li class="uk-nav-divider"></li>
                                   </ng-container>
 
-<!--                                  <ng-container class="uk-margin-small-bottom">-->
-<!--                                    <li (click)="toggleHorizontalService(datasourceBundle)">-->
-<!--                                      <a><i class="fa fa-toggle-right fa-lg uk-margin-small-right"></i>-->
-<!--                                        {{datasourceBundle?.resourceExtras?.horizontalService===true ? 'Unmark' : 'Mark'}} as Horizontal Service</a>-->
-<!--                                    </li>-->
-<!--                                    <li class="uk-nav-divider"></li>-->
-<!--                                  </ng-container>-->
+                                  <ng-container class="uk-margin-small-bottom">
+                                    <li (click)="toggleHorizontalService(datasourceBundle)">
+                                      <a><i class="fa fa-toggle-right fa-lg uk-margin-small-right"></i>
+                                        {{datasourceBundle?.resourceExtras?.horizontalService===true ? 'Unmark' : 'Mark'}} as Horizontal Service</a>
+                                    </li>
+                                    <li class="uk-nav-divider"></li>
+                                  </ng-container>
 
-<!--                                  <ng-container class="uk-margin-small-bottom">-->
-<!--                                    <li (click)="showResourceCategories(datasourceBundle)">-->
-<!--                                      <a><i class="fa fa-edit fa-lg uk-margin-small-right"></i>Update Research Categories</a>-->
-<!--                                    </li>-->
-<!--                                    <li class="uk-nav-divider"></li>-->
-<!--                                  </ng-container>-->
+                                  <ng-container class="uk-margin-small-bottom">
+                                    <li (click)="showResourceCategories(datasourceBundle)">
+                                      <a><i class="fa fa-edit fa-lg uk-margin-small-right"></i>Update Research Categories</a>
+                                    </li>
+                                    <li class="uk-nav-divider"></li>
+                                  </ng-container>
 
-<!--                                  <ng-container class="uk-margin-small-bottom">-->
-<!--                                    <li (click)="showEoscIFGuidelines(datasourceBundle)">-->
-<!--                                      <a><i class="fa fa-edit fa-lg uk-margin-small-right"></i>Update EOSC IF Guidelines</a>-->
-<!--                                    </li>-->
-<!--                                    <li class="uk-nav-divider"></li>-->
-<!--                                  </ng-container>-->
+                                  <ng-container class="uk-margin-small-bottom">
+                                    <li (click)="showEoscIFGuidelines(datasourceBundle)">
+                                      <a><i class="fa fa-edit fa-lg uk-margin-small-right"></i>Update EOSC IF Guidelines</a>
+                                    </li>
+                                    <li class="uk-nav-divider"></li>
+                                  </ng-container>
 
                                   <ng-container *ngIf="isProviderActive(datasourceBundle.datasource.resourceOrganisation) ; else elseBlockList">
                                     <div>
@@ -642,7 +642,7 @@
   </div>
 </div>
 
-<!--<div id="researchCategoriesModal" uk-modal>
+<div id="researchCategoriesModal" uk-modal>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedDatasource">
 
@@ -675,8 +675,8 @@
           </div>
         </div>
       </form>
-      &lt;!&ndash;<pre>{{selectedService.resourceExtras|json}}</pre>&ndash;&gt;
-      &lt;!&ndash;<pre>{{extrasForm.value|json}}</pre>&ndash;&gt;
+      <!--<pre>{{selectedService.resourceExtras|json}}</pre>-->
+      <!--<pre>{{extrasForm.value|json}}</pre>-->
     </div>
 
     <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="updateResearchCategories(selectedDatasource)">Submit</button>
@@ -759,14 +759,14 @@
           </div>
         </div>
       </form>
-      &lt;!&ndash;      <pre>{{selectedService.resourceExtras|json}}</pre>&ndash;&gt;
-      &lt;!&ndash;      <pre>{{extrasForm.value|json}}</pre>&ndash;&gt;
+      <!--      <pre>{{selectedService.resourceExtras|json}}</pre>-->
+      <!--      <pre>{{extrasForm.value|json}}</pre>-->
     </div>
 
     <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="updateEoscIFGuidelines(selectedDatasource)">Submit</button>
     <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
   </div>
-</div>-->
+</div>
 
 <!--<div id="validateModal" uk-modal>-->
 <!--  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">-->

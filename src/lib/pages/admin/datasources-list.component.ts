@@ -539,93 +539,93 @@ export class DatasourcesListComponent implements OnInit {
     );
   }
 
-  // /** resourceExtras--> **/
-  // toggleHorizontalService(datasource: DatasourceBundle) {
-  //   UIkit.modal('#spinnerModal').show();
-  //   this.resourceExtrasService.updateHorizontalService(datasource.id, datasource.datasource.catalogueId, !datasource?.resourceExtras?.horizontalService).subscribe(
-  //     res => {},
-  //     err => {
-  //       UIkit.modal('#spinnerModal').hide();
-  //       console.log(err)
-  //     },
-  //     () => {
-  //       UIkit.modal('#spinnerModal').hide();
-  //       location.reload();
-  //     }
-  //   );
-  // }
-  //
-  // showResourceCategories(datasource: DatasourceBundle) {
-  //   this.selectedDatasource = datasource;
-  //   if (this.selectedDatasource) {
-  //     this.extrasFormPrep(this.selectedDatasource);
-  //     this.extrasForm.patchValue(this.selectedDatasource.resourceExtras);
-  //     UIkit.modal('#researchCategoriesModal').show();
-  //   }
-  // }
-  //
-  // showEoscIFGuidelines(datasource: DatasourceBundle) {
-  //   this.selectedDatasource = datasource;
-  //   if (this.selectedDatasource) {
-  //     this.extrasFormPrep(this.selectedDatasource);
-  //     this.extrasForm.patchValue(this.selectedDatasource.resourceExtras);
-  //     UIkit.modal('#eoscIFGuidelinesModal').show();
-  //   }
-  // }
-  //
-  // updateResearchCategories(datasource: DatasourceBundle) {
-  //   UIkit.modal('#spinnerModal').show();
-  //   this.resourceExtrasService.updateResearchCategories(datasource.id, datasource.datasource.catalogueId, this.extrasForm.value.researchCategories).subscribe(
-  //     res => {},
-  //     err => {
-  //       UIkit.modal('#spinnerModal').hide();
-  //       console.log(err);
-  //     },
-  //     () => {
-  //       UIkit.modal('#spinnerModal').hide();
-  //       location.reload();
-  //     }
-  //   );
-  // }
-  //
-  // updateEoscIFGuidelines(datasource: DatasourceBundle) {
-  //   UIkit.modal('#spinnerModal').show();
-  //   this.resourceExtrasService.updateEoscIFGuidelines(datasource.id, datasource.datasource.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
-  //     res => {},
-  //     err => {
-  //       UIkit.modal('#spinnerModal').hide();
-  //       console.log(err);
-  //     },
-  //     () => {
-  //       UIkit.modal('#spinnerModal').hide();
-  //       location.reload();
-  //     }
-  //   );
-  // }
-  //
-  // extrasFormPrep(datasource: DatasourceBundle){
-  //   //resets the 2 parts of the form and then fills them
-  //   this.extrasForm.setControl('researchCategories', this.fb.array([this.fb.control('')]));
-  //   this.extrasForm.setControl('eoscIFGuidelines',
-  //     this.fb.array([this.fb.group({
-  //       label: [''],
-  //       pid: [''],
-  //       semanticRelationship: [''],
-  //       url: ['']
-  //     })
-  //     ]));
-  //   if ( datasource?.resourceExtras?.researchCategories ) {
-  //     for (let i = 0; i < datasource.resourceExtras.researchCategories.length - 1; i++) {
-  //       this.push('researchCategories');
-  //     }
-  //   }
-  //   if ( datasource?.resourceExtras?.eoscIFGuidelines ) {
-  //     for (let i = 0; i < datasource.resourceExtras.eoscIFGuidelines.length - 1; i++) {
-  //       this.pushEoscIFGuidelines();
-  //     }
-  //   }
-  // }
-  // /** <--resourceExtras **/
+  /** resourceExtras--> **/
+  toggleHorizontalService(datasource: DatasourceBundle) {
+    UIkit.modal('#spinnerModal').show();
+    this.resourceExtrasService.updateHorizontalService(datasource.id, datasource.datasource.catalogueId, !datasource?.resourceExtras?.horizontalService).subscribe(
+      res => {},
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        console.log(err)
+      },
+      () => {
+        UIkit.modal('#spinnerModal').hide();
+        location.reload();
+      }
+    );
+  }
+
+  showResourceCategories(datasource: DatasourceBundle) {
+    this.selectedDatasource = datasource;
+    if (this.selectedDatasource) {
+      this.extrasFormPrep(this.selectedDatasource);
+      this.extrasForm.patchValue(this.selectedDatasource.resourceExtras);
+      UIkit.modal('#researchCategoriesModal').show();
+    }
+  }
+
+  showEoscIFGuidelines(datasource: DatasourceBundle) {
+    this.selectedDatasource = datasource;
+    if (this.selectedDatasource) {
+      this.extrasFormPrep(this.selectedDatasource);
+      this.extrasForm.patchValue(this.selectedDatasource.resourceExtras);
+      UIkit.modal('#eoscIFGuidelinesModal').show();
+    }
+  }
+
+  updateResearchCategories(datasource: DatasourceBundle) {
+    UIkit.modal('#spinnerModal').show();
+    this.resourceExtrasService.updateResearchCategories(datasource.id, datasource.datasource.catalogueId, this.extrasForm.value.researchCategories).subscribe(
+      res => {},
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        console.log(err);
+      },
+      () => {
+        UIkit.modal('#spinnerModal').hide();
+        location.reload();
+      }
+    );
+  }
+
+  updateEoscIFGuidelines(datasource: DatasourceBundle) {
+    UIkit.modal('#spinnerModal').show();
+    this.resourceExtrasService.updateEoscIFGuidelines(datasource.id, datasource.datasource.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
+      res => {},
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        console.log(err);
+      },
+      () => {
+        UIkit.modal('#spinnerModal').hide();
+        location.reload();
+      }
+    );
+  }
+
+  extrasFormPrep(datasource: DatasourceBundle){
+    //resets the 2 parts of the form and then fills them
+    this.extrasForm.setControl('researchCategories', this.fb.array([this.fb.control('')]));
+    this.extrasForm.setControl('eoscIFGuidelines',
+      this.fb.array([this.fb.group({
+        label: [''],
+        pid: [''],
+        semanticRelationship: [''],
+        url: ['']
+      })
+      ]));
+    if ( datasource?.resourceExtras?.researchCategories ) {
+      for (let i = 0; i < datasource.resourceExtras.researchCategories.length - 1; i++) {
+        this.push('researchCategories');
+      }
+    }
+    if ( datasource?.resourceExtras?.eoscIFGuidelines ) {
+      for (let i = 0; i < datasource.resourceExtras.eoscIFGuidelines.length - 1; i++) {
+        this.pushEoscIFGuidelines();
+      }
+    }
+  }
+  /** <--resourceExtras **/
 
   /** eoscIFGuidelines--> **/
   newEoscIFGuidelines(): FormGroup {
