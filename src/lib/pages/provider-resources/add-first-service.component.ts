@@ -1,7 +1,7 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DatePipe} from '@angular/common';
-import {ServiceFormComponent} from '../provider-resources/service-form.component';
+import {ServiceFormComponent} from './service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ResourceService} from '../../services/resource.service';
 import {Service} from '../../domain/eic-model';
@@ -9,7 +9,7 @@ import {ServiceProviderService} from '../../services/service-provider.service';
 
 @Component({
   selector: 'app-add-first-service',
-  templateUrl: '../provider-resources/service-form.component.html'
+  templateUrl: './service-form.component.html'
 })
 export class AddFirstServiceComponent extends ServiceFormComponent implements OnInit {
 

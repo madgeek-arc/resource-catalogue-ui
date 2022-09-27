@@ -775,7 +775,7 @@ export class DatasourcesListComponent implements OnInit {
     if (this.hasCreatedFirstService(id)) {
       return '/service/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
     } else {
-      return '/provider/' + id + '/add-first-resource';
+      return '/provider/' + id + '/add-first-service';
     }
   }
 

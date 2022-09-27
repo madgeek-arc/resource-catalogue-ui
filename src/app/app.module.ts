@@ -18,7 +18,7 @@ import {DashboardBreadcrumbsComponent} from '../lib/shared/breadcrumbs/dashboard
 import {FeedbackComponent} from '../lib/shared/feedback/feedback.component';
 import {ServiceProviderFormComponent} from '../lib/pages/provider/service-provider-form.component';
 import {MyServiceProvidersComponent} from '../lib/pages/provider/my-service-providers.component';
-import {AddFirstServiceComponent} from '../lib/pages/provider/add-first-service.component';
+import {AddFirstServiceComponent} from '../lib/pages/provider-resources/add-first-service.component';
 import {ServiceProviderInfoComponent} from '../lib/pages/provider/service-provider-info.component';
 import {UpdateServiceProviderComponent} from '../lib/pages/provider/update-service-provider.component';
 import {ReusableComponentsModule} from '../lib/shared/reusablecomponents/reusable-components.module';

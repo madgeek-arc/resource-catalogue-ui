@@ -6,7 +6,7 @@ import {SharedModule} from '../../shared/shared.module';
 import {ProviderRouting} from './provider.routing';
 import {ReusableComponentsModule} from '../../shared/reusablecomponents/reusable-components.module';
 import {MyServiceProvidersComponent} from './my-service-providers.component';
-import {AddFirstServiceComponent} from './add-first-service.component';
+import {AddFirstServiceComponent} from '../provider-resources/add-first-service.component';
 import {ServiceProviderFormComponent} from './service-provider-form.component';
 import {ServiceProviderInfoComponent} from './service-provider-info.component';
 import {UpdateServiceProviderComponent} from './update-service-provider.component';

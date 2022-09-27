@@ -88,7 +88,7 @@
             </ng-container>
             <ng-container *ngIf="providerBundle?.templateStatus === 'rejected template' || (providerBundle?.status === 'approved provider' && providerBundle?.templateStatus === 'no template status')">
               <li>
-                <a [routerLink]="['/provider/' + providerId + '/add-first-resource/']">
+                <a [routerLink]="['/provider/' + providerId + '/add-first-service/']">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add first {{serviceORresource | lowercase}}
                 </a>

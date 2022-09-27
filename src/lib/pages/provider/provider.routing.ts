@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {CanActivateViaAuthGuard} from '../../services/can-activate-auth-guard.service';
 import {ServiceProviderFormComponent} from './service-provider-form.component';
-import {AddFirstServiceComponent} from './add-first-service.component';
+import {AddFirstServiceComponent} from '../provider-resources/add-first-service.component';
 import {MyServiceProvidersComponent} from './my-service-providers.component';
 import {UpdateServiceProviderComponent} from './update-service-provider.component';
 import {PendingServicesComponent} from './dashboard/pendingservices/pending-services.component';
@@ -82,7 +82,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':providerId/add-first-resource',
+    path: ':providerId/add-first-service',
     component: AddFirstServiceComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
