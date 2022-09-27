@@ -539,7 +539,7 @@ export class ResourcesListComponent implements OnInit {
   /** resourceExtras--> **/
   toggleHorizontalService(resource: InfraService) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateHorizontalService(resource.id, resource.service.catalogueId, !resource?.resourceExtras?.horizontalService).subscribe(
+    this.resourceExtrasService.updateHorizontalService(resource.id, 'service', resource.service.catalogueId, !resource?.resourceExtras?.horizontalService).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -572,7 +572,7 @@ export class ResourcesListComponent implements OnInit {
 
   updateResearchCategories(resource: InfraService) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateResearchCategories(resource.id, resource.service.catalogueId, this.extrasForm.value.researchCategories).subscribe(
+    this.resourceExtrasService.updateResearchCategories(resource.id, 'service', resource.service.catalogueId, this.extrasForm.value.researchCategories).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -587,7 +587,7 @@ export class ResourcesListComponent implements OnInit {
 
   updateEoscIFGuidelines(resource: InfraService) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateEoscIFGuidelines(resource.id, resource.service.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
+    this.resourceExtrasService.updateEoscIFGuidelines(resource.id, 'service', resource.service.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();

@@ -542,7 +542,7 @@ export class DatasourcesListComponent implements OnInit {
   /** resourceExtras--> **/
   toggleHorizontalService(datasource: DatasourceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateHorizontalService(datasource.id, datasource.datasource.catalogueId, !datasource?.resourceExtras?.horizontalService).subscribe(
+    this.resourceExtrasService.updateHorizontalService(datasource.id, 'datasource', datasource.datasource.catalogueId, !datasource?.resourceExtras?.horizontalService).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -575,7 +575,7 @@ export class DatasourcesListComponent implements OnInit {
 
   updateResearchCategories(datasource: DatasourceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateResearchCategories(datasource.id, datasource.datasource.catalogueId, this.extrasForm.value.researchCategories).subscribe(
+    this.resourceExtrasService.updateResearchCategories(datasource.id, 'datasource', datasource.datasource.catalogueId, this.extrasForm.value.researchCategories).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -590,7 +590,7 @@ export class DatasourcesListComponent implements OnInit {
 
   updateEoscIFGuidelines(datasource: DatasourceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateEoscIFGuidelines(datasource.id, datasource.datasource.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
+    this.resourceExtrasService.updateEoscIFGuidelines(datasource.id, 'datasource', datasource.datasource.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();

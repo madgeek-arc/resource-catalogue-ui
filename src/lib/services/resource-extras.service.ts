@@ -12,31 +12,15 @@ export class ResourceExtrasService {
   base = environment.API_ENDPOINT;
   private options = {withCredentials: true};
 
-  addEoscIFGuideline(resourceId: string, catalogueId: string, pid: string, label: string, url: string, semanticRelationship: string) {
-    return this.http.put(this.base + `/resource-extras/add/eoscIFGuideline?resourceId=${resourceId}&catalogueId=${catalogueId}&pid=${pid}&label=${label}&url=${url}&semanticRelationship=${semanticRelationship}`, this.options);
+  updateHorizontalService(resourceId: string, type: string, catalogueId: string, horizontalService: boolean) {
+    return this.http.put(this.base + `/resource-extras/update/horizontalService?resourceId=${resourceId}&type=${type}&catalogueId=${catalogueId}&horizontalService=${horizontalService}`, this.options);
   }
 
-  addResearchCategory(resourceId: string, catalogueId: string, researchCategory: string) {
-    return this.http.put(this.base + `/resource-extras/add/researchCategory?resourceId=${resourceId}&catalogueId=${catalogueId}&researchCategory=${researchCategory}`, this.options);
+  updateResearchCategories(resourceId: string, type: string, catalogueId: string, researchCategories: string[]) {
+    return this.http.put<string[]>(this.base + `/resource-extras/update/researchCategories?resourceId=${resourceId}&type=${type}&catalogueId=${catalogueId}`, researchCategories, this.options);
   }
 
-  deleteEoscIFGuideline(resourceId: string, catalogueId: string, pid: string) {
-    return this.http.put(this.base + `/resource-extras/delete/eoscIFGuideline?resourceId=${resourceId}&catalogueId=${catalogueId}&pid=${pid}`, this.options);
-  }
-
-  deleteResearchCategory(resourceId: string, catalogueId: string, researchCategory: string) {
-    return this.http.put(this.base + `/resource-extras/delete/researchCategory?resourceId=${resourceId}&catalogueId=${catalogueId}&researchCategory=${researchCategory}`, this.options);
-  }
-
-  updateHorizontalService(resourceId: string, catalogueId: string, horizontalService: boolean) {
-    return this.http.put(this.base + `/resource-extras/update/horizontalService?resourceId=${resourceId}&catalogueId=${catalogueId}&horizontalService=${horizontalService}`, this.options);
-  }
-
-  updateResearchCategories(resourceId: string, catalogueId: string, researchCategories: string[]) {
-    return this.http.put<string[]>(this.base + `/resource-extras/update/researchCategories?resourceId=${resourceId}&catalogueId=${catalogueId}`, researchCategories, this.options);
-  }
-
-  updateEoscIFGuidelines(resourceId: string, catalogueId: string, eoscIFGuidelines: EOSCIFGuidelines[]) {
-    return this.http.put<EOSCIFGuidelines[]>(this.base + `/resource-extras/update/eoscIFGuidelines?resourceId=${resourceId}&catalogueId=${catalogueId}`, eoscIFGuidelines, this.options);
+  updateEoscIFGuidelines(resourceId: string, type: string, catalogueId: string, eoscIFGuidelines: EOSCIFGuidelines[]) {
+    return this.http.put<EOSCIFGuidelines[]>(this.base + `/resource-extras/update/eoscIFGuidelines?resourceId=${resourceId}&type=${type}&catalogueId=${catalogueId}`, eoscIFGuidelines, this.options);
   }
 }
