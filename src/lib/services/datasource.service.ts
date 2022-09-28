@@ -105,4 +105,15 @@ export class DatasourceService {
     return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + `/datasource?comment=${comment}`, datasource, this.options);
   }
 
+  verifyDatasource(id: string, active: boolean, status: string) { // for 1st datasource
+    return this.http.patch(this.base + `/datasource/verifyDatasource/${id}?active=${active}&status=${status}`, {}, this.options);
+  }
+
+  publishDatasource(id: string, version: string, active: boolean) { // toggles active/inactive service
+    if (version === null) {
+      return this.http.patch(this.base + `/datasource/publish/${id}?active=${active}`, this.options);
+    }
+    return this.http.patch(this.base + `/datasource/publish/${id}?active=${active}&version=${version}`, this.options); // copy for provider without version
+  }
+
 }

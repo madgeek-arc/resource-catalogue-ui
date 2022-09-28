@@ -22,6 +22,7 @@ import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring
 import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
 import {NgSelectModule} from '@ng-select/ng-select';
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
+import {AddFirstDatasourceComponent} from "../datasource/add-first-datasource.component";
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import {LMarkdownEditorModule} from 'ngx-markdown-editor';
   declarations: [
     MyServiceProvidersComponent,
     AddFirstServiceComponent,
+    AddFirstDatasourceComponent,
     ServiceProviderFormComponent,
     ServiceProviderInfoComponent,
     UpdateServiceProviderComponent,

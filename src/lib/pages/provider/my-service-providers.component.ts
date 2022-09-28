@@ -63,7 +63,7 @@ export class MyServiceProvidersComponent implements OnInit {
               // if ((p.status === 'pending template approval') || (p.status === 'rejected template')) {
               // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
               if (p.templateStatus === 'pending template') {
-                this.resourceService.getServiceTemplate(p.id).subscribe(
+                this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                   res => {
                     if (res) {
                       this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});

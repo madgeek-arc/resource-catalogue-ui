@@ -20,6 +20,7 @@ import {RejectedServicesComponent} from './dashboard/rejectedServices/rejected-s
 import {DatasourceSelectComponent} from "./dashboard/datasources/datasource-select.component";
 import {DatasourceFormComponent} from "../datasource/datasource-form.component";
 import {UpdateDatasourceComponent} from "../datasource/update-datasource.component";
+import {AddFirstDatasourceComponent} from "../datasource/add-first-datasource.component";
 
 
 const providerRoutes: Routes = [
@@ -95,6 +96,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit ' + environment.serviceORresource + ' Template'
+    }
+  },
+  {
+    path: ':providerId/add-first-datasource',
+    component: AddFirstDatasourceComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Add Datasource Template'
     }
   },
   {

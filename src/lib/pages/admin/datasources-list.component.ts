@@ -339,7 +339,7 @@ export class DatasourcesListComponent implements OnInit {
         this.providers.forEach(
           p => {
             if (p.templateStatus === 'pending template') {
-              this.resourceService.getServiceTemplate(p.id).subscribe(
+              this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                 res => {
                   if (res) {
                     this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
@@ -668,7 +668,7 @@ export class DatasourcesListComponent implements OnInit {
 
   toggleService(datasourceBundle: DatasourceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.serviceProviderService.publishService(datasourceBundle.id, datasourceBundle.datasource.version, !datasourceBundle.active).subscribe(
+    this.datasourceService.publishDatasource(datasourceBundle.id, datasourceBundle.datasource.version, !datasourceBundle.active).subscribe(
       res => {},
       error => {
         this.errorMessage = 'Something went bad. ' + error.error ;
@@ -687,7 +687,7 @@ export class DatasourcesListComponent implements OnInit {
     this.loadingMessage = '';
     UIkit.modal('#spinnerModal').show();
     const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
-    this.resourceService.verifyResource(templateId, active, status).subscribe(
+    this.datasourceService.verifyDatasource(templateId, active, status).subscribe(
       res => {
         this.getProviders();
       },
