@@ -138,6 +138,14 @@ export class MyServiceProvidersComponent implements OnInit {
     }
   }
 
+  getLinkToFirstDatasource(id: string) { //TODO: revisit when making draft datasources
+    // if (this.hasCreatedFirstService(id)) {
+    //   return '/provider/' + id + '/datasource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
+    // } else {
+      return '/provider/' + id + '/add-first-datasource';
+    // }
+  }
+
   assignProviderToList(p: ProviderBundle) {
     if (p.status === 'rejected provider') {
       this.myRejectedProviders.push(p);
