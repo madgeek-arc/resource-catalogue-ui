@@ -7,6 +7,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class DashboardBreadcrumbsComponent implements OnInit {
 
+  catalogueId: string;
   providerId: string;
   resourceId: string;
   pathToDashboard: string;
@@ -16,12 +17,13 @@ export class DashboardBreadcrumbsComponent implements OnInit {
 
   ngOnInit() {
 
+    this.catalogueId = this.activatedRoute.snapshot.paramMap.get('catalogueId');
     this.providerId = this.activatedRoute.snapshot.paramMap.get('providerId');
     this.resourceId = this.activatedRoute.snapshot.paramMap.get('resourceId');
 
     this.isSharedDashboard = window.location.href.indexOf("shared-resource-dashboard");
 
-    this.pathToDashboard = `/dashboard/${this.providerId}/stats`;
+    this.pathToDashboard = `/dashboard/${this.catalogueId}/${this.providerId}/stats`;
   }
 
 }
