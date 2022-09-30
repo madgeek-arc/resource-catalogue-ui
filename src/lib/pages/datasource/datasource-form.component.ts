@@ -360,11 +360,11 @@ export class DatasourceFormComponent implements OnInit {
   }
 
   onSubmit(service: Service, tempSave: boolean, pendingService?: boolean) {
-    console.log('Submit');
-    console.log(this.commentControl.value);
-    console.log(this.serviceForm.status);
-    console.log(this.serviceForm.value);
-    this.findInvalidControls();
+    // console.log('Submit');
+    // console.log(this.commentControl.value);
+    // console.log(this.serviceForm.status);
+    // console.log(this.serviceForm.value);
+    // this.findInvalidControls();
     if (!this.authenticationService.isLoggedIn()) {
       sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
       this.authenticationService.login();
@@ -391,6 +391,10 @@ export class DatasourceFormComponent implements OnInit {
         this.removeLicensing(i);
       }
     }
+    if ((this.metadataLicensingArray?.get('researchProductMetadataLicenseURL')?.value === '')
+      && (this.metadataLicensingArray?.get('researchProductMetadataLicenseName')?.value === '')) {
+      this.serviceForm.setControl('researchProductMetadataLicensing', this.fb.control(null));
+    }
     for (let i = 0; i < this.persistentIdentitySystemArray.length; i++) {
       // console.log(this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes'));
       // console.log(this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes').value[0]);
@@ -401,10 +405,11 @@ export class DatasourceFormComponent implements OnInit {
       }
     }
 
-    this.findInvalidControls();
-    console.log('this.serviceForm.status ', this.serviceForm.status);
+    // this.findInvalidControls();
+    // console.log('this.serviceForm.status ', this.serviceForm.status);
     // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);
+
     if (tempSave) {
       // todo add fix here
       this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
@@ -443,6 +448,8 @@ export class DatasourceFormComponent implements OnInit {
           this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
         }
       );
+    } else if(this.serviceForm.status === 'PENDING') {
+      this.timeOut(300).then( () => this.onSubmit(service, tempSave, pendingService));
     } else {
       window.scrollTo(0, 0);
       this.showLoader = false;
@@ -895,6 +902,12 @@ export class DatasourceFormComponent implements OnInit {
     this.licensingArray.removeAt(index);
   }
   /** <--Licensing**/
+
+  /** MetadataLicensing -->**/
+  get metadataLicensingArray() {
+    return this.serviceForm.get('researchProductMetadataLicensing') as FormArray;
+  }
+  /** <--MetadataLicensing**/
 
   /** Persistent Identity Systems--> **/
   newPersistentIdentitySystem(): FormGroup {
