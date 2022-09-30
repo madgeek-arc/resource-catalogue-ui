@@ -425,14 +425,15 @@ export class DatasourceFormComponent implements OnInit {
       );
     } else if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
+      const shouldPut = (this.editMode && (window.location.href.indexOf('/addOpenAIRE') == -1));
       this.datasourceService[pendingService ? 'uploadPendingService' : 'uploadDatasource']
-      (this.serviceForm.value, this.editMode, this.commentControl.value).subscribe(
+      (this.serviceForm.value, shouldPut, this.commentControl.value).subscribe(
         _ds => {
           // console.log(_ds);
           this.showLoader = false;
-          if (this.editMode)
+          if (shouldPut)
           return this.router.dashboardDatasources(this.providerId, _ds.catalogueId); // redirect to datasources of provider
-          return this.router.datasourceSubmitted(_ds.id); // redirect to datasource submitted page
+          return this.router.datasourceSubmitted(_ds.id); // redirect to datasource submitted page after POST
         },
         err => {
           this.showLoader = false;
@@ -1373,7 +1374,7 @@ export class DatasourceFormComponent implements OnInit {
 
   /** Modals--> **/
   showCommentModal() {
-    if (this.editMode && !this.pendingService) {
+    if (this.editMode && !this.pendingService && (window.location.href.indexOf('/addOpenAIRE')==-1)) {
       UIkit.modal('#commentModal').show();
     } else {
       this.onSubmit(this.serviceForm.value, false);

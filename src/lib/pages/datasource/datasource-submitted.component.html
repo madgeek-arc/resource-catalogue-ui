@@ -6,20 +6,43 @@
         <div class="uk-container uk-container-large uk-margin-medium-top uk-margin-medium-bottom">
           <div class="uk-grid">
             <div class=" uk-width-expand@m">
-              ﻿<div>
-              <div *ngIf="datasource" class="section">
-                <h1>{{datasource.name}}</h1>
-                <p>{{datasource.description}}</p>
+              ﻿
+              <div>
+
+                <div *ngIf="registeredAtOpenAIRE === false" class="uk-alert-warning uk-text-center">Please register your datasource at <a href="http://provide.openaire.eu" target="_blank">OpenAIRE</a></div>
+
+                <div class="uk-margin-medium-top">
+                  <div *ngIf="datasource" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+
+                    <div class="uk-card-body">
+
+                      <div class="uk-grid uk-flex-middle uk-margin-remove-top">
+                        <div class="uk-width-1-6">
+                          <img src="{{datasource.logo ? datasource.logo : 'src/lib/assets/images/broken_image-black-48dp.svg'}}">
+                        </div>
+                        <div class="uk-width-2-3">
+                          <h4 class="uk-margin-remove">{{datasource.name}}</h4>
+                          <div class="uk-margin-small-top">
+                            <span *ngIf="datasource.description" class="uk-margin-small-top">{{datasource.description}}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <ng-container *ngIf="datasource">
+        <button [routerLink]="['/dashboard/'+this.datasource.catalogueId+'/'+this.datasource.resourceOrganisation+'/datasources']"
+                class="uk-button uk-button-action uk-display-block uk-margin-medium-top" style="padding-left: 30px">
+          <i class="fa fa-arrow-left" aria-hidden="true"></i> Dashboard
+        </button>
+      </ng-container>
     </div>
-      <button [routerLink]="['/dashboard/'+this.datasource.catalogueId+'/'+this.datasource.resourceOrganisation+'/datasources']"
-              class="uk-button uk-button-action uk-display-block uk-margin-medium-top" style="padding-left: 30px">
-        <i class="fa fa-arrow-left" aria-hidden="true"></i> Dashboard
-      </button>
   </div>
-</div>
 </div>

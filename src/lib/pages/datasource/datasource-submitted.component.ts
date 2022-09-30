@@ -17,6 +17,7 @@ export class DatasourceSubmittedComponent implements OnInit {
 
   errorMessage = '';
   showLoader = false;
+  registeredAtOpenAIRE: boolean;
   datasourceId: string;
   datasource: Datasource;
   path: string;
@@ -32,6 +33,12 @@ export class DatasourceSubmittedComponent implements OnInit {
 
     this.datasourceService.getDatasource(this.datasourceId).subscribe(
       ds => {this.datasource = ds; console.log(ds)},
+      error => {},
+      () => {}
+    )
+
+    this.datasourceService.isItRegistered(this.datasourceId).subscribe(
+      bool => this.registeredAtOpenAIRE = bool,
       error => {},
       () => {}
     )

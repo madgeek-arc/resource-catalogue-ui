@@ -116,4 +116,7 @@ export class DatasourceService {
     return this.http.patch(this.base + `/datasource/publish/${id}?active=${active}&version=${version}`, this.options); // copy for provider without version
   }
 
+  isItRegistered(datasourceId: string) {
+    return this.http.get<boolean>(this.base + `/datasource/isDatasourceRegisteredOnOpenAIRE/${datasourceId}`);
+  }
 }
