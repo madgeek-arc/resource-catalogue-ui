@@ -1579,7 +1579,7 @@
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{resourceCatalogueIdDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
-                                <input id="catalogueId" class="uk-input uk-width-9-10" type="text"
+                                <input id="catalogueId" class="uk-disabled uk-input uk-width-9-10" type="text" placeholder="eosc"
                                        formControlName="catalogueId"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('catalogueId', this.editMode)}">
