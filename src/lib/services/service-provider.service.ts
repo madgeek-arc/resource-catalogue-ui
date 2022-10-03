@@ -131,9 +131,9 @@ export class ServiceProviderService {
       `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 
-  getRejectedServicesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+  getRejectedResourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
     return this.http.get<Paging<InfraService>>(this.base +
-      `/provider/services/rejected/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      `/provider/resources/rejected/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 
   publishService(id: string, version: string, active: boolean) { // toggles active/inactive service

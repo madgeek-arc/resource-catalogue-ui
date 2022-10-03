@@ -86,7 +86,7 @@ export class MyServiceProvidersComponent implements OnInit {
                 );
               }
               if ((p.templateStatus === 'rejected template')) {
-                this.serviceProviderService.getRejectedServicesOfProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
+                this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
                   res => {
                     if (res.results.length > 0) {
                       this.hasRejectedServices.push({id: p.id, flag: true});

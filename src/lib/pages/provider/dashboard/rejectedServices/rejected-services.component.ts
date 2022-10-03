@@ -73,7 +73,7 @@ export class RejectedServicesComponent implements OnInit {
           }
 
           // this.handleChange();
-          this.getRejectedServices();
+          this.getRejectedResources();
         },
         error => this.errorMessage = <any>error
       );
@@ -94,8 +94,8 @@ export class RejectedServicesComponent implements OnInit {
     );
   }
 
-  getRejectedServices() {
-    this.providerService.getRejectedServicesOfProvider(this.providerId, this.dataForm.get('from').value,
+  getRejectedResources() {
+    this.providerService.getRejectedResourcesOfProvider(this.providerId, this.dataForm.get('from').value,
       this.itemsPerPage + '', 'ASC', 'name')
       .subscribe(res => {
           this.providerServices = res;
@@ -124,10 +124,10 @@ export class RejectedServicesComponent implements OnInit {
         // console.log(error);
         // UIkit.modal('#spinnerModal').hide();
         this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getRejectedServices();
+        this.getRejectedResources();
       },
       () => {
-        this.getRejectedServices();
+        this.getRejectedResources();
         // UIkit.modal('#spinnerModal').hide();
       }
     );
