@@ -76,14 +76,22 @@
 
                               <ng-container *ngIf="(providerBundle.templateStatus !== 'approved template')">
                                 <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
-<!--                                <ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
+                                  <!--<ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
                                   <button class="uk-button uk-button-action uk-margin-small-left"
                                           routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
                                     <i class="fa fa-lg fa-edit"></i>
                                     Update First {{serviceORresource}}
                                   </button>
                                 </ng-container>
-                                <ng-container *ngIf="!hasCreatedFirstService(providerBundle.id)">
+                                <ng-container *ngIf="hasCreatedFirstDatasource(providerBundle.id)">
+                                  <!--<ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
+                                  <button class="uk-button uk-button-action uk-margin-small-left"
+                                          routerLink="{{ getLinkToFirstDatasource(providerBundle.id) }}">
+                                    <i class="fa fa-lg fa-edit"></i>
+                                    Edit First Datasource
+                                  </button>
+                                </ng-container>
+                                <ng-container *ngIf="!hasCreatedFirstService(providerBundle.id) && !hasCreatedFirstDatasource(providerBundle.id)">
                                   <button class="uk-button uk-button-action uk-margin-small-left">
                                     <i class="fa fa-plus"></i>
                                     Add First {{serviceORresource}}

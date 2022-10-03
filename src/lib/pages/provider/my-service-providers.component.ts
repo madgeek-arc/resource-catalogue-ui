@@ -66,7 +66,8 @@ export class MyServiceProvidersComponent implements OnInit {
                 this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                   res => {
                     if (res) {
-                      this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
+                      this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id,
+                        service: JSON.parse(JSON.stringify(res)).service, datasource: JSON.parse(JSON.stringify(res)).datasource});
                     }
                   }
                 );
@@ -106,8 +107,26 @@ export class MyServiceProvidersComponent implements OnInit {
       );
   }
 
-  hasCreatedFirstService(id: string) {
-    return this.serviceTemplatePerProvider.some(x => x.providerId === id);
+  hasCreatedFirstService(providerId: string) {
+    for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
+      if (this.serviceTemplatePerProvider[i].providerId == providerId) {
+        if (this.serviceTemplatePerProvider[i].service) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  hasCreatedFirstDatasource(providerId: string) {
+    for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
+      if (this.serviceTemplatePerProvider[i].providerId == providerId) {
+        if (this.serviceTemplatePerProvider[i].datasource) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   checkForDraftServices(id: string): boolean {
