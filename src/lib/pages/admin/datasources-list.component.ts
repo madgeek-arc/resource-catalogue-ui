@@ -702,9 +702,9 @@ export class DatasourcesListComponent implements OnInit {
     );
   }
 
-  moveResourceToProvider(resourceId, providerId) {
+  moveResourceToProvider(datasourceId, providerId) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceService.moveResourceToProvider(resourceId, providerId, this.commentMoveControl.value).subscribe(
+    this.datasourceService.moveDatasourceToProvider(datasourceId, providerId, this.commentMoveControl.value).subscribe(
       res => {},
       error => {
         // console.log(error);
@@ -737,7 +737,7 @@ export class DatasourcesListComponent implements OnInit {
   }
 
   auditResourceAction(action: string) {
-    this.resourceService.auditResource(this.selectedDatasource.id, action, this.commentAuditControl.value)
+    this.datasourceService.auditDatasource(this.selectedDatasource.id, action, this.commentAuditControl.value)
       .subscribe(
         res => {
           if (!this.showSideAuditForm) {
@@ -761,7 +761,7 @@ export class DatasourcesListComponent implements OnInit {
   }
 
   sendMailForUpdate(id: string) {
-    this.resourceService.sendEmailForOutdatedResource(id).subscribe(
+    this.datasourceService.sendEmailForOutdatedDatasource(id).subscribe(
       res => {},
       err => { console.log(err); }
     );

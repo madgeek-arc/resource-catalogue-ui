@@ -119,4 +119,16 @@ export class DatasourceService {
   isItRegistered(datasourceId: string) {
     return this.http.get<boolean>(this.base + `/datasource/isDatasourceRegisteredOnOpenAIRE/${datasourceId}`);
   }
+
+  auditDatasource(id: string, action: string, comment: string) {
+    return this.http.patch(this.base + `/datasource/auditDatasource/${id}?actionType=${action}&comment=${comment}`, this.options);
+  }
+
+  sendEmailForOutdatedDatasource(id: string) {
+    return this.http.get(this.base + `/datasource/sendEmailForOutdatedDatasource/${id}`);
+  }
+
+  moveDatasourceToProvider(datasourceId: string, providerId: string, comment: string) {
+    return this.http.post(this.base + `/datasource/changeProvider?datasourceId=${datasourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
+  }
 }
