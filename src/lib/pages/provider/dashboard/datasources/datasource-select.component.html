@@ -15,8 +15,12 @@
 
     <div>
       <h5 class="uk-padding uk-padding-remove-left uk-margin-remove">
-        Select a datasource from the list (provided by OpenAIRE) or <a [routerLink]="['/provider/' + providerId + '/datasource/add/']">create one from scratch</a>
-        {{providerBundle?.provider?.name ? 'for ' + providerBundle?.provider?.name : ''}}
+        Find and select your datasource profile via OpenAIRE from one of the registries
+        <a href="http://re3data.org/" target="_blank">re3data.org</a>,
+        <a href="https://v2.sherpa.ac.uk/opendoar/" target="_blank">OpenDOAR</a>, and
+        <a href="http://fairsharing.org/" target="_blank">fairsharing.org</a>
+        or create a new one by filling this <a [routerLink]="['/provider/' + providerId + '/datasource/add/']">form</a>.
+<!--        {{providerBundle?.provider?.name ? 'for ' + providerBundle?.provider?.name : ''}}-->
       </h5>
     </div>
 
@@ -78,7 +82,7 @@
       </form>
 
       <div *ngIf="datasources && datasources.results.length === 0">
-        <p>No datasources found</p>
+        <p>Your datasource could not be found in the registries.</p>
       </div>
 
       <div *ngIf="datasources && datasources.results.length > 0">
