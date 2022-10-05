@@ -110,9 +110,13 @@
                                         </a>
                                       </li>
                                       <li *ngIf="checkForRejectedServices(providerBundle.id)" class="uk-active">
-<!--                                                                              <li class="uk-active">-->
                                         <a [routerLink]="['/provider/rejected-resources/' + providerBundle.id] ">
                                           Select from rejected {{serviceORresource | lowercase}}s
+                                        </a>
+                                      </li>
+                                      <li *ngIf="checkForRejectedDatasources(providerBundle.id)" class="uk-active">
+                                        <a [routerLink]="['/provider/rejected-datasources/' + providerBundle.id] ">
+                                          Select from rejected datasources
                                         </a>
                                       </li>
                                       <li class="uk-nav-divider"></li>

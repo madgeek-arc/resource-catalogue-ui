@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {InfraService, Provider, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {DatasourceBundle, ProviderBundle} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -7,17 +7,16 @@ import {Paging} from '../../../../domain/paging';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
+import {DatasourceService} from "../../../../services/datasource.service";
 
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-rejected-services',
-  templateUrl: './rejected-services.component.html',
+  selector: 'app-rejected-datasources',
+  templateUrl: './rejected-datasources.component.html',
 })
 
-export class RejectedServicesComponent implements OnInit {
-
-  serviceORresource = environment.serviceORresource;
+export class RejectedDatasourcesComponent implements OnInit {
 
   formPrepare = {
     from: '0'
@@ -30,8 +29,8 @@ export class RejectedServicesComponent implements OnInit {
   providerId: string;
   catalogueId: string;
   providerBundle: ProviderBundle;
-  providerServices: Paging<InfraService>;
-  selectedService: InfraService = null;
+  datasourceBundles: Paging<DatasourceBundle>;
+  selectedDatasource: DatasourceBundle = null;
   path: string;
 
   total: number;
@@ -46,7 +45,7 @@ export class RejectedServicesComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
-    private service: ResourceService
+    private datasourceService: DatasourceService
   ) {}
 
   ngOnInit(): void {
@@ -81,7 +80,7 @@ export class RejectedServicesComponent implements OnInit {
   }
 
   navigate(id: string) {
-    this.router.navigate([`/provider/` + this.providerId + `/resource/update/`, id]);
+    this.router.navigate([`/provider/` + this.providerId + `/datasource/update/`, id]);
   }
 
   getProvider() {
@@ -96,29 +95,27 @@ export class RejectedServicesComponent implements OnInit {
 
   getRejectedResources() {
     this.providerService.getRejectedResourcesOfProvider(this.providerId, this.dataForm.get('from').value,
-      this.itemsPerPage + '', 'ASC', 'name', 'service')
+      this.itemsPerPage + '', 'ASC', 'name', 'datasource')
       .subscribe(res => {
-          this.providerServices = res;
+          this.datasourceBundles = res;
           this.total = res['total'];
           this.paginationInit();
         },
         err => {
-          this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
+          this.errorMessage = 'An error occurred while retrieving the datasources of this provider. ' + err.error;
         },
-        () => {
-        // console.log(this.providerServices)
-      }
+        () => {}
       );
   }
 
-  setSelectedService(service: InfraService) {
-    this.selectedService = service;
+  setSelectedDatasource(datasource: DatasourceBundle) {
+    this.selectedDatasource = datasource;
     UIkit.modal('#actionModal').show();
   }
 
-  deleteService(id: string) {
+  deleteDatasource(id: string) {
     // UIkit.modal('#spinnerModal').show();
-    this.service.deletePendingService(id).subscribe(
+    this.datasourceService.deleteDatasource(id).subscribe(
       res => {},
       error => {
         // console.log(error);
@@ -146,13 +143,13 @@ export class RejectedServicesComponent implements OnInit {
       }
     }
 
-    if (this.path.includes('/provider/rejected-resources')) {
-      this.router.navigate([`/provider/rejected-resources/` + this.providerId], {queryParams: map});
+    if (this.path.includes('/provider/rejected-datasources')) {
+      this.router.navigate([`/provider/rejected-datasources/` + this.providerId], {queryParams: map});
     }
     // else {
-    //   this.router.navigate([`/dashboard/` + this.providerId + `/rejected-resources`], {queryParams: map});
+    //   this.router.navigate([`/dashboard/` + this.providerId + `/rejected-datasources`], {queryParams: map});
     // }
-    // this.getPendingServices();
+    // this.getPendingDatasources();
   }
 
   paginationInit() {

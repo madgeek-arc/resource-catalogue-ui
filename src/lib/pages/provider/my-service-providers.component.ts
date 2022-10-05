@@ -22,6 +22,7 @@ export class MyServiceProvidersComponent implements OnInit {
   serviceTemplatePerProvider: any[] = [];
   hasDraftServices: { id: string, flag: boolean }[] = [];
   hasRejectedServices: { id: string, flag: boolean }[] = [];
+  hasRejectedDatasources: { id: string, flag: boolean }[] = [];
 
   myApprovedProviders: ProviderBundle[] = [];
   myPendingActionProviders: ProviderBundle[] = [];
@@ -87,12 +88,21 @@ export class MyServiceProvidersComponent implements OnInit {
                 );
               }
               if ((p.templateStatus === 'rejected template')) {
-                this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
+                this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'name', 'service').subscribe(
                   res => {
                     if (res.results.length > 0) {
                       this.hasRejectedServices.push({id: p.id, flag: true});
                     } else {
                       this.hasRejectedServices.push({id: p.id, flag: false});
+                    }
+                  }
+                );
+                this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'name', 'datasource').subscribe(
+                  res => {
+                    if (res.results.length > 0) {
+                      this.hasRejectedDatasources.push({id: p.id, flag: true});
+                    } else {
+                      this.hasRejectedDatasources.push({id: p.id, flag: false});
                     }
                   }
                 );
@@ -149,6 +159,17 @@ export class MyServiceProvidersComponent implements OnInit {
     return false;
   }
 
+  checkForRejectedDatasources(id: string): boolean {
+    for (let i = 0; i < this.hasRejectedDatasources.length; i++) {
+      if (this.hasRejectedDatasources[i].id === id) {
+        // console.log('rejected flag', id, 'returns', this.hasRejectedDatasources[i].flag);
+        return this.hasRejectedDatasources[i].flag;
+      }
+    }
+    // console.log('rejected return false', id);
+    return false;
+  }
+
   getLinkToFirstService(id: string) {
     if (this.hasCreatedFirstService(id)) {
       return '/provider/' + id + '/resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
@@ -157,12 +178,12 @@ export class MyServiceProvidersComponent implements OnInit {
     }
   }
 
-  getLinkToFirstDatasource(id: string) { //TODO: revisit when making draft datasources
-    // if (this.hasCreatedFirstService(id)) {
-    //   return '/provider/' + id + '/datasource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
-    // } else {
+  getLinkToFirstDatasource(id: string) {
+    if (this.hasCreatedFirstDatasource(id)) {
+      return '/provider/' + id + '/datasource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId; //TODO: revisit
+    } else {
       return '/provider/' + id + '/add-first-datasource';
-    // }
+    }
   }
 
   assignProviderToList(p: ProviderBundle) {

@@ -11,7 +11,7 @@ import {
   ProviderRequest,
   Service,
   ServiceHistory,
-  VocabularyCuration, CatalogueBundle
+  VocabularyCuration, CatalogueBundle, DatasourceBundle
 } from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
@@ -131,9 +131,9 @@ export class ServiceProviderService {
       `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 
-  getRejectedResourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
-    return this.http.get<Paging<InfraService>>(this.base +
-      `/provider/resources/rejected/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+  getRejectedResourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, resourceType: string) {
+    return this.http.get<Paging<any>>(this.base +
+      `/provider/resources/rejected/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&resourceType=${resourceType}`);
   }
 
   publishService(id: string, version: string, active: boolean) { // toggles active/inactive service
