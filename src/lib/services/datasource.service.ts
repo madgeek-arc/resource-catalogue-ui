@@ -125,10 +125,10 @@ export class DatasourceService {
   }
 
   sendEmailForOutdatedDatasource(id: string) {
-    return this.http.get(this.base + `/datasource/sendEmailForOutdatedDatasource/${id}`);
+    return this.http.get(this.base + `/datasource/sendEmailForOutdatedResource/${id}`);
   }
 
   moveDatasourceToProvider(datasourceId: string, providerId: string, comment: string) {
-    return this.http.post(this.base + `/datasource/changeProvider?datasourceId=${datasourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
+    return this.http.post(this.base + `/datasource/changeProvider?resourceId=${datasourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
   }
 }
