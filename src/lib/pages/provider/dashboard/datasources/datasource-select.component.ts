@@ -12,7 +12,7 @@ import {DatasourceService} from "../../../../services/datasource.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-services',
+  selector: 'app-datasource-select',
   templateUrl: './datasource-select.component.html',
   styleUrls: ['../services/service.component.css']
 })
@@ -85,7 +85,7 @@ export class DatasourceSelectComponent implements OnInit {
   }
 
   navigate(id: string) {
-    // this.router.navigate([`/dashboard/${this.catalogueId}/${this.providerId}/resource-dashboard/`, id]);
+    // this.router.navigate([`/dashboard/${this.catalogueId}/${this.providerId}/datasource-dashboard/`, id]);
   }
 
   getProvider() {

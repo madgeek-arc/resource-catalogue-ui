@@ -1,0 +1,76 @@
+<div class="dashboard">
+  <div class="sidebar_main_swipe sidebar_main_active">
+    <aside id="sidebar_main">
+
+      <div class="menu_section uk-margin-medium-top">
+
+        <div class="sidebar_heading">MONITOR</div>
+
+        <ul>
+
+          <li [routerLinkActive]="['current_section']" #stats="routerLinkActive">
+            <a [routerLink]="['/dashboard', catalogueId, providerId, 'datasource-dashboard', datasourceId, 'stats']">
+              <img src="{{stats.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
+              Statistics
+            </a>
+          </li>
+          <li [routerLinkActive]="['current_section']" #datasources="routerLinkActive">
+            <a [routerLink]="['/dashboard', catalogueId, providerId, 'datasource-dashboard', datasourceId, 'history']">
+              <img src="{{datasources.isActive ? 'lib/assets/images/new-icons/history-active.svg' : 'lib/assets/images/new-icons/history.svg'}}" class="uk-margin-small-right">
+              Update History
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+      <div class="menu_section border_top">
+        <div class="sidebar_heading">ACTIONS</div>
+
+        <ul>
+
+          <li *ngIf="catalogueId === 'eosc'">
+            <a [routerLink]="['/provider/' + providerId + '/datasource/update/' + datasourceId]">
+              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+              Update Datasource
+            </a>
+          </li>
+<!--          TODO: need the methods, the routing and the components for extensions-->
+<!--          <li>-->
+<!--            <a [routerLink]="['/provider/' + providerId + '/datasource/monitoring/' + datasourceId]">-->
+<!--              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">-->
+<!--              {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension-->
+<!--            </a>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <a [routerLink]="['/provider/' + providerId + '/datasource/helpdesk/' + datasourceId]">-->
+<!--              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">-->
+<!--              {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension-->
+<!--            </a>-->
+<!--          </li>-->
+          <li>
+            <a href="{{_marketplaceBaseURL}}{{datasourceId}}" target="_blank">
+              <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">
+              View in Catalogue
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/dashboard', catalogueId, providerId, 'stats']">
+              <img src="lib/assets/images/new-icons/stats.svg" class="uk-margin-small-right">
+              Back to Provider Dashboard
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+    </aside><!-- main sidebar end -->
+
+    <div id="page_content">
+      <app-dashboard-breadcrumbs></app-dashboard-breadcrumbs>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+

@@ -8,7 +8,7 @@ import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
 
 @Component({
-  selector: 'app-service-dashboard',
+  selector: 'app-service-history',
   templateUrl: './service-history.component.html',
   styleUrls: ['./service-stats.component.css']
 })

@@ -12,7 +12,7 @@ import {DatasourceService} from "../../../../services/datasource.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-services',
+  selector: 'app-datasources',
   templateUrl: './datasources.component.html',
   styleUrls: ['../services/service.component.css']
 })

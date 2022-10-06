@@ -18,7 +18,7 @@ declare var require: any;
 const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
 
 @Component({
-  selector: 'app-service-dashboard',
+  selector: 'app-service-stats',
   templateUrl: './service-stats.component.html',
   styleUrls: ['./service-stats.component.css']
 })

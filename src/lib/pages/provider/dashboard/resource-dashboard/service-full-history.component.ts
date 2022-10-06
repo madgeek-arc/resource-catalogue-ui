@@ -9,7 +9,7 @@ import {zip} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
 
 @Component({
-  selector: 'app-service-dashboard',
+  selector: 'app-service-full-history',
   templateUrl: './service-full-history.component.html',
   styleUrls: ['./service-stats.component.css']
 })
