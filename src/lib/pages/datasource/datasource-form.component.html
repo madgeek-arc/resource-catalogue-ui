@@ -1972,7 +1972,7 @@
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <input id="submissionPolicyURL" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                                        type="text" placeholder="use http:// or https://"
-                                       (input)="unsavedChangesPrompt(); checkForDuplicates('submissionPolicyURL')"
+                                       (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('submissionPolicyURL', this.editMode)}"
                                        formControlName="submissionPolicyURL">
                                 <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('submissionPolicyURL').value" class="uk-icon">
@@ -1989,7 +1989,7 @@
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <input id="preservationPolicyURL" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                                        type="text" placeholder="use http:// or https://"
-                                       (input)="unsavedChangesPrompt(); checkForDuplicates('preservationPolicyURL')"
+                                       (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('preservationPolicyURL', this.editMode)}"
                                        formControlName="preservationPolicyURL">
                                 <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('preservationPolicyURL').value" class="uk-icon">
