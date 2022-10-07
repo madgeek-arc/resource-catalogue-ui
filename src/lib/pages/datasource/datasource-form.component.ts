@@ -335,10 +335,8 @@ export class DatasourceFormComponent implements OnInit {
   public scientificDomainVocabulary: Vocabulary[] = null;
   public scientificSubDomainVocabulary: Vocabulary[] = null;
   public placesVocabulary: Vocabulary[] = [];
-  public placesVocIdArray: string[] = [];
   public geographicalVocabulary: Vocabulary[] = null;
   public languagesVocabulary: Vocabulary[] = null;
-  public languagesVocIdArray: string[] = [];
   public jurisdictionVocabulary: Vocabulary[] = null;
   public classificationVocabulary: Vocabulary[] = null;
   public researchEntityTypeVocabulary: Vocabulary[] = null;
@@ -499,8 +497,6 @@ export class DatasourceFormComponent implements OnInit {
         this.geographicalVocabulary = this.vocabularies[Type.REGION];
         this.geographicalVocabulary.push(...this.vocabularies[Type.COUNTRY]);
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
-        // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
-        // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
         this.jurisdictionVocabulary = this.vocabularies[Type.DS_JURISDICTION];
         this.classificationVocabulary = this.vocabularies[Type.DS_CLASSIFICATION];
         this.researchEntityTypeVocabulary = this.vocabularies[Type.DS_RESEARCH_ENTITY_TYPE];

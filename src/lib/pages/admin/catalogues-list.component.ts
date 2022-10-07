@@ -87,10 +87,8 @@ export class CataloguesListComponent implements OnInit {
   public scientificDomainVocabulary: Vocabulary[] = null;
   public scientificSubDomainVocabulary: Vocabulary[] = null;
   public placesVocabulary: Vocabulary[] = [];
-  public placesVocIdArray: string[] = [];
   public geographicalVocabulary: Vocabulary[] = null;
   public languagesVocabulary: Vocabulary[] = null;
-  public languagesVocIdArray: string[] = [];
   public statusesVocabulary: Vocabulary[] = null;
 
   public auditStates: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
@@ -225,8 +223,6 @@ export class CataloguesListComponent implements OnInit {
         // this.placesVocabulary = this.vocabularies[Type.COUNTRY];
         this.geographicalVocabulary = this.vocabularies[Type.COUNTRY];
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
-        // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
-        // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
       },
       error => {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);

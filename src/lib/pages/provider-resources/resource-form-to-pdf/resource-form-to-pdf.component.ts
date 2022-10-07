@@ -246,10 +246,8 @@ export class ResourceFormToPdfComponent implements OnInit {
   public scientificDomainVocabulary: Vocabulary[] = null;
   public scientificSubDomainVocabulary: Vocabulary[] = null;
   public placesVocabulary: Vocabulary[] = [];
-  public placesVocIdArray: string[] = [];
   public geographicalVocabulary: Vocabulary[] = null;
   public languagesVocabulary: Vocabulary[] = null;
-  public languagesVocIdArray: string[] = [];
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -391,8 +389,6 @@ export class ResourceFormToPdfComponent implements OnInit {
         this.geographicalVocabulary = this.vocabularies[Type.REGION];
         this.geographicalVocabulary.push(...this.vocabularies[Type.COUNTRY]);
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
-        // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
-        // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
       },
       error => {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
