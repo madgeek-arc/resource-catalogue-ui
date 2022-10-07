@@ -155,6 +155,11 @@
                                       Add new {{serviceORresource}}
                                     </a>
                                   </li>
+                                  <li *ngIf="providerBundle.templateStatus==='approved template'" class="uk-margin-small-bottom">
+                                    <a [routerLink]="['/provider/' + providerBundle.id + '/datasource/add/']">
+                                      Add new Datasource
+                                    </a>
+                                  </li>
                                 </ul>
                               </div>
                             </div>
