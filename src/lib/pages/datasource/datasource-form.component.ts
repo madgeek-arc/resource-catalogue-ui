@@ -496,7 +496,8 @@ export class DatasourceFormComponent implements OnInit {
         this.fundingProgramVocabulary = this.vocabularies[Type.FUNDING_PROGRAM];
         this.relatedPlatformsVocabulary = this.vocabularies[Type.RELATED_PLATFORM];
         this.placesVocabulary = this.vocabularies[Type.COUNTRY];
-        this.geographicalVocabulary = Object.assign(this.vocabularies[Type.COUNTRY],this.vocabularies[Type.REGION]);
+        this.geographicalVocabulary = this.vocabularies[Type.REGION];
+        this.geographicalVocabulary.push(...this.vocabularies[Type.COUNTRY]);
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
         // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
         // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
