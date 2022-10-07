@@ -14,7 +14,7 @@ import {environment} from '../../../../../environments/environment';
 })
 export class DatasourceDashboardComponent implements OnInit {
 
-  _marketplaceBaseURL = environment.marketplaceBaseURL;
+  _marketplaceDatasourcesURL = environment.marketplaceDatasourcesURL;
 
   catalogueId: string;
   providerId: string;

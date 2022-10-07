@@ -24,7 +24,7 @@ declare var UIkit: any;
   // styleUrls: ['../provider/service-provider-form.component.css']
 })
 export class DatasourceFormComponent implements OnInit {
-  protected _marketplaceBaseURL = environment.marketplaceBaseURL;
+  protected _marketplaceDatasourcesURL = environment.marketplaceDatasourcesURL;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;

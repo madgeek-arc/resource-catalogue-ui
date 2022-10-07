@@ -21,7 +21,7 @@ import {zip} from "rxjs";
   templateUrl: './resource-form-to-pdf.component.html',
 })
 export class ResourceFormToPdfComponent implements OnInit {
-  protected _marketplaceBaseURL = environment.marketplaceBaseURL;
+  protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   serviceName = '';
@@ -331,7 +331,7 @@ export class ResourceFormToPdfComponent implements OnInit {
           // console.log(_service);
           this.showLoader = false;
           // return this.router.service(_service.id); // change to redirect to marketplace
-          return window.location.href = this._marketplaceBaseURL + _service.id;
+          return window.location.href = this._marketplaceServicesURL + _service.id;
         },
         err => {
           this.showLoader = false;

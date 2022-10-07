@@ -24,7 +24,7 @@ declare var UIkit: any;
 })
 export class HelpdeskExtensionFormComponent implements OnInit {
 
-  protected _marketplaceBaseURL = environment.marketplaceBaseURL;
+  protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;

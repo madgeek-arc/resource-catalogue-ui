@@ -23,7 +23,7 @@ declare var UIkit: any;
   styleUrls: ['../provider/service-provider-form.component.css']
 })
 export class ServiceFormComponent implements OnInit {
-  protected _marketplaceBaseURL = environment.marketplaceBaseURL;
+  protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
@@ -355,7 +355,7 @@ export class ServiceFormComponent implements OnInit {
             // return this.router.dashboardResources(this.providerId);                  // redirect to provider dashboard -> resource list
             // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
             // return this.router.service(_service.id);                               // redirect to old service info page
-            // return window.location.href = this._marketplaceBaseURL + _service.id; // redirect to marketplace
+            // return window.location.href = this._marketplaceServicesURL + _service.id; // redirect to marketplace
           }
         },
         err => {
