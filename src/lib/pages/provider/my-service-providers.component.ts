@@ -182,7 +182,8 @@ export class MyServiceProvidersComponent implements OnInit {
     if (this.hasCreatedFirstDatasource(id)) {
       return '/provider/' + id + '/datasource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId; //TODO: revisit
     } else {
-      return '/provider/' + id + '/add-first-datasource';
+      // return '/provider/' + id + '/add-first-datasource'; // maybe not needed, revisit this
+      return '/provider/' + id + '/datasource/select/';
     }
   }
 

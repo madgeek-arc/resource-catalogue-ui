@@ -94,7 +94,7 @@
                 </a>
               </li>
               <li>
-                <a [routerLink]="['/provider/' + providerId + '/add-first-datasource/']">
+                <a [routerLink]="['/provider/' + providerId + '/datasource/select/']">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add first datasource
                 </a>
@@ -108,7 +108,7 @@
                 </a>
               </li>
             </ng-container>
-            <ng-container *ngIf="providerBundle?.templateStatus === 'approved template'"> <!--TODO: check if this ok-->
+            <ng-container *ngIf="providerBundle?.templateStatus === 'approved template'">
               <li>
                 <a [routerLink]="['/provider/' + providerId + '/datasource/select/']">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
