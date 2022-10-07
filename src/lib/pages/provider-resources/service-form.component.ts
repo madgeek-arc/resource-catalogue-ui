@@ -541,7 +541,8 @@ export class ServiceFormComponent implements OnInit {
   }
 
   /** check form fields and tabs validity--> **/
-  checkFormValidity(name: string, edit: boolean): boolean {
+  checkFormValidity(name: string, edit: boolean, required?: boolean): boolean {
+    if (required && edit && (this.serviceForm.get(name).value === "")) return false; // for dropdown required fields that get red on edit
     return (this.serviceForm.get(name).invalid && (edit || this.serviceForm.get(name).dirty));
   }
 

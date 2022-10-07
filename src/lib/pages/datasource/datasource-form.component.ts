@@ -288,10 +288,10 @@ export class DatasourceFormComponent implements OnInit {
       })
     ]),
 
-    jurisdiction: [''],
-    datasourceClassification: [''],
+    jurisdiction: ['', Validators.required],
+    datasourceClassification: ['', Validators.required],
     researchEntityTypes: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
-    thematic: [''],
+    thematic: ['', Validators.required],
 
     researchProductLicensings: this.fb.array([
       this.fb.group({
@@ -623,7 +623,8 @@ export class DatasourceFormComponent implements OnInit {
   }
 
   /** check form fields and tabs validity--> **/
-  checkFormValidity(name: string, edit: boolean): boolean {
+  checkFormValidity(name: string, edit: boolean, required?: boolean): boolean {
+    if (required && edit && (this.serviceForm.get(name).value === "")) return false; // for dropdown required fields that get red on edit
     return (this.serviceForm.get(name).invalid && (edit || this.serviceForm.get(name).dirty));
   }
 
