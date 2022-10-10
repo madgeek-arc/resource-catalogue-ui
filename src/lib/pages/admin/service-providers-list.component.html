@@ -405,30 +405,57 @@
                                   </li>
                                   <li class="uk-nav-divider"></li>
                                 </ng-container>
-                                <ng-container *ngIf="hasCreatedFirstService(providerBundle.id) && providerBundle.templateStatus==='pending template'">
-                                  <li class="uk-active">
-                                    <a *ngIf="projectName!='EOSC'"
-                                       routerLink="{{ getLinkToFirstService(providerBundle.id) }}"
-                                       class="">
-                                      <i class="fa fa-eye"></i> View First {{serviceORresource}}
-                                    </a>
-                                    <a *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id)"
-                                       class="">
-                                      <i class="fa fa-eye"></i> View First {{serviceORresource}}
-                                    </a>
-                                  </li>
-                                  <li class="uk-active">
-                                    <a routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}"
-                                       class="uk-margin-small-top">
-                                      <i class="fa fa-pencil"></i> Edit First {{serviceORresource}}
-                                    </a>
-                                  </li>
-                                  <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'approved resource')">
-                                    <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve First {{serviceORresource}}</a>
-                                  </li>
-                                  <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'rejected resource')">
-                                    <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First {{serviceORresource}}</a>
-                                  </li>
+                                <ng-container *ngIf="providerBundle.templateStatus==='pending template'">
+                                  <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
+                                    <li class="uk-active">
+                                      <a *ngIf="projectName!='EOSC'"
+                                         routerLink="{{ getLinkToFirstService(providerBundle.id) }}"
+                                         class="">
+                                        <i class="fa fa-eye"></i> View First {{serviceORresource}}
+                                      </a>
+                                      <a *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id, 'service')"
+                                         class="">
+                                        <i class="fa fa-eye"></i> View First {{serviceORresource}}
+                                      </a>
+                                    </li>
+                                    <li class="uk-active">
+                                      <a routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}"
+                                         class="uk-margin-small-top">
+                                        <i class="fa fa-pencil"></i> Edit First {{serviceORresource}}
+                                      </a>
+                                    </li>
+                                    <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'approved resource', 'service')">
+                                      <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve First {{serviceORresource}}</a>
+                                    </li>
+                                    <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'rejected resource', 'service')">
+                                      <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First {{serviceORresource}}</a>
+                                    </li>
+                                  </ng-container>
+                                  <ng-container *ngIf="hasCreatedFirstDatasource(providerBundle.id)">
+                                    <li class="uk-active">
+                                      <a *ngIf="projectName!='EOSC'"
+                                         routerLink="{{ getLinkToFirstDatasource(providerBundle.id) }}"
+                                         class="">
+                                        <i class="fa fa-eye"></i> View First Datasource
+                                      </a>
+                                      <a *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id, 'datasource')"
+                                         class="">
+                                        <i class="fa fa-eye"></i> View First Datasource
+                                      </a>
+                                    </li>
+                                    <li class="uk-active">
+                                      <a routerLink="{{ getLinkToEditFirstDatasource(providerBundle.id) }}"
+                                         class="uk-margin-small-top">
+                                        <i class="fa fa-pencil"></i> Edit First Datasource
+                                      </a>
+                                    </li>
+                                    <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'approved resource', 'datasource')">
+                                      <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve First Datasource</a>
+                                    </li>
+                                    <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'rejected resource', 'datasource')">
+                                      <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First Datasource</a>
+                                    </li>
+                                  </ng-container>
                                   <li class="uk-nav-divider ng-star-inserted"></li>
                                 </ng-container>
                                 <ng-container *ngIf="((providerBundle.status === 'pending provider') || (providerBundle.status === 'rejected provider'))">
