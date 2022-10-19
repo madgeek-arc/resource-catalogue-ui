@@ -100,14 +100,15 @@
                 </a>
               </li>
             </ng-container>
-            <ng-container *ngIf="providerBundle?.status === 'pending provider' || providerBundle?.status === 'rejected provider'">
-              <li title="This action is disabled until your Provider proceeds on the onboarding process.">
-                <a>
-                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Add first {{serviceORresource | lowercase}}
-                </a>
-              </li>
-            </ng-container>
+<!--            this can be omitted unless told otherwise-->
+<!--            <ng-container *ngIf="providerBundle?.status === 'pending provider' || providerBundle?.status === 'rejected provider'">-->
+<!--              <li title="This action is disabled until your Provider proceeds on the onboarding process.">-->
+<!--                <a>-->
+<!--                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">-->
+<!--                  Add first {{serviceORresource | lowercase}}-->
+<!--                </a>-->
+<!--              </li>-->
+<!--            </ng-container>-->
             <ng-container *ngIf="providerBundle?.templateStatus === 'approved template'">
               <li>
                 <a [routerLink]="['/provider/' + providerId + '/datasource/select/']">

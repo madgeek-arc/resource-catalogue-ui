@@ -151,22 +151,18 @@ export class MyServiceProvidersComponent implements OnInit {
   checkForRejectedServices(id: string): boolean {
     for (let i = 0; i < this.hasRejectedServices.length; i++) {
       if (this.hasRejectedServices[i].id === id) {
-        // console.log('rejected flag', id, 'returns', this.hasRejectedServices[i].flag);
         return this.hasRejectedServices[i].flag;
       }
     }
-    // console.log('rejected return false', id);
     return false;
   }
 
   checkForRejectedDatasources(id: string): boolean {
     for (let i = 0; i < this.hasRejectedDatasources.length; i++) {
       if (this.hasRejectedDatasources[i].id === id) {
-        // console.log('rejected flag', id, 'returns', this.hasRejectedDatasources[i].flag);
         return this.hasRejectedDatasources[i].flag;
       }
     }
-    // console.log('rejected return false', id);
     return false;
   }
 
