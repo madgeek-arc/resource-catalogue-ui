@@ -43,10 +43,8 @@ export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
   public scientificDomainVocabulary: Vocabulary[] = null;
   public scientificSubDomainVocabulary: Vocabulary[] = null;
   public placesVocabulary: Vocabulary[] = [];
-  public placesVocIdArray: string[] = [];
   public geographicalVocabulary: Vocabulary[] = null;
   public languagesVocabulary: Vocabulary[] = null;
-  public languagesVocIdArray: string[] = [];
 
   constructor(public route: ActivatedRoute,
               public router: NavigationService,
@@ -103,10 +101,9 @@ export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
       this.fundingBodyVocabulary = this.vocabularies[Type.FUNDING_BODY];
       this.fundingProgramVocabulary = this.vocabularies[Type.FUNDING_PROGRAM];
       // this.placesVocabulary = this.vocabularies[Type.COUNTRY];
-      this.geographicalVocabulary = Object.assign(this.vocabularies[Type.COUNTRY],this.vocabularies[Type.REGION]);
+      this.geographicalVocabulary = this.vocabularies[Type.REGION];
+      this.geographicalVocabulary.push(...this.vocabularies[Type.COUNTRY]);
       this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
-      // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
-      // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
     }
   }
 

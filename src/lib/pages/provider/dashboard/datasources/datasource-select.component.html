@@ -1,0 +1,158 @@
+<div class="uk-section uk-section-xsmall">
+  <div class="uk-container uk-container-expand">
+
+    <div *ngIf="providerBundle" class="services-provider-container">
+      <div class="uk-flex">
+        <div>
+          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+        </div>
+        <div class="uk-margin-medium-left">
+          <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
+          <div><span class="status-label">Provider Status: </span>{{ providerBundle.status.substr(0,providerBundle.status.indexOf(' ')) | titlecase }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h5 class="uk-padding uk-padding-remove-left uk-margin-remove">
+        Find and select your data source profile via OpenAIRE from one of the registries
+        <a href="http://re3data.org/" target="_blank">re3data.org</a>,
+        <a href="https://v2.sherpa.ac.uk/opendoar/" target="_blank">OpenDOAR</a>, and
+        <a href="http://fairsharing.org/" target="_blank">fairsharing.org</a>
+        or create a new one by filling this <a [routerLink]="['/provider/' + providerId + '/datasource/add/']">form</a>.
+<!--        {{providerBundle?.provider?.name ? 'for ' + providerBundle?.provider?.name : ''}}-->
+      </h5>
+    </div>
+
+    <div class="">
+      <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">
+        <p>{{errorMessage}}</p>
+      </div>
+
+      <div *ngIf="showLoader" class="uk-position-center">
+        <div uk-spinner="ratio: 2"></div>
+      </div>
+
+      <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters uk-margin-bottom">
+
+        <div class="uk-margin-right">
+          <div class="">
+            <label class="" for="quantity">Results per page </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="quantity" (change)="handleChangeAndResetPage()" formControlName="quantity">
+                <option value="10" selected>10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="uk-margin-right">
+
+          <div class="uk-inline uk-margin-right">
+            <label class="" for="orderBy">Order by </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="orderBy" (change)="handleChangeAndResetPage()" formControlName="order">
+                <option value="ASC" selected>Ascending</option>
+                <option value="DESC">Descending</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="uk-inline uk-margin-right">
+            <label class="" for="orderField">Sort by </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
+                <option value="name" selected>Name</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="uk-inline">
+            <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
+              <span uk-search-icon></span>
+              <input class="uk-search-input" type="search" placeholder="Search..." formControlName="query">
+            </form>
+          </div>
+
+        </div>
+
+      </form>
+
+      <div *ngIf="datasources && datasources.results.length === 0">
+        <p>Your datasource could not be found in the registries.</p>
+      </div>
+
+      <div *ngIf="datasources && datasources.results.length > 0">
+
+        <div class="uk-flex uk-flex-middle uk-flex-between">
+
+          <div class="resultsInfo">
+            <span class="number">{{total}}</span> DATASOURCES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+          </div>
+
+          <ul class="uk-pagination">
+            <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous></span><span uk-pagination-previous></span></a></li>
+            <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+            <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
+              <a (click)="goToPage(i)">{{i}}</a>
+            </li>
+            <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+            <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next></span><span uk-pagination-next></span></a></li>
+          </ul>
+
+        </div>
+
+        <hr class="adminResultsHeader">
+
+        <div class="uk-margin-medium-top">
+          <div *ngFor="let datasource of datasources.results" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+
+            <div class="uk-card-body">
+
+              <div class="uk-grid uk-flex-middle uk-margin-remove-top">
+                <div class="uk-width-1-6">
+                  <img src="{{datasource.logo ? datasource.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
+                </div>
+                <div class="uk-width-2-3">
+                  <h4 class="uk-margin-remove">
+                    <a [routerLink]="['/provider/'+providerId+'/datasource/addOpenAIRE/'+datasource.id]">{{datasource.name}}</a>
+                  </h4>
+                  <div class="uk-margin-small-top">
+                    <span class="">Id: </span>{{ datasource.id }}
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <span *ngIf="datasource.description" class="uk-margin-small-top">{{datasource.description}}</span>
+                  </div>
+<!--                  <div class="uk-margin-small-top">-->
+<!--                    <span class="">Creation Date: </span>{{ datasource.metadata.registeredAt | date }}-->
+<!--                  </div>-->
+<!--                  <div class="uk-margin-small-top">-->
+<!--                    <span class="">Last Update: </span>{{ datasource.metadata.modifiedAt | date }}-->
+<!--                  </div>-->
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <ul class="uk-pagination uk-flex-right uk-margin">
+          <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous></span><span uk-pagination-previous></span></a></li>
+          <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+          <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
+            <a (click)="goToPage(i)">{{i}}</a>
+          </li>
+          <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+          <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next></span><span uk-pagination-next></span></a></li>
+        </ul>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

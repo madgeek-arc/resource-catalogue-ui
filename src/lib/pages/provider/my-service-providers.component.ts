@@ -22,6 +22,7 @@ export class MyServiceProvidersComponent implements OnInit {
   serviceTemplatePerProvider: any[] = [];
   hasDraftServices: { id: string, flag: boolean }[] = [];
   hasRejectedServices: { id: string, flag: boolean }[] = [];
+  hasRejectedDatasources: { id: string, flag: boolean }[] = [];
 
   myApprovedProviders: ProviderBundle[] = [];
   myPendingActionProviders: ProviderBundle[] = [];
@@ -63,10 +64,11 @@ export class MyServiceProvidersComponent implements OnInit {
               // if ((p.status === 'pending template approval') || (p.status === 'rejected template')) {
               // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
               if (p.templateStatus === 'pending template') {
-                this.resourceService.getServiceTemplate(p.id).subscribe(
+                this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                   res => {
                     if (res) {
-                      this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
+                      this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id,
+                        service: JSON.parse(JSON.stringify(res)).service, datasource: JSON.parse(JSON.stringify(res)).datasource});
                     }
                   }
                 );
@@ -86,12 +88,21 @@ export class MyServiceProvidersComponent implements OnInit {
                 );
               }
               if ((p.templateStatus === 'rejected template')) {
-                this.serviceProviderService.getRejectedServicesOfProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
+                this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'name', 'service').subscribe(
                   res => {
                     if (res.results.length > 0) {
                       this.hasRejectedServices.push({id: p.id, flag: true});
                     } else {
                       this.hasRejectedServices.push({id: p.id, flag: false});
+                    }
+                  }
+                );
+                this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'name', 'datasource').subscribe(
+                  res => {
+                    if (res.results.length > 0) {
+                      this.hasRejectedDatasources.push({id: p.id, flag: true});
+                    } else {
+                      this.hasRejectedDatasources.push({id: p.id, flag: false});
                     }
                   }
                 );
@@ -106,8 +117,26 @@ export class MyServiceProvidersComponent implements OnInit {
       );
   }
 
-  hasCreatedFirstService(id: string) {
-    return this.serviceTemplatePerProvider.some(x => x.providerId === id);
+  hasCreatedFirstService(providerId: string) {
+    for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
+      if (this.serviceTemplatePerProvider[i].providerId == providerId) {
+        if (this.serviceTemplatePerProvider[i].service) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  hasCreatedFirstDatasource(providerId: string) {
+    for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
+      if (this.serviceTemplatePerProvider[i].providerId == providerId) {
+        if (this.serviceTemplatePerProvider[i].datasource) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   checkForDraftServices(id: string): boolean {
@@ -122,11 +151,18 @@ export class MyServiceProvidersComponent implements OnInit {
   checkForRejectedServices(id: string): boolean {
     for (let i = 0; i < this.hasRejectedServices.length; i++) {
       if (this.hasRejectedServices[i].id === id) {
-        // console.log('rejected flag', id, 'returns', this.hasRejectedServices[i].flag);
         return this.hasRejectedServices[i].flag;
       }
     }
-    // console.log('rejected return false', id);
+    return false;
+  }
+
+  checkForRejectedDatasources(id: string): boolean {
+    for (let i = 0; i < this.hasRejectedDatasources.length; i++) {
+      if (this.hasRejectedDatasources[i].id === id) {
+        return this.hasRejectedDatasources[i].flag;
+      }
+    }
     return false;
   }
 
@@ -134,7 +170,16 @@ export class MyServiceProvidersComponent implements OnInit {
     if (this.hasCreatedFirstService(id)) {
       return '/provider/' + id + '/resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
     } else {
-      return '/provider/' + id + '/add-first-resource';
+      return '/provider/' + id + '/add-first-service';
+    }
+  }
+
+  getLinkToFirstDatasource(id: string) {
+    if (this.hasCreatedFirstDatasource(id)) {
+      return '/provider/' + id + '/datasource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId; //TODO: revisit
+    } else {
+      // return '/provider/' + id + '/add-first-datasource'; // maybe not needed, revisit this
+      return '/provider/' + id + '/datasource/select/';
     }
   }
 

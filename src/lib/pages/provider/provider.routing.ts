@@ -2,12 +2,13 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {CanActivateViaAuthGuard} from '../../services/can-activate-auth-guard.service';
 import {ServiceProviderFormComponent} from './service-provider-form.component';
-import {AddFirstServiceComponent} from './add-first-service.component';
+import {AddFirstServiceComponent} from '../provider-resources/add-first-service.component';
 import {MyServiceProvidersComponent} from './my-service-providers.component';
 import {UpdateServiceProviderComponent} from './update-service-provider.component';
 import {PendingServicesComponent} from './dashboard/pendingservices/pending-services.component';
 import {ServiceProvidersListComponent} from '../admin/service-providers-list.component';
 import {ResourcesListComponent} from '../admin/resources-list.component';
+import {DatasourcesListComponent} from '../admin/datasources-list.component';
 import {ServiceEditComponent} from '../provider-resources/service-edit.component';
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
 import {ProviderFormToPdfComponent} from './provider-form-to-pdf/provider-form-to-pdf.component';
@@ -16,6 +17,11 @@ import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring
 import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
 import {environment} from '../../../environments/environment';
 import {RejectedServicesComponent} from './dashboard/rejectedServices/rejected-services.component';
+import {DatasourceSelectComponent} from "./dashboard/datasources/datasource-select.component";
+import {DatasourceFormComponent} from "../datasource/datasource-form.component";
+import {UpdateDatasourceComponent} from "../datasource/update-datasource.component";
+import {AddFirstDatasourceComponent} from "../datasource/add-first-datasource.component";
+import {RejectedDatasourcesComponent} from "./dashboard/rejectedDatasources/rejected-datasources.component";
 
 
 const providerRoutes: Routes = [
@@ -78,7 +84,15 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':providerId/add-first-resource',
+    path: 'rejected-datasources/:providerId',
+    component: RejectedDatasourcesComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Rejected Datasources'
+    }
+  },
+  {
+    path: ':providerId/add-first-service',
     component: AddFirstServiceComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -91,6 +105,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit ' + environment.serviceORresource + ' Template'
+    }
+  },
+  {
+    path: ':providerId/add-first-datasource',
+    component: AddFirstDatasourceComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Add Datasource Template'
     }
   },
   {
@@ -110,6 +132,30 @@ const providerRoutes: Routes = [
     }
   },
   {
+    path: ':providerId/datasource/select',
+    component: DatasourceSelectComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Select Datasource'
+    }
+  },
+  {
+    path: ':providerId/datasource/add',
+    component: DatasourceFormComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Add Datasource'
+    }
+  },
+  {
+    path: ':providerId/datasource/addOpenAIRE/:datasourceId',
+    component: UpdateDatasourceComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Add Datasource from OpenAIRE'
+    }
+  },
+  {
     path: ':providerId/resource/add/use-template/:resourceId',
     component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard],
@@ -123,6 +169,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit ' + environment.serviceORresource
+    }
+  },
+  {
+    path: ':providerId/datasource/update/:datasourceId',
+    component: UpdateDatasourceComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Edit Datasource'
     }
   },
   {
@@ -173,6 +227,14 @@ const providerRoutes: Routes = [
       breadcrumb: 'All ' + environment.serviceORresource + 's'
     }
   },
+  {
+    path: 'datasource/all',
+    component: DatasourcesListComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'All Datasources'
+    }
+  }
 ];
 
 @NgModule({

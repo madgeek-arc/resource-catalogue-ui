@@ -6,12 +6,13 @@ import {SharedModule} from '../../shared/shared.module';
 import {ProviderRouting} from './provider.routing';
 import {ReusableComponentsModule} from '../../shared/reusablecomponents/reusable-components.module';
 import {MyServiceProvidersComponent} from './my-service-providers.component';
-import {AddFirstServiceComponent} from './add-first-service.component';
+import {AddFirstServiceComponent} from '../provider-resources/add-first-service.component';
 import {ServiceProviderFormComponent} from './service-provider-form.component';
 import {ServiceProviderInfoComponent} from './service-provider-info.component';
 import {UpdateServiceProviderComponent} from './update-service-provider.component';
 import {ServiceProvidersListComponent} from '../admin/service-providers-list.component';
 import {ResourcesListComponent} from '../admin/resources-list.component';
+import {DatasourcesListComponent} from '../admin/datasources-list.component';
 import {ServiceEditComponent} from '../provider-resources/service-edit.component';
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
 import {ServiceFormComponent} from '../provider-resources/service-form.component';
@@ -21,6 +22,7 @@ import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring
 import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
 import {NgSelectModule} from '@ng-select/ng-select';
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
+import {AddFirstDatasourceComponent} from "../datasource/add-first-datasource.component";
 
 
 @NgModule({
@@ -39,11 +41,13 @@ import {LMarkdownEditorModule} from 'ngx-markdown-editor';
   declarations: [
     MyServiceProvidersComponent,
     AddFirstServiceComponent,
+    AddFirstDatasourceComponent,
     ServiceProviderFormComponent,
     ServiceProviderInfoComponent,
     UpdateServiceProviderComponent,
     ServiceProvidersListComponent,
     ResourcesListComponent,
+    DatasourcesListComponent,
     // FORMS
     ServiceEditComponent,
     ServiceFormComponent,

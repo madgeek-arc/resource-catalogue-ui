@@ -23,7 +23,7 @@ declare var UIkit: any;
   styleUrls: ['../provider/service-provider-form.component.css']
 })
 export class ServiceFormComponent implements OnInit {
-  protected _marketplaceBaseURL = environment.marketplaceBaseURL;
+  protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
@@ -281,10 +281,8 @@ export class ServiceFormComponent implements OnInit {
   public scientificDomainVocabulary: Vocabulary[] = null;
   public scientificSubDomainVocabulary: Vocabulary[] = null;
   public placesVocabulary: Vocabulary[] = [];
-  public placesVocIdArray: string[] = [];
   public geographicalVocabulary: Vocabulary[] = null;
   public languagesVocabulary: Vocabulary[] = null;
-  public languagesVocIdArray: string[] = [];
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -357,7 +355,7 @@ export class ServiceFormComponent implements OnInit {
             // return this.router.dashboardResources(this.providerId);                  // redirect to provider dashboard -> resource list
             // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
             // return this.router.service(_service.id);                               // redirect to old service info page
-            // return window.location.href = this._marketplaceBaseURL + _service.id; // redirect to marketplace
+            // return window.location.href = this._marketplaceServicesURL + _service.id; // redirect to marketplace
           }
         },
         err => {
@@ -414,10 +412,10 @@ export class ServiceFormComponent implements OnInit {
         this.fundingProgramVocabulary = this.vocabularies[Type.FUNDING_PROGRAM];
         this.relatedPlatformsVocabulary = this.vocabularies[Type.RELATED_PLATFORM];
         this.placesVocabulary = this.vocabularies[Type.COUNTRY];
-        this.geographicalVocabulary = Object.assign(this.vocabularies[Type.COUNTRY],this.vocabularies[Type.REGION]);
+        // this.geographicalVocabulary = Object.assign(this.vocabularies[Type.COUNTRY],this.vocabularies[Type.REGION]);
+        this.geographicalVocabulary = this.vocabularies[Type.REGION];
+        this.geographicalVocabulary.push(...this.vocabularies[Type.COUNTRY]);
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
-        // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
-        // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
       },
       error => {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
@@ -543,7 +541,8 @@ export class ServiceFormComponent implements OnInit {
   }
 
   /** check form fields and tabs validity--> **/
-  checkFormValidity(name: string, edit: boolean): boolean {
+  checkFormValidity(name: string, edit: boolean, required?: boolean): boolean {
+    if (required && edit && (this.serviceForm.get(name).value === "")) return false; // for dropdown required fields that get red on edit
     return (this.serviceForm.get(name).invalid && (edit || this.serviceForm.get(name).dirty));
   }
 

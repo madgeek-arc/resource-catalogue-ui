@@ -3,9 +3,10 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
+import {DatasourceService} from "../../services/datasource.service";
 import {UserService} from '../../services/user.service';
 import * as sd from '../provider-resources/services.description';
-import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
+import {Provider, RichService, Service, Datasource, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
 import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
@@ -23,7 +24,7 @@ declare var UIkit: any;
   // styleUrls: ['../provider/service-provider-form.component.css']
 })
 export class DatasourceFormComponent implements OnInit {
-  protected _marketplaceBaseURL = environment.marketplaceBaseURL;
+  protected _marketplaceDatasourcesURL = environment.marketplaceDatasourcesURL;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
@@ -31,6 +32,7 @@ export class DatasourceFormComponent implements OnInit {
   firstServiceForm = false;
   showLoader = false;
   pendingService = false;
+  addOpenAIRE = false;
   providerId: string;
   editMode = false;
   hasChanges = false;
@@ -52,7 +54,6 @@ export class DatasourceFormComponent implements OnInit {
   requiredOnTab3 = 2;
   requiredOnTab5 = 4;
   requiredOnTab6 = 1;
-  requiredOnTab9 = 2;
   requiredOnTab10 = 1;
   requiredOnTab13 = 4;
 
@@ -62,7 +63,6 @@ export class DatasourceFormComponent implements OnInit {
   remainingOnTab3 = this.requiredOnTab3;
   remainingOnTab5 = this.requiredOnTab5;
   remainingOnTab6 = this.requiredOnTab6;
-  remainingOnTab9 = this.requiredOnTab9;
   remainingOnTab10 = this.requiredOnTab10;
   remainingOnTab13 = this.requiredOnTab13;
 
@@ -72,17 +72,14 @@ export class DatasourceFormComponent implements OnInit {
   BitSetTab3 = new BitSet;
   BitSetTab5 = new BitSet;
   BitSetTab6 = new BitSet;
-  BitSetTab9 = new BitSet;
   BitSetTab10 = new BitSet;
   BitSetTab13 = new BitSet;
 
-  // requiredTabs = 8;
-  requiredTabs = 9;
+  requiredTabs = 8;
   completedTabs = 0;
   completedTabsBitSet = new BitSet;
 
-  // allRequiredFields = 24;
-  allRequiredFields = 28;
+  allRequiredFields = 26;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
@@ -183,17 +180,17 @@ export class DatasourceFormComponent implements OnInit {
   readonly persistentIdentityEntityTypeSchemeDesc: sd.Description = sd.datasourceDescMap.get('persistentIdentityEntityTypeSchemeDesc');
 
   readonly jurisdictionDesc: sd.Description = sd.datasourceDescMap.get('jurisdictionDesc');
-  readonly dataSourceClassificationDesc: sd.Description = sd.datasourceDescMap.get('dataSourceClassificationDesc');
+  readonly datasourceClassificationDesc: sd.Description = sd.datasourceDescMap.get('datasourceClassificationDesc');
   readonly researchEntityTypesDesc: sd.Description = sd.datasourceDescMap.get('researchEntityTypesDesc');
   readonly thematicDesc: sd.Description = sd.datasourceDescMap.get('thematicDesc');
 
   readonly researchProductLicenseNameDesc: sd.Description = sd.datasourceDescMap.get('researchProductLicenseNameDesc');
   readonly researchProductLicenseURLDesc: sd.Description = sd.datasourceDescMap.get('researchProductLicenseURLDesc');
-  readonly researchProductAccessPolicyDesc: sd.Description = sd.datasourceDescMap.get('researchProductAccessPolicyDesc');
+  readonly researchProductAccessPoliciesDesc: sd.Description = sd.datasourceDescMap.get('researchProductAccessPoliciesDesc');
 
   readonly researchProductMetadataLicenseNameDesc: sd.Description = sd.datasourceDescMap.get('researchProductMetadataLicenseNameDesc');
   readonly researchProductMetadataLicenseURLDesc: sd.Description = sd.datasourceDescMap.get('researchProductMetadataLicenseURLDesc');
-  readonly researchProductMetadataAccessPolicyDesc: sd.Description = sd.datasourceDescMap.get('researchProductMetadataAccessPolicyDesc');
+  readonly researchProductMetadataAccessPoliciesDesc: sd.Description = sd.datasourceDescMap.get('researchProductMetadataAccessPoliciesDesc');
 
   formGroupMeta = {
     id: [''],
@@ -248,8 +245,8 @@ export class DatasourceFormComponent implements OnInit {
     helpdeskEmail: ['', Validators.compose([Validators.required, Validators.email])],
     securityContactEmail: ['', Validators.compose([Validators.required, Validators.email])],
     serviceLevel: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
-    termsOfUse: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
-    privacyPolicy: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+    termsOfUse: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    privacyPolicy: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
     accessPolicy: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
     paymentModel: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
     pricing: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
@@ -280,21 +277,21 @@ export class DatasourceFormComponent implements OnInit {
     categories: this.fb.array([], Validators.required),
     scientificDomains: this.fb.array([], Validators.required),
 
-    //TODO: those 2 URLs have multiplicity 1
-    submissionPolicyURL: this.fb.array([this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService))]),
-    preservationPolicyURL: this.fb.array([this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService))]),
+    submissionPolicyURL: this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)),
+    preservationPolicyURL: this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)),
     versionControl: [''],
     persistentIdentitySystems: this.fb.array([
       this.fb.group({
-        persistentIdentityEntityType: ['', Validators.required],
-        persistentIdentityEntityTypeScheme: this.fb.array([this.fb.control('', Validators.required)], Validators.required)
+        persistentIdentityEntityType: [''],
+        persistentIdentityEntityTypeSchemes: this.fb.array([this.fb.control('')])
+        // persistentIdentityEntityTypeSchemes: this.fb.array([this.initPersistentIdentityEntityTypeScheme()])
       })
     ]),
 
-    jurisdiction: [''],
-    dataSourceClassification: [''],
+    jurisdiction: ['', Validators.required],
+    datasourceClassification: ['', Validators.required],
     researchEntityTypes: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
-    thematic: [''],
+    thematic: ['', Validators.required],
 
     researchProductLicensings: this.fb.array([
       this.fb.group({
@@ -302,15 +299,13 @@ export class DatasourceFormComponent implements OnInit {
         researchProductLicenseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)]
       })
     ]),
-    researchProductAccessPolicy: this.fb.array([this.fb.control('')]),
+    researchProductAccessPolicies: this.fb.array([this.fb.control('')]),
 
-    researchProductMetadataLicensings: this.fb.array([
-      this.fb.group({
+    researchProductMetadataLicensing: this.fb.group({
         researchProductMetadataLicenseName: [''],
         researchProductMetadataLicenseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)]
-      })
-    ]),
-    researchProductMetadataAccessPolicy: this.fb.array([this.fb.control('')]),
+      }),
+    researchProductMetadataAccessPolicies: this.fb.array([this.fb.control('')]),
   };
 
   providersPage: Paging<Provider>;
@@ -320,6 +315,7 @@ export class DatasourceFormComponent implements OnInit {
   subVocabularies: Map<string, Vocabulary[]> = null;
   premiumSort = new PremiumSortPipe();
   resourceService: ResourceService = this.injector.get(ResourceService);
+  datasourceService: DatasourceService = this.injector.get(DatasourceService);
 
   router: NavigationService = this.injector.get(NavigationService);
   userService: UserService = this.injector.get(UserService);
@@ -339,10 +335,8 @@ export class DatasourceFormComponent implements OnInit {
   public scientificDomainVocabulary: Vocabulary[] = null;
   public scientificSubDomainVocabulary: Vocabulary[] = null;
   public placesVocabulary: Vocabulary[] = [];
-  public placesVocIdArray: string[] = [];
   public geographicalVocabulary: Vocabulary[] = null;
   public languagesVocabulary: Vocabulary[] = null;
-  public languagesVocIdArray: string[] = [];
   public jurisdictionVocabulary: Vocabulary[] = null;
   public classificationVocabulary: Vocabulary[] = null;
   public researchEntityTypeVocabulary: Vocabulary[] = null;
@@ -355,6 +349,7 @@ export class DatasourceFormComponent implements OnInit {
               protected route: ActivatedRoute
   ) {
     this.resourceService = this.injector.get(ResourceService);
+    this.datasourceService = this.injector.get(DatasourceService);
     this.fb = this.injector.get(FormBuilder);
     this.router = this.injector.get(NavigationService);
     this.userService = this.injector.get(UserService);
@@ -365,6 +360,9 @@ export class DatasourceFormComponent implements OnInit {
   onSubmit(service: Service, tempSave: boolean, pendingService?: boolean) {
     // console.log('Submit');
     // console.log(this.commentControl.value);
+    // console.log(this.serviceForm.status);
+    // console.log(this.serviceForm.value);
+    // this.findInvalidControls();
     if (!this.authenticationService.isLoggedIn()) {
       sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
       this.authenticationService.login();
@@ -385,11 +383,31 @@ export class DatasourceFormComponent implements OnInit {
         this.removeUseCase(i);
       }
     }
-    //TODO: ^^do the same for Licensing & Persistent Identity Systems (etc?)
+    for (let i = 0; i < this.licensingArray.length; i++) {
+      if ((this.licensingArray.controls[i].get('researchProductLicenseName').value === '' || this.licensingArray.controls[i].get('researchProductLicenseName').value === null)
+        && (this.licensingArray.controls[i].get('researchProductLicenseURL').value === '' || this.licensingArray.controls[i].get('researchProductLicenseURL').value === null)) {
+        this.removeLicensing(i);
+      }
+    }
+    if ((this.metadataLicensingArray?.get('researchProductMetadataLicenseURL')?.value === '')
+      && (this.metadataLicensingArray?.get('researchProductMetadataLicenseName')?.value === '')) {
+      this.serviceForm.setControl('researchProductMetadataLicensing', this.fb.control(null));
+    }
+    for (let i = 0; i < this.persistentIdentitySystemArray.length; i++) {
+      // console.log(this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes'));
+      // console.log(this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes').value[0]);
+      //TODO: fix persistentIdentityEntityTypeSchemes ....value[0]
+      if ((this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityType').value === '' || this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityType').value === null)
+        && (this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes').value[0] === '' || this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes').value[0] === null)) {
+        this.removePersistentIdentitySystem(i);
+      }
+    }
 
-    // console.log('this.serviceForm.valid ', this.serviceForm.valid);
+    // this.findInvalidControls();
+    // console.log('this.serviceForm.status ', this.serviceForm.status);
     // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);
+
     if (tempSave) {
       // todo add fix here
       this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
@@ -410,20 +428,15 @@ export class DatasourceFormComponent implements OnInit {
       );
     } else if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
-      this.resourceService[pendingService ? 'uploadPendingService' : 'uploadService']
-      (this.serviceForm.value, this.editMode, this.commentControl.value).subscribe(
-        _service => {
-          // console.log(_service);
+      const shouldPut = (this.editMode && (window.location.href.indexOf('/addOpenAIRE') == -1));
+      this.datasourceService[pendingService ? 'uploadPendingService' : 'uploadDatasource']
+      (this.serviceForm.value, shouldPut, this.commentControl.value).subscribe(
+        _ds => {
+          // console.log(_ds);
           this.showLoader = false;
-          if (this.projectName === 'OpenAIRE Catalogue') {
-            return this.router.service(_service.id);  // redirect to service-landing-page
-          } else {
-            return this.router.resourceDashboard(this.providerId, _service.id);  // redirect to resource-dashboard
-            // return this.router.dashboardResources(this.providerId);                  // redirect to provider dashboard -> resource list
-            // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
-            // return this.router.service(_service.id);                               // redirect to old service info page
-            // return window.location.href = this._marketplaceBaseURL + _service.id; // redirect to marketplace
-          }
+          if (shouldPut)
+          return this.router.dashboardDatasources(this.providerId, _ds.catalogueId); // redirect to datasources of provider
+          return this.router.datasourceSubmitted(_ds.id); // redirect to datasource submitted page after POST
         },
         err => {
           this.showLoader = false;
@@ -433,6 +446,8 @@ export class DatasourceFormComponent implements OnInit {
           this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
         }
       );
+    } else if(this.serviceForm.status === 'PENDING') {
+      this.timeOut(300).then( () => this.onSubmit(service, tempSave, pendingService));
     } else {
       window.scrollTo(0, 0);
       this.showLoader = false;
@@ -479,10 +494,9 @@ export class DatasourceFormComponent implements OnInit {
         this.fundingProgramVocabulary = this.vocabularies[Type.FUNDING_PROGRAM];
         this.relatedPlatformsVocabulary = this.vocabularies[Type.RELATED_PLATFORM];
         this.placesVocabulary = this.vocabularies[Type.COUNTRY];
-        this.geographicalVocabulary = Object.assign(this.vocabularies[Type.COUNTRY],this.vocabularies[Type.REGION]);
+        this.geographicalVocabulary = this.vocabularies[Type.REGION];
+        this.geographicalVocabulary.push(...this.vocabularies[Type.COUNTRY]);
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
-        // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
-        // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
         this.jurisdictionVocabulary = this.vocabularies[Type.DS_JURISDICTION];
         this.classificationVocabulary = this.vocabularies[Type.DS_CLASSIFICATION];
         this.researchEntityTypeVocabulary = this.vocabularies[Type.DS_RESEARCH_ENTITY_TYPE];
@@ -609,7 +623,8 @@ export class DatasourceFormComponent implements OnInit {
   }
 
   /** check form fields and tabs validity--> **/
-  checkFormValidity(name: string, edit: boolean): boolean {
+  checkFormValidity(name: string, edit: boolean, required?: boolean): boolean {
+    if (required && edit && (this.serviceForm.get(name).value === "")) return false; // for dropdown required fields that get red on edit
     return (this.serviceForm.get(name).invalid && (edit || this.serviceForm.get(name).dirty));
   }
 
@@ -725,17 +740,17 @@ export class DatasourceFormComponent implements OnInit {
       || this.checkFormValidity('preservationPolicyURL', this.editMode)
       || this.checkFormValidity('versionControl', this.editMode)
       || this.checkEveryArrayFieldValidity('persistentIdentitySystems', this.editMode, 'persistentIdentityEntityType')
-      || this.checkEveryArrayFieldValidity('persistentIdentitySystems', this.editMode, 'persistentIdentityEntityTypeScheme'));
+      || this.checkEveryArrayFieldValidity('persistentIdentitySystems', this.editMode, 'persistentIdentityEntityTypeSchemes'));
     this.tabs[17] = (this.checkFormValidity('jurisdiction', this.editMode)
-      || this.checkFormValidity('dataSourceClassification', this.editMode)
+      || this.checkFormValidity('datasourceClassification', this.editMode)
       || this.checkEveryArrayFieldValidity('researchEntityTypes', this.editMode)
       || this.checkFormValidity('thematic', this.editMode));
     this.tabs[18] = (this.checkEveryArrayFieldValidity('researchProductLicensings', this.editMode, 'researchProductLicenseName')
       || this.checkEveryArrayFieldValidity('researchProductLicensings', this.editMode, 'researchProductLicenseURL')
-      || this.checkEveryArrayFieldValidity('researchProductAccessPolicy', this.editMode));
-    this.tabs[19] = (this.checkEveryArrayFieldValidity('researchProductMetadataLicensings', this.editMode, 'researchProductMetadataLicenseName')
-      || this.checkEveryArrayFieldValidity('researchProductMetadataLicensings', this.editMode, 'researchProductMetadataLicenseURL')
-      || this.checkEveryArrayFieldValidity('researchProductMetadataAccessPolicy', this.editMode));
+      || this.checkEveryArrayFieldValidity('researchProductAccessPolicies', this.editMode));
+    this.tabs[19] = (this.checkEveryArrayFieldValidity('researchProductMetadataLicensing', this.editMode, 'researchProductMetadataLicenseName')
+      || this.checkEveryArrayFieldValidity('researchProductMetadataLicensing', this.editMode, 'researchProductMetadataLicenseURL')
+      || this.checkEveryArrayFieldValidity('researchProductMetadataAccessPolicies', this.editMode));
     // console.log(this.tabs);
   }
 
@@ -754,7 +769,6 @@ export class DatasourceFormComponent implements OnInit {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
-      // console.log('added non mandatory url field');
       this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
@@ -887,37 +901,22 @@ export class DatasourceFormComponent implements OnInit {
   }
   /** <--Licensing**/
 
-  /** Metadata Licensing -->**/ //TODO: revisit to simplify
-  newMetadataLicensing(): FormGroup {
-    return this.fb.group({
-      researchProductMetadataLicenseName: [''],
-      researchProductMetadataLicenseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)]
-    });
-  }
-
+  /** MetadataLicensing -->**/
   get metadataLicensingArray() {
-    return this.serviceForm.get('researchProductMetadataLicensings') as FormArray;
+    return this.serviceForm.get('researchProductMetadataLicensing') as FormArray;
   }
-
-  pushMetadataLicensing() {
-    this.metadataLicensingArray.push(this.newMetadataLicensing());
-  }
-
-  removeMetadataLicensing(index: number) {
-    this.metadataLicensingArray.removeAt(index);
-  }
-  /** <--Metadata Licensing**/
+  /** <--MetadataLicensing**/
 
   /** Persistent Identity Systems--> **/
   newPersistentIdentitySystem(): FormGroup {
     return this.fb.group({
       persistentIdentityEntityType: [''],
-      persistentIdentityEntityTypeScheme: this.fb.array([this.fb.control('', Validators.required)], Validators.required)
+      persistentIdentityEntityTypeSchemes: this.fb.array([''])
     });
   }
 
   get persistentIdentitySystemArray() {
-    return this.serviceForm.get('publicContacts') as FormArray;
+    return this.serviceForm.get('persistentIdentitySystems') as FormArray;
   }
 
   pushPersistentIdentitySystem() {
@@ -928,6 +927,15 @@ export class DatasourceFormComponent implements OnInit {
     this.persistentIdentitySystemArray.removeAt(index);
   }
 
+  pushPersistentIdentityEntityTypeScheme(i) {
+    // const control = (<FormArray>this.serviceForm.controls['persistentIdentitySystems']).at(i).get('persistentIdentityEntityTypeSchemes') as FormArray;
+    // control.push(this.fb.control(''));
+    (this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes') as FormArray).push(this.fb.control(''));
+  }
+
+  removePersistentIdentityEntityTypeScheme(i:number, index: number) {
+    (this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes') as FormArray).removeAt(index);
+  }
   /** <--Persistent Identity Systems**/
 
   /** Service Contact Info -->**/
@@ -979,135 +987,160 @@ export class DatasourceFormComponent implements OnInit {
     });
   }
 
-  formPrepare(richService: RichService) {
+  formPrepare(datasource: Datasource) {
 
     this.removeCategory(0);
-    if (richService.service.categories) {
-      for (let i = 0; i < richService.service.categories.length; i++) {
+    if (datasource.categories) {
+      for (let i = 0; i < datasource.categories.length; i++) {
         this.categoryArray.push(this.newCategory());
-        this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.service.categories[i].category);
-        this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.service.categories[i].subcategory);
+        this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(datasource.categories[i].category);
+        this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(datasource.categories[i].subcategory);
       }
     } else {
       this.categoryArray.push(this.newCategory());
     }
 
     this.removeScientificDomain(0);
-    if (richService.service.scientificDomains) {
-      for (let i = 0; i < richService.service.scientificDomains.length; i++) {
+    if (datasource.scientificDomains) {
+      for (let i = 0; i < datasource.scientificDomains.length; i++) {
         this.scientificDomainArray.push(this.newScientificDomain());
         this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-          .get('scientificDomain').setValue(richService.service.scientificDomains[i].scientificDomain);
+          .get('scientificDomain').setValue(datasource.scientificDomains[i].scientificDomain);
         this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-          .get('scientificSubdomain').setValue(richService.service.scientificDomains[i].scientificSubdomain);
+          .get('scientificSubdomain').setValue(datasource.scientificDomains[i].scientificSubdomain);
       }
     } else {
       this.scientificDomainArray.push(this.newScientificDomain());
     }
 
-    if (richService.service.resourceProviders) {
-      for (let i = 0; i < richService.service.resourceProviders.length - 1; i++) {
+    if (datasource.resourceProviders) {
+      for (let i = 0; i < datasource.resourceProviders.length - 1; i++) {
         this.push('resourceProviders', true);
       }
     }
-    if (richService.service.multimedia) {
-      for (let i = 0; i < richService.service.multimedia.length - 1; i++) {
+    if (datasource.multimedia) {
+      for (let i = 0; i < datasource.multimedia.length - 1; i++) {
         this.pushMultimedia();
       }
     }
-    if (richService.service.useCases) {
-      for (let i = 0; i < richService.service.useCases.length - 1; i++) {
+    if (datasource.useCases) {
+      for (let i = 0; i < datasource.useCases.length - 1; i++) {
         this.pushUseCase();
       }
     }
-    if (richService.service.targetUsers) {
-      for (let i = 0; i < richService.service.targetUsers.length - 1; i++) {
+    if (datasource.targetUsers) {
+      for (let i = 0; i < datasource.targetUsers.length - 1; i++) {
         this.push('targetUsers', true);
       }
     }
-    if (richService.service.accessTypes) {
-      for (let i = 0; i < richService.service.accessTypes.length - 1; i++) {
+    if (datasource.accessTypes) {
+      for (let i = 0; i < datasource.accessTypes.length - 1; i++) {
         this.push('accessTypes', false);
       }
     }
-    if (richService.service.accessModes) { //TODO: add this for new similar fields as well
-      for (let i = 0; i < richService.service.accessModes.length - 1; i++) {
+    if (datasource.accessModes) {
+      for (let i = 0; i < datasource.accessModes.length - 1; i++) {
         this.push('accessModes', false);
       }
     }
-    if (richService.service.tags) {
-      for (let i = 0; i < richService.service.tags.length - 1; i++) {
+    if (datasource.tags) {
+      for (let i = 0; i < datasource.tags.length - 1; i++) {
         this.push('tags', false);
       }
     }
-    if (richService.service.geographicalAvailabilities) {
-      for (let i = 0; i < richService.service.geographicalAvailabilities.length - 1; i++) {
+    if (datasource.geographicalAvailabilities) {
+      for (let i = 0; i < datasource.geographicalAvailabilities.length - 1; i++) {
         this.push('geographicalAvailabilities', true);
       }
     }
-    if (richService.service.languageAvailabilities) {
-      for (let i = 0; i < richService.service.languageAvailabilities.length - 1; i++) {
+    if (datasource.languageAvailabilities) {
+      for (let i = 0; i < datasource.languageAvailabilities.length - 1; i++) {
         this.push('languageAvailabilities', true);
       }
     }
-    if (richService.service.resourceGeographicLocations) {
-      for (let i = 0; i < richService.service.resourceGeographicLocations.length - 1; i++) {
+    if (datasource.resourceGeographicLocations) {
+      for (let i = 0; i < datasource.resourceGeographicLocations.length - 1; i++) {
         this.push('resourceGeographicLocations', true);
       }
     }
-    if (richService.service.publicContacts) {
-      for (let i = 0; i < richService.service.publicContacts.length - 1; i++) {
+    if (datasource.publicContacts) {
+      for (let i = 0; i < datasource.publicContacts.length - 1; i++) {
         this.pushPublicContact();
       }
     }
-    if (richService.service.certifications) {
-      for (let i = 0; i < richService.service.certifications.length - 1; i++) {
+    if (datasource.certifications) {
+      for (let i = 0; i < datasource.certifications.length - 1; i++) {
         this.push('certifications', false);
       }
     }
-    if (richService.service.standards) {
-      for (let i = 0; i < richService.service.standards.length - 1; i++) {
+    if (datasource.standards) {
+      for (let i = 0; i < datasource.standards.length - 1; i++) {
         this.push('standards', false);
       }
     }
-    if (richService.service.openSourceTechnologies) {
-      for (let i = 0; i < richService.service.openSourceTechnologies.length - 1; i++) {
+    if (datasource.openSourceTechnologies) {
+      for (let i = 0; i < datasource.openSourceTechnologies.length - 1; i++) {
         this.push('openSourceTechnologies', false);
       }
     }
-    if (richService.service.changeLog) {
-      for (let i = 0; i < richService.service.changeLog.length - 1; i++) {
+    if (datasource.changeLog) {
+      for (let i = 0; i < datasource.changeLog.length - 1; i++) {
         this.push('changeLog', false);
       }
     }
-    if (richService.service.requiredResources) {
-      for (let i = 0; i < richService.service.requiredResources.length - 1; i++) {
+    if (datasource.requiredResources) {
+      for (let i = 0; i < datasource.requiredResources.length - 1; i++) {
         this.push('requiredResources', false);
       }
     }
-    if (richService.service.relatedResources) {
-      for (let i = 0; i < richService.service.relatedResources.length - 1; i++) {
+    if (datasource.relatedResources) {
+      for (let i = 0; i < datasource.relatedResources.length - 1; i++) {
         this.push('relatedResources', false);
       }
     }
-    if (richService.service.relatedPlatforms) {
-      for (let i = 0; i < richService.service.relatedPlatforms.length - 1; i++) {
+    if (datasource.relatedPlatforms) {
+      for (let i = 0; i < datasource.relatedPlatforms.length - 1; i++) {
         this.push('relatedPlatforms', false);
       }
     }
-    if (richService.service.fundingBody) {
-      for (let i = 0; i < richService.service.fundingBody.length - 1; i++) {
+    if (datasource.fundingBody) {
+      for (let i = 0; i < datasource.fundingBody.length - 1; i++) {
         this.push('fundingBody', false);
       }
     }
-    if (richService.service.fundingPrograms) {
-      for (let i = 0; i < richService.service.fundingPrograms.length - 1; i++) {
+    if (datasource.fundingPrograms) {
+      for (let i = 0; i < datasource.fundingPrograms.length - 1; i++) {
         this.push('fundingPrograms', false);
       }
     }
-    if (richService.service.grantProjectNames) {
-      for (let i = 0; i < richService.service.grantProjectNames.length - 1; i++) {
+    if (datasource.grantProjectNames) {
+      for (let i = 0; i < datasource.grantProjectNames.length - 1; i++) {
         this.push('grantProjectNames', false);
+      }
+    }
+    if (datasource.persistentIdentitySystems) {
+      for (let i = 0; i < datasource.persistentIdentitySystems.length - 1; i++) {
+        this.pushPersistentIdentitySystem();
+      }
+    }
+    if (datasource.researchEntityTypes) {
+      for (let i = 0; i < datasource.researchEntityTypes.length - 1; i++) {
+        this.push('researchEntityTypes', true);
+      }
+    }
+    if (datasource.researchProductLicensings) {
+      for (let i = 0; i < datasource.researchProductLicensings.length - 1; i++) {
+        this.pushLicensing();
+      }
+    }
+    if (datasource.researchProductAccessPolicies) {
+      for (let i = 0; i < datasource.researchProductAccessPolicies.length - 1; i++) {
+        this.push('researchProductAccessPolicies', false);
+      }
+    }
+    if (datasource.researchProductMetadataAccessPolicies) {
+      for (let i = 0; i < datasource.researchProductMetadataAccessPolicies.length - 1; i++) {
+        this.push('researchProductMetadataAccessPolicies', false);
       }
     }
   }
@@ -1275,12 +1308,6 @@ export class DatasourceFormComponent implements OnInit {
       if (this.remainingOnTab6 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
         this.calcCompletedTabs(tabNum, 1);
       }
-    } else if (tabNum === 9) {
-      this.BitSetTab9.set(bitIndex, 1);
-      this.remainingOnTab9 = this.requiredOnTab9 - this.BitSetTab9.cardinality();
-      if (this.remainingOnTab9 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-        this.calcCompletedTabs(tabNum, 1);
-      }
     } else if (tabNum === 10) {
       this.BitSetTab10.set(bitIndex, 1);
       this.remainingOnTab10 = this.requiredOnTab10 - this.BitSetTab10.cardinality();
@@ -1334,12 +1361,6 @@ export class DatasourceFormComponent implements OnInit {
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }
-    } else if (tabNum === 9) {
-      this.BitSetTab9.set(bitIndex, 0);
-      this.remainingOnTab9 = this.requiredOnTab9 - this.BitSetTab9.cardinality();
-      if (this.completedTabsBitSet.get(tabNum) !== 0) {
-        this.calcCompletedTabs(tabNum, 0);
-      }
     } else if (tabNum === 10) {
       this.BitSetTab10.set(bitIndex, 0);
       this.remainingOnTab10 = this.requiredOnTab10 - this.BitSetTab10.cardinality();
@@ -1364,17 +1385,17 @@ export class DatasourceFormComponent implements OnInit {
 
   /** Modals--> **/
   showCommentModal() {
-    if (this.editMode && !this.pendingService) {
+    if (this.editMode && !this.pendingService && (window.location.href.indexOf('/addOpenAIRE')==-1)) {
       UIkit.modal('#commentModal').show();
     } else {
       this.onSubmit(this.serviceForm.value, false);
     }
   }
 
-  openPreviewModal() {
-    // console.log('Resource ==>', this.serviceForm.value);
-    UIkit.modal('#modal-preview').show();
-  }
+  // openPreviewModal() {
+  //   // console.log('Resource ==>', this.serviceForm.value);
+  //   UIkit.modal('#modal-preview').show();
+  // }
 
   showNotification() {
     UIkit.notification({
@@ -1412,6 +1433,18 @@ export class DatasourceFormComponent implements OnInit {
       }
       return Object.assign(hash, {[obj[key]]: (hash[obj[key]] || []).concat(obj)});
     }, {});
+  }
+
+  public findInvalidControls() {
+    const invalid = [];
+    const controls = this.serviceForm.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
+    }
+    // return invalid;
+    console.log('findInvalidControls ', invalid);
   }
 
 }

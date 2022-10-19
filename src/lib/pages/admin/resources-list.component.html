@@ -255,12 +255,16 @@
                           <div class="uk-label uk-align-right">Inactive</div>
                         </div>
 
+                        <div *ngIf="serviceBundle?.resourceExtras?.horizontalService" class="">
+                          <div class="uk-label uk-position-bottom-right uk-margin-large" >Horizontal</div>
+                        </div>
+
                         <div class="">
                           <div class="uk-grid">
                             <div class="uk-width-1-5">
                               <div>
                                 <img class="el-image uk-border-rounded"
-                                     src="{{ serviceBundle.service.logo ? serviceBundle.service.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
+                                     src="{{ serviceBundle.service.logo ? serviceBundle.service.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
                               </div>
                             </div>
 
@@ -428,34 +432,35 @@
                                     <li class="uk-nav-divider"></li>
                                   </ng-container>
 
+<!--                                  TODO: hide Move action until backend handles the public instances-->
+<!--                                  <ng-container class="uk-margin-small-bottom">-->
+<!--                                    <li (click)="showMoveResourceModal(serviceBundle)">-->
+<!--                                      <a><i class="fa fa-clone fa-lg uk-margin-small-right"></i>Move {{serviceORresource}}</a>-->
+<!--                                    </li>-->
+<!--                                    <li class="uk-nav-divider"></li>-->
+<!--                                  </ng-container>-->
+
                                   <ng-container class="uk-margin-small-bottom">
-                                    <li (click)="showMoveResourceModal(serviceBundle)">
-                                      <a><i class="fa fa-clone fa-lg uk-margin-small-right"></i>Move {{serviceORresource}}</a>
+                                    <li (click)="toggleHorizontalService(serviceBundle)">
+                                      <a><i class="fa fa-toggle-right fa-lg uk-margin-small-right"></i>
+                                        {{serviceBundle?.resourceExtras?.horizontalService===true ? 'Unmark' : 'Mark'}} as Horizontal Service</a>
                                     </li>
                                     <li class="uk-nav-divider"></li>
                                   </ng-container>
 
-<!--                                  <ng-container class="uk-margin-small-bottom">-->
-<!--                                    <li (click)="toggleHorizontalService(serviceBundle)">-->
-<!--                                      <a><i class="fa fa-toggle-right fa-lg uk-margin-small-right"></i>-->
-<!--                                        {{serviceBundle?.resourceExtras?.horizontalService===true ? 'Unmark' : 'Mark'}} as Horizontal Service</a>-->
-<!--                                    </li>-->
-<!--                                    <li class="uk-nav-divider"></li>-->
-<!--                                  </ng-container>-->
+                                  <ng-container class="uk-margin-small-bottom">
+                                    <li (click)="showResourceCategories(serviceBundle)">
+                                      <a><i class="fa fa-edit fa-lg uk-margin-small-right"></i>Update Research Categories</a>
+                                    </li>
+                                    <li class="uk-nav-divider"></li>
+                                  </ng-container>
 
-<!--                                  <ng-container class="uk-margin-small-bottom">-->
-<!--                                    <li (click)="showResourceCategories(serviceBundle)">-->
-<!--                                      <a><i class="fa fa-edit fa-lg uk-margin-small-right"></i>Update Research Categories</a>-->
-<!--                                    </li>-->
-<!--                                    <li class="uk-nav-divider"></li>-->
-<!--                                  </ng-container>-->
-
-<!--                                  <ng-container class="uk-margin-small-bottom">-->
-<!--                                    <li (click)="showEoscIFGuidelines(serviceBundle)">-->
-<!--                                      <a><i class="fa fa-edit fa-lg uk-margin-small-right"></i>Update EOSC IF Guidelines</a>-->
-<!--                                    </li>-->
-<!--                                    <li class="uk-nav-divider"></li>-->
-<!--                                  </ng-container>-->
+                                  <ng-container class="uk-margin-small-bottom">
+                                    <li (click)="showEoscIFGuidelines(serviceBundle)">
+                                      <a><i class="fa fa-edit fa-lg uk-margin-small-right"></i>Update EOSC IF Guidelines</a>
+                                    </li>
+                                    <li class="uk-nav-divider"></li>
+                                  </ng-container>
 
                                   <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlockList">
                                     <div>
@@ -671,8 +676,8 @@
           </div>
         </div>
       </form>
-<pre>{{selectedService.resourceExtras|json}}</pre>
-<pre>{{extrasForm.value|json}}</pre>
+<!--<pre>{{selectedService.resourceExtras|json}}</pre>-->
+<!--<pre>{{extrasForm.value|json}}</pre>-->
     </div>
 
     <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="updateResearchCategories(selectedService)">Submit</button>
@@ -697,7 +702,7 @@
 
                 <div class="uk-margin-bottom">
                   <label class="uk-form-label uk-text-right" for="label">
-                    {{ 'Label' + ' (*)' }}
+                     Label (*)
                   </label>
                   <div class="uk-form-controls uk-margin-medium-top">
                     <input id="label" class="uk-input uk-width-9-10" type="text" formControlName="label">
@@ -706,7 +711,7 @@
 
                 <div class="uk-margin-bottom">
                   <label class="uk-form-label uk-text-right" for="pid">
-                    {{ 'Pid' + ' (*)' }}
+                    Pid (*)
                   </label>
                   <div class="uk-form-controls uk-margin-medium-top">
                     <input id="pid" class="uk-input uk-width-9-10" type="text" formControlName="pid">
@@ -715,7 +720,7 @@
 
                 <div class="uk-margin-bottom">
                   <label class="uk-form-label uk-text-right" for="semanticRelationship">
-                    {{ 'Semantic Relationship' + ' (*)' }}
+                    Semantic Relationship (*)
                   </label>
                   <div class="uk-form-controls uk-margin-medium-top">
                     <ng-select *ngIf="semanticRelationshipVoc" class="uk-width-9-10" id="semanticRelationship"
@@ -723,19 +728,19 @@
                                bindLabel="name"
                                bindValue="id"
                                clearAllText="Clear"
-                               [formControlName]="i">
+                               formControlName="semanticRelationship">
                     </ng-select>
                   </div>
                 </div>
 
                 <div class="uk-margin-bottom">
                   <label class="uk-form-label uk-text-right" for="url">
-                    {{ 'URL' + ' (optional)' }}
+                    URL (optional)
                   </label>
                   <div class="uk-form-controls uk-margin-medium-top">
                     <input id="url" class="uk-input uk-width-9-10" type="text" formControlName="url" placeholder="use http:// or https://">
-                    <div *ngIf="this.extrasForm.get('eoscIFGuidelines').value[i]['url']" class="uk-icon">
-                      <a href="{{this.extrasForm.get('eoscIFGuidelines').value[i]['url']}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                    <div *ngIf="eoscIFGuidelinesArray.controls[i].get('url').value" class="uk-icon">
+                      <a href="{{eoscIFGuidelinesArray.controls[i].get('url').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
                     </div>
                   </div>
                 </div>
@@ -755,8 +760,8 @@
           </div>
         </div>
       </form>
-      <pre>{{selectedService.resourceExtras|json}}</pre>
-      <pre>{{extrasForm.value|json}}</pre>
+<!--      <pre>{{selectedService.resourceExtras|json}}</pre>-->
+<!--      <pre>{{extrasForm.value|json}}</pre>-->
     </div>
 
     <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="updateEoscIFGuidelines(selectedService)">Submit</button>
@@ -843,7 +848,7 @@
             <div class="uk-width-1-5">
               <div>
                 <img class="el-image uk-border-rounded"
-                     src="{{ serviceBundle.service.logo ? serviceBundle.service.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
+                     src="{{ serviceBundle.service.logo ? serviceBundle.service.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
               </div>
             </div>
 

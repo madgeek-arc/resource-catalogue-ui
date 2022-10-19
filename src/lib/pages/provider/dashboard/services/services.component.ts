@@ -87,10 +87,6 @@ export class ServicesComponent implements OnInit {
       );
   }
 
-  navigate(id: string) {
-    this.router.navigate([`/dashboard/${this.catalogueId}/${this.providerId}/resource-dashboard/`, id]);
-  }
-
   useAsTemplate(id: string) {
     this.router.navigate([`/provider/${this.providerId}/resource/add/use-template`, id]);
   }

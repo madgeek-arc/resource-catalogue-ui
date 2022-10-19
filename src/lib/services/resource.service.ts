@@ -126,7 +126,7 @@ export class ResourceService {
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
     if (!catalogue_id) catalogue_id = 'eosc';
-    return this.http.get<Service>(this.base + `/service/${id}/latest?catalogue_id=${catalogue_id}`, this.options);
+    return this.http.get<Service>(this.base + `/service/${id}/?catalogue_id=${catalogue_id}`, this.options);
   }
 
   getRichService(id: string, version?: string) {
@@ -548,12 +548,16 @@ export class ResourceService {
     return this.http.patch(this.base + `/resource/auditResource/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
-  verifyResource(id: string, active: boolean, status: string) {
+  verifyResource(id: string, active: boolean, status: string) { // for 1st service
     return this.http.patch(this.base + `/resource/verifyResource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
-  getServiceTemplate(id: string) {  // gets oldest(?) pending resource of the provider
+  getServiceTemplate(id: string) {  // gets oldest(?) pending resource of the provider // replaced with /resourceBundles/templates?id=testprovidertemplate
     return this.http.get<Service[]>(this.base + `/resource/getServiceTemplate/${id}`);
+  }
+
+  getResourceTemplateOfProvider(id: string) {  // returns the template, service or datasource
+    return this.http.get<any[]>(this.base + `/resourceBundles/templates?id=${id}`);
   }
 
   sendEmailForOutdatedResource(id: string) {

@@ -61,7 +61,7 @@
                           </div>
                           <div class="provider-logo">
                             <span class="provider-logo-helper"></span>
-                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
+                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
                           </div>
                           <div class="uk-card-body">
                             <div class="providerName">
@@ -84,14 +84,22 @@
 
                               <ng-container *ngIf="(providerBundle.templateStatus !== 'approved template')">
                                 <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
-<!--                                <ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
+                                  <!--<ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
                                   <button class="uk-button uk-button-action uk-margin-small-left"
                                           routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
                                     <i class="fa fa-lg fa-edit"></i>
                                     Update First {{serviceORresource}}
                                   </button>
                                 </ng-container>
-                                <ng-container *ngIf="!hasCreatedFirstService(providerBundle.id)">
+                                <ng-container *ngIf="hasCreatedFirstDatasource(providerBundle.id)">
+                                  <!--<ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
+                                  <button class="uk-button uk-button-action uk-margin-small-left"
+                                          routerLink="{{ getLinkToFirstDatasource(providerBundle.id) }}">
+                                    <i class="fa fa-lg fa-edit"></i>
+                                    Edit First Datasource
+                                  </button>
+                                </ng-container>
+                                <ng-container *ngIf="!hasCreatedFirstService(providerBundle.id) && !hasCreatedFirstDatasource(providerBundle.id)">
                                   <button class="uk-button uk-button-action uk-margin-small-left">
                                     <i class="fa fa-plus"></i>
                                     Add First {{serviceORresource}}
@@ -99,7 +107,10 @@
                                   <div uk-dropdown>
                                     <ul class="uk-nav uk-dropdown-nav">
                                       <li class="uk-active">
-                                        <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Create First {{serviceORresource}}</a>
+                                        <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Add First {{serviceORresource}}</a>
+                                      </li>
+                                      <li class="uk-active">
+                                        <a routerLink="{{ getLinkToFirstDatasource(providerBundle.id) }}">Add First Datasource</a>
                                       </li>
                                       <li *ngIf="checkForDraftServices(providerBundle.id)" class="uk-active">
                                         <a [routerLink]="['/provider/draft-resources/' + providerBundle.id] ">
@@ -107,9 +118,13 @@
                                         </a>
                                       </li>
                                       <li *ngIf="checkForRejectedServices(providerBundle.id)" class="uk-active">
-<!--                                                                              <li class="uk-active">-->
                                         <a [routerLink]="['/provider/rejected-resources/' + providerBundle.id] ">
                                           Select from rejected {{serviceORresource | lowercase}}s
+                                        </a>
+                                      </li>
+                                      <li *ngIf="checkForRejectedDatasources(providerBundle.id)" class="uk-active">
+                                        <a [routerLink]="['/provider/rejected-datasources/' + providerBundle.id] ">
+                                          Select from rejected datasources
                                         </a>
                                       </li>
                                       <li class="uk-nav-divider"></li>
@@ -138,16 +153,28 @@
 <!--                                      </a>-->
 <!--                                    </ng-container>-->
                                   </li>
-                                  <li *ngIf="providerBundle.templateStatus==='approved template'" class="uk-margin-small-bottom">
-                                    <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'resources']">
-                                      View {{serviceORresource}}s
-                                    </a>
-                                  </li>
-                                  <li *ngIf="providerBundle.templateStatus==='approved template'" class="uk-margin-small-bottom">
-                                    <a [routerLink]="['/provider/' + providerBundle.id + '/resource/add/']">
-                                      Add new {{serviceORresource}}
-                                    </a>
-                                  </li>
+                                  <ng-container *ngIf="providerBundle.templateStatus==='approved template'">
+                                    <li class="uk-margin-small-bottom">
+                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'resources']">
+                                        View {{serviceORresource}}s
+                                      </a>
+                                    </li>
+                                    <li class="uk-margin-small-bottom">
+                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'datasources']">
+                                        View Datasources
+                                      </a>
+                                    </li>
+                                    <li class="uk-margin-small-bottom">
+                                      <a [routerLink]="['/provider/' + providerBundle.id + '/resource/add/']">
+                                        Add new {{serviceORresource}}
+                                      </a>
+                                    </li>
+                                    <li class="uk-margin-small-bottom">
+                                      <a [routerLink]="['/provider/' + providerBundle.id + '/datasource/select/']">
+                                        Add new Datasource
+                                      </a>
+                                    </li>
+                                  </ng-container>
                                 </ul>
                               </div>
                             </div>
@@ -207,7 +234,7 @@
                           </div>
                           <div class="provider-logo">
                             <span class="provider-logo-helper"></span>
-                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
+                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
                           </div>
                           <div class="uk-card-body">
                             <div class="providerName">
@@ -282,7 +309,7 @@
                           </div>
                           <div class="provider-logo">
                             <span class="provider-logo-helper"></span>
-                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
+                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
                           </div>
                           <div class="uk-card-body">
                             <div class="providerName">
@@ -324,7 +351,7 @@
                           </div>
                           <div class="provider-logo">
                             <span class="provider-logo-helper"></span>
-                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : 'src/lib/assets/images/broken_image-black-48dp.svg' }}">
+                            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
                           </div>
                           <div class="uk-card-body">
                             <div class="providerName">

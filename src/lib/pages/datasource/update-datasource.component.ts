@@ -36,19 +36,24 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
       sessionStorage.removeItem('service');
     } else {
       this.sub = this.route.params.subscribe(params => {
-        this.serviceID = params['resourceId'];
+        this.serviceID = params['datasourceId']; //refactor rename
         const pathName = window.location.pathname;
-        if (pathName.includes('draft-resource/update')) {
-          this.pendingService = true;
+        console.log(pathName);
+        // if (pathName.includes('draft-resource/update')) {
+        //   this.pendingService = true;
+        // }
+        // this.datasourceService[this.pendingService ? 'getPendingService' : 'getDatasource'](this.serviceID)
+        if (pathName.includes('addOpenAIRE')) {
+          this.addOpenAIRE = true;
+          console.log('true');
         }
-        // this.resourceService.getService(this.serviceID).subscribe(service => {
-        this.resourceService[this.pendingService ? 'getPendingService' : 'getRichService'](this.serviceID)
-          .subscribe(richService => {
-              if (richService.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
+        this.datasourceService[this.addOpenAIRE ? 'getOpenAIREDatasourcesById' : 'getDatasource'](this.serviceID)
+          .subscribe(datasource => {
+              if (!this.addOpenAIRE && datasource.mainContact === null) //in case of unauthorized access backend will not show sensitive info
                 this.navigationService.go('/forbidden') // TODO: recheck with backend
-              ResourceService.removeNulls(richService.service);
-              this.formPrepare(richService);
-              this.serviceForm.patchValue(richService.service);
+              ResourceService.removeNulls(datasource);
+              this.formPrepare(datasource);
+              this.serviceForm.patchValue(datasource);
               for (const i in this.serviceForm.controls) {
                 if (this.serviceForm.controls[i].value === null) {
                   this.serviceForm.controls[i].setValue('');
@@ -97,9 +102,11 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
     this.handleBitSets(5, 16, 'helpdeskEmail');
     this.handleBitSets(5, 17, 'securityContactEmail');
     this.handleBitSets(6, 18, 'trl');
-    this.handleBitSets(9, 22, 'termsOfUse');
-    this.handleBitSets(9, 23, 'privacyPolicy');
     this.handleBitSets(10, 19, 'orderType');
+    this.handleBitSets(13, 24, 'jurisdiction');
+    this.handleBitSets(13, 25, 'datasourceClassification');
+    this.handleBitSets(13, 26, 'researchEntityTypes');
+    this.handleBitSets(13, 27, 'thematic');
   }
 
 }

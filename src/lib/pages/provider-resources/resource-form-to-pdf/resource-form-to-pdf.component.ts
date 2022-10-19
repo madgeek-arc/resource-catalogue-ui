@@ -21,7 +21,7 @@ import {zip} from "rxjs";
   templateUrl: './resource-form-to-pdf.component.html',
 })
 export class ResourceFormToPdfComponent implements OnInit {
-  protected _marketplaceBaseURL = environment.marketplaceBaseURL;
+  protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   serviceName = '';
@@ -246,10 +246,8 @@ export class ResourceFormToPdfComponent implements OnInit {
   public scientificDomainVocabulary: Vocabulary[] = null;
   public scientificSubDomainVocabulary: Vocabulary[] = null;
   public placesVocabulary: Vocabulary[] = [];
-  public placesVocIdArray: string[] = [];
   public geographicalVocabulary: Vocabulary[] = null;
   public languagesVocabulary: Vocabulary[] = null;
-  public languagesVocIdArray: string[] = [];
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -333,7 +331,7 @@ export class ResourceFormToPdfComponent implements OnInit {
           // console.log(_service);
           this.showLoader = false;
           // return this.router.service(_service.id); // change to redirect to marketplace
-          return window.location.href = this._marketplaceBaseURL + _service.id;
+          return window.location.href = this._marketplaceServicesURL + _service.id;
         },
         err => {
           this.showLoader = false;
@@ -388,10 +386,9 @@ export class ResourceFormToPdfComponent implements OnInit {
         this.fundingBodyVocabulary = this.vocabularies[Type.FUNDING_BODY];
         this.fundingProgramVocabulary = this.vocabularies[Type.FUNDING_PROGRAM];
         // this.placesVocabulary = this.vocabularies[Type.COUNTRY];
-        this.geographicalVocabulary = Object.assign(this.vocabularies[Type.COUNTRY],this.vocabularies[Type.REGION]);
+        this.geographicalVocabulary = this.vocabularies[Type.REGION];
+        this.geographicalVocabulary.push(...this.vocabularies[Type.COUNTRY]);
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
-        // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
-        // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
       },
       error => {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);

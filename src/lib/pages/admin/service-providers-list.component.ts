@@ -12,6 +12,7 @@ import {URLParameter} from '../../domain/url-parameter';
 import {Paging} from '../../domain/paging';
 import {getLocaleDateFormat} from '@angular/common';
 import {zip} from 'rxjs';
+import {DatasourceService} from "../../services/datasource.service";
 
 declare var UIkit: any;
 
@@ -89,10 +90,8 @@ export class ServiceProvidersListComponent implements OnInit {
   public scientificDomainVocabulary: Vocabulary[] = null;
   public scientificSubDomainVocabulary: Vocabulary[] = null;
   public placesVocabulary: Vocabulary[] = [];
-  public placesVocIdArray: string[] = [];
   public geographicalVocabulary: Vocabulary[] = null;
   public languagesVocabulary: Vocabulary[] = null;
-  public languagesVocIdArray: string[] = [];
   public statusesVocabulary: Vocabulary[] = null;
 
   public auditStates: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
@@ -108,6 +107,7 @@ export class ServiceProvidersListComponent implements OnInit {
   @ViewChildren("templateCheckboxes") templateCheckboxes: QueryList<ElementRef>;
 
   constructor(private resourceService: ResourceService,
+              private datasourceService: DatasourceService,
               private serviceProviderService: ServiceProviderService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
@@ -231,8 +231,6 @@ export class ServiceProvidersListComponent implements OnInit {
         // this.placesVocabulary = this.vocabularies[Type.COUNTRY];
         this.geographicalVocabulary = this.vocabularies[Type.COUNTRY];
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
-        // this.placesVocIdArray = this.placesVocabulary.map(entry => entry.id);
-        // this.languagesVocIdArray = this.languagesVocabulary.map(entry => entry.id);
       },
       error => {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
@@ -339,10 +337,11 @@ export class ServiceProvidersListComponent implements OnInit {
           p => {
             // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
             if (p.templateStatus === 'pending template') {
-              this.resourceService.getServiceTemplate(p.id).subscribe(
+              this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                 res => {
                   if (res) {
-                    this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
+                    this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id,
+                      service: JSON.parse(JSON.stringify(res)).service, datasource: JSON.parse(JSON.stringify(res)).datasource});
                   }
                 }
               );
@@ -374,7 +373,7 @@ export class ServiceProvidersListComponent implements OnInit {
           p => {
             // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
             if (p.templateStatus === 'pending template') {
-              this.resourceService.getServiceTemplate(p.id).subscribe(
+              this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                 res => {
                   if (res) {
                     this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
@@ -587,23 +586,30 @@ export class ServiceProvidersListComponent implements OnInit {
     }
   }
 
-  templateAction(id, active, status) {
+  templateAction(id, active, status, resourceType) {
     this.loadingMessage = '';
     UIkit.modal('#spinnerModal').show();
     const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
-    this.resourceService.verifyResource(templateId, active, status).subscribe(
-        res => {
-          this.getProviders();
-        },
-        err => {
-          UIkit.modal('#spinnerModal').hide();
-          console.log(err);
-        },
+    if (resourceType === 'service') {
+      this.resourceService.verifyResource(templateId, active, status).subscribe(
+        res => this.getProviders(),
+        err => UIkit.modal('#spinnerModal').hide(),
         () => {
           UIkit.modal('#spinnerModal').hide();
           location.reload();
         }
       );
+    } else if (resourceType === 'datasource') {
+      this.datasourceService.verifyDatasource(templateId, active, status).subscribe(
+        res => this.getProviders(),
+        err => UIkit.modal('#spinnerModal').hide(),
+        () => {
+          UIkit.modal('#spinnerModal').hide();
+          location.reload();
+        }
+      );
+    }
+
   }
 
   showAuditForm(view: string, provider: ProviderBundle) {
@@ -646,20 +652,51 @@ export class ServiceProvidersListComponent implements OnInit {
       );
   }
 
-  hasCreatedFirstService(id: string) {
-    return this.serviceTemplatePerProvider.some(x => x.providerId === id);
+  hasCreatedFirstService(providerId: string) {
+    for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
+      if (this.serviceTemplatePerProvider[i].providerId == providerId) {
+        if (this.serviceTemplatePerProvider[i].service) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  hasCreatedFirstDatasource(providerId: string) {
+    for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
+      if (this.serviceTemplatePerProvider[i].providerId == providerId) {
+        if (this.serviceTemplatePerProvider[i].datasource) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   getLinkToFirstService(id: string) {
     if (this.hasCreatedFirstService(id)) {
       return '/service/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
     } else {
-      return '/provider/' + id + '/add-first-resource';
+      return '/provider/' + id + '/add-first-service';
+    }
+  }
+
+  getLinkToFirstDatasource(id: string) {
+    if (this.hasCreatedFirstDatasource(id)) {
+      return '/provider/' + id + '/datasource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId; //TODO: seems ok but revisit
+    } else {
+      // return '/provider/' + id + '/add-first-datasource'; // maybe not needed, revisit this
+      return '/provider/' + id + '/datasource/select/';
     }
   }
 
   getLinkToEditFirstService(id: string) {
     return '/provider/' + id + '/resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
+  }
+
+  getLinkToEditFirstDatasource(id: string) {
+    return '/provider/' + id + '/datasource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
   }
 
   editProviderInNewTab(providerId) {
@@ -728,7 +765,6 @@ export class ServiceProvidersListComponent implements OnInit {
       }
     } else if (name === 'templateStatuses') {
       const formArray: FormArray = this.dataForm.get('templateStatus') as FormArray;
-      console.log('in');
       if (check) {
         formArray.controls.length = 0;
         for (let i = 0; i < this.templateStatuses.length; i++) {
@@ -751,10 +787,20 @@ export class ServiceProvidersListComponent implements OnInit {
     window.open(this.url + '/exportToCSV/services', '_blank');
   }
 
-  openPreviewModal(providerBundleId) {
-    if (this.hasCreatedFirstService(providerBundleId)) {
+  openPreviewModal(providerBundleId, resourceType) {
+    if (resourceType === 'service' && this.hasCreatedFirstService(providerBundleId)) {
       const resourceId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerBundleId)[0].serviceId;
       this.resourceService.getService(resourceId).subscribe(
+        res => { this.resourceToPreview = res; },
+        error => console.log(error),
+        () => {
+          UIkit.modal('#modal-preview').show();
+        }
+      );
+    }
+    if (resourceType === 'datasource' && this.hasCreatedFirstDatasource(providerBundleId)) {
+      const resourceId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerBundleId)[0].serviceId;
+      this.datasourceService.getDatasource(resourceId).subscribe(
         res => { this.resourceToPreview = res; },
         error => console.log(error),
         () => {

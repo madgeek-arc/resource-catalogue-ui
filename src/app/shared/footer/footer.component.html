@@ -161,6 +161,10 @@
                             [routerLink]="['/provider/all']">View Providers</a></li>
                           <li *ngIf="this.authenticationService.isAdmin()" class="menu-758 depth-1 fs-no-children  last"><a
                             [routerLink]="['/provider/resource/all']">View Resources</a></li>
+                          <li *ngIf="this.authenticationService.isAdmin()" class="menu-758 depth-1 fs-no-children  last"><a
+                            [routerLink]="['/provider/datasource/all']">View Datasources</a></li>
+                          <li *ngIf="this.authenticationService.isAdmin()" class="menu-758 depth-1 fs-no-children  last"><a
+                            [routerLink]="['/catalogue/all']">View Catalogues</a></li>
                         </ul>
                       </li>
                       <!--<li class="menu-772 depth-1 total-children-0 parent-children-0 single-children-0  last"><a href="/for-providers" class="fs-root-link">For providers</a></li>-->

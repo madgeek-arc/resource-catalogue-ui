@@ -83,8 +83,6 @@ export class ResourcesListComponent implements OnInit {
   searchFacet = '';
 
   total: number;
-  // from = 0;
-  // itemsPerPage = 10;
   currentPage = 1;
   pageTotal: number;
   pages: number[] = [];
@@ -246,8 +244,8 @@ export class ResourcesListComponent implements OnInit {
         }
       );
 
-      // this.getResearchCategoriesVoc();
-      // this.getSemanticRelationshipVoc();
+      this.getResearchCategoriesVoc();
+      this.getSemanticRelationshipVoc();
     }
   }
 
@@ -338,7 +336,7 @@ export class ResourcesListComponent implements OnInit {
         this.providers.forEach(
           p => {
             if (p.templateStatus === 'pending template') {
-              this.resourceService.getServiceTemplate(p.id).subscribe(
+              this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                 res => {
                   if (res) {
                     this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
@@ -540,10 +538,17 @@ export class ResourcesListComponent implements OnInit {
 
   /** resourceExtras--> **/
   toggleHorizontalService(resource: InfraService) {
-    this.resourceExtrasService.updateHorizontalService(resource.id, resource.service.catalogueId, !resource?.resourceExtras?.horizontalService).subscribe(
+    UIkit.modal('#spinnerModal').show();
+    this.resourceExtrasService.updateHorizontalService(resource.id, 'service', resource.service.catalogueId, !resource?.resourceExtras?.horizontalService).subscribe(
       res => {},
-      err => console.log(err),
-      () => location.reload()
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        console.log(err)
+      },
+      () => {
+        UIkit.modal('#spinnerModal').hide();
+        location.reload();
+      }
     );
   }
 
@@ -566,35 +571,53 @@ export class ResourcesListComponent implements OnInit {
   }
 
   updateResearchCategories(resource: InfraService) {
-    this.resourceExtrasService.updateResearchCategories(resource.id, resource.service.catalogueId, this.extrasForm.value.researchCategories).subscribe(
+    UIkit.modal('#spinnerModal').show();
+    this.resourceExtrasService.updateResearchCategories(resource.id, 'service', resource.service.catalogueId, this.extrasForm.value.researchCategories).subscribe(
       res => {},
-      err => console.log(err),
-      () => location.reload()
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        console.log(err);
+      },
+      () => {
+        UIkit.modal('#spinnerModal').hide();
+        location.reload();
+      }
     );
   }
 
   updateEoscIFGuidelines(resource: InfraService) {
-    this.resourceExtrasService.updateEoscIFGuidelines(resource.id, resource.service.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
+    UIkit.modal('#spinnerModal').show();
+    this.resourceExtrasService.updateEoscIFGuidelines(resource.id, 'service', resource.service.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
       res => {},
-      err => console.log(err),
-      () => location.reload()
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        console.log(err);
+      },
+      () => {
+        UIkit.modal('#spinnerModal').hide();
+        location.reload();
+      }
     );
   }
 
   extrasFormPrep(resource: InfraService){
-    console.log(this.extrasForm.value);
-    // this.extrasForm.reset();
-    this.extrasForm.setControl('researchCategories', this.fb.array([this.fb.control('')])); //resets part of the form
-    this.extrasForm.setControl('eoscIFGuidelines', this.fb.array([this.fb.control('')])); //resets part of the form
-    console.log(this.extrasForm.value);
+    //resets the 2 parts of the form and then fills them
+    this.extrasForm.setControl('researchCategories', this.fb.array([this.fb.control('')]));
+    this.extrasForm.setControl('eoscIFGuidelines',
+      this.fb.array([this.fb.group({
+        label: [''],
+        pid: [''],
+        semanticRelationship: [''],
+        url: ['']
+      })
+      ]));
     if ( resource?.resourceExtras?.researchCategories ) {
       for (let i = 0; i < resource.resourceExtras.researchCategories.length - 1; i++) {
         this.push('researchCategories');
       }
     }
-    console.log(this.extrasForm.value);
     if ( resource?.resourceExtras?.eoscIFGuidelines ) {
-      for (let i = 0; i < resource.resourceExtras.researchCategories.length - 1; i++) {
+      for (let i = 0; i < resource.resourceExtras.eoscIFGuidelines.length - 1; i++) {
         this.pushEoscIFGuidelines();
       }
     }
@@ -749,7 +772,7 @@ export class ResourcesListComponent implements OnInit {
     if (this.hasCreatedFirstService(id)) {
       return '/service/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
     } else {
-      return '/provider/' + id + '/add-first-resource';
+      return '/provider/' + id + '/add-first-service';
     }
   }
 

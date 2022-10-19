@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {
   InfraService,
+  Datasource,
   LoggingInfo,
   Catalogue,
   Provider,
@@ -10,7 +11,7 @@ import {
   ProviderRequest,
   Service,
   ServiceHistory,
-  VocabularyCuration, CatalogueBundle
+  VocabularyCuration, CatalogueBundle, DatasourceBundle
 } from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
@@ -55,7 +56,7 @@ export class ServiceProviderService {
     return this.http.put<Provider>(this.base + '/pendingProvider/transform/active', updatedFields, this.options);
   }
 
-  verifyServiceProvider(id: string, active: boolean, status: string) { //used for onboarding process
+  verifyServiceProvider(id: string, active: boolean, status: string) { // use for onboarding process
     return this.http.patch(this.base + `/provider/verifyProvider/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
@@ -110,6 +111,17 @@ export class ServiceProviderService {
       `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
   }
 
+  getDatasourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
+    if (!query) { query = ''; }
+    if (!status) { status = 'approved resource,pending resource,rejected resource'; }
+    if (active === 'statusAll') {
+      return this.http.get<Paging<Datasource>>(this.base +
+        `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+    }
+    return this.http.get<Paging<Datasource>>(this.base +
+      `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
+  }
+
   getPendingServicesOfProvider(id: string) {  // we use new /resource/getServiceTemplate/${id} instead TODO: rename front & back! - gets INACTIVE services
     return this.http.get<Service[]>(this.base + `/provider/services/pending/${id}`);
   }
@@ -119,9 +131,9 @@ export class ServiceProviderService {
       `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 
-  getRejectedServicesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
-    return this.http.get<Paging<InfraService>>(this.base +
-      `/provider/services/rejected/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+  getRejectedResourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, resourceType: string) {
+    return this.http.get<Paging<any>>(this.base +
+      `/provider/resources/rejected/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&resourceType=${resourceType}`);
   }
 
   publishService(id: string, version: string, active: boolean) { // toggles active/inactive service

@@ -12,7 +12,7 @@ import {environment} from '../../../../../environments/environment';
 })
 export class SharedResourceDashboardComponent implements OnInit {
 
-  _marketplaceBaseURL = environment.marketplaceBaseURL;
+  _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
 
   providerId: string;

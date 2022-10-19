@@ -3,12 +3,13 @@ import {RouterModule, Routes} from '@angular/router';
 import {CanActivateViaAuthGuard} from '../../services/can-activate-auth-guard.service';
 import {DatasourceFormComponent} from "./datasource-form.component";
 import {UpdateDatasourceComponent} from "./update-datasource.component";
+import {DatasourceSubmittedComponent} from "./datasource-submitted.component";
 
 
 const datasourceRoutes: Routes = [
 
   {
-    path: 'add',
+    path: 'add', //just for testing
     component: DatasourceFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -24,13 +25,13 @@ const datasourceRoutes: Routes = [
   //   }
   // },
   {
-    path: 'update/:datasourceId',
-    component: UpdateDatasourceComponent,
+    path: 'submitted/:datasourceId',
+    component: DatasourceSubmittedComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'Update Datasource'
+      breadcrumb: 'Datasource Submitted'
     }
-  },
+  }
 ];
 
 @NgModule({

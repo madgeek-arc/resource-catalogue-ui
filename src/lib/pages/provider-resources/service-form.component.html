@@ -30,7 +30,7 @@
         <!--<h2 class="uk-text-center uk-h2 uk-scrollspy-inview uk-animation-slide-bottom-small" uk-scrollspy-class=""-->
             <!--style="">-->
           <!--<img class="el-image uk-border-rounded"-->
-               <!--src="{{(serviceForm && serviceForm.get('logo').value) ? serviceForm.get('logo').value : 'src/lib/assets/images/broken_image-black-48dp.svg'}}"-->
+               <!--src="{{(serviceForm && serviceForm.get('logo').value) ? serviceForm.get('logo').value : '/lib/assets/images/broken_image-black-48dp.svg'}}"-->
                <!--width="50">-->
           <!--{{editMode ? "Edit" : "Add"}} a {{serviceName}} service-->
         <!--</h2>-->
@@ -1277,7 +1277,7 @@
                               <div class="uk-form-controls uk-margin-top">
                                 <ng-select *ngIf="trlVocabulary" class="uk-width-9-10" id="trl"
                                            (change)="handleBitSets(6, 18, 'trl'); unsavedChangesPrompt()"
-                                           [ngClass]="{'uk-form-danger': checkFormValidity('trl', this.editMode)}"
+                                           [ngClass]="{'uk-form-danger': checkFormValidity('trl', this.editMode, technologyReadinessLevelDesc.mandatory)}"
                                            [items]="sortVocabulariesByName(trlVocabulary)"
                                            bindLabel="name"
                                            bindValue="id"
@@ -1873,7 +1873,7 @@
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <ng-select *ngIf="orderTypeVocabulary" class="uk-width-9-10" id="orderType"
                                            (change)="handleBitSets(10, 19, 'orderType'); unsavedChangesPrompt()"
-                                           [ngClass]="{'uk-form-danger': checkFormValidity('orderType', this.editMode)}"
+                                           [ngClass]="{'uk-form-danger': checkFormValidity('orderType', this.editMode, orderTypeDesc.mandatory)}"
                                            [items]="sortVocabulariesByName(orderTypeVocabulary)"
                                            bindLabel="name"
                                            bindValue="id"

@@ -21,6 +21,11 @@ export class NavigationService {
         return this.router.navigate([`/dashboard`, id]);
     }
 
+    dashboardDatasources(providerId: string, catalogueId?: string) {
+      if (!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/datasources`]);
+      return this.router.navigate([`/dashboard/${catalogueId}/${providerId}/datasources`]);
+    }
+
     dashboardResources(providerId: string) {
       return this.router.navigate([`/dashboard/${providerId}/resources`]);
     }
@@ -40,6 +45,10 @@ export class NavigationService {
 
     editAIRE(id: string) {
       return this.router.navigate(['/provider/openaire/resource/update', id]);
+    }
+
+    datasourceSubmitted(id: string) {
+      return this.router.navigate(['datasource/submitted', id]);
     }
 
     search(any: any) {
