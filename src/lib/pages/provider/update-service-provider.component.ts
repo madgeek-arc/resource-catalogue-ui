@@ -81,7 +81,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         this.errorMessage = 'Something went wrong.';
       },
       () => {
-        if(this.provider.users===null && this.provider.mainContact===null) //in case of unauthorized access backend will not show sensitive info
+        if(this.provider.users===null && this.provider.mainContact===null && path!=='add/:providerId') //in case of unauthorized access backend will not show sensitive info (drafts excluded)
           this.router.navigateByUrl('/forbidden')
         // console.log(Object.keys(this.provider));
         ResourceService.removeNulls(this.provider);
