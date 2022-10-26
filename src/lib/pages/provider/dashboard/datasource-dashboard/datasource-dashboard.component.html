@@ -29,12 +29,13 @@
 
         <ul>
 
-          <li *ngIf="catalogueId === 'eosc'">
-            <a [routerLink]="['/provider/' + providerId + '/datasource/update/' + datasourceId]">
-              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-              Update Datasource
-            </a>
-          </li>
+          <ng-container *ngIf="catalogueId === 'eosc'">
+            <li>
+              <a [routerLink]="['/provider/' + providerId + '/datasource/update/' + datasourceId]">
+                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Update Datasource
+              </a>
+            </li>
 <!--          TODO: need the methods, the routing and the components for extensions-->
 <!--          <li>-->
 <!--            <a [routerLink]="['/provider/' + providerId + '/datasource/monitoring/' + datasourceId]">-->
@@ -48,6 +49,8 @@
 <!--              {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension-->
 <!--            </a>-->
 <!--          </li>-->
+          </ng-container>
+
           <li>
             <a href="{{_marketplaceDatasourcesURL}}{{datasourceId}}" target="_blank">
               <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">

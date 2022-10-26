@@ -29,24 +29,27 @@
 
         <ul>
 
-          <li *ngIf="catalogueId === 'eosc'">
-            <a [routerLink]="['/provider/' + providerId + '/resource/update/' + resourceId]">
-              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-              Update {{serviceORresource}}
-            </a>
-          </li>
-          <li>
-            <a [routerLink]="['/provider/' + providerId + '/resource/monitoring/' + resourceId]">
-              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-               {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension
-            </a>
-          </li>
-          <li>
-            <a [routerLink]="['/provider/' + providerId + '/resource/helpdesk/' + resourceId]">
-              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-              {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension
-            </a>
-          </li>
+          <ng-container *ngIf="catalogueId === 'eosc'">
+            <li>
+              <a [routerLink]="['/provider/' + providerId + '/resource/update/' + resourceId]">
+                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Update {{serviceORresource}}
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/provider/' + providerId + '/resource/monitoring/' + resourceId]">
+                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                 {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/provider/' + providerId + '/resource/helpdesk/' + resourceId]">
+                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension
+              </a>
+            </li>
+          </ng-container>
+
           <li>
             <a href="{{_marketplaceServicesURL}}{{resourceId}}" target="_blank">
               <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">
