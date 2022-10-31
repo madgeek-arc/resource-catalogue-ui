@@ -224,12 +224,14 @@
                         <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[11]}" href="#">Financial</a></li>-->
                       </ul>
 
-                      <div class="requiredFields uk-text-right">*Required fields</div>
-                      <div class="stepsCompleted uk-margin-top uk-text-center">{{completedTabs}} of {{requiredTabs}}</div>
-                      <div class="uk-margin-small-top">
-                          <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>
-                        <div class="percentageNumber" [ngStyle]="{'margin-left.%': (loaderPercentage*0.9).toLocaleString()}">{{loaderPercentage}}%</div>
-                      </div>
+                      <ng-container *ngIf="!disable">
+                        <div class="requiredFields uk-text-right">*Required fields</div>
+                        <div class="stepsCompleted uk-margin-top uk-text-center">{{completedTabs}} of {{requiredTabs}}</div>
+                        <div class="uk-margin-small-top">
+                            <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>
+                          <div class="percentageNumber" [ngStyle]="{'margin-left.%': (loaderPercentage*0.9).toLocaleString()}">{{loaderPercentage}}%</div>
+                        </div>
+                      </ng-container>
                     </div>
 
                     <form [formGroup]="serviceForm" role="form" class="uk-form uk-margin uk-width-3-4">
