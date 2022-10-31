@@ -31,6 +31,7 @@ export class ServiceFormComponent implements OnInit {
   firstServiceForm = false;
   showLoader = false;
   pendingService = false;
+  catalogueId: string;
   providerId: string;
   editMode = false;
   hasChanges = false;

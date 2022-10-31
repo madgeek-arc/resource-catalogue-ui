@@ -129,9 +129,10 @@ export class ResourceService {
     return this.http.get<Service>(this.base + `/service/${id}/?catalogue_id=${catalogue_id}`, this.options);
   }
 
-  getRichService(id: string, version?: string) {
-    // if version becomes optional this should be reconsidered
-    return this.http.get<RichService>(this.base + `/service/rich/${version === undefined ? id : [id, version].join('/')}/`, this.options);
+  getRichService(id: string, catalogueId?:string, version?: string) {
+    if (!catalogueId) catalogueId = 'eosc';
+    return this.http.get<RichService>(this.base + `/service/rich/${id}?catalogue_id=${catalogueId}`, this.options);
+    // return this.http.get<RichService>(this.base + `/service/rich/${version === undefined ? id : [id, version].join('/')}/`, this.options);
   }
 
   getPendingService(id: string) {

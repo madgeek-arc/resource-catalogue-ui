@@ -24,6 +24,7 @@ export class ServiceProviderFormComponent implements OnInit {
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
+  catalogueId: string = 'eosc'; // TODO: revisit to check if init causes or prevents any problems
   providerId: string = null;
   providerName = '';
   errorMessage = '';
@@ -228,7 +229,7 @@ export class ServiceProviderFormComponent implements OnInit {
     if (path.includes('add/:providerId')) {
       this.pendingProvider = true;
     }
-    // if (path.includes('info/:providerId')) {
+    // if (path.includes('view/:providerId')) {
     //   this.pendingProvider = true;
     // }
     this.setVocabularies();
@@ -272,7 +273,7 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
 
-    if (this._hasUserConsent) {
+    if (this._hasUserConsent && path !== 'view/:catalogueId/:providerId') {
       if (this.edit) {
         this.serviceProviderService.hasAdminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
           boolean => { this.agreedToTerms = boolean; },
