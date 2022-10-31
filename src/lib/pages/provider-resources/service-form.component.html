@@ -6,7 +6,6 @@
         <div class="titleAndActionsBar">
           <div class="">
             <div class="pageTitle">
-<!--              {{editMode ? "Update" : "Add New"}} {{serviceORresource}}-->
               {{disable ? ' ' : editMode ? ' Update' : ' Add New'}} {{serviceORresource}} {{disable ? 'read-only mode' : ''}}
             </div>
             <div class="providerName uk-margin-small-top">
@@ -56,7 +55,7 @@
 
               <div [ngClass]="{'blur-filter': showLoader}">
 
-                <div class="requiredFields">Fields with (*) are mandatory and must be completed in order to save this form. Leaving
+                <div *ngIf="!disable" class="requiredFields">Fields with (*) are mandatory and must be completed in order to save this form. Leaving
                   optional fields blank will remove the relevant heading from the published resource/provider
                   profile.</div>
 

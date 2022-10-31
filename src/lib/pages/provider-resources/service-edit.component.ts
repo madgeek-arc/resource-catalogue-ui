@@ -70,6 +70,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
             }
             if (this.disable) {
               this.serviceForm.disable();
+              this.serviceName = this.serviceForm.get('name').value;
             } else {
               this.initServiceBitSets();
             }
