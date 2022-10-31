@@ -94,7 +94,7 @@
 
                   <div class="uk-margin-top uk-text-center">
                     <a *ngIf="service"
-                       [routerLink]="['/dashboard/eosc/' + service.resourceOrganisation + '/resource-dashboard/' + service.id + '/fullHistory']"
+                       [routerLink]="['/dashboard/' + service.catalogueId, service.resourceOrganisation + '/resource-dashboard/' + service.id + '/fullHistory']"
                        class="uk-h3 uk-link">See more results ...</a>
                   </div>
 
