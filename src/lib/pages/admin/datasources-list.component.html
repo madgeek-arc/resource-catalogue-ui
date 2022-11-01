@@ -376,6 +376,18 @@
                         <!--                          </button>-->
                         <!--                        </ng-container>-->
 
+                        <ng-container *ngIf="datasourceBundle.datasource.catalogueId!=='eosc'">
+                          <hr class="uk-margin-top">
+                          <div class="uk-align-right">
+                            <button
+                              routerLink="/provider/{{datasourceBundle.datasource.catalogueId}}/{{datasourceBundle.datasource.resourceOrganisation}}/datasource/view/{{datasourceBundle.id}}"
+                              class="uk-button uk-button-link" style="">
+                              <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                              View Datasource
+                            </button>
+                          </div>
+                        </ng-container>
+
                         <ng-container *ngIf="datasourceBundle.datasource.catalogueId==='eosc'">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">

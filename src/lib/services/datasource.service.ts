@@ -26,11 +26,11 @@ export class DatasourceService {
   ACCESS_TYPES;
   ORDER_TYPE;
 
-  getDatasource(id: string, catalogue_id?: string) {
+  getDatasource(id: string, catalogueId?: string) {
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
-    if (!catalogue_id) catalogue_id = 'eosc';
-    return this.http.get<Datasource>(this.base + `/datasource/${id}/?catalogue_id=${catalogue_id}`, this.options);
+    if (!catalogueId) catalogueId = 'eosc';
+    return this.http.get<Datasource>(this.base + `/datasource/${id}/?catalogue_id=${catalogueId}`, this.options);
   }
 
   getRichDatasource(id: string, version?: string) {

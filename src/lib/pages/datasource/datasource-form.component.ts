@@ -33,6 +33,7 @@ export class DatasourceFormComponent implements OnInit {
   showLoader = false;
   pendingService = false;
   addOpenAIRE = false;
+  catalogueId: string;
   providerId: string;
   editMode = false;
   hasChanges = false;
