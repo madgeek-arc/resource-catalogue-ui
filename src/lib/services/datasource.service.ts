@@ -109,7 +109,7 @@ export class DatasourceService {
     return this.http.patch(this.base + `/datasource/verifyDatasource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
-  publishDatasource(id: string, version: string, active: boolean) { // toggles active/inactive service
+  publishDatasource(id: string, version: string, active: boolean) { // toggles active/inactive datasource
     if (version === null) {
       return this.http.patch(this.base + `/datasource/publish/${id}?active=${active}`, this.options);
     }

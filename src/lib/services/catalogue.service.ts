@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {
   Catalogue,
-  CatalogueBundle, InfraService, ProviderBundle
+  CatalogueBundle, DatasourceBundle, InfraService, ProviderBundle
 } from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
@@ -98,6 +98,17 @@ export class CatalogueService {
     }
     return this.http.get<Paging<InfraService>>(this.base +
       `/service/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
+  }
+
+  getDatasourcesOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
+    if (!query) { query = ''; }
+    if (!status) { status = 'approved resource,pending resource,rejected resource'; }
+    if (active === 'statusAll') {
+      return this.http.get<Paging<DatasourceBundle>>(this.base +
+        `/datasource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+    }
+    return this.http.get<Paging<DatasourceBundle>>(this.base +
+      `/datasource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
   }
 
   hasAdminAcceptedTerms(id: string, pendingCatalogue: boolean) {
