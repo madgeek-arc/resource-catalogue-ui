@@ -54,7 +54,7 @@
                   <h4 class="uk-margin-remove">
                     <a (click)="navigate(providerService.service.id)">{{providerService.service.name}}</a>
                   </h4>
-                  <span *ngIf="providerService.service.description" class="uk-margin-small-top">{{providerService.service.description}}</span>
+                  <span *ngIf="providerService.service.description" class="uk-margin-small-top"><markdown [data]="providerService.service.description"></markdown></span>
                 </div>
                 <div class="uk-width-1-6">
                   <div class="action-buttons">

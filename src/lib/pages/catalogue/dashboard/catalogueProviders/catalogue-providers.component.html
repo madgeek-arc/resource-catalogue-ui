@@ -156,7 +156,7 @@
                     <a (click)="navigate(providerService.provider.id)">{{providerService.provider.name}}</a>
                   </h4>
                   <div class="uk-margin-small-top">
-                    <span *ngIf="providerService.provider.description" class="uk-margin-small-top">{{providerService.provider.description}}</span>
+                    <span *ngIf="providerService.provider.description" class="uk-margin-small-top"><markdown [data]="providerService.provider.description"></markdown></span>
                   </div>
                   <div class="uk-margin-small-top">
                     <span class="">Creation Date: </span>{{ providerService.metadata.registeredAt | date }}
@@ -230,7 +230,7 @@
       <!--<div class="uk-width-2-3@m uk-padding-remove">-->
       <!--<h3 class="uk-margin uk-h5 uk-margin-small-bottom">-->
       <!--<a (click)="navigate(providerService.service.id)">{{providerService.service.name}}</a></h3>-->
-      <!--<span>{{providerService.service.description}}</span>-->
+      <!--<span><markdown [data]="providerService.provider.description"></markdown></span>-->
       <!--</div>-->
       <!--<div class="uk-width-1-6@m">-->
       <!--<div *ngIf="path === 'activeServices'">-->

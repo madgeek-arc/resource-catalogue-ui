@@ -21,15 +21,17 @@ import {RejectedDatasourcesComponent} from "../pages/provider/dashboard/rejected
 import {PreviewResourceComponent} from '../pages/previewresource/preview-resource.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import {DashboardBreadcrumbsComponent} from "./breadcrumbs/dashboard-breadcrumbs.component";
+import {MarkdownModule} from "ngx-markdown";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    // StarRatingModule.forRoot(), // FIXME: not supported on this angular version
-    RouterModule,
-    HighchartsChartModule
-  ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        // StarRatingModule.forRoot(), // FIXME: not supported on this angular version
+        RouterModule,
+        HighchartsChartModule,
+        MarkdownModule
+    ],
   declarations: [
     JoinPipe,
     KeysPipe,
