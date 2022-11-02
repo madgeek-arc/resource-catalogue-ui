@@ -91,10 +91,6 @@ export class CatalogueServicesComponent implements OnInit {
     this.router.navigate([`/dashboard/${this.catalogueId}/${serviceId.split('.')[0]}/resource-dashboard/`, serviceId]);
   }
 
-  useAsTemplate(id: string) {
-    this.router.navigate([`/provider/${this.catalogueId}/resource/add/use-template`, id]);
-  }
-
   getCatalogue() {
     this.catalogueService.getCatalogueBundleById(this.catalogueId).subscribe(
       catalogueBundle => {
