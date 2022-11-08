@@ -20,6 +20,12 @@
               Update History
             </a>
           </li>
+          <li [routerLinkActive]="['current_section']" #monitoringInfo="routerLinkActive">
+            <a [routerLink]="['/dashboard', catalogueId, providerId, 'resource-dashboard', resourceId, 'monitoringInfo']">
+              <img src="{{monitoringInfo.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
+              Monitoring Information
+            </a>
+          </li>
 
         </ul>
       </div>
