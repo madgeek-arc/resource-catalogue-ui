@@ -237,3 +237,56 @@ export const helpdeskDescMap = new Map()
   .set('webformDesc', {mandatory: false, label: 'Webform', placeholder: '', desc: 'Webform required to generate ticket directly on webpage'})
   .set('ticketPreservationDesc', {mandatory: false, label: 'Ticket preservation', placeholder: '', desc: 'Should the tickets be stored in the helpdesk system in dedicated group'})
 ;
+
+export const guidelinesDescMap = new Map()
+  //interoperabilityid
+  //identifier
+  //identifierType
+  .set('creatorDesc', {mandatory: true, label: 'Creator', placeholder: '', desc: '"The main researchers involved in producing the data, or the authors of the publication, in priority order. To supply multiple creators, repeat this property.\n' +
+      '\n' +
+      '\n' +
+      'Note: \n' +
+      'The type of Creator is indeed not a ControlledList (so remove it), but a list of properties (a “record”). It can contain both persons (default value) and organisational entities. According to DataCite you may have something like this. \n' +
+      '\n' +
+      'creator[ creatorName = “Antonis Lempesis"", …, affiliation = ATHENA [@affiliationIdentifier = http://ror.org/123456],...] \n' +
+      'creator[ creatorName = “Diego Scardaci”, …, affiliation = EGI [@affiliationIdentifier = http://ror.org/123456],...] \n' +
+      'creator[ creatorName = “GEANT”, nameType=Organizational …, affiliation = GEANT [@affiliationIdentifier = http://ror.org/123456],... ] \n' +
+      '\n' +
+      'we should have clear guidelines. I am not sure however that curators should be providers. We have: \n' +
+      '\n' +
+      '- individuals managing the record \n' +
+      '- their institution (provider?) \n' +
+      '- institutions that actually maintain the guidelines \n' +
+      '\n' +
+      'Note that the latter generally differ from the previous two, unless we expect the institutions in charge of the standards to come and onboard their guidelines into the EOSC.\n' +
+      '\n' +
+      'Registered EOSC Providers may also be Creators"'})
+  .set('creatorNameDesc', {mandatory: false, label: 'Creator Name', placeholder: '', desc: 'The full name of the creator.'})
+  .set('nameTypeDesc', {mandatory: true, label: 'Name Type', placeholder: '', desc: 'The type of name.'})
+  .set('givenNameDesc', {mandatory: false, label: 'Given Name', placeholder: '', desc: 'The personal or first name of the creator.'})
+  .set('familyNameDesc', {mandatory: false, label: 'Family Name', placeholder: '', desc: 'The surname or last name of the creator.'})
+  .set('nameIdentifierDesc', {mandatory: false, label: 'Name Identifier', placeholder: '', desc: 'Uniquely identifies an individual or legal entity, according to various schemes.'})
+  .set('affiliationDesc', {mandatory: false, label: 'Affiliation', placeholder: '', desc: 'The organizational or institutional affiliation of the creator.'})
+  .set('affiliationIdentifierDesc', {mandatory: false, label: 'Affiliation Identifier', placeholder: '', desc: 'Uniquely identifies the organizational affiliation of the creator.'})
+  .set('titleDesc', {mandatory: true, label: 'Title', placeholder: '', desc: 'A name or title by which a resource is known. May be the title of a dataset or the name of a piece of software.'})
+  .set('publicationYearDesc', {mandatory: true, label: 'Publication Year', placeholder: '', desc: 'The year when the data was or will be made publicly available. In the case of resources such as software or dynamic data where there may be multiple releases in one year, include the Date/dateType/ dateInformation property and sub-properties to provide more information about the publication or release date details.'})
+  .set('ResourceTypeDesc', {mandatory: false, label: 'Resource Type', placeholder: '', desc: 'A description of the resource.'})
+  .set('resourceTypeGeneralDesc', {mandatory: false, label: 'Resource Type General', placeholder: '', desc: 'The general type of a resource.'})
+  .set('createdDesc', {mandatory: true, label: 'Created', placeholder: '', desc: 'Time/date the record was created.'})
+  .set('updatedDesc', {mandatory: true, label: 'Updated', placeholder: '', desc: 'Time/date the record was last saved, with or without modifications.'})
+  .set('eoscRelatedStandardsDesc', {mandatory: false, label: 'EOSC Related Standards', placeholder: '', desc: 'Standards related to the guideline.'})
+  .set('rightsDesc', {mandatory: true, label: 'Rights', placeholder: '', desc: '"Any rights information for this resource. \n' +
+      'The property may be repeated to record complex rights characteristics."'})
+  .set('rightsURIDesc', {mandatory: true, label: 'Rights URI', placeholder: '', desc: 'The URI of the license.'})
+  .set('rightsIdentifierDesc', {mandatory: true, label: 'Rights Identifier', placeholder: '', desc: 'A short, standardized version of the license name.'})
+  .set('descriptionDesc', {mandatory: true, label: 'Description', placeholder: '', desc: 'All additional information that does not fit in any of the other categories. May be used for technical information.'})
+  .set('statusDesc', {mandatory: true, label: 'Status', placeholder: '', desc: 'Status of the resource.'})
+  .set('domainDesc', {mandatory: false, label: 'Domain', placeholder: '', desc: '"Intended Audience for the Guideline\n' +
+      '\n' +
+      'Note: it is conceivable that in the future we could link to another registry\'s controlled list of domains, such as FAIRsharing or RDA, but in the first instance it is recommended we use the EOSC controlled list as deployed."'})
+  .set('eoscGuidelineTypeDesc', {mandatory: true, label: 'EOSC Guideline Type', placeholder: '', desc: 'The type of record within the registry (note: the controlled vocab could potentially be expanded as time goes on)'})
+  .set('eoscIntegrationOptionsDesc', {mandatory: false, label: 'EOSC Integration Options', placeholder: '', desc: '"Resources and services that declare compliance with the guideline to the specified level of interoperation.\n' +
+      '\n' +
+      'Note: to deliver this it would be necessary for the Service/Resource Profile to specify both the CompliantWith guideline relationship, but also to the level of integration relating to that Guideline. This would require additional IDs, labels and description fields to achieve."'})
+  .set('eoscAAIDesc', {mandatory: true, label: 'EOSC AAI', placeholder: '', desc: 'Indicates whether the guideline requires services and resources to be members of the EOSC AAI Federation in order to successfully interoperate.'})
+;
