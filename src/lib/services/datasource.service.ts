@@ -5,7 +5,7 @@ import {environment} from '../../environments/environment';
 import {
   RichService,
   Service,
-  Datasource
+  Datasource, ServiceHistory
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
@@ -130,5 +130,38 @@ export class DatasourceService {
 
   moveDatasourceToProvider(datasourceId: string, providerId: string, comment: string) {
     return this.http.post(this.base + `/datasource/changeProvider?resourceId=${datasourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
+  }
+
+  /** STATS -->**/
+  getVisitsForDatasource(datasource: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/datasource/visits/${datasource}`, {params});
+    }
+    return this.http.get(this.base + `/stats/datasource/visits/${datasource}`);
+  }
+
+  getAddToProjectForDatasource(datasource: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/datasource/addToProject/${datasource}`, {params});
+    }
+    return this.http.get(this.base + `/stats/datasource/addToProject/${datasource}`);
+  }
+
+  getRatingsForDatasource(datasource: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/datasource/ratings/${datasource}`, {params});
+    }
+    return this.http.get(this.base + `/stats/datasource/ratings/${datasource}`);
+  }
+  /** <-- STATS **/
+
+  getDatasourceHistory(datasourceId: string) {
+    return this.http.get<Paging<ServiceHistory>>(this.base + `/datasource/history/${datasourceId}/`);
   }
 }
