@@ -372,6 +372,61 @@ export class ResourceExtras {
   eoscIFGuidelines: EOSCIFGuidelines[];
   researchCategories: string[];
   horizontalService: boolean;
+  interoperabilityRecordIds: string[];
+}
+
+export class InteroperabilityRecord implements Identifiable {
+  id: string;
+  identifierInfo: IdentifierInfo;
+  creatorInfo: CreatorInfo;
+  title: string;
+  publicationYear: number;
+  resourceTypesInfo: ResourceTypeInfo[];
+  created: string;
+  updated: string;
+  eoscRelatedStandards: string[];
+  rightsInfo: RightsInfo[];
+  description: string;
+  status: string;
+  domain: string;
+  eoscGuidelineType: string;
+  eoscIntegrationOptions: string[];
+  eoscAAI: string;
+}
+
+export class IdentifierInfo {
+  identifier: string;
+  identifierType: string;
+}
+
+export class CreatorInfo {
+  creator: string;
+  creatorNameTypeInfo: CreatorNameTypeInfo;
+  givenName: string;
+  familyName: string;
+  nameIdentifier: string;
+  creatorAffiliationInfo: CreatorAffiliationInfo;
+}
+
+export class CreatorNameTypeInfo {
+  creatorNames: string[];
+  nameType: string;
+}
+
+export class CreatorAffiliationInfo {
+  affiliation: string;
+  affiliationIdentifier: string;
+}
+
+export class ResourceTypeInfo {
+  resourceType: string;
+  resourceTypeGeneral: string;
+}
+
+export class RightsInfo {
+  right: string;
+  rightURI: URL;
+  rightIdentifier: string;
 }
 
 export class ServiceHistory extends Metadata {
