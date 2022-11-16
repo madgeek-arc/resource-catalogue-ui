@@ -5,7 +5,7 @@ import {environment} from '../../environments/environment';
 import {
   RichService,
   Service,
-  Datasource
+  Datasource, ServiceHistory
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
@@ -26,11 +26,11 @@ export class DatasourceService {
   ACCESS_TYPES;
   ORDER_TYPE;
 
-  getDatasource(id: string, catalogue_id?: string) {
+  getDatasource(id: string, catalogueId?: string) {
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
-    if (!catalogue_id) catalogue_id = 'eosc';
-    return this.http.get<Datasource>(this.base + `/datasource/${id}/?catalogue_id=${catalogue_id}`, this.options);
+    if (!catalogueId) catalogueId = 'eosc';
+    return this.http.get<Datasource>(this.base + `/datasource/${id}/?catalogue_id=${catalogueId}`, this.options);
   }
 
   getRichDatasource(id: string, version?: string) {
@@ -109,7 +109,7 @@ export class DatasourceService {
     return this.http.patch(this.base + `/datasource/verifyDatasource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
-  publishDatasource(id: string, version: string, active: boolean) { // toggles active/inactive service
+  publishDatasource(id: string, version: string, active: boolean) { // toggles active/inactive datasource
     if (version === null) {
       return this.http.patch(this.base + `/datasource/publish/${id}?active=${active}`, this.options);
     }
@@ -130,5 +130,38 @@ export class DatasourceService {
 
   moveDatasourceToProvider(datasourceId: string, providerId: string, comment: string) {
     return this.http.post(this.base + `/datasource/changeProvider?resourceId=${datasourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
+  }
+
+  /** STATS -->**/
+  getVisitsForDatasource(datasource: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/datasource/visits/${datasource}`, {params});
+    }
+    return this.http.get(this.base + `/stats/datasource/visits/${datasource}`);
+  }
+
+  getAddToProjectForDatasource(datasource: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/datasource/addToProject/${datasource}`, {params});
+    }
+    return this.http.get(this.base + `/stats/datasource/addToProject/${datasource}`);
+  }
+
+  getRatingsForDatasource(datasource: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/datasource/ratings/${datasource}`, {params});
+    }
+    return this.http.get(this.base + `/stats/datasource/ratings/${datasource}`);
+  }
+  /** <-- STATS **/
+
+  getDatasourceHistory(datasourceId: string) {
+    return this.http.get<Paging<ServiceHistory>>(this.base + `/datasource/history/${datasourceId}/`);
   }
 }

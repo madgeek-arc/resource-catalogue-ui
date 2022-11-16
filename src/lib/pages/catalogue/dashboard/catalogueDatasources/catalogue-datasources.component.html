@@ -2,13 +2,13 @@
   <div class="uk-container uk-container-expand">
 
     <div class="services-provider-container">
-      <div *ngIf="providerBundle" class="uk-flex">
+      <div *ngIf="catalogueBundle" class="uk-flex">
         <div>
-          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+          <img src="{{ catalogueBundle.catalogue.logo ? catalogueBundle.catalogue.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
         </div>
         <div class="uk-margin-medium-left">
-          <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
-          <div><span class="status-label">Provider Status: </span>{{ providerBundle.status.substr(0,providerBundle.status.indexOf(' ')) | titlecase }}</div>
+          <h3 class="uk-margin-remove">{{catalogueBundle.catalogue.name}}</h3>
+          <div><span class="status-label">Catalogue Status: </span>{{ catalogueBundle.status.substr(0,catalogueBundle.status.indexOf(' ')) | titlecase }}</div>
         </div>
       </div>
     </div>
@@ -96,16 +96,16 @@
       </form>
 
 
-      <div *ngIf="providerServices && providerServices.results.length === 0">
-        <p>No {{serviceORresource | lowercase}}s found</p>
+      <div *ngIf="datasourceBundles && datasourceBundles.results.length === 0">
+        <p>No datasources found</p>
       </div>
 
-      <div *ngIf="providerServices && providerServices.results.length > 0">
+      <div *ngIf="datasourceBundles && datasourceBundles.results.length > 0">
 
         <div class="uk-flex uk-flex-middle uk-flex-between">
 
           <div class="resultsInfo">
-            <span class="number">{{total}}</span> {{serviceORresource | uppercase}}S, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+            <span class="number">{{total}}</span> DATASOURCES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
           </div>
 
           <ul class="uk-pagination" uk-margin>
@@ -121,27 +121,27 @@
         <hr class="adminResultsHeader">
 
         <div class="uk-margin-medium-top">
-          <div *ngFor="let providerService of providerServices.results" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+          <div *ngFor="let datasourceBundle of datasourceBundles.results" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
 
             <div class="uk-card-body">
 
-              <div *ngIf="providerService.status === 'approved resource'" class="approved">
+              <div *ngIf="datasourceBundle.status === 'approved resource'" class="approved">
                 <div class="uk-card-badge uk-label">Approved</div>
               </div>
-              <div *ngIf="providerService.status === 'pending resource'" class="pending">
+              <div *ngIf="datasourceBundle.status === 'pending resource'" class="pending">
                 <div class="uk-card-badge uk-label">Pending</div>
               </div>
-              <div *ngIf="(providerService.status === 'rejected resource')" class="rejected">
+              <div *ngIf="(datasourceBundle.status === 'rejected resource')" class="rejected">
                 <div class="uk-card-badge uk-label">Rejected</div>
               </div>
 
               <div class="uk-grid">
                 <div class="uk-width-9-10"></div>
                 <div class="uk-width-1-10">
-                  <div *ngIf="providerService.active" class="approved">
+                  <div *ngIf="datasourceBundle.active" class="approved">
                     <div class="uk-label uk-align-right">Active</div>
                   </div>
-                  <div *ngIf="!providerService.active" class="rejected">
+                  <div *ngIf="!datasourceBundle.active" class="rejected">
                     <div class="uk-label uk-align-right">Inactive</div>
                   </div>
                 </div>
@@ -149,53 +149,58 @@
 
               <div class="uk-grid uk-flex-middle uk-margin-remove-top">
                 <div class="uk-width-1-6">
-                  <img src="{{providerService.service.logo ? providerService.service.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
+                  <img src="{{datasourceBundle.datasource.logo ? datasourceBundle.datasource.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
                 </div>
                 <div class="uk-width-2-3">
                   <h4 class="uk-margin-remove">
-                    <a [routerLink]="['/dashboard', providerService.service.catalogueId, providerService.service.resourceOrganisation, 'resource-dashboard', providerService.id]" data-uk-tooltip title="'Go to the resource dashboard'">
-                      {{providerService.service.name}}
-                    </a>
+                    <a (click)="navigate(datasourceBundle.datasource.id)">{{datasourceBundle.datasource.name}}</a>
                   </h4>
                   <div class="uk-margin-small-top">
-                    <span *ngIf="providerService.service.description" class="uk-margin-small-top"><markdown [data]="providerService.service.description"></markdown></span>
+                    <span *ngIf="datasourceBundle.datasource.description" class="uk-margin-small-top"><markdown [data]="datasourceBundle.datasource.description"></markdown></span>
                   </div>
                   <div class="uk-margin-small-top">
-                    <span class="">Creation Date: </span>{{ providerService.metadata.registeredAt | date }}
+                    <span class="">Creation Date: </span>{{ datasourceBundle.metadata.registeredAt | date }}
                   </div>
                   <div class="uk-margin-small-top">
-                    <span class="">Last Update: </span>{{ providerService.metadata.modifiedAt | date }}
+                    <span class="">Last Update: </span>{{ datasourceBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
                 <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
                   <div class="action-buttons">
-                    <button *ngIf="providerBundle.templateStatus === 'approved template'"
-                            class="uk-button uk-button-action uk-display-block uk-margin-small-top"
-                            (click)="useAsTemplate(providerService.service.id)">
-                      <i class="fa fa-copy fa-lg" aria-hidden="true"></i> Use as template
-                    </button>
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(providerService)">
-                      <ng-container *ngIf="providerService.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
-                      <ng-container *ngIf="!providerService.active">
-<!--                        <div *ngIf="providerService.status === 'pending resource' || providerService.status === 'rejected resource'"-->
-<!--                             uk-tooltip="title:Cannot activate a pending/rejected resource."></div>-->
+                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleDatasource(datasourceBundle)">
+                      <ng-container *ngIf="datasourceBundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
+                      <ng-container *ngIf="!datasourceBundle.active">
+                        <!--                        <div *ngIf="providerService.status === 'pending resource' || providerService.status === 'rejected resource'"-->
+                        <!--                             uk-tooltip="title:Cannot activate a pending/rejected resource."></div>-->
                         <i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate
                       </ng-container>
                     </button>
                     <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">-->
-                    <!--<i class="fa fa-pencil fa-lg"></i> Edit {{serviceORresource | lowercase}}-->
+                    <!--<i class="fa fa-pencil fa-lg"></i> Edit datasource-->
                     <!--</button>-->
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedService(providerService)">
-                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete {{serviceORresource | lowercase}}
+                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedDatasource(datasourceBundle)">
+                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete datasource
                     </button>
                   </div>
                 </div>
               </div>
 
-<!--&lt;!&ndash;              active/inactive label alternative&ndash;&gt;-->
-<!--              <td class="uk-text-center">-->
-<!--                <i class="fa fa-{{ providerService.active ? 'check':'close' }}"></i>-->
-<!--              </td>-->
+              <ng-container *ngIf="datasourceBundle.datasource.catalogueId!=='eosc'">
+                <hr class="uk-margin-top">
+                <div class="uk-align-right">
+                  <button
+                    routerLink="/provider/{{datasourceBundle.datasource.catalogueId}}/{{datasourceBundle.datasource.resourceOrganisation}}/datasource/view/{{datasourceBundle.id}}"
+                    class="uk-button uk-button-link" style="">
+                    <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                    View Datasource
+                  </button>
+                </div>
+              </ng-container>
+
+              <!--&lt;!&ndash;              active/inactive label alternative&ndash;&gt;-->
+              <!--              <td class="uk-text-center">-->
+              <!--                <i class="fa fa-{{ providerService.active ? 'check':'close' }}"></i>-->
+              <!--              </td>-->
 
             </div>
 
@@ -228,7 +233,7 @@
       <!--<div class="uk-width-2-3@m uk-padding-remove">-->
       <!--<h3 class="uk-margin uk-h5 uk-margin-small-bottom">-->
       <!--<a (click)="navigate(providerService.service.id)">{{providerService.service.name}}</a></h3>-->
-      <!--<span>{{providerService.service.description}}</span>-->
+      <!--<span><markdown [data]="providerService.service.description"></markdown></span>-->
       <!--</div>-->
       <!--<div class="uk-width-1-6@m">-->
       <!--<div *ngIf="path === 'activeServices'">-->
@@ -251,11 +256,11 @@
       <!--</div>-->
       <!--</div>-->
 
-<!--      <div *ngIf="toggleLoading">-->
-<!--        <div class="loader-small">-->
-<!--          <div class="greyFilm"></div>-->
-<!--        </div>-->
-<!--      </div>-->
+      <div *ngIf="toggleLoading">
+        <div class="loader-small">
+          <div class="greyFilm"></div>
+        </div>
+      </div>
 
     </div>
 
@@ -264,13 +269,8 @@
 
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h6 *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} '{{selectedService.service.name}}'</h6>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteService(selectedService.id)">Delete</button>
+    <h6 *ngIf="selectedDatasource">Are you sure you want to delete the Data Source '{{selectedDatasource.datasource.name}}'</h6>
+    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteDatasource(selectedDatasource.id)">Delete</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
-  </div>
-</div>
-
-<div id="spinnerModal" uk-modal>
-  <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
   </div>
 </div>
