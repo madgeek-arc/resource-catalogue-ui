@@ -1307,7 +1307,7 @@
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{phaseDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-top">
                                 <ng-select *ngIf="phaseVocabulary" class="uk-width-9-10" id="lifeCycleStatus"
-                                           (change)="handleBitSets(6, 18, 'trl'); unsavedChangesPrompt()"
+                                           (change)="unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('lifeCycleStatus', this.editMode)}"
                                            [items]="sortVocabulariesByName(phaseVocabulary)"
                                            bindLabel="name"
