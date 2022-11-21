@@ -8,7 +8,7 @@ import {UserService} from '../../../services/user.service';
 import * as sd from '../services.description';
 import {Provider, RichService, Service, Type, Vocabulary, Monitoring} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
-import {urlAsyncValidator, URLValidator} from '../../../shared/validators/generic.validator';
+import {URLValidator} from '../../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
 import {PremiumSortPipe} from '../../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../../environments/environment';
@@ -70,8 +70,8 @@ export class MonitoringExtensionFormComponent implements OnInit {
     ]),
     // metrics: this.fb.array([
     //   this.fb.group({
-    //     probe: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
-    //     metric: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    //     probe: ['', URLValidator],
+    //     metric: ['', URLValidator],
     //   })
     // ])
   };
@@ -208,13 +208,13 @@ export class MonitoringExtensionFormComponent implements OnInit {
   push(field: string, required: boolean, url?: boolean) {
     if (required) {
       if (url) {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
       // console.log('added non mandatory url field');
-      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }
@@ -254,8 +254,8 @@ export class MonitoringExtensionFormComponent implements OnInit {
   /** MetricsGroups -->**/
   newMetricsGroup(): FormGroup {
     return this.fb.group({
-      probe: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
-      metric: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+      probe: ['', URLValidator],
+      metric: ['', URLValidator],
     });
   }
 

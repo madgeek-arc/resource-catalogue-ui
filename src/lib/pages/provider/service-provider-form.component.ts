@@ -4,7 +4,7 @@ import * as sd from '../provider-resources/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
+import {URLValidator} from '../../shared/validators/generic.validator';
 import {Vocabulary, Type, Provider} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import BitSet from 'bitset';
@@ -156,17 +156,17 @@ export class ServiceProviderFormComponent implements OnInit {
     id: [''],
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
-    website: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+    website: ['', Validators.compose([Validators.required, URLValidator])],
     legalEntity: [''],
     legalStatus: [''],
     hostingLegalEntity: [''],
     description: ['', Validators.required],
-    logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+    logo: ['', Validators.compose([Validators.required, URLValidator])],
     // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
     // multimediaNames: this.fb.array([this.fb.control('')]),
     multimedia: this.fb.array([
       this.fb.group({
-        multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+        multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
         multimediaName: ['']
       })
     ]),
@@ -598,12 +598,12 @@ export class ServiceProviderFormComponent implements OnInit {
   push(field: string, required: boolean, url?: boolean) {
     if (required) {
       if (url) {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
-      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }
@@ -614,7 +614,7 @@ export class ServiceProviderFormComponent implements OnInit {
   /** Multimedia -->**/
   newMultimedia(): FormGroup {
     return this.fb.group({
-      multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
+      multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
       multimediaName: ['']
     });
   }
