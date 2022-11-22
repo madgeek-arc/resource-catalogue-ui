@@ -239,9 +239,12 @@ export const helpdeskDescMap = new Map()
 ;
 
 export const guidelinesDescMap = new Map()
-  //interoperabilityid
-  //identifier
-  //identifierType
+  //EOSC Interoperability ID (auto-assigned)
+  .set('identifierDesc', {mandatory: true, label: 'Identifier (with mandatory type sub-property)', placeholder: '', desc: '"The Identifier is a unique string that identifies a resource. For software, determine whether the identifier is for a specific version of a piece of software, (per the Force11 Software Citation Principles11), or for all versions.\n' +
+      '\n' +
+      'The record\'s primary key for locating it in the EOSC-IF database."'})
+  .set('identifierTypeDesc', {mandatory: true, label: 'Identifier Type', placeholder: '', desc: '"The type of Identifier.\n' +
+      'Note: Controlled list format as advsised by DataCite model, but this might refer to DataCite registered DOIs. If that\'s the case, then this becomes a string."'})
   .set('creatorDesc', {mandatory: true, label: 'Creator', placeholder: '', desc: '"The main researchers involved in producing the data, or the authors of the publication, in priority order. To supply multiple creators, repeat this property.\n' +
       '\n' +
       '\n' +

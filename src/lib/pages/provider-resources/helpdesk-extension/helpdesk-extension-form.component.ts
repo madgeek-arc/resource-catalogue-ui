@@ -8,7 +8,7 @@ import {UserService} from '../../../services/user.service';
 import * as sd from '../services.description';
 import {Provider, RichService, Service, Type, Vocabulary, Helpdesk} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
-import {urlAsyncValidator, URLValidator} from '../../../shared/validators/generic.validator';
+import {URLValidator} from '../../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
@@ -204,13 +204,13 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   push(field: string, required: boolean, url?: boolean) {
     if (required) {
       if (url) {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
       // console.log('added non mandatory url field');
-      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }

@@ -15,23 +15,23 @@ export function URLListValidator(control: AbstractControl) {
     }
 }
 
-/** Increase time var to reduce server calls **/
-export const urlAsyncValidator = (service: ServiceProviderService, time: number = 0) => {
-  return (control: AbstractControl): Observable<ValidationErrors> => {
-    // console.log(control);
-    if (control.value === '') {
-      return timer(time).pipe(map(res => {
-        return null;
-        })
-      );
-    }
-    return timer(time).pipe(
-      switchMap(() => service.validateUrl(control.value)),
-      map(res => { return res ? null : {invalidAsync: true};
-      })
-    );
-  };
-};
+// /** Increase time var to reduce server calls **/
+// export const urlAsyncValidator = (service: ServiceProviderService, time: number = 0) => {
+//   return (control: AbstractControl): Observable<ValidationErrors> => {
+//     // console.log(control);
+//     if (control.value === '') {
+//       return timer(time).pipe(map(res => {
+//         return null;
+//         })
+//       );
+//     }
+//     return timer(time).pipe(
+//       switchMap(() => service.validateUrl(control.value)),
+//       map(res => { return res ? null : {invalidAsync: true};
+//       })
+//     );
+//   };
+// };
 
 export function PatternValidator(control: AbstractControl, pattern: RegExp) {
     return ('' + control.value).match(pattern) ? null : {validationFailed: true};
