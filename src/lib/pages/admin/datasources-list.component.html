@@ -151,9 +151,9 @@
                     <div class="uk-margin-right">
 
                       <div class="uk-inline uk-margin-right">
-                        <label class="" for="orderBy">Order by </label>
+                        <label class="" for="order">Order </label>
                         <div class="uk-inline">
-                          <select class="uk-input uk-select" id="orderBy" (change)="handleChangeAndResetPage()" formControlName="order">
+                          <select class="uk-input uk-select" id="order" (change)="handleChangeAndResetPage()" formControlName="order">
                             <option value="ASC" selected>Ascending</option>
                             <option value="DESC">Descending</option>
                           </select>
@@ -161,7 +161,7 @@
                       </div>
 
                       <div class="uk-inline">
-                        <label class="" for="orderField">Sort by </label>
+                        <label class="" for="orderField">Order by </label>
                         <div class="uk-inline">
                           <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
                             <option value="name" selected>Name</option>
