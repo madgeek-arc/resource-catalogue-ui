@@ -102,7 +102,8 @@ export class GuidelinesFormComponent implements OnInit {
     publicationYear: ['', Validators.required],
     created: ['', Validators.required],
     updated: ['', Validators.required],
-    eoscRelatedStandards: this.fb.array(['', URLValidator]),
+    // eoscRelatedStandards: this.fb.array(['', URLValidator]),
+    eoscRelatedStandards: this.fb.array(['']),
     description: ['', Validators.required],
     status: ['', Validators.required],
     domain: [''],
@@ -197,7 +198,6 @@ export class GuidelinesFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Submit');
     if (!this.authService.isLoggedIn()) {
       sessionStorage.setItem('provider', JSON.stringify(this.guidelinesForm.value));
       this.authService.login();
@@ -226,7 +226,7 @@ export class GuidelinesFormComponent implements OnInit {
         }
       );
     } else {
-      // console.log(this.providerForm);
+      // console.log(this.guidelinesForm);
       this.markFormAsDirty();
       window.scrollTo(0, 0);
       // this.markTabs();

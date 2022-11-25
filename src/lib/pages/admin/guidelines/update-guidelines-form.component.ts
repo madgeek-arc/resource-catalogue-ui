@@ -78,66 +78,36 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
         () => {
           ResourceService.removeNulls(this.guideline);
 
-          // if (this.guideline.users && this.guideline.users.length > 1) {
-          //   for (let i = 0; i < this.guideline.users.length - 1; i++) {
-          //     this.addUser();
-          //   }
-          // } else if (path === 'add/:providerId') {
-          //   this.addDefaultUser();
-          // }
-          //
-          //
-          // if (this.guideline.multimedia && this.guideline.multimedia.length > 1) {
-          //   for (let i = 0; i < this.guideline.multimedia.length - 1; i++) {
-          //     this.multimediaArray.push(this.newMultimedia());
-          //   }
-          // }
-          //
-          // if (this.guideline.scientificDomains) {
-          //   // this.removeDomain(0);
-          //   for (let i = 0; i < this.guideline.scientificDomains.length; i++) {
-          //     this.domainArray.push(this.newScientificDomain());
-          //
-          //     // for (let j = 0; j < this.categoriesVocabulary.length; j++) {
-          //     //   if (this.categoriesVocabulary[j].id === this.guideline.scientificDomains[i]) {
-          //     //     this.domainArray.controls[this.domainArray.length - 1].get('domain').setValue(this.categoriesVocabulary[j].parentId);
-          //     //     this.domainArray.controls[this.domainArray.length - 1].get('scientificSubdomain').setValue(this.categoriesVocabulary[j].id);
-          //     //   }
-          //     // }
-          //   }
-          // } else this.domainArray.push(this.newScientificDomain());
-          //
-          // if (this.guideline.publicContacts && this.guideline.publicContacts.length > 1) {
-          //   for (let i = 0; i < this.guideline.publicContacts.length - 1; i++) {
-          //     this.pushPublicContact();
-          //   }
-          // }
-          // if (this.guideline.tags && this.guideline.tags.length > 1) {
-          //   for (let i = 0; i < this.guideline.tags.length - 1; i++) {
-          //     this.push('tags', this.tagsDesc.mandatory);
-          //   }
-          // }
-          // if (this.guideline.participatingCountries && this.guideline.participatingCountries.length > 1) {
-          //   for (let i = 0; i < this.guideline.participatingCountries.length - 1; i++) {
-          //     this.push('participatingCountries', this.participatingCountriesDesc.mandatory);
-          //   }
-          // }
-          // if (this.guideline.affiliations && this.guideline.affiliations.length > 1) {
-          //   for (let i = 0; i < this.guideline.affiliations.length - 1; i++) {
-          //     this.push('affiliations', this.affiliationDesc.mandatory);
-          //   }
-          // }
-          // if (this.guideline.networks && this.guideline.networks.length > 1) {
-          //   for (let i = 0; i < this.guideline.networks.length - 1; i++) {
-          //     this.push('networks', this.networksDesc.mandatory);
-          //   }
-          // }
+          if (this.guideline.resourceTypesInfo && this.guideline.resourceTypesInfo.length > 1) {
+            for (let i = 0; i < this.guideline.resourceTypesInfo.length - 1; i++) {
+              this.rightsArray.push(this.newResourceTypeInfo());
+            }
+          }
+          if (this.guideline.rights && this.guideline.rights.length > 1) {
+            for (let i = 0; i < this.guideline.rights.length - 1; i++) {
+              this.rightsArray.push(this.newRight());
+            }
+          }
+          if (this.guideline.creators && this.guideline.creators.length > 1) {
+            for (let i = 0; i < this.guideline.creators.length - 1; i++) {
+              this.pushCreator();
+            }
+          }
+          if (this.guideline.eoscRelatedStandards && this.guideline.eoscRelatedStandards.length > 1) {
+            for (let i = 0; i < this.guideline.eoscRelatedStandards.length - 1; i++) {
+              this.push('eoscRelatedStandards', this.eoscRelatedStandardsDesc.mandatory);
+            }
+          }
+          if (this.guideline.eoscIntegrationOptions && this.guideline.eoscIntegrationOptions.length > 1) {
+            for (let i = 0; i < this.guideline.eoscIntegrationOptions.length - 1; i++) {
+              this.push('eoscIntegrationOptions', this.eoscIntegrationOptionsDesc.mandatory);
+            }
+          }
           this.guidelinesForm.patchValue(this.guideline);
           // this.guidelinesForm.updateValueAndValidity();
           // if (this.disable) {
           //   this.guidelinesForm.disable();
           // }
-
 
           // this.initCatalogueBitSets();
         }
