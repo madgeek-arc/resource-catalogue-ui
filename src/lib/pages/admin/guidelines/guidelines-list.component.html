@@ -1,0 +1,198 @@
+<div class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom" style="min-height: 325px">
+  <div class="uk-container uk-container-expand">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m">
+
+              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
+
+              <div class="uk-flex ">
+                <div class="uk-flex-left">
+                  <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
+                    <span uk-search-icon></span>
+                    <input class="uk-search-input" type="search" placeholder="Search..." formControlName="query">
+                  </form>
+                </div>
+
+                <div class="uk-button uk-button-primary uk-align-right uk-flex-right" routerLink="/guidelines/add" >
+                  <i class="fa fa-plus" aria-hidden="true"></i> Add new Guideline
+                </div>
+              </div>
+
+              <div class="uk-grid uk-margin-top">
+
+                <div class="uk-width-1-1">
+
+                  <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters">
+
+                    <div class="uk-margin-right">
+                      <div class="">
+                        <label class="" for="quantity">Results per page </label>
+                        <div class="uk-inline">
+                          <select class="uk-input uk-select" id="quantity" (change)="handleChangeAndResetPage()" formControlName="quantity">
+                            <option value="10" selected>10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="uk-margin-right">
+
+                      <div class="uk-inline uk-margin-right">
+                        <label class="" for="orderBy">Order by </label>
+                        <div class="uk-inline">
+                          <select class="uk-input uk-select" id="orderBy" (change)="handleChangeAndResetPage()" formControlName="order">
+                            <option value="ASC">Ascending</option>
+                            <option value="DESC" selected>Descending</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="uk-inline">
+                        <label class="" for="orderField">Sort by </label>
+                        <div class="uk-inline">
+                          <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
+                            <!--                            <option value="name">Name</option>-->
+                            <option value="id" selected>ID</option>
+                          </select>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </form>
+
+
+                  <div *ngIf="loadingMessage" class="uk-margin-large-top">
+                    <div class="loader-big"></div>
+                  </div>
+
+                  <div *ngIf="!loadingMessage && (!guidelines || (guidelines.length==0))" class="uk-margin-large-top">
+                    No guidelines found for your selections.
+                  </div>
+
+                  <div *ngIf="guidelines && (guidelines.length>0)" id="serviceForm" class="uk-margin-medium-top">
+
+                    <div class="uk-flex uk-flex-middle uk-flex-between">
+
+                      <div class="resultsInfo">
+                        <span class="number">{{total}}</span> GUIDELINES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+                      </div>
+
+                      <ul class="uk-pagination">
+                        <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous></span><span uk-pagination-previous></span></a></li>
+                        <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+                        <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
+                          <a (click)="goToPage(i)">{{i}}</a>
+                        </li>
+                        <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                        <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next></span><span uk-pagination-next></span></a></li>
+                      </ul>
+
+                    </div>
+
+
+                    <hr class="adminResultsHeader">
+
+                    <div *ngFor="let guideline of guidelines" class="uk-card provider-card uk-margin-medium-top">
+                      <div class="uk-card-body">
+
+                        <div class="">
+                          <div class="uk-grid">
+
+                            <div class="uk-width-4-5">
+                              <div class="providerName uk-margin-bottom">
+                                {{ guideline.title }}
+                              </div>
+
+                              <div class="">
+                                <span class="statusLabel">ID: </span>{{ guideline.id }}
+                              </div>
+
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Creators: </span><span *ngFor="let creator of guideline.creators; let i = index">{{i>0 ? ', ' : ''}} {{creator.creatorNameTypeInfo.creatorName}}</span>
+                              </div>
+
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Description: </span>{{ guideline.description }}
+                              </div>
+
+
+<!--                              <div class="uk-margin-small-top">-->
+<!--                                <span class="statusLabel">Resource Type: </span>{{ curation.vocabularyEntryRequests[0].resourceType | titlecase }}-->
+<!--                              </div>-->
+
+<!--                              <div class="uk-margin-small-top">-->
+<!--                                <span class="statusLabel">Creation Date: </span>{{ curation.vocabularyEntryRequests[0].dateOfRequest | date }}-->
+<!--                              </div>-->
+
+<!--                              <div class="uk-margin-small-top">-->
+<!--                                <span class="statusLabel">Modification Date: </span>{{ curation.resolutionDate ?  (curation.resolutionDate | date) : 'Pending' }}-->
+<!--                              </div>-->
+
+                            </div>
+
+                            <div class="uk-width-1-5">
+                              <div class="action-buttons uk-flex uk-flex-middle uk-flex-center">
+                                <button routerLink="/guidelines/update/{{guideline.id}}" class="uk-button uk-button-primary uk-display-block">
+                                  <i class="fa fa-edit fa-lg" aria-hidden="true"></i> Update
+                                </button>
+                                <button (click)="showDeletionModal(guideline.id)" class="uk-button uk-button-danger uk-display-block">
+                                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <ul class="uk-pagination uk-flex-right uk-margin">
+                      <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous></span><span uk-pagination-previous></span></a></li>
+                      <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+                      <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
+                        <a (click)="goToPage(i)">{{i}}</a>
+                      </li>
+                      <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                      <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next></span><span uk-pagination-next></span></a></li>
+                    </ul>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="spinnerModal" uk-modal>
+  <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+  </div>
+</div>
+
+<div id="deletionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <div *ngIf="selectedGuidelineId">
+      <h6>Are you sure you want to delete interoperability record with id: "{{ selectedGuidelineId }}" ?</h6>
+      <p>Deleting an interoperability record is an irreversible action.</p>
+    </div>
+    <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="deleteGuideline(selectedGuidelineId)">Delete</button>
+    <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
+  </div>
+  <div *ngIf="loadingMessage">
+    <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+      {{ loadingMessage }}
+    </div>
+    <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>

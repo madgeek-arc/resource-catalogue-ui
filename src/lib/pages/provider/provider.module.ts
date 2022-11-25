@@ -23,6 +23,10 @@ import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-ext
 import {NgSelectModule} from '@ng-select/ng-select';
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
 import {AddFirstDatasourceComponent} from "../datasource/add-first-datasource.component";
+import {ResourceGuidelinesFormComponent} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
+import {
+  DatasourceGuidelinesFormComponent
+} from "../datasource/datasource-guidelines/datasource-guidelines-form.component";
 
 
 @NgModule({
@@ -55,7 +59,9 @@ import {AddFirstDatasourceComponent} from "../datasource/add-first-datasource.co
     ProviderFormToPdfComponent,
     ResourceFormToPdfComponent,
     MonitoringExtensionFormComponent,
-    HelpdeskExtensionFormComponent
+    HelpdeskExtensionFormComponent,
+    ResourceGuidelinesFormComponent,
+    DatasourceGuidelinesFormComponent
   ]
 })
 

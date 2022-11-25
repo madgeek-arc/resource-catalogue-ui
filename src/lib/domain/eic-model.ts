@@ -133,6 +133,13 @@ export class Metadata {
   originalId: string;
 }
 
+export class ResourceInteroperabilityRecord implements Identifiable {
+  id: string;
+  resourceId: string;
+  catalogueId: string;
+  interoperabilityRecordIds: string[];
+}
+
 export class Monitoring {
   id: string;
   serviceId: string;
@@ -372,26 +379,25 @@ export class ResourceExtras {
   eoscIFGuidelines: EOSCIFGuidelines[];
   researchCategories: string[];
   horizontalService: boolean;
-  interoperabilityRecordIds: string[];
 }
 
 export class InteroperabilityRecord implements Identifiable {
   id: string;
-  identifierInfo: IdentifierInfo;
-  creatorInfo: CreatorInfo;
+  identifierInfo: IdentifierInfo; //like location
+  creators: Creator[]; //like location
   title: string;
   publicationYear: number;
-  resourceTypesInfo: ResourceTypeInfo[];
+  resourceTypesInfo: ResourceTypeInfo[]; //title~scientific domain
   created: string;
   updated: string;
-  eoscRelatedStandards: string[];
-  rightsInfo: RightsInfo[];
+  eoscRelatedStandards: URL[];
+  rights: Right[]; //like use cases
   description: string;
   status: string;
   domain: string;
   eoscGuidelineType: string;
   eoscIntegrationOptions: string[];
-  eoscAAI: string;
+  eoscAAI: boolean;
 }
 
 export class IdentifierInfo {
@@ -399,8 +405,7 @@ export class IdentifierInfo {
   identifierType: string;
 }
 
-export class CreatorInfo {
-  creator: string;
+export class Creator {
   creatorNameTypeInfo: CreatorNameTypeInfo;
   givenName: string;
   familyName: string;
@@ -409,7 +414,7 @@ export class CreatorInfo {
 }
 
 export class CreatorNameTypeInfo {
-  creatorNames: string[];
+  creatorName: string;
   nameType: string;
 }
 
@@ -423,8 +428,8 @@ export class ResourceTypeInfo {
   resourceTypeGeneral: string;
 }
 
-export class RightsInfo {
-  right: string;
+export class Right {
+  rightTitle: string;
   rightURI: URL;
   rightIdentifier: string;
 }
@@ -621,5 +626,11 @@ export const enum Type {
   DS_PERSISTENT_IDENTITY_SCHEME = "DS_PERSISTENT_IDENTITY_SCHEME",
   DS_COAR_ACCESS_RIGHTS_1_0 = "DS_COAR_ACCESS_RIGHTS_1_0",
   MONITORING_MONITORED_BY = "MONITORING_MONITORED_BY",
-  MONITORING_SERVICE_TYPE = "MONITORING_SERVICE_TYPE"
+  MONITORING_SERVICE_TYPE = "MONITORING_SERVICE_TYPE",
+  IR_NAME_TYPE = "IR_NAME_TYPE",
+  IR_STATUS = "IR_STATUS",
+  IR_DOMAIN = "IR_DOMAIN",
+  IR_RESOURCE_TYPE_GENERAL = "IR_RESOURCE_TYPE_GENERAL",
+  IR_EOSC_GUIDELINE_TYPE = "IR_EOSC_GUIDELINE_TYPE",
+  IR_IDENTIFIER_TYPE = "IR_IDENTIFIER_TYPE"
 }

@@ -2,7 +2,11 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
-import {EOSCIFGuidelines, InteroperabilityRecord, Provider, Service} from '../domain/eic-model';
+import {
+  ResourceInteroperabilityRecord,
+  EOSCIFGuidelines,
+  InteroperabilityRecord,
+} from '../domain/eic-model';
 
 @Injectable()
 export class ResourceExtrasService {
@@ -33,21 +37,39 @@ export class ResourceExtrasService {
     return this.http.put<InteroperabilityRecord>(this.base + '/interoperabilityRecord/', interoperabilityRecord, this.options);
   }
 
-  getInteroperabilityRecords(from: string, quantity: string, orderField: string, order: string, query: string) {
+  getInteroperabilityRecords(from?: string, quantity?: string, orderField?: string, order?: string, query?: string) {
     let params = new HttpParams();
-    params = params.append('from', from);
-    params = params.append('quantity', quantity);
-    params = params.append('orderField', orderField);
-    params = params.append('order', order);
+    if (from && from !== '') params = params.append('from', from);
+    if (quantity && quantity !== '') params = params.append('quantity', quantity);
+    if (orderField && orderField !== '') params = params.append('orderField', orderField);
+    if (order && order !== '') params = params.append('order', order);
     if (query && query !== '') params = params.append('query', query);
     return this.http.get(this.base + `/interoperabilityRecord/all`, {params});
-  }
-
-  getInteroperabilityRecordById(id: string) {
-    return this.http.get<InteroperabilityRecord>(this.base + `/interoperabilityRecord/${id}`, this.options);
   }
 
   deleteInteroperabilityRecordById(id: string) {
     return this.http.delete(this.base + `/interoperabilityRecord/${id}`, this.options);
   }
+
+  assignGuidelinesToResource(resourceType: string, shouldPut: boolean, resourceGuidelines: ResourceInteroperabilityRecord) {
+    return this.http[shouldPut ? 'put' : 'post'](this.base + `/resourceInteroperabilityRecord?resourceType=${resourceType}`, resourceGuidelines, this.options);
+  }
+
+  // updateInteroperabilityRecordsOfResource(resourceId: string, type: string, catalogueId: string, interoperabilityRecordIds: string[]) {
+  //   return this.http.put(this.base + `/resource-extras/update/interoperabilityRecords?resourceId=${resourceId}&type=${type}&catalogueId=${catalogueId}`, interoperabilityRecordIds, this.options);
+  // }
+
+  getInteroperabilityRecordById(id: string) {
+    return this.http.get<InteroperabilityRecord>(this.base + `/interoperabilityRecord/${id}`, this.options);
+  }
+
+  getGuidelinesOfResource(id: string) {
+    // return this.http.get<ResourceGuidelines>(this.base + `/resourceInteroperabilityRecord/byResource/${id}`, this.options);
+    return this.http.get<any>(this.base + `/resourceInteroperabilityRecord/byResource/${id}`, this.options);
+  }
+
+  deleteGuidelinesOfResource(id: string) {
+    return this.http.delete(this.base + `/resourceInteroperabilityRecord/${id}`, this.options);
+  }
+
 }

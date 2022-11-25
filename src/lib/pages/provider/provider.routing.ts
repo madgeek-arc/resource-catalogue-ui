@@ -22,6 +22,12 @@ import {DatasourceFormComponent} from "../datasource/datasource-form.component";
 import {UpdateDatasourceComponent} from "../datasource/update-datasource.component";
 import {AddFirstDatasourceComponent} from "../datasource/add-first-datasource.component";
 import {RejectedDatasourcesComponent} from "./dashboard/rejectedDatasources/rejected-datasources.component";
+import {
+  ResourceGuidelinesFormComponent
+} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
+import {
+  DatasourceGuidelinesFormComponent
+} from "../datasource/datasource-guidelines/datasource-guidelines-form.component";
 
 
 const providerRoutes: Routes = [
@@ -225,6 +231,22 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Helpdesk Extension'
+    }
+  },
+  {
+    path: ':providerId/resource/guidelines/:resourceId',
+    component: ResourceGuidelinesFormComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Resource Guidelines'
+    }
+  },
+  {
+    path: ':providerId/datasource/guidelines/:datasourceId',
+    component: DatasourceGuidelinesFormComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Datasource Guidelines'
     }
   },
   {

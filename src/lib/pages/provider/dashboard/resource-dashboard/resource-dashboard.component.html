@@ -54,6 +54,12 @@
                 {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension
               </a>
             </li>
+            <li>
+              <a [routerLink]="['/provider/' + providerId + '/resource/guidelines/' + resourceId]">
+                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Assign Guidelines
+              </a>
+            </li>
           </ng-container>
 
           <li>
