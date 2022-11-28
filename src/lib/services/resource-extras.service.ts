@@ -37,7 +37,15 @@ export class ResourceExtrasService {
     return this.http.put<InteroperabilityRecord>(this.base + '/interoperabilityRecord/', interoperabilityRecord, this.options);
   }
 
-  getInteroperabilityRecords(from?: string, quantity?: string, orderField?: string, order?: string, query?: string) {
+  getInteroperabilityRecordById(id: string) {
+    return this.http.get<InteroperabilityRecord>(this.base + `/interoperabilityRecord/${id}`, this.options);
+  }
+
+  deleteInteroperabilityRecordById(id: string) {
+    return this.http.delete(this.base + `/interoperabilityRecord/${id}`, this.options);
+  }
+
+  getInteroperabilityRecords(from?: string, quantity?: string, orderField?: string, order?: string, query?: string) { //open for EPOT and Providers
     let params = new HttpParams();
     if (from && from !== '') params = params.append('from', from);
     if (quantity && quantity !== '') params = params.append('quantity', quantity);
@@ -47,29 +55,19 @@ export class ResourceExtrasService {
     return this.http.get(this.base + `/interoperabilityRecord/all`, {params});
   }
 
-  deleteInteroperabilityRecordById(id: string) {
-    return this.http.delete(this.base + `/interoperabilityRecord/${id}`, this.options);
+  /** Providers resource--> **/
+  getGuidelinesOfResource(id: string) {
+    // return this.http.get<ResourceGuidelines>(this.base + `/resourceInteroperabilityRecord/byResource/${id}`, this.options);
+    return this.http.get<any>(this.base + `/resourceInteroperabilityRecord/byResource/${id}`, this.options);
   }
 
   assignGuidelinesToResource(resourceType: string, shouldPut: boolean, resourceGuidelines: ResourceInteroperabilityRecord) {
     return this.http[shouldPut ? 'put' : 'post'](this.base + `/resourceInteroperabilityRecord?resourceType=${resourceType}`, resourceGuidelines, this.options);
   }
 
-  // updateInteroperabilityRecordsOfResource(resourceId: string, type: string, catalogueId: string, interoperabilityRecordIds: string[]) {
-  //   return this.http.put(this.base + `/resource-extras/update/interoperabilityRecords?resourceId=${resourceId}&type=${type}&catalogueId=${catalogueId}`, interoperabilityRecordIds, this.options);
-  // }
-
-  getInteroperabilityRecordById(id: string) {
-    return this.http.get<InteroperabilityRecord>(this.base + `/interoperabilityRecord/${id}`, this.options);
-  }
-
-  getGuidelinesOfResource(id: string) {
-    // return this.http.get<ResourceGuidelines>(this.base + `/resourceInteroperabilityRecord/byResource/${id}`, this.options);
-    return this.http.get<any>(this.base + `/resourceInteroperabilityRecord/byResource/${id}`, this.options);
-  }
-
   deleteGuidelinesOfResource(resourceId: string, resourceInteroperabilityRecordId: string) { //resourceId may refer to serviceId or datasourceId
     return this.http.delete(this.base + `/resourceInteroperabilityRecord/${resourceId}/${resourceInteroperabilityRecordId}`, this.options);
   }
-
+  /** <-- Providers resource **/
+  /** <-- InteroperabilityRecords **/
 }
