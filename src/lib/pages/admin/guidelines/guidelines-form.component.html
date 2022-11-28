@@ -220,7 +220,7 @@
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{createdDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <input id="created" class="uk-input uk-width-9-10" type="text" placeholder="ISO 8601 (2022-07-27)"
+                              <input id="created" class="uk-disabled uk-input uk-width-9-10" type="text" placeholder="value will be automatically assigned"
                                      formControlName="created"
                                      (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('created', this.edit)}">
@@ -232,7 +232,7 @@
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{updatedDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <input id="updated" class="uk-input uk-width-9-10" type="text"
+                              <input id="updated" class="uk-disabled uk-input uk-width-9-10" type="text" placeholder="value will be automatically assigned"
                                      formControlName="updated"
                                      (input)="unsavedChangesPrompt()"
                                      [ngClass]="{'uk-form-danger': checkFormValidity('updated', this.edit)}">

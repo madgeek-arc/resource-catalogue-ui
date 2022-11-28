@@ -104,6 +104,8 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
             }
           }
           this.guidelinesForm.patchValue(this.guideline);
+          this.guidelinesForm.get('created').setValue(this.timestampToDate(this.guideline.created));
+          this.guidelinesForm.get('updated').setValue(this.timestampToDate(this.guideline.updated));
           // this.guidelinesForm.updateValueAndValidity();
           // if (this.disable) {
           //   this.guidelinesForm.disable();

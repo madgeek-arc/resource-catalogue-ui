@@ -100,8 +100,8 @@ export class GuidelinesFormComponent implements OnInit {
     id: [''],
     title: ['', Validators.required],
     publicationYear: ['', Validators.required],
-    created: ['', Validators.required],
-    updated: ['', Validators.required],
+    created: [''],
+    updated: [''],
     // eoscRelatedStandards: this.fb.array(['', URLValidator]),
     eoscRelatedStandards: this.fb.array(['']),
     description: ['', Validators.required],
@@ -684,4 +684,7 @@ export class GuidelinesFormComponent implements OnInit {
     }, {});
   }
 
+  timestampToDate(timestamp: string) {
+    return new Date(+timestamp).toISOString().split('T')[0];
+  }
 }
