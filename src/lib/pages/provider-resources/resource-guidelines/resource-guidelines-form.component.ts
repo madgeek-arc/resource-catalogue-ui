@@ -123,7 +123,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
     this.errorMessage = '';
     this.showLoader = true;
 
-    this.resourceExtrasService.deleteGuidelinesOfResource(this.resourceGuidelines.id).subscribe(
+    this.resourceExtrasService.deleteGuidelinesOfResource(this.serviceId, this.resourceGuidelines.id).subscribe(
       _ir => {
         return this.router.resourceDashboard(this.providerId, this.serviceId);  // redirect to resource-dashboard
       },

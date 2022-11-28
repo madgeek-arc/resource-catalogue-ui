@@ -68,8 +68,8 @@ export class ResourceExtrasService {
     return this.http.get<any>(this.base + `/resourceInteroperabilityRecord/byResource/${id}`, this.options);
   }
 
-  deleteGuidelinesOfResource(id: string) {
-    return this.http.delete(this.base + `/resourceInteroperabilityRecord/${id}`, this.options);
+  deleteGuidelinesOfResource(resourceId: string, resourceInteroperabilityRecordId: string) { //resourceId may refer to serviceId or datasourceId
+    return this.http.delete(this.base + `/resourceInteroperabilityRecord/${resourceId}/${resourceInteroperabilityRecordId}`, this.options);
   }
 
 }

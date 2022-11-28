@@ -123,7 +123,7 @@ export class DatasourceGuidelinesFormComponent implements OnInit {
     this.errorMessage = '';
     this.showLoader = true;
 
-    this.resourceExtrasService.deleteGuidelinesOfResource(this.datasourceGuidelines.id).subscribe(
+    this.resourceExtrasService.deleteGuidelinesOfResource(this.datasourceId, this.datasourceGuidelines.id).subscribe(
       _ir => {
         // return this.router.resourceDashboard(this.providerId, this.datasourceId);  // redirect to resource-dashboard TODO: revisit when datasource stats/history are ready
       },
