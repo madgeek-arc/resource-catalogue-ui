@@ -90,7 +90,7 @@ export class GuidelinesFormComponent implements OnInit {
   readonly eoscAAIDesc: sd.Description = sd.guidelinesDescMap.get('eoscAAIDesc');
 
   identifierTypeVocabulary: Vocabulary[] = null;
-  nameTypeTypeVocabulary: Vocabulary[] = null;
+  nameTypeVocabulary: Vocabulary[] = null;
   resourceTypeGeneralVocabulary: Vocabulary[] = null;
   statusVocabulary: Vocabulary[] = null;
   domainVocabulary: Vocabulary[] = null;
@@ -340,9 +340,8 @@ export class GuidelinesFormComponent implements OnInit {
       res => {
         this.vocabularies = res;
         this.identifierTypeVocabulary = this.vocabularies[Type.IR_IDENTIFIER_TYPE];
-        this.nameTypeTypeVocabulary = this.vocabularies[Type.IR_NAME_TYPE];
+        this.nameTypeVocabulary = this.vocabularies[Type.IR_NAME_TYPE];
         this.resourceTypeGeneralVocabulary = this.vocabularies[Type.IR_RESOURCE_TYPE_GENERAL];
-        // this.resourceTypeGeneralVocabulary = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
         this.statusVocabulary = this.vocabularies[Type.IR_STATUS];
         this.domainVocabulary = this.vocabularies[Type.IR_DOMAIN];
         this.eoscGuidelineTypeVocabulary = this.vocabularies[Type.IR_EOSC_GUIDELINE_TYPE];

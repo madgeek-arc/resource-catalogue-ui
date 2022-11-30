@@ -13,12 +13,12 @@
               <span>{{guidelineId ? 'Guideline id: ' +guidelineId : 'id will be assigned automatically'}}</span> {{hasChanges ? '(unsaved changes)' : ''}}
             </div>
           </div>
-          <div class="">
+          <div class="uk-flex uk-flex-middle">
             <!--<button class="uk-button uk-button-primary">Discard</button>-->
             <!--<button *ngIf="!disable && (!edit || pendingProvider)" class="uk-button uk-button-primary uk-margin-left" (click)="this.registerCatalogue(true)">Save as draft</button>-->
 <!--            <button *ngIf="!disable && loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left" type="button" (click)="onSubmit()">Submit</button>-->
             <button *ngIf="!disable" class="uk-button uk-button-secondary uk-margin-left" type="button" (click)="onSubmit()">Submit</button>
-            <button *ngIf="disable" class="uk-button uk-button-secondary uk-margin-left" (click)="toggleDisable()">Edit</button>
+<!--            <button *ngIf="disable" class="uk-button uk-button-secondary uk-margin-left" (click)="toggleDisable()">Edit</button>-->
           </div>
         </div>
 
@@ -481,14 +481,18 @@
                                       </label>
                                       <div class="uk-form-description uk-margin-top uk-width-9-10">{{nameTypeDesc.desc}}</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
-                                        <input id="nameType" class="uk-input uk-width-9-10" type="text"
-                                               formControlName="nameType"
-                                               (input)="unsavedChangesPrompt()"
-                                               [ngClass]="{'uk-form-danger': checkFormValidity('creators.nameType', this.edit)}">
+                                        <ng-select *ngIf="nameTypeVocabulary" class="uk-width-9-10" id="nameType"
+                                                   (change)="unsavedChangesPrompt()"
+                                                   [ngClass]="{'uk-form-danger': checkFormValidity('creators.nameType', this.edit)}"
+                                                   [items]="sortVocabulariesByName(nameTypeVocabulary)"
+                                                   bindLabel="name"
+                                                   bindValue="id"
+                                                   clearAllText="Clear"
+                                                   formControlName="nameType">
+                                        </ng-select>
                                       </div>
                                     </div>
                                   </div>
-
 
                                   <div class="uk-margin-bottom">
                                     <label class="uk-form-label uk-text-right" for="givenName">
@@ -523,7 +527,6 @@
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('creators', i, this.edit, 'nameIdentifier')}">
                                     </div>
                                   </div>
-
 
                                   <div formGroupName="creatorAffiliationInfo">
                                     <div class="uk-margin-bottom">

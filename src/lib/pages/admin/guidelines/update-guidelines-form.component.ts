@@ -44,9 +44,8 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
           res => {
             this.vocabularies = res;
             this.identifierTypeVocabulary = this.vocabularies[Type.IR_IDENTIFIER_TYPE];
-            this.nameTypeTypeVocabulary = this.vocabularies[Type.IR_NAME_TYPE];
+            this.nameTypeVocabulary = this.vocabularies[Type.IR_NAME_TYPE];
             this.resourceTypeGeneralVocabulary = this.vocabularies[Type.IR_RESOURCE_TYPE_GENERAL];
-            // this.resourceTypeGeneralVocabulary = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
             this.statusVocabulary = this.vocabularies[Type.IR_STATUS];
             this.domainVocabulary = this.vocabularies[Type.IR_DOMAIN];
             this.eoscGuidelineTypeVocabulary = this.vocabularies[Type.IR_EOSC_GUIDELINE_TYPE];
