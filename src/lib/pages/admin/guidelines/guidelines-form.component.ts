@@ -115,7 +115,6 @@ export class GuidelinesFormComponent implements OnInit {
       identifier: ['', Validators.required],
       identifierType: ['', Validators.required]
     }, Validators.required),
-//TODO: revisit
     creators: this.fb.array([this.fb.group({
       creatorNameTypeInfo: this.fb.group({creatorName:'', nameType:''}),
       givenName: [''],
@@ -123,14 +122,12 @@ export class GuidelinesFormComponent implements OnInit {
       nameIdentifier: [''],
       creatorAffiliationInfo: this.fb.group({affiliation:'', affiliationIdentifier:''}),
     }, Validators.required)]),
-//TODO: revisit
     resourceTypesInfo: this.fb.array([
       this.fb.group({
         resourceType: [''],
         resourceTypeGeneral: ['']
       })
     ]),
-//TODO: revisit
     rights: this.fb.array([
       this.fb.group({
         rightTitle: ['', Validators.required],
@@ -686,4 +683,11 @@ export class GuidelinesFormComponent implements OnInit {
   timestampToDate(timestamp: string) {
     return new Date(+timestamp).toISOString().split('T')[0];
   }
+
+  changeTab(id: string){
+    const element: HTMLElement = document.getElementById(id) as HTMLElement
+    element.click();
+    window.scrollTo(0, -1)
+  }
+
 }

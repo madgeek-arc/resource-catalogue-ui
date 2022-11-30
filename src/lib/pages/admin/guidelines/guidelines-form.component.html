@@ -61,7 +61,7 @@
                     <div class="tabsTitle uk-margin-bottom">EOSC Interoperability Record</div>
                     <ul class="uk-width-1-1 uk-margin-remove uk-tab uk-tab-left form-tabs" uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
                       <li class="uk-active">
-                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[0]}" href="#">
+                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[0]}" href="#" id="informationTab1">
                           <span>1. Information *</span>
 <!--                          <span class="circle-number">-->
 <!--                            <i *ngIf="remainingOnTab0==0" aria-hidden="true" class="fa fa-check"></i>-->
@@ -70,7 +70,7 @@
                         </a>
                       </li>
                       <li>
-                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[1]}" href="#">
+                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[1]}" href="#" id="creatorsTab2">
                           <span>2. Creators *</span>
 <!--                          <span class="circle-number">-->
 <!--                            <i *ngIf="remainingOnTab1==0" aria-hidden="true" class="fa fa-check"></i>-->
@@ -451,9 +451,11 @@
                             </div>
                           </div>
 
+                          <button class="uk-button uk-button-secondary" type="button" (click)="changeTab('creatorsTab2')">Next Tab</button>
+
                         </li>
 
-                        <!--Creators 2nd tab-->
+                        <!--creatorsTab2-->
                         <li>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right">Creators</label>
@@ -570,6 +572,9 @@
                               </a>
                             </div>
                           </div>
+
+                          <button class="uk-button uk-button-secondary" type="button" (click)="changeTab('informationTab1')">Previous Tab</button>
+
                         </li>
                       </ul>
                     </div>
