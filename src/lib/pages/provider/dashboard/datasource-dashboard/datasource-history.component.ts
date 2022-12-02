@@ -24,7 +24,7 @@ export class DatasourceHistoryComponent implements OnInit, OnDestroy {
   public errorMessage: string;
   private sub: Subscription;
 
-  serviceHistory: Paging<LoggingInfo>;
+  datasourceHistory: Paging<LoggingInfo>;
 
   constructor(private route: ActivatedRoute, private router: NavigationService, private resourceService: ResourceService, private datasourceService: DatasourceService) {
   }
@@ -36,7 +36,7 @@ export class DatasourceHistoryComponent implements OnInit, OnDestroy {
         this.datasourceService.getDatasource(params['datasourceId'], params['catalogueId'])
       ).subscribe(suc => {
           this.datasource = <Datasource>suc[0];
-          // this.getDataForService();
+          this.getDataForDatasource();
 
         },
         err => {
@@ -49,9 +49,9 @@ export class DatasourceHistoryComponent implements OnInit, OnDestroy {
     });
   }
 
-  getDataForService() {
-    this.resourceService.getServiceLoggingInfoHistory(this.datasource.id).subscribe(
-      res => this.serviceHistory = res,
+  getDataForDatasource() {
+    this.datasourceService.getDatasourceLoggingInfoHistory(this.datasource.id).subscribe(
+      res => this.datasourceHistory = res,
       err => {
         this.errorMessage = 'An error occurred while retrieving the history of this datasource. ' + err.error;
       }

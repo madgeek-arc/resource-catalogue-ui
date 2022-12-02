@@ -5,15 +5,11 @@ import {environment} from '../../environments/environment';
 import {
   RichService,
   Service,
-  Datasource, ServiceHistory
+  Datasource, LoggingInfo
 } from '../domain/eic-model';
-import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
-import {URLParameter} from '../domain/url-parameter';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-
-declare var UIkit: any;
 
 
 @Injectable()
@@ -161,7 +157,9 @@ export class DatasourceService {
   }
   /** <-- STATS **/
 
-  getDatasourceHistory(datasourceId: string) {
-    return this.http.get<Paging<ServiceHistory>>(this.base + `/datasource/history/${datasourceId}/`);
+  /** History -->**/
+  getDatasourceLoggingInfoHistory(datasourceId: string) {
+    return this.http.get<Paging<LoggingInfo>>(this.base + `/datasource/loggingInfoHistory/${datasourceId}/`);
   }
+  /** <-- History **/
 }
