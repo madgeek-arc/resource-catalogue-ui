@@ -1,10 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
+  <div class="uk-container uk-container-expand">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
 
-</body>
-</html>
+        <div class="services-provider-container">
+          <div *ngIf="datasource" class="uk-flex">
+            <div>
+              <img src="{{ datasource.logo ? datasource.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+            </div>
+            <div class="uk-margin-medium-left">
+              <h3 class="uk-margin-remove">{{datasource.name}}</h3>
+              <!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
+              <!--              <div *ngIf="serviceHistory?.results[0]?.registeredBy && serviceHistory?.results[0]?.registeredAt">
+                              <span class="status-label">Registered by: </span>{{ serviceHistory.results[0].registeredBy }} on {{ serviceHistory.results[0].registeredAt | date}}
+                            </div>-->
+            </div>
+          </div>
+        </div>
+
+        <!-- TOP HELP CONTENT -->
+        <app-help-content #topHelperContent [position]="'top'"
+                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </app-help-content>
+
+        <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+          <div class="uk-grid">
+
+            <!-- LEFT HELP CONTENT -->
+            <app-aside-help-content #leftHelperContent [position]="'left'"
+                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
+
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m">
+
+              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
+              <!--              <div *ngIf="loadingMessage" class="loading-big">-->
+              <!--                <div class="loader-big" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">-->
+              <!--                  {{ loadingMessage }}-->
+              <!--                </div>-->
+              <!--                <div class="transparentFilm"></div>-->
+              <!--              </div>-->
+              <!--              <div *ngIf="noAggregations">{{ noAggregations }}</div>-->
+              <div *ngIf="datasource && datasourceHistory?.results?.length>0">
+                <div  class="uk-width-1-1@m uk-margin-medium-bottom">
+
+                  <div class="uk-card uk-card-default uk-margin-medium-bottom">
+                    <div class="uk-overflow-container">
+                      <table class="uk-table uk-table-divider uk-table-nowrap">
+                        <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>User</th>
+                          <th >Action</th>
+                          <th class="uk-text-center">Comment</th>
+                          <th class="uk-text-center">Version changed</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let history of datasourceHistory.results">
+                          <td><span *ngIf="history.date">{{ history.date | date : "MM-dd-yyyy" }}</span></td>
+                          <td class="">
+                            <span *ngIf="history.userFullName">{{ history.userFullName }}</span>
+                            <span *ngIf="history.userFullName && history.userEmail"> - </span>
+                            <span *ngIf="history.userEmail">{{ history.userEmail }}</span>
+                            <span *ngIf="history.userRole"> ({{ history.userRole }})</span></td>
+                          <td class=""><span *ngIf="history.actionType">{{ history.actionType }}</span></td>
+                          <td class="uk-text-center"><span *ngIf="history.comment && history.comment!=='null'">{{ history.comment }}</span></td>
+                          <td class="uk-text-center"><span
+                            *ngIf="history.actionType === 'updated version'" class="uk-badge">✓</span>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+<!--TODO: revisit for non-eosc-->
+              <button [routerLink]="['/dashboard/eosc/' + datasource.resourceOrganisation + '/datasource-dashboard/' + datasource.id + '/history']"
+                      class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+              </button>
+
+            </div>
+
+            <!-- RIGHT HELP CONTENT -->
+            <app-aside-help-content #rightHelperContent [position]="'right'"
+                                    [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
+
+          </div>
+        </div>
+
+        <!-- BOTTOM HELP CONTENT -->
+        <app-help-content #bottomHelperContent [position]="'bottom'"
+                          [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </app-help-content>
+
+      </div>
+    </div>
+  </div>
+</div>
