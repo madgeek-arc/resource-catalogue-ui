@@ -1,14 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription, zip} from 'rxjs';
-import {Service, Datasource, ServiceHistory} from '../../../../domain/eic-model';
-import {AuthenticationService} from '../../../../services/authentication.service';
+import {ServiceHistory, Datasource, LoggingInfo} from '../../../../domain/eic-model';
 import {NavigationService} from '../../../../services/navigation.service';
 import {ResourceService} from '../../../../services/resource.service';
-import {DatasourceService} from '../../../../services/datasource.service';
-import {UserService} from '../../../../services/user.service';
+import {DatasourceService} from "../../../../services/datasource.service";
 import {Paging} from '../../../../domain/paging';
-import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
 import * as Highcharts from 'highcharts';
@@ -25,11 +22,8 @@ const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
 })
 export class DatasourceStatsComponent implements OnInit, OnDestroy {
 
-  // _marketplaceServicesURL = environment.marketplaceServicesURL;
-  serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
 
-  public service: Service;
   public datasource: Datasource;
   public errorMessage: string;
   private sub: Subscription;
@@ -39,19 +33,18 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
 
   Highcharts: typeof Highcharts = Highcharts;
   chartConstructor = 'mapChart';
-  serviceVisitsOptions: any = null;
-  serviceRatingsOptions: any = null;
-  serviceFavouritesOptions: any = null;
-  serviceAddsToProjectOptions: any = null;
-  serviceMapOptions: any = null;
+  datasourceVisitsOptions: any = null;
+  datasourceRatingsOptions: any = null;
+  datasourceAddsToProjectOptions: any = null;
+  datasourceMapOptions: any = null;
 
-  serviceHistory: Paging<ServiceHistory>;
+  datasourceHistory: Paging<LoggingInfo>;
 
   statisticPeriod: string;
 
-  constructor(private route: ActivatedRoute, private router: NavigationService, private resourceService: ResourceService,
-              private authenticationService: AuthenticationService, private userService: UserService,
-              private providerService: ServiceProviderService,
+  constructor(private route: ActivatedRoute,
+              private router: NavigationService,
+              private resourceService: ResourceService,
               private datasourceService: DatasourceService) {
   }
 
@@ -67,7 +60,7 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
           this.EU = <string[]>suc[0];
           this.WW = <string[]>suc[1];
           this.datasource = <Datasource>suc[2];
-          this.getDataForService(this.statisticPeriod);
+          this.getDataForDatasource(this.statisticPeriod);
 
         },
         err => {
@@ -80,40 +73,39 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
     });
   }
 
-  getDataForService(period: string, dontGetServices?: boolean) {
+  getDataForDatasource(period: string, dontGetDatasources?: boolean) {
 
-    // this.setCountriesForService('nothing');
-    this.setCountriesForService(this.datasource.geographicalAvailabilities);
+    this.setCountriesForDatasource(this.datasource.geographicalAvailabilities);
 
-    this.resourceService.getVisitsForService('aginfra.ontology_engineering_service', period).pipe(
+    this.datasourceService.getVisitsForDatasource(this.datasource.id, period).pipe(
       map(data => {
         // THESE 3 weird lines should be deleted when pgl makes everything ok :)
         return Object.entries(data).map((d) => {
           return [new Date(d[0]).getTime(), d[1]];
         }).sort((l, r) => l[0] - r[0]);
       })).subscribe(
-      data => this.setVisitsForService(data),
+      data => this.setVisitsForDatasource(data),
       err => {
         this.errorMessage = 'An error occurred while retrieving visits for this datasource. ' + err.error;
       }
     );
 
     if (this.projectName === 'EOSC') {
-      this.resourceService.getAddToProjectForService('aginfra.ontology_engineering_service', period).pipe(
+      this.datasourceService.getAddToProjectForDatasource(this.datasource.id, period).pipe(
         map(data => {
           // THESE 3 weird lines should be deleted when pgl makes everything ok :)
           return Object.entries(data).map((d) => {
             return [new Date(d[0]).getTime(), d[1]];
           }).sort((l, r) => l[0] - r[0]);
         })).subscribe(
-        data => this.setAddsToProjectForService(data),
+        data => this.setAddsToProjectForDatasource(data),
         err => {
-          this.errorMessage = 'An error occurred while retrieving favourites for this datasource. ' + err.error;
+          this.errorMessage = 'An error occurred while retrieving data for this datasource. ' + err.error;
         }
       );
     }
 
-    this.resourceService.getRatingsForService('aginfra.ontology_engineering_service', period).pipe(
+    this.datasourceService.getRatingsForDatasource(this.datasource.id, period).pipe(
       map(data => {
         // console.log('Ratings', data);
         // THESE 3 weird lines should be deleted when pgl makes everything ok :)
@@ -121,16 +113,16 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
           return [new Date(d[0]).getTime(), d[1]];
         }).sort((l, r) => l[0] - r[0]);
       })).subscribe(
-      data => this.setRatingsForService(data),
+      data => this.setRatingsForDatasource(data),
       err => {
         this.errorMessage = 'An error occurred while retrieving ratings for this datasource. ' + err.error;
       }
     );
 
-    if (dontGetServices) {
+    if (dontGetDatasources) {
     } else {
-      this.resourceService.getServiceHistory('aginfra.ontology_engineering_service').subscribe(
-        searchResults => this.serviceHistory = searchResults,
+      this.datasourceService.getDatasourceLoggingInfoHistory(this.datasource.id).subscribe(
+        res => this.datasourceHistory = res,
         err => {
           this.errorMessage = 'An error occurred while retrieving the history of this datasource. ' + err.error;
         }
@@ -140,12 +132,12 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
 
   onPeriodChange(event) {
     this.statisticPeriod = event.target.value;
-    this.getDataForService(this.statisticPeriod, true);
+    this.getDataForDatasource(this.statisticPeriod, true);
   }
 
-  setVisitsForService(data: any) {
+  setVisitsForDatasource(data: any) {
     if (data) {
-      this.serviceVisitsOptions = {
+      this.datasourceVisitsOptions = {
         title: {
           text: 'Number of visits over time'
         },
@@ -173,40 +165,9 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
     }
   }
 
-  setFavouritesForService(data: any) {
+  setAddsToProjectForDatasource(data: any) {
     if (data) {
-      this.serviceFavouritesOptions = {
-        title: {
-          text: 'Number of favorites over time'
-        },
-        xAxis: {
-          type: 'datetime',
-          dateTimeLabelFormats: { // don't display the dummy year
-            month: '%e. %b',
-            year: '%b'
-          },
-          title: {
-            text: 'Date'
-          }
-        },
-        yAxis: {
-          title: {
-            text: 'Number of favourites'
-          }
-        },
-        series: [{
-          name: 'Favourites over time',
-          color: '#C36000',
-          data: data
-        }]
-      };
-
-    }
-  }
-
-  setAddsToProjectForService(data: any) {
-    if (data) {
-      this.serviceAddsToProjectOptions = {
+      this.datasourceAddsToProjectOptions = {
         title: {
           text: 'Number of adds to project over time'
         },
@@ -234,9 +195,9 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
     }
   }
 
-  setRatingsForService(data: any) {
+  setRatingsForDatasource(data: any) {
     if (data) {
-      this.serviceRatingsOptions = {
+      this.datasourceRatingsOptions = {
         title: {
           text: 'Number of ratings over time'
         },
@@ -265,10 +226,10 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
     }
   }
 
-  setCountriesForService(data: any) {
+  setCountriesForDatasource(data: any) {
     const places = this.resourceService.expandRegion(JSON.parse(JSON.stringify(data || [])), this.EU, this.WW);
 
-    this.serviceMapOptions = {
+    this.datasourceMapOptions = {
       chart: {
         // map: 'custom/europe',
         map: mapWorld,
@@ -309,6 +270,6 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
   }
 
   handleError(error) {
-    this.errorMessage = 'System error retrieving service (Server responded: ' + error + ')';
+    this.errorMessage = 'System error retrieving datasource (Server responded: ' + error + ')';
   }
 }

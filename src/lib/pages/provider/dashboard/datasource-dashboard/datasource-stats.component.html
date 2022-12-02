@@ -3,10 +3,6 @@
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
 
-        <!--        <h1 *ngIf="service" class="uk-h3">{{service.name}}-->
-        <!--          &lt;!&ndash;<i style="margin-left: 10px" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&ndash;&gt;-->
-        <!--        </h1>-->
-
         <div class="services-provider-container">
           <div *ngIf="datasource" class="uk-flex">
             <div>
@@ -40,24 +36,7 @@
 
               <div *ngIf="errorMessage" class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
 
-              <!--              <div *ngIf="service" class="uk-grid">-->
-              <!--                <div class="uk-width-1-1@m">-->
-              <!--                  <div class="uk-width-2-5@m uk-float-right">-->
-              <!--                    <div class="uk-flex uk-flex-between uk-margin-left">-->
-              <!--                    <div class="uk-float-left uk-margin-small-left uk-margin-small-right">-->
-              <!--                      <a href="{{_marketplaceServicesURL}}{{(serviceORresource === 'Service' ? '/service/': '') + service.id}}"-->
-              <!--                         target="_blank" class="uk-button uk-button-primary">View in Catalogue</a>-->
-              <!--                    </div>-->
-              <!--                    <div class="uk-float-right uk-margin-small-left uk-margin-small-right">-->
-              <!--                      <a href="/provider/{{service.resourceOrganisation}}/resource/update/{{service.id}}" class="uk-button uk-button-secondary"-->
-              <!--                         style="width: 160px">Update</a>-->
-              <!--                    </div>-->
-              <!--                    </div>-->
-              <!--                  </div>-->
-              <!--                </div>-->
-              <!--              </div>-->
-
-              <div *ngIf="service" class="uk-grid">
+              <div *ngIf="datasource" class="uk-grid">
                 <div class="uk-width-4-5"></div>
                 <div class="uk-width-1-5">
                   <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
@@ -73,45 +52,34 @@
 
               <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
 
-                <div *ngIf="serviceFavouritesOptions && projectName==='CatRIS'">
+                <div *ngIf="datasourceAddsToProjectOptions && projectName==='EOSC'">
                   <div class="uk-card">
                     <div class="uk-card-body">
-                      <highcharts-chart *ngIf="serviceFavouritesOptions" [Highcharts]="Highcharts"
-                                        [options]="serviceFavouritesOptions"
+                      <highcharts-chart *ngIf="datasourceAddsToProjectOptions" [Highcharts]="Highcharts"
+                                        [options]="datasourceAddsToProjectOptions"
                                         style="width: 100%; height: auto; display: block;">
                       </highcharts-chart>
                     </div>
                   </div>
                 </div>
 
-                <div *ngIf="serviceAddsToProjectOptions && projectName==='EOSC'">
+                <div *ngIf="datasourceRatingsOptions">
                   <div class="uk-card">
                     <div class="uk-card-body">
-                      <highcharts-chart *ngIf="serviceAddsToProjectOptions" [Highcharts]="Highcharts"
-                                        [options]="serviceAddsToProjectOptions"
+                      <highcharts-chart *ngIf="datasourceRatingsOptions" [Highcharts]="Highcharts"
+                                        [options]="datasourceRatingsOptions"
                                         style="width: 100%; height: auto; display: block;">
                       </highcharts-chart>
                     </div>
                   </div>
                 </div>
 
-                <div *ngIf="serviceRatingsOptions">
+                <div *ngIf="datasourceVisitsOptions">
                   <div class="uk-card">
                     <div class="uk-card-body">
-                      <highcharts-chart *ngIf="serviceRatingsOptions" [Highcharts]="Highcharts"
-                                        [options]="serviceRatingsOptions"
-                                        style="width: 100%; height: auto; display: block;">
-                      </highcharts-chart>
-                    </div>
-                  </div>
-                </div>
-
-                <div *ngIf="serviceVisitsOptions">
-                  <div class="uk-card">
-                    <div class="uk-card-body">
-                      <highcharts-chart *ngIf="serviceVisitsOptions"
+                      <highcharts-chart *ngIf="datasourceVisitsOptions"
                                         [Highcharts]="Highcharts"
-                                        [options]="serviceVisitsOptions"
+                                        [options]="datasourceVisitsOptions"
                                         style="width: 100%; height: auto; display: block;">
                       </highcharts-chart>
                     </div>
@@ -121,9 +89,9 @@
                 <div class="uk-grid uk-margin-bottom">
                   <div class="uk-width-1-1">
                     <div style="width:100%">
-                      <highcharts-chart *ngIf="serviceMapOptions"
+                      <highcharts-chart *ngIf="datasourceMapOptions"
                                         [Highcharts]="Highcharts"
-                                        [options]="serviceMapOptions"
+                                        [options]="datasourceMapOptions"
                                         [constructorType]="chartConstructor"
                                         style="width: 100%; height: auto; display: block;">
                       </highcharts-chart>
