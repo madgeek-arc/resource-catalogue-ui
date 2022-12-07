@@ -60,16 +60,16 @@ export class ServiceExtensionsService {
     return this.http.get<Helpdesk>(this.base + `/service-extensions/helpdesk/${id}`, this.options);
   }
 
-  uploadMonitoringService(monitoringService: Monitoring, shouldPut: boolean) {
+  uploadMonitoringService(monitoringService: Monitoring, shouldPut: boolean, catalogueId: string, resourceType: string) {
     // console.log(JSON.stringify(service));
     // console.log(`knocking on: ${this.base}/service`);
-    return this.http[shouldPut ? 'put' : 'post']<Monitoring>(this.base + `/service-extensions/monitoring`, monitoringService, this.options);
+    return this.http[shouldPut ? 'put' : 'post']<Monitoring>(this.base + `/service-extensions/monitoring?catalogueId=${catalogueId}&resourceType=${resourceType}`, monitoringService, this.options);
   }
 
-  uploadHelpdeskService(helpdeskService: Helpdesk, shouldPut: boolean) {
+  uploadHelpdeskService(helpdeskService: Helpdesk, shouldPut: boolean, catalogueId: string, resourceType: string) {
     // console.log(JSON.stringify(service));
     // console.log(`knocking on: ${this.base}/service`);
-    return this.http[shouldPut ? 'put' : 'post']<Helpdesk>(this.base + `/service-extensions/helpdesk`, helpdeskService, this.options);
+    return this.http[shouldPut ? 'put' : 'post']<Helpdesk>(this.base + `/service-extensions/helpdesk?catalogueId=${catalogueId}&resourceType=${resourceType}`, helpdeskService, this.options);
   }
 
   getServiceTypes() {

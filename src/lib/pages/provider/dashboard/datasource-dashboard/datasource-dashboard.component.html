@@ -37,19 +37,18 @@
               </a>
             </li>
             <ng-container *ngIf="datasourceBundle && datasourceBundle.status==='approved resource' && datasourceBundle.active===true">
-  <!--          TODO: need the methods, the routing and the components for extensions-->
-  <!--          <li>-->
-  <!--            <a [routerLink]="['/provider/' + providerId + '/datasource/monitoring/' + datasourceId]">-->
-  <!--              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">-->
-  <!--              {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension-->
-  <!--            </a>-->
-  <!--          </li>-->
-  <!--          <li>-->
-  <!--            <a [routerLink]="['/provider/' + providerId + '/datasource/helpdesk/' + datasourceId]">-->
-  <!--              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">-->
-  <!--              {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension-->
-  <!--            </a>-->
-  <!--          </li>-->
+            <li>
+              <a [routerLink]="['/provider/' + providerId + '/datasource/monitoring/' + datasourceId]">
+                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/provider/' + providerId + '/datasource/helpdesk/' + datasourceId]">
+                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension
+              </a>
+            </li>
               <li>
                 <a [routerLink]="['/provider/' + providerId + '/datasource/guidelines/' + datasourceId]">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">

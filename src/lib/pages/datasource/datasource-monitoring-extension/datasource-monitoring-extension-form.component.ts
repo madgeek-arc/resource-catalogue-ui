@@ -5,27 +5,22 @@ import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
 import {UserService} from '../../../services/user.service';
-import * as sd from '../services.description';
-import {Provider, RichService, Service, Type, Vocabulary, Monitoring} from '../../../domain/eic-model';
+import * as sd from '../../provider-resources/services.description';
+import {Provider, Service, Type, Vocabulary, Monitoring} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {URLValidator} from '../../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
-import {PremiumSortPipe} from '../../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
-import {monitoringDescMap} from "../services.description";
-
-declare var UIkit: any;
 
 @Component({
-  selector: 'app-monitoring-extension-form',
-  templateUrl: './monitoring-extension-form.component.html',
+  selector: 'app-datasource-monitoring-extension-form',
+  templateUrl: './datasource-monitoring-extension-form.component.html',
   styleUrls: ['../../provider/service-provider-form.component.css']
 })
-export class MonitoringExtensionFormComponent implements OnInit {
+export class DatasourceMonitoringExtensionFormComponent implements OnInit {
 
-  protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
@@ -39,7 +34,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
   serviceForm: FormGroup;
   provider: Provider;
   service: Service;
-  serviceId: string = null;
+  datasourceId: string = null;
   monitoring: Monitoring;
   errorMessage = '';
   successMessage: string = null;
@@ -82,7 +77,6 @@ export class MonitoringExtensionFormComponent implements OnInit {
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
   serviceTypesVoc: any;
-  premiumSort = new PremiumSortPipe();
   resourceService: ResourceService = this.injector.get(ResourceService);
   serviceExtensionsService: ServiceExtensionsService = this.injector.get(ServiceExtensionsService);
 
@@ -125,11 +119,10 @@ export class MonitoringExtensionFormComponent implements OnInit {
     // console.log('Submitted service value--> ', this.serviceForm.value);
     if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
-      this.serviceExtensionsService.uploadMonitoringService(this.serviceForm.value, this.editMode).subscribe(
+      this.serviceExtensionsService.uploadMonitoringService(this.serviceForm.value, this.editMode, 'eosc','datasource').subscribe(
         _service => {
-          // console.log(_service);
           this.showLoader = false;
-          return this.router.resourceDashboard(this.providerId, this.serviceId);  // redirect to resource-dashboard
+          return this.router.datasourceDashboard(this.providerId, this.datasourceId);  // redirect to datasource-dashboard
         },
         err => {
           this.showLoader = false;
@@ -152,12 +145,12 @@ export class MonitoringExtensionFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.serviceId = this.route.snapshot.paramMap.get('resourceId');
-    this.serviceForm.get('serviceId').setValue(this.serviceId);
+    this.datasourceId = this.route.snapshot.paramMap.get('datasourceId');
+    this.serviceForm.get('serviceId').setValue(this.datasourceId);
 
     this.setServiceTypes();
 
-    this.serviceExtensionsService.getMonitoringByServiceId(this.serviceId).subscribe(
+    this.serviceExtensionsService.getMonitoringByServiceId(this.datasourceId).subscribe(
       res => { if(res!=null) {
         this.monitoring = res;
         this.editMode = true;

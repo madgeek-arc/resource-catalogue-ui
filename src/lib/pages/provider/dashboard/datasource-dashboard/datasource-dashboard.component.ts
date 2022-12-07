@@ -41,13 +41,12 @@ export class DatasourceDashboardComponent implements OnInit {
       res => { if (res!=null) this.datasourceBundle = res },
       error => {},
       () => {
-        // TODO: revisit to update when new methods are ready
-        // this.serviceExtensionsService.getMonitoringByServiceId(this.datasourceId).subscribe(
-        //   res => { if (res!=null) this.monitoringId = res.id } //id not used atm
-        // );
-        // this.serviceExtensionsService.getHelpdeskByServiceId(this.datasourceId).subscribe(
-        //   res => { if (res!=null) this.helpdeskId = res.id } //id not used atm
-        // );
+        this.serviceExtensionsService.getMonitoringByServiceId(this.datasourceId).subscribe(
+          res => { if (res!=null) this.monitoringId = res.id }
+        );
+        this.serviceExtensionsService.getHelpdeskByServiceId(this.datasourceId).subscribe(
+          res => { if (res!=null) this.helpdeskId = res.id }
+        );
       }
     );
   }

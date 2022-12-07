@@ -41,10 +41,10 @@ export class ResourceDashboardComponent implements OnInit {
       error => {},
       () => {
         this.serviceExtensionsService.getMonitoringByServiceId(this.resourceId).subscribe(
-          res => { if (res!=null) this.monitoringId = res.id } //id not used atm
+          res => { if (res!=null) this.monitoringId = res.id }
         );
         this.serviceExtensionsService.getHelpdeskByServiceId(this.resourceId).subscribe(
-          res => { if (res!=null) this.helpdeskId = res.id } //id not used atm
+          res => { if (res!=null) this.helpdeskId = res.id }
         );
       }
     );

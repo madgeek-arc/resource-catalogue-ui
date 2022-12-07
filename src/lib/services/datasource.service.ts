@@ -82,7 +82,7 @@ export class DatasourceService {
   }
 
   getDatasourceBundleById(id: string) {
-    return this.http.get<DatasourceBundle>(this.base + `/datasourceBundle/${id}?catalogue_id=eosc`, this.options);
+    return this.http.get<DatasourceBundle>(this.base + `/datasource/bundle/${id}?catalogue_id=eosc`, this.options);
   }
 
   getOpenAIREDatasources(from: string, quantity: string, orderField: string, order: string, query: string) {

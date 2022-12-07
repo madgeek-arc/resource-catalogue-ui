@@ -92,7 +92,7 @@ export class Indicator implements Identifiable {
   unitName: string;
 }
 
-export class InfraService extends Bundle<Service> {
+export class InfraService extends Bundle<Service> { //TODO: rename
   latest: boolean;
   service: Service;
   resourceExtras: ResourceExtras;
@@ -142,14 +142,14 @@ export class ResourceInteroperabilityRecord implements Identifiable {
 
 export class Monitoring {
   id: string;
-  serviceId: string;
+  serviceId: string; //should change to generic resourceId
   monitoredBy: string;
   monitoringGroups: MonitoringGroups[];
 }
 
 export class Helpdesk {
   id: string;
-  serviceId: string;
+  serviceId: string; //should change to generic resourceId
   helpdeskType: string;
   services: string[];
   supportGroups: string[];
