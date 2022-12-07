@@ -12,7 +12,7 @@
               <strong>{{serviceName!='' ? serviceName : serviceORresource + ' Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
             </div>
           </div>
-          <div class="">
+          <div class="uk-flex uk-flex-middle">
             <ng-container *ngIf="!disable">
               <!--<button class="uk-button uk-button-primary">Discard</button>-->
               <button *ngIf="projectName=='EOSC'" class="uk-button uk-button-primary uk-margin-left"
