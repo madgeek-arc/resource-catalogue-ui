@@ -166,4 +166,19 @@ export class DatasourceService {
     return this.http.get<Paging<LoggingInfo>>(this.base + `/datasource/loggingInfoHistory/${datasourceId}/`);
   }
   /** <-- History **/
+
+  /** Draft(Pending) Datasources -->**/
+  uploadTempPendingDatasource(datasource: Datasource) { //save as draft
+    return this.http.put<Datasource>(this.base + '/pendingService/pending', datasource, this.options);
+  }
+
+  uploadTempDatasource(datasource: Datasource) { // submit
+    return this.http.put<Datasource>(this.base + '/pendingService/datasource', datasource, this.options);
+  }
+
+  getDraftDatasourcesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+    return this.http.get<Paging<DatasourceBundle>>(this.base +
+      `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+  }
+  /** <-- Draft(Pending) Datasources **/
 }

@@ -411,7 +411,7 @@ export class DatasourceFormComponent implements OnInit {
 
     if (tempSave) {
       // todo add fix here
-      this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
+      this.datasourceService[(pendingService || !this.editMode) ? 'uploadTempPendingDatasource' : 'uploadTempDatasource']
       (this.serviceForm.value).subscribe(
         _service => {
           // console.log(_service);
