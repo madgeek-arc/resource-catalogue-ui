@@ -471,6 +471,10 @@ export class ResourceService {
     // return this.getAll("provider");
   }
 
+  getResourceBundleById(id: string) {
+    return this.http.get<InfraService>(this.base + `/serviceBundle/${id}?catalogue_id=eosc`, this.options);
+  }
+
   getMyServiceProviders() {
     return this.http.get<Provider[]>(this.base + '/provider/getMyServiceProviders');
   }
