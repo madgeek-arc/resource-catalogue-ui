@@ -6,6 +6,7 @@ import {DatasourceService} from "../../../../services/datasource.service";
 import {ServiceExtensionsService} from '../../../../services/service-extensions.service';
 import {NavigationService} from '../../../../services/navigation.service';
 import {environment} from '../../../../../environments/environment';
+import {DatasourceBundle, InfraService} from "../../../../domain/eic-model";
 
 
 @Component({
@@ -22,6 +23,8 @@ export class DatasourceDashboardComponent implements OnInit {
   monitoringId: string;
   helpdeskId: string;
 
+  datasourceBundle: DatasourceBundle;
+
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,
               public datasourceService: DatasourceService,
@@ -34,12 +37,18 @@ export class DatasourceDashboardComponent implements OnInit {
     this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.datasourceId = this.route.snapshot.paramMap.get('datasourceId');
-    // TODO: revisit to update when new methods are ready
-    // this.serviceExtensionsService.getMonitoringByServiceId(this.datasourceId).subscribe(
-    //   res => { if (res!=null) this.monitoringId = res.id } //id not used atm
-    // );
-    // this.serviceExtensionsService.getHelpdeskByServiceId(this.datasourceId).subscribe(
-    //   res => { if (res!=null) this.helpdeskId = res.id } //id not used atm
-    // );
+    this.datasourceService.getDatasourceBundleById(this.datasourceId).subscribe(
+      res => { if (res!=null) this.datasourceBundle = res },
+      error => {},
+      () => {
+        // TODO: revisit to update when new methods are ready
+        // this.serviceExtensionsService.getMonitoringByServiceId(this.datasourceId).subscribe(
+        //   res => { if (res!=null) this.monitoringId = res.id } //id not used atm
+        // );
+        // this.serviceExtensionsService.getHelpdeskByServiceId(this.datasourceId).subscribe(
+        //   res => { if (res!=null) this.helpdeskId = res.id } //id not used atm
+        // );
+      }
+    );
   }
 }

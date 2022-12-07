@@ -5,7 +5,7 @@ import {environment} from '../../environments/environment';
 import {
   RichService,
   Service,
-  Datasource, LoggingInfo
+  Datasource, LoggingInfo, InfraService, DatasourceBundle
 } from '../domain/eic-model';
 import {Paging} from '../domain/paging';
 import {Observable, throwError} from 'rxjs';
@@ -79,6 +79,10 @@ export class DatasourceService {
       }
     } else params = params.append('catalogue_id', 'all');
     return this.http.get(this.base + `/datasource/adminPage/all`, {params});
+  }
+
+  getDatasourceBundleById(id: string) {
+    return this.http.get<DatasourceBundle>(this.base + `/datasourceBundle/${id}?catalogue_id=eosc`, this.options);
   }
 
   getOpenAIREDatasources(from: string, quantity: string, orderField: string, order: string, query: string) {
