@@ -325,7 +325,6 @@ export class ServiceFormComponent implements OnInit {
     // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);
     if (tempSave) {
-      // todo add fix here
       this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
       (this.serviceForm.value).subscribe(
         _service => {

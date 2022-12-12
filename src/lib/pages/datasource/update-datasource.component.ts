@@ -42,21 +42,15 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
         this.serviceID = params['datasourceId']; //refactor rename
         const pathName = window.location.pathname;
         console.log(pathName);
-        // if (pathName.includes('draft-resource/update')) {
-        //   this.pendingService = true;
-        // }
-        // this.datasourceService[this.pendingService ? 'getPendingService' : 'getDatasource'](this.serviceID)
-        if (pathName.includes('addOpenAIRE')) {
-          this.addOpenAIRE = true;
-          console.log('true');
-        }
-        this.datasourceService[this.addOpenAIRE ? 'getOpenAIREDatasourcesById' : 'getDatasource'](this.serviceID, this.catalogueId)
-          .subscribe(datasource => {
-              if (!this.addOpenAIRE && datasource.mainContact === null) //in case of unauthorized access backend will not show sensitive info
+        if (pathName.includes('draft-datasource/update')) {
+          this.pendingService = true;
+          this.datasourceService.getPendingDatasource(this.serviceID).subscribe( //fixme thats temp, check add from openaire & if possible merge with below calls, below they return Datasource but pending returns Bundle
+            dsBundle => {
+              if (!this.addOpenAIRE && dsBundle.datasource.mainContact === null) //in case of unauthorized access backend will not show sensitive info
                 this.navigationService.go('/forbidden') // TODO: recheck with backend
-              ResourceService.removeNulls(datasource);
-              this.formPrepare(datasource);
-              this.serviceForm.patchValue(datasource);
+              ResourceService.removeNulls(dsBundle.datasource);
+              this.formPrepare(dsBundle.datasource);
+              this.serviceForm.patchValue(dsBundle.datasource);
               for (const i in this.serviceForm.controls) {
                 if (this.serviceForm.controls[i].value === null) {
                   this.serviceForm.controls[i].setValue('');
@@ -68,25 +62,51 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
               }
             },
             err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error,
-            () => {
-              if (window.location.href.indexOf('/add/use-template') > -1) {
-                this.editMode = false;
-                this.serviceForm.get('id').setValue('');
-                this.serviceForm.get('name').setValue('');
+            () => {this.initServiceBitSets();});
+        } else {
+          if (pathName.includes('addOpenAIRE')) {
+            this.addOpenAIRE = true;
+            console.log('true');
+          }
+          this.datasourceService[this.addOpenAIRE ? 'getOpenAIREDatasourcesById' : 'getDatasource'](this.serviceID, this.catalogueId)
+            .subscribe(datasource => {
+                if (!this.addOpenAIRE && datasource.mainContact === null) //in case of unauthorized access backend will not show sensitive info
+                  this.navigationService.go('/forbidden');
+                ResourceService.removeNulls(datasource);
+                this.formPrepare(datasource);
+                this.serviceForm.patchValue(datasource);
+                for (const i in this.serviceForm.controls) {
+                  if (this.serviceForm.controls[i].value === null) {
+                    this.serviceForm.controls[i].setValue('');
+                  }
+                }
+                if (this.serviceForm.get('lastUpdate').value) {
+                  const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
+                  this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
+                }
+              },
+              err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error,
+              () => {
+                if (window.location.href.indexOf('/add/use-template') > -1) {
+                  this.editMode = false;
+                  this.serviceForm.get('id').setValue('');
+                  this.serviceForm.get('name').setValue('');
+                }
+                if (this.disable) {
+                  this.serviceForm.disable();
+                  this.serviceName = this.serviceForm.get('name').value;
+                } else {
+                  this.initServiceBitSets();
+                }
               }
-              if (this.disable) {
-                this.serviceForm.disable();
-                this.serviceName = this.serviceForm.get('name').value;
-              } else {
-                this.initServiceBitSets();
-              }
-            }
-          );
+            );
+          } //else close
       });
     }
   }
 
   onSubmit(service: Service, tempSave: boolean) {
+    console.log(this.pendingService);
     super.onSubmit(service, tempSave, this.pendingService);
   }
 

@@ -34,6 +34,7 @@ import {
 import {
   DatasourceMonitoringExtensionFormComponent
 } from "../datasource/datasource-monitoring-extension/datasource-monitoring-extension-form.component";
+import {PendingDatasourcesComponent} from "./dashboard/pendingDatasources/pending-datasources.component";
 
 
 const providerRoutes: Routes = [
@@ -88,6 +89,14 @@ const providerRoutes: Routes = [
     }
   },
   {
+    path: 'draft-datasources/:providerId',
+    component: PendingDatasourcesComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Draft Datasources'
+    }
+  },
+  {
     path: 'rejected-resources/:providerId',
     component: RejectedServicesComponent,
     canActivate: [CanActivateViaAuthGuard],
@@ -133,6 +142,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit Draft ' + environment.serviceORresource
+    }
+  },
+  {
+    path: ':providerId/draft-datasource/update/:datasourceId',
+    component: UpdateDatasourceComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Edit Draft Datasource'
     }
   },
   {

@@ -525,11 +525,11 @@ export class ResourceService {
     return this.http.put<Service>(this.base + '/pendingService/transform/resource', service, this.options);
   }
 
-  uploadTempPendingService(service: Service) {
+  uploadTempPendingService(service: Service) { //todo rename
     return this.http.put<Service>(this.base + '/pendingService/pending', service, this.options);
   }
 
-  uploadTempService(service: Service) {
+  uploadTempService(service: Service) { // not used todo remove?
     return this.http.put<Service>(this.base + '/pendingService/service', service, this.options);
   }
 

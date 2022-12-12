@@ -168,17 +168,31 @@ export class DatasourceService {
   /** <-- History **/
 
   /** Draft(Pending) Datasources -->**/
-  uploadTempPendingDatasource(datasource: Datasource) { //save as draft
-    return this.http.put<Datasource>(this.base + '/pendingService/pending', datasource, this.options);
+  saveDatasourceAsDraft(datasource: Datasource) {
+    return this.http.put<Datasource>(this.base + '/pendingDatasource/pending', datasource, this.options);
   }
 
-  uploadTempDatasource(datasource: Datasource) { // submit
-    return this.http.put<Datasource>(this.base + '/pendingService/datasource', datasource, this.options);
+  uploadTempDatasource(datasource: Datasource) { // not used? fixme remove?
+    console.log('uploadTempDatasource not used?');
+    return this.http.put<Datasource>(this.base + '/pendingDatasource/datasource', datasource, this.options);
+  }
+
+  submitPendingDatasource(datasource: Datasource, shouldPut: boolean, comment: string) { // submit todo check why inactive
+    console.log(shouldPut);
+    return this.http.put<Datasource>(this.base + '/pendingDatasource/transform/datasource', datasource, this.options);
   }
 
   getDraftDatasourcesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
     return this.http.get<Paging<DatasourceBundle>>(this.base +
-      `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      `/pendingDatasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+  }
+
+  getPendingDatasource(id: string, catalogueId?: string) {
+    return this.http.get<DatasourceBundle>(this.base + `/pendingDatasource/${id}`, this.options); // todo: revisit, catalogueId default eosc?
+  }
+
+  deletePendingDatasource(id: string) {
+    return this.http.delete(this.base + '/pendingDatasource/' + id, this.options);
   }
   /** <-- Draft(Pending) Datasources **/
 }
