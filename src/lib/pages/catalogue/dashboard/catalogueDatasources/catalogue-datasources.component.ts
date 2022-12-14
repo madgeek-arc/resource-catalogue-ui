@@ -1,25 +1,23 @@
 import {Component, OnInit} from '@angular/core';
-import {CatalogueBundle, InfraService, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {CatalogueBundle, DatasourceBundle, ProviderBundle} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
 import {CatalogueService} from "../../../../services/catalogue.service";
+import {DatasourceService} from "../../../../services/datasource.service";
 
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-catalogue-services',
-  templateUrl: './catalogue-services.component.html',
+  selector: 'app-catalogue-datasources',
+  templateUrl: './catalogue-datasources.component.html',
   styleUrls: ['../../../provider/dashboard/services/service.component.css']
 })
 
-export class CatalogueServicesComponent implements OnInit {
-
-  serviceORresource = environment.serviceORresource;
+export class CatalogueDatasourcesComponent implements OnInit {
 
   formPrepare = {
     from: '0',
@@ -38,10 +36,8 @@ export class CatalogueServicesComponent implements OnInit {
   urlParams: URLParameter[] = [];
   catalogueId;
   catalogueBundle: CatalogueBundle;
-  providerServices: Paging<InfraService>;
-  // providerCoverage: string[];
-  // providerServicesGroupedByPlace: any;
-  selectedService: InfraService = null;
+  datasourceBundles: Paging<DatasourceBundle>;
+  selectedDatasource: DatasourceBundle = null;
   path: string;
 
   total: number;
@@ -56,7 +52,7 @@ export class CatalogueServicesComponent implements OnInit {
     private router: Router,
     private providerService: ServiceProviderService,
     private catalogueService: CatalogueService,
-    private service: ResourceService
+    private datasourceService: DatasourceService
   ) {}
 
   ngOnInit(): void {
@@ -81,14 +77,14 @@ export class CatalogueServicesComponent implements OnInit {
           }
 
           // this.handleChange();
-          this.getServices();
+          this.getDatasources();
         },
         error => this.errorMessage = <any>error
       );
   }
 
-  navigate(serviceId: string) {
-    this.router.navigate([`/dashboard/${this.catalogueId}/${serviceId.split('.')[0]}/resource-dashboard/`, serviceId]);
+  navigate(datasourceId: string) {
+    this.router.navigate([`/dashboard/${this.catalogueId}/${datasourceId.split('.')[0]}/datasource-dashboard/`, datasourceId]);
   }
 
   getCatalogue() {
@@ -101,60 +97,60 @@ export class CatalogueServicesComponent implements OnInit {
     );
   }
 
-  toggleService(providerService: InfraService) {
-    if (providerService.status === 'pending resource' || providerService.status === 'rejected resource') {
-      this.errorMessage = `You cannot activate a ${providerService.status}.`;
+  toggleDatasource(datasourceBundle: DatasourceBundle) {
+    if (datasourceBundle.status === 'pending resource' || datasourceBundle.status === 'rejected resource') {
+      this.errorMessage = `You cannot activate a ${datasourceBundle.status}.`;
       window.scrollTo(0, 0);
       return;
     }
     this.toggleLoading = true;
-    this.providerService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
+    this.datasourceService.publishDatasource(datasourceBundle.id, datasourceBundle.datasource.version, !datasourceBundle.active).subscribe(
       res => {},
       error => {
         this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getServices();
+        this.getDatasources();
         this.toggleLoading = false;
         // console.log(error);
       },
       () => {
-        this.getServices();
+        this.getDatasources();
         this.toggleLoading = false;
       }
     );
   }
 
-  getServices() {
-    this.catalogueService.getServicesOfCatalogue(this.catalogueId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
+  getDatasources() {
+    this.catalogueService.getDatasourcesOfCatalogue(this.catalogueId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('order').value, this.dataForm.get('orderField').value,
       this.dataForm.get('active').value, this.dataForm.get('status').value, this.dataForm.get('query').value)
       .subscribe(res => {
-          this.providerServices = res;
+          this.datasourceBundles = res;
           this.total = res['total'];
           this.paginationInit();
         },
         err => {
-          this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
+          this.errorMessage = 'An error occurred while retrieving the datasources of this provider. ' + err.error;
         }
       );
   }
 
-  setSelectedService(service: InfraService) {
-    this.selectedService = service;
+  setSelectedDatasource(datasource: DatasourceBundle) {
+    this.selectedDatasource = datasource;
     UIkit.modal('#actionModal').show();
   }
 
-  deleteService(id: string) {
+  deleteDatasource(id: string) {
     // UIkit.modal('#spinnerModal').show();
-    this.service.deleteService(id).subscribe(
+    this.datasourceService.deleteDatasource(id).subscribe(
       res => {},
       error => {
         // console.log(error);
         // UIkit.modal('#spinnerModal').hide();
         this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getServices();
+        this.getDatasources();
       },
       () => {
-        this.getServices();
+        this.getDatasources();
         // UIkit.modal('#spinnerModal').hide();
       }
     );
@@ -178,7 +174,7 @@ export class CatalogueServicesComponent implements OnInit {
       }
     }
 
-    this.router.navigate([`/catalogue-dashboard/` + this.catalogueId + `/services`], {queryParams: map});
+    this.router.navigate([`/catalogue-dashboard/` + this.catalogueId + `/datasources`], {queryParams: map});
   }
 
   paginationInit() {
