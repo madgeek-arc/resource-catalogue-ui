@@ -7,7 +7,7 @@ import {UserService} from '../../services/user.service';
 import * as sd from './services.description';
 import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
-import {URLValidator} from '../../shared/validators/generic.validator';
+import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
@@ -31,7 +31,6 @@ export class ServiceFormComponent implements OnInit {
   firstServiceForm = false;
   showLoader = false;
   pendingService = false;
-  catalogueId: string;
   providerId: string;
   editMode = false;
   hasChanges = false;
@@ -174,23 +173,23 @@ export class ServiceFormComponent implements OnInit {
     id: [''],
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
-    webpage: ['', Validators.compose([Validators.required, URLValidator])],
+    webpage: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     description: ['', Validators.required],
-    logo: ['', Validators.compose([Validators.required, URLValidator])],
+    logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     tagline: ['', Validators.required],
-    // multimedia: this.fb.array([this.fb.control('', URLValidator)]),
+    // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
     // multimediaNames: this.fb.array([this.fb.control('')]),
     multimedia: this.fb.array([
       this.fb.group({
-        multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
+        multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
         multimediaName: ['']
       })
     ]),
-    // useCases: this.fb.array([this.fb.control('', URLValidator)]),
+    // useCases: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
     // useCasesNames: this.fb.array([this.fb.control('')]),
     useCases: this.fb.array([
       this.fb.group({
-        useCaseURL: ['', Validators.compose([Validators.required, URLValidator])],
+        useCaseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
         useCaseName: ['']
       })
     ]),
@@ -219,20 +218,20 @@ export class ServiceFormComponent implements OnInit {
     standards: this.fb.array([this.fb.control('')]),
     openSourceTechnologies: this.fb.array([this.fb.control('')]),
     orderType: ['', Validators.required],
-    order: ['', URLValidator],
+    order: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
     helpdeskEmail: ['', Validators.compose([Validators.required, Validators.email])],
     securityContactEmail: ['', Validators.compose([Validators.required, Validators.email])],
-    serviceLevel: ['', URLValidator],
-    termsOfUse: ['', URLValidator],
-    privacyPolicy: ['', URLValidator],
-    accessPolicy: ['', URLValidator],
-    paymentModel: ['', URLValidator],
-    pricing: ['', URLValidator],
-    userManual: ['', URLValidator],
-    trainingInformation: ['', URLValidator],
-    helpdeskPage: ['', URLValidator],
-    statusMonitoring: ['', URLValidator],
-    maintenance: ['', URLValidator],
+    serviceLevel: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    termsOfUse: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    privacyPolicy: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    accessPolicy: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    paymentModel: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    pricing: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    userManual: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    trainingInformation: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    helpdeskPage: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    statusMonitoring: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    maintenance: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
     mainContact: this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -660,13 +659,13 @@ export class ServiceFormComponent implements OnInit {
   push(field: string, required: boolean, url?: boolean) {
     if (required) {
       if (url) {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
       // console.log('added non mandatory url field');
-      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }
@@ -737,7 +736,7 @@ export class ServiceFormComponent implements OnInit {
   /** Multimedia -->**/
   newMultimedia(): FormGroup {
     return this.fb.group({
-      multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
+      multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
       multimediaName: ['']
     });
   }
@@ -758,7 +757,7 @@ export class ServiceFormComponent implements OnInit {
   /** Use Cases-->**/
   newUseCase(): FormGroup {
     return this.fb.group({
-      useCaseURL: ['', Validators.compose([Validators.required, URLValidator])],
+      useCaseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
       useCaseName: ['']
     });
   }

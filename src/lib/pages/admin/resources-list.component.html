@@ -277,7 +277,7 @@
 <!--                                      title="'Your resource provider is not yet active, therefore you cannot access its monitoring dashboard'">-->
 <!--                                    {{ serviceBundle.service.name }}-->
 <!--                                  </h5>-->
-<!--                                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
+<!--                                  <a [routerLink]="['/provider/info',serviceBundle.id]" class="uk-display-inline-block">-->
 <!--                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
 <!--                                  </a>-->
 <!--                                </span>-->
@@ -285,7 +285,7 @@
                                   <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, serviceBundle.service.resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="'Go to the resource dashboard'">
                                       {{ serviceBundle.service.name }}
                                   </a>
-<!--                                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
+<!--                                  <a [routerLink]="['/provider/info',serviceBundle.id]" class="uk-display-inline-block">-->
 <!--                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
 <!--                                  </a>-->
 <!--                                  </ng-container>-->
@@ -391,18 +391,6 @@
 <!--                            <i class="fa fa-close fa-lg"></i> Invalidate-->
 <!--                          </button>-->
 <!--                        </ng-container>-->
-
-                        <ng-container *ngIf="serviceBundle.service.catalogueId!=='eosc'">
-                          <hr class="uk-margin-top">
-                          <div class="uk-align-right">
-                            <button
-                              routerLink="/provider/{{serviceBundle.service.catalogueId}}/{{serviceBundle.service.resourceOrganisation}}/resource/view/{{serviceBundle.id}}"
-                              class="uk-button uk-button-link" style="">
-                              <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
-                              View {{serviceORresource}}
-                            </button>
-                          </div>
-                        </ng-container>
 
                         <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc'">
                           <hr class="uk-margin-top">
@@ -870,7 +858,7 @@
                   <a [routerLink]="['/dashboard/' + serviceBundle.service.resourceOrganisation + '/resource-dashboard', serviceBundle.id]" target="_blank" data-uk-tooltip title="'Go to the resource dashboard'">
                       {{ serviceBundle.service.name }}
                   </a>
-<!--                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
+<!--                  <a [routerLink]="['/provider/info',serviceBundle.id]" class="uk-display-inline-block">-->
 <!--                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
 <!--                  </a>-->
 <!--                </ng-container>-->

@@ -6,7 +6,7 @@ import {ServiceProviderService} from '../../services/service-provider.service';
 import {CatalogueService} from "../../services/catalogue.service";
 import {ResourceService} from '../../services/resource.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {URLValidator} from '../../shared/validators/generic.validator';
+import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {Vocabulary, Type, Provider} from '../../domain/eic-model';
 import BitSet from 'bitset';
 import {environment} from '../../../environments/environment';
@@ -131,17 +131,17 @@ export class CatalogueFormComponent implements OnInit {
     id: [''],
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
-    website: ['', Validators.compose([Validators.required, URLValidator])],
+    website: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     legalEntity: [''],
     legalStatus: [''],
     hostingLegalEntity: [''],
     description: ['', Validators.required],
-    logo: ['', Validators.compose([Validators.required, URLValidator])],
+    logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
     // multimediaNames: this.fb.array([this.fb.control('')]),
     multimedia: this.fb.array([
       this.fb.group({
-        multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
+        multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
         multimediaName: ['']
       })
     ]),
@@ -502,12 +502,12 @@ export class CatalogueFormComponent implements OnInit {
   push(field: string, required: boolean, url?: boolean) {
     if (required) {
       if (url) {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
-      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }
@@ -518,7 +518,7 @@ export class CatalogueFormComponent implements OnInit {
   /** Multimedia -->**/
   newMultimedia(): FormGroup {
     return this.fb.group({
-      multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
+      multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
       multimediaName: ['']
     });
   }

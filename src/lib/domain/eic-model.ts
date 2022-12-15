@@ -3,7 +3,7 @@
 // Generated using typescript-generator version 2.16.538 on 2020-06-10 11:50:49.
 
 import {Validators} from "@angular/forms";
-import {URLValidator} from "../shared/validators/generic.validator";
+import {urlAsyncValidator, URLValidator} from "../shared/validators/generic.validator";
 
 export class Bundle<T> implements Identifiable {
   id: string;
@@ -372,61 +372,6 @@ export class ResourceExtras {
   eoscIFGuidelines: EOSCIFGuidelines[];
   researchCategories: string[];
   horizontalService: boolean;
-  interoperabilityRecordIds: string[];
-}
-
-export class InteroperabilityRecord implements Identifiable {
-  id: string;
-  identifierInfo: IdentifierInfo;
-  creatorInfo: CreatorInfo;
-  title: string;
-  publicationYear: number;
-  resourceTypesInfo: ResourceTypeInfo[];
-  created: string;
-  updated: string;
-  eoscRelatedStandards: string[];
-  rightsInfo: RightsInfo[];
-  description: string;
-  status: string;
-  domain: string;
-  eoscGuidelineType: string;
-  eoscIntegrationOptions: string[];
-  eoscAAI: string;
-}
-
-export class IdentifierInfo {
-  identifier: string;
-  identifierType: string;
-}
-
-export class CreatorInfo {
-  creator: string;
-  creatorNameTypeInfo: CreatorNameTypeInfo;
-  givenName: string;
-  familyName: string;
-  nameIdentifier: string;
-  creatorAffiliationInfo: CreatorAffiliationInfo;
-}
-
-export class CreatorNameTypeInfo {
-  creatorNames: string[];
-  nameType: string;
-}
-
-export class CreatorAffiliationInfo {
-  affiliation: string;
-  affiliationIdentifier: string;
-}
-
-export class ResourceTypeInfo {
-  resourceType: string;
-  resourceTypeGeneral: string;
-}
-
-export class RightsInfo {
-  right: string;
-  rightURI: URL;
-  rightIdentifier: string;
 }
 
 export class ServiceHistory extends Metadata {

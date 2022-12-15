@@ -158,7 +158,7 @@
                     </a>
                   </h4>
                   <div class="uk-margin-small-top">
-                    <span *ngIf="providerService.service.description" class="uk-margin-small-top"><markdown [data]="providerService.service.description"></markdown></span>
+                    <span *ngIf="providerService.service.description" class="uk-margin-small-top">{{providerService.service.description}}</span>
                   </div>
                   <div class="uk-margin-small-top">
                     <span class="">Creation Date: </span>{{ providerService.metadata.registeredAt | date }}

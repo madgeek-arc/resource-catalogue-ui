@@ -31,9 +31,6 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
   }
 
   ngOnInit() {
-    const path = this.route.snapshot.routeConfig.path;
-    if (path.includes(':catalogueId')) this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
-    if (path === ':catalogueId/:providerId/datasource/view/:datasourceId') this.disable = true;
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
@@ -50,7 +47,7 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
           this.addOpenAIRE = true;
           console.log('true');
         }
-        this.datasourceService[this.addOpenAIRE ? 'getOpenAIREDatasourcesById' : 'getDatasource'](this.serviceID, this.catalogueId)
+        this.datasourceService[this.addOpenAIRE ? 'getOpenAIREDatasourcesById' : 'getDatasource'](this.serviceID)
           .subscribe(datasource => {
               if (!this.addOpenAIRE && datasource.mainContact === null) //in case of unauthorized access backend will not show sensitive info
                 this.navigationService.go('/forbidden') // TODO: recheck with backend
@@ -74,12 +71,7 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
                 this.serviceForm.get('id').setValue('');
                 this.serviceForm.get('name').setValue('');
               }
-              if (this.disable) {
-                this.serviceForm.disable();
-                this.serviceName = this.serviceForm.get('name').value;
-              } else {
-                this.initServiceBitSets();
-              }
+              this.initServiceBitSets();
             }
           );
       });

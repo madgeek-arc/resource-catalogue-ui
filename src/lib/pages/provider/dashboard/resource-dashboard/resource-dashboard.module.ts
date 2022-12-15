@@ -9,7 +9,6 @@ import {ServiceHistoryComponent} from './service-history.component';
 import {ServiceFullHistoryComponent} from './service-full-history.component';
 import {ResourceDashboardRouting} from './resource-dashboard.routing';
 import {ResourceDashboardComponent} from './resource-dashboard.component';
-import {MonitoringInfoComponent} from "./monitoring-info.component";
 
 @NgModule({
   imports: [
@@ -25,8 +24,7 @@ import {MonitoringInfoComponent} from "./monitoring-info.component";
     ResourceDashboardComponent,
     ServiceStatsComponent,
     ServiceHistoryComponent,
-    ServiceFullHistoryComponent,
-    MonitoringInfoComponent
+    ServiceFullHistoryComponent
   ]
 })
 
