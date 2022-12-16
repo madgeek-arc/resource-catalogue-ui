@@ -467,6 +467,7 @@ export class DatasourceFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.addOpenAIRE = window.location.pathname.includes('addOpenAIRE');
     zip(
       this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),

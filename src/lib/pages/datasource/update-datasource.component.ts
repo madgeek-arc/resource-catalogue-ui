@@ -40,8 +40,7 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
     } else {
       this.sub = this.route.params.subscribe(params => {
         this.serviceID = params['datasourceId']; //refactor rename
-        const pathName = window.location.pathname;
-        if (pathName.includes('draft-datasource/update')) {
+        if (window.location.pathname.includes('draft-datasource/update')) {
           this.pendingService = true;
           this.datasourceService.getPendingDatasource(this.serviceID).subscribe( //fixme thats temp, check add from openaire & if possible merge with below calls, below they return Datasource but pending returns Bundle
             dsBundle => {
@@ -70,7 +69,6 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
             err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error,
             () => {this.initServiceBitSets();});
         } else {
-          this.addOpenAIRE = pathName.includes('addOpenAIRE');
           this.datasourceService[this.addOpenAIRE ? 'getOpenAIREDatasourcesById' : 'getDatasource'](this.serviceID, this.catalogueId)
             .subscribe(datasource => {
                 if (!this.addOpenAIRE && datasource.mainContact === null) //in case of unauthorized access backend will not show sensitive info

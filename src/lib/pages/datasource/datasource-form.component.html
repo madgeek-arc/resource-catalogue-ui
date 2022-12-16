@@ -6,7 +6,7 @@
         <div class="titleAndActionsBar">
           <div class="">
             <div class="pageTitle">
-              {{disable ? ' ' : editMode ? ' Update' : ' Add New'}} Data Source {{disable ? 'read-only mode' : ''}}
+              {{disable ? ' ' : (editMode && !addOpenAIRE) ? ' Update' : ' Add New'}} Data Source {{disable ? 'read-only mode' : ''}}
             </div>
             <div class="providerName uk-margin-small-top">
               <strong>{{serviceName!='' ? serviceName : 'Data Source' + ' Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
