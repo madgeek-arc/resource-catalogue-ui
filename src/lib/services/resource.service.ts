@@ -135,10 +135,6 @@ export class ResourceService {
     // return this.http.get<RichService>(this.base + `/service/rich/${version === undefined ? id : [id, version].join('/')}/`, this.options);
   }
 
-  getPendingService(id: string) {
-    return this.http.get<RichService>(this.base + `/pendingService/rich/${id}/`, this.options);
-  }
-
   getSelectedServices(ids: string[]) {
     /*return this.getSome("service", ids).map(res => <Service[]> <any> res);*/
     // return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
@@ -157,10 +153,6 @@ export class ResourceService {
 
   deleteService(id: string) {
     return this.http.delete(this.base + '/service/' + id, this.options);
-  }
-
-  deletePendingService(id: string) {
-    return this.http.delete(this.base + '/pendingService/' + id, this.options);
   }
 
   /** Recommendations **/
@@ -511,7 +503,7 @@ export class ResourceService {
     return places;
   }
 
-  uploadService(service: Service, shouldPut: boolean, comment: string) {
+  submitService(service: Service, shouldPut: boolean, comment: string) {
     // console.log(JSON.stringify(service));
     // console.log(`knocking on: ${this.base}/service`);
     return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + `/service?comment=${comment}`, service, this.options);
@@ -521,17 +513,28 @@ export class ResourceService {
     return this.http.put<Service>(this.base + '/service/serviceWithMeasurements', {service, measurements}, this.options);
   }
 
-  uploadPendingService(service: Service, shouldPut: boolean, comment: string) {
-    return this.http.put<Service>(this.base + '/pendingService/transform/resource', service, this.options);
-  }
-
-  uploadTempPendingService(service: Service) { //todo rename
+  /** Draft(Pending) Services -->**/
+  saveServiceAsDraft(service: Service) {
     return this.http.put<Service>(this.base + '/pendingService/pending', service, this.options);
   }
 
-  uploadTempService(service: Service) { // not used todo remove?
-    return this.http.put<Service>(this.base + '/pendingService/service', service, this.options);
+  submitPendingService(service: Service, shouldPut: boolean, comment: string) {
+    return this.http.put<Service>(this.base + '/pendingService/transform/resource', service, this.options);
   }
+
+  getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+    return this.http.get<Paging<InfraService>>(this.base +
+      `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+  }
+
+  getPendingService(id: string) {
+    return this.http.get<RichService>(this.base + `/pendingService/rich/${id}/`, this.options);
+  }
+
+  deletePendingService(id: string) {
+    return this.http.delete(this.base + '/pendingService/' + id, this.options);
+  }
+  /** <-- Draft(Pending) Services **/
 
   getFeaturedServices() {
     return this.http.get<Service[]>(this.base + `/service/featured/all/`);

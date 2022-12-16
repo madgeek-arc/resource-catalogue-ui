@@ -325,8 +325,7 @@ export class ServiceFormComponent implements OnInit {
     // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);
     if (tempSave) {
-      this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
-      (this.serviceForm.value).subscribe(
+      this.resourceService.saveServiceAsDraft(this.serviceForm.value).subscribe(
         _service => {
           // console.log(_service);
           this.showLoader = false;
@@ -343,7 +342,7 @@ export class ServiceFormComponent implements OnInit {
       );
     } else if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
-      this.resourceService[pendingService ? 'uploadPendingService' : 'uploadService']
+      this.resourceService[pendingService ? 'submitPendingService' : 'submitService']
       (this.serviceForm.value, this.editMode, this.commentControl.value).subscribe(
         _service => {
           // console.log(_service);

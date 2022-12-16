@@ -168,7 +168,7 @@ export class DatasourceService {
   /** <-- History **/
 
   /** Draft(Pending) Datasources -->**/
-  saveDatasourceAsDraft(datasource: Datasource) { //404 on second time+ "There is no OpenAIRE Datasource with the given id [another.90f9e82ff4033b9b755f3a2c5a328754]" [another.3e84670fce17e16a3b0c022048b7cf54]"
+  saveDatasourceAsDraft(datasource: Datasource) {
     return this.http.put<Datasource>(this.base + '/pendingDatasource/pending', datasource, this.options);
   }
 
