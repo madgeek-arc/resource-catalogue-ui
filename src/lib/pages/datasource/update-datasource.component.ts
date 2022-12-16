@@ -41,7 +41,6 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
       this.sub = this.route.params.subscribe(params => {
         this.serviceID = params['datasourceId']; //refactor rename
         const pathName = window.location.pathname;
-        console.log(pathName);
         if (pathName.includes('draft-datasource/update')) {
           this.pendingService = true;
           this.datasourceService.getPendingDatasource(this.serviceID).subscribe( //fixme thats temp, check add from openaire & if possible merge with below calls, below they return Datasource but pending returns Bundle
@@ -60,14 +59,18 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
                 const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
                 this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
               }
+              if (dsBundle?.identifiers?.alternativeIdentifiers) {
+                for (let i=0; i < dsBundle.identifiers.alternativeIdentifiers.length; i++){
+                  if (dsBundle.identifiers.alternativeIdentifiers[i].type === 'openaire') {
+                    this.draftFromOpenAIRE = true;
+                  }
+                }
+              }
             },
             err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error,
             () => {this.initServiceBitSets();});
         } else {
-          if (pathName.includes('addOpenAIRE')) {
-            this.addOpenAIRE = true;
-            console.log('true');
-          }
+          this.addOpenAIRE = pathName.includes('addOpenAIRE');
           this.datasourceService[this.addOpenAIRE ? 'getOpenAIREDatasourcesById' : 'getDatasource'](this.serviceID, this.catalogueId)
             .subscribe(datasource => {
                 if (!this.addOpenAIRE && datasource.mainContact === null) //in case of unauthorized access backend will not show sensitive info
@@ -106,7 +109,6 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
   }
 
   onSubmit(service: Service, tempSave: boolean) {
-    console.log(this.pendingService);
     super.onSubmit(service, tempSave, this.pendingService);
   }
 

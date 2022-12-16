@@ -32,7 +32,8 @@ export class DatasourceFormComponent implements OnInit {
   firstServiceForm = false;
   showLoader = false;
   pendingService = false;
-  addOpenAIRE = false;
+  addOpenAIRE = false; //on addOpenAIRE path
+  draftFromOpenAIRE = false; //collected from addOpenAIRE and saved as draft
   catalogueId: string;
   providerId: string;
   editMode = false;
@@ -410,14 +411,10 @@ export class DatasourceFormComponent implements OnInit {
     // console.log('Submitted service value--> ', this.serviceForm.value);
 
     if (tempSave) {
-      console.log('!this.editMode', !this.editMode);
-      // this.datasourceService[(pendingService || !this.editMode) ? 'saveDatasourceAsDraft' : 'saveDatasourceFromOpenaireAsDraft']
-      this.datasourceService.saveDatasourceAsDraft
-      (this.serviceForm.value).subscribe(
+      this.datasourceService.saveDatasourceAsDraft(this.serviceForm.value).subscribe(
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          // return this.router.dashboardDraftResources(this.providerId); // redirect to draft list
           return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-datasource/update/' + _service.id);
         },
         err => {
@@ -430,15 +427,14 @@ export class DatasourceFormComponent implements OnInit {
       );
     } else if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
-      const shouldPut = (this.editMode && (window.location.href.indexOf('/addOpenAIRE') == -1));
-      this.datasourceService[pendingService ? 'submitPendingDatasource' : 'uploadDatasource']
+      const shouldPut = (this.editMode && !this.addOpenAIRE);
+      this.datasourceService[pendingService ? 'submitPendingDatasource' : 'submitDatasource']
       (this.serviceForm.value, shouldPut, this.commentControl.value).subscribe(
         _ds => {
-          console.log(_ds);
           this.showLoader = false;
-          if (shouldPut)
+          if (this.addOpenAIRE || this.draftFromOpenAIRE)
+          return this.router.datasourceSubmitted(_ds.id); // redirect to datasource submitted successfully page after POST
           return this.router.dashboardDatasources(this.providerId, _ds.catalogueId); // redirect to datasources of provider
-          return this.router.datasourceSubmitted(_ds.id); // redirect to datasource submitted page after POST
         },
         err => {
           this.showLoader = false;

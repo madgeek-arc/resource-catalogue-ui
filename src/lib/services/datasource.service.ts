@@ -99,7 +99,7 @@ export class DatasourceService {
     return this.http.get<Datasource>(this.base + `/datasource/getOpenAIREDatasourceById?datasourceId=${id}`, this.options);
   }
 
-  uploadDatasource(datasource: Datasource, shouldPut: boolean, comment: string) {
+  submitDatasource(datasource: Datasource, shouldPut: boolean, comment: string) {
     // console.log(JSON.stringify(datasource));
     // console.log(`knocking on: ${this.base}/datasource`);
     return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + `/datasource?comment=${comment}`, datasource, this.options);
@@ -168,17 +168,11 @@ export class DatasourceService {
   /** <-- History **/
 
   /** Draft(Pending) Datasources -->**/
-  saveDatasourceAsDraft(datasource: Datasource) {
+  saveDatasourceAsDraft(datasource: Datasource) { //404 on second time+ "There is no OpenAIRE Datasource with the given id [another.90f9e82ff4033b9b755f3a2c5a328754]" [another.3e84670fce17e16a3b0c022048b7cf54]"
     return this.http.put<Datasource>(this.base + '/pendingDatasource/pending', datasource, this.options);
   }
 
-  uploadTempDatasource(datasource: Datasource) { // not used? fixme remove?
-    console.log('uploadTempDatasource not used?');
-    return this.http.put<Datasource>(this.base + '/pendingDatasource/datasource', datasource, this.options);
-  }
-
-  submitPendingDatasource(datasource: Datasource, shouldPut: boolean, comment: string) { // submit todo check why inactive
-    console.log(shouldPut);
+  submitPendingDatasource(datasource: Datasource, shouldPut: boolean, comment: string) {
     return this.http.put<Datasource>(this.base + '/pendingDatasource/transform/datasource', datasource, this.options);
   }
 
@@ -187,7 +181,7 @@ export class DatasourceService {
       `/pendingDatasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 
-  getPendingDatasource(id: string, catalogueId?: string) {
+  getPendingDatasource(id: string, catalogueId?: string) { // also check identifier from this
     return this.http.get<DatasourceBundle>(this.base + `/pendingDatasource/${id}`, this.options); // todo: revisit, catalogueId default eosc?
   }
 

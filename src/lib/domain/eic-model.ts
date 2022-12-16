@@ -11,6 +11,7 @@ export class Bundle<T> implements Identifiable {
   active: boolean;
   status: string;
   templateStatus: string;
+  identifiers: Identifiers;
   loggingInfo: LoggingInfo[];
   latestAuditInfo: LoggingInfo;
   latestOnboardingInfo: LoggingInfo;
@@ -90,6 +91,16 @@ export class Indicator implements Identifiable {
   dimensions: string[];
   unit: string;
   unitName: string;
+}
+
+export class Identifiers {
+  alternativeIdentifiers: AlternativeIdentifier[];
+  originalId: string;
+}
+
+export class AlternativeIdentifier {
+  type: string;
+  value: string;
 }
 
 export class InfraService extends Bundle<Service> { //TODO: rename
