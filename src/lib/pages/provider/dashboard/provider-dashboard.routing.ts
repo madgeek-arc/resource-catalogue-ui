@@ -14,6 +14,7 @@ import {ProviderHistoryComponent} from './providerHistory/provider-history.compo
 import {ProviderFullHistoryComponent} from './providerHistory/provider-full-history.component';
 import {DatasourcesComponent} from "./datasources/datasources.component";
 import {PendingDatasourcesComponent} from "./pendingDatasources/pending-datasources.component";
+import {SharedDatasourcesComponent} from "./sharedDatasources/shared-datasources.component";
 
 const providerDashboardRoutes: Routes = [
   {
@@ -86,6 +87,13 @@ const providerDashboardRoutes: Routes = [
       {
         path: 'datasources',
         component: DatasourcesComponent,
+        data: {
+          isResource: false
+        }
+      },
+      {
+        path: 'shared-datasources',
+        component: SharedDatasourcesComponent,
         data: {
           isResource: false
         }

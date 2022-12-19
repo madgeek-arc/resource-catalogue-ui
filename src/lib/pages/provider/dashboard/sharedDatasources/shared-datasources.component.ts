@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {InfraService, Provider, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {DatasourceBundle, InfraService, Provider, ProviderBundle, Service} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -7,13 +7,14 @@ import {Paging} from '../../../../domain/paging';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
+import {DatasourceService} from "../../../../services/datasource.service";
 
 @Component({
-  selector: 'app-shared-services',
-  templateUrl: './shared-services.component.html',
+  selector: 'app-shared-datasources',
+  templateUrl: './shared-datasources.component.html',
 })
 
-export class SharedServicesComponent implements OnInit {
+export class SharedDatasourcesComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
 
@@ -28,8 +29,8 @@ export class SharedServicesComponent implements OnInit {
   providerId: string;
   catalogueId: string;
   providerBundle: ProviderBundle;
-  providerServices: Paging<InfraService>;
-  selectedService: InfraService = null;
+  datasourceBundles: Paging<DatasourceBundle>;
+  selectedDatasourceBundle: DatasourceBundle = null;
   path: string;
 
   total: number;
@@ -44,7 +45,8 @@ export class SharedServicesComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
-    private resourceService: ResourceService
+    private resourceService: ResourceService,
+    private datasourceService: DatasourceService
   ) {}
 
   ngOnInit(): void {
@@ -90,7 +92,7 @@ export class SharedServicesComponent implements OnInit {
   }
 
   navigate(id: string) {
-    this.router.navigate([`/dashboard/${this.providerId}/shared-resource-dashboard/`, id]);
+    this.router.navigate([`/dashboard/${this.providerId}/shared-datasource-dashboard/`, id]);
   }
 
   getProvider() {
@@ -104,10 +106,9 @@ export class SharedServicesComponent implements OnInit {
   }
 
   getSharedServices() {
-    this.resourceService.getSharedServicesByProvider(this.providerId, this.dataForm.get('from').value,
-      this.itemsPerPage + '', 'ASC', 'name')
+    this.datasourceService.getSharedDatasourcesByProvider(this.providerId, this.dataForm.get('from').value, this.itemsPerPage + '', 'ASC', 'name')
       .subscribe(res => {
-          this.providerServices = res;
+          this.datasourceBundles = res;
           this.total = res['total'];
           this.paginationInit();
         },
@@ -130,10 +131,10 @@ export class SharedServicesComponent implements OnInit {
       }
     }
 
-    if (this.path.includes('/provider/shared-resources')) {
-      this.router.navigate([`/provider/shared-resources/` + this.providerId], {queryParams: map});
+    if (this.path.includes('/provider/shared-datasources')) {
+      this.router.navigate([`/provider/shared-datasources/` + this.providerId], {queryParams: map});
     } else {
-      this.router.navigate([`/dashboard/` + this.providerId + `/shared-resources`], {queryParams: map});
+      this.router.navigate([`/dashboard/` + this.providerId + `/shared-datasources`], {queryParams: map});
     }
     // this.getPendingServices();
   }

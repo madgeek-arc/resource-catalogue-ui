@@ -189,4 +189,9 @@ export class DatasourceService {
     return this.http.delete(this.base + '/pendingDatasource/' + id, this.options);
   }
   /** <-- Draft(Pending) Datasources **/
+
+  getSharedDatasourcesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+    return this.http.get<Paging<DatasourceBundle>>(this.base +
+      `/datasource/getSharedDatasources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+  }
 }
