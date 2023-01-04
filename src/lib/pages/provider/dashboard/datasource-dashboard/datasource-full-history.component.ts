@@ -19,6 +19,7 @@ export class DatasourceFullHistoryComponent implements OnInit, OnDestroy {
 
   projectName = environment.projectName;
 
+  public catalogueId: string;
   public datasource: Datasource;
   public errorMessage: string;
   private sub: Subscription;
@@ -29,6 +30,7 @@ export class DatasourceFullHistoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.catalogueId = window.location.href.split('dashboard/')[1].split('/')[0];
     // this.sub = this.route.params.subscribe(params => {
     this.sub = this.route.parent.params.subscribe(params => {
       zip(

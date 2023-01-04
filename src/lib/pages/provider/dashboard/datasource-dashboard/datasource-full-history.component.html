@@ -79,8 +79,8 @@
 
                 </div>
               </div>
-<!--TODO: revisit for non-eosc-->
-              <button [routerLink]="['/dashboard/eosc/' + datasource.resourceOrganisation + '/datasource-dashboard/' + datasource.id + '/history']"
+
+              <button [routerLink]="['/dashboard/' + catalogueId + '/' + datasource.resourceOrganisation + '/datasource-dashboard/' + datasource.id + '/history']"
                       class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
               </button>
