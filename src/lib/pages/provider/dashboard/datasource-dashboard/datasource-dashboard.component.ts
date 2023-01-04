@@ -37,7 +37,7 @@ export class DatasourceDashboardComponent implements OnInit {
     this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.datasourceId = this.route.snapshot.paramMap.get('datasourceId');
-    this.datasourceService.getDatasourceBundleById(this.datasourceId).subscribe(
+    this.datasourceService.getDatasourceBundleById(this.datasourceId, this.catalogueId).subscribe(
       res => { if (res!=null) this.datasourceBundle = res },
       error => {},
       () => {

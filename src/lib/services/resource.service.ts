@@ -463,8 +463,8 @@ export class ResourceService {
     // return this.getAll("provider");
   }
 
-  getResourceBundleById(id: string) {
-    return this.http.get<InfraService>(this.base + `/serviceBundle/${id}?catalogue_id=eosc`, this.options);
+  getResourceBundleById(id: string, catalogueId: string) {
+    return this.http.get<InfraService>(this.base + `/serviceBundle/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
   getMyServiceProviders() {

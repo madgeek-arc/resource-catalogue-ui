@@ -81,8 +81,8 @@ export class DatasourceService {
     return this.http.get(this.base + `/datasource/adminPage/all`, {params});
   }
 
-  getDatasourceBundleById(id: string) {
-    return this.http.get<DatasourceBundle>(this.base + `/datasource/bundle/${id}?catalogue_id=eosc`, this.options);
+  getDatasourceBundleById(id: string, catalogueId: string) {
+    return this.http.get<DatasourceBundle>(this.base + `/datasource/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
   getOpenAIREDatasources(from: string, quantity: string, orderField: string, order: string, query: string) {
