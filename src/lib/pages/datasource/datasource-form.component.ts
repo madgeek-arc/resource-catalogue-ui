@@ -523,22 +523,22 @@ export class DatasourceFormComponent implements OnInit {
         this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
         this.handleBitSets(0, 1, 'resourceOrganisation');
 
-        // if (!this.editMode) { // prefill main contact info
-        //   this.serviceProviderService.getServiceProviderById(this.providerId).subscribe(
-        //     res => { this.provider = res; },
-        //     err => { console.log(err); },
-        //     () => {
-        //       Object.entries(this.provider.mainContact).forEach(([key, val]) => {
-        //         if (val !== '' && val != null) {
-        //           this.serviceForm.controls['mainContact'].get(key).setValue(val);
-        //         }
-        //       });
-        //       this.handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact');
-        //       this.handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact');
-        //       this.handleBitSetsOfGroups(5, 15, 'email', 'mainContact');
-        //     }
-        //   );
-        // }
+        if (!this.editMode || this.addOpenAIRE) { // prefill main contact info with provider's data
+          this.serviceProviderService.getServiceProviderById(this.providerId).subscribe(
+            res => { this.provider = res; },
+            err => { console.log(err); },
+            () => {
+              Object.entries(this.provider.mainContact).forEach(([key, val]) => {
+                if (val !== '' && val != null) {
+                  this.serviceForm.controls['mainContact'].get(key).setValue(val);
+                }
+              });
+              this.handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact');
+              this.handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact');
+              this.handleBitSetsOfGroups(5, 15, 'email', 'mainContact');
+            }
+          );
+        }
 
       }
     );
