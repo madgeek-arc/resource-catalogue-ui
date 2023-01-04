@@ -1384,7 +1384,7 @@ export class DatasourceFormComponent implements OnInit {
 
   /** Modals--> **/
   showCommentModal() {
-    if (this.editMode && !this.pendingService && (window.location.href.indexOf('/addOpenAIRE')==-1)) {
+    if (this.editMode && !this.pendingService && !this.addOpenAIRE) {
       UIkit.modal('#commentModal').show();
     } else {
       this.onSubmit(this.serviceForm.value, false);
