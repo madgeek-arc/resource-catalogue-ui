@@ -684,7 +684,7 @@ export class GuidelinesFormComponent implements OnInit {
     return new Date(+timestamp).toISOString().split('T')[0];
   }
 
-  changeTab(id: string){
+  switchToTab(id: string){
     const element: HTMLElement = document.getElementById(id) as HTMLElement;
     element.click();
     window.scrollTo(0, -1);

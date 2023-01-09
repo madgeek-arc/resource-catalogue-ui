@@ -1434,6 +1434,12 @@ export class DatasourceFormComponent implements OnInit {
     }, {});
   }
 
+  switchToTab(id: string){
+    const element: HTMLElement = document.getElementById(id) as HTMLElement;
+    element.click();
+    window.scrollTo(0, -1);
+  }
+
   public findInvalidControls() {
     const invalid = [];
     const controls = this.serviceForm.controls;

@@ -1233,4 +1233,10 @@ export class ServiceFormComponent implements OnInit {
     }, {});
   }
 
+  switchToTab(id: string){
+    const element: HTMLElement = document.getElementById(id) as HTMLElement;
+    element.click();
+    window.scrollTo(0, -1);
+  }
+
 }
