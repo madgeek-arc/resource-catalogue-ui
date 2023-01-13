@@ -89,7 +89,6 @@ export class GuidelinesFormComponent implements OnInit {
   readonly domainDesc: sd.Description = sd.guidelinesDescMap.get('domainDesc');
   readonly eoscGuidelineTypeDesc: sd.Description = sd.guidelinesDescMap.get('eoscGuidelineTypeDesc');
   readonly eoscIntegrationOptionsDesc: sd.Description = sd.guidelinesDescMap.get('eoscIntegrationOptionsDesc');
-  readonly eoscAAIDesc: sd.Description = sd.guidelinesDescMap.get('eoscAAIDesc');
 
   identifierTypeVocabulary: Vocabulary[] = null;
   nameTypeVocabulary: Vocabulary[] = null;
@@ -111,7 +110,6 @@ export class GuidelinesFormComponent implements OnInit {
     domain: [''],
     eoscGuidelineType: ['', Validators.required],
     eoscIntegrationOptions: this.fb.array([this.fb.control('')]),
-    eoscAAI: ['', Validators.required],
 
     identifierInfo: this.fb.group({
       identifier: ['', Validators.required],

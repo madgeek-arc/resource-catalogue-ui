@@ -408,7 +408,6 @@ export class InteroperabilityRecord implements Identifiable {
   domain: string;
   eoscGuidelineType: string;
   eoscIntegrationOptions: string[];
-  eoscAAI: boolean;
 }
 
 export class IdentifierInfo {
