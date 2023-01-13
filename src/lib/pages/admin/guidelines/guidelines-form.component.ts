@@ -342,7 +342,7 @@ export class GuidelinesFormComponent implements OnInit {
         this.nameTypeVocabulary = this.vocabularies[Type.IR_NAME_TYPE];
         this.resourceTypeGeneralVocabulary = this.vocabularies[Type.IR_RESOURCE_TYPE_GENERAL];
         this.statusVocabulary = this.vocabularies[Type.IR_STATUS];
-        this.domainVocabulary = this.vocabularies[Type.IR_DOMAIN];
+        this.domainVocabulary = this.vocabularies[Type.SCIENTIFIC_DOMAIN];
         this.eoscGuidelineTypeVocabulary = this.vocabularies[Type.IR_EOSC_GUIDELINE_TYPE];
         return this.vocabularies;
       },
