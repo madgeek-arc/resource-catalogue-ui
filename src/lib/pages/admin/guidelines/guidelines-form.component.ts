@@ -11,6 +11,7 @@ import {Vocabulary, Type, Provider, ResourceTypeInfo, InteroperabilityRecord} fr
 import BitSet from 'bitset';
 import {environment} from '../../../../environments/environment';
 import {ResourceExtrasService} from "../../../services/resource-extras.service";
+import {PremiumSortPipe} from "../../../shared/pipes/premium-sort.pipe";
 
 declare var UIkit: any;
 
@@ -29,6 +30,7 @@ export class GuidelinesFormComponent implements OnInit {
   guidelinesForm: FormGroup;
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
+  premiumSort = new PremiumSortPipe();
   edit = false;
   hasChanges = false;
   disable = false;
@@ -348,7 +350,7 @@ export class GuidelinesFormComponent implements OnInit {
       () => {
         let voc: Vocabulary[] = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN].concat(this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN]);
         this.subVocabularies = this.groupByKey(voc, 'parentId');
-
+        this.premiumSort.transform(this.statusVocabulary, ['Candidate', 'Proposed', 'Consultation', 'On Hold', 'Update Pending', 'Accepted', 'Operating', 'Deprecated', 'Abandoned', 'Withdrawn', 'Rejected']);
         return this.vocabularies;
       }
     );

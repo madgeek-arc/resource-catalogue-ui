@@ -105,7 +105,8 @@
                               <label class="uk-form-label uk-text-right" for="identifier">
                                 {{ identifierDesc.label + (identifierDesc.mandatory ? ' (*)' : '')}}
                               </label>
-                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{identifierDesc.desc}}</div>
+                              <div class="uk-form-description uk-margin-top uk-width-9-10">The Identifier is a unique string that identifies a resource. For software, determine whether the identifier is for a specific version of a piece of software,
+                                (per the <a href="https://force11.org/info/software-citation-principles-published-2016/">Force11 Software Citation Principles</a>), or for all versions. The record's primary key for locating it in the EOSC-IF database.</div>
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <input id="identifier" class="uk-input uk-width-9-10" type="text"
                                        formControlName="identifier"
@@ -277,8 +278,8 @@
                                     <label class="uk-form-label uk-text-right" for="rightTitle">
                                       {{ rightTitleDesc.label + (rightTitleDesc.mandatory ? ' (*)' : '') }}
                                     </label>
-                                    <div
-                                      class="uk-form-description uk-margin-top uk-width-9-10">{{rightTitleDesc.desc}}</div>
+                                    <div class="uk-form-description uk-margin-top uk-width-9-10">{{rightTitleDesc.desc}}</div>
+                                    <div class="uk-form-description uk-width-9-10">Examples: Creative Commons Attribution, 3.0 Germany License, Apache License, Version 2.026</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="rightTitle" class="uk-input uk-width-9-10" type="text" formControlName="rightTitle"
                                              (input)="unsavedChangesPrompt()">
@@ -304,8 +305,8 @@
                                     <label class="uk-form-label uk-text-right" for="rightIdentifier">
                                       {{ rightIdentifierDesc.label + (rightIdentifierDesc.mandatory ? ' (*)' : '') }}
                                     </label>
-                                    <div
-                                      class="uk-form-description uk-margin-top uk-width-9-10">{{rightIdentifierDesc.desc}}</div>
+                                    <div class="uk-form-description uk-margin-top uk-width-9-10">{{rightIdentifierDesc.desc}}</div>
+                                    <div class="uk-form-description uk-width-9-10">A list of identifiers for commonly-used licenses may be found here: <a href="https://spdx.org/licenses/">https://spdx.org/licenses/</a></div>
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="rightIdentifier" class="uk-input uk-width-9-10" type="text" formControlName="rightIdentifier"
                                              (input)="unsavedChangesPrompt()">
@@ -353,7 +354,7 @@
                               <ng-select *ngIf="statusVocabulary" class="uk-width-9-10" id="status"
                                          (change)="unsavedChangesPrompt()"
                                          [ngClass]="{'uk-form-danger': checkFormValidity('status', this.edit, statusDesc.mandatory)}"
-                                         [items]="sortVocabulariesByName(statusVocabulary)"
+                                         [items]="statusVocabulary"
                                          bindLabel="name"
                                          bindValue="id"
                                          clearAllText="Clear"
@@ -472,6 +473,7 @@
                                         {{ creatorNameDesc.label + (creatorNameDesc.mandatory ? ' (*)' : '')}}
                                       </label>
                                       <div class="uk-form-description uk-margin-top uk-width-9-10">{{creatorNameDesc.desc}}</div>
+                                      <div class="uk-form-description uk-width-9-10">Examples: Charpy, Antoine; Jemison, Mae; Foo Data Center. Names in non-roman scripts may be transliterated according to the ALA-LC tables.</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <input id="creatorName" class="uk-input uk-width-9-10" type="text"
                                                formControlName="creatorName"
@@ -550,6 +552,7 @@
                                         {{ affiliationIdentifierDesc.label + (affiliationIdentifierDesc.mandatory ? ' (*)' : '')}}
                                       </label>
                                       <div class="uk-form-description uk-margin-top uk-width-9-10">{{affiliationIdentifierDesc.desc}}</div>
+                                      <div class="uk-form-description uk-width-9-10">Examples: <a href="https://ror.org/04aj4c181">https://ror.org/04aj4c181</a> grid.461819.3</div>
                                       <div class="uk-form-controls uk-margin-medium-top">
                                         <input id="affiliationIdentifier" class="uk-input uk-width-9-10" type="text"
                                                formControlName="affiliationIdentifier"
