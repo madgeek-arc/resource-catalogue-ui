@@ -201,6 +201,7 @@ export class GuidelinesFormComponent implements OnInit {
     }
 
     this.errorMessage = '';
+    // this.findInvalidControls();
     // this.trimFormWhiteSpaces();
     // const path = this.route.snapshot.routeConfig.path;
     let method = this.edit ? 'updateInteroperabilityRecord' : 'addInteroperabilityRecord';
@@ -688,6 +689,18 @@ export class GuidelinesFormComponent implements OnInit {
     const element: HTMLElement = document.getElementById(id) as HTMLElement;
     element.click();
     window.scrollTo(0, -1);
+  }
+
+  public findInvalidControls() {
+    const invalid = [];
+    const controls = this.guidelinesForm.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
+    }
+    // return invalid;
+    console.log('findInvalidControls ', invalid);
   }
 
 }
