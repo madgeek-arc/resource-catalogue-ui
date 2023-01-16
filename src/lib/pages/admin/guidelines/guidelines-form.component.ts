@@ -116,7 +116,7 @@ export class GuidelinesFormComponent implements OnInit {
       identifierType: ['', Validators.required]
     }, Validators.required),
     creators: this.fb.array([this.fb.group({
-      creatorNameTypeInfo: this.fb.group({creatorName:'', nameType:''}),
+      creatorNameTypeInfo: this.fb.group({creatorName:'', nameType:'ir_name_type-personal'}),
       givenName: [''],
       familyName: [''],
       nameIdentifier: [''],
@@ -428,7 +428,7 @@ export class GuidelinesFormComponent implements OnInit {
   /** Creators as public contacts -->**/
   newCreator(): FormGroup {
     return this.fb.group({
-      creatorNameTypeInfo: this.fb.group({creatorName:'', nameType:''}),
+      creatorNameTypeInfo: this.fb.group({creatorName:'', nameType:'ir_name_type-personal'}),
       givenName: [''],
       familyName: [''],
       nameIdentifier: [''],
