@@ -46,7 +46,6 @@ export class MonitoringExtensionFormComponent implements OnInit {
 
   commentControl = new FormControl();
 
-  readonly monitoredByDesc: sd.Description = sd.monitoringDescMap.get('monitoredByDesc');
   readonly serviceTypeDesc: sd.Description = sd.monitoringDescMap.get('serviceTypeDesc');
   readonly endpointDesc: sd.Description = sd.monitoringDescMap.get('endpointDesc');
   readonly probeDesc: sd.Description = sd.monitoringDescMap.get('probeDesc');
@@ -56,7 +55,6 @@ export class MonitoringExtensionFormComponent implements OnInit {
   formGroupMeta = {
     id: [''],
     serviceId: [''],
-    monitoredBy: [''],
     monitoringGroups: this.fb.array([
       this.fb.group({
         serviceType: ['', Validators.required],
@@ -83,7 +81,6 @@ export class MonitoringExtensionFormComponent implements OnInit {
   router: NavigationService = this.injector.get(NavigationService);
   userService: UserService = this.injector.get(UserService);
 
-  public monitoredByVocabulary: Vocabulary[] = null;
   public serviceTypeVocabulary: Vocabulary[] = null;
 
   constructor(protected injector: Injector,
@@ -172,7 +169,6 @@ export class MonitoringExtensionFormComponent implements OnInit {
       this.resourceService.getAllVocabulariesByType(),
     ).subscribe(suc => {
         this.vocabularies = <Map<string, Vocabulary[]>>suc[0];
-        this.monitoredByVocabulary = this.vocabularies[Type.MONITORING_MONITORED_BY];
         this.serviceTypeVocabulary = this.vocabularies[Type.MONITORING_SERVICE_TYPE]; //empty for now
       },
       error => {

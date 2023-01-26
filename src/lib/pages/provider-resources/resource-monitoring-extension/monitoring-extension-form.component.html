@@ -39,6 +39,7 @@
 
                 <h5 class="uk-padding-small uk-margin-remove">On this page you can provide information necessary to monitor your service. </h5>
                 <div class="requiredFields">Fields with (*) are mandatory and must be completed in order to save this form.</div>
+                <h4 class="requiredFields">Τhis is the place where you start monitoring your service. You can add multiple service configurations based on the type of your service.</h4>
 
                 <div id="serviceForm">
 
@@ -95,25 +96,8 @@
                       <div class="formContainer">
 
                         <div class="uk-margin-large-bottom">
-                          <label class="uk-form-label uk-text-right" for="monitoredBy">
-                            {{ monitoredByDesc.label + (monitoredByDesc.mandatory ? ' (*)' : '')}}
-                          </label>
-                          <div class="uk-form-description uk-margin-top uk-width-9-10">{{monitoredByDesc.desc}}</div>
-                          <div class="uk-form-controls uk-margin-medium-top">
-                            <ng-select class="uk-width-9-10" id="monitoredBy"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('monitoredBy', this.editMode)}"
-                                       [items]="monitoredByVocabulary"
-                                       (change)="unsavedChangesPrompt()"
-                                       bindLabel="name"
-                                       bindValue="id"
-                                       clearAllText="Clear"
-                                       formControlName="monitoredBy">
-                            </ng-select>
-                          </div>
-                        </div>
-
-                        <div class="uk-margin-large-bottom">
-                          <label class="uk-form-label uk-text-right">Monitoring Endpoint</label>
+                          <label class="uk-form-label uk-text-right">Service Check</label>
+                          <div class="uk-margin-top">Fill in the details about the service you want to monitor.</div>
                           <div class="uk-form-controls uk-margin-top">
                             <div formArrayName="monitoringGroups" *ngFor="let m of monitoringGroupsArray.controls; let i = index">
                               <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
@@ -127,8 +111,8 @@
                                     <ng-select class="uk-width-1-1" id="serviceType"
                                                [items]="serviceTypesVoc"
                                                (change)="unsavedChangesPrompt()"
-                                               bindLabel="item"
-                                               bindValue="item"
+                                               bindLabel="title"
+                                               bindValue="name"
                                                clearAllText="Clear"
                                                formControlName="serviceType">
                                     </ng-select>
@@ -160,7 +144,7 @@
                           </div>
                           <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
                             <a class="add-new-element" (click)="pushMonitoringGroup()">
-                              <i class="fa fa-plus" aria-hidden="true"></i> Add GroupName
+                              <i class="fa fa-plus" aria-hidden="true"></i> Add new Service Check
                             </a>
                           </div>
                         </div>
