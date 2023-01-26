@@ -24,6 +24,7 @@ import {zip} from 'rxjs';
 import {Paging} from '../../domain/paging';
 import {ResourceExtrasService} from "../../services/resource-extras.service";
 import {URLValidator} from "../../shared/validators/generic.validator";
+import {ServiceExtensionsService} from "../../services/service-extensions.service";
 
 declare var UIkit: any;
 
@@ -82,6 +83,9 @@ export class ResourcesListComponent implements OnInit {
   facets: any;
   searchFacet = '';
 
+  numberOfServicesOnView: number;
+  statusesOnView = [];
+
   total: number;
   currentPage = 1;
   pageTotal: number;
@@ -131,7 +135,8 @@ export class ResourcesListComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private navigator: NavigationService,
-              private fb: FormBuilder
+              private fb: FormBuilder,
+              private serviceExtensionsService: ServiceExtensionsService
   ) {
   }
 
@@ -361,6 +366,7 @@ export class ResourcesListComponent implements OnInit {
         this.services = res['results'];
         this.facets = res['facets'];
         this.total = res['total'];
+        this.numberOfServicesOnView = res['to']-res['from'];
         this.paginationInit();
       },
       err => {
@@ -370,6 +376,16 @@ export class ResourcesListComponent implements OnInit {
       },
       () => {
         this.loadingMessage = '';
+        this.statusesOnView = [];
+        for (let i = 0; i < this.numberOfServicesOnView; i++) {
+          this.serviceExtensionsService.getMonitoringStatus(this.services[i].id).subscribe(
+            monitoringStatus => {
+              if(monitoringStatus) { this.statusesOnView.push(monitoringStatus[0].value) }
+              else { this.statusesOnView.push('NA') } //no response hence Not Available status (NA)
+              },
+            err => { this.errorMessage = 'An error occurred while retrieving data for a service. ' + err.error; }
+          );
+        }
       }
     );
   }
@@ -864,5 +880,17 @@ export class ResourcesListComponent implements OnInit {
       suc => this.semanticRelationshipVoc = suc
     );
   }
+
+  // getServiceMonitoringStatusWithId(id: string) {
+  //   return this.providersPage.results.find( x => x.id === id )?.legalStatus;
+  // }
+
+  // getCurrentMonitoringStatus(serviceId: string, i: number){
+  //   this.serviceExtensionsService.getMonitoringStatus(serviceId).subscribe(
+  //     monitoringStatus => { this.currentMonitoringStatus = monitoringStatus[0].value },
+  //     err => { this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error; },
+  //     // () => {console.log(this.currentMonitoringStatus)}
+  //   );
+  // }
 
 }

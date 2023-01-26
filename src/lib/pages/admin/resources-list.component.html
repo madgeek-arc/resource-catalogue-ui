@@ -235,7 +235,7 @@
 
                     <hr class="adminResultsHeader">
 
-                    <div *ngFor="let serviceBundle of services" class="uk-card provider-card uk-margin-medium-top">
+                    <div *ngFor="let serviceBundle of services; let i = index" class="uk-card provider-card uk-margin-medium-top">
                       <div class="uk-card-body" style="padding-bottom: 20px;">
 
                         <div *ngIf="serviceBundle.status === 'approved resource'" class="approved">
@@ -285,6 +285,24 @@
                                   <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, serviceBundle.service.resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="'Go to the resource dashboard'">
                                       {{ serviceBundle.service.name }}
                                   </a>
+                                  <ng-container *ngIf="statusesOnView[i]==='OK'">
+                                    <span class="uk-badge uk-badge-success" style="background: #28a745;">OK</span>
+                                  </ng-container>
+                                  <ng-container *ngIf="statusesOnView[i]==='WARNING'">
+                                    <span class="uk-badge uk-badge-success" style="background: #ffc107;">WARNING</span>
+                                  </ng-container>
+                                  <ng-container *ngIf="statusesOnView[i]==='CRITICAL'">
+                                    <span class="uk-badge uk-badge-success" style="background: #dc3545;">CRITICAL</span>
+                                  </ng-container>
+                                  <ng-container *ngIf="statusesOnView[i]==='MISSING'">
+                                    <span class="uk-badge uk-badge-success" style="background: #17a2b8;">MISSING</span>
+                                  </ng-container>
+                                  <ng-container *ngIf="statusesOnView[i]==='UNKNOWN'">
+                                    <span class="uk-badge uk-badge-success" style="background: #6c757d ;">UNKNOWN</span>
+                                  </ng-container>
+                                  <ng-container *ngIf="statusesOnView[i]==='NA'">
+                                    <span class="uk-badge uk-badge-success" style="background: dimgrey;">NA</span>
+                                  </ng-container>
 <!--                                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
 <!--                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
 <!--                                  </a>-->
