@@ -52,7 +52,7 @@ export class MonitoringInfoComponent implements OnInit {
 
   getCurrentMonitoringStatus(serviceId: string){
     this.serviceExtensionsService.getMonitoringStatus(serviceId).subscribe(
-      monitoringStatus => { this.currentMonitoringStatus = monitoringStatus[0].value },
+      monitoringStatus => { if(monitoringStatus){this.currentMonitoringStatus = monitoringStatus[0].value} else {this.currentMonitoringStatus = 'NA'} },
       err => { this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error; },
       // () => {console.log(this.currentMonitoringStatus)}
     );
