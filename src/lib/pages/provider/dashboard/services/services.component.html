@@ -121,7 +121,7 @@
         <hr class="adminResultsHeader">
 
         <div class="uk-margin-medium-top">
-          <div *ngFor="let providerService of providerServices.results" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+          <div *ngFor="let providerService of providerServices.results; let i = index" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
 
             <div class="uk-card-body">
 
@@ -156,6 +156,24 @@
                     <a [routerLink]="['/dashboard', providerService.service.catalogueId, providerService.service.resourceOrganisation, 'resource-dashboard', providerService.id]" data-uk-tooltip title="'Go to the resource dashboard'">
                       {{providerService.service.name}}
                     </a>
+                    <ng-container *ngIf="statusesOnView[i]==='OK'">
+                      <span class="uk-badge uk-badge-success" style="background: #28a745;">OK</span>
+                    </ng-container>
+                    <ng-container *ngIf="statusesOnView[i]==='WARNING'">
+                      <span class="uk-badge uk-badge-success" style="background: #ffc107;">WARNING</span>
+                    </ng-container>
+                    <ng-container *ngIf="statusesOnView[i]==='CRITICAL'">
+                      <span class="uk-badge uk-badge-success" style="background: #dc3545;">CRITICAL</span>
+                    </ng-container>
+                    <ng-container *ngIf="statusesOnView[i]==='MISSING'">
+                      <span class="uk-badge uk-badge-success" style="background: #17a2b8;">MISSING</span>
+                    </ng-container>
+                    <ng-container *ngIf="statusesOnView[i]==='UNKNOWN'">
+                      <span class="uk-badge uk-badge-success" style="background: #6c757d ;">UNKNOWN</span>
+                    </ng-container>
+                    <ng-container *ngIf="statusesOnView[i]==='NA'">
+                      <span class="uk-badge uk-badge-success" style="background: dimgrey;">NA</span>
+                    </ng-container>
                   </h4>
                   <div class="uk-margin-small-top">
                     <span *ngIf="providerService.service.description" class="uk-margin-small-top"><markdown [data]="providerService.service.description"></markdown></span>
