@@ -151,6 +151,17 @@ export class ResourceInteroperabilityRecord implements Identifiable {
   interoperabilityRecordIds: string[];
 }
 
+export class MonitoringStatus {
+  date: string;
+  availability: string;
+  reliability: string;
+  unknown: string;
+  uptime: string;
+  downtime: string;
+  timestamp: string;
+  value: string;
+}
+
 export class Monitoring {
   id: string;
   serviceId: string; //should change to generic resourceId
