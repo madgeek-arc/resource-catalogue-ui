@@ -274,7 +274,7 @@
 <!--                                  <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc' else anotherCatalogue">-->
 <!--                                <span *ngIf="serviceBundle.status!=='approved'" class="uk-margin-auto-vertical">-->
 <!--                                  <h5 class="uk-display-inline-block" data-uk-tooltip-->
-<!--                                      title="'Your resource provider is not yet active, therefore you cannot access its monitoring dashboard'">-->
+<!--                                      title="Your resource provider is not yet active, therefore you cannot access its monitoring dashboard">-->
 <!--                                    {{ serviceBundle.service.name }}-->
 <!--                                  </h5>-->
 <!--                                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
@@ -282,7 +282,7 @@
 <!--                                  </a>-->
 <!--                                </span>-->
 <!--                                <span *ngIf="serviceBundle.status==='approved'" class="uk-margin-auto-vertical">-->
-                                  <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, serviceBundle.service.resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="'Go to the resource dashboard'">
+                                  <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, serviceBundle.service.resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the resource dashboard">
                                       {{ serviceBundle.service.name }}
                                   </a>
                                   <ng-container *ngIf="statusesOnView[i]==='OK'">
@@ -885,7 +885,7 @@
               <div class="providerName">
                 <span class="uk-margin-auto-vertical">
 <!--                <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc' else anotherCatalogue">-->
-                  <a [routerLink]="['/dashboard/' + serviceBundle.service.resourceOrganisation + '/resource-dashboard', serviceBundle.id]" target="_blank" data-uk-tooltip title="'Go to the resource dashboard'">
+                  <a [routerLink]="['/dashboard/' + serviceBundle.service.resourceOrganisation + '/resource-dashboard', serviceBundle.id]" target="_blank" data-uk-tooltip title="Go to the resource dashboard">
                       {{ serviceBundle.service.name }}
                   </a>
 <!--                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
