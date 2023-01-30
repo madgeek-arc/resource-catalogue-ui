@@ -255,8 +255,30 @@
                           <div class="uk-label uk-align-right">Inactive</div>
                         </div>
 
-                        <div *ngIf="serviceBundle?.resourceExtras?.horizontalService" class="">
-                          <div class="uk-label uk-position-bottom-right uk-margin-large" >Horizontal</div>
+                        <div *ngIf="statusesOnView[i]" class="uk-position-bottom-right uk-margin-xlarge-bottom" style="padding-right: 40px">
+                          <span class="statusLabel">Monitoring Status: </span><span>{{statusesOnView[i]}}</span>
+                        </div>
+<!--                          <ng-container *ngIf="statusesOnView[i]==='OK'">-->
+<!--                            <span class="uk-badge" title="Monitoring Status" style="background: #28a745;">OK</span>-->
+<!--                          </ng-container>-->
+<!--                          <ng-container *ngIf="statusesOnView[i]==='WARNING'">-->
+<!--                            <span class="uk-badge" title="Monitoring Status" style="background: #ffc107;">WARNING</span>-->
+<!--                          </ng-container>-->
+<!--                          <ng-container *ngIf="statusesOnView[i]==='CRITICAL'">-->
+<!--                            <span class="uk-badge" title="Monitoring Status" style="background: #dc3545;">CRITICAL</span>-->
+<!--                          </ng-container>-->
+<!--                          <ng-container *ngIf="statusesOnView[i]==='MISSING'">-->
+<!--                            <span class="uk-badge" title="Monitoring Status" style="background: #17a2b8;">MISSING</span>-->
+<!--                          </ng-container>-->
+<!--                          <ng-container *ngIf="statusesOnView[i]==='UNKNOWN'">-->
+<!--                            <span class="uk-badge" title="Monitoring Status" style="background: #6c757d ;">UNKNOWN</span>-->
+<!--                          </ng-container>-->
+<!--                          <ng-container *ngIf="statusesOnView[i]==='NA'">-->
+<!--                            <span class="uk-badge" title="Monitoring Status" style="background: dimgrey;">NA</span>-->
+<!--                          </ng-container>-->
+
+                        <div *ngIf="serviceBundle?.resourceExtras?.horizontalService" class="uk-label uk-position-bottom-right uk-margin-large" style="margin-right: 40px">
+                          <span>Horizontal</span>
                         </div>
 
                         <div class="">
@@ -285,24 +307,6 @@
                                   <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, serviceBundle.service.resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the resource dashboard">
                                       {{ serviceBundle.service.name }}
                                   </a>
-                                  <ng-container *ngIf="statusesOnView[i]==='OK'">
-                                    <span class="uk-badge" title="Monitoring Status" style="background: #28a745;">OK</span>
-                                  </ng-container>
-                                  <ng-container *ngIf="statusesOnView[i]==='WARNING'">
-                                    <span class="uk-badge" title="Monitoring Status" style="background: #ffc107;">WARNING</span>
-                                  </ng-container>
-                                  <ng-container *ngIf="statusesOnView[i]==='CRITICAL'">
-                                    <span class="uk-badge" title="Monitoring Status" style="background: #dc3545;">CRITICAL</span>
-                                  </ng-container>
-                                  <ng-container *ngIf="statusesOnView[i]==='MISSING'">
-                                    <span class="uk-badge" title="Monitoring Status" style="background: #17a2b8;">MISSING</span>
-                                  </ng-container>
-                                  <ng-container *ngIf="statusesOnView[i]==='UNKNOWN'">
-                                    <span class="uk-badge" title="Monitoring Status" style="background: #6c757d ;">UNKNOWN</span>
-                                  </ng-container>
-                                  <ng-container *ngIf="statusesOnView[i]==='NA'">
-                                    <span class="uk-badge" title="Monitoring Status" style="background: dimgrey;">NA</span>
-                                  </ng-container>
 <!--                                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
 <!--                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
 <!--                                  </a>-->
