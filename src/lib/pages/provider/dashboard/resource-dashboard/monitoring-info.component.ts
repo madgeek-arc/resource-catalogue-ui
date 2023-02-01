@@ -22,7 +22,7 @@ export class MonitoringInfoComponent implements OnInit {
   public errorMessage: string;
   private sub: Subscription;
 
-  currentMonitoringStatus = '';
+  currentMonitoringStatus: string;
   monitoringData: MonitoringStatus[] = []; //for availability and reliability
   // availabilityData: any;
   // reliabilityData: any;
@@ -68,7 +68,7 @@ export class MonitoringInfoComponent implements OnInit {
         // this.availabilityData = this.monitoringData.map(item => parseInt(item.availability));
         // this.reliabilityData = this.monitoringData.map(item => parseInt(item.reliability));
         this.loadingMessage = '';
-        this.drawChart();
+        if (this.monitoringData) {this.drawChart()}
       }
     );
   }
