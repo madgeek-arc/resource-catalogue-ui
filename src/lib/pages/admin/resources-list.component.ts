@@ -84,7 +84,7 @@ export class ResourcesListComponent implements OnInit {
   searchFacet = '';
 
   numberOfServicesOnView: number;
-  statusesOnView = [];
+  statusesOnView: {serviceId: string, status: string}[];
 
   total: number;
   currentPage = 1;
@@ -377,11 +377,15 @@ export class ResourcesListComponent implements OnInit {
       () => {
         this.loadingMessage = '';
         this.statusesOnView = [];
+        for(let i = 0; i < this.numberOfServicesOnView; i++) {
+          this.statusesOnView.push({serviceId: '', status: ''});
+        }
         for (let i = 0; i < this.numberOfServicesOnView; i++) {
           this.serviceExtensionsService.getMonitoringStatus(this.services[i].id).subscribe(
             monitoringStatus => {
-              if(monitoringStatus) { this.statusesOnView.push(monitoringStatus[0].value) }
-              else { this.statusesOnView.push('NA') } //no response hence Not Available status (NA)
+              this.statusesOnView[i].serviceId = this.services[i].id;
+              if(monitoringStatus) { this.statusesOnView[i].status = monitoringStatus[0].value }
+              else {  this.statusesOnView[i].status = 'NA' } //no response hence Not Available status (NA)
               },
             err => { this.errorMessage = 'An error occurred while retrieving data for a service. ' + err.error; }
           );

@@ -129,9 +129,10 @@
                 </div>
 
                 <div class="uk-width-3-4">
-<!--<pre>{{facets[1].labels}}</pre>-->
-<!--<pre>{{facets[0].values}}</pre>-->
-<!--<pre>{{facets.length}}</pre>-->
+<!--                  <pre>{{facets[1].labels}}</pre>-->
+<!--                  <pre>{{facets[0].values}}</pre>-->
+<!--                  <pre>{{facets.length}}</pre>-->
+<!--                  <pre>{{statusesOnView|json}}</pre>-->
                   <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters">
 
                     <div class="uk-margin-right">
@@ -255,8 +256,8 @@
                           <div class="uk-label uk-align-right">Inactive</div>
                         </div>
 
-                        <div *ngIf="statusesOnView[i]" class="uk-position-bottom-right uk-margin-xlarge-bottom" style="padding-right: 40px">
-                          <span class="statusLabel">Monitoring Status: </span><span>{{statusesOnView[i]}}</span>
+                        <div *ngIf="statusesOnView[i].status && serviceBundle.id === statusesOnView[i].serviceId" class="uk-position-bottom-right uk-margin-xlarge-bottom" style="padding-right: 40px">
+                          <span class="statusLabel">Monitoring Status: </span><span>{{statusesOnView[i].status}}</span>
                         </div>
 <!--                          <ng-container *ngIf="statusesOnView[i]==='OK'">-->
 <!--                            <span class="uk-badge" title="Monitoring Status" style="background: #28a745;">OK</span>-->
