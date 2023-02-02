@@ -4,7 +4,7 @@ import {Subscription, zip} from 'rxjs';
 import {Datasource, LoggingInfo} from '../../../../domain/eic-model';
 import {NavigationService} from '../../../../services/navigation.service';
 import {ResourceService} from '../../../../services/resource.service';
-import {DatasourceService} from "../../../../services/datasource.service";
+import {DatasourceService} from '../../../../services/datasource.service';
 import {Paging} from '../../../../domain/paging';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';

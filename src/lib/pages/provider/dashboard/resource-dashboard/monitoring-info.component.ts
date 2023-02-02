@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../../../environments/environment';
-import {MonitoringStatus, Service} from "../../../../domain/eic-model";
-import {Subscription} from "rxjs";
-import {NavigationService} from "../../../../services/navigation.service";
-import {ResourceService} from "../../../../services/resource.service";
-import {ServiceExtensionsService} from "../../../../services/service-extensions.service";
+import {MonitoringStatus, Service} from '../../../../domain/eic-model';
+import {Subscription} from 'rxjs';
+import {NavigationService} from '../../../../services/navigation.service';
+import {ResourceService} from '../../../../services/resource.service';
+import {ServiceExtensionsService} from '../../../../services/service-extensions.service';
 import * as Highcharts from 'highcharts';
 
 

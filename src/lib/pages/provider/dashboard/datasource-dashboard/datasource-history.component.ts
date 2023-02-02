@@ -6,7 +6,7 @@ import {NavigationService} from '../../../../services/navigation.service';
 import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
-import {DatasourceService} from "../../../../services/datasource.service";
+import {DatasourceService} from '../../../../services/datasource.service';
 
 @Component({
   selector: 'app-datasource-history',

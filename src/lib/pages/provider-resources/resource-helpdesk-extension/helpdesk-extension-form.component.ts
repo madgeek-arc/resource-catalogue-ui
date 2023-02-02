@@ -6,7 +6,7 @@ import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
 import {UserService} from '../../../services/user.service';
 import * as sd from '../services.description';
-import {Provider, Service, Helpdesk} from '../../../domain/eic-model';
+import {Helpdesk, Provider, Service} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {urlAsyncValidator, URLValidator} from '../../../shared/validators/generic.validator';
 import {environment} from '../../../../environments/environment';
