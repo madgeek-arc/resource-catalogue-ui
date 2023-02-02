@@ -2,28 +2,16 @@ import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/c
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {resourceStatusChangeMap, statusList} from '../../domain/resource-status-list';
-import {
-  InfraService,
-  LoggingInfo,
-  Provider,
-  ProviderBundle,
-  ResourceExtras,
-  Type,
-  Vocabulary
-} from '../../domain/eic-model';
+import {InfraService, LoggingInfo, Provider, ProviderBundle, Vocabulary} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
-import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 import {NavigationService} from '../../services/navigation.service';
-import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
-import {statusChangeMap} from '../../domain/service-provider-status-list';
-import {zip} from 'rxjs';
 import {Paging} from '../../domain/paging';
-import {ResourceExtrasService} from "../../services/resource-extras.service";
-import {urlAsyncValidator, URLValidator} from "../../shared/validators/generic.validator";
+import {ResourceExtrasService} from '../../services/resource-extras.service';
+import {ServiceExtensionsService} from '../../services/service-extensions.service';
 
 declare var UIkit: any;
 
@@ -82,6 +70,9 @@ export class ResourcesListComponent implements OnInit {
   facets: any;
   searchFacet = '';
 
+  numberOfServicesOnView: number;
+  statusesOnView: {serviceId: string, status: string}[];
+
   total: number;
   currentPage = 1;
   pageTotal: number;
@@ -109,7 +100,7 @@ export class ResourcesListComponent implements OnInit {
     'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
   ];
 
-  @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
+  @ViewChildren('auditCheckboxes') auditCheckboxes: QueryList<ElementRef>;
 
   public statuses: Array<string> = [
     'approved resource', 'pending resource', 'rejected resource'
@@ -119,7 +110,7 @@ export class ResourcesListComponent implements OnInit {
     `Approved`, `Pending`, `Rejected`
   ];
 
-  @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
+  @ViewChildren('checkboxes') checkboxes: QueryList<ElementRef>;
 
   researchCategoriesVoc: Vocabulary[] = null;
   semanticRelationshipVoc: Vocabulary[] = null;
@@ -131,7 +122,8 @@ export class ResourcesListComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private navigator: NavigationService,
-              private fb: FormBuilder
+              private fb: FormBuilder,
+              private serviceExtensionsService: ServiceExtensionsService
   ) {
   }
 
@@ -361,6 +353,7 @@ export class ResourcesListComponent implements OnInit {
         this.services = res['results'];
         this.facets = res['facets'];
         this.total = res['total'];
+        this.numberOfServicesOnView = res['to']-res['from'];
         this.paginationInit();
       },
       err => {
@@ -370,6 +363,20 @@ export class ResourcesListComponent implements OnInit {
       },
       () => {
         this.loadingMessage = '';
+        this.statusesOnView = [];
+        for(let i = 0; i < this.numberOfServicesOnView; i++) {
+          this.statusesOnView.push({serviceId: '', status: ''});
+        }
+        for (let i = 0; i < this.numberOfServicesOnView; i++) {
+          this.serviceExtensionsService.getMonitoringStatus(this.services[i].id).subscribe(
+            monitoringStatus => {
+              this.statusesOnView[i].serviceId = this.services[i].id;
+              if(monitoringStatus) { this.statusesOnView[i].status = monitoringStatus[0].value }
+              else {  this.statusesOnView[i].status = 'NA' } //no response hence Not Available status (NA)
+              },
+            err => { this.errorMessage = 'An error occurred while retrieving data for a service. ' + err.error; }
+          );
+        }
       }
     );
   }
@@ -864,5 +871,17 @@ export class ResourcesListComponent implements OnInit {
       suc => this.semanticRelationshipVoc = suc
     );
   }
+
+  // getServiceMonitoringStatusWithId(id: string) {
+  //   return this.providersPage.results.find( x => x.id === id )?.legalStatus;
+  // }
+
+  // getCurrentMonitoringStatus(serviceId: string, i: number){
+  //   this.serviceExtensionsService.getMonitoringStatus(serviceId).subscribe(
+  //     monitoringStatus => { this.currentMonitoringStatus = monitoringStatus[0].value },
+  //     err => { this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error; },
+  //     // () => {console.log(this.currentMonitoringStatus)}
+  //   );
+  // }
 
 }

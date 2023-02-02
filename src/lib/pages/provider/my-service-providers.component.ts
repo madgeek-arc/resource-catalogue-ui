@@ -76,7 +76,7 @@ export class MyServiceProvidersComponent implements OnInit {
               // if (p.status === 'pending template submission') {
               if (p.status === 'approved provider') {
                 // console.log(p.id);
-                this.serviceProviderService.getDraftServicesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
+                this.resourceService.getDraftServicesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
                   res => {
                     if (res.results.length > 0) {
                       this.hasDraftServices.push({id: p.id, flag: true});

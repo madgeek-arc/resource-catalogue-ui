@@ -104,8 +104,14 @@ const appRoutes: Routes = [
     }
   },
   {
+    path: 'guidelines',
+    loadChildren: () => import('../lib/pages/admin/guidelines/guidelines.module').then(m => m.GuidelinesModule),
+    canActivate: [CanActivateViaAuthGuard]
+  },
+  {
     path: 'vocabulary-requests',
     component: VocabularyRequestsComponent,
+    canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Vocabulary Requests'
     }

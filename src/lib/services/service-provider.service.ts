@@ -122,15 +122,6 @@ export class ServiceProviderService {
       `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
   }
 
-  getPendingServicesOfProvider(id: string) {  // we use new /resource/getServiceTemplate/${id} instead TODO: rename front & back! - gets INACTIVE services
-    return this.http.get<Service[]>(this.base + `/provider/services/pending/${id}`);
-  }
-
-  getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
-    return this.http.get<Paging<InfraService>>(this.base +
-      `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
-  }
-
   getRejectedResourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, resourceType: string) {
     return this.http.get<Paging<any>>(this.base +
       `/provider/resources/rejected/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&resourceType=${resourceType}`);

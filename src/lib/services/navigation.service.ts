@@ -39,6 +39,11 @@ export class NavigationService {
       return this.router.navigate([`/dashboard/${providerId}/resource-dashboard/${serviceId}/stats`]);
     }
 
+    datasourceDashboard(providerId: string, datasourceId: string, catalogueId?: string) {
+      if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/datasource-dashboard/${datasourceId}/stats`]);
+      return this.router.navigate([`/dashboard/${providerId}/datasource-dashboard/${datasourceId}/stats`]);
+    }
+
     edit(id: string) {
         return this.router.navigateByUrl(`/provider/${id.split('.')[0]}/resource/update/${id}`);
     }

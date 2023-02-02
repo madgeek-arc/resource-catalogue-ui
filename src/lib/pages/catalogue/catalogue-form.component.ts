@@ -916,4 +916,11 @@ export class CatalogueFormComponent implements OnInit {
   resetLegalStatus() {
     this.catalogueForm.get('legalStatus').setValue('');
   }
+
+  switchToTab(id: string){
+    const element: HTMLElement = document.getElementById(id) as HTMLElement;
+    element.click();
+    window.scrollTo(0, -1);
+  }
+
 }

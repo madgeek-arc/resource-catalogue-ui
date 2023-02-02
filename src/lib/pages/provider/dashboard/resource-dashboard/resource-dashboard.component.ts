@@ -5,6 +5,7 @@ import {ResourceService} from '../../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../../services/service-extensions.service';
 import {NavigationService} from '../../../../services/navigation.service';
 import {environment} from '../../../../../environments/environment';
+import {InfraService} from "../../../../domain/eic-model";
 
 
 @Component({
@@ -22,6 +23,8 @@ export class ResourceDashboardComponent implements OnInit {
   monitoringId: string;
   helpdeskId: string;
 
+  resourceBundle: InfraService;
+
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,
               public serviceExtensionsService: ServiceExtensionsService,
@@ -33,11 +36,17 @@ export class ResourceDashboardComponent implements OnInit {
     this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.resourceId = this.route.snapshot.paramMap.get('resourceId');
-    this.serviceExtensionsService.getMonitoringByServiceId(this.resourceId).subscribe(
-      res => { if (res!=null) this.monitoringId = res.id } //id not used atm
-    );
-    this.serviceExtensionsService.getHelpdeskByServiceId(this.resourceId).subscribe(
-      res => { if (res!=null) this.helpdeskId = res.id } //id not used atm
+    this.resourceService.getResourceBundleById(this.resourceId, this.catalogueId).subscribe(
+      res => { if (res!=null) this.resourceBundle = res },
+      error => {},
+      () => {
+        this.serviceExtensionsService.getMonitoringByServiceId(this.resourceId).subscribe(
+          res => { if (res!=null) this.monitoringId = res.id }
+        );
+        this.serviceExtensionsService.getHelpdeskByServiceId(this.resourceId).subscribe(
+          res => { if (res!=null) this.helpdeskId = res.id }
+        );
+      }
     );
   }
 }

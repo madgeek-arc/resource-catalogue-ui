@@ -1,0 +1,135 @@
+<div class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom" style="min-height: 325px">
+  <div class="uk-container uk-container-expand">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+
+        <div class="titleAndActionsBar">
+          <div class="">
+            <div class="pageTitle">
+              Guidelines
+            </div>
+            <div class="providerName uk-margin-small-top">
+              <strong>{{serviceId}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
+            </div>
+          </div>
+          <div class="uk-flex uk-flex-middle">
+            <button *ngIf="resourceGuidelines?.id" class="uk-button uk-button-danger uk-margin-left" type="submit" (click)="this.removeAll()">Remove all</button>
+            <button class="uk-button uk-button-secondary uk-margin-left" type="submit" (click)="this.onSubmit()">Submit</button>
+          </div>
+        </div>
+
+        <!-- TOP HELP CONTENT -->
+        <app-help-content #topHelperContent [position]="'top'"
+                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </app-help-content>
+        <div class="uk-margin-medium-bottom">
+          <div class="uk-grid">
+            <!-- LEFT HELP CONTENT -->
+            <app-aside-help-content #leftHelperContent [position]="'left'"
+                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m uk-margin-medium-top">
+              <div *ngIf="showLoader" class="uk-position-center">
+                <div uk-spinner="ratio: 2"></div>
+              </div>
+
+              <div [ngClass]="{'blur-filter': showLoader}">
+
+                <h5 class="uk-padding-small uk-margin-remove">On this page you can assign Guidelines to your {{serviceORresource}}. </h5>
+
+                <div id="guidelinesForm">
+
+                  <div class="uk-margin-bottom uk-flex uk-flex-right">
+                    <div>
+                      <button class="uk-button uk-button-link" type="button">Do you need help?</button>
+                      <div uk-drop="pos: bottom-left">
+                        <div class="uk-card uk-card-body uk-card-default">
+                          <ng-container *ngIf="projectName === 'EOSC' || projectName === 'OpenAIRE Catalogue'">
+                            <p class="uk-margin-remove-bottom">For questions related to the information that needs to be
+                              filled in and suggestions on the portal, please contact us in <a
+                                href="mailto:onboarding@eosc-portal.eu">onboarding@eosc-portal.eu</a></p>
+                            <!--                        <p>For technical issues and questions, please contact us in <a href="mailto:providers@eosc-portal.eu">providers@eosc-portal.eu</a></p>-->
+                          </ng-container>
+                          <!-- TOP HELP CONTENT -->
+                          <app-help-content #topHelperContent [position]="'top'"
+                                            [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                          </app-help-content>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div *ngIf="errorMessage" data-uk-alert="" class="uk-alert uk-alert-danger">
+                    <p>{{errorMessage}}</p>
+                  </div>
+                  <div *ngIf="successMessage" data-uk-alert="" class="uk-alert uk-alert-success">
+                    <p>{{successMessage}}</p>
+                  </div>
+
+                  <div class="uk-grid">
+
+                    <form [formGroup]="guidelinesForm" role="form" class="uk-form uk-margin uk-width-1-1">
+
+                      <div class="formContainer">
+
+                        <div formArrayName="interoperabilityRecordIds" class="uk-margin-large-bottom">
+                          <label class="uk-form-label uk-text-right" for="interoperabilityRecordIds">
+                            Guidelines
+                          </label>
+                          <div class="uk-form-description uk-margin-top uk-width-9-10">Interoperability records list</div>
+                          <div class="uk-form-controls uk-margin-medium-top">
+                            <div
+                              *ngFor="let ir of getFieldAsFormArray('interoperabilityRecordIds').controls; let i=index"
+                              class="uk-margin-bottom">
+                              <ng-select *ngIf="guidelines?.length > 0" class="uk-width-9-10" id="interoperabilityRecordIds"
+                                         [items]="guidelines"
+                                         (change)="checkForDuplicates('interoperabilityRecordIds'); unsavedChangesPrompt()"
+                                         bindLabel="title"
+                                         bindValue="id"
+                                         clearAllText="Clear"
+                                         [formControlName]="i">
+                              </ng-select>
+                              <a *ngIf="getFieldAsFormArray('interoperabilityRecordIds').length > 1 && !disable"
+                                 class="remove-element uk-padding-small"
+                                 (click)="remove('interoperabilityRecordIds', i); unsavedChangesPrompt()">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </a>
+                            </div>
+                            <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                              <a class="add-new-element"
+                                 (click)="push('interoperabilityRecordIds')">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add Guideline
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+
+<!--                                                                        <pre>-->
+<!--                                                                          {{guidelinesForm.value | json}}-->
+<!--                                                                          {{guidelines|json}}-->
+<!--                                                                        </pre>-->
+                      </div>
+
+                    </form>
+
+                  </div>
+
+                </div>
+              </div>
+              <!-- RIGHT HELP CONTENT -->
+<!--              <app-aside-help-content #rightHelperContent [position]="'right'"-->
+<!--                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">-->
+<!--              </app-aside-help-content>-->
+            </div>
+          </div>
+          <!-- BOTTOM HELP CONTENT -->
+          <app-help-content #bottomHelperContent [position]="'bottom'"
+                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+          </app-help-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
