@@ -7,6 +7,7 @@ import {Paging} from '../../../../domain/paging';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
+import {ServiceExtensionsService} from "../../../../services/service-extensions.service";
 
 declare var UIkit: any;
 
@@ -44,6 +45,9 @@ export class ServicesComponent implements OnInit {
   selectedService: InfraService = null;
   path: string;
 
+  numberOfServicesOnView: number;
+  statusesOnView = [];
+
   total: number;
   // itemsPerPage = 10;
   currentPage = 1;
@@ -55,7 +59,8 @@ export class ServicesComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
-    private service: ResourceService
+    private service: ResourceService,
+    private serviceExtensionsService: ServiceExtensionsService
   ) {}
 
   ngOnInit(): void {
@@ -130,10 +135,23 @@ export class ServicesComponent implements OnInit {
       .subscribe(res => {
           this.providerServices = res;
           this.total = res['total'];
+          this.numberOfServicesOnView = res['to']-res['from'];
           this.paginationInit();
         },
         err => {
           this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
+        },
+        () => {
+          this.statusesOnView = [];
+          for (let i = 0; i < this.numberOfServicesOnView; i++) {
+            this.serviceExtensionsService.getMonitoringStatus(this.providerServices.results[i].id).subscribe(
+              monitoringStatus => {
+                if(monitoringStatus) { this.statusesOnView.push(monitoringStatus[0].value) }
+                else { this.statusesOnView.push('NA') } //no response hence Not Available status (NA)
+             },
+              err => { this.errorMessage = 'An error occurred while retrieving data for a service. ' + err.error; }
+            );
+          }
         }
       );
   }

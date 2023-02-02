@@ -102,7 +102,7 @@
                             <div formArrayName="monitoringGroups" *ngFor="let m of monitoringGroupsArray.controls; let i = index">
                               <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
 
-                                <div class="uk-margin-bottom">
+                                <div class="uk-margin-small-bottom">
                                   <label class="uk-form-label uk-text-right" for="serviceType">
                                     {{ serviceTypeDesc.label + (serviceTypeDesc.mandatory ? ' (*)' : '') }}
                                   </label>
@@ -110,19 +110,16 @@
                                   <div class="uk-form-controls uk-margin-medium-top">
                                     <ng-select class="uk-width-1-1" id="serviceType"
                                                [items]="serviceTypesVoc"
-                                               (change)="unsavedChangesPrompt()"
+                                               (change)="unsavedChangesPrompt(); findTypeDescription(i)"
                                                bindLabel="title"
                                                bindValue="name"
                                                clearAllText="Clear"
                                                formControlName="serviceType">
                                     </ng-select>
-<!--                                    <input id="serviceType" class="uk-input" type="text" formControlName="serviceType"-->
-<!--                                           (input)="unsavedChangesPrompt()">-->
-                                    <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('monitoringGroups', i, this.editMode, 'serviceType')}">-->
                                   </div>
                                 </div>
-
-                                <div class="uk-margin-bottom">
+                                <span>{{typeDescriptions[i]}}</span>
+                                <div class="uk-margin-medium-top uk-margin-bottom">
                                   <label class="uk-form-label uk-text-right" for="endpoint">
                                     {{ endpointDesc.label + (endpointDesc.mandatory ? ' (*)' : '') }}
                                   </label>

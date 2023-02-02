@@ -6,10 +6,9 @@ import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
 import {UserService} from '../../../services/user.service';
 import * as sd from '../../provider-resources/services.description';
-import {Provider, Service, Type, Vocabulary, Monitoring} from '../../../domain/eic-model';
+import {Provider, Service, Type, Monitoring} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {URLValidator} from '../../../shared/validators/generic.validator';
-import {zip} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
@@ -36,6 +35,7 @@ export class DatasourceMonitoringExtensionFormComponent implements OnInit {
   service: Service;
   datasourceId: string = null;
   monitoring: Monitoring;
+  typeDescriptions = [];
   errorMessage = '';
   successMessage: string = null;
   weights: string[] = [];
@@ -72,16 +72,12 @@ export class DatasourceMonitoringExtensionFormComponent implements OnInit {
   providersPage: Paging<Provider>;
   requiredResources: any;
   relatedResources: any;
-  vocabularies: Map<string, Vocabulary[]> = null;
-  subVocabularies: Map<string, Vocabulary[]> = null;
   serviceTypesVoc: any;
   resourceService: ResourceService = this.injector.get(ResourceService);
   serviceExtensionsService: ServiceExtensionsService = this.injector.get(ServiceExtensionsService);
 
   router: NavigationService = this.injector.get(NavigationService);
   userService: UserService = this.injector.get(UserService);
-
-  public serviceTypeVocabulary: Vocabulary[] = null;
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -154,25 +150,12 @@ export class DatasourceMonitoringExtensionFormComponent implements OnInit {
         // console.log(this.monitoring);
       }
       },
-      err => {
-        console.log(err);
-      },
+      err => { console.log(err); },
       () => {
         if (this.monitoring) { //fill the form -->
           this.formPrepare(this.monitoring);
           this.serviceForm.patchValue(this.monitoring);
         }
-      }
-    );
-
-    zip(
-      this.resourceService.getAllVocabulariesByType(),
-    ).subscribe(suc => {
-        this.vocabularies = <Map<string, Vocabulary[]>>suc[0];
-        this.serviceTypeVocabulary = this.vocabularies[Type.MONITORING_SERVICE_TYPE]; //empty for now
-      },
-      error => {
-        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
       }
     );
   }
@@ -215,10 +198,6 @@ export class DatasourceMonitoringExtensionFormComponent implements OnInit {
 
   /** <--manage form arrays **/
 
-  unsavedChangesPrompt() {
-    this.hasChanges = true;
-  }
-
   /** MonitoringGroups -->**/
   newMonitoringGroup(): FormGroup {
     return this.fb.group({
@@ -237,6 +216,7 @@ export class DatasourceMonitoringExtensionFormComponent implements OnInit {
 
   removeMonitoringGroup(index: number) {
     this.monitoringGroupsArray.removeAt(index);
+    this.initTypeDescriptions();
   }
   /** <--MonitoringGroups**/
 
@@ -263,7 +243,7 @@ export class DatasourceMonitoringExtensionFormComponent implements OnInit {
 
   formPrepare(monitoring: Monitoring) {
 
-    this.removeMonitoringGroup(0);
+    this.monitoringGroupsArray.removeAt(0); //this.removeMonitoringGroup(0); would also trigger the this.initTypeDescriptions();
     if (monitoring.monitoringGroups) {
       for (let i = 0; i < monitoring.monitoringGroups.length; i++) {
         this.monitoringGroupsArray.push(this.newMonitoringGroup());
@@ -289,16 +269,35 @@ export class DatasourceMonitoringExtensionFormComponent implements OnInit {
 
   }
 
+  unsavedChangesPrompt() {
+    this.hasChanges = true;
+  }
+
+  initTypeDescriptions(){
+    this.typeDescriptions = [];
+    if(this.monitoring && this.serviceTypesVoc){
+      for(let i=0; i<this.monitoring.monitoringGroups.length; i++) {
+        this.findTypeDescription(i);
+      }
+    }
+  }
+
+  findTypeDescription(i){
+    for(let j=0; j<this.serviceTypesVoc.length; j++) {
+      if(this.serviceTypesVoc[j].name === this.monitoringGroupsArray.controls[i].get('serviceType').value){
+        this.typeDescriptions[i] = this.serviceTypesVoc[j].description;
+        break;
+      }
+    }
+  }
+
   setServiceTypes() {
     this.serviceExtensionsService.getServiceTypes().subscribe(
       res => {
         this.serviceTypesVoc = res;
       },
       error => console.log(JSON.stringify(error.error)),
-      () => {
-        console.log(this.serviceTypesVoc);
-        return this.serviceTypesVoc;
-      }
+      () => {this.initTypeDescriptions()}
     );
   }
 

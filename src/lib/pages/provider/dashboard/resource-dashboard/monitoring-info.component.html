@@ -9,7 +9,23 @@
               <img src="{{ service.logo ? service.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
             </div>
             <div class="uk-margin-medium-left">
-              <h3 class="uk-margin-remove">{{service.name}}</h3>
+              <h3 class="uk-margin-remove">{{service.name}}
+<!--                <ng-container *ngIf="currentMonitoringStatus==='OK'">-->
+<!--                  <span class="uk-badge" title="Monitoring Status" style="background: #26aa0b;"><i class="fa fa-check"></i></span>-->
+<!--                </ng-container>-->
+<!--                <ng-container *ngIf="currentMonitoringStatus!=='OK' && currentMonitoringStatus!=='init'">-->
+<!--                  <span class="uk-badge" title="Monitoring Status" style="background: #aa1e0b;">X</span>-->
+<!--                </ng-container>-->
+<!--                <ng-container *ngIf="currentMonitoringStatus==='OK'">-->
+<!--                  <span class="uk-badge" title="Monitoring Status" style="background: #26aa0b;">OK</span>-->
+<!--                </ng-container>-->
+<!--                <ng-container *ngIf="currentMonitoringStatus==='WARNING'">-->
+<!--                  <span class="uk-badge" title="Monitoring Status" style="background: #aa1e0b;">WARNING</span>-->
+<!--                </ng-container>-->
+<!--                <ng-container *ngIf="currentMonitoringStatus==='CRITICAL'">-->
+<!--                  <span class="uk-badge" title="Monitoring Status" style="background: #aa1e0b;">CRITICAL</span>-->
+<!--                </ng-container>-->
+              </h3>
             </div>
           </div>
         </div>
@@ -28,16 +44,57 @@
             </app-aside-help-content>
 
             <!-- MIDDLE -->
-            <div class="uk-width-expand@m">
-              <p>General Monitoring Information for your {{serviceORresource}} are available <a
-                href="https://eosc.ui.devel.argo.grnet.gr/eosc/dashboard/Default/{{service.id}}"
-                target="_blank">here</a>.
-              </p>
-              <p>Also, the status report in a timeline view is available <a
-                href="https://eosc.ui.devel.argo.grnet.gr/eosc/report-status/Default/SERVICEGROUPS/{{service.id}}"
-                target="_blank">here</a>.
-              </p>
-            </div>
+              <div *ngIf="currentMonitoringStatus" class="uk-padding uk-width-1-1@m@m">
+                <span class="uk-text-bold">Current Monitoring Status:  </span>
+                <ng-container *ngIf="currentMonitoringStatus==='NA'">
+                  <span class="uk-badge" title="Monitoring Status" style="background: dimgrey;">NA</span>
+                </ng-container>
+                <ng-container *ngIf="currentMonitoringStatus==='OK'">
+                  <span class="uk-badge" title="Monitoring Status" style="background: #28a745;">OK</span>
+                </ng-container>
+                <ng-container *ngIf="currentMonitoringStatus==='WARNING'">
+                  <span class="uk-badge" title="Monitoring Status" style="background: #ffc107;">WARNING</span>
+                </ng-container>
+                <ng-container *ngIf="currentMonitoringStatus==='CRITICAL'">
+                  <span class="uk-badge" title="Monitoring Status" style="background: #dc3545;">CRITICAL</span>
+                </ng-container>
+                <ng-container *ngIf="currentMonitoringStatus==='MISSING'">
+                  <span class="uk-badge" title="Monitoring Status" style="background: #17a2b8;">MISSING</span>
+                </ng-container>
+                <ng-container *ngIf="currentMonitoringStatus==='UNKNOWN'">
+                  <span class="uk-badge" title="Monitoring Status" style="background: #6c757d ;">UNKNOWN</span>
+                </ng-container>
+              </div>
+
+  <!--            <div class="uk-flex uk-flex-center uk-flex-middle" *ngIf="loadingMessage">-->
+  <!--              <div class="loader-big" style="text-align: center; padding-top: 170px; color: rgb(43,43,43); font-weight: bold;">-->
+  <!--                {{ loadingMessage }}-->
+  <!--              </div>-->
+  <!--            </div>-->
+  <!--            <div class="uk-grid">-->
+  <!--              <div *ngIf="monitoringData.length>0">-->
+<!--                  <div class="uk-card">-->
+<!--                    <div class="uk-card-body uk-card-default">-->
+                    <highcharts-chart *ngIf="monitoringData?.length>0"
+                                      [Highcharts]="Highcharts"
+                                      [options]="chartOptions"
+                                      style="width: 100%; height: 400px;">
+                    </highcharts-chart>
+<!--                    </div>-->
+<!--                  </div>-->
+  <!--              </div>-->
+  <!--            </div>-->
+
+              <div *ngIf="service">
+                <p>General Monitoring Information for your {{serviceORresource}} are available <a
+                  href="https://eosc.ui.devel.argo.grnet.gr/eosc/dashboard/Default/{{service.id}}"
+                  target="_blank">here</a>.
+                </p>
+                <p>Also, the status report in a timeline view is available <a
+                  href="https://eosc.ui.devel.argo.grnet.gr/eosc/report-status/Default/SERVICEGROUPS/{{service.id}}"
+                  target="_blank">here</a>.
+                </p>
+              </div>
 
               <!-- RIGHT HELP CONTENT -->
               <app-aside-help-content #rightHelperContent [position]="'right'"

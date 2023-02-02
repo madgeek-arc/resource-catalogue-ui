@@ -129,9 +129,10 @@
                 </div>
 
                 <div class="uk-width-3-4">
-<!--<pre>{{facets[1].labels}}</pre>-->
-<!--<pre>{{facets[0].values}}</pre>-->
-<!--<pre>{{facets.length}}</pre>-->
+<!--                  <pre>{{facets[1].labels}}</pre>-->
+<!--                  <pre>{{facets[0].values}}</pre>-->
+<!--                  <pre>{{facets.length}}</pre>-->
+<!--                  <pre>{{statusesOnView|json}}</pre>-->
                   <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters">
 
                     <div class="uk-margin-right">
@@ -235,7 +236,7 @@
 
                     <hr class="adminResultsHeader">
 
-                    <div *ngFor="let serviceBundle of services" class="uk-card provider-card uk-margin-medium-top">
+                    <div *ngFor="let serviceBundle of services; let i = index" class="uk-card provider-card uk-margin-medium-top">
                       <div class="uk-card-body" style="padding-bottom: 20px;">
 
                         <div *ngIf="serviceBundle.status === 'approved resource'" class="approved">
@@ -255,8 +256,30 @@
                           <div class="uk-label uk-align-right">Inactive</div>
                         </div>
 
-                        <div *ngIf="serviceBundle?.resourceExtras?.horizontalService" class="">
-                          <div class="uk-label uk-position-bottom-right uk-margin-large" >Horizontal</div>
+                        <div *ngIf="statusesOnView[i].status && serviceBundle.id === statusesOnView[i].serviceId" class="uk-position-bottom-right uk-margin-xlarge-bottom" style="padding-right: 40px">
+                          <span class="statusLabel">Monitoring Status: </span><span>{{statusesOnView[i].status}}</span>
+                        </div>
+<!--                          <ng-container *ngIf="statusesOnView[i]==='OK'">-->
+<!--                            <span class="uk-badge" title="Monitoring Status" style="background: #28a745;">OK</span>-->
+<!--                          </ng-container>-->
+<!--                          <ng-container *ngIf="statusesOnView[i]==='WARNING'">-->
+<!--                            <span class="uk-badge" title="Monitoring Status" style="background: #ffc107;">WARNING</span>-->
+<!--                          </ng-container>-->
+<!--                          <ng-container *ngIf="statusesOnView[i]==='CRITICAL'">-->
+<!--                            <span class="uk-badge" title="Monitoring Status" style="background: #dc3545;">CRITICAL</span>-->
+<!--                          </ng-container>-->
+<!--                          <ng-container *ngIf="statusesOnView[i]==='MISSING'">-->
+<!--                            <span class="uk-badge" title="Monitoring Status" style="background: #17a2b8;">MISSING</span>-->
+<!--                          </ng-container>-->
+<!--                          <ng-container *ngIf="statusesOnView[i]==='UNKNOWN'">-->
+<!--                            <span class="uk-badge" title="Monitoring Status" style="background: #6c757d ;">UNKNOWN</span>-->
+<!--                          </ng-container>-->
+<!--                          <ng-container *ngIf="statusesOnView[i]==='NA'">-->
+<!--                            <span class="uk-badge" title="Monitoring Status" style="background: dimgrey;">NA</span>-->
+<!--                          </ng-container>-->
+
+                        <div *ngIf="serviceBundle?.resourceExtras?.horizontalService" class="uk-label uk-position-bottom-right uk-margin-large" style="margin-right: 40px">
+                          <span>Horizontal</span>
                         </div>
 
                         <div class="">
@@ -274,7 +297,7 @@
 <!--                                  <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc' else anotherCatalogue">-->
 <!--                                <span *ngIf="serviceBundle.status!=='approved'" class="uk-margin-auto-vertical">-->
 <!--                                  <h5 class="uk-display-inline-block" data-uk-tooltip-->
-<!--                                      title="'Your resource provider is not yet active, therefore you cannot access its monitoring dashboard'">-->
+<!--                                      title="Your resource provider is not yet active, therefore you cannot access its monitoring dashboard">-->
 <!--                                    {{ serviceBundle.service.name }}-->
 <!--                                  </h5>-->
 <!--                                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
@@ -282,7 +305,7 @@
 <!--                                  </a>-->
 <!--                                </span>-->
 <!--                                <span *ngIf="serviceBundle.status==='approved'" class="uk-margin-auto-vertical">-->
-                                  <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, serviceBundle.service.resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="'Go to the resource dashboard'">
+                                  <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, serviceBundle.service.resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the resource dashboard">
                                       {{ serviceBundle.service.name }}
                                   </a>
 <!--                                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
@@ -867,7 +890,7 @@
               <div class="providerName">
                 <span class="uk-margin-auto-vertical">
 <!--                <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc' else anotherCatalogue">-->
-                  <a [routerLink]="['/dashboard/' + serviceBundle.service.resourceOrganisation + '/resource-dashboard', serviceBundle.id]" target="_blank" data-uk-tooltip title="'Go to the resource dashboard'">
+                  <a [routerLink]="['/dashboard/' + serviceBundle.service.resourceOrganisation + '/resource-dashboard', serviceBundle.id]" target="_blank" data-uk-tooltip title="Go to the resource dashboard">
                       {{ serviceBundle.service.name }}
                   </a>
 <!--                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
