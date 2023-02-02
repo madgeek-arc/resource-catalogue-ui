@@ -6,6 +6,7 @@ import {ServiceHistoryComponent} from './service-history.component';
 import {ServiceFullHistoryComponent} from './service-full-history.component';
 import {ResourceDashboardComponent} from './resource-dashboard.component';
 import {environment} from '../../../../../environments/environment';
+import {MonitoringInfoComponent} from "./monitoring-info.component";
 
 const resourceDashboardRoutes: Routes = [
   {
@@ -37,6 +38,10 @@ const resourceDashboardRoutes: Routes = [
       {
         path: 'fullHistory',
         component: ServiceFullHistoryComponent
+      },
+      {
+        path: 'monitoringInfo',
+        component: MonitoringInfoComponent
       }
     ]
   },
