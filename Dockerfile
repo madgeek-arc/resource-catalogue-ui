@@ -1,5 +1,5 @@
 ### Install and Build ###
-FROM node:16 AS build
+FROM node:lts AS build
 
 WORKDIR /usr/src/app
 

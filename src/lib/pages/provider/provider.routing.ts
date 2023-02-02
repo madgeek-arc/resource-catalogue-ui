@@ -57,7 +57,7 @@ const providerRoutes: Routes = [
   },
   // fixme move this to the dashboard module when no longer in form
   {
-    path: 'view/:catalogueId/:providerId',
+    path: 'info/:providerId',
     component: UpdateServiceProviderComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -206,22 +206,6 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit Datasource'
-    }
-  },
-  {
-    path: ':catalogueId/:providerId/resource/view/:resourceId',
-    component: ServiceEditComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'View ' + environment.serviceORresource
-    }
-  },
-  {
-    path: ':catalogueId/:providerId/datasource/view/:datasourceId',
-    component: UpdateDatasourceComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'View Datasource'
     }
   },
   {

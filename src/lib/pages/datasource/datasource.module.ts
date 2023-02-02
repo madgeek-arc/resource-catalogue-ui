@@ -12,23 +12,21 @@ import {LMarkdownEditorModule} from 'ngx-markdown-editor';
 import {DatasourcesComponent} from "../provider/dashboard/datasources/datasources.component";
 import {DatasourceSelectComponent} from "../provider/dashboard/datasources/datasource-select.component";
 import {DatasourceSubmittedComponent} from "./datasource-submitted.component";
-import {MarkdownModule} from "ngx-markdown";
 
 
 @NgModule({
-    imports: [
-        SharedModule,
-        CommonModule,
-        FormsModule,
-        LMarkdownEditorModule,
-        ReactiveFormsModule,
-        DatasourceRouting,
-        ReusableComponentsModule,
-        HighchartsChartModule,
-        NgSelectModule,
-        MarkdownModule,
+  imports: [
+    SharedModule,
+    CommonModule,
+    FormsModule,
+    LMarkdownEditorModule,
+    ReactiveFormsModule,
+    DatasourceRouting,
+    ReusableComponentsModule,
+    HighchartsChartModule,
+    NgSelectModule,
 
-    ],
+  ],
   declarations: [
     DatasourceFormComponent,
     UpdateDatasourceComponent,

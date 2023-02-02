@@ -6,12 +6,11 @@ import {PremiumSortFacetsPipe, PremiumSortPipe} from './pipes/premium-sort.pipe'
 import {SafePipe} from './pipes/safe.pipe';
 import {StringArraySortPipe} from './pipes/sort.pipe';
 import {ValuesPipe} from './pipes/getValues.pipe';
-import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.component';
-import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
-import { EmailModalComponent } from './email-modal/email-modal.component';
+import {ForbiddenPageComponent} from './forbidden-page/forbidden-page.component';
+import {NotFoundPageComponent} from './not-found-page/not-found-page.component';
+import {EmailModalComponent} from './email-modal/email-modal.component';
 import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
-// import {StarRatingModule} from 'angular-star-rating'; // FIXME: not supported on this angular version
 import {BreadcrumbsComponent} from './breadcrumbs/breadcrumbs.component';
 import {RouterModule} from '@angular/router';
 import {PendingServicesComponent} from '../pages/provider/dashboard/pendingservices/pending-services.component';
@@ -19,21 +18,18 @@ import {SharedServicesComponent} from "../pages/provider/dashboard/sharedService
 import {RejectedServicesComponent} from '../pages/provider/dashboard/rejectedServices/rejected-services.component';
 import {RejectedDatasourcesComponent} from "../pages/provider/dashboard/rejectedDatasources/rejected-datasources.component";
 import {PreviewResourceComponent} from '../pages/previewresource/preview-resource.component';
-import { HighchartsChartModule } from 'highcharts-angular';
+import {HighchartsChartModule} from 'highcharts-angular';
 import {DashboardBreadcrumbsComponent} from "./breadcrumbs/dashboard-breadcrumbs.component";
-import {MarkdownModule} from "ngx-markdown";
 import {PendingDatasourcesComponent} from "../pages/provider/dashboard/pendingDatasources/pending-datasources.component";
 import {SharedDatasourcesComponent} from "../pages/provider/dashboard/sharedDatasources/shared-datasources.component";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        // StarRatingModule.forRoot(), // FIXME: not supported on this angular version
-        RouterModule,
-        HighchartsChartModule,
-        MarkdownModule
-    ],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    HighchartsChartModule
+  ],
   declarations: [
     JoinPipe,
     KeysPipe,
@@ -66,7 +62,6 @@ import {SharedDatasourcesComponent} from "../pages/provider/dashboard/sharedData
     SafePipe,
     ValuesPipe,
     EmailModalComponent,
-    // StarRatingModule, // FIXME: not supported on this angular version
     BreadcrumbsComponent,
     DashboardBreadcrumbsComponent,
     PendingServicesComponent,

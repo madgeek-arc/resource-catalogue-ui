@@ -4,7 +4,7 @@ import * as sd from '../provider-resources/services.description';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {URLValidator} from '../../shared/validators/generic.validator';
+import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {Vocabulary, Type, Provider} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import BitSet from 'bitset';
@@ -24,7 +24,6 @@ export class ServiceProviderFormComponent implements OnInit {
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
-  catalogueId: string = 'eosc'; // TODO: revisit to check if init causes or prevents any problems
   providerId: string = null;
   providerName = '';
   errorMessage = '';
@@ -156,17 +155,17 @@ export class ServiceProviderFormComponent implements OnInit {
     id: [''],
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
-    website: ['', Validators.compose([Validators.required, URLValidator])],
+    website: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     legalEntity: [''],
     legalStatus: [''],
     hostingLegalEntity: [''],
     description: ['', Validators.required],
-    logo: ['', Validators.compose([Validators.required, URLValidator])],
+    logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
     // multimediaNames: this.fb.array([this.fb.control('')]),
     multimedia: this.fb.array([
       this.fb.group({
-        multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
+        multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
         multimediaName: ['']
       })
     ]),
@@ -229,7 +228,7 @@ export class ServiceProviderFormComponent implements OnInit {
     if (path.includes('add/:providerId')) {
       this.pendingProvider = true;
     }
-    // if (path.includes('view/:providerId')) {
+    // if (path.includes('info/:providerId')) {
     //   this.pendingProvider = true;
     // }
     this.setVocabularies();
@@ -273,7 +272,7 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
 
-    if (this._hasUserConsent && path !== 'view/:catalogueId/:providerId') {
+    if (this._hasUserConsent) {
       if (this.edit) {
         this.serviceProviderService.hasAdminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
           boolean => { this.agreedToTerms = boolean; },
@@ -598,12 +597,12 @@ export class ServiceProviderFormComponent implements OnInit {
   push(field: string, required: boolean, url?: boolean) {
     if (required) {
       if (url) {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
-      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }
@@ -614,7 +613,7 @@ export class ServiceProviderFormComponent implements OnInit {
   /** Multimedia -->**/
   newMultimedia(): FormGroup {
     return this.fb.group({
-      multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
+      multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
       multimediaName: ['']
     });
   }

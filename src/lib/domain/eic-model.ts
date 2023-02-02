@@ -2,8 +2,6 @@
 /* eslint-disable */
 // Generated using typescript-generator version 2.16.538 on 2020-06-10 11:50:49.
 
-import {Validators} from "@angular/forms";
-import {URLValidator} from "../shared/validators/generic.validator";
 
 export class Bundle<T> implements Identifiable {
   id: string;

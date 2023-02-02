@@ -53,8 +53,9 @@
 
               <div [ngClass]="{'blur-filter': showLoader}">
 
-                <div *ngIf="!disable" class="requiredFields">Fields with (*) are mandatory and must be completed in order to save this form. Leaving
-                  optional fields blank will remove the relevant heading from the published resource/provider profile.</div>
+                <div class="requiredFields">Fields with (*) are mandatory and must be completed in order to save this form. Leaving
+                  optional fields blank will remove the relevant heading from the published resource/provider
+                  profile.</div>
 
                 <div id="serviceForm">
 
@@ -120,7 +121,7 @@
                         <li class="uk-active">
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[0]}" href="#" id="tab1">
                             <span>1. Basic *</span>
-                            <span *ngIf="!disable" class="circle-number">
+                            <span class="circle-number">
                               <i *ngIf="remainingOnTab0==0" aria-hidden="true" class="fa fa-check"></i>
                               {{remainingOnTab0!=0 ? remainingOnTab0 +'*' : ''}}
                             </span>
@@ -129,7 +130,7 @@
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[1]}" href="#" id="tab2">
                             <span>2. Marketing *</span>
-                            <span *ngIf="!disable" class="circle-number">
+                            <span class="circle-number">
                               <i *ngIf="remainingOnTab1==0" aria-hidden="true" class="fa fa-check"></i>
                               {{remainingOnTab1!=0 ? remainingOnTab1 +'*' : ''}}
                             </span>
@@ -138,7 +139,7 @@
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[2]}" href="#" id="tab3">
                             <span>3. Classification *</span>
-                            <span *ngIf="!disable" class="circle-number">
+                            <span class="circle-number">
                               <i *ngIf="remainingOnTab2==0" aria-hidden="true" class="fa fa-check"></i>
                               {{remainingOnTab2!=0 ? remainingOnTab2 +'*' : ''}}
                             </span>
@@ -147,7 +148,7 @@
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[3]}" href="#" id="tab4">
                             <span>4. Availability *</span>
-                            <span *ngIf="!disable" class="circle-number">
+                            <span class="circle-number">
                               <i *ngIf="remainingOnTab3==0" aria-hidden="true" class="fa fa-check"></i>
                               {{remainingOnTab3!=0 ? remainingOnTab3 +'*' : ''}}
                             </span>
@@ -161,7 +162,7 @@
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[5]}" href="#" id="tab6">
                             <span>6. Contact *</span>
-                            <span *ngIf="!disable" class="circle-number">
+                            <span class="circle-number">
                               <i *ngIf="remainingOnTab5==0" aria-hidden="true" class="fa fa-check"></i>
                               {{remainingOnTab5!=0 ? remainingOnTab5 +'*' : ''}}
                             </span>
@@ -170,7 +171,7 @@
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[6]}" href="#" id="tab7">
                             <span>7. Maturity *</span>
-                            <span *ngIf="!disable" class="circle-number">
+                            <span class="circle-number">
                               <i *ngIf="remainingOnTab6==0" aria-hidden="true" class="fa fa-check"></i>
                               {{remainingOnTab6!=0 ? remainingOnTab6 +'*' : ''}}
                             </span>
@@ -194,7 +195,7 @@
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[10]}" href="#" id="tab11">
                             <span>11. Order *</span>
-                            <span *ngIf="!disable" class="circle-number">
+                            <span class="circle-number">
                               <i *ngIf="remainingOnTab10==0" aria-hidden="true" class="fa fa-check"></i>
                               {{remainingOnTab10!=0 ? remainingOnTab10 +'*' : ''}}
                             </span>
@@ -213,7 +214,7 @@
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[13]}" href="#" id="tab14">
                             <span>14. Data Source Content</span>
-                            <span *ngIf="!disable" class="circle-number">
+                            <span class="circle-number">
                               <i *ngIf="remainingOnTab13==0" aria-hidden="true" class="fa fa-check"></i>
                               {{remainingOnTab13!=0 ? remainingOnTab13 +'*' : ''}}
                             </span>
@@ -231,14 +232,12 @@
                         </li>
                       </ul>
 
-                      <ng-container *ngIf="!disable">
-                        <div class="requiredFields uk-text-right">*Required fields</div>
-                        <div class="stepsCompleted uk-margin-top uk-text-center">{{completedTabs}} of {{requiredTabs}}</div>
-                        <div class="uk-margin-small-top">
-                          <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>
-                          <div class="percentageNumber" [ngStyle]="{'margin-left.%': (loaderPercentage*0.9).toLocaleString()}">{{loaderPercentage}}%</div>
-                        </div>
-                      </ng-container>
+                      <div class="requiredFields uk-text-right">*Required fields</div>
+                      <div class="stepsCompleted uk-margin-top uk-text-center">{{completedTabs}} of {{requiredTabs}}</div>
+                      <div class="uk-margin-small-top">
+                        <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>
+                        <div class="percentageNumber" [ngStyle]="{'margin-left.%': (loaderPercentage*0.9).toLocaleString()}">{{loaderPercentage}}%</div>
+                      </div>
                     </div>
 
                     <form [formGroup]="serviceForm" role="form" class="uk-form uk-margin uk-width-3-4">
@@ -320,13 +319,13 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('resourceProviders').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('resourceProviders').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('resourceProviders', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element"
                                      (click)="push('resourceProviders', resourceProvidersDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{resourceProvidersDesc.label}}
@@ -613,7 +612,7 @@
                                     </div>
 
                                   </div>
-                                  <a *ngIf="scientificDomainArray.length > 1 && !disable"
+                                  <a *ngIf="scientificDomainArray.length > 1"
                                      class="remove-element uk-padding-small uk-display-inline-block"
                                      (click)="removeScientificDomain(i); unsavedChangesPrompt(); handleBitSetsOfGroups(2, 7, 'scientificSubdomain', 'scientificDomains')">
                                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -621,7 +620,7 @@
                                 </div>
                               </div>
 
-                              <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                              <div class="uk-width-9-10 uk-text-center uk-margin-top">
                                 <a class="add-new-element" (click)="pushScientificDomain()">
                                   <i class="fa fa-plus" aria-hidden="true"></i> Add scientific categorization
                                 </a>
@@ -720,7 +719,7 @@
                                     </div>
 
                                   </div>
-                                  <a *ngIf="categoryArray.length > 1 && !disable"
+                                  <a *ngIf="categoryArray.length > 1"
                                      class="remove-element uk-padding-small uk-display-inline-block"
                                      (click)="removeCategory(i); unsavedChangesPrompt(); handleBitSetsOfGroups(2, 9, 'subcategory', 'categories')">
                                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -728,9 +727,9 @@
                                 </div>
                               </div>
 
-                              <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                              <div class="uk-width-9-10 uk-text-center uk-margin-top">
                                 <a class="add-new-element" (click)="pushCategory()">
-                                  <i class="fa fa-plus" aria-hidden="true"></i> Add categorisation
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add another category
                                 </a>
                               </div>
                             </div>
@@ -752,7 +751,7 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('targetUsers').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('targetUsers').length > 1"
                                      class="remove-element uk-padding-small" (click)="remove('targetUsers', i); unsavedChangesPrompt();
                                    handleBitSets(2, 10, 'targetUsers')">
                                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -776,7 +775,7 @@
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                   </div>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('targetUsers', targetUsersDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{targetUsersDesc.label}}
                                   </a>
@@ -799,7 +798,7 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('accessTypes').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('accessTypes').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('accessTypes', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -823,7 +822,7 @@
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                   </div>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('accessTypes', accessTypeDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{accessTypeDesc.label}}
                                   </a>
@@ -846,7 +845,7 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('accessModes').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('accessModes').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('accessModes', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -870,7 +869,7 @@
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                   </div>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('accessModes', accessModeDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{accessModeDesc.label}}
                                   </a>
@@ -889,7 +888,7 @@
                                          type="text" [formControlName]="i"
                                          (input)="unsavedChangesPrompt(); checkForDuplicates('tags')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('tags', i, this.editMode)}">
-                                  <a *ngIf="getFieldAsFormArray('tags').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('tags').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('tags', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -898,7 +897,7 @@
                                 <i><small>Add one Tag in each entry. For multi-word keywords, please use '-' to
                                   concatenate words. <br>
                                   Suggested length is 50 characters</small></i>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('tags', tagsDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{tagsDesc.label}}
                                   </a>
@@ -936,7 +935,7 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('geographicalAvailabilities').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('geographicalAvailabilities').length > 1"
                                      class="remove-element uk-padding-small" (click)="remove('geographicalAvailabilities', i);
                                      unsavedChangesPrompt();handleBitSets(3, 11, 'geographicalAvailabilities')">
                                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -960,7 +959,7 @@
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                   </div>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element"
                                      (click)="push('geographicalAvailabilities', geographicalAvailabilityDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
@@ -987,7 +986,7 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('languageAvailabilities').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('languageAvailabilities').length > 1"
                                      class="remove-element uk-padding-small" (click)="remove('languageAvailabilities', i); unsavedChangesPrompt();
                                    handleBitSets(3, 12, 'languageAvailabilities')">
                                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -1011,7 +1010,7 @@
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                   </div>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element"
                                      (click)="push('languageAvailabilities', languageAvailabilitiesDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
@@ -1051,7 +1050,7 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('resourceGeographicLocations').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('resourceGeographicLocations').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('resourceGeographicLocations', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -1075,7 +1074,7 @@
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                   </div>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element"
                                      (click)="push('resourceGeographicLocations', resourceGeographicLocationsDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
@@ -1362,7 +1361,7 @@
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{phaseDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-top">
                                 <ng-select *ngIf="phaseVocabulary" class="uk-width-9-10" id="lifeCycleStatus"
-                                           (change)="unsavedChangesPrompt()"
+                                           (change)="handleBitSets(6, 18, 'trl'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('lifeCycleStatus', this.editMode)}"
                                            [items]="sortVocabulariesByName(phaseVocabulary)"
                                            bindLabel="name"
@@ -1402,14 +1401,14 @@
                                          type="text" [formControlName]="i"
                                          (input)="unsavedChangesPrompt(); checkForDuplicates('certifications')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('certifications', i, this.editMode)}">
-                                  <a *ngIf="getFieldAsFormArray('certifications').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('certifications').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('certifications', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
                                 <i><small>Suggested length is 100 characters</small></i>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element"
                                      (click)="push('certifications', certificationsDesc.mandatory, false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{certificationsDesc.label}}
@@ -1429,14 +1428,14 @@
                                          type="text" [formControlName]="i"
                                          (input)="unsavedChangesPrompt(); checkForDuplicates('standards')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('standards', i, this.editMode)}">
-                                  <a *ngIf="getFieldAsFormArray('standards').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('standards').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('standards', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
                                 <i><small>Suggested length is 100 characters</small></i>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element"
                                      (click)="push('standards', standardsDesc.mandatory, false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{standardsDesc.label}}
@@ -1459,14 +1458,14 @@
                                          [formControlName]="i"
                                          (input)="unsavedChangesPrompt(); checkForDuplicates('openSourceTechnologies')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('openSourceTechnologies', i, this.editMode)}">
-                                  <a *ngIf="getFieldAsFormArray('openSourceTechnologies').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('openSourceTechnologies').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('openSourceTechnologies', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
                                 <i><small>Suggested length is 100 characters</small></i>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element"
                                      (click)="push('openSourceTechnologies', openSourceTechnologiesDesc.mandatory, false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
@@ -1513,14 +1512,14 @@
                                          type="text" [formControlName]="i"
                                          (input)="unsavedChangesPrompt(); checkForDuplicates('changeLog')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('changeLog', i, this.editMode)}">
-                                  <a *ngIf="getFieldAsFormArray('changeLog').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('changeLog').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('changeLog', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
                                 <i><small>Suggested length is 1000 characters</small></i>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-to">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-to">
                                   <a class="add-new-element"
                                      (click)="push('changeLog', changeLogDesc.mandatory, false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{changeLogDesc.label}}
@@ -1559,13 +1558,13 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('requiredResources').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('requiredResources').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('requiredResources', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('requiredResources', false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{requiredServicesDesc.label}}
                                   </a>
@@ -1591,13 +1590,13 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('relatedResources').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('relatedResources').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('relatedResources', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('relatedResources', false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{relatedServicesDesc.label}}
                                   </a>
@@ -1623,14 +1622,14 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('relatedPlatforms').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('relatedPlatforms').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('relatedPlatforms', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
                                 <!--                                TODO: add Other value suggestion when VOC is ready-->
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('relatedPlatforms', false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{relatedPlatformsDesc.label}}
                                   </a>
@@ -1681,7 +1680,7 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('fundingBody').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('fundingBody').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('fundingBody', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -1705,7 +1704,7 @@
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                   </div>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('fundingBody', fundingBodyDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add an
                                     additional {{fundingBodyDesc.label}}
@@ -1731,7 +1730,7 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('fundingPrograms').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('fundingPrograms').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('fundingPrograms', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -1755,7 +1754,7 @@
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                   </div>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element"
                                      (click)="push('fundingPrograms', fundingProgramDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add an
@@ -1779,14 +1778,14 @@
                                          [formControlName]="i"
                                          (input)="unsavedChangesPrompt(); checkForDuplicates('grantProjectNames')"
                                          [ngClass]="{'uk-form-danger': checkFormArrayValidity('grantProjectNames', i, this.editMode)}">
-                                  <a *ngIf="getFieldAsFormArray('grantProjectNames').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('grantProjectNames').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('grantProjectNames', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
                                 <i><small>Suggested length is 100 characters</small></i>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element"
                                      (click)="push('grantProjectNames', grantProjectNameDesc.mandatory, false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add an
@@ -2188,7 +2187,7 @@
                                         <i class="fa fa-times" aria-hidden="true"></i>
                                       </a>
                                     </div>
-                                    <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-small-top">
+                                    <div class="uk-width-9-10 uk-text-center uk-margin-small-top">
                                       <a class="add-new-element" (click)="pushPersistentIdentityEntityTypeScheme(i)">
                                         <i class="fa fa-plus" aria-hidden="true"></i>
                                         Add {{persistentIdentityEntityTypeSchemeDesc.label}}
@@ -2272,13 +2271,13 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('researchEntityTypes').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('researchEntityTypes').length > 1"
                                      class="remove-element uk-padding-small" (click)="remove('researchEntityTypes', i); unsavedChangesPrompt();
                                      handleBitSets(13, 26, 'researchEntityTypes')">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('researchEntityTypes', researchEntityTypesDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{researchEntityTypesDesc.label}}
                                   </a>
@@ -2385,13 +2384,13 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('researchProductAccessPolicies').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('researchProductAccessPolicies').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('researchProductAccessPolicies', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('researchProductAccessPolicies', researchProductAccessPoliciesDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{researchProductAccessPoliciesDesc.label}}
                                   </a>
@@ -2457,13 +2456,13 @@
                                              clearAllText="Clear"
                                              [formControlName]="i">
                                   </ng-select>
-                                  <a *ngIf="getFieldAsFormArray('researchProductMetadataAccessPolicies').length > 1 && !disable"
+                                  <a *ngIf="getFieldAsFormArray('researchProductMetadataAccessPolicies').length > 1"
                                      class="remove-element uk-padding-small"
                                      (click)="remove('researchProductMetadataAccessPolicies', i); unsavedChangesPrompt()">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('researchProductMetadataAccessPolicies', researchProductMetadataAccessPoliciesDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{researchProductMetadataAccessPoliciesDesc.label}}
                                   </a>

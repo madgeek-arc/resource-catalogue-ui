@@ -179,7 +179,7 @@
 <!--                    <span class="uk-badge" title="Monitoring Status" style="background: dimgrey;">NA</span>-->
 <!--                  </ng-container>-->
                   <div class="uk-margin-small-top">
-                    <span *ngIf="providerService.service.description" class="uk-margin-small-top"><markdown [data]="providerService.service.description"></markdown></span>
+                    <span *ngIf="providerService.service.description" class="uk-margin-small-top">{{providerService.service.description}}</span>
                   </div>
                   <div class="uk-margin-small-top">
                     <span class="">Creation Date: </span>{{ providerService.metadata.registeredAt | date }}

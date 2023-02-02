@@ -256,11 +256,11 @@
                                         {{ providerBundle.provider.name }}
                                       </a>
                                     </ng-container>
-<!--                                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' ">-->
-                                    <a [routerLink]="['/provider/view', providerBundle.provider.catalogueId, providerBundle.id]" class="uk-display-inline-block">
+                                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' ">
+                                    <a [routerLink]="['/provider/info',providerBundle.id]" class="uk-display-inline-block">
                                       <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
                                     </a>
-<!--                                  </ng-container>-->
+                                  </ng-container>
 <!--                                  <ng-template #anotherCatalogue>{{ providerBundle.provider.name }}</ng-template>-->
                                 </span>
                               </div>
@@ -367,15 +367,6 @@
 <!--                            </ul>-->
 <!--                          </div>-->
 <!--                        </ng-container>-->
-
-                        <ng-container *ngIf="providerBundle.provider.catalogueId!=='eosc'">
-                          <hr class="uk-margin-top">
-                          <div class="uk-align-right">
-                            <button [routerLink]="['/provider/view/',providerBundle.provider.catalogueId, providerBundle.id]" class="uk-button uk-button-link">
-                              <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i> View Provider
-                            </button>
-                          </div>
-                        </ng-container>
 
                         <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc'">
                           <hr class="uk-margin-top">
@@ -681,11 +672,11 @@
                     <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'stats']" target="_blank" data-uk-tooltip title="Go to the resource provider monitoring dashboard">
                         {{ providerBundle.provider.name }}
                     </a>
-<!--                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc'">-->
-                    <a [routerLink]="['/provider/view', providerBundle.provider.catalogueId, providerBundle.id]" target="_blank" class="uk-display-inline-block">
+                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc'">
+                    <a [routerLink]="['/provider/info',providerBundle.id]" target="_blank" class="uk-display-inline-block">
                       <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
                     </a>
-<!--                  </ng-container>-->
+                  </ng-container>
 <!--                  <ng-template #anotherCatalogue>{{ providerBundle.provider.name }}</ng-template>-->
                 </span>
               </div>

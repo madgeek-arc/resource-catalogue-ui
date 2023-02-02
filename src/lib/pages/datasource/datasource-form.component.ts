@@ -3,12 +3,12 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
-import {DatasourceService} from "../../services/datasource.service";
+import {DatasourceService} from '../../services/datasource.service';
 import {UserService} from '../../services/user.service';
 import * as sd from '../provider-resources/services.description';
-import {Provider, RichService, Service, Datasource, Type, Vocabulary} from '../../domain/eic-model';
+import {Datasource, Provider, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
-import {URLValidator} from '../../shared/validators/generic.validator';
+import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
@@ -198,15 +198,15 @@ export class DatasourceFormComponent implements OnInit {
     id: [''],
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
-    webpage: ['', Validators.compose([Validators.required, URLValidator])],
+    webpage: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     description: ['', Validators.required],
-    logo: ['', Validators.compose([Validators.required, URLValidator])],
+    logo: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
     tagline: ['', Validators.required],
     // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
     // multimediaNames: this.fb.array([this.fb.control('')]),
     multimedia: this.fb.array([
       this.fb.group({
-        multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
+        multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
         multimediaName: ['']
       })
     ]),
@@ -214,7 +214,7 @@ export class DatasourceFormComponent implements OnInit {
     // useCasesNames: this.fb.array([this.fb.control('')]),
     useCases: this.fb.array([
       this.fb.group({
-        useCaseURL: ['', Validators.compose([Validators.required, URLValidator])],
+        useCaseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
         useCaseName: ['']
       })
     ]),
@@ -243,20 +243,20 @@ export class DatasourceFormComponent implements OnInit {
     standards: this.fb.array([this.fb.control('')]),
     openSourceTechnologies: this.fb.array([this.fb.control('')]),
     orderType: ['', Validators.required],
-    order: ['', URLValidator],
+    order: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
     helpdeskEmail: ['', Validators.compose([Validators.required, Validators.email])],
     securityContactEmail: ['', Validators.compose([Validators.required, Validators.email])],
-    serviceLevel: ['', URLValidator],
-    termsOfUse: ['', URLValidator],
-    privacyPolicy: ['', URLValidator],
-    accessPolicy: ['', URLValidator],
-    paymentModel: ['', URLValidator],
-    pricing: ['', URLValidator],
-    userManual: ['', URLValidator],
-    trainingInformation: ['', URLValidator],
-    helpdeskPage: ['', URLValidator],
-    statusMonitoring: ['', URLValidator],
-    maintenance: ['', URLValidator],
+    serviceLevel: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    termsOfUse: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    privacyPolicy: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    accessPolicy: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    paymentModel: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    pricing: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    userManual: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    trainingInformation: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    helpdeskPage: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    statusMonitoring: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
+    maintenance: ['', URLValidator, urlAsyncValidator(this.serviceProviderService)],
     mainContact: this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -279,8 +279,8 @@ export class DatasourceFormComponent implements OnInit {
     categories: this.fb.array([], Validators.required),
     scientificDomains: this.fb.array([], Validators.required),
 
-    submissionPolicyURL: this.fb.control('', URLValidator),
-    preservationPolicyURL: this.fb.control('', URLValidator),
+    submissionPolicyURL: this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)),
+    preservationPolicyURL: this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)),
     versionControl: [''],
     persistentIdentitySystems: this.fb.array([
       this.fb.group({
@@ -298,14 +298,14 @@ export class DatasourceFormComponent implements OnInit {
     researchProductLicensings: this.fb.array([
       this.fb.group({
         researchProductLicenseName: [''],
-        researchProductLicenseURL: ['', Validators.compose([Validators.required, URLValidator])]
+        researchProductLicenseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)]
       })
     ]),
     researchProductAccessPolicies: this.fb.array([this.fb.control('')]),
 
     researchProductMetadataLicensing: this.fb.group({
         researchProductMetadataLicenseName: [''],
-        researchProductMetadataLicenseURL: ['', Validators.compose([Validators.required, URLValidator])]
+        researchProductMetadataLicenseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)]
       }),
     researchProductMetadataAccessPolicies: this.fb.array([this.fb.control('')]),
   };
@@ -623,7 +623,7 @@ export class DatasourceFormComponent implements OnInit {
 
   /** check form fields and tabs validity--> **/
   checkFormValidity(name: string, edit: boolean, required?: boolean): boolean {
-    if (required && edit && (this.serviceForm.get(name).value === "")) return false; // for dropdown required fields that get red on edit
+    if (required && edit && (this.serviceForm.get(name).value === '')) return false; // for dropdown required fields that get red on edit
     return (this.serviceForm.get(name).invalid && (edit || this.serviceForm.get(name).dirty));
   }
 
@@ -763,12 +763,12 @@ export class DatasourceFormComponent implements OnInit {
   push(field: string, required: boolean, url?: boolean) {
     if (required) {
       if (url) {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
-      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }
@@ -839,7 +839,7 @@ export class DatasourceFormComponent implements OnInit {
   /** Multimedia -->**/
   newMultimedia(): FormGroup {
     return this.fb.group({
-      multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
+      multimediaURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
       multimediaName: ['']
     });
   }
@@ -860,7 +860,7 @@ export class DatasourceFormComponent implements OnInit {
   /** Use Cases-->**/
   newUseCase(): FormGroup {
     return this.fb.group({
-      useCaseURL: ['', Validators.compose([Validators.required, URLValidator])],
+      useCaseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)],
       useCaseName: ['']
     });
   }
@@ -883,7 +883,7 @@ export class DatasourceFormComponent implements OnInit {
   newLicensing(): FormGroup {
     return this.fb.group({
       researchProductLicenseName: [''],
-      researchProductLicenseURL: ['', Validators.compose([Validators.required, URLValidator])]
+      researchProductLicenseURL: ['', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)]
     });
   }
 

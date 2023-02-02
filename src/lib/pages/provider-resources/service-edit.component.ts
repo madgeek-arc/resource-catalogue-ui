@@ -30,9 +30,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
   }
 
   ngOnInit() {
-    const path = this.route.snapshot.routeConfig.path;
-    if (path.includes(':catalogueId')) this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
-    if (path === ':catalogueId/:providerId/resource/view/:resourceId') this.disable = true;
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
@@ -44,7 +41,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
           this.pendingService = true;
         }
         // this.resourceService.getService(this.serviceID).subscribe(service => {
-        this.resourceService[this.pendingService ? 'getPendingService' : 'getRichService'](this.serviceID, this.catalogueId)
+        this.resourceService[this.pendingService ? 'getPendingService' : 'getRichService'](this.serviceID)
           .subscribe(richService => {
             if (richService.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
               this.navigationService.go('/forbidden')
@@ -68,12 +65,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               this.serviceForm.get('id').setValue('');
               this.serviceForm.get('name').setValue('');
             }
-            if (this.disable) {
-              this.serviceForm.disable();
-              this.serviceName = this.serviceForm.get('name').value;
-            } else {
-              this.initServiceBitSets();
-            }
+            this.initServiceBitSets();
           }
         );
       });

@@ -29,12 +29,9 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
 
   ngOnInit() {
     this.edit = true;
-    const path = this.route.snapshot.routeConfig.path;
     this.providerId = this.route.snapshot.paramMap.get('providerId');
-    if (path.includes(':catalogueId')) {
-      this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
-    }
-    if (path === 'view/:catalogueId/:providerId') {
+    const path = this.route.snapshot.routeConfig.path;
+    if (path === 'info/:providerId') {
       this.disable = true;
     }
     super.ngOnInit();
@@ -76,7 +73,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
   getProvider() {
     this.errorMessage = '';
     const path = this.route.snapshot.routeConfig.path;
-    this.serviceProviderService[(path === 'add/:providerId' ? 'getPendingProviderById' : 'getServiceProviderById')](this.providerId, this.catalogueId)
+    this.serviceProviderService[(path === 'add/:providerId' ? 'getPendingProviderById' : 'getServiceProviderById')](this.providerId)
       .subscribe(
       provider => this.provider = provider,
       err => {
@@ -219,7 +216,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
     );
   }
 
-  toggleDisable() { // is used to toggle form from view to edit mode
+  toggleDisable() {
     this.disable = !this.disable;
     this.providerForm.enable();
   }

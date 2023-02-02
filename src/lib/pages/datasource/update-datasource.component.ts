@@ -1,13 +1,13 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DatePipe} from '@angular/common';
-import {DatasourceFormComponent} from "./datasource-form.component";
+import {DatasourceFormComponent} from './datasource-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
 import {Service} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
-import {NavigationService} from "../../services/navigation.service";
+import {NavigationService} from '../../services/navigation.service';
 
 
 @Component({
@@ -31,9 +31,6 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
   }
 
   ngOnInit() {
-    const path = this.route.snapshot.routeConfig.path;
-    if (path.includes(':catalogueId')) this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
-    if (path === ':catalogueId/:providerId/datasource/view/:datasourceId') this.disable = true;
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');

@@ -376,18 +376,6 @@
                         <!--                          </button>-->
                         <!--                        </ng-container>-->
 
-                        <ng-container *ngIf="datasourceBundle.datasource.catalogueId!=='eosc'">
-                          <hr class="uk-margin-top">
-                          <div class="uk-align-right">
-                            <button
-                              routerLink="/provider/{{datasourceBundle.datasource.catalogueId}}/{{datasourceBundle.datasource.resourceOrganisation}}/datasource/view/{{datasourceBundle.id}}"
-                              class="uk-button uk-button-link" style="">
-                              <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
-                              View Datasource
-                            </button>
-                          </div>
-                        </ng-container>
-
                         <ng-container *ngIf="datasourceBundle.datasource.catalogueId==='eosc'">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
@@ -855,7 +843,7 @@
                   <a [routerLink]="['/dashboard/', datasourceBundle.datasource.catalogueId + datasourceBundle.datasource.resourceOrganisation + '/datasources']" target="_blank" data-uk-tooltip title="Go to the datasource dashboard">
                       {{ datasourceBundle.datasource.name }}
                   </a>
-                  <!--                  <a [routerLink]="['/provider/view',datasourceBundle.id]" class="uk-display-inline-block">-->
+                  <!--                  <a [routerLink]="['/provider/info',datasourceBundle.id]" class="uk-display-inline-block">-->
                   <!--                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
                   <!--                  </a>-->
                   <!--                </ng-container>-->

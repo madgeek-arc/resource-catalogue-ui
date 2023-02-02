@@ -2,29 +2,16 @@ import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/c
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {resourceStatusChangeMap, statusList} from '../../domain/resource-status-list';
-import {
-  InfraService,
-  LoggingInfo,
-  Provider,
-  ProviderBundle,
-  ResourceExtras,
-  Type,
-  Vocabulary
-} from '../../domain/eic-model';
+import {InfraService, LoggingInfo, Provider, ProviderBundle, Vocabulary} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
-import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 import {NavigationService} from '../../services/navigation.service';
-import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
-import {statusChangeMap} from '../../domain/service-provider-status-list';
-import {zip} from 'rxjs';
 import {Paging} from '../../domain/paging';
-import {ResourceExtrasService} from "../../services/resource-extras.service";
-import {URLValidator} from "../../shared/validators/generic.validator";
-import {ServiceExtensionsService} from "../../services/service-extensions.service";
+import {ResourceExtrasService} from '../../services/resource-extras.service';
+import {ServiceExtensionsService} from '../../services/service-extensions.service';
 
 declare var UIkit: any;
 
@@ -113,7 +100,7 @@ export class ResourcesListComponent implements OnInit {
     'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
   ];
 
-  @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
+  @ViewChildren('auditCheckboxes') auditCheckboxes: QueryList<ElementRef>;
 
   public statuses: Array<string> = [
     'approved resource', 'pending resource', 'rejected resource'
@@ -123,7 +110,7 @@ export class ResourcesListComponent implements OnInit {
     `Approved`, `Pending`, `Rejected`
   ];
 
-  @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
+  @ViewChildren('checkboxes') checkboxes: QueryList<ElementRef>;
 
   researchCategoriesVoc: Vocabulary[] = null;
   semanticRelationshipVoc: Vocabulary[] = null;
