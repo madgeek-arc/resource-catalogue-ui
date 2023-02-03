@@ -36,18 +36,26 @@
                 Update {{serviceORresource}}
               </a>
             </li>
-            <li>
-              <a [routerLink]="['/provider/' + providerId + '/resource/monitoring/' + resourceId]">
-                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                 {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension
-              </a>
-            </li>
-            <li>
-              <a [routerLink]="['/provider/' + providerId + '/resource/helpdesk/' + resourceId]">
-                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension
-              </a>
-            </li>
+            <ng-container *ngIf="resourceBundle && resourceBundle.status==='approved resource' && resourceBundle.active===true">
+              <li>
+                <a [routerLink]="['/provider/' + providerId + '/resource/monitoring/' + resourceId]">
+                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                   {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/provider/' + providerId + '/resource/helpdesk/' + resourceId]">
+                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/provider/' + providerId + '/resource/guidelines/' + resourceId]">
+                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  Assign Guidelines
+                </a>
+              </li>
+            </ng-container>
           </ng-container>
 
           <li>

@@ -1,19 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
-import {
-  RichService,
-  Service,
-  Datasource
-} from '../domain/eic-model';
-import {BrowseResults} from '../domain/browse-results';
+import {Datasource, DatasourceBundle, LoggingInfo, RichService, Service} from '../domain/eic-model';
 import {Paging} from '../domain/paging';
-import {URLParameter} from '../domain/url-parameter';
-import {Observable, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
-
-declare var UIkit: any;
 
 
 @Injectable()
@@ -39,7 +29,7 @@ export class DatasourceService {
   }
 
   getSelectedDatasources(ids: string[]) {
-    /*return this.getSome("service", ids).map(res => <Service[]> <any> res);*/
+    /*return this.getSome('service', ids).map(res => <Service[]> <any> res);*/
     // return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
     return this.http.get<Datasource[]>(this.base + `/datasource/rich/byID/${ids.toString()}/`, this.options);
   }
@@ -85,6 +75,10 @@ export class DatasourceService {
     return this.http.get(this.base + `/datasource/adminPage/all`, {params});
   }
 
+  getDatasourceBundleById(id: string, catalogueId: string) {
+    return this.http.get<DatasourceBundle>(this.base + `/datasource/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
+  }
+
   getOpenAIREDatasources(from: string, quantity: string, orderField: string, order: string, query: string) {
     let params = new HttpParams();
     params = params.append('from', from);
@@ -99,7 +93,7 @@ export class DatasourceService {
     return this.http.get<Datasource>(this.base + `/datasource/getOpenAIREDatasourceById?datasourceId=${id}`, this.options);
   }
 
-  uploadDatasource(datasource: Datasource, shouldPut: boolean, comment: string) {
+  submitDatasource(datasource: Datasource, shouldPut: boolean, comment: string) {
     // console.log(JSON.stringify(datasource));
     // console.log(`knocking on: ${this.base}/datasource`);
     return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + `/datasource?comment=${comment}`, datasource, this.options);
@@ -130,5 +124,68 @@ export class DatasourceService {
 
   moveDatasourceToProvider(datasourceId: string, providerId: string, comment: string) {
     return this.http.post(this.base + `/datasource/changeProvider?resourceId=${datasourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
+  }
+
+  /** STATS -->**/
+  getVisitsForDatasource(datasource: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/datasource/visits/${datasource}`, {params});
+    }
+    return this.http.get(this.base + `/stats/datasource/visits/${datasource}`);
+  }
+
+  getAddToProjectForDatasource(datasource: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/datasource/addToProject/${datasource}`, {params});
+    }
+    return this.http.get(this.base + `/stats/datasource/addToProject/${datasource}`);
+  }
+
+  getRatingsForDatasource(datasource: string, period?: string) {
+    let params = new HttpParams();
+    if (period) {
+      params = params.append('by', period);
+      return this.http.get(this.base + `/stats/datasource/ratings/${datasource}`, {params});
+    }
+    return this.http.get(this.base + `/stats/datasource/ratings/${datasource}`);
+  }
+  /** <-- STATS **/
+
+  /** History -->**/
+  getDatasourceLoggingInfoHistory(datasourceId: string) {
+    return this.http.get<Paging<LoggingInfo>>(this.base + `/datasource/loggingInfoHistory/${datasourceId}/`);
+  }
+  /** <-- History **/
+
+  /** Draft(Pending) Datasources -->**/
+  saveDatasourceAsDraft(datasource: Datasource) {
+    return this.http.put<Datasource>(this.base + '/pendingDatasource/pending', datasource, this.options);
+  }
+
+  submitPendingDatasource(datasource: Datasource, shouldPut: boolean, comment: string) {
+    return this.http.put<Datasource>(this.base + '/pendingDatasource/transform/datasource', datasource, this.options);
+  }
+
+  getDraftDatasourcesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+    return this.http.get<Paging<DatasourceBundle>>(this.base +
+      `/pendingDatasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+  }
+
+  getPendingDatasource(id: string, catalogueId?: string) { // also check identifier from this
+    return this.http.get<DatasourceBundle>(this.base + `/pendingDatasource/${id}`, this.options); // todo: revisit, catalogueId default eosc?
+  }
+
+  deletePendingDatasource(id: string) {
+    return this.http.delete(this.base + '/pendingDatasource/' + id, this.options);
+  }
+  /** <-- Draft(Pending) Datasources **/
+
+  getSharedDatasourcesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+    return this.http.get<Paging<DatasourceBundle>>(this.base +
+      `/datasource/getSharedDatasources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 }

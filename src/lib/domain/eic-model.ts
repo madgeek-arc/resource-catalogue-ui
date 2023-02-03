@@ -2,8 +2,6 @@
 /* eslint-disable */
 // Generated using typescript-generator version 2.16.538 on 2020-06-10 11:50:49.
 
-import {Validators} from "@angular/forms";
-import {urlAsyncValidator, URLValidator} from "../shared/validators/generic.validator";
 
 export class Bundle<T> implements Identifiable {
   id: string;
@@ -11,6 +9,7 @@ export class Bundle<T> implements Identifiable {
   active: boolean;
   status: string;
   templateStatus: string;
+  identifiers: Identifiers;
   loggingInfo: LoggingInfo[];
   latestAuditInfo: LoggingInfo;
   latestOnboardingInfo: LoggingInfo;
@@ -92,7 +91,17 @@ export class Indicator implements Identifiable {
   unitName: string;
 }
 
-export class InfraService extends Bundle<Service> {
+export class Identifiers {
+  alternativeIdentifiers: AlternativeIdentifier[];
+  originalId: string;
+}
+
+export class AlternativeIdentifier {
+  type: string;
+  value: string;
+}
+
+export class InfraService extends Bundle<Service> { //TODO: rename
   latest: boolean;
   service: Service;
   resourceExtras: ResourceExtras;
@@ -133,16 +142,34 @@ export class Metadata {
   originalId: string;
 }
 
+export class ResourceInteroperabilityRecord implements Identifiable {
+  id: string;
+  resourceId: string;
+  catalogueId: string;
+  interoperabilityRecordIds: string[];
+}
+
+export class MonitoringStatus {
+  date: string;
+  availability: string;
+  reliability: string;
+  unknown: string;
+  uptime: string;
+  downtime: string;
+  timestamp: string;
+  value: string;
+}
+
 export class Monitoring {
   id: string;
-  serviceId: string;
+  serviceId: string; //should change to generic resourceId
   monitoredBy: string;
   monitoringGroups: MonitoringGroups[];
 }
 
 export class Helpdesk {
   id: string;
-  serviceId: string;
+  serviceId: string; //should change to generic resourceId
   helpdeskType: string;
   services: string[];
   supportGroups: string[];
@@ -374,6 +401,58 @@ export class ResourceExtras {
   horizontalService: boolean;
 }
 
+export class InteroperabilityRecord implements Identifiable {
+  id: string;
+  identifierInfo: IdentifierInfo; //like location
+  creators: Creator[]; //like location
+  title: string;
+  publicationYear: number;
+  resourceTypesInfo: ResourceTypeInfo[]; //title~scientific domain
+  created: string;
+  updated: string;
+  eoscRelatedStandards: URL[];
+  rights: Right[]; //like use cases
+  description: string;
+  status: string;
+  domain: string;
+  eoscGuidelineType: string;
+  eoscIntegrationOptions: string[];
+}
+
+export class IdentifierInfo {
+  identifier: string;
+  identifierType: string;
+}
+
+export class Creator {
+  creatorNameTypeInfo: CreatorNameTypeInfo;
+  givenName: string;
+  familyName: string;
+  nameIdentifier: string;
+  creatorAffiliationInfo: CreatorAffiliationInfo;
+}
+
+export class CreatorNameTypeInfo {
+  creatorName: string;
+  nameType: string;
+}
+
+export class CreatorAffiliationInfo {
+  affiliation: string;
+  affiliationIdentifier: string;
+}
+
+export class ResourceTypeInfo {
+  resourceType: string;
+  resourceTypeGeneral: string;
+}
+
+export class Right {
+  rightTitle: string;
+  rightURI: URL;
+  rightIdentifier: string;
+}
+
 export class ServiceHistory extends Metadata {
   version: string;
   versionChange: boolean;
@@ -566,5 +645,10 @@ export const enum Type {
   DS_PERSISTENT_IDENTITY_SCHEME = "DS_PERSISTENT_IDENTITY_SCHEME",
   DS_COAR_ACCESS_RIGHTS_1_0 = "DS_COAR_ACCESS_RIGHTS_1_0",
   MONITORING_MONITORED_BY = "MONITORING_MONITORED_BY",
-  MONITORING_SERVICE_TYPE = "MONITORING_SERVICE_TYPE"
+  MONITORING_SERVICE_TYPE = "MONITORING_SERVICE_TYPE",
+  IR_NAME_TYPE = "IR_NAME_TYPE",
+  IR_STATUS = "IR_STATUS",
+  IR_RESOURCE_TYPE_GENERAL = "IR_RESOURCE_TYPE_GENERAL",
+  IR_EOSC_GUIDELINE_TYPE = "IR_EOSC_GUIDELINE_TYPE",
+  IR_IDENTIFIER_TYPE = "IR_IDENTIFIER_TYPE"
 }

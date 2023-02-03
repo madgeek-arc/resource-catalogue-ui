@@ -3,10 +3,10 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
-import {DatasourceService} from "../../services/datasource.service";
+import {DatasourceService} from '../../services/datasource.service';
 import {UserService} from '../../services/user.service';
 import * as sd from '../provider-resources/services.description';
-import {Provider, RichService, Service, Datasource, Type, Vocabulary} from '../../domain/eic-model';
+import {Datasource, Provider, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
 import {urlAsyncValidator, URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
@@ -32,7 +32,9 @@ export class DatasourceFormComponent implements OnInit {
   firstServiceForm = false;
   showLoader = false;
   pendingService = false;
-  addOpenAIRE = false;
+  addOpenAIRE = false; //on addOpenAIRE path
+  draftFromOpenAIRE = false; //collected from addOpenAIRE and saved as draft
+  catalogueId: string;
   providerId: string;
   editMode = false;
   hasChanges = false;
@@ -409,14 +411,11 @@ export class DatasourceFormComponent implements OnInit {
     // console.log('Submitted service value--> ', this.serviceForm.value);
 
     if (tempSave) {
-      // todo add fix here
-      this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
-      (this.serviceForm.value).subscribe(
+      this.datasourceService.saveDatasourceAsDraft(this.serviceForm.value).subscribe(
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          // return this.router.dashboardDraftResources(this.providerId); // redirect to draft list
-          return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
+          return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-datasource/update/' + _service.id);
         },
         err => {
           this.showLoader = false;
@@ -428,15 +427,14 @@ export class DatasourceFormComponent implements OnInit {
       );
     } else if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
-      const shouldPut = (this.editMode && (window.location.href.indexOf('/addOpenAIRE') == -1));
-      this.datasourceService[pendingService ? 'uploadPendingService' : 'uploadDatasource']
+      const shouldPut = (this.editMode && !this.addOpenAIRE);
+      this.datasourceService[pendingService ? 'submitPendingDatasource' : 'submitDatasource']
       (this.serviceForm.value, shouldPut, this.commentControl.value).subscribe(
         _ds => {
-          // console.log(_ds);
           this.showLoader = false;
-          if (shouldPut)
+          if (this.addOpenAIRE || this.draftFromOpenAIRE)
+          return this.router.datasourceSubmitted(_ds.id); // redirect to datasource submitted successfully page after POST
           return this.router.dashboardDatasources(this.providerId, _ds.catalogueId); // redirect to datasources of provider
-          return this.router.datasourceSubmitted(_ds.id); // redirect to datasource submitted page after POST
         },
         err => {
           this.showLoader = false;
@@ -469,6 +467,7 @@ export class DatasourceFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.addOpenAIRE = window.location.pathname.includes('addOpenAIRE');
     zip(
       this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
@@ -524,22 +523,22 @@ export class DatasourceFormComponent implements OnInit {
         this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
         this.handleBitSets(0, 1, 'resourceOrganisation');
 
-        // if (!this.editMode) { // prefill main contact info
-        //   this.serviceProviderService.getServiceProviderById(this.providerId).subscribe(
-        //     res => { this.provider = res; },
-        //     err => { console.log(err); },
-        //     () => {
-        //       Object.entries(this.provider.mainContact).forEach(([key, val]) => {
-        //         if (val !== '' && val != null) {
-        //           this.serviceForm.controls['mainContact'].get(key).setValue(val);
-        //         }
-        //       });
-        //       this.handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact');
-        //       this.handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact');
-        //       this.handleBitSetsOfGroups(5, 15, 'email', 'mainContact');
-        //     }
-        //   );
-        // }
+        if (!this.editMode || this.addOpenAIRE) { // prefill main contact info with provider's data
+          this.serviceProviderService.getServiceProviderById(this.providerId).subscribe(
+            res => { this.provider = res; },
+            err => { console.log(err); },
+            () => {
+              Object.entries(this.provider.mainContact).forEach(([key, val]) => {
+                if (val !== '' && val != null) {
+                  this.serviceForm.controls['mainContact'].get(key).setValue(val);
+                }
+              });
+              this.handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact');
+              this.handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact');
+              this.handleBitSetsOfGroups(5, 15, 'email', 'mainContact');
+            }
+          );
+        }
 
       }
     );
@@ -624,7 +623,7 @@ export class DatasourceFormComponent implements OnInit {
 
   /** check form fields and tabs validity--> **/
   checkFormValidity(name: string, edit: boolean, required?: boolean): boolean {
-    if (required && edit && (this.serviceForm.get(name).value === "")) return false; // for dropdown required fields that get red on edit
+    if (required && edit && (this.serviceForm.get(name).value === '')) return false; // for dropdown required fields that get red on edit
     return (this.serviceForm.get(name).invalid && (edit || this.serviceForm.get(name).dirty));
   }
 
@@ -1385,7 +1384,7 @@ export class DatasourceFormComponent implements OnInit {
 
   /** Modals--> **/
   showCommentModal() {
-    if (this.editMode && !this.pendingService && (window.location.href.indexOf('/addOpenAIRE')==-1)) {
+    if (this.editMode && !this.pendingService && !this.addOpenAIRE) {
       UIkit.modal('#commentModal').show();
     } else {
       this.onSubmit(this.serviceForm.value, false);
@@ -1433,6 +1432,12 @@ export class DatasourceFormComponent implements OnInit {
       }
       return Object.assign(hash, {[obj[key]]: (hash[obj[key]] || []).concat(obj)});
     }, {});
+  }
+
+  switchToTab(id: string){
+    const element: HTMLElement = document.getElementById(id) as HTMLElement;
+    element.click();
+    window.scrollTo(0, -1);
   }
 
   public findInvalidControls() {

@@ -306,7 +306,7 @@ export class ResourceFormToPdfComponent implements OnInit {
     console.log('Submitted service value--> ', this.serviceForm.value);
     if (tempSave) {
       // todo add fix hear
-      this.resourceService[(pendingService || !this.editMode) ? 'uploadTempPendingService' : 'uploadTempService']
+      this.resourceService[(pendingService || !this.editMode) ? 'saveServiceAsDraft' : 'uploadTempService']
       (this.serviceForm.value).subscribe(
         _service => {
           // console.log(_service);
@@ -325,7 +325,7 @@ export class ResourceFormToPdfComponent implements OnInit {
       );
     } else if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
-      this.resourceService[pendingService ? 'uploadPendingService' : 'uploadService']
+      this.resourceService[pendingService ? 'submitPendingService' : 'submitService']
       (this.serviceForm.value, this.editMode, null).subscribe(
         _service => {
           // console.log(_service);

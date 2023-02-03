@@ -61,6 +61,18 @@
                 Datasources
               </a>
             </li>
+            <li [routerLinkActive]="['current_section']" #sharedDatasources="routerLinkActive">
+              <a [routerLink]="['/dashboard', catalogueId, providerId, 'shared-datasources']">
+                <img src="{{sharedDatasources.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+                Shared Datasources
+              </a>
+            </li>
+            <li [routerLinkActive]="['current_section']" #draftServices="routerLinkActive">
+              <a [routerLink]="['/dashboard', catalogueId, providerId, 'draft-datasources']">
+                <img src="{{draftServices.isActive ? 'lib/assets/images/new-icons/draft-services-active.svg' : 'lib/assets/images/new-icons/draft-services.svg'}}" class="uk-margin-small-right">
+                Draft datasources
+              </a>
+            </li>
           </ng-container>
           <li [routerLinkActive]="['current_section']" #messages="routerLinkActive">
             <a [routerLink]="['/dashboard', catalogueId, providerId, 'messages']" routerLinkActive="">

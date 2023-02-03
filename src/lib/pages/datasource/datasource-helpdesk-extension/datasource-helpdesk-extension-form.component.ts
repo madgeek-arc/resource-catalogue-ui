@@ -5,26 +5,21 @@ import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
 import {UserService} from '../../../services/user.service';
-import * as sd from '../services.description';
-import {Provider, RichService, Service, Type, Vocabulary, Helpdesk} from '../../../domain/eic-model';
+import * as sd from '../../provider-resources/services.description';
+import {Provider, Service, Helpdesk} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
-import {urlAsyncValidator, URLValidator} from '../../../shared/validators/generic.validator';
-import {zip} from 'rxjs';
+import {URLValidator} from '../../../shared/validators/generic.validator';
 import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
-import {helpdeskDescMap} from "../services.description";
-
-declare var UIkit: any;
 
 @Component({
-  selector: 'app-helpdesk-extension-form',
-  templateUrl: './helpdesk-extension-form.component.html',
+  selector: 'app-datasource-helpdesk-extension-form',
+  templateUrl: './datasource-helpdesk-extension-form.component.html',
   styleUrls: ['../../provider/service-provider-form.component.css']
 })
-export class HelpdeskExtensionFormComponent implements OnInit {
+export class DatasourceHelpdeskExtensionFormComponent implements OnInit {
 
-  protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
@@ -38,7 +33,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   serviceForm: FormGroup;
   provider: Provider;
   service: Service;
-  serviceId: string = null;
+  datasourceId: string = null;
   helpdesk: Helpdesk;
   errorMessage = '';
   successMessage: string = null;
@@ -137,11 +132,10 @@ export class HelpdeskExtensionFormComponent implements OnInit {
           this.getFieldAsFormArray('signatures').removeAt(0);
         }
       }
-      this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode).subscribe(
+      this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode, 'eosc', 'datasource').subscribe(
         _service => {
-          console.log(_service);
           this.showLoader = false;
-          return this.router.resourceDashboard(this.providerId, this.serviceId);  // redirect to resource-dashboard
+          return this.router.datasourceDashboard(this.providerId, this.datasourceId);  // redirect to datasource-dashboard
         },
         err => {
           this.showLoader = false;
@@ -164,14 +158,14 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.serviceId = this.route.snapshot.paramMap.get('resourceId');
-    this.serviceForm.get('serviceId').setValue(this.serviceId);
+    this.datasourceId = this.route.snapshot.paramMap.get('datasourceId');
+    this.serviceForm.get('serviceId').setValue(this.datasourceId);
 
-    this.serviceExtensionsService.getHelpdeskByServiceId(this.serviceId).subscribe(
+    this.serviceExtensionsService.getHelpdeskByServiceId(this.datasourceId).subscribe(
       res => { if(res!=null) {
-          this.helpdesk = res;
-          this.editMode = true;
-        }
+        this.helpdesk = res;
+        this.editMode = true;
+      }
       },
       err => { console.log(err); },
       () => {
@@ -204,13 +198,13 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   push(field: string, required: boolean, url?: boolean) {
     if (required) {
       if (url) {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
       // console.log('added non mandatory url field');
-      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }

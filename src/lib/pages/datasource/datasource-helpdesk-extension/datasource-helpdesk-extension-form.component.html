@@ -1,0 +1,349 @@
+<div class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom" style="min-height: 325px">
+  <div class="uk-container uk-container-expand">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+
+        <div class="titleAndActionsBar">
+          <div class="">
+            <div class="pageTitle">
+              Helpdesk Extension
+            </div>
+            <div class="providerName uk-margin-small-top">
+              <strong>{{serviceName!='' ? serviceORresource + ' Name' : datasourceId}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
+            </div>
+          </div>
+          <div class="uk-flex uk-flex-middle">
+            <button class="uk-button uk-button-secondary uk-margin-left" type="submit" (click)="this.onSubmit()">Submit
+            </button>
+          </div>
+        </div>
+
+
+        <!-- TOP HELP CONTENT -->
+        <app-help-content #topHelperContent [position]="'top'"
+                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </app-help-content>
+        <div class="uk-margin-medium-bottom">
+          <div class="uk-grid">
+            <!-- LEFT HELP CONTENT -->
+            <app-aside-help-content #leftHelperContent [position]="'left'"
+                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m uk-margin-medium-top">
+              <div *ngIf="showLoader" class="uk-position-center">
+                <div uk-spinner="ratio: 2"></div>
+              </div>
+
+              <div [ngClass]="{'blur-filter': showLoader}">
+
+                <div class="requiredFields">Fields with (*) are mandatory and must be completed in order to save this form.</div>
+
+                <div id="serviceForm">
+
+                  <div class="uk-margin-bottom uk-flex uk-flex-right">
+                    <div>
+                      <button class="uk-button uk-button-link" type="button">Do you need help?</button>
+                      <div uk-drop="pos: bottom-left">
+                        <div class="uk-card uk-card-body uk-card-default">
+                          <ng-container *ngIf="projectName === 'EOSC' || projectName === 'OpenAIRE Catalogue'">
+                            <p class="uk-margin-remove-bottom">For questions related to the information that needs to be
+                              filled in and suggestions on the portal, please contact us in <a
+                                href="mailto:onboarding@eosc-portal.eu">onboarding@eosc-portal.eu</a></p>
+                            <!--                        <p>For technical issues and questions, please contact us in <a href="mailto:providers@eosc-portal.eu">providers@eosc-portal.eu</a></p>-->
+                          </ng-container>
+                          <ng-container *ngIf="projectName === 'CatRIS'">
+                            <p>For questions related to the information that needs to be filled in and suggestions on the
+                              portal, please contact us in <a href="mailto:support@catris.eu">support@catris.eu</a></p>
+                            <p>For technical issues and questions, please contact us in <a
+                              href="mailto:tech-support@catris.eu">tech-support@catris.eu</a></p>
+                            <p>For instructions on onboarding Providers and Services, click <a
+                              href="../../../assets/files/CatRIS%20Provider%20and%20Service%20Onboarding%20Guide.pdf"
+                              target="_blank">here</a></p>
+                            <p>For a description of Provider and Service Profiles, click <a
+                              href="../../../assets/files/CatRIS%20Provider%20and%20Service%20Profile%20Guide.pdf"
+                              target="_blank">here</a></p>
+                            <p>For a description of the Provider Dashboards, click <a
+                              href="../../../assets/files/CatRIS%20Provider%20Dashboard%20Guide.pdf"
+                              target="_blank">here</a></p>
+                            <p>For a description of the CatRIS API, click <a
+                              href="../../../assets/files/CatRIS%20Catalogue%20API%20Guide.pdf"
+                              target="_blank">here</a></p>
+                          </ng-container>
+                          <!-- TOP HELP CONTENT -->
+                          <app-help-content #topHelperContent [position]="'top'"
+                                            [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                          </app-help-content>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div *ngIf="errorMessage" data-uk-alert="" class="uk-alert uk-alert-danger">
+                    <p>{{errorMessage}}</p>
+                  </div>
+                  <div *ngIf="successMessage" data-uk-alert="" class="uk-alert uk-alert-success">
+                    <p>{{successMessage}}</p>
+                  </div>
+
+                  <div class="uk-grid">
+
+                    <form [formGroup]="serviceForm" role="form" class="uk-form uk-margin uk-width-1-1">
+
+                      <div class="formContainer">
+
+                        <div class="uk-padding uk-padding-remove-left uk-padding-remove-top">
+                          <label class="" for="orderBy">Guidelines for </label>
+                          <div class="uk-inline">
+                            <select (change)="selectChangeHandler($event)" class="uk-input uk-select" id="orderBy" formControlName="helpdeskType">
+                              <!--                            <select class="uk-input uk-select" id="orderBy" (change)="" formControlName="order">-->
+                              <option value="direct usage">Direct Usage</option>
+                              <option value="ticket redirection">Ticket Redirection</option>
+                              <option value="full integration">Full Integration with EOSC Helpdesk</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <!--Direct Usage-->
+                        <div formArrayName="services" class="uk-margin-large-bottom">
+                          <label class="uk-form-label uk-text-right" for="services">
+                            {{servicesDesc.label + (servicesDesc.mandatory ? ' (*)' : '')}}
+                          </label>
+                          <div
+                            class="uk-form-description uk-margin-top uk-width-9-10">{{servicesDesc.desc}}</div>
+                          <div class="uk-form-controls uk-margin-medium-top">
+                            <div *ngFor="let item of getFieldAsFormArray('services').controls; let i=index"
+                                 class="uk-margin-bottom">
+                              <input id="services" class="uk-input uk-width-9-10" type="text" [formControlName]="i"
+                                     (input)="unsavedChangesPrompt()"
+                                     [ngClass]="{'uk-form-danger': checkFormValidity('services', this.editMode)}">
+                              <a *ngIf="getFieldAsFormArray('services').length > 1 && !disable"
+                                 class="remove-element uk-padding-small"
+                                 (click)="remove('services', i); unsavedChangesPrompt()">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </a>
+                            </div>
+                            <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                              <a class="add-new-element" (click)="push('services', false)">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add {{servicesDesc.label}}
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="this.serviceForm.get('helpdeskType').value!=='ticket redirection'" formArrayName="supportGroups" class="uk-margin-large-bottom">
+                          <label class="uk-form-label uk-text-right" for="services">
+                            {{supportGroupsDesc.label + (supportGroupsDesc.mandatory ? ' (*)' : '')}}
+                          </label>
+                          <div
+                            class="uk-form-description uk-margin-top uk-width-9-10">{{supportGroupsDesc.desc}}</div>
+                          <div class="uk-form-controls uk-margin-medium-top">
+                            <div *ngFor="let item of getFieldAsFormArray('supportGroups').controls; let i=index"
+                                 class="uk-margin-bottom">
+                              <input id="supportGroups" class="uk-input uk-width-9-10" type="text" [formControlName]="i"
+                                     (input)="unsavedChangesPrompt()"
+                                     [ngClass]="{'uk-form-danger': checkFormValidity('supportGroups', this.editMode)}">
+                              <a *ngIf="getFieldAsFormArray('supportGroups').length > 1 && !disable"
+                                 class="remove-element uk-padding-small"
+                                 (click)="remove('supportGroups', i); unsavedChangesPrompt()">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </a>
+                            </div>
+                            <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                              <a class="add-new-element" (click)="push('supportGroups', false)">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add {{supportGroupsDesc.label}}
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="uk-margin-large-bottom">
+                          <label class="uk-form-label uk-text-right" for="organisation">
+                            {{organisationDesc.label + (organisationDesc.mandatory ? ' (*)' : '')}}
+                          </label>
+                          <div
+                            class="uk-form-description uk-margin-top uk-width-9-10">{{organisationDesc.desc}}</div>
+                          <div class="uk-form-controls uk-margin-medium-top">
+                            <input id="organisation" class="uk-input uk-width-9-10" type="text"
+                                   formControlName="organisation"
+                                   (input)="unsavedChangesPrompt()"
+                                   [ngClass]="{'uk-form-danger': checkFormValidity('organisation', this.editMode)}">
+                            <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('organisation').value" class="uk-icon">
+                              <a href="{{this.serviceForm.get('organisation').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                            </div>
+                            <!--<i><small>{{organisationDesc.desc}}</small></i>-->
+                          </div>
+                        </div>
+                        <div *ngIf="this.serviceForm.get('helpdeskType').value!=='ticket redirection'" formArrayName="emails" class="uk-margin-large-bottom">
+                          <label class="uk-form-label uk-text-right" for="emails">
+                            {{emailsDesc.label + (emailsDesc.mandatory ? ' (*)' : '')}}
+                          </label>
+                          <div
+                            class="uk-form-description uk-margin-top uk-width-9-10">{{emailsDesc.desc}}</div>
+                          <div class="uk-form-controls uk-margin-medium-top">
+                            <div *ngFor="let item of getFieldAsFormArray('emails').controls; let i=index"
+                                 class="uk-margin-bottom">
+                              <input id="emails" class="uk-input uk-width-9-10" type="text" [formControlName]="i"
+                                     (input)="unsavedChangesPrompt()"
+                                     [ngClass]="{'uk-form-danger': checkFormValidity('emails', this.editMode)}">
+                              <a *ngIf="getFieldAsFormArray('emails').length > 1 && !disable"
+                                 class="remove-element uk-padding-small"
+                                 (click)="remove('emails', i); unsavedChangesPrompt()">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </a>
+                            </div>
+                            <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                              <a class="add-new-element" (click)="push('emails', false)">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add {{emailsDesc.label}}
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="this.serviceForm.get('helpdeskType').value==='ticket redirection'" formArrayName="emails" class="uk-margin-large-bottom">
+                          <label class="uk-form-label uk-text-right" for="emailForTicket">
+                            {{emailForTicketDesc.label + (emailForTicketDesc.mandatory ? ' (*)' : '')}}
+                          </label>
+                          <div
+                            class="uk-form-description uk-margin-top uk-width-9-10">{{emailForTicketDesc.desc}}</div>
+                          <div class="uk-form-controls uk-margin-medium-top">
+                            <div *ngFor="let item of getFieldAsFormArray('emails').controls; let i=index"
+                                 class="uk-margin-bottom">
+                              <input id="emailForTicket" class="uk-input uk-width-9-10" type="text" [formControlName]="i"
+                                     (input)="unsavedChangesPrompt()"
+                                     [ngClass]="{'uk-form-danger': checkFormValidity('emails', this.editMode)}">
+                              <a *ngIf="getFieldAsFormArray('emails').length > 1 && !disable"
+                                 class="remove-element uk-padding-small"
+                                 (click)="remove('emails', i); unsavedChangesPrompt()">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </a>
+                            </div>
+                            <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                              <a class="add-new-element" (click)="push('emails', false)">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add {{emailForTicketDesc.label}}
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="this.serviceForm.get('helpdeskType').value!=='ticket redirection'" formArrayName="agents" class="uk-margin-large-bottom">
+                          <label class="uk-form-label uk-text-right" for="agents">
+                            {{agentsDesc.label + (agentsDesc.mandatory ? ' (*)' : '')}}
+                          </label>
+                          <div
+                            class="uk-form-description uk-margin-top uk-width-9-10">{{agentsDesc.desc}}</div>
+                          <div class="uk-form-controls uk-margin-medium-top">
+                            <div *ngFor="let item of getFieldAsFormArray('agents').controls; let i=index"
+                                 class="uk-margin-bottom">
+                              <input id="agents" class="uk-input uk-width-9-10" type="text" [formControlName]="i"
+                                     (input)="unsavedChangesPrompt()"
+                                     [ngClass]="{'uk-form-danger': checkFormValidity('agents', this.editMode)}">
+                              <a *ngIf="getFieldAsFormArray('agents').length > 1 && !disable"
+                                 class="remove-element uk-padding-small"
+                                 (click)="remove('agents', i); unsavedChangesPrompt()">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </a>
+                            </div>
+                            <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                              <a class="add-new-element" (click)="push('agents', false)">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add {{agentsDesc.label}}
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="this.serviceForm.get('helpdeskType').value==='direct usage'" formArrayName="signatures" class="uk-margin-large-bottom">
+                          <label class="uk-form-label uk-text-right" for="signatures">
+                            {{signaturesDesc.label + (signaturesDesc.mandatory ? ' (*)' : '')}}
+                          </label>
+                          <div
+                            class="uk-form-description uk-margin-top uk-width-9-10">{{signaturesDesc.desc}}</div>
+                          <div class="uk-form-controls uk-margin-medium-top">
+                            <div *ngFor="let item of getFieldAsFormArray('signatures').controls; let i=index"
+                                 class="uk-margin-bottom">
+                              <input id="signatures" class="uk-input uk-width-9-10" type="text" [formControlName]="i"
+                                     (input)="unsavedChangesPrompt()"
+                                     [ngClass]="{'uk-form-danger': checkFormValidity('signatures', this.editMode)}">
+                              <a *ngIf="getFieldAsFormArray('signatures').length > 1 && !disable"
+                                 class="remove-element uk-padding-small"
+                                 (click)="remove('signatures', i); unsavedChangesPrompt()">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </a>
+                            </div>
+                            <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                              <a class="add-new-element" (click)="push('signatures', false)">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add {{signaturesDesc.label}}
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="uk-margin-large-bottom">
+                          <label class="uk-form-label uk-text-right">
+                            {{ webformDesc.label + (webformDesc.mandatory ? ' (*)' : '')}}
+                          </label>
+                          <div class="uk-form-controls uk-margin-medium-top">
+                            <label>
+                                  <span
+                                    class="uk-form-description uk-margin-small-right">{{webformDesc.desc}}</span>
+                              <label class="uk-margin-small-left uk-margin-small-right">
+                                <input class="uk-radio" type="radio" name="webform" id="webformNo"
+                                       formControlName="webform" [value]=false
+                                       (input)="unsavedChangesPrompt()"
+                                       [checked]="(this.serviceForm.get('webform').value === false)">
+                                No</label>
+                              <label><input class="uk-radio" type="radio" name="webform" id="webformYes"
+                                            formControlName="webform" [value]=true
+                                            (input)="unsavedChangesPrompt()"
+                                            [checked]="this.serviceForm.get('webform').value === true">
+                                Yes</label>
+                            </label>
+                          </div>
+                        </div>
+                        <div *ngIf="this.serviceForm.get('helpdeskType').value==='ticket redirection'" class="uk-margin-large-bottom">
+                          <label class="uk-form-label uk-text-right">
+                            {{ ticketPreservationDesc.label + (ticketPreservationDesc.mandatory ? ' (*)' : '')}}
+                          </label>
+                          <div class="uk-form-controls uk-margin-medium-top">
+                            <label>
+                                  <span
+                                    class="uk-form-description uk-margin-small-right">{{ticketPreservationDesc.desc}}</span>
+                              <label class="uk-margin-small-left uk-margin-small-right">
+                                <input class="uk-radio" type="radio" name="ticketPreservation" id="ticketPreservationNo"
+                                       formControlName="ticketPreservation" [value]=false
+                                       (input)="unsavedChangesPrompt()"
+                                       [checked]="(this.serviceForm.get('ticketPreservation').value === false)">
+                                No</label>
+                              <label><input class="uk-radio" type="radio" name="ticketPreservation" id="ticketPreservationYes"
+                                            formControlName="ticketPreservation" [value]=true
+                                            (input)="unsavedChangesPrompt()"
+                                            [checked]="this.serviceForm.get('ticketPreservation').value === true">
+                                Yes</label>
+                            </label>
+                          </div>
+                        </div>
+
+                        <!--                                                <pre>-->
+                        <!--                                                  {{serviceForm.value | json}}-->
+                        <!--                                                </pre>-->
+                      </div>
+                      <!--<button type="submit" class="btn btn-primary butn theme block full-width m-b">-->
+                      <!--{{editMode ? "Update" : "Add"}}-->
+                      <!--</button>-->
+
+                    </form>
+
+                  </div>
+
+                </div>
+              </div>
+              <!-- RIGHT HELP CONTENT -->
+              <app-aside-help-content #rightHelperContent [position]="'right'"
+                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+              </app-aside-help-content>
+            </div>
+          </div>
+          <!-- BOTTOM HELP CONTENT -->
+          <app-help-content #bottomHelperContent [position]="'bottom'"
+                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+          </app-help-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

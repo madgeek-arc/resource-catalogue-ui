@@ -8,8 +8,6 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
 
-declare var UIkit: any;
-
 @Component({
   selector: 'app-shared-services',
   templateUrl: './shared-services.component.html',

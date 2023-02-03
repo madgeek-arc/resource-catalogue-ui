@@ -13,7 +13,7 @@
               <strong>{{catalogueName!='' ? catalogueName : 'Catalogue Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
             </div>
           </div>
-          <div class="">
+          <div class="uk-flex uk-flex-middle">
             <!--<button class="uk-button uk-button-primary">Discard</button>-->
 <!--            <button *ngIf="!disable && (!edit || pendingProvider)" class="uk-button uk-button-primary uk-margin-left" (click)="this.registerCatalogue(true)">Save as draft</button>-->
             <button *ngIf="!disable && loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left" type="button" (click)="showCommentModal()">Submit</button>
@@ -98,7 +98,7 @@
                     <div class="tabsTitle uk-margin-bottom">Catalogue Profile Information Blocks</div>
                     <ul class="uk-width-1-1 uk-margin-remove uk-tab uk-tab-left form-tabs" uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
                       <li class="uk-active">
-                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[0]}" href="#">
+                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[0]}" href="#" id="tab1">
                           <span>1. Basic *</span>
                           <span class="circle-number">
                             <i *ngIf="remainingOnTab0==0" aria-hidden="true" class="fa fa-check"></i>
@@ -107,7 +107,7 @@
                         </a>
                       </li>
                       <li>
-                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[1]}" href="#">
+                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[1]}" href="#" id="tab2">
                           <span>2. Marketing *</span>
                           <span class="circle-number">
                             <i *ngIf="remainingOnTab1==0" aria-hidden="true" class="fa fa-check"></i>
@@ -116,12 +116,12 @@
                         </a>
                       </li>
                       <li>
-                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[2]}" href="#">
+                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[2]}" href="#" id="tab3">
                           <span>3. Classification</span>
                         </a>
                       </li>
                       <li>
-                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[3]}" href="#">
+                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[3]}" href="#" id="tab4">
                           <span>4. Location *</span>
                           <span class="circle-number">
                             <i *ngIf="remainingOnTab3==0" aria-hidden="true" class="fa fa-check"></i>
@@ -130,7 +130,7 @@
                         </a>
                       </li>
                       <li>
-                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[4]}" href="#">
+                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[4]}" href="#" id="tab5">
                           <span>5. Contact *</span>
                           <span class="circle-number">
                             <i *ngIf="remainingOnTab4==0" aria-hidden="true" class="fa fa-check"></i>
@@ -139,12 +139,12 @@
                         </a>
                       </li>
                       <li>
-                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[5]}" href="#">
+                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[5]}" href="#" id="tab6">
                           <span>6. Dependencies</span>
                         </a>
                       </li>
                       <li>
-                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[6]}" href="#">
+                        <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[6]}" href="#" id="tab7">
                           <span>7. Admins *</span>
                           <span class="circle-number">
                             <i *ngIf="remainingOnTab6==0" aria-hidden="true" class="fa fa-check"></i>
@@ -292,6 +292,11 @@
                               </ng-select>
                             </div>
                           </div>
+
+                          <div class="uk-flex uk-flex-right">
+                            <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab2')">Next &nbsp;<i class="fa fa-arrow-circle-right fa-lg"></i></button>
+                          </div>
+
                         </li>
                         <!--MARKETING-->
                         <li>
@@ -379,6 +384,16 @@
                               </a>
                             </div>
                           </div>
+
+                          <div class="uk-flex justify-content-between">
+                            <div class="uk-flex-left">
+                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab1')"><i class="fa fa-arrow-circle-left fa-lg"></i>&nbsp; Previous</button>
+                            </div>
+                            <div class="uk-flex-right">
+                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab3')">Next &nbsp;<i class="fa fa-arrow-circle-right fa-lg"></i></button>
+                            </div>
+                          </div>
+
                         </li>
                         <!--CLASSIFICATION-->
                         <li>
@@ -507,6 +522,16 @@
                               </div>
                             </div>
                           </div>
+
+                          <div class="uk-flex justify-content-between">
+                            <div class="uk-flex-left">
+                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab2')"><i class="fa fa-arrow-circle-left fa-lg"></i>&nbsp; Previous</button>
+                            </div>
+                            <div class="uk-flex-right">
+                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab4')">Next &nbsp;<i class="fa fa-arrow-circle-right fa-lg"></i></button>
+                            </div>
+                          </div>
+
                         </li>
                         <!--LOCATION-->
                         <li>
@@ -606,6 +631,16 @@
                                 <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>                                </div>
                             </div>
                           </div>
+
+                          <div class="uk-flex justify-content-between">
+                            <div class="uk-flex-left">
+                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab3')"><i class="fa fa-arrow-circle-left fa-lg"></i>&nbsp; Previous</button>
+                            </div>
+                            <div class="uk-flex-right">
+                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab5')">Next &nbsp;<i class="fa fa-arrow-circle-right fa-lg"></i></button>
+                            </div>
+                          </div>
+
                         </li>
                         <!--CONTACT-->
                         <li>
@@ -780,6 +815,16 @@
                               </a>
                             </div>
                           </div>
+
+                          <div class="uk-flex justify-content-between">
+                            <div class="uk-flex-left">
+                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab4')"><i class="fa fa-arrow-circle-left fa-lg"></i>&nbsp; Previous</button>
+                            </div>
+                            <div class="uk-flex-right">
+                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab6')">Next &nbsp;<i class="fa fa-arrow-circle-right fa-lg"></i></button>
+                            </div>
+                          </div>
+
                         </li>
                         <!--DEPENDENCIES-->
                         <li>
@@ -914,6 +959,16 @@
                               </div>
                             </div>
                           </div>
+
+                          <div class="uk-flex justify-content-between">
+                            <div class="uk-flex-left">
+                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab5')"><i class="fa fa-arrow-circle-left fa-lg"></i>&nbsp; Previous</button>
+                            </div>
+                            <div class="uk-flex-right">
+                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab7')">Next &nbsp;<i class="fa fa-arrow-circle-right fa-lg"></i></button>
+                            </div>
+                          </div>
+
                         </li>
                         <!--ADMINS-->
                         <li>
@@ -990,6 +1045,8 @@
                               </a>
                             </div>
                           </div>
+
+                          <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab6')"><i class="fa fa-arrow-circle-left fa-lg"></i>&nbsp; Previous</button>
 
                         </li>
                       </ul>

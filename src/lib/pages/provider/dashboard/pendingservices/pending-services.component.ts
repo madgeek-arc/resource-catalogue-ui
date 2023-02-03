@@ -46,7 +46,7 @@ export class PendingServicesComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
-    private service: ResourceService
+    private resourceService: ResourceService
   ) {}
 
   ngOnInit(): void {
@@ -106,7 +106,7 @@ export class PendingServicesComponent implements OnInit {
   }
 
   getPendingServices() {
-    this.providerService.getDraftServicesByProvider(this.providerId, this.dataForm.get('from').value,
+    this.resourceService.getDraftServicesByProvider(this.providerId, this.dataForm.get('from').value,
       this.itemsPerPage + '', 'ASC', 'name')
       .subscribe(res => {
           this.providerServices = res;
@@ -126,7 +126,7 @@ export class PendingServicesComponent implements OnInit {
 
   deleteService(id: string) {
     // UIkit.modal('#spinnerModal').show();
-    this.service.deletePendingService(id).subscribe(
+    this.resourceService.deletePendingService(id).subscribe(
       res => {},
       error => {
         // console.log(error);
