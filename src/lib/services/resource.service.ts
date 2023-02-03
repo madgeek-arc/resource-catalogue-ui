@@ -122,16 +122,17 @@ export class ResourceService {
     return this.http.get(this.base + '/service/by/ID/'); // needs capitalized 'ID' after back changes
   }
 
-  getService(id: string, catalogue_id?: string) {
+  getService(id: string, catalogueId?: string) {
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
-    if (!catalogue_id) catalogue_id = 'eosc';
-    return this.http.get<Service>(this.base + `/service/${id}/?catalogue_id=${catalogue_id}`, this.options);
+    if (!catalogueId) catalogueId = 'eosc';
+    return this.http.get<Service>(this.base + `/service/${id}/?catalogue_id=${catalogueId}`, this.options);
   }
 
-  getRichService(id: string, version?: string) {
-    // if version becomes optional this should be reconsidered
-    return this.http.get<RichService>(this.base + `/service/rich/${version === undefined ? id : [id, version].join('/')}/`, this.options);
+  getRichService(id: string, catalogueId?:string, version?: string) {
+    if (!catalogueId) catalogueId = 'eosc';
+    return this.http.get<RichService>(this.base + `/service/rich/${id}?catalogue_id=${catalogueId}`, this.options);
+    // return this.http.get<RichService>(this.base + `/service/rich/${version === undefined ? id : [id, version].join('/')}/`, this.options);
   }
 
   getSelectedServices(ids: string[]) {
@@ -185,8 +186,8 @@ export class ResourceService {
     let params = new HttpParams();
     if (provider) {
       params = params.append('providerId', provider);
-    return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SCIENTIFIC_SUBDOMAIN`, {params});
-  } else {
+      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SCIENTIFIC_SUBDOMAIN`, {params});
+    } else {
       return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SCIENTIFIC_SUBDOMAIN`);
     }
   }
@@ -543,8 +544,9 @@ export class ResourceService {
     return this.http.get<Paging<ServiceHistory>>(this.base + `/service/history/${serviceId}/`);
   }
 
-  getServiceLoggingInfoHistory(serviceId: string) {
-    return this.http.get<Paging<LoggingInfo>>(this.base + `/resource/loggingInfoHistory/${serviceId}/`);
+  getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
+    // return this.http.get<Paging<LoggingInfo>>(this.base + `/resource/loggingInfoHistory/${serviceId}/`);
+    return this.http.get<Paging<LoggingInfo>>(this.base + `/resource/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
   }
 
   getInfo() {

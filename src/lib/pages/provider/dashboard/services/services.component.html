@@ -160,26 +160,26 @@
                   <ng-container *ngIf="statusesOnView[i]">
                     <span class="uk-text-bold" >Monitoring Status: </span><span>{{statusesOnView[i]}}</span>
                   </ng-container>
-<!--                  <ng-container *ngIf="statusesOnView[i]==='OK'">-->
-<!--                    <span class="uk-badge" title="Monitoring Status" style="background: #28a745;">OK</span>-->
-<!--                  </ng-container>-->
-<!--                  <ng-container *ngIf="statusesOnView[i]==='WARNING'">-->
-<!--                    <span class="uk-badge" title="Monitoring Status" style="background: #ffc107;">WARNING</span>-->
-<!--                  </ng-container>-->
-<!--                  <ng-container *ngIf="statusesOnView[i]==='CRITICAL'">-->
-<!--                    <span class="uk-badge" title="Monitoring Status" style="background: #dc3545;">CRITICAL</span>-->
-<!--                  </ng-container>-->
-<!--                  <ng-container *ngIf="statusesOnView[i]==='MISSING'">-->
-<!--                    <span class="uk-badge" title="Monitoring Status" style="background: #17a2b8;">MISSING</span>-->
-<!--                  </ng-container>-->
-<!--                  <ng-container *ngIf="statusesOnView[i]==='UNKNOWN'">-->
-<!--                    <span class="uk-badge" title="Monitoring Status" style="background: #6c757d ;">UNKNOWN</span>-->
-<!--                  </ng-container>-->
-<!--                  <ng-container *ngIf="statusesOnView[i]==='NA'">-->
-<!--                    <span class="uk-badge" title="Monitoring Status" style="background: dimgrey;">NA</span>-->
-<!--                  </ng-container>-->
+                  <!--                  <ng-container *ngIf="statusesOnView[i]==='OK'">-->
+                  <!--                    <span class="uk-badge" title="Monitoring Status" style="background: #28a745;">OK</span>-->
+                  <!--                  </ng-container>-->
+                  <!--                  <ng-container *ngIf="statusesOnView[i]==='WARNING'">-->
+                  <!--                    <span class="uk-badge" title="Monitoring Status" style="background: #ffc107;">WARNING</span>-->
+                  <!--                  </ng-container>-->
+                  <!--                  <ng-container *ngIf="statusesOnView[i]==='CRITICAL'">-->
+                  <!--                    <span class="uk-badge" title="Monitoring Status" style="background: #dc3545;">CRITICAL</span>-->
+                  <!--                  </ng-container>-->
+                  <!--                  <ng-container *ngIf="statusesOnView[i]==='MISSING'">-->
+                  <!--                    <span class="uk-badge" title="Monitoring Status" style="background: #17a2b8;">MISSING</span>-->
+                  <!--                  </ng-container>-->
+                  <!--                  <ng-container *ngIf="statusesOnView[i]==='UNKNOWN'">-->
+                  <!--                    <span class="uk-badge" title="Monitoring Status" style="background: #6c757d ;">UNKNOWN</span>-->
+                  <!--                  </ng-container>-->
+                  <!--                  <ng-container *ngIf="statusesOnView[i]==='NA'">-->
+                  <!--                    <span class="uk-badge" title="Monitoring Status" style="background: dimgrey;">NA</span>-->
+                  <!--                  </ng-container>-->
                   <div class="uk-margin-small-top">
-                    <span *ngIf="providerService.service.description" class="uk-margin-small-top">{{providerService.service.description}}</span>
+                    <span *ngIf="providerService.service.description" class="uk-margin-small-top"><markdown [data]="providerService.service.description"></markdown></span>
                   </div>
                   <div class="uk-margin-small-top">
                     <span class="">Creation Date: </span>{{ providerService.metadata.registeredAt | date }}
@@ -198,8 +198,8 @@
                     <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(providerService)">
                       <ng-container *ngIf="providerService.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
                       <ng-container *ngIf="!providerService.active">
-<!--                        <div *ngIf="providerService.status === 'pending resource' || providerService.status === 'rejected resource'"-->
-<!--                             uk-tooltip="title:Cannot activate a pending/rejected resource."></div>-->
+                        <!--                        <div *ngIf="providerService.status === 'pending resource' || providerService.status === 'rejected resource'"-->
+                        <!--                             uk-tooltip="title:Cannot activate a pending/rejected resource."></div>-->
                         <i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate
                       </ng-container>
                     </button>
@@ -213,10 +213,10 @@
                 </div>
               </div>
 
-<!--&lt;!&ndash;              active/inactive label alternative&ndash;&gt;-->
-<!--              <td class="uk-text-center">-->
-<!--                <i class="fa fa-{{ providerService.active ? 'check':'close' }}"></i>-->
-<!--              </td>-->
+              <!--&lt;!&ndash;              active/inactive label alternative&ndash;&gt;-->
+              <!--              <td class="uk-text-center">-->
+              <!--                <i class="fa fa-{{ providerService.active ? 'check':'close' }}"></i>-->
+              <!--              </td>-->
 
             </div>
 
@@ -272,11 +272,11 @@
       <!--</div>-->
       <!--</div>-->
 
-<!--      <div *ngIf="toggleLoading">-->
-<!--        <div class="loader-small">-->
-<!--          <div class="greyFilm"></div>-->
-<!--        </div>-->
-<!--      </div>-->
+      <!--      <div *ngIf="toggleLoading">-->
+      <!--        <div class="loader-small">-->
+      <!--          <div class="greyFilm"></div>-->
+      <!--        </div>-->
+      <!--      </div>-->
 
     </div>
 

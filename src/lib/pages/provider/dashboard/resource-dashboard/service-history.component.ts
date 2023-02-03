@@ -49,7 +49,7 @@ export class ServiceHistoryComponent implements OnInit, OnDestroy {
   }
 
   getDataForService() {
-    this.resourceService.getServiceLoggingInfoHistory(this.service.id).subscribe(
+    this.resourceService.getServiceLoggingInfoHistory(this.service.id, this.catalogueId).subscribe(
       res => this.serviceHistory = res,
       err => {
         this.errorMessage = 'An error occurred while retrieving the history of this service. ' + err.error;

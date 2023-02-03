@@ -1,16 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription, zip} from 'rxjs';
-import {Datasource, LoggingInfo} from '../../../../domain/eic-model';
+import {ServiceHistory, Datasource, LoggingInfo} from '../../../../domain/eic-model';
 import {NavigationService} from '../../../../services/navigation.service';
 import {ResourceService} from '../../../../services/resource.service';
-import {DatasourceService} from '../../../../services/datasource.service';
+import {DatasourceService} from "../../../../services/datasource.service";
 import {Paging} from '../../../../domain/paging';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
 import * as Highcharts from 'highcharts';
 import MapModule from 'highcharts/modules/map';
-
 MapModule(Highcharts);
 
 declare var require: any;
@@ -25,6 +24,7 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
 
   projectName = environment.projectName;
 
+  public catalogueId: string;
   public datasource: Datasource;
   public errorMessage: string;
   private sub: Subscription;
@@ -50,6 +50,7 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.catalogueId = window.location.href.split('dashboard/')[1].split('/')[0];
     this.statisticPeriod = 'MONTH';
     // this.sub = this.route.params.subscribe(params => {
     this.sub = this.route.parent.params.subscribe(params => {
@@ -122,7 +123,7 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
 
     if (dontGetDatasources) {
     } else {
-      this.datasourceService.getDatasourceLoggingInfoHistory(this.datasource.id).subscribe(
+      this.datasourceService.getDatasourceLoggingInfoHistory(this.datasource.id, this.catalogueId).subscribe(
         res => this.datasourceHistory = res,
         err => {
           this.errorMessage = 'An error occurred while retrieving the history of this datasource. ' + err.error;

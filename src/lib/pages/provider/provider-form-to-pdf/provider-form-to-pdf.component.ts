@@ -183,7 +183,7 @@ export class ProviderFormToPdfComponent implements OnInit {
     if (path.includes('add/:providerId')) {
       this.pendingProvider = true;
     }
-    // if (path.includes('info/:providerId')) {
+    // if (path.includes('view/:providerId')) {
     //   this.pendingProvider = true;
     // }
     // this.setVocabularies();
