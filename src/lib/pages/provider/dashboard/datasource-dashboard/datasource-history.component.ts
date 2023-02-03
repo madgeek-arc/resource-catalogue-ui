@@ -52,7 +52,7 @@ export class DatasourceHistoryComponent implements OnInit, OnDestroy {
   }
 
   getDataForDatasource() {
-    this.datasourceService.getDatasourceLoggingInfoHistory(this.datasource.id).subscribe(
+    this.datasourceService.getDatasourceLoggingInfoHistory(this.datasource.id, this.catalogueId).subscribe(
       res => this.datasourceHistory = res,
       err => {
         this.errorMessage = 'An error occurred while retrieving the history of this datasource. ' + err.error;

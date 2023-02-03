@@ -544,8 +544,9 @@ export class ResourceService {
     return this.http.get<Paging<ServiceHistory>>(this.base + `/service/history/${serviceId}/`);
   }
 
-  getServiceLoggingInfoHistory(serviceId: string) {
-    return this.http.get<Paging<LoggingInfo>>(this.base + `/resource/loggingInfoHistory/${serviceId}/`);
+  getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
+    // return this.http.get<Paging<LoggingInfo>>(this.base + `/resource/loggingInfoHistory/${serviceId}/`);
+    return this.http.get<Paging<LoggingInfo>>(this.base + `/resource/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
   }
 
   getInfo() {

@@ -24,6 +24,7 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
 
   projectName = environment.projectName;
 
+  public catalogueId: string;
   public datasource: Datasource;
   public errorMessage: string;
   private sub: Subscription;
@@ -49,6 +50,7 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.catalogueId = window.location.href.split('dashboard/')[1].split('/')[0];
     this.statisticPeriod = 'MONTH';
     // this.sub = this.route.params.subscribe(params => {
     this.sub = this.route.parent.params.subscribe(params => {
@@ -121,7 +123,7 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
 
     if (dontGetDatasources) {
     } else {
-      this.datasourceService.getDatasourceLoggingInfoHistory(this.datasource.id).subscribe(
+      this.datasourceService.getDatasourceLoggingInfoHistory(this.datasource.id, this.catalogueId).subscribe(
         res => this.datasourceHistory = res,
         err => {
           this.errorMessage = 'An error occurred while retrieving the history of this datasource. ' + err.error;

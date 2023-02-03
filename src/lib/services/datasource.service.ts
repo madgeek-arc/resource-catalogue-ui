@@ -162,8 +162,9 @@ export class DatasourceService {
   /** <-- STATS **/
 
   /** History -->**/
-  getDatasourceLoggingInfoHistory(datasourceId: string) {
-    return this.http.get<Paging<LoggingInfo>>(this.base + `/datasource/loggingInfoHistory/${datasourceId}/`);
+  getDatasourceLoggingInfoHistory(datasourceId: string, catalogue_id: string) {
+    // return this.http.get<Paging<LoggingInfo>>(this.base + `/datasource/loggingInfoHistory/${datasourceId}/`);
+    return this.http.get<Paging<LoggingInfo>>(this.base + `/datasource/loggingInfoHistory/${datasourceId}?catalogue_id=${catalogue_id}`);
   }
   /** <-- History **/
 
