@@ -1,9 +1,15 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
-import {Datasource, DatasourceBundle, LoggingInfo, RichService, Service} from '../domain/eic-model';
+import {
+  RichService,
+  Service,
+  Datasource, LoggingInfo, InfraService, DatasourceBundle
+} from '../domain/eic-model';
 import {Paging} from '../domain/paging';
+import {Observable, throwError} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 
 
 @Injectable()
@@ -16,11 +22,11 @@ export class DatasourceService {
   ACCESS_TYPES;
   ORDER_TYPE;
 
-  getDatasource(id: string, catalogue_id?: string) {
+  getDatasource(id: string, catalogueId?: string) {
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
-    if (!catalogue_id) catalogue_id = 'eosc';
-    return this.http.get<Datasource>(this.base + `/datasource/${id}/?catalogue_id=${catalogue_id}`, this.options);
+    if (!catalogueId) catalogueId = 'eosc';
+    return this.http.get<Datasource>(this.base + `/datasource/${id}/?catalogue_id=${catalogueId}`, this.options);
   }
 
   getRichDatasource(id: string, version?: string) {
@@ -29,7 +35,7 @@ export class DatasourceService {
   }
 
   getSelectedDatasources(ids: string[]) {
-    /*return this.getSome('service', ids).map(res => <Service[]> <any> res);*/
+    /*return this.getSome("service", ids).map(res => <Service[]> <any> res);*/
     // return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
     return this.http.get<Datasource[]>(this.base + `/datasource/rich/byID/${ids.toString()}/`, this.options);
   }
@@ -39,7 +45,7 @@ export class DatasourceService {
   }
 
   getDatasourceBundles(from: string, quantity: string, orderField: string, order: string, query: string,
-                     active: string, resource_organisation: string[], status: string[], auditState: string[], catalogue_id: string[]) {
+                       active: string, resource_organisation: string[], status: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
@@ -103,7 +109,7 @@ export class DatasourceService {
     return this.http.patch(this.base + `/datasource/verifyDatasource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
-  publishDatasource(id: string, version: string, active: boolean) { // toggles active/inactive service
+  publishDatasource(id: string, version: string, active: boolean) { // toggles active/inactive datasource
     if (version === null) {
       return this.http.patch(this.base + `/datasource/publish/${id}?active=${active}`, this.options);
     }

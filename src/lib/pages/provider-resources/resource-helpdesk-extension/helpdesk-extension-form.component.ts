@@ -6,9 +6,9 @@ import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
 import {UserService} from '../../../services/user.service';
 import * as sd from '../services.description';
-import {Helpdesk, Provider, Service} from '../../../domain/eic-model';
+import {Provider, Service, Helpdesk} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
-import {urlAsyncValidator, URLValidator} from '../../../shared/validators/generic.validator';
+import {URLValidator} from '../../../shared/validators/generic.validator';
 import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
@@ -163,9 +163,9 @@ export class HelpdeskExtensionFormComponent implements OnInit {
 
     this.serviceExtensionsService.getHelpdeskByServiceId(this.serviceId).subscribe(
       res => { if(res!=null) {
-          this.helpdesk = res;
-          this.editMode = true;
-        }
+        this.helpdesk = res;
+        this.editMode = true;
+      }
       },
       err => { console.log(err); },
       () => {
@@ -198,13 +198,13 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   push(field: string, required: boolean, url?: boolean) {
     if (required) {
       if (url) {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.serviceProviderService)));
+        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
       } else {
         this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
       }
     } else if (url) {
       // console.log('added non mandatory url field');
-      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService)));
+      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
     } else {
       this.getFieldAsFormArray(field).push(this.fb.control(''));
     }

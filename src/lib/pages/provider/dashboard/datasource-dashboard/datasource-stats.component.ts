@@ -1,16 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription, zip} from 'rxjs';
-import {Datasource, LoggingInfo} from '../../../../domain/eic-model';
+import {ServiceHistory, Datasource, LoggingInfo} from '../../../../domain/eic-model';
 import {NavigationService} from '../../../../services/navigation.service';
 import {ResourceService} from '../../../../services/resource.service';
-import {DatasourceService} from '../../../../services/datasource.service';
+import {DatasourceService} from "../../../../services/datasource.service";
 import {Paging} from '../../../../domain/paging';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
 import * as Highcharts from 'highcharts';
 import MapModule from 'highcharts/modules/map';
-
 MapModule(Highcharts);
 
 declare var require: any;

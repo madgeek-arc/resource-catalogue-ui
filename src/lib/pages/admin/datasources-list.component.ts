@@ -24,7 +24,6 @@ import {statusChangeMap} from '../../domain/service-provider-status-list';
 import {zip} from 'rxjs';
 import {Paging} from '../../domain/paging';
 import {ResourceExtrasService} from "../../services/resource-extras.service";
-import {urlAsyncValidator, URLValidator} from "../../shared/validators/generic.validator";
 import {DatasourceService} from "../../services/datasource.service";
 
 declare var UIkit: any;

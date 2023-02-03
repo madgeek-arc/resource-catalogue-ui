@@ -3,19 +3,7 @@
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
 
-<!--        <h1 class="uk-h3">My Service Providers</h1>-->
-
-        <div class="uk-padding uk-padding-remove-left uk-padding-remove-right uk-padding-remove-top">
-          <div class="services-provider-container">
-            <p>Welcome to the enhanced EOSC Resource Catalogue, which now supports Catalogue Profiles, Data Source Profiles and Research Product Profiles!</p>
-
-            <p>Existing Resource Profile records that described collections of research products (what we call “Data Souces”) have been transformed to comply with the Data Source Profile in the EOSC Profiles version 4.0.  You are encouraged to review your own records to make sure they match your needs.</p>
-
-            <p>Updated information, documentation, and instructions for onboarding resources can be found in the new <a href="https://eosc-portal.eu/eosc-providers-hub" target="_blank">Providers Hub</a> section of eosc-portal.eu.</p>
-
-            <p class="uk-margin-remove-bottom">If you have any concerns or questions, please contact the release team through the EOSC Helpdesk: <a href="mailto:help@eosc-portal.eu">help@eosc-portal.eu</a>.</p>
-          </div>
-        </div>
+        <!--        <h1 class="uk-h3">My Service Providers</h1>-->
 
         <!-- TOP HELP CONTENT -->
         <app-help-content #topHelperContent [position]="'top'"
@@ -76,8 +64,8 @@
                               </span>
                             </div>
                             <div class="uk-margin-small-top">
-<!--                              <span class="statusLabel">Provider Status: </span>{{ providerBundle.status.substr(0,providerBundle.status.indexOf(' ')) | titlecase }}-->
-<!--                              <span class="statusLabel">Provider Status: </span>{{labels[statuses.indexOf(providerBundle.status)]}}-->
+                              <!--                              <span class="statusLabel">Provider Status: </span>{{ providerBundle.status.substr(0,providerBundle.status.indexOf(' ')) | titlecase }}-->
+                              <!--                              <span class="statusLabel">Provider Status: </span>{{labels[statuses.indexOf(providerBundle.status)]}}-->
                               <span class="statusLabel">Provider Status: </span>Approved
                               <br>
                               <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)]}}
@@ -143,19 +131,19 @@
                               </button>
                               <div uk-dropdown>
                                 <ul class="uk-nav uk-dropdown-nav">
-<!--                              <div uk-dropdown="mode: click">-->
-<!--                                <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">-->
+                                  <!--                              <div uk-dropdown="mode: click">-->
+                                  <!--                                <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">-->
                                   <li class="uk-margin-small-bottom">
-<!--                                    <ng-container *ngIf="providerBundle.status === 'approved provider'">-->
-                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'stats']">
-                                        Go to Dashboard
-                                      </a>
-<!--                                    </ng-container>-->
-<!--                                    <ng-container *ngIf="providerBundle.status !== 'approved provider'">-->
-<!--                                      <a [routerLink]="['/dashboard', providerBundle.id]">-->
-<!--                                        Go to Dashboard-->
-<!--                                      </a>-->
-<!--                                    </ng-container>-->
+                                    <!--                                    <ng-container *ngIf="providerBundle.status === 'approved provider'">-->
+                                    <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'stats']">
+                                      Go to Dashboard
+                                    </a>
+                                    <!--                                    </ng-container>-->
+                                    <!--                                    <ng-container *ngIf="providerBundle.status !== 'approved provider'">-->
+                                    <!--                                      <a [routerLink]="['/dashboard', providerBundle.id]">-->
+                                    <!--                                        Go to Dashboard-->
+                                    <!--                                      </a>-->
+                                    <!--                                    </ng-container>-->
                                   </li>
                                   <ng-container *ngIf="providerBundle.templateStatus==='approved template'">
                                     <li class="uk-margin-small-bottom">
@@ -183,43 +171,43 @@
                               </div>
                             </div>
 
-<!--                            <hr class="uk-margin-top">-->
-<!--                            <div class="uk-align-center uk-flex uk-flex-center">-->
-<!--                              <button [routerLink]="['/provider/update/', providerBundle.id]"-->
-<!--                                      class="uk-button uk-button-link"-->
-<!--                                      style="padding-right: 40px; border-right: 1px solid #ccc">-->
-<!--                                <i class="fa fa-edit fa-lg uk-margin-small-right" aria-hidden="true"></i> Update Provider-->
-<!--                              </button>-->
-<!--                              <button class="uk-button uk-button-link uk-margin-medium-left">-->
-<!--                                <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options-->
-<!--                              </button>-->
-<!--                              <div uk-dropdown="mode: click">-->
-<!--                                <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">-->
-<!--                                  <li class="uk-margin-small-bottom">-->
-<!--                                    <ng-container *ngIf="providerBundle.status === 'approved provider'">-->
-<!--                                      <a [routerLink]="['/dashboard', providerBundle.id, 'stats']">-->
-<!--                                        Go to Dashboard-->
-<!--                                      </a>-->
-<!--                                    </ng-container>-->
-<!--                                    <ng-container *ngIf="providerBundle.status !== 'approved provider'">-->
-<!--                                      <a [routerLink]="['/dashboard', providerBundle.id]">-->
-<!--                                        Go to Dashboard-->
-<!--                                      </a>-->
-<!--                                    </ng-container>-->
-<!--                                  </li>-->
-<!--                                  <li class="uk-margin-small-bottom">-->
-<!--                                    <a [routerLink]="['/dashboard/' + providerBundle.id + '/resources']">-->
-<!--                                      View {{serviceORresource}}s-->
-<!--                                    </a>-->
-<!--                                  </li>-->
-<!--                                  <li class="uk-margin-small-bottom">-->
-<!--                                    <a [routerLink]="['/provider/' + providerBundle.id + '/resource/add/']">-->
-<!--                                      Add new {{serviceORresource}}-->
-<!--                                    </a>-->
-<!--                                  </li>-->
-<!--                                </ul>-->
-<!--                              </div>-->
-<!--                            </div>-->
+                            <!--                            <hr class="uk-margin-top">-->
+                            <!--                            <div class="uk-align-center uk-flex uk-flex-center">-->
+                            <!--                              <button [routerLink]="['/provider/update/', providerBundle.id]"-->
+                            <!--                                      class="uk-button uk-button-link"-->
+                            <!--                                      style="padding-right: 40px; border-right: 1px solid #ccc">-->
+                            <!--                                <i class="fa fa-edit fa-lg uk-margin-small-right" aria-hidden="true"></i> Update Provider-->
+                            <!--                              </button>-->
+                            <!--                              <button class="uk-button uk-button-link uk-margin-medium-left">-->
+                            <!--                                <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options-->
+                            <!--                              </button>-->
+                            <!--                              <div uk-dropdown="mode: click">-->
+                            <!--                                <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">-->
+                            <!--                                  <li class="uk-margin-small-bottom">-->
+                            <!--                                    <ng-container *ngIf="providerBundle.status === 'approved provider'">-->
+                            <!--                                      <a [routerLink]="['/dashboard', providerBundle.id, 'stats']">-->
+                            <!--                                        Go to Dashboard-->
+                            <!--                                      </a>-->
+                            <!--                                    </ng-container>-->
+                            <!--                                    <ng-container *ngIf="providerBundle.status !== 'approved provider'">-->
+                            <!--                                      <a [routerLink]="['/dashboard', providerBundle.id]">-->
+                            <!--                                        Go to Dashboard-->
+                            <!--                                      </a>-->
+                            <!--                                    </ng-container>-->
+                            <!--                                  </li>-->
+                            <!--                                  <li class="uk-margin-small-bottom">-->
+                            <!--                                    <a [routerLink]="['/dashboard/' + providerBundle.id + '/resources']">-->
+                            <!--                                      View {{serviceORresource}}s-->
+                            <!--                                    </a>-->
+                            <!--                                  </li>-->
+                            <!--                                  <li class="uk-margin-small-bottom">-->
+                            <!--                                    <a [routerLink]="['/provider/' + providerBundle.id + '/resource/add/']">-->
+                            <!--                                      Add new {{serviceORresource}}-->
+                            <!--                                    </a>-->
+                            <!--                                  </li>-->
+                            <!--                                </ul>-->
+                            <!--                              </div>-->
+                            <!--                            </div>-->
                           </div>
                         </div>
 
@@ -257,42 +245,42 @@
                               <button class="uk-button uk-button-action" routerLink="/provider/update/{{providerBundle.id}}">
                                 <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider
                               </button>
-<!--                              <ng-container *ngIf="(providerBundle.templateStatus === 'no template status')-->
-<!--                                        || (providerBundle.templateStatus === 'pending template')">-->
-<!--                                <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">-->
-<!--                                  <button class="uk-button uk-button-action uk-margin-small-left"-->
-<!--                                          routerLink="{{ getLinkToFirstService(providerBundle.id) }}">-->
-<!--                                    <i class="fa fa-lg fa-edit"></i>-->
-<!--                                    Update First {{serviceORresource}}-->
-<!--                                  </button>-->
-<!--                                </ng-container>-->
-<!--                                <ng-container *ngIf="!hasCreatedFirstService(providerBundle.id)">-->
-<!--                                  <button class="uk-button uk-button-action uk-margin-small-left">-->
-<!--                                    <i class="fa fa-plus"></i>-->
-<!--                                    Add First {{serviceORresource}}-->
-<!--                                  </button>-->
-<!--                                  <div uk-dropdown>-->
-<!--                                    <ul class="uk-nav uk-dropdown-nav">-->
-<!--                                      <li class="uk-active">-->
-<!--                                        <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Create First {{serviceORresource}}</a>-->
-<!--                                      </li>-->
-<!--                                      <li *ngIf="checkForPendingServices(providerBundle.id)" class="uk-active">-->
-<!--                                        <a [routerLink]="['/provider/draft-resources/' + providerBundle.id] ">-->
-<!--                                          Select from draft {{serviceORresource | lowercase}}s-->
-<!--                                        </a>-->
-<!--                                      </li>-->
-<!--                                      <li *ngIf="checkForRejectedServices(providerBundle.id)" class="uk-active">-->
-<!--&lt;!&ndash;                                      <li class="uk-active">&ndash;&gt;-->
-<!--                                        <a [routerLink]="['/provider/rejected-resources/' + providerBundle.id] ">-->
-<!--                                          Select from rejected {{serviceORresource | lowercase}}s-->
-<!--                                        </a>-->
-<!--                                      </li>-->
-<!--                                      <li class="uk-nav-divider"></li>-->
-<!--                                      <li class="uk-active"><a routerLink="/developers">Use API</a></li>-->
-<!--                                    </ul>-->
-<!--                                  </div>-->
-<!--                                </ng-container>-->
-<!--                              </ng-container>-->
+                              <!--                              <ng-container *ngIf="(providerBundle.templateStatus === 'no template status')-->
+                              <!--                                        || (providerBundle.templateStatus === 'pending template')">-->
+                              <!--                                <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">-->
+                              <!--                                  <button class="uk-button uk-button-action uk-margin-small-left"-->
+                              <!--                                          routerLink="{{ getLinkToFirstService(providerBundle.id) }}">-->
+                              <!--                                    <i class="fa fa-lg fa-edit"></i>-->
+                              <!--                                    Update First {{serviceORresource}}-->
+                              <!--                                  </button>-->
+                              <!--                                </ng-container>-->
+                              <!--                                <ng-container *ngIf="!hasCreatedFirstService(providerBundle.id)">-->
+                              <!--                                  <button class="uk-button uk-button-action uk-margin-small-left">-->
+                              <!--                                    <i class="fa fa-plus"></i>-->
+                              <!--                                    Add First {{serviceORresource}}-->
+                              <!--                                  </button>-->
+                              <!--                                  <div uk-dropdown>-->
+                              <!--                                    <ul class="uk-nav uk-dropdown-nav">-->
+                              <!--                                      <li class="uk-active">-->
+                              <!--                                        <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Create First {{serviceORresource}}</a>-->
+                              <!--                                      </li>-->
+                              <!--                                      <li *ngIf="checkForPendingServices(providerBundle.id)" class="uk-active">-->
+                              <!--                                        <a [routerLink]="['/provider/draft-resources/' + providerBundle.id] ">-->
+                              <!--                                          Select from draft {{serviceORresource | lowercase}}s-->
+                              <!--                                        </a>-->
+                              <!--                                      </li>-->
+                              <!--                                      <li *ngIf="checkForRejectedServices(providerBundle.id)" class="uk-active">-->
+                              <!--&lt;!&ndash;                                      <li class="uk-active">&ndash;&gt;-->
+                              <!--                                        <a [routerLink]="['/provider/rejected-resources/' + providerBundle.id] ">-->
+                              <!--                                          Select from rejected {{serviceORresource | lowercase}}s-->
+                              <!--                                        </a>-->
+                              <!--                                      </li>-->
+                              <!--                                      <li class="uk-nav-divider"></li>-->
+                              <!--                                      <li class="uk-active"><a routerLink="/developers">Use API</a></li>-->
+                              <!--                                    </ul>-->
+                              <!--                                  </div>-->
+                              <!--                                </ng-container>-->
+                              <!--                              </ng-container>-->
 
                             </div>
                           </div>
@@ -332,7 +320,7 @@
                               <button class="uk-button uk-button-action" routerLink="/provider/update/{{providerBundle.id}}">
                                 <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider</button>
                               <button class="uk-button uk-button-action" *ngIf="providerBundle.templateStatus === 'rejected template'"
-                                 routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
+                                      routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
                                 <i class="fa fa-lg fa-edit"></i>
                                 Update First {{serviceORresource}}
                               </button>

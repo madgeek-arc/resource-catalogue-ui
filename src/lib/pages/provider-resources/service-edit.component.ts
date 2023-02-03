@@ -30,6 +30,9 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
   }
 
   ngOnInit() {
+    const path = this.route.snapshot.routeConfig.path;
+    if (path.includes(':catalogueId')) this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
+    if (path === ':catalogueId/:providerId/resource/view/:resourceId') this.disable = true;
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
@@ -41,33 +44,38 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
           this.pendingService = true;
         }
         // this.resourceService.getService(this.serviceID).subscribe(service => {
-        this.resourceService[this.pendingService ? 'getPendingService' : 'getRichService'](this.serviceID)
+        this.resourceService[this.pendingService ? 'getPendingService' : 'getRichService'](this.serviceID, this.catalogueId)
           .subscribe(richService => {
-            if (richService.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
-              this.navigationService.go('/forbidden')
-            ResourceService.removeNulls(richService.service);
-            this.formPrepare(richService);
-            this.serviceForm.patchValue(richService.service);
-            for (const i in this.serviceForm.controls) {
-              if (this.serviceForm.controls[i].value === null) {
-                this.serviceForm.controls[i].setValue('');
+              if (richService.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
+                this.navigationService.go('/forbidden')
+              ResourceService.removeNulls(richService.service);
+              this.formPrepare(richService);
+              this.serviceForm.patchValue(richService.service);
+              for (const i in this.serviceForm.controls) {
+                if (this.serviceForm.controls[i].value === null) {
+                  this.serviceForm.controls[i].setValue('');
+                }
+              }
+              if (this.serviceForm.get('lastUpdate').value) {
+                const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
+                this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
+              }
+            },
+            err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error,
+            () => {
+              if (window.location.href.indexOf('/add/use-template') > -1) {
+                this.editMode = false;
+                this.serviceForm.get('id').setValue('');
+                this.serviceForm.get('name').setValue('');
+              }
+              if (this.disable) {
+                this.serviceForm.disable();
+                this.serviceName = this.serviceForm.get('name').value;
+              } else {
+                this.initServiceBitSets();
               }
             }
-            if (this.serviceForm.get('lastUpdate').value) {
-              const lastUpdate = new Date(this.serviceForm.get('lastUpdate').value);
-              this.serviceForm.get('lastUpdate').setValue(this.datePipe.transform(lastUpdate, 'yyyy-MM-dd'));
-            }
-          },
-          err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error,
-          () => {
-            if (window.location.href.indexOf('/add/use-template') > -1) {
-              this.editMode = false;
-              this.serviceForm.get('id').setValue('');
-              this.serviceForm.get('name').setValue('');
-            }
-            this.initServiceBitSets();
-          }
-        );
+          );
       });
     }
   }
