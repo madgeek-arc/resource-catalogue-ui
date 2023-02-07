@@ -5,7 +5,6 @@ export class Description {
     recommended?: boolean;
 }
 
-/** Provider Description Template **/
 
 export const providerDescMap = new Map()
   // Basic Information //
@@ -62,9 +61,6 @@ export const providerDescMap = new Map()
   .set('societalGrandChallengesDesc', {mandatory: false, label: 'Societal Grand Challenges', placeholder: 'Write societal grand challenges...', desc: 'Provider’s participation in the Grand Societal Challenges defined by the European Commission.'})
   .set('nationalRoadmapsDesc', {mandatory: false, label: 'National Roadmaps', placeholder: 'Write national roadmaps...', desc: 'Provider\'s participation in a national roadmap.'})
 ;
-
-
-/** Service Description Template **/
 
 export const serviceDescMap = new Map()
 // Basic Information //
@@ -216,6 +212,44 @@ export const datasourceDescMap = new Map()
   .set('researchProductMetadataLicenseNameDesc', {mandatory: true, label: 'Research Product Metadata License Name', placeholder: '', desc: ''})
   .set('researchProductMetadataLicenseURLDesc', {mandatory: true, label: 'Research Product Metadata License URL', placeholder: '', desc: ''})
   .set('researchProductMetadataAccessPoliciesDesc', {mandatory: false, label: 'Research Product Metadata Access Policy', placeholder: '', desc: ''})
+;
+
+export const trainingDescMap = new Map()
+  // Basic Information //
+  .set('titleDesc', {mandatory: true, label: 'Title', placeholder: '', desc: 'The human readable name of the learning resource.'})
+  .set('resourceOrganisationDesc', {mandatory: true, label: 'Resource Organisation', placeholder: '', desc: 'The name of the organisation that manages or delivers the resource, or that coordinates the Resource delivery in a federated scenario.'})
+  .set('resourceProvidersDesc', {mandatory: false, label: 'Resource Providers', placeholder: '', desc: 'The name(s) of (all) the Provider(s) that manage or deliver the Resource in federated scenarios.'})
+  .set('authorsDesc', {mandatory: true, label: 'Authors', placeholder: '', desc: 'The name of entity(ies) authoring the resource.'})
+  .set('urlToResourceDesc', {mandatory: true, label: 'URL to resource', placeholder: '', desc: 'The URL that resolves to the learning resource or to a "landing page" for the resource that contains important contextual information including the direct resolvable link to the resource, if applicable.'})
+  .set('resourceUrlTypeDesc', {mandatory: false, label: 'Resource URL type', placeholder: '', desc: 'The designation of identifier scheme used for the resource URL. It represents the type of the URL of the resource, that is the used scheme (e.g., Web Address URL, DOI, ARK, etc.).'})
+  .set('eoscRelatedServiceDesc', {mandatory: false, label: 'EOSC related Service', placeholder: '', desc: 'The name(s) of (all) the EOSC Catalogue/Marketplace registered Service(s) for which this training resource is referring to (Refer to the EOSC Service ID when applicable).'})
+  // Detailed & access Information //
+  .set('descriptionDesc', {mandatory: false, label: 'Description', placeholder: '', desc: 'A brief synopsis about or description of the learning resource.'})
+  .set('keywordsDesc', {mandatory: false, label: 'Keywords', placeholder: '', desc: 'The keyword(s) or tag(s) used to describe the resource.'})
+  .set('licenseDesc', {mandatory: true, label: 'License', placeholder: '', desc: 'A license document that applies to this content, typically indicated by URL.'})
+  .set('accessRightsDesc', {mandatory: true, label: 'Access Rights', placeholder: '', desc: 'The access status of a resource (open, restricted, paid).'})
+  .set('versionDatesDesc', {mandatory: true, label: 'Version Date(s)', placeholder: '', desc: 'The version date for the most recently published or broadcast resource.'})
+  // Learning Information //
+  .set('targetGroupDesc', {mandatory: true, label: 'Target Group (Audience)', placeholder: '', desc: 'The principal users(s) for which the learning resource was designed.'})
+  .set('learningResourceTypeDesc', {mandatory: false, label: 'Learning Resource Type', placeholder: '', desc: 'The predominant type or kind that characterizes the learning resource.'})
+  .set('learningOutcomesDesc', {mandatory: true, label: 'Learning Outcome(s)', placeholder: '', desc: 'The descriptions of what knowledge, skills or abilities students should acquire on completion of the resource.'})
+  .set('expertiseLevelDesc', {mandatory: true, label: 'Expertise Level', placeholder: '', desc: 'Target skill level in the topic being taught.'})
+  .set('contentResourceTypeDesc', {mandatory: false, label: 'Content resource type', placeholder: '', desc: 'The predominant content type of the learning resource (video, game, diagram, slides, etc.).'})
+  .set('qualificationDesc', {mandatory: false, label: 'Qualification', placeholder: '', desc: 'Identification of certification, accreditation or badge obtained with course or learning resource.'})
+  .set('durationDesc', {mandatory: false, label: 'Duration', placeholder: '', desc: 'Approximate or typical time it takes to work with or through the learning resource for the typical intended target audience.'})
+  // Geographical and Language Availability Information //
+  .set('languageDesc', {mandatory: true, label: 'Language', placeholder: '', desc: 'The language in which the resource was originally published or made available.'})
+  .set('geographicalAvailabilityDesc', {mandatory: true, label: 'Geographical Availability', placeholder: '', desc: 'Locations where the Resource is offered.'})
+  // Classification Information //
+  .set('scientificDomainDesc', {mandatory: true, label: 'Scientific Domain', placeholder: 'Select scientific domain...', desc: 'The branch of science, scientific discipline that is related to the Resource.'})
+  .set('scientificSubdomainsDesc', {mandatory: true, label: 'Scientific Subdomain', placeholder: 'Select scientific subdomain after selecting scientific domain...', desc: 'The subbranch of science, scientific subdiscipline that is related to the Resource.'})
+  // Contact Information //
+  .set('firstNameDesc', {mandatory: true, label: 'First Name', placeholder: 'Write first name...', desc: 'First Name of the Resource\'s main contact person/Resource manager.'})
+  .set('lastNameDesc', {mandatory: true, label: 'Last Name', placeholder: 'Write last name...', desc: 'Last Name of the Resource\'s main contact person/Resource manager.'})
+  .set('emailDesc', {mandatory: true, label: 'Email', placeholder: 'Write email...', desc: 'Email of the Resource\'s main contact person/Resource manager.'})
+  .set('phoneDesc', {mandatory: false, label: 'Phone', placeholder: 'Write phone...', desc: 'Telephone of the Resource\'s main contact person/Resource manager.'})
+  .set('positionDesc', {mandatory: false, label: 'Position', placeholder: 'Write position...', desc: 'Position of the Resource\'s main contact person/Resource manager.'})
+  .set('organisationDesc', {mandatory: false, label: 'Organisation', placeholder: 'Write organisation...', desc: 'The organisation to which the Resource\'s main contact person/Resource manager is affiliated.'})
 ;
 
 export const monitoringDescMap = new Map()
