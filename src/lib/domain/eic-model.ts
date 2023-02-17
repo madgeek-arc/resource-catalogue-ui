@@ -112,6 +112,11 @@ export class DatasourceBundle extends Bundle<Datasource> {
   resourceExtras: ResourceExtras;
 }
 
+export class TrainingResourceBundle extends Bundle<TrainingResource> {
+  status: string;
+  trainingResource: TrainingResource;
+}
+
 export class LoggingInfo {
   date: string;
   userEmail: string;
@@ -395,6 +400,34 @@ export class ResearchProductMetadataLicensing {
   researchProductMetadataLicenseURL: string;
 }
 
+export class TrainingResource implements Identifiable {
+  id: string;
+  title: string;
+  resourceOrganisation: string; //-> opws kai sto service
+  resourceProviders: string[]; //-> opws kai sto service
+  authors: string[];
+  url: URL;
+  urlType: string; //-> neov voc
+  eoscRelatedServices: string[];
+  description: string;
+  keywords: string[];
+  license: string;
+  accessRights: string; //-> neo voc (1 oxi polla)
+  versionDate: Date;
+  targetGroups: string[];
+  learningResourceTypes: string[]; //-> neo voc
+  learningOutcomes: string[];
+  expertiseLevel: string; //-> neo voc
+  contentResourceTypes: string[]; //-> neo voc
+  qualifications: string[];
+  duration: string;
+  languages: string[]; //-> opws kai sto service
+  geographicalAvailabilities: string[]; //-> opws kai sto service
+  scientificDomains: ServiceProviderDomain[]; //-> opws kai sto service
+  contact: ServiceMainContact; //-> opws kai sto service
+  catalogueId: string;
+}
+
 export class ResourceExtras {
   eoscIFGuidelines: EOSCIFGuidelines[];
   researchCategories: string[];
@@ -650,5 +683,11 @@ export const enum Type {
   IR_STATUS = "IR_STATUS",
   IR_RESOURCE_TYPE_GENERAL = "IR_RESOURCE_TYPE_GENERAL",
   IR_EOSC_GUIDELINE_TYPE = "IR_EOSC_GUIDELINE_TYPE",
-  IR_IDENTIFIER_TYPE = "IR_IDENTIFIER_TYPE"
+  IR_IDENTIFIER_TYPE = "IR_IDENTIFIER_TYPE",
+  TR_ACCESS_RIGHT = "TR_ACCESS_RIGHT",
+  TR_CONTENT_RESOURCE_TYPE = "TR_CONTENT_RESOURCE_TYPE",
+  TR_DCMI_TYPE = "TR_DCMI_TYPE",
+  TR_EXPERTISE_LEVEL = "TR_EXPERTISE_LEVEL",
+  TR_QUALIFICATION = "TR_QUALIFICATION",
+  TR_URL_TYPE = "TR_URL_TYPE"
 }
