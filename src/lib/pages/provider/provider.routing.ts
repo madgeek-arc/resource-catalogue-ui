@@ -37,7 +37,7 @@ import {
 import {PendingDatasourcesComponent} from "./dashboard/pendingDatasources/pending-datasources.component";
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
-// import {TrainingListComponent} from "../admin/training-list.component";
+import {TrainingListComponent} from "../admin/training-list.component";
 
 
 const providerRoutes: Routes = [
@@ -331,14 +331,14 @@ const providerRoutes: Routes = [
       breadcrumb: 'All Datasources'
     }
   },
-  // {
-  //   path: 'training/all',
-  //   component: TrainingListComponent,
-  //   canActivate: [CanActivateViaAuthGuard],
-  //   data: {
-  //     breadcrumb: 'All Training Resources'
-  //   }
-  // }
+  {
+    path: 'training/all',
+    component: TrainingListComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'All Training Resources'
+    }
+  }
 ];
 
 @NgModule({

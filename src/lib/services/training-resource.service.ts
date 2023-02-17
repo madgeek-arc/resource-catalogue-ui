@@ -96,7 +96,7 @@ export class TrainingResourceService {
     // const questionMark = urlParameters.length > 0 ? '?' : '';
     // return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`, this.options)
     return this.http.get<Paging<RichService>>(
-      this.base + `/trainingResource/rich/all?orderField=name&order=asc&${searchQuery.toString()}`, this.options);
+      this.base + `/trainingResource/rich/all?orderField=title&order=asc&${searchQuery.toString()}`, this.options);
   }
 
   getAllVocabulariesByType() {
@@ -151,7 +151,7 @@ export class TrainingResourceService {
     );
   }
 
-  deleteService(id: string) {
+  deleteTrainingResource(id: string) {
     return this.http.delete(this.base + '/trainingResource/' + id, this.options);
   }
 
@@ -550,11 +550,11 @@ export class TrainingResourceService {
     return this.http.get<Info>(this.base + `/info/all`);
   }
 
-  auditResource(id: string, action: string, comment: string) {
+  auditTrainingResource(id: string, action: string, comment: string) {
     return this.http.patch(this.base + `/trainingResource/auditResource/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
-  verifyResource(id: string, active: boolean, status: string) { // for 1st service
+  verifyTrainingResource(id: string, active: boolean, status: string) { // for 1st service
     return this.http.patch(this.base + `/trainingResource/verifyTrainingResource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
@@ -566,11 +566,11 @@ export class TrainingResourceService {
     return this.http.get<any[]>(this.base + `/resourceBundles/templates?id=${id}`);
   }
 
-  sendEmailForOutdatedResource(id: string) {
+  sendEmailForOutdatedTrainingResource(id: string) {
     return this.http.get(this.base + `/trainingResource/sendEmailForOutdatedResource/${id}`);
   }
 
-  moveResourceToProvider(resourceId: string, providerId: string, comment: string) {
+  moveTrainingResourceToProvider(resourceId: string, providerId: string, comment: string) {
     return this.http.post(this.base + `/trainingResource/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
   }
 
@@ -592,4 +592,9 @@ export class TrainingResourceService {
     UIkit.notification({message: message, status: 'danger', pos: 'top-center', timeout: 5000});
     return throwError(error);
   }
+
+  publishTrainingResource(id: string, active: boolean) { // toggles active/inactive service
+    return this.http.patch(this.base + `/service/publish/${id}?active=${active}`, this.options);
+  }
+
 }

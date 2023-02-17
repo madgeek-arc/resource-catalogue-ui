@@ -13,7 +13,7 @@ import {UpdateServiceProviderComponent} from './update-service-provider.componen
 import {ServiceProvidersListComponent} from '../admin/service-providers-list.component';
 import {ResourcesListComponent} from '../admin/resources-list.component';
 import {DatasourcesListComponent} from '../admin/datasources-list.component';
-// import {TrainingListComponent} from '../admin/training-list.component';
+import {TrainingListComponent} from '../admin/training-list.component';
 import {ServiceEditComponent} from '../provider-resources/service-edit.component';
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
 import {ServiceFormComponent} from '../provider-resources/service-form.component';
@@ -55,7 +55,7 @@ import {UpdateTrainingResource} from "../training-resources/update-training-reso
     ServiceProvidersListComponent,
     ResourcesListComponent,
     DatasourcesListComponent,
-    // TrainingListComponent,
+    TrainingListComponent,
     // FORMS
     ServiceEditComponent,
     ServiceFormComponent,
