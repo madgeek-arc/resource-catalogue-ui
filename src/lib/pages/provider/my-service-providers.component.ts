@@ -139,6 +139,17 @@ export class MyServiceProvidersComponent implements OnInit {
     return false;
   }
 
+  hasCreatedFirstTrainingResource(providerId: string) {
+    for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
+      if (this.serviceTemplatePerProvider[i].providerId == providerId) {
+        if (this.serviceTemplatePerProvider[i].trainingResource) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   checkForDraftServices(id: string): boolean {
     for (let i = 0; i < this.hasDraftServices.length; i++) {
       if (this.hasDraftServices[i].id === id) {
@@ -180,6 +191,14 @@ export class MyServiceProvidersComponent implements OnInit {
     } else {
       // return '/provider/' + id + '/add-first-datasource'; // maybe not needed, revisit this
       return '/provider/' + id + '/datasource/select/';
+    }
+  }
+
+  getLinkToFirstTrainingResource(id: string) {
+    if (this.hasCreatedFirstTrainingResource(id)) {
+      return '/provider/' + id + '/training-resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
+    } else {
+      return '/provider/' + id + '/add-first-training-resource';
     }
   }
 

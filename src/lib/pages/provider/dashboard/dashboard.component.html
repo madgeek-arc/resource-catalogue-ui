@@ -46,13 +46,13 @@
             <li [routerLinkActive]="['current_section']" #sharedServices="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'shared-resources']">
                 <img src="{{sharedServices.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
-                Shared {{serviceORresource | lowercase}}s
+                Shared {{serviceORresource}}s
               </a>
             </li>
             <li [routerLinkActive]="['current_section']" #draftServices="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'draft-resources']">
                 <img src="{{draftServices.isActive ? 'lib/assets/images/new-icons/draft-services-active.svg' : 'lib/assets/images/new-icons/draft-services.svg'}}" class="uk-margin-small-right">
-                Draft {{serviceORresource | lowercase}}s
+                Draft {{serviceORresource}}s
               </a>
             </li>
             <li [routerLinkActive]="['current_section']" #datasources="routerLinkActive">
@@ -70,7 +70,7 @@
             <li [routerLinkActive]="['current_section']" #draftServices="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'draft-datasources']">
                 <img src="{{draftServices.isActive ? 'lib/assets/images/new-icons/draft-services-active.svg' : 'lib/assets/images/new-icons/draft-services.svg'}}" class="uk-margin-small-right">
-                Draft datasources
+                Draft Datasources
               </a>
             </li>
           </ng-container>
@@ -90,25 +90,23 @@
         <ul>
 
           <ng-container *ngIf="catalogueId==='eosc'">
-            <ng-container *ngIf="providerBundle?.templateStatus === 'approved template'">
-              <li>
-                <a [routerLink]="['/provider/' + providerId + '/resource/add/']">
-                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Add new {{serviceORresource | lowercase}}
-                </a>
-              </li>
-            </ng-container>
             <ng-container *ngIf="providerBundle?.templateStatus === 'rejected template' || (providerBundle?.status === 'approved provider' && providerBundle?.templateStatus === 'no template status')">
               <li>
                 <a [routerLink]="['/provider/' + providerId + '/add-first-service/']">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Add first {{serviceORresource | lowercase}}
+                  Add first {{serviceORresource}}
                 </a>
               </li>
               <li>
                 <a [routerLink]="['/provider/' + providerId + '/datasource/select/']">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Add first datasource
+                  Add first Datasource
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/provider/' + providerId + '/add-first-training-resource/']">
+                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  Add first Training Resource
                 </a>
               </li>
             </ng-container>
@@ -123,9 +121,25 @@
 <!--            </ng-container>-->
             <ng-container *ngIf="providerBundle?.templateStatus === 'approved template'">
               <li>
+                <a [routerLink]="['/provider/' + providerId + '/resource/add/']">
+                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  Add new {{serviceORresource}}
+                </a>
+              </li>
+            </ng-container>
+            <ng-container *ngIf="providerBundle?.templateStatus === 'approved template'">
+              <li>
                 <a [routerLink]="['/provider/' + providerId + '/datasource/select/']">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Add new datasource
+                  Add new Datasource
+                </a>
+              </li>
+            </ng-container>
+            <ng-container *ngIf="providerBundle?.templateStatus === 'approved template'">
+              <li>
+                <a [routerLink]="['/provider/' + providerId + '/training-resource/add/']">
+                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  Add new Training Resource
                 </a>
               </li>
             </ng-container>
