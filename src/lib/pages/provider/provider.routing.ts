@@ -38,6 +38,7 @@ import {PendingDatasourcesComponent} from "./dashboard/pendingDatasources/pendin
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
 import {TrainingListComponent} from "../admin/training-list.component";
+import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
 
 
 const providerRoutes: Routes = [
@@ -121,6 +122,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Add ' + environment.serviceORresource + ' Template'
+    }
+  },
+  {
+    path: ':providerId/add-first-training-resource',
+    component: AddFirstTrainingResourceComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Add Training Resource Template'
     }
   },
   {

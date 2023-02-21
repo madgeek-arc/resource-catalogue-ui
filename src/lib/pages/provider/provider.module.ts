@@ -30,6 +30,7 @@ import {DatasourceMonitoringExtensionFormComponent} from "../datasource/datasour
 import {DatasourceHelpdeskExtensionFormComponent} from "../datasource/datasource-helpdesk-extension/datasource-helpdesk-extension-form.component";
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
+import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import {UpdateTrainingResource} from "../training-resources/update-training-reso
   declarations: [
     MyServiceProvidersComponent,
     AddFirstServiceComponent,
+    AddFirstTrainingResourceComponent,
     AddFirstDatasourceComponent,
     ServiceProviderFormComponent,
     ServiceProviderInfoComponent,

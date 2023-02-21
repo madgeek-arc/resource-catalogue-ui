@@ -27,7 +27,7 @@ export class TrainingResourceForm implements OnInit {
   protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   projectMail = environment.projectMail;
   serviceName = '';
-  // firstServiceForm = false;
+  firstServiceForm = false;
   showLoader = false;
   pendingResource = false;
   catalogueId: string;
