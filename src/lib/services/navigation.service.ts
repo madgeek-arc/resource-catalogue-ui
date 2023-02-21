@@ -44,6 +44,11 @@ export class NavigationService {
       return this.router.navigate([`/dashboard/${providerId}/datasource-dashboard/${datasourceId}/stats`]);
     }
 
+    trainingResourceDashboard(providerId: string, trainingResourceId: string, catalogueId?: string) {
+      if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/training-resource-dashboard/${trainingResourceId}/stats`]);
+      return this.router.navigate([`/dashboard/${providerId}/training-resource-dashboard/${trainingResourceId}/stats`]);
+    }
+
     edit(id: string) {
         return this.router.navigateByUrl(`/provider/${id.split('.')[0]}/resource/update/${id}`);
     }

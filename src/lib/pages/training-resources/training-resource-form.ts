@@ -163,7 +163,9 @@ export class TrainingResourceForm implements OnInit {
       phone: ['', Validators.pattern('^(((\\+)|(00))\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$')],
       position: [''],
       organisation: ['']
-    }, Validators.required)
+    }, Validators.required),
+
+    catalogueId: ['']
   };
 
   providersPage: Paging<Provider>;
@@ -251,14 +253,14 @@ export class TrainingResourceForm implements OnInit {
       window.scrollTo(0, 0);
       this.trainingResourceService[pendingService ? 'submitPendingService' : 'submitService']
       (this.serviceForm.value, this.editMode, this.commentControl.value).subscribe(
-        _service => {
+        _resource => {
           // console.log(_service);
           this.showLoader = false;
-          return this.router.resourceDashboard(this.providerId, _service.id);  // redirect to resource-dashboard
+          return this.router.trainingResourceDashboard(this.providerId, _resource.id);  // redirect to training-resource-dashboard
           // return this.router.dashboardResources(this.providerId);                  // redirect to provider dashboard -> resource list
           // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
-          // return this.router.service(_service.id);                               // redirect to old service info page
-          // return window.location.href = this._marketplaceServicesURL + _service.id; // redirect to marketplace
+          // return this.router.service(_resource.id);                               // redirect to old service info page
+          // return window.location.href = this._marketplaceServicesURL + _resource.id; // redirect to marketplace
         },
         err => {
           this.showLoader = false;
