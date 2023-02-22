@@ -88,13 +88,13 @@
                                   <button class="uk-button uk-button-action uk-margin-small-left"
                                           routerLink="{{ getLinkToFirstDatasource(providerBundle.id) }}">
                                     <i class="fa fa-lg fa-edit"></i>
-                                    Edit First Datasource
+                                    Update First Datasource
                                   </button>
                                 </ng-container>
                                 <ng-container *ngIf="hasCreatedFirstTrainingResource(providerBundle.id)">
                                   <!--<ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
                                   <button class="uk-button uk-button-action uk-margin-small-left"
-                                          routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
+                                          routerLink="{{ getLinkToFirstTrainingResource(providerBundle.id) }}">
                                     <i class="fa fa-lg fa-edit"></i>
                                     Update First Training Resource
                                   </button>
