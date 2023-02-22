@@ -126,7 +126,7 @@ export class TrainingResourceService {
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
     if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<Service>(this.base + `/trainingResource/${id}/?catalogue_id=${catalogueId}`, this.options);
+    return this.http.get<TrainingResource>(this.base + `/trainingResource/${id}/?catalogue_id=${catalogueId}`, this.options);
   }
 
   getRichService(id: string, catalogueId?:string, version?: string) {
@@ -321,9 +321,9 @@ export class TrainingResourceService {
     let params = new HttpParams();
     if (period) {
       params = params.append('by', period);
-      return this.http.get(this.base + `/stats/service/ratings/${service}`, {params});
+      return this.http.get(this.base + `/stats/trainingResource/ratings/${service}`, {params});
     }
-    return this.http.get(this.base + `/stats/service/ratings/${service}`);
+    return this.http.get(this.base + `/stats/trainingResource/ratings/${service}`);
   }
   /** STATS **/
 
@@ -463,8 +463,8 @@ export class TrainingResourceService {
     // return this.getAll("provider");
   }
 
-  getResourceBundleById(id: string, catalogueId: string) {
-    return this.http.get<InfraService>(this.base + `/serviceBundle/${id}?catalogue_id=${catalogueId}`, this.options);
+  getResourceBundleById(id: string, catalogueId: string) { // back hasn't implemented trainingResourceBundle
+    return this.http.get<TrainingResourceBundle>(this.base + `/trainingResourceBundle/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
   getMyServiceProviders() {

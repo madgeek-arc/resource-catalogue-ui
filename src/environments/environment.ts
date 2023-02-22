@@ -19,6 +19,7 @@ export const environment = {
   // marketplaceDatasourcesURL: 'https://marketplace-beta.docker-fid.grid.cyf-kr.edu.pl/datasources/',
   marketplaceServicesURL: 'https://beta.marketplace.eosc-portal.eu/services/',
   marketplaceDatasourcesURL: 'https://beta.marketplace.eosc-portal.eu/datasources/',
+  marketplaceTrainingResourcesURL: 'https://beta.marketplace.eosc-portal.eu/training-resources/',
   API_TOKEN_ENDPOINT: 'https://aai.eosc-portal.eu/providers-api',
   showHelpContent: false
 };

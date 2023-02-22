@@ -78,7 +78,12 @@ const appRoutes: Routes = [
     loadChildren: () => import('../lib/pages/provider/dashboard/datasource-dashboard/datasource-dashboard.module').then(m => m.DatasourceDashboardModule),
     canActivate: [CanActivateViaAuthGuard]
   },
-  // shared-datasource-dashboard
+  // shared-datasource-dashboard TODO: revisit, how did I implement it?
+  {
+    path: 'dashboard/:catalogueId/:providerId/training-resource-dashboard',
+    loadChildren: () => import('../lib/pages/provider/dashboard/training-resource-dashboard/training-resource-dashboard.module').then(m => m.TrainingResourceDashboardModule),
+    canActivate: [CanActivateViaAuthGuard]
+  },
   {
     path: 'dashboard/:catalogueId',
     loadChildren: () => import('../lib/pages/provider/dashboard/provider-dashboard.module').then(m => m.ProviderDashboardModule),

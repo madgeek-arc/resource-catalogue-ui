@@ -13,6 +13,7 @@ export const environment = {
   privacyPolicyURL: 'https://www.eosc-portal.eu/privacy-policy-summary',
   marketplaceServicesURL: 'https://beta.marketplace.eosc-portal.eu/services/',
   marketplaceDatasourcesURL: 'https://beta.marketplace.eosc-portal.eu/datasources/',
+  marketplaceTrainingResourcesURL: 'https://beta.marketplace.eosc-portal.eu/training-resources/',
   API_TOKEN_ENDPOINT: 'https://aai.eosc-portal.eu/providers-api',
   showHelpContent: false
 };
