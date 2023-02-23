@@ -356,9 +356,9 @@ export class TrainingResourceForm implements OnInit {
                   this.serviceForm.controls['contact'].get(key).setValue(val);
                 }
               });
-              this.handleBitSetsOfGroups(5, 13, 'firstName', 'contact');
-              this.handleBitSetsOfGroups(5, 14, 'lastName', 'contact');
-              this.handleBitSetsOfGroups(5, 15, 'email', 'contact');
+              this.handleBitSetsOfGroups(5, 14, 'firstName', 'contact');
+              this.handleBitSetsOfGroups(5, 15, 'lastName', 'contact');
+              this.handleBitSetsOfGroups(5, 16, 'email', 'contact');
             }
           );
         }
@@ -764,9 +764,9 @@ export class TrainingResourceForm implements OnInit {
       if (this.remainingOnTab1 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
         this.calcCompletedTabs(tabNum, 1);
       }
-    } else if (tabNum === 2) {  // Classification
+    } else if (tabNum === 2) {  // Learning
       this.BitSetTab2.set(bitIndex, 1);
-      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.get(7) - this.BitSetTab2.get(9) - this.BitSetTab2.get(10);
+      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.cardinality();
       if (this.remainingOnTab2 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
         this.calcCompletedTabs(tabNum, 1);
       }
@@ -776,9 +776,9 @@ export class TrainingResourceForm implements OnInit {
       if (this.remainingOnTab3 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
         this.calcCompletedTabs(tabNum, 1);
       }
-    } else if (tabNum === 4) {
+    } else if (tabNum === 4) { // Classification
       this.BitSetTab4.set(bitIndex, 1);
-      this.remainingOnTab4 = this.requiredOnTab4 - this.BitSetTab4.cardinality();
+      this.remainingOnTab4 = this.requiredOnTab4 - this.BitSetTab4.get(13);
       if (this.remainingOnTab4 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
         this.calcCompletedTabs(tabNum, 1);
       }
@@ -805,9 +805,9 @@ export class TrainingResourceForm implements OnInit {
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }
-    } else if (tabNum === 2) {  // Classification
+    } else if (tabNum === 2) {  // Learning
       this.BitSetTab2.set(bitIndex, 0);
-      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.get(7) - this.BitSetTab2.get(9) - this.BitSetTab2.get(10);
+      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.cardinality();
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }
@@ -817,16 +817,16 @@ export class TrainingResourceForm implements OnInit {
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }
-    } else if (tabNum === 4) {
+    } else if (tabNum === 4) { // Classification
       this.BitSetTab4.set(bitIndex, 0);
-      this.remainingOnTab4 = this.requiredOnTab4 - this.BitSetTab4.cardinality();
+      this.remainingOnTab4 = this.requiredOnTab4 - this.BitSetTab4.get(13);
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }
     } else if (tabNum === 5) { // Contact
       this.BitSetTab5.set(bitIndex, 0);
-      const contactCardinality = this.BitSetTab5.slice(13, 15).cardinality();
-      this.remainingOnTab5 = this.requiredOnTab5 - +(contactCardinality === 3) - this.BitSetTab5.get(16) - this.BitSetTab5.get(17) - this.BitSetTab5.get(20);
+      const contactCardinality = this.BitSetTab5.slice(14, 16).cardinality();
+      this.remainingOnTab5 = this.requiredOnTab5 - +(contactCardinality === 3);
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }
