@@ -697,10 +697,10 @@
                           <li>
                             <div formArrayName="languages" class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="languages">
-                                {{ languagesDesc?.label + (languagesDesc?.mandatory ? ' (*)' : '')}}
+                                {{ languagesDesc.label + (languagesDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div
-                                class="uk-form-description uk-margin-top uk-width-9-10">{{languagesDesc?.desc}}</div>
+                                class="uk-form-description uk-margin-top uk-width-9-10">{{languagesDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-medium-top">
                                 <div
                                   *ngFor="let provider of getFieldAsFormArray('languages').controls; let i=index"
@@ -721,7 +721,7 @@
                                 </div>
                                 <div class="uk-margin-small-top">
                                   <i><small>For suggestions in amending the
-                                    "{{languagesDesc?.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
+                                    "{{languagesDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                 </div>
                                 <div *ngFor="let provider of getFieldAsFormArray('languages').controls; let i=index">
                                   <div *ngIf="this.serviceForm.get('languages').value[i] === 'ot'" class="uk-flex uk-flex-left">
@@ -739,9 +739,9 @@
                                 </div>
                                 <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element"
-                                     (click)="push('languages', languagesDesc?.mandatory)">
+                                     (click)="push('languages', languagesDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
-                                    Add {{languagesDesc?.label}}
+                                    Add {{languagesDesc.label}}
                                   </a>
                                 </div>
                               </div>

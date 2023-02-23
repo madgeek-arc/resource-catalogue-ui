@@ -113,7 +113,7 @@ export class TrainingResourceForm implements OnInit {
   readonly qualificationDesc: sd.Description = sd.trainingDescMap.get('qualificationDesc');
   readonly durationDesc: sd.Description = sd.trainingDescMap.get('durationDesc');
 
-  readonly languagesDesc: sd.Description = sd.trainingDescMap.get('languageDesc');
+  readonly languagesDesc: sd.Description = sd.trainingDescMap.get('languagesDesc');
   readonly geographicalAvailabilityDesc: sd.Description = sd.trainingDescMap.get('geographicalAvailabilityDesc');
 
   readonly scientificDomainDesc: sd.Description = sd.trainingDescMap.get('scientificDomainDesc');
