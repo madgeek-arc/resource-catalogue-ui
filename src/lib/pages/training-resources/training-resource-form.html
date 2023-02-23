@@ -436,7 +436,7 @@
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{versionDateDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-top">
-                                <input id="versionDate" maxlength="10" class="uk-input uk-width-9-10" type="text"
+                                <input id="versionDate" maxlength="10" class="uk-input uk-width-9-10" type="date" lang="en"
                                        formControlName="versionDate"
                                        (input)="handleBitSets(1, 6, 'versionDate'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('versionDate', this.editMode)}">

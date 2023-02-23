@@ -57,6 +57,10 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
                   this.serviceForm.controls[i].setValue('');
                 }
               }
+              if (this.serviceForm.get('versionDate').value) {
+                const versionDate = new Date(this.serviceForm.get('versionDate').value);
+                this.serviceForm.get('versionDate').setValue(this.datePipe.transform(versionDate, 'yyyy-MM-dd'));
+              }
             },
             err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error,
             () => {
