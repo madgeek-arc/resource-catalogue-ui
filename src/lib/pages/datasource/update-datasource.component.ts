@@ -130,6 +130,8 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
     this.handleBitSets(5, 16, 'helpdeskEmail');
     this.handleBitSets(5, 17, 'securityContactEmail');
     this.handleBitSets(6, 18, 'trl');
+    this.handleBitSets(9, 22, 'termsOfUse');
+    this.handleBitSets(9, 23, 'privacyPolicy');
     this.handleBitSets(10, 19, 'orderType');
     this.handleBitSets(13, 24, 'jurisdiction');
     this.handleBitSets(13, 25, 'datasourceClassification');
