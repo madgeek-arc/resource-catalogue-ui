@@ -465,6 +465,26 @@
                                       <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First Datasource</a>
                                     </li>
                                   </ng-container>
+                                  <ng-container *ngIf="hasCreatedFirstTrainingResource(providerBundle.id)">
+<!--                                    <li class="uk-active">-->
+<!--                                      <a (click)="openPreviewModal(providerBundle.id, 'trainingResource')"-->
+<!--                                         class="">-->
+<!--                                        <i class="fa fa-eye"></i> View First Training Resource-->
+<!--                                      </a>-->
+<!--                                    </li>-->
+                                    <li class="uk-active">
+                                      <a routerLink="{{ getLinkToEditFirstTrainingResource(providerBundle.id) }}"
+                                         class="uk-margin-small-top">
+                                        <i class="fa fa-pencil"></i> Edit First Training Resource
+                                      </a>
+                                    </li>
+                                    <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'approved resource', 'trainingResource')">
+                                      <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve First Training Resource</a>
+                                    </li>
+                                    <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'rejected resource', 'trainingResource')">
+                                      <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First Training Resource</a>
+                                    </li>
+                                  </ng-container>
                                   <li class="uk-nav-divider ng-star-inserted"></li>
                                 </ng-container>
                                 <ng-container *ngIf="((providerBundle.status === 'pending provider') || (providerBundle.status === 'rejected provider'))">
