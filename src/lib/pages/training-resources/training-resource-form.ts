@@ -169,7 +169,6 @@ export class TrainingResourceForm implements OnInit {
   };
 
   providersPage: Paging<Provider>;
-  requiredResources: any;
   relatedResources: any;
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
@@ -292,12 +291,11 @@ export class TrainingResourceForm implements OnInit {
     zip(
       this.trainingResourceService.getProvidersNames('approved'),
       this.trainingResourceService.getAllVocabulariesByType(),
-      this.resourceService.getServices()
+      this.resourceService.getAllRelatedResources()
     ).subscribe(suc => {
         this.providersPage = <Paging<Provider>>suc[0];
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
-        this.requiredResources = this.transformInput(suc[2]);
-        this.relatedResources = this.requiredResources;
+        this.relatedResources = this.transformInputForDropdownUse(suc[2]);
         // this.getLocations();
         this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
         this.accessTypesVocabulary = this.vocabularies[Type.ACCESS_TYPE];
@@ -423,13 +421,20 @@ export class TrainingResourceForm implements OnInit {
     });
   }
 
-  transformInput(input) {
+  transformInputForDropdownUse(input) {
     const arr = [];
     for (const i in input) {
-      arr.push({
-        'name' : input[i][0].resourceOrganisation + ' - ' + input[i][0].name,
-        'id' : input[i][0].id
-      });
+      if (input[i]?.title) { // for training resources
+        arr.push({
+          'name' : input[i].resourceOrganisation + ' - ' + input[i].title,
+          'id' : input[i].id
+        });
+      } else { // for services and datasources
+        arr.push({
+          'name' : input[i].resourceOrganisation + ' - ' + input[i].name,
+          'id' : input[i].id
+        });
+      }
     }
     return arr;
 

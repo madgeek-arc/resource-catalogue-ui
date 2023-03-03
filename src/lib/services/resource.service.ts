@@ -119,7 +119,12 @@ export class ResourceService {
   }
 
   getServices() {
-    return this.http.get(this.base + '/service/by/ID/'); // needs capitalized 'ID' after back changes
+    return this.http.get(this.base + '/service/by/ID/'); // can get services by any field, like ID (capitalized)
+  }
+
+  getAllRelatedResources(){ // Gets services, datasources and trainings
+    return this.http.get(this.base + '/service/resourceIdToNameMap/'); // TODO: rename as bellow on backend redeploy
+    // return this.http.get(this.base + '/service/getAllProviderRelatedResources/');
   }
 
   getService(id: string, catalogueId?: string) {
