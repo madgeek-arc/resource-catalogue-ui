@@ -276,7 +276,7 @@ export const guidelinesDescMap = new Map()
   //EOSC Interoperability ID (auto-assigned)
   .set('identifierDesc', {mandatory: true, label: 'Identifier (with mandatory type sub-property)', placeholder: '', desc: 'The Identifier is a unique string that identifies a resource. For software, determine whether the identifier is for a specific version of a piece of software, (per the Force11 Software Citation Principles), or for all versions. The record\'s primary key for locating it in the EOSC-IF database.'})
   .set('identifierTypeDesc', {mandatory: true, label: 'Identifier Type', placeholder: '', desc: 'The type of Identifier.'})
-  .set('creatorDesc', {mandatory: true, label: 'Creator', placeholder: '', desc: '"The main researchers involved in producing the data, or the authors of the publication, in priority order. To supply multiple creators, repeat this property.\n' +
+  .set('creatorDesc', {mandatory: true, label: 'Creator', placeholder: '', desc: 'The main researchers involved in producing the data, or the authors of the publication, in priority order. To supply multiple creators, repeat this property.\n' +
       '\n' +
       '\n' +
       'Note: \n' +
@@ -294,7 +294,7 @@ export const guidelinesDescMap = new Map()
       '\n' +
       'Note that the latter generally differ from the previous two, unless we expect the institutions in charge of the standards to come and onboard their guidelines into the EOSC.\n' +
       '\n' +
-      'Registered EOSC Providers may also be Creators"'})
+      'Registered EOSC Providers may also be Creators'})
   .set('creatorNameDesc', {mandatory: false, label: 'Creator Name', placeholder: '', desc: 'The full name of the creator. Can be organisation or personal name.'})
   .set('nameTypeDesc', {mandatory: true, label: 'Name Type', placeholder: '', desc: 'The type of name.'})
   .set('givenNameDesc', {mandatory: false, label: 'Given Name', placeholder: '', desc: 'The personal or first name of the creator.'})
@@ -317,6 +317,6 @@ export const guidelinesDescMap = new Map()
   .set('statusDesc', {mandatory: true, label: 'Status', placeholder: '', desc: 'Status of the resource.'})
   .set('domainDesc', {mandatory: false, label: 'Domain', placeholder: '', desc: 'Intended Audience for the Guideline.'})
   .set('eoscGuidelineTypeDesc', {mandatory: true, label: 'EOSC Guideline Type', placeholder: '', desc: 'The type of record within the registry.'})
-  .set('eoscIntegrationOptionsDesc', {mandatory: false, label: 'EOSC Integration Options', placeholder: '', desc: '"Resources and services that declare compliance with the guideline to the specified level of interoperation.'})
+  .set('eoscIntegrationOptionsDesc', {mandatory: false, label: 'EOSC Integration Options', placeholder: '', desc: 'Resources and services that declare compliance with the guideline to the specified level of interoperation.'})
   .set('eoscAAIDesc', {mandatory: true, label: 'EOSC AAI', placeholder: '', desc: 'Indicates whether the guideline requires services and resources to be members of the EOSC AAI Federation in order to successfully interoperate.'})
 ;
