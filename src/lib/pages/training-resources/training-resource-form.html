@@ -479,7 +479,7 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div class="uk-margin-small-top">
+                                <!--<div class="uk-margin-small-top">
                                   <i><small>For suggestions in amending the
                                     "{{targetGroupDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                 </div>
@@ -496,7 +496,7 @@
                                     </button>
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                   </div>
-                                </div>
+                                </div>-->
                                 <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('targetGroups', targetGroupDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{targetGroupDesc.label}}
@@ -526,7 +526,7 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div class="uk-margin-small-top">
+                                <!--<div class="uk-margin-small-top">
                                   <i><small>For suggestions in amending the
                                     "{{learningResourceTypeDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                 </div>
@@ -543,7 +543,7 @@
                                     </button>
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                   </div>
-                                </div>
+                                </div>-->
                                 <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('learningResourceTypes', learningResourceTypeDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{learningResourceTypeDesc.label}}
@@ -616,7 +616,7 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div class="uk-margin-small-top">
+                                <!--<div class="uk-margin-small-top">
                                   <i><small>For suggestions in amending the
                                     "{{contentResourceTypeDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                 </div>
@@ -633,7 +633,7 @@
                                     </button>
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                   </div>
-                                </div>
+                                </div>-->
                                 <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('contentResourceTypes', contentResourceTypeDesc.mandatory)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{contentResourceTypeDesc.label}}
@@ -719,7 +719,7 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div class="uk-margin-small-top">
+                                <!--<div class="uk-margin-small-top">
                                   <i><small>For suggestions in amending the
                                     "{{languagesDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                 </div>
@@ -736,7 +736,7 @@
                                     </button>
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                   </div>
-                                </div>
+                                </div>-->
                                 <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element"
                                      (click)="push('languages', languagesDesc.mandatory)">
@@ -770,7 +770,7 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <div class="uk-margin-small-top">
+                                <!--<div class="uk-margin-small-top">
                                   <i><small>For suggestions in amending the
                                     "{{geographicalAvailabilityDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                 </div>
@@ -787,7 +787,7 @@
                                     </button>
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                   </div>
-                                </div>
+                                </div>-->
                                 <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element"
                                      (click)="push('geographicalAvailabilities', geographicalAvailabilityDesc.mandatory)">
@@ -838,13 +838,13 @@
                                                    clearAllText="Clear"
                                                    formControlName="scientificDomain">
                                         </ng-select>
-                                        <div class="uk-margin-small-top">
+                                        <!--<div class="uk-margin-small-top">
                                           <i><small>For suggestions in amending the
                                             "{{scientificDomainDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                         </div>
                                         <div *ngIf="this.scientificDomainArray.controls[i].get('scientificDomain').value">
                                           <div *ngIf="this.scientificDomainArray.controls[i].get('scientificDomain').value === 'scientific_domain-other'" class="uk-flex uk-flex-left">
-                                            <!--                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default" style="width: 250px;">-->
+                                            &lt;!&ndash;                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default" style="width: 250px;">&ndash;&gt;
                                             <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                               <label>
                                                 <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="scientificDomainVocabularyEntryValueName">
@@ -856,7 +856,7 @@
                                             </button>
                                             <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                           </div>
-                                        </div>
+                                        </div>-->
                                       </div>
                                     </div>
                                     <div class="uk-margin-bottom">
@@ -876,13 +876,13 @@
                                                    clearAllText="Clear"
                                                    formControlName="scientificSubdomain">
                                         </ng-select>
-                                        <div class="uk-margin-small-top">
+                                        <!--<div class="uk-margin-small-top">
                                           <i><small>For suggestions in amending the
                                             "{{scientificSubDomainDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                                         </div>
                                         <div *ngIf="this.scientificDomainArray.controls[i].get('scientificDomain').value && this.scientificDomainArray.controls[i].get('scientificSubdomain').value">
                                           <div *ngIf="this.scientificDomainArray.controls[i].get('scientificSubdomain').value.includes('-other')" class="uk-flex uk-flex-left">
-                                            <!--                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default" style="width: 250px;">-->
+                                            &lt;!&ndash;                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default" style="width: 250px;">&ndash;&gt;
                                             <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                               <label>
                                                 <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="scientificSubDomainVocabularyEntryValueName">
@@ -894,7 +894,7 @@
                                             </button>
                                             <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
                                           </div>
-                                        </div>
+                                        </div>-->
                                       </div>
                                     </div>
 
