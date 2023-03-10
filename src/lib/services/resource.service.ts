@@ -122,6 +122,10 @@ export class ResourceService {
     return this.http.get(this.base + '/service/by/ID/'); // can get services by any field, like ID (capitalized)
   }
 
+  getServicesByCategories() {
+    return this.http.get<BrowseResults>(this.base + '/service/by/category/');
+  }
+
   getAllRelatedResources(){ // Gets services, datasources and trainings
     return this.http.get(this.base + '/service/resourceIdToNameMap/'); // TODO: rename as bellow on backend redeploy
     // return this.http.get(this.base + '/service/getAllProviderRelatedResources/');
@@ -144,10 +148,6 @@ export class ResourceService {
     /*return this.getSome("service", ids).map(res => <Service[]> <any> res);*/
     // return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
     return this.http.get<RichService[]>(this.base + `/service/rich/byID/${ids.toString()}/`, this.options);
-  }
-
-  getServicesByCategories() {
-    return this.http.get<BrowseResults>(this.base + '/service/by/category/');
   }
 
   getServicesOfferedByProvider(id: string): Observable<RichService[]> {
@@ -541,7 +541,7 @@ export class ResourceService {
   }
   /** <-- Draft(Pending) Services **/
 
-  getFeaturedServices() {
+  getFeaturedServices() { //einfra leftover
     return this.http.get<Service[]>(this.base + `/service/featured/all/`);
   }
 
