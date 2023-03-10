@@ -5,7 +5,7 @@ import {environment} from '../../environments/environment';
 import {
   RichService,
   Service,
-  Datasource, LoggingInfo, InfraService, DatasourceBundle
+  Datasource, LoggingInfo, ServiceBundle, DatasourceBundle
 } from '../domain/eic-model';
 import {Paging} from '../domain/paging';
 import {Observable, throwError} from 'rxjs';

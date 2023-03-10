@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {
-  InfraService,
+  ServiceBundle,
   Datasource,
   LoggingInfo,
   Catalogue,
@@ -104,10 +104,10 @@ export class ServiceProviderService {
     if (!query) { query = ''; }
     if (!status) { status = 'approved resource,pending resource,rejected resource'; }
     if (active === 'statusAll') {
-      return this.http.get<Paging<InfraService>>(this.base +
+      return this.http.get<Paging<ServiceBundle>>(this.base +
         `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
     }
-    return this.http.get<Paging<InfraService>>(this.base +
+    return this.http.get<Paging<ServiceBundle>>(this.base +
       `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
   }
 

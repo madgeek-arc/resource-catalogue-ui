@@ -11,7 +11,7 @@ import {
   Service,
   ServiceHistory,
   Vocabulary,
-  Type, ProviderBundle, InfraService, LoggingInfo, TrainingResourceBundle, TrainingResource
+  Type, ProviderBundle, ServiceBundle, LoggingInfo, TrainingResourceBundle, TrainingResource
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
@@ -472,11 +472,11 @@ export class TrainingResourceService {
   }
 
   getRandomResources(quantity: string) {
-    return this.http.get<InfraService[]>(this.base + `/trainingResource/randomResources?quantity=${quantity}`, this.options);
+    return this.http.get<ServiceBundle[]>(this.base + `/trainingResource/randomResources?quantity=${quantity}`, this.options);
   }
 
   getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
-    return this.http.get<Paging<InfraService>>(this.base +
+    return this.http.get<Paging<ServiceBundle>>(this.base +
       `/trainingResource/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 
@@ -520,7 +520,7 @@ export class TrainingResourceService {
   }
 
   getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
-    return this.http.get<Paging<InfraService>>(this.base +
+    return this.http.get<Paging<ServiceBundle>>(this.base +
       `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 

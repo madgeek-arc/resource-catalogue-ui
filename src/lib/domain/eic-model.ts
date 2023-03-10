@@ -101,7 +101,7 @@ export class AlternativeIdentifier {
   value: string;
 }
 
-export class InfraService extends Bundle<Service> { //TODO: rename
+export class ServiceBundle extends Bundle<Service> {
   latest: boolean;
   service: Service;
   resourceExtras: ResourceExtras;

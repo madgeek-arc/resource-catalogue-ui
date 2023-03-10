@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CatalogueBundle, InfraService, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {CatalogueBundle, ServiceBundle, ProviderBundle, Service} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -38,10 +38,10 @@ export class CatalogueServicesComponent implements OnInit {
   urlParams: URLParameter[] = [];
   catalogueId;
   catalogueBundle: CatalogueBundle;
-  providerServices: Paging<InfraService>;
+  providerServices: Paging<ServiceBundle>;
   // providerCoverage: string[];
   // providerServicesGroupedByPlace: any;
-  selectedService: InfraService = null;
+  selectedService: ServiceBundle = null;
   path: string;
 
   total: number;
@@ -101,7 +101,7 @@ export class CatalogueServicesComponent implements OnInit {
     );
   }
 
-  toggleService(providerService: InfraService) {
+  toggleService(providerService: ServiceBundle) {
     if (providerService.status === 'pending resource' || providerService.status === 'rejected resource') {
       this.errorMessage = `You cannot activate a ${providerService.status}.`;
       window.scrollTo(0, 0);
@@ -138,7 +138,7 @@ export class CatalogueServicesComponent implements OnInit {
       );
   }
 
-  setSelectedService(service: InfraService) {
+  setSelectedService(service: ServiceBundle) {
     this.selectedService = service;
     UIkit.modal('#actionModal').show();
   }

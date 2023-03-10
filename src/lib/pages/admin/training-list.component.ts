@@ -4,7 +4,7 @@ import {ServiceProviderService} from '../../services/service-provider.service';
 import {resourceStatusChangeMap, statusList} from '../../domain/resource-status-list';
 import {
   TrainingResourceBundle,
-  InfraService,
+  ServiceBundle,
   LoggingInfo,
   Provider,
   ProviderBundle,

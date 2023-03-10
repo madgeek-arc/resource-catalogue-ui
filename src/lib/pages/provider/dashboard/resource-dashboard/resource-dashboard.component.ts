@@ -5,7 +5,7 @@ import {ResourceService} from '../../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../../services/service-extensions.service';
 import {NavigationService} from '../../../../services/navigation.service';
 import {environment} from '../../../../../environments/environment';
-import {InfraService} from "../../../../domain/eic-model";
+import {ServiceBundle} from "../../../../domain/eic-model";
 
 
 @Component({
@@ -23,7 +23,7 @@ export class ResourceDashboardComponent implements OnInit {
   monitoringId: string;
   helpdeskId: string;
 
-  resourceBundle: InfraService;
+  resourceBundle: ServiceBundle;
 
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,

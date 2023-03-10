@@ -6,7 +6,7 @@ import {ResourceService} from '../../../../services/resource.service';
 import {NavigationService} from '../../../../services/navigation.service';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
-import {InfraService, Provider, ProviderBundle} from '../../../../domain/eic-model';
+import {ServiceBundle, Provider, ProviderBundle} from '../../../../domain/eic-model';
 import {map} from 'rxjs/operators';
 import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
@@ -36,7 +36,7 @@ export class ProviderStatsComponent implements OnInit {
   statisticPeriod: string;
   provider: Provider;
   providerBundle: ProviderBundle;
-  providerServices: Paging<InfraService>;
+  providerServices: Paging<ServiceBundle>;
   providerServicesGroupedByPlace: any;
   providerCoverage: string[];
   public errorMessage: string;
@@ -346,7 +346,7 @@ export class ProviderStatsComponent implements OnInit {
     this.getDataForProvider(this.statisticPeriod, true);
   }
 
-  groupServicesOfProviderPerPlace(services: InfraService[]) {
+  groupServicesOfProviderPerPlace(services: ServiceBundle[]) {
     const ret = {};
     if (this.providerServices && this.providerServices.results.length > 0) {
       for (const service of services) {

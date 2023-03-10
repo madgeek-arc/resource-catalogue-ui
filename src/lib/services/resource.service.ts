@@ -11,7 +11,7 @@ import {
   Service,
   ServiceHistory,
   Vocabulary,
-  Type, ProviderBundle, InfraService, LoggingInfo
+  Type, ProviderBundle, ServiceBundle, LoggingInfo
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
@@ -469,7 +469,7 @@ export class ResourceService {
   }
 
   getResourceBundleById(id: string, catalogueId: string) {
-    return this.http.get<InfraService>(this.base + `/serviceBundle/${id}?catalogue_id=${catalogueId}`, this.options);
+    return this.http.get<ServiceBundle>(this.base + `/serviceBundle/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
   getMyServiceProviders() {
@@ -477,11 +477,11 @@ export class ResourceService {
   }
 
   getRandomResources(quantity: string) {
-    return this.http.get<InfraService[]>(this.base + `/resource/randomResources?quantity=${quantity}`, this.options);
+    return this.http.get<ServiceBundle[]>(this.base + `/resource/randomResources?quantity=${quantity}`, this.options);
   }
 
   getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
-    return this.http.get<Paging<InfraService>>(this.base +
+    return this.http.get<Paging<ServiceBundle>>(this.base +
       `/resource/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 
@@ -528,7 +528,7 @@ export class ResourceService {
   }
 
   getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
-    return this.http.get<Paging<InfraService>>(this.base +
+    return this.http.get<Paging<ServiceBundle>>(this.base +
       `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 

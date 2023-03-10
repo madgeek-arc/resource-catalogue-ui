@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/c
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {resourceStatusChangeMap, statusList} from '../../domain/resource-status-list';
-import {InfraService, LoggingInfo, Provider, ProviderBundle, Vocabulary} from '../../domain/eic-model';
+import {ServiceBundle, LoggingInfo, Provider, ProviderBundle, Vocabulary} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -64,9 +64,9 @@ export class ResourcesListComponent implements OnInit {
   selectedProvider: ProviderBundle;
   providersTotal: number;
 
-  services: InfraService[] = [];
-  servicesForAudit: InfraService[] = [];
-  selectedService: InfraService;
+  services: ServiceBundle[] = [];
+  servicesForAudit: ServiceBundle[] = [];
+  selectedService: ServiceBundle;
   facets: any;
   searchFacet = '';
 
@@ -504,21 +504,21 @@ export class ResourcesListComponent implements OnInit {
   /** <--for facets **/
 
 
-  showDeletionModal(resource: InfraService) {
+  showDeletionModal(resource: ServiceBundle) {
     this.selectedService = resource;
     if (this.selectedService) {
       UIkit.modal('#deletionModal').show();
     }
   }
 
-  showSendMailModal(resource: InfraService) {
+  showSendMailModal(resource: ServiceBundle) {
     this.selectedService = resource;
     if (this.selectedService) {
       UIkit.modal('#sendMailModal').show();
     }
   }
 
-  showMoveResourceModal(resource: InfraService) {
+  showMoveResourceModal(resource: ServiceBundle) {
     this.commentMoveControl.reset();
     this.selectedService = resource;
     if (this.selectedService) {
@@ -544,7 +544,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   /** resourceExtras--> **/
-  toggleHorizontalService(resource: InfraService) {
+  toggleHorizontalService(resource: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
     this.resourceExtrasService.updateHorizontalService(resource.id, 'service', resource.service.catalogueId, !resource?.resourceExtras?.horizontalService).subscribe(
       res => {},
@@ -559,7 +559,7 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  showResourceCategories(resource: InfraService) {
+  showResourceCategories(resource: ServiceBundle) {
     this.selectedService = resource;
     if (this.selectedService) {
       this.extrasFormPrep(this.selectedService);
@@ -568,7 +568,7 @@ export class ResourcesListComponent implements OnInit {
     }
   }
 
-  showEoscIFGuidelines(resource: InfraService) {
+  showEoscIFGuidelines(resource: ServiceBundle) {
     this.selectedService = resource;
     if (this.selectedService) {
       this.extrasFormPrep(this.selectedService);
@@ -577,7 +577,7 @@ export class ResourcesListComponent implements OnInit {
     }
   }
 
-  updateResearchCategories(resource: InfraService) {
+  updateResearchCategories(resource: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
     this.resourceExtrasService.updateResearchCategories(resource.id, 'service', resource.service.catalogueId, this.extrasForm.value.researchCategories).subscribe(
       res => {},
@@ -592,7 +592,7 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  updateEoscIFGuidelines(resource: InfraService) {
+  updateEoscIFGuidelines(resource: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
     this.resourceExtrasService.updateEoscIFGuidelines(resource.id, 'service', resource.service.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
       res => {},
@@ -607,7 +607,7 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  extrasFormPrep(resource: InfraService){
+  extrasFormPrep(resource: ServiceBundle){
     //resets the 2 parts of the form and then fills them
     this.extrasForm.setControl('researchCategories', this.fb.array([this.fb.control('')]));
     this.extrasForm.setControl('eoscIFGuidelines',
@@ -670,7 +670,7 @@ export class ResourcesListComponent implements OnInit {
 
   /** <--manage form arrays **/
 
-  toggleService(providerService: InfraService) {
+  toggleService(providerService: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
     this.serviceProviderService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
       res => {},
@@ -724,7 +724,7 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  showAuditForm(view: string, resource: InfraService) {
+  showAuditForm(view: string, resource: ServiceBundle) {
     this.commentAuditControl.reset();
     this.selectedService = resource;
     if (view === 'side') {
