@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {InfraService, Provider, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {ServiceBundle, Provider, ProviderBundle, Service} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -28,8 +28,8 @@ export class SharedServicesComponent implements OnInit {
   providerId: string;
   catalogueId: string;
   providerBundle: ProviderBundle;
-  providerServices: Paging<InfraService>;
-  selectedService: InfraService = null;
+  providerServices: Paging<ServiceBundle>;
+  selectedService: ServiceBundle = null;
   path: string;
 
   total: number;

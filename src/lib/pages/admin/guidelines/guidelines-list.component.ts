@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../../services/resource.service';
 import {ServiceProviderService} from '../../../services/service-provider.service';
 import {
-  InfraService,
+  ServiceBundle,
   InteroperabilityRecord,
   ProviderBundle,
   VocabularyCuration,

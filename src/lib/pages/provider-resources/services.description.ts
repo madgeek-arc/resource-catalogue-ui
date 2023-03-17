@@ -5,7 +5,6 @@ export class Description {
     recommended?: boolean;
 }
 
-/** Provider Description Template **/
 
 export const providerDescMap = new Map()
   // Basic Information //
@@ -62,9 +61,6 @@ export const providerDescMap = new Map()
   .set('societalGrandChallengesDesc', {mandatory: false, label: 'Societal Grand Challenges', placeholder: 'Write societal grand challenges...', desc: 'Provider’s participation in the Grand Societal Challenges defined by the European Commission.'})
   .set('nationalRoadmapsDesc', {mandatory: false, label: 'National Roadmaps', placeholder: 'Write national roadmaps...', desc: 'Provider\'s participation in a national roadmap.'})
 ;
-
-
-/** Service Description Template **/
 
 export const serviceDescMap = new Map()
 // Basic Information //
@@ -135,8 +131,8 @@ export const serviceDescMap = new Map()
 // Management Information //
   .set('helpdeskPageDesc', {mandatory: false, label: 'Helpdesk Page', placeholder: 'helpdesk page URL', desc: 'The URL to a webpage to ask more information from the Provider about this Resource.'})
   .set('userManualDesc', {mandatory: false, label: 'User Manual', placeholder: 'user manual URL', desc: 'Link to the Resource user manual and documentation.'})
-  .set('termsOfUseDesc', {mandatory: false, label: 'Terms Of Use', placeholder: 'terms of use URL', desc: 'Webpage describing the rules, Resource conditions and usage policy which one must agree to abide by in order to use the Resource.'})
-  .set('privacyPolicyDesc', {mandatory: false, label: 'Privacy Policy', placeholder: 'privacy policy URL', desc: 'Link to the privacy policy applicable to the Resource.'})
+  .set('termsOfUseDesc', {mandatory: true, label: 'Terms Of Use', placeholder: 'terms of use URL', desc: 'Webpage describing the rules, Resource conditions and usage policy which one must agree to abide by in order to use the Resource.'})
+  .set('privacyPolicyDesc', {mandatory: true, label: 'Privacy Policy', placeholder: 'privacy policy URL', desc: 'Link to the privacy policy applicable to the Resource.'})
   .set('accessPolicyDesc', {mandatory: false, label: 'Access Policy', placeholder: 'access policy URL', desc: 'Information about the access policies that apply.'})
   .set('serviceLevelDesc', {mandatory: false, label: 'Resource Level', placeholder: 'service level URL', desc: 'Webpage with the information about the levels of performance of the Resource that a Provider is expected to deliver.'})
   .set('trainingInformationDesc', {mandatory: false, label: 'Training Information', placeholder: 'training information URL', desc: 'Webpage to training information on the Resource.'})
@@ -155,8 +151,8 @@ export const catalogueDescMap = new Map()
   .set('fullNameDesc', {mandatory: true, label: 'Name', placeholder: 'Write full name...', desc: 'Full Name of the (Multi-Provider Regional or Thematic) Catalogue.'})
   .set('abbreviationDesc', {mandatory: true, label: 'Abbreviation', placeholder: 'Write abbreviation...', desc: 'An abbreviation of the (Multi-Provider Regional or Thematic) Catalogue Name.'})
   .set('websiteDesc', {mandatory: true, label: 'Website', placeholder: 'webpage URL', desc: 'Website with information about the (Multi-Provider Regional or Thematic) Catalogue.'})
-  .set('legalEntityDesc', {mandatory: true, label: 'Legal Entity', desc: 'Is the Catalogue a Legal Entity?'})
-  .set('legalStatusDesc', {mandatory: false, label: 'Legal Status', placeholder: 'Write legal status...', desc: 'Legal status of the (Multi-Provider Regional or Thematic ) Catalogue Owner. The legal status is usually noted in the registration act/statutes. For independent legal entities (1) - legal status of the Catalogue. For embedded Catalogues (2) - legal status of the hosting legal entity. It is also possible to select Not a legal entity.'})
+  .set('legalEntityDesc', {mandatory: true, label: 'Legal Entity', desc: 'Is the Catalogue Owner a Legal Entity?'})
+  .set('legalStatusDesc', {mandatory: false, label: 'Legal Status', placeholder: 'Write legal status...', desc: 'Legal status of the (Multi-Provider Regional or Thematic) Catalogue Owner. The legal status is usually noted in the registration act/statutes. For independent legal entities (1) - legal status of the Catalogue Owner. For embedded Catalogue Owner (2) - legal status of the hosting legal entity. It is also possible to select Not a legal entity.'})
   .set('hostingLegalEntityDesc', {mandatory: false, label: 'Hosting Legal Entity', placeholder: 'Write hosting legal entity...', desc: 'Name of the organisation legally hosting (housing) the Catalogue or its coordinating centre.'})
   // Marketing Information //
   .set('descriptionDesc', {mandatory: true, label: 'Description', placeholder: 'Write a description...', desc: 'A high-level description of the Catalogue in fairly non-technical terms, with the vision, mission, objectives, background, experience.'})
@@ -218,6 +214,44 @@ export const datasourceDescMap = new Map()
   .set('researchProductMetadataAccessPoliciesDesc', {mandatory: false, label: 'Research Product Metadata Access Policy', placeholder: '', desc: ''})
 ;
 
+export const trainingDescMap = new Map()
+  // Basic Information //
+  .set('titleDesc', {mandatory: true, label: 'Title', placeholder: '', desc: 'The human readable name of the learning resource.'})
+  .set('resourceOrganisationDesc', {mandatory: true, label: 'Resource Organisation', placeholder: '', desc: 'The name of the organisation that manages or delivers the resource, or that coordinates the Resource delivery in a federated scenario.'})
+  .set('resourceProvidersDesc', {mandatory: false, label: 'Resource Providers', placeholder: '', desc: 'The name(s) of (all) the Provider(s) that manage or deliver the Resource in federated scenarios.'})
+  .set('authorsDesc', {mandatory: true, label: 'Authors', placeholder: '', desc: 'The name of entity(ies) authoring the resource.'})
+  .set('urlDesc', {mandatory: true, label: 'URL to resource', placeholder: '', desc: 'The URL that resolves to the learning resource or to a "landing page" for the resource that contains important contextual information including the direct resolvable link to the resource, if applicable.'})
+  .set('urlTypeDesc', {mandatory: false, label: 'Resource URL type', placeholder: '', desc: 'The designation of identifier scheme used for the resource URL. It represents the type of the URL of the resource, that is the used scheme (e.g., Web Address URL, DOI, ARK, etc.).'})
+  .set('eoscRelatedServiceDesc', {mandatory: false, label: 'EOSC related Service', placeholder: '', desc: 'The name(s) of (all) the EOSC Catalogue/Marketplace registered Service(s) for which this training resource is referring to (Refer to the EOSC Service ID when applicable).'})
+  // Detailed & access Information //
+  .set('descriptionDesc', {mandatory: false, label: 'Description', placeholder: '', desc: 'A brief synopsis about or description of the learning resource.'})
+  .set('keywordsDesc', {mandatory: false, label: 'Keywords', placeholder: '', desc: 'The keyword(s) or tag(s) used to describe the resource.'})
+  .set('licenseDesc', {mandatory: true, label: 'License', placeholder: '', desc: 'A license document that applies to this content, typically indicated by URL.'})
+  .set('accessRightsDesc', {mandatory: true, label: 'Access Rights', placeholder: '', desc: 'The access status of a resource (open, restricted, paid).'})
+  .set('versionDateDesc', {mandatory: true, label: 'Version Date', placeholder: '', desc: 'The version date for the most recently published or broadcast resource.'})
+  // Learning Information //
+  .set('targetGroupDesc', {mandatory: true, label: 'Target Group (Audience)', placeholder: '', desc: 'The principal users(s) for which the learning resource was designed.'})
+  .set('learningResourceTypeDesc', {mandatory: false, label: 'Learning Resource Type', placeholder: '', desc: 'The predominant type or kind that characterizes the learning resource.'})
+  .set('learningOutcomesDesc', {mandatory: true, label: 'Learning Outcome(s)', placeholder: '', desc: 'The descriptions of what knowledge, skills or abilities students should acquire on completion of the resource.'})
+  .set('expertiseLevelDesc', {mandatory: true, label: 'Expertise Level', placeholder: '', desc: 'Target skill level in the topic being taught.'})
+  .set('contentResourceTypeDesc', {mandatory: false, label: 'Content resource type', placeholder: '', desc: 'The predominant content type of the learning resource (video, game, diagram, slides, etc.).'})
+  .set('qualificationDesc', {mandatory: false, label: 'Qualification', placeholder: '', desc: 'Identification of certification, accreditation or badge obtained with course or learning resource.'})
+  .set('durationDesc', {mandatory: false, label: 'Duration', placeholder: '', desc: 'Approximate or typical time it takes to work with or through the learning resource for the typical intended target audience.'})
+  // Geographical and Language Availability Information //
+  .set('languagesDesc', {mandatory: true, label: 'Language', placeholder: '', desc: 'The language in which the resource was originally published or made available.'})
+  .set('geographicalAvailabilityDesc', {mandatory: true, label: 'Geographical Availability', placeholder: '', desc: 'Locations where the Resource is offered.'})
+  // Classification Information //
+  .set('scientificDomainDesc', {mandatory: true, label: 'Scientific Domain', placeholder: 'Select scientific domain...', desc: 'The branch of science, scientific discipline that is related to the Resource.'})
+  .set('scientificSubDomainDesc', {mandatory: true, label: 'Scientific Subdomain', placeholder: 'Select scientific subdomain after selecting scientific domain...', desc: 'The subbranch of science, scientific subdiscipline that is related to the Resource.'})
+  // Contact Information //
+  .set('firstNameDesc', {mandatory: true, label: 'First Name', placeholder: 'Write first name...', desc: 'First Name of the Resource\'s main contact person/Resource manager.'})
+  .set('lastNameDesc', {mandatory: true, label: 'Last Name', placeholder: 'Write last name...', desc: 'Last Name of the Resource\'s main contact person/Resource manager.'})
+  .set('emailDesc', {mandatory: true, label: 'Email', placeholder: 'Write email...', desc: 'Email of the Resource\'s main contact person/Resource manager.'})
+  .set('phoneDesc', {mandatory: false, label: 'Phone', placeholder: 'Write phone...', desc: 'Telephone of the Resource\'s main contact person/Resource manager.'})
+  .set('positionDesc', {mandatory: false, label: 'Position', placeholder: 'Write position...', desc: 'Position of the Resource\'s main contact person/Resource manager.'})
+  .set('organisationDesc', {mandatory: false, label: 'Organisation', placeholder: 'Write organisation...', desc: 'The organisation to which the Resource\'s main contact person/Resource manager is affiliated.'})
+;
+
 export const monitoringDescMap = new Map()
   .set('monitoredByDesc', {mandatory: true, label: 'Monitored By', placeholder: '', desc: 'Who is responsible for the monitoring of this Service'})
   .set('serviceTypeDesc', {mandatory: true, label: 'Type', placeholder: '', desc: 'Select the Type that matches the service that you want to monitor.'})
@@ -242,7 +276,7 @@ export const guidelinesDescMap = new Map()
   //EOSC Interoperability ID (auto-assigned)
   .set('identifierDesc', {mandatory: true, label: 'Identifier (with mandatory type sub-property)', placeholder: '', desc: 'The Identifier is a unique string that identifies a resource. For software, determine whether the identifier is for a specific version of a piece of software, (per the Force11 Software Citation Principles), or for all versions. The record\'s primary key for locating it in the EOSC-IF database.'})
   .set('identifierTypeDesc', {mandatory: true, label: 'Identifier Type', placeholder: '', desc: 'The type of Identifier.'})
-  .set('creatorDesc', {mandatory: true, label: 'Creator', placeholder: '', desc: '"The main researchers involved in producing the data, or the authors of the publication, in priority order. To supply multiple creators, repeat this property.\n' +
+  .set('creatorDesc', {mandatory: true, label: 'Creator', placeholder: '', desc: 'The main researchers involved in producing the data, or the authors of the publication, in priority order. To supply multiple creators, repeat this property.\n' +
       '\n' +
       '\n' +
       'Note: \n' +
@@ -260,7 +294,7 @@ export const guidelinesDescMap = new Map()
       '\n' +
       'Note that the latter generally differ from the previous two, unless we expect the institutions in charge of the standards to come and onboard their guidelines into the EOSC.\n' +
       '\n' +
-      'Registered EOSC Providers may also be Creators"'})
+      'Registered EOSC Providers may also be Creators'})
   .set('creatorNameDesc', {mandatory: false, label: 'Creator Name', placeholder: '', desc: 'The full name of the creator. Can be organisation or personal name.'})
   .set('nameTypeDesc', {mandatory: true, label: 'Name Type', placeholder: '', desc: 'The type of name.'})
   .set('givenNameDesc', {mandatory: false, label: 'Given Name', placeholder: '', desc: 'The personal or first name of the creator.'})
@@ -283,6 +317,6 @@ export const guidelinesDescMap = new Map()
   .set('statusDesc', {mandatory: true, label: 'Status', placeholder: '', desc: 'Status of the resource.'})
   .set('domainDesc', {mandatory: false, label: 'Domain', placeholder: '', desc: 'Intended Audience for the Guideline.'})
   .set('eoscGuidelineTypeDesc', {mandatory: true, label: 'EOSC Guideline Type', placeholder: '', desc: 'The type of record within the registry.'})
-  .set('eoscIntegrationOptionsDesc', {mandatory: false, label: 'EOSC Integration Options', placeholder: '', desc: '"Resources and services that declare compliance with the guideline to the specified level of interoperation.'})
+  .set('eoscIntegrationOptionsDesc', {mandatory: false, label: 'EOSC Integration Options', placeholder: '', desc: 'Resources and services that declare compliance with the guideline to the specified level of interoperation.'})
   .set('eoscAAIDesc', {mandatory: true, label: 'EOSC AAI', placeholder: '', desc: 'Indicates whether the guideline requires services and resources to be members of the EOSC AAI Federation in order to successfully interoperate.'})
 ;

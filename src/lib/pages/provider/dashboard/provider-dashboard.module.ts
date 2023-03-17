@@ -14,6 +14,7 @@ import {MarkdownModule} from 'ngx-markdown';
 import {ProviderHistoryComponent} from './providerHistory/provider-history.component';
 import {ProviderFullHistoryComponent} from './providerHistory/provider-full-history.component';
 import {HighchartsChartModule} from "highcharts-angular";
+import {TrainingResourcesComponent} from "./trainingResources/training-resources.component";
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import {HighchartsChartModule} from "highcharts-angular";
     ProviderFullHistoryComponent,
     ProviderInfoComponent,
     ServicesComponent,
+    TrainingResourcesComponent,
     MessagesComponent,
     // ServiceStatsComponent
   ]

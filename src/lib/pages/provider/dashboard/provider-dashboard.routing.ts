@@ -15,6 +15,7 @@ import {ProviderFullHistoryComponent} from './providerHistory/provider-full-hist
 import {DatasourcesComponent} from "./datasources/datasources.component";
 import {PendingDatasourcesComponent} from "./pendingDatasources/pending-datasources.component";
 import {SharedDatasourcesComponent} from "./sharedDatasources/shared-datasources.component";
+import {TrainingResourcesComponent} from "./trainingResources/training-resources.component";
 
 const providerDashboardRoutes: Routes = [
   {
@@ -101,6 +102,13 @@ const providerDashboardRoutes: Routes = [
       {
         path: 'draft-datasources',
         component: PendingDatasourcesComponent,
+        data: {
+          isResource: false
+        }
+      },
+      {
+        path: 'training-resources',
+        component: TrainingResourcesComponent,
         data: {
           isResource: false
         }

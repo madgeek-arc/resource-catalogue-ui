@@ -60,6 +60,7 @@ import {CatalogueService} from "../lib/services/catalogue.service";
 import {ServiceExtensionsService} from "../lib/services/service-extensions.service";
 import {ResourceExtrasService} from "../lib/services/resource-extras.service";
 import {DatasourceService} from "../lib/services/datasource.service";
+import {TrainingResourceService} from "../lib/services/training-resource.service";
 
 
 declare var require: any;
@@ -161,6 +162,7 @@ export function highchartsFactory() {
     NavigationService,
     ResourceService,
     DatasourceService,
+    TrainingResourceService,
     UserService,
     ServiceProviderService,
     ServiceExtensionsService,

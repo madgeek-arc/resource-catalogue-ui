@@ -1,0 +1,122 @@
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom stats" style="min-height: 325px">
+  <div class="uk-container uk-container-expand">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+
+        <div class="services-provider-container">
+          <div *ngIf="trainingResource" class="uk-flex">
+<!--            <div>-->
+<!--              <img src="{{ trainingResource.logo ? trainingResource.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">-->
+<!--            </div>-->
+            <div class="uk-margin-medium-left">
+              <h3 class="uk-margin-remove">{{trainingResource.title}}</h3>
+              <!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
+              <!--              <div *ngIf="datasourceHistory?.results[0]?.registeredBy && datasourceHistory?.results[0]?.registeredAt">-->
+              <!--                <span class="status-label">Registered by: </span>{{ datasourceHistory.results[0].registeredBy }} on {{ datasourceHistory.results[0].registeredAt | date}}-->
+              <!--              </div>-->
+            </div>
+          </div>
+        </div>
+
+        <!-- TOP HELP CONTENT -->
+        <app-help-content #topHelperContent [position]="'top'"
+                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </app-help-content>
+
+        <div class="uk-container uk-container-expand uk-margin-medium-top uk-margin-medium-bottom">
+          <div class="uk-grid">
+
+            <!-- LEFT HELP CONTENT -->
+            <app-aside-help-content #leftHelperContent [position]="'left'"
+                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
+
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m">
+
+              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
+
+              <div *ngIf="trainingResource" class="uk-grid">
+                <div class="uk-width-4-5"></div>
+                <div class="uk-width-1-5">
+                  <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
+                          (change)="onPeriodChange($event)">
+                    <option value="DAY">Daily</option>
+                    <option value="WEEK">Weekly</option>
+                    <option value="MONTH" selected>Monthly</option>
+                    <option value="YEAR">Yearly</option>
+                  </select>
+                  <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
+                </div>
+              </div>
+
+              <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
+
+                <div *ngIf="resourceAddsToProjectOptions && projectName==='EOSC'">
+                  <div class="uk-card">
+                    <div class="uk-card-body">
+                      <highcharts-chart *ngIf="resourceAddsToProjectOptions" [Highcharts]="Highcharts"
+                                        [options]="resourceAddsToProjectOptions"
+                                        style="width: 100%; height: auto; display: block;">
+                      </highcharts-chart>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="resourceRatingsOptions">
+                  <div class="uk-card">
+                    <div class="uk-card-body">
+                      <highcharts-chart *ngIf="resourceRatingsOptions" [Highcharts]="Highcharts"
+                                        [options]="resourceRatingsOptions"
+                                        style="width: 100%; height: auto; display: block;">
+                      </highcharts-chart>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="resourceVisitsOptions">
+                  <div class="uk-card">
+                    <div class="uk-card-body">
+                      <highcharts-chart *ngIf="resourceVisitsOptions"
+                                        [Highcharts]="Highcharts"
+                                        [options]="resourceVisitsOptions"
+                                        style="width: 100%; height: auto; display: block;">
+                      </highcharts-chart>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="uk-grid uk-margin-bottom">
+                  <div class="uk-width-1-1">
+                    <div style="width:100%">
+                      <highcharts-chart *ngIf="resourceMapOptions"
+                                        [Highcharts]="Highcharts"
+                                        [options]="resourceMapOptions"
+                                        [constructorType]="chartConstructor"
+                                        style="width: 100%; height: auto; display: block;">
+                      </highcharts-chart>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- RIGHT HELP CONTENT -->
+              <app-aside-help-content #rightHelperContent [position]="'right'"
+                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+              </app-aside-help-content>
+
+            </div>
+          </div>
+
+          <!-- BOTTOM HELP CONTENT -->
+          <app-help-content #bottomHelperContent [position]="'bottom'"
+                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+          </app-help-content>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

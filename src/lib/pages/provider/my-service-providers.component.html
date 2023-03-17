@@ -88,10 +88,18 @@
                                   <button class="uk-button uk-button-action uk-margin-small-left"
                                           routerLink="{{ getLinkToFirstDatasource(providerBundle.id) }}">
                                     <i class="fa fa-lg fa-edit"></i>
-                                    Edit First Datasource
+                                    Update First Datasource
                                   </button>
                                 </ng-container>
-                                <ng-container *ngIf="!hasCreatedFirstService(providerBundle.id) && !hasCreatedFirstDatasource(providerBundle.id)">
+                                <ng-container *ngIf="hasCreatedFirstTrainingResource(providerBundle.id)">
+                                  <!--<ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
+                                  <button class="uk-button uk-button-action uk-margin-small-left"
+                                          routerLink="{{ getLinkToFirstTrainingResource(providerBundle.id) }}">
+                                    <i class="fa fa-lg fa-edit"></i>
+                                    Update First Training Resource
+                                  </button>
+                                </ng-container>
+                                <ng-container *ngIf="!hasCreatedFirstService(providerBundle.id) && !hasCreatedFirstDatasource(providerBundle.id) && !hasCreatedFirstTrainingResource(providerBundle.id)">
                                   <button class="uk-button uk-button-action uk-margin-small-left">
                                     <i class="fa fa-plus"></i>
                                     Add First {{serviceORresource}}
@@ -103,6 +111,9 @@
                                       </li>
                                       <li class="uk-active">
                                         <a routerLink="{{ getLinkToFirstDatasource(providerBundle.id) }}">Add First Datasource</a>
+                                      </li>
+                                      <li class="uk-active">
+                                        <a routerLink="{{ getLinkToFirstTrainingResource(providerBundle.id) }}">Add First Training Resource</a>
                                       </li>
                                       <li *ngIf="checkForDraftServices(providerBundle.id)" class="uk-active">
                                         <a [routerLink]="['/provider/draft-resources/' + providerBundle.id] ">

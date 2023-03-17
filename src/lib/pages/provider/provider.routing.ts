@@ -35,6 +35,10 @@ import {
   DatasourceMonitoringExtensionFormComponent
 } from "../datasource/datasource-monitoring-extension/datasource-monitoring-extension-form.component";
 import {PendingDatasourcesComponent} from "./dashboard/pendingDatasources/pending-datasources.component";
+import {TrainingResourceForm} from "../training-resources/training-resource-form";
+import {UpdateTrainingResource} from "../training-resources/update-training-resource";
+import {TrainingListComponent} from "../admin/training-list.component";
+import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
 
 
 const providerRoutes: Routes = [
@@ -121,6 +125,14 @@ const providerRoutes: Routes = [
     }
   },
   {
+    path: ':providerId/add-first-training-resource',
+    component: AddFirstTrainingResourceComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Add Training Resource Template'
+    }
+  },
+  {
     path: ':providerId/resource/update-template/:resourceId',
     component: AddFirstServiceComponent,
     canActivate: [CanActivateViaAuthGuard],
@@ -161,6 +173,14 @@ const providerRoutes: Routes = [
     }
   },
   {
+    path: ':providerId/training-resource/add',
+    component: TrainingResourceForm,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Add Training Resource'
+    }
+  },
+  {
     path: ':providerId/datasource/select',
     component: DatasourceSelectComponent,
     canActivate: [CanActivateViaAuthGuard],
@@ -198,6 +218,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit ' + environment.serviceORresource
+    }
+  },
+  {
+    path: ':providerId/training-resource/update/:trainingResourceId',
+    component: UpdateTrainingResource,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Edit Training Resource'
     }
   },
   {
@@ -310,6 +338,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'All Datasources'
+    }
+  },
+  {
+    path: 'training/all',
+    component: TrainingListComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'All Training Resources'
     }
   }
 ];

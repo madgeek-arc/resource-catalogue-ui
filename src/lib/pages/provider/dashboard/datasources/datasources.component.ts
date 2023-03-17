@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {InfraService, ProviderBundle, Service, Datasource} from '../../../../domain/eic-model';
+import {ServiceBundle, ProviderBundle, Service, Datasource} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -105,7 +105,7 @@ export class DatasourcesComponent implements OnInit {
     );
   }
 
-  toggleService(providerService: InfraService) {
+  toggleService(providerService: ServiceBundle) {
     if (providerService.status === 'pending resource' || providerService.status === 'rejected resource') {
       this.errorMessage = `You cannot activate a ${providerService.status}.`;
       window.scrollTo(0, 0);

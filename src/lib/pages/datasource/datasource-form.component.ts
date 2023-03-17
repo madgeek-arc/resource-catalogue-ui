@@ -56,6 +56,7 @@ export class DatasourceFormComponent implements OnInit {
   requiredOnTab3 = 2;
   requiredOnTab5 = 4;
   requiredOnTab6 = 1;
+  requiredOnTab9 = 2;
   requiredOnTab10 = 1;
   requiredOnTab13 = 4;
 
@@ -65,6 +66,7 @@ export class DatasourceFormComponent implements OnInit {
   remainingOnTab3 = this.requiredOnTab3;
   remainingOnTab5 = this.requiredOnTab5;
   remainingOnTab6 = this.requiredOnTab6;
+  remainingOnTab9 = this.requiredOnTab9;
   remainingOnTab10 = this.requiredOnTab10;
   remainingOnTab13 = this.requiredOnTab13;
 
@@ -74,14 +76,15 @@ export class DatasourceFormComponent implements OnInit {
   BitSetTab3 = new BitSet;
   BitSetTab5 = new BitSet;
   BitSetTab6 = new BitSet;
+  BitSetTab9 = new BitSet;
   BitSetTab10 = new BitSet;
   BitSetTab13 = new BitSet;
 
-  requiredTabs = 8;
+  requiredTabs = 9;
   completedTabs = 0;
   completedTabsBitSet = new BitSet;
 
-  allRequiredFields = 26;
+  allRequiredFields = 28;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
@@ -247,8 +250,8 @@ export class DatasourceFormComponent implements OnInit {
     helpdeskEmail: ['', Validators.compose([Validators.required, Validators.email])],
     securityContactEmail: ['', Validators.compose([Validators.required, Validators.email])],
     serviceLevel: ['', URLValidator],
-    termsOfUse: ['', URLValidator],
-    privacyPolicy: ['', URLValidator],
+    termsOfUse: ['', Validators.compose([Validators.required, URLValidator])],
+    privacyPolicy: ['', Validators.compose([Validators.required, URLValidator])],
     accessPolicy: ['', URLValidator],
     paymentModel: ['', URLValidator],
     pricing: ['', URLValidator],
@@ -471,12 +474,13 @@ export class DatasourceFormComponent implements OnInit {
     zip(
       this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getServices()
+      this.resourceService.getAllRelatedResources()
     ).subscribe(suc => {
         this.providersPage = <Paging<Provider>>suc[0];
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
-        this.requiredResources = this.transformInput(suc[2]);
+        this.requiredResources = this.transformInputForDropdownUse(suc[2]);
         this.relatedResources = this.requiredResources;
+        console.log(this.relatedResources);
         // this.getLocations();
         this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
         this.accessTypesVocabulary = this.vocabularies[Type.ACCESS_TYPE];
@@ -605,13 +609,20 @@ export class DatasourceFormComponent implements OnInit {
     });
   }
 
-  transformInput(input) {
+  transformInputForDropdownUse(input) {
     const arr = [];
     for (const i in input) {
-      arr.push({
-        'name' : input[i][0].resourceOrganisation + ' - ' + input[i][0].name,
-        'id' : input[i][0].id
-      });
+      if (input[i]?.title) { // for training resources
+        arr.push({
+          'name' : input[i].resourceOrganisation + ' - ' + input[i].title,
+          'id' : input[i].id
+        });
+      } else { // for services and datasources
+        arr.push({
+          'name' : input[i].resourceOrganisation + ' - ' + input[i].name,
+          'id' : input[i].id
+        });
+      }
     }
     return arr;
 
@@ -1307,6 +1318,12 @@ export class DatasourceFormComponent implements OnInit {
       if (this.remainingOnTab6 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
         this.calcCompletedTabs(tabNum, 1);
       }
+    } else if (tabNum === 9) {
+      this.BitSetTab9.set(bitIndex, 1);
+      this.remainingOnTab9 = this.requiredOnTab9 - this.BitSetTab9.cardinality();
+      if (this.remainingOnTab9 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
+        this.calcCompletedTabs(tabNum, 1);
+      }
     } else if (tabNum === 10) {
       this.BitSetTab10.set(bitIndex, 1);
       this.remainingOnTab10 = this.requiredOnTab10 - this.BitSetTab10.cardinality();
@@ -1357,6 +1374,12 @@ export class DatasourceFormComponent implements OnInit {
     } else if (tabNum === 6) {
       this.BitSetTab6.set(bitIndex, 0);
       this.remainingOnTab6 = this.requiredOnTab6 - this.BitSetTab6.cardinality();
+      if (this.completedTabsBitSet.get(tabNum) !== 0) {
+        this.calcCompletedTabs(tabNum, 0);
+      }
+    } else if (tabNum === 9) {
+      this.BitSetTab9.set(bitIndex, 0);
+      this.remainingOnTab9 = this.requiredOnTab9 - this.BitSetTab9.cardinality();
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }

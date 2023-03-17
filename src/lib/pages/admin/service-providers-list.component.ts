@@ -13,6 +13,7 @@ import {Paging} from '../../domain/paging';
 import {getLocaleDateFormat} from '@angular/common';
 import {zip} from 'rxjs';
 import {DatasourceService} from "../../services/datasource.service";
+import {TrainingResourceService} from "../../services/training-resource.service";
 
 declare var UIkit: any;
 
@@ -108,6 +109,7 @@ export class ServiceProvidersListComponent implements OnInit {
 
   constructor(private resourceService: ResourceService,
               private datasourceService: DatasourceService,
+              private trainingResourceService: TrainingResourceService,
               private serviceProviderService: ServiceProviderService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
@@ -340,8 +342,12 @@ export class ServiceProvidersListComponent implements OnInit {
               this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                 res => {
                   if (res) {
-                    this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id,
-                      service: JSON.parse(JSON.stringify(res)).service, datasource: JSON.parse(JSON.stringify(res)).datasource});
+                    this.serviceTemplatePerProvider.push({
+                      providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id,
+                      service: JSON.parse(JSON.stringify(res)).service,
+                      datasource: JSON.parse(JSON.stringify(res)).datasource,
+                      trainingResource: JSON.parse(JSON.stringify(res)).trainingResource
+                    });
                   }
                 }
               );
@@ -608,6 +614,15 @@ export class ServiceProvidersListComponent implements OnInit {
           location.reload();
         }
       );
+    } else if (resourceType === 'trainingResource') {
+      this.trainingResourceService.verifyTrainingResource(templateId, active, status).subscribe(
+        res => this.getProviders(),
+        err => UIkit.modal('#spinnerModal').hide(),
+        () => {
+          UIkit.modal('#spinnerModal').hide();
+          location.reload();
+        }
+      );
     }
 
   }
@@ -674,6 +689,17 @@ export class ServiceProvidersListComponent implements OnInit {
     return false;
   }
 
+  hasCreatedFirstTrainingResource(providerId: string) {
+    for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
+      if (this.serviceTemplatePerProvider[i].providerId == providerId) {
+        if (this.serviceTemplatePerProvider[i].trainingResource) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   getLinkToFirstService(id: string) {
     if (this.hasCreatedFirstService(id)) {
       return '/service/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
@@ -697,6 +723,10 @@ export class ServiceProvidersListComponent implements OnInit {
 
   getLinkToEditFirstDatasource(id: string) {
     return '/provider/' + id + '/datasource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
+  }
+
+  getLinkToEditFirstTrainingResource(id: string) {
+    return '/provider/' + id + '/training-resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
   }
 
   editProviderInNewTab(providerId) {
@@ -808,5 +838,17 @@ export class ServiceProvidersListComponent implements OnInit {
         }
       );
     }
+    //TODO: could add training
+/*    if (resourceType === 'trainingResource' && this.hasCreatedFirstDatasource(providerBundleId)) {
+      const resourceId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerBundleId)[0].serviceId;
+      this.trainingResourceService.getService(resourceId).subscribe(
+        res => { this.resourceToPreview = res; },
+        error => console.log(error),
+        () => {
+          UIkit.modal('#modal-preview').show();
+        }
+      );
+    }*/
   }
+
 }

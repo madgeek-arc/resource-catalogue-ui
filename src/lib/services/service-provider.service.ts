@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {
-  InfraService,
+  ServiceBundle,
   Datasource,
   LoggingInfo,
   Catalogue,
@@ -11,7 +11,7 @@ import {
   ProviderRequest,
   Service,
   ServiceHistory,
-  VocabularyCuration, CatalogueBundle, DatasourceBundle
+  VocabularyCuration, CatalogueBundle, DatasourceBundle, TrainingResource, TrainingResourceBundle
 } from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
@@ -104,10 +104,10 @@ export class ServiceProviderService {
     if (!query) { query = ''; }
     if (!status) { status = 'approved resource,pending resource,rejected resource'; }
     if (active === 'statusAll') {
-      return this.http.get<Paging<InfraService>>(this.base +
+      return this.http.get<Paging<ServiceBundle>>(this.base +
         `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
     }
-    return this.http.get<Paging<InfraService>>(this.base +
+    return this.http.get<Paging<ServiceBundle>>(this.base +
       `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
   }
 
@@ -120,6 +120,17 @@ export class ServiceProviderService {
     }
     return this.http.get<Paging<Datasource>>(this.base +
       `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
+  }
+
+  getTrainingResourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
+    if (!query) { query = ''; }
+    if (!status) { status = 'approved resource,pending resource,rejected resource'; }
+    if (active === 'statusAll') {
+      return this.http.get<Paging<TrainingResourceBundle>>(this.base +
+        `/trainingResource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+    }
+    return this.http.get<Paging<TrainingResourceBundle>>(this.base +
+      `/trainingResource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
   }
 
   getRejectedResourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, resourceType: string) {

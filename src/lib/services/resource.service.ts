@@ -11,7 +11,7 @@ import {
   Service,
   ServiceHistory,
   Vocabulary,
-  Type, ProviderBundle, InfraService, LoggingInfo
+  Type, ProviderBundle, ServiceBundle, LoggingInfo
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
@@ -119,7 +119,16 @@ export class ResourceService {
   }
 
   getServices() {
-    return this.http.get(this.base + '/service/by/ID/'); // needs capitalized 'ID' after back changes
+    return this.http.get(this.base + '/service/by/ID/'); // can get services by any field, like ID (capitalized)
+  }
+
+  getServicesByCategories() {
+    return this.http.get<BrowseResults>(this.base + '/service/by/category/');
+  }
+
+  getAllRelatedResources(){ // Gets services, datasources and trainings
+    return this.http.get(this.base + '/service/resourceIdToNameMap/'); // TODO: rename as bellow on backend redeploy
+    // return this.http.get(this.base + '/service/getAllProviderRelatedResources/');
   }
 
   getService(id: string, catalogueId?: string) {
@@ -139,10 +148,6 @@ export class ResourceService {
     /*return this.getSome("service", ids).map(res => <Service[]> <any> res);*/
     // return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
     return this.http.get<RichService[]>(this.base + `/service/rich/byID/${ids.toString()}/`, this.options);
-  }
-
-  getServicesByCategories() {
-    return this.http.get<BrowseResults>(this.base + '/service/by/category/');
   }
 
   getServicesOfferedByProvider(id: string): Observable<RichService[]> {
@@ -464,7 +469,7 @@ export class ResourceService {
   }
 
   getResourceBundleById(id: string, catalogueId: string) {
-    return this.http.get<InfraService>(this.base + `/serviceBundle/${id}?catalogue_id=${catalogueId}`, this.options);
+    return this.http.get<ServiceBundle>(this.base + `/serviceBundle/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
   getMyServiceProviders() {
@@ -472,11 +477,11 @@ export class ResourceService {
   }
 
   getRandomResources(quantity: string) {
-    return this.http.get<InfraService[]>(this.base + `/resource/randomResources?quantity=${quantity}`, this.options);
+    return this.http.get<ServiceBundle[]>(this.base + `/resource/randomResources?quantity=${quantity}`, this.options);
   }
 
   getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
-    return this.http.get<Paging<InfraService>>(this.base +
+    return this.http.get<Paging<ServiceBundle>>(this.base +
       `/resource/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 
@@ -523,7 +528,7 @@ export class ResourceService {
   }
 
   getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
-    return this.http.get<Paging<InfraService>>(this.base +
+    return this.http.get<Paging<ServiceBundle>>(this.base +
       `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 
@@ -536,7 +541,7 @@ export class ResourceService {
   }
   /** <-- Draft(Pending) Services **/
 
-  getFeaturedServices() {
+  getFeaturedServices() { //einfra leftover
     return this.http.get<Service[]>(this.base + `/service/featured/all/`);
   }
 

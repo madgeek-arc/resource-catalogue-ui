@@ -13,6 +13,7 @@ import {UpdateServiceProviderComponent} from './update-service-provider.componen
 import {ServiceProvidersListComponent} from '../admin/service-providers-list.component';
 import {ResourcesListComponent} from '../admin/resources-list.component';
 import {DatasourcesListComponent} from '../admin/datasources-list.component';
+import {TrainingListComponent} from '../admin/training-list.component';
 import {ServiceEditComponent} from '../provider-resources/service-edit.component';
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
 import {ServiceFormComponent} from '../provider-resources/service-form.component';
@@ -27,6 +28,9 @@ import {ResourceGuidelinesFormComponent} from "../provider-resources/resource-gu
 import {DatasourceGuidelinesFormComponent} from "../datasource/datasource-guidelines/datasource-guidelines-form.component";
 import {DatasourceMonitoringExtensionFormComponent} from "../datasource/datasource-monitoring-extension/datasource-monitoring-extension-form.component";
 import {DatasourceHelpdeskExtensionFormComponent} from "../datasource/datasource-helpdesk-extension/datasource-helpdesk-extension-form.component";
+import {TrainingResourceForm} from "../training-resources/training-resource-form";
+import {UpdateTrainingResource} from "../training-resources/update-training-resource";
+import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
 
 
 @NgModule({
@@ -45,6 +49,7 @@ import {DatasourceHelpdeskExtensionFormComponent} from "../datasource/datasource
   declarations: [
     MyServiceProvidersComponent,
     AddFirstServiceComponent,
+    AddFirstTrainingResourceComponent,
     AddFirstDatasourceComponent,
     ServiceProviderFormComponent,
     ServiceProviderInfoComponent,
@@ -52,6 +57,7 @@ import {DatasourceHelpdeskExtensionFormComponent} from "../datasource/datasource
     ServiceProvidersListComponent,
     ResourcesListComponent,
     DatasourcesListComponent,
+    TrainingListComponent,
     // FORMS
     ServiceEditComponent,
     ServiceFormComponent,
@@ -63,7 +69,9 @@ import {DatasourceHelpdeskExtensionFormComponent} from "../datasource/datasource
     ResourceGuidelinesFormComponent,
     DatasourceMonitoringExtensionFormComponent,
     DatasourceHelpdeskExtensionFormComponent,
-    DatasourceGuidelinesFormComponent
+    DatasourceGuidelinesFormComponent,
+    TrainingResourceForm,
+    UpdateTrainingResource
   ]
 })
 

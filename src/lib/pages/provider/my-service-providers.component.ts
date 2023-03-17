@@ -67,8 +67,12 @@ export class MyServiceProvidersComponent implements OnInit {
                 this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                   res => {
                     if (res) {
-                      this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id,
-                        service: JSON.parse(JSON.stringify(res)).service, datasource: JSON.parse(JSON.stringify(res)).datasource});
+                      this.serviceTemplatePerProvider.push({
+                        providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id,
+                        service: JSON.parse(JSON.stringify(res)).service,
+                        datasource: JSON.parse(JSON.stringify(res)).datasource,
+                        trainingResource: JSON.parse(JSON.stringify(res)).trainingResource
+                      });
                     }
                   }
                 );
@@ -139,6 +143,17 @@ export class MyServiceProvidersComponent implements OnInit {
     return false;
   }
 
+  hasCreatedFirstTrainingResource(providerId: string) {
+    for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
+      if (this.serviceTemplatePerProvider[i].providerId == providerId) {
+        if (this.serviceTemplatePerProvider[i].trainingResource) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   checkForDraftServices(id: string): boolean {
     for (let i = 0; i < this.hasDraftServices.length; i++) {
       if (this.hasDraftServices[i].id === id) {
@@ -180,6 +195,14 @@ export class MyServiceProvidersComponent implements OnInit {
     } else {
       // return '/provider/' + id + '/add-first-datasource'; // maybe not needed, revisit this
       return '/provider/' + id + '/datasource/select/';
+    }
+  }
+
+  getLinkToFirstTrainingResource(id: string) {
+    if (this.hasCreatedFirstTrainingResource(id)) {
+      return '/provider/' + id + '/training-resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
+    } else {
+      return '/provider/' + id + '/add-first-training-resource';
     }
   }
 

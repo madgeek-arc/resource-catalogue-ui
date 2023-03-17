@@ -6,7 +6,7 @@ import {DatasourceService} from "../../../../services/datasource.service";
 import {ServiceExtensionsService} from '../../../../services/service-extensions.service';
 import {NavigationService} from '../../../../services/navigation.service';
 import {environment} from '../../../../../environments/environment';
-import {DatasourceBundle, InfraService} from "../../../../domain/eic-model";
+import {DatasourceBundle, ServiceBundle} from "../../../../domain/eic-model";
 
 
 @Component({

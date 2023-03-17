@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Datasource, InfraService, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {Datasource, ServiceBundle, ProviderBundle, Service} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
