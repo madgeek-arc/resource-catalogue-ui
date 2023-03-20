@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ServiceBundle, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {ServiceBundle, ProviderBundle, Service, Datasource} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -59,7 +59,7 @@ export class ServicesComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
-    private service: ResourceService,
+    private resourceService: ResourceService,
     private serviceExtensionsService: ServiceExtensionsService
   ) {}
 
@@ -90,6 +90,10 @@ export class ServicesComponent implements OnInit {
         },
         error => this.errorMessage = <any>error
       );
+  }
+
+  getPayload(bundle : ServiceBundle): Service | Datasource {
+    return bundle.service != null ? bundle.service : bundle.datasource;
   }
 
   useAsTemplate(id: string) {
@@ -161,9 +165,9 @@ export class ServicesComponent implements OnInit {
     UIkit.modal('#actionModal').show();
   }
 
-  deleteService(id: string) {
+  deleteService(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.service.deleteService(id).subscribe(
+    this.resourceService[bundle.service ? 'deleteService' : 'deleteDatasource'](bundle.id).subscribe(
       res => {},
       error => {
         UIkit.modal('#spinnerModal').hide();

@@ -480,7 +480,6 @@ export class DatasourceFormComponent implements OnInit {
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
         this.requiredResources = this.transformInputForDropdownUse(suc[2]);
         this.relatedResources = this.requiredResources;
-        console.log(this.relatedResources);
         // this.getLocations();
         this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
         this.accessTypesVocabulary = this.vocabularies[Type.ACCESS_TYPE];
