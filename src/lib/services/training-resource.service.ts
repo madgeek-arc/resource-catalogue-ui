@@ -129,10 +129,9 @@ export class TrainingResourceService {
     return this.http.get<TrainingResource>(this.base + `/trainingResource/${id}/?catalogue_id=${catalogueId}`, this.options);
   }
 
-  getRichService(id: string, catalogueId?:string, version?: string) {
+  getTrainingResourceBundle(id: string, catalogueId?:string) { //old rich
     if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<TrainingResourceBundle>(this.base + `/trainingResource/rich/${id}?catalogue_id=${catalogueId}`, this.options); //TODO: revist
-    // return this.http.get<RichService>(this.base + `/service/rich/${version === undefined ? id : [id, version].join('/')}/`, this.options);
+    return this.http.get<TrainingResourceBundle>(this.base + `/trainingResource/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
   getSelectedServices(ids: string[]) {
