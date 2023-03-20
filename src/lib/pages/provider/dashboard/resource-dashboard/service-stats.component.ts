@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription, zip} from 'rxjs';
-import {Service, ServiceHistory} from '../../../../domain/eic-model';
+import {Service, ServiceBundle, ServiceHistory} from '../../../../domain/eic-model';
 import {AuthenticationService} from '../../../../services/authentication.service';
 import {NavigationService} from '../../../../services/navigation.service';
 import {ResourceService} from '../../../../services/resource.service';
@@ -43,7 +43,8 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
   serviceAddsToProjectOptions: any = null;
   serviceMapOptions: any = null;
 
-  serviceHistory: Paging<ServiceHistory>;
+  resourceBundle: ServiceBundle;
+  catalogueId: string = null;
 
   statisticPeriod: string;
 
@@ -54,6 +55,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.statisticPeriod = 'MONTH';
+    this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     // this.sub = this.route.params.subscribe(params => {
     this.sub = this.route.parent.params.subscribe(params => {
       zip(
@@ -139,9 +141,10 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
     );
 
     if (dontGetServices) {
+
     } else {
-      this.resourceService.getServiceHistory(this.service.id).subscribe(
-        searchResults => this.serviceHistory = searchResults,
+      this.resourceService.getResourceBundleById(this.service.id, this.catalogueId).subscribe(
+        res => { if (res!=null) this.resourceBundle = res },
         err => {
           this.errorMessage = 'An error occurred while retrieving the history of this service. ' + err.error;
         }
