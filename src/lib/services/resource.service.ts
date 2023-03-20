@@ -9,9 +9,8 @@ import {
   Provider,
   RichService,
   Service,
-  ServiceHistory,
   Vocabulary,
-  Type, ProviderBundle, ServiceBundle, LoggingInfo
+  Type, ProviderBundle, ServiceBundle, LoggingInfo, Bundle
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
@@ -158,6 +157,10 @@ export class ResourceService {
 
   deleteService(id: string) {
     return this.http.delete(this.base + '/service/' + id, this.options);
+  }
+
+  deleteDatasource(id: string) {
+    return this.http.delete(this.base + '/datasource/' + id, this.options);
   }
 
   /** Recommendations **/
@@ -464,7 +467,8 @@ export class ResourceService {
         params = params.append('catalogue_id', catalogueValue);
       }
     } else params = params.append('catalogue_id', 'all');
-    return this.http.get(this.base + `/service/adminPage/all`, {params});
+    params = params.append('type', 'all');
+    return this.http.get<Bundle<Service>>(this.base + `/service/adminPage/all`, {params});
     // return this.getAll("provider");
   }
 
@@ -558,6 +562,10 @@ export class ResourceService {
     return this.http.patch(this.base + `/resource/auditResource/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
+  auditDatasource(id: string, action: string, comment: string) {
+    return this.http.patch(this.base + `/datasource/auditDatasource/${id}?actionType=${action}&comment=${comment}`, this.options);
+  }
+
   verifyResource(id: string, active: boolean, status: string) { // for 1st service
     return this.http.patch(this.base + `/resource/verifyResource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
@@ -576,6 +584,10 @@ export class ResourceService {
 
   moveResourceToProvider(resourceId: string, providerId: string, comment: string) {
     return this.http.post(this.base + `/resource/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
+  }
+
+  isServiceOrDatasource(resourceId: string, catalogueId: string){
+    return this.http.get<string>(this.base + `/resource/isServiceOrDatasource?resourceId=${resourceId}&catalogueId=${catalogueId}`);
   }
 
   public handleError(error: HttpErrorResponse) {
