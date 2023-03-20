@@ -405,7 +405,6 @@
                               <div class="uk-form-controls uk-margin-medium-top">
 
                                 <input id="license" class="uk-input uk-width-9-10" type="text" formControlName="license"
-                                       placeholder="use http:// or https://"
                                        (input)="handleBitSets(1, 4, 'license'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('license', this.editMode)}">
                                 <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('license').value" class="uk-icon">

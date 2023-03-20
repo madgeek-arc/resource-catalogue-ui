@@ -139,7 +139,7 @@ export class TrainingResourceForm implements OnInit {
 
     description: ['', Validators.required],
     keywords: this.fb.array([this.fb.control('')]), //tags
-    license: ['', Validators.compose([Validators.required, URLValidator])], //webpage
+    license: ['', Validators.required],
     accessRights: ['', Validators.required], //orderType
     versionDate: ['', Validators.required], //version
 
