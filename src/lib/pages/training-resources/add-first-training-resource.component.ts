@@ -31,7 +31,7 @@ export class AddFirstTrainingResourceComponent extends TrainingResourceForm impl
     this.trainingResourceId = this.route.snapshot.paramMap.get('trainingResourceId');
     if (this.trainingResourceId) {
       this.editMode = true;
-      this.trainingResourceService.getRichService(this.trainingResourceId).subscribe(
+      this.trainingResourceService.getTrainingResourceBundle(this.trainingResourceId).subscribe(
         trBundle => {
           ResourceService.removeNulls(trBundle.trainingResource);
           this.formPrepare(trBundle.trainingResource);
