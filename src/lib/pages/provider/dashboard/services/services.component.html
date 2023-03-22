@@ -200,7 +200,7 @@
                 </div>
                 <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
                   <div class="action-buttons">
-                    <button *ngIf="providerBundle.templateStatus === 'approved template'"
+                    <button *ngIf="providerBundle.templateStatus === 'approved template' && providerService?.service"
                             class="uk-button uk-button-action uk-display-block uk-margin-small-top"
                             (click)="useAsTemplate(getPayload(providerService).id)">
                       <i class="fa fa-copy fa-lg" aria-hidden="true"></i> Use as template
