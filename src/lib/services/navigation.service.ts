@@ -26,8 +26,9 @@ export class NavigationService {
       return this.router.navigate([`/dashboard/${catalogueId}/${providerId}/datasources`]);
     }
 
-    dashboardResources(providerId: string) {
-      return this.router.navigate([`/dashboard/${providerId}/resources`]);
+    dashboardResources(providerId: string, catalogueId?: string) {
+      if (!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/resources`]);
+      return this.router.navigate([`/dashboard/${catalogueId}/${providerId}/resources`]);
     }
 
     dashboardDraftResources(providerId: string) {
