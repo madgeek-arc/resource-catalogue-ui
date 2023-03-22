@@ -473,6 +473,7 @@ export class ResourceService {
   }
 
   getResourceBundleById(id: string, catalogueId: string) {
+    if (!catalogueId) catalogueId ='eosc';
     return this.http.get<ServiceBundle>(this.base + `/serviceBundle/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
@@ -486,7 +487,7 @@ export class ResourceService {
 
   getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/resource/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      `/resource/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&type=all`);
   }
 
   getEU() {
@@ -534,6 +535,7 @@ export class ResourceService {
   getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
     return this.http.get<Paging<ServiceBundle>>(this.base +
       `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      // `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&type=all`);
   }
 
   getPendingService(id: string) {
