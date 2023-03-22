@@ -306,16 +306,16 @@
 <!--                                </span>-->
 <!--                                <span *ngIf="serviceBundle.status==='approved'" class="uk-margin-auto-vertical">-->
                                   <ng-container *ngIf="getPayload(serviceBundle)===serviceBundle.service">
-                                    <a [routerLink]="['/dashboard', getPayload(serviceBundle).catalogueId, getPayload(serviceBundle).resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the resource dashboard">
+                                    <a [routerLink]="['/dashboard', getPayload(serviceBundle).catalogueId, getPayload(serviceBundle).resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the service dashboard">
                                       {{ getPayload(serviceBundle).name }}
                                     </a>
                                   </ng-container>
                                   <ng-container *ngIf="getPayload(serviceBundle)===serviceBundle.datasource">
-                                    <a [routerLink]="['/dashboard', getPayload(serviceBundle).catalogueId, getPayload(serviceBundle).resourceOrganisation, 'datasource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the resource dashboard">
+                                    <a [routerLink]="['/dashboard', getPayload(serviceBundle).catalogueId, getPayload(serviceBundle).resourceOrganisation, 'datasource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the service dashboard">
                                       {{ getPayload(serviceBundle).name }}
                                     </a>
                                   </ng-container>
-<!--                                  <a [routerLink]="['/dashboard', getPayload(serviceBundle).catalogueId, getPayload(serviceBundle).resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the resource dashboard">-->
+<!--                                  <a [routerLink]="['/dashboard', getPayload(serviceBundle).catalogueId, getPayload(serviceBundle).resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the service dashboard">-->
 <!--                                      {{ getPayload(serviceBundle).name }}-->
 <!--                                  </a>-->
 <!--                                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
@@ -900,7 +900,7 @@
               <div class="providerName">
                 <span class="uk-margin-auto-vertical">
 <!--                <ng-container *ngIf="getPayload(serviceBundle).catalogueId==='eosc' else anotherCatalogue">-->
-                  <a [routerLink]="['/dashboard/' + getPayload(serviceBundle).resourceOrganisation + '/resource-dashboard', serviceBundle.id]" target="_blank" data-uk-tooltip title="Go to the resource dashboard">
+                  <a [routerLink]="['/dashboard/' + getPayload(serviceBundle).resourceOrganisation + '/resource-dashboard', serviceBundle.id]" target="_blank" data-uk-tooltip title="Go to the service dashboard">
                       {{ getPayload(serviceBundle).name }}
                   </a>
 <!--                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
