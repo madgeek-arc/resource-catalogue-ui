@@ -572,6 +572,10 @@ export class ResourceService {
     return this.http.patch(this.base + `/resource/verifyResource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
+  verifyDatasource(id: string, active: boolean, status: string) { // for 1st datasource
+    return this.http.patch(this.base + `/datasource/verifyDatasource/${id}?active=${active}&status=${status}`, {}, this.options);
+  }
+
   getServiceTemplate(id: string) {  // gets oldest(?) pending resource of the provider // replaced with /resourceBundles/templates?id=testprovidertemplate
     return this.http.get<Service[]>(this.base + `/resource/getServiceTemplate/${id}`);
   }

@@ -529,10 +529,10 @@
                                 </ng-container>
 
                                 <ng-container *ngIf="serviceBundle.status=='pending resource'">
-                                  <li class="uk-active" (click)="templateAction(serviceBundle.id.substring(0, serviceBundle.id.lastIndexOf('.')), true, 'approved resource')">
+                                  <li class="uk-active" (click)="templateAction(serviceBundle, true, 'approved resource')">
                                     <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve First {{serviceORresource}}</a>
                                   </li>
-                                  <li class="uk-active" (click)="templateAction(serviceBundle.id.substring(0, serviceBundle.id.lastIndexOf('.')), true, 'rejected resource')">
+                                  <li class="uk-active" (click)="templateAction(serviceBundle, true, 'rejected resource')">
                                     <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First {{serviceORresource}}</a>
                                   </li>
                                 </ng-container>
