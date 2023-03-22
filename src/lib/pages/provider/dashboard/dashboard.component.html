@@ -55,7 +55,7 @@
                 Draft {{serviceORresource}}s
               </a>
             </li>
-            <li [routerLinkActive]="['current_section']" #datasources="routerLinkActive">
+            <!--<li [routerLinkActive]="['current_section']" #datasources="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'datasources']">
                 <img src="{{datasources.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
                 Datasources
@@ -72,7 +72,7 @@
                 <img src="{{draftServices.isActive ? 'lib/assets/images/new-icons/draft-services-active.svg' : 'lib/assets/images/new-icons/draft-services.svg'}}" class="uk-margin-small-right">
                 Draft Datasources
               </a>
-            </li>
+            </li>-->
             <li [routerLinkActive]="['current_section']" #trainingResources="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'training-resources']">
                 <img src="{{trainingResources.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
