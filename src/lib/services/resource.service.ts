@@ -534,8 +534,7 @@ export class ResourceService {
 
   getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
-      // `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&type=all`);
+      `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&type=all`);
   }
 
   getPendingService(id: string) {
@@ -544,6 +543,10 @@ export class ResourceService {
 
   deletePendingService(id: string) {
     return this.http.delete(this.base + '/pendingService/' + id, this.options);
+  }
+
+  deletePendingDatasource(id: string) {
+    return this.http.delete(this.base + '/pendingDatasource/' + id, this.options);
   }
   /** <-- Draft(Pending) Services **/
 

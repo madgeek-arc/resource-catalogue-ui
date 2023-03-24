@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ServiceBundle, Provider, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {ServiceBundle, Provider, ProviderBundle, Service, Datasource} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -91,8 +91,16 @@ export class PendingServicesComponent implements OnInit {
     // this.getPendingServices();
   }
 
-  navigate(id: string) {
-    this.router.navigate([`/provider/` + this.providerId + `/draft-resource/update/`, id]);
+  getPayload(bundle : ServiceBundle): Service | Datasource {
+    return bundle.service != null ? bundle.service : bundle.datasource;
+  }
+
+  navigate(bundle: ServiceBundle) {
+    if (bundle.service) {
+      this.router.navigate([`/provider/` + this.providerId + `/draft-resource/update/`, bundle.id]);
+    } else if (bundle.datasource) {
+      this.router.navigate([`/provider/` + this.providerId + `/draft-datasource/update/`, bundle.id]);
+    }
   }
 
   getProvider() {
@@ -124,9 +132,9 @@ export class PendingServicesComponent implements OnInit {
     UIkit.modal('#actionModal').show();
   }
 
-  deleteService(id: string) {
+  deleteService(bundle: ServiceBundle) {
     // UIkit.modal('#spinnerModal').show();
-    this.resourceService.deletePendingService(id).subscribe(
+    this.resourceService[bundle.service ? 'deletePendingService' : 'deletePendingDatasource'](bundle.id).subscribe(
       res => {},
       error => {
         // console.log(error);
