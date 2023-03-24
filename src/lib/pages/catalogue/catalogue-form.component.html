@@ -1112,6 +1112,13 @@
           <span class="uk-margin-small-left">I assert that I am an authorized representative of this Catalogue</span>
         </label>
       </div>
+      <div class="uk-form-controls uk-margin-bottom">
+        <label>
+          <input class="uk-checkbox" type="checkbox" id="onboardingAgreement"  value="true"
+                 (change)="toggleTerm('onboardingAgreement')">
+          <span class="uk-margin-small-left">I have read and agree with the <a href="{{onboardingAgreementURL}}" target="_blank">EOSC Catalogue Onboarding Agreement</a></span>
+        </label>
+      </div>
     </div>
 
     <div class="uk-text-right">

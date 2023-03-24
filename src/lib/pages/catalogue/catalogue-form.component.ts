@@ -25,6 +25,7 @@ export class CatalogueFormComponent implements OnInit {
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
+  onboardingAgreementURL = environment.privacyPolicyURL;
   catalogueId: string = null;
   catalogueName = '';
   errorMessage = '';
@@ -70,6 +71,7 @@ export class CatalogueFormComponent implements OnInit {
   codeOfConduct = false;
   privacyPolicy = false;
   authorizedRepresentative = false;
+  onboardingAgreement = false;
   agreedToTerms: boolean;
 
   vocabularyEntryForm: FormGroup;
@@ -847,12 +849,14 @@ export class CatalogueFormComponent implements OnInit {
       this.privacyPolicy = !this.privacyPolicy;
     } else if (term === 'authorizedRepresentative') {
       this.authorizedRepresentative = !this.authorizedRepresentative;
+    } else if (term === 'onboardingAgreement') {
+      this.onboardingAgreement = !this.onboardingAgreement;
     }
     this.checkTerms();
   }
 
   checkTerms() {
-    this.agreedToTerms = this.privacyPolicy && this.authorizedRepresentative;
+    this.agreedToTerms = this.privacyPolicy && this.authorizedRepresentative && this.onboardingAgreement;
   }
 
   acceptTerms() {

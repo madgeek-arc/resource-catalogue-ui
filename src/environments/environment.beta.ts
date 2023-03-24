@@ -11,6 +11,7 @@ export const environment = {
   serviceORresource: 'Service',
   hasUserConsent: true,
   privacyPolicyURL: 'https://www.eosc-portal.eu/privacy-policy-summary',
+  onboardingAgreementURL: 'https://wiki.eoscfuture.eu/display/PUBLIC/EOSC+Catalogue+Onboarding+and+Onboarding+Agreement',
   marketplaceServicesURL: 'https://beta.marketplace.eosc-portal.eu/services/',
   marketplaceDatasourcesURL: 'https://beta.marketplace.eosc-portal.eu/datasources/',
   marketplaceTrainingResourcesURL: 'https://search.eosc-portal.eu/trainings/',
