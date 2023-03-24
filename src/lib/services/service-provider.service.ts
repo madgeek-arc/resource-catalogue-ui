@@ -105,10 +105,10 @@ export class ServiceProviderService {
     if (!status) { status = 'approved resource,pending resource,rejected resource'; }
     if (active === 'statusAll') {
       return this.http.get<Paging<ServiceBundle>>(this.base +
-        `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+        `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}&type=all`);
     }
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
+      `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}&type=all`);
   }
 
   getDatasourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
@@ -143,6 +143,13 @@ export class ServiceProviderService {
       return this.http.patch(this.base + `/service/publish/${id}?active=${active}`, this.options);
     }
     return this.http.patch(this.base + `/service/publish/${id}?active=${active}&version=${version}`, this.options); // copy for provider without version
+  }
+
+  publishDatasource(id: string, version: string, active: boolean) { // toggles active/inactive datasource
+    if (version === null) {
+      return this.http.patch(this.base + `/datasource/publish/${id}?active=${active}`, this.options);
+    }
+    return this.http.patch(this.base + `/datasource/publish/${id}?active=${active}&version=${version}`, this.options); // copy for provider without version
   }
 
   publishProvider(id: string, active: boolean) { // toggles active/inactive provider

@@ -101,9 +101,10 @@ export class AlternativeIdentifier {
   value: string;
 }
 
-export class ServiceBundle extends Bundle<Service> {
+export class ServiceBundle extends Bundle<any> {
   latest: boolean;
   service: Service;
+  datasource: Datasource;
   resourceExtras: ResourceExtras;
 }
 
@@ -113,7 +114,6 @@ export class DatasourceBundle extends Bundle<Datasource> {
 }
 
 export class TrainingResourceBundle extends Bundle<TrainingResource> {
-  status: string;
   trainingResource: TrainingResource;
 }
 

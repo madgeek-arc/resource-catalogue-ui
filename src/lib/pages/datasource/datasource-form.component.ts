@@ -437,7 +437,7 @@ export class DatasourceFormComponent implements OnInit {
           this.showLoader = false;
           if (this.addOpenAIRE || this.draftFromOpenAIRE)
             return this.router.datasourceSubmitted(_ds.id); // redirect to datasource submitted successfully page after POST
-          return this.router.dashboardDatasources(this.providerId, _ds.catalogueId); // redirect to datasources of provider
+          return this.router.dashboardResources(this.providerId, _ds.catalogueId); // redirect to services of provider (merged)
         },
         err => {
           this.showLoader = false;
@@ -480,7 +480,6 @@ export class DatasourceFormComponent implements OnInit {
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
         this.requiredResources = this.transformInputForDropdownUse(suc[2]);
         this.relatedResources = this.requiredResources;
-        console.log(this.relatedResources);
         // this.getLocations();
         this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
         this.accessTypesVocabulary = this.vocabularies[Type.ACCESS_TYPE];

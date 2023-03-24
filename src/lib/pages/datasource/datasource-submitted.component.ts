@@ -29,10 +29,9 @@ export class DatasourceSubmittedComponent implements OnInit {
 
   ngOnInit(): void {
     this.datasourceId = this.route.snapshot.paramMap.get('datasourceId');
-    console.log(this.datasourceId);
 
     this.datasourceService.getDatasource(this.datasourceId).subscribe(
-      ds => {this.datasource = ds; console.log(ds)},
+      ds => {this.datasource = ds},
       error => {},
       () => {}
     )

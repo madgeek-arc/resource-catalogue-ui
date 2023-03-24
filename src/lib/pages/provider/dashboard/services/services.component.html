@@ -149,14 +149,24 @@
 
               <div class="uk-grid uk-flex-middle uk-margin-remove-top">
                 <div class="uk-width-1-6">
-                  <img src="{{providerService.service.logo ? providerService.service.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
+                  <img src="{{getPayload(providerService).logo ? getPayload(providerService).logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
                 </div>
                 <div class="uk-width-2-3">
-                  <h4 class="uk-margin-remove uk-padding-small uk-padding-remove-top uk-padding-remove-left uk-padding-remove-right">
-                    <a [routerLink]="['/dashboard', providerService.service.catalogueId, providerService.service.resourceOrganisation, 'resource-dashboard', providerService.id]" data-uk-tooltip title="Go to the resource dashboard">
-                      {{providerService.service.name}}
-                    </a>
-                  </h4>
+                  <ng-container *ngIf="getPayload(providerService)===providerService.service">
+                    <h4 class="uk-margin-remove uk-padding-small uk-padding-remove-top uk-padding-remove-left uk-padding-remove-right">
+                      <a [routerLink]="['/dashboard', providerService.service.catalogueId, providerService.service.resourceOrganisation, 'resource-dashboard', providerService.id]" data-uk-tooltip title="Go to the service dashboard">
+                        {{providerService.service.name}}
+                      </a>
+                    </h4>
+                  </ng-container>
+                  <ng-container *ngIf="getPayload(providerService)===providerService.datasource">
+                    <h4 class="uk-margin-remove uk-padding-small uk-padding-remove-top uk-padding-remove-left uk-padding-remove-right">
+                      <a [routerLink]="['/dashboard', providerService.datasource.catalogueId, providerService.datasource.resourceOrganisation, 'datasource-dashboard', providerService.id]" data-uk-tooltip title="Go to the service dashboard">
+                        {{providerService.datasource.name}}
+                      </a>
+                    </h4>
+                  </ng-container>
+
                   <ng-container *ngIf="statusesOnView[i]">
                     <span class="uk-text-bold" >Monitoring Status: </span><span>{{statusesOnView[i]}}</span>
                   </ng-container>
@@ -179,7 +189,7 @@
                   <!--                    <span class="uk-badge" title="Monitoring Status" style="background: dimgrey;">NA</span>-->
                   <!--                  </ng-container>-->
                   <div class="uk-margin-small-top">
-                    <span *ngIf="providerService.service.description" class="uk-margin-small-top"><markdown [data]="providerService.service.description"></markdown></span>
+                    <span *ngIf="getPayload(providerService).description" class="uk-margin-small-top"><markdown [data]="getPayload(providerService).description"></markdown></span>
                   </div>
                   <div class="uk-margin-small-top">
                     <span class="">Creation Date: </span>{{ providerService.metadata.registeredAt | date }}
@@ -190,9 +200,9 @@
                 </div>
                 <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
                   <div class="action-buttons">
-                    <button *ngIf="providerBundle.templateStatus === 'approved template'"
+                    <button *ngIf="providerBundle.templateStatus === 'approved template' && providerService?.service"
                             class="uk-button uk-button-action uk-display-block uk-margin-small-top"
-                            (click)="useAsTemplate(providerService.service.id)">
+                            (click)="useAsTemplate(getPayload(providerService).id)">
                       <i class="fa fa-copy fa-lg" aria-hidden="true"></i> Use as template
                     </button>
                     <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(providerService)">
@@ -203,7 +213,7 @@
                         <i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate
                       </ng-container>
                     </button>
-                    <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">-->
+                    <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(getPayload(providerService).id)">-->
                     <!--<i class="fa fa-pencil fa-lg"></i> Edit {{serviceORresource | lowercase}}-->
                     <!--</button>-->
                     <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedService(providerService)">
@@ -285,8 +295,8 @@
 
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h6 *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} '{{selectedService.service.name}}'</h6>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteService(selectedService.id)">Delete</button>
+    <h6 *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} '{{getPayload(selectedService).name}}'</h6>
+    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteService(selectedService)">Delete</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>
 </div>
