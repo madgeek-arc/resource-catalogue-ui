@@ -5,8 +5,6 @@ import {Service, ServiceBundle, ServiceHistory} from '../../../../domain/eic-mod
 import {AuthenticationService} from '../../../../services/authentication.service';
 import {NavigationService} from '../../../../services/navigation.service';
 import {ResourceService} from '../../../../services/resource.service';
-import {UserService} from '../../../../services/user.service';
-import {Paging} from '../../../../domain/paging';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
@@ -39,7 +37,6 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
   chartConstructor = 'mapChart';
   serviceVisitsOptions: any = null;
   serviceRatingsOptions: any = null;
-  serviceFavouritesOptions: any = null;
   serviceAddsToProjectOptions: any = null;
   serviceMapOptions: any = null;
 
@@ -49,7 +46,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
   statisticPeriod: string;
 
   constructor(private route: ActivatedRoute, private router: NavigationService, private resourceService: ResourceService,
-              private authenticationService: AuthenticationService, private userService: UserService,
+              private authenticationService: AuthenticationService,
               private providerService: ServiceProviderService) {
   }
 
@@ -96,21 +93,6 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
       }
     );
 
-    if (this.projectName === 'CatRIS') {
-      this.resourceService.getFavouritesForService(this.service.id, period).pipe(
-        map(data => {
-          // THESE 3 weird lines should be deleted when pgl makes everything ok :)
-          return Object.entries(data).map((d) => {
-            return [new Date(d[0]).getTime(), d[1]];
-          }).sort((l, r) => l[0] - r[0]);
-        })).subscribe(
-        data => this.setFavouritesForService(data),
-        err => {
-          this.errorMessage = 'An error occurred while retrieving favourites for this service. ' + err.error;
-        }
-      );
-    }
-
     if (this.projectName === 'EOSC') {
       this.resourceService.getAddToProjectForService(this.service.id, period).pipe(
         map(data => {
@@ -121,7 +103,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
         })).subscribe(
         data => this.setAddsToProjectForService(data),
         err => {
-          this.errorMessage = 'An error occurred while retrieving favourites for this service. ' + err.error;
+          this.errorMessage = 'An error occurred while retrieving adds to project for this service. ' + err.error;
         }
       );
     }
@@ -184,37 +166,6 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
           data: data
         }]
       };
-    }
-  }
-
-  setFavouritesForService(data: any) {
-    if (data) {
-      this.serviceFavouritesOptions = {
-        title: {
-          text: 'Number of favorites over time'
-        },
-        xAxis: {
-          type: 'datetime',
-          dateTimeLabelFormats: { // don't display the dummy year
-            month: '%e. %b',
-            year: '%b'
-          },
-          title: {
-            text: 'Date'
-          }
-        },
-        yAxis: {
-          title: {
-            text: 'Number of favourites'
-          }
-        },
-        series: [{
-          name: 'Favourites over time',
-          color: '#C36000',
-          data: data
-        }]
-      };
-
     }
   }
 

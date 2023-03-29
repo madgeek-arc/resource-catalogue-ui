@@ -4,7 +4,6 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {DatasourceService} from "../../services/datasource.service";
-import {UserService} from '../../services/user.service';
 import * as sd from '../provider-resources/services.description';
 import {Provider, RichService, Service, Datasource, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
@@ -323,7 +322,6 @@ export class DatasourceFormComponent implements OnInit {
   datasourceService: DatasourceService = this.injector.get(DatasourceService);
 
   router: NavigationService = this.injector.get(NavigationService);
-  userService: UserService = this.injector.get(UserService);
 
   public fundingBodyVocabulary: Vocabulary[] = null;
   public fundingProgramVocabulary: Vocabulary[] = null;
@@ -357,7 +355,6 @@ export class DatasourceFormComponent implements OnInit {
     this.datasourceService = this.injector.get(DatasourceService);
     this.fb = this.injector.get(FormBuilder);
     this.router = this.injector.get(NavigationService);
-    this.userService = this.injector.get(UserService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }

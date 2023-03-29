@@ -2,10 +2,8 @@ import {Component, Input} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {NavigationService} from '../../services/navigation.service';
 import {ActivatedRoute} from '@angular/router';
-import {UserService} from '../../services/user.service';
 import {ResourceService} from '../../services/resource.service';
 import {AuthenticationService} from '../../services/authentication.service';
-import {ComparisonService} from '../../services/comparison.service';
 import {EmailService} from '../../services/email.service';
 
 declare var UIkit: any;
@@ -20,8 +18,8 @@ export class EmailModalComponent {
   public emailErrorMessage = '';
 
   constructor(public fb: FormBuilder, public router: NavigationService, public route: ActivatedRoute,
-              public userService: UserService, public resourceService: ResourceService,
-              public authenticationService: AuthenticationService, public comparisonService: ComparisonService,
+              public resourceService: ResourceService,
+              public authenticationService: AuthenticationService,
               public navigationService: NavigationService, public emailService: EmailService) {
   }
 

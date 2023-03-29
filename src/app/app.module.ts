@@ -12,7 +12,6 @@ import {NavigationService} from '../lib/services/navigation.service';
 import {ResourceService} from '../lib/services/resource.service';
 import {CanActivateViaPubGuard} from '../lib/services/can-activate-pub-guard.service';
 import {FooterComponent} from '../lib/shared/footer/footer.component';
-import {TopMenuComponent} from '../lib/shared/topmenu/topmenu.component';
 import {BreadcrumbsComponent} from '../lib/shared/breadcrumbs/breadcrumbs.component';
 import {DashboardBreadcrumbsComponent} from '../lib/shared/breadcrumbs/dashboard-breadcrumbs.component';
 import {FeedbackComponent} from '../lib/shared/feedback/feedback.component';
@@ -26,22 +25,12 @@ import {ServiceProviderService} from '../lib/services/service-provider.service';
 import {ServiceProvidersListComponent} from '../lib/pages/admin/service-providers-list.component';
 import {SupportModule} from '../lib/pages/support/support.module';
 import {ServiceStatsComponent} from '../lib/pages/provider/dashboard/resource-dashboard/service-stats.component';
-import {MyFavouritesComponent} from '../lib/pages/user/favourites/my-favourites.component';
 import {DashboardComponent} from '../lib/pages/provider/dashboard/dashboard.component';
-import {UserService} from '../lib/services/user.service';
-import {ComparisonService} from '../lib/services/comparison.service';
-import {UserModule} from '../lib/pages/user/user.module';
-import {ServiceLandingPageComponent} from '../lib/pages/landingpages/service/service-landing-page.component';
-import {BrowseCategoriesComponent} from '../lib/pages/browsecategories/browse-categories.component';
-import {SearchComponent} from '../lib/pages/search/search.component';
 import {ProvidersStatsComponent} from '../lib/pages/stats/providers-stats.component';
 import {ResourcesStatsComponent} from '../lib/pages/stats/resources-stats.component';
-import {CompareServicesComponent} from '../lib/pages/compare/compare-services.component';
 import {ServiceFormComponent} from '../lib/pages/provider-resources/service-form.component';
 import {ServiceUploadComponent} from '../lib/pages/provider-resources/service-upload.component';
 import {ServiceEditComponent} from '../lib/pages/provider-resources/service-edit.component';
-import {MeasurementsComponent} from '../lib/pages/indicators/measurements.component';
-import {IndicatorFromComponent} from '../lib/pages/indicators/indicator-from.component';
 import {AuthenticationInterceptor} from '../lib/services/authentication-interceptor';
 import {CookieLawModule} from '../lib/shared/reusablecomponents/cookie-law/cookie-law.module';
 import {EmailService} from '../lib/services/email.service';
@@ -82,16 +71,11 @@ export function highchartsFactory() {
   declarations: [
     // MAIN
     AppComponent,
-    BrowseCategoriesComponent,
-    CompareServicesComponent,
     HomeComponent,
-    SearchComponent,
     ProvidersStatsComponent,
     ResourcesStatsComponent,
-    ServiceLandingPageComponent,
     BecomeAProviderComponent,
     // PERSISTENT
-    TopMenuComponent,
     EOSCTopMenuComponent,
     // BreadcrumbsComponent,
     FooterComponent,
@@ -99,7 +83,6 @@ export function highchartsFactory() {
     FeedbackComponent,
     // USER
     // DashboardComponent,
-    // MyFavouritesComponent,
     // ServiceStatsComponent,
     // // SERVICE PROVIDER ADMIN
     // ServiceProviderFormComponent,
@@ -110,9 +93,6 @@ export function highchartsFactory() {
     // ADMIN
     VocabularyRequestsComponent,
     // ServiceProvidersListComponent,
-    // INDICATORS
-    MeasurementsComponent,
-    IndicatorFromComponent,
     // FORMS
     // ServiceEditComponent,
     // ServiceFormComponent,
@@ -129,7 +109,6 @@ export function highchartsFactory() {
     TreeviewModule.forRoot(),
     // StarRatingModule.forRoot(),
     SupportModule,
-    UserModule,
     // ProviderModule,
     // ProviderDashboardModule,
     HighchartsChartModule,
@@ -156,14 +135,12 @@ export function highchartsFactory() {
       multi: true
     },
     AuthenticationService,
-    ComparisonService,
     CanActivateViaAuthGuard,
     CanActivateViaPubGuard,
     NavigationService,
     ResourceService,
     DatasourceService,
     TrainingResourceService,
-    UserService,
     ServiceProviderService,
     ServiceExtensionsService,
     ResourceExtrasService,

@@ -4,7 +4,6 @@ import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
-import {UserService} from '../../../services/user.service';
 import * as sd from '../../provider-resources/services.description';
 import {Provider, Service, Helpdesk} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
@@ -78,7 +77,6 @@ export class DatasourceHelpdeskExtensionFormComponent implements OnInit {
   serviceExtensionsService: ServiceExtensionsService = this.injector.get(ServiceExtensionsService);
 
   router: NavigationService = this.injector.get(NavigationService);
-  userService: UserService = this.injector.get(UserService);
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -88,7 +86,6 @@ export class DatasourceHelpdeskExtensionFormComponent implements OnInit {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(FormBuilder);
     this.router = this.injector.get(NavigationService);
-    this.userService = this.injector.get(UserService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }

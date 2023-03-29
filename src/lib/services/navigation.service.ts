@@ -78,10 +78,6 @@ export class NavigationService {
         return this.router.navigate(['/home']);
     }
 
-    compare(any: any) {
-        return this.router.navigate(['/compare', any]);
-    }
-
     go(url: string) {
         return this.router.navigate([url]);
     }

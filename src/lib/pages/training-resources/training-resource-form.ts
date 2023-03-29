@@ -3,7 +3,6 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {TrainingResourceService} from '../../services/training-resource.service';
-import {UserService} from '../../services/user.service';
 import * as sd from '../provider-resources/services.description';
 import {Provider, RichService, Service, TrainingResource, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
@@ -177,7 +176,6 @@ export class TrainingResourceForm implements OnInit {
   trainingResourceService: TrainingResourceService = this.injector.get(TrainingResourceService);
 
   router: NavigationService = this.injector.get(NavigationService);
-  userService: UserService = this.injector.get(UserService);
 
   public fundingBodyVocabulary: Vocabulary[] = null;
   public fundingProgramVocabulary: Vocabulary[] = null;
@@ -214,7 +212,6 @@ export class TrainingResourceForm implements OnInit {
     this.trainingResourceService = this.injector.get(TrainingResourceService);
     this.fb = this.injector.get(FormBuilder);
     this.router = this.injector.get(NavigationService);
-    this.userService = this.injector.get(UserService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }

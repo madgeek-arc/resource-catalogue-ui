@@ -67,7 +67,6 @@ export class ProviderStatsComponent implements OnInit {
 
   constructor(
     public authenticationService: AuthenticationService,
-    // public userService: UserService,
     public resourceService: ResourceService,
     public router: NavigationService,
     private route: ActivatedRoute,
@@ -159,21 +158,6 @@ export class ProviderStatsComponent implements OnInit {
         this.errorMessage = 'An error occurred while retrieving ratings for this provider. ' + err.error;
       }
     );
-
-    if (this.projectName === 'CatRIS') {
-      this.resourceService.getFavouritesForProvider(this.providerId, period).pipe(
-        map(data => {
-          // THESE 3 weird lines should be deleted when pgl makes everything ok :)
-          return Object.entries(data).map((d) => {
-            return [new Date(d[0]).getTime(), d[1]];
-          }).sort((l, r) => l[0] - r[0]);
-        })).subscribe(
-        data => this.setFavouritesForProvider(data),
-        err => {
-          this.errorMessage = 'An error occurred while retrieving favourites for this provider. ' + err.error;
-        }
-      );
-    }
 
     if (this.projectName === 'EOSC') {
 
@@ -388,39 +372,6 @@ export class ProviderStatsComponent implements OnInit {
         },
         series: [{
           name: 'Visits over time',
-          data: data
-        }]
-      };
-    }
-  }
-
-  setFavouritesForProvider(data: any) {
-    if (data) {
-      this.providerFavouritesOptions = {
-        chart: {
-          height: (3 / 4 * 100) + '%', // 3:4 ratio
-        },
-        title: {
-          text: 'Number of favorites over time'
-        },
-        xAxis: {
-          type: 'datetime',
-          dateTimeLabelFormats: { // don't display the dummy year
-            month: '%e. %b',
-            year: '%b'
-          },
-          title: {
-            text: 'Date'
-          }
-        },
-        yAxis: {
-          title: {
-            text: 'Number of favourites'
-          }
-        },
-        series: [{
-          name: 'Favourites over time',
-          color: '#C72B28',
           data: data
         }]
       };
