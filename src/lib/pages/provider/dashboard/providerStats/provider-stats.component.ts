@@ -3,6 +3,7 @@ import {isNullOrUndefined} from '../../../../shared/tools';
 import {zip} from 'rxjs';
 import {AuthenticationService} from '../../../../services/authentication.service';
 import {ResourceService} from '../../../../services/resource.service';
+import {RecommendationsService} from '../../../../services/recommendations.service';
 import {NavigationService} from '../../../../services/navigation.service';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
@@ -58,6 +59,8 @@ export class ProviderStatsComponent implements OnInit {
   accessModesPerServiceForProvider: any = null;
   accessTypesPerServiceForProvider: any = null;
   orderTypesPerServiceForProvider: any = null;
+  recommendationsOverTimeForProvider: any = null;
+  recommendationsOfTopServices: any = null;
 
   selectedCountryName: string = null;
   selectedCountryServices: any = null;
@@ -68,6 +71,7 @@ export class ProviderStatsComponent implements OnInit {
   constructor(
     public authenticationService: AuthenticationService,
     public resourceService: ResourceService,
+    public recommendationsService: RecommendationsService,
     public router: NavigationService,
     private route: ActivatedRoute,
     private providerService: ServiceProviderService
@@ -107,7 +111,6 @@ export class ProviderStatsComponent implements OnInit {
           });
         },
         err => {
-          console.log(err);
           this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
         }
       );
@@ -322,6 +325,17 @@ export class ProviderStatsComponent implements OnInit {
       err => {
         this.errorMessage = 'An error occurred while retrieving geographical distribution of services for this provider. ' + err.error;
       }
+    );
+
+    /** Recommendations **/
+    this.recommendationsService.getRecommendationsOverTime(this.providerId).subscribe(
+        data => this.setRecommendationsOverTimeForProvider(data),
+        err => this.errorMessage = 'An error occurred while retrieving visits for this provider. ' + err.error
+      );
+
+    this.recommendationsService.getMostRecommendedServices(this.providerId).subscribe(
+      data => this.setMostRecommendedServices(data),
+      err => this.errorMessage = 'An error occurred while retrieving most recommended services for this provider. ' + err.error
     );
   }
 
@@ -907,6 +921,92 @@ export class ProviderStatsComponent implements OnInit {
       },
       credits: {
         enabled: true
+      }
+    };
+  }
+
+  setRecommendationsOverTimeForProvider(data: any) {
+    const chartData = [];
+    data.forEach((value) => {
+      chartData.push([Date.parse(value.date), value.recommendations]);
+    });
+
+    if (data) {
+      this.recommendationsOverTimeForProvider = {
+        chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
+        },
+        title: {
+          text: 'Recommendations over time'
+        },
+        xAxis: {
+          type: 'datetime',
+          // dateTimeLabelFormats: {
+          //   month: '%e. %b',
+          //   year: '%b'
+          // },
+          title: {
+            text: 'Date'
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Number of recommendations'
+          }
+        },
+        series: [{
+          name: 'Recommendations over time',
+          color: '#013203',
+          data: chartData
+        }],
+        credits: {
+          enabled: false
+        }
+      };
+    }
+  }
+
+  setMostRecommendedServices(data: any) {
+    this.recommendationsOfTopServices = {
+      chart: {
+        type: 'bar',
+        height: (3 / 4 * 100) + '%' // 3:4 ratio
+      },
+      title: {
+        text: 'Most recommended'
+      },
+      xAxis: {
+        type: 'category',
+        title: {
+          text: 'Service ID'
+        }
+      },
+      series: [{
+        name: 'Recommendations',
+        data: data.map(item => [item.service_id, item.recommendations])
+      }],
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Number of recommendations'
+        },
+        labels: {
+          overflow: 'justify',
+          display: 'none'
+        }
+      },
+      tooltip: {
+        valueSuffix: ' services'
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      credits: {
+        enabled: false
       }
     };
   }

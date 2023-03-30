@@ -18,6 +18,7 @@
         <li class="uk-active" aria-expanded="true"><a>User engagement</a></li>
         <li aria-expanded="false"><a>Geographical distribution of {{serviceORresource | lowercase}}s</a></li>
         <li aria-expanded="false"><a>Distribution of {{serviceORresource | lowercase}}s per {{serviceORresource | lowercase}} attribute</a></li>
+        <li aria-expanded="false"><a>Performance on recommender</a></li>
       </ul>
 
       <ul id="terminology_tabbed" class="uk-switcher">
@@ -183,6 +184,49 @@
             </div>
 
           </div>
+        </li>
+        <li aria-hidden="true" style="animation-duration: 200ms;">
+
+<!--          <div class="uk-grid">-->
+<!--            <div class="uk-width-4-5"></div>-->
+<!--            <div class="uk-width-1-5 ">-->
+<!--              <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"-->
+<!--                      (change)="onPeriodChange($event)">-->
+<!--                <option value="DAY">Daily</option>-->
+<!--                <option value="WEEK">Weekly</option>-->
+<!--                <option value="MONTH" selected>Monthly</option>-->
+<!--                <option value="YEAR">Yearly</option>-->
+<!--              </select>-->
+<!--              <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>-->
+<!--            </div>-->
+<!--          </div>-->
+
+          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l uk-margin-remove-top">
+
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <highcharts-chart *ngIf="recommendationsOverTimeForProvider" [Highcharts]="Highcharts"
+                                    [options]="recommendationsOverTimeForProvider"
+                                    style="width: 100%; height: auto; display: block;">
+                  </highcharts-chart>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <highcharts-chart *ngIf="recommendationsOfTopServices" [Highcharts]="Highcharts"
+                                    [options]="recommendationsOfTopServices"
+                                    style="width: 100%; display: block;">
+                  </highcharts-chart>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
         </li>
       </ul>
 

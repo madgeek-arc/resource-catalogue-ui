@@ -50,7 +50,7 @@ import {ServiceExtensionsService} from "../lib/services/service-extensions.servi
 import {ResourceExtrasService} from "../lib/services/resource-extras.service";
 import {DatasourceService} from "../lib/services/datasource.service";
 import {TrainingResourceService} from "../lib/services/training-resource.service";
-
+import {RecommendationsService} from "../lib/services/recommendations.service";
 
 declare var require: any;
 
@@ -146,7 +146,8 @@ export function highchartsFactory() {
     ResourceExtrasService,
     CatalogueService,
     EmailService,
-    DatePipe
+    DatePipe,
+    RecommendationsService
   ],
   exports: [
     // FooterComponent,
