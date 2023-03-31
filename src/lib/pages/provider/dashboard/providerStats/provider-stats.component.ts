@@ -327,7 +327,7 @@ export class ProviderStatsComponent implements OnInit {
       }
     );
 
-    /** Recommendations **/
+    /** Recommendations -> **/
     this.recommendationsService.getRecommendationsOverTime(this.providerId).subscribe(
         data => this.setRecommendationsOverTimeForProvider(data),
         err => this.errorMessage = 'An error occurred while retrieving visits for this provider. ' + err.error
@@ -337,6 +337,7 @@ export class ProviderStatsComponent implements OnInit {
       data => this.setMostRecommendedServices(data),
       err => this.errorMessage = 'An error occurred while retrieving most recommended services for this provider. ' + err.error
     );
+    /** <- Recommendations **/
   }
 
   onPeriodChange(event) {
