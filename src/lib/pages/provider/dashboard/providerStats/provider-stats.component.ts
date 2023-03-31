@@ -349,11 +349,13 @@ export class ProviderStatsComponent implements OnInit {
     const ret = {};
     if (this.providerServices && this.providerServices.results.length > 0) {
       for (const service of services) {
-        for (const place of service.service.geographicalAvailabilities) {
-          if (ret[place]) {
-            ret[place].push(this.providerServices);
-          } else {
-            ret[place] = [];
+        if (service?.service?.geographicalAvailabilities) {
+          for (const place of service.service.geographicalAvailabilities) {
+            if (ret[place]) {
+              ret[place].push(this.providerServices);
+            } else {
+              ret[place] = [];
+            }
           }
         }
       }
