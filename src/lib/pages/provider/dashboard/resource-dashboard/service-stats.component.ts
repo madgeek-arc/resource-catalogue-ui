@@ -164,7 +164,10 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
           name: 'Visits over time',
           color: '#036166',
           data: data
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
     }
   }
@@ -194,7 +197,10 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
           name: 'Adds to project over time',
           color: '#C36000',
           data: data
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
     }
   }
@@ -224,7 +230,10 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
           name: 'Average rating over time',
           color: '#6B0035',
           data: data
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
 
     }
@@ -265,7 +274,10 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
           headerFormat: '',
           pointFormat: '{point.name}'
         }
-      }]
+      }],
+      credits: {
+        enabled: false
+      }
     };
   }
 

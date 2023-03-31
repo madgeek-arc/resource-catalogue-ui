@@ -387,7 +387,10 @@ export class ProviderStatsComponent implements OnInit {
         series: [{
           name: 'Visits over time',
           data: data
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
     }
   }
@@ -420,7 +423,10 @@ export class ProviderStatsComponent implements OnInit {
           name: 'Number of adds to project over time',
           color: '#C72B28',
           data: data
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
     }
   }
@@ -453,7 +459,10 @@ export class ProviderStatsComponent implements OnInit {
           name: 'Favourites orders time',
           color: '#C72B28',
           data: data
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
     }
   }
@@ -486,7 +495,10 @@ export class ProviderStatsComponent implements OnInit {
           name: 'Average ratings over time',
           color: '#013203',
           data: data
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
     }
   }
@@ -522,7 +534,10 @@ export class ProviderStatsComponent implements OnInit {
         series: [{
           name: 'Services\' visitation percentage',
           data: data
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
     }
   }
@@ -561,7 +576,10 @@ export class ProviderStatsComponent implements OnInit {
           headerFormat: '',
           pointFormat: '{point.name}'
         }
-      }]
+      }],
+      credits: {
+        enabled: false
+      }
     };
   }
 
@@ -644,7 +662,10 @@ export class ProviderStatsComponent implements OnInit {
           //   headerFormat: '',
           //   pointFormat: '{point.value.values.length}'
           // }
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
     }
   }
@@ -690,7 +711,7 @@ export class ProviderStatsComponent implements OnInit {
         }
       },
       credits: {
-        enabled: true
+        enabled: false
       }
     };
   }
@@ -736,7 +757,7 @@ export class ProviderStatsComponent implements OnInit {
         }
       },
       credits: {
-        enabled: true
+        enabled: false
       }
     };
   }
@@ -782,7 +803,7 @@ export class ProviderStatsComponent implements OnInit {
         }
       },
       credits: {
-        enabled: true
+        enabled: false
       }
     };
   }
@@ -828,7 +849,7 @@ export class ProviderStatsComponent implements OnInit {
         }
       },
       credits: {
-        enabled: true
+        enabled: false
       }
     };
   }
@@ -874,7 +895,7 @@ export class ProviderStatsComponent implements OnInit {
         }
       },
       credits: {
-        enabled: true
+        enabled: false
       }
     };
   }
@@ -920,7 +941,7 @@ export class ProviderStatsComponent implements OnInit {
         }
       },
       credits: {
-        enabled: true
+        enabled: false
       }
     };
   }
