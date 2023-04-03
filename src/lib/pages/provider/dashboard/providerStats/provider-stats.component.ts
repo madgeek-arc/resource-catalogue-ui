@@ -61,6 +61,7 @@ export class ProviderStatsComponent implements OnInit {
   orderTypesPerServiceForProvider: any = null;
   recommendationsOverTimeForProvider: any = null;
   recommendationsOfTopServices: any = null;
+  recommendationsOfCompetitorsServices: any = null;
 
   selectedCountryName: string = null;
   selectedCountryServices: any = null;
@@ -336,6 +337,11 @@ export class ProviderStatsComponent implements OnInit {
     this.recommendationsService.getMostRecommendedServices(this.providerId).subscribe(
       data => this.setMostRecommendedServices(data),
       err => this.errorMessage = 'An error occurred while retrieving most recommended services for this provider. ' + err.error
+    );
+
+    this.recommendationsService.getCompetitorsServices(this.providerId).subscribe(
+      data => this.setCompetitorsServices(data),
+      err => this.errorMessage = 'An error occurred while retrieving recommended services for this provider. ' + err.error
     );
     /** <- Recommendations **/
   }
@@ -1033,6 +1039,12 @@ export class ProviderStatsComponent implements OnInit {
         enabled: false
       }
     };
+  }
+
+  setCompetitorsServices(data: any){
+    this.recommendationsOfCompetitorsServices = data;
+
+
   }
 
 }

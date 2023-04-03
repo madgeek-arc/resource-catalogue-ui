@@ -27,6 +27,6 @@ export class RecommendationsService {
     //   "top_services_numb": 5,
     //   "top_competitors_numb": 5
     // }
-    return this.http.post(this.base + `/most_recommended_along_your_services`, JSON.parse(body));
+    return this.http.post(this.base + `/most_recommended_along_your_services/`, JSON.parse(body));
   }
 }
