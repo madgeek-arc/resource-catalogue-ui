@@ -200,6 +200,11 @@
                 </div>
                 <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
                   <div class="action-buttons">
+                    <button
+                      routerLink="/provider/{{getPayload(providerService).resourceOrganisation}}/{{getPayload(providerService)===providerService.service ? 'resource' : 'datasource'}}/update/{{providerService.id}}"
+                      class="uk-button uk-button-action uk-display-block uk-margin-small-top">
+                      <i class="fa fa-pencil fa-lg" aria-hidden="true"></i> Update {{serviceORresource | lowercase}}
+                    </button>
                     <button *ngIf="providerBundle.templateStatus === 'approved template' && providerService?.service"
                             class="uk-button uk-button-action uk-display-block uk-margin-small-top"
                             (click)="useAsTemplate(getPayload(providerService).id)">
