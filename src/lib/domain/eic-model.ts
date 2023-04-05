@@ -432,6 +432,7 @@ export class ResourceExtras {
   eoscIFGuidelines: EOSCIFGuidelines[];
   researchCategories: string[];
   horizontalService: boolean;
+  serviceType: string;
 }
 
 export class InteroperabilityRecord implements Identifiable {
