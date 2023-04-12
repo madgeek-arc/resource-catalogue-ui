@@ -3,7 +3,6 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import * as sd from '../../provider-resources/services.description';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {ServiceProviderService} from '../../../services/service-provider.service';
-import {CatalogueService} from "../../../services/catalogue.service";
 import {ResourceService} from '../../../services/resource.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {URLValidator} from '../../../shared/validators/generic.validator';
@@ -99,6 +98,8 @@ export class GuidelinesFormComponent implements OnInit {
 
   readonly formDefinition = {
     id: [''],
+    catalogueId: ['eosc'], //assuming that non-eosc providers cannot add/edit/assign guidelines
+    providerId: [''],
     title: ['', Validators.required],
     publicationYear: ['', Validators.required],
     created: [''],
@@ -148,19 +149,16 @@ export class GuidelinesFormComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    const path = this.route.snapshot.routeConfig.path;
-    if (path.includes('update/:guidelineId')) {
-
-    }
-
+    // const path = this.route.snapshot.routeConfig.path;
+    // if (path.includes('update/:guidelineId')) {
+    //
+    // }
     this.setVocabularies();
     this.guidelinesForm = this.fb.group(this.formDefinition);
-    if (this.edit === false) {
-      // this.pushDomain();
-      // this.addDefaultUser();  // Admin + mainContact
-      // this.providerForm.get('legalEntity').setValue(false);
-    }
+    this.guidelinesForm.get('providerId').setValue(this.route.snapshot.paramMap.get('providerId'));
+    // if (this.edit === false) {
+    //   // this.pushDomain();
+    // }
 
     if (sessionStorage.getItem('provider')) {
       const data = JSON.parse(sessionStorage.getItem('provider'));
@@ -220,7 +218,7 @@ export class GuidelinesFormComponent implements OnInit {
         },
         () => {
           this.showLoader = false;
-          this.router.navigate(['/guidelines/all']);
+          this.router.navigate(['/dashboard/eosc/'+ this.guidelinesForm.get('providerId').value +'/guidelines/']);
         }
       );
     } else {

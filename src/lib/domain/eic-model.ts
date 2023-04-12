@@ -435,8 +435,15 @@ export class ResourceExtras {
   serviceType: string;
 }
 
+export class InteroperabilityRecordBundle extends Bundle<InteroperabilityRecord> {
+  status: string;
+  interoperabilityRecord: InteroperabilityRecord;
+}
+
 export class InteroperabilityRecord implements Identifiable {
   id: string;
+  catalogueId: string;
+  providerId: string;
   identifierInfo: IdentifierInfo; //like location
   creators: Creator[]; //like location
   title: string;

@@ -8,22 +8,35 @@
 
               <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
-              <div class="uk-flex ">
-                <div class="uk-flex-left">
-                  <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
-                    <span uk-search-icon></span>
-                    <input class="uk-search-input" type="search" placeholder="Search..." formControlName="query">
-                  </form>
-                </div>
-
-                <div class="uk-button uk-button-primary uk-align-right uk-flex-right" routerLink="/guidelines/add" >
-                  <i class="fa fa-plus" aria-hidden="true"></i> Add new Guideline
-                </div>
-              </div>
-
               <div class="uk-grid uk-margin-top">
 
-                <div class="uk-width-1-1">
+                <div class="uk-width-1-4">
+
+                  <h4>Filters</h4>
+                  <hr class="uk-margin-large-right">
+
+                  <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
+                    <ng-container *ngFor="let f of facets">
+                      <ng-container *ngIf="f.field === 'catalogue_id'">
+                        <h5 class="">{{f.label}}</h5>
+                        <div class="uk-padding uk-padding-remove-top">
+                          <div class="uk-margin-small-top" *ngFor="let catalogue of f.values">
+                            <label class="uk-margin-small-left">
+                              <input class="uk-checkbox" type="checkbox" name="filter" value="catalogue" data-md-icheck
+                                     (change)="this.onSelection($event, 'catalogue_id', catalogue.value)"
+                                     [checked]="isCatalogueChecked(catalogue.value)">
+                            </label>
+                            <span> {{catalogue.label ? catalogue.label : catalogue.value}}</span>
+                            <span> ({{catalogue.count}})</span>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+
+                </div>
+
+                <div class="uk-width-3-4">
 
                   <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters">
 
@@ -65,6 +78,13 @@
 
                     </div>
 
+                    <div class="">
+                      <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
+                        <span uk-search-icon></span>
+                        <input class="uk-search-input" type="search" placeholder="Search..." formControlName="query">
+                      </form>
+                    </div>
+
                   </form>
 
 
@@ -99,7 +119,7 @@
 
                     <hr class="adminResultsHeader">
 
-                    <div *ngFor="let guideline of guidelines" class="uk-card provider-card uk-margin-medium-top">
+                    <div *ngFor="let guidelineBundle of guidelines" class="uk-card provider-card uk-margin-medium-top">
                       <div class="uk-card-body">
 
                         <div class="">
@@ -107,29 +127,38 @@
 
                             <div class="uk-width-4-5">
                               <div class="providerName uk-margin-bottom">
-                                {{ guideline.title }}
+                                {{ guidelineBundle.interoperabilityRecord.title }}
                               </div>
 
                               <div class="">
-                                <span class="statusLabel">ID: </span>{{ guideline.id }}
+                                <span class="statusLabel">ID: </span>{{ guidelineBundle.id }}
                               </div>
 
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Creators: </span><span *ngFor="let creator of guideline.creators; let i = index">{{i>0 ? ', ' : ''}} {{creator.creatorNameTypeInfo.creatorName}}</span>
+                                <span class="statusLabel">Creators: </span><span *ngFor="let creator of guidelineBundle.interoperabilityRecord.creators; let i = index">{{i>0 ? ', ' : ''}} {{creator.creatorNameTypeInfo.creatorName}}</span>
                               </div>
 
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Description: </span>{{ guideline.description }}
+                                <span class="statusLabel">Description: </span>{{ guidelineBundle.interoperabilityRecord.description }}
                               </div>
 
                             </div>
 
                             <div class="uk-width-1-5">
-                              <div class="action-buttons uk-flex uk-flex-middle uk-flex-center">
-                                <button routerLink="/guidelines/update/{{guideline.id}}" class="uk-button uk-button-primary uk-display-block">
+                              <div class="action-buttons uk-flex uk-flex-middle uk-flex-center" style="flex-direction: column;">
+<!--                                <ng-container *ngif="guidelineBundle.status === 'pending interoperability record'">-->
+                                  <button (click)="verifyGuideline(guidelineBundle.id, true, 'approved interoperability record')" class="uk-button uk-button-primary uk-display-block">
+                                    <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i> Approve
+                                  </button>
+                                  <button (click)="verifyGuideline(guidelineBundle.id, true, 'rejected interoperability record')" class="uk-button uk-button-danger uk-display-block">
+                                    <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>  Reject
+                                  </button>
+<!--                                </ng-container>-->
+
+                                <button routerLink="/guidelines/{{guidelineBundle.interoperabilityRecord.providerId}}/update/{{guidelineBundle.id}}" class="uk-button uk-button-primary uk-display-block">
                                   <i class="fa fa-edit fa-lg" aria-hidden="true"></i> Update
                                 </button>
-                                <button (click)="showDeletionModal(guideline.id)" class="uk-button uk-button-danger uk-display-block">
+                                <button (click)="showDeletionModal(guidelineBundle.id)" class="uk-button uk-button-danger uk-display-block">
                                   <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete
                                 </button>
                               </div>

@@ -16,6 +16,7 @@ import {DatasourcesComponent} from "./datasources/datasources.component";
 import {PendingDatasourcesComponent} from "./pendingDatasources/pending-datasources.component";
 import {SharedDatasourcesComponent} from "./sharedDatasources/shared-datasources.component";
 import {TrainingResourcesComponent} from "./trainingResources/training-resources.component";
+import {GuidelinesComponent} from "./guidelines/guidelines.component";
 
 const providerDashboardRoutes: Routes = [
   {
@@ -109,6 +110,13 @@ const providerDashboardRoutes: Routes = [
       {
         path: 'training-resources',
         component: TrainingResourcesComponent,
+        data: {
+          isResource: false
+        }
+      },
+      {
+        path: 'guidelines',
+        component: GuidelinesComponent,
         data: {
           isResource: false
         }
