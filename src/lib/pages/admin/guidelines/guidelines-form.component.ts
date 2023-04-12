@@ -6,11 +6,11 @@ import {ServiceProviderService} from '../../../services/service-provider.service
 import {ResourceService} from '../../../services/resource.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {URLValidator} from '../../../shared/validators/generic.validator';
-import {Vocabulary, Type, Provider, ResourceTypeInfo, InteroperabilityRecord} from '../../../domain/eic-model';
+import {Vocabulary, Type, Provider, InteroperabilityRecord} from '../../../domain/eic-model';
 import BitSet from 'bitset';
 import {environment} from '../../../../environments/environment';
-import {ResourceExtrasService} from "../../../services/resource-extras.service";
 import {PremiumSortPipe} from "../../../shared/pipes/premium-sort.pipe";
+import {GuidelinesService} from "../../../services/guidelines.service";
 
 declare var UIkit: any;
 
@@ -142,7 +142,7 @@ export class GuidelinesFormComponent implements OnInit {
   constructor(public fb: FormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
-              public resourceExtrasService: ResourceExtrasService,
+              public guidelinesService: GuidelinesService,
               public resourceService: ResourceService,
               public router: Router,
               public route: ActivatedRoute) {
@@ -209,7 +209,7 @@ export class GuidelinesFormComponent implements OnInit {
       this.showLoader = true;
       window.scrollTo(0, 0);
 
-      this.resourceExtrasService[method](this.guidelinesForm.value).subscribe(
+      this.guidelinesService[method](this.guidelinesForm.value).subscribe(
         res => {},
         err => {
           this.showLoader = false;

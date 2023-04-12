@@ -14,7 +14,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../domain/url-parameter';
 import {NavigationService} from '../../../services/navigation.service';
-import {ResourceExtrasService} from "../../../services/resource-extras.service";
 import {GuidelinesService} from "../../../services/guidelines.service";
 
 declare var UIkit: any;
@@ -62,7 +61,6 @@ export class GuidelinesListComponent implements OnInit {
 
   constructor(private resourceService: ResourceService,
               private serviceProviderService: ServiceProviderService,
-              private resourceExtrasService: ResourceExtrasService,
               private guidelinesService: GuidelinesService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
@@ -173,7 +171,7 @@ export class GuidelinesListComponent implements OnInit {
 
   deleteGuideline(id: string) {
     // UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.deleteInteroperabilityRecordById(id).subscribe(
+    this.guidelinesService.deleteInteroperabilityRecordById(id).subscribe(
       res => {},
       error => {
         // console.log(error);

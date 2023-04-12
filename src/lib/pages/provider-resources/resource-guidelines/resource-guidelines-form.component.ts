@@ -2,12 +2,11 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
-import {ResourceService} from '../../../services/resource.service';
-import {Provider, Service, ResourceInteroperabilityRecord, InteroperabilityRecord} from '../../../domain/eic-model';
+import {Service, ResourceInteroperabilityRecord, InteroperabilityRecord} from '../../../domain/eic-model';
 import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
-import {ResourceExtrasService} from "../../../services/resource-extras.service";
+import {GuidelinesService} from "../../../services/guidelines.service";
 
 declare var UIkit: any;
 
@@ -49,7 +48,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
-              protected resourceExtrasService: ResourceExtrasService,
+              protected guidelinesService: GuidelinesService,
               protected route: ActivatedRoute
   ) {
     this.fb = this.injector.get(FormBuilder);
@@ -61,7 +60,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
     this.serviceId = this.route.snapshot.paramMap.get('resourceId');
     this.guidelinesForm.get('resourceId').setValue(this.serviceId);
 
-    this.resourceExtrasService.getGuidelinesOfResource(this.serviceId).subscribe(
+    this.guidelinesService.getGuidelinesOfResource(this.serviceId).subscribe(
       res => { if(res!=null) {
         this.resourceGuidelines = res;
         this.editMode = true;
@@ -76,7 +75,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
           this.guidelinesForm.patchValue(this.resourceGuidelines);
         }
         this.loadingMessage = 'Loading guidelines...';
-        this.resourceExtrasService.getInteroperabilityRecords().subscribe( //get all
+        this.guidelinesService.getInteroperabilityRecords().subscribe( //get all
           res => {
             if (res != null) {
               this.guidelines = res['results'];
@@ -106,7 +105,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
     this.showLoader = true;
 
     window.scrollTo(0, 0);
-    this.resourceExtrasService.assignGuidelinesToResource('service', this.editMode, this.guidelinesForm.value).subscribe(
+    this.guidelinesService.assignGuidelinesToResource('service', this.editMode, this.guidelinesForm.value).subscribe(
       _ir => {
         this.showLoader = false;
         return this.router.resourceDashboard(this.providerId, this.serviceId);  // redirect to resource-dashboard
@@ -123,7 +122,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
     this.errorMessage = '';
     this.showLoader = true;
 
-    this.resourceExtrasService.deleteGuidelinesOfResource(this.serviceId, this.resourceGuidelines.id).subscribe(
+    this.guidelinesService.deleteGuidelinesOfResource(this.serviceId, this.resourceGuidelines.id).subscribe(
       _ir => {
         return this.router.resourceDashboard(this.providerId, this.serviceId);  // redirect to resource-dashboard
       },

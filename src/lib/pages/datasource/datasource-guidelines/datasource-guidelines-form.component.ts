@@ -9,7 +9,7 @@ import {
 import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
-import {ResourceExtrasService} from "../../../services/resource-extras.service";
+import {GuidelinesService} from "../../../services/guidelines.service";
 
 declare var UIkit: any;
 
@@ -49,7 +49,7 @@ export class DatasourceGuidelinesFormComponent implements OnInit {
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
-              protected resourceExtrasService: ResourceExtrasService,
+              protected guidelinesService: GuidelinesService,
               protected route: ActivatedRoute
   ) {
     this.fb = this.injector.get(FormBuilder);
@@ -61,7 +61,7 @@ export class DatasourceGuidelinesFormComponent implements OnInit {
     this.datasourceId = this.route.snapshot.paramMap.get('datasourceId');
     this.guidelinesForm.get('resourceId').setValue(this.datasourceId);
 
-    this.resourceExtrasService.getGuidelinesOfResource(this.datasourceId).subscribe(
+    this.guidelinesService.getGuidelinesOfResource(this.datasourceId).subscribe(
       res => { if(res!=null) {
         this.datasourceGuidelines = res;
         this.editMode = true;
@@ -76,7 +76,7 @@ export class DatasourceGuidelinesFormComponent implements OnInit {
           this.guidelinesForm.patchValue(this.datasourceGuidelines);
         }
         this.loadingMessage = 'Loading guidelines...';
-        this.resourceExtrasService.getInteroperabilityRecords().subscribe( //get all
+        this.guidelinesService.getInteroperabilityRecords().subscribe( //get all
           res => {
             if (res != null) {
               this.guidelines = res['results'];
@@ -106,7 +106,7 @@ export class DatasourceGuidelinesFormComponent implements OnInit {
     this.showLoader = true;
 
     window.scrollTo(0, 0);
-    this.resourceExtrasService.assignGuidelinesToResource('datasource', this.editMode, this.guidelinesForm.value).subscribe(
+    this.guidelinesService.assignGuidelinesToResource('datasource', this.editMode, this.guidelinesForm.value).subscribe(
       _ir => {
         this.showLoader = false;
         return this.router.datasourceDashboard(this.providerId, this.datasourceId);  // redirect to datasource-dashboard
@@ -123,7 +123,7 @@ export class DatasourceGuidelinesFormComponent implements OnInit {
     this.errorMessage = '';
     this.showLoader = true;
 
-    this.resourceExtrasService.deleteGuidelinesOfResource(this.datasourceId, this.datasourceGuidelines.id).subscribe(
+    this.guidelinesService.deleteGuidelinesOfResource(this.datasourceId, this.datasourceGuidelines.id).subscribe(
       _ir => {
         // return this.router.resourceDashboard(this.providerId, this.datasourceId);  // redirect to resource-dashboard TODO: revisit when datasource stats/history are ready
       },
