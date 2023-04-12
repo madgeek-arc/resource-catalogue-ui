@@ -19,8 +19,10 @@ export class RecommendationsService {
     return this.http.post(this.base + `/most_recommended/`, JSON.parse(body));
   }
 
-  getCompetitorsServices(providerId: string) {
-    const body = `{"provider_id":"${providerId}"}`;
+  getCompetitorsServices(providerId: string, serviceId?: string) {
+    let body;
+    if (!serviceId) body = `{"provider_id":"${providerId}"}`
+    else body = `{"provider_id":"${providerId}", "service_id":"${serviceId}"}`
     // {
     //   "provider_id": "string",
     //   "service_id": 0,

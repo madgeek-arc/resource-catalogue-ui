@@ -40,6 +40,7 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
   datasourceAddsToProjectOptions: any = null;
   datasourceMapOptions: any = null;
   recommendationsOverTimeForService: any = null;
+  recommendationsOfCompetitorsServices: any = null;
 
   datasourceHistory: Paging<LoggingInfo>;
 
@@ -134,10 +135,17 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
       );
     }
 
+    /** Recommendations --> **/
     this.recommendationsService.getRecommendationsOverTime(this.datasource.resourceOrganisation, this.datasource.id).subscribe(
       data => this.setRecommendationsOverTimeForService(data),
       err => this.errorMessage = 'An error occurred while retrieving visits for this service. ' + err.error
     );
+
+    this.recommendationsService.getCompetitorsServices(this.datasource.resourceOrganisation, this.datasource.id).subscribe(
+      data => this.setCompetitorsServices(data),
+      err => this.errorMessage = 'An error occurred while retrieving recommended services. ' + err.error
+    );
+    /** <- Recommendations **/
 
   }
 
@@ -327,6 +335,11 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
         }
       };
     }
+  }
+
+  setCompetitorsServices(data: any){
+    this.recommendationsOfCompetitorsServices = data;
+
   }
 
   ngOnDestroy(): void {

@@ -41,6 +41,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
   serviceAddsToProjectOptions: any = null;
   serviceMapOptions: any = null;
   recommendationsOverTimeForService: any = null;
+  recommendationsOfCompetitorsServices: any = null;
 
   resourceBundle: ServiceBundle;
   catalogueId: string = null;
@@ -138,11 +139,17 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
       );
     }
 
+    /** Recommendations -> **/
     this.recommendationsService.getRecommendationsOverTime(this.service.resourceOrganisation, this.service.id).subscribe(
       data => this.setRecommendationsOverTimeForService(data),
       err => this.errorMessage = 'An error occurred while retrieving visits for this service. ' + err.error
     );
 
+    this.recommendationsService.getCompetitorsServices(this.service.resourceOrganisation, this.service.id).subscribe(
+      data => this.setCompetitorsServices(data),
+      err => this.errorMessage = 'An error occurred while retrieving recommended services. ' + err.error
+    );
+    /** <- Recommendations **/
   }
 
   onPeriodChange(event) {
@@ -331,6 +338,11 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
         }
       };
     }
+  }
+
+  setCompetitorsServices(data: any){
+    this.recommendationsOfCompetitorsServices = data;
+
   }
 
   ngOnDestroy(): void {
