@@ -120,12 +120,22 @@
                     <hr class="adminResultsHeader">
 
                     <div *ngFor="let guidelineBundle of guidelines" class="uk-card provider-card uk-margin-medium-top">
-                      <div class="uk-card-body">
+                      <div class="uk-card-body uk-padding-remove-bottom">
+
+                        <div *ngIf="guidelineBundle.status === 'approved interoperability record'" class="approved">
+                          <div class="uk-card-badge uk-label">Approved</div>
+                        </div>
+                        <div *ngIf="guidelineBundle.status === 'pending interoperability record'" class="pending">
+                          <div class="uk-card-badge uk-label">Pending</div>
+                        </div>
+                        <div *ngIf="(guidelineBundle.status === 'rejected interoperability record')" class="rejected">
+                          <div class="uk-card-badge uk-label">Rejected</div>
+                        </div>
 
                         <div class="">
                           <div class="uk-grid">
 
-                            <div class="uk-width-4-5">
+                            <div class="uk-width-4-5" style="padding-left: 100px;">
                               <div class="providerName uk-margin-bottom">
                                 {{ guidelineBundle.interoperabilityRecord.title }}
                               </div>
@@ -155,14 +165,31 @@
                                   </button>
 <!--                                </ng-container>-->
 
-                                <button routerLink="/guidelines/{{guidelineBundle.interoperabilityRecord.providerId}}/update/{{guidelineBundle.id}}" class="uk-button uk-button-primary uk-display-block">
-                                  <i class="fa fa-edit fa-lg" aria-hidden="true"></i> Update
-                                </button>
-                                <button (click)="showDeletionModal(guidelineBundle.id)" class="uk-button uk-button-danger uk-display-block">
-                                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete
-                                </button>
+<!--                                <button routerLink="/guidelines/{{guidelineBundle.interoperabilityRecord.providerId}}/update/{{guidelineBundle.id}}" class="uk-button uk-button-primary uk-display-block">-->
+<!--                                  <i class="fa fa-edit fa-lg" aria-hidden="true"></i> Update-->
+<!--                                </button>-->
+<!--                                <button (click)="showDeletionModal(guidelineBundle.id)" class="uk-button uk-button-danger uk-display-block">-->
+<!--                                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete-->
+<!--                                </button>-->
                               </div>
                             </div>
+                          </div>
+
+                          <hr class="uk-margin-top">
+                          <div class="uk-align-right uk-margin-bottom">
+                            <button
+                              routerLink="/guidelines/{{guidelineBundle.interoperabilityRecord.providerId}}/update/{{guidelineBundle.id}}"
+                              class="uk-button uk-button-link"
+                              style="">
+                              <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                              Update
+                            </button>
+                            <button (click)="showDeletionModal(guidelineBundle.id)"
+                                    class="uk-button uk-button-link uk-margin-medium-left"
+                                    style="padding-left: 40px; border-left: 1px solid #ccc">
+                              <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                              Delete
+                            </button>
                           </div>
                         </div>
 
