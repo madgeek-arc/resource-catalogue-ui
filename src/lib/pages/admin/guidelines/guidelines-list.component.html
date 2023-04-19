@@ -17,6 +17,21 @@
 
                   <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
                     <ng-container *ngFor="let f of facets">
+                      <ng-container *ngIf="f.field === 'provider_id'">
+                        <h5 class="">{{f.label}}</h5>
+                        <div class="uk-padding uk-padding-remove-top">
+                          <div class="uk-margin-small-top" *ngFor="let provider of f.values">
+                            <label class="uk-margin-small-left">
+                              <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
+                                     (change)="this.onSelection($event, 'provider_id', provider.value)"
+                                     [checked]="isProviderChecked(provider.value)">
+                            </label>
+                            <span> {{provider.label ? provider.label : provider.value}}</span>
+                            <span> ({{provider.count}})</span>
+                          </div>
+                        </div>
+                      </ng-container>
+
                       <ng-container *ngIf="f.field === 'catalogue_id'">
                         <h5 class="">{{f.label}}</h5>
                         <div class="uk-padding uk-padding-remove-top">
@@ -66,12 +81,24 @@
                         </div>
                       </div>
 
-                      <div class="uk-inline">
+                      <div class="uk-inline uk-margin-right">
                         <label class="" for="orderField">Sort by </label>
                         <div class="uk-inline">
                           <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
                             <option value="title" selected>Title</option>
                             <option value="id">ID</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="uk-inline">
+                        <label class="" for="status">Status </label>
+                        <div class="uk-inline">
+                          <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
+                            <option value="" selected>All</option>
+                            <option value="approved interoperability record">Approved</option>
+                            <option value="rejected interoperability record">Rejected</option>
+                            <option value="pending interoperability record">Pending</option>
                           </select>
                         </div>
                       </div>

@@ -32,7 +32,9 @@ export class GuidelinesListComponent implements OnInit {
     quantity: '10',
     from: '0',
     query: '',
-    catalogue_id: new FormArray([])
+    catalogue_id: new FormArray([]),
+    provider_id: new FormArray([]),
+    status: ''
   };
 
   dataForm: FormGroup;
@@ -80,24 +82,44 @@ export class GuidelinesListComponent implements OnInit {
       this.route.queryParams
         .subscribe(params => {
 
-            for (const i in params) {
-              this.dataForm.get(i).setValue(params[i]);
-            }
-
-            for (const i in this.dataForm.controls) {
-              if (this.dataForm.get(i).value) {
-                const urlParam = new URLParameter();
-                urlParam.key = i;
-                urlParam.values = [this.dataForm.get(i).value];
-                this.urlParams.push(urlParam);
+          for (const i in params) {
+            if (i === 'provider_id') {
+              if (this.dataForm.get('provider_id').value.length === 0) {
+                const formArrayNew: FormArray = this.dataForm.get('provider_id') as FormArray;
+                // formArrayNew = this.fb.array([]);
+                for (const provider_id of params[i].split(',')) {
+                  if (provider_id !== '') {
+                    formArrayNew.push(new FormControl(provider_id));
+                  }
+                }
+              }
+            } else if (i === 'catalogue_id') {
+              if (this.dataForm.get('catalogue_id').value.length === 0) {
+                const formArrayNew: FormArray = this.dataForm.get('catalogue_id') as FormArray;
+                // formArrayNew = this.fb.array([]);
+                for (const catalogue_id of params[i].split(',')) {
+                  if (catalogue_id !== '') {
+                    formArrayNew.push(new FormControl(catalogue_id));
+                  }
+                }
               }
             }
+          }
 
-            this.getGuidelines();
-            // this.handleChange();
-          },
-          error => this.errorMessage = <any>error
-        );
+          for (const i in this.dataForm.controls) {
+            if (this.dataForm.get(i).value) {
+              const urlParam = new URLParameter();
+              urlParam.key = i;
+              urlParam.values = [this.dataForm.get(i).value];
+              this.urlParams.push(urlParam);
+            }
+          }
+
+          this.getGuidelines();
+          // this.handleChange();
+        },
+        error => this.errorMessage = <any>error
+      );
     }
   }
 
@@ -131,7 +153,7 @@ export class GuidelinesListComponent implements OnInit {
       map[urlParameter.key] = concatValue;
     }
 
-    // console.log('map', map);
+    console.log('map', map);
     this.router.navigate([`/guidelines/all`], {queryParams: map});
   }
 
@@ -144,7 +166,7 @@ export class GuidelinesListComponent implements OnInit {
     this.loadingMessage = 'Loading guidelines entries...';
     this.guidelines = [];
     this.guidelinesService.getInteroperabilityRecordBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value, this.dataForm.get('orderField').value,
-      this.dataForm.get('order').value, this.dataForm.get('query').value).subscribe(
+      this.dataForm.get('order').value, this.dataForm.get('query').value, this.dataForm.get('catalogue_id').value, this.dataForm.get('provider_id').value, this.dataForm.get('status').value).subscribe(
       res => {
         this.guidelines = res['results'];
         this.facets = res['facets'];
@@ -202,6 +224,10 @@ export class GuidelinesListComponent implements OnInit {
   /** for facets--> **/
   isCatalogueChecked(value: string) {
     return this.dataForm.get('catalogue_id').value.includes(value);
+  }
+
+  isProviderChecked(value: string) {
+    return this.dataForm.get('provider_id').value.includes(value);
   }
 
   onSelection(e, category: string, value: string) {
