@@ -28,7 +28,7 @@ export class GuidelinesListComponent implements OnInit {
 
   formPrepare = {
     order: 'ASC',
-    orderField: 'id',
+    orderField: 'title',
     quantity: '10',
     from: '0',
     query: '',
