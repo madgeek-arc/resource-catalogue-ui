@@ -24,6 +24,9 @@ export class Catalogue implements Identifiable {
   legalEntity: boolean;
   legalStatus: string;
   hostingLegalEntity: string;
+  inclusionCriteria: URL;
+  validationProcess: URL;
+  endOfLife: string;
   description: string;
   logo: URL;
   multimedia: Multimedia[];
