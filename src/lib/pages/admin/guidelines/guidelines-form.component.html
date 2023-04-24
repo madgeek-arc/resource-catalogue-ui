@@ -240,29 +240,79 @@
                             </div>
                           </div>
 
-                          <div formArrayName="eoscRelatedStandards" class="uk-margin-large-bottom">
-                            <label class="uk-form-label uk-text-right" for="eoscRelatedStandards">
-                              {{eoscRelatedStandardsDesc.label + (eoscRelatedStandardsDesc.mandatory ? ' (*)' : '')}}
+                          <!--<div formArrayName="relatedStandards" class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right" for="relatedStandards">
+                              {{relatedStandardsDesc.label + (relatedStandardsDesc.mandatory ? ' (*)' : '')}}
                             </label>
-                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{eoscRelatedStandardsDesc.desc}}</div>
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{relatedStandardsDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-medium-top">
-                              <div *ngFor="let provider of getFieldAsFormArray('eoscRelatedStandards').controls; let i=index"
+                              <div *ngFor="let provider of getFieldAsFormArray('relatedStandards').controls; let i=index"
                                    class="uk-margin-bottom">
-                                <input id="eoscRelatedStandards" class="uk-input uk-animation-slide-top-small uk-width-9-10" placeholder="use http:// or https://"
+                                <input id="relatedStandards" class="uk-input uk-animation-slide-top-small uk-width-9-10" placeholder="use http:// or https://"
                                        type="text" [formControlName]="i"
-                                       (input)="unsavedChangesPrompt(); checkForDuplicates('eoscRelatedStandards')"
-                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('eoscRelatedStandards', i, this.edit)}">
-                                <a *ngIf="getFieldAsFormArray('eoscRelatedStandards').length > 1 && !disable"
+                                       (input)="unsavedChangesPrompt(); checkForDuplicates('relatedStandards')"
+                                       [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedStandards', i, this.edit)}">
+                                <a *ngIf="getFieldAsFormArray('relatedStandards').length > 1 && !disable"
                                    class="remove-element uk-padding-small"
-                                   (click)="remove('eoscRelatedStandards', i); unsavedChangesPrompt()">
+                                   (click)="remove('relatedStandards', i); unsavedChangesPrompt()">
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
                               <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                                <a class="add-new-element" (click)="push('eoscRelatedStandards', eoscRelatedStandardsDesc.mandatory)">
-                                  <i class="fa fa-plus" aria-hidden="true"></i> Add {{eoscRelatedStandardsDesc.label}}
+                                <a class="add-new-element" (click)="push('relatedStandards', relatedStandardsDesc.mandatory)">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add {{relatedStandardsDesc.label}}
                                 </a>
                               </div>
+                            </div>
+                          </div>-->
+
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right">Related Standards</label>
+                            <div class="uk-form-controls uk-margin-top">
+                              <div formArrayName="relatedStandards"
+                                   *ngFor="let relatedStandard of relatedStandardsArray.controls; let i = index">
+                                <div [formGroupName]="i"
+                                     class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                  <div class="uk-margin-bottom">
+                                    <label class="uk-form-label uk-text-right" for="relatedStandardURL">
+                                      {{ relatedStandardURLDesc.label + (relatedStandardURLDesc.mandatory ? ' (*)' : '') }}
+                                    </label>
+                                    <div class="uk-form-description uk-margin-top uk-width-9-10">{{relatedStandardURLDesc.desc}}</div>
+                                    <div class="uk-form-controls uk-margin-medium-top">
+                                      <input id="relatedStandardURL" class="uk-input uk-width-9-10" type="text" formControlName="relatedStandardURL" placeholder="use http:// or https://"
+                                             (input)="unsavedChangesPrompt()"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedStandards', i, this.edit, 'relatedStandardURL')}">
+                                      <div *ngIf="this.edit && this.isPortalAdmin && this.guidelinesForm.get('relatedStandards').value[i]['relatedStandardURL']" class="uk-icon">
+                                        <a href="{{this.guidelinesForm.get('relatedStandards').value[i]['relatedStandardURL']}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="uk-margin-bottom">
+                                    <label class="uk-form-label uk-text-right" for="relatedStandardIdentifier">
+                                      {{ relatedStandardIdentifierDesc.label + (relatedStandardIdentifierDesc.mandatory ? ' (*)' : '') }}
+                                    </label>
+                                    <div
+                                      class="uk-form-description uk-margin-top uk-width-9-10">{{relatedStandardIdentifierDesc.desc}}</div>
+                                    <div class="uk-form-controls uk-margin-medium-top">
+                                      <input id="relatedStandardIdentifier" class="uk-input uk-width-9-10" type="text" formControlName="relatedStandardIdentifier"
+                                             (input)="unsavedChangesPrompt()">
+                                      <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedStandards', i, this.editMode, 'relatedStandardIdentifier')}">-->
+                                    </div>
+                                    <i><small>Suggested length is 250 characters</small></i>
+                                  </div>
+
+                                </div>
+                                <a *ngIf="getFieldAsFormArray('relatedStandards').length > 1 && !disable"
+                                   class="remove-element uk-padding-small uk-display-inline-block"
+                                   (click)="removeRelatedStandard(i); unsavedChangesPrompt();">
+                                  <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+                              </div>
+                            </div>
+                            <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                              <a class="add-new-element" (click)="pushRelatedStandard()">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add Related Standard
+                              </a>
                             </div>
                           </div>
 

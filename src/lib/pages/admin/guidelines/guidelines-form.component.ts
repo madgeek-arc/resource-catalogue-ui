@@ -79,7 +79,8 @@ export class GuidelinesFormComponent implements OnInit {
   readonly resourceTypeGeneralDesc: sd.Description = sd.guidelinesDescMap.get('resourceTypeGeneralDesc');
   readonly createdDesc: sd.Description = sd.guidelinesDescMap.get('createdDesc');
   readonly updatedDesc: sd.Description = sd.guidelinesDescMap.get('updatedDesc');
-  readonly eoscRelatedStandardsDesc: sd.Description = sd.guidelinesDescMap.get('eoscRelatedStandardsDesc');
+  readonly relatedStandardURLDesc: sd.Description = sd.guidelinesDescMap.get('relatedStandardURLDesc');
+  readonly relatedStandardIdentifierDesc: sd.Description = sd.guidelinesDescMap.get('relatedStandardIdentifierDesc');
   readonly rightTitleDesc: sd.Description = sd.guidelinesDescMap.get('rightTitleDesc');
   readonly rightURIDesc: sd.Description = sd.guidelinesDescMap.get('rightURIDesc');
   readonly rightIdentifierDesc: sd.Description = sd.guidelinesDescMap.get('rightIdentifierDesc');
@@ -104,14 +105,17 @@ export class GuidelinesFormComponent implements OnInit {
     publicationYear: ['', Validators.required],
     created: [''],
     updated: [''],
-    // eoscRelatedStandards: this.fb.array(['', URLValidator]),
-    eoscRelatedStandards: this.fb.array(['']),
+    relatedStandards: this.fb.array([
+      this.fb.group({
+        relatedStandardURL: ['', Validators.compose([Validators.required, URLValidator])],
+        relatedStandardIdentifier: ['']
+      })
+    ]),
     description: ['', Validators.required],
     status: ['', Validators.required],
     domain: [''],
     eoscGuidelineType: ['', Validators.required],
     eoscIntegrationOptions: this.fb.array([this.fb.control('')]),
-
     identifierInfo: this.fb.group({
       identifier: ['', Validators.required],
       identifierType: ['', Validators.required]
@@ -135,8 +139,7 @@ export class GuidelinesFormComponent implements OnInit {
         rightURI: ['', Validators.compose([Validators.required, URLValidator])],
         rightIdentifier: ['', Validators.required]
       })
-    ]),
-
+    ])
   };
 
   constructor(public fb: FormBuilder,
@@ -378,7 +381,7 @@ export class GuidelinesFormComponent implements OnInit {
 
   /** <--handle form arrays**/
 
-  /** Categorization & Scientific Domain--> **/
+  /** ResourceTypeInfo--> **/
 
   newResourceTypeInfo(): FormGroup {
     return this.fb.group({
@@ -399,9 +402,9 @@ export class GuidelinesFormComponent implements OnInit {
     this.resourceTypeInfoArray.removeAt(index);
   }
 
-  /** <-- Categorization & Scientific Domain**/
+  /** <-- ResourceTypeInfo**/
 
-  /** Rights as use cases-->**/
+  /** Rights-->**/
   newRight(): FormGroup {
     return this.fb.group({
       rightTitle: ['', Validators.required],
@@ -422,7 +425,29 @@ export class GuidelinesFormComponent implements OnInit {
     this.rightsArray.removeAt(index);
   }
 
-  /** <--Rights as use cases**/
+  /** <--Rights**/
+
+  /** Related Standards -->**/
+  newRelatedStandard(): FormGroup {
+    return this.fb.group({
+      relatedStandardURL: ['', Validators.compose([Validators.required, URLValidator])],
+      relatedStandardIdentifier: ['']
+    });
+  }
+
+  get relatedStandardsArray() {
+    return this.guidelinesForm.get('relatedStandards') as FormArray;
+  }
+
+  pushRelatedStandard() {
+    this.relatedStandardsArray.push(this.newRelatedStandard());
+  }
+
+  removeRelatedStandard(index: number) {
+    this.relatedStandardsArray.removeAt(index);
+  }
+
+  /** <--Related Standards **/
 
   /** Creators as public contacts -->**/
   newCreator(): FormGroup {

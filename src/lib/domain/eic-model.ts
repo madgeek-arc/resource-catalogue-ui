@@ -454,7 +454,7 @@ export class InteroperabilityRecord implements Identifiable {
   resourceTypesInfo: ResourceTypeInfo[]; //title~scientific domain
   created: string;
   updated: string;
-  eoscRelatedStandards: URL[];
+  relatedStandards: RelatedStandard[];
   rights: Right[]; //like use cases
   description: string;
   status: string;
@@ -489,6 +489,11 @@ export class CreatorAffiliationInfo {
 export class ResourceTypeInfo {
   resourceType: string;
   resourceTypeGeneral: string;
+}
+
+export class RelatedStandard {
+  relatedStandardIdentifier: string;
+  relatedStandardURI: URL;
 }
 
 export class Right {
