@@ -125,8 +125,8 @@ export class GuidelinesFormComponent implements OnInit {
     }, Validators.required)]),
     resourceTypesInfo: this.fb.array([
       this.fb.group({
-        resourceType: [''],
-        resourceTypeGeneral: ['']
+        resourceType: ['', Validators.required],
+        resourceTypeGeneral: ['', Validators.required]
       })
     ]),
     rights: this.fb.array([
