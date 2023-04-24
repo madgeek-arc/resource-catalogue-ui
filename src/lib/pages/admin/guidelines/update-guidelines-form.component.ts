@@ -84,17 +84,17 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
           }
           if (this.guideline.rights && this.guideline.rights.length > 1) {
             for (let i = 0; i < this.guideline.rights.length - 1; i++) {
-              this.rightsArray.push(this.newRight());
+              this.pushRight();
+            }
+          }
+          if (this.guideline.relatedStandards && this.guideline.relatedStandards.length > 1) {
+            for (let i = 0; i < this.guideline.relatedStandards.length - 1; i++) {
+              this.pushRelatedStandard();
             }
           }
           if (this.guideline.creators && this.guideline.creators.length > 1) {
             for (let i = 0; i < this.guideline.creators.length - 1; i++) {
               this.pushCreator();
-            }
-          }
-          if (this.guideline.relatedStandards && this.guideline.relatedStandards.length > 1) {
-            for (let i = 0; i < this.guideline.relatedStandards.length - 1; i++) {
-              this.push('relatedStandards', this.relatedStandardURLDesc.mandatory);
             }
           }
           if (this.guideline.eoscIntegrationOptions && this.guideline.eoscIntegrationOptions.length > 1) {

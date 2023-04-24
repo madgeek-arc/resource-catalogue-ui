@@ -274,16 +274,16 @@
                                 <div [formGroupName]="i"
                                      class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
                                   <div class="uk-margin-bottom">
-                                    <label class="uk-form-label uk-text-right" for="relatedStandardURL">
-                                      {{ relatedStandardURLDesc.label + (relatedStandardURLDesc.mandatory ? ' (*)' : '') }}
+                                    <label class="uk-form-label uk-text-right" for="relatedStandardURI">
+                                      {{ relatedStandardURIDesc.label + (relatedStandardURIDesc.mandatory ? ' (*)' : '') }}
                                     </label>
-                                    <div class="uk-form-description uk-margin-top uk-width-9-10">{{relatedStandardURLDesc.desc}}</div>
+                                    <div class="uk-form-description uk-margin-top uk-width-9-10">{{relatedStandardURIDesc.desc}}</div>
                                     <div class="uk-form-controls uk-margin-medium-top">
-                                      <input id="relatedStandardURL" class="uk-input uk-width-9-10" type="text" formControlName="relatedStandardURL" placeholder="use http:// or https://"
+                                      <input id="relatedStandardURI" class="uk-input uk-width-9-10" type="text" formControlName="relatedStandardURI" placeholder="use http:// or https://"
                                              (input)="unsavedChangesPrompt()"
-                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedStandards', i, this.edit, 'relatedStandardURL')}">
-                                      <div *ngIf="this.edit && this.isPortalAdmin && this.guidelinesForm.get('relatedStandards').value[i]['relatedStandardURL']" class="uk-icon">
-                                        <a href="{{this.guidelinesForm.get('relatedStandards').value[i]['relatedStandardURL']}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedStandards', i, this.edit, 'relatedStandardURI')}">
+                                      <div *ngIf="this.edit && this.isPortalAdmin && this.guidelinesForm.get('relatedStandards').value[i]['relatedStandardURI']" class="uk-icon">
+                                        <a href="{{this.guidelinesForm.get('relatedStandards').value[i]['relatedStandardURI']}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
                                       </div>
                                     </div>
                                   </div>

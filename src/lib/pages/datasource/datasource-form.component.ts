@@ -220,16 +220,12 @@ export class DatasourceFormComponent implements OnInit {
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
     tagline: ['', Validators.required],
-    // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
-    // multimediaNames: this.fb.array([this.fb.control('')]),
     multimedia: this.fb.array([
       this.fb.group({
         multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
         multimediaName: ['']
       })
     ]),
-    // useCases: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
-    // useCasesNames: this.fb.array([this.fb.control('')]),
     useCases: this.fb.array([
       this.fb.group({
         useCaseURL: ['', Validators.compose([Validators.required, URLValidator])],
