@@ -314,17 +314,17 @@
                                   </div>
 
                                 </div>
-<!--                                <a *ngIf="getFieldAsFormArray('rights').length > 1 && !disable"-->
-<!--                                   class="remove-element uk-padding-small uk-display-inline-block"-->
-<!--                                   (click)="removeRightInfo(i); unsavedChangesPrompt();">     todo: revisit-->
-<!--                                  <i class="fa fa-times" aria-hidden="true"></i>-->
-<!--                                </a>-->
+                                <a *ngIf="getFieldAsFormArray('rights').length > 1 && !disable"
+                                   class="remove-element uk-padding-small uk-display-inline-block"
+                                   (click)="removeRight(i); unsavedChangesPrompt();">
+                                  <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
                               </div>
                             </div>
                             <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
-<!--                              <a class="add-new-element" (click)="pushRightInfo()">           todo:revisit-->
-<!--                                <i class="fa fa-plus" aria-hidden="true"></i> Add RightInfo-->
-<!--                              </a>-->
+                              <a class="add-new-element" (click)="pushRight()">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add Rights
+                              </a>
                             </div>
                           </div>
 
