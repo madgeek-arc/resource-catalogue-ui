@@ -107,7 +107,7 @@ export class GuidelinesFormComponent implements OnInit {
     updated: [''],
     relatedStandards: this.fb.array([
       this.fb.group({
-        relatedStandardURI: ['', Validators.compose([Validators.required, URLValidator])],
+        relatedStandardURI: ['', URLValidator],
         relatedStandardIdentifier: ['']
       })
     ]),
@@ -430,7 +430,7 @@ export class GuidelinesFormComponent implements OnInit {
   /** Related Standards -->**/
   newRelatedStandard(): FormGroup {
     return this.fb.group({
-      relatedStandardURI: ['', Validators.compose([Validators.required, URLValidator])],
+      relatedStandardURI: ['', URLValidator],
       relatedStandardIdentifier: ['']
     });
   }
