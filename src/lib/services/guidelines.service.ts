@@ -58,10 +58,10 @@ export class GuidelinesService {
     return this.http.get(this.base + `/interoperabilityRecord/bundle/all`, {params});
   }
 
-  getInteroperabilityRecordsOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: string, query?: string) {
-    if (!query) { query = ''; }
-    return this.http.get<Paging<InteroperabilityRecordBundle>>(this.base +
-      `/interoperabilityRecord/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`);
+  getInteroperabilityRecordsOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, query: string, status: string) {
+    if (!query) { query = '';}
+    if (!status) { return this.http.get<Paging<InteroperabilityRecordBundle>>(this.base + `/interoperabilityRecord/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`); }
+    return this.http.get<Paging<InteroperabilityRecordBundle>>(this.base + `/interoperabilityRecord/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}&status=${status}`);
   }
 
   verifyInteroperabilityRecord(id: string, active: boolean, status: string) {

@@ -24,7 +24,7 @@ export class GuidelinesComponent implements OnInit {
     orderField: 'title',
     query: '',
     // active: 'statusAll',
-    // status: ''
+    status: ''
   };
 
   dataForm: FormGroup;
@@ -96,7 +96,7 @@ export class GuidelinesComponent implements OnInit {
 
   getGuidelines() {
     this.guidelinesService.getInteroperabilityRecordsOfProvider(this.providerId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('order').value, this.dataForm.get('orderField').value, this.dataForm.get('query').value)
+      this.dataForm.get('order').value, this.dataForm.get('orderField').value, this.dataForm.get('query').value, this.dataForm.get('status').value)
       .subscribe(res => {
           this.guidelines = res;
           this.total = res['total'];
