@@ -58,10 +58,15 @@
                 <div *ngIf="!disable" class="requiredFields">Fields with (*) are mandatory and must be completed in order to save this form. Leaving
                   optional fields blank will remove the relevant heading from the published resource/provider profile.</div>
 
+<!--                <div *ngIf="noSuggestions" class="uk-alert-primary" uk-alert>-->
+<!--                  <a class="uk-alert-close" uk-close></a>-->
+<!--                  <p>Please fill in 'Name', 'Description' and 'Tagline' fields before requesting suggestions for your service.</p>-->
+<!--                </div>-->
+
                 <div id="serviceForm">
 
                   <div class="uk-margin-bottom uk-flex uk-flex-right">
-                    <div>
+                    <div class="uk-flex uk-flex-middle">
                       <button class="uk-button uk-button-link" type="button">Do you need help?</button>
                       <div uk-drop="pos: bottom-left">
                         <div class="uk-card uk-card-body uk-card-default">
@@ -97,12 +102,7 @@
                       </div>
                     </div>
                     <div class="uk-margin-medium-left">
-                      <a *ngIf="projectName === 'CatRIS'" href="../../../assets/files/Resource-Form.pdf" target="_blank">
-                        <i class="fa fa-file-pdf-o uk-margin-small-right"></i><span style="color: #292929">Download as PDF</span>
-                      </a>
-                      <a *ngIf="projectName === 'EOSC'" href="https://eosc-portal.eu/providers-documentation/eosc-provider-portal-resource-profile" target="_blank">
-                        <i class="fa fa-file-pdf-o uk-margin-small-right"></i><span style="color: #292929">Download as PDF/Excel</span>
-                      </a>
+                      <button class="uk-button uk-button-primary" type="button" (click)="showSuggestionsModal()">Suggest</button>
                     </div>
 
                   </div>
@@ -560,7 +560,7 @@
                                               </label>
                                             </form>
                                             <button class="uk-button uk-button-default" type="submit"
-                                                    (click)="submitSuggestion(this.vocabularyEntryForm.get('scientificDomainVocabularyEntryValueName').value, 'SCIENTIFIC DOMAIN', null)">
+                                                    (click)="submitVocSuggestion(this.vocabularyEntryForm.get('scientificDomainVocabularyEntryValueName').value, 'SCIENTIFIC DOMAIN', null)">
                                               Submit
                                             </button>
                                             <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
@@ -598,7 +598,7 @@
                                               </label>
                                             </form>
                                             <button class="uk-button uk-button-default" type="submit"
-                                                    (click)="submitSuggestion(this.vocabularyEntryForm.get('scientificSubDomainVocabularyEntryValueName').value, 'SCIENTIFIC SUBDOMAIN', this.scientificDomainArray.controls[i].get('scientificDomain').value)">
+                                                    (click)="submitVocSuggestion(this.vocabularyEntryForm.get('scientificSubDomainVocabularyEntryValueName').value, 'SCIENTIFIC SUBDOMAIN', this.scientificDomainArray.controls[i].get('scientificDomain').value)">
                                               Submit
                                             </button>
                                             <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
@@ -666,7 +666,7 @@
                                               </label>
                                             </form>
                                             <button class="uk-button uk-button-default" type="submit"
-                                                    (click)="submitSuggestion(this.vocabularyEntryForm.get('categoriesVocabularyEntryValueName').value, 'CATEGORY', null)">
+                                                    (click)="submitVocSuggestion(this.vocabularyEntryForm.get('categoriesVocabularyEntryValueName').value, 'CATEGORY', null)">
                                               Submit
                                             </button>
                                             <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
@@ -705,7 +705,7 @@
                                               </label>
                                             </form>
                                             <button class="uk-button uk-button-default" type="submit"
-                                                    (click)="submitSuggestion(this.vocabularyEntryForm.get('subCategoriesVocabularyEntryValueName').value, 'SUBCATEGORY', this.categoryArray.controls[i].get('category').value)">
+                                                    (click)="submitVocSuggestion(this.vocabularyEntryForm.get('subCategoriesVocabularyEntryValueName').value, 'SUBCATEGORY', this.categoryArray.controls[i].get('category').value)">
                                               Submit
                                             </button>
                                             <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
@@ -765,7 +765,7 @@
                                       </label>
                                     </form>
                                     <button class="uk-button uk-button-default" type="submit"
-                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('targetUsersVocabularyEntryValueName').value, 'TARGET USER', null)">
+                                            (click)="submitVocSuggestion(this.vocabularyEntryForm.get('targetUsersVocabularyEntryValueName').value, 'TARGET USER', null)">
                                       Submit
                                     </button>
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
@@ -812,7 +812,7 @@
                                       </label>
                                     </form>
                                     <button class="uk-button uk-button-default" type="submit"
-                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('accessTypesVocabularyEntryValueName').value, 'ACCESS TYPE', null)">
+                                            (click)="submitVocSuggestion(this.vocabularyEntryForm.get('accessTypesVocabularyEntryValueName').value, 'ACCESS TYPE', null)">
                                       Submit
                                     </button>
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
@@ -859,7 +859,7 @@
                                       </label>
                                     </form>
                                     <button class="uk-button uk-button-default" type="submit"
-                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('accessModesVocabularyEntryValueName').value, 'ACCESS MODE', null)">
+                                            (click)="submitVocSuggestion(this.vocabularyEntryForm.get('accessModesVocabularyEntryValueName').value, 'ACCESS MODE', null)">
                                       Submit
                                     </button>
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
@@ -949,7 +949,7 @@
                                       </label>
                                     </form>
                                     <button class="uk-button uk-button-default" type="submit"
-                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('geographicalVocabularyEntryValueName').value, 'COUNTRY', null)">
+                                            (click)="submitVocSuggestion(this.vocabularyEntryForm.get('geographicalVocabularyEntryValueName').value, 'COUNTRY', null)">
                                       Submit
                                     </button>
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
@@ -1000,7 +1000,7 @@
                                       </label>
                                     </form>
                                     <button class="uk-button uk-button-default" type="submit"
-                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('languagesVocabularyEntryValueName').value, 'LANGUAGE', null)">
+                                            (click)="submitVocSuggestion(this.vocabularyEntryForm.get('languagesVocabularyEntryValueName').value, 'LANGUAGE', null)">
                                       Submit
                                     </button>
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
@@ -1064,7 +1064,7 @@
                                       </label>
                                     </form>
                                     <button class="uk-button uk-button-default" type="submit"
-                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('placesVocabularyEntryValueName').value, 'COUNTRY', null)">
+                                            (click)="submitVocSuggestion(this.vocabularyEntryForm.get('placesVocabularyEntryValueName').value, 'COUNTRY', null)">
                                       Submit
                                     </button>
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
@@ -1377,7 +1377,7 @@
                                   </label>
                                 </form>
                                 <button class="uk-button uk-button-default" type="submit"
-                                        (click)="submitSuggestion(this.vocabularyEntryForm.get('phaseVocabularyEntryValueName').value, 'LIFE CYCLE STATUS', null)">
+                                        (click)="submitVocSuggestion(this.vocabularyEntryForm.get('phaseVocabularyEntryValueName').value, 'LIFE CYCLE STATUS', null)">
                                   Submit
                                 </button>
                                 <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
@@ -1694,7 +1694,7 @@
                                       </label>
                                     </form>
                                     <button class="uk-button uk-button-default" type="submit"
-                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('fundingBodyVocabularyEntryValueName').value, 'FUNDING BODY', null)">
+                                            (click)="submitVocSuggestion(this.vocabularyEntryForm.get('fundingBodyVocabularyEntryValueName').value, 'FUNDING BODY', null)">
                                       Submit
                                     </button>
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
@@ -1744,7 +1744,7 @@
                                       </label>
                                     </form>
                                     <button class="uk-button uk-button-default" type="submit"
-                                            (click)="submitSuggestion(this.vocabularyEntryForm.get('fundingProgramVocabularyEntryValueName').value, 'FUNDING PROGRAM', null)">
+                                            (click)="submitVocSuggestion(this.vocabularyEntryForm.get('fundingProgramVocabularyEntryValueName').value, 'FUNDING PROGRAM', null)">
                                       Submit
                                     </button>
                                     <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
@@ -1994,7 +1994,7 @@
                                   </label>
                                 </form>
                                 <button class="uk-button uk-button-default" type="submit"
-                                        (click)="submitSuggestion(this.vocabularyEntryForm.get('orderTypeVocabularyEntryValueName').value, 'ORDER TYPE', null)">
+                                        (click)="submitVocSuggestion(this.vocabularyEntryForm.get('orderTypeVocabularyEntryValueName').value, 'ORDER TYPE', null)">
                                   Submit
                                 </button>
                                 <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
@@ -2067,9 +2067,9 @@
 
                           </li>
                         </ul>
-                        <!--                        <pre>-->
-                        <!--                          {{serviceForm.value | json}}-->
-                        <!--                        </pre>-->
+<!--                                <pre>-->
+<!--                                  {{serviceForm.value | json}}-->
+<!--                                </pre>-->
                       </div>
                       <!--<button type="submit" class="btn btn-primary butn theme block full-width m-b">-->
                       <!--{{editMode ? "Update" : "Add"}}-->
@@ -2119,5 +2119,57 @@
     </form>
     <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="submit" (click)="onSubmit(this.serviceForm.value, false)">Submit</button>
     <!--    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>-->
+  </div>
+</div>
+
+
+<div id="suggestionsModal" uk-modal>
+  <div *ngIf="!showLoader" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <h4 class="uk-text-center">Suggestions</h4>
+    <ng-container *ngIf="noSuggestions">
+      <p class="uk-text-center uk-margin">Please fill in 'Name', 'Description' and 'Tagline' fields before requesting suggestions for your service.</p>
+      <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="button">OK</button>
+    </ng-container>
+
+    <ng-container *ngIf="noSuggestions===false">
+      <p class="uk-text-center uk-margin">For better results make sure you have properly filled in 'Name', 'Description' and 'Tagline' fields.</p>
+      <p class="uk-text-center uk-margin">Select the suggestions you want to add to your {{serviceORresource}}. Pressing 'Add' will autofill the form with the new values.</p>
+      <form>
+        <ul style="list-style: none;">
+          <div class="uk-text-bold">Scientific Subdomains</div>
+          <li *ngFor="let suggestion of filteredScientificSubDomainVocabulary">
+            <label>
+              <input type="checkbox"
+                     name="suggestion"
+                     [value]="suggestion.id"
+                     (change)="onCheckboxChange($event, 'ScientificSubDomains')">
+              {{ suggestion.name }}
+            </label>
+          </li>
+          <div class="uk-text-bold uk-margin-medium-top">Subcategories</div>
+          <li *ngFor="let suggestion of filteredSubCategoriesVocabulary">
+            <label>
+              <input type="checkbox"
+                     name="suggestion"
+                     [value]="suggestion.id"
+                     (change)="onCheckboxChange($event, 'SubCategories')">
+              {{ suggestion.name }}
+            </label>
+          </li>
+          <div class="uk-text-bold uk-margin-medium-top">Target Users</div>
+          <li *ngFor="let suggestion of filteredTargetUsersVocabulary">
+            <label>
+              <input type="checkbox"
+                     name="suggestion"
+                     [value]="suggestion.id"
+                     (change)="onCheckboxChange($event, 'TargetUsers')">
+              {{ suggestion.name }}
+            </label>
+          </li>
+        </ul>
+      </form>
+      <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="submit" (click)="autocomplete()">Add</button>
+      <button class="uk-button uk-modal-close uk-align-right" type="button">Cancel</button>
+    </ng-container>
   </div>
 </div>

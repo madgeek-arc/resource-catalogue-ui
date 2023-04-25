@@ -3,15 +3,14 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import * as sd from '../../provider-resources/services.description';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {ServiceProviderService} from '../../../services/service-provider.service';
-import {CatalogueService} from "../../../services/catalogue.service";
 import {ResourceService} from '../../../services/resource.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {URLValidator} from '../../../shared/validators/generic.validator';
-import {Vocabulary, Type, Provider, ResourceTypeInfo, InteroperabilityRecord} from '../../../domain/eic-model';
+import {Vocabulary, Type, Provider, InteroperabilityRecord} from '../../../domain/eic-model';
 import BitSet from 'bitset';
 import {environment} from '../../../../environments/environment';
-import {ResourceExtrasService} from "../../../services/resource-extras.service";
 import {PremiumSortPipe} from "../../../shared/pipes/premium-sort.pipe";
+import {GuidelinesService} from "../../../services/guidelines.service";
 
 declare var UIkit: any;
 
@@ -80,7 +79,8 @@ export class GuidelinesFormComponent implements OnInit {
   readonly resourceTypeGeneralDesc: sd.Description = sd.guidelinesDescMap.get('resourceTypeGeneralDesc');
   readonly createdDesc: sd.Description = sd.guidelinesDescMap.get('createdDesc');
   readonly updatedDesc: sd.Description = sd.guidelinesDescMap.get('updatedDesc');
-  readonly eoscRelatedStandardsDesc: sd.Description = sd.guidelinesDescMap.get('eoscRelatedStandardsDesc');
+  readonly relatedStandardURIDesc: sd.Description = sd.guidelinesDescMap.get('relatedStandardURIDesc');
+  readonly relatedStandardIdentifierDesc: sd.Description = sd.guidelinesDescMap.get('relatedStandardIdentifierDesc');
   readonly rightTitleDesc: sd.Description = sd.guidelinesDescMap.get('rightTitleDesc');
   readonly rightURIDesc: sd.Description = sd.guidelinesDescMap.get('rightURIDesc');
   readonly rightIdentifierDesc: sd.Description = sd.guidelinesDescMap.get('rightIdentifierDesc');
@@ -99,18 +99,23 @@ export class GuidelinesFormComponent implements OnInit {
 
   readonly formDefinition = {
     id: [''],
+    catalogueId: ['eosc'], //assuming that non-eosc providers cannot add/edit/assign guidelines
+    providerId: [''],
     title: ['', Validators.required],
     publicationYear: ['', Validators.required],
     created: [''],
     updated: [''],
-    // eoscRelatedStandards: this.fb.array(['', URLValidator]),
-    eoscRelatedStandards: this.fb.array(['']),
+    relatedStandards: this.fb.array([
+      this.fb.group({
+        relatedStandardURI: ['', URLValidator],
+        relatedStandardIdentifier: ['']
+      })
+    ]),
     description: ['', Validators.required],
     status: ['', Validators.required],
     domain: [''],
     eoscGuidelineType: ['', Validators.required],
     eoscIntegrationOptions: this.fb.array([this.fb.control('')]),
-
     identifierInfo: this.fb.group({
       identifier: ['', Validators.required],
       identifierType: ['', Validators.required]
@@ -124,8 +129,8 @@ export class GuidelinesFormComponent implements OnInit {
     }, Validators.required)]),
     resourceTypesInfo: this.fb.array([
       this.fb.group({
-        resourceType: [''],
-        resourceTypeGeneral: ['']
+        resourceType: ['', Validators.required],
+        resourceTypeGeneral: ['', Validators.required]
       })
     ]),
     rights: this.fb.array([
@@ -134,33 +139,29 @@ export class GuidelinesFormComponent implements OnInit {
         rightURI: ['', Validators.compose([Validators.required, URLValidator])],
         rightIdentifier: ['', Validators.required]
       })
-    ]),
-
+    ])
   };
 
   constructor(public fb: FormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
-              public resourceExtrasService: ResourceExtrasService,
+              public guidelinesService: GuidelinesService,
               public resourceService: ResourceService,
               public router: Router,
               public route: ActivatedRoute) {
   }
 
   ngOnInit() {
-
-    const path = this.route.snapshot.routeConfig.path;
-    if (path.includes('update/:guidelineId')) {
-
-    }
-
+    // const path = this.route.snapshot.routeConfig.path;
+    // if (path.includes('update/:guidelineId')) {
+    //
+    // }
     this.setVocabularies();
     this.guidelinesForm = this.fb.group(this.formDefinition);
-    if (this.edit === false) {
-      // this.pushDomain();
-      // this.addDefaultUser();  // Admin + mainContact
-      // this.providerForm.get('legalEntity').setValue(false);
-    }
+    this.guidelinesForm.get('providerId').setValue(this.route.snapshot.paramMap.get('providerId'));
+    // if (this.edit === false) {
+    //   // this.pushDomain();
+    // }
 
     if (sessionStorage.getItem('provider')) {
       const data = JSON.parse(sessionStorage.getItem('provider'));
@@ -211,7 +212,7 @@ export class GuidelinesFormComponent implements OnInit {
       this.showLoader = true;
       window.scrollTo(0, 0);
 
-      this.resourceExtrasService[method](this.guidelinesForm.value).subscribe(
+      this.guidelinesService[method](this.guidelinesForm.value).subscribe(
         res => {},
         err => {
           this.showLoader = false;
@@ -220,7 +221,7 @@ export class GuidelinesFormComponent implements OnInit {
         },
         () => {
           this.showLoader = false;
-          this.router.navigate(['/guidelines/all']);
+          this.router.navigate(['/dashboard/eosc/'+ this.guidelinesForm.get('providerId').value +'/guidelines/']);
         }
       );
     } else {
@@ -380,7 +381,7 @@ export class GuidelinesFormComponent implements OnInit {
 
   /** <--handle form arrays**/
 
-  /** Categorization & Scientific Domain--> **/
+  /** ResourceTypeInfo--> **/
 
   newResourceTypeInfo(): FormGroup {
     return this.fb.group({
@@ -401,9 +402,9 @@ export class GuidelinesFormComponent implements OnInit {
     this.resourceTypeInfoArray.removeAt(index);
   }
 
-  /** <-- Categorization & Scientific Domain**/
+  /** <-- ResourceTypeInfo**/
 
-  /** Rights as use cases-->**/
+  /** Rights-->**/
   newRight(): FormGroup {
     return this.fb.group({
       rightTitle: ['', Validators.required],
@@ -424,7 +425,29 @@ export class GuidelinesFormComponent implements OnInit {
     this.rightsArray.removeAt(index);
   }
 
-  /** <--Rights as use cases**/
+  /** <--Rights**/
+
+  /** Related Standards -->**/
+  newRelatedStandard(): FormGroup {
+    return this.fb.group({
+      relatedStandardURI: ['', URLValidator],
+      relatedStandardIdentifier: ['']
+    });
+  }
+
+  get relatedStandardsArray() {
+    return this.guidelinesForm.get('relatedStandards') as FormArray;
+  }
+
+  pushRelatedStandard() {
+    this.relatedStandardsArray.push(this.newRelatedStandard());
+  }
+
+  removeRelatedStandard(index: number) {
+    this.relatedStandardsArray.removeAt(index);
+  }
+
+  /** <--Related Standards **/
 
   /** Creators as public contacts -->**/
   newCreator(): FormGroup {
@@ -506,7 +529,7 @@ export class GuidelinesFormComponent implements OnInit {
 
   checkForDuplicates(formControlName, group?) {
     return;
-    if (group === 'scientificDomains') {
+/*    if (group === 'scientificDomains') {
       // for (let i = 0; i < this.domainArray.controls.length; i++) {
       //   for (let j = 0; j <  this.domainArray.controls.length; j++) {
       //     if (i !== j && this.domainArray.controls[i].get('scientificDomain').value === this.domainArray.controls[j].get('scientificDomain').value ) {
@@ -528,138 +551,138 @@ export class GuidelinesFormComponent implements OnInit {
           }
         }
       }
-    }
+    }*/
   }
 
   /** BitSets -->**/
-  // handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
-  //   if (bitIndex === 0) {
-  //     // this.catalogueName = this.guidelinesForm.get(formControlName).value;
-  //   }
-  //   if (this.guidelinesForm.get(formControlName).valid || (this.guidelinesForm.get(formControlName).disabled && this.guidelinesForm.get(formControlName).value != '')) {
-  //     this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-  //     this.loaderBitSet.set(bitIndex, 1);
-  //   } else if (this.guidelinesForm.get(formControlName).invalid) {
-  //     this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-  //     this.loaderBitSet.set(bitIndex, 0);
-  //   } else if (this.guidelinesForm.get(formControlName).pending) {
-  //     this.timeOut(300).then( () => this.handleBitSets(tabNum, bitIndex, formControlName));
-  //     return;
-  //   }
-  //   this.updateLoaderPercentage();
-  // }
-  //
-  // handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-  //   if (this.guidelinesForm.controls[group].get(formControlName).valid || (this.guidelinesForm.controls[group].get(formControlName).disabled && this.guidelinesForm.controls[group].get(formControlName).value != '')) {
-  //     this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-  //     this.loaderBitSet.set(bitIndex, 1);
-  //   } else if (this.guidelinesForm.controls[group].get(formControlName).invalid) {
-  //     this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-  //     this.loaderBitSet.set(bitIndex, 0);
-  //   }
-  //   this.updateLoaderPercentage();
-  // }
+  /*handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
+    if (bitIndex === 0) {
+      // this.catalogueName = this.guidelinesForm.get(formControlName).value;
+    }
+    if (this.guidelinesForm.get(formControlName).valid || (this.guidelinesForm.get(formControlName).disabled && this.guidelinesForm.get(formControlName).value != '')) {
+      this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 1);
+    } else if (this.guidelinesForm.get(formControlName).invalid) {
+      this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 0);
+    } else if (this.guidelinesForm.get(formControlName).pending) {
+      this.timeOut(300).then( () => this.handleBitSets(tabNum, bitIndex, formControlName));
+      return;
+    }
+    this.updateLoaderPercentage();
+  }
 
-  // handleBitSetsOfPublicContact(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
-  //   if (this.guidelinesForm.get(group).value[0][formControlName] !== '' && this.guidelinesForm.controls[group].valid || this.guidelinesForm.controls[group].disabled) {
-  //     this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-  //     this.loaderBitSet.set(bitIndex, 1);
-  //   } else {
-  //     this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-  //     this.loaderBitSet.set(bitIndex, 0);
-  //   }
-  //   this.updateLoaderPercentage();
-  // }
+  handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
+    if (this.guidelinesForm.controls[group].get(formControlName).valid || (this.guidelinesForm.controls[group].get(formControlName).disabled && this.guidelinesForm.controls[group].get(formControlName).value != '')) {
+      this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 1);
+    } else if (this.guidelinesForm.controls[group].get(formControlName).invalid) {
+      this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 0);
+    }
+    this.updateLoaderPercentage();
+  }
 
-  // initUserBitSets() {
-  //   this.handleBitSetsOfGroups(4, 9, 'firstName', 'mainContact');
-  //   this.handleBitSetsOfGroups(4, 10, 'lastName', 'mainContact');
-  //   this.handleBitSetsOfGroups(4, 11, 'email', 'mainContact');
-  // }
+  handleBitSetsOfPublicContact(tabNum: number, bitIndex: number, formControlName: string, group?: string): void {
+    if (this.guidelinesForm.get(group).value[0][formControlName] !== '' && this.guidelinesForm.controls[group].valid || this.guidelinesForm.controls[group].disabled) {
+      this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 1);
+    } else {
+      this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
+      this.loaderBitSet.set(bitIndex, 0);
+    }
+    this.updateLoaderPercentage();
+  }
 
-  // updateLoaderPercentage() {
-  //   // console.log(this.loaderBitSet.toString(2));
-  //   // console.log('cardinality: ', this.loaderBitSet.cardinality());
-  //   this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
-  //   // console.log(this.loaderPercentage, '%');
-  // }
+  initUserBitSets() {
+    this.handleBitSetsOfGroups(4, 9, 'firstName', 'mainContact');
+    this.handleBitSetsOfGroups(4, 10, 'lastName', 'mainContact');
+    this.handleBitSetsOfGroups(4, 11, 'email', 'mainContact');
+  }
 
-  // decreaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
-  //   if (tabNum === 0) {
-  //     this.BitSetTab0.set(bitIndex, 1);
-  //     this.remainingOnTab0 = this.requiredOnTab0 - this.BitSetTab0.cardinality();
-  //     if (this.remainingOnTab0 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-  //       this.calcCompletedTabs(tabNum, 1);
-  //     }
-  //   } else if (tabNum === 1) {
-  //     this.BitSetTab1.set(bitIndex, 1);
-  //     this.remainingOnTab1 = this.requiredOnTab1 - this.BitSetTab1.cardinality();
-  //     if (this.remainingOnTab1 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-  //       this.calcCompletedTabs(tabNum, 1);
-  //     }
-  //   } else if (tabNum === 3) { // Location
-  //     this.BitSetTab3.set(bitIndex, 1);
-  //     this.remainingOnTab3 = this.requiredOnTab3 - this.BitSetTab3.cardinality();
-  //     if (this.remainingOnTab3 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-  //       this.calcCompletedTabs(tabNum, 1);
-  //     }
-  //   } else if (tabNum === 4) { // Contact
-  //     this.BitSetTab4.set(bitIndex, 1);
-  //     const mainContactCardinality = this.BitSetTab4.slice(9, 11).cardinality();
-  //     this.remainingOnTab4 = this.requiredOnTab4 - +(mainContactCardinality === 3) - this.BitSetTab4.get(15);
-  //     if (this.remainingOnTab4 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-  //       this.calcCompletedTabs(tabNum, 1);
-  //     }
-  //   } else if (tabNum === 6) { // Admins
-  //     this.BitSetTab6.set(bitIndex, 1);
-  //     if (this.BitSetTab6.cardinality() === 3) {
-  //       this.remainingOnTab6 = 0;
-  //       if (this.completedTabsBitSet.get(tabNum) !== 1) {
-  //         this.calcCompletedTabs(tabNum, 1);
-  //       }
-  //     }
-  //   }
-  // }
-  //
-  // increaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
-  //   if (tabNum === 0) {
-  //     this.BitSetTab0.set(bitIndex, 0);
-  //     this.remainingOnTab0 = this.requiredOnTab0 - this.BitSetTab0.cardinality();
-  //     if (this.completedTabsBitSet.get(tabNum) !== 0) {
-  //       this.calcCompletedTabs(tabNum, 0);
-  //     }
-  //   } else if (tabNum === 1) {
-  //     this.BitSetTab1.set(bitIndex, 0);
-  //     this.remainingOnTab1 = this.requiredOnTab1 - this.BitSetTab1.cardinality();
-  //     if (this.completedTabsBitSet.get(tabNum) !== 0) {
-  //       this.calcCompletedTabs(tabNum, 0);
-  //     }
-  //   } else if (tabNum === 3) {
-  //     this.BitSetTab3.set(bitIndex, 0);
-  //     this.remainingOnTab3 = this.requiredOnTab3 - this.BitSetTab3.cardinality();
-  //     if (this.completedTabsBitSet.get(tabNum) !== 0) {
-  //       this.calcCompletedTabs(tabNum, 0);
-  //     }
-  //   } else if (tabNum === 4) { // Contact
-  //     this.BitSetTab4.set(bitIndex, 0);
-  //     const mainContactCardinality = this.BitSetTab4.slice(9, 11).cardinality();
-  //     this.remainingOnTab4 = this.requiredOnTab4 - +(mainContactCardinality === 3) - this.BitSetTab4.get(15);
-  //     if (this.completedTabsBitSet.get(tabNum) !== 0) {
-  //       this.calcCompletedTabs(tabNum, 0);
-  //     }
-  //   } else if (tabNum === 6) { // Admins
-  //     this.BitSetTab6.set(bitIndex, 0);
-  //     this.remainingOnTab6 = this.requiredOnTab6;
-  //     if (this.completedTabsBitSet.get(tabNum) !== 0) {
-  //       this.calcCompletedTabs(tabNum, 0);
-  //     }
-  //   }
-  // }
-  //
-  // calcCompletedTabs(tabNum: number, setValue: number) {
-  //   this.completedTabsBitSet.set(tabNum, setValue);
-  //   this.completedTabs = this.completedTabsBitSet.cardinality();
-  // }
+  updateLoaderPercentage() {
+    // console.log(this.loaderBitSet.toString(2));
+    // console.log('cardinality: ', this.loaderBitSet.cardinality());
+    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
+    // console.log(this.loaderPercentage, '%');
+  }
+
+  decreaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
+    if (tabNum === 0) {
+      this.BitSetTab0.set(bitIndex, 1);
+      this.remainingOnTab0 = this.requiredOnTab0 - this.BitSetTab0.cardinality();
+      if (this.remainingOnTab0 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
+        this.calcCompletedTabs(tabNum, 1);
+      }
+    } else if (tabNum === 1) {
+      this.BitSetTab1.set(bitIndex, 1);
+      this.remainingOnTab1 = this.requiredOnTab1 - this.BitSetTab1.cardinality();
+      if (this.remainingOnTab1 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
+        this.calcCompletedTabs(tabNum, 1);
+      }
+    } else if (tabNum === 3) { // Location
+      this.BitSetTab3.set(bitIndex, 1);
+      this.remainingOnTab3 = this.requiredOnTab3 - this.BitSetTab3.cardinality();
+      if (this.remainingOnTab3 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
+        this.calcCompletedTabs(tabNum, 1);
+      }
+    } else if (tabNum === 4) { // Contact
+      this.BitSetTab4.set(bitIndex, 1);
+      const mainContactCardinality = this.BitSetTab4.slice(9, 11).cardinality();
+      this.remainingOnTab4 = this.requiredOnTab4 - +(mainContactCardinality === 3) - this.BitSetTab4.get(15);
+      if (this.remainingOnTab4 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
+        this.calcCompletedTabs(tabNum, 1);
+      }
+    } else if (tabNum === 6) { // Admins
+      this.BitSetTab6.set(bitIndex, 1);
+      if (this.BitSetTab6.cardinality() === 3) {
+        this.remainingOnTab6 = 0;
+        if (this.completedTabsBitSet.get(tabNum) !== 1) {
+          this.calcCompletedTabs(tabNum, 1);
+        }
+      }
+    }
+  }
+
+  increaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
+    if (tabNum === 0) {
+      this.BitSetTab0.set(bitIndex, 0);
+      this.remainingOnTab0 = this.requiredOnTab0 - this.BitSetTab0.cardinality();
+      if (this.completedTabsBitSet.get(tabNum) !== 0) {
+        this.calcCompletedTabs(tabNum, 0);
+      }
+    } else if (tabNum === 1) {
+      this.BitSetTab1.set(bitIndex, 0);
+      this.remainingOnTab1 = this.requiredOnTab1 - this.BitSetTab1.cardinality();
+      if (this.completedTabsBitSet.get(tabNum) !== 0) {
+        this.calcCompletedTabs(tabNum, 0);
+      }
+    } else if (tabNum === 3) {
+      this.BitSetTab3.set(bitIndex, 0);
+      this.remainingOnTab3 = this.requiredOnTab3 - this.BitSetTab3.cardinality();
+      if (this.completedTabsBitSet.get(tabNum) !== 0) {
+        this.calcCompletedTabs(tabNum, 0);
+      }
+    } else if (tabNum === 4) { // Contact
+      this.BitSetTab4.set(bitIndex, 0);
+      const mainContactCardinality = this.BitSetTab4.slice(9, 11).cardinality();
+      this.remainingOnTab4 = this.requiredOnTab4 - +(mainContactCardinality === 3) - this.BitSetTab4.get(15);
+      if (this.completedTabsBitSet.get(tabNum) !== 0) {
+        this.calcCompletedTabs(tabNum, 0);
+      }
+    } else if (tabNum === 6) { // Admins
+      this.BitSetTab6.set(bitIndex, 0);
+      this.remainingOnTab6 = this.requiredOnTab6;
+      if (this.completedTabsBitSet.get(tabNum) !== 0) {
+        this.calcCompletedTabs(tabNum, 0);
+      }
+    }
+  }
+
+  calcCompletedTabs(tabNum: number, setValue: number) {
+    this.completedTabsBitSet.set(tabNum, setValue);
+    this.completedTabs = this.completedTabsBitSet.cardinality();
+  }*/
 
   /** <--BitSets **/
 

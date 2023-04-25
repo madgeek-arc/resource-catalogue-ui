@@ -6,7 +6,7 @@ import {
   InteroperabilityRecord,
   ProviderBundle,
   VocabularyCuration,
-  VocabularyEntryRequest
+  VocabularyEntryRequest, InteroperabilityRecordBundle
 } from '../../../domain/eic-model';
 import {environment} from '../../../../environments/environment';
 import {AuthenticationService} from '../../../services/authentication.service';
@@ -14,7 +14,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../domain/url-parameter';
 import {NavigationService} from '../../../services/navigation.service';
-import {ResourceExtrasService} from "../../../services/resource-extras.service";
+import {GuidelinesService} from "../../../services/guidelines.service";
 
 declare var UIkit: any;
 
@@ -28,10 +28,13 @@ export class GuidelinesListComponent implements OnInit {
 
   formPrepare = {
     order: 'ASC',
-    orderField: 'id',
+    orderField: 'title',
     quantity: '10',
     from: '0',
-    query: ''
+    query: '',
+    catalogue_id: new FormArray([]),
+    provider_id: new FormArray([]),
+    status: ''
   };
 
   dataForm: FormGroup;
@@ -43,10 +46,12 @@ export class GuidelinesListComponent implements OnInit {
 
   providers: ProviderBundle[] = [];
 
-  guidelines: InteroperabilityRecord[] = [];
+  guidelines: InteroperabilityRecordBundle[] = [];
   vocabularyCurations: VocabularyCuration[] = [];
   selectedGuidelineId: string;
   selectedVocabularyEntryRequests: VocabularyEntryRequest[] = [];
+
+  facets: any;
 
   total: number;
   // from = 0;
@@ -58,7 +63,7 @@ export class GuidelinesListComponent implements OnInit {
 
   constructor(private resourceService: ResourceService,
               private serviceProviderService: ServiceProviderService,
-              private resourceExtrasService: ResourceExtrasService,
+              private guidelinesService: GuidelinesService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               private router: Router,
@@ -77,24 +82,44 @@ export class GuidelinesListComponent implements OnInit {
       this.route.queryParams
         .subscribe(params => {
 
-            for (const i in params) {
-              this.dataForm.get(i).setValue(params[i]);
-            }
-
-            for (const i in this.dataForm.controls) {
-              if (this.dataForm.get(i).value) {
-                const urlParam = new URLParameter();
-                urlParam.key = i;
-                urlParam.values = [this.dataForm.get(i).value];
-                this.urlParams.push(urlParam);
+          for (const i in params) {
+            if (i === 'provider_id') {
+              if (this.dataForm.get('provider_id').value.length === 0) {
+                const formArrayNew: FormArray = this.dataForm.get('provider_id') as FormArray;
+                // formArrayNew = this.fb.array([]);
+                for (const provider_id of params[i].split(',')) {
+                  if (provider_id !== '') {
+                    formArrayNew.push(new FormControl(provider_id));
+                  }
+                }
+              }
+            } else if (i === 'catalogue_id') {
+              if (this.dataForm.get('catalogue_id').value.length === 0) {
+                const formArrayNew: FormArray = this.dataForm.get('catalogue_id') as FormArray;
+                // formArrayNew = this.fb.array([]);
+                for (const catalogue_id of params[i].split(',')) {
+                  if (catalogue_id !== '') {
+                    formArrayNew.push(new FormControl(catalogue_id));
+                  }
+                }
               }
             }
+          }
 
-            this.getGuidelines();
-            // this.handleChange();
-          },
-          error => this.errorMessage = <any>error
-        );
+          for (const i in this.dataForm.controls) {
+            if (this.dataForm.get(i).value) {
+              const urlParam = new URLParameter();
+              urlParam.key = i;
+              urlParam.values = [this.dataForm.get(i).value];
+              this.urlParams.push(urlParam);
+            }
+          }
+
+          this.getGuidelines();
+          // this.handleChange();
+        },
+        error => this.errorMessage = <any>error
+      );
     }
   }
 
@@ -128,7 +153,7 @@ export class GuidelinesListComponent implements OnInit {
       map[urlParameter.key] = concatValue;
     }
 
-    // console.log('map', map);
+    console.log('map', map);
     this.router.navigate([`/guidelines/all`], {queryParams: map});
   }
 
@@ -140,10 +165,11 @@ export class GuidelinesListComponent implements OnInit {
   getGuidelines() {
     this.loadingMessage = 'Loading guidelines entries...';
     this.guidelines = [];
-    this.resourceExtrasService.getInteroperabilityRecords(this.dataForm.get('from').value, this.dataForm.get('quantity').value, this.dataForm.get('orderField').value,
-      this.dataForm.get('order').value, this.dataForm.get('query').value).subscribe(
+    this.guidelinesService.getInteroperabilityRecordBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value, this.dataForm.get('orderField').value,
+      this.dataForm.get('order').value, this.dataForm.get('query').value, this.dataForm.get('catalogue_id').value, this.dataForm.get('provider_id').value, this.dataForm.get('status').value).subscribe(
       res => {
         this.guidelines = res['results'];
+        this.facets = res['facets'];
         this.total = res['total'];
         this.paginationInit();
       },
@@ -167,7 +193,7 @@ export class GuidelinesListComponent implements OnInit {
 
   deleteGuideline(id: string) {
     // UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.deleteInteroperabilityRecordById(id).subscribe(
+    this.guidelinesService.deleteInteroperabilityRecordById(id).subscribe(
       res => {},
       error => {
         // console.log(error);
@@ -181,6 +207,107 @@ export class GuidelinesListComponent implements OnInit {
       }
     );
   }
+
+  verifyGuideline(id: string, active: boolean, status: string){
+    this.loadingMessage = '';
+    UIkit.modal('#spinnerModal').show();
+    this.guidelinesService.verifyInteroperabilityRecord(id, active, status).subscribe(
+      res => this.getGuidelines(),
+      err => UIkit.modal('#spinnerModal').hide(),
+      () => {
+        UIkit.modal('#spinnerModal').hide();
+        location.reload();
+      }
+    );
+  }
+
+  /** for facets--> **/
+  isCatalogueChecked(value: string) {
+    return this.dataForm.get('catalogue_id').value.includes(value);
+  }
+
+  isProviderChecked(value: string) {
+    return this.dataForm.get('provider_id').value.includes(value);
+  }
+
+  onSelection(e, category: string, value: string) {
+    const formArrayNew: FormArray = this.dataForm.get(category) as FormArray;
+    if (e.target.checked) {
+      this.addParameterToURL(category, value);
+      formArrayNew.push(new FormControl(value));
+    } else {
+      let categoryIndex = 0;
+      for (const urlParameter of this.urlParams) {
+        if (urlParameter.key === category) {
+          const valueIndex = urlParameter.values.indexOf(value, 0);
+          if (valueIndex > -1) {
+            urlParameter.values.splice(valueIndex, 1);
+            if (urlParameter.values.length === 0) {
+              this.urlParams.splice(categoryIndex, 1);
+            }
+          }
+          const formArrayIndex = formArrayNew.value.indexOf(value, 0);
+          if (formArrayIndex > -1 ) {
+            formArrayNew.removeAt(formArrayIndex);
+          }
+        }
+        categoryIndex++;
+      }
+    }
+    // this.getServices();
+    return this.navigateUsingParameters();
+  }
+
+  private addParameterToURL(category: string, value: string) {
+    let foundCategory = false;
+    for (const urlParameter of this.urlParams) {
+      if (urlParameter.key === category) {
+        foundCategory = true;
+        const valueIndex = urlParameter.values.indexOf(value, 0);
+        if (valueIndex < 0) {
+          urlParameter.values.push(value);
+          this.updatePagingURLParameters(0);
+        }
+      }
+    }
+    if (!foundCategory) {
+      this.updatePagingURLParameters(0);
+      const newParameter: URLParameter = {
+        key: category,
+        values: [value]
+      };
+      this.urlParams.push(newParameter);
+    }
+  }
+
+  navigateUsingParameters() {
+    const map: { [name: string]: string; } = {};
+    for (const urlParameter of this.urlParams) {
+      map[urlParameter.key] = urlParameter.values.join(',');
+    }
+    this.handleChange();
+    // return this.navigator.resourcesList(map);  // problematic semi-colon in url
+  }
+
+  updatePagingURLParameters(from: number) {
+    let foundFromCategory = false;
+    for (const urlParameter of this.urlParams) {
+      if (urlParameter.key === 'from') {
+        foundFromCategory = true;
+        urlParameter.values = [];
+        urlParameter.values.push(from + '');
+        break;
+      }
+    }
+    if (!foundFromCategory) {
+      const newFromParameter: URLParameter = {
+        key: 'from',
+        values: [from + '']
+      };
+      this.urlParams.push(newFromParameter);
+    }
+  }
+  /** <--for facets **/
 
   paginationInit() {
     let addToEndCounter = 0;

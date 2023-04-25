@@ -24,6 +24,9 @@ export class Catalogue implements Identifiable {
   legalEntity: boolean;
   legalStatus: string;
   hostingLegalEntity: string;
+  inclusionCriteria: URL;
+  validationProcess: URL;
+  endOfLife: string;
   description: string;
   logo: URL;
   multimedia: Multimedia[];
@@ -432,10 +435,18 @@ export class ResourceExtras {
   eoscIFGuidelines: EOSCIFGuidelines[];
   researchCategories: string[];
   horizontalService: boolean;
+  serviceType: string;
+}
+
+export class InteroperabilityRecordBundle extends Bundle<InteroperabilityRecord> {
+  status: string;
+  interoperabilityRecord: InteroperabilityRecord;
 }
 
 export class InteroperabilityRecord implements Identifiable {
   id: string;
+  catalogueId: string;
+  providerId: string;
   identifierInfo: IdentifierInfo; //like location
   creators: Creator[]; //like location
   title: string;
@@ -443,7 +454,7 @@ export class InteroperabilityRecord implements Identifiable {
   resourceTypesInfo: ResourceTypeInfo[]; //title~scientific domain
   created: string;
   updated: string;
-  eoscRelatedStandards: URL[];
+  relatedStandards: RelatedStandard[];
   rights: Right[]; //like use cases
   description: string;
   status: string;
@@ -478,6 +489,11 @@ export class CreatorAffiliationInfo {
 export class ResourceTypeInfo {
   resourceType: string;
   resourceTypeGeneral: string;
+}
+
+export class RelatedStandard {
+  relatedStandardIdentifier: string;
+  relatedStandardURI: URL;
 }
 
 export class Right {

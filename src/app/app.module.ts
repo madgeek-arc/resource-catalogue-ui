@@ -51,6 +51,7 @@ import {ResourceExtrasService} from "../lib/services/resource-extras.service";
 import {DatasourceService} from "../lib/services/datasource.service";
 import {TrainingResourceService} from "../lib/services/training-resource.service";
 import {RecommendationsService} from "../lib/services/recommendations.service";
+import {GuidelinesService} from "../lib/services/guidelines.service";
 
 declare var require: any;
 
@@ -144,6 +145,7 @@ export function highchartsFactory() {
     ServiceProviderService,
     ServiceExtensionsService,
     ResourceExtrasService,
+    GuidelinesService,
     CatalogueService,
     EmailService,
     DatePipe,

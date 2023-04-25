@@ -15,6 +15,7 @@ import {ProviderHistoryComponent} from './providerHistory/provider-history.compo
 import {ProviderFullHistoryComponent} from './providerHistory/provider-full-history.component';
 import {HighchartsChartModule} from "highcharts-angular";
 import {TrainingResourcesComponent} from "./trainingResources/training-resources.component";
+import {GuidelinesComponent} from "./guidelines/guidelines.component";
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import {TrainingResourcesComponent} from "./trainingResources/training-resources
     ProviderInfoComponent,
     ServicesComponent,
     TrainingResourcesComponent,
+    GuidelinesComponent,
     MessagesComponent,
     // ServiceStatsComponent
   ]
