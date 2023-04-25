@@ -4,7 +4,6 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {DatasourceService} from "../../services/datasource.service";
-import {UserService} from '../../services/user.service';
 import * as sd from '../provider-resources/services.description';
 import {Provider, RichService, Service, Datasource, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
@@ -15,6 +14,7 @@ import {environment} from '../../../environments/environment';
 import BitSet from 'bitset';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
+import {RecommendationsService} from "../../services/recommendations.service";
 
 declare var UIkit: any;
 
@@ -89,7 +89,7 @@ export class DatasourceFormComponent implements OnInit {
   loaderPercentage = 0;
 
   vocabularyEntryForm: FormGroup;
-  suggestionsForm = {
+  vocSuggestionsForm = {
     fundingBodyVocabularyEntryValueName: '',
     fundingProgramVocabularyEntryValueName: '',
     relatedPlatformsVocabularyEntryValueName: '',
@@ -111,6 +111,21 @@ export class DatasourceFormComponent implements OnInit {
   };
 
   commentControl = new FormControl();
+
+  noSuggestions: boolean;
+  suggestedResponse: any;
+
+  suggestedScientificSubDomains: string[] = [];
+  suggestedSubCategories: string[] = [];
+  suggestedtargetUsers: string[] = [];
+
+  selectedSuggestionsForScientificSubDomains: string[] = [];
+  selectedSuggestionsForSubCategories: string[] = [];
+  selectedSuggestionsFortargetUsers: string[] = [];
+
+  public filteredSubCategoriesVocabulary: Vocabulary[] = null;
+  public filteredScientificSubDomainVocabulary: Vocabulary[] = null;
+  public filteredTargetUsersVocabulary: Vocabulary[] = null;
 
   readonly nameDesc: sd.Description = sd.serviceDescMap.get('nameDesc');
   readonly abbreviationDesc: sd.Description = sd.serviceDescMap.get('abbreviationDesc');
@@ -205,16 +220,12 @@ export class DatasourceFormComponent implements OnInit {
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
     tagline: ['', Validators.required],
-    // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
-    // multimediaNames: this.fb.array([this.fb.control('')]),
     multimedia: this.fb.array([
       this.fb.group({
         multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
         multimediaName: ['']
       })
     ]),
-    // useCases: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
-    // useCasesNames: this.fb.array([this.fb.control('')]),
     useCases: this.fb.array([
       this.fb.group({
         useCaseURL: ['', Validators.compose([Validators.required, URLValidator])],
@@ -323,7 +334,6 @@ export class DatasourceFormComponent implements OnInit {
   datasourceService: DatasourceService = this.injector.get(DatasourceService);
 
   router: NavigationService = this.injector.get(NavigationService);
-  userService: UserService = this.injector.get(UserService);
 
   public fundingBodyVocabulary: Vocabulary[] = null;
   public fundingProgramVocabulary: Vocabulary[] = null;
@@ -351,13 +361,13 @@ export class DatasourceFormComponent implements OnInit {
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
+              protected recommendationsService: RecommendationsService,
               protected route: ActivatedRoute
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.datasourceService = this.injector.get(DatasourceService);
     this.fb = this.injector.get(FormBuilder);
     this.router = this.injector.get(NavigationService);
-    this.userService = this.injector.get(UserService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
@@ -548,7 +558,7 @@ export class DatasourceFormComponent implements OnInit {
 
     this.isPortalAdmin = this.authenticationService.isAdmin();
 
-    this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
+    this.vocabularyEntryForm = this.fb.group(this.vocSuggestionsForm);
 
     this.pushCategory();
     this.pushScientificDomain();
@@ -1428,9 +1438,13 @@ export class DatasourceFormComponent implements OnInit {
     });
   }
 
+  showSuggestionsModal() {
+    UIkit.modal('#suggestionsModal').show();
+    this.getSuggestions();
+  }
   /** <--Modals **/
 
-  submitSuggestion(entryValueName, vocabulary, parent) {
+  submitVocSuggestion(entryValueName, vocabulary, parent) {
     if (entryValueName.trim() !== '') {
       this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'service', this.providerId, this.serviceID).subscribe(
         res => {
@@ -1471,7 +1485,107 @@ export class DatasourceFormComponent implements OnInit {
       }
     }
     // return invalid;
-    console.log('findInvalidControls ', invalid);
+    // console.log('findInvalidControls ', invalid);
   }
+
+  /** Suggestions(Recommendations) Autocomplete--> **/
+  getSuggestions(){
+    if (!this.serviceForm.get('name').value && !this.serviceForm.get('description').value && !this.serviceForm.get('tagline').value) {
+      this.noSuggestions = true;
+    } else {
+      this.noSuggestions = false;
+      this.showLoader = true;
+      this.recommendationsService.getAutocompletionSuggestions(this.serviceForm.get('name').value, this.serviceForm.get('description').value, this.serviceForm.get('tagline').value).subscribe(
+        res => {
+          this.suggestedResponse = res;
+          this.suggestedScientificSubDomains = this.suggestedResponse.find(item => item.field_name === "scientific_domains").suggestions;
+          this.suggestedSubCategories = this.suggestedResponse.find(item => item.field_name === "categories").suggestions;
+          this.suggestedtargetUsers = this.suggestedResponse.find(item => item.field_name === "target_users").suggestions;
+          this.filteredScientificSubDomainVocabulary = this.scientificSubDomainVocabulary.filter((item) => this.suggestedScientificSubDomains.includes(item.id));
+          this.filteredSubCategoriesVocabulary = this.subCategoriesVocabulary.filter((item) => this.suggestedSubCategories.includes(item.id));
+          this.filteredTargetUsersVocabulary = this.targetUsersVocabulary.filter((item) => this.suggestedtargetUsers.includes(item.id));
+        },
+        error => {
+          console.log(error);
+        },
+        () => {
+          this.showLoader = false;
+        }
+      );
+    }
+  }
+
+  onCheckboxChange(event: any, field: string) {
+    const id = event.target.value;
+
+    if (event.target.checked) {
+      if (field === 'ScientificSubDomains') {
+        this.selectedSuggestionsForScientificSubDomains.push(id);
+      } else if (field === 'SubCategories') {
+        this.selectedSuggestionsForSubCategories.push(id);
+      } else if (field === 'TargetUsers') {
+        this.selectedSuggestionsFortargetUsers.push(id);
+      }
+    } else {
+      let index;
+
+      if (field === 'ScientificSubDomains') {
+        index = this.selectedSuggestionsForScientificSubDomains.indexOf(id);
+        if (index !== -1) {
+          this.selectedSuggestionsForScientificSubDomains.splice(index, 1);
+        }
+      } else if (field === 'SubCategories') {
+        index = this.selectedSuggestionsForSubCategories.indexOf(id);
+        if (index !== -1) {
+          this.selectedSuggestionsForSubCategories.splice(index, 1);
+        }
+      } else if (field === 'TargetUsers') {
+        index = this.selectedSuggestionsFortargetUsers.indexOf(id);
+        if (index !== -1) {
+          this.selectedSuggestionsFortargetUsers.splice(index, 1);
+        }
+      }
+    }
+  }
+
+  autocomplete() {
+    if (this.selectedSuggestionsForScientificSubDomains.length > 0) {
+      if (!this.scientificDomainArray.controls[0].get('scientificDomain').value) {
+        this.removeScientificDomain(0);
+      }
+      for (const scientificSubdomain of this.selectedSuggestionsForScientificSubDomains) {
+        const scientificDomain = this.scientificSubDomainVocabulary.find((cat) => cat.id === scientificSubdomain)?.parentId;
+        if (scientificDomain) {
+          const scientificDomainFormGroup = this.newScientificDomain();
+          scientificDomainFormGroup.get('scientificDomain').setValue(scientificDomain);
+          scientificDomainFormGroup.get('scientificSubdomain').setValue(scientificSubdomain);
+          this.scientificDomainArray.push(scientificDomainFormGroup);
+        }
+      }
+    }
+    if (this.selectedSuggestionsForSubCategories.length > 0) {
+      if (!this.categoryArray.controls[0].get('category').value) {
+        this.removeCategory(0);
+      }
+      for (const subcategory of this.selectedSuggestionsForSubCategories) {
+        const category = this.subCategoriesVocabulary.find((cat) => cat.id === subcategory)?.parentId;
+        if (category) {
+          const categoryFormGroup = this.newCategory();
+          categoryFormGroup.get('category').setValue(category);
+          categoryFormGroup.get('subcategory').setValue(subcategory);
+          this.categoryArray.push(categoryFormGroup);
+        }
+      }
+    }
+    if (this.selectedSuggestionsFortargetUsers.length > 0) {
+      if (!this.getFieldAsFormArray('targetUsers').controls[0].value) {
+        this.getFieldAsFormArray('targetUsers').removeAt(0);
+      }
+      for (const suggestion of this.selectedSuggestionsFortargetUsers) {
+        this.getFieldAsFormArray('targetUsers').push(new FormControl(suggestion));
+      }
+    }
+  }
+  /** <--Suggestions(Recommendations) Autocomplete **/
 
 }

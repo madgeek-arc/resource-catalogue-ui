@@ -163,12 +163,6 @@ export class ResourceService {
     return this.http.delete(this.base + '/datasource/' + id, this.options);
   }
 
-  /** Recommendations **/
-
-  getRecommendedServices(limit: number) {
-    return this.http.get<RichService[]>(this.base + `/recommendation/getRecommendationServices/${limit}/`, this.options);
-  }
-
   /** STATS **/
   getVisitsForProvider(provider: string, period?: string) {
     let params = new HttpParams();
@@ -305,15 +299,6 @@ export class ResourceService {
       return this.http.get(this.base + `/stats/service/visits/${service}`, {params});
     }
     return this.http.get(this.base + `/stats/service/visits/${service}`);
-  }
-
-  getFavouritesForService(service: string, period?: string) {
-    let params = new HttpParams();
-    if (period) {
-      params = params.append('by', period);
-      return this.http.get(this.base + `/stats/service/favourites/${service}`, {params});
-    }
-    return this.http.get(this.base + `/stats/service/favourites/${service}`);
   }
 
   getAddToProjectForService(service: string, period?: string) {

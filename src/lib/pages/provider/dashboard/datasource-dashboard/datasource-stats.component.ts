@@ -10,6 +10,7 @@ import {map} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
 import * as Highcharts from 'highcharts';
 import MapModule from 'highcharts/modules/map';
+import {RecommendationsService} from "../../../../services/recommendations.service";
 MapModule(Highcharts);
 
 declare var require: any;
@@ -38,6 +39,8 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
   datasourceRatingsOptions: any = null;
   datasourceAddsToProjectOptions: any = null;
   datasourceMapOptions: any = null;
+  recommendationsOverTimeForService: any = null;
+  recommendationsOfCompetitorsServices: any = null;
 
   datasourceHistory: Paging<LoggingInfo>;
 
@@ -46,7 +49,8 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private router: NavigationService,
               private resourceService: ResourceService,
-              private datasourceService: DatasourceService) {
+              private datasourceService: DatasourceService,
+              private recommendationsService: RecommendationsService) {
   }
 
   ngOnInit() {
@@ -130,6 +134,19 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
         }
       );
     }
+
+    /** Recommendations --> **/
+    this.recommendationsService.getRecommendationsOverTime(this.datasource.resourceOrganisation, this.datasource.id).subscribe(
+      data => this.setRecommendationsOverTimeForService(data),
+      err => this.errorMessage = 'An error occurred while retrieving visits for this service. ' + err.error
+    );
+
+    this.recommendationsService.getCompetitorsServices(this.datasource.resourceOrganisation, this.datasource.id).subscribe(
+      data => this.setCompetitorsServices(data),
+      err => this.errorMessage = 'An error occurred while retrieving recommended services. ' + err.error
+    );
+    /** <- Recommendations **/
+
   }
 
   onPeriodChange(event) {
@@ -162,7 +179,10 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
           name: 'Visits over time',
           color: '#036166',
           data: data
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
     }
   }
@@ -192,7 +212,10 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
           name: 'Adds to project over time',
           color: '#C36000',
           data: data
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
     }
   }
@@ -222,7 +245,10 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
           name: 'Average rating over time',
           color: '#6B0035',
           data: data
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
 
     }
@@ -263,8 +289,57 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
           headerFormat: '',
           pointFormat: '{point.name}'
         }
-      }]
+      }],
+      credits: {
+        enabled: false
+      }
     };
+  }
+
+  setRecommendationsOverTimeForService(data: any) {
+    const chartData = [];
+    data.forEach((value) => {
+      chartData.push([Date.parse(value.date), value.recommendations]);
+    });
+
+    if (data) {
+      this.recommendationsOverTimeForService = {
+        chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
+        },
+        title: {
+          text: 'Recommendations over time'
+        },
+        xAxis: {
+          type: 'datetime',
+          // dateTimeLabelFormats: {
+          //   month: '%e. %b',
+          //   year: '%b'
+          // },
+          title: {
+            text: 'Date'
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Number of recommendations'
+          }
+        },
+        series: [{
+          name: 'Recommendations over time',
+          color: '#013203',
+          data: chartData
+        }],
+        credits: {
+          enabled: false
+        }
+      };
+    }
+  }
+
+  setCompetitorsServices(data: any){
+    this.recommendationsOfCompetitorsServices = data;
+
   }
 
   ngOnDestroy(): void {

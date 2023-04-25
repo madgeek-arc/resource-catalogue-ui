@@ -8,6 +8,7 @@ import {Service} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {NavigationService} from "../../services/navigation.service";
+import {RecommendationsService} from "../../services/recommendations.service";
 
 
 @Component({
@@ -23,10 +24,11 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
   constructor(public route: ActivatedRoute,
               public authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
+              protected recommendationsService: RecommendationsService,
               protected injector: Injector,
               public datePipe: DatePipe,
               public navigationService: NavigationService) {
-    super(injector, authenticationService, serviceProviderService, route);
+    super(injector, authenticationService, serviceProviderService, recommendationsService, route);
     this.editMode = true;
   }
 

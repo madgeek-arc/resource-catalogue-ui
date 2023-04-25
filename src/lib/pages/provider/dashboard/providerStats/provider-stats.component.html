@@ -18,6 +18,7 @@
         <li class="uk-active" aria-expanded="true"><a>User engagement</a></li>
         <li aria-expanded="false"><a>Geographical distribution of {{serviceORresource | lowercase}}s</a></li>
         <li aria-expanded="false"><a>Distribution of {{serviceORresource | lowercase}}s per {{serviceORresource | lowercase}} attribute</a></li>
+        <li aria-expanded="false"><a>Performance on recommender</a></li>
       </ul>
 
       <ul id="terminology_tabbed" class="uk-switcher">
@@ -184,117 +185,181 @@
 
           </div>
         </li>
+        <li aria-hidden="true" style="animation-duration: 200ms;">
+
+<!--          <div class="uk-grid">-->
+<!--            <div class="uk-width-4-5"></div>-->
+<!--            <div class="uk-width-1-5 ">-->
+<!--              <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"-->
+<!--                      (change)="onPeriodChange($event)">-->
+<!--                <option value="DAY">Daily</option>-->
+<!--                <option value="WEEK">Weekly</option>-->
+<!--                <option value="MONTH" selected>Monthly</option>-->
+<!--                <option value="YEAR">Yearly</option>-->
+<!--              </select>-->
+<!--              <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>-->
+<!--            </div>-->
+<!--          </div>-->
+
+          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l uk-margin-remove-top">
+
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <highcharts-chart *ngIf="recommendationsOverTimeForProvider" [Highcharts]="Highcharts"
+                                    [options]="recommendationsOverTimeForProvider"
+                                    style="width: 100%; height: auto; display: block;">
+                  </highcharts-chart>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <highcharts-chart *ngIf="recommendationsOfTopServices" [Highcharts]="Highcharts"
+                                    [options]="recommendationsOfTopServices"
+                                    style="width: 100%; display: block;">
+                  </highcharts-chart>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="uk-grid uk-child-width-1-1@m uk-child-width-1-1@l uk-margin-remove-top">
+            <div class="uk-card">
+              <div class="uk-card-body">
+                <h5 class="uk-text-center uk-margin-bottom" style="color:#333333;font-size:18px;fill:#333333;" y="24">Services recommended next to your services</h5>
+                <div uk-accordion>
+                  <div *ngFor="let item of recommendationsOfCompetitorsServices">
+                    <h3 class="uk-accordion-title">{{ item.service_id }} <span class="uk-align-right" style=color:#004494>({{ item.total_competitor_recommendations }} times)</span></h3>
+                    <div class="uk-accordion-content">
+                      <ul class="uk-list uk-list-striped">
+                        <li *ngFor="let competitor of item.competitors">
+                          {{ competitor.service_id }}
+                          <span class="uk-align-right">{{ ((competitor.recommendations / item.total_competitor_recommendations) * 100).toFixed(2) }}%</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </li>
       </ul>
 
-<!--      <ul class="uk-tab-left uk-tab" uk-tab>-->
-<!--        <li class="uk-active"><a href="#">User engagement</a>-->
-<!--          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">-->
+<!--      <ul class="uk-tab-left uk-tab" uk-tab>
+        <li class="uk-active"><a href="#">User engagement</a>
+          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
 
-<!--            <div>-->
-<!--              <div class="uk-card">-->
-<!--                <div class="uk-card-body" *ngIf="projectName==='CatRIS'">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerFavouritesOptions" style="width: 100%; display: block;"></highcharts-chart>-->
-<!--                </div>-->
-<!--                <div class="uk-card-body" *ngIf="projectName==='EOSC'">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerAddsToProjectOptions" style="width: 100%; display: block;"></highcharts-chart>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body" *ngIf="projectName==='CatRIS'">
+                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerFavouritesOptions" style="width: 100%; display: block;"></highcharts-chart>
+                </div>
+                <div class="uk-card-body" *ngIf="projectName==='EOSC'">
+                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerAddsToProjectOptions" style="width: 100%; display: block;"></highcharts-chart>
+                </div>
+              </div>
+            </div>
 
-<!--            <div>-->
-<!--              <div class="uk-card">-->
-<!--                <div class="uk-card-body">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerVisitsOptions" style="width: 100%; display: block;"></highcharts-chart>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerVisitsOptions" style="width: 100%; display: block;"></highcharts-chart>
+                </div>
+              </div>
+            </div>
 
-<!--            <div>-->
-<!--              <div class="uk-card">-->
-<!--                <div class="uk-card-body">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerRatingsOptions" style="width: 100%; display: block;"></highcharts-chart>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <highcharts-chart [Highcharts]="Highcharts" [options]="providerRatingsOptions" style="width: 100%; display: block;"></highcharts-chart>
+                </div>
+              </div>
+            </div>
 
-<!--            &lt;!&ndash;        <div *ngIf="projectName==='EOSC'">&ndash;&gt;-->
-<!--            &lt;!&ndash;          <div class="uk-card">&ndash;&gt;-->
-<!--            &lt;!&ndash;            <div class="uk-card-body">&ndash;&gt;-->
-<!--            &lt;!&ndash;              <highcharts-chart [Highcharts]="Highcharts" [options]="providerOrdersOptions" style="width: 100%; display: block;"></highcharts-chart>&ndash;&gt;-->
-<!--            &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--            &lt;!&ndash;          </div>&ndash;&gt;-->
-<!--            &lt;!&ndash;        </div>&ndash;&gt;-->
+            &lt;!&ndash;        <div *ngIf="projectName==='EOSC'">&ndash;&gt;
+            &lt;!&ndash;          <div class="uk-card">&ndash;&gt;
+            &lt;!&ndash;            <div class="uk-card-body">&ndash;&gt;
+            &lt;!&ndash;              <highcharts-chart [Highcharts]="Highcharts" [options]="providerOrdersOptions" style="width: 100%; display: block;"></highcharts-chart>&ndash;&gt;
+            &lt;!&ndash;            </div>&ndash;&gt;
+            &lt;!&ndash;          </div>&ndash;&gt;
+            &lt;!&ndash;        </div>&ndash;&gt;
 
-<!--          </div>-->
-<!--        </li>-->
+          </div>
+        </li>
 
-<!--        <li><a href="#">Geographical distribution of {{serviceORresource | lowercase}}s</a>-->
-<!--          <div class="uk-grid">-->
-<!--            <div class="uk-width-1-1 uk-card">-->
-<!--              <div class="uk-card-body">-->
-<!--                <highcharts-chart [Highcharts]="Highcharts" type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">-->
-<!--                  <series (click)="onMapSeriesClick($event)">-->
-<!--                  </series>-->
-<!--                </highcharts-chart>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </li>-->
+        <li><a href="#">Geographical distribution of {{serviceORresource | lowercase}}s</a>
+          <div class="uk-grid">
+            <div class="uk-width-1-1 uk-card">
+              <div class="uk-card-body">
+                <highcharts-chart [Highcharts]="Highcharts" type="Map" [options]="mapDistributionOfServicesOptions" style="width: 100%; display: block;">
+                  <series (click)="onMapSeriesClick($event)">
+                  </series>
+                </highcharts-chart>
+              </div>
+            </div>
+          </div>
+        </li>
 
-<!--        <li><a href="#">Distribution of {{serviceORresource | lowercase}}s per {{serviceORresource | lowercase}} attribute</a>-->
-<!--          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">-->
+        <li><a href="#">Distribution of {{serviceORresource | lowercase}}s per {{serviceORresource | lowercase}} attribute</a>
+          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
 
-<!--            <div>-->
-<!--              <div class="uk-card">-->
-<!--                <div class="uk-card-body">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <highcharts-chart [Highcharts]="Highcharts" [options]="categoriesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
+                </div>
+              </div>
+            </div>
 
-<!--            <div>-->
-<!--              <div class="uk-card">-->
-<!--                <div class="uk-card-body">-->
-<!--                  <chart [options]="domainsPerServiceForProvider" style="width: 100%; display: block;"></chart>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <chart [options]="domainsPerServiceForProvider" style="width: 100%; display: block;"></chart>
+                </div>
+              </div>
+            </div>
 
-<!--            <div>-->
-<!--              <div class="uk-card">-->
-<!--                <div class="uk-card-body">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <highcharts-chart [Highcharts]="Highcharts" [options]="targetUsersPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
+                </div>
+              </div>
+            </div>
 
-<!--            <div>-->
-<!--              <div class="uk-card">-->
-<!--                <div class="uk-card-body">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <highcharts-chart [Highcharts]="Highcharts" [options]="accessTypesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
+                </div>
+              </div>
+            </div>
 
-<!--            <div>-->
-<!--              <div class="uk-card">-->
-<!--                <div class="uk-card-body">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <highcharts-chart [Highcharts]="Highcharts" [options]="accessModesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
+                </div>
+              </div>
+            </div>
 
-<!--            <div>-->
-<!--              <div class="uk-card">-->
-<!--                <div class="uk-card-body">-->
-<!--                  <highcharts-chart [Highcharts]="Highcharts" [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <highcharts-chart [Highcharts]="Highcharts" [options]="orderTypesPerServiceForProvider" style="width: 100%; display: block;"></highcharts-chart>
+                </div>
+              </div>
+            </div>
 
-<!--          </div>-->
-<!--        </li>-->
-<!--      </ul>-->
+          </div>
+        </li>
+      </ul>-->
 
     </div>
   </div>

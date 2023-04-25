@@ -22,6 +22,8 @@ export const environment = {
   marketplaceDatasourcesURL: 'https://beta.marketplace.eosc-portal.eu/datasources/',
   marketplaceTrainingResourcesURL: 'https://search.eosc-portal.eu/trainings/',
   API_TOKEN_ENDPOINT: 'https://aai.eosc-portal.eu/providers-api',
+  INSIGHTS_ENDPOINT: 'provider_insights_api/v1/statistics/rs',
+  AUTOCOMPLETION_ENDPOINT: 'v1/auto_completion',
   showHelpContent: false
 };
 
