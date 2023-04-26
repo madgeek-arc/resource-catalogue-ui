@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {DevelopersComponent} from './developers/developers.component';
 import {FAQsComponent} from './faqs/faqs.component';
 import {OpenAPIComponent} from './openapi/openapi.component';
+import {AboutComponent} from "./about/about.component";
 
 const supportRoutes: Routes = [
   {
@@ -10,6 +11,13 @@ const supportRoutes: Routes = [
     component: FAQsComponent,
     data: {
       breadcrumb: 'FAQs'
+    }
+  },
+  {
+    path: 'about',
+    component: AboutComponent,
+    data: {
+      breadcrumb: 'about'
     }
   },
   {

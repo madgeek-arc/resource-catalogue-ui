@@ -65,6 +65,10 @@
             </ul>
             <ul class="uk-nav uk-nav-default mainMenu">
 
+              <li class="uk-parent" [routerLinkActive]="['uk-active']">
+                <a [routerLink]="['/about']" routerLinkActive="uk-active">About</a>
+              </li>
+
               <li class="uk-nav-header uk-parent" [routerLinkActive]="['uk-active']">For Providers
                 <ul class="uk-nav-sub">
                   <li><a [routerLink]="['/becomeAProvider']" routerLinkActive="uk-active"
@@ -157,9 +161,9 @@
           </div>
           <div class="uk-navbar-right align-self-center">
             <ul class="uk-navbar-nav">
-<!--              <li class="uk-parent" [routerLinkActive]="['uk-active']">-->
-<!--                <a [routerLink]="['/stats']" routerLinkActive="uk-active">Statistics</a>-->
-<!--              </li>-->
+              <li class="uk-parent" [routerLinkActive]="['uk-active']">
+                <a [routerLink]="['/about']" routerLinkActive="uk-active">About</a>
+              </li>
 
               <li class="uk-parent" [routerLinkActive]="['uk-active']">
                 <a href="#" class="" aria-expanded="false">
