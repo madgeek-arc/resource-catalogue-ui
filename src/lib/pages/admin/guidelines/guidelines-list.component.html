@@ -182,15 +182,14 @@
                             </div>
 
                             <div class="uk-width-1-5">
-                              <div class="action-buttons uk-flex uk-flex-middle uk-flex-center" style="flex-direction: column;">
-<!--                                <ng-container *ngif="guidelineBundle.status === 'pending interoperability record'">-->
+                              <ng-container *ngIf="guidelineBundle.status === 'pending interoperability record'">
+                                <div class="action-buttons uk-flex uk-flex-middle uk-flex-center" style="flex-direction: column;">
                                   <button (click)="verifyGuideline(guidelineBundle.id, true, 'approved interoperability record')" class="uk-button uk-button-primary uk-display-block">
                                     <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i> Approve
                                   </button>
                                   <button (click)="verifyGuideline(guidelineBundle.id, true, 'rejected interoperability record')" class="uk-button uk-button-danger uk-display-block">
                                     <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>  Reject
                                   </button>
-<!--                                </ng-container>-->
 
 <!--                                <button routerLink="/guidelines/{{guidelineBundle.interoperabilityRecord.providerId}}/update/{{guidelineBundle.id}}" class="uk-button uk-button-primary uk-display-block">-->
 <!--                                  <i class="fa fa-edit fa-lg" aria-hidden="true"></i> Update-->
@@ -198,7 +197,8 @@
 <!--                                <button (click)="showDeletionModal(guidelineBundle.id)" class="uk-button uk-button-danger uk-display-block">-->
 <!--                                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete-->
 <!--                                </button>-->
-                              </div>
+                                </div>
+                              </ng-container>
                             </div>
                           </div>
 
