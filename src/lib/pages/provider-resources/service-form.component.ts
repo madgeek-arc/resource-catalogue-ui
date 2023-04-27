@@ -1296,10 +1296,17 @@ export class ServiceFormComponent implements OnInit {
           console.log(error);
         },
         () => {
+          this.clearSelectedSuggestions();
           this.showLoader = false;
         }
       );
     }
+  }
+
+  clearSelectedSuggestions(){
+    this.selectedSuggestionsForScientificSubDomains = [];
+    this.selectedSuggestionsForSubCategories= [];
+    this.selectedSuggestionsFortargetUsers = [];
   }
 
   onCheckboxChange(event: any, field: string) {
@@ -1336,6 +1343,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   autocomplete() {
+    let pushedNewValues = false;
     if (this.selectedSuggestionsForScientificSubDomains.length > 0) {
       if (!this.scientificDomainArray.controls[0].get('scientificDomain').value) {
         this.removeScientificDomain(0);
@@ -1347,6 +1355,7 @@ export class ServiceFormComponent implements OnInit {
           scientificDomainFormGroup.get('scientificDomain').setValue(scientificDomain);
           scientificDomainFormGroup.get('scientificSubdomain').setValue(scientificSubdomain);
           this.scientificDomainArray.push(scientificDomainFormGroup);
+          pushedNewValues = true;
         }
       }
     }
@@ -1361,6 +1370,7 @@ export class ServiceFormComponent implements OnInit {
           categoryFormGroup.get('category').setValue(category);
           categoryFormGroup.get('subcategory').setValue(subcategory);
           this.categoryArray.push(categoryFormGroup);
+          pushedNewValues = true;
         }
       }
     }
@@ -1370,8 +1380,24 @@ export class ServiceFormComponent implements OnInit {
       }
       for (const suggestion of this.selectedSuggestionsFortargetUsers) {
         this.getFieldAsFormArray('targetUsers').push(new FormControl(suggestion));
+        pushedNewValues = true;
       }
     }
+    if (pushedNewValues) {
+      UIkit.notification({
+        message: 'New values added successfully!',
+        status: 'success',
+        pos: 'top-center',
+        timeout: 7000
+      });
+    }
+    this.checkForDuplicatesAfterAutocomplete();
+  }
+
+  checkForDuplicatesAfterAutocomplete(){
+    this.checkForDuplicates('scientificSubdomain','scientificDomains');
+    this.checkForDuplicates('subcategory','categories');
+    this.checkForDuplicates('targetUsers');
   }
   /** <--Suggestions(Recommendations) Autocomplete **/
 
