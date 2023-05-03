@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CatalogueBundle, ServiceBundle, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {CatalogueBundle, ServiceBundle, ProviderBundle, Service, Datasource} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -38,10 +38,12 @@ export class CatalogueServicesComponent implements OnInit {
   urlParams: URLParameter[] = [];
   catalogueId;
   catalogueBundle: CatalogueBundle;
-  providerServices: Paging<ServiceBundle>;
+  // serviceBundles: Paging<ServiceBundle>;
+  services: Service[] =[];
   // providerCoverage: string[];
   // providerServicesGroupedByPlace: any;
-  selectedService: ServiceBundle = null;
+  selectedService: Service = null;
+  selectedServiceBundle: ServiceBundle = null;
   path: string;
 
   total: number;
@@ -56,7 +58,7 @@ export class CatalogueServicesComponent implements OnInit {
     private router: Router,
     private providerService: ServiceProviderService,
     private catalogueService: CatalogueService,
-    private service: ResourceService
+    private resourceService: ResourceService
   ) {}
 
   ngOnInit(): void {
@@ -87,6 +89,10 @@ export class CatalogueServicesComponent implements OnInit {
       );
   }
 
+  getPayload(bundle : ServiceBundle): Service | Datasource {
+    return bundle.service != null ? bundle.service : bundle.datasource;
+  }
+
   navigate(serviceId: string) {
     this.router.navigate([`/dashboard/${this.catalogueId}/${serviceId.split('.')[0]}/resource-dashboard/`, serviceId]);
   }
@@ -101,24 +107,32 @@ export class CatalogueServicesComponent implements OnInit {
     );
   }
 
-  toggleService(providerService: ServiceBundle) {
-    if (providerService.status === 'pending resource' || providerService.status === 'rejected resource') {
-      this.errorMessage = `You cannot activate a ${providerService.status}.`;
-      window.scrollTo(0, 0);
-      return;
-    }
+  toggleService(serviceId: string) {
     this.toggleLoading = true;
-    this.providerService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
-      res => {},
-      error => {
-        this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getServices();
-        this.toggleLoading = false;
-        // console.log(error);
-      },
+    this.selectedServiceBundle = null;
+    this.resourceService.getResourceBundleById(serviceId, this.catalogueId).subscribe(
+      res => {
+        this.selectedServiceBundle = res;
+      }, error => console.log(error),
       () => {
-        this.getServices();
-        this.toggleLoading = false;
+        if (this.selectedServiceBundle.status === 'pending resource' || this.selectedServiceBundle.status === 'rejected resource') {
+          this.errorMessage = `You cannot activate a ${this.selectedServiceBundle.status}.`;
+          window.scrollTo(0, 0);
+          return;
+        }
+        this.providerService.publishService(this.selectedServiceBundle.id, this.selectedServiceBundle.service.version, !this.selectedServiceBundle.active).subscribe(
+          res => {},
+          error => {
+            this.errorMessage = 'Something went bad. ' + error.error ;
+            this.getServices();
+            this.toggleLoading = false;
+            // console.log(error);
+          },
+          () => {
+            this.getServices();
+            this.toggleLoading = false;
+          }
+        );
       }
     );
   }
@@ -128,7 +142,7 @@ export class CatalogueServicesComponent implements OnInit {
       this.dataForm.get('order').value, this.dataForm.get('orderField').value,
       this.dataForm.get('active').value, this.dataForm.get('status').value, this.dataForm.get('query').value)
       .subscribe(res => {
-          this.providerServices = res;
+          this.services = res['results'];
           this.total = res['total'];
           this.paginationInit();
         },
@@ -138,14 +152,14 @@ export class CatalogueServicesComponent implements OnInit {
       );
   }
 
-  setSelectedService(service: ServiceBundle) {
+  setSelectedService(service: Service) {
     this.selectedService = service;
     UIkit.modal('#actionModal').show();
   }
 
   deleteService(id: string) {
     // UIkit.modal('#spinnerModal').show();
-    this.service.deleteService(id).subscribe(
+    this.resourceService.deleteService(id).subscribe(
       res => {},
       error => {
         // console.log(error);

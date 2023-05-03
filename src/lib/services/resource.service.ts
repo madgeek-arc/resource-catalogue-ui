@@ -130,7 +130,7 @@ export class ResourceService {
     // return this.http.get(this.base + '/service/getAllProviderRelatedResources/');
   }
 
-  getService(serviceId: string, catalogueId?: string) { //fixme: backend 404 for non-eosc services
+  getService(serviceId: string, catalogueId?: string) {
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? serviceId : [serviceId, version].join('/')}`, this.options);
     if (!catalogueId) catalogueId = 'eosc';
