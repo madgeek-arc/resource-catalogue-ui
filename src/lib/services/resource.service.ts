@@ -130,11 +130,11 @@ export class ResourceService {
     // return this.http.get(this.base + '/service/getAllProviderRelatedResources/');
   }
 
-  getService(id: string, catalogueId?: string) {
+  getService(serviceId: string, catalogueId?: string) { //fixme: backend 404 for non-eosc services
     // if version becomes optional this should be reconsidered
-    // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
+    // return this.http.get<Service>(this.base + `/service/${version === undefined ? serviceId : [serviceId, version].join('/')}`, this.options);
     if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<Service>(this.base + `/service/${id}/?catalogue_id=${catalogueId}`, this.options);
+    return this.http.get<Service>(this.base + `/service/${serviceId}/?catalogue_id=${catalogueId}`, this.options);
   }
 
   getRichService(id: string, catalogueId?:string, version?: string) {
