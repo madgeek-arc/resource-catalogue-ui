@@ -253,6 +253,14 @@ const providerRoutes: Routes = [
     }
   },
   {
+    path: ':catalogueId/:providerId/training-resource/view/:trainingResourceId',
+    component: UpdateTrainingResource,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'View Training Resource'
+    }
+  },
+  {
     path: 'provider2pdf',
     component: ProviderFormToPdfComponent,
     canActivate: [CanActivateViaAuthGuard],
