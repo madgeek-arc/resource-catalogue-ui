@@ -1025,9 +1025,9 @@ export class ProviderStatsComponent implements OnInit {
           display: 'none'
         }
       },
-      tooltip: {
-        valueSuffix: ' services'
-      },
+      // tooltip: {
+      //   valueSuffix: ' services'
+      // },
       plotOptions: {
         bar: {
           dataLabels: {

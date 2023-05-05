@@ -59,7 +59,12 @@
                 <div id="serviceForm">
 
                   <div class="uk-margin-bottom uk-flex uk-flex-right">
-                    <div class="uk-flex uk-flex-middle">
+
+                    <div>
+                      <button class="uk-button uk-button-primary" type="button" (click)="showSuggestionsModal()">Suggest</button>
+                    </div>
+
+                    <div class="uk-margin-medium-left uk-margin-small-right uk-flex uk-flex-middle">
                       <button class="uk-button uk-button-link" type="button">Do you need help?</button>
                       <div uk-drop="pos: bottom-left">
                         <div class="uk-card uk-card-body uk-card-default">
@@ -93,9 +98,6 @@
                           </app-help-content>
                         </div>
                       </div>
-                    </div>
-                    <div class="uk-margin-medium-left">
-                      <button class="uk-button uk-button-primary" type="button" (click)="showSuggestionsModal()">Suggest</button>
                     </div>
 
                   </div>
@@ -525,7 +527,7 @@
                           <li>
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right">
-                                Scientific Categorisation (*)
+                                Scientific Categorisation (*) <span style="color:#0055b9" (click)="showSuggestionsModal()">&nbsp;&nbsp;Press the Suggest button to get recommended values</span>
                               </label>
                               <div class="uk-form-controls uk-margin-top">
                                 <div formArrayName="scientificDomains"
@@ -629,7 +631,7 @@
 
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right">
-                                Categorisation (*)
+                                Categorisation (*) <span style="color:#0055b9" (click)="showSuggestionsModal()">&nbsp;&nbsp;Press the Suggest button to get recommended values</span>
                               </label>
                               <div class="uk-form-controls uk-margin-top">
                                 <div formArrayName="categories"
@@ -736,7 +738,7 @@
 
                             <div formArrayName="targetUsers" class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="targetUsers">
-                                {{targetUsersDesc.label + (targetUsersDesc.mandatory ? ' (*)' : '')}}
+                                {{targetUsersDesc.label + (targetUsersDesc.mandatory ? ' (*)' : '')}} <span style="color:#0055b9" (click)="showSuggestionsModal()">&nbsp;&nbsp;Press the Suggest button to get recommended values</span>
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{targetUsersDesc.desc}}</div>
