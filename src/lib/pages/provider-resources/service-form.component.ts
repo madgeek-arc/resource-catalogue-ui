@@ -106,8 +106,9 @@ export class ServiceFormComponent implements OnInit {
 
   commentControl = new FormControl();
 
-  noSuggestions: boolean;
+  noSuggestionsCall: boolean;
   suggestedResponse: any;
+  emptySuggestionResponse: boolean;
 
   suggestedScientificSubDomains: string[] = [];
   suggestedSubCategories: string[] = [];
@@ -1238,6 +1239,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   showSuggestionsModal() {
+    this.emptySuggestionResponse = false;
     UIkit.modal('#suggestionsModal').show();
     this.getSuggestions();
   }
@@ -1278,9 +1280,9 @@ export class ServiceFormComponent implements OnInit {
   /** Suggestions(Recommendations) Autocomplete--> **/
   getSuggestions(){
     if (!this.serviceForm.get('name').value && !this.serviceForm.get('description').value && !this.serviceForm.get('tagline').value) {
-      this.noSuggestions = true;
+      this.noSuggestionsCall = true;
     } else {
-      this.noSuggestions = false;
+      this.noSuggestionsCall = false;
       this.showLoader = true;
       this.recommendationsService.getAutocompletionSuggestions(this.serviceForm.get('name').value, this.serviceForm.get('description').value, this.serviceForm.get('tagline').value).subscribe(
         res => {
@@ -1288,6 +1290,9 @@ export class ServiceFormComponent implements OnInit {
           this.suggestedScientificSubDomains = this.suggestedResponse.find(item => item.field_name === "scientific_domains").suggestions;
           this.suggestedSubCategories = this.suggestedResponse.find(item => item.field_name === "categories").suggestions;
           this.suggestedtargetUsers = this.suggestedResponse.find(item => item.field_name === "target_users").suggestions;
+          console.log(this.suggestedScientificSubDomains, this.suggestedSubCategories, this.suggestedtargetUsers);
+          if((this.suggestedScientificSubDomains.length === 0) && (this.suggestedSubCategories.length === 0) && (this.suggestedtargetUsers.length === 0)) {this.emptySuggestionResponse = true}
+          console.log(this.emptySuggestionResponse);
           this.filteredScientificSubDomainVocabulary = this.scientificSubDomainVocabulary.filter((item) => this.suggestedScientificSubDomains.includes(item.id));
           this.filteredSubCategoriesVocabulary = this.subCategoriesVocabulary.filter((item) => this.suggestedSubCategories.includes(item.id));
           this.filteredTargetUsersVocabulary = this.targetUsersVocabulary.filter((item) => this.suggestedtargetUsers.includes(item.id));

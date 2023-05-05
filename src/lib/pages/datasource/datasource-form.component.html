@@ -62,6 +62,11 @@
 
                     <div>
                       <button class="uk-button uk-button-primary" type="button" (click)="showSuggestionsModal()">Suggest</button>
+                      <div uk-drop="pos: bottom-left">
+                        <div class="uk-card uk-card-body uk-card-default">
+                          <p class="uk-margin-remove-bottom">Suggest scientific domains, categories, and target users based on the provided tagline and description.</p>
+                        </div>
+                      </div>
                     </div>
 
                     <div class="uk-margin-medium-left uk-margin-small-right uk-flex uk-flex-middle">
@@ -2535,50 +2540,56 @@
 <div id="suggestionsModal" uk-modal>
   <div *ngIf="!showLoader" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <h4 class="uk-text-center">Suggestions</h4>
-    <ng-container *ngIf="noSuggestions">
+    <ng-container *ngIf="noSuggestionsCall">
       <p class="uk-text-center uk-margin">Please fill in 'Name', 'Description' and 'Tagline' fields before requesting suggestions for your service.</p>
       <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="button">OK</button>
     </ng-container>
 
-    <ng-container *ngIf="noSuggestions===false">
+    <ng-container *ngIf="noSuggestionsCall===false">
+      <p *ngIf="emptySuggestionResponse" class="uk-text-center uk-margin">No suggestions found.</p>
       <p class="uk-text-center uk-margin">For better results make sure you have properly filled in 'Name', 'Description' and 'Tagline' fields.</p>
-      <p class="uk-text-center uk-margin">Select the suggestions you want to add to your {{serviceORresource}}. Pressing 'Add' will autofill the form with the new values.</p>
-      <form>
-        <ul style="list-style: none;">
-          <div class="uk-text-bold">Scientific Subdomains</div>
-          <li *ngFor="let suggestion of filteredScientificSubDomainVocabulary">
-            <label>
-              <input type="checkbox"
-                     name="suggestion"
-                     [value]="suggestion.id"
-                     (change)="onCheckboxChange($event, 'ScientificSubDomains')">
-              {{ suggestion.name }}
-            </label>
-          </li>
-          <div class="uk-text-bold uk-margin-medium-top">Subcategories</div>
-          <li *ngFor="let suggestion of filteredSubCategoriesVocabulary">
-            <label>
-              <input type="checkbox"
-                     name="suggestion"
-                     [value]="suggestion.id"
-                     (change)="onCheckboxChange($event, 'SubCategories')">
-              {{ suggestion.name }}
-            </label>
-          </li>
-          <div class="uk-text-bold uk-margin-medium-top">Target Users</div>
-          <li *ngFor="let suggestion of filteredTargetUsersVocabulary">
-            <label>
-              <input type="checkbox"
-                     name="suggestion"
-                     [value]="suggestion.id"
-                     (change)="onCheckboxChange($event, 'TargetUsers')">
-              {{ suggestion.name }}
-            </label>
-          </li>
-        </ul>
-      </form>
-      <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="submit" (click)="autocomplete()">Add</button>
-      <button class="uk-button uk-modal-close uk-align-right" type="button">Cancel</button>
+      <ng-container *ngIf="!emptySuggestionResponse">
+        <p class="uk-text-center uk-margin">Select the suggestions you want to add to your {{serviceORresource}}. Pressing 'Add' will autofill the form with the new values.</p>
+        <form>
+          <ul style="list-style: none;">
+            <div class="uk-text-bold">Scientific Subdomains</div>
+            <li *ngFor="let suggestion of filteredScientificSubDomainVocabulary">
+              <label>
+                <input type="checkbox"
+                       name="suggestion"
+                       [value]="suggestion.id"
+                       (change)="onCheckboxChange($event, 'ScientificSubDomains')">
+                {{ suggestion.name }}
+              </label>
+            </li>
+            <div class="uk-text-bold uk-margin-medium-top">Subcategories</div>
+            <li *ngFor="let suggestion of filteredSubCategoriesVocabulary">
+              <label>
+                <input type="checkbox"
+                       name="suggestion"
+                       [value]="suggestion.id"
+                       (change)="onCheckboxChange($event, 'SubCategories')">
+                {{ suggestion.name }}
+              </label>
+            </li>
+            <div class="uk-text-bold uk-margin-medium-top">Target Users</div>
+            <li *ngFor="let suggestion of filteredTargetUsersVocabulary">
+              <label>
+                <input type="checkbox"
+                       name="suggestion"
+                       [value]="suggestion.id"
+                       (change)="onCheckboxChange($event, 'TargetUsers')">
+                {{ suggestion.name }}
+              </label>
+            </li>
+          </ul>
+        </form>
+      </ng-container>
+      <ng-container *ngIf="!emptySuggestionResponse">
+        <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="submit" (click)="autocomplete()">Add</button>
+        <button class="uk-button uk-modal-close uk-align-right" type="button">Cancel</button>
+      </ng-container>
+      <button *ngIf="emptySuggestionResponse" class="uk-button uk-button-primary uk-modal-close uk-align-right" type="button">OK</button>
     </ng-container>
   </div>
 </div>
