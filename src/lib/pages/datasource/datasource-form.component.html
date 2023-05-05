@@ -64,7 +64,7 @@
                       <button class="uk-button uk-button-primary" type="button" (click)="showSuggestionsModal()">Suggest</button>
                       <div uk-drop="pos: bottom-left">
                         <div class="uk-card uk-card-body uk-card-default">
-                          <p class="uk-margin-remove-bottom">Suggest scientific domains, categories, and target users based on the provided tagline and description.</p>
+                          <p class="uk-margin-remove-bottom">Suggest scientific domains and categories based on the provided tagline and description.</p>
                         </div>
                       </div>
                     </div>
@@ -743,7 +743,7 @@
 
                             <div formArrayName="targetUsers" class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="targetUsers">
-                                {{targetUsersDesc.label + (targetUsersDesc.mandatory ? ' (*)' : '')}} <span style="color:#0055b9" (click)="showSuggestionsModal()">&nbsp;&nbsp;Press the Suggest button to get recommended values</span>
+                                {{targetUsersDesc.label + (targetUsersDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{targetUsersDesc.desc}}</div>
@@ -2569,16 +2569,6 @@
                        name="suggestion"
                        [value]="suggestion.id"
                        (change)="onCheckboxChange($event, 'SubCategories')">
-                {{ suggestion.name }}
-              </label>
-            </li>
-            <div class="uk-text-bold uk-margin-medium-top">Target Users</div>
-            <li *ngFor="let suggestion of filteredTargetUsersVocabulary">
-              <label>
-                <input type="checkbox"
-                       name="suggestion"
-                       [value]="suggestion.id"
-                       (change)="onCheckboxChange($event, 'TargetUsers')">
                 {{ suggestion.name }}
               </label>
             </li>

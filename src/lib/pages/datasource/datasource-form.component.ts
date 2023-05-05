@@ -118,15 +118,12 @@ export class DatasourceFormComponent implements OnInit {
 
   suggestedScientificSubDomains: string[] = [];
   suggestedSubCategories: string[] = [];
-  suggestedtargetUsers: string[] = [];
 
   selectedSuggestionsForScientificSubDomains: string[] = [];
   selectedSuggestionsForSubCategories: string[] = [];
-  selectedSuggestionsFortargetUsers: string[] = [];
 
   public filteredSubCategoriesVocabulary: Vocabulary[] = null;
   public filteredScientificSubDomainVocabulary: Vocabulary[] = null;
-  public filteredTargetUsersVocabulary: Vocabulary[] = null;
 
   readonly nameDesc: sd.Description = sd.serviceDescMap.get('nameDesc');
   readonly abbreviationDesc: sd.Description = sd.serviceDescMap.get('abbreviationDesc');
@@ -1502,13 +1499,9 @@ export class DatasourceFormComponent implements OnInit {
           this.suggestedResponse = res;
           this.suggestedScientificSubDomains = this.suggestedResponse.find(item => item.field_name === "scientific_domains").suggestions;
           this.suggestedSubCategories = this.suggestedResponse.find(item => item.field_name === "categories").suggestions;
-          this.suggestedtargetUsers = this.suggestedResponse.find(item => item.field_name === "target_users").suggestions;
-          console.log(this.suggestedScientificSubDomains, this.suggestedSubCategories, this.suggestedtargetUsers);
-          if((this.suggestedScientificSubDomains.length === 0) && (this.suggestedSubCategories.length === 0) && (this.suggestedtargetUsers.length === 0)) {this.emptySuggestionResponse = true}
-          console.log(this.emptySuggestionResponse);
+          if((this.suggestedScientificSubDomains.length === 0) && (this.suggestedSubCategories.length === 0)) {this.emptySuggestionResponse = true}
           this.filteredScientificSubDomainVocabulary = this.scientificSubDomainVocabulary.filter((item) => this.suggestedScientificSubDomains.includes(item.id));
           this.filteredSubCategoriesVocabulary = this.subCategoriesVocabulary.filter((item) => this.suggestedSubCategories.includes(item.id));
-          this.filteredTargetUsersVocabulary = this.targetUsersVocabulary.filter((item) => this.suggestedtargetUsers.includes(item.id));
         },
         error => {
           console.log(error);
@@ -1524,7 +1517,6 @@ export class DatasourceFormComponent implements OnInit {
   clearSelectedSuggestions(){
     this.selectedSuggestionsForScientificSubDomains = [];
     this.selectedSuggestionsForSubCategories= [];
-    this.selectedSuggestionsFortargetUsers = [];
   }
 
   onCheckboxChange(event: any, field: string) {
@@ -1535,8 +1527,6 @@ export class DatasourceFormComponent implements OnInit {
         this.selectedSuggestionsForScientificSubDomains.push(id);
       } else if (field === 'SubCategories') {
         this.selectedSuggestionsForSubCategories.push(id);
-      } else if (field === 'TargetUsers') {
-        this.selectedSuggestionsFortargetUsers.push(id);
       }
     } else {
       let index;
@@ -1550,11 +1540,6 @@ export class DatasourceFormComponent implements OnInit {
         index = this.selectedSuggestionsForSubCategories.indexOf(id);
         if (index !== -1) {
           this.selectedSuggestionsForSubCategories.splice(index, 1);
-        }
-      } else if (field === 'TargetUsers') {
-        index = this.selectedSuggestionsFortargetUsers.indexOf(id);
-        if (index !== -1) {
-          this.selectedSuggestionsFortargetUsers.splice(index, 1);
         }
       }
     }
@@ -1592,15 +1577,6 @@ export class DatasourceFormComponent implements OnInit {
         }
       }
     }
-    if (this.selectedSuggestionsFortargetUsers.length > 0) {
-      if (!this.getFieldAsFormArray('targetUsers').controls[0].value) {
-        this.getFieldAsFormArray('targetUsers').removeAt(0);
-      }
-      for (const suggestion of this.selectedSuggestionsFortargetUsers) {
-        this.getFieldAsFormArray('targetUsers').push(new FormControl(suggestion));
-        pushedNewValues = true;
-      }
-    }
     if (pushedNewValues) {
       UIkit.notification({
         message: 'New values added successfully!',
@@ -1615,7 +1591,6 @@ export class DatasourceFormComponent implements OnInit {
   checkForDuplicatesAfterAutocomplete(){
     this.checkForDuplicates('scientificSubdomain','scientificDomains');
     this.checkForDuplicates('subcategory','categories');
-    this.checkForDuplicates('targetUsers');
   }
   /** <--Suggestions(Recommendations) Autocomplete **/
 
