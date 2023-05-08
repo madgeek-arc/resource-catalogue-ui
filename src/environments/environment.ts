@@ -24,7 +24,8 @@ export const environment = {
   API_TOKEN_ENDPOINT: 'https://aai.eosc-portal.eu/providers-api',
   INSIGHTS_ENDPOINT: 'provider_insights_api/v1/statistics/rs',
   AUTOCOMPLETION_ENDPOINT: 'v1/auto_completion',
-  showHelpContent: false
+  showHelpContent: false,
+  MONITORING_URL: 'https://eosc.ui.devel.argo.grnet.gr'
 };
 
 /*

@@ -17,6 +17,7 @@ import * as Highcharts from 'highcharts';
 export class MonitoringInfoComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
+  monitoringURL = environment.MONITORING_URL;
 
   public service: Service;
   public errorMessage: string;

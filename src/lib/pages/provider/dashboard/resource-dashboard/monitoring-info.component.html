@@ -87,11 +87,11 @@
 
               <div *ngIf="service">
                 <p>General Monitoring Information for your {{serviceORresource}} are available <a
-                  href="https://eosc.ui.devel.argo.grnet.gr/eosc/dashboard/Default/{{service.id}}"
+                  href="{{monitoringURL}}/eosc/dashboard/Default/{{service.id}}"
                   target="_blank">here</a>.
                 </p>
                 <p>Also, the status report in a timeline view is available <a
-                  href="https://eosc.ui.devel.argo.grnet.gr/eosc/report-status/Default/SERVICEGROUPS/{{service.id}}"
+                  href="{{monitoringURL}}/eosc/report-status/Default/SERVICEGROUPS/{{service.id}}"
                   target="_blank">here</a>.
                 </p>
               </div>
