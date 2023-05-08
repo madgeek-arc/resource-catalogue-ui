@@ -123,6 +123,9 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
+                  <div *ngIf="!recommendationsOverTimeForService && !errorMessage" class="uk-position-center uk-margin-xlarge-top">
+                    <div uk-spinner="ratio: 2"></div>
+                  </div>
                   <highcharts-chart *ngIf="recommendationsOverTimeForService" [Highcharts]="Highcharts"
                                     [options]="recommendationsOverTimeForService"
                                     style="width: 100%; height: auto; display: block;">
@@ -134,20 +137,25 @@
             <div>
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <h5 class="uk-text-center uk-margin-bottom" style="color:#333333;font-size:18px;fill:#333333;" y="24">Services recommended next to your service</h5>
-                  <div uk-accordion>
-                    <div *ngFor="let item of recommendationsOfCompetitorsServices" class="uk-open">
-                      <h3 class="uk-accordion-title">{{ item.service_id }} <span class="uk-align-right" style=color:#004494>({{ item.total_competitor_recommendations }} times)</span></h3>
-                      <div class="uk-accordion-content">
-                        <ul class="uk-list uk-list-striped">
-                          <li *ngFor="let competitor of item.competitors">
-                            {{ competitor.service_id }}
-                            <span class="uk-align-right">{{ ((competitor.recommendations / item.total_competitor_recommendations) * 100).toFixed(2) }}%</span>
-                          </li>
-                        </ul>
+                  <div *ngIf="!recommendationsOfCompetitorsServices && !errorMessage" class="uk-position-center uk-margin-xlarge-top">
+                    <div uk-spinner="ratio: 2"></div>
+                  </div>
+                  <ng-container *ngIf="recommendationsOfCompetitorsServices">
+                    <h5 class="uk-text-center uk-margin-bottom" style="color:#333333;font-size:18px;fill:#333333;" y="24">Services recommended next to your service</h5>
+                    <div uk-accordion>
+                      <div *ngFor="let item of recommendationsOfCompetitorsServices" class="uk-open">
+                        <h3 class="uk-accordion-title">{{ item.service_id }} <span class="uk-align-right" style=color:#004494>({{ item.total_competitor_recommendations }} times)</span></h3>
+                        <div class="uk-accordion-content">
+                          <ul class="uk-list uk-list-striped">
+                            <li *ngFor="let competitor of item.competitors">
+                              {{ competitor.service_id }}
+                              <span class="uk-align-right">{{ ((competitor.recommendations / item.total_competitor_recommendations) * 100).toFixed(2) }}%</span>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </ng-container>
                 </div>
               </div>
             </div>
