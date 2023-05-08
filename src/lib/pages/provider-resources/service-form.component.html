@@ -555,13 +555,13 @@
                                         </div>
                                         <div *ngIf="this.scientificDomainArray.controls[i].get('scientificDomain').value">
                                           <div *ngIf="this.scientificDomainArray.controls[i].get('scientificDomain').value === 'scientific_domain-other'" class="uk-flex uk-flex-left">
-                                            <!--                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default" style="width: 250px;">-->
-                                            <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                            <!--                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">-->
+                                            <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
                                               <label>
                                                 <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="scientificDomainVocabularyEntryValueName">
                                               </label>
                                             </form>
-                                            <button class="uk-button uk-button-default" type="submit"
+                                            <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
                                                     (click)="submitVocSuggestion(this.vocabularyEntryForm.get('scientificDomainVocabularyEntryValueName').value, 'SCIENTIFIC DOMAIN', null)">
                                               Submit
                                             </button>
@@ -593,13 +593,13 @@
                                         </div>
                                         <div *ngIf="this.scientificDomainArray.controls[i].get('scientificDomain').value && this.scientificDomainArray.controls[i].get('scientificSubdomain').value">
                                           <div *ngIf="this.scientificDomainArray.controls[i].get('scientificSubdomain').value.includes('-other')" class="uk-flex uk-flex-left">
-                                            <!--                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default" style="width: 250px;">-->
-                                            <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                            <!--                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">-->
+                                            <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
                                               <label>
                                                 <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="scientificSubDomainVocabularyEntryValueName">
                                               </label>
                                             </form>
-                                            <button class="uk-button uk-button-default" type="submit"
+                                            <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
                                                     (click)="submitVocSuggestion(this.vocabularyEntryForm.get('scientificSubDomainVocabularyEntryValueName').value, 'SCIENTIFIC SUBDOMAIN', this.scientificDomainArray.controls[i].get('scientificDomain').value)">
                                               Submit
                                             </button>
@@ -661,13 +661,13 @@
                                         </div>
                                         <div *ngIf="this.categoryArray.controls[i].get('category').value">
                                           <div *ngIf="this.categoryArray.controls[i].get('category').value === 'category-other-other'" class="uk-flex uk-flex-left">
-                                            <!--                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default" style="width: 250px;">-->
-                                            <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                            <!--                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">-->
+                                            <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
                                               <label>
                                                 <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="categoriesVocabularyEntryValueName">
                                               </label>
                                             </form>
-                                            <button class="uk-button uk-button-default" type="submit"
+                                            <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
                                                     (click)="submitVocSuggestion(this.vocabularyEntryForm.get('categoriesVocabularyEntryValueName').value, 'CATEGORY', null)">
                                               Submit
                                             </button>
@@ -700,13 +700,13 @@
                                         </div>
                                         <div *ngIf="this.categoryArray.controls[i].get('category').value && this.categoryArray.controls[i].get('subcategory').value">
                                           <div *ngIf="this.categoryArray.controls[i].get('subcategory').value.includes('-other')" class="uk-flex uk-flex-left">
-                                            <!--                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default" style="width: 250px;">-->
-                                            <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                            <!--                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">-->
+                                            <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
                                               <label>
                                                 <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="subCategoriesVocabularyEntryValueName">
                                               </label>
                                             </form>
-                                            <button class="uk-button uk-button-default" type="submit"
+                                            <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
                                                     (click)="submitVocSuggestion(this.vocabularyEntryForm.get('subCategoriesVocabularyEntryValueName').value, 'SUBCATEGORY', this.categoryArray.controls[i].get('category').value)">
                                               Submit
                                             </button>
@@ -761,12 +761,12 @@
                                 </div>
                                 <div *ngFor="let provider of getFieldAsFormArray('targetUsers').controls; let i=index">
                                   <div *ngIf="this.serviceForm.get('targetUsers').value[i] === 'target_user-other'" class="uk-flex uk-flex-left">
-                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
                                       <label>
                                         <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="targetUsersVocabularyEntryValueName">
                                       </label>
                                     </form>
-                                    <button class="uk-button uk-button-default" type="submit"
+                                    <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
                                             (click)="submitVocSuggestion(this.vocabularyEntryForm.get('targetUsersVocabularyEntryValueName').value, 'TARGET USER', null)">
                                       Submit
                                     </button>
@@ -808,12 +808,12 @@
                                 </div>
                                 <div *ngFor="let provider of getFieldAsFormArray('accessTypes').controls; let i=index">
                                   <div *ngIf="this.serviceForm.get('accessTypes').value[i] === 'access_type-other'" class="uk-flex uk-flex-left">
-                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
                                       <label>
                                         <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="accessTypesVocabularyEntryValueName">
                                       </label>
                                     </form>
-                                    <button class="uk-button uk-button-default" type="submit"
+                                    <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
                                             (click)="submitVocSuggestion(this.vocabularyEntryForm.get('accessTypesVocabularyEntryValueName').value, 'ACCESS TYPE', null)">
                                       Submit
                                     </button>
@@ -855,12 +855,12 @@
                                 </div>
                                 <div *ngFor="let provider of getFieldAsFormArray('accessModes').controls; let i=index">
                                   <div *ngIf="this.serviceForm.get('accessModes').value[i] === 'access_mode-other'" class="uk-flex uk-flex-left">
-                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
                                       <label>
                                         <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="accessModesVocabularyEntryValueName">
                                       </label>
                                     </form>
-                                    <button class="uk-button uk-button-default" type="submit"
+                                    <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
                                             (click)="submitVocSuggestion(this.vocabularyEntryForm.get('accessModesVocabularyEntryValueName').value, 'ACCESS MODE', null)">
                                       Submit
                                     </button>
@@ -945,12 +945,12 @@
                                 </div>
                                 <div *ngFor="let place of getFieldAsFormArray('geographicalAvailabilities').controls; let i=index">
                                   <div *ngIf="this.serviceForm.get('geographicalAvailabilities').value[i] === 'OT'" class="uk-flex uk-flex-left">
-                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
                                       <label>
                                         <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="geographicalVocabularyEntryValueName">
                                       </label>
                                     </form>
-                                    <button class="uk-button uk-button-default" type="submit"
+                                    <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
                                             (click)="submitVocSuggestion(this.vocabularyEntryForm.get('geographicalVocabularyEntryValueName').value, 'COUNTRY', null)">
                                       Submit
                                     </button>
@@ -996,12 +996,12 @@
                                 </div>
                                 <div *ngFor="let provider of getFieldAsFormArray('languageAvailabilities').controls; let i=index">
                                   <div *ngIf="this.serviceForm.get('languageAvailabilities').value[i] === 'ot'" class="uk-flex uk-flex-left">
-                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
                                       <label>
                                         <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="languagesVocabularyEntryValueName">
                                       </label>
                                     </form>
-                                    <button class="uk-button uk-button-default" type="submit"
+                                    <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
                                             (click)="submitVocSuggestion(this.vocabularyEntryForm.get('languagesVocabularyEntryValueName').value, 'LANGUAGE', null)">
                                       Submit
                                     </button>
@@ -1060,12 +1060,12 @@
                                 </div>
                                 <div *ngFor="let provider of getFieldAsFormArray('resourceGeographicLocations').controls; let i=index">
                                   <div *ngIf="this.serviceForm.get('resourceGeographicLocations').value[i] === 'OT'" class="uk-flex uk-flex-left">
-                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
                                       <label>
                                         <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="placesVocabularyEntryValueName">
                                       </label>
                                     </form>
-                                    <button class="uk-button uk-button-default" type="submit"
+                                    <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
                                             (click)="submitVocSuggestion(this.vocabularyEntryForm.get('placesVocabularyEntryValueName').value, 'COUNTRY', null)">
                                       Submit
                                     </button>
@@ -1373,12 +1373,12 @@
                                   "{{phaseDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                               </div>
                               <div *ngIf="this.serviceForm.get('lifeCycleStatus').value === 'life_cycle_status-other'" class="uk-flex uk-flex-left">
-                                <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
                                   <label>
                                     <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="phaseVocabularyEntryValueName">
                                   </label>
                                 </form>
-                                <button class="uk-button uk-button-default" type="submit"
+                                <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
                                         (click)="submitVocSuggestion(this.vocabularyEntryForm.get('phaseVocabularyEntryValueName').value, 'LIFE CYCLE STATUS', null)">
                                   Submit
                                 </button>
@@ -1690,12 +1690,12 @@
                                 </div>
                                 <div *ngFor="let provider of getFieldAsFormArray('fundingBody').controls; let i=index">
                                   <div *ngIf="this.serviceForm.get('fundingBody').value[i] === 'funding_body-other'" class="uk-flex uk-flex-left">
-                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
                                       <label>
                                         <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="fundingBodyVocabularyEntryValueName">
                                       </label>
                                     </form>
-                                    <button class="uk-button uk-button-default" type="submit"
+                                    <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
                                             (click)="submitVocSuggestion(this.vocabularyEntryForm.get('fundingBodyVocabularyEntryValueName').value, 'FUNDING BODY', null)">
                                       Submit
                                     </button>
@@ -1740,12 +1740,12 @@
                                 </div>
                                 <div *ngFor="let provider of getFieldAsFormArray('fundingPrograms').controls; let i=index">
                                   <div *ngIf="this.serviceForm.get('fundingPrograms').value[i] === 'funding_program-other'" class="uk-flex uk-flex-left">
-                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
                                       <label>
                                         <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="fundingProgramVocabularyEntryValueName">
                                       </label>
                                     </form>
-                                    <button class="uk-button uk-button-default" type="submit"
+                                    <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
                                             (click)="submitVocSuggestion(this.vocabularyEntryForm.get('fundingProgramVocabularyEntryValueName').value, 'FUNDING PROGRAM', null)">
                                       Submit
                                     </button>
@@ -1990,12 +1990,12 @@
                                   "{{orderTypeDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
                               </div>
                               <div *ngIf="this.serviceForm.get('orderType').value === 'order_type-other'" class="uk-flex uk-flex-left">
-                                <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
+                                <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
                                   <label>
                                     <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="orderTypeVocabularyEntryValueName">
                                   </label>
                                 </form>
-                                <button class="uk-button uk-button-default" type="submit"
+                                <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
                                         (click)="submitVocSuggestion(this.vocabularyEntryForm.get('orderTypeVocabularyEntryValueName').value, 'ORDER TYPE', null)">
                                   Submit
                                 </button>
