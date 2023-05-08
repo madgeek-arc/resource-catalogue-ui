@@ -4,21 +4,19 @@ import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
 import {
   Indicator,
-  Measurement,
   VocabularyTree,
   Provider,
   RichService,
   Service,
   ServiceHistory,
   Vocabulary,
-  Type, ProviderBundle, ServiceBundle, LoggingInfo, TrainingResourceBundle, TrainingResource
+  Type, ServiceBundle, LoggingInfo, TrainingResourceBundle, TrainingResource
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
 import {URLParameter} from '../domain/url-parameter';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {Info} from '../domain/info';
 
 declare var UIkit: any;
 
@@ -155,133 +153,6 @@ export class TrainingResourceService {
   }
 
   /** STATS **/
-  getVisitsForProvider(provider: string, period?: string) {
-    let params = new HttpParams();
-    if (period) {
-      params = params.append('by', period);
-      return this.http.get(this.base + `/stats/provider/visits/${provider}`, {params});
-    } else {
-      return this.http.get(this.base + `/stats/provider/visits/${provider}`);
-    }
-  }
-
-  getCategoriesPerServiceForProvider(provider?: string) {
-    let params = new HttpParams();
-    if (provider) {
-      params = params.append('providerId', provider);
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SUBCATEGORY`, {params});
-    } else {
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SUBCATEGORY`);
-    }
-  }
-
-  getDomainsPerServiceForProvider(provider?: string) {
-    let params = new HttpParams();
-    if (provider) {
-      params = params.append('providerId', provider);
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SCIENTIFIC_SUBDOMAIN`, {params});
-    } else {
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=SCIENTIFIC_SUBDOMAIN`);
-    }
-  }
-
-  getTargetUsersPerServiceForProvider(provider?: string) {
-    let params = new HttpParams();
-    if (provider) {
-      params = params.append('providerId', provider);
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=TARGET_USERS`, {params});
-    } else {
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=TARGET_USERS`);
-    }
-  }
-
-  getAccessModesPerServiceForProvider(provider?: string) {
-    let params = new HttpParams();
-    if (provider) {
-      params = params.append('providerId', provider);
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=ACCESS_MODES`, {params});
-    } else {
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=ACCESS_MODES`);
-    }
-  }
-
-  getAccessTypesPerServiceForProvider(provider?: string) {
-    let params = new HttpParams();
-    if (provider) {
-      params = params.append('providerId', provider);
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=ACCESS_TYPES`, {params});
-    } else {
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=ACCESS_TYPES`);
-    }
-  }
-
-  getOrderTypesPerServiceForProvider(provider?: string) {
-    let params = new HttpParams();
-    if (provider) {
-      params = params.append('providerId', provider);
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=ORDER_TYPE`, {params});
-    } else {
-      return this.http.get(this.base + `/stats/provider/mapServicesToVocabulary?vocabulary=ORDER_TYPE`);
-    }
-  }
-
-  getMapDistributionOfServices(provider?: string) {
-    let params = new HttpParams();
-    if (provider) {
-      params = params.append('providerId', provider);
-      return this.http.get(this.base + `/stats/provider/mapServicesToGeographicalAvailability`, {params});
-    } else {
-      return this.http.get(this.base + `/stats/provider/mapServicesToGeographicalAvailability`);
-    }
-  }
-
-  getFavouritesForProvider(provider: string, period?: string) {
-    let params = new HttpParams();
-    if (period) {
-      params = params.append('by', period);
-      return this.http.get(this.base + `/stats/provider/favourites/${provider}`, {params});
-    } else {
-      return this.http.get(this.base + `/stats/provider/favourites/${provider}`);
-    }
-  }
-
-  getAddsToProjectForProvider(provider: string, period?: string) {
-    let params = new HttpParams();
-    if (period) {
-      params = params.append('by', period);
-      return this.http.get(this.base + `/stats/provider/addToProject/${provider}`, {params});
-    } else {
-      return this.http.get(this.base + `/stats/provider/addToProject/${provider}`);
-    }
-  }
-
-  getOrdersForProvider(provider: string, period?: string) {
-    let params = new HttpParams();
-    if (period) {
-      params = params.append('by', period);
-      return this.http.get(this.base + `/stats/provider/orders/${provider}`, {params});
-    } else {
-      return this.http.get(this.base + `/stats/provider/orders/${provider}`);
-    }
-  }
-
-  getRatingsForProvider(provider: string, period?: string) {
-    let params = new HttpParams();
-    if (period) {
-      params = params.append('by', period);
-      return this.http.get(this.base + `/stats/provider/ratings/${provider}`, {params});
-    } else {
-      return this.http.get(this.base + `/stats/provider/ratings/${provider}`);
-    }
-  }
-
-  getVisitationPercentageForProvider(provider: string) {
-    return this.get('stats/provider/visitation', provider);
-  }
-
-  getPlacesForProvider(provider: string) {
-    return this.getServicesOfferedByProvider(provider);
-  }
 
   getVisitsForService(service: string, period?: string) {
     let params = new HttpParams();
@@ -290,15 +161,6 @@ export class TrainingResourceService {
       return this.http.get(this.base + `/stats/trainingResource/visits/${service}`, {params});
     }
     return this.http.get(this.base + `/stats/trainingResource/visits/${service}`);
-  }
-
-  getFavouritesForService(service: string, period?: string) {
-    let params = new HttpParams();
-    if (period) {
-      params = params.append('by', period);
-      return this.http.get(this.base + `/stats/trainingResource/favourites/${service}`, {params});
-    }
-    return this.http.get(this.base + `/stats/trainingResource/favourites/${service}`);
   }
 
   getAddToProjectForService(service: string, period?: string) {
@@ -319,50 +181,6 @@ export class TrainingResourceService {
     return this.http.get(this.base + `/stats/trainingResource/ratings/${service}`);
   }
   /** STATS **/
-
-  /** Service Measurements **/
-  getLatestServiceMeasurement(id: string) {
-    return this.http.get<Paging<Measurement>>(this.base + `/measurement/latest/service/${id}`);
-  }
-
-  getServiceMeasurements(id: string) {
-    return this.http.get<Paging<Measurement>>(this.base + `/measurement/service/${id}`);
-  }
-
-  postMeasurement(measurement: Measurement) {
-    return this.http.post(this.base + '/measurement', measurement, this.options)
-      ;
-  }
-
-  postMeasurementUpdateAll(id: string, measurement: Measurement[]) {
-    let params = new HttpParams();
-    params = params.append('serviceId', id);
-    // const options = {params, withCredentials: true};
-    return this.http.post(this.base + '/measurement/updateAll', measurement, {params, withCredentials: true});
-  }
-  /** Service Measurements **/
-
-  /** Indicators **/
-  postIndicator(indicator: Indicator) {
-    return this.http.post(this.base + '/indicator', indicator, this.options);
-  }
-  /** Indicators **/
-
-  // groupServicesOfProviderPerPlace(id: string) {
-  //   return this.getServicesOfferedByProvider(id).subscribe(res => {
-  //     const servicesGroupedByPlace = {};
-  //     for (const service of res) {
-  //       for (const place of service.places) {
-  //         if (servicesGroupedByPlace[place]) {
-  //           servicesGroupedByPlace[place].push(res);
-  //         } else {
-  //           servicesGroupedByPlace[place] = [];
-  //         }
-  //       }
-  //     }
-  //     return servicesGroupedByPlace;
-  //   });
-  // }
 
   getProvidersNames(status?: string) {
     let params = new HttpParams();
@@ -460,10 +278,6 @@ export class TrainingResourceService {
     return this.http.get<TrainingResourceBundle>(this.base + `/trainingResourceBundle/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
-  getMyServiceProviders() {
-    return this.http.get<Provider[]>(this.base + '/provider/getMyServiceProviders');
-  }
-
   getRandomResources(quantity: string) {
     return this.http.get<ServiceBundle[]>(this.base + `/trainingResource/randomResources?quantity=${quantity}`, this.options);
   }
@@ -526,10 +340,6 @@ export class TrainingResourceService {
   }
   /** <-- Draft(Pending) Services **/
 
-  getFeaturedServices() {
-    return this.http.get<Service[]>(this.base + `/trainingResource/featured/all/`);
-  }
-
   getServiceHistory(serviceId: string) {
     return this.http.get<Paging<ServiceHistory>>(this.base + `/trainingResource/history/${serviceId}/`);
   }
@@ -537,10 +347,6 @@ export class TrainingResourceService {
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
     // return this.http.get<Paging<LoggingInfo>>(this.base + `/resource/loggingInfoHistory/${serviceId}/`);
     return this.http.get<Paging<LoggingInfo>>(this.base + `/trainingResource/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
-  }
-
-  getInfo() {
-    return this.http.get<Info>(this.base + `/info/all`);
   }
 
   auditTrainingResource(id: string, action: string, comment: string) {
