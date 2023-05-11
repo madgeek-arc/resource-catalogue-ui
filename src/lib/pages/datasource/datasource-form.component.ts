@@ -1445,7 +1445,7 @@ export class DatasourceFormComponent implements OnInit {
 
   submitVocSuggestion(entryValueName, vocabulary, parent) {
     if (entryValueName.trim() !== '') {
-      this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'service', this.providerId, this.serviceID).subscribe(
+      this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'datasource', this.providerId, this.serviceID).subscribe(
         res => {
         },
         error => {
