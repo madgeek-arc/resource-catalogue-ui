@@ -868,7 +868,7 @@ export class TrainingResourceForm implements OnInit {
 
   /** <--Modals **/
 
-  submitSuggestion(entryValueName, vocabulary, parent) { //TODO: revisit
+  submitSuggestion(entryValueName, vocabulary, parent) {
     if (entryValueName.trim() !== '') {
       this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'training_resource', this.providerId, this.trainingResourceId).subscribe(
         res => {

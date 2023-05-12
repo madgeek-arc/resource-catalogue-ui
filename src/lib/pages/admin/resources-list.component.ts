@@ -257,6 +257,10 @@ export class ResourcesListComponent implements OnInit {
     return bundle.service != null ? bundle.service : bundle.datasource;
   }
 
+  getServiceOrDatasourceType(bundle : ServiceBundle): string {
+    return bundle.service != null ? 'service' : 'datasource';
+  }
+
   isStatusChecked(value: string) {
     return this.dataForm.get('status').value.includes(value);
   }
@@ -520,23 +524,23 @@ export class ResourcesListComponent implements OnInit {
   /** <--for facets **/
 
 
-  showDeletionModal(resource: ServiceBundle) {
-    this.selectedService = resource;
+  showDeletionModal(bundle: ServiceBundle) {
+    this.selectedService = bundle;
     if (this.selectedService) {
       UIkit.modal('#deletionModal').show();
     }
   }
 
-  showSendMailModal(resource: ServiceBundle) {
-    this.selectedService = resource;
+  showSendMailModal(bundle: ServiceBundle) {
+    this.selectedService = bundle;
     if (this.selectedService) {
       UIkit.modal('#sendMailModal').show();
     }
   }
 
-  showMoveResourceModal(resource: ServiceBundle) {
+  showMoveResourceModal(bundle: ServiceBundle) {
     this.commentMoveControl.reset();
-    this.selectedService = resource;
+    this.selectedService = bundle;
     if (this.selectedService) {
       UIkit.modal('#moveResourceModal').show();
     }
@@ -560,9 +564,9 @@ export class ResourcesListComponent implements OnInit {
   }
 
   /** resourceExtras--> **/
-  toggleHorizontalService(resource: ServiceBundle) {
+  toggleHorizontalService(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateHorizontalService(resource.id, 'service', resource.service.catalogueId, !resource?.resourceExtras?.horizontalService).subscribe(
+    this.resourceExtrasService.updateHorizontalService(bundle.id, this.getServiceOrDatasourceType(bundle), this.getPayload(bundle).catalogueId, !bundle?.resourceExtras?.horizontalService).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -575,8 +579,8 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  showResourceCategories(resource: ServiceBundle) {
-    this.selectedService = resource;
+  showResourceCategories(bundle: ServiceBundle) {
+    this.selectedService = bundle;
     if (this.selectedService) {
       this.extrasFormPrep(this.selectedService);
       this.extrasForm.patchValue(this.selectedService.resourceExtras);
@@ -584,8 +588,8 @@ export class ResourcesListComponent implements OnInit {
     }
   }
 
-  showEoscIFGuidelines(resource: ServiceBundle) {
-    this.selectedService = resource;
+  showEoscIFGuidelines(bundle: ServiceBundle) {
+    this.selectedService = bundle;
     if (this.selectedService) {
       this.extrasFormPrep(this.selectedService);
       this.extrasForm.patchValue(this.selectedService.resourceExtras);
@@ -593,9 +597,9 @@ export class ResourcesListComponent implements OnInit {
     }
   }
 
-  updateResearchCategories(resource: ServiceBundle) {
+  updateResearchCategories(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateResearchCategories(resource.id, 'service', resource.service.catalogueId, this.extrasForm.value.researchCategories).subscribe(
+    this.resourceExtrasService.updateResearchCategories(bundle.id, this.getServiceOrDatasourceType(bundle), this.getPayload(bundle).catalogueId, this.extrasForm.value.researchCategories).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -608,9 +612,9 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  updateEoscIFGuidelines(resource: ServiceBundle) {
+  updateEoscIFGuidelines(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateEoscIFGuidelines(resource.id, 'service', resource.service.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
+    this.resourceExtrasService.updateEoscIFGuidelines(bundle.id, this.getServiceOrDatasourceType(bundle), this.getPayload(bundle).catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -623,7 +627,7 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  extrasFormPrep(resource: ServiceBundle){
+  extrasFormPrep(bundle: ServiceBundle){
     //resets the 2 parts of the form and then fills them
     this.extrasForm.setControl('researchCategories', this.fb.array([this.fb.control('')]));
     this.extrasForm.setControl('eoscIFGuidelines',
@@ -634,13 +638,13 @@ export class ResourcesListComponent implements OnInit {
         url: ['']
       })
       ]));
-    if ( resource?.resourceExtras?.researchCategories ) {
-      for (let i = 0; i < resource.resourceExtras.researchCategories.length - 1; i++) {
+    if ( bundle?.resourceExtras?.researchCategories ) {
+      for (let i = 0; i < bundle.resourceExtras.researchCategories.length - 1; i++) {
         this.push('researchCategories');
       }
     }
-    if ( resource?.resourceExtras?.eoscIFGuidelines ) {
-      for (let i = 0; i < resource.resourceExtras.eoscIFGuidelines.length - 1; i++) {
+    if ( bundle?.resourceExtras?.eoscIFGuidelines ) {
+      for (let i = 0; i < bundle.resourceExtras.eoscIFGuidelines.length - 1; i++) {
         this.pushEoscIFGuidelines();
       }
     }
