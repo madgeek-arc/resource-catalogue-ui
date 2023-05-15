@@ -124,15 +124,18 @@ export class CatalogueProvidersComponent implements OnInit {
   // }
 
   getProviders() {
+    this.toggleLoading = true;
     this.catalogueService.getProvidersOfCatalogue(this.catalogueId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('order').value, this.dataForm.get('orderField').value,
       this.dataForm.get('status').value, this.dataForm.get('query').value)
       .subscribe(res => {
+          this.toggleLoading = false;
           this.catalogueProviders = res;
           this.total = res['total'];
           this.paginationInit();
         },
         err => {
+          this.toggleLoading = false;
           this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
         }
       );

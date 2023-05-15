@@ -98,8 +98,6 @@ export class ResourcesListComponent implements OnInit {
   providersPage: Paging<Provider>;
   commentMoveControl = new FormControl();
 
-  typeService: boolean;
-
   statusList = statusList;
   adminActionsMap = resourceStatusChangeMap;
 

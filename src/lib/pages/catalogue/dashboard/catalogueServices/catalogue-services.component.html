@@ -59,26 +59,27 @@
 
         </div>
 
-        <div class="uk-margin-right">
-          <div class="uk-inline uk-margin-right">
-            <label class="" for="status">Status </label>
-            <div class="uk-inline">
-              <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
-                <option value="" selected>All</option>
-                <option value="approved resource">Approved Resource</option>
-                <option value="pending resource">Pending Resource</option>
-                <option value="rejected resource">Rejected Resource</option>
-              </select>
-            </div>
-          </div>
-        </div>
+<!--        <div class="uk-margin-right">-->
+<!--          <div class="uk-inline uk-margin-right">-->
+<!--            <label class="" for="status">Status </label>-->
+<!--            <div class="uk-inline">-->
+<!--              <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">-->
+<!--                <option value="" selected>All</option>-->
+<!--&lt;!&ndash;  fixme: make status: new FormArray([]) first and debug &ndash;&gt;-->
+<!--                <option value="approved resource">Approved Resource</option>-->
+<!--                <option value="pending resource">Pending Resource</option>-->
+<!--                <option value="rejected resource">Rejected Resource</option>-->
+<!--              </select>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
 
         <div class="uk-margin-right">
           <div class="uk-inline uk-margin-right">
             <label class="" for="isActive">Is Active </label>
             <div class="uk-inline">
               <select class="uk-input uk-select" id="isActive" (change)="handleChangeAndResetPage()" formControlName="active">
-                <option value="statusAll" selected>All</option>
+                <option value="" selected>All</option>
                 <option value="true">Active</option>
                 <option value="false">Inactive</option>
               </select>
@@ -121,27 +122,27 @@
         <hr class="adminResultsHeader">
 
         <div class="uk-margin-medium-top">
-          <div *ngFor="let service of services" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+          <div *ngFor="let serviceBundle of services" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
 
             <div class="uk-card-body">
 
-              <div *ngIf="service.status === 'approved resource'" class="approved">
+              <div *ngIf="serviceBundle.status === 'approved resource'" class="approved">
                 <div class="uk-card-badge uk-label">Approved</div>
               </div>
-              <div *ngIf="service.status === 'pending resource'" class="pending">
+              <div *ngIf="serviceBundle.status === 'pending resource'" class="pending">
                 <div class="uk-card-badge uk-label">Pending</div>
               </div>
-              <div *ngIf="(service.status === 'rejected resource')" class="rejected">
+              <div *ngIf="(serviceBundle.status === 'rejected resource')" class="rejected">
                 <div class="uk-card-badge uk-label">Rejected</div>
               </div>
 
               <div class="uk-grid">
                 <div class="uk-width-9-10"></div>
                 <div class="uk-width-1-10">
-                  <div *ngIf="service.active" class="approved">
+                  <div *ngIf="serviceBundle.active" class="approved">
                     <div class="uk-label uk-align-right">Active</div>
                   </div>
-                  <div *ngIf="!service.active" class="rejected">
+                  <div *ngIf="!serviceBundle.active" class="rejected">
                     <div class="uk-label uk-align-right">Inactive</div>
                   </div>
                 </div>
@@ -149,48 +150,56 @@
 
               <div class="uk-grid uk-flex-middle uk-margin-remove-top">
                 <div class="uk-width-1-6">
-                  <img src="{{service.logo ? service.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
-<!--                  <img src="{{getPayload(serviceBundle).logo ? getPayload(serviceBundle).logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">-->
+                  <img src="{{getPayload(serviceBundle).logo ? getPayload(serviceBundle).logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
                 </div>
                 <div class="uk-width-2-3">
                   <h4 class="uk-margin-remove">
-                    <a (click)="navigate(service.id)">{{service.name}}</a>
+                    <ng-container *ngIf="getPayload(serviceBundle)===serviceBundle.service">
+                      <a [routerLink]="['/dashboard', getPayload(serviceBundle).catalogueId, getPayload(serviceBundle).resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the service dashboard">
+                        {{ getPayload(serviceBundle).name }}
+                      </a>
+                    </ng-container>
+                    <ng-container *ngIf="getPayload(serviceBundle)===serviceBundle.datasource">
+                      <a [routerLink]="['/dashboard', getPayload(serviceBundle).catalogueId, getPayload(serviceBundle).resourceOrganisation, 'datasource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the service dashboard">
+                        {{ getPayload(serviceBundle).name }}
+                      </a>
+                    </ng-container>
                   </h4>
                   <div class="uk-margin-small-top">
-                    <span *ngIf="service.description" class="uk-margin-small-top"><markdown [data]="service.description"></markdown></span>
+                    <span *ngIf="getPayload(serviceBundle).description" class="uk-margin-small-top"><markdown [data]="getPayload(serviceBundle).description"></markdown></span>
                   </div>
                   <div class="uk-margin-small-top">
-<!--                    <span class="">Creation Date: </span>{{ serviceBundle.metadata.registeredAt | date }}-->
+                    <span class="">Creation Date: </span>{{ serviceBundle.metadata.registeredAt | date }}
                   </div>
                   <div class="uk-margin-small-top">
-<!--                    <span class="">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}-->
+                    <span class="">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
                 <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
                   <div class="action-buttons">
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(service.id)">
-                      <ng-container *ngIf="service.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
-                      <ng-container *ngIf="!service.active">
-                        <!--                        <div *ngIf="serviceBundle.status === 'pending resource' || serviceBundle.status === 'rejected resource'"-->
+                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(serviceBundle)">
+                      <ng-container *ngIf="serviceBundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
+                      <ng-container *ngIf="!serviceBundle.active">
+                        <!--                        <div *ngIf="providerService.status === 'pending resource' || providerService.status === 'rejected resource'"-->
                         <!--                             uk-tooltip="title:Cannot activate a pending/rejected resource."></div>-->
                         <i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate
                       </ng-container>
                     </button>
-                    <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(serviceBundle.service.id)">-->
+                    <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">-->
                     <!--<i class="fa fa-pencil fa-lg"></i> Edit {{serviceORresource | lowercase}}-->
                     <!--</button>-->
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedService(service)">
+                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedService(serviceBundle)">
                       <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete {{serviceORresource | lowercase}}
                     </button>
                   </div>
                 </div>
               </div>
 
-              <ng-container *ngIf="service.catalogueId!=='eosc'">
+              <ng-container *ngIf="getPayload(serviceBundle).catalogueId!=='eosc'">
                 <hr class="uk-margin-top">
                 <div class="uk-align-right">
                   <button
-                    routerLink="/provider/{{service.catalogueId}}/{{service.resourceOrganisation}}/resource/view/{{service.id}}"
+                    routerLink="/provider/{{serviceBundle.service.catalogueId}}/{{serviceBundle.service.resourceOrganisation}}/resource/view/{{serviceBundle.id}}"
                     class="uk-button uk-button-link" style="">
                     <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
                     View {{serviceORresource}}
@@ -200,7 +209,7 @@
 
               <!--&lt;!&ndash;              active/inactive label alternative&ndash;&gt;-->
               <!--              <td class="uk-text-center">-->
-              <!--                <i class="fa fa-{{ serviceBundle.active ? 'check':'close' }}"></i>-->
+              <!--                <i class="fa fa-{{ providerService.active ? 'check':'close' }}"></i>-->
               <!--              </td>-->
 
             </div>
@@ -231,8 +240,8 @@
 
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h6 *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} '{{selectedService.name}}'</h6>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteService(selectedService.id)">Delete</button>
+    <h6 class="uk-margin-bottom" *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} '{{getPayload(selectedService).name}}'?</h6>
+    <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="deleteService(selectedService)">Delete</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>
 </div>

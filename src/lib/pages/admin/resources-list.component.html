@@ -331,8 +331,8 @@
                                 <div>
                                   <div class="uk-margin-small-top uk-text-break">
                                     <span class="statusLabel">ID: </span>
-                                    <ng-container *ngIf="getPayload(serviceBundle).id">{{ getPayload(serviceBundle).id }}</ng-container>
-                                    <ng-container *ngIf="!getPayload(serviceBundle).id">not available</ng-container>
+                                    <ng-container *ngIf="serviceBundle.id">{{ serviceBundle.id }}</ng-container>
+                                    <ng-container *ngIf="!serviceBundle.id">not available</ng-container>
                                   </div>
                                   <div class="uk-margin-small-top">
                                     <span class="statusLabel">{{serviceORresource}} Status: </span>{{labels[statuses.indexOf(serviceBundle.status)]}}
@@ -912,8 +912,8 @@
               </div>
               <div class="uk-margin-small-top">
                 <span class="statusLabel">ID: </span>
-                <ng-container *ngIf="getPayload(serviceBundle).id">{{ getPayload(serviceBundle).id }}</ng-container>
-                <ng-container *ngIf="!getPayload(serviceBundle).id">not available</ng-container>
+                <ng-container *ngIf="serviceBundle.id">{{ serviceBundle.id }}</ng-container>
+                <ng-container *ngIf="!serviceBundle.id">not available</ng-container>
               </div>
               <div class="uk-margin-small-top">
                 <span class="statusLabel">{{serviceORresource}} Status: </span>{{ serviceBundle.status | titlecase }}
