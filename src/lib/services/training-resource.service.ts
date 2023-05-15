@@ -10,7 +10,7 @@ import {
   Service,
   ServiceHistory,
   Vocabulary,
-  Type, ServiceBundle, LoggingInfo, TrainingResourceBundle, TrainingResource
+  Type, ServiceBundle, LoggingInfo, TrainingResourceBundle, TrainingResource, Bundle
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
@@ -270,7 +270,7 @@ export class TrainingResourceService {
         params = params.append('catalogue_id', catalogueValue);
       }
     } else params = params.append('catalogue_id', 'all');
-    return this.http.get(this.base + `/trainingResource/adminPage/all`, {params});
+    return this.http.get<TrainingResourceBundle>(this.base + `/trainingResource/adminPage/all`, {params});
     // return this.getAll("provider");
   }
 
