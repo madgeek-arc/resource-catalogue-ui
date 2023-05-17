@@ -126,8 +126,7 @@ export class ResourceService {
   }
 
   getAllRelatedResources(){ // Gets services, datasources and trainings
-    return this.http.get(this.base + '/service/resourceIdToNameMap/'); // TODO: rename as bellow on backend redeploy
-    // return this.http.get(this.base + '/service/getAllProviderRelatedResources/');
+    return this.http.get(this.base + '/service/resourceIdToNameMap/');
   }
 
   getService(serviceId: string, catalogueId?: string) {
@@ -368,7 +367,7 @@ export class ResourceService {
     let params = new HttpParams();
     params = params.append('from', '0');
     params = params.append('quantity', '10000');
-    if (status === 'approved provider') {
+    if (status === 'approved provider') { //not matched hence never reached, do we need approved providers or all?
       return this.http.get<Paging<Provider>>(this.base + `/provider/all/?status=approved provider`, {params, withCredentials: true});
     }
     return this.http.get<Paging<Provider>>(this.base + `/provider/all/`, {params, withCredentials: true});
