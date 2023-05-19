@@ -142,11 +142,11 @@ export class TrainingResourceService {
     return this.http.get<BrowseResults>(this.base + '/trainingResource/by/category/');
   }
 
-  getServicesOfferedByProvider(id: string): Observable<RichService[]> {
-    return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).pipe(
-      map(res => Object.values(res.results))
-    );
-  }
+  // getServicesOfferedByProvider(id: string): Observable<RichService[]> {
+  //   return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).pipe(
+  //     map(res => Object.values(res.results))
+  //   );
+  // }
 
   deleteTrainingResource(id: string) {
     return this.http.delete(this.base + '/trainingResource/' + id, this.options);

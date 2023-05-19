@@ -130,6 +130,7 @@ export class ResourceService {
   }
 
   getService(serviceId: string, catalogueId?: string) {
+    console.log(serviceId);
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? serviceId : [serviceId, version].join('/')}`, this.options);
     if (!catalogueId) catalogueId = 'eosc';
@@ -148,11 +149,15 @@ export class ResourceService {
     return this.http.get<RichService[]>(this.base + `/service/rich/byID/${ids.toString()}/`, this.options);
   }
 
-  getServicesOfferedByProvider(id: string): Observable<RichService[]> {
-    return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).pipe(
-      map(res => Object.values(res.results))
-    );
+  getMultipleResourcesByPublicId(publicIds: string[]) { //input public ids of services, datasources, and training resources; returns only if resource exist; NOT bundles
+    return this.http.get<any[]>(this.base + `/public/resources/${publicIds.toString()}/`, this.options);
   }
+
+  // getServicesOfferedByProvider(id: string): Observable<RichService[]> {
+  //   return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).pipe(
+  //     map(res => Object.values(res.results))
+  //   );
+  // }
 
   deleteService(id: string) {
     return this.http.delete(this.base + '/service/' + id, this.options);
@@ -287,9 +292,9 @@ export class ResourceService {
     return this.get('stats/provider/visitation', provider);
   }
 
-  getPlacesForProvider(provider: string) {
-    return this.getServicesOfferedByProvider(provider);
-  }
+  // getPlacesForProvider(provider: string) {
+  //   return this.getServicesOfferedByProvider(provider);
+  // }
 
   getVisitsForService(service: string, period?: string) {
     let params = new HttpParams();

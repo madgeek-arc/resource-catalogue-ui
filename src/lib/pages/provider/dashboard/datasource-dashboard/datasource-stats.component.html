@@ -134,22 +134,32 @@
               </div>
             </div>
 
-            <div>
+            <div class="uk-grid uk-child-width-1-1@m uk-child-width-1-1@l uk-margin-remove-top">
               <div class="uk-card">
                 <div class="uk-card-body">
-                  <div *ngIf="!recommendationsOfCompetitorsServices && !errorMessage" class="uk-position-center uk-margin-xlarge-top">
-                    <div uk-spinner="ratio: 2"></div>
+                  <div *ngIf="enrichedRecommendationsOfCompetitorsServices.length==0 && !errorMessage" class="uk-position-center">
+                    <div uk-spinner="ratio: 2.5"></div>
                   </div>
-                  <ng-container *ngIf="recommendationsOfCompetitorsServices">
-                    <h5 class="uk-text-center uk-margin-bottom" style="color:#333333;font-size:18px;fill:#333333;" y="24">Services recommended next to your service</h5>
+                  <ng-container *ngIf="enrichedRecommendationsOfCompetitorsServices?.length>0">
+                    <h5 class="uk-text-center uk-margin-bottom" style="color:#333333;font-size:18px;fill:#333333;" y="24">Services recommended next to your services</h5>
                     <div uk-accordion>
-                      <div *ngFor="let item of recommendationsOfCompetitorsServices" class="uk-open">
-                        <h3 class="uk-accordion-title">{{ item.service_id }} <span class="uk-align-right" style=color:#004494>({{ item.total_competitor_recommendations }} times)</span></h3>
+                      <div *ngFor="let item of enrichedRecommendationsOfCompetitorsServices" class="uk-open">
+                        <h3 class="uk-accordion-title"> {{ item.name }} <span class="uk-align-right" style=color:#004494>({{ item.total_competitor_recommendations }} times)</span></h3>
                         <div class="uk-accordion-content">
                           <ul class="uk-list uk-list-striped">
-                            <li *ngFor="let competitor of item.competitors">
-                              {{ competitor.service_id }}
-                              <span class="uk-align-right">{{ ((competitor.recommendations / item.total_competitor_recommendations) * 100).toFixed(2) }}%</span>
+                            <li *ngFor="let competitor of item.competitors; let i = index">
+                              <div class="uk-grid">
+                                <div class="uk-width-1-5 uk-flex uk-flex-middle">
+                                  <span class="uk-text-bold uk-margin-small-right" style="min-width: 20px;">{{ i + 1 }}</span>
+                                  <img src="{{competitor.logo ? competitor.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}" style="height: 50px;">
+                                </div>
+                                <div class="uk-width-4-5">
+                                  <span class="uk-text-bold"><a href="{{marketplaceDatasourcesURL}}{{catalogueId}}.{{competitor.service_id}}" target="_blank">{{competitor.name}}</a></span>
+                                  <!--                                <span class="uk-text-bold"><a href="{{marketplaceDatasourcesURL}}{{catalogueId}}.{{competitor.service_id}}" target="_blank">{{competitor.name}}</a></span>-->
+                                  <span class="uk-align-right">{{ ((competitor.recommendations / item.total_competitor_recommendations) * 100).toFixed(2) }}%</span>
+                                  <span class="uk-text-truncate uk-display-block uk-text-center">{{ competitor.description }}</span>
+                                </div>
+                              </div>
                             </li>
                           </ul>
                         </div>

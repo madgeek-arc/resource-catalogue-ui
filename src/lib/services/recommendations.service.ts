@@ -9,22 +9,22 @@ export class RecommendationsService {
 
   constructor(private http: HttpClient) {}
 
-  getRecommendationsOverTime(providerId: string, serviceId?: string) {
+  getRecommendationsOverTime(publicProviderId: string, publicServiceId?: string) {
     let body;
-    if (!serviceId) body = `{"provider_id":"${providerId}"}`
-    else body = `{"provider_id":"${providerId}", "service_id":"${serviceId}"}`
+    if (!publicServiceId) body = `{"provider_id":"${publicProviderId}"}`
+    else body = `{"provider_id":"${publicProviderId}", "service_id":"${publicServiceId}"}`
     return this.http.post(this.baseForInsights + `/daily`, JSON.parse(body));
   }
 
-  getMostRecommendedServices(providerId: string) {
-    const body = `{"provider_id":"${providerId}", "top_n":"3"}`;
+  getMostRecommendedServices(publicProviderId: string) {
+    const body = `{"provider_id":"${publicProviderId}", "top_n":"3"}`;
     return this.http.post(this.baseForInsights + `/most_recommended/`, JSON.parse(body));
   }
 
-  getCompetitorsServices(providerId: string, serviceId?: string) {
+  getCompetitorsServices(publicProviderId: string, publicServiceId?: string) {
     let body;
-    if (!serviceId) body = `{"provider_id":"${providerId}"}`
-    else body = `{"provider_id":"${providerId}", "service_id":"${serviceId}"}`
+    if (!publicServiceId) body = `{"provider_id":"${publicProviderId}"}`
+    else body = `{"provider_id":"${publicProviderId}", "service_id":"${publicServiceId}"}`
     // {
     //   "provider_id": "string",
     //   "service_id": 0,
@@ -34,7 +34,7 @@ export class RecommendationsService {
     return this.http.post(this.baseForInsights + `/most_recommended_along_your_services/`, JSON.parse(body));
   }
 
-  getAutocompletionSuggestions(name: string, description: string, tagline: string) {
+  getAutocompletionSuggestions(name: string, description: string, tagline: string) { //TODO: remove name input (v1.0.2)
     const body = `{
                     "new_service": {
                         "name": "${name}",

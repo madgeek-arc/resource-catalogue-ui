@@ -23,7 +23,7 @@ const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
 })
 export class ServiceStatsComponent implements OnInit, OnDestroy {
 
-  // _marketplaceServicesURL = environment.marketplaceServicesURL;
+  marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
 
@@ -41,7 +41,8 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
   serviceAddsToProjectOptions: any = null;
   serviceMapOptions: any = null;
   recommendationsOverTimeForService: any = null;
-  recommendationsOfCompetitorsServices: any = null;
+  recommendationsOfCompetitorsServices: any[] = [];
+  enrichedRecommendationsOfCompetitorsServices: any[] = [];
 
   resourceBundle: ServiceBundle;
   catalogueId: string = null;
@@ -116,7 +117,6 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
 
     this.resourceService.getRatingsForService(this.service.id, period).pipe(
       map(data => {
-        // console.log('Ratings', data);
         // THESE 3 weird lines should be deleted when pgl makes everything ok :)
         return Object.entries(data).map((d) => {
           return [new Date(d[0]).getTime(), d[1]];
@@ -140,12 +140,12 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
     }
 
     /** Recommendations -> **/
-    this.recommendationsService.getRecommendationsOverTime(this.service.resourceOrganisation, this.service.id).subscribe(
+    this.recommendationsService.getRecommendationsOverTime(this.catalogueId.concat('.',this.service.resourceOrganisation), this.catalogueId.concat('.',this.service.id)).subscribe(
       data => this.setRecommendationsOverTimeForService(data),
       err => this.errorMessage = 'An error occurred while retrieving visits for this service. ' + err.error
     );
 
-    this.recommendationsService.getCompetitorsServices(this.service.resourceOrganisation, this.service.id).subscribe(
+    this.recommendationsService.getCompetitorsServices(this.catalogueId.concat('.',this.service.resourceOrganisation), this.catalogueId.concat('.',this.service.id)).subscribe(
       data => this.setCompetitorsServices(data),
       err => this.errorMessage = 'An error occurred while retrieving recommended services. ' + err.error
     );
@@ -340,9 +340,60 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
     }
   }
 
-  setCompetitorsServices(data: any){
+  setCompetitorsServices(data: any) {
     this.recommendationsOfCompetitorsServices = data;
+    this.enrichedRecommendationsOfCompetitorsServices = [];
 
+    for (const item of data) {
+      const competitorsWithDetails = [];
+
+      // let competitorPublicIds = [];
+      for (const competitor of item.competitors) {
+        // if (competitor.service_id !== 'tnp.lumi_etais__regular_access') {
+          // competitorPublicIds.push(competitor.service_id);
+          const isPublicId = /\..*\./.test(competitor.service_id); // if it has two dot occurrences its a publicId
+          this.resourceService.getService(competitor.service_id, isPublicId ? competitor.service_id.split(".")[0] : 'eosc').subscribe(
+            res => {
+              const competitorWithDetails = {
+                service_id: competitor.service_id,
+                recommendations: competitor.recommendations,
+                logo: res.logo,
+                name: res.name,
+                description: res.description
+              };
+              competitorsWithDetails.push(competitorWithDetails);
+            },
+            error => {
+            },
+            () => {
+            }
+          );
+        // }
+      }
+      const itemWithDetails = {
+        service_id: item.service_id,
+        total_competitor_recommendations: item.total_competitor_recommendations,
+        competitors: competitorsWithDetails
+      };
+      this.enrichedRecommendationsOfCompetitorsServices.push(itemWithDetails);
+    }
+
+    for (const item of this.enrichedRecommendationsOfCompetitorsServices) {
+      const isPublicId = /\..*\./.test(item.service_id); // if it has two dot occurrences its a publicId
+      this.resourceService.getService(item.service_id, isPublicId ? item.service_id.split(".")[0] : 'eosc').subscribe(
+        res => {
+          item.logo = res.logo;
+          item.name = res.name;
+          item.description = res.description;
+        },
+        error => { },
+        () => { }
+      );
+    }
+
+    // console.log(this.enrichedRecommendationsOfCompetitorsServices);
+    // console.log(competitorsPublicIds);
+    // console.log(outerServicesPublicIds);
   }
 
   ngOnDestroy(): void {

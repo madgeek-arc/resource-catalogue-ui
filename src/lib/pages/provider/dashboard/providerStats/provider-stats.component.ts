@@ -31,6 +31,8 @@ export class ProviderStatsComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
+  marketplaceServicesURL = environment.marketplaceServicesURL;
+  marketplaceDatasourcesURL = environment.marketplaceDatasourcesURL;
 
   catalogueId: string;
   providerId: string;
@@ -61,7 +63,8 @@ export class ProviderStatsComponent implements OnInit {
   orderTypesPerServiceForProvider: any = null;
   recommendationsOverTimeForProvider: any = null;
   recommendationsOfTopServices: any = null;
-  recommendationsOfCompetitorsServices: any = null;
+  recommendationsOfCompetitorsServices: any[] = [];
+  enrichedRecommendationsOfCompetitorsServices: any[] = [];
 
   selectedCountryName: string = null;
   selectedCountryServices: any = null;
@@ -329,17 +332,17 @@ export class ProviderStatsComponent implements OnInit {
     );
 
     /** Recommendations -> **/
-    this.recommendationsService.getRecommendationsOverTime(this.providerId).subscribe(
+    this.recommendationsService.getRecommendationsOverTime(this.catalogueId.concat('.',this.providerId)).subscribe(
         data => this.setRecommendationsOverTimeForProvider(data),
         err => this.errorMessage = 'An error occurred while retrieving visits for this provider. ' + err.error
       );
 
-    this.recommendationsService.getMostRecommendedServices(this.providerId).subscribe(
-      data => this.setMostRecommendedServices(data),
+    this.recommendationsService.getMostRecommendedServices(this.catalogueId.concat('.',this.providerId)).subscribe(
+      data => this.enrichMostRecommendedServices(data),
       err => this.errorMessage = 'An error occurred while retrieving most recommended services for this provider. ' + err.error
     );
 
-    this.recommendationsService.getCompetitorsServices(this.providerId).subscribe(
+    this.recommendationsService.getCompetitorsServices(this.catalogueId.concat('.',this.providerId)).subscribe(
       data => this.setCompetitorsServices(data),
       err => this.errorMessage = 'An error occurred while retrieving recommended services for this provider. ' + err.error
     );
@@ -996,7 +999,23 @@ export class ProviderStatsComponent implements OnInit {
     }
   }
 
+  enrichMostRecommendedServices(data: any) {
+    data.forEach(item => {
+      this.resourceService.getService(item.service_id, 'eosc').subscribe(
+        res => { item.service_name = res.name },
+        error => { this.errorMessage = error }
+      );
+    });
+    this.timeOut(100).then( () => this.setMostRecommendedServices(data));
+  }
+
+  timeOut(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   setMostRecommendedServices(data: any) {
+    console.log(data);
+
     this.recommendationsOfTopServices = {
       chart: {
         type: 'bar',
@@ -1008,12 +1027,12 @@ export class ProviderStatsComponent implements OnInit {
       xAxis: {
         type: 'category',
         title: {
-          text: 'Service ID'
+          text: 'Service'
         }
       },
       series: [{
         name: 'Recommendations',
-        data: data.map(item => [item.service_id, item.recommendations])
+        data: data.map(item => [item.service_name, item.recommendations])
       }],
       yAxis: {
         min: 0,
@@ -1041,10 +1060,62 @@ export class ProviderStatsComponent implements OnInit {
     };
   }
 
-  setCompetitorsServices(data: any){
+  setCompetitorsServices(data: any) {
     this.recommendationsOfCompetitorsServices = data;
+    this.enrichedRecommendationsOfCompetitorsServices = [];
 
+    for (const item of data) {
+      const competitorsWithDetails = [];
 
+      // let competitorPublicIds = [];
+      for (const competitor of item.competitors) {
+        // if (competitor.service_id !== 'tnp.lumi_etais__regular_access') {
+          // competitorPublicIds.push(competitor.service_id);
+          const isPublicId = /\..*\./.test(competitor.service_id); // if it has two dot occurrences its a publicId
+          this.resourceService.getService(competitor.service_id, isPublicId ? competitor.service_id.split(".")[0] : 'eosc').subscribe(
+            res => {
+              const competitorWithDetails = {
+                service_id: competitor.service_id,
+                recommendations: competitor.recommendations,
+                logo: res.logo,
+                name: res.name,
+                description: res.description
+              };
+              competitorsWithDetails.push(competitorWithDetails);
+            },
+            error => {
+            },
+            () => {
+            }
+          );
+        // }
+      }
+      const itemWithDetails = {
+        service_id: item.service_id,
+        total_competitor_recommendations: item.total_competitor_recommendations,
+        competitors: competitorsWithDetails
+      };
+      this.enrichedRecommendationsOfCompetitorsServices.push(itemWithDetails);
+    }
+
+    // let outerServicesPublicIds = [];
+    for (const item of this.enrichedRecommendationsOfCompetitorsServices) {
+      // outerServicesPublicIds.push(item.service_id);
+      const isPublicId = /\..*\./.test(item.service_id); // if it has two dot occurrences its a publicId
+      this.resourceService.getService(item.service_id, isPublicId ? item.service_id.split(".")[0] : 'eosc').subscribe(
+        res => {
+          item.logo = res.logo;
+          item.name = res.name;
+          item.description = res.description;
+        },
+        error => { },
+        () => { }
+      );
+    }
+
+    // console.log(this.enrichedRecommendationsOfCompetitorsServices);
+    // console.log(competitorsPublicIds);
+    // console.log(outerServicesPublicIds);
   }
 
 }
