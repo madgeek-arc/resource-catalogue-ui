@@ -1494,7 +1494,7 @@ export class DatasourceFormComponent implements OnInit {
     } else {
       this.noSuggestionsCall = false;
       this.showLoader = true;
-      this.recommendationsService.getAutocompletionSuggestions(this.serviceForm.get('name').value, this.serviceForm.get('description').value, this.serviceForm.get('tagline').value).subscribe(
+      this.recommendationsService.getAutocompletionSuggestions(this.serviceForm.get('description').value, this.serviceForm.get('tagline').value).subscribe(
         res => {
           this.suggestedResponse = res;
           this.suggestedScientificSubDomains = this.suggestedResponse.find(item => item.field_name === "scientific_domains").suggestions;

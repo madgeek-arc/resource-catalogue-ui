@@ -34,10 +34,9 @@ export class RecommendationsService {
     return this.http.post(this.baseForInsights + `/most_recommended_along_your_services/`, JSON.parse(body));
   }
 
-  getAutocompletionSuggestions(name: string, description: string, tagline: string) { //TODO: remove name input (v1.0.2)
+  getAutocompletionSuggestions(description: string, tagline: string) {
     const body = `{
                     "new_service": {
-                        "name": "${name}",
                         "description": "${description}",
                         "tagline": "${tagline}"
                     },
