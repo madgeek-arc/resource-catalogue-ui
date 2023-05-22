@@ -366,7 +366,7 @@ export class ProviderStatsComponent implements OnInit {
     if (this.enrichedRecommendationsOfCompetitorsServices.length == 0) {
       this.recommendationsService.getCompetitorsServices(this.catalogueId.concat('.', this.providerId)).subscribe(
         data => {
-          if (data) {
+          if (data != []) {
             this.setCompetitorsServices(data);
             this.emptyResponseOnGetCompetitorsServices = false;
           } else {

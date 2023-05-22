@@ -162,7 +162,7 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
     if (this.enrichedRecommendationsOfCompetitorsServices.length == 0) {
       this.recommendationsService.getCompetitorsServices(this.catalogueId.concat('.', this.datasource.resourceOrganisation), this.catalogueId.concat('.', this.datasource.id)).subscribe(
         data => {
-          if (data) {
+          if (data != []) {
             this.setCompetitorsServices(data);
             this.emptyResponseOnGetCompetitorsServices = false;
           } else {
