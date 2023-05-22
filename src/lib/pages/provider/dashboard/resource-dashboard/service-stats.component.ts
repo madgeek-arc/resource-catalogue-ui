@@ -162,12 +162,12 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
     }
     if (this.enrichedRecommendationsOfCompetitorsServices.length == 0) {
       this.recommendationsService.getCompetitorsServices(this.catalogueId.concat('.',this.service.resourceOrganisation), this.catalogueId.concat('.',this.service.id)).subscribe(
-        data => {
-          if (data != []) {
+        (data: any[]) => {
+          if (data && data.length === 0) {
+            this.emptyResponseOnGetCompetitorsServices = true;
+          } else {
             this.setCompetitorsServices(data);
             this.emptyResponseOnGetCompetitorsServices = false;
-          } else {
-            this.emptyResponseOnGetCompetitorsServices = true;
           }
         },
         err => this.errorMessage = 'An error occurred while retrieving recommended services. ' + err.error
