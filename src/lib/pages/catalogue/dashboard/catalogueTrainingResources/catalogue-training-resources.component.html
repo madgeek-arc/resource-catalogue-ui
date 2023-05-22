@@ -50,7 +50,7 @@
             <label class="" for="orderField">Order by </label>
             <div class="uk-inline">
               <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
-                <option value="name" selected>Name</option>
+                <option value="title" selected>Title</option>
                 <option value="registeredAt">Creation Date</option>
                 <option value="modifiedAt">Modification Date</option>
               </select>
@@ -59,26 +59,26 @@
 
         </div>
 
-        <div class="uk-margin-right">
-          <div class="uk-inline uk-margin-right">
-            <label class="" for="status">Status </label>
-            <div class="uk-inline">
-              <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
-                <option value="" selected>All</option>
-                <option value="approved resource">Approved Resource</option>
-                <option value="pending resource">Pending Resource</option>
-                <option value="rejected resource">Rejected Resource</option>
-              </select>
-            </div>
-          </div>
-        </div>
+<!--        <div class="uk-margin-right">-->
+<!--          <div class="uk-inline uk-margin-right">-->
+<!--            <label class="" for="status">Status </label>-->
+<!--            <div class="uk-inline">-->
+<!--              <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">-->
+<!--                <option value="" selected>All</option>-->
+<!--                <option value="approved resource">Approved Resource</option>-->
+<!--                <option value="pending resource">Pending Resource</option>-->
+<!--                <option value="rejected resource">Rejected Resource</option>-->
+<!--              </select>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
 
         <div class="uk-margin-right">
           <div class="uk-inline uk-margin-right">
             <label class="" for="isActive">Is Active </label>
             <div class="uk-inline">
               <select class="uk-input uk-select" id="isActive" (change)="handleChangeAndResetPage()" formControlName="active">
-                <option value="statusAll" selected>All</option>
+                <option value="" selected>All</option>
                 <option value="true">Active</option>
                 <option value="false">Inactive</option>
               </select>
@@ -96,16 +96,16 @@
       </form>
 
 
-      <div *ngIf="datasourceBundles && datasourceBundles.results.length === 0">
-        <p>No datasources found</p>
+      <div *ngIf="trainingResourceBundles && trainingResourceBundles.length === 0">
+        <p>No training resources found</p>
       </div>
 
-      <div *ngIf="datasourceBundles && datasourceBundles.results.length > 0">
+      <div *ngIf="trainingResourceBundles && trainingResourceBundles.length > 0">
 
         <div class="uk-flex uk-flex-middle uk-flex-between">
 
           <div class="resultsInfo">
-            <span class="number">{{total}}</span> DATASOURCES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+            <span class="number">{{total}}</span> TRAINING RESOURCES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
           </div>
 
           <ul class="uk-pagination" uk-margin>
@@ -121,27 +121,27 @@
         <hr class="adminResultsHeader">
 
         <div class="uk-margin-medium-top">
-          <div *ngFor="let datasourceBundle of datasourceBundles.results" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+          <div *ngFor="let bundle of trainingResourceBundles" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
 
             <div class="uk-card-body">
 
-              <div *ngIf="datasourceBundle.status === 'approved resource'" class="approved">
+              <div *ngIf="bundle.status === 'approved resource'" class="approved">
                 <div class="uk-card-badge uk-label">Approved</div>
               </div>
-              <div *ngIf="datasourceBundle.status === 'pending resource'" class="pending">
+              <div *ngIf="bundle.status === 'pending resource'" class="pending">
                 <div class="uk-card-badge uk-label">Pending</div>
               </div>
-              <div *ngIf="(datasourceBundle.status === 'rejected resource')" class="rejected">
+              <div *ngIf="(bundle.status === 'rejected resource')" class="rejected">
                 <div class="uk-card-badge uk-label">Rejected</div>
               </div>
 
               <div class="uk-grid">
                 <div class="uk-width-9-10"></div>
                 <div class="uk-width-1-10">
-                  <div *ngIf="datasourceBundle.active" class="approved">
+                  <div *ngIf="bundle.active" class="approved">
                     <div class="uk-label uk-align-right">Active</div>
                   </div>
-                  <div *ngIf="!datasourceBundle.active" class="rejected">
+                  <div *ngIf="!bundle.active" class="rejected">
                     <div class="uk-label uk-align-right">Inactive</div>
                   </div>
                 </div>
@@ -149,53 +149,56 @@
 
               <div class="uk-grid uk-flex-middle uk-margin-remove-top">
                 <div class="uk-width-1-6">
-                  <img src="{{datasourceBundle.datasource.logo ? datasourceBundle.datasource.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
+<!--                  <img src="{{bundle.trainingResource.logo ? bundle.trainingResource.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">-->
                 </div>
                 <div class="uk-width-2-3">
                   <h4 class="uk-margin-remove">
-                    <a (click)="navigate(datasourceBundle.datasource.id)">{{datasourceBundle.datasource.name}}</a>
+                    <a [routerLink]="['/dashboard', bundle.trainingResource.catalogueId, bundle.trainingResource.resourceOrganisation, 'training-resource-dashboard', bundle.id]" data-uk-tooltip title="Go to the training resource dashboard">
+                      {{ bundle.trainingResource.title }}
+                    </a>
+<!--                    <a (click)="navigate(bundle.id)">{{bundle.trainingResource.title}}</a>-->
                   </h4>
                   <div class="uk-margin-small-top">
-                    <span *ngIf="datasourceBundle.datasource.description" class="uk-margin-small-top"><markdown [data]="datasourceBundle.datasource.description"></markdown></span>
+                    <span *ngIf="bundle.trainingResource.description" class="uk-margin-small-top"><markdown [data]="bundle.trainingResource.description"></markdown></span>
                   </div>
                   <div class="uk-margin-small-top">
-                    <span class="">Creation Date: </span>{{ datasourceBundle.metadata.registeredAt | date }}
+                    <span class="">Creation Date: </span>{{ bundle.metadata.registeredAt | date }}
                   </div>
                   <div class="uk-margin-small-top">
-                    <span class="">Last Update: </span>{{ datasourceBundle.metadata.modifiedAt | date }}
+                    <span class="">Last Update: </span>{{ bundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
                 <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
                   <div class="action-buttons">
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleDatasource(datasourceBundle)">
-                      <ng-container *ngIf="datasourceBundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
-                      <ng-container *ngIf="!datasourceBundle.active">
+                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleTrainingResource(bundle)">
+                      <ng-container *ngIf="bundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
+                      <ng-container *ngIf="!bundle.active">
                         <!--                        <div *ngIf="providerService.status === 'pending resource' || providerService.status === 'rejected resource'"-->
                         <!--                             uk-tooltip="title:Cannot activate a pending/rejected resource."></div>-->
                         <i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate
                       </ng-container>
                     </button>
-                    <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">-->
-                    <!--<i class="fa fa-pencil fa-lg"></i> Edit datasource-->
+                    <!--<i class="fa fa-pencil fa-lg"></i> Edit training resource-->
                     <!--</button>-->
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedDatasource(datasourceBundle)">
-                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete datasource
+                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedTrainingResource(bundle)">
+                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete
                     </button>
                   </div>
                 </div>
               </div>
 
-              <ng-container *ngIf="datasourceBundle.datasource.catalogueId!=='eosc'">
-                <hr class="uk-margin-top">
-                <div class="uk-align-right">
-                  <button
-                    routerLink="/provider/{{datasourceBundle.datasource.catalogueId}}/{{datasourceBundle.datasource.resourceOrganisation}}/datasource/view/{{datasourceBundle.id}}"
-                    class="uk-button uk-button-link" style="">
-                    <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
-                    View Datasource
-                  </button>
-                </div>
-              </ng-container>
+<!--              todo: revisit-->
+<!--              <ng-container *ngIf="bundle.trainingResource.catalogueId!=='eosc'">-->
+<!--                <hr class="uk-margin-top">-->
+<!--                <div class="uk-align-right">-->
+<!--                  <button-->
+<!--                    routerLink="/provider/{{bundle.trainingResource.catalogueId}}/{{bundle.trainingResource.resourceOrganisation}}/datasource/view/{{bundle.id}}"-->
+<!--                    class="uk-button uk-button-link" style="">-->
+<!--                    <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>-->
+<!--                    View Datasource-->
+<!--                  </button>-->
+<!--                </div>-->
+<!--              </ng-container>-->
 
               <!--&lt;!&ndash;              active/inactive label alternative&ndash;&gt;-->
               <!--              <td class="uk-text-center">-->
@@ -217,45 +220,6 @@
 
       </div>
 
-
-      <!--<div *ngFor="let providerService of providerServices.results" class="uk-card uk-margin-bottom service"-->
-      <!--style="background:#f7f7fa">-->
-      <!--<div class="uk-margin uk-grid-match uk-child-width-1-1 uk-animation-slide-top-medium uk-grid-stack">-->
-      <!--<div class="uk-first-column uk-padding-remove-left">-->
-
-      <!--<div class="uk-panel uk-scrollspy-inview uk-animation-slide-top-medium">-->
-      <!--<div class="uk-child-width-expand uk-flex-middle uk-grid uk-grid-stack uk-padding-small" uk-grid="">-->
-      <!--<div class="uk-width-1-6@m uk-first-column">-->
-      <!--<img-->
-      <!--src="{{providerService.service.logo ? providerService.service.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}"-->
-      <!--class="uk-border-rounded uk-padding-small center">-->
-      <!--</div>-->
-      <!--<div class="uk-width-2-3@m uk-padding-remove">-->
-      <!--<h3 class="uk-margin uk-h5 uk-margin-small-bottom">-->
-      <!--<a (click)="navigate(providerService.service.id)">{{providerService.service.name}}</a></h3>-->
-      <!--<span><markdown [data]="providerService.service.description"></markdown></span>-->
-      <!--</div>-->
-      <!--<div class="uk-width-1-6@m">-->
-      <!--<div *ngIf="path === 'activeServices'">-->
-      <!--<div style="margin-left: 5px">{{providerService.active ? 'Active' : 'Inactive'}}</div>-->
-      <!--<label class="switch">-->
-      <!--<input type="checkbox" [checked]="providerService.active" (change)="toggleService(providerService.service.id, providerService.service.version, $event)">-->
-      <!--<span class="slider round"></span>-->
-      <!--</label>-->
-      <!--<a class="uk-padding-small" (click)="setSelectedService(providerService)">-->
-      <!--<i class="fa fa-trash fa-2x" aria-hidden="true"></i>-->
-      <!--</a>-->
-      <!--</div>-->
-
-
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-
       <div *ngIf="toggleLoading">
         <div class="loader-small">
           <div class="greyFilm"></div>
@@ -269,8 +233,8 @@
 
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h6 *ngIf="selectedDatasource">Are you sure you want to delete the Data Source '{{selectedDatasource.datasource.name}}'</h6>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteDatasource(selectedDatasource.id)">Delete</button>
+    <h6 class="uk-margin-bottom" *ngIf="selectedTrainingResource">Are you sure you want to delete the Training Resource '{{selectedTrainingResource.trainingResource.title}}'?</h6>
+    <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="deleteTrainingResource(selectedTrainingResource.id)">Delete</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>
 </div>

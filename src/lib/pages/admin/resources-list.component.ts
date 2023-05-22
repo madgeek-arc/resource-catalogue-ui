@@ -2,7 +2,15 @@ import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/c
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {resourceStatusChangeMap, statusList} from '../../domain/resource-status-list';
-import {ServiceBundle, LoggingInfo, Provider, ProviderBundle, Vocabulary} from '../../domain/eic-model';
+import {
+  ServiceBundle,
+  LoggingInfo,
+  Provider,
+  ProviderBundle,
+  Vocabulary,
+  Service,
+  Datasource
+} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -12,6 +20,7 @@ import {NavigationService} from '../../services/navigation.service';
 import {Paging} from '../../domain/paging';
 import {ResourceExtrasService} from '../../services/resource-extras.service';
 import {ServiceExtensionsService} from '../../services/service-extensions.service';
+import {DatasourceService} from "../../services/datasource.service";
 
 declare var UIkit: any;
 
@@ -64,7 +73,7 @@ export class ResourcesListComponent implements OnInit {
   selectedProvider: ProviderBundle;
   providersTotal: number;
 
-  services: ServiceBundle[] = [];
+  services: ServiceBundle[] = new Array<ServiceBundle>();
   servicesForAudit: ServiceBundle[] = [];
   selectedService: ServiceBundle;
   facets: any;
@@ -116,6 +125,7 @@ export class ResourcesListComponent implements OnInit {
   semanticRelationshipVoc: Vocabulary[] = null;
 
   constructor(private resourceService: ResourceService,
+              private datasourceService: DatasourceService,
               private serviceProviderService: ServiceProviderService,
               private resourceExtrasService: ResourceExtrasService,
               private authenticationService: AuthenticationService,
@@ -217,7 +227,7 @@ export class ResourcesListComponent implements OnInit {
               }
             }
 
-            this.getServices();
+            this.getResources();
             this.getProviders();
             // this.handleChange();
           },
@@ -239,6 +249,14 @@ export class ResourcesListComponent implements OnInit {
       this.getResearchCategoriesVoc();
       this.getSemanticRelationshipVoc();
     }
+  }
+
+  getPayload(bundle : ServiceBundle): Service | Datasource {
+    return bundle.service != null ? bundle.service : bundle.datasource;
+  }
+
+  getServiceOrDatasourceType(bundle : ServiceBundle): string {
+    return bundle.service != null ? 'service' : 'datasource';
   }
 
   isStatusChecked(value: string) {
@@ -342,7 +360,7 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  getServices() {
+  getResources() {
     this.loadingMessage = 'Loading ' + this.serviceORresource + 's...';
     this.services = [];
     this.resourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
@@ -504,49 +522,49 @@ export class ResourcesListComponent implements OnInit {
   /** <--for facets **/
 
 
-  showDeletionModal(resource: ServiceBundle) {
-    this.selectedService = resource;
+  showDeletionModal(bundle: ServiceBundle) {
+    this.selectedService = bundle;
     if (this.selectedService) {
       UIkit.modal('#deletionModal').show();
     }
   }
 
-  showSendMailModal(resource: ServiceBundle) {
-    this.selectedService = resource;
+  showSendMailModal(bundle: ServiceBundle) {
+    this.selectedService = bundle;
     if (this.selectedService) {
       UIkit.modal('#sendMailModal').show();
     }
   }
 
-  showMoveResourceModal(resource: ServiceBundle) {
+  showMoveResourceModal(bundle: ServiceBundle) {
     this.commentMoveControl.reset();
-    this.selectedService = resource;
+    this.selectedService = bundle;
     if (this.selectedService) {
       UIkit.modal('#moveResourceModal').show();
     }
   }
 
-  deleteService(id: string) {
+  deleteService(bundle: ServiceBundle) {
     // UIkit.modal('#spinnerModal').show();
-    this.resourceService.deleteService(id).subscribe(
+    this.resourceService[bundle.service ? 'deleteService' : 'deleteDatasource'](bundle.id).subscribe(
       res => {},
       error => {
         // console.log(error);
         // UIkit.modal('#spinnerModal').hide();
         this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getServices();
+        this.getResources();
       },
       () => {
-        this.getServices();
+        this.getResources();
         // UIkit.modal('#spinnerModal').hide();
       }
     );
   }
 
   /** resourceExtras--> **/
-  toggleHorizontalService(resource: ServiceBundle) {
+  toggleHorizontalService(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateHorizontalService(resource.id, 'service', resource.service.catalogueId, !resource?.resourceExtras?.horizontalService).subscribe(
+    this.resourceExtrasService.updateHorizontalService(bundle.id, this.getServiceOrDatasourceType(bundle), this.getPayload(bundle).catalogueId, !bundle?.resourceExtras?.horizontalService).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -559,8 +577,8 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  showResourceCategories(resource: ServiceBundle) {
-    this.selectedService = resource;
+  showResourceCategories(bundle: ServiceBundle) {
+    this.selectedService = bundle;
     if (this.selectedService) {
       this.extrasFormPrep(this.selectedService);
       this.extrasForm.patchValue(this.selectedService.resourceExtras);
@@ -568,8 +586,8 @@ export class ResourcesListComponent implements OnInit {
     }
   }
 
-  showEoscIFGuidelines(resource: ServiceBundle) {
-    this.selectedService = resource;
+  showEoscIFGuidelines(bundle: ServiceBundle) {
+    this.selectedService = bundle;
     if (this.selectedService) {
       this.extrasFormPrep(this.selectedService);
       this.extrasForm.patchValue(this.selectedService.resourceExtras);
@@ -577,9 +595,9 @@ export class ResourcesListComponent implements OnInit {
     }
   }
 
-  updateResearchCategories(resource: ServiceBundle) {
+  updateResearchCategories(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateResearchCategories(resource.id, 'service', resource.service.catalogueId, this.extrasForm.value.researchCategories).subscribe(
+    this.resourceExtrasService.updateResearchCategories(bundle.id, this.getServiceOrDatasourceType(bundle), this.getPayload(bundle).catalogueId, this.extrasForm.value.researchCategories).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -592,9 +610,9 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  updateEoscIFGuidelines(resource: ServiceBundle) {
+  updateEoscIFGuidelines(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateEoscIFGuidelines(resource.id, 'service', resource.service.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
+    this.resourceExtrasService.updateEoscIFGuidelines(bundle.id, this.getServiceOrDatasourceType(bundle), this.getPayload(bundle).catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -607,7 +625,7 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  extrasFormPrep(resource: ServiceBundle){
+  extrasFormPrep(bundle: ServiceBundle){
     //resets the 2 parts of the form and then fills them
     this.extrasForm.setControl('researchCategories', this.fb.array([this.fb.control('')]));
     this.extrasForm.setControl('eoscIFGuidelines',
@@ -618,13 +636,13 @@ export class ResourcesListComponent implements OnInit {
         url: ['']
       })
       ]));
-    if ( resource?.resourceExtras?.researchCategories ) {
-      for (let i = 0; i < resource.resourceExtras.researchCategories.length - 1; i++) {
+    if ( bundle?.resourceExtras?.researchCategories ) {
+      for (let i = 0; i < bundle.resourceExtras.researchCategories.length - 1; i++) {
         this.push('researchCategories');
       }
     }
-    if ( resource?.resourceExtras?.eoscIFGuidelines ) {
-      for (let i = 0; i < resource.resourceExtras.eoscIFGuidelines.length - 1; i++) {
+    if ( bundle?.resourceExtras?.eoscIFGuidelines ) {
+      for (let i = 0; i < bundle.resourceExtras.eoscIFGuidelines.length - 1; i++) {
         this.pushEoscIFGuidelines();
       }
     }
@@ -670,28 +688,34 @@ export class ResourcesListComponent implements OnInit {
 
   /** <--manage form arrays **/
 
-  toggleService(providerService: ServiceBundle) {
+  toggleService(bundle: ServiceBundle) {
+    if (bundle.status === 'pending resource' || bundle.status === 'rejected resource') {
+      this.errorMessage = `You cannot activate a ${bundle.status}.`;
+      window.scrollTo(0, 0);
+      return;
+    }
     UIkit.modal('#spinnerModal').show();
-    this.serviceProviderService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
+    this.serviceProviderService[bundle.service ? 'publishService' : 'publishDatasource'](bundle.id, this.getPayload(bundle).version, !bundle.active).subscribe(
       res => {},
       error => {
         this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getServices();
+        this.getResources();
         UIkit.modal('#spinnerModal').hide();
         // console.log(error);
       },
       () => {
-        this.getServices();
+        this.getResources();
         UIkit.modal('#spinnerModal').hide();
       }
     );
   }
 
-  templateAction(id, active, status) {
+  templateAction(serviceBundle, active, status) {
     this.loadingMessage = '';
     UIkit.modal('#spinnerModal').show();
-    const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
-    this.resourceService.verifyResource(templateId, active, status).subscribe(
+    const providerId = serviceBundle.id.substring(0, serviceBundle.id.lastIndexOf('.'));
+    const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerId)[0].serviceId;
+    this.resourceService[serviceBundle?.service ? 'verifyResource' : 'verifyDatasource'](templateId, active, status).subscribe(
       res => {
         this.getProviders();
       },
@@ -706,22 +730,49 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  moveResourceToProvider(resourceId, providerId) {
-    UIkit.modal('#spinnerModal').show();
-    this.resourceService.moveResourceToProvider(resourceId, providerId, this.commentMoveControl.value).subscribe(
-      res => {},
-      error => {
-        // console.log(error);
-        UIkit.modal('#spinnerModal').hide();
-        this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getServices();
-      },
+  moveResourceToProvider(resourceId, providerId, catalogueId) { //could simplify the if else
+    let type: string;
+    this.resourceService.isServiceOrDatasource(resourceId, catalogueId).subscribe(
+      res => { type = res },
+      err => { console.log(err) },
       () => {
-        // this.getServices();
-        UIkit.modal('#spinnerModal').hide();
-        window.location.reload();
+        if (type == 'service') {
+          UIkit.modal('#spinnerModal').show();
+          this.resourceService.moveResourceToProvider(resourceId, providerId, this.commentMoveControl.value).subscribe(
+            res => {
+            },
+            error => {
+              // console.log(error);
+              UIkit.modal('#spinnerModal').hide();
+              this.errorMessage = 'Something went bad. ' + error.error;
+              this.getResources();
+            },
+            () => {
+              // this.getServices();
+              UIkit.modal('#spinnerModal').hide();
+              window.location.reload();
+            }
+          );
+        }
+        else if (type == 'datasource') {
+          UIkit.modal('#spinnerModal').show();
+          this.datasourceService.moveDatasourceToProvider(resourceId, providerId, this.commentMoveControl.value).subscribe(
+            res => {},
+            error => {
+              // console.log(error);
+              UIkit.modal('#spinnerModal').hide();
+              this.errorMessage = 'Something went bad. ' + error.error ;
+              this.getResources();
+            },
+            () => {
+              // this.getDatasources();
+              UIkit.modal('#spinnerModal').hide();
+              window.location.reload();
+            }
+          );
+        }
       }
-    );
+    )
   }
 
   showAuditForm(view: string, resource: ServiceBundle) {
@@ -740,12 +791,12 @@ export class ResourcesListComponent implements OnInit {
     this.commentAuditControl.reset();
   }
 
-  auditResourceAction(action: string) {
-    this.resourceService.auditResource(this.selectedService.id, action, this.commentAuditControl.value)
+  auditResourceAction(action: string, bundle: ServiceBundle) {
+    this.resourceService[bundle.service ? 'auditResource' : 'auditDatasource'](this.selectedService.id, action, this.commentAuditControl.value)
       .subscribe(
         res => {
           if (!this.showSideAuditForm) {
-            this.getServices();
+            this.getResources();
           }
         },
         err => { console.log(err); },
@@ -764,11 +815,24 @@ export class ResourcesListComponent implements OnInit {
       );
   }
 
-  sendMailForUpdate(id: string) {
-    this.resourceService.sendEmailForOutdatedResource(id).subscribe(
-      res => {},
-      err => { console.log(err); }
-    );
+  sendMailForUpdate(id: string, catalogueId: string) {
+    let type: string;
+    this.resourceService.isServiceOrDatasource(id, catalogueId).subscribe(
+      res => { type = res },
+      err => { console.log(err) },
+      () => {
+        if (type == 'service') {
+          this.resourceService.sendEmailForOutdatedResource(id).subscribe(
+            res => {}, err => { console.log(err); }
+          );
+        } else if (type == 'datasource') {
+          console.log('if else ds')
+          this.datasourceService.sendEmailForOutdatedDatasource(id).subscribe(
+            res => {}, err => { console.log(err); }
+          );
+        }
+      }
+    )
   }
 
   hasCreatedFirstService(id: string) {

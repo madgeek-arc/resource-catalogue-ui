@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ServiceBundle, Provider, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {ServiceBundle, Provider, ProviderBundle, Service, Datasource} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -87,6 +87,10 @@ export class SharedServicesComponent implements OnInit {
         error => this.errorMessage = <any>error
       );
     // this.getPendingServices();
+  }
+
+  getPayload(bundle : ServiceBundle): Service | Datasource {
+    return bundle.service != null ? bundle.service : bundle.datasource;
   }
 
   navigate(id: string) {

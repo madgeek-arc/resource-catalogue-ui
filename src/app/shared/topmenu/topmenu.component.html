@@ -65,6 +65,10 @@
             </ul>
             <ul class="uk-nav uk-nav-default mainMenu">
 
+              <li class="uk-parent" [routerLinkActive]="['uk-active']">
+                <a [routerLink]="['/about']" routerLinkActive="uk-active">About</a>
+              </li>
+
               <li class="uk-nav-header uk-parent" [routerLinkActive]="['uk-active']">For Providers
                 <ul class="uk-nav-sub">
                   <li><a [routerLink]="['/becomeAProvider']" routerLinkActive="uk-active"
@@ -157,9 +161,9 @@
           </div>
           <div class="uk-navbar-right align-self-center">
             <ul class="uk-navbar-nav">
-<!--              <li class="uk-parent" [routerLinkActive]="['uk-active']">-->
-<!--                <a [routerLink]="['/stats']" routerLinkActive="uk-active">Statistics</a>-->
-<!--              </li>-->
+              <li class="uk-parent" [routerLinkActive]="['uk-active']">
+                <a [routerLink]="['/about']" routerLinkActive="uk-active">About</a>
+              </li>
 
               <li class="uk-parent" [routerLinkActive]="['uk-active']">
                 <a href="#" class="" aria-expanded="false">
@@ -227,8 +231,8 @@
                     <div class="uk-first-column">
                       <ul class="uk-nav uk-navbar-dropdown-nav">
                         <li><a [routerLink]="['/provider/all']" routerLinkActive="uk-active">Providers</a></li>
-                        <li><a [routerLink]="['/provider/resource/all']" routerLinkActive="uk-active">Resources</a></li>
-                        <li><a [routerLink]="['/provider/datasource/all']" routerLinkActive="uk-active">Datasources</a></li>
+                        <li><a [routerLink]="['/provider/resource/all']" routerLinkActive="uk-active">Services</a></li>
+<!--                        <li><a [routerLink]="['/provider/datasource/all']" routerLinkActive="uk-active">Datasources</a></li>-->
                         <li><a [routerLink]="['/provider/training/all']" routerLinkActive="uk-active">Training Resources</a></li>
                         <li><a [routerLink]="['/catalogue/all']" routerLinkActive="uk-active">Catalogues</a></li>
                         <li><a [routerLink]="['/guidelines/all']" routerLinkActive="uk-active">Guidelines</a></li>

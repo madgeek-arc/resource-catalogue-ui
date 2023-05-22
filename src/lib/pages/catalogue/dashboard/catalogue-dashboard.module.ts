@@ -14,7 +14,7 @@ import {CatalogueDashboardComponent} from "./catalogue-dashboard.component";
 import {CatalogueDashboardRouting} from "./catalogue-dashboard.routing";
 import {CatalogueProvidersComponent} from "./catalogueProviders/catalogue-providers.component";
 import {CatalogueServicesComponent} from "./catalogueServices/catalogue-services.component";
-import {CatalogueDatasourcesComponent} from "./catalogueDatasources/catalogue-datasources.component";
+import {CatalogueTrainingResourcesComponent} from "./catalogueTrainingResources/catalogue-training-resources.component";
 
 @NgModule({
   imports: [
@@ -36,7 +36,7 @@ import {CatalogueDatasourcesComponent} from "./catalogueDatasources/catalogue-da
     CatalogueInfoComponent,
     CatalogueProvidersComponent,
     CatalogueServicesComponent,
-    CatalogueDatasourcesComponent,
+    CatalogueTrainingResourcesComponent
     // ServiceStatsComponent
   ]
 })

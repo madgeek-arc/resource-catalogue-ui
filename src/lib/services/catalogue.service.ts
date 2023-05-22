@@ -93,10 +93,10 @@ export class CatalogueService {
     if (!query) { query = ''; }
     if (!status) { status = 'approved resource,pending resource,rejected resource'; }
     if (active === 'statusAll') {
-      return this.http.get<Paging<ServiceBundle>>(this.base +
+      return this.http.get<any>(this.base +
         `/service/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
     }
-    return this.http.get<Paging<ServiceBundle>>(this.base +
+    return this.http.get<any>(this.base +
       `/service/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
   }
 

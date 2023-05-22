@@ -9,9 +9,8 @@ import {
   Provider,
   RichService,
   Service,
-  ServiceHistory,
   Vocabulary,
-  Type, ProviderBundle, ServiceBundle, LoggingInfo
+  Type, ProviderBundle, ServiceBundle, LoggingInfo, Bundle
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
@@ -127,15 +126,14 @@ export class ResourceService {
   }
 
   getAllRelatedResources(){ // Gets services, datasources and trainings
-    return this.http.get(this.base + '/service/resourceIdToNameMap/'); // TODO: rename as bellow on backend redeploy
-    // return this.http.get(this.base + '/service/getAllProviderRelatedResources/');
+    return this.http.get(this.base + '/service/resourceIdToNameMap/');
   }
 
-  getService(id: string, catalogueId?: string) {
+  getService(serviceId: string, catalogueId?: string) { // can handle public ids too
     // if version becomes optional this should be reconsidered
-    // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
+    // return this.http.get<Service>(this.base + `/service/${version === undefined ? serviceId : [serviceId, version].join('/')}`, this.options);
     if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<Service>(this.base + `/service/${id}/?catalogue_id=${catalogueId}`, this.options);
+    return this.http.get<Service>(this.base + `/service/${serviceId}/?catalogue_id=${catalogueId}`, this.options);
   }
 
   getRichService(id: string, catalogueId?:string, version?: string) {
@@ -150,20 +148,22 @@ export class ResourceService {
     return this.http.get<RichService[]>(this.base + `/service/rich/byID/${ids.toString()}/`, this.options);
   }
 
-  getServicesOfferedByProvider(id: string): Observable<RichService[]> {
-    return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).pipe(
-      map(res => Object.values(res.results))
-    );
+  getMultipleResourcesByPublicId(publicIds: string[]) { //input public ids of services, datasources, and training resources; returns only if resource exist; NOT bundles
+    return this.http.get<any[]>(this.base + `/public/resources/${publicIds.toString()}/`, this.options);
   }
+
+  // getServicesOfferedByProvider(id: string): Observable<RichService[]> {
+  //   return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).pipe(
+  //     map(res => Object.values(res.results))
+  //   );
+  // }
 
   deleteService(id: string) {
     return this.http.delete(this.base + '/service/' + id, this.options);
   }
 
-  /** Recommendations **/
-
-  getRecommendedServices(limit: number) {
-    return this.http.get<RichService[]>(this.base + `/recommendation/getRecommendationServices/${limit}/`, this.options);
+  deleteDatasource(id: string) {
+    return this.http.delete(this.base + '/datasource/' + id, this.options);
   }
 
   /** STATS **/
@@ -291,9 +291,9 @@ export class ResourceService {
     return this.get('stats/provider/visitation', provider);
   }
 
-  getPlacesForProvider(provider: string) {
-    return this.getServicesOfferedByProvider(provider);
-  }
+  // getPlacesForProvider(provider: string) {
+  //   return this.getServicesOfferedByProvider(provider);
+  // }
 
   getVisitsForService(service: string, period?: string) {
     let params = new HttpParams();
@@ -302,15 +302,6 @@ export class ResourceService {
       return this.http.get(this.base + `/stats/service/visits/${service}`, {params});
     }
     return this.http.get(this.base + `/stats/service/visits/${service}`);
-  }
-
-  getFavouritesForService(service: string, period?: string) {
-    let params = new HttpParams();
-    if (period) {
-      params = params.append('by', period);
-      return this.http.get(this.base + `/stats/service/favourites/${service}`, {params});
-    }
-    return this.http.get(this.base + `/stats/service/favourites/${service}`);
   }
 
   getAddToProjectForService(service: string, period?: string) {
@@ -380,7 +371,7 @@ export class ResourceService {
     let params = new HttpParams();
     params = params.append('from', '0');
     params = params.append('quantity', '10000');
-    if (status === 'approved provider') {
+    if (status === 'approved provider') { //not matched hence never reached, do we need approved providers or all?
       return this.http.get<Paging<Provider>>(this.base + `/provider/all/?status=approved provider`, {params, withCredentials: true});
     }
     return this.http.get<Paging<Provider>>(this.base + `/provider/all/`, {params, withCredentials: true});
@@ -464,11 +455,13 @@ export class ResourceService {
         params = params.append('catalogue_id', catalogueValue);
       }
     } else params = params.append('catalogue_id', 'all');
-    return this.http.get(this.base + `/service/adminPage/all`, {params});
+    params = params.append('type', 'all');
+    return this.http.get<Bundle<Service>>(this.base + `/service/adminPage/all`, {params});
     // return this.getAll("provider");
   }
 
   getResourceBundleById(id: string, catalogueId: string) {
+    if (!catalogueId) catalogueId ='eosc';
     return this.http.get<ServiceBundle>(this.base + `/serviceBundle/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
@@ -482,7 +475,7 @@ export class ResourceService {
 
   getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/resource/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      `/resource/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&type=all`);
   }
 
   getEU() {
@@ -529,7 +522,7 @@ export class ResourceService {
 
   getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&type=all`);
   }
 
   getPendingService(id: string) {
@@ -538,6 +531,10 @@ export class ResourceService {
 
   deletePendingService(id: string) {
     return this.http.delete(this.base + '/pendingService/' + id, this.options);
+  }
+
+  deletePendingDatasource(id: string) {
+    return this.http.delete(this.base + '/pendingDatasource/' + id, this.options);
   }
   /** <-- Draft(Pending) Services **/
 
@@ -558,8 +555,16 @@ export class ResourceService {
     return this.http.patch(this.base + `/resource/auditResource/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
+  auditDatasource(id: string, action: string, comment: string) {
+    return this.http.patch(this.base + `/datasource/auditDatasource/${id}?actionType=${action}&comment=${comment}`, this.options);
+  }
+
   verifyResource(id: string, active: boolean, status: string) { // for 1st service
     return this.http.patch(this.base + `/resource/verifyResource/${id}?active=${active}&status=${status}`, {}, this.options);
+  }
+
+  verifyDatasource(id: string, active: boolean, status: string) { // for 1st datasource
+    return this.http.patch(this.base + `/datasource/verifyDatasource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
   getServiceTemplate(id: string) {  // gets oldest(?) pending resource of the provider // replaced with /resourceBundles/templates?id=testprovidertemplate
@@ -576,6 +581,10 @@ export class ResourceService {
 
   moveResourceToProvider(resourceId: string, providerId: string, comment: string) {
     return this.http.post(this.base + `/resource/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
+  }
+
+  isServiceOrDatasource(resourceId: string, catalogueId: string){
+    return this.http.get<string>(this.base + `/resource/isServiceOrDatasource?resourceId=${resourceId}&catalogueId=${catalogueId}`);
   }
 
   public handleError(error: HttpErrorResponse) {

@@ -1,122 +1,180 @@
-<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom stats" style="min-height: 325px">
+<div class="uk-section uk-section-xsmall stats">
   <div class="uk-container uk-container-expand">
-    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
-      <div class="uk-width-1-1@m uk-first-column">
+    <div class="uk-padding-remove-bottom" style="min-height: 500px">
 
-        <div class="services-provider-container">
-          <div *ngIf="datasource" class="uk-flex">
-            <div>
-              <img src="{{ datasource.logo ? datasource.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
-            </div>
-            <div class="uk-margin-medium-left">
-              <h3 class="uk-margin-remove">{{datasource.name}}</h3>
-              <!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
+      <div class="services-provider-container">
+        <div *ngIf="datasource" class="uk-flex">
+          <div>
+            <img src="{{ datasource.logo ? datasource.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+          </div>
+          <div class="uk-margin-medium-left">
+            <h3 class="uk-margin-remove">{{datasource.name}}</h3>
+            <!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
 <!--              <div *ngIf="datasourceHistory?.results[0]?.registeredBy && datasourceHistory?.results[0]?.registeredAt">-->
 <!--                <span class="status-label">Registered by: </span>{{ datasourceHistory.results[0].registeredBy }} on {{ datasourceHistory.results[0].registeredAt | date}}-->
 <!--              </div>-->
-            </div>
           </div>
-        </div>
-
-        <!-- TOP HELP CONTENT -->
-        <app-help-content #topHelperContent [position]="'top'"
-                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-        </app-help-content>
-
-        <div class="uk-container uk-container-expand uk-margin-medium-top uk-margin-medium-bottom">
-          <div class="uk-grid">
-
-            <!-- LEFT HELP CONTENT -->
-            <app-aside-help-content #leftHelperContent [position]="'left'"
-                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-            </app-aside-help-content>
-
-            <!-- MIDDLE -->
-            <div class=" uk-width-expand@m">
-
-              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
-
-              <div *ngIf="datasource" class="uk-grid">
-                <div class="uk-width-4-5"></div>
-                <div class="uk-width-1-5">
-                  <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
-                          (change)="onPeriodChange($event)">
-                    <option value="DAY">Daily</option>
-                    <option value="WEEK">Weekly</option>
-                    <option value="MONTH" selected>Monthly</option>
-                    <option value="YEAR">Yearly</option>
-                  </select>
-                  <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
-                </div>
-              </div>
-
-              <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
-
-                <div *ngIf="datasourceAddsToProjectOptions && projectName==='EOSC'">
-                  <div class="uk-card">
-                    <div class="uk-card-body">
-                      <highcharts-chart *ngIf="datasourceAddsToProjectOptions" [Highcharts]="Highcharts"
-                                        [options]="datasourceAddsToProjectOptions"
-                                        style="width: 100%; height: auto; display: block;">
-                      </highcharts-chart>
-                    </div>
-                  </div>
-                </div>
-
-                <div *ngIf="datasourceRatingsOptions">
-                  <div class="uk-card">
-                    <div class="uk-card-body">
-                      <highcharts-chart *ngIf="datasourceRatingsOptions" [Highcharts]="Highcharts"
-                                        [options]="datasourceRatingsOptions"
-                                        style="width: 100%; height: auto; display: block;">
-                      </highcharts-chart>
-                    </div>
-                  </div>
-                </div>
-
-                <div *ngIf="datasourceVisitsOptions">
-                  <div class="uk-card">
-                    <div class="uk-card-body">
-                      <highcharts-chart *ngIf="datasourceVisitsOptions"
-                                        [Highcharts]="Highcharts"
-                                        [options]="datasourceVisitsOptions"
-                                        style="width: 100%; height: auto; display: block;">
-                      </highcharts-chart>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="uk-grid uk-margin-bottom">
-                  <div class="uk-width-1-1">
-                    <div style="width:100%">
-                      <highcharts-chart *ngIf="datasourceMapOptions"
-                                        [Highcharts]="Highcharts"
-                                        [options]="datasourceMapOptions"
-                                        [constructorType]="chartConstructor"
-                                        style="width: 100%; height: auto; display: block;">
-                      </highcharts-chart>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              <!-- RIGHT HELP CONTENT -->
-              <app-aside-help-content #rightHelperContent [position]="'right'"
-                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-              </app-aside-help-content>
-
-            </div>
-          </div>
-
-          <!-- BOTTOM HELP CONTENT -->
-          <app-help-content #bottomHelperContent [position]="'bottom'"
-                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-          </app-help-content>
-
-
         </div>
       </div>
+
+      <ul class="uk-visible@m uk-tab uk-tab-large uk-margin-medium-top" data-uk-tab="{connect:'#terminology_tabbed',animation: 'slide-bottom'}">
+        <li class="uk-active" aria-expanded="true"><a>Engagement</a></li>
+        <li aria-expanded="false"><a (click)="onRecommendationsTabClick()">Performance on recommender</a></li>
+      </ul>
+
+      <ul id="terminology_tabbed" class="uk-switcher">
+        <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
+
+          <div class="uk-container uk-container-expand uk-margin-medium-top uk-margin-medium-bottom">
+            <div class="uk-grid">
+
+              <div class=" uk-width-expand@m">
+
+                <div *ngIf="errorMessage" class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
+
+                <div *ngIf="datasource" class="uk-grid">
+                  <div class="uk-width-4-5"></div>
+                  <div class="uk-width-1-5">
+                    <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
+                            (change)="onPeriodChange($event)">
+                      <option value="DAY">Daily</option>
+                      <option value="WEEK">Weekly</option>
+                      <option value="MONTH" selected>Monthly</option>
+                      <option value="YEAR">Yearly</option>
+                    </select>
+                    <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
+                  </div>
+                </div>
+
+                <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
+
+                  <div *ngIf="datasourceAddsToProjectOptions && projectName==='EOSC'">
+                    <div class="uk-card">
+                      <div class="uk-card-body">
+                        <highcharts-chart *ngIf="datasourceAddsToProjectOptions" [Highcharts]="Highcharts"
+                                          [options]="datasourceAddsToProjectOptions"
+                                          style="width: 100%; height: auto; display: block;">
+                        </highcharts-chart>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="datasourceRatingsOptions">
+                    <div class="uk-card">
+                      <div class="uk-card-body">
+                        <highcharts-chart *ngIf="datasourceRatingsOptions" [Highcharts]="Highcharts"
+                                          [options]="datasourceRatingsOptions"
+                                          style="width: 100%; height: auto; display: block;">
+                        </highcharts-chart>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="datasourceVisitsOptions">
+                    <div class="uk-card">
+                      <div class="uk-card-body">
+                        <highcharts-chart *ngIf="datasourceVisitsOptions"
+                                          [Highcharts]="Highcharts"
+                                          [options]="datasourceVisitsOptions"
+                                          style="width: 100%; height: auto; display: block;">
+                        </highcharts-chart>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="uk-grid uk-margin-bottom">
+                    <div class="uk-width-1-1">
+                      <div style="width:100%">
+                        <highcharts-chart *ngIf="datasourceMapOptions"
+                                          [Highcharts]="Highcharts"
+                                          [options]="datasourceMapOptions"
+                                          [constructorType]="chartConstructor"
+                                          style="width: 100%; height: auto; display: block;">
+                        </highcharts-chart>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </li>
+        <li aria-hidden="true" style="animation-duration: 200ms;">
+
+          <!--          <div class="uk-grid">-->
+          <!--            <div class="uk-width-4-5"></div>-->
+          <!--            <div class="uk-width-1-5 ">-->
+          <!--              <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"-->
+          <!--                      (change)="onPeriodChange($event)">-->
+          <!--                <option value="DAY">Daily</option>-->
+          <!--                <option value="WEEK">Weekly</option>-->
+          <!--                <option value="MONTH" selected>Monthly</option>-->
+          <!--                <option value="YEAR">Yearly</option>-->
+          <!--              </select>-->
+          <!--              <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>-->
+          <!--            </div>-->
+          <!--          </div>-->
+
+          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l uk-margin-remove-top">
+
+            <div>
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <div *ngIf="!recommendationsOverTimeForService && !errorMessage" class="uk-position-center uk-margin-xlarge-top">
+                    <div uk-spinner="ratio: 2.5"></div>
+                  </div>
+                  <highcharts-chart *ngIf="recommendationsOverTimeForService" [Highcharts]="Highcharts"
+                                    [options]="recommendationsOverTimeForService"
+                                    style="width: 100%; height: auto; display: block;">
+                  </highcharts-chart>
+                </div>
+              </div>
+            </div>
+
+            <div class="uk-grid uk-child-width-1-1@m uk-child-width-1-1@l uk-margin-remove-top">
+              <div class="uk-card">
+                <div *ngIf="!emptyResponseOnGetCompetitorsServices" class="uk-card-body">
+                  <div *ngIf="enrichedRecommendationsOfCompetitorsServices.length==0 && !errorMessage" class="uk-position-center uk-margin-xlarge-top">
+                    <div uk-spinner="ratio: 2.5"></div>
+                  </div>
+                  <ng-container *ngIf="enrichedRecommendationsOfCompetitorsServices?.length>0">
+                    <h5 class="uk-text-center uk-margin-bottom" style="color:#333333;font-size:18px;fill:#333333;" y="24">Services recommended next to your services</h5>
+                    <div uk-accordion>
+                      <div *ngFor="let item of enrichedRecommendationsOfCompetitorsServices" class="uk-open">
+                        <h3 class="uk-accordion-title"> {{ item.name }} <span class="uk-align-right" style=color:#004494>({{ item.total_competitor_recommendations }} times)</span></h3>
+                        <div class="uk-accordion-content">
+                          <ul class="uk-list uk-list-striped">
+                            <li *ngFor="let competitor of item.competitors; let i = index">
+                              <div class="uk-grid">
+                                <div class="uk-width-1-5 uk-flex uk-flex-middle">
+                                  <span class="uk-text-bold uk-margin-small-right" style="min-width: 20px;">{{ i + 1 }}</span>
+                                  <img src="{{competitor.logo ? competitor.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}" style="height: 50px;">
+                                </div>
+                                <div class="uk-width-4-5">
+                                  <span class="uk-text-bold"><a href="{{marketplaceDatasourcesURL}}{{catalogueId}}.{{competitor.service_id}}" target="_blank">{{competitor.name}}</a></span>
+                                  <!--                                <span class="uk-text-bold"><a href="{{marketplaceDatasourcesURL}}{{catalogueId}}.{{competitor.service_id}}" target="_blank">{{competitor.name}}</a></span>-->
+                                  <span class="uk-align-right">{{ ((competitor.recommendations / item.total_competitor_recommendations) * 100).toFixed(2) }}%</span>
+                                  <span class="uk-text-truncate uk-display-block uk-text-center">{{ competitor.description }}</span>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </li>
+      </ul>
+
     </div>
   </div>
 </div>

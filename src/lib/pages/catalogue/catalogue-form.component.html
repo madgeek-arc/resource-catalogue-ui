@@ -81,14 +81,6 @@
                       </div>
                     </div>
                   </div>
-                  <div class="uk-margin-medium-left">
-                    <a *ngIf="projectName === 'CatRIS'" href="../../../assets/files/Provider-Form.pdf" target="_blank">
-                      <i class="fa fa-file-pdf-o uk-margin-small-right"></i><span style="color: #292929">Download as PDF</span>
-                    </a>
-                    <a *ngIf="projectName === 'EOSC'" href="https://eosc-portal.eu/providers-documentation/eosc-provider-portal-provider-profile" target="_blank">
-                      <i class="fa fa-file-pdf-o uk-margin-small-right"></i><span style="color: #292929">Download as PDF/Excel</span>
-                    </a>
-                  </div>
 
                 </div>
 
@@ -290,6 +282,49 @@
                                          clearAllText="Clear"
                                          formControlName="hostingLegalEntity">
                               </ng-select>
+                            </div>
+                          </div>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right" for="inclusionCriteria">
+                              {{ inclusionCriteriaDesc.label + (inclusionCriteriaDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{inclusionCriteriaDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <input id="inclusionCriteria" class="uk-input uk-width-9-10" type="text" formControlName="inclusionCriteria"
+                                     placeholder="use http:// or https://"
+                                     (input)="handleBitSets(0, 17, 'inclusionCriteria'); unsavedChangesPrompt()"
+                                     [ngClass]="{'uk-form-danger': checkFormValidity('inclusionCriteria', this.edit)}">
+                              <div *ngIf="this.edit && this.isPortalAdmin && this.catalogueForm.get('inclusionCriteria').value" class="uk-icon">
+                                <a href="{{this.catalogueForm.get('inclusionCriteria').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right" for="validationProcess">
+                              {{ validationProcessDesc.label + (validationProcessDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{validationProcessDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <input id="validationProcess" class="uk-input uk-width-9-10" type="text" formControlName="validationProcess"
+                                     placeholder="use http:// or https://"
+                                     (input)="handleBitSets(0, 18, 'validationProcess'); unsavedChangesPrompt()"
+                                     [ngClass]="{'uk-form-danger': checkFormValidity('validationProcess', this.edit)}">
+                              <div *ngIf="this.edit && this.isPortalAdmin && this.catalogueForm.get('validationProcess').value" class="uk-icon">
+                                <a href="{{this.catalogueForm.get('validationProcess').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label" for="endOfLife">
+                              {{ endOfLifeDesc.label + (endOfLifeDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div
+                              class="uk-form-description uk-margin-top uk-width-9-10">{{endOfLifeDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <input id="endOfLife" class="uk-input uk-width-9-10" type="text"
+                                     formControlName="endOfLife"
+                                     (input)="handleBitSets(0, 19, 'endOfLife'); unsavedChangesPrompt()"
+                                     [ngClass]="{'uk-form-danger': checkFormValidity('endOfLife', this.edit)}">
                             </div>
                           </div>
 
@@ -1110,6 +1145,13 @@
           <input class="uk-checkbox" type="checkbox" id="authorizedRepresentative"  value="true"
                  (change)="toggleTerm('authorizedRepresentative')">
           <span class="uk-margin-small-left">I assert that I am an authorized representative of this Catalogue</span>
+        </label>
+      </div>
+      <div class="uk-form-controls uk-margin-bottom">
+        <label>
+          <input class="uk-checkbox" type="checkbox" id="onboardingAgreement"  value="true"
+                 (change)="toggleTerm('onboardingAgreement')">
+          <span class="uk-margin-small-left">I have read and agree with the <a href="{{onboardingAgreementURL}}" target="_blank">EOSC Catalogue Onboarding Agreement</a></span>
         </label>
       </div>
     </div>

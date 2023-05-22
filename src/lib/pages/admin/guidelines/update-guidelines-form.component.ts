@@ -5,8 +5,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {GuidelinesFormComponent} from "./guidelines-form.component";
 import {AuthenticationService} from "../../../services/authentication.service";
 import {ServiceProviderService} from "../../../services/service-provider.service";
-import {ResourceExtrasService} from "../../../services/resource-extras.service";
 import {ResourceService} from "../../../services/resource.service";
+import {GuidelinesService} from "../../../services/guidelines.service";
 
 
 @Component({
@@ -21,11 +21,11 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
   constructor(public fb: FormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
-              public resourceExtrasService: ResourceExtrasService,
+              public guidelinesService: GuidelinesService,
               public resourceService: ResourceService,
               public router: Router,
               public route: ActivatedRoute) {
-    super(fb, authService, serviceProviderService, resourceExtrasService, resourceService, router, route);
+    super(fb, authService, serviceProviderService, guidelinesService, resourceService, router, route);
   }
 
   ngOnInit() {
@@ -68,7 +68,7 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
   getGuideline() {
     this.errorMessage = '';
     const path = this.route.snapshot.routeConfig.path;
-    this.resourceExtrasService.getInteroperabilityRecordById(this.guidelineId).subscribe(
+    this.guidelinesService.getInteroperabilityRecordById(this.guidelineId).subscribe(
         guideline => this.guideline = guideline,
         err => {
           console.log(err);
@@ -84,17 +84,17 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
           }
           if (this.guideline.rights && this.guideline.rights.length > 1) {
             for (let i = 0; i < this.guideline.rights.length - 1; i++) {
-              this.rightsArray.push(this.newRight());
+              this.pushRight();
+            }
+          }
+          if (this.guideline.relatedStandards && this.guideline.relatedStandards.length > 1) {
+            for (let i = 0; i < this.guideline.relatedStandards.length - 1; i++) {
+              this.pushRelatedStandard();
             }
           }
           if (this.guideline.creators && this.guideline.creators.length > 1) {
             for (let i = 0; i < this.guideline.creators.length - 1; i++) {
               this.pushCreator();
-            }
-          }
-          if (this.guideline.eoscRelatedStandards && this.guideline.eoscRelatedStandards.length > 1) {
-            for (let i = 0; i < this.guideline.eoscRelatedStandards.length - 1; i++) {
-              this.push('eoscRelatedStandards', this.eoscRelatedStandardsDesc.mandatory);
             }
           }
           if (this.guideline.eoscIntegrationOptions && this.guideline.eoscIntegrationOptions.length > 1) {

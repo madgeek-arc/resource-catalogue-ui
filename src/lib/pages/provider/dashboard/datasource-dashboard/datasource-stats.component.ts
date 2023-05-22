@@ -10,6 +10,7 @@ import {map} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
 import * as Highcharts from 'highcharts';
 import MapModule from 'highcharts/modules/map';
+import {RecommendationsService} from "../../../../services/recommendations.service";
 MapModule(Highcharts);
 
 declare var require: any;
@@ -23,6 +24,7 @@ const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
 export class DatasourceStatsComponent implements OnInit, OnDestroy {
 
   projectName = environment.projectName;
+  marketplaceDatasourcesURL = environment.marketplaceDatasourcesURL;
 
   public catalogueId: string;
   public datasource: Datasource;
@@ -38,6 +40,11 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
   datasourceRatingsOptions: any = null;
   datasourceAddsToProjectOptions: any = null;
   datasourceMapOptions: any = null;
+  recommendationsOverTimeForService: any = null;
+  recommendationsOfCompetitorsServices: any[] = [];
+  emptyResponseOnGetCompetitorsServices = false;
+  enrichedRecommendationsOfCompetitorsServices: any[] = [];
+
 
   datasourceHistory: Paging<LoggingInfo>;
 
@@ -46,7 +53,8 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private router: NavigationService,
               private resourceService: ResourceService,
-              private datasourceService: DatasourceService) {
+              private datasourceService: DatasourceService,
+              private recommendationsService: RecommendationsService) {
   }
 
   ngOnInit() {
@@ -130,6 +138,40 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
         }
       );
     }
+
+    /** Recommendations --> **/
+    // this.recommendationsService.getRecommendationsOverTime(this.catalogueId.concat('.',this.datasource.resourceOrganisation), this.catalogueId.concat('.',this.datasource.id)).subscribe(
+    //   data => this.setRecommendationsOverTimeForService(data),
+    //   err => this.errorMessage = 'An error occurred while retrieving visits for this service. ' + err.error
+    // );
+    //
+    // this.recommendationsService.getCompetitorsServices(this.catalogueId.concat('.',this.datasource.resourceOrganisation), this.catalogueId.concat('.',this.datasource.id)).subscribe(
+    //   data => this.setCompetitorsServices(data),
+    //   err => this.errorMessage = 'An error occurred while retrieving recommended services. ' + err.error
+    // );
+    /** <- Recommendations **/
+  }
+
+  onRecommendationsTabClick() {
+    if (!this.recommendationsOverTimeForService) {
+      this.recommendationsService.getRecommendationsOverTime(this.catalogueId.concat('.', this.datasource.resourceOrganisation), this.catalogueId.concat('.', this.datasource.id)).subscribe(
+        data => this.setRecommendationsOverTimeForService(data),
+        err => this.errorMessage = 'An error occurred while retrieving visits for this service. ' + err.error
+      );
+    }
+    if (this.enrichedRecommendationsOfCompetitorsServices.length == 0) {
+      this.recommendationsService.getCompetitorsServices(this.catalogueId.concat('.', this.datasource.resourceOrganisation), this.catalogueId.concat('.', this.datasource.id)).subscribe(
+        (data: any[]) => {
+          if (data && data.length === 0) {
+            this.emptyResponseOnGetCompetitorsServices = true;
+          } else {
+            this.setCompetitorsServices(data);
+            this.emptyResponseOnGetCompetitorsServices = false;
+          }
+        },
+        err => this.errorMessage = 'An error occurred while retrieving recommended services. ' + err.error
+      );
+    }
   }
 
   onPeriodChange(event) {
@@ -162,7 +204,10 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
           name: 'Visits over time',
           color: '#036166',
           data: data
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
     }
   }
@@ -192,7 +237,10 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
           name: 'Adds to project over time',
           color: '#C36000',
           data: data
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
     }
   }
@@ -222,7 +270,10 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
           name: 'Average rating over time',
           color: '#6B0035',
           data: data
-        }]
+        }],
+        credits: {
+          enabled: false
+        }
       };
 
     }
@@ -263,8 +314,108 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
           headerFormat: '',
           pointFormat: '{point.name}'
         }
-      }]
+      }],
+      credits: {
+        enabled: false
+      }
     };
+  }
+
+  setRecommendationsOverTimeForService(data: any) {
+    const chartData = [];
+    data.forEach((value) => {
+      chartData.push([Date.parse(value.date), value.recommendations]);
+    });
+
+    if (data) {
+      this.recommendationsOverTimeForService = {
+        chart: {
+          height: (3 / 4 * 100) + '%', // 3:4 ratio
+        },
+        title: {
+          text: 'Recommendations over time'
+        },
+        xAxis: {
+          type: 'datetime',
+          // dateTimeLabelFormats: {
+          //   month: '%e. %b',
+          //   year: '%b'
+          // },
+          title: {
+            text: 'Date'
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Number of recommendations'
+          }
+        },
+        series: [{
+          name: 'Recommendations over time',
+          color: '#013203',
+          data: chartData
+        }],
+        credits: {
+          enabled: false
+        }
+      };
+    }
+  }
+
+  setCompetitorsServices(data: any) {
+    this.recommendationsOfCompetitorsServices = data;
+    this.enrichedRecommendationsOfCompetitorsServices = [];
+
+    for (const item of data) {
+      const competitorsWithDetails = [];
+
+      // let competitorPublicIds = [];
+      for (const competitor of item.competitors) {
+        // if (competitor.service_id !== 'tnp.lumi_etais__regular_access') {
+          // competitorPublicIds.push(competitor.service_id);
+          const isPublicId = /\..*\./.test(competitor.service_id); // if it has two dot occurrences its a publicId
+          this.resourceService.getService(competitor.service_id, isPublicId ? competitor.service_id.split(".")[0] : 'eosc').subscribe(
+            res => {
+              const competitorWithDetails = {
+                service_id: competitor.service_id,
+                recommendations: competitor.recommendations,
+                logo: res.logo,
+                name: res.name,
+                description: res.description
+              };
+              competitorsWithDetails.push(competitorWithDetails);
+            },
+            error => {
+            },
+            () => {
+            }
+          );
+        // }
+      }
+      const itemWithDetails = {
+        service_id: item.service_id,
+        total_competitor_recommendations: item.total_competitor_recommendations,
+        competitors: competitorsWithDetails
+      };
+      this.enrichedRecommendationsOfCompetitorsServices.push(itemWithDetails);
+    }
+
+    for (const item of this.enrichedRecommendationsOfCompetitorsServices) {
+      const isPublicId = /\..*\./.test(item.service_id); // if it has two dot occurrences its a publicId
+      this.resourceService.getService(item.service_id, isPublicId ? item.service_id.split(".")[0] : 'eosc').subscribe(
+        res => {
+          item.logo = res.logo;
+          item.name = res.name;
+          item.description = res.description;
+        },
+        error => { },
+        () => { }
+      );
+    }
+
+    // console.log(this.enrichedRecommendationsOfCompetitorsServices);
+    // console.log(competitorsPublicIds);
+    // console.log(outerServicesPublicIds);
   }
 
   ngOnDestroy(): void {

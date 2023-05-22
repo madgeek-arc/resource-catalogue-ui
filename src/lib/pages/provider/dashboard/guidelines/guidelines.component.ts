@@ -1,31 +1,27 @@
 import {Component, OnInit} from '@angular/core';
-import {CatalogueBundle, ServiceBundle, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {InteroperabilityRecordBundle, ProviderBundle} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
-import {environment} from '../../../../../environments/environment';
-import {CatalogueService} from "../../../../services/catalogue.service";
+import {GuidelinesService} from "../../../../services/guidelines.service";
 
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-catalogue-providers',
-  templateUrl: './catalogue-providers.component.html',
-  styleUrls: ['../../../provider/dashboard/services/service.component.css']
+  selector: 'app-guidelines',
+  templateUrl: './guidelines.component.html',
+  styleUrls: ['../services/service.component.css']
 })
 
-export class CatalogueProvidersComponent implements OnInit {
-
-  serviceORresource = environment.serviceORresource;
+export class GuidelinesComponent implements OnInit {
 
   formPrepare = {
     from: '0',
     quantity: '10',
     order: 'ASC',
-    orderField: 'name',
+    orderField: 'title',
     query: '',
     // active: 'statusAll',
     status: ''
@@ -34,15 +30,16 @@ export class CatalogueProvidersComponent implements OnInit {
   dataForm: FormGroup;
 
   errorMessage = '';
-  toggleLoading = false;
+  // toggleLoading = false;
   urlParams: URLParameter[] = [];
-  catalogueId;
-  catalogueBundle: CatalogueBundle;
-  catalogueProviders: Paging<ProviderBundle>; // change to providerBundle
-  // providerCoverage: string[];
-  // providerServicesGroupedByPlace: any;
-  selectedProvider: ProviderBundle = null;
+  providerId: string;
+  catalogueId: string;
+  providerBundle: ProviderBundle;
+  guidelines: Paging<InteroperabilityRecordBundle>;
+  selectedGuideline: InteroperabilityRecordBundle = null;
   path: string;
+
+  numberOfResultsOnView: number;
 
   total: number;
   // itemsPerPage = 10;
@@ -55,14 +52,14 @@ export class CatalogueProvidersComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
-    private catalogueService: CatalogueService,
-    private service: ResourceService
+    private guidelinesService: GuidelinesService
   ) {}
 
   ngOnInit(): void {
-    this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogue');
+    this.providerId = this.route.parent.snapshot.paramMap.get('provider');
+    this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
 
-    this.getCatalogue();
+    this.getProvider();
 
     this.dataForm = this.fb.group(this.formPrepare);
     this.urlParams = [];
@@ -81,84 +78,55 @@ export class CatalogueProvidersComponent implements OnInit {
           }
 
           // this.handleChange();
-          this.getProviders();
+          this.getGuidelines();
         },
         error => this.errorMessage = <any>error
       );
   }
 
-  navigate(id: string) {
-    this.router.navigate([`/dashboard/${this.catalogueId}/${id}`]);
-  }
-
-  getCatalogue() {
-    this.catalogueService.getCatalogueBundleById(this.catalogueId).subscribe(
-      catalogueBundle => {
-        this.catalogueBundle = catalogueBundle;
+  getProvider() {
+    this.providerService.getServiceProviderBundleById(this.providerId, this.catalogueId).subscribe(
+      providerBundle => {
+        this.providerBundle = providerBundle;
       }, error => {
         console.log(error);
       }
     );
   }
 
-  // toggleService(providerService: ProviderBundle) {  //TODO: delete?
-  //   if (providerService.status === 'pending resource' || providerService.status === 'rejected resource') {
-  //     this.errorMessage = `You cannot activate a ${providerService.status}.`;
-  //     window.scrollTo(0, 0);
-  //     return;
-  //   }
-  //   this.toggleLoading = true;
-  //   this.providerService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
-  //     res => {},
-  //     error => {
-  //       this.errorMessage = 'Something went bad. ' + error.error ;
-  //       this.getProviders();
-  //       this.toggleLoading = false;
-  //       // console.log(error);
-  //     },
-  //     () => {
-  //       this.getProviders();
-  //       this.toggleLoading = false;
-  //     }
-  //   );
-  // }
-
-  getProviders() {
-    this.toggleLoading = true;
-    this.catalogueService.getProvidersOfCatalogue(this.catalogueId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('order').value, this.dataForm.get('orderField').value,
-      this.dataForm.get('status').value, this.dataForm.get('query').value)
+  getGuidelines() {
+    this.guidelinesService.getInteroperabilityRecordsOfProvider(this.providerId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
+      this.dataForm.get('order').value, this.dataForm.get('orderField').value, this.dataForm.get('query').value, this.dataForm.get('status').value)
       .subscribe(res => {
-          this.toggleLoading = false;
-          this.catalogueProviders = res;
+          this.guidelines = res;
           this.total = res['total'];
+          this.numberOfResultsOnView = res['to']-res['from'];
           this.paginationInit();
         },
         err => {
-          this.toggleLoading = false;
-          this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
-        }
+          this.errorMessage = 'An error occurred while retrieving the guidelines of this provider. ' + err.error;
+        },
+        () => {}
       );
   }
 
-  setSelectedProvider(provider: ProviderBundle) {
-    this.selectedProvider = provider;
+  setSelectedGuidelines(irBundle: InteroperabilityRecordBundle) {
+    this.selectedGuideline = irBundle;
     UIkit.modal('#actionModal').show();
   }
 
-  deleteProvider(id: string) {
-    // UIkit.modal('#spinnerModal').show();
-    this.providerService.deleteServiceProvider(id).subscribe(
+  deleteGuidelines(id: string) {
+    UIkit.modal('#spinnerModal').show();
+    this.guidelinesService.deleteInteroperabilityRecordById(id).subscribe(
       res => {},
       error => {
-        // console.log(error);
-        // UIkit.modal('#spinnerModal').hide();
+        UIkit.modal('#spinnerModal').hide();
         this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getProviders();
+        this.getGuidelines();
       },
       () => {
-        this.getProviders();
-        // UIkit.modal('#spinnerModal').hide();
+        UIkit.modal('#spinnerModal').hide();
+        location.reload();
       }
     );
   }
@@ -172,7 +140,7 @@ export class CatalogueProvidersComponent implements OnInit {
     this.urlParams = [];
     const map: { [name: string]: string; } = {};
     for (const i in this.dataForm.controls) {
-      if (this.dataForm.get(i).value !== '' && this.dataForm.get(i).value !== 'statusAll') {
+      if (this.dataForm.get(i).value !== '') {
         const urlParam = new URLParameter();
         urlParam.key = i;
         urlParam.values = [this.dataForm.get(i).value];
@@ -181,7 +149,7 @@ export class CatalogueProvidersComponent implements OnInit {
       }
     }
 
-    this.router.navigate([`/catalogue-dashboard/` + this.catalogueId + `/providers`], {queryParams: map});
+    this.router.navigate([`/dashboard`, this.catalogueId, this.providerId, `guidelines`], {queryParams: map});
   }
 
   paginationInit() {

@@ -3,7 +3,6 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {TrainingResourceService} from '../../services/training-resource.service';
-import {UserService} from '../../services/user.service';
 import * as sd from '../provider-resources/services.description';
 import {Provider, RichService, Service, TrainingResource, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
@@ -139,7 +138,7 @@ export class TrainingResourceForm implements OnInit {
 
     description: ['', Validators.required],
     keywords: this.fb.array([this.fb.control('')]), //tags
-    license: ['', Validators.compose([Validators.required, URLValidator])], //webpage
+    license: ['', Validators.required],
     accessRights: ['', Validators.required], //orderType
     versionDate: ['', Validators.required], //version
 
@@ -177,7 +176,6 @@ export class TrainingResourceForm implements OnInit {
   trainingResourceService: TrainingResourceService = this.injector.get(TrainingResourceService);
 
   router: NavigationService = this.injector.get(NavigationService);
-  userService: UserService = this.injector.get(UserService);
 
   public fundingBodyVocabulary: Vocabulary[] = null;
   public fundingProgramVocabulary: Vocabulary[] = null;
@@ -214,7 +212,6 @@ export class TrainingResourceForm implements OnInit {
     this.trainingResourceService = this.injector.get(TrainingResourceService);
     this.fb = this.injector.get(FormBuilder);
     this.router = this.injector.get(NavigationService);
-    this.userService = this.injector.get(UserService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
@@ -871,7 +868,7 @@ export class TrainingResourceForm implements OnInit {
 
   /** <--Modals **/
 
-  submitSuggestion(entryValueName, vocabulary, parent) { //TODO: revisit
+  submitSuggestion(entryValueName, vocabulary, parent) {
     if (entryValueName.trim() !== '') {
       this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'training_resource', this.providerId, this.trainingResourceId).subscribe(
         res => {

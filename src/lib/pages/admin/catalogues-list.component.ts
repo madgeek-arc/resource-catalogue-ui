@@ -91,10 +91,6 @@ export class CataloguesListComponent implements OnInit {
   public languagesVocabulary: Vocabulary[] = null;
   public statusesVocabulary: Vocabulary[] = null;
 
-  public auditStates: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
-  public auditLabels: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
-  @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
-
   // public statuses: Array<string> = ['approved provider', 'pending provider', 'rejected provider'];
   public statuses: Array<string> = ['approved catalogue', 'pending catalogue', 'rejected catalogue'];
   public labels: Array<string> = ['Approved', 'Pending', 'Rejected'];
@@ -102,7 +98,6 @@ export class CataloguesListComponent implements OnInit {
 
   public templateStatuses: Array<string> = ['approved template', 'pending template', 'rejected template', 'no template status'];
   public templateLabels: Array<string> = ['Approved', 'Pending', 'Rejected', 'No Status'];
-  @ViewChildren("templateCheckboxes") templateCheckboxes: QueryList<ElementRef>;
 
   constructor(private resourceService: ResourceService,
               private serviceProviderService: ServiceProviderService,
@@ -342,41 +337,6 @@ export class CataloguesListComponent implements OnInit {
     );
   }
 
-  // getRandomProviders(quantity: string) {
-  //   this.loadingMessage = 'Loading ' + quantity + ' random Providers...';
-  //   this.cataloguesForAudit = [];
-  //   this.serviceProviderService.getRandomProviders(quantity).subscribe(
-  //     res => {
-  //       this.cataloguesForAudit = res['results'];
-  //       // this.total = res['total'];
-  //       // this.total = +quantity;
-  //       // this.paginationInit();
-  //     },
-  //     err => {
-  //       console.log(err);
-  //       this.errorMessage = 'The list could not be retrieved';
-  //       this.loadingMessage = '';
-  //     },
-  //     () => {
-  //       this.loadingMessage = '';
-  //       this.cataloguesForAudit.forEach(
-  //         p => {
-  //           // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
-  //           if (p.templateStatus === 'pending template') {
-  //             this.resourceService.getServiceTemplate(p.id).subscribe(
-  //               res => {
-  //                 if (res) {
-  //                   this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
-  //                 }
-  //               }
-  //             );
-  //           }
-  //         }
-  //       );
-  //     }
-  //   );
-  // }
-
   approveStatusChange(catalogue: CatalogueBundle) {
     this.selectedCatalogue = catalogue;
     UIkit.modal('#approveModal').show();
@@ -443,128 +403,6 @@ export class CataloguesListComponent implements OnInit {
           this.loadingMessage = '';
         }
       );
-  }
-
-  // statusChangeAction() {
-  //   this.loadingMessage = '';
-  //   const active = this.pushedApprove && (this.newStatus === 'approved provider');
-  //   if(this.verify){ //use verify method
-  //     this.serviceProviderService.verifyServiceProvider(this.selectedCatalogue.id, active, this.adminActionsMap[this.newStatus].statusId)
-  //       .subscribe(
-  //         res => {
-  //           /*this.providers = [];
-  //           this.providers = res;*/
-  //           UIkit.modal('#actionModal').hide();
-  //           this.getCatalogues();
-  //         },
-  //         err => {
-  //           UIkit.modal('#actionModal').hide();
-  //           this.loadingMessage = '';
-  //           console.log(err);
-  //         },
-  //         () => {
-  //           this.loadingMessage = '';
-  //         }
-  //       );
-  //   } else { //use publish method
-  //     this.serviceProviderService.publishProvider(this.selectedCatalogue.id, active)
-  //       .subscribe(
-  //         res => {
-  //           /*this.providers = [];
-  //           this.providers = res;*/
-  //           UIkit.modal('#actionModal').hide();
-  //           this.getCatalogues();
-  //         },
-  //         err => {
-  //           UIkit.modal('#actionModal').hide();
-  //           this.loadingMessage = '';
-  //           console.log(err);
-  //         },
-  //         () => {
-  //           this.loadingMessage = '';
-  //         }
-  //       );
-  //   }
-  // }
-
-  // templateAction(id, active, status) {
-  //   this.loadingMessage = '';
-  //   UIkit.modal('#spinnerModal').show();
-  //   const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
-  //   this.resourceService.verifyResource(templateId, active, status).subscribe(
-  //     res => {
-  //       this.getCatalogues();
-  //     },
-  //     err => {
-  //       UIkit.modal('#spinnerModal').hide();
-  //       console.log(err);
-  //     },
-  //     () => {
-  //       UIkit.modal('#spinnerModal').hide();
-  //     }
-  //   );
-  // }
-
-  /* Audit */
-
-  // showAuditForm(view: string, catalogue: CatalogueBundle) {
-  //   this.commentControl.reset();
-  //   this.selectedCatalogue = catalogue;
-  //   if (view === 'side') {
-  //     this.showSideAuditForm = true;
-  //   } else if (view === 'main') {
-  //     this.showMainAuditForm = true;
-  //   }
-  // }
-  //
-  // resetAuditView() {
-  //   this.showSideAuditForm = false;
-  //   this.showMainAuditForm = false;
-  //   this.commentControl.reset();
-  // }
-  //
-  // auditProviderAction(action: string) {
-  //   this.serviceProviderService.auditProvider(this.selectedCatalogue.id, action, this.commentControl.value)
-  //     .subscribe(
-  //       res => {
-  //         if (!this.showSideAuditForm) {
-  //           this.getCatalogues();
-  //         }
-  //       },
-  //       err => { console.log(err); },
-  //       () => {
-  //         this.cataloguesForAudit.forEach(
-  //           p => {
-  //             if (p.id === this.selectedCatalogue.id) {
-  //               p.latestAuditInfo = this.initLatestAuditInfo;
-  //               p.latestAuditInfo.date = Date.now().toString();
-  //               p.latestAuditInfo.actionType = action;
-  //             }
-  //           }
-  //         );
-  //         this.resetAuditView();
-  //       }
-  //     );
-  // }
-
-  hasCreatedFirstService(id: string) {
-    return this.serviceTemplatePerProvider.some(x => x.providerId === id);
-  }
-
-  getLinkToFirstService(id: string) {
-    if (this.hasCreatedFirstService(id)) {
-      return '/service/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
-    } else {
-      return '/provider/' + id + '/add-first-service';
-    }
-  }
-
-  getLinkToEditFirstService(id: string) {
-    return '/provider/' + id + '/resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
-  }
-
-  editProviderInNewTab(providerId) {
-    window.open(`/provider/update/${providerId}`, '_blank');
   }
 
   paginationInit() {
@@ -644,24 +482,4 @@ export class CataloguesListComponent implements OnInit {
     this.handleChangeAndResetPage();
   }
 
-  DownloadProvidersCSV() {
-    window.open(this.url + '/exportToCSV/providers', '_blank');
-  }
-
-  DownloadServicesCSV() {
-    window.open(this.url + '/exportToCSV/services', '_blank');
-  }
-
-  openPreviewModal(providerBundleId) {
-    if (this.hasCreatedFirstService(providerBundleId)) {
-      const resourceId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerBundleId)[0].serviceId;
-      this.resourceService.getService(resourceId).subscribe(
-        res => { this.resourceToPreview = res; },
-        error => console.log(error),
-        () => {
-          UIkit.modal('#modal-preview').show();
-        }
-      );
-    }
-  }
 }

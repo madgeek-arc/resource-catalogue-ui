@@ -121,27 +121,27 @@
         <hr class="adminResultsHeader">
 
         <div class="uk-margin-medium-top">
-          <div *ngFor="let providerService of catalogueProviders.results" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+          <div *ngFor="let providerBundle of catalogueProviders.results" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
 
             <div class="uk-card-body">
 
-              <div *ngIf="providerService.status === 'approved resource'" class="approved">
+              <div *ngIf="providerBundle.status === 'approved resource'" class="approved">
                 <div class="uk-card-badge uk-label">Approved</div>
               </div>
-              <div *ngIf="providerService.status === 'pending resource'" class="pending">
+              <div *ngIf="providerBundle.status === 'pending resource'" class="pending">
                 <div class="uk-card-badge uk-label">Pending</div>
               </div>
-              <div *ngIf="(providerService.status === 'rejected resource')" class="rejected">
+              <div *ngIf="(providerBundle.status === 'rejected resource')" class="rejected">
                 <div class="uk-card-badge uk-label">Rejected</div>
               </div>
 
               <div class="uk-grid">
                 <div class="uk-width-9-10"></div>
                 <div class="uk-width-1-10">
-                  <div *ngIf="providerService.active" class="approved">
+                  <div *ngIf="providerBundle.active" class="approved">
                     <div class="uk-label uk-align-right">Active</div>
                   </div>
-                  <div *ngIf="!providerService.active" class="rejected">
+                  <div *ngIf="!providerBundle.active" class="rejected">
                     <div class="uk-label uk-align-right">Inactive</div>
                   </div>
                 </div>
@@ -149,20 +149,23 @@
 
               <div class="uk-grid uk-flex-middle uk-margin-remove-top">
                 <div class="uk-width-1-6">
-                  <img src="{{providerService.provider.logo ? providerService.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
+                  <img src="{{providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
                 </div>
                 <div class="uk-width-2-3">
                   <h4 class="uk-margin-remove">
-                    <a (click)="navigate(providerService.provider.id)">{{providerService.provider.name}}</a>
+                    <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id]" data-uk-tooltip title="Go to the provider dashboard">
+                      {{ providerBundle.provider.name }}
+                    </a>
+<!--                    <a (click)="navigate(providerBundle.provider.id)">{{providerBundle.provider.name}}</a>-->
                   </h4>
                   <div class="uk-margin-small-top">
-                    <span *ngIf="providerService.provider.description" class="uk-margin-small-top"><markdown [data]="providerService.provider.description"></markdown></span>
+                    <span *ngIf="providerBundle.provider.description" class="uk-margin-small-top"><markdown [data]="providerBundle.provider.description"></markdown></span>
                   </div>
                   <div class="uk-margin-small-top">
-                    <span class="">Creation Date: </span>{{ providerService.metadata.registeredAt | date }}
+                    <span class="">Creation Date: </span>{{ providerBundle.metadata.registeredAt | date }}
                   </div>
                   <div class="uk-margin-small-top">
-                    <span class="">Last Update: </span>{{ providerService.metadata.modifiedAt | date }}
+                    <span class="">Last Update: </span>{{ providerBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
                 <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
@@ -178,17 +181,17 @@
                     <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">-->
                     <!--<i class="fa fa-pencil fa-lg"></i> Edit {{serviceORresource | lowercase}}-->
                     <!--</button>-->
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedProvider(providerService)">
+                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedProvider(providerBundle)">
                       <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete provider
                     </button>
                   </div>
                 </div>
               </div>
 
-              <ng-container *ngIf="providerService.provider.catalogueId!=='eosc'">
+              <ng-container *ngIf="providerBundle.provider.catalogueId!=='eosc'">
                 <hr class="uk-margin-top">
                 <div class="uk-align-right">
-                  <button [routerLink]="['/provider/view/', providerService.provider.catalogueId, providerService.id]" class="uk-button uk-button-link">
+                  <button [routerLink]="['/provider/view/', providerBundle.provider.catalogueId, providerBundle.id]" class="uk-button uk-button-link">
                     <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i> View Provider
                   </button>
                 </div>

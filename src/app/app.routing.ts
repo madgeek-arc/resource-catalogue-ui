@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {CanActivateViaAuthGuard} from '../lib/services/can-activate-auth-guard.service';
-import {ServiceLandingPageComponent} from '../lib/pages/landingpages/service/service-landing-page.component';
 import {ProvidersStatsComponent} from '../lib/pages/stats/providers-stats.component';
 import {ResourcesStatsComponent} from '../lib/pages/stats/resources-stats.component';
 import {ForbiddenPageComponent} from '../lib/shared/forbidden-page/forbidden-page.component';
@@ -93,20 +92,6 @@ const appRoutes: Routes = [
     path: 'catalogue-dashboard',
     loadChildren: () => import('../lib/pages/catalogue/dashboard/catalogue-dashboard.module').then(m => m.CatalogueDashboardModule),
     canActivate: [CanActivateViaAuthGuard]
-  },
-  {
-    path: 'service/:id',
-    component: ServiceLandingPageComponent,
-    data: {
-      breadcrumb: 'Service'
-    }
-  },
-  {
-    path: 'service/:id/:version',
-    component: ServiceLandingPageComponent,
-    data: {
-      breadcrumb: 'Service'
-    }
   },
   {
     path: 'guidelines',

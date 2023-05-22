@@ -25,6 +25,7 @@ export class CatalogueFormComponent implements OnInit {
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
+  onboardingAgreementURL = environment.privacyPolicyURL;
   catalogueId: string = null;
   catalogueName = '';
   errorMessage = '';
@@ -41,7 +42,7 @@ export class CatalogueFormComponent implements OnInit {
   tabs: boolean[] = [false, false, false, false, false, false, false, false];
   isPortalAdmin = false;
 
-  requiredOnTab0 = 4;
+  requiredOnTab0 = 7;
   requiredOnTab1 = 2;
   requiredOnTab3 = 4;
   requiredOnTab4 = 2;
@@ -63,13 +64,14 @@ export class CatalogueFormComponent implements OnInit {
   completedTabs = 0;
   completedTabsBitSet = new BitSet;
 
-  allRequiredFields = 17;
+  allRequiredFields = 20;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
   codeOfConduct = false;
   privacyPolicy = false;
   authorizedRepresentative = false;
+  onboardingAgreement = false;
   agreedToTerms: boolean;
 
   vocabularyEntryForm: FormGroup;
@@ -118,6 +120,9 @@ export class CatalogueFormComponent implements OnInit {
   readonly legalEntityDesc: sd.Description = sd.catalogueDescMap.get('legalEntityDesc');
   readonly legalStatusDesc: sd.Description = sd.catalogueDescMap.get('legalStatusDesc');
   readonly networksDesc: sd.Description = sd.catalogueDescMap.get('networksDesc');
+  readonly inclusionCriteriaDesc: sd.Description = sd.catalogueDescMap.get('inclusionCriteriaDesc');
+  readonly validationProcessDesc: sd.Description = sd.catalogueDescMap.get('validationProcessDesc');
+  readonly endOfLifeDesc: sd.Description = sd.catalogueDescMap.get('endOfLifeDesc');
 
   placesVocabulary: Vocabulary[] = null;
   providerTypeVocabulary: Vocabulary[] = null;
@@ -135,6 +140,9 @@ export class CatalogueFormComponent implements OnInit {
     legalEntity: [''],
     legalStatus: [''],
     hostingLegalEntity: [''],
+    inclusionCriteria: ['', Validators.compose([Validators.required, URLValidator])],
+    validationProcess: ['', Validators.compose([Validators.required, URLValidator])],
+    endOfLife: ['', Validators.required],
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
     // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
@@ -847,12 +855,14 @@ export class CatalogueFormComponent implements OnInit {
       this.privacyPolicy = !this.privacyPolicy;
     } else if (term === 'authorizedRepresentative') {
       this.authorizedRepresentative = !this.authorizedRepresentative;
+    } else if (term === 'onboardingAgreement') {
+      this.onboardingAgreement = !this.onboardingAgreement;
     }
     this.checkTerms();
   }
 
   checkTerms() {
-    this.agreedToTerms = this.privacyPolicy && this.authorizedRepresentative;
+    this.agreedToTerms = this.privacyPolicy && this.authorizedRepresentative && this.onboardingAgreement;
   }
 
   acceptTerms() {

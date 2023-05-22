@@ -1,32 +1,32 @@
 import {Component, OnInit} from '@angular/core';
-import {CatalogueBundle, DatasourceBundle, ProviderBundle} from '../../../../domain/eic-model';
+import {CatalogueBundle, ProviderBundle, ServiceBundle, TrainingResourceBundle} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Paging} from '../../../../domain/paging';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
-import {environment} from '../../../../../environments/environment';
 import {CatalogueService} from "../../../../services/catalogue.service";
-import {DatasourceService} from "../../../../services/datasource.service";
+import {TrainingResourceService} from "../../../../services/training-resource.service";
 
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-catalogue-datasources',
-  templateUrl: './catalogue-datasources.component.html',
+  selector: 'app-catalogue-training-resources',
+  templateUrl: './catalogue-training-resources.component.html',
   styleUrls: ['../../../provider/dashboard/services/service.component.css']
 })
 
-export class CatalogueDatasourcesComponent implements OnInit {
+export class CatalogueTrainingResourcesComponent implements OnInit {
 
   formPrepare = {
     from: '0',
     quantity: '10',
     order: 'ASC',
-    orderField: 'name',
+    orderField: 'title',
     query: '',
-    active: 'statusAll',
-    status: ''
+    active: '',
+    status: '',
+    catalogue_id: new FormArray([])
   };
 
   dataForm: FormGroup;
@@ -36,8 +36,8 @@ export class CatalogueDatasourcesComponent implements OnInit {
   urlParams: URLParameter[] = [];
   catalogueId;
   catalogueBundle: CatalogueBundle;
-  datasourceBundles: Paging<DatasourceBundle>;
-  selectedDatasource: DatasourceBundle = null;
+  trainingResourceBundles: TrainingResourceBundle[] = new Array<TrainingResourceBundle>();
+  selectedTrainingResource: TrainingResourceBundle = null;
   path: string;
 
   total: number;
@@ -52,7 +52,7 @@ export class CatalogueDatasourcesComponent implements OnInit {
     private router: Router,
     private providerService: ServiceProviderService,
     private catalogueService: CatalogueService,
-    private datasourceService: DatasourceService
+    private trainingResourceService: TrainingResourceService
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +61,7 @@ export class CatalogueDatasourcesComponent implements OnInit {
     this.getCatalogue();
 
     this.dataForm = this.fb.group(this.formPrepare);
+    (this.dataForm.get('catalogue_id') as FormArray).push(new FormControl(this.catalogueId));
     this.urlParams = [];
     this.route.queryParams
       .subscribe(params => {
@@ -77,15 +78,15 @@ export class CatalogueDatasourcesComponent implements OnInit {
           }
 
           // this.handleChange();
-          this.getDatasources();
+          this.getResources();
         },
         error => this.errorMessage = <any>error
       );
   }
 
-  navigate(datasourceId: string) {
-    this.router.navigate([`/dashboard/${this.catalogueId}/${datasourceId.split('.')[0]}/datasource-dashboard/`, datasourceId]);
-  }
+  // navigate(resourceId: string) {
+  //   this.router.navigate([`/dashboard/${this.catalogueId}/${resourceId.split('.')[0]}/training-resource-dashboard/`, resourceId]);
+  // }
 
   getCatalogue() {
     this.catalogueService.getCatalogueBundleById(this.catalogueId).subscribe(
@@ -97,60 +98,64 @@ export class CatalogueDatasourcesComponent implements OnInit {
     );
   }
 
-  toggleDatasource(datasourceBundle: DatasourceBundle) {
-    if (datasourceBundle.status === 'pending resource' || datasourceBundle.status === 'rejected resource') {
-      this.errorMessage = `You cannot activate a ${datasourceBundle.status}.`;
+  toggleTrainingResource(bundle: TrainingResourceBundle) {
+    if (bundle.status === 'pending resource' || bundle.status === 'rejected resource') {
+      this.errorMessage = `You cannot activate a ${bundle.status}.`;
       window.scrollTo(0, 0);
       return;
     }
     this.toggleLoading = true;
-    this.datasourceService.publishDatasource(datasourceBundle.id, datasourceBundle.datasource.version, !datasourceBundle.active).subscribe(
+    this.trainingResourceService.publishTrainingResource(bundle.id, !bundle.active).subscribe(
       res => {},
       error => {
         this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getDatasources();
+        this.getResources();
         this.toggleLoading = false;
         // console.log(error);
       },
       () => {
-        this.getDatasources();
+        this.getResources();
         this.toggleLoading = false;
       }
     );
   }
 
-  getDatasources() {
-    this.catalogueService.getDatasourcesOfCatalogue(this.catalogueId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('order').value, this.dataForm.get('orderField').value,
-      this.dataForm.get('active').value, this.dataForm.get('status').value, this.dataForm.get('query').value)
-      .subscribe(res => {
-          this.datasourceBundles = res;
+  getResources() {
+    this.toggleLoading = true;
+    this.trainingResourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
+      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
+      this.dataForm.get('active').value, null,
+      this.dataForm.get('status').value, null, this.dataForm.get('catalogue_id').value).subscribe(
+      res => {
+          this.toggleLoading = false;
+          this.trainingResourceBundles = res['results'];
           this.total = res['total'];
           this.paginationInit();
         },
         err => {
-          this.errorMessage = 'An error occurred while retrieving the datasources of this provider. ' + err.error;
+          this.toggleLoading = false;
+          this.errorMessage = 'An error occurred while retrieving the training resources of this provider. ' + err.error;
         }
       );
   }
 
-  setSelectedDatasource(datasource: DatasourceBundle) {
-    this.selectedDatasource = datasource;
+  setSelectedTrainingResource(bundle: TrainingResourceBundle) {
+    this.selectedTrainingResource = bundle;
     UIkit.modal('#actionModal').show();
   }
 
-  deleteDatasource(id: string) {
+  deleteTrainingResource(id: string) {
     // UIkit.modal('#spinnerModal').show();
-    this.datasourceService.deleteDatasource(id).subscribe(
+    this.trainingResourceService.deleteTrainingResource(id).subscribe(
       res => {},
       error => {
         // console.log(error);
         // UIkit.modal('#spinnerModal').hide();
         this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getDatasources();
+        this.getResources();
       },
       () => {
-        this.getDatasources();
+        this.getResources();
         // UIkit.modal('#spinnerModal').hide();
       }
     );
@@ -174,7 +179,7 @@ export class CatalogueDatasourcesComponent implements OnInit {
       }
     }
 
-    this.router.navigate([`/catalogue-dashboard/` + this.catalogueId + `/datasources`], {queryParams: map});
+    this.router.navigate([`/catalogue-dashboard/` + this.catalogueId + `/training-resources`], {queryParams: map});
   }
 
   paginationInit() {
