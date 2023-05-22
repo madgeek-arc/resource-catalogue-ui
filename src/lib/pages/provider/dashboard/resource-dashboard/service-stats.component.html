@@ -156,7 +156,7 @@
             <div class="uk-grid uk-child-width-1-1@m uk-child-width-1-1@l uk-margin-remove-top">
               <div class="uk-card">
                 <div *ngIf="!emptyResponseOnGetCompetitorsServices" class="uk-card-body">
-                  <div *ngIf="enrichedRecommendationsOfCompetitorsServices.length==0 && !errorMessage" class="uk-position-center">
+                  <div *ngIf="enrichedRecommendationsOfCompetitorsServices.length==0 && !errorMessage" class="uk-position-center uk-margin-xlarge-top">
                     <div uk-spinner="ratio: 2.5"></div>
                   </div>
                   <ng-container *ngIf="enrichedRecommendationsOfCompetitorsServices?.length>0">
