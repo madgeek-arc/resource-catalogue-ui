@@ -64,6 +64,7 @@ export class ProviderStatsComponent implements OnInit {
   recommendationsOverTimeForProvider: any = null;
   recommendationsOfTopServices: any = null;
   recommendationsOfCompetitorsServices: any[] = [];
+  emptyResponseOnGetCompetitorsServices = false;
   enrichedRecommendationsOfCompetitorsServices: any[] = [];
 
   selectedCountryName: string = null;
@@ -332,22 +333,51 @@ export class ProviderStatsComponent implements OnInit {
     );
 
     /** Recommendations -> **/
-    this.recommendationsService.getRecommendationsOverTime(this.catalogueId.concat('.',this.providerId)).subscribe(
+    // this.recommendationsService.getRecommendationsOverTime(this.catalogueId.concat('.',this.providerId)).subscribe(
+    //     data => this.setRecommendationsOverTimeForProvider(data),
+    //     err => this.errorMessage = 'An error occurred while retrieving visits for this provider. ' + err.error
+    //   );
+    //
+    // this.recommendationsService.getMostRecommendedServices(this.catalogueId.concat('.',this.providerId)).subscribe(
+    //   data => this.enrichMostRecommendedServices(data),
+    //   err => this.errorMessage = 'An error occurred while retrieving most recommended services for this provider. ' + err.error
+    // );
+    //
+    // this.recommendationsService.getCompetitorsServices(this.catalogueId.concat('.',this.providerId)).subscribe(
+    //   data => this.setCompetitorsServices(data),
+    //   err => this.errorMessage = 'An error occurred while retrieving recommended services for this provider. ' + err.error
+    // );
+    /** <- Recommendations **/
+  }
+
+  onRecommendationsTabClick() {
+    if (!this.recommendationsOverTimeForProvider) {
+      this.recommendationsService.getRecommendationsOverTime(this.catalogueId.concat('.', this.providerId)).subscribe(
         data => this.setRecommendationsOverTimeForProvider(data),
         err => this.errorMessage = 'An error occurred while retrieving visits for this provider. ' + err.error
       );
-
-    this.recommendationsService.getMostRecommendedServices(this.catalogueId.concat('.',this.providerId)).subscribe(
-      data => this.enrichMostRecommendedServices(data),
-      err => this.errorMessage = 'An error occurred while retrieving most recommended services for this provider. ' + err.error
-    );
-
-    this.recommendationsService.getCompetitorsServices(this.catalogueId.concat('.',this.providerId)).subscribe(
-      data => this.setCompetitorsServices(data),
-      err => this.errorMessage = 'An error occurred while retrieving recommended services for this provider. ' + err.error
-    );
-    /** <- Recommendations **/
+    }
+    if (!this.recommendationsOfTopServices) {
+      this.recommendationsService.getMostRecommendedServices(this.catalogueId.concat('.', this.providerId)).subscribe(
+        data => this.enrichMostRecommendedServices(data),
+        err => this.errorMessage = 'An error occurred while retrieving most recommended services for this provider. ' + err.error
+      );
+    }
+    if (this.enrichedRecommendationsOfCompetitorsServices.length == 0) {
+      this.recommendationsService.getCompetitorsServices(this.catalogueId.concat('.', this.providerId)).subscribe(
+        data => {
+          if (data) {
+            this.setCompetitorsServices(data);
+            this.emptyResponseOnGetCompetitorsServices = false;
+          } else {
+            this.emptyResponseOnGetCompetitorsServices = true;
+          }
+        },
+        err => this.errorMessage = 'An error occurred while retrieving recommended services for this provider. ' + err.error
+      );
+    }
   }
+
 
   onPeriodChange(event) {
     this.statisticPeriod = event.target.value;
@@ -1014,8 +1044,6 @@ export class ProviderStatsComponent implements OnInit {
   }
 
   setMostRecommendedServices(data: any) {
-    console.log(data);
-
     this.recommendationsOfTopServices = {
       chart: {
         type: 'bar',

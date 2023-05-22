@@ -20,7 +20,7 @@
         <li class="uk-active" aria-expanded="true"><a>User engagement</a></li>
         <li aria-expanded="false"><a>Geographical distribution of {{serviceORresource | lowercase}}s</a></li>
         <li aria-expanded="false"><a>Distribution of {{serviceORresource | lowercase}}s per {{serviceORresource | lowercase}} attribute</a></li>
-        <li aria-expanded="false"><a>Performance on recommender</a></li>
+        <li aria-expanded="false"><a (click)="onRecommendationsTabClick()">Performance on recommender</a></li>
       </ul>
 
       <ul id="terminology_tabbed" class="uk-switcher">
@@ -237,11 +237,11 @@
 
           <div class="uk-grid uk-child-width-1-1@m uk-child-width-1-1@l uk-margin-remove-top">
             <div class="uk-card">
-              <div class="uk-card-body">
+              <div *ngIf="!emptyResponseOnGetCompetitorsServices" class="uk-card-body">
                 <div *ngIf="enrichedRecommendationsOfCompetitorsServices.length==0 && !errorMessage" class="uk-position-center">
                   <div uk-spinner="ratio: 2.5"></div>
                 </div>
-                <ng-container *ngIf="enrichedRecommendationsOfCompetitorsServices?.length>0">
+                <ng-container *ngIf="enrichedRecommendationsOfCompetitorsServices.length>0">
                 <h5 class="uk-text-center uk-margin-bottom" style="color:#333333;font-size:18px;fill:#333333;" y="24">Services recommended next to your services</h5>
                   <div uk-accordion>
                     <div *ngFor="let item of enrichedRecommendationsOfCompetitorsServices">

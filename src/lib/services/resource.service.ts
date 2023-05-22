@@ -129,8 +129,7 @@ export class ResourceService {
     return this.http.get(this.base + '/service/resourceIdToNameMap/');
   }
 
-  getService(serviceId: string, catalogueId?: string) {
-    console.log(serviceId);
+  getService(serviceId: string, catalogueId?: string) { // can handle public ids too
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? serviceId : [serviceId, version].join('/')}`, this.options);
     if (!catalogueId) catalogueId = 'eosc';

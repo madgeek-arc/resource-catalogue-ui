@@ -42,6 +42,7 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
   datasourceMapOptions: any = null;
   recommendationsOverTimeForService: any = null;
   recommendationsOfCompetitorsServices: any[] = [];
+  emptyResponseOnGetCompetitorsServices = false;
   enrichedRecommendationsOfCompetitorsServices: any[] = [];
 
 
@@ -139,17 +140,38 @@ export class DatasourceStatsComponent implements OnInit, OnDestroy {
     }
 
     /** Recommendations --> **/
-    this.recommendationsService.getRecommendationsOverTime(this.catalogueId.concat('.',this.datasource.resourceOrganisation), this.catalogueId.concat('.',this.datasource.id)).subscribe(
-      data => this.setRecommendationsOverTimeForService(data),
-      err => this.errorMessage = 'An error occurred while retrieving visits for this service. ' + err.error
-    );
-
-    this.recommendationsService.getCompetitorsServices(this.catalogueId.concat('.',this.datasource.resourceOrganisation), this.catalogueId.concat('.',this.datasource.id)).subscribe(
-      data => this.setCompetitorsServices(data),
-      err => this.errorMessage = 'An error occurred while retrieving recommended services. ' + err.error
-    );
+    // this.recommendationsService.getRecommendationsOverTime(this.catalogueId.concat('.',this.datasource.resourceOrganisation), this.catalogueId.concat('.',this.datasource.id)).subscribe(
+    //   data => this.setRecommendationsOverTimeForService(data),
+    //   err => this.errorMessage = 'An error occurred while retrieving visits for this service. ' + err.error
+    // );
+    //
+    // this.recommendationsService.getCompetitorsServices(this.catalogueId.concat('.',this.datasource.resourceOrganisation), this.catalogueId.concat('.',this.datasource.id)).subscribe(
+    //   data => this.setCompetitorsServices(data),
+    //   err => this.errorMessage = 'An error occurred while retrieving recommended services. ' + err.error
+    // );
     /** <- Recommendations **/
+  }
 
+  onRecommendationsTabClick() {
+    if (!this.recommendationsOverTimeForService) {
+      this.recommendationsService.getRecommendationsOverTime(this.catalogueId.concat('.', this.datasource.resourceOrganisation), this.catalogueId.concat('.', this.datasource.id)).subscribe(
+        data => this.setRecommendationsOverTimeForService(data),
+        err => this.errorMessage = 'An error occurred while retrieving visits for this service. ' + err.error
+      );
+    }
+    if (this.enrichedRecommendationsOfCompetitorsServices.length == 0) {
+      this.recommendationsService.getCompetitorsServices(this.catalogueId.concat('.', this.datasource.resourceOrganisation), this.catalogueId.concat('.', this.datasource.id)).subscribe(
+        data => {
+          if (data) {
+            this.setCompetitorsServices(data);
+            this.emptyResponseOnGetCompetitorsServices = false;
+          } else {
+            this.emptyResponseOnGetCompetitorsServices = true;
+          }
+        },
+        err => this.errorMessage = 'An error occurred while retrieving recommended services. ' + err.error
+      );
+    }
   }
 
   onPeriodChange(event) {
