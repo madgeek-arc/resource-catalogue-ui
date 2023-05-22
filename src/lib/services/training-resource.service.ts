@@ -393,7 +393,7 @@ export class TrainingResourceService {
   }
 
   publishTrainingResource(id: string, active: boolean) { // toggles active/inactive service
-    return this.http.patch(this.base + `/service/publish/${id}?active=${active}`, this.options);
+    return this.http.patch(this.base + `/trainingResource/publish/${id}?active=${active}`, this.options);
   }
 
 }
