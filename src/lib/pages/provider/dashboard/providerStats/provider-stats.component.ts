@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {isNullOrUndefined} from '../../../../shared/tools';
-import {zip} from 'rxjs';
+import {combineLatest, zip} from 'rxjs';
 import {AuthenticationService} from '../../../../services/authentication.service';
 import {ResourceService} from '../../../../services/resource.service';
 import {RecommendationsService} from '../../../../services/recommendations.service';
@@ -1030,17 +1030,21 @@ export class ProviderStatsComponent implements OnInit {
   }
 
   enrichMostRecommendedServices(data: any) {
-    data.forEach(item => {
-      this.resourceService.getService(item.service_id, 'eosc').subscribe(
-        res => { item.service_name = res.name },
-        error => { this.errorMessage = error }
-      );
-    });
-    this.timeOut(100).then( () => this.setMostRecommendedServices(data));
-  }
+    const observables = data.map(item =>
+      this.resourceService.getService(item.service_id, /\..*\./.test(item.service_id) ? item.service_id.split(".")[0] : 'eosc')
+    );
 
-  timeOut(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    combineLatest(observables).subscribe(
+      results => {
+        results.forEach((res: any, index) => {
+          data[index].service_name = res.name;
+        });
+        this.setMostRecommendedServices(data);
+      },
+      error => {
+        this.errorMessage = error;
+      }
+    );
   }
 
   setMostRecommendedServices(data: any) {
@@ -1097,7 +1101,7 @@ export class ProviderStatsComponent implements OnInit {
 
       // let competitorPublicIds = [];
       for (const competitor of item.competitors) {
-        // if (competitor.service_id !== 'tnp.lumi_etais__regular_access') {
+        if (competitor.service_id !== 'tnp.lumi_etais__regular_access') {
           // competitorPublicIds.push(competitor.service_id);
           const isPublicId = /\..*\./.test(competitor.service_id); // if it has two dot occurrences its a publicId
           this.resourceService.getService(competitor.service_id, isPublicId ? competitor.service_id.split(".")[0] : 'eosc').subscribe(
@@ -1116,7 +1120,7 @@ export class ProviderStatsComponent implements OnInit {
             () => {
             }
           );
-        // }
+        }
       }
       const itemWithDetails = {
         service_id: item.service_id,
