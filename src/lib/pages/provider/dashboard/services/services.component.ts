@@ -110,20 +110,18 @@ export class ServicesComponent implements OnInit {
     );
   }
 
-  toggleService(providerService: ServiceBundle) {
-    if (providerService.status === 'pending resource' || providerService.status === 'rejected resource') {
-      this.errorMessage = `You cannot activate a ${providerService.status}.`;
+  toggleService(bundle: ServiceBundle) {
+    if (bundle.status === 'pending resource' || bundle.status === 'rejected resource') {
+      this.errorMessage = `You cannot activate a ${bundle.status}.`;
       window.scrollTo(0, 0);
       return;
     }
     UIkit.modal('#spinnerModal').show();
-    this.providerService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
+    this.providerService[bundle.service ? 'publishService' : 'publishDatasource'](bundle.id, this.getPayload(bundle).version, !bundle.active).subscribe(
       res => {},
       error => {
-        this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getServices();
         UIkit.modal('#spinnerModal').hide();
-        // console.log(error);
+        this.errorMessage = 'Something went bad. ' + error.error.error ;
       },
       () => {
         UIkit.modal('#spinnerModal').hide();

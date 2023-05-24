@@ -126,7 +126,7 @@ export class ResourcesListComponent implements OnInit {
 
   constructor(private resourceService: ResourceService,
               private datasourceService: DatasourceService,
-              private serviceProviderService: ServiceProviderService,
+              private providerService: ServiceProviderService,
               private resourceExtrasService: ResourceExtrasService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
@@ -695,17 +695,15 @@ export class ResourcesListComponent implements OnInit {
       return;
     }
     UIkit.modal('#spinnerModal').show();
-    this.serviceProviderService[bundle.service ? 'publishService' : 'publishDatasource'](bundle.id, this.getPayload(bundle).version, !bundle.active).subscribe(
+    this.providerService[bundle.service ? 'publishService' : 'publishDatasource'](bundle.id, this.getPayload(bundle).version, !bundle.active).subscribe(
       res => {},
       error => {
-        this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getResources();
         UIkit.modal('#spinnerModal').hide();
-        // console.log(error);
+        this.errorMessage = 'Something went bad. ' + error.error.error ;
       },
       () => {
-        this.getResources();
         UIkit.modal('#spinnerModal').hide();
+        this.getResources();
       }
     );
   }
