@@ -362,7 +362,7 @@ export class ResourceFormToPdfComponent implements OnInit {
     zip(
       this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getAllRelatedResources()
+      this.resourceService.getAllRelatedResources('eosc')
     ).subscribe(suc => {
         this.providersPage = <Paging<Provider>>suc[0];
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];

@@ -400,11 +400,11 @@ export class ServiceFormComponent implements OnInit {
     zip(
       this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getAllRelatedResources()
+      this.resourceService.getAllRelatedResources(this.catalogueId ? this.catalogueId : 'eosc')
     ).subscribe(suc => {
         this.providersPage = <Paging<Provider>>suc[0];
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
-        this.requiredResources = this.transformInputForDropdownUse(suc[2]);
+        this.requiredResources = suc[2];
         this.relatedResources = this.requiredResources;
         // this.getLocations();
         this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
@@ -532,29 +532,6 @@ export class ServiceFormComponent implements OnInit {
         }
       }
     });
-  }
-
-  transformInputForDropdownUse(input) {
-    const arr = [];
-    for (const i in input) {
-      if (input[i]?.title) { // for training resources
-        arr.push({
-          'name' : input[i].resourceOrganisation + ' - ' + input[i].title,
-          'id' : input[i].id
-        });
-      } else { // for services and datasources
-        arr.push({
-          'name' : input[i].resourceOrganisation + ' - ' + input[i].name,
-          'id' : input[i].id
-        });
-      }
-    }
-    return arr;
-
-    // return Object.keys(input).reduce((accumulator, value) => {
-    //   accumulator[value] = input[value][0].resourceOrganisation + ' - ' + input[value][0].name;
-    //   return accumulator;
-    // }, {});
   }
 
   /** check form fields and tabs validity--> **/

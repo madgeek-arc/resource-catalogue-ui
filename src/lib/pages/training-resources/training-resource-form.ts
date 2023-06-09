@@ -288,11 +288,11 @@ export class TrainingResourceForm implements OnInit {
     zip(
       this.trainingResourceService.getProvidersNames('approved'),
       this.trainingResourceService.getAllVocabulariesByType(),
-      this.resourceService.getAllRelatedResources()
+      this.resourceService.getAllRelatedResources(this.catalogueId ? this.catalogueId : 'eosc')
     ).subscribe(suc => {
         this.providersPage = <Paging<Provider>>suc[0];
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
-        this.relatedResources = this.transformInputForDropdownUse(suc[2]);
+        this.relatedResources = suc[2];
         // this.getLocations();
         this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
         this.accessTypesVocabulary = this.vocabularies[Type.ACCESS_TYPE];
@@ -416,29 +416,6 @@ export class TrainingResourceForm implements OnInit {
         }
       }
     });
-  }
-
-  transformInputForDropdownUse(input) {
-    const arr = [];
-    for (const i in input) {
-      if (input[i]?.title) { // for training resources
-        arr.push({
-          'name' : input[i].resourceOrganisation + ' - ' + input[i].title,
-          'id' : input[i].id
-        });
-      } else { // for services and datasources
-        arr.push({
-          'name' : input[i].resourceOrganisation + ' - ' + input[i].name,
-          'id' : input[i].id
-        });
-      }
-    }
-    return arr;
-
-    // return Object.keys(input).reduce((accumulator, value) => {
-    //   accumulator[value] = input[value][0].resourceOrganisation + ' - ' + input[value][0].name;
-    //   return accumulator;
-    // }, {});
   }
 
   /** check form fields and tabs validity--> **/

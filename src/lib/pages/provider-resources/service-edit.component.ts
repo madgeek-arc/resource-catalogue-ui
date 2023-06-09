@@ -33,8 +33,9 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
 
   ngOnInit() {
     const path = this.route.snapshot.routeConfig.path;
-    if (path.includes(':catalogueId')) this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
-    if (path === ':catalogueId/:providerId/resource/view/:resourceId') this.disable = true;
+    if (path.includes(':catalogueId')) { this.catalogueId = this.route.snapshot.paramMap.get('catalogueId') }
+    else { this.catalogueId = 'eosc' }
+    if (path === ':catalogueId/:providerId/resource/view/:resourceId') this.disable = true; // view-only mode
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
@@ -51,6 +52,13 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               if (richService.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
                 this.navigationService.go('/forbidden')
               ResourceService.removeNulls(richService.service);
+              //remove catalogueId. prefix for same catalogue entries
+              if (richService.service.requiredResources) {
+                richService.service.requiredResources = richService.service.requiredResources.map(value => value.startsWith(this.catalogueId) ? value.substring(this.catalogueId.length+1) : value);
+              }
+              if (richService.service.relatedResources) {
+                richService.service.relatedResources = richService.service.relatedResources.map(value => value.startsWith(this.catalogueId) ? value.substring(this.catalogueId.length+1) : value);
+              }
               this.formPrepare(richService);
               this.serviceForm.patchValue(richService.service);
               for (const i in this.serviceForm.controls) {

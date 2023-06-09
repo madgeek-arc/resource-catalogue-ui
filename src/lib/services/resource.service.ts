@@ -125,15 +125,15 @@ export class ResourceService {
     return this.http.get<BrowseResults>(this.base + '/service/by/category/');
   }
 
-  getAllRelatedResources(){ // Gets services, datasources and trainings
-    return this.http.get(this.base + '/service/resourceIdToNameMap/');
+  getAllRelatedResources(catalogueId: string){ // Gets services, datasources, trainings (low level ids for specified catalogue, public ids for others)
+    return this.http.get(this.base + `/service/resourceIdToNameMap?catalogueId=${catalogueId}`);
   }
 
   getService(serviceId: string, catalogueId?: string) { // can handle public ids too
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? serviceId : [serviceId, version].join('/')}`, this.options);
     if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<Service>(this.base + `/service/${serviceId}/?catalogue_id=${catalogueId}`, this.options);
+    return this.http.get<Service>(this.base + `/service/${serviceId}?catalogue_id=${catalogueId}`, this.options);
   }
 
   getRichService(id: string, catalogueId?:string, version?: string) {
