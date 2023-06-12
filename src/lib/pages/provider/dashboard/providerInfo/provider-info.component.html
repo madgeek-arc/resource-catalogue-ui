@@ -84,7 +84,7 @@
             <li>
               <div class="uk-grid">
                 <div class="uk-width-1-4">Website</div>
-                <div class="uk-width-3-4">{{provider.website}}</div>
+                <div class="uk-width-3-4"><a [href]="provider.website" target="_blank">{{provider.website}}</a></div>
               </div>
             </li>
             <li>
@@ -120,7 +120,7 @@
             <li>
               <div class="uk-grid">
                 <div class="uk-width-1-4">Logo</div>
-                <div class="uk-width-3-4">{{provider.logo}}</div>
+                <div class="uk-width-3-4"><a [href]="provider.logo" target="_blank">{{provider.logo}}</a></div>
               </div>
             </li>
             <ng-container *ngFor="let m of provider.multimedia; let i=index;" class="uk-list uk-width-1-1">
@@ -129,7 +129,7 @@
                 <div class="uk-grid">
                   <div class="uk-width-1-4">Multimedia URL</div>
                   <div class="uk-width-3-4">
-                    <span>{{m.multimediaURL}}</span>
+                    <span><a [href]="m.multimediaURL" target="_blank">{{m.multimediaURL}}</a></span>
                   </div>
                 </div>
               </li>
