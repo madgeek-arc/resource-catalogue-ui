@@ -356,6 +356,12 @@
                               <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
                               View Training Resource
                             </button>
+
+                            <ng-container *ngIf="trBundle.active && trBundle.status=='approved resource'">
+                              <button class="uk-margin-medium-left uk-button uk-button-link" (click)="showAuditForm('main', trBundle)">
+                                <i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit
+                              </button>
+                            </ng-container>
                           </div>
                         </ng-container>
 

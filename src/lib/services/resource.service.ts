@@ -551,12 +551,12 @@ export class ResourceService {
     return this.http.get<Info>(this.base + `/info/all`);
   }
 
-  auditResource(id: string, action: string, comment: string) {
-    return this.http.patch(this.base + `/resource/auditResource/${id}?actionType=${action}&comment=${comment}`, this.options);
+  auditResource(id: string, action: string, catalogueId: string, comment: string) {
+    return this.http.patch(this.base + `/resource/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
   }
 
-  auditDatasource(id: string, action: string, comment: string) {
-    return this.http.patch(this.base + `/datasource/auditDatasource/${id}?actionType=${action}&comment=${comment}`, this.options);
+  auditDatasource(id: string, action: string, catalogueId: string, comment: string) {
+    return this.http.patch(this.base + `/datasource/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
   }
 
   verifyResource(id: string, active: boolean, status: string) { // for 1st service

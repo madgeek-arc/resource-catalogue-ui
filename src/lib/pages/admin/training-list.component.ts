@@ -736,7 +736,7 @@ export class TrainingListComponent implements OnInit {
   }
 
   auditResourceAction(action: string) {
-    this.trainingResourceService.auditTrainingResource(this.selectedTrainingResource.id, action, this.commentAuditControl.value)
+    this.trainingResourceService.auditTrainingResource(this.selectedTrainingResource.id, action, this.selectedTrainingResource.trainingResource.catalogueId, this.commentAuditControl.value)
       .subscribe(
         res => {
           if (!this.showSideAuditForm) {
