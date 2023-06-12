@@ -256,7 +256,7 @@
                           <div class="uk-label uk-align-right">Inactive</div>
                         </div>
 
-                        <div *ngIf="statusesOnView[i].status && serviceBundle.id === statusesOnView[i].serviceId" class="uk-position-bottom-right uk-margin-xlarge-bottom" style="padding-right: 40px">
+                        <div *ngIf="statusesOnView[i].status && serviceBundle.id === statusesOnView[i].serviceId && !showMainAuditForm" class="uk-position-bottom-right uk-margin-xlarge-bottom" style="padding-right: 40px">
                           <span class="statusLabel">Monitoring Status: </span><span>{{statusesOnView[i].status}}</span>
                         </div>
 <!--                          <ng-container *ngIf="statusesOnView[i]==='OK'">-->
@@ -278,7 +278,7 @@
 <!--                            <span class="uk-badge" title="Monitoring Status" style="background: dimgrey;">NA</span>-->
 <!--                          </ng-container>-->
 
-                        <div *ngIf="serviceBundle?.resourceExtras?.horizontalService" class="uk-label uk-position-bottom-right uk-margin-large" style="margin-right: 40px">
+                        <div *ngIf="serviceBundle?.resourceExtras?.horizontalService && !showMainAuditForm" class="uk-label uk-position-bottom-right uk-margin-large" style="margin-right: 40px">
                           <span>Horizontal</span>
                         </div>
 
