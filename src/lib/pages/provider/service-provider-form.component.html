@@ -7,7 +7,7 @@
         <div class="titleAndActionsBar">
           <div class="">
             <div class="pageTitle">
-              {{disable ? ' ' : edit ? ' Update' : ' Add New'}} {{serviceORresource}} Provider {{disable ? 'read-only mode' : ''}}
+              {{disable ? ' ' : edit ? ' Update' : ' Add New'}} {{serviceORresource}} Provider {{disable ? 'read-only mode' : ''}} {{ displayedCatalogueName ? displayedCatalogueName : ''}}
             </div>
             <div class="providerName uk-margin-small-top">
               <strong>{{providerName!='' ? providerName : 'Provider Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}

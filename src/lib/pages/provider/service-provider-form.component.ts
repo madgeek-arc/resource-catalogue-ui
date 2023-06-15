@@ -9,6 +9,7 @@ import {Vocabulary, Type, Provider} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import BitSet from 'bitset';
 import {environment} from '../../../environments/environment';
+import {CatalogueService} from "../../services/catalogue.service";
 
 declare var UIkit: any;
 
@@ -26,6 +27,7 @@ export class ServiceProviderFormComponent implements OnInit {
   privacyPolicyURL = environment.privacyPolicyURL;
   catalogueId: string = 'eosc'; // TODO: revisit to check if init causes or prevents any problems
   providerId: string = null;
+  displayedCatalogueName: string;
   providerName = '';
   errorMessage = '';
   userInfo = {family_name: '', given_name: '', email: ''};
@@ -219,6 +221,7 @@ export class ServiceProviderFormComponent implements OnInit {
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
               public resourceService: ResourceService,
+              public catalogueService: CatalogueService,
               public router: Router,
               public route: ActivatedRoute) {
   }
@@ -294,6 +297,9 @@ export class ServiceProviderFormComponent implements OnInit {
     this.isPortalAdmin = this.authService.isAdmin();
 
     this.initUserBitSets(); // Admin + mainContact
+
+    if(this.catalogueId == 'eosc') this.displayedCatalogueName = `| Catalogue: EOSC`
+    else if(this.catalogueId) this.showCatalogueName(this.catalogueId)
 
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
   }
@@ -1073,6 +1079,13 @@ export class ServiceProviderFormComponent implements OnInit {
     const element: HTMLElement = document.getElementById(id) as HTMLElement;
     element.click();
     window.scrollTo(0, -1);
+  }
+
+  showCatalogueName(catalogueId: string) {
+    this.catalogueService.getCatalogueById(catalogueId).subscribe(
+      catalogue => this.displayedCatalogueName = `| Catalogue: ${catalogue.name}`,
+      error => console.log(error)
+    );
   }
 
 }

@@ -7,6 +7,7 @@
           <div class="">
             <div class="pageTitle">
               {{disable ? ' ' : editMode ? ' Update' : ' Add New'}} {{serviceORresource}} {{disable ? 'read-only mode' : ''}}
+              {{ displayedProviderName ? displayedProviderName : ''}} {{ displayedCatalogueName ? displayedCatalogueName : ''}}
             </div>
             <div class="providerName uk-margin-small-top">
               <strong>{{serviceName!='' ? serviceName : serviceORresource + ' Name'}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}

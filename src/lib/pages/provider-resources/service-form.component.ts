@@ -7,13 +7,15 @@ import * as sd from './services.description';
 import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
 import {URLValidator} from '../../shared/validators/generic.validator';
-import {zip} from 'rxjs';
+import {Observable, of, zip} from 'rxjs';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
 import BitSet from 'bitset';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {RecommendationsService} from "../../services/recommendations.service";
+import {CatalogueService} from "../../services/catalogue.service";
+import {catchError, map, mergeMap, timestamp} from "rxjs/operators";
 
 declare var UIkit: any;
 
@@ -33,6 +35,8 @@ export class ServiceFormComponent implements OnInit {
   pendingService = false;
   catalogueId: string;
   providerId: string;
+  displayedProviderName: string;
+  displayedCatalogueName: string;
   editMode = false;
   hasChanges = false;
   serviceForm: FormGroup;
@@ -300,6 +304,7 @@ export class ServiceFormComponent implements OnInit {
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
               protected recommendationsService: RecommendationsService,
+              protected catalogueService: CatalogueService,
               protected route: ActivatedRoute
   ) {
     this.resourceService = this.injector.get(ResourceService);
@@ -447,6 +452,9 @@ export class ServiceFormComponent implements OnInit {
             return this.router.go('/404');
           }
         }
+        this.showProviderName(this.providerId);
+        if(this.catalogueId == 'eosc') this.displayedCatalogueName = `| Catalogue: EOSC`
+        else if(this.catalogueId) this.showCatalogueName(this.catalogueId);
 
         this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
         this.handleBitSets(0, 1, 'resourceOrganisation');
@@ -1357,5 +1365,20 @@ export class ServiceFormComponent implements OnInit {
     this.checkForDuplicates('subcategory','categories');
   }
   /** <--Suggestions(Recommendations) Autocomplete **/
+
+  /**Display Provider and Catalogue Names--> **/
+  showProviderName(providerId: string) {
+    const provider = this.providersPage.results.find(provider => provider.id === providerId);
+    this.displayedProviderName = (provider.name ? `| Provider: ${provider.name} ` : '');
+  }
+
+  showCatalogueName(catalogueId: string) {
+    if (catalogueId!='undefined' && catalogueId!=undefined){
+    this.catalogueService.getCatalogueById(catalogueId).subscribe(
+      catalogue => this.displayedCatalogueName = `| Catalogue: ${catalogue.name}`,
+      error => console.log(error)
+    );}
+  }
+  /** <--Display Provider and Catalogue Names **/
 
 }

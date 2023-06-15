@@ -9,6 +9,7 @@ import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {NavigationService} from "../../services/navigation.service";
 import {RecommendationsService} from "../../services/recommendations.service";
+import {CatalogueService} from "../../services/catalogue.service";
 
 
 @Component({
@@ -25,10 +26,11 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
               public authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
               protected recommendationsService: RecommendationsService,
+              protected catalogueService: CatalogueService,
               protected injector: Injector,
               public datePipe: DatePipe,
               public navigationService: NavigationService) {
-    super(injector, authenticationService, serviceProviderService, recommendationsService, route);
+    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route);
     this.editMode = true;
   }
 
