@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
 import {
@@ -581,10 +581,6 @@ export class ResourceService {
 
   moveResourceToProvider(resourceId: string, providerId: string, comment: string) {
     return this.http.post(this.base + `/resource/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
-  }
-
-  isServiceOrDatasource(resourceId: string, catalogueId: string){
-    return this.http.get<string>(this.base + `/resource/isServiceOrDatasource?resourceId=${resourceId}&catalogueId=${catalogueId}`);
   }
 
   public handleError(error: HttpErrorResponse) {

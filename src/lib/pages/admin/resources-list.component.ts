@@ -728,49 +728,39 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  moveResourceToProvider(resourceId, providerId, catalogueId) { //could simplify the if else
-    let type: string;
-    this.resourceService.isServiceOrDatasource(resourceId, catalogueId).subscribe(
-      res => { type = res },
-      err => { console.log(err) },
-      () => {
-        if (type == 'service') {
-          UIkit.modal('#spinnerModal').show();
-          this.resourceService.moveResourceToProvider(resourceId, providerId, this.commentMoveControl.value).subscribe(
-            res => {
-            },
-            error => {
-              // console.log(error);
-              UIkit.modal('#spinnerModal').hide();
-              this.errorMessage = 'Something went bad. ' + error.error;
-              this.getResources();
-            },
-            () => {
-              // this.getServices();
-              UIkit.modal('#spinnerModal').hide();
-              window.location.reload();
-            }
-          );
-        }
-        else if (type == 'datasource') {
-          UIkit.modal('#spinnerModal').show();
-          this.datasourceService.moveDatasourceToProvider(resourceId, providerId, this.commentMoveControl.value).subscribe(
-            res => {},
-            error => {
-              // console.log(error);
-              UIkit.modal('#spinnerModal').hide();
-              this.errorMessage = 'Something went bad. ' + error.error ;
-              this.getResources();
-            },
-            () => {
-              // this.getDatasources();
-              UIkit.modal('#spinnerModal').hide();
-              window.location.reload();
-            }
-          );
-        }
+  moveResourceToProvider(serviceBundle, providerId) {
+    if (serviceBundle?.service) {
+      UIkit.modal('#spinnerModal').show();
+        this.resourceService.moveResourceToProvider(serviceBundle.id, providerId, this.commentMoveControl.value).subscribe(
+          res => {},
+          error => {
+            // console.log(error);
+            UIkit.modal('#spinnerModal').hide();
+            this.errorMessage = 'Something went bad. ' + error.error;
+            this.getResources();
+          },
+          () => {
+            UIkit.modal('#spinnerModal').hide();
+            window.location.reload();
+          }
+        );
       }
-    )
+      else if (serviceBundle?.datasource) {
+        UIkit.modal('#spinnerModal').show();
+        this.datasourceService.moveDatasourceToProvider(serviceBundle.id, providerId, this.commentMoveControl.value).subscribe(
+          res => {},
+          error => {
+            // console.log(error);
+            UIkit.modal('#spinnerModal').hide();
+            this.errorMessage = 'Something went bad. ' + error.error;
+            this.getResources();
+          },
+          () => {
+            UIkit.modal('#spinnerModal').hide();
+            window.location.reload();
+          }
+        );
+    }
   }
 
   showAuditForm(view: string, resource: ServiceBundle) {
@@ -813,24 +803,16 @@ export class ResourcesListComponent implements OnInit {
       );
   }
 
-  sendMailForUpdate(id: string, catalogueId: string) {
-    let type: string;
-    this.resourceService.isServiceOrDatasource(id, catalogueId).subscribe(
-      res => { type = res },
-      err => { console.log(err) },
-      () => {
-        if (type == 'service') {
-          this.resourceService.sendEmailForOutdatedResource(id).subscribe(
-            res => {}, err => { console.log(err); }
-          );
-        } else if (type == 'datasource') {
-          console.log('if else ds')
-          this.datasourceService.sendEmailForOutdatedDatasource(id).subscribe(
-            res => {}, err => { console.log(err); }
-          );
-        }
-      }
-    )
+  sendMailForUpdate(serviceBundle) {
+    if (serviceBundle?.service) {
+      this.resourceService.sendEmailForOutdatedResource(serviceBundle.id).subscribe(
+        res => {}, err => { console.log(err); }
+      );
+    } else if (serviceBundle?.datasource) {
+      this.datasourceService.sendEmailForOutdatedDatasource(serviceBundle.id).subscribe(
+        res => {}, err => { console.log(err); }
+      );
+    }
   }
 
   hasCreatedFirstService(id: string) {
