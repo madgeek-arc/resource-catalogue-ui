@@ -163,8 +163,8 @@ export class GuidelinesFormComponent implements OnInit {
     //   // this.pushDomain();
     // }
 
-    if (sessionStorage.getItem('provider')) {
-      const data = JSON.parse(sessionStorage.getItem('provider'));
+    if (sessionStorage.getItem('guideline')) {
+      const data = JSON.parse(sessionStorage.getItem('guideline'));
       for (const i in data) {
         if (data.hasOwnProperty(i)) {
           if (Array.isArray(data[i])) {
@@ -187,7 +187,7 @@ export class GuidelinesFormComponent implements OnInit {
       }
       this.guidelinesForm.patchValue(data);
       if (!this.edit) {
-        sessionStorage.removeItem('provider');
+        sessionStorage.removeItem('guideline');
       }
     }
 
@@ -197,7 +197,7 @@ export class GuidelinesFormComponent implements OnInit {
 
   onSubmit() {
     if (!this.authService.isLoggedIn()) {
-      sessionStorage.setItem('provider', JSON.stringify(this.guidelinesForm.value));
+      sessionStorage.setItem('guideline', JSON.stringify(this.guidelinesForm.value));
       this.authService.login();
     }
 
