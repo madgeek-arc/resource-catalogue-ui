@@ -155,6 +155,10 @@
                           <div class="uk-label uk-align-right">Inactive</div>
                         </div>
 
+                        <div *ngIf="catalogueBundle.suspended" class="rejected">
+                          <div class="uk-label uk-align-right">Suspended</div>
+                        </div>
+
                         <div class="">
                           <div class="uk-grid">
                             <div class="uk-width-1-5">
@@ -222,7 +226,7 @@
 <!--                                    style="padding-right: 40px; border-right: 1px solid #ccc">-->
 <!--                              <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i> Delete Catalogue-->
 <!--                            </button>-->
-                            <button *ngIf="catalogueBundle.status!=='approved catalogue'" class="uk-button uk-button-link uk-margin-medium-left">
+                            <button class="uk-button uk-button-link uk-margin-medium-left">
                               <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
                             </button>
                             <div uk-dropdown="mode: click">
@@ -243,6 +247,16 @@
                                 <li *ngIf="(catalogueBundle.status === 'pending catalogue')"
                                     (click)="showActionModal(catalogueBundle, 'rejected catalogue')" class="uk-margin-small-top">
                                   <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Reject</a>
+                                </li>
+                                <li *ngIf="(catalogueBundle.suspended==false)"
+                                    (click)="showSuspensionModal(catalogueBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Suspend</a>
+                                </li>
+                                <li *ngIf="(catalogueBundle.suspended==true)"
+                                    (click)="showSuspensionModal(catalogueBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
                                 </li>
                               </ul>
                             </div>
@@ -354,6 +368,24 @@
     </div>
     <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteCatalogue(selectedCatalogue.catalogue.id)">Delete</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+  </div>
+  <div *ngIf="loadingMessage">
+    <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+      {{ loadingMessage }}
+    </div>
+    <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
+<div id="suspensionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <ng-container *ngIf="selectedCatalogue">
+      <h6>Are you sure you want to {{selectedCatalogue.suspended==true ? 'un' : ''}}suspend "{{ selectedCatalogue.catalogue.name }}"?</h6>
+      <p>All providers and resources of this catalogue will be automatically {{selectedCatalogue.suspended==true ? 'un' : ''}}suspended as well.</p>
+      <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="suspendCatalogue()">
+        {{selectedCatalogue.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
+      <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    </ng-container>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">

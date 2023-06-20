@@ -47,9 +47,8 @@ export class GuidelinesListComponent implements OnInit {
   providers: ProviderBundle[] = [];
 
   guidelines: InteroperabilityRecordBundle[] = [];
-  vocabularyCurations: VocabularyCuration[] = [];
   selectedGuidelineId: string;
-  selectedVocabularyEntryRequests: VocabularyEntryRequest[] = [];
+  selectedGuideline: InteroperabilityRecordBundle;
 
   facets: any;
 
@@ -206,6 +205,35 @@ export class GuidelinesListComponent implements OnInit {
         // UIkit.modal('#spinnerModal').hide();
       }
     );
+  }
+
+  showSuspensionModal(guidelineBundle: InteroperabilityRecordBundle) {
+    this.selectedGuideline = guidelineBundle;
+    if (this.selectedGuideline) {
+      UIkit.modal('#suspensionModal').show();
+    }
+  }
+
+  suspendInteroperabilityRecord() {
+    UIkit.modal('#spinnerModal').show();
+    this.guidelinesService.suspendInteroperabilityRecord(this.selectedGuideline.id, this.selectedGuideline.interoperabilityRecord.catalogueId, !this.selectedGuideline.suspended)
+      .subscribe(
+        res => {
+          UIkit.modal('#suspensionModal').hide();
+          location.reload();
+          // this.getProviders();
+        },
+        err => {
+          UIkit.modal('#suspensionModal').hide();
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+          console.log(err);
+        },
+        () => {
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+        }
+      );
   }
 
   verifyGuideline(id: string, active: boolean, status: string){

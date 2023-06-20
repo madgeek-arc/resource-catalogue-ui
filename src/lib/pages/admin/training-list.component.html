@@ -226,6 +226,10 @@
                           <div class="uk-label uk-align-right">Inactive</div>
                         </div>
 
+                        <div *ngIf="trBundle.suspended" class="rejected">
+                          <div class="uk-label uk-align-right">Suspended</div>
+                        </div>
+
 <!--                        <div *ngIf="trBundle?.resourceExtras?.horizontalService" class="uk-label uk-position-bottom-right uk-margin-large" style="margin-right: 40px">-->
 <!--                          <span>Horizontal</span>-->
 <!--                        </div>-->
@@ -357,11 +361,30 @@
                               View Training Resource
                             </button>
 
-                            <ng-container *ngIf="trBundle.active && trBundle.status=='approved resource'">
-                              <button class="uk-margin-medium-left uk-button uk-button-link" (click)="showAuditForm('main', trBundle)">
-                                <i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit
-                              </button>
-                            </ng-container>
+                            <button class="uk-button uk-button-link uk-margin-medium-left">
+                              <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
+                            </button>
+                            <div uk-dropdown="mode: click">
+                              <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+                                <ng-container *ngIf="trBundle.active && trBundle.status=='approved resource'">
+                                  <li class="uk-margin-small-bottom"
+                                      (click)="showAuditForm('main', trBundle)">
+                                    <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
+                                  </li>
+                                </ng-container>
+                                <li *ngIf="(trBundle.suspended==false)"
+                                    (click)="showSuspensionModal(trBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Suspend</a>
+                                </li>
+                                <li *ngIf="(trBundle.suspended==true)"
+                                    (click)="showSuspensionModal(trBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
+                                </li>
+                              </ul>
+                            </div>
+
                           </div>
                         </ng-container>
 
@@ -453,6 +476,17 @@
                                       </li>
                                     </div>
                                   </ng-template>
+
+                                  <li *ngIf="(trBundle.suspended==false)"
+                                      (click)="showSuspensionModal(trBundle)"
+                                      class="uk-margin-small-top">
+                                    <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Suspend</a>
+                                  </li>
+                                  <li *ngIf="(trBundle.suspended==true)"
+                                      (click)="showSuspensionModal(trBundle)"
+                                      class="uk-margin-small-top">
+                                    <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
+                                  </li>
 
                                 </ng-container>
 
@@ -555,10 +589,27 @@
   </div>
 </div>
 
+<div id="suspensionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <ng-container *ngIf="selectedTrainingResource">
+      <h6 class="uk-margin-medium-bottom">Are you sure you want to {{selectedTrainingResource.suspended==true ? 'un' : ''}}suspend "{{ selectedTrainingResource.trainingResource.title }}"?</h6>
+      <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="suspendTrainingResource()">
+        {{selectedTrainingResource.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
+      <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    </ng-container>
+  </div>
+  <div *ngIf="loadingMessage">
+    <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+      {{ loadingMessage }}
+    </div>
+    <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
 <div id="sendMailModal" uk-modal>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedTrainingResource">
-      <p>You are about to send a notification email to the admins of "{{ selectedTrainingResource.trainingResource.title }}", requesting an update for this Datasource.</p>
+      <p>You are about to send a notification email to the admins of "{{ selectedTrainingResource.trainingResource.title }}", requesting an update for this Resource.</p>
       <p>Do you want to proceed?</p>
     </div>
     <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="sendMailForUpdate(selectedTrainingResource.trainingResource.id)">OK</button>
@@ -816,6 +867,10 @@
           <div class="uk-label uk-align-right">Inactive</div>
         </div>
 
+        <div *ngIf="trBundle.suspended" class="rejected">
+          <div class="uk-label uk-align-right">Suspended</div>
+        </div>
+
         <div class="">
           <div class="uk-grid">
             <div class="uk-width-1-5">
@@ -971,19 +1026,19 @@
               <li (click)="editResourceInNewTab(trBundle.trainingResource.resourceOrganisation, trBundle.id)"
                   class="uk-button uk-button-link">
                 <a><i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
-                  Update Datasource</a>
+                  Update Resource</a>
               </li>
               <li (click)="showDeletionModal(trBundle)"
                   class="uk-button uk-button-link">
                 <a><i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
-                  Delete Datasource</a>
+                  Delete Resource</a>
               </li>
 
               <ng-container *ngIf="isProviderActive(trBundle.trainingResource.resourceOrganisation) ; else elseBlockList">
                 <li class="uk-button uk-button-link uk-margin-small-top"
                     (click)="toggleService(trBundle)">
-                  <ng-container *ngIf="trBundle.status=='approved resource' && trBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate Datasource</ng-container>
-                  <ng-container *ngIf="trBundle.status=='approved resource' && !trBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate Datasource</ng-container>
+                  <ng-container *ngIf="trBundle.status=='approved resource' && trBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate Resource</ng-container>
+                  <ng-container *ngIf="trBundle.status=='approved resource' && !trBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate Resource</ng-container>
                 </li>
               </ng-container>
 
@@ -991,8 +1046,8 @@
                 <div uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
                   <li class="uk-button uk-button-link uk-disabled"
                       (click)="toggleService(trBundle)">
-                    <ng-container *ngIf="trBundle.status=='approved resource' && trBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate Datasource</ng-container>
-                    <ng-container *ngIf="trBundle.status=='approved resource' && !trBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate Datasource</ng-container>
+                    <ng-container *ngIf="trBundle.status=='approved resource' && trBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate Resource</ng-container>
+                    <ng-container *ngIf="trBundle.status=='approved resource' && !trBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate Resource</ng-container>
                   </li>
                 </div>
               </ng-template>

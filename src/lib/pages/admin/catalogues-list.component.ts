@@ -368,6 +368,35 @@ export class CataloguesListComponent implements OnInit {
       );
   }
 
+  showSuspensionModal(catalogue: CatalogueBundle) {
+    this.selectedCatalogue = catalogue;
+    if (this.selectedCatalogue) {
+      UIkit.modal('#suspensionModal').show();
+    }
+  }
+
+  suspendCatalogue() {
+    UIkit.modal('#spinnerModal').show();
+    this.catalogueService.suspendCatalogue(this.selectedCatalogue.id, !this.selectedCatalogue.suspended)
+      .subscribe(
+        res => {
+          UIkit.modal('#suspensionModal').hide();
+          location.reload();
+          // this.getCatalogues();
+        },
+        err => {
+          UIkit.modal('#suspensionModal').hide();
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+          console.log(err);
+        },
+        () => {
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+        }
+      );
+  }
+
   showActionModal(catalogue: CatalogueBundle, newStatus: string) {
     this.selectedCatalogue = catalogue;
     this.newStatus = newStatus;

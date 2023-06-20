@@ -235,4 +235,7 @@ export class ServiceProviderService {
     return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}?catalogue_id=${catalogue_id}`);
   }
 
+  suspendProvider(providerId: string, catalogueId: string, suspend: boolean) {
+    return this.http.put<ProviderBundle>(this.base + `/provider/suspend?providerId=${providerId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
+  }
 }

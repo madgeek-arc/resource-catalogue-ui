@@ -233,6 +233,10 @@
                           <div class="uk-label uk-align-right">Inactive</div>
                         </div>
 
+                        <div *ngIf="providerBundle.suspended" class="rejected">
+                          <div class="uk-label uk-align-right">Suspended</div>
+                        </div>
+
                         <div class="">
                           <div class="uk-grid">
                             <div class="uk-width-1-5">
@@ -374,11 +378,29 @@
                               <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i> View Provider
                             </button>
 
-                            <ng-container *ngIf="providerBundle.status === 'approved provider'">
-                              <button class="uk-margin-medium-left uk-button uk-button-link" (click)="showAuditForm('main', providerBundle)">
-                                <i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit
-                              </button>
-                            </ng-container>
+                            <button class="uk-button uk-button-link uk-margin-medium-left">
+                              <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
+                            </button>
+                            <div uk-dropdown="mode: click">
+                              <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+                                <ng-container *ngIf="providerBundle.status === 'approved provider'">
+                                  <li class="uk-margin-small-bottom"
+                                      (click)="showAuditForm('main', providerBundle)">
+                                    <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
+                                  </li>
+                                </ng-container>
+                                <li *ngIf="(providerBundle.suspended==false)"
+                                    (click)="showSuspensionModal(providerBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Suspend</a>
+                                </li>
+                                <li *ngIf="(providerBundle.suspended==true)"
+                                    (click)="showSuspensionModal(providerBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
+                                </li>
+                              </ul>
+                            </div>
                           </div>
                         </ng-container>
 
@@ -519,7 +541,17 @@
                                 <li *ngIf="(providerBundle.status === 'approved provider') && (providerBundle.active)"
                                     (click)="showActionModal(providerBundle, 'approved provider', false, false)"
                                     class="uk-margin-small-top">
-                                  <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Deactivate</a>
+                                  <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Deactivate</a>
+                                </li>
+                                <li *ngIf="(providerBundle.suspended==false)"
+                                    (click)="showSuspensionModal(providerBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Suspend</a>
+                                </li>
+                                <li *ngIf="(providerBundle.suspended==true)"
+                                    (click)="showSuspensionModal(providerBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
                                 </li>
                               </ul>
                             </div>
@@ -629,8 +661,26 @@
       <h6>Are you sure you want to delete "{{ selectedProvider.provider.name }}" ?</h6>
       <p>Deleting a provider is an irreversible action.</p>
     </div>
-    <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteProvider(selectedProvider.provider.id)">Delete</button>
+    <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="deleteProvider(selectedProvider.provider.id)">Delete</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+  </div>
+  <div *ngIf="loadingMessage">
+    <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+      {{ loadingMessage }}
+    </div>
+    <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
+<div id="suspensionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <ng-container *ngIf="selectedProvider">
+      <h6>Are you sure you want to {{selectedProvider.suspended==true ? 'un' : ''}}suspend "{{ selectedProvider.provider.name }}"?</h6>
+      <p>All services of this provider will be automatically {{selectedProvider.suspended==true ? 'un' : ''}}suspended as well.</p>
+      <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="suspendProvider()">
+        {{selectedProvider.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
+      <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    </ng-container>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
@@ -688,6 +738,10 @@
         </div>
         <div *ngIf="!providerBundle.active" class="rejected">
           <div class="uk-label uk-align-right">Inactive</div>
+        </div>
+
+        <div *ngIf="providerBundle.suspended" class="rejected">
+          <div class="uk-label uk-align-right">Suspended</div>
         </div>
 
         <div class="">
@@ -797,7 +851,7 @@
               <li *ngIf="(providerBundle.status === 'approved provider') && (providerBundle.active)"
                   (click)="showActionModal(providerBundle, 'approved provider', false, false)"
                   class="uk-margin-small-top">
-                <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Deactivate</a>
+                <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Deactivate</a>
               </li>
               <li (click)="editProviderInNewTab(providerBundle.id)"
                   class="uk-margin-small-top">

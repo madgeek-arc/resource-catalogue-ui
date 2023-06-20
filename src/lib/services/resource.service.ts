@@ -10,7 +10,7 @@ import {
   RichService,
   Service,
   Vocabulary,
-  Type, ProviderBundle, ServiceBundle, LoggingInfo, Bundle
+  Type, ProviderBundle, ServiceBundle, LoggingInfo, Bundle, Datasource, DatasourceBundle
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
@@ -600,5 +600,13 @@ export class ResourceService {
     UIkit.notification.closeAll();
     UIkit.notification({message: message, status: 'danger', pos: 'top-center', timeout: 5000});
     return throwError(error);
+  }
+
+  suspendService(serviceId: string, catalogueId: string, suspend: boolean) {
+    return this.http.put<ServiceBundle>(this.base + `/service/suspend?serviceId=${serviceId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
+  }
+
+  suspendDatasource(datasourceId: string, catalogueId: string, suspend: boolean) {
+    return this.http.put<DatasourceBundle>(this.base + `/datasource/suspend?datasourceId=${datasourceId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
   }
 }

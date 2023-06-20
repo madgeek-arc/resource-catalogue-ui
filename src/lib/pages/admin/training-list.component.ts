@@ -506,6 +506,13 @@ export class TrainingListComponent implements OnInit {
     }
   }
 
+  showSuspensionModal(trBundle: TrainingResourceBundle) {
+    this.selectedTrainingResource = trBundle;
+    if (this.selectedTrainingResource) {
+      UIkit.modal('#suspensionModal').show();
+    }
+  }
+
   showSendMailModal(trBundle: TrainingResourceBundle) {
     this.selectedTrainingResource = trBundle;
     if (this.selectedTrainingResource) {
@@ -536,6 +543,28 @@ export class TrainingListComponent implements OnInit {
         // UIkit.modal('#spinnerModal').hide();
       }
     );
+  }
+
+  suspendTrainingResource() {
+    UIkit.modal('#spinnerModal').show();
+    this.trainingResourceService.suspendTrainingResource(this.selectedTrainingResource.id, this.selectedTrainingResource.trainingResource.catalogueId, !this.selectedTrainingResource.suspended)
+      .subscribe(
+        res => {
+          UIkit.modal('#suspensionModal').hide();
+          location.reload();
+          // this.getResources();
+        },
+        err => {
+          UIkit.modal('#suspensionModal').hide();
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+          console.log(err);
+        },
+        () => {
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+        }
+      );
   }
 
   /** resourceExtras--> **/

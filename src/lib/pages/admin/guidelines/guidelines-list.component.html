@@ -159,6 +159,10 @@
                           <div class="uk-card-badge uk-label">Rejected</div>
                         </div>
 
+                        <div *ngIf="guidelineBundle.suspended" class="rejected">
+                          <div class="uk-label uk-align-right">Suspended</div>
+                        </div>
+
                         <div class="">
                           <div class="uk-grid">
 
@@ -211,12 +215,32 @@
                               <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
                               Update
                             </button>
+
                             <button (click)="showDeletionModal(guidelineBundle.id)"
                                     class="uk-button uk-button-link uk-margin-medium-left"
                                     style="padding-left: 40px; border-left: 1px solid #ccc">
                               <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
                               Delete
                             </button>
+
+                            <button class="uk-button uk-button-link uk-margin-medium-left"
+                                    style="padding-left: 40px; border-left: 1px solid #ccc">
+                              <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
+                            </button>
+                            <div uk-dropdown="mode: click">
+                              <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+                                <li *ngIf="(guidelineBundle.suspended==false)"
+                                    (click)="showSuspensionModal(guidelineBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Suspend</a>
+                                </li>
+                                <li *ngIf="(guidelineBundle.suspended==true)"
+                                    (click)="showSuspensionModal(guidelineBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
+                                </li>
+                              </ul>
+                            </div>
                           </div>
                         </div>
 
@@ -258,6 +282,23 @@
     </div>
     <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="deleteGuideline(selectedGuidelineId)">Delete</button>
     <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
+  </div>
+  <div *ngIf="loadingMessage">
+    <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+      {{ loadingMessage }}
+    </div>
+    <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
+<div id="suspensionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <ng-container *ngIf="selectedGuideline">
+      <h6 class="uk-margin-medium-bottom">Are you sure you want to {{selectedGuideline.suspended==true ? 'un' : ''}}suspend "{{ selectedGuideline.interoperabilityRecord.title }}"?</h6>
+      <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="suspendInteroperabilityRecord()">
+        {{selectedGuideline.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
+      <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    </ng-container>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">

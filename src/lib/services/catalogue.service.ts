@@ -125,4 +125,8 @@ export class CatalogueService {
     return this.http.put(this.base + `/catalogue/adminAcceptedTerms?catalogueId=${id}`, this.options);
   }
 
+  suspendCatalogue(catalogueId: string, suspend: boolean) {
+    return this.http.put<CatalogueBundle>(this.base + `/catalogue/suspend?catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
+  }
+
 }

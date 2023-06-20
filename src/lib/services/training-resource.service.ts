@@ -396,4 +396,7 @@ export class TrainingResourceService {
     return this.http.patch(this.base + `/trainingResource/publish/${id}?active=${active}`, this.options);
   }
 
+  suspendTrainingResource(trainingResourceId: string, catalogueId: string, suspend: boolean) {
+    return this.http.put<TrainingResourceBundle>(this.base + `/trainingResource/suspend?trainingResourceId=${trainingResourceId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
+  }
 }

@@ -540,6 +540,35 @@ export class ServiceProvidersListComponent implements OnInit {
       );
   }
 
+  showSuspensionModal(provider: ProviderBundle) {
+    this.selectedProvider = provider;
+    if (this.selectedProvider) {
+      UIkit.modal('#suspensionModal').show();
+    }
+  }
+
+  suspendProvider() {
+    UIkit.modal('#spinnerModal').show();
+    this.serviceProviderService.suspendProvider(this.selectedProvider.id, this.selectedProvider.provider.catalogueId, !this.selectedProvider.suspended)
+      .subscribe(
+        res => {
+          UIkit.modal('#suspensionModal').hide();
+          location.reload();
+          // this.getProviders();
+        },
+        err => {
+          UIkit.modal('#suspensionModal').hide();
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+          console.log(err);
+        },
+        () => {
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+        }
+      );
+  }
+
   showActionModal(provider: ProviderBundle, newStatus: string, pushedApprove: boolean, verify: boolean) {
     this.selectedProvider = provider;
     this.newStatus = newStatus;

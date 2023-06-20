@@ -529,6 +529,13 @@ export class ResourcesListComponent implements OnInit {
     }
   }
 
+  showSuspensionModal(bundle: ServiceBundle) {
+    this.selectedService = bundle;
+    if (this.selectedService) {
+      UIkit.modal('#suspensionModal').show();
+    }
+  }
+
   showSendMailModal(bundle: ServiceBundle) {
     this.selectedService = bundle;
     if (this.selectedService) {
@@ -559,6 +566,28 @@ export class ResourcesListComponent implements OnInit {
         // UIkit.modal('#spinnerModal').hide();
       }
     );
+  }
+
+  suspendService() {
+    UIkit.modal('#spinnerModal').show();
+    this.resourceService[this.selectedService.service ? 'suspendService' : 'suspendDatasource'](this.selectedService.id, this.getPayload(this.selectedService).catalogueId, !this.selectedService.suspended)
+      .subscribe(
+        res => {
+          UIkit.modal('#suspensionModal').hide();
+          location.reload();
+          // this.getResources();
+        },
+        err => {
+          UIkit.modal('#suspensionModal').hide();
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+          console.log(err);
+        },
+        () => {
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+        }
+      );
   }
 
   /** resourceExtras--> **/

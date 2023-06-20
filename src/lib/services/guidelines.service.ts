@@ -4,7 +4,7 @@ import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
 import {
   ResourceInteroperabilityRecord,
-  InteroperabilityRecord, TrainingResourceBundle, InteroperabilityRecordBundle,
+  InteroperabilityRecord, TrainingResourceBundle, InteroperabilityRecordBundle, CatalogueBundle, DatasourceBundle,
 } from '../domain/eic-model';
 import {Paging} from "../domain/paging";
 
@@ -84,4 +84,8 @@ export class GuidelinesService {
     return this.http.delete(this.base + `/resourceInteroperabilityRecord/${resourceId}/${resourceInteroperabilityRecordId}`, this.options);
   }
   /** <-- resourceInteroperabilityRecord **/
+
+  suspendInteroperabilityRecord(interoperabilityRecordId: string, catalogueId: string, suspend: boolean) {
+    return this.http.put<InteroperabilityRecordBundle>(this.base + `/interoperabilityRecord/suspend?interoperabilityRecordId=${interoperabilityRecordId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
+  }
 }
