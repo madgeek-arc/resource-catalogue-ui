@@ -145,6 +145,9 @@
                   <div *ngIf="!serviceBundle.active" class="rejected">
                     <div class="uk-label uk-align-right">Inactive</div>
                   </div>
+                  <div *ngIf="serviceBundle.suspended" class="rejected">
+                    <div class="uk-label uk-align-right">Suspended</div>
+                  </div>
                 </div>
               </div>
 
