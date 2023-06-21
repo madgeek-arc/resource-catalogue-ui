@@ -176,7 +176,7 @@
 
                     </div>
 
-                    <div class="uk-margin-right">
+                    <div class="uk-inline">
                       <div class="uk-inline uk-margin-right">
                         <label class="" for="status">Status </label>
                         <div class="uk-inline">
@@ -186,6 +186,17 @@
                             <option value="false">Inactive</option>
                           </select>
                         </div>
+                      </div>
+                    </div>
+
+                    <div class="uk-margin-right">
+                      <label class="" for="type">Type </label>
+                      <div class="uk-inline">
+                        <select class="uk-input uk-select" id="type" (change)="handleChangeAndResetPage()" formControlName="type">
+                          <option value="" selected>All</option>
+                          <option value="service">Service</option>
+                          <option value="datasource">Datasource</option>
+                        </select>
                       </div>
                     </div>
 

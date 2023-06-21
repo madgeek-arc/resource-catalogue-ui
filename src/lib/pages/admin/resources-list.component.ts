@@ -39,6 +39,7 @@ export class ResourcesListComponent implements OnInit {
     quantity: '10',
     from: '0',
     active: '',
+    type: '', //service or datasource
     auditState: new FormArray([]),
     status: new FormArray([]),
     resource_organisation: new FormArray([]),
@@ -365,7 +366,7 @@ export class ResourcesListComponent implements OnInit {
     this.services = [];
     this.resourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('active').value, this.dataForm.get('resource_organisation').value,
+      this.dataForm.get('active').value, this.dataForm.get('type').value, this.dataForm.get('resource_organisation').value,
       this.dataForm.get('status').value, this.dataForm.get('auditState').value, this.dataForm.get('catalogue_id').value).subscribe(
       res => {
         this.services = res['results'];

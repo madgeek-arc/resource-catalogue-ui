@@ -421,8 +421,8 @@ export class ResourceService {
     // return this.getAll("provider");
   }
 
-  getResourceBundles(from: string, quantity: string, orderField: string, order: string, query: string,
-                     active: string, resource_organisation: string[], status: string[], auditState: string[], catalogue_id: string[]) {
+  getResourceBundles(from: string, quantity: string, orderField: string, order: string, query: string, active: string, type: string,
+                     resource_organisation: string[], status: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
@@ -455,7 +455,11 @@ export class ResourceService {
         params = params.append('catalogue_id', catalogueValue);
       }
     } else params = params.append('catalogue_id', 'all');
-    params = params.append('type', 'all');
+    if (type && type !== '') {
+      params = params.append('type', type);
+    } else {
+      params = params.append('type', 'all');
+    }
     return this.http.get<Bundle<Service>>(this.base + `/service/adminPage/all`, {params});
     // return this.getAll("provider");
   }
