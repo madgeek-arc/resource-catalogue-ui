@@ -32,6 +32,7 @@ export class GuidelinesListComponent implements OnInit {
     quantity: '10',
     from: '0',
     query: '',
+    suspended: '',
     catalogue_id: new FormArray([]),
     provider_id: new FormArray([]),
     status: ''
@@ -151,8 +152,7 @@ export class GuidelinesListComponent implements OnInit {
 
       map[urlParameter.key] = concatValue;
     }
-
-    console.log('map', map);
+    // console.log('map', map);
     this.router.navigate([`/guidelines/all`], {queryParams: map});
   }
 
@@ -164,8 +164,8 @@ export class GuidelinesListComponent implements OnInit {
   getGuidelines() {
     this.loadingMessage = 'Loading guidelines entries...';
     this.guidelines = [];
-    this.guidelinesService.getInteroperabilityRecordBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value, this.dataForm.get('orderField').value,
-      this.dataForm.get('order').value, this.dataForm.get('query').value, this.dataForm.get('catalogue_id').value, this.dataForm.get('provider_id').value, this.dataForm.get('status').value).subscribe(
+    this.guidelinesService.getInteroperabilityRecordBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value, this.dataForm.get('orderField').value, this.dataForm.get('order').value,
+      this.dataForm.get('query').value, this.dataForm.get('catalogue_id').value, this.dataForm.get('provider_id').value, this.dataForm.get('status').value, this.dataForm.get('suspended').value).subscribe(
       res => {
         this.guidelines = res['results'];
         this.facets = res['facets'];

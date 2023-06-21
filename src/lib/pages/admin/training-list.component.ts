@@ -43,6 +43,7 @@ export class TrainingListComponent implements OnInit {
     quantity: '10',
     from: '0',
     active: '',
+    suspended: '',
     auditState: new FormArray([]),
     status: new FormArray([]),
     resource_organisation: new FormArray([]),
@@ -325,7 +326,7 @@ export class TrainingListComponent implements OnInit {
 
   getProviders() {
     this.providers = [];
-    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', [], [], [], []).subscribe(
+    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', null, [], [], [], []).subscribe(
       res => {
         this.providers = res['results'];
         this.providersTotal = res['total'];
@@ -357,7 +358,7 @@ export class TrainingListComponent implements OnInit {
     this.trainingResourceBundles = [];
     this.trainingResourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('active').value, this.dataForm.get('resource_organisation').value,
+      this.dataForm.get('active').value, this.dataForm.get('suspended').value, this.dataForm.get('resource_organisation').value,
       this.dataForm.get('status').value, this.dataForm.get('auditState').value, this.dataForm.get('catalogue_id').value).subscribe(
       res => {
         this.trainingResourceBundles = res['results'];

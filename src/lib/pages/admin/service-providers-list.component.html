@@ -166,6 +166,17 @@
 
                     </div>
 
+                    <div class="uk-margin-right">
+                      <label class="" for="suspended">Suspended </label>
+                      <div class="uk-inline">
+                        <select class="uk-input uk-select" id="suspended" (change)="handleChangeAndResetPage()" formControlName="suspended">
+                          <option value="" selected></option>
+                          <option value="true">Yes</option>
+                          <option value="false">No</option>
+                        </select>
+                      </div>
+                    </div>
+
                     <div class="uk-margin-auto-left uk-margin-remove-right" style="margin-left:25px; margin-right:0;">
                       <button class="uk-button uk-button-link">
                         <i class="fa fa-download uk-margin-small-right"></i>Export to CSV

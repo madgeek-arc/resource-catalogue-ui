@@ -160,16 +160,25 @@
 
                     </div>
 
+                    <div class="uk-inline uk-margin-right">
+                      <label class="" for="status">Status </label>
+                      <div class="uk-inline">
+                        <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="active">
+                          <option value="" selected>All</option>
+                          <option value="true">Active</option>
+                          <option value="false">Inactive</option>
+                        </select>
+                      </div>
+                    </div>
+
                     <div class="uk-margin-right">
-                      <div class="uk-inline uk-margin-right">
-                        <label class="" for="status">Status </label>
-                        <div class="uk-inline">
-                          <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="active">
-                            <option value="" selected>All</option>
-                            <option value="true">Active</option>
-                            <option value="false">Inactive</option>
-                          </select>
-                        </div>
+                      <label class="" for="suspended">Suspended </label>
+                      <div class="uk-inline">
+                        <select class="uk-input uk-select" id="suspended" (change)="handleChangeAndResetPage()" formControlName="suspended">
+                          <option value="" selected></option>
+                          <option value="true">Yes</option>
+                          <option value="false">No</option>
+                        </select>
                       </div>
                     </div>
 

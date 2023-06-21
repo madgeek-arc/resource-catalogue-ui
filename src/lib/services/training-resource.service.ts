@@ -236,8 +236,8 @@ export class TrainingResourceService {
     // return this.getAll("provider");
   }
 
-  getResourceBundles(from: string, quantity: string, orderField: string, order: string, query: string,
-                     active: string, resource_organisation: string[], status: string[], auditState: string[], catalogue_id: string[]) {
+  getResourceBundles(from: string, quantity: string, orderField: string, order: string, query: string, active: string, suspended: string,
+                     resource_organisation: string[], status: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
@@ -247,17 +247,20 @@ export class TrainingResourceService {
     if (query && query !== '') {
       params = params.append('query', query);
     }
-    if (status && status.length > 0) {
-      for (const statusValue of status) {
-        params = params.append('status', statusValue);
-      }
-    }
     if (active && active !== '') {
       params = params.append('active', active);
+    }
+    if (suspended && suspended !== '') {
+      params = params.append('suspended', suspended);
     }
     if (resource_organisation && resource_organisation.length > 0) {
       for (const providerValue of resource_organisation) {
         params = params.append('resource_organisation', providerValue);
+      }
+    }
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
       }
     }
     if (auditState && auditState.length > 0) {
@@ -269,9 +272,10 @@ export class TrainingResourceService {
       for (const catalogueValue of catalogue_id) {
         params = params.append('catalogue_id', catalogueValue);
       }
-    } else params = params.append('catalogue_id', 'all');
+    } else {
+      params = params.append('catalogue_id', 'all');
+    }
     return this.http.get<TrainingResourceBundle>(this.base + `/trainingResource/adminPage/all`, {params});
-    // return this.getAll("provider");
   }
 
   getResourceBundleById(id: string, catalogueId: string) { // back hasn't implemented trainingResourceBundle

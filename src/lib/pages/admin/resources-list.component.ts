@@ -39,6 +39,7 @@ export class ResourcesListComponent implements OnInit {
     quantity: '10',
     from: '0',
     active: '',
+    suspended: '',
     type: '', //service or datasource
     auditState: new FormArray([]),
     status: new FormArray([]),
@@ -334,7 +335,7 @@ export class ResourcesListComponent implements OnInit {
 
   getProviders() {
     this.providers = [];
-    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', [], [], [], []).subscribe(
+    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', null, [], [], [], []).subscribe(
       res => {
         this.providers = res['results'];
         this.providersTotal = res['total'];
@@ -366,8 +367,9 @@ export class ResourcesListComponent implements OnInit {
     this.services = [];
     this.resourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('active').value, this.dataForm.get('type').value, this.dataForm.get('resource_organisation').value,
-      this.dataForm.get('status').value, this.dataForm.get('auditState').value, this.dataForm.get('catalogue_id').value).subscribe(
+      this.dataForm.get('active').value, this.dataForm.get('suspended').value, this.dataForm.get('type').value,
+      this.dataForm.get('resource_organisation').value, this.dataForm.get('status').value,
+      this.dataForm.get('auditState').value, this.dataForm.get('catalogue_id').value).subscribe(
       res => {
         this.services = res['results'];
         this.facets = res['facets'];

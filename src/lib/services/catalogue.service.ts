@@ -55,7 +55,7 @@ export class CatalogueService {
     return this.http.get<CatalogueBundle>(this.base + `/catalogue/bundle/${id}`, this.options);
   }
 
-  getCatalogueBundles(from: string, quantity: string, orderField: string, order: string, query: string, status: string[], templateStatus: string[], auditState: string[]) {
+  getCatalogueBundles(from: string, quantity: string, orderField: string, order: string, query: string, suspended: string, status: string[], templateStatus: string[], auditState: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
@@ -63,6 +63,9 @@ export class CatalogueService {
     params = params.append('order', order);
     if (query && query !== '') {
       params = params.append('query', query);
+    }
+    if (suspended && suspended !== '') {
+      params = params.append('suspended', suspended);
     }
     if (status && status.length > 0) {
       for (const statusValue of status) {
