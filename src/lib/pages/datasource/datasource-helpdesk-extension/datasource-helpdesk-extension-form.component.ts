@@ -4,7 +4,7 @@ import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
-import * as sd from '../../provider-resources/services.description';
+import * as dm from '../../../shared/description.map';
 import {Provider, Service, Helpdesk} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {URLValidator} from '../../../shared/validators/generic.validator';
@@ -44,15 +44,15 @@ export class DatasourceHelpdeskExtensionFormComponent implements OnInit {
 
   commentControl = new FormControl();
 
-  readonly servicesDesc: sd.Description = sd.helpdeskDescMap.get('servicesDesc');
-  readonly supportGroupsDesc: sd.Description = sd.helpdeskDescMap.get('supportGroupsDesc');
-  readonly organisationDesc: sd.Description = sd.helpdeskDescMap.get('organisationDesc');
-  readonly emailsDesc: sd.Description = sd.helpdeskDescMap.get('emailsDesc');
-  readonly emailForTicketDesc: sd.Description = sd.helpdeskDescMap.get('emailForTicketDesc');
-  readonly agentsDesc: sd.Description = sd.helpdeskDescMap.get('agentsDesc');
-  readonly signaturesDesc: sd.Description = sd.helpdeskDescMap.get('signaturesDesc');
-  readonly webformDesc: sd.Description = sd.helpdeskDescMap.get('webformDesc');
-  readonly ticketPreservationDesc: sd.Description = sd.helpdeskDescMap.get('ticketPreservationDesc');
+  readonly servicesDesc: dm.Description = dm.helpdeskDescMap.get('servicesDesc');
+  readonly supportGroupsDesc: dm.Description = dm.helpdeskDescMap.get('supportGroupsDesc');
+  readonly organisationDesc: dm.Description = dm.helpdeskDescMap.get('organisationDesc');
+  readonly emailsDesc: dm.Description = dm.helpdeskDescMap.get('emailsDesc');
+  readonly emailForTicketDesc: dm.Description = dm.helpdeskDescMap.get('emailForTicketDesc');
+  readonly agentsDesc: dm.Description = dm.helpdeskDescMap.get('agentsDesc');
+  readonly signaturesDesc: dm.Description = dm.helpdeskDescMap.get('signaturesDesc');
+  readonly webformDesc: dm.Description = dm.helpdeskDescMap.get('webformDesc');
+  readonly ticketPreservationDesc: dm.Description = dm.helpdeskDescMap.get('ticketPreservationDesc');
 
 
   formGroupMeta = {

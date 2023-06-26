@@ -3,7 +3,7 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {TrainingResourceService} from '../../services/training-resource.service';
-import * as sd from '../provider-resources/services.description';
+import * as dm from '../../shared/description.map';
 import {Provider, RichService, Service, TrainingResource, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
 import {URLValidator} from '../../shared/validators/generic.validator';
@@ -90,40 +90,40 @@ export class TrainingResourceForm implements OnInit {
 
   commentControl = new FormControl();
 
-  readonly titleDesc: sd.Description = sd.trainingDescMap.get('titleDesc');
-  readonly resourceOrganisationDesc: sd.Description = sd.trainingDescMap.get('resourceOrganisationDesc');
-  readonly resourceProvidersDesc: sd.Description = sd.trainingDescMap.get('resourceProvidersDesc');
-  readonly authorsDesc: sd.Description = sd.trainingDescMap.get('authorsDesc');
-  readonly urlDesc: sd.Description = sd.trainingDescMap.get('urlDesc');
-  readonly urlTypeDesc: sd.Description = sd.trainingDescMap.get('urlTypeDesc');
-  readonly eoscRelatedServiceDesc: sd.Description = sd.trainingDescMap.get('eoscRelatedServiceDesc');
+  readonly titleDesc: dm.Description = dm.trainingDescMap.get('titleDesc');
+  readonly resourceOrganisationDesc: dm.Description = dm.trainingDescMap.get('resourceOrganisationDesc');
+  readonly resourceProvidersDesc: dm.Description = dm.trainingDescMap.get('resourceProvidersDesc');
+  readonly authorsDesc: dm.Description = dm.trainingDescMap.get('authorsDesc');
+  readonly urlDesc: dm.Description = dm.trainingDescMap.get('urlDesc');
+  readonly urlTypeDesc: dm.Description = dm.trainingDescMap.get('urlTypeDesc');
+  readonly eoscRelatedServiceDesc: dm.Description = dm.trainingDescMap.get('eoscRelatedServiceDesc');
 
-  readonly descriptionDesc: sd.Description = sd.trainingDescMap.get('descriptionDesc');
-  readonly keywordsDesc: sd.Description = sd.trainingDescMap.get('keywordsDesc');
-  readonly licenseDesc: sd.Description = sd.trainingDescMap.get('licenseDesc');
-  readonly accessRightsDesc: sd.Description = sd.trainingDescMap.get('accessRightsDesc');
-  readonly versionDateDesc: sd.Description = sd.trainingDescMap.get('versionDateDesc');
+  readonly descriptionDesc: dm.Description = dm.trainingDescMap.get('descriptionDesc');
+  readonly keywordsDesc: dm.Description = dm.trainingDescMap.get('keywordsDesc');
+  readonly licenseDesc: dm.Description = dm.trainingDescMap.get('licenseDesc');
+  readonly accessRightsDesc: dm.Description = dm.trainingDescMap.get('accessRightsDesc');
+  readonly versionDateDesc: dm.Description = dm.trainingDescMap.get('versionDateDesc');
 
-  readonly targetGroupDesc: sd.Description = sd.trainingDescMap.get('targetGroupDesc');
-  readonly learningResourceTypeDesc: sd.Description = sd.trainingDescMap.get('learningResourceTypeDesc');
-  readonly learningOutcomesDesc: sd.Description = sd.trainingDescMap.get('learningOutcomesDesc');
-  readonly expertiseLevelDesc: sd.Description = sd.trainingDescMap.get('expertiseLevelDesc');
-  readonly contentResourceTypeDesc: sd.Description = sd.trainingDescMap.get('contentResourceTypeDesc');
-  readonly qualificationDesc: sd.Description = sd.trainingDescMap.get('qualificationDesc');
-  readonly durationDesc: sd.Description = sd.trainingDescMap.get('durationDesc');
+  readonly targetGroupDesc: dm.Description = dm.trainingDescMap.get('targetGroupDesc');
+  readonly learningResourceTypeDesc: dm.Description = dm.trainingDescMap.get('learningResourceTypeDesc');
+  readonly learningOutcomesDesc: dm.Description = dm.trainingDescMap.get('learningOutcomesDesc');
+  readonly expertiseLevelDesc: dm.Description = dm.trainingDescMap.get('expertiseLevelDesc');
+  readonly contentResourceTypeDesc: dm.Description = dm.trainingDescMap.get('contentResourceTypeDesc');
+  readonly qualificationDesc: dm.Description = dm.trainingDescMap.get('qualificationDesc');
+  readonly durationDesc: dm.Description = dm.trainingDescMap.get('durationDesc');
 
-  readonly languagesDesc: sd.Description = sd.trainingDescMap.get('languagesDesc');
-  readonly geographicalAvailabilityDesc: sd.Description = sd.trainingDescMap.get('geographicalAvailabilityDesc');
+  readonly languagesDesc: dm.Description = dm.trainingDescMap.get('languagesDesc');
+  readonly geographicalAvailabilityDesc: dm.Description = dm.trainingDescMap.get('geographicalAvailabilityDesc');
 
-  readonly scientificDomainDesc: sd.Description = sd.trainingDescMap.get('scientificDomainDesc');
-  readonly scientificSubDomainDesc: sd.Description = sd.trainingDescMap.get('scientificSubDomainDesc');
+  readonly scientificDomainDesc: dm.Description = dm.trainingDescMap.get('scientificDomainDesc');
+  readonly scientificSubDomainDesc: dm.Description = dm.trainingDescMap.get('scientificSubDomainDesc');
 
-  readonly firstNameDesc: sd.Description = sd.trainingDescMap.get('firstNameDesc');
-  readonly lastNameDesc: sd.Description = sd.trainingDescMap.get('lastNameDesc');
-  readonly emailDesc: sd.Description = sd.trainingDescMap.get('emailDesc');
-  readonly phoneDesc: sd.Description = sd.trainingDescMap.get('phoneDesc');
-  readonly positionDesc: sd.Description = sd.trainingDescMap.get('positionDesc');
-  readonly organisationDesc: sd.Description = sd.trainingDescMap.get('organisationDesc');
+  readonly firstNameDesc: dm.Description = dm.trainingDescMap.get('firstNameDesc');
+  readonly lastNameDesc: dm.Description = dm.trainingDescMap.get('lastNameDesc');
+  readonly emailDesc: dm.Description = dm.trainingDescMap.get('emailDesc');
+  readonly phoneDesc: dm.Description = dm.trainingDescMap.get('phoneDesc');
+  readonly positionDesc: dm.Description = dm.trainingDescMap.get('positionDesc');
+  readonly organisationDesc: dm.Description = dm.trainingDescMap.get('organisationDesc');
 
 
   formGroupMeta = {

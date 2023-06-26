@@ -4,7 +4,7 @@ import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
-import * as sd from '../../provider-resources/services.description';
+import * as dm from '../../../shared/description.map';
 import {Provider, Service, Type, Monitoring} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {URLValidator} from '../../../shared/validators/generic.validator';
@@ -45,10 +45,10 @@ export class DatasourceMonitoringExtensionFormComponent implements OnInit {
 
   commentControl = new FormControl();
 
-  readonly serviceTypeDesc: sd.Description = sd.monitoringDescMap.get('serviceTypeDesc');
-  readonly endpointDesc: sd.Description = sd.monitoringDescMap.get('endpointDesc');
-  readonly probeDesc: sd.Description = sd.monitoringDescMap.get('probeDesc');
-  readonly metricDesc: sd.Description = sd.monitoringDescMap.get('metricDesc');
+  readonly serviceTypeDesc: dm.Description = dm.monitoringDescMap.get('serviceTypeDesc');
+  readonly endpointDesc: dm.Description = dm.monitoringDescMap.get('endpointDesc');
+  readonly probeDesc: dm.Description = dm.monitoringDescMap.get('probeDesc');
+  readonly metricDesc: dm.Description = dm.monitoringDescMap.get('metricDesc');
 
 
   formGroupMeta = {
