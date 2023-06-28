@@ -36,26 +36,21 @@
                 Update Training Resource
               </a>
             </li>
-            <!--<ng-container *ngIf="datasourceBundle && datasourceBundle.status==='approved resource' && datasourceBundle.active===true">
+
+            <ng-container *ngIf="trainingResourceBundle && trainingResourceBundle.status==='approved resource' && trainingResourceBundle.active===true">
               <li>
-                <a [routerLink]="['/provider/' + providerId + '/datasource/monitoring/' + datasourceId]">
+                <a [routerLink]="['/provider/' + providerId + '/training-resource/monitoring/' + trainingResourceId]">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension
                 </a>
               </li>
               <li>
-                <a [routerLink]="['/provider/' + providerId + '/datasource/helpdesk/' + datasourceId]">
+                <a [routerLink]="['/provider/' + providerId + '/training-resource/helpdesk/' + trainingResourceId]">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension
                 </a>
               </li>
-              <li>
-                <a [routerLink]="['/provider/' + providerId + '/datasource/guidelines/' + datasourceId]">
-                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Assign Guidelines
-                </a>
-              </li>
-            </ng-container>-->
+            </ng-container>
           </ng-container>
 
           <li>

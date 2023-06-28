@@ -13,11 +13,11 @@ import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
 
 @Component({
-  selector: 'app-datasource-monitoring-extension-form',
-  templateUrl: './datasource-monitoring-extension-form.component.html',
+  selector: 'app-resource-monitoring-extension-form',
+  templateUrl: './monitoring-extension-form.component.html',
   styleUrls: ['../../provider/service-provider-form.component.css']
 })
-export class DatasourceMonitoringExtensionFormComponent implements OnInit {
+export class MonitoringExtensionFormComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
@@ -26,13 +26,11 @@ export class DatasourceMonitoringExtensionFormComponent implements OnInit {
   firstServiceForm = false;
   showLoader = false;
   pendingService = false;
-  providerId: string;
   editMode = false;
   hasChanges = false;
   serviceForm: FormGroup;
   provider: Provider;
   service: Service;
-  datasourceId: string = null;
   monitoring: Monitoring;
   typeDescriptions = [];
   errorMessage = '';
@@ -43,7 +41,12 @@ export class DatasourceMonitoringExtensionFormComponent implements OnInit {
   disable = false;
   isPortalAdmin = false;
 
-  commentControl = new FormControl();
+  serviceId: string = null; //filled for all types (service, datasource, training)
+  resourceType = '';
+  //only one of these 3 ids will be filled from URL
+  resourceId: string = null;
+  datasourceId: string = null;
+  trainingResourceId: string = null;
 
   readonly serviceTypeDesc: dm.Description = dm.monitoringDescMap.get('serviceTypeDesc');
   readonly endpointDesc: dm.Description = dm.monitoringDescMap.get('endpointDesc');
@@ -109,10 +112,12 @@ export class DatasourceMonitoringExtensionFormComponent implements OnInit {
     // console.log('Submitted service value--> ', this.serviceForm.value);
     if (this.serviceForm.valid) {
       window.scrollTo(0, 0);
-      this.serviceExtensionsService.uploadMonitoringService(this.serviceForm.value, this.editMode, 'eosc','datasource').subscribe(
+      this.serviceExtensionsService.uploadMonitoringService(this.serviceForm.value, this.editMode, 'eosc', this.resourceType).subscribe(
         _service => {
           this.showLoader = false;
-          return this.router.datasourceDashboard(this.providerId, this.datasourceId);  // redirect to datasource-dashboard
+          if (this.resourceType==='service') return this.router.resourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // redirect to resource-dashboard
+          if (this.resourceType==='datasource') return this.router.datasourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // redirect to datasource-dashboard
+          if (this.resourceType==='training_resource') return this.router.trainingResourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // redirect to training-resource-dashboard
         },
         err => {
           this.showLoader = false;
@@ -135,12 +140,23 @@ export class DatasourceMonitoringExtensionFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.datasourceId = this.route.snapshot.paramMap.get('datasourceId');
-    this.serviceForm.get('serviceId').setValue(this.datasourceId);
+    if (this.route.snapshot.paramMap.get('resourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('resourceId');
+      this.resourceType = 'service';
+    }
+    if (this.route.snapshot.paramMap.get('datasourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('datasourceId');
+      this.resourceType = 'datasource';
+    }
+    if (this.route.snapshot.paramMap.get('trainingResourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('trainingResourceId');
+      this.resourceType = 'training_resource';
+    }
+    this.serviceForm.get('serviceId').setValue(this.serviceId);
 
     this.setServiceTypes();
 
-    this.serviceExtensionsService.getMonitoringByServiceId(this.datasourceId).subscribe(
+    this.serviceExtensionsService.getMonitoringByServiceId(this.serviceId).subscribe(
       res => { if(res!=null) {
         this.monitoring = res;
         this.editMode = true;

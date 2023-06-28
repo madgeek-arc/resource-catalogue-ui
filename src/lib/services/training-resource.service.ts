@@ -278,10 +278,6 @@ export class TrainingResourceService {
     return this.http.get<TrainingResourceBundle>(this.base + `/trainingResource/adminPage/all`, {params});
   }
 
-  getResourceBundleById(id: string, catalogueId: string) { // back hasn't implemented trainingResourceBundle
-    return this.http.get<TrainingResourceBundle>(this.base + `/trainingResourceBundle/${id}?catalogue_id=${catalogueId}`, this.options);
-  }
-
   getRandomResources(quantity: string) {
     return this.http.get<ServiceBundle[]>(this.base + `/trainingResource/randomResources?quantity=${quantity}`, this.options);
   }

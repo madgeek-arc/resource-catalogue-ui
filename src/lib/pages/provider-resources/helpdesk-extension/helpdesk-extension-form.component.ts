@@ -13,11 +13,11 @@ import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
 
 @Component({
-  selector: 'app-datasource-helpdesk-extension-form',
-  templateUrl: './datasource-helpdesk-extension-form.component.html',
+  selector: 'app-helpdesk-extension-form',
+  templateUrl: './helpdesk-extension-form.component.html',
   styleUrls: ['../../provider/service-provider-form.component.css']
 })
-export class DatasourceHelpdeskExtensionFormComponent implements OnInit {
+export class HelpdeskExtensionFormComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
@@ -26,13 +26,11 @@ export class DatasourceHelpdeskExtensionFormComponent implements OnInit {
   firstServiceForm = false;
   showLoader = false;
   pendingService = false;
-  providerId: string;
   editMode = false;
   hasChanges = false;
   serviceForm: FormGroup;
   provider: Provider;
   service: Service;
-  datasourceId: string = null;
   helpdesk: Helpdesk;
   errorMessage = '';
   successMessage: string = null;
@@ -42,7 +40,12 @@ export class DatasourceHelpdeskExtensionFormComponent implements OnInit {
   disable = false;
   isPortalAdmin = false;
 
-  commentControl = new FormControl();
+  serviceId: string = null; //filled for all types (service, datasource, training)
+  resourceType = '';
+  //only one of these 3 ids will be filled from URL
+  resourceId: string = null;
+  datasourceId: string = null;
+  trainingResourceId: string = null;
 
   readonly servicesDesc: dm.Description = dm.helpdeskDescMap.get('servicesDesc');
   readonly supportGroupsDesc: dm.Description = dm.helpdeskDescMap.get('supportGroupsDesc');
@@ -129,10 +132,12 @@ export class DatasourceHelpdeskExtensionFormComponent implements OnInit {
           this.getFieldAsFormArray('signatures').removeAt(0);
         }
       }
-      this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode, 'eosc', 'datasource').subscribe(
+      this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode, 'eosc', this.resourceType).subscribe(
         _service => {
           this.showLoader = false;
-          return this.router.datasourceDashboard(this.providerId, this.datasourceId);  // redirect to datasource-dashboard
+          if (this.resourceType==='service') return this.router.resourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // redirect to resource-dashboard
+          if (this.resourceType==='datasource') return this.router.datasourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // redirect to datasource-dashboard
+          if (this.resourceType==='training_resource') return this.router.trainingResourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // redirect to training-resource-dashboard
         },
         err => {
           this.showLoader = false;
@@ -155,10 +160,21 @@ export class DatasourceHelpdeskExtensionFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.datasourceId = this.route.snapshot.paramMap.get('datasourceId');
-    this.serviceForm.get('serviceId').setValue(this.datasourceId);
+    if (this.route.snapshot.paramMap.get('resourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('resourceId');
+      this.resourceType = 'service';
+    }
+    if (this.route.snapshot.paramMap.get('datasourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('datasourceId');
+      this.resourceType = 'datasource';
+    }
+    if (this.route.snapshot.paramMap.get('trainingResourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('trainingResourceId');
+      this.resourceType = 'training_resource';
+    }
+    this.serviceForm.get('serviceId').setValue(this.serviceId);
 
-    this.serviceExtensionsService.getHelpdeskByServiceId(this.datasourceId).subscribe(
+    this.serviceExtensionsService.getHelpdeskByServiceId(this.serviceId).subscribe(
       res => { if(res!=null) {
         this.helpdesk = res;
         this.editMode = true;
