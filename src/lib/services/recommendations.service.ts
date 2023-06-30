@@ -35,9 +35,10 @@ export class RecommendationsService {
   }
 
   getAutocompletionSuggestions(description: string, tagline: string) {
+    const cleanDesc = JSON.stringify(description);
     const body = `{
                     "new_service": {
-                        "description": "${description}",
+                        "description": ${cleanDesc},
                         "tagline": "${tagline}"
                     },
                     "fields_to_suggest": [
