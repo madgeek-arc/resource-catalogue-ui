@@ -161,12 +161,12 @@
                     </div>
 
                     <div class="uk-inline uk-margin-right">
-                      <label class="" for="status">Status </label>
+                      <label class="" for="active">Active </label>
                       <div class="uk-inline">
-                        <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="active">
-                          <option value="" selected>All</option>
-                          <option value="true">Active</option>
-                          <option value="false">Inactive</option>
+                        <select class="uk-input uk-select" id="active" (change)="handleChangeAndResetPage()" formControlName="active">
+                          <option value="" selected></option>
+                          <option value="true">Yes</option>
+                          <option value="false">No</option>
                         </select>
                       </div>
                     </div>

@@ -21,20 +21,17 @@
           </div>
         </div>
 
-        <!--TODO where to put logoURL and modal to add id-->
-        <!--<h1 class="uk-h3">-->
-        <!--<a (click)="showLogoUrlModal()" title="Click to add the url with the {{serviceORresource}} Provider Logo">-->
-        <!--<img class="el-image uk-border-rounded"-->
-        <!--src="{{(providerForm && providerForm.get('logo').value) ? providerForm.get('logo').value-->
-        <!--: '/lib/assets/images/broken_image-black-48dp.svg'}}"-->
-        <!--width="70">-->
-        <!--</a>{{disable ? ' ' : edit ? ' Update' : ' Add New'}} {{serviceORresource}} Provider {{disable ? 'Info' : ''}}-->
-        <!--</h1>-->
+<!--        <h1 class="uk-h3">-->
+<!--          <a (click)="showLogoUrlModal()" title="Click to add the url with the {{serviceORresource}} Provider Logo">-->
+<!--            <img class="el-image uk-border-rounded"-->
+<!--            src="{{(providerForm && providerForm.get('logo').value) ? providerForm.get('logo').value : '/lib/assets/images/broken_image-black-48dp.svg'}}" width="70">-->
+<!--          </a>{{disable ? ' ' : edit ? ' Update' : ' Add New'}} {{serviceORresource}} Provider {{disable ? 'Info' : ''}}-->
+<!--        </h1>-->
 
-        <!--        &lt;!&ndash; TOP HELP CONTENT &ndash;&gt;-->
-        <!--        <app-help-content #topHelperContent [position]="'top'"-->
-        <!--                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">-->
-        <!--        </app-help-content>-->
+            <!-- TOP HELP CONTENT -->
+            <app-help-content #topHelperContent [position]="'top'"
+                              [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+            </app-help-content>
 
         <div class="uk-margin-medium-bottom">
           <div class="uk-grid">
@@ -1523,12 +1520,12 @@
 </div>
 
 <!--<div id="logoUrlModal" uk-modal>-->
-<!--<div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">-->
-<!--<label for="newLogo" class="uk-form-label">new logo url</label>-->
-<!--<input type="text" #newLogo id="newLogo" class="uk-input uk-margin-bottom" value="{{logoUrl}}">-->
-<!--<button class="uk-button uk-button-primary" type="button" (click)="addLogoUrl(newLogo.value)">Add</button>-->
-<!--<button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>-->
-<!--</div>-->
+<!--  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">-->
+<!--    <label for="newLogo" class="uk-form-label">new logo url</label>-->
+<!--    <input type="text" #newLogo id="newLogo" class="uk-input uk-margin-bottom" value="{{logoUrl}}">-->
+<!--    <button class="uk-button uk-button-primary" type="button" (click)="addLogoUrl(newLogo.value)">Add</button>-->
+<!--    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>-->
+<!--  </div>-->
 <!--</div>-->
 
 <div id="modal-consent" class="uk-flex-top" uk-modal="bg-close: false; esc-close: false;">

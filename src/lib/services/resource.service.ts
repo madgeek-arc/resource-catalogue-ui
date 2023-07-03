@@ -387,7 +387,7 @@ export class ResourceService {
     // return this.getAll("provider");
   }
 
-  getProviderBundles(from: string, quantity: string, orderField: string, order: string, query: string, suspended: string,
+  getProviderBundles(from: string, quantity: string, orderField: string, order: string, query: string, active: string, suspended: string,
                      status: string[], templateStatus: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
@@ -396,6 +396,9 @@ export class ResourceService {
     params = params.append('order', order);
     if (query && query !== '') {
       params = params.append('query', query);
+    }
+    if (active && active !== '') {
+      params = params.append('active', active);
     }
     if (suspended && suspended !== '') {
       params = params.append('suspended', suspended);

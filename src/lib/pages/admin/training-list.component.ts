@@ -326,7 +326,7 @@ export class TrainingListComponent implements OnInit {
 
   getProviders() {
     this.providers = [];
-    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', null, [], [], [], []).subscribe(
+    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', null, null, [], [], [], []).subscribe(
       res => {
         this.providers = res['results'];
         this.providersTotal = res['total'];
