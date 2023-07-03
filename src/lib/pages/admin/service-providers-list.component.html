@@ -701,6 +701,7 @@
     <ng-container *ngIf="selectedProvider">
       <h6>Are you sure you want to {{selectedProvider.suspended==true ? 'un' : ''}}suspend "{{ selectedProvider.provider.name }}"?</h6>
       <p>All services of this provider will be automatically {{selectedProvider.suspended==true ? 'un' : ''}}suspended as well.</p>
+      <p>This action may take a while to complete.</p>
       <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="suspendProvider()">
         {{selectedProvider.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
       <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
