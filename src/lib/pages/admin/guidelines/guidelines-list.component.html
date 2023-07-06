@@ -185,8 +185,12 @@
                               </div>
 
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Creators: </span><span *ngFor="let creator of guidelineBundle.interoperabilityRecord.creators; let i = index">{{i>0 ? ', ' : ''}} {{creator.creatorNameTypeInfo.creatorName}}</span>
+                                <span class="statusLabel">Provider ID: </span>{{ guidelineBundle.interoperabilityRecord.providerId }}
                               </div>
+
+<!--                              <div class="uk-margin-small-top">-->
+<!--                                <span class="statusLabel">Creators: </span><span *ngFor="let creator of guidelineBundle.interoperabilityRecord.creators; let i = index">{{i>0 ? ', ' : ''}} {{creator.creatorNameTypeInfo.creatorName}}</span>-->
+<!--                              </div>-->
 
                               <div class="uk-margin-small-top">
                                 <span class="statusLabel">Description: </span>{{ guidelineBundle.interoperabilityRecord.description }}
