@@ -103,6 +103,17 @@
                         </div>
                       </div>
 
+                      <div class="uk-inline uk-margin-right">
+                        <label class="" for="active">Active </label>
+                        <div class="uk-inline">
+                          <select class="uk-input uk-select" id="active" (change)="handleChangeAndResetPage()" formControlName="active">
+                            <option value="" selected></option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                          </select>
+                        </div>
+                      </div>
+
                       <label class="" for="suspended">Suspended </label>
                       <div class="uk-inline">
                         <select class="uk-input uk-select" id="suspended" (change)="handleChangeAndResetPage()" formControlName="suspended">
@@ -166,6 +177,13 @@
                         </div>
                         <div *ngIf="(guidelineBundle.status === 'rejected interoperability record')" class="rejected">
                           <div class="uk-card-badge uk-label">Rejected</div>
+                        </div>
+
+                        <div *ngIf="guidelineBundle.active" class="approved">
+                          <div class="uk-label uk-align-right">Active</div>
+                        </div>
+                        <div *ngIf="!guidelineBundle.active" class="rejected">
+                          <div class="uk-label uk-align-right">Inactive</div>
                         </div>
 
                         <div *ngIf="guidelineBundle.suspended" class="rejected">
@@ -242,6 +260,16 @@
                             </button>
                             <div uk-dropdown="mode: click">
                               <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+                                <li *ngIf="(guidelineBundle.status === 'approved interoperability record') && (!guidelineBundle.active)"
+                                    (click)="verifyGuideline(guidelineBundle.id, true, 'approved interoperability record')"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
+                                </li>
+                                <li *ngIf="(guidelineBundle.status === 'approved interoperability record') && (guidelineBundle.active)"
+                                    (click)="verifyGuideline(guidelineBundle.id, false, 'approved interoperability record')"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Deactivate</a>
+                                </li>
                                 <li *ngIf="(guidelineBundle.suspended==false)"
                                     (click)="showSuspensionModal(guidelineBundle)"
                                     class="uk-margin-small-top">

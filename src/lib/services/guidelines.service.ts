@@ -44,7 +44,7 @@ export class GuidelinesService {
   }
 
   /** new--> **/
-  getInteroperabilityRecordBundles(from?: string, quantity?: string, orderField?: string, order?: string, query?: string, catalogueId?: string, providerId?: string, status?: string, suspended?: string) {
+  getInteroperabilityRecordBundles(from?: string, quantity?: string, orderField?: string, order?: string, query?: string, catalogueId?: string, providerId?: string, status?: string, active?: string, suspended?: string) {
     let params = new HttpParams();
     if (from && from !== '') params = params.append('from', from);
     if (quantity && quantity !== '') params = params.append('quantity', quantity);
@@ -54,6 +54,7 @@ export class GuidelinesService {
     if (catalogueId && catalogueId !== '') params = params.append('catalogue_id', catalogueId);
     if (providerId && providerId !== '') params = params.append('provider_id', providerId);
     if (status && status !== '') params = params.append('status', status);
+    if (active && active !== '') params = params.append('active', active);
     if (suspended && suspended !== '') params = params.append('suspended', suspended);
     return this.http.get(this.base + `/interoperabilityRecord/bundle/all`, {params});
   }
