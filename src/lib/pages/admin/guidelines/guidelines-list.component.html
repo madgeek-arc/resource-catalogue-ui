@@ -183,11 +183,11 @@
                           <div class="uk-label uk-align-right">Active</div>
                         </div>
                         <div *ngIf="!guidelineBundle.active" class="rejected">
-                          <div class="uk-label uk-align-right">Inactive</div>
+                          <div class="uk-label uk-align-right" [ngClass]="guidelineBundle.status === 'pending interoperability record' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
                         </div>
 
                         <div *ngIf="guidelineBundle.suspended" class="rejected">
-                          <div class="uk-label uk-align-right">Suspended</div>
+                          <div class="uk-label uk-align-right" [ngClass]="guidelineBundle.status === 'pending interoperability record' ? 'uk-position-top-right uk-margin-xlarge-right' : ''">Suspended</div>
                         </div>
 
                         <div class="">
