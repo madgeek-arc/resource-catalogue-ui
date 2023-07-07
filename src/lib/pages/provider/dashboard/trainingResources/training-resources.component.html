@@ -214,7 +214,7 @@
                     <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">-->
                     <!--<i class="fa fa-pencil fa-lg"></i> Edit {{serviceORresource | lowercase}}-->
                     <!--</button>-->
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedTrainingResource(trBundle)">
+                    <button *ngIf="trBundle.status !== 'pending resource'" class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedTrainingResource(trBundle)">
                       <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete training resource
                     </button>
                   </div>

@@ -224,7 +224,7 @@
                     <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(getPayload(providerService).id)">-->
                     <!--<i class="fa fa-pencil fa-lg"></i> Edit {{serviceORresource | lowercase}}-->
                     <!--</button>-->
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedService(serviceBundle)">
+                    <button *ngIf="serviceBundle.status !== 'pending resource'" class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedService(serviceBundle)">
                       <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete {{serviceORresource | lowercase}}
                     </button>
                   </div>

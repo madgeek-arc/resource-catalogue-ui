@@ -498,7 +498,7 @@
                               <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
                               Update {{serviceORresource}}
                             </button>
-                            <button (click)="showDeletionModal(serviceBundle)"
+                            <button *ngIf="serviceBundle.status !== 'pending resource'" (click)="showDeletionModal(serviceBundle)"
                                     class="uk-button uk-button-link uk-margin-medium-left"
                                     style="padding-left: 40px; border-left: 1px solid #ccc">
                               <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>

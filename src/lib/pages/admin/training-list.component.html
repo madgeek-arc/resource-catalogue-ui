@@ -360,7 +360,7 @@
                               <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
                               Update Training Resource
                             </button>
-                            <button (click)="showDeletionModal(trBundle)"
+                            <button *ngIf="trBundle.status !== 'pending resource'" (click)="showDeletionModal(trBundle)"
                                     class="uk-button uk-button-link uk-margin-medium-left"
                                     style="padding-left: 40px; border-left: 1px solid #ccc">
                               <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
