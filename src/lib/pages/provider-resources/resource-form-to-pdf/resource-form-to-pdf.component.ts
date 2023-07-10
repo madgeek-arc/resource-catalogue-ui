@@ -302,13 +302,13 @@ export class ResourceFormToPdfComponent implements OnInit {
     // console.log('Submitted service --> ', service);
     console.log('Submitted service value--> ', this.serviceForm.value);
     if (tempSave) {
-      // todo add fix hear
+
       this.resourceService[(pendingService || !this.editMode) ? 'saveServiceAsDraft' : 'uploadTempService']
       (this.serviceForm.value).subscribe(
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          // fixme fix this router url
+
           // return this.router.go('/editPendingService/' + _service.id);
           return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
         },
@@ -688,7 +688,7 @@ export class ResourceFormToPdfComponent implements OnInit {
   }
 
   pushPublicContact() {
-    this.publicContactArray.push(this.newContact()); // FIXME
+    this.publicContactArray.push(this.newContact());
   }
 
   removePublicContact(index: number) {

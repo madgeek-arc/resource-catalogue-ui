@@ -25,7 +25,6 @@ declare var UIkit: any;
   // styleUrls: ['../provider/service-provider-form.component.css']
 })
 export class DatasourceFormComponent implements OnInit {
-  protected _marketplaceDatasourcesURL = environment.marketplaceDatasourcesURL;
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
@@ -523,17 +522,13 @@ export class DatasourceFormComponent implements OnInit {
       () => {
         this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'Worldwide']);
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
-        this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1)); //fixme: error?
+        this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
 
         let voc: Vocabulary[] = this.vocabularies[Type.SUBCATEGORY].concat(this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN]);
         this.subVocabularies = this.groupByKey(voc, 'parentId');
 
-        // fixme: should simplify if-else statement but route.snapshot.paramMap is empty for aire
-        if (this.projectName === 'OpenAIRE Catalogue') {
-          this.providerId = 'openaire';
-        } else {
-          this.providerId = this.route.snapshot.paramMap.get('providerId');
-        }
+        this.providerId = this.route.snapshot.paramMap.get('providerId');
+
         this.showProviderName(this.providerId);
         if(this.catalogueId == 'eosc') this.displayedCatalogueName = `| Catalogue: EOSC`
         else if(this.catalogueId) this.showCatalogueName(this.catalogueId);
@@ -957,7 +952,7 @@ export class DatasourceFormComponent implements OnInit {
   }
 
   pushPublicContact() {
-    this.publicContactArray.push(this.newContact()); // FIXME
+    this.publicContactArray.push(this.newContact());
   }
 
   removePublicContact(index: number) {

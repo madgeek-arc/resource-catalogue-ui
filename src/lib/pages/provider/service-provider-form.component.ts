@@ -25,7 +25,7 @@ export class ServiceProviderFormComponent implements OnInit {
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
-  catalogueId: string = 'eosc'; // TODO: revisit to check if init causes or prevents any problems
+  catalogueId: string = 'eosc';
   providerId: string = null;
   displayedCatalogueName: string;
   providerName = '';

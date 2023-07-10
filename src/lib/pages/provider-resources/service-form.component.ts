@@ -363,15 +363,11 @@ export class ServiceFormComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          if (this.projectName === 'OpenAIRE Catalogue') {
-            return this.router.service(_service.id);  // redirect to service-landing-page (deleted this route and components)
-          } else {
-            return this.router.resourceDashboard(this.providerId, _service.id);  // redirect to resource-dashboard
-            // return this.router.dashboardResources(this.providerId);                  // redirect to provider dashboard -> resource list
-            // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
-            // return this.router.service(_service.id);                               // redirect to old service info page
-            // return window.location.href = this._marketplaceServicesURL + _service.id; // redirect to marketplace
-          }
+          return this.router.resourceDashboard(this.providerId, _service.id);  // redirect to resource-dashboard
+          // return this.router.dashboardResources(this.providerId);                  // redirect to provider dashboard -> resource list
+          // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
+          // return this.router.service(_service.id);                               // redirect to old service info page
+          // return window.location.href = this._marketplaceServicesURL + _service.id; // redirect to marketplace
         },
         err => {
           this.showLoader = false;
@@ -443,15 +439,11 @@ export class ServiceFormComponent implements OnInit {
         let voc: Vocabulary[] = this.vocabularies[Type.SUBCATEGORY].concat(this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN]);
         this.subVocabularies = this.groupByKey(voc, 'parentId');
 
-        // fixme: should simplify if-else statement but route.snapshot.paramMap is empty for aire
-        if (this.projectName === 'OpenAIRE Catalogue') {
-          this.providerId = 'openaire';
-        } else {
-          this.providerId = this.route.snapshot.paramMap.get('providerId');
-          if (this.editMode && this.projectName === 'EOSC' && !(this.route.snapshot.paramMap.get('resourceId').startsWith(this.providerId+'.'))) {
-            return this.router.go('/404');
-          }
+        this.providerId = this.route.snapshot.paramMap.get('providerId');
+        if (this.editMode && this.projectName === 'EOSC' && !(this.route.snapshot.paramMap.get('resourceId').startsWith(this.providerId+'.'))) {
+          return this.router.go('/404');
         }
+
         this.showProviderName(this.providerId);
         if(this.catalogueId == 'eosc') this.displayedCatalogueName = `| Catalogue: EOSC`
         else if(this.catalogueId) this.showCatalogueName(this.catalogueId);
