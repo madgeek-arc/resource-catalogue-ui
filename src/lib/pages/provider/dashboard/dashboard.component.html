@@ -4,6 +4,10 @@
 
       <div class="menu_section uk-margin-medium-top">
 
+        <div *ngIf="providerBundle?.active === false" class="rejected">
+          <div class="uk-label uk-align-right uk-margin-right">Inactive</div>
+        </div>
+
         <div class="sidebar_heading">MONITOR</div>
 
         <ul>
