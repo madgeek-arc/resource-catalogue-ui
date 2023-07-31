@@ -40,6 +40,20 @@
               Info
             </a>
           </li>
+          <ng-container *ngIf="catalogueId!=='eosc'">
+            <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
+              <a [routerLink]="['/dashboard', catalogueId, providerId, 'resources']">
+                <img src="{{services.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+                {{serviceORresource}}s
+              </a>
+            </li>
+            <li [routerLinkActive]="['current_section']" #trainingResources="routerLinkActive">
+              <a [routerLink]="['/dashboard', catalogueId, providerId, 'training-resources']">
+                <img src="{{trainingResources.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+                Training Resources
+              </a>
+            </li>
+          </ng-container>
           <ng-container *ngIf="catalogueId==='eosc'">
             <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'resources']">
@@ -59,24 +73,6 @@
                 Draft {{serviceORresource}}s
               </a>
             </li>
-            <!--<li [routerLinkActive]="['current_section']" #datasources="routerLinkActive">
-              <a [routerLink]="['/dashboard', catalogueId, providerId, 'datasources']">
-                <img src="{{datasources.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
-                Datasources
-              </a>
-            </li>
-            <li [routerLinkActive]="['current_section']" #sharedDatasources="routerLinkActive">
-              <a [routerLink]="['/dashboard', catalogueId, providerId, 'shared-datasources']">
-                <img src="{{sharedDatasources.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
-                Shared Datasources
-              </a>
-            </li>
-            <li [routerLinkActive]="['current_section']" #draftServices="routerLinkActive">
-              <a [routerLink]="['/dashboard', catalogueId, providerId, 'draft-datasources']">
-                <img src="{{draftServices.isActive ? 'lib/assets/images/new-icons/draft-services-active.svg' : 'lib/assets/images/new-icons/draft-services.svg'}}" class="uk-margin-small-right">
-                Draft Datasources
-              </a>
-            </li>-->
             <li [routerLinkActive]="['current_section']" #trainingResources="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'training-resources']">
                 <img src="{{trainingResources.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">

@@ -131,7 +131,7 @@ export class ServicesComponent implements OnInit {
   }
 
   getServices() {
-    this.providerService.getServicesOfProvider(this.providerId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
+    this.providerService.getServicesOfProvider(this.providerId, this.catalogueId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('order').value, this.dataForm.get('orderField').value,
       this.dataForm.get('active').value, this.dataForm.get('status').value, this.dataForm.get('query').value)
       .subscribe(res => {

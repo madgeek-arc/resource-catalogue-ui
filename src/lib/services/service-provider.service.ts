@@ -100,15 +100,15 @@ export class ServiceProviderService {
     return this.http.get<Provider>(this.base + `/pendingProvider/provider/${id}`, this.options);
   }
 
-  getServicesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
+  getServicesOfProvider(id: string, catalogue_id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
     if (!query) { query = ''; }
     if (!status) { status = 'approved resource,pending resource,rejected resource'; }
     if (active === 'statusAll') {
       return this.http.get<Paging<ServiceBundle>>(this.base +
-        `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}&type=all`);
+        `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}&type=all`);
     }
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/service/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}&type=all`);
+      `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}&type=all`);
   }
 
   getDatasourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
@@ -122,15 +122,15 @@ export class ServiceProviderService {
       `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
   }
 
-  getTrainingResourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
+  getTrainingResourcesOfProvider(id: string, catalogue_id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
     if (!query) { query = ''; }
     if (!status) { status = 'approved resource,pending resource,rejected resource'; }
     if (active === 'statusAll') {
       return this.http.get<Paging<TrainingResourceBundle>>(this.base +
-        `/trainingResource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+        `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
     }
     return this.http.get<Paging<TrainingResourceBundle>>(this.base +
-      `/trainingResource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
+      `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
   }
 
   getRejectedResourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, resourceType: string) {
