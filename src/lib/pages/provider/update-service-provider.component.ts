@@ -6,6 +6,7 @@ import {FormBuilder} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {CatalogueService} from "../../services/catalogue.service";
 
 declare var UIkit: any;
 
@@ -22,9 +23,10 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
               public resourceService: ResourceService,
+              public catalogueService: CatalogueService,
               public router: Router,
               public route: ActivatedRoute) {
-    super(fb, authService, serviceProviderService, resourceService, router, route);
+    super(fb, authService, serviceProviderService, resourceService, catalogueService, router, route);
   }
 
   ngOnInit() {

@@ -8,8 +8,6 @@ import {environment} from '../../../../environments/environment';
     styleUrls: ['./developers.component.css']
 })
 export class DevelopersComponent implements OnInit {
-    public project = environment.projectName;
-    serviceORresource = environment.serviceORresource;
 
     public apiTokenEndpoint = environment.API_TOKEN_ENDPOINT;
 

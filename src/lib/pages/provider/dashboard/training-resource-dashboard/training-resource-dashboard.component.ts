@@ -23,7 +23,7 @@ export class TrainingResourceDashboardComponent implements OnInit {
   monitoringId: string;
   helpdeskId: string;
 
-  // trainingResourceBundle: TrainingResourceBundle;
+  trainingResourceBundle: TrainingResourceBundle;
 
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,
@@ -37,7 +37,7 @@ export class TrainingResourceDashboardComponent implements OnInit {
     this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.trainingResourceId = this.route.snapshot.paramMap.get('trainingResourceId');
-/*    this.trainingResourceService.getResourceBundleById(this.trainingResourceId, this.catalogueId).subscribe(
+    this.trainingResourceService.getTrainingResourceBundle(this.trainingResourceId, this.catalogueId).subscribe(
       res => { if (res!=null) this.trainingResourceBundle = res },
       error => {},
       () => {
@@ -48,6 +48,6 @@ export class TrainingResourceDashboardComponent implements OnInit {
         //   res => { if (res!=null) this.helpdeskId = res.id }
         // );
       }
-    );*/
+    );
   }
 }

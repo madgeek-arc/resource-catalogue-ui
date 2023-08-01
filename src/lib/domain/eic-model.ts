@@ -9,6 +9,7 @@ export class Bundle<T> implements Identifiable {
   active: boolean;
   status: string;
   templateStatus: string;
+  suspended: boolean;
   identifiers: Identifiers;
   loggingInfo: LoggingInfo[];
   latestAuditInfo: LoggingInfo;

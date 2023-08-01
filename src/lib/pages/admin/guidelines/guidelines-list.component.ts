@@ -32,6 +32,8 @@ export class GuidelinesListComponent implements OnInit {
     quantity: '10',
     from: '0',
     query: '',
+    active: '',
+    suspended: '',
     catalogue_id: new FormArray([]),
     provider_id: new FormArray([]),
     status: ''
@@ -47,9 +49,8 @@ export class GuidelinesListComponent implements OnInit {
   providers: ProviderBundle[] = [];
 
   guidelines: InteroperabilityRecordBundle[] = [];
-  vocabularyCurations: VocabularyCuration[] = [];
   selectedGuidelineId: string;
-  selectedVocabularyEntryRequests: VocabularyEntryRequest[] = [];
+  selectedGuideline: InteroperabilityRecordBundle;
 
   facets: any;
 
@@ -152,8 +153,7 @@ export class GuidelinesListComponent implements OnInit {
 
       map[urlParameter.key] = concatValue;
     }
-
-    console.log('map', map);
+    // console.log('map', map);
     this.router.navigate([`/guidelines/all`], {queryParams: map});
   }
 
@@ -165,8 +165,10 @@ export class GuidelinesListComponent implements OnInit {
   getGuidelines() {
     this.loadingMessage = 'Loading guidelines entries...';
     this.guidelines = [];
-    this.guidelinesService.getInteroperabilityRecordBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value, this.dataForm.get('orderField').value,
-      this.dataForm.get('order').value, this.dataForm.get('query').value, this.dataForm.get('catalogue_id').value, this.dataForm.get('provider_id').value, this.dataForm.get('status').value).subscribe(
+    this.guidelinesService.getInteroperabilityRecordBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
+      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
+      this.dataForm.get('catalogue_id').value, this.dataForm.get('provider_id').value,
+      this.dataForm.get('status').value, this.dataForm.get('active').value, this.dataForm.get('suspended').value).subscribe(
       res => {
         this.guidelines = res['results'];
         this.facets = res['facets'];
@@ -206,6 +208,35 @@ export class GuidelinesListComponent implements OnInit {
         // UIkit.modal('#spinnerModal').hide();
       }
     );
+  }
+
+  showSuspensionModal(guidelineBundle: InteroperabilityRecordBundle) {
+    this.selectedGuideline = guidelineBundle;
+    if (this.selectedGuideline) {
+      UIkit.modal('#suspensionModal').show();
+    }
+  }
+
+  suspendInteroperabilityRecord() {
+    UIkit.modal('#spinnerModal').show();
+    this.guidelinesService.suspendInteroperabilityRecord(this.selectedGuideline.id, this.selectedGuideline.interoperabilityRecord.catalogueId, !this.selectedGuideline.suspended)
+      .subscribe(
+        res => {
+          UIkit.modal('#suspensionModal').hide();
+          location.reload();
+          // this.getProviders();
+        },
+        err => {
+          UIkit.modal('#suspensionModal').hide();
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+          console.log(err);
+        },
+        () => {
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+        }
+      );
   }
 
   verifyGuideline(id: string, active: boolean, status: string){

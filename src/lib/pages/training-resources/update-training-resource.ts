@@ -32,8 +32,9 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
 
   ngOnInit() {
     const path = this.route.snapshot.routeConfig.path;
-    if (path.includes(':catalogueId')) this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
-    if (path === ':catalogueId/:providerId/training-resource/view/:trainingResourceId') this.disable = true;
+    if (path.includes(':catalogueId')) { this.catalogueId = this.route.snapshot.paramMap.get('catalogueId') }
+    else { this.catalogueId = 'eosc' }
+    if (path === ':catalogueId/:providerId/training-resource/view/:trainingResourceId') this.disable = true; // view-only mode
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');

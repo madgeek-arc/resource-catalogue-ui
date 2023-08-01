@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import * as sd from '../../provider-resources/services.description';
+import * as dm from '../../../shared/description.map';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {ServiceProviderService} from '../../../services/service-provider.service';
 import {ResourceService} from '../../../services/resource.service';
@@ -63,32 +63,32 @@ export class GuidelinesFormComponent implements OnInit {
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
-  readonly identifierDesc: sd.Description = sd.guidelinesDescMap.get('identifierDesc');
-  readonly identifierTypeDesc: sd.Description = sd.guidelinesDescMap.get('identifierTypeDesc');
-  readonly creatorDesc: sd.Description = sd.guidelinesDescMap.get('creatorDesc');
-  readonly creatorNameDesc: sd.Description = sd.guidelinesDescMap.get('creatorNameDesc');
-  readonly nameTypeDesc: sd.Description = sd.guidelinesDescMap.get('nameTypeDesc');
-  readonly givenNameDesc: sd.Description = sd.guidelinesDescMap.get('givenNameDesc');
-  readonly familyNameDesc: sd.Description = sd.guidelinesDescMap.get('familyNameDesc');
-  readonly nameIdentifierDesc: sd.Description = sd.guidelinesDescMap.get('nameIdentifierDesc');
-  readonly affiliationDesc: sd.Description = sd.guidelinesDescMap.get('affiliationDesc');
-  readonly affiliationIdentifierDesc: sd.Description = sd.guidelinesDescMap.get('affiliationIdentifierDesc');
-  readonly titleDesc: sd.Description = sd.guidelinesDescMap.get('titleDesc');
-  readonly publicationYearDesc: sd.Description = sd.guidelinesDescMap.get('publicationYearDesc');
-  readonly resourceTypeDesc: sd.Description = sd.guidelinesDescMap.get('resourceTypeDesc');
-  readonly resourceTypeGeneralDesc: sd.Description = sd.guidelinesDescMap.get('resourceTypeGeneralDesc');
-  readonly createdDesc: sd.Description = sd.guidelinesDescMap.get('createdDesc');
-  readonly updatedDesc: sd.Description = sd.guidelinesDescMap.get('updatedDesc');
-  readonly relatedStandardURIDesc: sd.Description = sd.guidelinesDescMap.get('relatedStandardURIDesc');
-  readonly relatedStandardIdentifierDesc: sd.Description = sd.guidelinesDescMap.get('relatedStandardIdentifierDesc');
-  readonly rightTitleDesc: sd.Description = sd.guidelinesDescMap.get('rightTitleDesc');
-  readonly rightURIDesc: sd.Description = sd.guidelinesDescMap.get('rightURIDesc');
-  readonly rightIdentifierDesc: sd.Description = sd.guidelinesDescMap.get('rightIdentifierDesc');
-  readonly descriptionDesc: sd.Description = sd.guidelinesDescMap.get('descriptionDesc');
-  readonly statusDesc: sd.Description = sd.guidelinesDescMap.get('statusDesc');
-  readonly domainDesc: sd.Description = sd.guidelinesDescMap.get('domainDesc');
-  readonly eoscGuidelineTypeDesc: sd.Description = sd.guidelinesDescMap.get('eoscGuidelineTypeDesc');
-  readonly eoscIntegrationOptionsDesc: sd.Description = sd.guidelinesDescMap.get('eoscIntegrationOptionsDesc');
+  readonly identifierDesc: dm.Description = dm.guidelinesDescMap.get('identifierDesc');
+  readonly identifierTypeDesc: dm.Description = dm.guidelinesDescMap.get('identifierTypeDesc');
+  readonly creatorDesc: dm.Description = dm.guidelinesDescMap.get('creatorDesc');
+  readonly creatorNameDesc: dm.Description = dm.guidelinesDescMap.get('creatorNameDesc');
+  readonly nameTypeDesc: dm.Description = dm.guidelinesDescMap.get('nameTypeDesc');
+  readonly givenNameDesc: dm.Description = dm.guidelinesDescMap.get('givenNameDesc');
+  readonly familyNameDesc: dm.Description = dm.guidelinesDescMap.get('familyNameDesc');
+  readonly nameIdentifierDesc: dm.Description = dm.guidelinesDescMap.get('nameIdentifierDesc');
+  readonly affiliationDesc: dm.Description = dm.guidelinesDescMap.get('affiliationDesc');
+  readonly affiliationIdentifierDesc: dm.Description = dm.guidelinesDescMap.get('affiliationIdentifierDesc');
+  readonly titleDesc: dm.Description = dm.guidelinesDescMap.get('titleDesc');
+  readonly publicationYearDesc: dm.Description = dm.guidelinesDescMap.get('publicationYearDesc');
+  readonly resourceTypeDesc: dm.Description = dm.guidelinesDescMap.get('resourceTypeDesc');
+  readonly resourceTypeGeneralDesc: dm.Description = dm.guidelinesDescMap.get('resourceTypeGeneralDesc');
+  readonly createdDesc: dm.Description = dm.guidelinesDescMap.get('createdDesc');
+  readonly updatedDesc: dm.Description = dm.guidelinesDescMap.get('updatedDesc');
+  readonly relatedStandardURIDesc: dm.Description = dm.guidelinesDescMap.get('relatedStandardURIDesc');
+  readonly relatedStandardIdentifierDesc: dm.Description = dm.guidelinesDescMap.get('relatedStandardIdentifierDesc');
+  readonly rightTitleDesc: dm.Description = dm.guidelinesDescMap.get('rightTitleDesc');
+  readonly rightURIDesc: dm.Description = dm.guidelinesDescMap.get('rightURIDesc');
+  readonly rightIdentifierDesc: dm.Description = dm.guidelinesDescMap.get('rightIdentifierDesc');
+  readonly descriptionDesc: dm.Description = dm.guidelinesDescMap.get('descriptionDesc');
+  readonly statusDesc: dm.Description = dm.guidelinesDescMap.get('statusDesc');
+  readonly domainDesc: dm.Description = dm.guidelinesDescMap.get('domainDesc');
+  readonly eoscGuidelineTypeDesc: dm.Description = dm.guidelinesDescMap.get('eoscGuidelineTypeDesc');
+  readonly eoscIntegrationOptionsDesc: dm.Description = dm.guidelinesDescMap.get('eoscIntegrationOptionsDesc');
 
   identifierTypeVocabulary: Vocabulary[] = null;
   nameTypeVocabulary: Vocabulary[] = null;
@@ -163,8 +163,8 @@ export class GuidelinesFormComponent implements OnInit {
     //   // this.pushDomain();
     // }
 
-    if (sessionStorage.getItem('provider')) {
-      const data = JSON.parse(sessionStorage.getItem('provider'));
+    if (sessionStorage.getItem('guideline')) {
+      const data = JSON.parse(sessionStorage.getItem('guideline'));
       for (const i in data) {
         if (data.hasOwnProperty(i)) {
           if (Array.isArray(data[i])) {
@@ -187,7 +187,7 @@ export class GuidelinesFormComponent implements OnInit {
       }
       this.guidelinesForm.patchValue(data);
       if (!this.edit) {
-        sessionStorage.removeItem('provider');
+        sessionStorage.removeItem('guideline');
       }
     }
 
@@ -197,7 +197,7 @@ export class GuidelinesFormComponent implements OnInit {
 
   onSubmit() {
     if (!this.authService.isLoggedIn()) {
-      sessionStorage.setItem('provider', JSON.stringify(this.guidelinesForm.value));
+      sessionStorage.setItem('guideline', JSON.stringify(this.guidelinesForm.value));
       this.authService.login();
     }
 

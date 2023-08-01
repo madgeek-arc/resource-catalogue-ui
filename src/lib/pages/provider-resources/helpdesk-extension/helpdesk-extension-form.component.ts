@@ -4,7 +4,7 @@ import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
-import * as sd from '../services.description';
+import * as dm from '../../../shared/description.map';
 import {Provider, Service, Helpdesk} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {URLValidator} from '../../../shared/validators/generic.validator';
@@ -26,13 +26,11 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   firstServiceForm = false;
   showLoader = false;
   pendingService = false;
-  providerId: string;
   editMode = false;
   hasChanges = false;
   serviceForm: FormGroup;
   provider: Provider;
   service: Service;
-  serviceId: string = null;
   helpdesk: Helpdesk;
   errorMessage = '';
   successMessage: string = null;
@@ -42,17 +40,22 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   disable = false;
   isPortalAdmin = false;
 
-  commentControl = new FormControl();
+  serviceId: string = null; //filled for all types (service, datasource, training)
+  resourceType = '';
+  //only one of these 3 ids will be filled from URL
+  resourceId: string = null;
+  datasourceId: string = null;
+  trainingResourceId: string = null;
 
-  readonly servicesDesc: sd.Description = sd.helpdeskDescMap.get('servicesDesc');
-  readonly supportGroupsDesc: sd.Description = sd.helpdeskDescMap.get('supportGroupsDesc');
-  readonly organisationDesc: sd.Description = sd.helpdeskDescMap.get('organisationDesc');
-  readonly emailsDesc: sd.Description = sd.helpdeskDescMap.get('emailsDesc');
-  readonly emailForTicketDesc: sd.Description = sd.helpdeskDescMap.get('emailForTicketDesc');
-  readonly agentsDesc: sd.Description = sd.helpdeskDescMap.get('agentsDesc');
-  readonly signaturesDesc: sd.Description = sd.helpdeskDescMap.get('signaturesDesc');
-  readonly webformDesc: sd.Description = sd.helpdeskDescMap.get('webformDesc');
-  readonly ticketPreservationDesc: sd.Description = sd.helpdeskDescMap.get('ticketPreservationDesc');
+  readonly servicesDesc: dm.Description = dm.helpdeskDescMap.get('servicesDesc');
+  readonly supportGroupsDesc: dm.Description = dm.helpdeskDescMap.get('supportGroupsDesc');
+  readonly organisationDesc: dm.Description = dm.helpdeskDescMap.get('organisationDesc');
+  readonly emailsDesc: dm.Description = dm.helpdeskDescMap.get('emailsDesc');
+  readonly emailForTicketDesc: dm.Description = dm.helpdeskDescMap.get('emailForTicketDesc');
+  readonly agentsDesc: dm.Description = dm.helpdeskDescMap.get('agentsDesc');
+  readonly signaturesDesc: dm.Description = dm.helpdeskDescMap.get('signaturesDesc');
+  readonly webformDesc: dm.Description = dm.helpdeskDescMap.get('webformDesc');
+  readonly ticketPreservationDesc: dm.Description = dm.helpdeskDescMap.get('ticketPreservationDesc');
 
 
   formGroupMeta = {
@@ -129,10 +132,12 @@ export class HelpdeskExtensionFormComponent implements OnInit {
           this.getFieldAsFormArray('signatures').removeAt(0);
         }
       }
-      this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode, 'eosc', 'service').subscribe(
+      this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode, 'eosc', this.resourceType).subscribe(
         _service => {
           this.showLoader = false;
-          return this.router.resourceDashboard(this.providerId, this.serviceId);  // redirect to resource-dashboard
+          if (this.resourceType==='service') return this.router.resourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // redirect to resource-dashboard
+          if (this.resourceType==='datasource') return this.router.datasourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // redirect to datasource-dashboard
+          if (this.resourceType==='training_resource') return this.router.trainingResourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // redirect to training-resource-dashboard
         },
         err => {
           this.showLoader = false;
@@ -155,7 +160,18 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.serviceId = this.route.snapshot.paramMap.get('resourceId');
+    if (this.route.snapshot.paramMap.get('resourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('resourceId');
+      this.resourceType = 'service';
+    }
+    if (this.route.snapshot.paramMap.get('datasourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('datasourceId');
+      this.resourceType = 'datasource';
+    }
+    if (this.route.snapshot.paramMap.get('trainingResourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('trainingResourceId');
+      this.resourceType = 'training_resource';
+    }
     this.serviceForm.get('serviceId').setValue(this.serviceId);
 
     this.serviceExtensionsService.getHelpdeskByServiceId(this.serviceId).subscribe(

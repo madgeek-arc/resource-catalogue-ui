@@ -31,6 +31,7 @@ export class CataloguesListComponent implements OnInit {
     order: 'ASC',
     quantity: '10',
     from: '0',
+    suspended: '',
     status: new FormArray([]),
     templateStatus: new FormArray([]),
     auditState: new FormArray([])
@@ -305,7 +306,7 @@ export class CataloguesListComponent implements OnInit {
     this.loadingMessage = 'Loading Providers...';
     this.catalogues = [];
     this.catalogueService.getCatalogueBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
+      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value, this.dataForm.get('suspended').value,
       this.dataForm.get('status').value, this.dataForm.get('templateStatus').value, this.dataForm.get('auditState').value).subscribe(
       res => {
         this.catalogues = res['results'];
@@ -363,6 +364,35 @@ export class CataloguesListComponent implements OnInit {
           console.log(err);
         },
         () => {
+          this.loadingMessage = '';
+        }
+      );
+  }
+
+  showSuspensionModal(catalogue: CatalogueBundle) {
+    this.selectedCatalogue = catalogue;
+    if (this.selectedCatalogue) {
+      UIkit.modal('#suspensionModal').show();
+    }
+  }
+
+  suspendCatalogue() {
+    UIkit.modal('#spinnerModal').show();
+    this.catalogueService.suspendCatalogue(this.selectedCatalogue.id, !this.selectedCatalogue.suspended)
+      .subscribe(
+        res => {
+          UIkit.modal('#suspensionModal').hide();
+          location.reload();
+          // this.getCatalogues();
+        },
+        err => {
+          UIkit.modal('#suspensionModal').hide();
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+          console.log(err);
+        },
+        () => {
+          UIkit.modal('#spinnerModal').hide();
           this.loadingMessage = '';
         }
       );

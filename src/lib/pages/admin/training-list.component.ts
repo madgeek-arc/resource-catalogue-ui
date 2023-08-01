@@ -43,6 +43,7 @@ export class TrainingListComponent implements OnInit {
     quantity: '10',
     from: '0',
     active: '',
+    suspended: '',
     auditState: new FormArray([]),
     status: new FormArray([]),
     resource_organisation: new FormArray([]),
@@ -325,7 +326,7 @@ export class TrainingListComponent implements OnInit {
 
   getProviders() {
     this.providers = [];
-    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', [], [], [], []).subscribe(
+    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', null, null, [], [], [], []).subscribe(
       res => {
         this.providers = res['results'];
         this.providersTotal = res['total'];
@@ -357,7 +358,7 @@ export class TrainingListComponent implements OnInit {
     this.trainingResourceBundles = [];
     this.trainingResourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('active').value, this.dataForm.get('resource_organisation').value,
+      this.dataForm.get('active').value, this.dataForm.get('suspended').value, this.dataForm.get('resource_organisation').value,
       this.dataForm.get('status').value, this.dataForm.get('auditState').value, this.dataForm.get('catalogue_id').value).subscribe(
       res => {
         this.trainingResourceBundles = res['results'];
@@ -506,6 +507,13 @@ export class TrainingListComponent implements OnInit {
     }
   }
 
+  showSuspensionModal(trBundle: TrainingResourceBundle) {
+    this.selectedTrainingResource = trBundle;
+    if (this.selectedTrainingResource) {
+      UIkit.modal('#suspensionModal').show();
+    }
+  }
+
   showSendMailModal(trBundle: TrainingResourceBundle) {
     this.selectedTrainingResource = trBundle;
     if (this.selectedTrainingResource) {
@@ -536,6 +544,28 @@ export class TrainingListComponent implements OnInit {
         // UIkit.modal('#spinnerModal').hide();
       }
     );
+  }
+
+  suspendTrainingResource() {
+    UIkit.modal('#spinnerModal').show();
+    this.trainingResourceService.suspendTrainingResource(this.selectedTrainingResource.id, this.selectedTrainingResource.trainingResource.catalogueId, !this.selectedTrainingResource.suspended)
+      .subscribe(
+        res => {
+          UIkit.modal('#suspensionModal').hide();
+          location.reload();
+          // this.getResources();
+        },
+        err => {
+          UIkit.modal('#suspensionModal').hide();
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+          console.log(err);
+        },
+        () => {
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+        }
+      );
   }
 
   /** resourceExtras--> **/
@@ -736,7 +766,7 @@ export class TrainingListComponent implements OnInit {
   }
 
   auditResourceAction(action: string) {
-    this.trainingResourceService.auditTrainingResource(this.selectedTrainingResource.id, action, this.commentAuditControl.value)
+    this.trainingResourceService.auditTrainingResource(this.selectedTrainingResource.id, action, this.selectedTrainingResource.trainingResource.catalogueId, this.commentAuditControl.value)
       .subscribe(
         res => {
           if (!this.showSideAuditForm) {

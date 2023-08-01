@@ -20,7 +20,6 @@ declare var UIkit: any;
 })
 export class DatasourceGuidelinesFormComponent implements OnInit {
 
-  projectName = environment.projectName;
   projectMail = environment.projectMail;
   showLoader = false;
   pendingDatasource = false; // revisit

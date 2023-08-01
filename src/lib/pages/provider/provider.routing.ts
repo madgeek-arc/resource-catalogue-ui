@@ -13,8 +13,8 @@ import {ServiceEditComponent} from '../provider-resources/service-edit.component
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
 import {ProviderFormToPdfComponent} from './provider-form-to-pdf/provider-form-to-pdf.component';
 import {ResourceFormToPdfComponent} from '../provider-resources/resource-form-to-pdf/resource-form-to-pdf.component';
-import {MonitoringExtensionFormComponent} from "../provider-resources/resource-monitoring-extension/monitoring-extension-form.component";
-import {HelpdeskExtensionFormComponent} from "../provider-resources/resource-helpdesk-extension/helpdesk-extension-form.component";
+import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring-extension/monitoring-extension-form.component";
+import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
 import {environment} from '../../../environments/environment';
 import {RejectedServicesComponent} from './dashboard/rejectedServices/rejected-services.component';
 import {DatasourceSelectComponent} from "./dashboard/datasources/datasource-select.component";
@@ -22,18 +22,8 @@ import {DatasourceFormComponent} from "../datasource/datasource-form.component";
 import {UpdateDatasourceComponent} from "../datasource/update-datasource.component";
 import {AddFirstDatasourceComponent} from "../datasource/add-first-datasource.component";
 import {RejectedDatasourcesComponent} from "./dashboard/rejectedDatasources/rejected-datasources.component";
-import {
-  ResourceGuidelinesFormComponent
-} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
-import {
-  DatasourceGuidelinesFormComponent
-} from "../datasource/datasource-guidelines/datasource-guidelines-form.component";
-import {
-  DatasourceHelpdeskExtensionFormComponent
-} from "../datasource/datasource-helpdesk-extension/datasource-helpdesk-extension-form.component";
-import {
-  DatasourceMonitoringExtensionFormComponent
-} from "../datasource/datasource-monitoring-extension/datasource-monitoring-extension-form.component";
+import {ResourceGuidelinesFormComponent} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
+import {DatasourceGuidelinesFormComponent} from "../datasource/datasource-guidelines/datasource-guidelines-form.component";
 import {PendingDatasourcesComponent} from "./dashboard/pendingDatasources/pending-datasources.component";
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
@@ -293,16 +283,8 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':providerId/resource/guidelines/:resourceId',
-    component: ResourceGuidelinesFormComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Resource Guidelines'
-    }
-  },
-  {
     path: ':providerId/datasource/monitoring/:datasourceId',
-    component: DatasourceMonitoringExtensionFormComponent,
+    component: MonitoringExtensionFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Monitoring Extension'
@@ -310,10 +292,34 @@ const providerRoutes: Routes = [
   },
   {
     path: ':providerId/datasource/helpdesk/:datasourceId',
-    component: DatasourceHelpdeskExtensionFormComponent,
+    component: HelpdeskExtensionFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Helpdesk Extension'
+    }
+  },
+  {
+    path: ':providerId/training-resource/monitoring/:trainingResourceId',
+    component: MonitoringExtensionFormComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Monitoring Extension'
+    }
+  },
+  {
+    path: ':providerId/training-resource/helpdesk/:trainingResourceId',
+    component: HelpdeskExtensionFormComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Helpdesk Extension'
+    }
+  },
+  {
+    path: ':providerId/resource/guidelines/:resourceId',
+    component: ResourceGuidelinesFormComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Resource Guidelines'
     }
   },
   {

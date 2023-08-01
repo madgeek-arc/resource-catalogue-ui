@@ -8,10 +8,6 @@ import {environment} from '../../../../environments/environment';
   styleUrls: ['../developers/developers.component.css']
 })
 export class AboutComponent implements OnInit {
-  public project = environment.projectName;
-  serviceORresource = environment.serviceORresource;
-
-  public apiTokenEndpoint = environment.API_TOKEN_ENDPOINT;
 
   constructor(private route: ActivatedRoute) {
   }

@@ -101,28 +101,6 @@ export class CatalogueProvidersComponent implements OnInit {
     );
   }
 
-  // toggleService(providerService: ProviderBundle) {  //TODO: delete?
-  //   if (providerService.status === 'pending resource' || providerService.status === 'rejected resource') {
-  //     this.errorMessage = `You cannot activate a ${providerService.status}.`;
-  //     window.scrollTo(0, 0);
-  //     return;
-  //   }
-  //   this.toggleLoading = true;
-  //   this.providerService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
-  //     res => {},
-  //     error => {
-  //       this.errorMessage = 'Something went bad. ' + error.error ;
-  //       this.getProviders();
-  //       this.toggleLoading = false;
-  //       // console.log(error);
-  //     },
-  //     () => {
-  //       this.getProviders();
-  //       this.toggleLoading = false;
-  //     }
-  //   );
-  // }
-
   getProviders() {
     this.toggleLoading = true;
     this.catalogueService.getProvidersOfCatalogue(this.catalogueId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,

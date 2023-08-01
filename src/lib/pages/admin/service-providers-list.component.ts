@@ -32,6 +32,8 @@ export class ServiceProvidersListComponent implements OnInit {
     order: 'ASC',
     quantity: '10',
     from: '0',
+    active: '',
+    suspended: '',
     status: new FormArray([]),
     templateStatus: new FormArray([]),
     auditState: new FormArray([]),
@@ -320,7 +322,7 @@ export class ServiceProvidersListComponent implements OnInit {
     this.loadingMessage = 'Loading Providers...';
     this.providers = [];
     this.resourceService.getProviderBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
+      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value, this.dataForm.get('active').value, this.dataForm.get('suspended').value,
       this.dataForm.get('status').value, this.dataForm.get('templateStatus').value, this.dataForm.get('auditState').value, this.dataForm.get('catalogue_id').value).subscribe(
       res => {
         this.providers = res['results'];
@@ -540,6 +542,35 @@ export class ServiceProvidersListComponent implements OnInit {
       );
   }
 
+  showSuspensionModal(provider: ProviderBundle) {
+    this.selectedProvider = provider;
+    if (this.selectedProvider) {
+      UIkit.modal('#suspensionModal').show();
+    }
+  }
+
+  suspendProvider() {
+    UIkit.modal('#spinnerModal').show();
+    this.serviceProviderService.suspendProvider(this.selectedProvider.id, this.selectedProvider.provider.catalogueId, !this.selectedProvider.suspended)
+      .subscribe(
+        res => {
+          UIkit.modal('#suspensionModal').hide();
+          location.reload();
+          // this.getProviders();
+        },
+        err => {
+          UIkit.modal('#suspensionModal').hide();
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+          console.log(err);
+        },
+        () => {
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+        }
+      );
+  }
+
   showActionModal(provider: ProviderBundle, newStatus: string, pushedApprove: boolean, verify: boolean) {
     this.selectedProvider = provider;
     this.newStatus = newStatus;
@@ -644,7 +675,7 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   auditProviderAction(action: string) {
-    this.serviceProviderService.auditProvider(this.selectedProvider.id, action, this.commentControl.value)
+    this.serviceProviderService.auditProvider(this.selectedProvider.id, action, this.selectedProvider.provider.catalogueId, this.commentControl.value)
       .subscribe(
         res => {
           if (!this.showSideAuditForm) {

@@ -144,6 +144,9 @@
                   <div *ngIf="!bundle.active" class="rejected">
                     <div class="uk-label uk-align-right">Inactive</div>
                   </div>
+                  <div *ngIf="bundle.suspended" class="rejected">
+                    <div class="uk-label uk-align-right">Suspended</div>
+                  </div>
                 </div>
               </div>
 
@@ -187,23 +190,17 @@
                 </div>
               </div>
 
-<!--              todo: revisit-->
-<!--              <ng-container *ngIf="bundle.trainingResource.catalogueId!=='eosc'">-->
-<!--                <hr class="uk-margin-top">-->
-<!--                <div class="uk-align-right">-->
-<!--                  <button-->
-<!--                    routerLink="/provider/{{bundle.trainingResource.catalogueId}}/{{bundle.trainingResource.resourceOrganisation}}/datasource/view/{{bundle.id}}"-->
-<!--                    class="uk-button uk-button-link" style="">-->
-<!--                    <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>-->
-<!--                    View Datasource-->
-<!--                  </button>-->
-<!--                </div>-->
-<!--              </ng-container>-->
-
-              <!--&lt;!&ndash;              active/inactive label alternative&ndash;&gt;-->
-              <!--              <td class="uk-text-center">-->
-              <!--                <i class="fa fa-{{ providerService.active ? 'check':'close' }}"></i>-->
-              <!--              </td>-->
+              <ng-container *ngIf="bundle.trainingResource.catalogueId!=='eosc'">
+                <hr class="uk-margin-top">
+                <div class="uk-align-right">
+                  <button
+                    routerLink="/provider/{{bundle.trainingResource.catalogueId}}/{{bundle.trainingResource.resourceOrganisation}}/training-resource/view/{{bundle.id}}"
+                    class="uk-button uk-button-link" style="">
+                    <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                    View Training Resource
+                  </button>
+                </div>
+              </ng-container>
 
             </div>
 

@@ -124,7 +124,7 @@ export class CatalogueTrainingResourcesComponent implements OnInit {
     this.toggleLoading = true;
     this.trainingResourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('active').value, null,
+      this.dataForm.get('active').value, null, null,
       this.dataForm.get('status').value, null, this.dataForm.get('catalogue_id').value).subscribe(
       res => {
           this.toggleLoading = false;

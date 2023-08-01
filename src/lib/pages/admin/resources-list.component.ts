@@ -39,6 +39,8 @@ export class ResourcesListComponent implements OnInit {
     quantity: '10',
     from: '0',
     active: '',
+    suspended: '',
+    type: '', //service or datasource
     auditState: new FormArray([]),
     status: new FormArray([]),
     resource_organisation: new FormArray([]),
@@ -126,7 +128,7 @@ export class ResourcesListComponent implements OnInit {
 
   constructor(private resourceService: ResourceService,
               private datasourceService: DatasourceService,
-              private serviceProviderService: ServiceProviderService,
+              private providerService: ServiceProviderService,
               private resourceExtrasService: ResourceExtrasService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
@@ -333,7 +335,7 @@ export class ResourcesListComponent implements OnInit {
 
   getProviders() {
     this.providers = [];
-    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', [], [], [], []).subscribe(
+    this.resourceService.getProviderBundles('0', '1000', 'name', 'ASC', '', null, null, [], [], [], []).subscribe(
       res => {
         this.providers = res['results'];
         this.providersTotal = res['total'];
@@ -365,8 +367,9 @@ export class ResourcesListComponent implements OnInit {
     this.services = [];
     this.resourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('active').value, this.dataForm.get('resource_organisation').value,
-      this.dataForm.get('status').value, this.dataForm.get('auditState').value, this.dataForm.get('catalogue_id').value).subscribe(
+      this.dataForm.get('active').value, this.dataForm.get('suspended').value, this.dataForm.get('type').value,
+      this.dataForm.get('resource_organisation').value, this.dataForm.get('status').value,
+      this.dataForm.get('auditState').value, this.dataForm.get('catalogue_id').value).subscribe(
       res => {
         this.services = res['results'];
         this.facets = res['facets'];
@@ -529,6 +532,13 @@ export class ResourcesListComponent implements OnInit {
     }
   }
 
+  showSuspensionModal(bundle: ServiceBundle) {
+    this.selectedService = bundle;
+    if (this.selectedService) {
+      UIkit.modal('#suspensionModal').show();
+    }
+  }
+
   showSendMailModal(bundle: ServiceBundle) {
     this.selectedService = bundle;
     if (this.selectedService) {
@@ -559,6 +569,28 @@ export class ResourcesListComponent implements OnInit {
         // UIkit.modal('#spinnerModal').hide();
       }
     );
+  }
+
+  suspendService() {
+    UIkit.modal('#spinnerModal').show();
+    this.resourceService[this.selectedService.service ? 'suspendService' : 'suspendDatasource'](this.selectedService.id, this.getPayload(this.selectedService).catalogueId, !this.selectedService.suspended)
+      .subscribe(
+        res => {
+          UIkit.modal('#suspensionModal').hide();
+          location.reload();
+          // this.getResources();
+        },
+        err => {
+          UIkit.modal('#suspensionModal').hide();
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+          console.log(err);
+        },
+        () => {
+          UIkit.modal('#spinnerModal').hide();
+          this.loadingMessage = '';
+        }
+      );
   }
 
   /** resourceExtras--> **/
@@ -695,17 +727,15 @@ export class ResourcesListComponent implements OnInit {
       return;
     }
     UIkit.modal('#spinnerModal').show();
-    this.serviceProviderService[bundle.service ? 'publishService' : 'publishDatasource'](bundle.id, this.getPayload(bundle).version, !bundle.active).subscribe(
+    this.providerService[bundle.service ? 'publishService' : 'publishDatasource'](bundle.id, this.getPayload(bundle).version, !bundle.active).subscribe(
       res => {},
       error => {
-        this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getResources();
         UIkit.modal('#spinnerModal').hide();
-        // console.log(error);
+        this.errorMessage = 'Something went bad. ' + error.error.error ;
       },
       () => {
-        this.getResources();
         UIkit.modal('#spinnerModal').hide();
+        this.getResources();
       }
     );
   }
@@ -730,49 +760,39 @@ export class ResourcesListComponent implements OnInit {
     );
   }
 
-  moveResourceToProvider(resourceId, providerId, catalogueId) { //could simplify the if else
-    let type: string;
-    this.resourceService.isServiceOrDatasource(resourceId, catalogueId).subscribe(
-      res => { type = res },
-      err => { console.log(err) },
-      () => {
-        if (type == 'service') {
-          UIkit.modal('#spinnerModal').show();
-          this.resourceService.moveResourceToProvider(resourceId, providerId, this.commentMoveControl.value).subscribe(
-            res => {
-            },
-            error => {
-              // console.log(error);
-              UIkit.modal('#spinnerModal').hide();
-              this.errorMessage = 'Something went bad. ' + error.error;
-              this.getResources();
-            },
-            () => {
-              // this.getServices();
-              UIkit.modal('#spinnerModal').hide();
-              window.location.reload();
-            }
-          );
-        }
-        else if (type == 'datasource') {
-          UIkit.modal('#spinnerModal').show();
-          this.datasourceService.moveDatasourceToProvider(resourceId, providerId, this.commentMoveControl.value).subscribe(
-            res => {},
-            error => {
-              // console.log(error);
-              UIkit.modal('#spinnerModal').hide();
-              this.errorMessage = 'Something went bad. ' + error.error ;
-              this.getResources();
-            },
-            () => {
-              // this.getDatasources();
-              UIkit.modal('#spinnerModal').hide();
-              window.location.reload();
-            }
-          );
-        }
+  moveResourceToProvider(serviceBundle, providerId) {
+    if (serviceBundle?.service) {
+      UIkit.modal('#spinnerModal').show();
+        this.resourceService.moveResourceToProvider(serviceBundle.id, providerId, this.commentMoveControl.value).subscribe(
+          res => {},
+          error => {
+            // console.log(error);
+            UIkit.modal('#spinnerModal').hide();
+            this.errorMessage = 'Something went bad. ' + error.error;
+            this.getResources();
+          },
+          () => {
+            UIkit.modal('#spinnerModal').hide();
+            window.location.reload();
+          }
+        );
       }
-    )
+      else if (serviceBundle?.datasource) {
+        UIkit.modal('#spinnerModal').show();
+        this.datasourceService.moveDatasourceToProvider(serviceBundle.id, providerId, this.commentMoveControl.value).subscribe(
+          res => {},
+          error => {
+            // console.log(error);
+            UIkit.modal('#spinnerModal').hide();
+            this.errorMessage = 'Something went bad. ' + error.error;
+            this.getResources();
+          },
+          () => {
+            UIkit.modal('#spinnerModal').hide();
+            window.location.reload();
+          }
+        );
+    }
   }
 
   showAuditForm(view: string, resource: ServiceBundle) {
@@ -792,7 +812,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   auditResourceAction(action: string, bundle: ServiceBundle) {
-    this.resourceService[bundle.service ? 'auditResource' : 'auditDatasource'](this.selectedService.id, action, this.commentAuditControl.value)
+    this.resourceService[bundle.service ? 'auditResource' : 'auditDatasource'](this.selectedService.id, action, this.getPayload(this.selectedService).catalogueId, this.commentAuditControl.value)
       .subscribe(
         res => {
           if (!this.showSideAuditForm) {
@@ -815,24 +835,16 @@ export class ResourcesListComponent implements OnInit {
       );
   }
 
-  sendMailForUpdate(id: string, catalogueId: string) {
-    let type: string;
-    this.resourceService.isServiceOrDatasource(id, catalogueId).subscribe(
-      res => { type = res },
-      err => { console.log(err) },
-      () => {
-        if (type == 'service') {
-          this.resourceService.sendEmailForOutdatedResource(id).subscribe(
-            res => {}, err => { console.log(err); }
-          );
-        } else if (type == 'datasource') {
-          console.log('if else ds')
-          this.datasourceService.sendEmailForOutdatedDatasource(id).subscribe(
-            res => {}, err => { console.log(err); }
-          );
-        }
-      }
-    )
+  sendMailForUpdate(serviceBundle) {
+    if (serviceBundle?.service) {
+      this.resourceService.sendEmailForOutdatedResource(serviceBundle.id).subscribe(
+        res => {}, err => { console.log(err); }
+      );
+    } else if (serviceBundle?.datasource) {
+      this.datasourceService.sendEmailForOutdatedDatasource(serviceBundle.id).subscribe(
+        res => {}, err => { console.log(err); }
+      );
+    }
   }
 
   hasCreatedFirstService(id: string) {

@@ -36,28 +36,10 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
       this.disable = true;
     }
     super.ngOnInit();
-    if (sessionStorage.getItem('service')) {
-      sessionStorage.removeItem('service');
+    if (sessionStorage.getItem('guideline')) {
+      sessionStorage.removeItem('guideline');
     } else {
-      if (this.vocabularies === null) {
-        this.resourceService.getAllVocabulariesByType().subscribe(
-          res => {
-            this.vocabularies = res;
-            this.identifierTypeVocabulary = this.vocabularies[Type.IR_IDENTIFIER_TYPE];
-            this.nameTypeVocabulary = this.vocabularies[Type.IR_NAME_TYPE];
-            this.resourceTypeGeneralVocabulary = this.vocabularies[Type.IR_RESOURCE_TYPE_GENERAL];
-            this.statusVocabulary = this.vocabularies[Type.IR_STATUS];
-            this.domainVocabulary = this.vocabularies[Type.SCIENTIFIC_DOMAIN];
-            this.eoscGuidelineTypeVocabulary = this.vocabularies[Type.IR_EOSC_GUIDELINE_TYPE];
-          },
-          error => console.log(error),
-          () => {
-            this.getGuideline();
-          }
-        );
-      } else {
-        this.getGuideline();
-      }
+      this.getGuideline();
     }
   }
 

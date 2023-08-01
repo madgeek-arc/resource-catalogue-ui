@@ -19,15 +19,13 @@ import {ServiceUploadComponent} from '../provider-resources/service-upload.compo
 import {ServiceFormComponent} from '../provider-resources/service-form.component';
 import { ProviderFormToPdfComponent } from './provider-form-to-pdf/provider-form-to-pdf.component';
 import { ResourceFormToPdfComponent } from '../provider-resources/resource-form-to-pdf/resource-form-to-pdf.component';
-import {MonitoringExtensionFormComponent} from "../provider-resources/resource-monitoring-extension/monitoring-extension-form.component";
-import {HelpdeskExtensionFormComponent} from "../provider-resources/resource-helpdesk-extension/helpdesk-extension-form.component";
+import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring-extension/monitoring-extension-form.component";
+import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
 import {NgSelectModule} from '@ng-select/ng-select';
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
 import {AddFirstDatasourceComponent} from "../datasource/add-first-datasource.component";
 import {ResourceGuidelinesFormComponent} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
 import {DatasourceGuidelinesFormComponent} from "../datasource/datasource-guidelines/datasource-guidelines-form.component";
-import {DatasourceMonitoringExtensionFormComponent} from "../datasource/datasource-monitoring-extension/datasource-monitoring-extension-form.component";
-import {DatasourceHelpdeskExtensionFormComponent} from "../datasource/datasource-helpdesk-extension/datasource-helpdesk-extension-form.component";
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
 import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
@@ -67,8 +65,6 @@ import {AddFirstTrainingResourceComponent} from "../training-resources/add-first
     MonitoringExtensionFormComponent,
     HelpdeskExtensionFormComponent,
     ResourceGuidelinesFormComponent,
-    DatasourceMonitoringExtensionFormComponent,
-    DatasourceHelpdeskExtensionFormComponent,
     DatasourceGuidelinesFormComponent,
     TrainingResourceForm,
     UpdateTrainingResource

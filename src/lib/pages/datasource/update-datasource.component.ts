@@ -9,6 +9,7 @@ import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {NavigationService} from "../../services/navigation.service";
 import {RecommendationsService} from "../../services/recommendations.service";
+import {CatalogueService} from "../../services/catalogue.service";
 
 
 @Component({
@@ -25,17 +26,19 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
               public authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
               protected recommendationsService: RecommendationsService,
+              protected catalogueService: CatalogueService,
               protected injector: Injector,
               public datePipe: DatePipe,
               public navigationService: NavigationService) {
-    super(injector, authenticationService, serviceProviderService, recommendationsService, route);
+    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route);
     this.editMode = true;
   }
 
   ngOnInit() {
     const path = this.route.snapshot.routeConfig.path;
-    if (path.includes(':catalogueId')) this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
-    if (path === ':catalogueId/:providerId/datasource/view/:datasourceId') this.disable = true;
+    if (path.includes(':catalogueId')) { this.catalogueId = this.route.snapshot.paramMap.get('catalogueId') }
+    else { this.catalogueId = 'eosc' }
+    if (path === ':catalogueId/:providerId/datasource/view/:datasourceId') this.disable = true;  // view-only mode
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
@@ -49,6 +52,13 @@ export class UpdateDatasourceComponent extends DatasourceFormComponent implement
               if (!this.addOpenAIRE && dsBundle.datasource.mainContact === null) //in case of unauthorized access backend will not show sensitive info
                 this.navigationService.go('/forbidden') // TODO: recheck with backend
               ResourceService.removeNulls(dsBundle.datasource);
+              //remove catalogueId. prefix for same catalogue entries
+              if (dsBundle.datasource.requiredResources) {
+                dsBundle.datasource.requiredResources = dsBundle.datasource.requiredResources.map(value => value.startsWith(this.catalogueId) ? value.substring(this.catalogueId.length+1) : value);
+              }
+              if (dsBundle.datasource.relatedResources) {
+                dsBundle.datasource.relatedResources = dsBundle.datasource.relatedResources.map(value => value.startsWith(this.catalogueId) ? value.substring(this.catalogueId.length+1) : value);
+              }
               this.formPrepare(dsBundle.datasource);
               this.serviceForm.patchValue(dsBundle.datasource);
               for (const i in this.serviceForm.controls) {

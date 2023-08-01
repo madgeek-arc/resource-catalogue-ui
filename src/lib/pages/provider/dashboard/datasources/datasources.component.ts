@@ -112,7 +112,7 @@ export class DatasourcesComponent implements OnInit {
       return;
     }
     UIkit.modal('#spinnerModal').show();
-    this.providerService.publishService(providerService.id, providerService.service.version, !providerService.active).subscribe(
+    this.datasourceService.publishDatasource(providerService.id, providerService.service.version, !providerService.active).subscribe(
       res => {},
       error => {
         this.errorMessage = 'Something went bad. ' + error.error ;

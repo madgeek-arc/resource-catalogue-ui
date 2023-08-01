@@ -40,7 +40,7 @@
               <div class="uk-flex uk-flex-right">
                 <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
                   <span uk-search-icon></span>
-                  <input class="uk-search-input" type="search" placeholder="Locate {{serviceORresource | lowercase}}..." formControlName="query">
+                  <input class="uk-search-input" type="search" placeholder="Locate {{serviceORresource | lowercase}} (id, name)" formControlName="query">
                 </form>
               </div>
 
@@ -176,16 +176,38 @@
 
                     </div>
 
-                    <div class="uk-margin-right">
+                    <div class="uk-inline">
                       <div class="uk-inline uk-margin-right">
-                        <label class="" for="status">Status </label>
+                        <label class="" for="active">Active </label>
                         <div class="uk-inline">
-                          <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="active">
-                            <option value="" selected>All</option>
+                          <select class="uk-input uk-select" id="active" (change)="handleChangeAndResetPage()" formControlName="active">
+                            <option value="" selected></option>
                             <option value="true">Active</option>
                             <option value="false">Inactive</option>
                           </select>
                         </div>
+                      </div>
+                    </div>
+
+                    <div class="uk-margin-right">
+                      <label class="" for="type">Type </label>
+                      <div class="uk-inline">
+                        <select class="uk-input uk-select" id="type" (change)="handleChangeAndResetPage()" formControlName="type">
+                          <option value="" selected>All</option>
+                          <option value="service">Service</option>
+                          <option value="datasource">Datasource</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="uk-margin-right">
+                      <label class="" for="suspended">Suspended </label>
+                      <div class="uk-inline">
+                        <select class="uk-input uk-select" id="suspended" (change)="handleChangeAndResetPage()" formControlName="suspended">
+                          <option value="" selected></option>
+                          <option value="true">Yes</option>
+                          <option value="false">No</option>
+                        </select>
                       </div>
                     </div>
 
@@ -256,7 +278,11 @@
                           <div class="uk-label uk-align-right">Inactive</div>
                         </div>
 
-                        <div *ngIf="statusesOnView[i].status && serviceBundle.id === statusesOnView[i].serviceId" class="uk-position-bottom-right uk-margin-xlarge-bottom" style="padding-right: 40px">
+                        <div *ngIf="serviceBundle.suspended" class="rejected">
+                          <div class="uk-label uk-align-right">Suspended</div>
+                        </div>
+
+                        <div *ngIf="statusesOnView[i].status && serviceBundle.id === statusesOnView[i].serviceId && !showMainAuditForm" class="uk-position-bottom-right uk-margin-xlarge-bottom" style="padding-right: 40px">
                           <span class="statusLabel">Monitoring Status: </span><span>{{statusesOnView[i].status}}</span>
                         </div>
 <!--                          <ng-container *ngIf="statusesOnView[i]==='OK'">-->
@@ -278,7 +304,7 @@
 <!--                            <span class="uk-badge" title="Monitoring Status" style="background: dimgrey;">NA</span>-->
 <!--                          </ng-container>-->
 
-                        <div *ngIf="serviceBundle?.resourceExtras?.horizontalService" class="uk-label uk-position-bottom-right uk-margin-large" style="margin-right: 40px">
+                        <div *ngIf="serviceBundle?.resourceExtras?.horizontalService && !showMainAuditForm" class="uk-label uk-position-bottom-right uk-margin-large" style="margin-right: 40px">
                           <span>Horizontal</span>
                         </div>
 
@@ -434,6 +460,31 @@
                               <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
                               View {{serviceORresource}}
                             </button>
+
+                            <button class="uk-button uk-button-link uk-margin-medium-left">
+                              <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
+                            </button>
+                            <div uk-dropdown="mode: click">
+                              <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+                                <ng-container *ngIf="serviceBundle.active && serviceBundle.status=='approved resource'">
+                                  <li class="uk-margin-small-bottom"
+                                      (click)="showAuditForm('main', serviceBundle)">
+                                    <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
+                                  </li>
+                                </ng-container>
+                                <li *ngIf="(serviceBundle.suspended==false)"
+                                    (click)="showSuspensionModal(serviceBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Suspend</a>
+                                </li>
+                                <li *ngIf="(serviceBundle.suspended==true)"
+                                    (click)="showSuspensionModal(serviceBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
+                                </li>
+                              </ul>
+                            </div>
+
                           </div>
                         </ng-container>
 
@@ -447,14 +498,13 @@
                               <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
                               Update {{serviceORresource}}
                             </button>
-                            <button (click)="showDeletionModal(serviceBundle)"
+                            <button *ngIf="serviceBundle.status !== 'pending resource'" (click)="showDeletionModal(serviceBundle)"
                                     class="uk-button uk-button-link uk-margin-medium-left"
                                     style="padding-left: 40px; border-left: 1px solid #ccc">
                               <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
                               Delete {{serviceORresource}}
                             </button>
-                            <button *ngIf="serviceBundle.status!=='rejected resource'"
-                                    class="uk-button uk-button-link uk-margin-medium-left"
+                            <button class="uk-button uk-button-link uk-margin-medium-left"
                                     style="padding-left: 40px; border-left: 1px solid #ccc">
                               <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
                             </button>
@@ -536,6 +586,21 @@
                                     <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First {{serviceORresource}}</a>
                                   </li>
                                 </ng-container>
+
+                                <ng-container *ngIf="serviceBundle.status!=='rejected resource'">
+                                  <li class="uk-nav-divider"></li>
+                                </ng-container>
+
+                                <li *ngIf="(serviceBundle.suspended==false)"
+                                    (click)="showSuspensionModal(serviceBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Suspend</a>
+                                </li>
+                                <li *ngIf="(serviceBundle.suspended==true)"
+                                    (click)="showSuspensionModal(serviceBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
+                                </li>
 
                               </ul>
                             </div>
@@ -627,13 +692,30 @@
   </div>
 </div>
 
+<div id="suspensionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <ng-container *ngIf="selectedService">
+      <h6 class="uk-margin-medium-bottom">Are you sure you want to {{selectedService.suspended==true ? 'un' : ''}}suspend "{{ getPayload(selectedService).name }}"?</h6>
+      <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="suspendService()">
+        {{selectedService.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
+      <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    </ng-container>
+  </div>
+  <div *ngIf="loadingMessage">
+    <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+      {{ loadingMessage }}
+    </div>
+    <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
 <div id="sendMailModal" uk-modal>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedService">
       <p>You are about to send a notification email to the admins of "{{ getPayload(selectedService).name }}", requesting an update for this {{serviceORresource}}.</p>
       <p>Do you want to proceed?</p>
     </div>
-    <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="sendMailForUpdate(selectedService.id, getPayload(selectedService).catalogueId)">OK</button>
+    <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="sendMailForUpdate(selectedService)">OK</button>
     <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
   </div>
   <div *ngIf="loadingMessage">
@@ -672,7 +754,7 @@
         </form>
 <!--        <pre>{{providersDropdownForm.value | json }}</pre>-->
         <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button"
-                (click)="moveResourceToProvider(selectedService.id, providersDropdownForm.get('resourceOrganisation').value, getPayload(selectedService).catalogueId)">OK</button>
+                (click)="moveResourceToProvider(selectedService, providersDropdownForm.get('resourceOrganisation').value)">OK</button>
         <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
       </form>
 
@@ -887,6 +969,10 @@
           <div class="uk-label uk-align-right">Inactive</div>
         </div>
 
+        <div *ngIf="serviceBundle.suspended" class="rejected">
+          <div class="uk-label uk-align-right">Suspended</div>
+        </div>
+
         <div class="">
           <div class="uk-grid">
             <div class="uk-width-1-5">
@@ -1067,6 +1153,17 @@
                     </li>
                   </div>
                 </ng-template>
+
+                <li *ngIf="(serviceBundle.suspended==false)"
+                    (click)="showSuspensionModal(serviceBundle)"
+                    class="uk-margin-small-top">
+                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Suspend</a>
+                </li>
+                <li *ngIf="(serviceBundle.suspended==true)"
+                    (click)="showSuspensionModal(serviceBundle)"
+                    class="uk-margin-small-top">
+                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
+                </li>
 
               </ul>
             </div>

@@ -3,17 +3,19 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
-import * as sd from './services.description';
+import * as dm from '../../shared/description.map';
 import {Provider, RichService, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
 import {URLValidator} from '../../shared/validators/generic.validator';
-import {zip} from 'rxjs';
+import {Observable, of, zip} from 'rxjs';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
 import BitSet from 'bitset';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {RecommendationsService} from "../../services/recommendations.service";
+import {CatalogueService} from "../../services/catalogue.service";
+import {catchError, map, mergeMap, timestamp} from "rxjs/operators";
 
 declare var UIkit: any;
 
@@ -33,6 +35,8 @@ export class ServiceFormComponent implements OnInit {
   pendingService = false;
   catalogueId: string;
   providerId: string;
+  displayedProviderName: string;
+  displayedCatalogueName: string;
   editMode = false;
   hasChanges = false;
   serviceForm: FormGroup;
@@ -119,71 +123,71 @@ export class ServiceFormComponent implements OnInit {
   public filteredSubCategoriesVocabulary: Vocabulary[] = null;
   public filteredScientificSubDomainVocabulary: Vocabulary[] = null;
 
-  readonly nameDesc: sd.Description = sd.serviceDescMap.get('nameDesc');
-  readonly abbreviationDesc: sd.Description = sd.serviceDescMap.get('abbreviationDesc');
-  readonly webpageDesc: sd.Description = sd.serviceDescMap.get('webpageDesc');
-  readonly descriptionDesc: sd.Description = sd.serviceDescMap.get('descriptionDesc');
-  readonly taglineDesc: sd.Description = sd.serviceDescMap.get('taglineDesc');
-  readonly logoDesc: sd.Description = sd.serviceDescMap.get('logoDesc');
-  readonly multimediaURLDesc: sd.Description = sd.serviceDescMap.get('multimediaURLDesc');
-  readonly multimediaNameDesc: sd.Description = sd.serviceDescMap.get('multimediaNameDesc');
-  readonly targetUsersDesc: sd.Description = sd.serviceDescMap.get('targetUsersDesc');
-  readonly resourceProvidersDesc: sd.Description = sd.serviceDescMap.get('resourceProvidersDesc');
-  readonly resourceOrganisationDesc: sd.Description = sd.serviceDescMap.get('resourceOrganisationDesc');
-  readonly resourceGeographicLocationsDesc: sd.Description = sd.serviceDescMap.get('resourceGeographicLocationsDesc');
-  readonly scientificDomainDesc: sd.Description = sd.serviceDescMap.get('scientificDomainDesc');
-  readonly scientificSubDomainDesc: sd.Description = sd.serviceDescMap.get('scientificSubDomainDesc');
-  readonly categoryDesc: sd.Description = sd.serviceDescMap.get('categoryDesc');
-  readonly subcategoryDesc: sd.Description = sd.serviceDescMap.get('subcategoryDesc');
-  readonly accessTypeDesc: sd.Description = sd.serviceDescMap.get('accessTypeDesc');
-  readonly accessModeDesc: sd.Description = sd.serviceDescMap.get('accessModeDesc');
-  readonly tagsDesc: sd.Description = sd.serviceDescMap.get('tagsDesc');
-  readonly geographicalAvailabilityDesc: sd.Description = sd.serviceDescMap.get('geographicalAvailabilityDesc');
-  readonly languageAvailabilitiesDesc: sd.Description = sd.serviceDescMap.get('languageAvailabilitiesDesc');
-  readonly mainContactFirstNameDesc: sd.Description = sd.serviceDescMap.get('mainContactFirstNameDesc');
-  readonly mainContactLastNameDesc: sd.Description = sd.serviceDescMap.get('mainContactLastNameDesc');
-  readonly mainContactEmailDesc: sd.Description = sd.serviceDescMap.get('mainContactEmailDesc');
-  readonly mainContactPhoneDesc: sd.Description = sd.serviceDescMap.get('mainContactPhoneDesc');
-  readonly mainContactPositionDesc: sd.Description = sd.serviceDescMap.get('mainContactPositionDesc');
-  readonly mainContactOrganisationDesc: sd.Description = sd.serviceDescMap.get('mainContactOrganisationDesc');
-  readonly publicContactFirstNameDesc: sd.Description = sd.serviceDescMap.get('publicContactFirstNameDesc');
-  readonly publicContactLastNameDesc: sd.Description = sd.serviceDescMap.get('publicContactLastNameDesc');
-  readonly publicContactEmailDesc: sd.Description = sd.serviceDescMap.get('publicContactEmailDesc');
-  readonly publicContactPhoneDesc: sd.Description = sd.serviceDescMap.get('publicContactPhoneDesc');
-  readonly publicContactPositionDesc: sd.Description = sd.serviceDescMap.get('publicContactPositionDesc');
-  readonly publicContactOrganisationDesc: sd.Description = sd.serviceDescMap.get('publicContactOrganisationDesc');
-  readonly helpdeskEmailDesc: sd.Description = sd.serviceDescMap.get('helpdeskEmailDesc');
-  readonly securityContactEmailDesc: sd.Description = sd.serviceDescMap.get('securityContactEmailDesc');
-  readonly phaseDesc: sd.Description = sd.serviceDescMap.get('phaseDesc');
-  readonly technologyReadinessLevelDesc: sd.Description = sd.serviceDescMap.get('technologyReadinessLevelDesc');
-  readonly certificationsDesc: sd.Description = sd.serviceDescMap.get('certificationsDesc');
-  readonly standardsDesc: sd.Description = sd.serviceDescMap.get('standardsDesc');
-  readonly openSourceTechnologiesDesc: sd.Description = sd.serviceDescMap.get('openSourceTechnologiesDesc');
-  readonly versionDesc: sd.Description = sd.serviceDescMap.get('versionDesc');
-  readonly lastUpdateDesc: sd.Description = sd.serviceDescMap.get('lastUpdateDesc');
-  readonly changeLogDesc: sd.Description = sd.serviceDescMap.get('changeLogDesc');
-  readonly requiredServicesDesc: sd.Description = sd.serviceDescMap.get('requiredServicesDesc');
-  readonly relatedServicesDesc: sd.Description = sd.serviceDescMap.get('relatedServicesDesc');
-  readonly relatedPlatformsDesc: sd.Description = sd.serviceDescMap.get('relatedPlatformsDesc');
-  readonly resourceCatalogueIdDesc: sd.Description = sd.serviceDescMap.get('resourceCatalogueIdDesc');
-  readonly fundingBodyDesc: sd.Description = sd.serviceDescMap.get('fundingBodyDesc');
-  readonly fundingProgramDesc: sd.Description = sd.serviceDescMap.get('fundingProgramDesc');
-  readonly grantProjectNameDesc: sd.Description = sd.serviceDescMap.get('grantProjectNameDesc');
-  readonly helpdeskPageDesc: sd.Description = sd.serviceDescMap.get('helpdeskPageDesc');
-  readonly userManualDesc: sd.Description = sd.serviceDescMap.get('userManualDesc');
-  readonly termsOfUseDesc: sd.Description = sd.serviceDescMap.get('termsOfUseDesc');
-  readonly privacyPolicyDesc: sd.Description = sd.serviceDescMap.get('privacyPolicyDesc');
-  readonly serviceLevelDesc: sd.Description = sd.serviceDescMap.get('serviceLevelDesc');
-  readonly trainingInformationDesc: sd.Description = sd.serviceDescMap.get('trainingInformationDesc');
-  readonly statusMonitoringDesc: sd.Description = sd.serviceDescMap.get('statusMonitoringDesc');
-  readonly maintenanceDesc: sd.Description = sd.serviceDescMap.get('maintenanceDesc');
-  readonly orderTypeDesc: sd.Description = sd.serviceDescMap.get('orderTypeDesc');
-  readonly orderDesc: sd.Description = sd.serviceDescMap.get('orderDesc');
-  readonly accessPolicyDesc: sd.Description = sd.serviceDescMap.get('accessPolicyDesc');
-  readonly paymentModelDesc: sd.Description = sd.serviceDescMap.get('paymentModelDesc');
-  readonly pricingDesc: sd.Description = sd.serviceDescMap.get('pricingDesc');
-  readonly useCaseURLDesc: sd.Description = sd.serviceDescMap.get('useCaseURLDesc');
-  readonly useCaseNameDesc: sd.Description = sd.serviceDescMap.get('useCaseNameDesc');
+  readonly nameDesc: dm.Description = dm.serviceDescMap.get('nameDesc');
+  readonly abbreviationDesc: dm.Description = dm.serviceDescMap.get('abbreviationDesc');
+  readonly webpageDesc: dm.Description = dm.serviceDescMap.get('webpageDesc');
+  readonly descriptionDesc: dm.Description = dm.serviceDescMap.get('descriptionDesc');
+  readonly taglineDesc: dm.Description = dm.serviceDescMap.get('taglineDesc');
+  readonly logoDesc: dm.Description = dm.serviceDescMap.get('logoDesc');
+  readonly multimediaURLDesc: dm.Description = dm.serviceDescMap.get('multimediaURLDesc');
+  readonly multimediaNameDesc: dm.Description = dm.serviceDescMap.get('multimediaNameDesc');
+  readonly targetUsersDesc: dm.Description = dm.serviceDescMap.get('targetUsersDesc');
+  readonly resourceProvidersDesc: dm.Description = dm.serviceDescMap.get('resourceProvidersDesc');
+  readonly resourceOrganisationDesc: dm.Description = dm.serviceDescMap.get('resourceOrganisationDesc');
+  readonly resourceGeographicLocationsDesc: dm.Description = dm.serviceDescMap.get('resourceGeographicLocationsDesc');
+  readonly scientificDomainDesc: dm.Description = dm.serviceDescMap.get('scientificDomainDesc');
+  readonly scientificSubDomainDesc: dm.Description = dm.serviceDescMap.get('scientificSubDomainDesc');
+  readonly categoryDesc: dm.Description = dm.serviceDescMap.get('categoryDesc');
+  readonly subcategoryDesc: dm.Description = dm.serviceDescMap.get('subcategoryDesc');
+  readonly accessTypeDesc: dm.Description = dm.serviceDescMap.get('accessTypeDesc');
+  readonly accessModeDesc: dm.Description = dm.serviceDescMap.get('accessModeDesc');
+  readonly tagsDesc: dm.Description = dm.serviceDescMap.get('tagsDesc');
+  readonly geographicalAvailabilityDesc: dm.Description = dm.serviceDescMap.get('geographicalAvailabilityDesc');
+  readonly languageAvailabilitiesDesc: dm.Description = dm.serviceDescMap.get('languageAvailabilitiesDesc');
+  readonly mainContactFirstNameDesc: dm.Description = dm.serviceDescMap.get('mainContactFirstNameDesc');
+  readonly mainContactLastNameDesc: dm.Description = dm.serviceDescMap.get('mainContactLastNameDesc');
+  readonly mainContactEmailDesc: dm.Description = dm.serviceDescMap.get('mainContactEmailDesc');
+  readonly mainContactPhoneDesc: dm.Description = dm.serviceDescMap.get('mainContactPhoneDesc');
+  readonly mainContactPositionDesc: dm.Description = dm.serviceDescMap.get('mainContactPositionDesc');
+  readonly mainContactOrganisationDesc: dm.Description = dm.serviceDescMap.get('mainContactOrganisationDesc');
+  readonly publicContactFirstNameDesc: dm.Description = dm.serviceDescMap.get('publicContactFirstNameDesc');
+  readonly publicContactLastNameDesc: dm.Description = dm.serviceDescMap.get('publicContactLastNameDesc');
+  readonly publicContactEmailDesc: dm.Description = dm.serviceDescMap.get('publicContactEmailDesc');
+  readonly publicContactPhoneDesc: dm.Description = dm.serviceDescMap.get('publicContactPhoneDesc');
+  readonly publicContactPositionDesc: dm.Description = dm.serviceDescMap.get('publicContactPositionDesc');
+  readonly publicContactOrganisationDesc: dm.Description = dm.serviceDescMap.get('publicContactOrganisationDesc');
+  readonly helpdeskEmailDesc: dm.Description = dm.serviceDescMap.get('helpdeskEmailDesc');
+  readonly securityContactEmailDesc: dm.Description = dm.serviceDescMap.get('securityContactEmailDesc');
+  readonly phaseDesc: dm.Description = dm.serviceDescMap.get('phaseDesc');
+  readonly technologyReadinessLevelDesc: dm.Description = dm.serviceDescMap.get('technologyReadinessLevelDesc');
+  readonly certificationsDesc: dm.Description = dm.serviceDescMap.get('certificationsDesc');
+  readonly standardsDesc: dm.Description = dm.serviceDescMap.get('standardsDesc');
+  readonly openSourceTechnologiesDesc: dm.Description = dm.serviceDescMap.get('openSourceTechnologiesDesc');
+  readonly versionDesc: dm.Description = dm.serviceDescMap.get('versionDesc');
+  readonly lastUpdateDesc: dm.Description = dm.serviceDescMap.get('lastUpdateDesc');
+  readonly changeLogDesc: dm.Description = dm.serviceDescMap.get('changeLogDesc');
+  readonly requiredServicesDesc: dm.Description = dm.serviceDescMap.get('requiredServicesDesc');
+  readonly relatedServicesDesc: dm.Description = dm.serviceDescMap.get('relatedServicesDesc');
+  readonly relatedPlatformsDesc: dm.Description = dm.serviceDescMap.get('relatedPlatformsDesc');
+  readonly resourceCatalogueIdDesc: dm.Description = dm.serviceDescMap.get('resourceCatalogueIdDesc');
+  readonly fundingBodyDesc: dm.Description = dm.serviceDescMap.get('fundingBodyDesc');
+  readonly fundingProgramDesc: dm.Description = dm.serviceDescMap.get('fundingProgramDesc');
+  readonly grantProjectNameDesc: dm.Description = dm.serviceDescMap.get('grantProjectNameDesc');
+  readonly helpdeskPageDesc: dm.Description = dm.serviceDescMap.get('helpdeskPageDesc');
+  readonly userManualDesc: dm.Description = dm.serviceDescMap.get('userManualDesc');
+  readonly termsOfUseDesc: dm.Description = dm.serviceDescMap.get('termsOfUseDesc');
+  readonly privacyPolicyDesc: dm.Description = dm.serviceDescMap.get('privacyPolicyDesc');
+  readonly serviceLevelDesc: dm.Description = dm.serviceDescMap.get('serviceLevelDesc');
+  readonly trainingInformationDesc: dm.Description = dm.serviceDescMap.get('trainingInformationDesc');
+  readonly statusMonitoringDesc: dm.Description = dm.serviceDescMap.get('statusMonitoringDesc');
+  readonly maintenanceDesc: dm.Description = dm.serviceDescMap.get('maintenanceDesc');
+  readonly orderTypeDesc: dm.Description = dm.serviceDescMap.get('orderTypeDesc');
+  readonly orderDesc: dm.Description = dm.serviceDescMap.get('orderDesc');
+  readonly accessPolicyDesc: dm.Description = dm.serviceDescMap.get('accessPolicyDesc');
+  readonly paymentModelDesc: dm.Description = dm.serviceDescMap.get('paymentModelDesc');
+  readonly pricingDesc: dm.Description = dm.serviceDescMap.get('pricingDesc');
+  readonly useCaseURLDesc: dm.Description = dm.serviceDescMap.get('useCaseURLDesc');
+  readonly useCaseNameDesc: dm.Description = dm.serviceDescMap.get('useCaseNameDesc');
 
 
   formGroupMeta = {
@@ -300,6 +304,7 @@ export class ServiceFormComponent implements OnInit {
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
               protected recommendationsService: RecommendationsService,
+              protected catalogueService: CatalogueService,
               protected route: ActivatedRoute
   ) {
     this.resourceService = this.injector.get(ResourceService);
@@ -358,15 +363,11 @@ export class ServiceFormComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          if (this.projectName === 'OpenAIRE Catalogue') {
-            return this.router.service(_service.id);  // redirect to service-landing-page (deleted this route and components)
-          } else {
-            return this.router.resourceDashboard(this.providerId, _service.id);  // redirect to resource-dashboard
-            // return this.router.dashboardResources(this.providerId);                  // redirect to provider dashboard -> resource list
-            // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
-            // return this.router.service(_service.id);                               // redirect to old service info page
-            // return window.location.href = this._marketplaceServicesURL + _service.id; // redirect to marketplace
-          }
+          return this.router.resourceDashboard(this.providerId, _service.id);  // redirect to resource-dashboard
+          // return this.router.dashboardResources(this.providerId);                  // redirect to provider dashboard -> resource list
+          // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
+          // return this.router.service(_service.id);                               // redirect to old service info page
+          // return window.location.href = this._marketplaceServicesURL + _service.id; // redirect to marketplace
         },
         err => {
           this.showLoader = false;
@@ -400,11 +401,11 @@ export class ServiceFormComponent implements OnInit {
     zip(
       this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getAllRelatedResources()
+      this.resourceService.getAllRelatedResources(this.catalogueId ? this.catalogueId : 'eosc')
     ).subscribe(suc => {
         this.providersPage = <Paging<Provider>>suc[0];
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
-        this.requiredResources = this.transformInputForDropdownUse(suc[2]);
+        this.requiredResources = suc[2];
         this.relatedResources = this.requiredResources;
         // this.getLocations();
         this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
@@ -438,15 +439,14 @@ export class ServiceFormComponent implements OnInit {
         let voc: Vocabulary[] = this.vocabularies[Type.SUBCATEGORY].concat(this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN]);
         this.subVocabularies = this.groupByKey(voc, 'parentId');
 
-        // fixme: should simplify if-else statement but route.snapshot.paramMap is empty for aire
-        if (this.projectName === 'OpenAIRE Catalogue') {
-          this.providerId = 'openaire';
-        } else {
-          this.providerId = this.route.snapshot.paramMap.get('providerId');
-          if (this.editMode && this.projectName === 'EOSC' && !(this.route.snapshot.paramMap.get('resourceId').startsWith(this.providerId+'.'))) {
-            return this.router.go('/404');
-          }
+        this.providerId = this.route.snapshot.paramMap.get('providerId');
+        if (this.editMode && this.projectName === 'EOSC' && !(this.route.snapshot.paramMap.get('resourceId').startsWith(this.providerId+'.'))) {
+          return this.router.go('/404');
         }
+
+        this.showProviderName(this.providerId);
+        if(this.catalogueId == 'eosc') this.displayedCatalogueName = `| Catalogue: EOSC`
+        else if(this.catalogueId) this.showCatalogueName(this.catalogueId);
 
         this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
         this.handleBitSets(0, 1, 'resourceOrganisation');
@@ -532,29 +532,6 @@ export class ServiceFormComponent implements OnInit {
         }
       }
     });
-  }
-
-  transformInputForDropdownUse(input) {
-    const arr = [];
-    for (const i in input) {
-      if (input[i]?.title) { // for training resources
-        arr.push({
-          'name' : input[i].resourceOrganisation + ' - ' + input[i].title,
-          'id' : input[i].id
-        });
-      } else { // for services and datasources
-        arr.push({
-          'name' : input[i].resourceOrganisation + ' - ' + input[i].name,
-          'id' : input[i].id
-        });
-      }
-    }
-    return arr;
-
-    // return Object.keys(input).reduce((accumulator, value) => {
-    //   accumulator[value] = input[value][0].resourceOrganisation + ' - ' + input[value][0].name;
-    //   return accumulator;
-    // }, {});
   }
 
   /** check form fields and tabs validity--> **/
@@ -1380,5 +1357,20 @@ export class ServiceFormComponent implements OnInit {
     this.checkForDuplicates('subcategory','categories');
   }
   /** <--Suggestions(Recommendations) Autocomplete **/
+
+  /**Display Provider and Catalogue Names--> **/
+  showProviderName(providerId: string) {
+    const provider = this.providersPage.results.find(provider => provider.id === providerId);
+    this.displayedProviderName = (provider.name ? `| Provider: ${provider.name} ` : '');
+  }
+
+  showCatalogueName(catalogueId: string) {
+    if (catalogueId!='undefined' && catalogueId!=undefined){
+    this.catalogueService.getCatalogueById(catalogueId).subscribe(
+      catalogue => this.displayedCatalogueName = `| Catalogue: ${catalogue.name}`,
+      error => console.log(error)
+    );}
+  }
+  /** <--Display Provider and Catalogue Names **/
 
 }

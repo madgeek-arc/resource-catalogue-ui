@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
 import {
@@ -10,7 +10,7 @@ import {
   RichService,
   Service,
   Vocabulary,
-  Type, ProviderBundle, ServiceBundle, LoggingInfo, Bundle
+  Type, ProviderBundle, ServiceBundle, LoggingInfo, Bundle, Datasource, DatasourceBundle
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
@@ -125,15 +125,15 @@ export class ResourceService {
     return this.http.get<BrowseResults>(this.base + '/service/by/category/');
   }
 
-  getAllRelatedResources(){ // Gets services, datasources and trainings
-    return this.http.get(this.base + '/service/resourceIdToNameMap/');
+  getAllRelatedResources(catalogueId: string){ // Gets services, datasources, trainings (low level ids for specified catalogue, public ids for others)
+    return this.http.get(this.base + `/service/resourceIdToNameMap?catalogueId=${catalogueId}`);
   }
 
   getService(serviceId: string, catalogueId?: string) { // can handle public ids too
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? serviceId : [serviceId, version].join('/')}`, this.options);
     if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<Service>(this.base + `/service/${serviceId}/?catalogue_id=${catalogueId}`, this.options);
+    return this.http.get<Service>(this.base + `/service/${serviceId}?catalogue_id=${catalogueId}`, this.options);
   }
 
   getRichService(id: string, catalogueId?:string, version?: string) {
@@ -387,7 +387,7 @@ export class ResourceService {
     // return this.getAll("provider");
   }
 
-  getProviderBundles(from: string, quantity: string, orderField: string, order: string, query: string,
+  getProviderBundles(from: string, quantity: string, orderField: string, order: string, query: string, active: string, suspended: string,
                      status: string[], templateStatus: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
@@ -396,6 +396,12 @@ export class ResourceService {
     params = params.append('order', order);
     if (query && query !== '') {
       params = params.append('query', query);
+    }
+    if (active && active !== '') {
+      params = params.append('active', active);
+    }
+    if (suspended && suspended !== '') {
+      params = params.append('suspended', suspended);
     }
     if (status && status.length > 0) {
       for (const statusValue of status) {
@@ -421,8 +427,8 @@ export class ResourceService {
     // return this.getAll("provider");
   }
 
-  getResourceBundles(from: string, quantity: string, orderField: string, order: string, query: string,
-                     active: string, resource_organisation: string[], status: string[], auditState: string[], catalogue_id: string[]) {
+  getResourceBundles(from: string, quantity: string, orderField: string, order: string, query: string, active: string, suspended: string, type: string,
+                     resource_organisation: string[], status: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
@@ -432,17 +438,25 @@ export class ResourceService {
     if (query && query !== '') {
       params = params.append('query', query);
     }
-    if (status && status.length > 0) {
-      for (const statusValue of status) {
-        params = params.append('status', statusValue);
-      }
-    }
     if (active && active !== '') {
       params = params.append('active', active);
+    }
+    if (suspended && suspended !== '') {
+      params = params.append('suspended', suspended);
+    }
+    if (type && type !== '') {
+      params = params.append('type', type);
+    } else {
+      params = params.append('type', 'all');
     }
     if (resource_organisation && resource_organisation.length > 0) {
       for (const providerValue of resource_organisation) {
         params = params.append('resource_organisation', providerValue);
+      }
+    }
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
       }
     }
     if (auditState && auditState.length > 0) {
@@ -454,10 +468,10 @@ export class ResourceService {
       for (const catalogueValue of catalogue_id) {
         params = params.append('catalogue_id', catalogueValue);
       }
-    } else params = params.append('catalogue_id', 'all');
-    params = params.append('type', 'all');
+    } else {
+      params = params.append('catalogue_id', 'all');
+    }
     return this.http.get<Bundle<Service>>(this.base + `/service/adminPage/all`, {params});
-    // return this.getAll("provider");
   }
 
   getResourceBundleById(id: string, catalogueId: string) {
@@ -551,12 +565,12 @@ export class ResourceService {
     return this.http.get<Info>(this.base + `/info/all`);
   }
 
-  auditResource(id: string, action: string, comment: string) {
-    return this.http.patch(this.base + `/resource/auditResource/${id}?actionType=${action}&comment=${comment}`, this.options);
+  auditResource(id: string, action: string, catalogueId: string, comment: string) {
+    return this.http.patch(this.base + `/resource/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
   }
 
-  auditDatasource(id: string, action: string, comment: string) {
-    return this.http.patch(this.base + `/datasource/auditDatasource/${id}?actionType=${action}&comment=${comment}`, this.options);
+  auditDatasource(id: string, action: string, catalogueId: string, comment: string) {
+    return this.http.patch(this.base + `/datasource/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
   }
 
   verifyResource(id: string, active: boolean, status: string) { // for 1st service
@@ -583,10 +597,6 @@ export class ResourceService {
     return this.http.post(this.base + `/resource/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
   }
 
-  isServiceOrDatasource(resourceId: string, catalogueId: string){
-    return this.http.get<string>(this.base + `/resource/isServiceOrDatasource?resourceId=${resourceId}&catalogueId=${catalogueId}`);
-  }
-
   public handleError(error: HttpErrorResponse) {
     // const message = 'Server error';
     const message = error.error;
@@ -604,5 +614,13 @@ export class ResourceService {
     UIkit.notification.closeAll();
     UIkit.notification({message: message, status: 'danger', pos: 'top-center', timeout: 5000});
     return throwError(error);
+  }
+
+  suspendService(serviceId: string, catalogueId: string, suspend: boolean) {
+    return this.http.put<ServiceBundle>(this.base + `/service/suspend?serviceId=${serviceId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
+  }
+
+  suspendDatasource(datasourceId: string, catalogueId: string, suspend: boolean) {
+    return this.http.put<DatasourceBundle>(this.base + `/datasource/suspend?datasourceId=${datasourceId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
   }
 }

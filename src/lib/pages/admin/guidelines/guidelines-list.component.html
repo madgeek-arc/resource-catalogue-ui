@@ -91,7 +91,7 @@
                         </div>
                       </div>
 
-                      <div class="uk-inline">
+                      <div class="uk-inline uk-margin-right">
                         <label class="" for="status">Status </label>
                         <div class="uk-inline">
                           <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
@@ -103,12 +103,32 @@
                         </div>
                       </div>
 
+                      <div class="uk-inline uk-margin-right">
+                        <label class="" for="active">Active </label>
+                        <div class="uk-inline">
+                          <select class="uk-input uk-select" id="active" (change)="handleChangeAndResetPage()" formControlName="active">
+                            <option value="" selected></option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <label class="" for="suspended">Suspended </label>
+                      <div class="uk-inline">
+                        <select class="uk-input uk-select" id="suspended" (change)="handleChangeAndResetPage()" formControlName="suspended">
+                          <option value="" selected></option>
+                          <option value="true">Yes</option>
+                          <option value="false">No</option>
+                        </select>
+                      </div>
+
                     </div>
 
                     <div class="">
                       <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
                         <span uk-search-icon></span>
-                        <input class="uk-search-input" type="search" placeholder="Search..." formControlName="query">
+                        <input class="uk-search-input" type="search" placeholder="Search (id, name)" formControlName="query">
                       </form>
                     </div>
 
@@ -159,6 +179,17 @@
                           <div class="uk-card-badge uk-label">Rejected</div>
                         </div>
 
+                        <div *ngIf="guidelineBundle.active" class="approved">
+                          <div class="uk-label uk-align-right">Active</div>
+                        </div>
+                        <div *ngIf="!guidelineBundle.active" class="rejected">
+                          <div class="uk-label uk-align-right" [ngClass]="guidelineBundle.status === 'pending interoperability record' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
+                        </div>
+
+                        <div *ngIf="guidelineBundle.suspended" class="rejected">
+                          <div class="uk-label uk-align-right" [ngClass]="guidelineBundle.status === 'pending interoperability record' ? 'uk-position-top-right uk-margin-xlarge-right' : ''">Suspended</div>
+                        </div>
+
                         <div class="">
                           <div class="uk-grid">
 
@@ -172,8 +203,12 @@
                               </div>
 
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Creators: </span><span *ngFor="let creator of guidelineBundle.interoperabilityRecord.creators; let i = index">{{i>0 ? ', ' : ''}} {{creator.creatorNameTypeInfo.creatorName}}</span>
+                                <span class="statusLabel">Provider ID: </span>{{ guidelineBundle.interoperabilityRecord.providerId }}
                               </div>
+
+<!--                              <div class="uk-margin-small-top">-->
+<!--                                <span class="statusLabel">Creators: </span><span *ngFor="let creator of guidelineBundle.interoperabilityRecord.creators; let i = index">{{i>0 ? ', ' : ''}} {{creator.creatorNameTypeInfo.creatorName}}</span>-->
+<!--                              </div>-->
 
                               <div class="uk-margin-small-top">
                                 <span class="statusLabel">Description: </span>{{ guidelineBundle.interoperabilityRecord.description }}
@@ -211,12 +246,42 @@
                               <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
                               Update
                             </button>
+
                             <button (click)="showDeletionModal(guidelineBundle.id)"
                                     class="uk-button uk-button-link uk-margin-medium-left"
                                     style="padding-left: 40px; border-left: 1px solid #ccc">
                               <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
                               Delete
                             </button>
+
+                            <button class="uk-button uk-button-link uk-margin-medium-left"
+                                    style="padding-left: 40px; border-left: 1px solid #ccc">
+                              <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
+                            </button>
+                            <div uk-dropdown="mode: click">
+                              <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+                                <li *ngIf="(guidelineBundle.status === 'approved interoperability record') && (!guidelineBundle.active)"
+                                    (click)="verifyGuideline(guidelineBundle.id, true, 'approved interoperability record')"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
+                                </li>
+                                <li *ngIf="(guidelineBundle.status === 'approved interoperability record') && (guidelineBundle.active)"
+                                    (click)="verifyGuideline(guidelineBundle.id, false, 'approved interoperability record')"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Deactivate</a>
+                                </li>
+                                <li *ngIf="(guidelineBundle.suspended==false)"
+                                    (click)="showSuspensionModal(guidelineBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Suspend</a>
+                                </li>
+                                <li *ngIf="(guidelineBundle.suspended==true)"
+                                    (click)="showSuspensionModal(guidelineBundle)"
+                                    class="uk-margin-small-top">
+                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
+                                </li>
+                              </ul>
+                            </div>
                           </div>
                         </div>
 
@@ -258,6 +323,23 @@
     </div>
     <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="deleteGuideline(selectedGuidelineId)">Delete</button>
     <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
+  </div>
+  <div *ngIf="loadingMessage">
+    <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+      {{ loadingMessage }}
+    </div>
+    <!--    <div class="whiteFilm"></div>-->
+  </div>
+</div>
+
+<div id="suspensionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <ng-container *ngIf="selectedGuideline">
+      <h6 class="uk-margin-medium-bottom">Are you sure you want to {{selectedGuideline.suspended==true ? 'un' : ''}}suspend "{{ selectedGuideline.interoperabilityRecord.title }}"?</h6>
+      <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="suspendInteroperabilityRecord()">
+        {{selectedGuideline.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
+      <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    </ng-container>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">

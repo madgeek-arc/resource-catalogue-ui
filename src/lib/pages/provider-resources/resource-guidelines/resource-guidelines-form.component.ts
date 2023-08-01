@@ -18,7 +18,6 @@ declare var UIkit: any;
 export class ResourceGuidelinesFormComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
   projectMail = environment.projectMail;
   showLoader = false;
   pendingService = false; // revisit
