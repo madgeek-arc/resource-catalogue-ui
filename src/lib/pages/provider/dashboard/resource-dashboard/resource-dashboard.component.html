@@ -34,6 +34,28 @@
         </ul>
       </div>
 
+
+      <div class="menu_section border_top">
+        <div class="sidebar_heading">SUBPROFILES</div>
+
+        <ul>
+          <li>
+            <ng-container *ngIf="!datasourceId">
+              <a [routerLink]="['/provider/' + providerId + '/datasource/select']">
+                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Enable Datasource Subprofile
+              </a>
+            </ng-container>
+            <ng-container *ngIf="datasourceId">
+              <a [routerLink]="['/provider/' + providerId + '/resource/subprofile/datasource' + resourceId]"> <!--todo: add routing like that -->
+                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Edit Datasource Subprofile
+              </a>
+            </ng-container>
+          </li>
+        </ul>
+      </div>
+
       <div class="menu_section border_top">
         <div class="sidebar_heading">ACTIONS</div>
 

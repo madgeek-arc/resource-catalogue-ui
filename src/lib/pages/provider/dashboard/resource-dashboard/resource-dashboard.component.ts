@@ -22,6 +22,7 @@ export class ResourceDashboardComponent implements OnInit {
   resourceId: string;
   monitoringId: string;
   helpdeskId: string;
+  datasourceId: string; //subprofile
 
   resourceBundle: ServiceBundle;
 
