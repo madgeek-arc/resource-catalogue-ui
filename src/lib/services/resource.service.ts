@@ -427,7 +427,7 @@ export class ResourceService {
     // return this.getAll("provider");
   }
 
-  getResourceBundles(from: string, quantity: string, orderField: string, order: string, query: string, active: string, suspended: string, type: string,
+  getResourceBundles(from: string, quantity: string, orderField: string, order: string, query: string, active: string, suspended: string,
                      resource_organisation: string[], status: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
@@ -443,11 +443,6 @@ export class ResourceService {
     }
     if (suspended && suspended !== '') {
       params = params.append('suspended', suspended);
-    }
-    if (type && type !== '') {
-      params = params.append('type', type);
-    } else {
-      params = params.append('type', 'all');
     }
     if (resource_organisation && resource_organisation.length > 0) {
       for (const providerValue of resource_organisation) {
