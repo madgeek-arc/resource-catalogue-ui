@@ -116,9 +116,11 @@ export class ServiceFormComponent implements OnInit {
 
   suggestedScientificSubDomains: string[] = [];
   suggestedSubCategories: string[] = [];
+  suggestedTags: string[] = [];
 
   selectedSuggestionsForScientificSubDomains: string[] = [];
   selectedSuggestionsForSubCategories: string[] = [];
+  selectedSuggestionsForTags: string[] = [];
 
   public filteredSubCategoriesVocabulary: Vocabulary[] = null;
   public filteredScientificSubDomainVocabulary: Vocabulary[] = null;
@@ -1263,7 +1265,8 @@ export class ServiceFormComponent implements OnInit {
           this.suggestedResponse = res;
           this.suggestedScientificSubDomains = this.suggestedResponse.find(item => item.field_name === "scientific_domains").suggestions;
           this.suggestedSubCategories = this.suggestedResponse.find(item => item.field_name === "categories").suggestions;
-          if((this.suggestedScientificSubDomains.length === 0) && (this.suggestedSubCategories.length === 0)) {this.emptySuggestionResponse = true}
+          this.suggestedTags = this.suggestedResponse.find(item => item.field_name === "tags").suggestions;
+          if((this.suggestedScientificSubDomains.length === 0) && (this.suggestedSubCategories.length === 0) && (this.suggestedTags.length === 0)) {this.emptySuggestionResponse = true}
           this.filteredScientificSubDomainVocabulary = this.scientificSubDomainVocabulary.filter((item) => this.suggestedScientificSubDomains.includes(item.id));
           this.filteredSubCategoriesVocabulary = this.subCategoriesVocabulary.filter((item) => this.suggestedSubCategories.includes(item.id));
         },
@@ -1281,6 +1284,7 @@ export class ServiceFormComponent implements OnInit {
   clearSelectedSuggestions(){
     this.selectedSuggestionsForScientificSubDomains = [];
     this.selectedSuggestionsForSubCategories= [];
+    this.selectedSuggestionsForTags= [];
   }
 
   onCheckboxChange(event: any, field: string) {
@@ -1291,6 +1295,8 @@ export class ServiceFormComponent implements OnInit {
         this.selectedSuggestionsForScientificSubDomains.push(id);
       } else if (field === 'SubCategories') {
         this.selectedSuggestionsForSubCategories.push(id);
+      } else if (field === 'Tags') {
+        this.selectedSuggestionsForTags.push(id);
       }
     } else {
       let index;
@@ -1304,6 +1310,11 @@ export class ServiceFormComponent implements OnInit {
         index = this.selectedSuggestionsForSubCategories.indexOf(id);
         if (index !== -1) {
           this.selectedSuggestionsForSubCategories.splice(index, 1);
+        }
+      } else if (field === 'Tags') {
+        index = this.selectedSuggestionsForTags.indexOf(id);
+        if (index !== -1) {
+          this.selectedSuggestionsForTags.splice(index, 1);
         }
       }
     }
@@ -1339,6 +1350,14 @@ export class ServiceFormComponent implements OnInit {
           this.categoryArray.push(categoryFormGroup);
           pushedNewValues = true;
         }
+      }
+    }
+    if (this.selectedSuggestionsForTags.length > 0) {
+      const tagsFormArray = this.serviceForm.get('tags') as FormArray;
+      if (tagsFormArray.at(0).value === '' && tagsFormArray.length === 1) tagsFormArray.clear();
+      for (const tag of this.selectedSuggestionsForTags) {
+        tagsFormArray.push(this.fb.control(tag)); // this.push('tags', false);
+        this.serviceForm.get('tags').setValue(tagsFormArray.value);
       }
     }
     if (pushedNewValues) {

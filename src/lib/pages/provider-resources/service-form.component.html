@@ -2161,6 +2161,16 @@
                 {{ suggestion.name }}
               </label>
             </li>
+            <div class="uk-text-bold uk-margin-medium-top">Tags</div>
+            <li *ngFor="let suggestion of suggestedTags">
+              <label>
+                <input type="checkbox"
+                       name="suggestion"
+                       [value]="suggestion"
+                       (change)="onCheckboxChange($event, 'Tags')">
+                {{ suggestion }}
+              </label>
+            </li>
           </ul>
         </form>
       </ng-container>
