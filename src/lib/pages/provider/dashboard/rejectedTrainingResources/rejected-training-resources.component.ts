@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DatasourceBundle, ProviderBundle} from '../../../../domain/eic-model';
+import {TrainingResourceBundle, ProviderBundle} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -7,16 +7,16 @@ import {Paging} from '../../../../domain/paging';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
-import {DatasourceService} from "../../../../services/datasource.service";
+import {TrainingResourceService} from "../../../../services/training-resource.service";
 
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-rejected-datasources',
-  templateUrl: './rejected-datasources.component.html',
+  selector: 'app-rejected-training-resources',
+  templateUrl: './rejected-training-resources.component.html',
 })
 
-export class RejectedDatasourcesComponent implements OnInit {
+export class RejectedTrainingResourcesComponent implements OnInit {
 
   formPrepare = {
     from: '0'
@@ -29,8 +29,8 @@ export class RejectedDatasourcesComponent implements OnInit {
   providerId: string;
   catalogueId: string;
   providerBundle: ProviderBundle;
-  datasourceBundles: Paging<DatasourceBundle>;
-  selectedDatasource: DatasourceBundle = null;
+  trainingResourceBundle: Paging<TrainingResourceBundle>;
+  selectedTrainingResource: TrainingResourceBundle = null;
   path: string;
 
   total: number;
@@ -45,7 +45,7 @@ export class RejectedDatasourcesComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
-    private datasourceService: DatasourceService
+    private trainingResourceService: TrainingResourceService
   ) {}
 
   ngOnInit(): void {
@@ -80,7 +80,7 @@ export class RejectedDatasourcesComponent implements OnInit {
   }
 
   navigate(id: string) {
-    this.router.navigate([`/provider/` + this.providerId + `/datasource/update/`, id]);
+    this.router.navigate([`/provider/` + this.providerId + `/training-resource/update/`, id]);
   }
 
   getProvider() {
@@ -95,27 +95,27 @@ export class RejectedDatasourcesComponent implements OnInit {
 
   getRejectedResources() {
     this.providerService.getRejectedResourcesOfProvider(this.providerId, this.dataForm.get('from').value,
-      this.itemsPerPage + '', 'ASC', 'name', 'datasource')
+      this.itemsPerPage + '', 'ASC', 'name', 'training_resource')
       .subscribe(res => {
-          this.datasourceBundles = res;
+          this.trainingResourceBundle = res;
           this.total = res['total'];
           this.paginationInit();
         },
         err => {
-          this.errorMessage = 'An error occurred while retrieving the datasources of this provider. ' + err.error;
+          this.errorMessage = 'An error occurred while retrieving the training resources of this provider. ' + err.error;
         },
         () => {}
       );
   }
 
-  setSelectedDatasource(datasource: DatasourceBundle) {
-    this.selectedDatasource = datasource;
+  setSelectedTrainingResource(trBundle: TrainingResourceBundle) {
+    this.selectedTrainingResource = trBundle;
     UIkit.modal('#actionModal').show();
   }
 
-  deleteDatasource(id: string) {
+  deleteTrainingResource(id: string) {
     // UIkit.modal('#spinnerModal').show();
-    this.datasourceService.deleteDatasource(id).subscribe(
+    this.trainingResourceService.deleteTrainingResource(id).subscribe(
       res => {},
       error => {
         // console.log(error);
@@ -143,13 +143,13 @@ export class RejectedDatasourcesComponent implements OnInit {
       }
     }
 
-    if (this.path.includes('/provider/rejected-datasources')) {
-      this.router.navigate([`/provider/rejected-datasources/` + this.providerId], {queryParams: map});
+    if (this.path.includes('/provider/rejected-training-resources')) {
+      this.router.navigate([`/provider/rejected-training-resources/` + this.providerId], {queryParams: map});
     }
     // else {
-    //   this.router.navigate([`/dashboard/` + this.providerId + `/rejected-datasources`], {queryParams: map});
+    //   this.router.navigate([`/dashboard/` + this.providerId + `/rejected-training-resources`], {queryParams: map});
     // }
-    // this.getPendingDatasources();
+    // this.getPendingTrainingResources();
   }
 
   paginationInit() {

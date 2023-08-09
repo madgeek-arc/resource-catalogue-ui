@@ -18,16 +18,16 @@
         <p>{{errorMessage}}</p>
       </div>
 
-      <div *ngIf="datasourceBundles && datasourceBundles?.results?.length === 0">
-        <p>No rejected Datasources found</p>
+      <div *ngIf="trainingResourceBundle && trainingResourceBundle?.results?.length === 0">
+        <p>No rejected Training Resources found</p>
       </div>
 
-      <div *ngIf="datasourceBundles && datasourceBundles?.results?.length > 0">
+      <div *ngIf="trainingResourceBundle && trainingResourceBundle?.results?.length > 0">
 
         <div class="uk-flex uk-flex-middle uk-flex-between">
 
           <div class="resultsInfo">
-            <span class="number">{{total}}</span> REJECTED DATASOURCES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+            <span class="number">{{total}}</span> REJECTED TRAINING RESOURCES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
           </div>
 
           <ul class="uk-pagination" uk-margin>
@@ -43,24 +43,24 @@
         <hr class="adminResultsHeader">
 
         <div class="uk-margin-medium-top">
-          <div *ngFor="let datasourceBundle of datasourceBundles.results" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+          <div *ngFor="let trBundle of trainingResourceBundle.results" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
 
             <div class="uk-card-body">
               <div class="uk-grid uk-flex-middle">
-                <div class="uk-width-1-6">
-                  <img src="{{datasourceBundle.datasource.logo ? datasourceBundle.datasource.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
-                </div>
+<!--                <div class="uk-width-1-6">-->
+<!--                  <img src="{{trBundle.trainingResource.logo ? trBundle.trainingResource.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">-->
+<!--                </div>-->
                 <div class="uk-width-2-3">
-                  <h4 class="uk-margin-remove">{{datasourceBundle.datasource.name}}</h4>
-                  <span *ngIf="datasourceBundle.datasource.description" class="uk-margin-small-top"><markdown [data]="datasourceBundle.datasource.description"></markdown></span>
+                  <h4 class="uk-margin-remove">{{trBundle.trainingResource.title}}</h4>
+                  <span *ngIf="trBundle.trainingResource.description" class="uk-margin-small-top"><markdown [data]="trBundle.trainingResource.description"></markdown></span>
                 </div>
                 <div class="uk-width-1-6">
                   <div class="action-buttons">
-                    <button class="uk-button uk-button-action uk-display-block" (click)="navigate(datasourceBundle.datasource.id)">
-                      <i class="fa fa-pencil fa-lg"></i> Edit datasource
+                    <button class="uk-button uk-button-action uk-display-block" (click)="navigate(trBundle.id)">
+                      <i class="fa fa-pencil fa-lg"></i> Edit training resource
                     </button>
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedDatasource(datasourceBundle)">
-                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete datasource
+                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedTrainingResource(trBundle)">
+                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete training resource
                     </button>
                   </div>
                 </div>
@@ -94,8 +94,8 @@
 
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h6 *ngIf="selectedDatasource">Are you sure you want to delete the datasource '{{selectedDatasource.datasource.name}}'</h6>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteDatasource(selectedDatasource.id)">Delete</button>
+    <h6 *ngIf="selectedTrainingResource">Are you sure you want to delete the training resource '{{selectedTrainingResource.trainingResource.title}}'</h6>
+    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteTrainingResource(selectedTrainingResource.id)">Delete</button>
     <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
   </div>
 </div>

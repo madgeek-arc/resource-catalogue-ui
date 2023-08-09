@@ -125,9 +125,9 @@
                                           Select from rejected {{serviceORresource | lowercase}}s
                                         </a>
                                       </li>
-                                      <li *ngIf="checkForRejectedDatasources(providerBundle.id)" class="uk-active">
-                                        <a [routerLink]="['/provider/rejected-datasources/' + providerBundle.id] ">
-                                          Select from rejected datasources
+                                      <li *ngIf="checkForRejectedTrainingResources(providerBundle.id)" class="uk-active">
+                                        <a [routerLink]="['/provider/rejected-training-resources/' + providerBundle.id] ">
+                                          Select from rejected training resources
                                         </a>
                                       </li>
                                       <li class="uk-nav-divider"></li>

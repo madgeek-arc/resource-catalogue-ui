@@ -21,7 +21,7 @@ import {DatasourceSelectComponent} from "./dashboard/datasources/datasource-sele
 import {DatasourceFormComponent} from "../datasource/datasource-form.component";
 import {UpdateDatasourceComponent} from "../datasource/update-datasource.component";
 import {AddFirstDatasourceComponent} from "../datasource/add-first-datasource.component";
-import {RejectedDatasourcesComponent} from "./dashboard/rejectedDatasources/rejected-datasources.component";
+import {RejectedTrainingResourcesComponent} from "./dashboard/rejectedTrainingResources/rejected-training-resources.component";
 import {ResourceGuidelinesFormComponent} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
 import {DatasourceGuidelinesFormComponent} from "../datasource/datasource-guidelines/datasource-guidelines-form.component";
 import {PendingDatasourcesComponent} from "./dashboard/pendingDatasources/pending-datasources.component";
@@ -99,11 +99,11 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: 'rejected-datasources/:providerId',
-    component: RejectedDatasourcesComponent,
+    path: 'rejected-training-resources/:providerId',
+    component: RejectedTrainingResourcesComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'Rejected Datasources'
+      breadcrumb: 'Rejected Training Resources'
     }
   },
   {
