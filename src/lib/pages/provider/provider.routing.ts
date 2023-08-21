@@ -8,7 +8,6 @@ import {UpdateServiceProviderComponent} from './update-service-provider.componen
 import {PendingServicesComponent} from './dashboard/pendingservices/pending-services.component';
 import {ServiceProvidersListComponent} from '../admin/service-providers-list.component';
 import {ResourcesListComponent} from '../admin/resources-list.component';
-import {DatasourcesListComponent} from '../admin/datasources-list.component';
 import {ServiceEditComponent} from '../provider-resources/service-edit.component';
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
 import {ProviderFormToPdfComponent} from './provider-form-to-pdf/provider-form-to-pdf.component';
@@ -344,14 +343,6 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'All ' + environment.serviceORresource + 's'
-    }
-  },
-  {
-    path: 'datasource/all',
-    component: DatasourcesListComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'All Datasources'
     }
   },
   {

@@ -12,7 +12,6 @@ import {ServiceProviderInfoComponent} from './service-provider-info.component';
 import {UpdateServiceProviderComponent} from './update-service-provider.component';
 import {ServiceProvidersListComponent} from '../admin/service-providers-list.component';
 import {ResourcesListComponent} from '../admin/resources-list.component';
-import {DatasourcesListComponent} from '../admin/datasources-list.component';
 import {TrainingListComponent} from '../admin/training-list.component';
 import {ServiceEditComponent} from '../provider-resources/service-edit.component';
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
@@ -54,7 +53,6 @@ import {AddFirstTrainingResourceComponent} from "../training-resources/add-first
     UpdateServiceProviderComponent,
     ServiceProvidersListComponent,
     ResourcesListComponent,
-    DatasourcesListComponent,
     TrainingListComponent,
     // FORMS
     ServiceEditComponent,
