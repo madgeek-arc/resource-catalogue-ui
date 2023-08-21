@@ -1271,7 +1271,7 @@ export class ServiceFormComponent implements OnInit {
           this.filteredSubCategoriesVocabulary = this.subCategoriesVocabulary.filter((item) => this.suggestedSubCategories.includes(item.id));
         },
         error => {
-          console.log(error);
+          this.showLoader = false;
         },
         () => {
           this.clearSelectedSuggestions();
