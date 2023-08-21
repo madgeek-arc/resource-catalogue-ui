@@ -541,10 +541,6 @@ export class ResourceService {
   deletePendingService(id: string) {
     return this.http.delete(this.base + '/pendingService/' + id, this.options);
   }
-
-  deletePendingDatasource(id: string) {
-    return this.http.delete(this.base + '/pendingDatasource/' + id, this.options);
-  }
   /** <-- Draft(Pending) Services **/
 
   getFeaturedServices() { //einfra leftover

@@ -21,7 +21,6 @@ import {PreviewResourceComponent} from '../pages/previewresource/preview-resourc
 import { HighchartsChartModule } from 'highcharts-angular';
 import {DashboardBreadcrumbsComponent} from "./breadcrumbs/dashboard-breadcrumbs.component";
 import {MarkdownModule} from "ngx-markdown";
-import {PendingDatasourcesComponent} from "../pages/provider/dashboard/pendingDatasources/pending-datasources.component";
 import {SharedDatasourcesComponent} from "../pages/provider/dashboard/sharedDatasources/shared-datasources.component";
 
 @NgModule({
@@ -47,7 +46,6 @@ import {SharedDatasourcesComponent} from "../pages/provider/dashboard/sharedData
     BreadcrumbsComponent,
     DashboardBreadcrumbsComponent,
     PendingServicesComponent,
-    PendingDatasourcesComponent,
     SharedServicesComponent,
     SharedDatasourcesComponent,
     RejectedServicesComponent,
@@ -67,7 +65,6 @@ import {SharedDatasourcesComponent} from "../pages/provider/dashboard/sharedData
     BreadcrumbsComponent,
     DashboardBreadcrumbsComponent,
     PendingServicesComponent,
-    PendingDatasourcesComponent,
     SharedServicesComponent,
     SharedDatasourcesComponent,
     RejectedServicesComponent,

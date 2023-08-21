@@ -756,38 +756,21 @@ export class ResourcesListComponent implements OnInit {
   }
 
   moveResourceToProvider(serviceBundle, providerId) {
-    if (serviceBundle?.service) {
-      UIkit.modal('#spinnerModal').show();
-        this.resourceService.moveResourceToProvider(serviceBundle.id, providerId, this.commentMoveControl.value).subscribe(
-          res => {},
-          error => {
-            // console.log(error);
-            UIkit.modal('#spinnerModal').hide();
-            this.errorMessage = 'Something went bad. ' + error.error;
-            this.getResources();
-          },
-          () => {
-            UIkit.modal('#spinnerModal').hide();
-            window.location.reload();
-          }
-        );
+    UIkit.modal('#spinnerModal').show();
+    this.resourceService.moveResourceToProvider(serviceBundle.id, providerId, this.commentMoveControl.value).subscribe(
+      res => {
+      },
+      error => {
+        // console.log(error);
+        UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = 'Something went bad. ' + error.error;
+        this.getResources();
+      },
+      () => {
+        UIkit.modal('#spinnerModal').hide();
+        window.location.reload();
       }
-      else if (serviceBundle?.datasource) {
-        UIkit.modal('#spinnerModal').show();
-        this.datasourceService.moveDatasourceToProvider(serviceBundle.id, providerId, this.commentMoveControl.value).subscribe(
-          res => {},
-          error => {
-            // console.log(error);
-            UIkit.modal('#spinnerModal').hide();
-            this.errorMessage = 'Something went bad. ' + error.error;
-            this.getResources();
-          },
-          () => {
-            UIkit.modal('#spinnerModal').hide();
-            window.location.reload();
-          }
-        );
-    }
+    );
   }
 
   showAuditForm(view: string, resource: ServiceBundle) {
@@ -831,15 +814,9 @@ export class ResourcesListComponent implements OnInit {
   }
 
   sendMailForUpdate(serviceBundle) {
-    if (serviceBundle?.service) {
-      this.resourceService.sendEmailForOutdatedResource(serviceBundle.id).subscribe(
-        res => {}, err => { console.log(err); }
-      );
-    } else if (serviceBundle?.datasource) {
-      this.datasourceService.sendEmailForOutdatedDatasource(serviceBundle.id).subscribe(
-        res => {}, err => { console.log(err); }
-      );
-    }
+    this.resourceService.sendEmailForOutdatedResource(serviceBundle.id).subscribe(
+      res => {}, err => { console.log(err); }
+    );
   }
 
   hasCreatedFirstService(id: string) {

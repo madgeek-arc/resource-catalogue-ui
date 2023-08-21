@@ -126,7 +126,7 @@ export class PendingServicesComponent implements OnInit {
 
   deleteService(bundle: ServiceBundle) {
     // UIkit.modal('#spinnerModal').show();
-    this.resourceService[bundle.service ? 'deletePendingService' : 'deletePendingDatasource'](bundle.id).subscribe(
+    this.resourceService.deletePendingService(bundle.id).subscribe(
       res => {},
       error => {
         // console.log(error);

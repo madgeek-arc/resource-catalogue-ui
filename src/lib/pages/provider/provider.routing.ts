@@ -23,7 +23,6 @@ import {AddFirstDatasourceComponent} from "../datasource/add-first-datasource.co
 import {RejectedTrainingResourcesComponent} from "./dashboard/rejectedTrainingResources/rejected-training-resources.component";
 import {ResourceGuidelinesFormComponent} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
 import {DatasourceGuidelinesFormComponent} from "../datasource/datasource-guidelines/datasource-guidelines-form.component";
-import {PendingDatasourcesComponent} from "./dashboard/pendingDatasources/pending-datasources.component";
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
 import {TrainingListComponent} from "../admin/training-list.component";
@@ -82,14 +81,6 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: 'draft-datasources/:providerId',
-    component: PendingDatasourcesComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Draft Datasources'
-    }
-  },
-  {
     path: 'rejected-resources/:providerId',
     component: RejectedServicesComponent,
     canActivate: [CanActivateViaAuthGuard],
@@ -143,14 +134,6 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit Draft ' + environment.serviceORresource
-    }
-  },
-  {
-    path: ':providerId/draft-datasource/update/:datasourceId',
-    component: UpdateDatasourceComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Edit Draft Datasource'
     }
   },
   {

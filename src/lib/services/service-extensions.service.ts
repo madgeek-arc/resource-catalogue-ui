@@ -3,7 +3,6 @@ import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
 import {Monitoring, Helpdesk, MonitoringBundle, HelpdeskBundle, MonitoringStatus} from '../domain/eic-model';
-import {URLParameter} from '../domain/url-parameter';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
