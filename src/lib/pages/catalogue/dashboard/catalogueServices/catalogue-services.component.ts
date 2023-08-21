@@ -89,10 +89,6 @@ export class CatalogueServicesComponent implements OnInit {
       );
   }
 
-  getPayload(bundle : ServiceBundle): Service | Datasource {
-    return bundle.service != null ? bundle.service : bundle.datasource;
-  }
-
   // navigate(serviceId: string) {
   //   this.router.navigate([`/dashboard/${this.catalogueId}/${serviceId.split('.')[0]}/resource-dashboard/`, serviceId]);
   // }
@@ -114,7 +110,7 @@ export class CatalogueServicesComponent implements OnInit {
       return;
     }
     this.toggleLoading = true;
-    this.providerService[bundle.service ? 'publishService' : 'publishDatasource'](bundle.id, this.getPayload(bundle).version, !bundle.active).subscribe(
+    this.providerService.publishService(bundle.id, bundle.service.version, !bundle.active).subscribe(
       res => {},
       error => {
         this.errorMessage = 'Something went bad. ' + error.error ;

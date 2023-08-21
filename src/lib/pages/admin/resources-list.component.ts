@@ -252,10 +252,6 @@ export class ResourcesListComponent implements OnInit {
     }
   }
 
-  getPayload(bundle : ServiceBundle): Service | Datasource {
-    return bundle.service != null ? bundle.service : bundle.datasource;
-  }
-
   getServiceOrDatasourceType(bundle : ServiceBundle): string {
     return bundle.service != null ? 'service' : 'datasource';
   }
@@ -572,7 +568,7 @@ export class ResourcesListComponent implements OnInit {
 
   suspendService() {
     UIkit.modal('#spinnerModal').show();
-    this.resourceService[this.selectedService.service ? 'suspendService' : 'suspendDatasource'](this.selectedService.id, this.getPayload(this.selectedService).catalogueId, !this.selectedService.suspended)
+    this.resourceService.suspendService(this.selectedService.id, this.selectedService.service.catalogueId, !this.selectedService.suspended)
       .subscribe(
         res => {
           UIkit.modal('#suspensionModal').hide();
@@ -595,7 +591,7 @@ export class ResourcesListComponent implements OnInit {
   /** resourceExtras--> **/
   toggleHorizontalService(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateHorizontalService(bundle.id, this.getServiceOrDatasourceType(bundle), this.getPayload(bundle).catalogueId, !bundle?.resourceExtras?.horizontalService).subscribe(
+    this.resourceExtrasService.updateHorizontalService(bundle.id, this.getServiceOrDatasourceType(bundle), bundle.service.catalogueId, !bundle?.resourceExtras?.horizontalService).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -628,7 +624,7 @@ export class ResourcesListComponent implements OnInit {
 
   updateResearchCategories(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateResearchCategories(bundle.id, this.getServiceOrDatasourceType(bundle), this.getPayload(bundle).catalogueId, this.extrasForm.value.researchCategories).subscribe(
+    this.resourceExtrasService.updateResearchCategories(bundle.id, this.getServiceOrDatasourceType(bundle), bundle.service.catalogueId, this.extrasForm.value.researchCategories).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -643,7 +639,7 @@ export class ResourcesListComponent implements OnInit {
 
   updateEoscIFGuidelines(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateEoscIFGuidelines(bundle.id, this.getServiceOrDatasourceType(bundle), this.getPayload(bundle).catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
+    this.resourceExtrasService.updateEoscIFGuidelines(bundle.id, this.getServiceOrDatasourceType(bundle), bundle.service.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -726,7 +722,7 @@ export class ResourcesListComponent implements OnInit {
       return;
     }
     UIkit.modal('#spinnerModal').show();
-    this.providerService[bundle.service ? 'publishService' : 'publishDatasource'](bundle.id, this.getPayload(bundle).version, !bundle.active).subscribe(
+    this.providerService.publishService(bundle.id, bundle.service.version, !bundle.active).subscribe(
       res => {},
       error => {
         UIkit.modal('#spinnerModal').hide();
@@ -811,7 +807,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   auditResourceAction(action: string, bundle: ServiceBundle) {
-    this.resourceService[bundle.service ? 'auditResource' : 'auditDatasource'](this.selectedService.id, action, this.getPayload(this.selectedService).catalogueId, this.commentAuditControl.value)
+    this.resourceService.auditResource(this.selectedService.id, action, this.selectedService.service.catalogueId, this.commentAuditControl.value)
       .subscribe(
         res => {
           if (!this.showSideAuditForm) {
