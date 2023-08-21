@@ -46,7 +46,8 @@ export class RecommendationsService {
                         "categories",
                         "tags"
                     ],
-                    "maximum_suggestions": 3
+                    "maximum_suggestions": 3,
+                    "existing_fields_values": {}
                   }`;
     return this.http.post(this.baseForAutocompletion + `/suggest`, JSON.parse(body));
   }
