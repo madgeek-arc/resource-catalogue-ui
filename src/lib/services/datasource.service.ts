@@ -109,8 +109,4 @@ export class DatasourceService {
     return this.http.patch(this.base + `/datasource/auditDatasource/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
-  getSharedDatasourcesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
-    return this.http.get<Paging<DatasourceBundle>>(this.base +
-      `/datasource/getSharedDatasources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
-  }
 }
