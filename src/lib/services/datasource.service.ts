@@ -84,10 +84,10 @@ export class DatasourceService {
     return this.http.get<Datasource>(this.base + `/datasource/getOpenAIREDatasourceById?datasourceId=${id}`, this.options);
   }
 
-  submitDatasource(datasource: Datasource, shouldPut: boolean, comment: string) {
+  submitDatasource(datasource: Datasource, shouldPut: boolean) {
     // console.log(JSON.stringify(datasource));
     // console.log(`knocking on: ${this.base}/datasource`);
-    return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + `/datasource?comment=${comment}`, datasource, this.options);
+    return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base, datasource, this.options);
   }
 
   verifyDatasource(id: string, active: boolean, status: string) { // for 1st datasource
@@ -109,4 +109,10 @@ export class DatasourceService {
     return this.http.patch(this.base + `/datasource/auditDatasource/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
+
+  getDatasourceByServiceId(serviceId: string, catalogueId?:string){
+    if (!catalogueId) catalogueId = 'eosc';
+    return this.http.get<Datasource>(this.base + `/datasource/datasource/${serviceId}/?catalogue_id=${catalogueId}`, this.options);
+    // return this.http.get<Datasource>(this.base + `/datasource/datasource/${serviceId}`, this.options);
+  }
 }
