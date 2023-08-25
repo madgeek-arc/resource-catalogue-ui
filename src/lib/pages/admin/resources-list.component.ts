@@ -8,8 +8,7 @@ import {
   Provider,
   ProviderBundle,
   Vocabulary,
-  Service,
-  Datasource
+  Service
 } from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -20,7 +19,6 @@ import {NavigationService} from '../../services/navigation.service';
 import {Paging} from '../../domain/paging';
 import {ResourceExtrasService} from '../../services/resource-extras.service';
 import {ServiceExtensionsService} from '../../services/service-extensions.service';
-import {DatasourceService} from "../../services/datasource.service";
 
 declare var UIkit: any;
 
@@ -126,7 +124,6 @@ export class ResourcesListComponent implements OnInit {
   semanticRelationshipVoc: Vocabulary[] = null;
 
   constructor(private resourceService: ResourceService,
-              private datasourceService: DatasourceService,
               private providerService: ServiceProviderService,
               private resourceExtrasService: ResourceExtrasService,
               private authenticationService: AuthenticationService,
@@ -250,10 +247,6 @@ export class ResourcesListComponent implements OnInit {
       this.getResearchCategoriesVoc();
       this.getSemanticRelationshipVoc();
     }
-  }
-
-  getServiceOrDatasourceType(bundle : ServiceBundle): string {
-    return bundle.service != null ? 'service' : 'datasource';
   }
 
   isStatusChecked(value: string) {
@@ -551,7 +544,7 @@ export class ResourcesListComponent implements OnInit {
 
   deleteService(bundle: ServiceBundle) {
     // UIkit.modal('#spinnerModal').show();
-    this.resourceService[bundle.service ? 'deleteService' : 'deleteDatasource'](bundle.id).subscribe(
+    this.resourceService.deleteService(bundle.id).subscribe(
       res => {},
       error => {
         // console.log(error);
@@ -591,7 +584,7 @@ export class ResourcesListComponent implements OnInit {
   /** resourceExtras--> **/
   toggleHorizontalService(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateHorizontalService(bundle.id, this.getServiceOrDatasourceType(bundle), bundle.service.catalogueId, !bundle?.resourceExtras?.horizontalService).subscribe(
+    this.resourceExtrasService.updateHorizontalService(bundle.id, 'service', bundle.service.catalogueId, !bundle?.resourceExtras?.horizontalService).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -624,7 +617,7 @@ export class ResourcesListComponent implements OnInit {
 
   updateResearchCategories(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateResearchCategories(bundle.id, this.getServiceOrDatasourceType(bundle), bundle.service.catalogueId, this.extrasForm.value.researchCategories).subscribe(
+    this.resourceExtrasService.updateResearchCategories(bundle.id, 'service', bundle.service.catalogueId, this.extrasForm.value.researchCategories).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -639,7 +632,7 @@ export class ResourcesListComponent implements OnInit {
 
   updateEoscIFGuidelines(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateEoscIFGuidelines(bundle.id, this.getServiceOrDatasourceType(bundle), bundle.service.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
+    this.resourceExtrasService.updateEoscIFGuidelines(bundle.id, 'service', bundle.service.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -740,7 +733,7 @@ export class ResourcesListComponent implements OnInit {
     UIkit.modal('#spinnerModal').show();
     const providerId = serviceBundle.id.substring(0, serviceBundle.id.lastIndexOf('.'));
     const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerId)[0].serviceId;
-    this.resourceService[serviceBundle?.service ? 'verifyResource' : 'verifyDatasource'](templateId, active, status).subscribe(
+    this.resourceService.verifyResource(templateId, active, status).subscribe(
       res => {
         this.getProviders();
       },
