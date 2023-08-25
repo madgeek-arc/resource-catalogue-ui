@@ -25,7 +25,7 @@ import {TrainingResourceForm} from "../training-resources/training-resource-form
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
 import {TrainingListComponent} from "../admin/training-list.component";
 import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
-
+import {DatasourcesListComponent} from "../admin/datasources-list.component";
 
 const providerRoutes: Routes = [
 
@@ -292,6 +292,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'All ' + environment.serviceORresource + 's'
+    }
+  },
+  {
+    path: 'datasource/all',
+    component: DatasourcesListComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'All Datasources'
     }
   },
   {

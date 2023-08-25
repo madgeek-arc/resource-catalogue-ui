@@ -27,6 +27,7 @@ import {DatasourceGuidelinesFormComponent} from "../datasource/datasource-guidel
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
 import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
+import {DatasourcesListComponent} from "../admin/datasources-list.component";
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import {AddFirstTrainingResourceComponent} from "../training-resources/add-first
     UpdateServiceProviderComponent,
     ServiceProvidersListComponent,
     ResourcesListComponent,
+    DatasourcesListComponent,
     TrainingListComponent,
     // FORMS
     ServiceEditComponent,

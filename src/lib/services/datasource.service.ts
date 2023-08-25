@@ -63,7 +63,7 @@ export class DatasourceService {
         params = params.append('catalogue_id', catalogueValue);
       }
     } else params = params.append('catalogue_id', 'all');
-    return this.http.get(this.base + `/datasource/adminPage/all`, {params});
+    return this.http.get(this.base + `/datasource/datasource/all`, {params});
   }
 
   getDatasourceBundleById(id: string, catalogueId: string) {
