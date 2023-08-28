@@ -26,7 +26,7 @@ export class DatasourceService {
   }
 
   deleteDatasource(id: string) {
-    return this.http.delete(this.base + '/datasource/datasource/' + id, this.options);
+    return this.http.delete(this.base + '/datasource/' + id, this.options);
   }
 
   getDatasourceBundles(from: string, quantity: string, orderField: string, order: string, query: string,
@@ -63,7 +63,7 @@ export class DatasourceService {
         params = params.append('catalogue_id', catalogueValue);
       }
     } else params = params.append('catalogue_id', 'all');
-    return this.http.get(this.base + `/datasource/datasource/all`, {params});
+    return this.http.get(this.base + `/datasource/adminPage/all`, {params});
   }
 
   getDatasourceBundleById(id: string, catalogueId: string) {
@@ -112,7 +112,7 @@ export class DatasourceService {
 
   getDatasourceByServiceId(serviceId: string, catalogueId?:string){
     if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<Datasource>(this.base + `/datasource/datasource/${serviceId}/?catalogue_id=${catalogueId}`, this.options);
-    // return this.http.get<Datasource>(this.base + `/datasource/datasource/${serviceId}`, this.options);
+    return this.http.get<Datasource>(this.base + `/datasource/${serviceId}/?catalogue_id=${catalogueId}`, this.options);
+    // return this.http.get<Datasource>(this.base + `/datasource/${serviceId}`, this.options);
   }
 }

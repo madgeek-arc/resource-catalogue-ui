@@ -73,26 +73,26 @@
                       <ul class="uk-width-1-1 uk-margin-remove uk-tab uk-tab-left form-tabs" uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
                         <li class="uk-active">
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[12]}" href="#" id="tab13">
-                            <span>13. Data Source Policies</span>
+                            <span>1. Data Source Policies</span>
                           </a>
                         </li>
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[13]}" href="#" id="tab14">
-                            <span>14. Data Source Content</span>
+                            <span>2. Data Source Content</span>
                             <span *ngIf="!disable" class="circle-number">
                               <i *ngIf="remainingOnTab13==0" aria-hidden="true" class="fa fa-check"></i>
-                              {{remainingOnTab13!=0 ? remainingOnTab13 +'*' : ''}}
+<!--                              {{remainingOnTab13!=0 ? remainingOnTab13 +'*' : ''}}-->
                             </span>
                           </a>
                         </li>
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[14]}" href="#" id="tab15">
-                            <span>15. Research Product Policies</span>
+                            <span>3. Research Product Policies</span>
                           </a>
                         </li>
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[15]}" href="#" id="tab16">
-                            <span>16. Research Product Metadata</span>
+                            <span>4. Research Product Metadata</span>
                           </a>
                         </li>
                       </ul>
@@ -243,13 +243,8 @@
                             </div>
                           </div>
 
-                          <div class="uk-flex justify-content-between">
-                            <div class="uk-flex-left">
-                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab12')"><i class="fa fa-arrow-circle-left fa-lg"></i>&nbsp; Previous</button>
-                            </div>
-                            <div class="uk-flex-right">
-                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab14')">Next &nbsp;<i class="fa fa-arrow-circle-right fa-lg"></i></button>
-                            </div>
+                          <div class="uk-flex uk-flex-right">
+                            <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab14')">Next &nbsp;<i class="fa fa-arrow-circle-right fa-lg"></i></button>
                           </div>
 
                         </li>
