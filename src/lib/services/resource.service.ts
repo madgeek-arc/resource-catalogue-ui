@@ -83,7 +83,7 @@ export class ResourceService {
     return this.http.get(this.base + `/${resourceType}/${id}/`, this.options);
   }
 
-  search(urlParameters: URLParameter[]) {
+/*  search(urlParameters: URLParameter[]) {
     let searchQuery = new HttpParams();
     for (const urlParameter of urlParameters) {
       for (const value of urlParameter.values) {
@@ -91,12 +91,12 @@ export class ResourceService {
       }
     }
     searchQuery.delete('to');
-    /*return this.http.get(`/service/all${questionMark}${searchQuery.toString()}`).map(res => <SearchResults<Service>> <any> res);*/
+    //return this.http.get(`/service/all${questionMark}${searchQuery.toString()}`).map(res => <SearchResults<Service>> <any> res);
     // const questionMark = urlParameters.length > 0 ? '?' : '';
     // return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`, this.options)
     return this.http.get<Paging<RichService>>(
       this.base + `/service/rich/all?orderField=name&order=asc&${searchQuery.toString()}`, this.options);
-  }
+  }*/
 
   getAllVocabulariesByType() {
     return this.http.get<Map<Type, Vocabulary[]>>(this.base + `/vocabulary/byType`);
@@ -142,21 +142,21 @@ export class ResourceService {
     // return this.http.get<RichService>(this.base + `/service/rich/${version === undefined ? id : [id, version].join('/')}/`, this.options);
   }
 
-  getSelectedServices(ids: string[]) {
-    /*return this.getSome("service", ids).map(res => <Service[]> <any> res);*/
+/*  getSelectedServices(ids: string[]) {
+    /!*return this.getSome("service", ids).map(res => <Service[]> <any> res);*!/
     // return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
     return this.http.get<RichService[]>(this.base + `/service/rich/byID/${ids.toString()}/`, this.options);
-  }
+  }*/
 
   getMultipleResourcesByPublicId(publicIds: string[]) { //input public ids of services, datasources, and training resources; returns only if resource exist; NOT bundles
     return this.http.get<any[]>(this.base + `/public/resources/${publicIds.toString()}/`, this.options);
   }
 
-  // getServicesOfferedByProvider(id: string): Observable<RichService[]> {
-  //   return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).pipe(
-  //     map(res => Object.values(res.results))
-  //   );
-  // }
+/*  getServicesOfferedByProvider(id: string): Observable<RichService[]> {
+    return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).pipe(
+      map(res => Object.values(res.results))
+    );
+  }*/
 
   deleteService(id: string) {
     return this.http.delete(this.base + '/service/' + id, this.options);
@@ -484,7 +484,7 @@ export class ResourceService {
 
   getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/resource/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      `/service/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 
   getEU() {
@@ -548,8 +548,8 @@ export class ResourceService {
   }
 
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
-    // return this.http.get<Paging<LoggingInfo>>(this.base + `/resource/loggingInfoHistory/${serviceId}/`);
-    return this.http.get<Paging<LoggingInfo>>(this.base + `/resource/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
+    // return this.http.get<Paging<LoggingInfo>>(this.base + `/service/loggingInfoHistory/${serviceId}/`);
+    return this.http.get<Paging<LoggingInfo>>(this.base + `/service/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
   }
 
   getInfo() {
