@@ -25,6 +25,7 @@ import {UpdateTrainingResource} from "../training-resources/update-training-reso
 import {TrainingListComponent} from "../admin/training-list.component";
 import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
 import {DatasourcesListComponent} from "../admin/datasources-list.component";
+import {SelectSubprofileComponent} from "../provider-resources/service-subprofiles/select-subprofile.component";
 
 const providerRoutes: Routes = [
 
@@ -139,6 +140,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Add Training Resource'
+    }
+  },
+  {
+    path: ':providerId/service/:serviceId/select-subprofile', //for eosc only
+    component: SelectSubprofileComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Select Subprofile'
     }
   },
   {
