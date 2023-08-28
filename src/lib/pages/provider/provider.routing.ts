@@ -20,7 +20,6 @@ import {RejectedServicesComponent} from './dashboard/rejectedServices/rejected-s
 import {DatasourceSelectComponent} from "./dashboard/datasources/datasource-select.component";
 import {RejectedTrainingResourcesComponent} from "./dashboard/rejectedTrainingResources/rejected-training-resources.component";
 import {ResourceGuidelinesFormComponent} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
-import {DatasourceGuidelinesFormComponent} from "../datasource/datasource-guidelines/datasource-guidelines-form.component";
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
 import {TrainingListComponent} from "../admin/training-list.component";
@@ -268,14 +267,6 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Resource Guidelines'
-    }
-  },
-  {
-    path: ':providerId/datasource/guidelines/:datasourceId',
-    component: DatasourceGuidelinesFormComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Datasource Guidelines'
     }
   },
   {

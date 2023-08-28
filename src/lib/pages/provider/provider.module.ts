@@ -23,7 +23,6 @@ import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-ext
 import {NgSelectModule} from '@ng-select/ng-select';
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
 import {ResourceGuidelinesFormComponent} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
-import {DatasourceGuidelinesFormComponent} from "../datasource/datasource-guidelines/datasource-guidelines-form.component";
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
 import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
@@ -63,7 +62,6 @@ import {DatasourcesListComponent} from "../admin/datasources-list.component";
     MonitoringExtensionFormComponent,
     HelpdeskExtensionFormComponent,
     ResourceGuidelinesFormComponent,
-    DatasourceGuidelinesFormComponent,
     TrainingResourceForm,
     UpdateTrainingResource
   ]
