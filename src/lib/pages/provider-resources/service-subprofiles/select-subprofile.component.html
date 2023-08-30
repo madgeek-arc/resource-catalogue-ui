@@ -10,13 +10,14 @@
               <div class="uk-text-center">
 
                 <h3>Want to add a subprofile to your {{serviceORresource}}?</h3>
-                <p>You can skip this step and manage subprofiles anytime from the {{serviceORresource | lowercase}} dashboard.</p>
+                <p>You can skip this step and manage subprofiles anytime from the
+                  <a [routerLink]="'/dashboard/'+this.service.catalogueId+'/'+this.service.resourceOrganisation+'/resource-dashboard/'+this.service.id+'/history'">{{serviceORresource | lowercase}} dashboard</a>.</p>
 
                 <div class="uk-inline uk-margin-right">
                   <label class="" style="margin-right: 5px" for="subprofile">Subprofile</label>
                   <div class="uk-inline">
-                    <select class="uk-input uk-select" id="subprofile" formControlName="subprofile">
-                      <option value="datasource" selected>Datasource</option>
+                    <select class="uk-input uk-select" id="subprofile" [(ngModel)]="selectedSubprofile" name="subprofile">
+                      <option value="datasource">Datasource</option>
                     </select>
                   </div>
                 </div>
@@ -24,7 +25,7 @@
                 <div class="uk-inline">
                   <div class="uk-flex uk-flex-right">
                     <button [routerLink]="['/provider/' + this.service.resourceOrganisation + '/datasource/select/']"
-                            class="uk-button" [ngClass]="!selectedValue ? 'uk-disabled' : 'uk-button-secondary'">
+                            class="uk-button" [ngClass]="!selectedSubprofile ? 'uk-disabled' : 'uk-button-secondary'">
                       Next <i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </button>
                   </div>
@@ -40,10 +41,10 @@
 <!--                class="uk-button uk-button-action uk-display-block uk-margin-medium-top" style="padding-left: 30px">-->
 <!--          <i class="fa fa-arrow-left" aria-hidden="true"></i> Dashboard-->
 <!--        </button>-->
-        <button [routerLink]="['/dashboard/'+this.service.catalogueId+'/'+this.service.resourceOrganisation+'/resource-dashboard/'+this.service.id+'/history']"
-                class="uk-button uk-button-action uk-display-block uk-margin-medium-top" style="padding-left: 30px">
-          <i class="fa fa-arrow-left" aria-hidden="true"></i> {{serviceORresource}} Dashboard
-        </button>
+<!--        <button [routerLink]="['/dashboard/'+this.service.catalogueId+'/'+this.service.resourceOrganisation+'/resource-dashboard/'+this.service.id+'/history']"-->
+<!--                class="uk-button uk-button-action uk-display-block uk-margin-medium-top" style="padding-left: 30px">-->
+<!--          <i class="fa fa-arrow-left" aria-hidden="true"></i> {{serviceORresource}} Dashboard-->
+<!--        </button>-->
       </ng-container>
     </div>
   </div>

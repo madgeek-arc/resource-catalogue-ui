@@ -12,7 +12,7 @@ import {Service} from "../../../domain/eic-model";
 export class SelectSubprofileComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
-  selectedValue: string;
+  selectedSubprofile: string = 'datasource';
   errorMessage = '';
   serviceId: string;
   service: Service;
