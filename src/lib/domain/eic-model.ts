@@ -112,7 +112,6 @@ export class ServiceBundle extends Bundle<Service> {
 
 export class DatasourceBundle extends Bundle<Datasource> {
   datasource: Datasource;
-  providerId: string; // todo add this to backend as well
 }
 
 export class TrainingResourceBundle extends Bundle<TrainingResource> {

@@ -35,6 +35,7 @@ export class DatasourceSelectComponent implements OnInit {
   showLoader = false;
   urlParams: URLParameter[] = [];
   providerId: string;
+  resourceId: string;
   catalogueId: string;
   providerBundle: ProviderBundle;
   datasources: Paging<Datasource>;
@@ -58,6 +59,7 @@ export class DatasourceSelectComponent implements OnInit {
 
   ngOnInit(): void {
     this.providerId = this.route.snapshot.paramMap.get('providerId');
+    this.resourceId = this.route.snapshot.paramMap.get('resourceId');
 
     this.getProvider();
 
@@ -135,7 +137,7 @@ export class DatasourceSelectComponent implements OnInit {
       }
     }
 
-    this.router.navigate([`/provider/${this.providerId}/datasource/select`], {queryParams: map});
+    this.router.navigate([`/provider/${this.providerId}/resource/${this.resourceId}/datasource/select`], {queryParams: map});
   }
 
   paginationInit() {

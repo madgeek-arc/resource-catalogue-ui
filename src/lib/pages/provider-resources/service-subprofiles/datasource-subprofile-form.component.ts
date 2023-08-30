@@ -231,8 +231,9 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.resourceService.getAllVocabulariesByType().subscribe(suc => {
-        this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
+    this.resourceService.getAllVocabulariesByType().subscribe(
+      suc => {
+        this.vocabularies = <Map<string, Vocabulary[]>>suc;
         this.jurisdictionVocabulary = this.vocabularies[Type.DS_JURISDICTION];
         this.classificationVocabulary = this.vocabularies[Type.DS_CLASSIFICATION];
         this.researchEntityTypeVocabulary = this.vocabularies[Type.DS_RESEARCH_ENTITY_TYPE];

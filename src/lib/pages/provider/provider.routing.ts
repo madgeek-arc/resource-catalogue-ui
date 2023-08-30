@@ -151,7 +151,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':providerId/datasource/select',
+    path: ':providerId/resource/:resourceId/datasource/select',
     component: DatasourceSelectComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {

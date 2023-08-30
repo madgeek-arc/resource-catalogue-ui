@@ -41,7 +41,7 @@
         <ul>
           <li>
             <ng-container *ngIf="!datasourceId">
-              <a [routerLink]="['/provider/' + providerId + '/datasource/select']">
+              <a [routerLink]="['/provider/' + providerId + '/resource/' + resourceId + '/datasource/select']">
                 <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                 Enable Datasource Subprofile
               </a>

@@ -23,15 +23,15 @@ export class DatasourcesListComponent implements OnInit {
 
   formPrepare = {
     order: 'ASC',
-    orderField: 'title',
+    orderField: 'id',
     quantity: '10',
     from: '0',
     query: '',
-    active: '',
-    suspended: '',
+    // active: '',
+    suspended: 'false',
     catalogue_id: new FormArray([]),
-    provider_id: new FormArray([]),
-    status: ''
+    // provider_id: new FormArray([]),
+    // status: ''
   };
 
   dataForm: FormGroup;
@@ -162,8 +162,7 @@ export class DatasourcesListComponent implements OnInit {
     this.datasources = [];
     this.datasourceService.getDatasourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('catalogue_id').value, this.dataForm.get('provider_id').value,
-      this.dataForm.get('status').value, this.dataForm.get('active').value, this.dataForm.get('suspended').value).subscribe(
+      this.dataForm.get('catalogue_id').value, this.dataForm.get('suspended').value).subscribe(
       res => {
         this.datasources = res['results'];
         this.facets = res['facets'];

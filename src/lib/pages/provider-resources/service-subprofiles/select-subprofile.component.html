@@ -24,7 +24,7 @@
 
                 <div class="uk-inline">
                   <div class="uk-flex uk-flex-right">
-                    <button [routerLink]="['/provider/' + this.service.resourceOrganisation + '/datasource/select/']"
+                    <button [routerLink]="['/provider/' + this.service.resourceOrganisation + '/resource/' + serviceId + '/datasource/select/']"
                             class="uk-button" [ngClass]="!selectedSubprofile ? 'uk-disabled' : 'uk-button-secondary'">
                       Next <i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </button>

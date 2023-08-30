@@ -30,34 +30,26 @@ export class DatasourceService {
   }
 
   getDatasourceBundles(from: string, quantity: string, orderField: string, order: string, query: string,
-                       active: string, resource_organisation: string[], status: string[], auditState: string[], catalogue_id: string[]) {
+                       catalogue_id: string[], suspended: string) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
     params = params.append('orderField', orderField);
     params = params.append('order', order);
-    // params = params.append('active', active);
+    params = params.append('suspended', suspended);
     if (query && query !== '') {
       params = params.append('query', query);
     }
-    if (status && status.length > 0) {
-      for (const statusValue of status) {
-        params = params.append('status', statusValue);
-      }
-    }
-    if (active && active !== '') {
-      params = params.append('active', active);
-    }
-    if (resource_organisation && resource_organisation.length > 0) {
-      for (const providerValue of resource_organisation) {
-        params = params.append('resource_organisation', providerValue);
-      }
-    }
-    if (auditState && auditState.length > 0) {
-      for (const auditValue of auditState) {
-        params = params.append('auditState', auditValue);
-      }
-    }
+    // if (status && status.length > 0) {
+    //   for (const statusValue of status) {
+    //     params = params.append('status', statusValue);
+    //   }
+    // }
+    // if (suspended && suspended.length > 0) {
+    //   for (const suspendedValue of status) {
+    //     params = params.append('suspended', suspendedValue);
+    //   }
+    // }
     if (catalogue_id && catalogue_id.length > 0) {
       for (const catalogueValue of catalogue_id) {
         params = params.append('catalogue_id', catalogueValue);
@@ -87,7 +79,8 @@ export class DatasourceService {
   submitDatasource(datasource: Datasource, shouldPut: boolean) {
     // console.log(JSON.stringify(datasource));
     // console.log(`knocking on: ${this.base}/datasource`);
-    return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base, datasource, this.options);
+    return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base + '/datasource', datasource, this.options);
+    // return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base + '/datasource?catalogue_id=eosc', datasource, this.options);
   }
 
   verifyDatasource(id: string, active: boolean, status: string) { // for 1st datasource
@@ -112,7 +105,7 @@ export class DatasourceService {
 
   getDatasourceByServiceId(serviceId: string, catalogueId?:string){
     if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<Datasource>(this.base + `/datasource/${serviceId}/?catalogue_id=${catalogueId}`, this.options);
+    return this.http.get<Datasource>(this.base + `/datasource/byService/${serviceId}/?catalogue_id=${catalogueId}`, this.options);
     // return this.http.get<Datasource>(this.base + `/datasource/${serviceId}`, this.options);
   }
 }
