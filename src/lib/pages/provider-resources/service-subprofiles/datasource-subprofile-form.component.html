@@ -123,7 +123,6 @@
                               <input id="submissionPolicyURL" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                                      type="text" placeholder="use http:// or https://"
                                      (input)="unsavedChangesPrompt()"
-                                     [ngClass]="{'uk-form-danger': checkFormValidity('submissionPolicyURL', this.editMode)}"
                                      formControlName="submissionPolicyURL">
                               <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('submissionPolicyURL').value" class="uk-icon">
                                 <a href="{{this.serviceForm.get('submissionPolicyURL').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
@@ -140,7 +139,6 @@
                               <input id="preservationPolicyURL" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                                      type="text" placeholder="use http:// or https://"
                                      (input)="unsavedChangesPrompt()"
-                                     [ngClass]="{'uk-form-danger': checkFormValidity('preservationPolicyURL', this.editMode)}"
                                      formControlName="preservationPolicyURL">
                               <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('preservationPolicyURL').value" class="uk-icon">
                                 <a href="{{this.serviceForm.get('preservationPolicyURL').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
@@ -258,7 +256,6 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <ng-select *ngIf="jurisdictionVocabulary" class="uk-width-9-10" id="jurisdiction"
                                          (change)="handleBitSets(13, 24, 'jurisdiction'); unsavedChangesPrompt()"
-                                         [ngClass]="{'uk-form-danger': checkFormValidity('jurisdiction', this.editMode, jurisdictionDesc.mandatory)}"
                                          [items]="sortVocabulariesByName(jurisdictionVocabulary)"
                                          bindLabel="name"
                                          bindValue="id"
@@ -275,7 +272,6 @@
                             <div class="uk-form-controls uk-margin-medium-top">
                               <ng-select *ngIf="classificationVocabulary" class="uk-width-9-10" id="datasourceClassification"
                                          (change)="handleBitSets(13, 25, 'datasourceClassification'); unsavedChangesPrompt()"
-                                         [ngClass]="{'uk-form-danger': checkFormValidity('datasourceClassification', this.editMode, datasourceClassificationDesc.mandatory)}"
                                          [items]="sortVocabulariesByName(classificationVocabulary)"
                                          bindLabel="name"
                                          bindValue="id"
@@ -367,7 +363,6 @@
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="researchProductLicenseURL" class="uk-input" type="text" formControlName="researchProductLicenseURL" placeholder="use http:// or https://"
                                              (input)="unsavedChangesPrompt()">
-                                      <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaURL')}">-->
                                     </div>
                                   </div>
                                   <div class="uk-margin-bottom">
@@ -379,7 +374,6 @@
                                     <div class="uk-form-controls uk-margin-medium-top">
                                       <input id="researchProductLicenseName" class="uk-input" type="text" formControlName="researchProductLicenseName"
                                              (input)="unsavedChangesPrompt()">
-                                      <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaName')}">-->
                                     </div>
                                     <i><small>Suggested length is 100 characters</small></i>
                                   </div>
