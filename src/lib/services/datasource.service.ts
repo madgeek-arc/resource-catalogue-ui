@@ -22,7 +22,7 @@ export class DatasourceService {
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
     if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<Datasource>(this.base + `/datasource/${id}/?catalogue_id=${catalogueId}`, this.options);
+    return this.http.get<Datasource>(this.base + `/datasource/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
   deleteDatasource(id: string) {
@@ -79,8 +79,8 @@ export class DatasourceService {
   submitDatasource(datasource: Datasource, shouldPut: boolean) {
     // console.log(JSON.stringify(datasource));
     // console.log(`knocking on: ${this.base}/datasource`);
-    return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base + '/datasource', datasource, this.options);
-    // return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base + '/datasource?catalogue_id=eosc', datasource, this.options);
+    // return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base + '/datasource', datasource, this.options);
+    return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base + '/datasource?catalogue_id=eosc', datasource, this.options);
   }
 
   verifyDatasource(id: string, active: boolean, status: string) { // for 1st datasource
@@ -105,7 +105,7 @@ export class DatasourceService {
 
   getDatasourceByServiceId(serviceId: string, catalogueId?:string){
     if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<Datasource>(this.base + `/datasource/byService/${serviceId}/?catalogue_id=${catalogueId}`, this.options);
+    return this.http.get<Datasource>(this.base + `/datasource/byService/${serviceId}?catalogue_id=${catalogueId}`, this.options);
     // return this.http.get<Datasource>(this.base + `/datasource/${serviceId}`, this.options);
   }
 }
