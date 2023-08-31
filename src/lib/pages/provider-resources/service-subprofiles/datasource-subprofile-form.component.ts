@@ -113,7 +113,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   formGroupMeta = {
     id: [''],
     serviceId: [''],
-    catalogueId: [''],
+    catalogueId: ['eosc'],
 
     submissionPolicyURL: this.fb.control('', URLValidator),
     preservationPolicyURL: this.fb.control('', URLValidator),
