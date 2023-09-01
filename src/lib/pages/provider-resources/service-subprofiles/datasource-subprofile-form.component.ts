@@ -31,6 +31,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   firstServiceForm = false;
   showLoader = false;
   pendingService = false;
+  addOpenAIRE = false; //on addOpenAIRE path
   editMode = false;
   hasChanges = false;
   serviceForm: FormGroup;
@@ -209,7 +210,8 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       this.datasourceService.submitDatasource(this.serviceForm.value, this.editMode).subscribe(
         _ds => {
           this.showLoader = false;
-          return this.router.datasourceSubmitted(_ds.id); // redirect to datasource submitted successfully page after POST
+          if (this.addOpenAIRE) return this.router.datasourceSubmitted(_ds.id);
+          return this.router.resourceDashboard(_ds.serviceId.split('.')[0], _ds.serviceId);
         },
         err => {
           this.showLoader = false;
@@ -231,6 +233,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.addOpenAIRE = window.location.pathname.includes('addOpenAIRE');
     this.resourceService.getAllVocabulariesByType().subscribe(
       suc => {
         this.vocabularies = <Map<string, Vocabulary[]>>suc;
