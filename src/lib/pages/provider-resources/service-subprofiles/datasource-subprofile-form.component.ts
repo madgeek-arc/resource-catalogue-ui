@@ -115,8 +115,8 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     serviceId: [''],
     catalogueId: ['eosc'],
 
-    submissionPolicyURL: this.fb.control('', URLValidator),
-    preservationPolicyURL: this.fb.control('', URLValidator),
+    submissionPolicyURL: this.fb.control(''),
+    preservationPolicyURL: this.fb.control(''),
     versionControl: [''],
     persistentIdentitySystems: this.fb.array([
       this.fb.group({
