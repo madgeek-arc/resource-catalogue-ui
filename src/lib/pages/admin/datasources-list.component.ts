@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
-import {DatasourceBundle, ProviderBundle, InteroperabilityRecordBundle} from '../../domain/eic-model';
+import {DatasourceBundle, ProviderBundle} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -31,7 +31,7 @@ export class DatasourcesListComponent implements OnInit {
     suspended: 'false',
     catalogue_id: new FormArray([]),
     // provider_id: new FormArray([]),
-    // status: ''
+    status: ''
   };
 
   dataForm: FormGroup;
@@ -149,7 +149,7 @@ export class DatasourcesListComponent implements OnInit {
       map[urlParameter.key] = concatValue;
     }
     // console.log('map', map);
-    this.router.navigate([`/datasource/all`], {queryParams: map});
+    this.router.navigate([`/provider/datasource/all`], {queryParams: map});
   }
 
   handleChangeAndResetPage() {
@@ -162,7 +162,7 @@ export class DatasourcesListComponent implements OnInit {
     this.datasources = [];
     this.datasourceService.getDatasourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('catalogue_id').value, this.dataForm.get('suspended').value).subscribe(
+      this.dataForm.get('status').value, this.dataForm.get('catalogue_id').value, this.dataForm.get('suspended').value).subscribe(
       res => {
         this.datasources = res['results'];
         this.facets = res['facets'];

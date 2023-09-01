@@ -85,8 +85,7 @@
                     <label class="" for="orderField">Sort by </label>
                     <div class="uk-inline">
                       <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
-                        <option value="title" selected>Title</option>
-                        <option value="id">ID</option>
+                        <option value="id" selected>ID</option>
                       </select>
                     </div>
                   </div>
@@ -96,9 +95,9 @@
                     <div class="uk-inline">
                       <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
                         <option value="" selected>All</option>
-                        <option value="approved interoperability record">Approved</option>
-                        <option value="rejected interoperability record">Rejected</option>
-                        <option value="pending interoperability record">Pending</option>
+                        <option value="approved datasource">Approved</option>
+                        <option value="rejected datasource">Rejected</option>
+                        <option value="pending datasource">Pending</option>
                       </select>
                     </div>
                   </div>
@@ -169,13 +168,13 @@
                 <div *ngFor="let datasourceBundle of datasources" class="uk-card provider-card uk-margin-medium-top">
                   <div class="uk-card-body uk-padding-remove-bottom">
 
-                    <div *ngIf="datasourceBundle.status === 'approved interoperability record'" class="approved">
+                    <div *ngIf="datasourceBundle.status === 'approved datasource'" class="approved">
                       <div class="uk-card-badge uk-label">Approved</div>
                     </div>
-                    <div *ngIf="datasourceBundle.status === 'pending interoperability record'" class="pending">
+                    <div *ngIf="datasourceBundle.status === 'pending datasource'" class="pending">
                       <div class="uk-card-badge uk-label">Pending</div>
                     </div>
-                    <div *ngIf="(datasourceBundle.status === 'rejected interoperability record')" class="rejected">
+                    <div *ngIf="(datasourceBundle.status === 'rejected datasource')" class="rejected">
                       <div class="uk-card-badge uk-label">Rejected</div>
                     </div>
 
@@ -183,11 +182,11 @@
                       <div class="uk-label uk-align-right">Active</div>
                     </div>
                     <div *ngIf="!datasourceBundle.active" class="rejected">
-                      <div class="uk-label uk-align-right" [ngClass]="datasourceBundle.status === 'pending interoperability record' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
+                      <div class="uk-label uk-align-right" [ngClass]="datasourceBundle.status === 'pending datasource' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
                     </div>
 
                     <div *ngIf="datasourceBundle.suspended" class="rejected">
-                      <div class="uk-label uk-align-right" [ngClass]="datasourceBundle.status === 'pending interoperability record' ? 'uk-position-top-right uk-margin-xlarge-right' : ''">Suspended</div>
+                      <div class="uk-label uk-align-right" [ngClass]="datasourceBundle.status === 'pending datasource' ? 'uk-position-top-right uk-margin-xlarge-right' : ''">Suspended</div>
                     </div>
 
                     <div class="">
@@ -217,12 +216,12 @@
                         </div>
 
                         <div class="uk-width-1-5">
-                          <ng-container *ngIf="datasourceBundle.status === 'pending interoperability record'">
+                          <ng-container *ngIf="datasourceBundle.status === 'pending datasource'">
                             <div class="action-buttons uk-flex uk-flex-middle uk-flex-center" style="flex-direction: column;">
-                              <button (click)="verifyDatasource(datasourceBundle.id, true, 'approved interoperability record')" class="uk-button uk-button-primary uk-display-block">
+                              <button (click)="verifyDatasource(datasourceBundle.id, true, 'approved datasource')" class="uk-button uk-button-primary uk-display-block">
                                 <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i> Approve
                               </button>
-                              <button (click)="verifyDatasource(datasourceBundle.id, true, 'rejected interoperability record')" class="uk-button uk-button-danger uk-display-block uk-margin-small-top">
+                              <button (click)="verifyDatasource(datasourceBundle.id, true, 'rejected datasource')" class="uk-button uk-button-danger uk-display-block uk-margin-small-top">
                                 <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>  Reject
                               </button>
 
@@ -260,13 +259,13 @@
                         </button>
                         <div uk-dropdown="mode: click">
                           <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                            <li *ngIf="(datasourceBundle.status === 'approved interoperability record') && (!datasourceBundle.active)"
-                                (click)="verifyDatasource(datasourceBundle.id, true, 'approved interoperability record')"
+                            <li *ngIf="(datasourceBundle.status === 'approved datasource') && (!datasourceBundle.active)"
+                                (click)="verifyDatasource(datasourceBundle.id, true, 'approved datasource')"
                                 class="uk-margin-small-top">
                               <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
                             </li>
-                            <li *ngIf="(datasourceBundle.status === 'approved interoperability record') && (datasourceBundle.active)"
-                                (click)="verifyDatasource(datasourceBundle.id, false, 'approved interoperability record')"
+                            <li *ngIf="(datasourceBundle.status === 'approved datasource') && (datasourceBundle.active)"
+                                (click)="verifyDatasource(datasourceBundle.id, false, 'approved datasource')"
                                 class="uk-margin-small-top">
                               <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Deactivate</a>
                             </li>
@@ -317,9 +316,9 @@
 
 <div id="deletionModal" uk-modal>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <div *ngIf="selectedDatasourceId">
-      <h6>Are you sure you want to delete interoperability record with id: "{{ selectedDatasourceId }}" ?</h6>
-      <p>Deleting an interoperability record is an irreversible action.</p>
+    <div *ngIf="selectedDatasourceId" class="uk-margin-bottom">
+      <h6>Are you sure you want to delete datasource with id: </h6>
+      <h6>"{{ selectedDatasourceId }}" ?</h6>
     </div>
     <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="deleteDatasource(selectedDatasourceId)">Delete</button>
     <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>

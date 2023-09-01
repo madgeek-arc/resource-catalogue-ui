@@ -15,8 +15,6 @@ export class DatasourceService {
   }
   base = environment.API_ENDPOINT;
   private options = {withCredentials: true};
-  ACCESS_TYPES;
-  ORDER_TYPE;
 
   getDatasource(id: string, catalogueId?: string) {
     // if version becomes optional this should be reconsidered
@@ -30,13 +28,16 @@ export class DatasourceService {
   }
 
   getDatasourceBundles(from: string, quantity: string, orderField: string, order: string, query: string,
-                       catalogue_id: string[], suspended: string) {
+                       status: string, catalogue_id: string[], suspended: string) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
     params = params.append('orderField', orderField);
     params = params.append('order', order);
     params = params.append('suspended', suspended);
+    if (status && status !== '') {
+      params = params.append('status', status);
+    }
     if (query && query !== '') {
       params = params.append('query', query);
     }
@@ -83,7 +84,7 @@ export class DatasourceService {
     return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base + '/datasource?catalogue_id=eosc', datasource, this.options);
   }
 
-  verifyDatasource(id: string, active: boolean, status: string) { // for 1st datasource
+  verifyDatasource(id: string, active: boolean, status: string) {
     return this.http.patch(this.base + `/datasource/verifyDatasource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
