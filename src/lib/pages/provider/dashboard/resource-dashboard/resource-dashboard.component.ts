@@ -6,6 +6,7 @@ import {ServiceExtensionsService} from '../../../../services/service-extensions.
 import {NavigationService} from '../../../../services/navigation.service';
 import {environment} from '../../../../../environments/environment';
 import {ServiceBundle} from "../../../../domain/eic-model";
+import {DatasourceService} from "../../../../services/datasource.service";
 
 
 @Component({
@@ -29,6 +30,7 @@ export class ResourceDashboardComponent implements OnInit {
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,
               public serviceExtensionsService: ServiceExtensionsService,
+              public datasourceService: DatasourceService,
               public router: NavigationService,
               private route: ActivatedRoute) {
   }
@@ -46,6 +48,9 @@ export class ResourceDashboardComponent implements OnInit {
         );
         this.serviceExtensionsService.getHelpdeskByServiceId(this.resourceId).subscribe(
           res => { if (res!=null) this.helpdeskId = res.id }
+        );
+        this.datasourceService.getDatasourceByServiceId(this.resourceId).subscribe(
+          res => { if (res!=null) this.datasourceId = res.id }
         );
       }
     );
