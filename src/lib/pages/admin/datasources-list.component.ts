@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
-import {DatasourceBundle, ProviderBundle} from '../../domain/eic-model';
+import {DatasourceBundle, ProviderBundle, ServiceBundle} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -28,7 +28,7 @@ export class DatasourcesListComponent implements OnInit {
     from: '0',
     query: '',
     // active: '',
-    suspended: 'false',
+    // suspended: 'false',
     catalogue_id: new FormArray([]),
     // provider_id: new FormArray([]),
     status: ''
@@ -162,7 +162,7 @@ export class DatasourcesListComponent implements OnInit {
     this.datasources = [];
     this.datasourceService.getDatasourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('status').value, this.dataForm.get('catalogue_id').value, this.dataForm.get('suspended').value).subscribe(
+      this.dataForm.get('status').value, this.dataForm.get('catalogue_id').value).subscribe(
       res => {
         this.datasources = res['results'];
         this.facets = res['facets'];
@@ -312,6 +312,7 @@ export class DatasourcesListComponent implements OnInit {
   }
   /** <--for facets **/
 
+  /** Pagination --> **/
   paginationInit() {
     let addToEndCounter = 0;
     let addToStartCounter = 0;
@@ -358,5 +359,6 @@ export class DatasourcesListComponent implements OnInit {
       this.handleChange();
     }
   }
+  /** <--Pagination **/
 
 }

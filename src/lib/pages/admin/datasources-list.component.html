@@ -102,25 +102,25 @@
                     </div>
                   </div>
 
-                  <div class="uk-inline uk-margin-right">
-                    <label class="" for="active">Active </label>
-                    <div class="uk-inline">
-                      <select class="uk-input uk-select" id="active" (change)="handleChangeAndResetPage()" formControlName="active">
-                        <option value="" selected></option>
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                      </select>
-                    </div>
-                  </div>
+<!--                  <div class="uk-inline uk-margin-right">-->
+<!--                    <label class="" for="active">Active </label>-->
+<!--                    <div class="uk-inline">-->
+<!--                      <select class="uk-input uk-select" id="active" (change)="handleChangeAndResetPage()" formControlName="active">-->
+<!--                        <option value="" selected></option>-->
+<!--                        <option value="true">Yes</option>-->
+<!--                        <option value="false">No</option>-->
+<!--                      </select>-->
+<!--                    </div>-->
+<!--                  </div>-->
 
-                  <label class="" for="suspended">Suspended </label>
-                  <div class="uk-inline">
-                    <select class="uk-input uk-select" id="suspended" (change)="handleChangeAndResetPage()" formControlName="suspended">
-                      <option value="" selected></option>
-                      <option value="true">Yes</option>
-                      <option value="false">No</option>
-                    </select>
-                  </div>
+<!--                  <label class="" for="suspended">Suspended </label>-->
+<!--                  <div class="uk-inline">-->
+<!--                    <select class="uk-input uk-select" id="suspended" (change)="handleChangeAndResetPage()" formControlName="suspended">-->
+<!--                      <option value="" selected></option>-->
+<!--                      <option value="true">Yes</option>-->
+<!--                      <option value="false">No</option>-->
+<!--                    </select>-->
+<!--                  </div>-->
 
                 </div>
 
@@ -253,13 +253,13 @@
                           Delete
                         </button>
 
-                        <button class="uk-button uk-button-link uk-margin-medium-left"
+                        <!--<button class="uk-button uk-button-link uk-margin-medium-left"
                                 style="padding-left: 40px; border-left: 1px solid #ccc">
                           <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
                         </button>
                         <div uk-dropdown="mode: click">
                           <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                            <li *ngIf="(datasourceBundle.status === 'approved datasource') && (!datasourceBundle.active)"
+                            &lt;!&ndash;<li *ngIf="(datasourceBundle.status === 'approved datasource') && (!datasourceBundle.active)"
                                 (click)="verifyDatasource(datasourceBundle.id, true, 'approved datasource')"
                                 class="uk-margin-small-top">
                               <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
@@ -278,9 +278,9 @@
                                 (click)="showSuspensionModal(datasourceBundle)"
                                 class="uk-margin-small-top">
                               <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
-                            </li>
+                            </li>&ndash;&gt;
                           </ul>
-                        </div>
+                        </div>-->
                       </div>
                     </div>
 

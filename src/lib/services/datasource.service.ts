@@ -28,29 +28,18 @@ export class DatasourceService {
   }
 
   getDatasourceBundles(from: string, quantity: string, orderField: string, order: string, query: string,
-                       status: string, catalogue_id: string[], suspended: string) {
+                       status: string, catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
     params = params.append('orderField', orderField);
     params = params.append('order', order);
-    params = params.append('suspended', suspended);
     if (status && status !== '') {
       params = params.append('status', status);
     }
     if (query && query !== '') {
       params = params.append('query', query);
     }
-    // if (status && status.length > 0) {
-    //   for (const statusValue of status) {
-    //     params = params.append('status', statusValue);
-    //   }
-    // }
-    // if (suspended && suspended.length > 0) {
-    //   for (const suspendedValue of status) {
-    //     params = params.append('suspended', suspendedValue);
-    //   }
-    // }
     if (catalogue_id && catalogue_id.length > 0) {
       for (const catalogueValue of catalogue_id) {
         params = params.append('catalogue_id', catalogueValue);
