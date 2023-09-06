@@ -27,7 +27,7 @@ export class SelectSubprofileComponent implements OnInit {
     this.serviceId = this.route.snapshot.paramMap.get('serviceId');
 
     this.ressourceService.getService(this.serviceId).subscribe(
-      ds => {this.service = ds},
+      res => {this.service = res},
       error => {},
       () => {}
     )

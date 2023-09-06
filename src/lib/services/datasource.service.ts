@@ -62,15 +62,19 @@ export class DatasourceService {
     return this.http.get<Paging<Datasource>>(this.base + '/datasource/getAllOpenAIREDatasources', {params});
   }
 
-  getOpenAIREDatasourcesById(id: string) {
-    return this.http.get<Datasource>(this.base + `/datasource/getOpenAIREDatasourceById?datasourceId=${id}`, this.options);
+  getOpenAIREDatasourcesById(OAid: string) {
+    return this.http.get<Datasource>(this.base + `/datasource/getOpenAIREDatasourceById?datasourceId=${OAid}`, this.options);
+  }
+
+  isDatasourceRegisteredOnOpenAIRE(datasourceId: string) {
+    return this.http.get<boolean>(this.base + `/datasource/isDatasourceRegisteredOnOpenAIRE/${datasourceId}`);
   }
 
   submitDatasource(datasource: Datasource, shouldPut: boolean) {
     // console.log(JSON.stringify(datasource));
     // console.log(`knocking on: ${this.base}/datasource`);
     // return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base + '/datasource', datasource, this.options);
-    return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base + '/datasource?catalogue_id=eosc', datasource, this.options);
+    return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base + '/datasource', datasource, this.options); //comment param can be used on update
   }
 
   verifyDatasource(id: string, active: boolean, status: string) {
@@ -82,10 +86,6 @@ export class DatasourceService {
       return this.http.patch(this.base + `/datasource/publish/${id}?active=${active}`, this.options);
     }
     return this.http.patch(this.base + `/datasource/publish/${id}?active=${active}&version=${version}`, this.options); // copy for provider without version
-  }
-
-  isItRegistered(datasourceId: string) {
-    return this.http.get<boolean>(this.base + `/datasource/isDatasourceRegisteredOnOpenAIRE/${datasourceId}`);
   }
 
   auditDatasource(id: string, action: string, comment: string) {

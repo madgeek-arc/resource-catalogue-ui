@@ -32,6 +32,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   showLoader = false;
   pendingService = false;
   addOpenAIRE = false; //on addOpenAIRE path
+  openaireId: string = null; //datasource OA id
   editMode = false;
   hasChanges = false;
   serviceForm: FormGroup;
@@ -226,14 +227,15 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       this.serviceForm.markAsDirty();
       this.serviceForm.updateValueAndValidity();
       if (!this.serviceForm.valid) {
-        this.errorMessage = 'Please fill in all required fields (marked with an asterisk), ' +
-          'and fix the data format in fields underlined with a red colour.';
+        this.errorMessage = 'Please fill in all required fields (marked with an asterisk) ' +
+          'and fix data format.';
       }
     }
   }
 
   ngOnInit() {
     this.addOpenAIRE = window.location.pathname.includes('addOpenAIRE');
+    this.openaireId = this.route.snapshot.paramMap.get('openaireId')
     this.resourceService.getAllVocabulariesByType().subscribe(
       suc => {
         this.vocabularies = <Map<string, Vocabulary[]>>suc;
@@ -262,20 +264,46 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     }
     this.serviceForm.get('serviceId').setValue(this.serviceId);
 
-    this.datasourceService.getDatasourceByServiceId(this.serviceId).subscribe(
-      res => { if(res!=null) {
-        this.datasource = res;
-        this.editMode = true;
-      }
-      },
-      err => { console.log(err); },
-      () => {
-        if (this.datasource) { //fill the form -->
-          this.formPrepare(this.datasource);
-          this.serviceForm.patchValue(this.datasource);
+    if (!this.addOpenAIRE) {
+      this.datasourceService.getDatasourceByServiceId(this.serviceId).subscribe(
+        res => {
+          if (res != null) {
+            this.datasource = res;
+            this.editMode = true;
+          }
+        },
+        err => {
+          console.log(err);
+        },
+        () => {
+          if (this.datasource) { //fill the form -->
+            this.formPrepare(this.datasource);
+            this.serviceForm.patchValue(this.datasource);
+          }
         }
-      }
-    );
+      );
+    }
+
+    if (this.addOpenAIRE) {
+      console.log(this.openaireId);
+      this.datasourceService.getOpenAIREDatasourcesById(this.openaireId).subscribe(
+        res => { if(res!=null) {
+          this.datasource = res;
+          this.editMode = false;
+          }
+        },
+        err => { console.log(err); },
+        () => {
+          if (this.datasource) { //fill the form -->
+            this.formPrepare(this.datasource);
+            this.serviceForm.patchValue(this.datasource);
+            this.serviceForm.get('serviceId').setValue(this.serviceId);
+            this.serviceForm.get('catalogueId').setValue('eosc');
+
+          }
+        }
+      );
+    }
 
   }
 

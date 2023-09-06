@@ -44,7 +44,7 @@ export class DatasourceSubmittedComponent implements OnInit {
       }
     );
 
-    this.datasourceService.isItRegistered(this.datasourceId).subscribe(
+    this.datasourceService.isDatasourceRegisteredOnOpenAIRE(this.datasourceId).subscribe(
       bool => this.registeredAtOpenAIRE = bool,
       error => {},
       () => {}
