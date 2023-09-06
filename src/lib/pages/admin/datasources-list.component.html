@@ -165,7 +165,7 @@
 
                 <hr class="adminResultsHeader">
 
-                <div *ngFor="let datasourceBundle of datasources" class="uk-card provider-card uk-margin-medium-top">
+                <div *ngFor="let datasourceBundle of enrichedDatasources" class="uk-card provider-card uk-margin-medium-top">
                   <div class="uk-card-body uk-padding-remove-bottom">
 
                     <div *ngIf="datasourceBundle.status === 'approved datasource'" class="approved">
@@ -191,14 +191,20 @@
 
                     <div class="">
                       <div class="uk-grid">
+                        <div class="uk-width-1-5">
+                          <div>
+                            <img class="el-image uk-border-rounded"
+                                 src="{{ datasourceBundle.logo ? datasourceBundle.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
+                          </div>
+                        </div>
 
                         <div class="uk-width-4-5" style="padding-left: 100px;">
                           <div class="providerName uk-margin-bottom">
-                            {{ datasourceBundle.datasource.id }}
+                            {{ datasourceBundle.name }}
                           </div>
 
-                          <div class="">
-                            <span class="statusLabel">ID: </span>{{ datasourceBundle.id }}
+                          <div class="uk-margin-small-top">
+                            <span class="statusLabel">Datasource ID: </span>{{ datasourceBundle.id }}
                           </div>
 
                           <div class="uk-margin-small-top">
@@ -215,7 +221,7 @@
 
                         </div>
 
-                        <div class="uk-width-1-5">
+                        <!--<div class="uk-width-1-5">
                           <ng-container *ngIf="datasourceBundle.status === 'pending datasource'">
                             <div class="action-buttons uk-flex uk-flex-middle uk-flex-center" style="flex-direction: column;">
                               <button (click)="verifyDatasource(datasourceBundle.id, true, 'approved datasource')" class="uk-button uk-button-primary uk-display-block">
@@ -225,15 +231,15 @@
                                 <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>  Reject
                               </button>
 
-                              <!--                                <button routerLink="/guidelines/{{guidelineBundle.interoperabilityRecord.providerId}}/update/{{guidelineBundle.id}}" class="uk-button uk-button-primary uk-display-block">-->
-                              <!--                                  <i class="fa fa-edit fa-lg" aria-hidden="true"></i> Update-->
-                              <!--                                </button>-->
-                              <!--                                <button (click)="showDeletionModal(guidelineBundle.id)" class="uk-button uk-button-danger uk-display-block">-->
-                              <!--                                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete-->
-                              <!--                                </button>-->
+                              &lt;!&ndash;                                <button routerLink="/guidelines/{{guidelineBundle.interoperabilityRecord.providerId}}/update/{{guidelineBundle.id}}" class="uk-button uk-button-primary uk-display-block">&ndash;&gt;
+                              &lt;!&ndash;                                  <i class="fa fa-edit fa-lg" aria-hidden="true"></i> Update&ndash;&gt;
+                              &lt;!&ndash;                                </button>&ndash;&gt;
+                              &lt;!&ndash;                                <button (click)="showDeletionModal(guidelineBundle.id)" class="uk-button uk-button-danger uk-display-block">&ndash;&gt;
+                              &lt;!&ndash;                                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete&ndash;&gt;
+                              &lt;!&ndash;                                </button>&ndash;&gt;
                             </div>
                           </ng-container>
-                        </div>
+                        </div>-->
                       </div>
 
                       <hr class="uk-margin-top">
@@ -253,34 +259,42 @@
                           Delete
                         </button>
 
-                        <!--<button class="uk-button uk-button-link uk-margin-medium-left"
-                                style="padding-left: 40px; border-left: 1px solid #ccc">
-                          <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
-                        </button>
-                        <div uk-dropdown="mode: click">
-                          <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                            &lt;!&ndash;<li *ngIf="(datasourceBundle.status === 'approved datasource') && (!datasourceBundle.active)"
-                                (click)="verifyDatasource(datasourceBundle.id, true, 'approved datasource')"
-                                class="uk-margin-small-top">
-                              <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
-                            </li>
-                            <li *ngIf="(datasourceBundle.status === 'approved datasource') && (datasourceBundle.active)"
-                                (click)="verifyDatasource(datasourceBundle.id, false, 'approved datasource')"
-                                class="uk-margin-small-top">
-                              <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Deactivate</a>
-                            </li>
-                            <li *ngIf="(datasourceBundle.suspended==false)"
-                                (click)="showSuspensionModal(datasourceBundle)"
-                                class="uk-margin-small-top">
-                              <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Suspend</a>
-                            </li>
-                            <li *ngIf="(datasourceBundle.suspended==true)"
-                                (click)="showSuspensionModal(datasourceBundle)"
-                                class="uk-margin-small-top">
-                              <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
-                            </li>&ndash;&gt;
-                          </ul>
-                        </div>-->
+                        <ng-container *ngIf="datasourceBundle.status==='pending datasource'">
+                          <button class="uk-button uk-button-link uk-margin-medium-left"
+                                  style="padding-left: 40px; border-left: 1px solid #ccc">
+                            <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
+                          </button>
+                          <div uk-dropdown="mode: click">
+                            <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+                              <li class="uk-active" (click)="verifyDatasource(datasourceBundle.id, true, 'approved datasource')">
+                                <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve </a>
+                              </li>
+                              <li class="uk-active" (click)="verifyDatasource(datasourceBundle.id, true, 'rejected datasource')">
+                                <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject </a>
+                              </li>
+<!--                              <li *ngIf="(datasourceBundle.status === 'approved datasource') && (!datasourceBundle.active)"
+                                  (click)="verifyDatasource(datasourceBundle.id, true, 'approved datasource')"
+                                  class="uk-margin-small-top">
+                                <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
+                              </li>
+                              <li *ngIf="(datasourceBundle.status === 'approved datasource') && (datasourceBundle.active)"
+                                  (click)="verifyDatasource(datasourceBundle.id, false, 'approved datasource')"
+                                  class="uk-margin-small-top">
+                                <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Deactivate</a>
+                              </li>
+                              <li *ngIf="(datasourceBundle.suspended==false)"
+                                  (click)="showSuspensionModal(datasourceBundle)"
+                                  class="uk-margin-small-top">
+                                <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Suspend</a>
+                              </li>
+                              <li *ngIf="(datasourceBundle.suspended==true)"
+                                  (click)="showSuspensionModal(datasourceBundle)"
+                                  class="uk-margin-small-top">
+                                <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
+                              </li>-->
+                            </ul>
+                          </div>
+                        </ng-container>
                       </div>
                     </div>
 

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
-import {DatasourceBundle, ProviderBundle, ServiceBundle} from '../../domain/eic-model';
+import {DatasourceBundle, ProviderBundle, Service, ServiceBundle} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -46,6 +46,10 @@ export class DatasourcesListComponent implements OnInit {
   datasources: DatasourceBundle[] = [];
   selectedDatasourceId: string;
   selectedDatasource: DatasourceBundle;
+
+  serviceIdsOnView = [];
+  servicesOnView = [];
+  enrichedDatasources: DatasourceBundle[] = []; //ds bundles enriched with logo and name from service
 
   facets: any;
 
@@ -168,6 +172,8 @@ export class DatasourcesListComponent implements OnInit {
         this.facets = res['facets'];
         this.total = res['total'];
         this.paginationInit();
+        this.serviceIdsOnView = [];
+        this.enrichedDatasources = [];
       },
       err => {
         console.log(err);
@@ -175,6 +181,34 @@ export class DatasourcesListComponent implements OnInit {
         this.loadingMessage = '';
       },
       () => {
+        for (let i = 0; i < this.datasources.length; i++) {
+          if (this.datasources[i]?.datasource?.serviceId) {
+            this.serviceIdsOnView.push(this.datasources[i].datasource.serviceId);
+          }
+        }
+        if (this.serviceIdsOnView.length > 0) {
+          this.resourceService.getMultipleResourcesById(this.serviceIdsOnView.join(',')).subscribe(
+            res => {
+              this.servicesOnView = res
+            },
+            err => {
+              console.log(err)
+            },
+            () => {
+              this.enrichedDatasources = this.datasources.map(datasource => {
+                const matchingService = this.servicesOnView.find(service => service.id === datasource.datasource.serviceId);
+                if (matchingService) {
+                  return {
+                    ...datasource,
+                    logo: matchingService.logo,
+                    name: matchingService.name,
+                  };
+                }
+                return datasource; // if no match is found, return the service as is
+              });
+            }
+          )
+        }
         this.loadingMessage = '';
       }
     );

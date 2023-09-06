@@ -148,8 +148,8 @@ export class ResourceService {
     return this.http.get<RichService[]>(this.base + `/service/rich/byID/${ids.toString()}/`, this.options);
   }*/
 
-  getMultipleResourcesByPublicId(publicIds: string[]) { //input public ids of services, datasources, and training resources; returns only if resource exist; NOT bundles
-    return this.http.get<any[]>(this.base + `/public/resources/${publicIds.toString()}/`, this.options);
+  getMultipleResourcesById(commaSeparatedIds: string) { //feed with public ids (or not) of services, datasources, and training resources; returns only if resource exist; NOT bundles
+    return this.http.get<any[]>(this.base + `/public/resources/${commaSeparatedIds}/`, this.options);
   }
 
 /*  getServicesOfferedByProvider(id: string): Observable<RichService[]> {
