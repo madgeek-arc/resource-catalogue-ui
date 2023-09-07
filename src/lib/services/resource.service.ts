@@ -479,7 +479,7 @@ export class ResourceService {
   }
 
   getRandomResources(quantity: string) {
-    return this.http.get<ServiceBundle[]>(this.base + `/resource/randomResources?quantity=${quantity}`, this.options);
+    return this.http.get<ServiceBundle[]>(this.base + `/service/randomResources?quantity=${quantity}`, this.options);
   }
 
   getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
@@ -557,7 +557,7 @@ export class ResourceService {
   }
 
   auditResource(id: string, action: string, catalogueId: string, comment: string) {
-    return this.http.patch(this.base + `/resource/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
+    return this.http.patch(this.base + `/service/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
   }
 
   auditDatasource(id: string, action: string, catalogueId: string, comment: string) {
@@ -565,7 +565,7 @@ export class ResourceService {
   }
 
   verifyResource(id: string, active: boolean, status: string) { // for 1st service
-    return this.http.patch(this.base + `/resource/verifyResource/${id}?active=${active}&status=${status}`, {}, this.options);
+    return this.http.patch(this.base + `/service/verifyResource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
   verifyDatasource(id: string, active: boolean, status: string) { // for 1st datasource
@@ -581,11 +581,11 @@ export class ResourceService {
   }
 
   sendEmailForOutdatedResource(id: string) {
-    return this.http.get(this.base + `/resource/sendEmailForOutdatedResource/${id}`);
+    return this.http.get(this.base + `/service/sendEmailForOutdatedResource/${id}`);
   }
 
   moveResourceToProvider(resourceId: string, providerId: string, comment: string) {
-    return this.http.post(this.base + `/resource/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
+    return this.http.post(this.base + `/service/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
   }
 
   public handleError(error: HttpErrorResponse) {
