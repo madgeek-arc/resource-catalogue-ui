@@ -363,7 +363,8 @@ export class ServiceFormComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          return this.router.resourceDashboard(this.providerId, _service.id);  // redirect to resource-dashboard
+          return this.router.selectSubprofile(this.providerId, _service.id);  // redirect to resource-dashboard
+          // return this.router.resourceDashboard(this.providerId, _service.id);  // redirect to resource-dashboard
           // return this.router.dashboardResources(this.providerId);                  // redirect to provider dashboard -> resource list
           // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
           // return this.router.service(_service.id);                               // redirect to old service info page

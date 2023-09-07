@@ -58,6 +58,10 @@ export class NavigationService {
       return this.router.navigate(['/provider/openaire/resource/update', id]);
     }
 
+    selectSubprofile(providerId: string, serviceId :string){
+      return this.router.navigate([`/provider/${providerId}/service/${serviceId}/select-subprofile`]);
+    }
+
     datasourceSubmitted(id: string) {
       return this.router.navigate(['datasource/submitted', id]);
     }
