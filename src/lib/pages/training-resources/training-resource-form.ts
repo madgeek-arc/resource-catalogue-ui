@@ -235,7 +235,7 @@ export class TrainingResourceForm implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          // return this.router.dashboardDraftResources(this.providerId); // redirect to draft list
+          // return this.router.dashboardDraftResources(this.providerId); // navigate to draft list
           return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
         },
         err => {
@@ -252,11 +252,11 @@ export class TrainingResourceForm implements OnInit {
         _resource => {
           // console.log(_service);
           this.showLoader = false;
-          return this.router.trainingResourceDashboard(this.providerId, _resource.id);  // redirect to training-resource-dashboard
-          // return this.router.dashboardResources(this.providerId);                  // redirect to provider dashboard -> resource list
-          // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
-          // return this.router.service(_resource.id);                               // redirect to old service info page
-          // return window.location.href = this._marketplaceServicesURL + _resource.id; // redirect to marketplace
+          return this.router.trainingResourceDashboard(this.providerId, _resource.id);  // navigate to training-resource-dashboard
+          // return this.router.dashboardResources(this.providerId);                  // navigate to provider dashboard -> resource list
+          // return this.router.dashboard(this.providerId);                          // navigate to provider dashboard
+          // return this.router.service(_resource.id);                               // navigate to old service info page
+          // return window.location.href = this._marketplaceServicesURL + _resource.id; // navigate to marketplace
         },
         err => {
           this.showLoader = false;

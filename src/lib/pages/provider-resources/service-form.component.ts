@@ -345,7 +345,7 @@ export class ServiceFormComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          // return this.router.dashboardDraftResources(this.providerId); // redirect to draft list
+          // return this.router.dashboardDraftResources(this.providerId); // navigate to draft list
           return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
         },
         err => {
@@ -363,12 +363,12 @@ export class ServiceFormComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          return this.router.selectSubprofile(this.providerId, _service.id);  // redirect to resource-dashboard
-          // return this.router.resourceDashboard(this.providerId, _service.id);  // redirect to resource-dashboard
-          // return this.router.dashboardResources(this.providerId);                  // redirect to provider dashboard -> resource list
-          // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
-          // return this.router.service(_service.id);                               // redirect to old service info page
-          // return window.location.href = this._marketplaceServicesURL + _service.id; // redirect to marketplace
+          if (!this.editMode) return this.router.selectSubprofile(this.providerId, _service.id);  // navigate to select-subprofile
+          if (this.editMode) return this.router.resourceDashboard(this.providerId, _service.id);  // navigate to resource-dashboard
+          // return this.router.dashboardResources(this.providerId);                  // navigate to provider dashboard -> resource list
+          // return this.router.dashboard(this.providerId);                          // navigate to provider dashboard
+          // return this.router.service(_service.id);                               // navigate to old service info page
+          // return window.location.href = this._marketplaceServicesURL + _service.id; // navigate to marketplace
         },
         err => {
           this.showLoader = false;
