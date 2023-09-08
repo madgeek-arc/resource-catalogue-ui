@@ -45,9 +45,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
       this.sub = this.route.params.subscribe(params => {
         this.serviceId = params['resourceId'];
         const pathName = window.location.pathname;
-        if (pathName.includes('draft-resource/update')) {
-          this.pendingService = true;
-        }
+        if (pathName.includes('draft-resource/update')) this.pendingService = true;
         // this.resourceService.getService(this.serviceID).subscribe(service => {
         this.resourceService[this.pendingService ? 'getPendingService' : 'getServiceBundleById'](this.serviceId, this.catalogueId)
           .subscribe(serviceBundle => {
