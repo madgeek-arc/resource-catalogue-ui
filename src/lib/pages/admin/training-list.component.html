@@ -71,7 +71,7 @@
                   <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
                     <ng-container *ngFor="let f of facets">
                       <ng-container *ngIf="f.field === 'catalogue_id'">
-                        <h5 class="uk-margin-top">{{f.label}}</h5>
+                        <h5 class="uk-margin-top">Catalogue</h5>
                         <div class="uk-padding uk-padding-remove-top uk-padding-remove-left">
                           <div class="uk-margin-small-top" *ngFor="let catalogue of f.values">
                             <label class="uk-margin-small-left">
@@ -86,7 +86,7 @@
                       </ng-container>
 
                       <ng-container *ngIf="f.field === 'resource_organisation'">
-                        <h5 class="uk-margin-top">{{f.label}}</h5>
+                        <h5 class="uk-margin-top">Provider</h5>
                         <label
                           class="uk-margin-small-left uk-margin-small-bottom uk-search uk-search-default uk-width-3-4@m">
                           <span uk-search-icon></span>

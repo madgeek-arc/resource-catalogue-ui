@@ -17,32 +17,36 @@
 
               <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
                 <ng-container *ngFor="let f of facets">
-                  <ng-container *ngIf="f.field === 'provider_id'">
-                    <h5 class="">{{f.label}}</h5>
-                    <div class="uk-padding uk-padding-remove-top">
-                      <div class="uk-margin-small-top" *ngFor="let provider of f.values">
-                        <label class="uk-margin-small-left">
-                          <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
-                                 (change)="this.onSelection($event, 'provider_id', provider.value)"
-                                 [checked]="isProviderChecked(provider.value)">
-                        </label>
-                        <span> {{provider.label ? provider.label : provider.value}}</span>
-                        <span> ({{provider.count}})</span>
-                      </div>
-                    </div>
-                  </ng-container>
-
                   <ng-container *ngIf="f.field === 'catalogue_id'">
-                    <h5 class="">{{f.label}}</h5>
+                    <h5 class="">Catalogue</h5>
+
                     <div class="uk-padding uk-padding-remove-top">
+                      <read-more [maxHeight]="500">
                       <div class="uk-margin-small-top" *ngFor="let catalogue of f.values">
                         <label class="uk-margin-small-left">
                           <input class="uk-checkbox" type="checkbox" name="filter" value="catalogue" data-md-icheck
                                  (change)="this.onSelection($event, 'catalogue_id', catalogue.value)"
-                                 [checked]="isCatalogueChecked(catalogue.value)">
+                                 [checked]="isChecked(catalogue.value, 'catalogue_id')">
                         </label>
                         <span> {{catalogue.label ? catalogue.label : catalogue.value}}</span>
                         <span> ({{catalogue.count}})</span>
+                      </div>
+                      </read-more>
+                    </div>
+
+                  </ng-container>
+
+                  <ng-container *ngIf="f.field === 'service_id'">
+                    <h5 class="">Service</h5>
+                    <div class="uk-padding uk-padding-remove-top">
+                      <div class="uk-margin-small-top" *ngFor="let service of f.values">
+                        <label class="uk-margin-small-left">
+                          <input class="uk-checkbox" type="checkbox" name="filter" value="service" data-md-icheck
+                                 (change)="this.onSelection($event, 'service_id', service.value)"
+                                 [checked]="isChecked(service.value, 'service_id')">
+                        </label>
+                        <span> {{service.label ? service.label : service.value}}</span>
+                        <span> ({{service.count}})</span>
                       </div>
                     </div>
                   </ng-container>

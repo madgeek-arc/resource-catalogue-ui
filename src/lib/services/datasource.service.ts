@@ -28,7 +28,7 @@ export class DatasourceService {
   }
 
   getDatasourceBundles(from: string, quantity: string, orderField: string, order: string, query: string,
-                       status: string, catalogue_id: string[]) {
+                       status: string, catalogue_id: string[], service_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
@@ -45,6 +45,11 @@ export class DatasourceService {
         params = params.append('catalogue_id', catalogueValue);
       }
     } else params = params.append('catalogue_id', 'all');
+    if (service_id && service_id.length > 0) {
+      for (const serviceValue of service_id) {
+        params = params.append('service_id', serviceValue);
+      }
+    }
     return this.http.get(this.base + `/datasource/adminPage/all`, {params});
   }
 

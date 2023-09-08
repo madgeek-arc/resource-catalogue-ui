@@ -103,7 +103,7 @@
                   <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
                     <ng-container *ngFor="let f of facets">
                       <ng-container *ngIf="f.field === 'catalogue_id'">
-                        <h5 class="">{{f.label}}</h5>
+                        <h5 class="">Catalogue</h5>
                         <div class="uk-padding uk-padding-remove-top">
                           <div class="uk-margin-small-top" *ngFor="let catalogue of f.values">
                             <label class="uk-margin-small-left">

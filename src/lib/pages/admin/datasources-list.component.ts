@@ -30,7 +30,7 @@ export class DatasourcesListComponent implements OnInit {
     // active: '',
     // suspended: 'false',
     catalogue_id: new FormArray([]),
-    // provider_id: new FormArray([]),
+    service_id: new FormArray([]), //facets
     status: ''
   };
 
@@ -83,13 +83,13 @@ export class DatasourcesListComponent implements OnInit {
         .subscribe(params => {
 
             for (const i in params) {
-              if (i === 'provider_id') {
-                if (this.dataForm.get('provider_id').value.length === 0) {
-                  const formArrayNew: FormArray = this.dataForm.get('provider_id') as FormArray;
+              if (i === 'service_id') {
+                if (this.dataForm.get('service_id').value.length === 0) {
+                  const formArrayNew: FormArray = this.dataForm.get('service_id') as FormArray;
                   // formArrayNew = this.fb.array([]);
-                  for (const provider_id of params[i].split(',')) {
-                    if (provider_id !== '') {
-                      formArrayNew.push(new FormControl(provider_id));
+                  for (const service_id of params[i].split(',')) {
+                    if (service_id !== '') {
+                      formArrayNew.push(new FormControl(service_id));
                     }
                   }
                 }
@@ -166,7 +166,7 @@ export class DatasourcesListComponent implements OnInit {
     this.datasources = [];
     this.datasourceService.getDatasourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('status').value, this.dataForm.get('catalogue_id').value).subscribe(
+      this.dataForm.get('status').value, this.dataForm.get('catalogue_id').value, this.dataForm.get('service_id').value).subscribe(
       res => {
         this.datasources = res['results'];
         this.facets = res['facets'];
@@ -259,12 +259,16 @@ export class DatasourcesListComponent implements OnInit {
   }
 
   /** for facets--> **/
-  isCatalogueChecked(value: string) {
-    return this.dataForm.get('catalogue_id').value.includes(value);
-  }
+  // isCatalogueChecked(value: string) {
+  //   return this.dataForm.get('catalogue_id').value.includes(value);
+  // }
+  //
+  // isServiceChecked(value: string) {
+  //   return this.dataForm.get('service_id').value.includes(value);
+  // }
 
-  isProviderChecked(value: string) {
-    return this.dataForm.get('provider_id').value.includes(value);
+  isChecked(value: string, category) {
+    return this.dataForm.get(category).value.includes(value);
   }
 
   onSelection(e, category: string, value: string) {
@@ -323,7 +327,7 @@ export class DatasourcesListComponent implements OnInit {
       map[urlParameter.key] = urlParameter.values.join(',');
     }
     this.handleChange();
-    // return this.navigator.resourcesList(map);  // problematic semi-colon in url
+    // return this.navigator.resourcesList(map);  // problematic semicolon in url
   }
 
   updatePagingURLParameters(from: number) {
