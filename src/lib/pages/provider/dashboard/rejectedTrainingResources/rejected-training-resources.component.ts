@@ -95,7 +95,7 @@ export class RejectedTrainingResourcesComponent implements OnInit {
 
   getRejectedResources() {
     this.providerService.getRejectedResourcesOfProvider(this.providerId, this.dataForm.get('from').value,
-      this.itemsPerPage + '', 'ASC', 'name', 'training_resource')
+      this.itemsPerPage + '', 'ASC', 'title', 'training_resource')
       .subscribe(res => {
           this.trainingResourceBundle = res;
           this.total = res['total'];

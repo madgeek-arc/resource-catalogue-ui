@@ -101,7 +101,7 @@ export class MyServiceProvidersComponent implements OnInit {
                     }
                   }
                 );
-                this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'name', 'training_resource').subscribe(
+                this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'title', 'training_resource').subscribe(
                   res => {
                     if (res.results.length > 0) {
                       this.hasRejectedTrainingResources.push({id: p.id, flag: true});
