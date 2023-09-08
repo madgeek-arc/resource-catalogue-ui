@@ -136,7 +136,7 @@ export class ResourceService {
     return this.http.get<Service>(this.base + `/service/${serviceId}?catalogue_id=${catalogueId}`, this.options);
   }
 
-  getRichService(id: string, catalogueId?:string, version?: string) {
+  getRichService(id: string, catalogueId?:string, version?: string) { //deprecated
     if (!catalogueId) catalogueId = 'eosc';
     return this.http.get<RichService>(this.base + `/service/rich/${id}?catalogue_id=${catalogueId}`, this.options);
     // return this.http.get<RichService>(this.base + `/service/rich/${version === undefined ? id : [id, version].join('/')}/`, this.options);
@@ -469,7 +469,7 @@ export class ResourceService {
     return this.http.get<Bundle<Service>>(this.base + `/service/adminPage/all`, {params});
   }
 
-  getResourceBundleById(id: string, catalogueId: string) {
+  getServiceBundleById(id: string, catalogueId?: string) {
     if (!catalogueId) catalogueId ='eosc';
     return this.http.get<ServiceBundle>(this.base + `/serviceBundle/${id}?catalogue_id=${catalogueId}`, this.options);
   }
@@ -535,7 +535,7 @@ export class ResourceService {
   }
 
   getPendingService(id: string) {
-    return this.http.get<RichService>(this.base + `/pendingService/rich/${id}/`, this.options);
+    return this.http.get<ServiceBundle>(this.base + `/pendingService/${id}/`, this.options); //was rich TODO: could change response to Service and use along with getService
   }
 
   deletePendingService(id: string) {

@@ -43,26 +43,26 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
       sessionStorage.removeItem('service');
     } else {
       this.sub = this.route.params.subscribe(params => {
-        this.serviceID = params['resourceId'];
+        this.serviceId = params['resourceId'];
         const pathName = window.location.pathname;
         if (pathName.includes('draft-resource/update')) {
           this.pendingService = true;
         }
         // this.resourceService.getService(this.serviceID).subscribe(service => {
-        this.resourceService[this.pendingService ? 'getPendingService' : 'getRichService'](this.serviceID, this.catalogueId)
-          .subscribe(richService => {
-              if (richService.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
+        this.resourceService[this.pendingService ? 'getPendingService' : 'getServiceBundleById'](this.serviceId, this.catalogueId)
+          .subscribe(serviceBundle => {
+              if (serviceBundle.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
                 this.navigationService.go('/forbidden')
-              ResourceService.removeNulls(richService.service);
+              ResourceService.removeNulls(serviceBundle.service);
               //remove catalogueId. prefix for same catalogue entries
-              if (richService.service.requiredResources) {
-                richService.service.requiredResources = richService.service.requiredResources.map(value => value.startsWith(this.catalogueId) ? value.substring(this.catalogueId.length+1) : value);
+              if (serviceBundle.service.requiredResources) {
+                serviceBundle.service.requiredResources = serviceBundle.service.requiredResources.map(value => value.startsWith(this.catalogueId) ? value.substring(this.catalogueId.length+1) : value);
               }
-              if (richService.service.relatedResources) {
-                richService.service.relatedResources = richService.service.relatedResources.map(value => value.startsWith(this.catalogueId) ? value.substring(this.catalogueId.length+1) : value);
+              if (serviceBundle.service.relatedResources) {
+                serviceBundle.service.relatedResources = serviceBundle.service.relatedResources.map(value => value.startsWith(this.catalogueId) ? value.substring(this.catalogueId.length+1) : value);
               }
-              this.formPrepare(richService);
-              this.serviceForm.patchValue(richService.service);
+              this.formPrepare(serviceBundle.service);
+              this.serviceForm.patchValue(serviceBundle.service);
               for (const i in this.serviceForm.controls) {
                 if (this.serviceForm.controls[i].value === null) {
                   this.serviceForm.controls[i].setValue('');
