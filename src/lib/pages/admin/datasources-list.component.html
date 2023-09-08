@@ -19,9 +19,7 @@
                 <ng-container *ngFor="let f of facets">
                   <ng-container *ngIf="f.field === 'catalogue_id'">
                     <h5 class="">Catalogue</h5>
-
                     <div class="uk-padding uk-padding-remove-top">
-                      <read-more [maxHeight]="500">
                       <div class="uk-margin-small-top" *ngFor="let catalogue of f.values">
                         <label class="uk-margin-small-left">
                           <input class="uk-checkbox" type="checkbox" name="filter" value="catalogue" data-md-icheck
@@ -31,7 +29,6 @@
                         <span> {{catalogue.label ? catalogue.label : catalogue.value}}</span>
                         <span> ({{catalogue.count}})</span>
                       </div>
-                      </read-more>
                     </div>
 
                   </ng-container>
@@ -39,15 +36,26 @@
                   <ng-container *ngIf="f.field === 'service_id'">
                     <h5 class="">Service</h5>
                     <div class="uk-padding uk-padding-remove-top">
-                      <div class="uk-margin-small-top" *ngFor="let service of f.values">
-                        <label class="uk-margin-small-left">
-                          <input class="uk-checkbox" type="checkbox" name="filter" value="service" data-md-icheck
-                                 (change)="this.onSelection($event, 'service_id', service.value)"
-                                 [checked]="isChecked(service.value, 'service_id')">
-                        </label>
-                        <span> {{service.label ? service.label : service.value}}</span>
-                        <span> ({{service.count}})</span>
-                      </div>
+                      <label
+                        class="uk-margin-small-left uk-margin-small-bottom uk-search uk-search-default uk-width-3-4@m">
+                        <span uk-search-icon></span>
+                        <input class="uk-search-input" [(ngModel)]="searchFacet"
+                               placeholder="Search by name or serviceId">
+                      </label>
+                      <read-more [maxHeight]="510">
+                        <div class="uk-margin-small-top" *ngFor="let service of f.values">
+                          <div *ngIf="!searchFacet || searchFacet.toLowerCase() === service.value.toLowerCase()
+                                                       || (service.label!=null && service.label.toLowerCase().includes(searchFacet.toLowerCase()))">
+                          <label class="uk-margin-small-left">
+                            <input class="uk-checkbox" type="checkbox" name="filter" value="service" data-md-icheck
+                                   (change)="this.onSelection($event, 'service_id', service.value)"
+                                   [checked]="isChecked(service.value, 'service_id')">
+                          </label>
+                          <span> {{service.label ? service.label : service.value}}</span>
+                          <span> ({{service.count}})</span>
+                        </div>
+                        </div>
+                      </read-more>
                     </div>
                   </ng-container>
                 </ng-container>

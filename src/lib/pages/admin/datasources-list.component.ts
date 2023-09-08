@@ -52,6 +52,7 @@ export class DatasourcesListComponent implements OnInit {
   enrichedDatasources: DatasourceBundle[] = []; //ds bundles enriched with logo and name from service
 
   facets: any;
+  searchFacet = '';
 
   total: number;
   // from = 0;
