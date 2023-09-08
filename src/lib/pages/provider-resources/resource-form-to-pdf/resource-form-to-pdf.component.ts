@@ -327,7 +327,7 @@ export class ResourceFormToPdfComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          // return this.router.service(_service.id); // change to redirect to marketplace
+          // return this.router.service(_service.id); // change to navigate to marketplace
           return window.location.href = this._marketplaceServicesURL + _service.id;
         },
         err => {

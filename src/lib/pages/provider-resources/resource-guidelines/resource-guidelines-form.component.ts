@@ -107,7 +107,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
     this.guidelinesService.assignGuidelinesToResource('service', this.editMode, this.guidelinesForm.value).subscribe(
       _ir => {
         this.showLoader = false;
-        return this.router.resourceDashboard(this.providerId, this.serviceId);  // redirect to resource-dashboard
+        return this.router.resourceDashboard(this.providerId, this.serviceId);  // navigate to resource-dashboard
       },
       err => {
         this.showLoader = false;
@@ -123,7 +123,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
 
     this.guidelinesService.deleteGuidelinesOfResource(this.serviceId, this.resourceGuidelines.id).subscribe(
       _ir => {
-        return this.router.resourceDashboard(this.providerId, this.serviceId);  // redirect to resource-dashboard
+        return this.router.resourceDashboard(this.providerId, this.serviceId);  // navigate to resource-dashboard
       },
       err => this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error)
     );

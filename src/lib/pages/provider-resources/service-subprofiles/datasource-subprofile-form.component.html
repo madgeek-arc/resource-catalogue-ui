@@ -1,0 +1,531 @@
+<div class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom" style="min-height: 325px">
+  <div class="uk-container uk-container-expand">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+
+        <div class="titleAndActionsBar">
+          <div class="">
+            <div class="pageTitle">
+              Datasource Subprofile
+            </div>
+            <div class="providerName uk-margin-small-top">
+              <strong>{{serviceName!='' ? serviceORresource + ' Name' : serviceId}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
+            </div>
+          </div>
+          <div class="uk-flex uk-flex-middle">
+            <button class="uk-button uk-button-secondary uk-margin-left" type="submit" (click)="this.onSubmit()">Submit
+            </button>
+          </div>
+        </div>
+
+
+        <!-- TOP HELP CONTENT -->
+        <app-help-content #topHelperContent [position]="'top'"
+                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+        </app-help-content>
+        <div class="uk-margin-medium-bottom">
+          <div class="uk-grid">
+            <!-- LEFT HELP CONTENT -->
+            <app-aside-help-content #leftHelperContent [position]="'left'"
+                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+            </app-aside-help-content>
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m uk-margin-medium-top">
+              <div *ngIf="showLoader" class="uk-position-center">
+                <div uk-spinner="ratio: 2"></div>
+              </div>
+
+              <div [ngClass]="{'blur-filter': showLoader}">
+
+                <div class="requiredFields">Fields with (*) are mandatory and must be completed in order to submit this form.</div>
+
+                <div id="serviceForm">
+
+                  <div class="uk-margin-bottom uk-flex uk-flex-right">
+                    <div>
+                      <button class="uk-button uk-button-link" type="button">Do you need help?</button>
+                      <div uk-drop="pos: bottom-left">
+                        <div class="uk-card uk-card-body uk-card-default">
+                          <p class="uk-margin-remove-bottom">For questions related to the information that needs to be
+                            filled in and suggestions on the portal, please contact us in <a href="mailto:onboarding@eosc-portal.eu">onboarding@eosc-portal.eu</a></p>
+                            <!--                        <p>For technical issues and questions, please contact us in <a href="mailto:providers@eosc-portal.eu">providers@eosc-portal.eu</a></p>-->
+                          <!-- TOP HELP CONTENT -->
+                          <app-help-content #topHelperContent [position]="'top'"
+                                            [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+                          </app-help-content>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div *ngIf="errorMessage" data-uk-alert="" class="uk-alert uk-alert-danger">
+                    <p>{{errorMessage}}</p>
+                  </div>
+                  <div *ngIf="successMessage" data-uk-alert="" class="uk-alert uk-alert-success">
+                    <p>{{successMessage}}</p>
+                  </div>
+
+                  <div class="uk-grid">
+
+                    <div class="uk-width-1-4">
+                      <div class="tabsTitle uk-margin-bottom">Data Source Profile Information Blocks</div>
+                      <ul class="uk-width-1-1 uk-margin-remove uk-tab uk-tab-left form-tabs" uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
+                        <li class="uk-active">
+                          <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[12]}" href="#" id="tab13">
+                            <span>1. Data Source Policies</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[13]}" href="#" id="tab14">
+                            <span>2. Data Source Content</span>
+                            <span *ngIf="!disable" class="circle-number">
+                              <i *ngIf="remainingOnTab13==0" aria-hidden="true" class="fa fa-check"></i>
+<!--                              {{remainingOnTab13!=0 ? remainingOnTab13 +'*' : ''}}-->
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[14]}" href="#" id="tab15">
+                            <span>3. Research Product Policies</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[15]}" href="#" id="tab16">
+                            <span>4. Research Product Metadata</span>
+                          </a>
+                        </li>
+                      </ul>
+
+<!--                      <ng-container *ngIf="!disable">-->
+<!--                        <div class="requiredFields uk-text-right">*Required fields</div>-->
+<!--                        <div class="stepsCompleted uk-margin-top uk-text-center">{{completedTabs}} of {{requiredTabs}}</div>-->
+<!--                        <div class="uk-margin-small-top">-->
+<!--                          <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>-->
+<!--                          <div class="percentageNumber" [ngStyle]="{'margin-left.%': (loaderPercentage*0.9).toLocaleString()}">{{loaderPercentage}}%</div>-->
+<!--                        </div>-->
+<!--                      </ng-container>-->
+                    </div>
+
+                    <form [formGroup]="serviceForm" role="form" class="uk-form uk-margin uk-width-3-4">
+
+                      <div class="formContainer">
+
+                        <ul id="top-navigation-tabs" class="uk-switcher uk-margin-top uk-margin-bottom">
+                        <!--DATA SOURCE POLICIES-->
+                        <li>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right" for="submissionPolicyURL">
+                              {{submissionPolicyURLDesc.label + (submissionPolicyURLDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{submissionPolicyURLDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <input id="submissionPolicyURL" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
+                                     type="text" placeholder="use http:// or https://"
+                                     (input)="unsavedChangesPrompt()"
+                                     formControlName="submissionPolicyURL">
+                              <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('submissionPolicyURL').value" class="uk-icon">
+                                <a href="{{this.serviceForm.get('submissionPolicyURL').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                              </div>
+                              <br><i><small>{{submissionPolicyURLDesc.desc}}</small></i>
+                            </div>
+                          </div>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right" for="preservationPolicyURL">
+                              {{preservationPolicyURLDesc.label + (preservationPolicyURLDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{preservationPolicyURLDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <input id="preservationPolicyURL" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
+                                     type="text" placeholder="use http:// or https://"
+                                     (input)="unsavedChangesPrompt()"
+                                     formControlName="preservationPolicyURL">
+                              <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('preservationPolicyURL').value" class="uk-icon">
+                                <a href="{{this.serviceForm.get('preservationPolicyURL').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
+                              </div>
+                              <br><i><small>{{preservationPolicyURLDesc.desc}}</small></i>
+                            </div>
+                          </div>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right">
+                              {{ versionControlDesc.label + (versionControlDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <label>
+                                <span class="uk-form-description uk-margin-small-right">{{versionControlDesc.desc}}</span>
+                                <br>
+                                <label class="uk-margin-small-top">
+                                  <span class="uk-form-description uk-margin-small-right">Is version control available?</span>
+                                </label>
+                                <label class="uk-margin-small-left uk-margin-small-right">
+                                  <input class="uk-radio" type="radio" name="versionControl" id="versionControlNo"
+                                         formControlName="versionControl" [value]=false
+                                         (input)="unsavedChangesPrompt()"
+                                         [checked]="(this.serviceForm.get('versionControl').value === false)">
+                                  No</label>
+                                <label><input class="uk-radio" type="radio" name="versionControl" id="versionControlYes"
+                                              formControlName="versionControl" [value]=true
+                                              (input)="unsavedChangesPrompt()"
+                                              [checked]="this.serviceForm.get('versionControl').value === true">
+                                  Yes</label>
+                              </label>
+                            </div>
+                          </div>
+
+
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right">Persistent Identity Systems</label>
+                            <div class="uk-form-controls uk-margin-top">
+                              <div formArrayName="persistentIdentitySystems"
+                                   *ngFor="let p of serviceForm['controls'].persistentIdentitySystems['controls']; let i = index">
+                                <div [formGroupName]="i" class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                  <div class="uk-margin-bottom">
+                                    <label class="uk-form-label uk-text-right" for="persistentIdentityEntityType">
+                                      {{ persistentIdentityEntityTypeDesc.label + (persistentIdentityEntityTypeDesc.mandatory ? ' (*)' : '') }}
+                                    </label>
+                                    <div
+                                      class="uk-form-description uk-margin-top uk-width-9-10">{{persistentIdentityEntityTypeDesc.desc}}</div>
+                                    <div class="uk-form-controls uk-margin-medium-top">
+                                      <ng-select *ngIf="researchEntityTypeVocabulary" class="uk-width-1-1" id="persistentIdentityEntityType"
+                                                 (change)="unsavedChangesPrompt()"
+                                                 [items]="sortVocabulariesByName(researchEntityTypeVocabulary)"
+                                                 bindLabel="name"
+                                                 bindValue="id"
+                                                 clearAllText="Clear"
+                                                 formControlName="persistentIdentityEntityType">
+                                      </ng-select>
+                                    </div>
+                                  </div>
+                                  <label class="uk-form-label uk-text-right" for="persistentIdentityEntityTypeScheme">
+                                    {{ persistentIdentityEntityTypeSchemeDesc.label + (persistentIdentityEntityTypeSchemeDesc.mandatory ? ' (*)' : '') }}
+                                  </label>
+                                  <div class="uk-form-description uk-margin-top uk-margin-bottom uk-width-9-10">{{persistentIdentityEntityTypeSchemeDesc.desc}}</div>
+                                  <div formArrayName="persistentIdentityEntityTypeSchemes"
+                                       *ngFor="let scheme of p['controls'].persistentIdentityEntityTypeSchemes['controls']; let index = index">
+                                    <div class="uk-margin-bottom">
+                                      <div class="uk-form-controls">
+                                        <ng-select *ngIf="persistentIdentitySchemeVocabulary" class="uk-width-1-1" id="persistentIdentityEntityTypeScheme"
+                                                   (change)="unsavedChangesPrompt()"
+                                                   [items]="sortVocabulariesByName(persistentIdentitySchemeVocabulary)"
+                                                   bindLabel="name"
+                                                   bindValue="id"
+                                                   clearAllText="Clear"
+                                                   [formControlName]="index">
+                                        </ng-select>
+                                      </div>
+                                    </div>
+                                    <a *ngIf="p['controls'].persistentIdentityEntityTypeSchemes['controls'].length > 1 && !disable"
+                                       class="remove-element uk-padding-small uk-display-inline-block"
+                                       (click)="removePersistentIdentityEntityTypeScheme(i, index)">
+                                      <i class="fa fa-times" aria-hidden="true"></i>
+                                    </a>
+                                  </div>
+                                  <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-small-top">
+                                    <a class="add-new-element" (click)="pushPersistentIdentityEntityTypeScheme(i)">
+                                      <i class="fa fa-plus" aria-hidden="true"></i>
+                                      Add {{persistentIdentityEntityTypeSchemeDesc.label}}
+                                    </a>
+                                  </div>
+                                </div>
+                                <a *ngIf="getFieldAsFormArray('persistentIdentitySystems').length > 1 && !disable"
+                                   class="remove-element uk-padding-small uk-display-inline-block"
+                                   (click)="removePersistentIdentitySystem(i); unsavedChangesPrompt(); ">
+                                  <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+                              </div>
+                            </div>
+                            <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                              <a class="add-new-element" (click)="pushPersistentIdentitySystem()">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add Persistent Identity System
+                              </a>
+                            </div>
+                          </div>
+
+                          <div class="uk-flex uk-flex-right">
+                            <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab14')">Next &nbsp;<i class="fa fa-arrow-circle-right fa-lg"></i></button>
+                          </div>
+
+                        </li>
+                        <!--DATA SOURCE CONTENT-->
+                        <li>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right" for="jurisdiction">
+                              {{jurisdictionDesc.label + (jurisdictionDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{jurisdictionDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <ng-select *ngIf="jurisdictionVocabulary" class="uk-width-9-10" id="jurisdiction"
+                                         (change)="handleBitSets(13, 24, 'jurisdiction'); unsavedChangesPrompt()"
+                                         [items]="sortVocabulariesByName(jurisdictionVocabulary)"
+                                         bindLabel="name"
+                                         bindValue="id"
+                                         clearAllText="Clear"
+                                         formControlName="jurisdiction">
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right" for="datasourceClassification">
+                              {{datasourceClassificationDesc.label + (datasourceClassificationDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{datasourceClassificationDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <ng-select *ngIf="classificationVocabulary" class="uk-width-9-10" id="datasourceClassification"
+                                         (change)="handleBitSets(13, 25, 'datasourceClassification'); unsavedChangesPrompt()"
+                                         [items]="sortVocabulariesByName(classificationVocabulary)"
+                                         bindLabel="name"
+                                         bindValue="id"
+                                         clearAllText="Clear"
+                                         formControlName="datasourceClassification">
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div formArrayName="researchEntityTypes" class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right" for="researchEntityTypes">
+                              {{researchEntityTypesDesc.label + (researchEntityTypesDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div
+                              class="uk-form-description uk-margin-top uk-width-9-10">{{researchEntityTypesDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <div *ngFor="let provider of getFieldAsFormArray('researchEntityTypes').controls; let i=index"
+                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchEntityTypes').controls.length-1 !== i}">
+                                <ng-select *ngIf="researchEntityTypeVocabulary" class="uk-width-9-10" id="researchEntityTypes"
+                                           [items]="sortVocabulariesByName(researchEntityTypeVocabulary)"
+                                           (change)="handleBitSets(13, 26, 'researchEntityTypes');checkForDuplicates('researchEntityTypes');unsavedChangesPrompt()"
+                                           bindLabel="name"
+                                           bindValue="id"
+                                           clearAllText="Clear"
+                                           [formControlName]="i">
+                                </ng-select>
+                                <a *ngIf="getFieldAsFormArray('researchEntityTypes').length > 1 && !disable"
+                                   class="remove-element uk-padding-small" (click)="remove('researchEntityTypes', i); unsavedChangesPrompt();
+                                     handleBitSets(13, 26, 'researchEntityTypes')">
+                                  <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+                              </div>
+                              <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <a class="add-new-element" (click)="push('researchEntityTypes', researchEntityTypesDesc.mandatory)">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add {{researchEntityTypesDesc.label}}
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right">
+                              {{ thematicDesc.label + (thematicDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <label>
+                                <span class="uk-form-description uk-margin-small-right">{{thematicDesc.desc}}</span>
+                                <!--                                <br>-->
+                                <!--                                <label class="uk-margin-small-top">-->
+                                <!--                                  <span class="uk-form-description uk-margin-small-right">thematic?</span>-->
+                                <!--                                </label>-->
+                                <label class="uk-margin-small-left uk-margin-small-right">
+                                  <input class="uk-radio" type="radio" name="thematic" id="thematicNo"
+                                         formControlName="thematic" [value]=false
+                                         (input)="handleBitSets(13, 27, 'researchEntityTypes'); unsavedChangesPrompt()"
+                                         [checked]="(this.serviceForm.get('thematic').value === false)">
+                                  No</label>
+                                <label><input class="uk-radio" type="radio" name="thematic" id="thematicYes"
+                                              formControlName="thematic" [value]=true
+                                              (input)="handleBitSets(13, 27, 'researchEntityTypes'); unsavedChangesPrompt()"
+                                              [checked]="this.serviceForm.get('thematic').value === true">
+                                  Yes</label>
+                              </label>
+                            </div>
+                          </div>
+
+                          <div class="uk-flex justify-content-between">
+                            <div class="uk-flex-left">
+                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab13')"><i class="fa fa-arrow-circle-left fa-lg"></i>&nbsp; Previous</button>
+                            </div>
+                            <div class="uk-flex-right">
+                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab15')">Next &nbsp;<i class="fa fa-arrow-circle-right fa-lg"></i></button>
+                            </div>
+                          </div>
+
+                        </li>
+                        <!--RESEARCH PRODUCT POLICIES-->
+                        <li>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right">Research Product Licensing</label>
+                            <div class="uk-form-controls uk-margin-top">
+                              <div formArrayName="researchProductLicensings"
+                                   *ngFor="let l of licensingArray.controls; let i = index">
+                                <div [formGroupName]="i"
+                                     class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                  <div class="uk-margin-bottom">
+                                    <label class="uk-form-label uk-text-right" for="researchProductLicenseURL">
+                                      {{ researchProductLicenseURLDesc.label + (researchProductLicenseURLDesc.mandatory ? ' (*)' : '') }}
+                                    </label>
+                                    <div class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductLicenseURLDesc.desc}}</div>
+                                    <div class="uk-form-controls uk-margin-medium-top">
+                                      <input id="researchProductLicenseURL" class="uk-input" type="text" formControlName="researchProductLicenseURL" placeholder="use http:// or https://"
+                                             (input)="unsavedChangesPrompt()">
+                                    </div>
+                                  </div>
+                                  <div class="uk-margin-bottom">
+                                    <label class="uk-form-label uk-text-right" for="researchProductLicenseName">
+                                      {{ researchProductLicenseNameDesc.label + (researchProductLicenseNameDesc.mandatory ? ' (*)' : '') }}
+                                    </label>
+                                    <div
+                                      class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductLicenseNameDesc.desc}}</div>
+                                    <div class="uk-form-controls uk-margin-medium-top">
+                                      <input id="researchProductLicenseName" class="uk-input" type="text" formControlName="researchProductLicenseName"
+                                             (input)="unsavedChangesPrompt()">
+                                    </div>
+                                    <i><small>Suggested length is 100 characters</small></i>
+                                  </div>
+
+                                </div>
+                                <a *ngIf="getFieldAsFormArray('researchProductLicensings').length > 1 && !disable"
+                                   class="remove-element uk-padding-small uk-display-inline-block"
+                                   (click)="removeLicensing(i); unsavedChangesPrompt();">
+                                  <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+                              </div>
+                            </div>
+                            <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                              <a class="add-new-element" (click)="pushLicensing()">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add Research Product Licensing
+                              </a>
+                            </div>
+                          </div>
+                          <div formArrayName="researchProductAccessPolicies" class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right" for="researchProductAccessPolicies">
+                              {{researchProductAccessPoliciesDesc.label + (researchProductAccessPoliciesDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductAccessPoliciesDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <div *ngFor="let provider of getFieldAsFormArray('researchProductAccessPolicies').controls; let i=index"
+                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchProductAccessPolicies').controls.length-1 !== i}">
+                                <ng-select *ngIf="accessRightsVocabulary" class="uk-width-9-10" id="researchProductAccessPolicies"
+                                           (change)="checkForDuplicates('researchProductAccessPolicies'); unsavedChangesPrompt()"
+                                           [items]="sortVocabulariesByName(accessRightsVocabulary)"
+                                           bindLabel="name"
+                                           bindValue="id"
+                                           clearAllText="Clear"
+                                           [formControlName]="i">
+                                </ng-select>
+                                <a *ngIf="getFieldAsFormArray('researchProductAccessPolicies').length > 1 && !disable"
+                                   class="remove-element uk-padding-small"
+                                   (click)="remove('researchProductAccessPolicies', i); unsavedChangesPrompt()">
+                                  <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+                              </div>
+                              <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <a class="add-new-element" (click)="push('researchProductAccessPolicies', researchProductAccessPoliciesDesc.mandatory)">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add {{researchProductAccessPoliciesDesc.label}}
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="uk-flex justify-content-between">
+                            <div class="uk-flex-left">
+                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab14')"><i class="fa fa-arrow-circle-left fa-lg"></i>&nbsp; Previous</button>
+                            </div>
+                            <div class="uk-flex-right">
+                              <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab16')">Next &nbsp;<i class="fa fa-arrow-circle-right fa-lg"></i></button>
+                            </div>
+                          </div>
+
+                        </li>
+                        <!--RESEARCH PRODUCT METADATA-->
+                        <li>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right">Research Product Metadata Licensing</label>
+                            <div class="uk-form-controls uk-margin-top">
+                              <div formGroupName="researchProductMetadataLicensing"
+                                   class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                <div class="uk-margin-bottom">
+                                  <label class="uk-form-label uk-text-right" for="researchProductMetadataLicenseURL">
+                                    {{ researchProductMetadataLicenseURLDesc.label + (researchProductMetadataLicenseURLDesc.mandatory ? ' (*)' : '') }}
+                                  </label>
+                                  <div class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductMetadataLicenseURLDesc.desc}}</div>
+                                  <div class="uk-form-controls uk-margin-medium-top">
+                                    <input id="researchProductMetadataLicenseURL" class="uk-input" type="text" formControlName="researchProductMetadataLicenseURL" placeholder="use http:// or https://"
+                                           (input)="unsavedChangesPrompt()">
+                                  </div>
+                                </div>
+                                <div class="uk-margin-bottom">
+                                  <label class="uk-form-label uk-text-right" for="researchProductMetadataLicenseName">
+                                    {{ researchProductMetadataLicenseNameDesc.label + (researchProductMetadataLicenseNameDesc.mandatory ? ' (*)' : '') }}
+                                  </label>
+                                  <div
+                                    class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductMetadataLicenseNameDesc.desc}}</div>
+                                  <div class="uk-form-controls uk-margin-medium-top">
+                                    <input id="researchProductMetadataLicenseName" class="uk-input" type="text" formControlName="researchProductMetadataLicenseName"
+                                           (input)="unsavedChangesPrompt()">
+                                  </div>
+                                  <i><small>Suggested length is 100 characters</small></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div formArrayName="researchProductMetadataAccessPolicies" class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right" for="researchProductMetadataAccessPolicies">
+                              {{researchProductMetadataAccessPoliciesDesc.label + (researchProductMetadataAccessPoliciesDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductMetadataAccessPoliciesDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-medium-top">
+                              <div *ngFor="let provider of getFieldAsFormArray('researchProductMetadataAccessPolicies').controls; let i=index"
+                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchProductMetadataAccessPolicies').controls.length-1 !== i}">
+                                <ng-select *ngIf="accessRightsVocabulary" class="uk-width-9-10" id="researchProductMetadataAccessPolicies"
+                                           (change)="checkForDuplicates('researchProductMetadataAccessPolicies'); unsavedChangesPrompt()"
+                                           [items]="sortVocabulariesByName(accessRightsVocabulary)"
+                                           bindLabel="name"
+                                           bindValue="id"
+                                           clearAllText="Clear"
+                                           [formControlName]="i">
+                                </ng-select>
+                                <a *ngIf="getFieldAsFormArray('researchProductMetadataAccessPolicies').length > 1 && !disable"
+                                   class="remove-element uk-padding-small"
+                                   (click)="remove('researchProductMetadataAccessPolicies', i); unsavedChangesPrompt()">
+                                  <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+                              </div>
+                              <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <a class="add-new-element" (click)="push('researchProductMetadataAccessPolicies', researchProductMetadataAccessPoliciesDesc.mandatory)">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add {{researchProductMetadataAccessPoliciesDesc.label}}
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+
+                          <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab15')"><i class="fa fa-arrow-circle-left fa-lg"></i>&nbsp; Previous</button>
+
+                        </li>
+                        </ul>
+
+<!--                              <pre>-->
+<!--                                {{serviceForm.valid}}-->
+<!--                                {{serviceForm.value | json}}-->
+<!--                              </pre>-->
+                      </div>
+                      <!--<button type="submit" class="btn btn-primary butn theme block full-width m-b">-->
+                      <!--{{editMode ? "Update" : "Add"}}-->
+                      <!--</button>-->
+
+                    </form>
+
+                  </div>
+
+                </div>
+              </div>
+              <!-- RIGHT HELP CONTENT -->
+              <app-aside-help-content #rightHelperContent [position]="'right'"
+                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
+              </app-aside-help-content>
+            </div>
+          </div>
+          <!-- BOTTOM HELP CONTENT -->
+          <app-help-content #bottomHelperContent [position]="'bottom'"
+                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
+          </app-help-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

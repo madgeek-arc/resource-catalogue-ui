@@ -12,7 +12,6 @@ import {URLParameter} from '../../domain/url-parameter';
 import {Paging} from '../../domain/paging';
 import {getLocaleDateFormat} from '@angular/common';
 import {zip} from 'rxjs';
-import {DatasourceService} from "../../services/datasource.service";
 import {TrainingResourceService} from "../../services/training-resource.service";
 
 declare var UIkit: any;
@@ -110,7 +109,6 @@ export class ServiceProvidersListComponent implements OnInit {
   @ViewChildren("templateCheckboxes") templateCheckboxes: QueryList<ElementRef>;
 
   constructor(private resourceService: ResourceService,
-              private datasourceService: DatasourceService,
               private trainingResourceService: TrainingResourceService,
               private serviceProviderService: ServiceProviderService,
               private authenticationService: AuthenticationService,
@@ -347,7 +345,6 @@ export class ServiceProvidersListComponent implements OnInit {
                     this.serviceTemplatePerProvider.push({
                       providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id,
                       service: JSON.parse(JSON.stringify(res)).service,
-                      datasource: JSON.parse(JSON.stringify(res)).datasource,
                       trainingResource: JSON.parse(JSON.stringify(res)).trainingResource
                     });
                   }
@@ -636,15 +633,6 @@ export class ServiceProvidersListComponent implements OnInit {
           location.reload();
         }
       );
-    } else if (resourceType === 'datasource') {
-      this.datasourceService.verifyDatasource(templateId, active, status).subscribe(
-        res => this.getProviders(),
-        err => UIkit.modal('#spinnerModal').hide(),
-        () => {
-          UIkit.modal('#spinnerModal').hide();
-          location.reload();
-        }
-      );
     } else if (resourceType === 'trainingResource') {
       this.trainingResourceService.verifyTrainingResource(templateId, active, status).subscribe(
         res => this.getProviders(),
@@ -709,17 +697,6 @@ export class ServiceProvidersListComponent implements OnInit {
     return false;
   }
 
-  hasCreatedFirstDatasource(providerId: string) {
-    for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
-      if (this.serviceTemplatePerProvider[i].providerId == providerId) {
-        if (this.serviceTemplatePerProvider[i].datasource) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
   hasCreatedFirstTrainingResource(providerId: string) {
     for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
       if (this.serviceTemplatePerProvider[i].providerId == providerId) {
@@ -739,21 +716,8 @@ export class ServiceProvidersListComponent implements OnInit {
     }
   }
 
-  getLinkToFirstDatasource(id: string) {
-    if (this.hasCreatedFirstDatasource(id)) {
-      return '/provider/' + id + '/datasource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId; //TODO: seems ok but revisit
-    } else {
-      // return '/provider/' + id + '/add-first-datasource'; // maybe not needed, revisit this
-      return '/provider/' + id + '/datasource/select/';
-    }
-  }
-
   getLinkToEditFirstService(id: string) {
     return '/provider/' + id + '/resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
-  }
-
-  getLinkToEditFirstDatasource(id: string) {
-    return '/provider/' + id + '/datasource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
   }
 
   getLinkToEditFirstTrainingResource(id: string) {
@@ -852,16 +816,6 @@ export class ServiceProvidersListComponent implements OnInit {
     if (resourceType === 'service' && this.hasCreatedFirstService(providerBundleId)) {
       const resourceId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerBundleId)[0].serviceId;
       this.resourceService.getService(resourceId).subscribe(
-        res => { this.resourceToPreview = res; },
-        error => console.log(error),
-        () => {
-          UIkit.modal('#modal-preview').show();
-        }
-      );
-    }
-    if (resourceType === 'datasource' && this.hasCreatedFirstDatasource(providerBundleId)) {
-      const resourceId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerBundleId)[0].serviceId;
-      this.datasourceService.getDatasource(resourceId).subscribe(
         res => { this.resourceToPreview = res; },
         error => console.log(error),
         () => {

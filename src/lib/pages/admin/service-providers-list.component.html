@@ -103,7 +103,7 @@
                   <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
                     <ng-container *ngFor="let f of facets">
                       <ng-container *ngIf="f.field === 'catalogue_id'">
-                        <h5 class="">{{f.label}}</h5>
+                        <h5 class="">Catalogue</h5>
                         <div class="uk-padding uk-padding-remove-top">
                           <div class="uk-margin-small-top" *ngFor="let catalogue of f.values">
                             <label class="uk-margin-small-left">
@@ -488,31 +488,6 @@
                                     </li>
                                     <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'rejected resource', 'service')">
                                       <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First {{serviceORresource}}</a>
-                                    </li>
-                                  </ng-container>
-                                  <ng-container *ngIf="hasCreatedFirstDatasource(providerBundle.id)">
-                                    <li class="uk-active">
-                                      <a *ngIf="projectName!='EOSC'"
-                                         routerLink="{{ getLinkToFirstDatasource(providerBundle.id) }}"
-                                         class="">
-                                        <i class="fa fa-eye"></i> View First Datasource
-                                      </a>
-                                      <a *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id, 'datasource')"
-                                         class="">
-                                        <i class="fa fa-eye"></i> View First Datasource
-                                      </a>
-                                    </li>
-                                    <li class="uk-active">
-                                      <a routerLink="{{ getLinkToEditFirstDatasource(providerBundle.id) }}"
-                                         class="uk-margin-small-top">
-                                        <i class="fa fa-pencil"></i> Edit First Datasource
-                                      </a>
-                                    </li>
-                                    <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'approved resource', 'datasource')">
-                                      <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve First Datasource</a>
-                                    </li>
-                                    <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'rejected resource', 'datasource')">
-                                      <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First Datasource</a>
                                     </li>
                                   </ng-container>
                                   <ng-container *ngIf="hasCreatedFirstTrainingResource(providerBundle.id)">

@@ -42,7 +42,7 @@ export class ServiceFormComponent implements OnInit {
   serviceForm: FormGroup;
   provider: Provider;
   service: Service;
-  serviceID: string = null;
+  serviceId: string = null;
   errorMessage = '';
   successMessage: string = null;
   weights: string[] = [];
@@ -347,7 +347,7 @@ export class ServiceFormComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          // return this.router.dashboardDraftResources(this.providerId); // redirect to draft list
+          // return this.router.dashboardDraftResources(this.providerId); // navigate to draft list
           return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
         },
         err => {
@@ -365,11 +365,13 @@ export class ServiceFormComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          return this.router.resourceDashboard(this.providerId, _service.id);  // redirect to resource-dashboard
-          // return this.router.dashboardResources(this.providerId);                  // redirect to provider dashboard -> resource list
-          // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
-          // return this.router.service(_service.id);                               // redirect to old service info page
-          // return window.location.href = this._marketplaceServicesURL + _service.id; // redirect to marketplace
+          if (this.pendingService && !this.firstServiceForm) return this.router.selectSubprofile(this.providerId, _service.id);  // navigate to select-subprofile
+          if (this.editMode || this.firstServiceForm) return this.router.resourceDashboard(this.providerId, _service.id);  // navigate to resource-dashboard
+          if (!this.editMode) return this.router.selectSubprofile(this.providerId, _service.id);  // navigate to select-subprofile
+          // return this.router.dashboardResources(this.providerId);                  // navigate to provider dashboard -> resource list
+          // return this.router.dashboard(this.providerId);                          // navigate to provider dashboard
+          // return this.router.service(_service.id);                               // navigate to old service info page
+          // return window.location.href = this._marketplaceServicesURL + _service.id; // navigate to marketplace
         },
         err => {
           this.showLoader = false;
@@ -819,134 +821,134 @@ export class ServiceFormComponent implements OnInit {
     });
   }
 
-  formPrepare(richService: RichService) {
+  formPrepare(service: Service) {
 
     this.removeCategory(0);
-    if (richService.service.categories) {
-      for (let i = 0; i < richService.service.categories.length; i++) {
+    if (service.categories) {
+      for (let i = 0; i < service.categories.length; i++) {
         this.categoryArray.push(this.newCategory());
-        this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.service.categories[i].category);
-        this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.service.categories[i].subcategory);
+        this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(service.categories[i].category);
+        this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(service.categories[i].subcategory);
       }
     } else {
       this.categoryArray.push(this.newCategory());
     }
 
     this.removeScientificDomain(0);
-    if (richService.service.scientificDomains) {
-      for (let i = 0; i < richService.service.scientificDomains.length; i++) {
+    if (service.scientificDomains) {
+      for (let i = 0; i < service.scientificDomains.length; i++) {
         this.scientificDomainArray.push(this.newScientificDomain());
         this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-          .get('scientificDomain').setValue(richService.service.scientificDomains[i].scientificDomain);
+          .get('scientificDomain').setValue(service.scientificDomains[i].scientificDomain);
         this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-          .get('scientificSubdomain').setValue(richService.service.scientificDomains[i].scientificSubdomain);
+          .get('scientificSubdomain').setValue(service.scientificDomains[i].scientificSubdomain);
       }
     } else {
       this.scientificDomainArray.push(this.newScientificDomain());
     }
 
-    if (richService.service.resourceProviders) {
-      for (let i = 0; i < richService.service.resourceProviders.length - 1; i++) {
+    if (service.resourceProviders) {
+      for (let i = 0; i < service.resourceProviders.length - 1; i++) {
         this.push('resourceProviders', true);
       }
     }
-    if (richService.service.multimedia) {
-      for (let i = 0; i < richService.service.multimedia.length - 1; i++) {
+    if (service.multimedia) {
+      for (let i = 0; i < service.multimedia.length - 1; i++) {
         this.pushMultimedia();
       }
     }
-    if (richService.service.useCases) {
-      for (let i = 0; i < richService.service.useCases.length - 1; i++) {
+    if (service.useCases) {
+      for (let i = 0; i < service.useCases.length - 1; i++) {
         this.pushUseCase();
       }
     }
-    if (richService.service.targetUsers) {
-      for (let i = 0; i < richService.service.targetUsers.length - 1; i++) {
+    if (service.targetUsers) {
+      for (let i = 0; i < service.targetUsers.length - 1; i++) {
         this.push('targetUsers', true);
       }
     }
-    if (richService.service.accessTypes) {
-      for (let i = 0; i < richService.service.accessTypes.length - 1; i++) {
+    if (service.accessTypes) {
+      for (let i = 0; i < service.accessTypes.length - 1; i++) {
         this.push('accessTypes', false);
       }
     }
-    if (richService.service.accessModes) {
-      for (let i = 0; i < richService.service.accessModes.length - 1; i++) {
+    if (service.accessModes) {
+      for (let i = 0; i < service.accessModes.length - 1; i++) {
         this.push('accessModes', false);
       }
     }
-    if (richService.service.tags) {
-      for (let i = 0; i < richService.service.tags.length - 1; i++) {
+    if (service.tags) {
+      for (let i = 0; i < service.tags.length - 1; i++) {
         this.push('tags', false);
       }
     }
-    if (richService.service.geographicalAvailabilities) {
-      for (let i = 0; i < richService.service.geographicalAvailabilities.length - 1; i++) {
+    if (service.geographicalAvailabilities) {
+      for (let i = 0; i < service.geographicalAvailabilities.length - 1; i++) {
         this.push('geographicalAvailabilities', true);
       }
     }
-    if (richService.service.languageAvailabilities) {
-      for (let i = 0; i < richService.service.languageAvailabilities.length - 1; i++) {
+    if (service.languageAvailabilities) {
+      for (let i = 0; i < service.languageAvailabilities.length - 1; i++) {
         this.push('languageAvailabilities', true);
       }
     }
-    if (richService.service.resourceGeographicLocations) {
-      for (let i = 0; i < richService.service.resourceGeographicLocations.length - 1; i++) {
+    if (service.resourceGeographicLocations) {
+      for (let i = 0; i < service.resourceGeographicLocations.length - 1; i++) {
         this.push('resourceGeographicLocations', true);
       }
     }
-    if (richService.service.publicContacts) {
-      for (let i = 0; i < richService.service.publicContacts.length - 1; i++) {
+    if (service.publicContacts) {
+      for (let i = 0; i < service.publicContacts.length - 1; i++) {
         this.pushPublicContact();
       }
     }
-    if (richService.service.certifications) {
-      for (let i = 0; i < richService.service.certifications.length - 1; i++) {
+    if (service.certifications) {
+      for (let i = 0; i < service.certifications.length - 1; i++) {
         this.push('certifications', false);
       }
     }
-    if (richService.service.standards) {
-      for (let i = 0; i < richService.service.standards.length - 1; i++) {
+    if (service.standards) {
+      for (let i = 0; i < service.standards.length - 1; i++) {
         this.push('standards', false);
       }
     }
-    if (richService.service.openSourceTechnologies) {
-      for (let i = 0; i < richService.service.openSourceTechnologies.length - 1; i++) {
+    if (service.openSourceTechnologies) {
+      for (let i = 0; i < service.openSourceTechnologies.length - 1; i++) {
         this.push('openSourceTechnologies', false);
       }
     }
-    if (richService.service.changeLog) {
-      for (let i = 0; i < richService.service.changeLog.length - 1; i++) {
+    if (service.changeLog) {
+      for (let i = 0; i < service.changeLog.length - 1; i++) {
         this.push('changeLog', false);
       }
     }
-    if (richService.service.requiredResources) {
-      for (let i = 0; i < richService.service.requiredResources.length - 1; i++) {
+    if (service.requiredResources) {
+      for (let i = 0; i < service.requiredResources.length - 1; i++) {
         this.push('requiredResources', false);
       }
     }
-    if (richService.service.relatedResources) {
-      for (let i = 0; i < richService.service.relatedResources.length - 1; i++) {
+    if (service.relatedResources) {
+      for (let i = 0; i < service.relatedResources.length - 1; i++) {
         this.push('relatedResources', false);
       }
     }
-    if (richService.service.relatedPlatforms) {
-      for (let i = 0; i < richService.service.relatedPlatforms.length - 1; i++) {
+    if (service.relatedPlatforms) {
+      for (let i = 0; i < service.relatedPlatforms.length - 1; i++) {
         this.push('relatedPlatforms', false);
       }
     }
-    if (richService.service.fundingBody) {
-      for (let i = 0; i < richService.service.fundingBody.length - 1; i++) {
+    if (service.fundingBody) {
+      for (let i = 0; i < service.fundingBody.length - 1; i++) {
         this.push('fundingBody', false);
       }
     }
-    if (richService.service.fundingPrograms) {
-      for (let i = 0; i < richService.service.fundingPrograms.length - 1; i++) {
+    if (service.fundingPrograms) {
+      for (let i = 0; i < service.fundingPrograms.length - 1; i++) {
         this.push('fundingPrograms', false);
       }
     }
-    if (richService.service.grantProjectNames) {
-      for (let i = 0; i < richService.service.grantProjectNames.length - 1; i++) {
+    if (service.grantProjectNames) {
+      for (let i = 0; i < service.grantProjectNames.length - 1; i++) {
         this.push('grantProjectNames', false);
       }
     }
@@ -1223,7 +1225,7 @@ export class ServiceFormComponent implements OnInit {
 
   submitVocSuggestion(entryValueName, vocabulary, parent) {
     if (entryValueName.trim() !== '') {
-      this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'service', this.providerId, this.serviceID).subscribe(
+      this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'service', this.providerId, this.serviceId).subscribe(
         res => {
         },
         error => {

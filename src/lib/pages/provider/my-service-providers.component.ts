@@ -22,7 +22,7 @@ export class MyServiceProvidersComponent implements OnInit {
   serviceTemplatePerProvider: any[] = [];
   hasDraftServices: { id: string, flag: boolean }[] = [];
   hasRejectedServices: { id: string, flag: boolean }[] = [];
-  hasRejectedDatasources: { id: string, flag: boolean }[] = [];
+  hasRejectedTrainingResources: { id: string, flag: boolean }[] = [];
 
   myApprovedProviders: ProviderBundle[] = [];
   myPendingActionProviders: ProviderBundle[] = [];
@@ -101,12 +101,12 @@ export class MyServiceProvidersComponent implements OnInit {
                     }
                   }
                 );
-                this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'name', 'datasource').subscribe(
+                this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'title', 'training_resource').subscribe(
                   res => {
                     if (res.results.length > 0) {
-                      this.hasRejectedDatasources.push({id: p.id, flag: true});
+                      this.hasRejectedTrainingResources.push({id: p.id, flag: true});
                     } else {
-                      this.hasRejectedDatasources.push({id: p.id, flag: false});
+                      this.hasRejectedTrainingResources.push({id: p.id, flag: false});
                     }
                   }
                 );
@@ -125,17 +125,6 @@ export class MyServiceProvidersComponent implements OnInit {
     for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
       if (this.serviceTemplatePerProvider[i].providerId == providerId) {
         if (this.serviceTemplatePerProvider[i].service) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  hasCreatedFirstDatasource(providerId: string) {
-    for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
-      if (this.serviceTemplatePerProvider[i].providerId == providerId) {
-        if (this.serviceTemplatePerProvider[i].datasource) {
           return true;
         }
       }
@@ -172,10 +161,10 @@ export class MyServiceProvidersComponent implements OnInit {
     return false;
   }
 
-  checkForRejectedDatasources(id: string): boolean {
-    for (let i = 0; i < this.hasRejectedDatasources.length; i++) {
-      if (this.hasRejectedDatasources[i].id === id) {
-        return this.hasRejectedDatasources[i].flag;
+  checkForRejectedTrainingResources(id: string): boolean {
+    for (let i = 0; i < this.hasRejectedTrainingResources.length; i++) {
+      if (this.hasRejectedTrainingResources[i].id === id) {
+        return this.hasRejectedTrainingResources[i].flag;
       }
     }
     return false;
@@ -186,15 +175,6 @@ export class MyServiceProvidersComponent implements OnInit {
       return '/provider/' + id + '/resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
     } else {
       return '/provider/' + id + '/add-first-service';
-    }
-  }
-
-  getLinkToFirstDatasource(id: string) {
-    if (this.hasCreatedFirstDatasource(id)) {
-      return '/provider/' + id + '/datasource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId; //TODO: revisit
-    } else {
-      // return '/provider/' + id + '/add-first-datasource'; // maybe not needed, revisit this
-      return '/provider/' + id + '/datasource/select/';
     }
   }
 

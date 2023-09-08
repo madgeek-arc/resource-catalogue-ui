@@ -16,13 +16,11 @@ import {RouterModule} from '@angular/router';
 import {PendingServicesComponent} from '../pages/provider/dashboard/pendingservices/pending-services.component';
 import {SharedServicesComponent} from "../pages/provider/dashboard/sharedServices/shared-services.component";
 import {RejectedServicesComponent} from '../pages/provider/dashboard/rejectedServices/rejected-services.component';
-import {RejectedDatasourcesComponent} from "../pages/provider/dashboard/rejectedDatasources/rejected-datasources.component";
+import {RejectedTrainingResourcesComponent} from "../pages/provider/dashboard/rejectedTrainingResources/rejected-training-resources.component";
 import {PreviewResourceComponent} from '../pages/previewresource/preview-resource.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import {DashboardBreadcrumbsComponent} from "./breadcrumbs/dashboard-breadcrumbs.component";
 import {MarkdownModule} from "ngx-markdown";
-import {PendingDatasourcesComponent} from "../pages/provider/dashboard/pendingDatasources/pending-datasources.component";
-import {SharedDatasourcesComponent} from "../pages/provider/dashboard/sharedDatasources/shared-datasources.component";
 
 @NgModule({
   imports: [
@@ -47,11 +45,9 @@ import {SharedDatasourcesComponent} from "../pages/provider/dashboard/sharedData
     BreadcrumbsComponent,
     DashboardBreadcrumbsComponent,
     PendingServicesComponent,
-    PendingDatasourcesComponent,
     SharedServicesComponent,
-    SharedDatasourcesComponent,
     RejectedServicesComponent,
-    RejectedDatasourcesComponent,
+    RejectedTrainingResourcesComponent,
     PreviewResourceComponent
   ],
   exports: [
@@ -67,11 +63,9 @@ import {SharedDatasourcesComponent} from "../pages/provider/dashboard/sharedData
     BreadcrumbsComponent,
     DashboardBreadcrumbsComponent,
     PendingServicesComponent,
-    PendingDatasourcesComponent,
     SharedServicesComponent,
-    SharedDatasourcesComponent,
     RejectedServicesComponent,
-    RejectedDatasourcesComponent,
+    RejectedTrainingResourcesComponent,
     PreviewResourceComponent
   ]
 })

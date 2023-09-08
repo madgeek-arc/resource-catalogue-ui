@@ -8,28 +8,24 @@ import {UpdateServiceProviderComponent} from './update-service-provider.componen
 import {PendingServicesComponent} from './dashboard/pendingservices/pending-services.component';
 import {ServiceProvidersListComponent} from '../admin/service-providers-list.component';
 import {ResourcesListComponent} from '../admin/resources-list.component';
-import {DatasourcesListComponent} from '../admin/datasources-list.component';
 import {ServiceEditComponent} from '../provider-resources/service-edit.component';
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
 import {ProviderFormToPdfComponent} from './provider-form-to-pdf/provider-form-to-pdf.component';
 import {ResourceFormToPdfComponent} from '../provider-resources/resource-form-to-pdf/resource-form-to-pdf.component';
 import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring-extension/monitoring-extension-form.component";
 import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
+import {DatasourceSubprofileFormComponent} from "../provider-resources/service-subprofiles/datasource-subprofile-form.component";
 import {environment} from '../../../environments/environment';
 import {RejectedServicesComponent} from './dashboard/rejectedServices/rejected-services.component';
 import {DatasourceSelectComponent} from "./dashboard/datasources/datasource-select.component";
-import {DatasourceFormComponent} from "../datasource/datasource-form.component";
-import {UpdateDatasourceComponent} from "../datasource/update-datasource.component";
-import {AddFirstDatasourceComponent} from "../datasource/add-first-datasource.component";
-import {RejectedDatasourcesComponent} from "./dashboard/rejectedDatasources/rejected-datasources.component";
+import {RejectedTrainingResourcesComponent} from "./dashboard/rejectedTrainingResources/rejected-training-resources.component";
 import {ResourceGuidelinesFormComponent} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
-import {DatasourceGuidelinesFormComponent} from "../datasource/datasource-guidelines/datasource-guidelines-form.component";
-import {PendingDatasourcesComponent} from "./dashboard/pendingDatasources/pending-datasources.component";
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
 import {TrainingListComponent} from "../admin/training-list.component";
 import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
-
+import {DatasourcesListComponent} from "../admin/datasources-list.component";
+import {SelectSubprofileComponent} from "../provider-resources/service-subprofiles/select-subprofile.component";
 
 const providerRoutes: Routes = [
 
@@ -83,14 +79,6 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: 'draft-datasources/:providerId',
-    component: PendingDatasourcesComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Draft Datasources'
-    }
-  },
-  {
     path: 'rejected-resources/:providerId',
     component: RejectedServicesComponent,
     canActivate: [CanActivateViaAuthGuard],
@@ -99,11 +87,11 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: 'rejected-datasources/:providerId',
-    component: RejectedDatasourcesComponent,
+    path: 'rejected-training-resources/:providerId',
+    component: RejectedTrainingResourcesComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'Rejected Datasources'
+      breadcrumb: 'Rejected Training Resources'
     }
   },
   {
@@ -131,27 +119,11 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':providerId/add-first-datasource',
-    component: AddFirstDatasourceComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Add Datasource Template'
-    }
-  },
-  {
     path: ':providerId/draft-resource/update/:resourceId',
     component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit Draft ' + environment.serviceORresource
-    }
-  },
-  {
-    path: ':providerId/draft-datasource/update/:datasourceId',
-    component: UpdateDatasourceComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Edit Draft Datasource'
     }
   },
   {
@@ -171,7 +143,15 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':providerId/datasource/select',
+    path: ':providerId/service/:serviceId/select-subprofile', //for eosc only
+    component: SelectSubprofileComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Select Subprofile'
+    }
+  },
+  {
+    path: ':providerId/resource/:resourceId/datasource/select',
     component: DatasourceSelectComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -179,19 +159,19 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':providerId/datasource/add',
-    component: DatasourceFormComponent,
+    path: ':providerId/resource/:resourceId/subprofile/datasource',
+    component: DatasourceSubprofileFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Add Datasource'
     }
   },
   {
-    path: ':providerId/datasource/addOpenAIRE/:datasourceId',
-    component: UpdateDatasourceComponent,
+    path: ':providerId/resource/:resourceId/subprofile/datasource/addOpenAIRE/:openaireId',
+    component: DatasourceSubprofileFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'Add Datasource from OpenAIRE'
+      breadcrumb: 'Add Datasource'
     }
   },
   {
@@ -219,27 +199,11 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':providerId/datasource/update/:datasourceId',
-    component: UpdateDatasourceComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Edit Datasource'
-    }
-  },
-  {
     path: ':catalogueId/:providerId/resource/view/:resourceId',
     component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'View ' + environment.serviceORresource
-    }
-  },
-  {
-    path: ':catalogueId/:providerId/datasource/view/:datasourceId',
-    component: UpdateDatasourceComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'View Datasource'
     }
   },
   {
@@ -320,14 +284,6 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Resource Guidelines'
-    }
-  },
-  {
-    path: ':providerId/datasource/guidelines/:datasourceId',
-    component: DatasourceGuidelinesFormComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Datasource Guidelines'
     }
   },
   {

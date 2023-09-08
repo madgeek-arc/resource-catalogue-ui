@@ -19,7 +19,7 @@
         <a href="http://re3data.org/" target="_blank">re3data.org</a>,
         <a href="https://v2.sherpa.ac.uk/opendoar/" target="_blank">OpenDOAR</a>, and
         <a href="http://fairsharing.org/" target="_blank">fairsharing.org</a>
-        or create a new one by filling this <a [routerLink]="['/provider/' + providerId + '/datasource/add/']">form</a>.
+        or create a new one by filling this <a [routerLink]="['/provider/' + providerId + '/resource/' + resourceId + '/subprofile/datasource']">form</a>.
 <!--        {{providerBundle?.provider?.name ? 'for ' + providerBundle?.provider?.name : ''}}-->
       </h5>
     </div>
@@ -114,18 +114,18 @@
 
               <div class="uk-grid uk-flex-middle uk-margin-remove-top">
                 <div class="uk-width-1-6">
-                  <img src="{{datasource.logo ? datasource.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
+                  <img src="/lib/assets/images/broken_image-black-48dp.svg">
                 </div>
                 <div class="uk-width-2-3">
                   <h4 class="uk-margin-remove">
-                    <a [routerLink]="['/provider/'+providerId+'/datasource/addOpenAIRE/'+datasource.id]">{{datasource.name}}</a>
+                    <a [routerLink]="['/provider/'+providerId+'/resource/'+resourceId+'/subprofile/datasource/addOpenAIRE/'+datasource.id]">{{datasource.id}}</a>
                   </h4>
-                  <div class="uk-margin-small-top">
-                    <span class="">Id: </span>{{ datasource.id }}
-                  </div>
-                  <div class="uk-margin-small-top">
-                    <span *ngIf="datasource.description" class="uk-margin-small-top">{{datasource.description}}</span>
-                  </div>
+<!--                  <div class="uk-margin-small-top">-->
+<!--                    <span class="">Id: </span>{{ datasource.id }}-->
+<!--                  </div>-->
+<!--                  <div class="uk-margin-small-top">-->
+<!--                    <span *ngIf="datasource.description" class="uk-margin-small-top">{{datasource.description}}</span>-->
+<!--                  </div>-->
 <!--                  <div class="uk-margin-small-top">-->
 <!--                    <span class="">Creation Date: </span>{{ datasource.metadata.registeredAt | date }}-->
 <!--                  </div>-->

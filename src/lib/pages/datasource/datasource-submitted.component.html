@@ -21,23 +21,43 @@
                 </div>
 
                 <div class="uk-margin-medium-top">
-                  <div *ngIf="datasource" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+                  <div class="uk-width-1-1 uk-align-center">
+                  <div *ngIf="service" class="uk-card uk-card-small uk-card-default uk-margin-large-bottom service-card">
 
                     <div class="uk-card-body">
 
                       <div class="uk-grid uk-flex-middle uk-margin-remove-top">
                         <div class="uk-width-1-6">
-                          <img src="{{datasource.logo ? datasource.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
+                          <img src="{{service.logo ? service.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
                         </div>
                         <div class="uk-width-2-3">
-                          <h4 class="uk-margin-remove">{{datasource.name}}</h4>
-                          <div class="uk-margin-small-top">
-                            <span *ngIf="datasource.description" class="uk-margin-small-top"><markdown [data]="datasource.description"></markdown></span>
-                          </div>
+                          <h4>{{service.name}}</h4>
+                          <div>{{service.description}}</div>
+<!--                          <div class="">-->
+<!--                            <span class="statusLabel">Datasource ID: </span>{{ datasource.id }}-->
+<!--                          </div>-->
+<!--                          <div class="uk-margin-small-top">-->
+<!--                            <span class="statusLabel">Service ID: </span>{{ datasource.serviceId }}-->
+<!--                          </div>-->
+<!--                          <div class="uk-margin-small-top">-->
+<!--                            <span class="statusLabel">Provider ID: </span>{{ datasource.serviceId.split('.')[0] }}-->
+<!--                          </div>-->
+<!--                          <div class="uk-margin-small-top">-->
+<!--                            <span class="statusLabel">Catalogue ID: </span>{{ datasource.catalogueId }}-->
+<!--                          </div>-->
                         </div>
                       </div>
 
                     </div>
+
+                  </div>
+
+                  <ng-container *ngIf="datasource">
+                    <button [routerLink]="['/dashboard/'+datasource.catalogueId+'/'+this.datasource.serviceId.split('.')[0]+'/resource-dashboard/'+this.datasource.serviceId]"
+                            class="uk-button uk-button-secondary uk-align-center" style="padding-left: 30px">
+                      {{serviceORresource}} Dashboard
+                    </button>
+                  </ng-container>
 
                   </div>
                 </div>
@@ -46,12 +66,6 @@
           </div>
         </div>
       </div>
-      <ng-container *ngIf="datasource">
-        <button [routerLink]="['/dashboard/'+this.datasource.catalogueId+'/'+this.datasource.resourceOrganisation+'/resources']"
-                class="uk-button uk-button-action uk-display-block uk-margin-medium-top" style="padding-left: 30px">
-          <i class="fa fa-arrow-left" aria-hidden="true"></i> Dashboard
-        </button>
-      </ng-container>
     </div>
   </div>
 </div>

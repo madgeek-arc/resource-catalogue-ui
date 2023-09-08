@@ -105,16 +105,13 @@ export class AlternativeIdentifier {
   value: string;
 }
 
-export class ServiceBundle extends Bundle<any> {
-  latest: boolean;
+export class ServiceBundle extends Bundle<Service> {
   service: Service;
-  datasource: Datasource;
   resourceExtras: ResourceExtras;
 }
 
 export class DatasourceBundle extends Bundle<Datasource> {
   datasource: Datasource;
-  resourceExtras: ResourceExtras;
 }
 
 export class TrainingResourceBundle extends Bundle<TrainingResource> {
@@ -373,7 +370,11 @@ export class Service implements Identifiable {
   pricing: URL;
 }
 
-export class Datasource extends Service {
+export class Datasource implements Identifiable {
+  id: string;
+  serviceId: string;
+  catalogueId: string;
+
   submissionPolicyURL: URL;
   preservationPolicyURL: URL;
   versionControl: boolean;
