@@ -332,7 +332,7 @@ export class TrainingResourceService {
   }
 
   getPendingService(id: string) {
-    return this.http.get<TrainingResourceBundle>(this.base + `/pendingService/rich/${id}/`, this.options); //TODO: revisit
+    return this.http.get<TrainingResourceBundle>(this.base + `/pendingService/rich/${id}/`, this.options); //not actually used
   }
 
   deletePendingService(id: string) {
