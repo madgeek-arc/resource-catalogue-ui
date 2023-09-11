@@ -559,7 +559,8 @@ export class TrainingListComponent implements OnInit {
           UIkit.modal('#suspensionModal').hide();
           UIkit.modal('#spinnerModal').hide();
           this.loadingMessage = '';
-          console.log(err);
+          this.errorMessage = err.error.error;
+          window.scroll(0,0);
         },
         () => {
           UIkit.modal('#spinnerModal').hide();
