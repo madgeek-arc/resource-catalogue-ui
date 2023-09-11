@@ -495,7 +495,7 @@ export class ServiceFormComponent implements OnInit {
                 this.categoryArray.push(this.newCategory());
                 // } else if (i === 'options') {
                 //   this.pushOption();
-                //TODO: add multimedia and use cases (also for DS)
+                //TODO: add multimedia and use cases
               } else if (i === 'providers' || i === 'targetUsers' || i === 'geographicalAvailabilities' || i === 'languageAvailabilities') {
                 this.push(i, true);
               } else {

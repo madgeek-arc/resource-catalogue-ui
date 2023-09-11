@@ -2,11 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
-import { Service,  Datasource, ServiceBundle, DatasourceBundle } from '../domain/eic-model';
+import { Datasource, DatasourceBundle } from '../domain/eic-model';
 import {Paging} from '../domain/paging';
-import {Observable, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
-
 
 @Injectable()
 export class DatasourceService {
