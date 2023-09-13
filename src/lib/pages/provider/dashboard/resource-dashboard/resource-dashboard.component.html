@@ -5,7 +5,7 @@
       <div class="menu_section uk-margin-medium-top">
 
         <div *ngIf="resourceBundle?.active === false" class="rejected">
-          <div class="uk-label uk-align-right uk-margin-right" title="Some actions are disabled for inactive resources.">Inactive</div>
+          <div class="uk-label uk-align-right uk-margin-right" uk-tooltip="Some actions are disabled for inactive resources.">Inactive</div>
         </div>
 
         <div class="sidebar_heading">MONITOR</div>
@@ -37,24 +37,37 @@
 
       <div *ngIf="resourceBundle?.status === 'approved resource'" class="menu_section border_top">
         <div class="sidebar_heading">SUBPROFILES</div>
-
         <ul>
           <li>
             <ng-container *ngIf="!datasourceId">
               <a [routerLink]="['/provider/' + providerId + '/resource/' + resourceId + '/datasource/select']">
-                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                Enable Datasource Subprofile
+                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Enable Datasource Subprofile
               </a>
             </ng-container>
             <ng-container *ngIf="datasourceId">
-              <a [routerLink]="['/provider/' + providerId + '/resource/' + resourceId + '/subprofile/datasource']"> <!--todo: add routing like that -->
-                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                Edit Datasource Subprofile
+              <a [routerLink]="['/provider/' + providerId + '/resource/' + resourceId + '/subprofile/datasource']">
+                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Edit Datasource Subprofile
               </a>
             </ng-container>
           </li>
         </ul>
       </div>
+
+      <div *ngIf="resourceBundle?.status !== 'approved resource'" class="menu_section border_top" uk-tooltip="Disabled until first service approval.">
+        <div class="sidebar_heading">SUBPROFILES</div>
+        <ul class="uk-disabled">
+          <li>
+            <ng-container *ngIf="!datasourceId">
+              <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Enable Datasource Subprofile</a>
+            </ng-container>
+            <ng-container *ngIf="datasourceId">
+              <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Edit Datasource Subprofile</a>
+            </ng-container>
+          </li>
+        </ul>
+      </div>
+
+
 
       <div class="menu_section border_top">
         <div class="sidebar_heading">ACTIONS</div>
@@ -88,12 +101,22 @@
                 </a>
               </li>
             </ng-container>
+            <ng-container *ngIf="resourceBundle?.status!=='approved resource' || resourceBundle?.active!==true">
+              <li uk-tooltip="Disabled until first service approval and/or service activation.">
+                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension</a>
+              </li>
+              <li uk-tooltip="Disabled until first service approval and/or service activation.">
+                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension</a>
+              </li>
+              <li uk-tooltip="Disabled until first service approval and/or service activation.">
+                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Assign Guidelines</a>
+              </li>
+            </ng-container>
           </ng-container>
 
           <li>
             <a href="{{_marketplaceServicesURL}}{{catalogueId}}.{{resourceId}}" target="_blank">
-              <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">
-              View in Catalogue
+              <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right"> View in Catalogue
             </a>
           </li>
           <li>
