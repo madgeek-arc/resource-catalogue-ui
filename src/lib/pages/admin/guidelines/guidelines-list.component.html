@@ -316,13 +316,16 @@
 </div>
 
 <div id="deletionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-header uk-h4">Delete Guidelines</div>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedGuidelineId">
       <h6>Are you sure you want to delete interoperability record with id: "{{ selectedGuidelineId }}" ?</h6>
       <p>Deleting an interoperability record is an irreversible action.</p>
     </div>
-    <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="deleteGuideline(selectedGuidelineId)">Delete</button>
-    <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-secondary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteGuideline(selectedGuidelineId)">Delete</button>
+    </div>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
@@ -333,12 +336,15 @@
 </div>
 
 <div id="suspensionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-header uk-h4">Suspend Guidelines</div>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <ng-container *ngIf="selectedGuideline">
       <h6 class="uk-margin-medium-bottom">Are you sure you want to {{selectedGuideline.suspended==true ? 'un' : ''}}suspend "{{ selectedGuideline.interoperabilityRecord.title }}"?</h6>
-      <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="suspendInteroperabilityRecord()">
-        {{selectedGuideline.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
-      <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+      <div class="uk-text-right">
+        <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+        <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="suspendInteroperabilityRecord()">
+          {{selectedGuideline.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
+      </div>
     </ng-container>
   </div>
   <div *ngIf="loadingMessage">
