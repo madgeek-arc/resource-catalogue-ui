@@ -307,7 +307,7 @@ const providerRoutes: Routes = [
     component: DatasourcesListComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
-      breadcrumb: 'All Datasources'
+      breadcrumb: 'All Datasource Subprofiles'
     }
   },
   {

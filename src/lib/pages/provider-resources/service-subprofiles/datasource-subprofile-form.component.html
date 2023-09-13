@@ -69,16 +69,16 @@
                   <div class="uk-grid">
 
                     <div class="uk-width-1-4">
-                      <div class="tabsTitle uk-margin-bottom">Data Source Profile Information Blocks</div>
+                      <div class="tabsTitle uk-margin-bottom">Datasource Subprofile Information Blocks</div>
                       <ul class="uk-width-1-1 uk-margin-remove uk-tab uk-tab-left form-tabs" uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
                         <li class="uk-active">
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[12]}" href="#" id="tab13">
-                            <span>1. Data Source Policies</span>
+                            <span>1. Datasource Policies</span>
                           </a>
                         </li>
                         <li>
                           <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[13]}" href="#" id="tab14">
-                            <span>2. Data Source Content</span>
+                            <span>2. Datasource Content</span>
                             <span *ngIf="!disable" class="circle-number">
                               <i *ngIf="remainingOnTab13==0" aria-hidden="true" class="fa fa-check"></i>
 <!--                              {{remainingOnTab13!=0 ? remainingOnTab13 +'*' : ''}}-->
@@ -112,7 +112,7 @@
                       <div class="formContainer">
 
                         <ul id="top-navigation-tabs" class="uk-switcher uk-margin-top uk-margin-bottom">
-                        <!--DATA SOURCE POLICIES-->
+                        <!--DATASOURCE POLICIES-->
                         <li>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="submissionPolicyURL">
@@ -246,7 +246,7 @@
                           </div>
 
                         </li>
-                        <!--DATA SOURCE CONTENT-->
+                        <!--DATASOURCE CONTENT-->
                         <li>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="jurisdiction">
