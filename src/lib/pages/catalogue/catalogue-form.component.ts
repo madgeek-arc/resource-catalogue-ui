@@ -25,7 +25,7 @@ export class CatalogueFormComponent implements OnInit {
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
-  onboardingAgreementURL = environment.privacyPolicyURL;
+  onboardingAgreementURL = environment.onboardingAgreementURL;
   catalogueId: string = null;
   catalogueName = '';
   errorMessage = '';

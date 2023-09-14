@@ -15,7 +15,7 @@ export const environment = {
   serviceORresource: 'Service',
   hasUserConsent: true,
   privacyPolicyURL: 'https://www.eosc-portal.eu/privacy-policy-summary',
-  onboardingAgreementURL: 'https://wiki.eoscfuture.eu/display/PUBLIC/EOSC+Catalogue+Onboarding+and+Onboarding+Agreement',
+  onboardingAgreementURL: 'https://wiki.eoscfuture.eu/display/PUBLIC/EOSC+Catalogue+Onboarding+Agreement+and+Workflow',
   // marketplaceServicesURL: 'https://marketplace-beta.docker-fid.grid.cyf-kr.edu.pl/services/',
   // marketplaceDatasourcesURL: 'https://marketplace-beta.docker-fid.grid.cyf-kr.edu.pl/datasources/',
   marketplaceServicesURL: 'https://beta.marketplace.eosc-portal.eu/services/',
