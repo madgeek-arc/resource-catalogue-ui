@@ -116,15 +116,23 @@
                 </a>
               </li>
             </ng-container>
-<!--            this can be omitted unless told otherwise-->
-<!--            <ng-container *ngIf="providerBundle?.status === 'pending provider' || providerBundle?.status === 'rejected provider'">-->
-<!--              <li title="This action is disabled until your Provider proceeds on the onboarding process.">-->
-<!--                <a>-->
-<!--                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">-->
-<!--                  Add first {{serviceORresource | lowercase}}-->
-<!--                </a>-->
-<!--              </li>-->
-<!--            </ng-container>-->
+            <ng-container *ngIf="providerBundle?.status === 'pending provider'">
+              <li uk-tooltip="Disabled until provider gets approved.">
+                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first {{serviceORresource}}</a>
+              </li>
+              <li uk-tooltip="Disabled until provider gets approved.">
+                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first Training Resource</a>
+              </li>
+            </ng-container>
+<!--            this can be omitted unless told otherwise
+            <ng-container *ngIf="providerBundle?.status === 'pending provider' || providerBundle?.status === 'rejected provider'">
+              <li title="This action is disabled until your Provider proceeds on the onboarding process.">
+                <a>
+                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  Add first {{serviceORresource | lowercase}}
+                </a>
+              </li>
+            </ng-container>-->
             <ng-container *ngIf="providerBundle?.templateStatus === 'approved template'">
               <li>
                 <a [routerLink]="['/provider/' + providerId + '/resource/add/']">
@@ -139,12 +147,25 @@
                 </a>
               </li>
             </ng-container>
+<!--            <ng-container *ngIf="providerBundle?.templateStatus !== 'approved template'">
+              <li uk-tooltip="Disabled until first resource approval.">
+                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new {{serviceORresource}}</a>
+              </li>
+              <li uk-tooltip="Disabled until first resource approval.">
+                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new Training Resource</a>
+              </li>
+            </ng-container>-->
             <ng-container *ngIf="providerBundle?.status === 'approved provider'">
               <li>
                 <a [routerLink]="['/guidelines/' + providerId + '/add/']">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add new Guideline
                 </a>
+              </li>
+            </ng-container>
+            <ng-container *ngIf="providerBundle?.status !== 'approved provider'">
+              <li uk-tooltip="Disabled until provider gets approved.">
+                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new Guideline</a>
               </li>
             </ng-container>
             <li>
