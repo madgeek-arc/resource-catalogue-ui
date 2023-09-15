@@ -632,6 +632,7 @@
 </div>
 
 <div id="actionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-header uk-h4">Onboarding</div>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedProvider">
       <h6>Proceed with changing the status of "{{ selectedProvider.provider.name }}"</h6>
@@ -643,8 +644,10 @@
           'The Provider will be prompted to update the resource template.')}}
       </p>
     </div>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="statusChangeAction()">Proceed</button>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    <div class="uk-text-right uk-margin-medium-top">
+      <button class="uk-button uk-button-secondary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="statusChangeAction()">Proceed</button>
+    </div>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
