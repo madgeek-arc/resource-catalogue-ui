@@ -212,7 +212,10 @@
 
                         <div class="uk-width-4-5" style="padding-left: 100px;">
                           <div class="providerName uk-margin-bottom">
-                            {{ datasourceBundle.name }}
+                            <a [routerLink]="['/dashboard', datasourceBundle.datasource.catalogueId, datasourceBundle.datasource.serviceId.split('.')[0], 'resource-dashboard', datasourceBundle.datasource.serviceId]"
+                               data-uk-tooltip title="Go to the service dashboard">
+                              {{ datasourceBundle.name }}
+                            </a>
                           </div>
 
                           <div class="uk-margin-small-top">
