@@ -24,6 +24,10 @@ export class DatasourceService {
     return this.http.delete(this.base + '/datasource/' + id, this.options);
   }
 
+  deleteDatasourceWithoutAdminRights(catalogueId: string, serviceId: string) {
+    return this.http.delete(this.base + `/datasource/${catalogueId}/${serviceId}`, this.options);
+  }
+
   getDatasourceBundles(from: string, quantity: string, orderField: string, order: string, query: string,
                        status: string, catalogue_id: string[], service_id: string[]) {
     let params = new HttpParams();

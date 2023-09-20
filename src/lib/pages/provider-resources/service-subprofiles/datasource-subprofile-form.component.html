@@ -13,8 +13,8 @@
             </div>
           </div>
           <div class="uk-flex uk-flex-middle">
-            <button class="uk-button uk-button-secondary uk-margin-left" type="submit" (click)="this.onSubmit()">Submit
-            </button>
+            <button *ngIf="datasource?.id" class="uk-button uk-button-danger" type="submit" (click)="deleteDatasource()">Delete</button>
+            <button class="uk-button uk-button-secondary uk-margin-left" type="submit" (click)="onSubmit()">Submit</button>
           </div>
         </div>
 
@@ -498,7 +498,6 @@
 
                         </li>
                         </ul>
-
 <!--                              <pre>-->
 <!--                                {{serviceForm.valid}}-->
 <!--                                {{serviceForm.value | json}}-->

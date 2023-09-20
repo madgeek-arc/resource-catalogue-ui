@@ -5,12 +5,11 @@ import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
 import * as dm from '../../../shared/description.map';
-import {Provider, Service, Helpdesk, Datasource, Vocabulary, Type} from '../../../domain/eic-model';
+import {Provider, Service, Datasource, Vocabulary, Type} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {URLValidator} from '../../../shared/validators/generic.validator';
 import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
-import {ServiceProviderService} from '../../../services/service-provider.service';
 import {DatasourceService} from "../../../services/datasource.service";
 import BitSet from "bitset";
 import {PremiumSortPipe} from "../../../shared/pipes/premium-sort.pipe";
@@ -481,6 +480,22 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       pos: 'top-center',
       timeout: 7000
     });
+  }
+
+  deleteDatasource() {
+    this.showLoader = true;
+    this.datasourceService.deleteDatasourceWithoutAdminRights(this.datasource.catalogueId, this.datasource.serviceId).subscribe(
+      res => {},
+      error => {
+        this.showLoader = false;
+        this.errorMessage = 'Something went bad. ' + error.error ;
+        return this.router.resourceDashboard(this.datasource.serviceId.split('.')[0], this.datasource.serviceId);
+      },
+      () => {
+        this.showLoader = false;
+        return this.router.resourceDashboard(this.datasource.serviceId.split('.')[0], this.datasource.serviceId);
+      }
+    );
   }
 
 }
