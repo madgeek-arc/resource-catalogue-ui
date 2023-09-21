@@ -74,7 +74,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
           this.guidelinesForm.patchValue(this.resourceGuidelines);
         }
         this.loadingMessage = 'Loading guidelines...';
-        this.guidelinesService.getInteroperabilityRecords().subscribe( //get all
+        this.guidelinesService.getInteroperabilityRecords('0', '9999').subscribe( //get all
           res => {
             if (res != null) {
               this.guidelines = res['results'];
