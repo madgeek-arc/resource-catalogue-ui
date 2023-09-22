@@ -327,6 +327,16 @@
                                      [ngClass]="{'uk-form-danger': checkFormValidity('endOfLife', this.edit)}">
                             </div>
                           </div>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right">
+                              {{ scopeDesc.label + (scopeDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{scopeDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-top uk-width-9-10">
+                              <textarea class="uk-textarea" rows="5" formControlName="scope" [ngClass]="{'uk-form-danger': checkFormValidity('scope', this.edit)}"></textarea>
+                            </div>
+<!--                            <i><small>Suggested length is 1000 characters</small></i>-->
+                          </div>
 
                           <div class="uk-flex uk-flex-right">
                             <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab2')">Next &nbsp;<i class="fa fa-arrow-circle-right fa-lg"></i></button>

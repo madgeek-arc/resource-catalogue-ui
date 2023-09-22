@@ -29,6 +29,7 @@ export class Catalogue implements Identifiable {
   validationProcess: URL;
   endOfLife: string;
   description: string;
+  scope: string;
   logo: URL;
   multimedia: Multimedia[];
   scientificDomains: ServiceProviderDomain[];

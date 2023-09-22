@@ -93,6 +93,7 @@ export class CatalogueFormComponent implements OnInit {
   readonly abbreviationDesc: dm.Description = dm.catalogueDescMap.get('abbreviationDesc');
   readonly websiteDesc: dm.Description = dm.catalogueDescMap.get('websiteDesc');
   readonly descriptionDesc: dm.Description = dm.catalogueDescMap.get('descriptionDesc');
+  readonly scopeDesc: dm.Description = dm.catalogueDescMap.get('scopeDesc');
   readonly logoDesc: dm.Description = dm.catalogueDescMap.get('logoDesc');
   readonly multimediaURLDesc: dm.Description = dm.catalogueDescMap.get('multimediaURLDesc');
   readonly multimediaNameDesc: dm.Description = dm.catalogueDescMap.get('multimediaNameDesc');
@@ -144,6 +145,7 @@ export class CatalogueFormComponent implements OnInit {
     validationProcess: ['', Validators.compose([Validators.required, URLValidator])],
     endOfLife: ['', Validators.required],
     description: ['', Validators.required],
+    scope: [''],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
     // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
     // multimediaNames: this.fb.array([this.fb.control('')]),
