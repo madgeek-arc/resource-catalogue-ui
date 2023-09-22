@@ -100,23 +100,13 @@ export class ResourcesListComponent implements OnInit {
   statusList = statusList;
   adminActionsMap = resourceStatusChangeMap;
 
-  public auditStates: Array<string> = [
-    'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
-  ];
-
-  public auditLabels: Array<string> = [
-    'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
-  ];
+  public auditStates: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
+  public auditLabels: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
 
   @ViewChildren('auditCheckboxes') auditCheckboxes: QueryList<ElementRef>;
 
-  public statuses: Array<string> = [
-    'approved resource', 'pending resource', 'rejected resource'
-  ];
-
-  public labels: Array<string> = [
-    `Approved`, `Pending`, `Rejected`
-  ];
+  public statuses: Array<string> = ['approved resource', 'pending resource', 'rejected resource'];
+  public labels: Array<string> = [`Approved`, `Pending`, `Rejected`];
 
   @ViewChildren('checkboxes') checkboxes: QueryList<ElementRef>;
 
@@ -289,9 +279,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   onSelectionChange(event: any, formControlName: string) {
-
     const formArray: FormArray = this.dataForm.get(formControlName) as FormArray;
-
     if (event.target.checked) {
       // Add a new control in the arrayForm
       formArray.push(new FormControl(event.target.value));
@@ -304,7 +292,6 @@ export class ResourcesListComponent implements OnInit {
           formArray.removeAt(i);
           return;
         }
-
         i++;
       });
     }

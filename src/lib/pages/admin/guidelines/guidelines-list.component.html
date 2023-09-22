@@ -15,6 +15,19 @@
                   <h4>Filters</h4>
                   <hr class="uk-margin-large-right">
 
+                  <h5>Audit State</h5>
+                  <form [formGroup]="dataForm">
+                    <div formArrayName="auditState" class="uk-padding uk-padding-remove-top">
+                      <div *ngFor="let auditState of auditStates;" class="uk-margin-small-top">
+                        <label class="status-value uk-margin-small-left">
+                          <input #auditCheckboxes class="uk-checkbox" type="checkbox" [value]="auditState"
+                                 (change)="onSelectionChange($event, 'auditState')" [checked]="isAuditStateChecked(auditState)">
+                          {{auditLabels[auditStates.indexOf(auditState)] | titlecase}}
+                        </label>
+                      </div>
+                    </div>
+                  </form>
+
                   <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
                     <ng-container *ngFor="let f of facets">
                       <ng-container *ngIf="f.field === 'provider_id'">
@@ -197,23 +210,46 @@
                               <div class="providerName uk-margin-bottom">
                                 {{ guidelineBundle.interoperabilityRecord.title }}
                               </div>
+                              <div class="uk-grid uk-child-width-1-2">
+                                <div>
+                                  <div class="">
+                                    <span class="statusLabel">ID: </span>{{ guidelineBundle.id }}
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Provider ID: </span>{{ guidelineBundle.interoperabilityRecord.providerId }}
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Catalogue ID: </span>{{ guidelineBundle.interoperabilityRecord.catalogueId }}
+                                  </div>
+    <!--                              <div class="uk-margin-small-top">-->
+    <!--                                <span class="statusLabel">Creators: </span><span *ngFor="let creator of guidelineBundle.interoperabilityRecord.creators; let i = index">{{i>0 ? ', ' : ''}} {{creator.creatorNameTypeInfo.creatorName}}</span>-->
+    <!--                              </div>-->
+<!--                                  <div class="uk-margin-small-top">-->
+<!--                                    <span class="statusLabel">Description: </span>{{ guidelineBundle.interoperabilityRecord.description }}-->
+<!--                                  </div>-->
+                                </div>
 
-                              <div class="">
-                                <span class="statusLabel">ID: </span>{{ guidelineBundle.id }}
+                                <div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Creation Date: </span>
+                                    <ng-container *ngIf="guidelineBundle.metadata.registeredAt>0; else noCreationDate">{{ guidelineBundle.metadata.registeredAt | date }}</ng-container>
+                                    <ng-template #noCreationDate><i>Unknown</i></ng-template>
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Last Update: </span>{{ guidelineBundle.metadata.modifiedAt | date }}
+                                  </div>
+                                  <div class="uk-margin-small-top">
+                                    <span class="statusLabel">Last Audit: </span>
+                                    <ng-container *ngIf="guidelineBundle.latestAuditInfo">
+                                      {{guidelineBundle.latestAuditInfo.actionType | titlecase}}ated
+                                      on {{ guidelineBundle.latestAuditInfo.date | date}}
+                                      by {{ guidelineBundle.latestAuditInfo.userFullName}}
+                                    </ng-container>
+                                    <ng-container *ngIf="!guidelineBundle.latestAuditInfo"><i>Never audited</i></ng-container>
+                                  </div>
+                                </div>
+
                               </div>
-
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">Provider ID: </span>{{ guidelineBundle.interoperabilityRecord.providerId }}
-                              </div>
-
-<!--                              <div class="uk-margin-small-top">-->
-<!--                                <span class="statusLabel">Creators: </span><span *ngFor="let creator of guidelineBundle.interoperabilityRecord.creators; let i = index">{{i>0 ? ', ' : ''}} {{creator.creatorNameTypeInfo.creatorName}}</span>-->
-<!--                              </div>-->
-
-                              <div class="uk-margin-small-top">
-                                <span class="statusLabel">Description: </span>{{ guidelineBundle.interoperabilityRecord.description }}
-                              </div>
-
                             </div>
 
                             <div class="uk-width-1-5">
@@ -260,6 +296,12 @@
                             </button>
                             <div uk-dropdown="mode: click">
                               <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+                                <ng-container *ngIf="guidelineBundle.active && guidelineBundle.status=='approved interoperability record'">
+                                  <li class="uk-margin-small-bottom"
+                                      (click)="showAuditForm(guidelineBundle)">
+                                    <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
+                                  </li>
+                                </ng-container>
                                 <li *ngIf="(guidelineBundle.status === 'approved interoperability record') && (!guidelineBundle.active)"
                                     (click)="verifyGuideline(guidelineBundle.id, true, 'approved interoperability record')"
                                     class="uk-margin-small-top">
@@ -284,6 +326,24 @@
                             </div>
                           </div>
                         </div>
+
+                        <ng-container *ngIf="guidelineBundle.active">
+                          <div *ngIf="showMainAuditForm && selectedGuideline === guidelineBundle">
+                            <!--                            <hr>-->
+                            <div>
+                              <p>You are about to audit "{{ selectedGuideline.interoperabilityRecord.title }}".</p>
+                              <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
+                            </div>
+                            <form>
+                              <div class="uk-margin">
+                                <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentAuditControl"></textarea>
+                              </div>
+                            </form>
+                            <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetAuditView()">Close</button>
+                            <button class="uk-button uk-button-secondary uk-align-right" type="submit" (click)="auditResourceAction('VALID', selectedGuideline)">Validate</button>
+                            <button class="uk-button uk-button-danger uk-align-right" type="submit" (click)="auditResourceAction('INVALID', selectedGuideline)">Invalidate</button>
+                          </div>
+                        </ng-container>
 
                       </div>
                     </div>

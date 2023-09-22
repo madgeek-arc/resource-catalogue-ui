@@ -103,23 +103,13 @@ export class TrainingListComponent implements OnInit {
   statusList = statusList;
   adminActionsMap = resourceStatusChangeMap;
 
-  public auditStates: Array<string> = [
-    'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
-  ];
-
-  public auditLabels: Array<string> = [
-    'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
-  ];
+  public auditStates: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
+  public auditLabels: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
 
   @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
 
-  public statuses: Array<string> = [
-    'approved resource', 'pending resource', 'rejected resource'
-  ];
-
-  public labels: Array<string> = [
-    `Approved`, `Pending`, `Rejected`
-  ];
+  public statuses: Array<string> = ['approved resource', 'pending resource', 'rejected resource'];
+  public labels: Array<string> = [`Approved`, `Pending`, `Rejected`];
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
