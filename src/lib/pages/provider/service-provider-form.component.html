@@ -197,7 +197,7 @@
                               {{fullNameDesc.label + (fullNameDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{fullNameDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <input id="providerName" class="uk-input uk-width-9-10" type="text"
                                      formControlName="name"
                                      (input)="handleBitSets(0, 0, 'name'); unsavedChangesPrompt()"
@@ -210,7 +210,7 @@
                               {{ abbreviationDesc.label + (abbreviationDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{abbreviationDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <input id="abbreviation" class="uk-input uk-width-9-10" type="text"
                                      formControlName="abbreviation"
                                      (input)="handleBitSets(0, 1, 'abbreviation'); unsavedChangesPrompt()"
@@ -224,7 +224,7 @@
                               {{ websiteDesc.label + (websiteDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{websiteDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <input id="website" class="uk-input uk-width-9-10" type="text" formControlName="website"
                                      placeholder="use http:// or https://"
                                      (input)="handleBitSets(0, 2, 'website'); unsavedChangesPrompt()"
@@ -238,7 +238,7 @@
                             <label class="uk-form-label uk-text-right">
                               {{ legalEntityDesc.label + (legalEntityDesc.mandatory ? ' (*)' : '')}}
                             </label>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <label>
                                   <span
                                     class="uk-form-description uk-margin-small-right">{{legalEntityDesc.desc}}</span>
@@ -261,7 +261,7 @@
                               {{ legalStatusDesc.label + (legalStatusDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{legalStatusDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <ng-select class="uk-width-9-10" id="legalStatus"
                                          [ngClass]="{'uk-disabled': (this.providerForm.get('legalEntity').value === false), 'uk-form-danger': checkFormValidity('legalStatus', this.edit)}"
                                          [items]="sortVocabulariesByName(legalStatusVocabulary)"
@@ -294,7 +294,7 @@
                               {{ hostingLegalEntityDesc.label + (hostingLegalEntityDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{hostingLegalEntityDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <ng-select class="uk-width-9-10" id="hostingLegalEntity"
                                          [ngClass]="{'uk-form-danger': checkFormValidity('hostingLegalEntity', this.edit)}"
                                          [items]="sortVocabulariesByName(hostingLegalEntityVocabulary)"
@@ -319,7 +319,7 @@
                               {{ descriptionDesc.label + (descriptionDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{descriptionDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top uk-width-9-10">
+                            <div class="uk-form-controls uk-margin-top uk-width-9-10">
                               <md-editor  id="description"
                                           [ngClass]="{'uk-form-danger': checkFormValidity('description', this.edit)}"
                                           [height]="'250px'"
@@ -337,7 +337,7 @@
                               {{ logoDesc.label + (logoDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <!--                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{providerLogoDesc.desc}}</div>-->
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo"
                                      placeholder="use http:// or https://"
                                      (input)="handleBitSets(1, 4, 'logo'); unsavedChangesPrompt()"
@@ -360,7 +360,7 @@
                                       {{ multimediaURLDesc.label + (multimediaURLDesc.mandatory ? ' (*)' : '') }}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaURLDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="multimediaURL" class="uk-input uk-width-9-10" type="text" formControlName="multimediaURL" placeholder="use http:// or https://"
                                              (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.edit, 'multimediaURL')}">
@@ -374,7 +374,7 @@
                                       {{ multimediaNameDesc.label + (multimediaNameDesc.mandatory ? ' (*)' : '') }}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaNameDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="multimediaName" class="uk-input uk-width-9-10" type="text" formControlName="multimediaName"
                                              (input)="unsavedChangesPrompt()">
                                       <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.edit, 'multimediaName')}">-->
@@ -426,7 +426,7 @@
                                       {{scientificDomainDesc.label + (scientificDomainDesc.mandatory ? ' (*)' : '')}}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{scientificDomainDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <ng-select class="uk-width-1-1" id="{{'scientificDomain ' + i}}"
                                                  [items]="sortVocabulariesByName(domainsVocabulary)"
                                                  (change)="onDomainChange(i); unsavedChangesPrompt()"
@@ -462,7 +462,7 @@
                                       {{scientificSubdomainsDesc.label + (scientificSubdomainsDesc.mandatory ? ' (*)' : '')}}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{scientificSubdomainsDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <ng-select class="uk-width-1-1" id="{{'scientificSubdomain ' + i}}"
                                                  [items]="subVocabularies[domainArray.controls[i].get('scientificDomain').value]"
                                                  (change)="checkForDuplicates('scientificSubdomain','scientificDomains'); unsavedChangesPrompt()"
@@ -511,7 +511,7 @@
                               {{tagsDesc.label + (tagsDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{tagsDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <div *ngFor="let provider of getFieldAsFormArray('tags').controls; let i=index" class="uk-margin-bottom">
                                 <input id="tags" class="uk-input uk-width-9-10" type="text" [formControlName]="i"
                                        (input)="unsavedChangesPrompt(); checkForDuplicates('tags')"
@@ -537,7 +537,7 @@
                               {{structureTypesDesc.label + (structureTypesDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{structureTypesDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <div *ngFor="let provider of getFieldAsFormArray('structureTypes').controls; let i=index" class="uk-margin-bottom">
                                 <ng-select class="uk-width-9-10" id="structureTypes"
                                            *ngIf="providerTypeVocabulary"
@@ -597,7 +597,7 @@
                                 {{ streetNameAndNumberDesc.label + (streetNameAndNumberDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{streetNameAndNumberDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="streetNameAndNumber" class="uk-input uk-width-9-10" type="text"
                                        formControlName="streetNameAndNumber"
                                        (input)="handleBitSetsOfGroups(3, 5, 'streetNameAndNumber', 'location'); unsavedChangesPrompt()"
@@ -610,7 +610,7 @@
                                 {{ postalCodeDesc.label + (postalCodeDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{postalCodeDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="postalCode" class="uk-input uk-width-9-10" type="text"
                                        formControlName="postalCode"
                                        (input)="handleBitSetsOfGroups(3, 6, 'postalCode', 'location'); unsavedChangesPrompt()"
@@ -623,7 +623,7 @@
                                 {{ cityDesc.label + (cityDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{cityDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="city" class="uk-input uk-width-9-10" type="text" formControlName="city"
                                        (input)="handleBitSetsOfGroups(3, 7, 'city', 'location'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('location.city', this.edit)}">
@@ -635,7 +635,7 @@
                                 {{ regionDesc.label + (regionDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{regionDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="region" class="uk-input uk-width-9-10" type="text" formControlName="region"
                                        (input)="unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('location.region', this.edit)}">
@@ -647,7 +647,7 @@
                                 {{ countryDesc.label + (countryDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{countryDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <!--                                  <select id="country" class="uk-input uk-select uk-width-9-10"-->
                                 <!--                                          formControlName="country"-->
                                 <!--                                          (change)="handleBitSetsOfGroups(3, 8, 'country', 'location'); unsavedChangesPrompt()"-->
@@ -707,7 +707,7 @@
                                     {{ mainContactFirstNameDesc.label + (mainContactFirstNameDesc.mandatory ? ' (*)' : '') }}
                                   </label>
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactFirstNameDesc.desc}}</div>
-                                  <div class="uk-form-controls uk-margin-medium-top">
+                                  <div class="uk-form-controls uk-margin-top">
                                     <input id="mainContactFirstName" class="uk-input" type="text"
                                            formControlName="firstName"
                                            (input)="handleBitSetsOfGroups(4, 9, 'firstName', 'mainContact'); unsavedChangesPrompt()"
@@ -720,7 +720,7 @@
                                     {{ mainContactLastNameDesc.label + (mainContactLastNameDesc.mandatory ? ' (*)' : '') }}
                                   </label>
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactLastNameDesc.desc}}</div>
-                                  <div class="uk-form-controls uk-margin-medium-top">
+                                  <div class="uk-form-controls uk-margin-top">
                                     <input id="mainContactLastName" class="uk-input" type="text"
                                            formControlName="lastName"
                                            (input)="handleBitSetsOfGroups(4, 10, 'lastName', 'mainContact'); unsavedChangesPrompt()"
@@ -733,7 +733,7 @@
                                     {{ mainContactEmailDesc.label + (mainContactEmailDesc.mandatory ? ' (*)' : '') }}
                                   </label>
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactEmailDesc.desc}}</div>
-                                  <div class="uk-form-controls uk-margin-medium-top">
+                                  <div class="uk-form-controls uk-margin-top">
                                     <input id="mainContactEmail" class="uk-input" type="text" formControlName="email"
                                            (input)="handleBitSetsOfGroups(4, 11, 'email', 'mainContact'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.email', this.edit)}">
@@ -745,7 +745,7 @@
                                     {{ mainContactPhoneDesc.label + (mainContactPhoneDesc.mandatory ? ' (*)' : '') }}
                                   </label>
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactPhoneDesc.desc}}</div>
-                                  <div class="uk-form-controls uk-margin-medium-top">
+                                  <div class="uk-form-controls uk-margin-top">
                                     <input id="mainContactPhone" class="uk-input" type="text" formControlName="phone"
                                            (input)="unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.phone', this.edit)}">
@@ -757,7 +757,7 @@
                                     {{ mainContactPositionDesc.label + (mainContactPositionDesc.mandatory ? ' (*)' : '') }}
                                   </label>
                                   <div class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactPositionDesc.desc}}</div>
-                                  <div class="uk-form-controls uk-margin-medium-top">
+                                  <div class="uk-form-controls uk-margin-top">
                                     <input id="mainContactPosition" class="uk-input" type="text"
                                            formControlName="position"
                                            (input)="unsavedChangesPrompt()"
@@ -789,7 +789,7 @@
                                       {{ publicContactFirstNameDesc.label + (publicContactFirstNameDesc.mandatory ? ' (*)' : '') }}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactFirstNameDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="firstName" class="uk-input" type="text" formControlName="firstName"
                                              (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.edit, 'firstName')}">
@@ -801,7 +801,7 @@
                                       {{ publicContactLastNameDesc.label + (publicContactLastNameDesc.mandatory ? ' (*)' : '') }}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactLastNameDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="lastName" class="uk-input" type="text" formControlName="lastName"
                                              (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.edit, 'lastName')}">
@@ -813,7 +813,7 @@
                                       {{ publicContactEmailDesc.label + (publicContactEmailDesc.mandatory ? ' (*)' : '')}}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactEmailDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="email" class="uk-input" type="text" formControlName="email"
                                              (input)="handleBitSetsOfPublicContact(4, 15, 'email', 'publicContacts'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.edit, 'email')}">
@@ -825,7 +825,7 @@
                                       {{ publicContactPhoneDesc.label + (publicContactPhoneDesc.mandatory ? ' (*)' : '') }}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPhoneDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="phone" class="uk-input" type="text" formControlName="phone"
                                              (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.edit, 'phone')}">
@@ -837,7 +837,7 @@
                                       {{ publicContactPositionDesc.label + (publicContactPositionDesc.mandatory ? ' (*)' : '') }}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPositionDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="position" class="uk-input" type="text" formControlName="position"
                                              (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.edit, 'position')}">
@@ -877,7 +877,7 @@
                               {{lifeCycleStatusDesc.label + (lifeCycleStatusDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{lifeCycleStatusDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <ng-select class="uk-width-9-10" id="lifeCycleStatus"
                                          [ngClass]="{'uk-form-danger': checkFormValidity('lifeCycleStatus', this.edit)}"
                                          [items]="sortVocabulariesByName(providerLCSVocabulary)"
@@ -910,7 +910,7 @@
                               {{certificationsDesc.label + (certificationsDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{certificationsDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <div
                                 *ngFor="let provider of getFieldAsFormArray('certifications').controls; let i=index"
                                 class="uk-margin-bottom">
@@ -951,7 +951,7 @@
                               {{participatingCountriesDesc.label + (participatingCountriesDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{participatingCountriesDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <div
                                 *ngFor="let provider of getFieldAsFormArray('participatingCountries').controls; let i=index"
                                 [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('participatingCountries').controls.length-1 !== i}">
@@ -999,7 +999,7 @@
                               {{affiliationDesc.label + (affiliationDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{affiliationDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <div *ngFor="let provider of getFieldAsFormArray('affiliations').controls; let i=index"
                                    class="uk-margin-bottom">
                                 <input id="affiliations" class="uk-input uk-width-9-10" type="text"
@@ -1025,7 +1025,7 @@
                               {{networksDesc.label + (networksDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{networksDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <div *ngFor="let provider of getFieldAsFormArray('networks').controls; let i=index"
                                    [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('networks').controls.length-1 !== i}">
                                 <!--                                  <select id="networks" class="uk-input uk-select uk-width-9-10" [formControlName]="i"-->
@@ -1080,7 +1080,7 @@
                               {{catalogueIdDesc.label + (catalogueIdDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{catalogueIdDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <input id="catalogueId" class="uk-disabled uk-input uk-width-9-10" type="text" placeholder="eosc"
                                      formControlName="catalogueId"
                                      (input)="unsavedChangesPrompt()"
@@ -1107,7 +1107,7 @@
                             <div class="uk-form-description uk-margin-top uk-width-9-10">
                               (Applicable to ESFRIs only) {{ESFRIDomainDesc.desc}}
                             </div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <div *ngFor="let provider of getFieldAsFormArray('esfriDomains').controls; let i=index"
                                    [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('esfriDomains').controls.length-1 !== i}">
                                 <ng-select class="uk-width-9-10" id="esfriDomains"
@@ -1153,7 +1153,7 @@
                               {{ ESFRITypeDesc.label + (ESFRITypeDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{ESFRITypeDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <ng-select class="uk-width-9-10" id="esfriType"
                                          [ngClass]="{'uk-form-danger': checkFormValidity('esfriType', this.edit)}"
                                          [items]="sortVocabulariesByName(esfriVocabulary)"
@@ -1197,7 +1197,7 @@
                                       {{merilScientificDomainsDesc.label + (merilScientificDomainsDesc.mandatory ? ' (*)' : '')}}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{merilScientificDomainsDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <ng-select class="uk-width-1-1" id="{{'merilScientificDomain ' + i}}"
                                                  [items]="sortVocabulariesByName(merilDomainsVocabulary)"
                                                  (change)="onMerilDomainChange(i); unsavedChangesPrompt()"
@@ -1232,7 +1232,7 @@
                                       {{merilScientificSubdomainsDesc.label + (merilScientificSubdomainsDesc.mandatory ? ' (*)' : '')}}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{merilScientificSubdomainsDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <ng-select class="uk-width-1-1" id="{{'merilScientificSubdomain ' + i}}"
                                                  [items]="subVocabularies[merilDomainArray.controls[i].get('merilScientificDomain').value]"
                                                  (change)="checkForDuplicates('merilScientificSubdomain','merilScientificDomains'); unsavedChangesPrompt()"
@@ -1281,7 +1281,7 @@
                               {{areasOfActivityDesc.label + (areasOfActivityDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{areasOfActivityDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <div
                                 *ngFor="let provider of getFieldAsFormArray('areasOfActivity').controls; let i=index"
                                 [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('areasOfActivity').controls.length-1 !== i}">
@@ -1328,7 +1328,7 @@
                               {{societalGrandChallengesDesc.label + (societalGrandChallengesDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{societalGrandChallengesDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <div
                                 *ngFor="let provider of getFieldAsFormArray('societalGrandChallenges').controls; let i=index"
                                 [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('societalGrandChallenges').controls.length-1 !== i}">
@@ -1376,7 +1376,7 @@
                               {{nationalRoadmapsDesc.label + (nationalRoadmapsDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{nationalRoadmapsDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <div
                                 *ngFor="let provider of getFieldAsFormArray('nationalRoadmaps').controls; let i=index"
                                 class="uk-margin-bottom">
@@ -1432,7 +1432,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">First Name of the
                                       Provider's administrator.
                                     </div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="name" class="uk-input" type="text" formControlName="name"
                                              (input)="handleBitSetsOfUsers(7, 12, 'name', 'users'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, this.edit, 'name')}">
@@ -1446,7 +1446,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">Last Name of the
                                       Provider's administrator.
                                     </div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="surname" class="uk-input" type="text" formControlName="surname"
                                              (input)="handleBitSetsOfUsers(7, 13, 'surname', 'users'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, this.edit, 'surname')}">
@@ -1460,7 +1460,7 @@
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">Email of the
                                       Provider's administrator.
                                     </div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input class="uk-input" type="text" formControlName="email"
                                              (input)="handleBitSetsOfUsers(7, 14, 'email', 'users'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('users', i, this.edit, 'email')}">

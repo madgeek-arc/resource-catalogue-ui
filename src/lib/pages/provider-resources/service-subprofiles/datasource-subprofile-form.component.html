@@ -119,7 +119,7 @@
                               {{submissionPolicyURLDesc.label + (submissionPolicyURLDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{submissionPolicyURLDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <input id="submissionPolicyURL" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                                      type="text" placeholder="use http:// or https://"
                                      (input)="unsavedChangesPrompt()"
@@ -135,7 +135,7 @@
                               {{preservationPolicyURLDesc.label + (preservationPolicyURLDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{preservationPolicyURLDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <input id="preservationPolicyURL" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                                      type="text" placeholder="use http:// or https://"
                                      (input)="unsavedChangesPrompt()"
@@ -150,7 +150,7 @@
                             <label class="uk-form-label uk-text-right">
                               {{ versionControlDesc.label + (versionControlDesc.mandatory ? ' (*)' : '')}}
                             </label>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <label>
                                 <span class="uk-form-description uk-margin-small-right">{{versionControlDesc.desc}}</span>
                                 <br>
@@ -185,7 +185,7 @@
                                     </label>
                                     <div
                                       class="uk-form-description uk-margin-top uk-width-9-10">{{persistentIdentityEntityTypeDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <ng-select *ngIf="researchEntityTypeVocabulary" class="uk-width-1-1" id="persistentIdentityEntityType"
                                                  (change)="unsavedChangesPrompt()"
                                                  [items]="sortVocabulariesByName(researchEntityTypeVocabulary)"
@@ -253,7 +253,7 @@
                               {{jurisdictionDesc.label + (jurisdictionDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{jurisdictionDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <ng-select *ngIf="jurisdictionVocabulary" class="uk-width-9-10" id="jurisdiction"
                                          (change)="handleBitSets(13, 24, 'jurisdiction'); unsavedChangesPrompt()"
                                          [items]="sortVocabulariesByName(jurisdictionVocabulary)"
@@ -269,7 +269,7 @@
                               {{datasourceClassificationDesc.label + (datasourceClassificationDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{datasourceClassificationDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <ng-select *ngIf="classificationVocabulary" class="uk-width-9-10" id="datasourceClassification"
                                          (change)="handleBitSets(13, 25, 'datasourceClassification'); unsavedChangesPrompt()"
                                          [items]="sortVocabulariesByName(classificationVocabulary)"
@@ -286,7 +286,7 @@
                             </label>
                             <div
                               class="uk-form-description uk-margin-top uk-width-9-10">{{researchEntityTypesDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <div *ngFor="let provider of getFieldAsFormArray('researchEntityTypes').controls; let i=index"
                                    [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchEntityTypes').controls.length-1 !== i}">
                                 <ng-select *ngIf="researchEntityTypeVocabulary" class="uk-width-9-10" id="researchEntityTypes"
@@ -314,7 +314,7 @@
                             <label class="uk-form-label uk-text-right">
                               {{ thematicDesc.label + (thematicDesc.mandatory ? ' (*)' : '')}}
                             </label>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <label>
                                 <span class="uk-form-description uk-margin-small-right">{{thematicDesc.desc}}</span>
                                 <!--                                <br>-->
@@ -360,7 +360,7 @@
                                       {{ researchProductLicenseURLDesc.label + (researchProductLicenseURLDesc.mandatory ? ' (*)' : '') }}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductLicenseURLDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="researchProductLicenseURL" class="uk-input" type="text" formControlName="researchProductLicenseURL" placeholder="use http:// or https://"
                                              (input)="unsavedChangesPrompt()">
                                     </div>
@@ -371,7 +371,7 @@
                                     </label>
                                     <div
                                       class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductLicenseNameDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="researchProductLicenseName" class="uk-input" type="text" formControlName="researchProductLicenseName"
                                              (input)="unsavedChangesPrompt()">
                                     </div>
@@ -397,7 +397,7 @@
                               {{researchProductAccessPoliciesDesc.label + (researchProductAccessPoliciesDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{researchProductAccessPoliciesDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <div *ngFor="let provider of getFieldAsFormArray('researchProductAccessPolicies').controls; let i=index"
                                    [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchProductAccessPolicies').controls.length-1 !== i}">
                                 <ng-select *ngIf="accessRightsVocabulary" class="uk-width-9-10" id="researchProductAccessPolicies"

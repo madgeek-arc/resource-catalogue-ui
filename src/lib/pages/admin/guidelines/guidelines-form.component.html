@@ -107,7 +107,7 @@
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">The Identifier is a unique string that identifies a resource. For software, determine whether the identifier is for a specific version of a piece of software,
                                 (per the <a href="https://force11.org/info/software-citation-principles-published-2016/">Force11 Software Citation Principles</a>), or for all versions. For publications, this should be a URI or DOI. This is the record's primary key for locating it in the EOSC-IF database.</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="identifier" class="uk-input uk-width-9-10" type="text"
                                        formControlName="identifier"
                                        (input)="unsavedChangesPrompt()"
@@ -120,7 +120,7 @@
                                 {{ identifierTypeDesc.label + (identifierTypeDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{identifierTypeDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <ng-select *ngIf="identifierTypeVocabulary" class="uk-width-9-10" id="identifierType"
                                            (change)="unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('identifierType', this.edit, identifierTypeDesc.mandatory)}"
@@ -140,7 +140,7 @@
                               {{titleDesc.label + (titleDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{titleDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <input id="title" class="uk-input uk-width-9-10" type="text"
                                      formControlName="title"
                                      (input)="unsavedChangesPrompt()"
@@ -172,7 +172,7 @@
                                       {{resourceTypeDesc.label + (resourceTypeDesc.mandatory ? ' (*)' : '')}}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{resourceTypeDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="resourceType" class="uk-input uk-width-9-10" type="text"
                                              formControlName="resourceType"
                                              (input)="unsavedChangesPrompt()">
@@ -186,7 +186,7 @@
                                     </label>
                                     <div
                                       class="uk-form-description uk-margin-top uk-width-9-10">{{resourceTypeGeneralDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <ng-select *ngIf="resourceTypeGeneralVocabulary" id="{{'resourceTypeGeneral ' + i}}"
                                                  class="uk-width-1-1"
                                                  (change)="checkForDuplicates('resourceTypeGeneral','resourceTypesInfo'); unsavedChangesPrompt()"
@@ -220,7 +220,7 @@
                               {{createdDesc.label + (createdDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{createdDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <input id="created" class="uk-disabled uk-input uk-width-9-10" type="text" placeholder="value will be automatically assigned"
                                      formControlName="created"
                                      (input)="unsavedChangesPrompt()"
@@ -232,7 +232,7 @@
                               {{updatedDesc.label + (updatedDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{updatedDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <input id="updated" class="uk-disabled uk-input uk-width-9-10" type="text" placeholder="value will be automatically assigned"
                                      formControlName="updated"
                                      (input)="unsavedChangesPrompt()"
@@ -245,7 +245,7 @@
                               {{relatedStandardsDesc.label + (relatedStandardsDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{relatedStandardsDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <div *ngFor="let provider of getFieldAsFormArray('relatedStandards').controls; let i=index"
                                    class="uk-margin-bottom">
                                 <input id="relatedStandards" class="uk-input uk-animation-slide-top-small uk-width-9-10" placeholder="use http:// or https://"
@@ -278,7 +278,7 @@
                                       {{ relatedStandardURIDesc.label + (relatedStandardURIDesc.mandatory ? ' (*)' : '') }}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{relatedStandardURIDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="relatedStandardURI" class="uk-input uk-width-9-10" type="text" formControlName="relatedStandardURI" placeholder="use http:// or https://"
                                              (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedStandards', i, this.edit, 'relatedStandardURI')}">
@@ -293,7 +293,7 @@
                                     </label>
                                     <div
                                       class="uk-form-description uk-margin-top uk-width-9-10">{{relatedStandardIdentifierDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="relatedStandardIdentifier" class="uk-input uk-width-9-10" type="text" formControlName="relatedStandardIdentifier"
                                              (input)="unsavedChangesPrompt()">
                                       <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedStandards', i, this.editMode, 'relatedStandardIdentifier')}">-->
@@ -330,7 +330,7 @@
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{rightTitleDesc.desc}}</div>
                                     <div class="uk-form-description uk-width-9-10">Examples: Creative Commons Attribution, 3.0 Germany License, Apache License, Version 2.026</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="rightTitle" class="uk-input uk-width-9-10" type="text" formControlName="rightTitle"
                                              (input)="unsavedChangesPrompt()">
                                     </div>
@@ -341,7 +341,7 @@
                                       {{ rightURIDesc.label + (rightURIDesc.mandatory ? ' (*)' : '') }}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{rightURIDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="rightURI" class="uk-input uk-width-9-10" type="text" formControlName="rightURI" placeholder="use http:// or https://"
                                              (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('rights', i, this.edit, 'rightURI')}">
@@ -357,7 +357,7 @@
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{rightIdentifierDesc.desc}}</div>
                                     <div class="uk-form-description uk-width-9-10">A list of identifiers for commonly-used licenses may be found here: <a href="https://spdx.org/licenses/">https://spdx.org/licenses/</a></div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="rightIdentifier" class="uk-input uk-width-9-10" type="text" formControlName="rightIdentifier"
                                              (input)="unsavedChangesPrompt()">
                                     </div>
@@ -383,7 +383,7 @@
                               {{ descriptionDesc.label + (descriptionDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{descriptionDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top uk-width-9-10">
+                            <div class="uk-form-controls uk-margin-top uk-width-9-10">
                               <md-editor  id="description"
                                           [ngClass]="{'uk-form-danger': checkFormValidity('description', this.edit)}"
                                           [height]="'250px'"
@@ -455,7 +455,7 @@
                               {{eoscIntegrationOptionsDesc.label + (eoscIntegrationOptionsDesc.mandatory ? ' (*)' : '')}}
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{eoscIntegrationOptionsDesc.desc}}</div>
-                            <div class="uk-form-controls uk-margin-medium-top">
+                            <div class="uk-form-controls uk-margin-top">
                               <div *ngFor="let provider of getFieldAsFormArray('eoscIntegrationOptions').controls; let i=index"
                                    class="uk-margin-bottom">
                                 <input id="eoscIntegrationOptions" class="uk-input uk-animation-slide-top-small uk-width-9-10"
@@ -498,7 +498,7 @@
                                       </label>
                                       <div class="uk-form-description uk-margin-top uk-width-9-10">{{creatorNameDesc.desc}}</div>
                                       <div class="uk-form-description uk-width-9-10">Examples: Charpy, Antoine; Jemison, Mae; Foo Data Center. Names in non-roman scripts may be transliterated according to the ALA-LC tables.</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <input id="creatorName" class="uk-input uk-width-9-10" type="text"
                                                formControlName="creatorName"
                                                (input)="unsavedChangesPrompt()"
@@ -510,7 +510,7 @@
                                         {{ nameTypeDesc.label + (nameTypeDesc.mandatory ? ' (*)' : '')}}
                                       </label>
                                       <div class="uk-form-description uk-margin-top uk-width-9-10">{{nameTypeDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <ng-select *ngIf="nameTypeVocabulary" class="uk-width-9-10" id="nameType"
                                                    (change)="unsavedChangesPrompt()"
                                                    [ngClass]="{'uk-form-danger': checkFormValidity('creators.nameType', this.edit)}"
@@ -529,7 +529,7 @@
                                       {{ givenNameDesc.label + (givenNameDesc.mandatory ? ' (*)' : '')}}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{givenNameDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="givenName" class="uk-input" type="text" formControlName="givenName"
                                              (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('creators', i, this.edit, 'givenName')}">
@@ -540,7 +540,7 @@
                                       {{ familyNameDesc.label + (familyNameDesc.mandatory ? ' (*)' : '')}}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{familyNameDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="familyName" class="uk-input" type="text" formControlName="familyName"
                                              (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('creators', i, this.edit, 'familyName')}">
@@ -551,7 +551,7 @@
                                       {{ nameIdentifierDesc.label + (nameIdentifierDesc.mandatory ? ' (*)' : '')}}
                                     </label>
                                     <div class="uk-form-description uk-margin-top uk-width-9-10">{{nameIdentifierDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="nameIdentifier" class="uk-input" type="text" formControlName="nameIdentifier"
                                              (input)="unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormArrayValidity('creators', i, this.edit, 'nameIdentifier')}">
@@ -564,7 +564,7 @@
                                         {{ affiliationDesc.label + (affiliationDesc.mandatory ? ' (*)' : '')}}
                                       </label>
                                       <div class="uk-form-description uk-margin-top uk-width-9-10">{{affiliationDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <input id="affiliation" class="uk-input uk-width-9-10" type="text"
                                                formControlName="affiliation"
                                                (input)="unsavedChangesPrompt()"
@@ -577,7 +577,7 @@
                                       </label>
                                       <div class="uk-form-description uk-margin-top uk-width-9-10">{{affiliationIdentifierDesc.desc}}</div>
                                       <div class="uk-form-description uk-width-9-10">Examples: <a href="https://ror.org/04aj4c181">https://ror.org/04aj4c181</a> grid.461819.3</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <input id="affiliationIdentifier" class="uk-input uk-width-9-10" type="text"
                                                formControlName="affiliationIdentifier"
                                                (input)="unsavedChangesPrompt()"
