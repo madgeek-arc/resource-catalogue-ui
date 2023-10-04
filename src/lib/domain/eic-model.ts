@@ -129,17 +129,6 @@ export class LoggingInfo {
   actionType: string;
 }
 
-export class Measurement implements Identifiable {
-  id: string;
-  indicatorId: string;
-  serviceId: string;
-  time: XMLGregorianCalendar;
-  locations: string[];
-  valueIsRange: boolean;
-  value: string;
-  rangeValue: RangeValue;
-}
-
 export class Metadata {
   registeredBy: string;
   registeredAt: string;
@@ -269,11 +258,6 @@ export class ProviderRequest implements Identifiable {
   date: string;
   providerId: string;
   read: boolean;
-}
-
-export class RangeValue {
-  fromValue: string;
-  toValue: string;
 }
 
 export class RichService {
@@ -409,28 +393,28 @@ export class ResearchProductMetadataLicensing {
 export class TrainingResource implements Identifiable {
   id: string;
   title: string;
-  resourceOrganisation: string; //-> opws kai sto service
-  resourceProviders: string[]; //-> opws kai sto service
+  resourceOrganisation: string; // like service
+  resourceProviders: string[]; // like service
   authors: string[];
   url: URL;
-  urlType: string; //-> neov voc
+  urlType: string; // new voc
   eoscRelatedServices: string[];
   description: string;
   keywords: string[];
   license: string;
-  accessRights: string; //-> neo voc (1 oxi polla)
+  accessRights: string; // new voc (1 oxi polla)
   versionDate: Date;
   targetGroups: string[];
-  learningResourceTypes: string[]; //-> neo voc
+  learningResourceTypes: string[]; // new voc
   learningOutcomes: string[];
-  expertiseLevel: string; //-> neo voc
-  contentResourceTypes: string[]; //-> neo voc
+  expertiseLevel: string; // new voc
+  contentResourceTypes: string[]; // new voc
   qualifications: string[];
   duration: string;
-  languages: string[]; //-> opws kai sto service
-  geographicalAvailabilities: string[]; //-> opws kai sto service
-  scientificDomains: ServiceProviderDomain[]; //-> opws kai sto service
-  contact: ServiceMainContact; //-> opws kai sto service
+  languages: string[]; // like service
+  geographicalAvailabilities: string[]; // like service
+  scientificDomains: ServiceProviderDomain[]; // like service
+  contact: ServiceMainContact; // like service
   catalogueId: string;
 }
 
@@ -551,7 +535,6 @@ export class Vocabulary implements Identifiable {
 }
 
 export class VocabularyEntryRequest {
-  // id: string;
   userId: string;
   resourceId: string;
   providerId: string;

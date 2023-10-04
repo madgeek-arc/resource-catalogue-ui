@@ -104,26 +104,6 @@ const providerDashboardRoutes: Routes = [
           isResource: false
         }
       },
-      // fixme den mou kanoun edw giati den thelw na exoun dashboard route
-      // {
-      //   path: 'resource/add',
-      //   component: ServiceUploadComponent
-      // },
-      // {
-      //   path: 'resource/update/:resourceId',
-      //   component: ServiceEditComponent
-      // },
-      // {
-      //   path: 'resource/dashboard/:resourceId',
-      //   redirectTo: 'resource/dashboard/:resourceId/stats',
-      // },
-      // {
-      //   path: 'resource/dashboard/:resourceId/stats',
-      //   component: ServiceStatsComponent,
-      //   data: {
-      //     isResource: true
-      //   }
-      // },
       // fixme do it with lazy loading?
       // {
       //   path: 'resource/dashboard',

@@ -4,7 +4,6 @@ import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
 import {
   Indicator,
-  Measurement,
   VocabularyTree,
   Provider,
   RichService,
@@ -323,28 +322,6 @@ export class ResourceService {
   }
   /** STATS **/
 
-  /** Service Measurements **/
-  getLatestServiceMeasurement(id: string) {
-    return this.http.get<Paging<Measurement>>(this.base + `/measurement/latest/service/${id}`);
-  }
-
-  getServiceMeasurements(id: string) {
-    return this.http.get<Paging<Measurement>>(this.base + `/measurement/service/${id}`);
-  }
-
-  postMeasurement(measurement: Measurement) {
-    return this.http.post(this.base + '/measurement', measurement, this.options)
-      ;
-  }
-
-  postMeasurementUpdateAll(id: string, measurement: Measurement[]) {
-    let params = new HttpParams();
-    params = params.append('serviceId', id);
-    // const options = {params, withCredentials: true};
-    return this.http.post(this.base + '/measurement/updateAll', measurement, {params, withCredentials: true});
-  }
-  /** Service Measurements **/
-
   /** Indicators **/
   postIndicator(indicator: Indicator) {
     return this.http.post(this.base + '/indicator', indicator, this.options);
@@ -516,10 +493,6 @@ export class ResourceService {
     return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + `/service?comment=${comment}`, service, this.options);
   }
 
-  uploadServiceWithMeasurements(service: Service, measurements: Measurement[]) {
-    return this.http.put<Service>(this.base + '/service/serviceWithMeasurements', {service, measurements}, this.options);
-  }
-
   /** Draft(Pending) Services -->**/
   saveServiceAsDraft(service: Service) {
     return this.http.put<Service>(this.base + '/pendingService/pending', service, this.options);
@@ -552,10 +525,6 @@ export class ResourceService {
     return this.http.get<Paging<LoggingInfo>>(this.base + `/service/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
   }
 
-  getInfo() {
-    return this.http.get<Info>(this.base + `/info/all`);
-  }
-
   auditResource(id: string, action: string, catalogueId: string, comment: string) {
     return this.http.patch(this.base + `/service/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
   }
@@ -566,10 +535,6 @@ export class ResourceService {
 
   verifyResource(id: string, active: boolean, status: string) { // for 1st service
     return this.http.patch(this.base + `/service/verifyResource/${id}?active=${active}&status=${status}`, {}, this.options);
-  }
-
-  verifyDatasource(id: string, active: boolean, status: string) { // for 1st datasource
-    return this.http.patch(this.base + `/datasource/verifyDatasource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
   getServiceTemplate(id: string) {  // gets oldest(?) pending resource of the provider // replaced with /resourceTemplateBundles/templates?id=testprovidertemplate
