@@ -8,7 +8,6 @@ import {ServiceProviderService} from '../../../services/service-provider.service
 import {CatalogueBundle, ProviderBundle} from '../../../domain/eic-model';
 import {CatalogueService} from "../../../services/catalogue.service";
 
-declare var UIkit: any;
 
 @Component({
   selector: 'app-catalogue-dashboard',
