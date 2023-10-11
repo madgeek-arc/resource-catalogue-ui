@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import * as dm from '../../../shared/description.map';
-import {AuthenticationService} from '../../../services/authentication.service';
-import {ServiceProviderService} from '../../../services/service-provider.service';
-import {ResourceService} from '../../../services/resource.service';
+import * as dm from '../../shared/description.map';
+import {AuthenticationService} from '../../services/authentication.service';
+import {ServiceProviderService} from '../../services/service-provider.service';
+import {ResourceService} from '../../services/resource.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {URLValidator} from '../../../shared/validators/generic.validator';
-import {Vocabulary, Type, Provider, InteroperabilityRecord} from '../../../domain/eic-model';
+import {URLValidator} from '../../shared/validators/generic.validator';
+import {Vocabulary, Type, Provider, InteroperabilityRecord} from '../../domain/eic-model';
 import BitSet from 'bitset';
-import {environment} from '../../../../environments/environment';
-import {PremiumSortPipe} from "../../../shared/pipes/premium-sort.pipe";
-import {GuidelinesService} from "../../../services/guidelines.service";
+import {environment} from '../../../environments/environment';
+import {PremiumSortPipe} from "../../shared/pipes/premium-sort.pipe";
+import {GuidelinesService} from "../../services/guidelines.service";
 
 declare var UIkit: any;
 

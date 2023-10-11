@@ -1,20 +1,12 @@
 import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {ResourceService} from '../../../services/resource.service';
-import {ServiceProviderService} from '../../../services/service-provider.service';
-import {
-  ServiceBundle,
-  InteroperabilityRecord,
-  ProviderBundle,
-  VocabularyCuration,
-  VocabularyEntryRequest, InteroperabilityRecordBundle, LoggingInfo
-} from '../../../domain/eic-model';
-import {environment} from '../../../../environments/environment';
-import {AuthenticationService} from '../../../services/authentication.service';
+import {ProviderBundle, InteroperabilityRecord, InteroperabilityRecordBundle, LoggingInfo} from '../../domain/eic-model';
+import {environment} from '../../../environments/environment';
+import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {URLParameter} from '../../../domain/url-parameter';
-import {NavigationService} from '../../../services/navigation.service';
-import {GuidelinesService} from "../../../services/guidelines.service";
+import {URLParameter} from '../../domain/url-parameter';
+import {NavigationService} from '../../services/navigation.service';
+import {GuidelinesService} from "../../services/guidelines.service";
 
 declare var UIkit: any;
 
@@ -73,9 +65,7 @@ export class GuidelinesListComponent implements OnInit {
 
   @ViewChildren('auditCheckboxes') auditCheckboxes: QueryList<ElementRef>;
 
-  constructor(private resourceService: ResourceService,
-              private serviceProviderService: ServiceProviderService,
-              private guidelinesService: GuidelinesService,
+  constructor(private guidelinesService: GuidelinesService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               private router: Router,

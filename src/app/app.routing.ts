@@ -89,7 +89,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'guidelines',
-    loadChildren: () => import('../lib/pages/admin/guidelines/guidelines.module').then(m => m.GuidelinesModule),
+    loadChildren: () => import('../lib/pages/guidelines/guidelines.module').then(m => m.GuidelinesModule),
     canActivate: [CanActivateViaAuthGuard]
   },
   {
