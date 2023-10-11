@@ -63,7 +63,7 @@
 
                   <div class="uk-margin-bottom uk-flex uk-flex-right">
 
-                    <div>
+                    <div *ngIf="!disable">
                       <button class="uk-button uk-button-primary" type="button" (click)="showSuggestionsModal()">Suggest</button>
                       <div uk-drop="pos: bottom-left">
                         <div class="uk-card uk-card-body uk-card-default">
