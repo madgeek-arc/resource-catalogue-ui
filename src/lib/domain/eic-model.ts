@@ -586,6 +586,14 @@ export class PlaceCount {
   count: number;
 }
 
+export class OpenAIREMetrics {
+  pageviews: number;
+  total_downloads: number;
+  total_openaire_downloads: number;
+  total_views: number;
+  total_openaire_views: number;
+}
+
 export class ProviderInfo {
   providerId: string;
   providerName: string;
