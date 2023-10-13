@@ -207,6 +207,7 @@ export const datasourceDescMap = new Map()
   .set('datasourceClassificationDesc', {mandatory: true, label: 'Data Source Classification', placeholder: '', desc: 'The specific type of the data source based on the vocabulary defined for this property.'})
   .set('researchEntityTypesDesc', {mandatory: true, label: 'Research Entity Types', placeholder: '', desc: 'The types of OpenAIRE entities managed by the data source, based on the vocabulary for this property.'})
   .set('thematicDesc', {mandatory: true, label: 'Thematic', placeholder: '', desc: 'Boolean value specifying if the data source is dedicated to a given discipline or is instead discipline agnostic.'})
+  .set('harvestableDesc', {mandatory: false, label: 'Harvestable', placeholder: '', desc: 'Boolean value specifying if the data source is harvestable.'})
 // Research Product Policies //
   .set('researchProductLicensingDesc', {mandatory: false, label: 'Research Product Licensing', placeholder: '', desc: 'Licenses under which the research products contained within the data sources can be made available. Repositories can allow a license to be defined for each research product, while for scientific databases the database is typically provided under a single license.'})
   .set('researchProductLicenseNameDesc', {mandatory: true, label: 'Research Product License Name', placeholder: '', desc: ''})

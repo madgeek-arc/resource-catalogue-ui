@@ -101,6 +101,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   readonly datasourceClassificationDesc: dm.Description = dm.datasourceDescMap.get('datasourceClassificationDesc');
   readonly researchEntityTypesDesc: dm.Description = dm.datasourceDescMap.get('researchEntityTypesDesc');
   readonly thematicDesc: dm.Description = dm.datasourceDescMap.get('thematicDesc');
+  readonly harvestableDesc: dm.Description = dm.datasourceDescMap.get('harvestableDesc');
 
   readonly researchProductLicenseNameDesc: dm.Description = dm.datasourceDescMap.get('researchProductLicenseNameDesc');
   readonly researchProductLicenseURLDesc: dm.Description = dm.datasourceDescMap.get('researchProductLicenseURLDesc');
@@ -131,6 +132,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     datasourceClassification: ['', Validators.required],
     researchEntityTypes: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
     thematic: ['', Validators.required],
+    harvestable: [''],
 
     researchProductLicensings: this.fb.array([
       this.fb.group({

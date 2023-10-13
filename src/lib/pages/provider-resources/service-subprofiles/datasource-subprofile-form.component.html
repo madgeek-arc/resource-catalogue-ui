@@ -335,6 +335,31 @@
                               </label>
                             </div>
                           </div>
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right">
+                              {{ harvestableDesc.label + (harvestableDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div class="uk-form-controls uk-margin-top">
+                              <label>
+                                <span class="uk-form-description uk-margin-small-right">{{harvestableDesc.desc}}</span>
+                                <!--                                <br>-->
+                                <!--                                <label class="uk-margin-small-top">-->
+                                <!--                                  <span class="uk-form-description uk-margin-small-right">harvestable?</span>-->
+                                <!--                                </label>-->
+                                <label class="uk-margin-small-left uk-margin-small-right">
+                                  <input class="uk-radio" type="radio" name="harvestable" id="harvestableNo"
+                                         formControlName="harvestable" [value]=false
+                                         (input)="unsavedChangesPrompt()"
+                                         [checked]="(this.serviceForm.get('harvestable').value === false)">
+                                  No</label>
+                                <label><input class="uk-radio" type="radio" name="harvestable" id="harvestableYes"
+                                              formControlName="harvestable" [value]=true
+                                              (input)="unsavedChangesPrompt()"
+                                              [checked]="this.serviceForm.get('harvestable').value === true">
+                                  Yes</label>
+                              </label>
+                            </div>
+                          </div>
 
                           <div class="uk-flex justify-content-between">
                             <div class="uk-flex-left">

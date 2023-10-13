@@ -359,20 +359,17 @@ export class Datasource implements Identifiable {
   id: string;
   serviceId: string;
   catalogueId: string;
-
   submissionPolicyURL: URL;
   preservationPolicyURL: URL;
   versionControl: boolean;
   persistentIdentitySystems: PersistentIdentitySystem[];
-
   jurisdiction: string;
   datasourceClassification: string;
   researchEntityTypes: string[];
   thematic: boolean;
-
+  harvestable: boolean;
   researchProductLicensings: ResearchProductLicensing[];
   researchProductAccessPolicies: string[];
-
   researchProductMetadataLicensing: ResearchProductMetadataLicensing;
   researchProductMetadataAccessPolicies: string[];
 }
@@ -587,11 +584,11 @@ export class PlaceCount {
 }
 
 export class OpenAIREMetrics {
-  pageviews: number;
-  total_downloads: number;
-  total_openaire_downloads: number;
-  total_views: number;
-  total_openaire_views: number;
+  pageViews: number;
+  totalDownloads: number;
+  totalOpenaireDownloads: number;
+  totalViews: number;
+  totalOpenaireViews: number;
 }
 
 export class ProviderInfo {
