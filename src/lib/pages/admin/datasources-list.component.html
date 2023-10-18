@@ -194,11 +194,11 @@
                       <div class="uk-label uk-align-right">Active</div>
                     </div>
                     <div *ngIf="!datasourceBundle.active" class="rejected">
-                      <div class="uk-label uk-align-right" [ngClass]="datasourceBundle.status === 'pending datasource' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
+                      <div class="uk-label uk-align-right">Inactive</div>
                     </div>
 
                     <div *ngIf="datasourceBundle.suspended" class="rejected">
-                      <div class="uk-label uk-align-right" [ngClass]="datasourceBundle.status === 'pending datasource' ? 'uk-position-top-right uk-margin-xlarge-right' : ''">Suspended</div>
+                      <div class="uk-label uk-align-right">Suspended</div>
                     </div>
 
                     <div class="">
