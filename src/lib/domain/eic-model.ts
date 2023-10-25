@@ -305,6 +305,7 @@ export class Service implements Identifiable {
   resourceOrganisation: string;
   resourceProviders: string[];
   webpage: URL;
+  alternativeIdentifiers: AlternativeIdentifier[];
   description: string;
   tagline: string;
   logo: URL;
@@ -318,6 +319,9 @@ export class Service implements Identifiable {
   accessTypes: string[];
   accessModes: string[];
   tags: string[];
+  horizontalService: boolean;
+  serviceCategories: string[];
+  marketplaceLocations: string[];
   geographicalAvailabilities: string[];
   languageAvailabilities: string[];
   resourceGeographicLocations: string[];
@@ -696,5 +700,7 @@ export const enum Type {
   TR_DCMI_TYPE = "TR_DCMI_TYPE",
   TR_EXPERTISE_LEVEL = "TR_EXPERTISE_LEVEL",
   TR_QUALIFICATION = "TR_QUALIFICATION",
-  TR_URL_TYPE = "TR_URL_TYPE"
+  TR_URL_TYPE = "TR_URL_TYPE",
+  SERVICE_CATEGORY = "SERVICE_CATEGORY",
+  MARKETPLACE_LOCATION = "MARKETPLACE_LOCATION"
 }

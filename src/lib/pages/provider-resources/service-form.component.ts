@@ -53,7 +53,7 @@ export class ServiceFormComponent implements OnInit {
 
   requiredOnTab0 = 4;
   requiredOnTab1 = 3;
-  requiredOnTab2 = 3;
+  requiredOnTab2 = 5;
   requiredOnTab3 = 2;
   requiredOnTab5 = 4;
   requiredOnTab6 = 1;
@@ -82,7 +82,7 @@ export class ServiceFormComponent implements OnInit {
   completedTabs = 0;
   completedTabsBitSet = new BitSet;
 
-  allRequiredFields = 24;
+  allRequiredFields = 26;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
@@ -101,6 +101,7 @@ export class ServiceFormComponent implements OnInit {
     scientificDomainVocabularyEntryValueName: '',
     scientificSubDomainVocabularyEntryValueName: '',
     placesVocabularyEntryValueName: '',
+    serviceCategoryVocabularyEntryValueName: '',
     geographicalVocabularyEntryValueName: '',
     languagesVocabularyEntryValueName: '',
     vocabulary: '',
@@ -128,6 +129,8 @@ export class ServiceFormComponent implements OnInit {
   readonly nameDesc: dm.Description = dm.serviceDescMap.get('nameDesc');
   readonly abbreviationDesc: dm.Description = dm.serviceDescMap.get('abbreviationDesc');
   readonly webpageDesc: dm.Description = dm.serviceDescMap.get('webpageDesc');
+  readonly altIdTypeDesc: dm.Description = dm.serviceDescMap.get('altIdTypeDesc');
+  readonly altIdValueDesc: dm.Description = dm.serviceDescMap.get('altIdValueDesc');
   readonly descriptionDesc: dm.Description = dm.serviceDescMap.get('descriptionDesc');
   readonly taglineDesc: dm.Description = dm.serviceDescMap.get('taglineDesc');
   readonly logoDesc: dm.Description = dm.serviceDescMap.get('logoDesc');
@@ -144,6 +147,9 @@ export class ServiceFormComponent implements OnInit {
   readonly accessTypeDesc: dm.Description = dm.serviceDescMap.get('accessTypeDesc');
   readonly accessModeDesc: dm.Description = dm.serviceDescMap.get('accessModeDesc');
   readonly tagsDesc: dm.Description = dm.serviceDescMap.get('tagsDesc');
+  readonly serviceCategoriesDesc: dm.Description = dm.serviceDescMap.get('serviceCategoriesDesc');
+  readonly marketplaceLocationsDesc: dm.Description = dm.serviceDescMap.get('marketplaceLocationsDesc');
+  readonly horizontalServiceDesc: dm.Description = dm.serviceDescMap.get('horizontalServiceDesc');
   readonly geographicalAvailabilityDesc: dm.Description = dm.serviceDescMap.get('geographicalAvailabilityDesc');
   readonly languageAvailabilitiesDesc: dm.Description = dm.serviceDescMap.get('languageAvailabilitiesDesc');
   readonly mainContactFirstNameDesc: dm.Description = dm.serviceDescMap.get('mainContactFirstNameDesc');
@@ -197,6 +203,12 @@ export class ServiceFormComponent implements OnInit {
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
     webpage: ['', Validators.compose([Validators.required, URLValidator])],
+    alternativeIdentifiers: this.fb.array([
+      this.fb.group({
+        type: [''],
+        value: ['']
+      })
+    ]),
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
     tagline: ['', Validators.required],
@@ -228,6 +240,9 @@ export class ServiceFormComponent implements OnInit {
     fundingPrograms: this.fb.array([this.fb.control('')]),
     grantProjectNames: this.fb.array([this.fb.control('')]),
     tags: this.fb.array([this.fb.control('')]),
+    serviceCategories: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
+    marketplaceLocations: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
+    horizontalService: [''],
     lifeCycleStatus: [''],
     trl: ['', Validators.required],
     version: [''],
@@ -293,6 +308,8 @@ export class ServiceFormComponent implements OnInit {
   public orderTypeVocabulary: Vocabulary[] = null;
   public phaseVocabulary: Vocabulary[] = null;
   public trlVocabulary: Vocabulary[] = null;
+  public serviceCategoryVocabulary: Vocabulary[] = null;
+  public marketplaceLocationVocabulary: Vocabulary[] = null;
   public superCategoriesVocabulary: Vocabulary[] = null;
   public categoriesVocabulary: Vocabulary[] = null;
   public subCategoriesVocabulary: Vocabulary[] = null;
@@ -327,6 +344,12 @@ export class ServiceFormComponent implements OnInit {
     this.errorMessage = '';
     this.showLoader = true;
     // this.scientificDomainArray.disable();
+    for (let i = 0; i < this.alternativeIdentifiersArray.length; i++) { //TODO: review the necessity of this
+      if (this.alternativeIdentifiersArray.controls[i].get('value').value === ''
+        || this.alternativeIdentifiersArray.controls[i].get('value').value === null) {
+        this.removeAlternativeIdentifier(i);
+      }
+    }
     for (let i = 0; i < this.multimediaArray.length; i++) {
       if (this.multimediaArray.controls[i].get('multimediaURL').value === ''
         || this.multimediaArray.controls[i].get('multimediaURL').value === null) {
@@ -418,6 +441,8 @@ export class ServiceFormComponent implements OnInit {
         this.orderTypeVocabulary = this.vocabularies[Type.ORDER_TYPE];
         this.phaseVocabulary = this.vocabularies[Type.LIFE_CYCLE_STATUS];
         this.trlVocabulary = this.vocabularies[Type.TRL];
+        this.serviceCategoryVocabulary = this.vocabularies[Type.SERVICE_CATEGORY];
+        this.marketplaceLocationVocabulary = this.vocabularies[Type.MARKETPLACE_LOCATION];
         this.superCategoriesVocabulary = this.vocabularies[Type.SUPERCATEGORY];
         this.categoriesVocabulary = this.vocabularies[Type.CATEGORY];
         this.subCategoriesVocabulary = this.vocabularies[Type.SUBCATEGORY];
@@ -597,7 +622,9 @@ export class ServiceFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('targetUsers', this.editMode)
       || this.checkEveryArrayFieldValidity('accessTypes', this.editMode)
       || this.checkEveryArrayFieldValidity('accessModes', this.editMode)
-      || this.checkEveryArrayFieldValidity('tags', this.editMode));
+      || this.checkEveryArrayFieldValidity('tags', this.editMode)
+      || this.checkEveryArrayFieldValidity('serviceCategories', this.editMode)
+      || this.checkEveryArrayFieldValidity('marketplaceLocations', this.editMode));
     this.tabs[3] = (this.checkEveryArrayFieldValidity('geographicalAvailabilities', this.editMode)
       || this.checkEveryArrayFieldValidity('languageAvailabilities', this.editMode));
     this.tabs[4] = (this.checkEveryArrayFieldValidity('resourceGeographicLocations', this.editMode));
@@ -774,6 +801,28 @@ export class ServiceFormComponent implements OnInit {
 
   /** <--Use Cases**/
 
+  /** Alternative Identifiers-->**/
+  newAlternativeIdentifier(): FormGroup {
+    return this.fb.group({
+      type: [''],
+      value: ['']
+    });
+  }
+
+  get alternativeIdentifiersArray() {
+    return this.serviceForm.get('alternativeIdentifiers') as FormArray;
+  }
+
+  pushAlternativeIdentifier() {
+    this.alternativeIdentifiersArray.push(this.newAlternativeIdentifier());
+  }
+
+  removeAlternativeIdentifier(index: number) {
+    this.alternativeIdentifiersArray.removeAt(index);
+  }
+
+  /** <--Alternative Identifiers**/
+
   /** Service Contact Info -->**/
 
   newContact(): FormGroup {
@@ -862,6 +911,11 @@ export class ServiceFormComponent implements OnInit {
         this.pushUseCase();
       }
     }
+    if (service.alternativeIdentifiers) {
+      for (let i = 0; i < service.alternativeIdentifiers.length - 1; i++) {
+        this.pushAlternativeIdentifier();
+      }
+    }
     if (service.targetUsers) {
       for (let i = 0; i < service.targetUsers.length - 1; i++) {
         this.push('targetUsers', true);
@@ -880,6 +934,16 @@ export class ServiceFormComponent implements OnInit {
     if (service.tags) {
       for (let i = 0; i < service.tags.length - 1; i++) {
         this.push('tags', false);
+      }
+    }
+    if (service.serviceCategories) {
+      for (let i = 0; i < service.serviceCategories.length - 1; i++) {
+        this.push('serviceCategories', true);
+      }
+    }
+    if (service.marketplaceLocations) {
+      for (let i = 0; i < service.marketplaceLocations.length - 1; i++) {
+        this.push('marketplaceLocations', true);
       }
     }
     if (service.geographicalAvailabilities) {
@@ -1094,7 +1158,7 @@ export class ServiceFormComponent implements OnInit {
       }
     } else if (tabNum === 2) {  // Classification
       this.BitSetTab2.set(bitIndex, 1);
-      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.get(7) - this.BitSetTab2.get(9) - this.BitSetTab2.get(10);
+      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.get(7) - this.BitSetTab2.get(9) - this.BitSetTab2.get(10) - this.BitSetTab2.get(24) - this.BitSetTab2.get(25);
       if (this.remainingOnTab2 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
         this.calcCompletedTabs(tabNum, 1);
       }
@@ -1147,7 +1211,7 @@ export class ServiceFormComponent implements OnInit {
       }
     } else if (tabNum === 2) {  // Classification
       this.BitSetTab2.set(bitIndex, 0);
-      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.get(7) - this.BitSetTab2.get(9) - this.BitSetTab2.get(10);
+      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.get(7) - this.BitSetTab2.get(9) - this.BitSetTab2.get(10) - this.BitSetTab2.get(24) - this.BitSetTab2.get(25);
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }

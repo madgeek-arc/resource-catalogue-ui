@@ -350,6 +350,51 @@
 
                               </div>
                             </div>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">Alternative Identifiers</label>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div formArrayName="alternativeIdentifiers"
+                                     *ngFor="let altIdentifier of alternativeIdentifiersArray.controls; let i = index">
+                                  <div [formGroupName]="i"
+                                       class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="type">
+                                        {{ altIdTypeDesc.label + (altIdTypeDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div class="uk-form-description uk-margin-top uk-width-9-10">{{altIdTypeDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-top">
+                                        <input id="type" class="uk-input uk-width-9-10" type="text" formControlName="type"
+                                               (input)="unsavedChangesPrompt()"
+                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('alternativeIdentifiers', i, this.editMode, 'type')}">
+                                      </div>
+                                    </div>
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="value">
+                                        {{ altIdValueDesc.label + (altIdValueDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div
+                                        class="uk-form-description uk-margin-top uk-width-9-10">{{altIdValueDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-top">
+                                        <input id="value" class="uk-input uk-width-9-10" type="text" formControlName="value"
+                                               (input)="unsavedChangesPrompt()">
+                                        <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('alternativeIdentifiers', i, this.editMode, 'value')}">-->
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                  <a *ngIf="getFieldAsFormArray('alternativeIdentifiers').length > 1 && !disable"
+                                     class="remove-element uk-padding-small uk-display-inline-block"
+                                     (click)="removeAlternativeIdentifier(i); unsavedChangesPrompt();">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                              </div>
+                              <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                                <a class="add-new-element" (click)="pushAlternativeIdentifier()">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add Alternative Identifier
+                                </a>
+                              </div>
+                            </div>
 
                             <div class="uk-flex uk-flex-right">
                               <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('tab2')">Next &nbsp;<i class="fa fa-arrow-circle-right fa-lg"></i></button>
@@ -901,6 +946,115 @@
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{tagsDesc.label}}
                                   </a>
                                 </div>
+                              </div>
+                            </div>
+                            <div formArrayName="serviceCategories" class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="serviceCategories">
+                                {{serviceCategoriesDesc.label + (serviceCategoriesDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div
+                                class="uk-form-description uk-margin-top uk-width-9-10">{{serviceCategoriesDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div
+                                  *ngFor="let place of getFieldAsFormArray('serviceCategories').controls; let i=index"
+                                  [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('serviceCategories').controls.length-1 !== i}">
+                                  <ng-select *ngIf="serviceCategoryVocabulary" class="uk-width-9-10" id="serviceCategories"
+                                             [items]="serviceCategoryVocabulary"
+                                             (change)="handleBitSets(2, 24, 'serviceCategories');checkForDuplicates('serviceCategories');unsavedChangesPrompt()"
+                                             bindLabel="name"
+                                             bindValue="id"
+                                             clearAllText="Clear"
+                                             [formControlName]="i">
+                                  </ng-select>
+                                  <a *ngIf="getFieldAsFormArray('serviceCategories').length > 1 && !disable"
+                                     class="remove-element uk-padding-small" (click)="remove('serviceCategories', i);
+                                     handleBitSets(2, 24, 'serviceCategories');unsavedChangesPrompt();">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                                <div class="uk-margin-small-top">
+                                  <i><small>For suggestions in amending the
+                                    "{{serviceCategoriesDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
+                                </div>
+                                <div *ngFor="let place of getFieldAsFormArray('serviceCategories').controls; let i=index">
+                                  <div *ngIf="this.serviceForm.get('serviceCategories').value[i] === 'service_category-other'" class="uk-flex uk-flex-left">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
+                                      <label>
+                                        <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="serviceCategoryVocabularyEntryValueName">
+                                      </label>
+                                    </form>
+                                    <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
+                                            (click)="submitVocSuggestion(this.vocabularyEntryForm.get('serviceCategoryVocabularyEntryValueName').value, 'SERVICE CATEGORY', null)">
+                                      Submit
+                                    </button>
+                                    <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
+                                  </div>
+                                </div>
+                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                  <a class="add-new-element"
+                                     (click)="push('serviceCategories', serviceCategoriesDesc.mandatory)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    Add {{serviceCategoriesDesc.label}}
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div formArrayName="marketplaceLocations" class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="marketplaceLocations">
+                                {{marketplaceLocationsDesc.label + (marketplaceLocationsDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div
+                                class="uk-form-description uk-margin-top uk-width-9-10">{{marketplaceLocationsDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div
+                                  *ngFor="let place of getFieldAsFormArray('marketplaceLocations').controls; let i=index"
+                                  [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('marketplaceLocations').controls.length-1 !== i}">
+                                  <ng-select *ngIf="marketplaceLocationVocabulary" class="uk-width-9-10" id="marketplaceLocations"
+                                             [items]="marketplaceLocationVocabulary"
+                                             (change)="handleBitSets(2, 25, 'marketplaceLocations');checkForDuplicates('marketplaceLocations');unsavedChangesPrompt()"
+                                             bindLabel="name"
+                                             bindValue="id"
+                                             clearAllText="Clear"
+                                             [formControlName]="i">
+                                  </ng-select>
+                                  <a *ngIf="getFieldAsFormArray('marketplaceLocations').length > 1 && !disable"
+                                     class="remove-element uk-padding-small" (click)="remove('marketplaceLocations', i);
+                                     handleBitSets(2, 25, 'marketplaceLocations');unsavedChangesPrompt();">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                  <a class="add-new-element"
+                                     (click)="push('marketplaceLocations', marketplaceLocationsDesc.mandatory)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    Add {{marketplaceLocationsDesc.label}}
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">
+                                {{ horizontalServiceDesc.label + (horizontalServiceDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div class="uk-form-controls uk-margin-top">
+                                <label>
+                                  <span class="uk-form-description uk-margin-small-right">{{horizontalServiceDesc.desc}}</span>
+                                  <!--                                <br>-->
+                                  <!--                                <label class="uk-margin-small-top">-->
+                                  <!--                                  <span class="uk-form-description uk-margin-small-right">horizontalService?</span>-->
+                                  <!--                                </label>-->
+                                  <label class="uk-margin-small-left uk-margin-small-right">
+                                    <input class="uk-radio" type="radio" name="horizontalService" id="horizontalServiceNo"
+                                           formControlName="horizontalService" [value]=false
+                                           (input)="unsavedChangesPrompt()"
+                                           [checked]="(this.serviceForm.get('horizontalService').value === false)">
+                                    No</label>
+                                  <label><input class="uk-radio" type="radio" name="horizontalService" id="horizontalServiceYes"
+                                                formControlName="horizontalService" [value]=true
+                                                (input)="unsavedChangesPrompt()"
+                                                [checked]="this.serviceForm.get('horizontalService').value === true">
+                                    Yes</label>
+                                </label>
                               </div>
                             </div>
 
