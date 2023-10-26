@@ -463,6 +463,7 @@ export class ServiceFormComponent implements OnInit {
       () => {
         this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'Worldwide']);
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
+        this.premiumSort.transform(this.serviceCategoryVocabulary, ['Compute', 'Data Source', 'Storage']);
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
 
         let voc: Vocabulary[] = this.vocabularies[Type.SUBCATEGORY].concat(this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN]);
