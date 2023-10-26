@@ -105,8 +105,8 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     this.handleBitSetsOfGroups(2, 7, 'scientificSubdomain', 'scientificDomains');
     this.handleBitSetsOfGroups(2, 9, 'subcategory', 'categories');
     this.handleBitSets(2, 10, 'targetUsers');
-    this.handleBitSets(2, 24, 'targetUsers');
-    this.handleBitSets(2, 25, 'targetUsers');
+    this.handleBitSets(2, 24, 'serviceCategories');
+    this.handleBitSets(2, 25, 'marketplaceLocations');
     this.handleBitSets(3, 11, 'geographicalAvailabilities');
     this.handleBitSets(3, 12, 'languageAvailabilities');
     this.handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact');
