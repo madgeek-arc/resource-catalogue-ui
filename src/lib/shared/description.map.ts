@@ -165,7 +165,7 @@ export const catalogueDescMap = new Map()
   .set('endOfLifeDesc', {mandatory: true, label: 'End Of Life', placeholder: 'Write end of life...', desc: 'In terms of sustainability, what is the expected life of the catalogue?'})
   // Marketing Information //
   .set('descriptionDesc', {mandatory: true, label: 'Description', placeholder: 'Write a description...', desc: 'A high-level description of the Catalogue in fairly non-technical terms, with the vision, mission, objectives, background, experience.'})
-  .set('scopeDesc', {mandatory: false, label: 'Scope', placeholder: 'Write a description of the catalogue scope...', desc: 'A description of the catalogue scope.'})
+  .set('scopeDesc', {mandatory: false, label: 'Scope', placeholder: 'Write a description of the catalogue scope...', desc: 'A description of the catalogue scope, e.g. Thematic catalogue (specify thematic area), National catalogue (specify Country), etc.'})
   .set('logoDesc', {mandatory: true, label: 'Logo', placeholder: 'logo URL', desc: 'Link to the logo/visual identity of the Catalogue. Go to the Catalogue\'s website --> Right Click on the Catalogue\'s logo on the website --> Select "Copy Image Link" --> Paste it in the field below.'})
   .set('multimediaURLDesc', {mandatory: false, label: 'Multimedia URL', placeholder: 'Write link to multimedia...', desc: 'Links to video, slideshow, photos, screenshots with details of the Catalogue.'})
   .set('multimediaNameDesc', {mandatory: false, label: 'Multimedia Name', placeholder: 'Write multimedia name...', desc: 'Short description of the Multimedia content.'})
