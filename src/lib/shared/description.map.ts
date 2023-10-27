@@ -287,26 +287,8 @@ export const guidelinesDescMap = new Map()
   //EOSC Interoperability ID (auto-assigned)
   .set('identifierDesc', {mandatory: true, label: 'Identifier', placeholder: '', desc: 'The Identifier is a unique string that identifies a resource. For software, determine whether the identifier is for a specific version of a piece of software, (per the Force11 Software Citation Principles), or for all versions. For publications, this should be a URI or DOI. This is the record\'s primary key for locating it in the EOSC-IF database.'})
   .set('identifierTypeDesc', {mandatory: true, label: 'Identifier Type', placeholder: '', desc: 'The type of Identifier.'})
-  .set('creatorDesc', {mandatory: true, label: 'Creator', placeholder: '', desc: 'The main researchers involved in producing the data, or the authors of the publication, in priority order. To supply multiple creators, repeat this property.\n' +
-      '\n' +
-      '\n' +
-      'Note: \n' +
-      'The type of Creator is indeed not a ControlledList (so remove it), but a list of properties (a “record”). It can contain both persons (default value) and organisational entities. According to DataCite you may have something like this. \n' +
-      '\n' +
-      'creator[ creatorName = “Antonis Lempesis"", …, affiliation = ATHENA [@affiliationIdentifier = http://ror.org/123456],...] \n' +
-      'creator[ creatorName = “Diego Scardaci”, …, affiliation = EGI [@affiliationIdentifier = http://ror.org/123456],...] \n' +
-      'creator[ creatorName = “GEANT”, nameType=Organizational …, affiliation = GEANT [@affiliationIdentifier = http://ror.org/123456],... ] \n' +
-      '\n' +
-      'we should have clear guidelines. I am not sure however that curators should be providers. We have: \n' +
-      '\n' +
-      '- individuals managing the record \n' +
-      '- their institution (provider?) \n' +
-      '- institutions that actually maintain the guidelines \n' +
-      '\n' +
-      'Note that the latter generally differ from the previous two, unless we expect the institutions in charge of the standards to come and onboard their guidelines into the EOSC.\n' +
-      '\n' +
-      'Registered EOSC Providers may also be Creators'})
-  .set('creatorNameDesc', {mandatory: false, label: 'Creator Name', placeholder: '', desc: 'The full name of the creator. Can be organisation or personal name.'})
+  .set('creatorDesc', {mandatory: true, label: 'Creator', placeholder: '', desc: ''})
+  .set('creatorNameDesc', {mandatory: true, label: 'Creator Name', placeholder: '', desc: 'The full name of the creator. Can be organisation or personal name.'})
   .set('nameTypeDesc', {mandatory: true, label: 'Name Type', placeholder: '', desc: 'The type of name.'})
   .set('givenNameDesc', {mandatory: false, label: 'Given Name', placeholder: '', desc: 'The personal or first name of the creator.'})
   .set('familyNameDesc', {mandatory: false, label: 'Family Name', placeholder: '', desc: 'The surname or last name of the creator.'})
