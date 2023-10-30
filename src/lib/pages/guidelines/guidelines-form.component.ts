@@ -705,7 +705,8 @@ export class GuidelinesFormComponent implements OnInit {
   }
 
   timestampToDate(timestamp: string) {
-    return new Date(+timestamp).toISOString().split('T')[0];
+    return new Date(+timestamp).toUTCString();
+    // return new Date(+timestamp).toISOString().split('T')[0]; //Date without time
   }
 
   switchToTab(id: string){
