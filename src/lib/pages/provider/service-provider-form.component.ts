@@ -76,7 +76,6 @@ export class ServiceProviderFormComponent implements OnInit {
 
   vocabularyEntryForm: FormGroup;
   suggestionsForm = {
-    legalStatusVocabularyEntryValueName: '',
     domainsVocabularyEntryValueName: '',
     categoriesVocabularyEntryValueName: '',
     placesVocabularyEntryValueName: '',

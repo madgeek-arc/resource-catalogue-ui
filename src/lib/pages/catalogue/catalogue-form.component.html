@@ -250,22 +250,6 @@
                                          formControlName="legalStatus">
                               </ng-select>
                             </div>
-                            <div class="uk-margin-small-top">
-                              <i><small>For suggestions in amending the
-                                "{{legalStatusDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
-                            </div>
-                            <div *ngIf="this.catalogueForm.get('legalStatus').value === 'provider_legal_status-other'" class="uk-flex uk-flex-left">
-                              <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
-                                <label>
-                                  <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="legalStatusVocabularyEntryValueName">
-                                </label>
-                              </form>
-                              <button class="uk-button uk-button-default" type="submit"
-                                      (click)="submitSuggestion(this.vocabularyEntryForm.get('legalStatusVocabularyEntryValueName').value, 'PROVIDER LEGAL STATUS', null)">
-                                Submit
-                              </button>
-                              <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
-                            </div>
                           </div>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="hostingLegalEntity">
