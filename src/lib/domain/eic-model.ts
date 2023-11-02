@@ -97,7 +97,6 @@ export class Indicator implements Identifiable {
 }
 
 export class Identifiers {
-  alternativeIdentifiers: AlternativeIdentifier[];
   originalId: string;
 }
 
@@ -371,11 +370,12 @@ export class Datasource implements Identifiable {
   datasourceClassification: string;
   researchEntityTypes: string[];
   thematic: boolean;
-  harvestable: boolean;
   researchProductLicensings: ResearchProductLicensing[];
   researchProductAccessPolicies: string[];
   researchProductMetadataLicensing: ResearchProductMetadataLicensing;
   researchProductMetadataAccessPolicies: string[];
+  harvestable: boolean;
+  originalOpenAIREId: string;
 }
 
 export class PersistentIdentitySystem {
@@ -421,8 +421,6 @@ export class TrainingResource implements Identifiable {
 
 export class ResourceExtras {
   eoscIFGuidelines: EOSCIFGuidelines[];
-  researchCategories: string[];
-  horizontalService: boolean;
   serviceType: string;
 }
 

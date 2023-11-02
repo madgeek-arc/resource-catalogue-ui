@@ -293,7 +293,7 @@
 <!--                            <span class="uk-badge" title="Monitoring Status" style="background: dimgrey;">NA</span>-->
 <!--                          </ng-container>-->
 
-                        <div *ngIf="serviceBundle?.resourceExtras?.horizontalService && !showMainAuditForm" class="uk-label uk-position-bottom-right uk-margin-large" style="margin-right: 40px">
+                        <div *ngIf="serviceBundle?.service?.horizontalService && !showMainAuditForm" class="uk-label uk-position-bottom-right uk-margin-large" style="margin-right: 40px">
                           <span>Horizontal</span>
                         </div>
 
@@ -512,21 +512,6 @@
                                   <ng-container class="uk-margin-small-bottom">
                                     <li (click)="showMoveResourceModal(serviceBundle)">
                                       <a><i class="fa fa-clone fa-lg uk-margin-small-right"></i>Move {{serviceORresource}}</a>
-                                    </li>
-                                    <li class="uk-nav-divider"></li>
-                                  </ng-container>
-
-                                  <ng-container class="uk-margin-small-bottom">
-                                    <li (click)="toggleHorizontalService(serviceBundle)">
-                                      <a><i class="fa fa-toggle-right fa-lg uk-margin-small-right"></i>
-                                        {{serviceBundle?.resourceExtras?.horizontalService===true ? 'Unmark' : 'Mark'}} as Horizontal Service</a>
-                                    </li>
-                                    <li class="uk-nav-divider"></li>
-                                  </ng-container>
-
-                                  <ng-container class="uk-margin-small-bottom">
-                                    <li (click)="showResourceCategories(serviceBundle)">
-                                      <a><i class="fa fa-edit fa-lg uk-margin-small-right"></i>Update Research Categories</a>
                                     </li>
                                     <li class="uk-nav-divider"></li>
                                   </ng-container>
@@ -754,48 +739,6 @@
       {{ loadingMessage }}
     </div>
     <!--    <div class="whiteFilm"></div>-->
-  </div>
-</div>
-
-<div id="researchCategoriesModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <div *ngIf="selectedService">
-
-      <div class="uk-h3 uk-padding uk-text-center">{{selectedService.service.name}}</div>
-
-      <form [formGroup]="extrasForm" role="form" class="uk-form uk-margin uk-width-1-1">
-        <div formArrayName="researchCategories" class="uk-margin-large-bottom">
-          <label class="uk-form-label uk-text-right" for="researchCategories">Research Category</label>
-          <div class="uk-form-controls uk-margin-medium-top">
-            <div *ngFor="let researchCategory of getFieldAsFormArray('researchCategories').controls; let i=index"
-                 [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchCategories').controls.length-1 !== i}">
-              <ng-select *ngIf="researchCategoriesVoc" class="uk-width-9-10" id="researchCategories"
-                         [items]="researchCategoriesVoc"
-                         bindLabel="name"
-                         bindValue="id"
-                         clearAllText="Clear"
-                         [formControlName]="i">
-              </ng-select>
-              <a *ngIf="getFieldAsFormArray('researchCategories').length > 1"
-                 class="remove-element uk-padding-small"
-                 (click)="remove('researchCategories', i)">
-                <i class="fa fa-times" aria-hidden="true"></i>
-              </a>
-            </div>
-            <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-              <a class="add-new-element" (click)="push('researchCategories')">
-                <i class="fa fa-plus" aria-hidden="true"></i> Add an additional Research Category
-              </a>
-            </div>
-          </div>
-        </div>
-      </form>
-<!--<pre>{{selectedService.resourceExtras|json}}</pre>-->
-<!--<pre>{{extrasForm.value|json}}</pre>-->
-    </div>
-
-    <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="updateResearchCategories(selectedService)">Submit</button>
-    <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
   </div>
 </div>
 

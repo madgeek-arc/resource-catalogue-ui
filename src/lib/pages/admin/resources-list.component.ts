@@ -46,7 +46,6 @@ export class ResourcesListComponent implements OnInit {
   dataForm: FormGroup;
 
   extrasFormPrepare = {
-    researchCategories: this.fb.array([this.fb.control('')]),
     eoscIFGuidelines: this.fb.array([
       this.fb.group({
         label: [''],
@@ -110,7 +109,6 @@ export class ResourcesListComponent implements OnInit {
 
   @ViewChildren('checkboxes') checkboxes: QueryList<ElementRef>;
 
-  researchCategoriesVoc: Vocabulary[] = null;
   semanticRelationshipVoc: Vocabulary[] = null;
 
   constructor(private resourceService: ResourceService,
@@ -234,7 +232,6 @@ export class ResourcesListComponent implements OnInit {
         }
       );
 
-      this.getResearchCategoriesVoc();
       this.getSemanticRelationshipVoc();
     }
   }
@@ -570,30 +567,6 @@ export class ResourcesListComponent implements OnInit {
   }
 
   /** resourceExtras--> **/
-  toggleHorizontalService(bundle: ServiceBundle) {
-    UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateHorizontalService(bundle.id, 'service', bundle.service.catalogueId, !bundle?.resourceExtras?.horizontalService).subscribe(
-      res => {},
-      err => {
-        UIkit.modal('#spinnerModal').hide();
-        console.log(err)
-      },
-      () => {
-        UIkit.modal('#spinnerModal').hide();
-        location.reload();
-      }
-    );
-  }
-
-  showResourceCategories(bundle: ServiceBundle) {
-    this.selectedService = bundle;
-    if (this.selectedService) {
-      this.extrasFormPrep(this.selectedService);
-      this.extrasForm.patchValue(this.selectedService.resourceExtras);
-      UIkit.modal('#researchCategoriesModal').show();
-    }
-  }
-
   showEoscIFGuidelines(bundle: ServiceBundle) {
     this.selectedService = bundle;
     if (this.selectedService) {
@@ -601,21 +574,6 @@ export class ResourcesListComponent implements OnInit {
       this.extrasForm.patchValue(this.selectedService.resourceExtras);
       UIkit.modal('#eoscIFGuidelinesModal').show();
     }
-  }
-
-  updateResearchCategories(bundle: ServiceBundle) {
-    UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateResearchCategories(bundle.id, 'service', bundle.service.catalogueId, this.extrasForm.value.researchCategories).subscribe(
-      res => {},
-      err => {
-        UIkit.modal('#spinnerModal').hide();
-        console.log(err);
-      },
-      () => {
-        UIkit.modal('#spinnerModal').hide();
-        location.reload();
-      }
-    );
   }
 
   updateEoscIFGuidelines(bundle: ServiceBundle) {
@@ -635,7 +593,6 @@ export class ResourcesListComponent implements OnInit {
 
   extrasFormPrep(bundle: ServiceBundle){
     //resets the 2 parts of the form and then fills them
-    this.extrasForm.setControl('researchCategories', this.fb.array([this.fb.control('')]));
     this.extrasForm.setControl('eoscIFGuidelines',
       this.fb.array([this.fb.group({
         label: [''],
@@ -644,11 +601,6 @@ export class ResourcesListComponent implements OnInit {
         url: ['']
       })
       ]));
-    if ( bundle?.resourceExtras?.researchCategories ) {
-      for (let i = 0; i < bundle.resourceExtras.researchCategories.length - 1; i++) {
-        this.push('researchCategories');
-      }
-    }
     if ( bundle?.resourceExtras?.eoscIFGuidelines ) {
       for (let i = 0; i < bundle.resourceExtras.eoscIFGuidelines.length - 1; i++) {
         this.pushEoscIFGuidelines();
@@ -887,12 +839,6 @@ export class ResourcesListComponent implements OnInit {
       }
     }
     return namesArray;
-  }
-
-  getResearchCategoriesVoc() {
-    this.resourceService.getVocabularyByType('RESEARCH_CATEGORY').subscribe(
-      suc => this.researchCategoriesVoc = suc
-    );
   }
 
   getSemanticRelationshipVoc() {

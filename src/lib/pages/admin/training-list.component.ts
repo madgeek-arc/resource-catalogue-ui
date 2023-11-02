@@ -8,7 +8,6 @@ import {
   LoggingInfo,
   Provider,
   ProviderBundle,
-  ResourceExtras,
   Type,
   Vocabulary
 } from '../../domain/eic-model';
