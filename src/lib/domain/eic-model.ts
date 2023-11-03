@@ -112,6 +112,7 @@ export class ServiceBundle extends Bundle<Service> {
 
 export class DatasourceBundle extends Bundle<Datasource> {
   datasource: Datasource;
+  originalOpenAIREId: string;
 }
 
 export class TrainingResourceBundle extends Bundle<TrainingResource> {
@@ -376,7 +377,6 @@ export class Datasource implements Identifiable {
   researchProductMetadataLicensing: ResearchProductMetadataLicensing;
   researchProductMetadataAccessPolicies: string[];
   harvestable: boolean;
-  originalOpenAIREId: string;
 }
 
 export class PersistentIdentitySystem {
