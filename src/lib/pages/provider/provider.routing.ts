@@ -26,6 +26,7 @@ import {TrainingListComponent} from "../admin/training-list.component";
 import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
 import {DatasourcesListComponent} from "../admin/datasources-list.component";
 import {SelectSubprofileComponent} from "../provider-resources/service-subprofiles/select-subprofile.component";
+import {DatasourceMetricsComponent} from "../provider-resources/service-subprofiles/datasource-metrics.component";
 
 const providerRoutes: Routes = [
 
@@ -180,6 +181,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Add ' + environment.serviceORresource
+    }
+  },
+  {
+    path: ':providerId/resource/:resourceId/datasource/metrics', // TODO: datasourceId maybe needed
+    component: DatasourceMetricsComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Datasource Metrics'
     }
   },
   {

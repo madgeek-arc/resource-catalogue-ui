@@ -596,6 +596,21 @@ export class OpenAIREMetrics {
   totalOpenaireViews: number;
 }
 
+export class PiwikInfo { // provide
+  repositoryId: string;
+  openaireId: string;
+  repositoryName: string;
+  country: string;
+  siteId: string;
+  authenticationToken: string;
+  creationDate: Date;
+  requestorName: string;
+  requestorEmail: string;
+  validated: boolean;
+  validationDate: Date;
+  comment: string;
+}
+
 export class ProviderInfo {
   providerId: string;
   providerName: string;

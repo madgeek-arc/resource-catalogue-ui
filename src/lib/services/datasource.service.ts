@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
-import { Datasource, DatasourceBundle } from '../domain/eic-model';
+import {Datasource, DatasourceBundle, OpenAIREMetrics} from '../domain/eic-model';
 import {Paging} from '../domain/paging';
 
 @Injectable()
@@ -98,10 +98,14 @@ export class DatasourceService {
     return this.http.patch(this.base + `/datasource/auditDatasource/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
-
   getDatasourceByServiceId(serviceId: string, catalogueId?:string){
     if (!catalogueId) catalogueId = 'eosc';
     return this.http.get<Datasource>(this.base + `/datasource/byService/${serviceId}?catalogue_id=${catalogueId}`, this.options);
     // return this.http.get<Datasource>(this.base + `/datasource/${serviceId}`, this.options);
   }
+
+  getOpenAIREMetrics(datasourceId: string) {
+    return this.http.get<OpenAIREMetrics>(this.base + `/datasource/isMetricsValid/${datasourceId}`);
+  }
+
 }

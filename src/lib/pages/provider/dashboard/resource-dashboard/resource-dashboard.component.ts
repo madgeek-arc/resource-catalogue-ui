@@ -8,6 +8,7 @@ import {environment} from '../../../../../environments/environment';
 import {ServiceBundle} from "../../../../domain/eic-model";
 import {DatasourceService} from "../../../../services/datasource.service";
 
+declare var UIkit: any;
 
 @Component({
   selector: 'app-resource-dashboard',
@@ -26,6 +27,7 @@ export class ResourceDashboardComponent implements OnInit {
   datasourceId: string; //subprofile
 
   resourceBundle: ServiceBundle;
+  errorMessage: string;
 
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,
@@ -55,4 +57,25 @@ export class ResourceDashboardComponent implements OnInit {
       }
     );
   }
+
+  showDatasourceDeletionModal() {
+    UIkit.modal('#datasourceDeletionModal').show();
+  }
+
+  deleteDatasource(id: string) {
+    UIkit.modal('#spinnerModal').show();
+    this.datasourceService.deleteDatasource(id).subscribe(
+      res => {},
+      error => {
+        // console.log(error);
+        UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = 'Something went bad. ' + error.error ;
+      },
+      () => {
+        UIkit.modal('#spinnerModal').hide();
+        window.location.reload()
+      }
+    );
+  }
+
 }

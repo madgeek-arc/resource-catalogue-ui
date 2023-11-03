@@ -36,7 +36,7 @@
 
 
       <div *ngIf="resourceBundle?.status === 'approved resource'" class="menu_section border_top">
-        <div class="sidebar_heading">SUBPROFILES</div>
+        <div class="sidebar_heading">DATASOURCE SUBPROFILE</div>
         <ul>
           <li>
             <ng-container *ngIf="!datasourceId">
@@ -46,15 +46,25 @@
             </ng-container>
             <ng-container *ngIf="datasourceId">
               <a [routerLink]="['/provider/' + providerId + '/resource/' + resourceId + '/subprofile/datasource']">
-                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Edit Datasource Subprofile
+                <img src="lib/assets/images/new-icons/update-service.svg" class="uk-margin-small-right"> Edit Datasource Subprofile
               </a>
             </ng-container>
+            <ng-container *ngIf="datasourceId">
+              <a (click)="showDatasourceDeletionModal()">
+                <img src="lib/assets/images/new-icons/trashcan.svg" class="uk-margin-small-right"> Delete Datasource Subprofile
+              </a>
+            </ng-container>
+<!--            <ng-container *ngIf="datasourceId">-->
+<!--              <a [routerLink]="['/provider/' + providerId + '/resource/' + resourceId + '/datasource/metrics']"> &lt;!&ndash; need to change to dashboard route &ndash;&gt;-->
+<!--                <img src="lib/assets/images/new-icons/stats.svg" class="uk-margin-small-right"> Research Products Accounting-->
+<!--              </a>-->
+<!--            </ng-container>-->
           </li>
         </ul>
       </div>
 
       <div *ngIf="resourceBundle?.status !== 'approved resource'" class="menu_section border_top" uk-tooltip="Disabled until first service approval.">
-        <div class="sidebar_heading">SUBPROFILES</div>
+        <div class="sidebar_heading">DATASOURCE SUBPROFILE</div>
         <ul class="uk-disabled">
           <li>
             <ng-container *ngIf="!datasourceId">
@@ -67,7 +77,34 @@
         </ul>
       </div>
 
+      <div *ngIf="catalogueId === 'eosc'" class="menu_section border_top">
+        <div class="sidebar_heading">EXTENSIONS</div>
+        <ul>
+          <ng-container *ngIf="resourceBundle && resourceBundle.status==='approved resource' && resourceBundle.active===true">
+          <li>
+            <a [routerLink]="['/provider/' + providerId + '/resource/monitoring/' + resourceId]">
+              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+              {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/provider/' + providerId + '/resource/helpdesk/' + resourceId]">
+              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+              {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension
+            </a>
+          </li>
+          </ng-container>
 
+          <ng-container *ngIf="resourceBundle?.status!=='approved resource' || resourceBundle?.active!==true">
+            <li uk-tooltip="Disabled until first service approval and/or service activation.">
+              <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension</a>
+            </li>
+            <li uk-tooltip="Disabled until first service approval and/or service activation.">
+              <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension</a>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
 
       <div class="menu_section border_top">
         <div class="sidebar_heading">ACTIONS</div>
@@ -83,18 +120,6 @@
             </li>
             <ng-container *ngIf="resourceBundle && resourceBundle.status==='approved resource' && resourceBundle.active===true">
               <li>
-                <a [routerLink]="['/provider/' + providerId + '/resource/monitoring/' + resourceId]">
-                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension
-                </a>
-              </li>
-              <li>
-                <a [routerLink]="['/provider/' + providerId + '/resource/helpdesk/' + resourceId]">
-                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension
-                </a>
-              </li>
-              <li>
                 <a [routerLink]="['/provider/' + providerId + '/resource/guidelines/' + resourceId]">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Assign Guidelines
@@ -102,12 +127,6 @@
               </li>
             </ng-container>
             <ng-container *ngIf="resourceBundle?.status!=='approved resource' || resourceBundle?.active!==true">
-              <li uk-tooltip="Disabled until first service approval and/or service activation.">
-                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension</a>
-              </li>
-              <li uk-tooltip="Disabled until first service approval and/or service activation.">
-                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension</a>
-              </li>
               <li uk-tooltip="Disabled until first service approval and/or service activation.">
                 <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Assign Guidelines</a>
               </li>
@@ -134,6 +153,24 @@
     <div id="page_content">
       <app-dashboard-breadcrumbs></app-dashboard-breadcrumbs>
       <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<div id="spinnerModal" uk-modal>
+  <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+  </div>
+</div>
+
+<div id="datasourceDeletionModal" uk-modal>
+  <div class="uk-modal-dialog uk-modal-header uk-h4">Delete Datasource Subprofile</div>
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <div class="uk-margin-medium-bottom">
+      <p>You are about to delete the datasource</p>
+    </div>
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-primary" type="button" (click)="deleteDatasource(this.datasourceId)">Delete</button>
     </div>
   </div>
 </div>
