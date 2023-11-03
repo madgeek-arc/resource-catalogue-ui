@@ -97,6 +97,8 @@ export class TrainingResourceForm implements OnInit {
   readonly urlDesc: dm.Description = dm.trainingDescMap.get('urlDesc');
   readonly urlTypeDesc: dm.Description = dm.trainingDescMap.get('urlTypeDesc');
   readonly eoscRelatedServiceDesc: dm.Description = dm.trainingDescMap.get('eoscRelatedServiceDesc');
+  readonly altIdTypeDesc: dm.Description = dm.serviceDescMap.get('altIdTypeDesc');
+  readonly altIdValueDesc: dm.Description = dm.serviceDescMap.get('altIdValueDesc');
 
   readonly descriptionDesc: dm.Description = dm.trainingDescMap.get('descriptionDesc');
   readonly keywordsDesc: dm.Description = dm.trainingDescMap.get('keywordsDesc');
@@ -135,6 +137,12 @@ export class TrainingResourceForm implements OnInit {
     url: ['', Validators.compose([Validators.required, URLValidator])], //webpage
     urlType: [''], //lifeCycleStatus
     eoscRelatedServices: this.fb.array([this.fb.control('')]), //relatedResources
+    alternativeIdentifiers: this.fb.array([
+      this.fb.group({
+        type: [''],
+        value: ['']
+      })
+    ]),
 
     description: ['', Validators.required],
     keywords: this.fb.array([this.fb.control('')]), //tags
@@ -230,6 +238,12 @@ export class TrainingResourceForm implements OnInit {
     // console.log('this.serviceForm.valid ', this.serviceForm.valid);
     // console.log('Submitted service --> ', service);
     // console.log('Submitted service value--> ', this.serviceForm.value);
+    for (let i = 0; i < this.alternativeIdentifiersArray.length; i++) {
+      if (this.alternativeIdentifiersArray.controls[i].get('value').value === ''
+        || this.alternativeIdentifiersArray.controls[i].get('value').value === null) {
+        this.removeAlternativeIdentifier(i);
+      }
+    }
     if (tempSave) {
       this.trainingResourceService.saveServiceAsDraft(this.serviceForm.value).subscribe(
         _service => {
@@ -549,6 +563,27 @@ export class TrainingResourceForm implements OnInit {
 
   /** <-- Scientific Domain**/
 
+  /** Alternative Identifiers-->**/
+  newAlternativeIdentifier(): FormGroup {
+    return this.fb.group({
+      type: [''],
+      value: ['']
+    });
+  }
+
+  get alternativeIdentifiersArray() {
+    return this.serviceForm.get('alternativeIdentifiers') as FormArray;
+  }
+
+  pushAlternativeIdentifier() {
+    this.alternativeIdentifiersArray.push(this.newAlternativeIdentifier());
+  }
+
+  removeAlternativeIdentifier(index: number) {
+    this.alternativeIdentifiersArray.removeAt(index);
+  }
+  /** <--Alternative Identifiers**/
+
   getVocabularyById(vocabularies: Vocabulary[], id: string) {
     return vocabularies.find(entry => entry.id === id);
   }
@@ -597,6 +632,11 @@ export class TrainingResourceForm implements OnInit {
     if (trainingResource.eoscRelatedServices) {
       for (let i = 0; i < trainingResource.eoscRelatedServices.length - 1; i++) {
         this.push('eoscRelatedServices', true);
+      }
+    }
+    if (trainingResource.alternativeIdentifiers) {
+      for (let i = 0; i < trainingResource.alternativeIdentifiers.length - 1; i++) {
+        this.pushAlternativeIdentifier();
       }
     }
     if (trainingResource.keywords) {

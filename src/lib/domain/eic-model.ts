@@ -193,6 +193,7 @@ export class Provider implements Identifiable {
   legalEntity: boolean;
   legalStatus: string;
   hostingLegalEntity: string;
+  alternativeIdentifiers: AlternativeIdentifier[];
   description: string;
   logo: URL;
   multimedia: Multimedia[];
@@ -400,6 +401,7 @@ export class TrainingResource implements Identifiable {
   url: URL;
   urlType: string; // new voc
   eoscRelatedServices: string[];
+  alternativeIdentifiers: AlternativeIdentifier[];
   description: string;
   keywords: string[];
   license: string;
@@ -447,6 +449,7 @@ export class InteroperabilityRecord implements Identifiable {
   domain: string;
   eoscGuidelineType: string;
   eoscIntegrationOptions: string[];
+  alternativeIdentifiers: AlternativeIdentifier[];
 }
 
 export class IdentifierInfo {

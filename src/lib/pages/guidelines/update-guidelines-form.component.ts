@@ -84,6 +84,11 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
               this.push('eoscIntegrationOptions', this.eoscIntegrationOptionsDesc.mandatory);
             }
           }
+          if (this.guideline.alternativeIdentifiers) {
+            for (let i = 0; i < this.guideline.alternativeIdentifiers.length - 1; i++) {
+              this.pushAlternativeIdentifier();
+            }
+          }
           this.guidelinesForm.patchValue(this.guideline);
           this.guidelinesForm.get('created').setValue(this.timestampToDate(this.guideline.created));
           this.guidelinesForm.get('updated').setValue(this.timestampToDate(this.guideline.updated));

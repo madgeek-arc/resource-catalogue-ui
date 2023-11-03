@@ -476,6 +476,52 @@
                             </div>
                           </div>
 
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right">Alternative Identifiers</label>
+                            <div class="uk-form-controls uk-margin-top">
+                              <div formArrayName="alternativeIdentifiers"
+                                   *ngFor="let altIdentifier of alternativeIdentifiersArray.controls; let i = index">
+                                <div [formGroupName]="i"
+                                     class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                  <div class="uk-margin-bottom">
+                                    <label class="uk-form-label uk-text-right" for="type">
+                                      {{ altIdTypeDesc.label + (altIdTypeDesc.mandatory ? ' (*)' : '') }}
+                                    </label>
+                                    <div class="uk-form-description uk-margin-top uk-width-9-10">{{altIdTypeDesc.desc}}</div>
+                                    <div class="uk-form-controls uk-margin-top">
+                                      <input id="type" class="uk-input uk-width-9-10" type="text" formControlName="type"
+                                             (input)="unsavedChangesPrompt()"
+                                             [ngClass]="{'uk-form-danger': checkFormArrayValidity('alternativeIdentifiers', i, this.edit, 'type')}">
+                                    </div>
+                                  </div>
+                                  <div class="uk-margin-bottom">
+                                    <label class="uk-form-label uk-text-right" for="value">
+                                      {{ altIdValueDesc.label + (altIdValueDesc.mandatory ? ' (*)' : '') }}
+                                    </label>
+                                    <div
+                                      class="uk-form-description uk-margin-top uk-width-9-10">{{altIdValueDesc.desc}}</div>
+                                    <div class="uk-form-controls uk-margin-top">
+                                      <input id="value" class="uk-input uk-width-9-10" type="text" formControlName="value"
+                                             (input)="unsavedChangesPrompt()">
+                                      <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('alternativeIdentifiers', i, this.editMode, 'value')}">-->
+                                    </div>
+                                  </div>
+
+                                </div>
+                                <a *ngIf="getFieldAsFormArray('alternativeIdentifiers').length > 1 && !disable"
+                                   class="remove-element uk-padding-small uk-display-inline-block"
+                                   (click)="removeAlternativeIdentifier(i); unsavedChangesPrompt();">
+                                  <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+                              </div>
+                            </div>
+                            <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                              <a class="add-new-element" (click)="pushAlternativeIdentifier()">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add Alternative Identifier
+                              </a>
+                            </div>
+                          </div>
+
                           <div class="uk-flex uk-flex-right">
                             <button class="uk-button uk-button-secondary" type="button" (click)="switchToTab('creatorsTab2')">Next &nbsp;<i class="fa fa-arrow-circle-right fa-lg"></i></button>
                           </div>

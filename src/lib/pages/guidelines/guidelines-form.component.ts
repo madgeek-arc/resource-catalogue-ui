@@ -89,6 +89,8 @@ export class GuidelinesFormComponent implements OnInit {
   readonly domainDesc: dm.Description = dm.guidelinesDescMap.get('domainDesc');
   readonly eoscGuidelineTypeDesc: dm.Description = dm.guidelinesDescMap.get('eoscGuidelineTypeDesc');
   readonly eoscIntegrationOptionsDesc: dm.Description = dm.guidelinesDescMap.get('eoscIntegrationOptionsDesc');
+  readonly altIdTypeDesc: dm.Description = dm.serviceDescMap.get('altIdTypeDesc');
+  readonly altIdValueDesc: dm.Description = dm.serviceDescMap.get('altIdValueDesc');
 
   identifierTypeVocabulary: Vocabulary[] = null;
   nameTypeVocabulary: Vocabulary[] = null;
@@ -120,6 +122,12 @@ export class GuidelinesFormComponent implements OnInit {
       identifier: ['', Validators.required],
       identifierType: ['', Validators.required]
     }, Validators.required),
+    alternativeIdentifiers: this.fb.array([
+      this.fb.group({
+        type: [''],
+        value: ['']
+      })
+    ]),
     creators: this.fb.array([this.fb.group({
       creatorNameTypeInfo: this.fb.group({creatorName:'', nameType:'ir_name_type-personal'}),
       givenName: [''],
@@ -207,6 +215,12 @@ export class GuidelinesFormComponent implements OnInit {
     // const path = this.route.snapshot.routeConfig.path;
     let method = this.edit ? 'updateInteroperabilityRecord' : 'addInteroperabilityRecord';
 
+    for (let i = 0; i < this.alternativeIdentifiersArray.length; i++) {
+      if (this.alternativeIdentifiersArray.controls[i].get('value').value === ''
+        || this.alternativeIdentifiersArray.controls[i].get('value').value === null) {
+        this.removeAlternativeIdentifier(i);
+      }
+    }
 
     if (this.guidelinesForm.valid) {
       this.showLoader = true;
@@ -448,6 +462,27 @@ export class GuidelinesFormComponent implements OnInit {
   }
 
   /** <--Related Standards **/
+
+  /** Alternative Identifiers-->**/
+  newAlternativeIdentifier(): FormGroup {
+    return this.fb.group({
+      type: [''],
+      value: ['']
+    });
+  }
+
+  get alternativeIdentifiersArray() {
+    return this.guidelinesForm.get('alternativeIdentifiers') as FormArray;
+  }
+
+  pushAlternativeIdentifier() {
+    this.alternativeIdentifiersArray.push(this.newAlternativeIdentifier());
+  }
+
+  removeAlternativeIdentifier(index: number) {
+    this.alternativeIdentifiersArray.removeAt(index);
+  }
+  /** <--Alternative Identifiers**/
 
   /** Creators as public contacts -->**/
   newCreator(): FormGroup {
