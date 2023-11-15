@@ -390,12 +390,7 @@ export class ServiceProviderFormComponent implements OnInit {
         },
         () => {
           this.showLoader = false;
-          if (this.edit) {
-            this.router.navigate(['/provider/my']);
-          } else {
-            this.router.navigate(['/provider/my']);
-            // this.authService.refreshLogin('/provider/my'); // fixme: not redirecting
-          }
+          this.router.navigate(['/provider/my']);
         }
       );
     } else {
