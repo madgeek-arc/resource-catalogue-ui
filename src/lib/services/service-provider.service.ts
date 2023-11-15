@@ -56,7 +56,7 @@ export class ServiceProviderService {
     return this.http.put<Provider>(this.base + '/pendingProvider/transform/active', updatedFields, this.options);
   }
 
-  verifyServiceProvider(id: string, active: boolean, status: string) { // use for onboarding process
+  verifyProvider(id: string, active: boolean, status: string) { // use for onboarding process
     return this.http.patch(this.base + `/provider/verifyProvider/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 

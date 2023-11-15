@@ -583,7 +583,7 @@ export class ServiceProvidersListComponent implements OnInit {
     this.loadingMessage = '';
     const active = this.pushedApprove && (this.newStatus === 'approved provider');
     if(this.verify){ //use verify method
-      this.serviceProviderService.verifyServiceProvider(this.selectedProvider.id, active, this.adminActionsMap[this.newStatus].statusId)
+      this.serviceProviderService.verifyProvider(this.selectedProvider.id, active, this.adminActionsMap[this.newStatus].statusId)
         .subscribe(
           res => {
             /*this.providers = [];
