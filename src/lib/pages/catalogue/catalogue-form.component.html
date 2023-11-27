@@ -317,7 +317,10 @@
                             </label>
                             <div class="uk-form-description uk-margin-top uk-width-9-10">{{scopeDesc.desc}}</div>
                             <div class="uk-form-controls uk-margin-top uk-width-9-10">
-                              <textarea class="uk-textarea" rows="4" formControlName="scope" [ngClass]="{'uk-form-danger': checkFormValidity('scope', this.edit)}"></textarea>
+                              <textarea class="uk-textarea" rows="4" formControlName="scope"
+                                        (input)="handleBitSets(0, 20, 'scope'); unsavedChangesPrompt()"
+                                        [ngClass]="{'uk-form-danger': checkFormValidity('scope', this.edit)}">
+                              </textarea>
                             </div>
 <!--                            <i><small>Suggested length is 1000 characters</small></i>-->
                           </div>

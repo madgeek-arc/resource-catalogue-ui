@@ -42,7 +42,7 @@ export class CatalogueFormComponent implements OnInit {
   tabs: boolean[] = [false, false, false, false, false, false, false, false];
   isPortalAdmin = false;
 
-  requiredOnTab0 = 7;
+  requiredOnTab0 = 8;
   requiredOnTab1 = 2;
   requiredOnTab3 = 4;
   requiredOnTab4 = 2;
@@ -64,7 +64,7 @@ export class CatalogueFormComponent implements OnInit {
   completedTabs = 0;
   completedTabsBitSet = new BitSet;
 
-  allRequiredFields = 20;
+  allRequiredFields = 21;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
@@ -144,7 +144,7 @@ export class CatalogueFormComponent implements OnInit {
     validationProcess: ['', Validators.compose([Validators.required, URLValidator])],
     endOfLife: ['', Validators.required],
     description: ['', Validators.required],
-    scope: [''],
+    scope: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
     // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
     // multimediaNames: this.fb.array([this.fb.control('')]),
@@ -415,7 +415,8 @@ export class CatalogueFormComponent implements OnInit {
       || this.checkFormValidity('website', this.edit)
       || this.checkEveryArrayFieldValidity('legalEntity', this.edit)
       || this.checkFormValidity('legalStatus', this.edit)
-      || this.checkFormValidity('hostingLegalEntity', this.edit));
+      || this.checkFormValidity('hostingLegalEntity', this.edit)
+      || this.checkFormValidity('scope', this.edit));
     this.tabs[1] = (this.checkFormValidity('description', this.edit)
       || this.checkFormValidity('logo', this.edit)
       || this.checkEveryArrayFieldValidity('multimedia', this.edit, 'multimediaURL')

@@ -960,7 +960,7 @@
                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('serviceCategories').controls.length-1 !== i}">
                                   <ng-select *ngIf="serviceCategoryVocabulary" class="uk-width-9-10" id="serviceCategories"
                                              [items]="serviceCategoryVocabulary"
-                                             (change)="handleBitSets(2, 24, 'serviceCategories');checkForDuplicates('serviceCategories');unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('serviceCategories');unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -968,7 +968,7 @@
                                   </ng-select>
                                   <a *ngIf="getFieldAsFormArray('serviceCategories').length > 1 && !disable"
                                      class="remove-element uk-padding-small" (click)="remove('serviceCategories', i);
-                                     handleBitSets(2, 24, 'serviceCategories');unsavedChangesPrompt();">
+                                     unsavedChangesPrompt();">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
@@ -1011,7 +1011,7 @@
                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('marketplaceLocations').controls.length-1 !== i}">
                                   <ng-select *ngIf="marketplaceLocationVocabulary" class="uk-width-9-10" id="marketplaceLocations"
                                              [items]="marketplaceLocationVocabulary"
-                                             (change)="handleBitSets(2, 25, 'marketplaceLocations');checkForDuplicates('marketplaceLocations');unsavedChangesPrompt()"
+                                             (change)="checkForDuplicates('marketplaceLocations');unsavedChangesPrompt()"
                                              bindLabel="name"
                                              bindValue="id"
                                              clearAllText="Clear"
@@ -1019,7 +1019,7 @@
                                   </ng-select>
                                   <a *ngIf="getFieldAsFormArray('marketplaceLocations').length > 1 && !disable"
                                      class="remove-element uk-padding-small" (click)="remove('marketplaceLocations', i);
-                                     handleBitSets(2, 25, 'marketplaceLocations');unsavedChangesPrompt();">
+                                     unsavedChangesPrompt();">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>

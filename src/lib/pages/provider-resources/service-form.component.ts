@@ -53,7 +53,7 @@ export class ServiceFormComponent implements OnInit {
 
   requiredOnTab0 = 4;
   requiredOnTab1 = 3;
-  requiredOnTab2 = 5;
+  requiredOnTab2 = 3;
   requiredOnTab3 = 2;
   requiredOnTab5 = 4;
   requiredOnTab6 = 1;
@@ -82,7 +82,7 @@ export class ServiceFormComponent implements OnInit {
   completedTabs = 0;
   completedTabsBitSet = new BitSet;
 
-  allRequiredFields = 26;
+  allRequiredFields = 24;
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
@@ -240,8 +240,8 @@ export class ServiceFormComponent implements OnInit {
     fundingPrograms: this.fb.array([this.fb.control('')]),
     grantProjectNames: this.fb.array([this.fb.control('')]),
     tags: this.fb.array([this.fb.control('')]),
-    serviceCategories: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
-    marketplaceLocations: this.fb.array([this.fb.control('', Validators.required)], Validators.required),
+    serviceCategories: this.fb.array([this.fb.control('')]),
+    marketplaceLocations: this.fb.array([this.fb.control('')]),
     horizontalService: [''],
     lifeCycleStatus: [''],
     trl: ['', Validators.required],
@@ -623,9 +623,7 @@ export class ServiceFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('targetUsers', this.editMode)
       || this.checkEveryArrayFieldValidity('accessTypes', this.editMode)
       || this.checkEveryArrayFieldValidity('accessModes', this.editMode)
-      || this.checkEveryArrayFieldValidity('tags', this.editMode)
-      || this.checkEveryArrayFieldValidity('serviceCategories', this.editMode)
-      || this.checkEveryArrayFieldValidity('marketplaceLocations', this.editMode));
+      || this.checkEveryArrayFieldValidity('tags', this.editMode));
     this.tabs[3] = (this.checkEveryArrayFieldValidity('geographicalAvailabilities', this.editMode)
       || this.checkEveryArrayFieldValidity('languageAvailabilities', this.editMode));
     this.tabs[4] = (this.checkEveryArrayFieldValidity('resourceGeographicLocations', this.editMode));
