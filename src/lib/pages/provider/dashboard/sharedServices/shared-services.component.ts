@@ -89,12 +89,8 @@ export class SharedServicesComponent implements OnInit {
     // this.getPendingServices();
   }
 
-  getPayload(bundle : ServiceBundle): Service | Datasource {
-    return bundle.service != null ? bundle.service : bundle.datasource;
-  }
-
   navigate(id: string) {
-    this.router.navigate([`/dashboard/${this.providerId}/shared-resource-dashboard/`, id]);
+    this.router.navigate([`/dashboard/${this.catalogueId}/${this.providerId}/shared-resource-dashboard/`, id]);
   }
 
   getProvider() {

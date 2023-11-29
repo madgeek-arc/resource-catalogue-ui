@@ -76,7 +76,6 @@ export class ServiceProviderFormComponent implements OnInit {
 
   vocabularyEntryForm: FormGroup;
   suggestionsForm = {
-    legalStatusVocabularyEntryValueName: '',
     domainsVocabularyEntryValueName: '',
     categoriesVocabularyEntryValueName: '',
     placesVocabularyEntryValueName: '',
@@ -138,6 +137,8 @@ export class ServiceProviderFormComponent implements OnInit {
   readonly legalStatusDesc: dm.Description = dm.providerDescMap.get('legalStatusDesc');
   readonly networksDesc: dm.Description = dm.providerDescMap.get('networksDesc');
   readonly catalogueIdDesc: dm.Description = dm.providerDescMap.get('catalogueIdDesc');
+  readonly altIdTypeDesc: dm.Description = dm.serviceDescMap.get('altIdTypeDesc');
+  readonly altIdValueDesc: dm.Description = dm.serviceDescMap.get('altIdValueDesc');
 
   placesVocabulary: Vocabulary[] = null;
   providerTypeVocabulary: Vocabulary[] = null;
@@ -162,6 +163,12 @@ export class ServiceProviderFormComponent implements OnInit {
     legalEntity: [''],
     legalStatus: [''],
     hostingLegalEntity: [''],
+    alternativeIdentifiers: this.fb.array([
+      this.fb.group({
+        type: [''],
+        value: ['']
+      })
+    ]),
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
     // multimedia: this.fb.array([this.fb.control('', URLValidator, urlAsyncValidator(this.serviceProviderService))]),
@@ -322,6 +329,13 @@ export class ServiceProviderFormComponent implements OnInit {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
     }
 
+    for (let i = 0; i < this.alternativeIdentifiersArray.length; i++) {
+      if (this.alternativeIdentifiersArray.controls[i].get('value').value === ''
+        || this.alternativeIdentifiersArray.controls[i].get('value').value === null) {
+        this.removeAlternativeIdentifier(i);
+      }
+    }
+
     for (let i = 0; i < this.domainArray.length; i++) {
       if (this.domainArray.controls[i].get('scientificDomain').value === ''
         || this.domainArray.controls[i].get('scientificDomain').value === null) {
@@ -376,12 +390,7 @@ export class ServiceProviderFormComponent implements OnInit {
         },
         () => {
           this.showLoader = false;
-          if (this.edit) {
-            this.router.navigate(['/provider/my']);
-          } else {
-            this.router.navigate(['/provider/my']);
-            // this.authService.refreshLogin('/provider/my'); // fixme: not redirecting
-          }
+          this.router.navigate(['/provider/my']);
         }
       );
     } else {
@@ -638,6 +647,27 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   /** <--Multimedia**/
+
+  /** Alternative Identifiers-->**/
+  newAlternativeIdentifier(): FormGroup {
+    return this.fb.group({
+      type: [''],
+      value: ['']
+    });
+  }
+
+  get alternativeIdentifiersArray() {
+    return this.providerForm.get('alternativeIdentifiers') as FormArray;
+  }
+
+  pushAlternativeIdentifier() {
+    this.alternativeIdentifiersArray.push(this.newAlternativeIdentifier());
+  }
+
+  removeAlternativeIdentifier(index: number) {
+    this.alternativeIdentifiersArray.removeAt(index);
+  }
+  /** <--Alternative Identifiers**/
 
   /** Contact Info -->**/
   newContact(): FormGroup {

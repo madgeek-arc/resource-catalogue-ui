@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Datasource} from '../../domain/eic-model';
+import {Datasource, Service} from '../../domain/eic-model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {DatasourceService} from "../../services/datasource.service";
+import {ResourceService} from "../../services/resource.service";
 
-declare var UIkit: any;
 
 @Component({
   selector: 'app-datasource-submitted',
@@ -20,11 +20,13 @@ export class DatasourceSubmittedComponent implements OnInit {
   registeredAtOpenAIRE: boolean;
   datasourceId: string;
   datasource: Datasource;
+  service: Service;
   path: string;
 
   constructor(
     private route: ActivatedRoute,
-    private datasourceService: DatasourceService
+    private datasourceService: DatasourceService,
+    private resourceService: ResourceService
   ) {}
 
   ngOnInit(): void {
@@ -33,13 +35,19 @@ export class DatasourceSubmittedComponent implements OnInit {
     this.datasourceService.getDatasource(this.datasourceId).subscribe(
       ds => {this.datasource = ds},
       error => {},
-      () => {}
-    )
+      () => {
+        this.resourceService.getService(this.datasource.serviceId).subscribe(
+          res => {this.service = res},
+          error => {},
+          () => {}
+        );
+      }
+    );
 
-    this.datasourceService.isItRegistered(this.datasourceId).subscribe(
+    this.datasourceService.isDatasourceRegisteredOnOpenAIRE(this.datasourceId).subscribe(
       bool => this.registeredAtOpenAIRE = bool,
       error => {},
       () => {}
-    )
+    );
   }
 }

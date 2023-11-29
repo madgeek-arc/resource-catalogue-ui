@@ -92,10 +92,6 @@ export class ServicesComponent implements OnInit {
       );
   }
 
-  getPayload(bundle : ServiceBundle): Service | Datasource {
-    return bundle.service != null ? bundle.service : bundle.datasource;
-  }
-
   useAsTemplate(id: string) {
     this.router.navigate([`/provider/${this.providerId}/resource/add/use-template`, id]);
   }
@@ -117,7 +113,7 @@ export class ServicesComponent implements OnInit {
       return;
     }
     UIkit.modal('#spinnerModal').show();
-    this.providerService[bundle.service ? 'publishService' : 'publishDatasource'](bundle.id, this.getPayload(bundle).version, !bundle.active).subscribe(
+    this.providerService.publishService(bundle.id, bundle.service.version, !bundle.active).subscribe(
       res => {},
       error => {
         UIkit.modal('#spinnerModal').hide();

@@ -6,7 +6,9 @@ import {ServiceExtensionsService} from '../../../../services/service-extensions.
 import {NavigationService} from '../../../../services/navigation.service';
 import {environment} from '../../../../../environments/environment';
 import {ServiceBundle} from "../../../../domain/eic-model";
+import {DatasourceService} from "../../../../services/datasource.service";
 
+declare var UIkit: any;
 
 @Component({
   selector: 'app-resource-dashboard',
@@ -22,12 +24,15 @@ export class ResourceDashboardComponent implements OnInit {
   resourceId: string;
   monitoringId: string;
   helpdeskId: string;
+  datasourceId: string; //subprofile
 
   resourceBundle: ServiceBundle;
+  errorMessage: string;
 
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,
               public serviceExtensionsService: ServiceExtensionsService,
+              public datasourceService: DatasourceService,
               public router: NavigationService,
               private route: ActivatedRoute) {
   }
@@ -36,7 +41,7 @@ export class ResourceDashboardComponent implements OnInit {
     this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.resourceId = this.route.snapshot.paramMap.get('resourceId');
-    this.resourceService.getResourceBundleById(this.resourceId, this.catalogueId).subscribe(
+    this.resourceService.getServiceBundleById(this.resourceId, this.catalogueId).subscribe(
       res => { if (res!=null) this.resourceBundle = res },
       error => {},
       () => {
@@ -46,7 +51,31 @@ export class ResourceDashboardComponent implements OnInit {
         this.serviceExtensionsService.getHelpdeskByServiceId(this.resourceId).subscribe(
           res => { if (res!=null) this.helpdeskId = res.id }
         );
+        this.datasourceService.getDatasourceByServiceId(this.resourceId).subscribe(
+          res => { if (res!=null) this.datasourceId = res.id }
+        );
       }
     );
   }
+
+  showDatasourceDeletionModal() {
+    UIkit.modal('#datasourceDeletionModal').show();
+  }
+
+  deleteDatasource(id: string) {
+    UIkit.modal('#spinnerModal').show();
+    this.datasourceService.deleteDatasource(id).subscribe(
+      res => {},
+      error => {
+        // console.log(error);
+        UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = 'Something went bad. ' + error.error ;
+      },
+      () => {
+        UIkit.modal('#spinnerModal').hide();
+        window.location.reload()
+      }
+    );
+  }
+
 }

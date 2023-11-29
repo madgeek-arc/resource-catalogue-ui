@@ -1,8 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {CanActivateViaAuthGuard} from '../../services/can-activate-auth-guard.service';
-import {DatasourceFormComponent} from "./datasource-form.component";
-import {UpdateDatasourceComponent} from "./update-datasource.component";
+import {DatasourceSubprofileFormComponent} from "../provider-resources/service-subprofiles/datasource-subprofile-form.component";
 import {DatasourceSubmittedComponent} from "./datasource-submitted.component";
 
 
@@ -10,7 +9,7 @@ const datasourceRoutes: Routes = [
 
   {
     path: 'add', //just for testing
-    component: DatasourceFormComponent,
+    component: DatasourceSubprofileFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'New Datasource'

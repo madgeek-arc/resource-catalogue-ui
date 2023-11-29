@@ -91,16 +91,8 @@ export class PendingServicesComponent implements OnInit {
     // this.getPendingServices();
   }
 
-  getPayload(bundle : ServiceBundle): Service | Datasource {
-    return bundle.service != null ? bundle.service : bundle.datasource;
-  }
-
   navigate(bundle: ServiceBundle) {
-    if (bundle.service) {
-      this.router.navigate([`/provider/` + this.providerId + `/draft-resource/update/`, bundle.id]);
-    } else if (bundle.datasource) {
-      this.router.navigate([`/provider/` + this.providerId + `/draft-datasource/update/`, bundle.id]);
-    }
+    this.router.navigate([`/provider/` + this.providerId + `/draft-resource/update/`, bundle.id]);
   }
 
   getProvider() {
@@ -134,7 +126,7 @@ export class PendingServicesComponent implements OnInit {
 
   deleteService(bundle: ServiceBundle) {
     // UIkit.modal('#spinnerModal').show();
-    this.resourceService[bundle.service ? 'deletePendingService' : 'deletePendingDatasource'](bundle.id).subscribe(
+    this.resourceService.deletePendingService(bundle.id).subscribe(
       res => {},
       error => {
         // console.log(error);

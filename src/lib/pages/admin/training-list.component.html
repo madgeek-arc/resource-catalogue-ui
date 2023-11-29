@@ -71,7 +71,7 @@
                   <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
                     <ng-container *ngFor="let f of facets">
                       <ng-container *ngIf="f.field === 'catalogue_id'">
-                        <h5 class="uk-margin-top">{{f.label}}</h5>
+                        <h5 class="uk-margin-top">Catalogue</h5>
                         <div class="uk-padding uk-padding-remove-top uk-padding-remove-left">
                           <div class="uk-margin-small-top" *ngFor="let catalogue of f.values">
                             <label class="uk-margin-small-left">
@@ -86,7 +86,7 @@
                       </ng-container>
 
                       <ng-container *ngIf="f.field === 'resource_organisation'">
-                        <h5 class="uk-margin-top">{{f.label}}</h5>
+                        <h5 class="uk-margin-top">Provider</h5>
                         <label
                           class="uk-margin-small-left uk-margin-small-bottom uk-search uk-search-default uk-width-3-4@m">
                           <span uk-search-icon></span>
@@ -506,13 +506,16 @@
 </div>
 
 <div id="deletionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-header uk-h4">Delete Training Resource</div>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedTrainingResource">
       <h6>Are you sure you want to delete "{{ selectedTrainingResource.trainingResource.title }}" ?</h6>
       <p>Deleting a Training Resource is an irreversible action.</p>
     </div>
-    <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="deleteTrainingResource(selectedTrainingResource.trainingResource.id)">Delete</button>
-    <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-secondary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteTrainingResource(selectedTrainingResource.trainingResource.id)">Delete</button>
+    </div>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
@@ -523,12 +526,15 @@
 </div>
 
 <div id="suspensionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-header uk-h4">Suspend Training Resource</div>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <ng-container *ngIf="selectedTrainingResource">
       <h6 class="uk-margin-medium-bottom">Are you sure you want to {{selectedTrainingResource.suspended==true ? 'un' : ''}}suspend "{{ selectedTrainingResource.trainingResource.title }}"?</h6>
-      <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="suspendTrainingResource()">
-        {{selectedTrainingResource.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
-      <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+      <div class="uk-text-right">
+        <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+        <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="suspendTrainingResource()">
+          {{selectedTrainingResource.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
+      </div>
     </ng-container>
   </div>
   <div *ngIf="loadingMessage">

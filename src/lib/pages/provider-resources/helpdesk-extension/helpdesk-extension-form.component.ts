@@ -40,11 +40,10 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   disable = false;
   isPortalAdmin = false;
 
-  serviceId: string = null; //filled for all types (service, datasource, training)
+  serviceId: string = null; //filled for all types (service, training)
   resourceType = '';
-  //only one of these 3 ids will be filled from URL
+  //only one of these 2 ids will be filled from URL
   resourceId: string = null;
-  datasourceId: string = null;
   trainingResourceId: string = null;
 
   readonly servicesDesc: dm.Description = dm.helpdeskDescMap.get('servicesDesc');
@@ -135,9 +134,8 @@ export class HelpdeskExtensionFormComponent implements OnInit {
       this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode, 'eosc', this.resourceType).subscribe(
         _service => {
           this.showLoader = false;
-          if (this.resourceType==='service') return this.router.resourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // redirect to resource-dashboard
-          if (this.resourceType==='datasource') return this.router.datasourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // redirect to datasource-dashboard
-          if (this.resourceType==='training_resource') return this.router.trainingResourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // redirect to training-resource-dashboard
+          if (this.resourceType==='service') return this.router.resourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // navigate to resource-dashboard
+          if (this.resourceType==='training_resource') return this.router.trainingResourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // navigate to training-resource-dashboard
         },
         err => {
           this.showLoader = false;
@@ -163,10 +161,6 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     if (this.route.snapshot.paramMap.get('resourceId')) {
       this.serviceId = this.route.snapshot.paramMap.get('resourceId');
       this.resourceType = 'service';
-    }
-    if (this.route.snapshot.paramMap.get('datasourceId')) {
-      this.serviceId = this.route.snapshot.paramMap.get('datasourceId');
-      this.resourceType = 'datasource';
     }
     if (this.route.snapshot.paramMap.get('trainingResourceId')) {
       this.serviceId = this.route.snapshot.paramMap.get('trainingResourceId');

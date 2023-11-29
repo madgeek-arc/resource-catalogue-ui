@@ -29,6 +29,7 @@ export class Catalogue implements Identifiable {
   validationProcess: URL;
   endOfLife: string;
   description: string;
+  scope: string;
   logo: URL;
   multimedia: Multimedia[];
   scientificDomains: ServiceProviderDomain[];
@@ -96,7 +97,6 @@ export class Indicator implements Identifiable {
 }
 
 export class Identifiers {
-  alternativeIdentifiers: AlternativeIdentifier[];
   originalId: string;
 }
 
@@ -105,16 +105,14 @@ export class AlternativeIdentifier {
   value: string;
 }
 
-export class ServiceBundle extends Bundle<any> {
-  latest: boolean;
+export class ServiceBundle extends Bundle<Service> {
   service: Service;
-  datasource: Datasource;
   resourceExtras: ResourceExtras;
 }
 
 export class DatasourceBundle extends Bundle<Datasource> {
   datasource: Datasource;
-  resourceExtras: ResourceExtras;
+  originalOpenAIREId: string;
 }
 
 export class TrainingResourceBundle extends Bundle<TrainingResource> {
@@ -129,17 +127,6 @@ export class LoggingInfo {
   type: string;
   comment: string;
   actionType: string;
-}
-
-export class Measurement implements Identifiable {
-  id: string;
-  indicatorId: string;
-  serviceId: string;
-  time: XMLGregorianCalendar;
-  locations: string[];
-  valueIsRange: boolean;
-  value: string;
-  rangeValue: RangeValue;
 }
 
 export class Metadata {
@@ -207,6 +194,7 @@ export class Provider implements Identifiable {
   legalEntity: boolean;
   legalStatus: string;
   hostingLegalEntity: string;
+  alternativeIdentifiers: AlternativeIdentifier[];
   description: string;
   logo: URL;
   multimedia: Multimedia[];
@@ -273,11 +261,6 @@ export class ProviderRequest implements Identifiable {
   read: boolean;
 }
 
-export class RangeValue {
-  fromValue: string;
-  toValue: string;
-}
-
 export class RichService {
   service: Service;
   metadata: Metadata;
@@ -323,6 +306,7 @@ export class Service implements Identifiable {
   resourceOrganisation: string;
   resourceProviders: string[];
   webpage: URL;
+  alternativeIdentifiers: AlternativeIdentifier[];
   description: string;
   tagline: string;
   logo: URL;
@@ -336,6 +320,9 @@ export class Service implements Identifiable {
   accessTypes: string[];
   accessModes: string[];
   tags: string[];
+  horizontalService: boolean;
+  serviceCategories: string[];
+  marketplaceLocations: string[];
   geographicalAvailabilities: string[];
   languageAvailabilities: string[];
   resourceGeographicLocations: string[];
@@ -373,22 +360,23 @@ export class Service implements Identifiable {
   pricing: URL;
 }
 
-export class Datasource extends Service {
+export class Datasource implements Identifiable {
+  id: string;
+  serviceId: string;
+  catalogueId: string;
   submissionPolicyURL: URL;
   preservationPolicyURL: URL;
   versionControl: boolean;
   persistentIdentitySystems: PersistentIdentitySystem[];
-
   jurisdiction: string;
   datasourceClassification: string;
   researchEntityTypes: string[];
   thematic: boolean;
-
   researchProductLicensings: ResearchProductLicensing[];
   researchProductAccessPolicies: string[];
-
   researchProductMetadataLicensing: ResearchProductMetadataLicensing;
   researchProductMetadataAccessPolicies: string[];
+  harvestable: boolean;
 }
 
 export class PersistentIdentitySystem {
@@ -407,35 +395,34 @@ export class ResearchProductMetadataLicensing {
 export class TrainingResource implements Identifiable {
   id: string;
   title: string;
-  resourceOrganisation: string; //-> opws kai sto service
-  resourceProviders: string[]; //-> opws kai sto service
+  resourceOrganisation: string; // like service
+  resourceProviders: string[]; // like service
   authors: string[];
   url: URL;
-  urlType: string; //-> neov voc
+  urlType: string; // new voc
   eoscRelatedServices: string[];
+  alternativeIdentifiers: AlternativeIdentifier[];
   description: string;
   keywords: string[];
   license: string;
-  accessRights: string; //-> neo voc (1 oxi polla)
+  accessRights: string; // new voc (1 oxi polla)
   versionDate: Date;
   targetGroups: string[];
-  learningResourceTypes: string[]; //-> neo voc
+  learningResourceTypes: string[]; // new voc
   learningOutcomes: string[];
-  expertiseLevel: string; //-> neo voc
-  contentResourceTypes: string[]; //-> neo voc
+  expertiseLevel: string; // new voc
+  contentResourceTypes: string[]; // new voc
   qualifications: string[];
   duration: string;
-  languages: string[]; //-> opws kai sto service
-  geographicalAvailabilities: string[]; //-> opws kai sto service
-  scientificDomains: ServiceProviderDomain[]; //-> opws kai sto service
-  contact: ServiceMainContact; //-> opws kai sto service
+  languages: string[]; // like service
+  geographicalAvailabilities: string[]; // like service
+  scientificDomains: ServiceProviderDomain[]; // like service
+  contact: ServiceMainContact; // like service
   catalogueId: string;
 }
 
 export class ResourceExtras {
   eoscIFGuidelines: EOSCIFGuidelines[];
-  researchCategories: string[];
-  horizontalService: boolean;
   serviceType: string;
 }
 
@@ -462,6 +449,7 @@ export class InteroperabilityRecord implements Identifiable {
   domain: string;
   eoscGuidelineType: string;
   eoscIntegrationOptions: string[];
+  alternativeIdentifiers: AlternativeIdentifier[];
 }
 
 export class IdentifierInfo {
@@ -549,7 +537,6 @@ export class Vocabulary implements Identifiable {
 }
 
 export class VocabularyEntryRequest {
-  // id: string;
   userId: string;
   resourceId: string;
   providerId: string;
@@ -599,6 +586,29 @@ export class Multimedia {
 export class PlaceCount {
   place: string;
   count: number;
+}
+
+export class OpenAIREMetrics {
+  pageViews: number;
+  totalDownloads: number;
+  totalOpenaireDownloads: number;
+  totalViews: number;
+  totalOpenaireViews: number;
+}
+
+export class PiwikInfo { // provide
+  repositoryId: string;
+  openaireId: string;
+  repositoryName: string;
+  country: string;
+  siteId: string;
+  authenticationToken: string;
+  creationDate: Date;
+  requestorName: string;
+  requestorEmail: string;
+  validated: boolean;
+  validationDate: Date;
+  comment: string;
 }
 
 export class ProviderInfo {
@@ -706,5 +716,7 @@ export const enum Type {
   TR_DCMI_TYPE = "TR_DCMI_TYPE",
   TR_EXPERTISE_LEVEL = "TR_EXPERTISE_LEVEL",
   TR_QUALIFICATION = "TR_QUALIFICATION",
-  TR_URL_TYPE = "TR_URL_TYPE"
+  TR_URL_TYPE = "TR_URL_TYPE",
+  SERVICE_CATEGORY = "SERVICE_CATEGORY",
+  MARKETPLACE_LOCATION = "MARKETPLACE_LOCATION"
 }

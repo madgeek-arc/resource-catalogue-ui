@@ -12,7 +12,6 @@ import {ServiceProviderInfoComponent} from './service-provider-info.component';
 import {UpdateServiceProviderComponent} from './update-service-provider.component';
 import {ServiceProvidersListComponent} from '../admin/service-providers-list.component';
 import {ResourcesListComponent} from '../admin/resources-list.component';
-import {DatasourcesListComponent} from '../admin/datasources-list.component';
 import {TrainingListComponent} from '../admin/training-list.component';
 import {ServiceEditComponent} from '../provider-resources/service-edit.component';
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
@@ -23,12 +22,13 @@ import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring
 import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
 import {NgSelectModule} from '@ng-select/ng-select';
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
-import {AddFirstDatasourceComponent} from "../datasource/add-first-datasource.component";
 import {ResourceGuidelinesFormComponent} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
-import {DatasourceGuidelinesFormComponent} from "../datasource/datasource-guidelines/datasource-guidelines-form.component";
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
 import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
+import {DatasourcesListComponent} from "../admin/datasources-list.component";
+import {SelectSubprofileComponent} from "../provider-resources/service-subprofiles/select-subprofile.component";
+import {DatasourceMetricsComponent} from "../provider-resources/service-subprofiles/datasource-metrics.component";
 
 
 @NgModule({
@@ -48,7 +48,6 @@ import {AddFirstTrainingResourceComponent} from "../training-resources/add-first
     MyServiceProvidersComponent,
     AddFirstServiceComponent,
     AddFirstTrainingResourceComponent,
-    AddFirstDatasourceComponent,
     ServiceProviderFormComponent,
     ServiceProviderInfoComponent,
     UpdateServiceProviderComponent,
@@ -56,6 +55,8 @@ import {AddFirstTrainingResourceComponent} from "../training-resources/add-first
     ResourcesListComponent,
     DatasourcesListComponent,
     TrainingListComponent,
+    SelectSubprofileComponent,
+    DatasourceMetricsComponent,
     // FORMS
     ServiceEditComponent,
     ServiceFormComponent,
@@ -65,7 +66,6 @@ import {AddFirstTrainingResourceComponent} from "../training-resources/add-first
     MonitoringExtensionFormComponent,
     HelpdeskExtensionFormComponent,
     ResourceGuidelinesFormComponent,
-    DatasourceGuidelinesFormComponent,
     TrainingResourceForm,
     UpdateTrainingResource
   ]

@@ -68,16 +68,10 @@ const appRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard]
   },
   {
-    path: 'dashboard/:providerId/shared-resource-dashboard',
+    path: 'dashboard/:catalogueId/:providerId/shared-resource-dashboard',
     loadChildren: () => import('../lib/pages/provider/dashboard/resource-dashboard/shared-resource-dashboard.module').then(m => m.SharedResourceDashboardModule),
     canActivate: [CanActivateViaAuthGuard]
   },
-  {
-    path: 'dashboard/:catalogueId/:providerId/datasource-dashboard',
-    loadChildren: () => import('../lib/pages/provider/dashboard/datasource-dashboard/datasource-dashboard.module').then(m => m.DatasourceDashboardModule),
-    canActivate: [CanActivateViaAuthGuard]
-  },
-  // shared-datasource-dashboard TODO: revisit, how did I implement it?
   {
     path: 'dashboard/:catalogueId/:providerId/training-resource-dashboard',
     loadChildren: () => import('../lib/pages/provider/dashboard/training-resource-dashboard/training-resource-dashboard.module').then(m => m.TrainingResourceDashboardModule),
@@ -95,7 +89,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'guidelines',
-    loadChildren: () => import('../lib/pages/admin/guidelines/guidelines.module').then(m => m.GuidelinesModule),
+    loadChildren: () => import('../lib/pages/guidelines/guidelines.module').then(m => m.GuidelinesModule),
     canActivate: [CanActivateViaAuthGuard]
   },
   {

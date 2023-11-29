@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CatalogueBundle, ProviderBundle, ServiceBundle, TrainingResourceBundle} from '../../../../domain/eic-model';
-import {ServiceProviderService} from '../../../../services/service-provider.service';
+import {CatalogueBundle, TrainingResourceBundle} from '../../../../domain/eic-model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Paging} from '../../../../domain/paging';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
@@ -50,7 +49,6 @@ export class CatalogueTrainingResourcesComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private providerService: ServiceProviderService,
     private catalogueService: CatalogueService,
     private trainingResourceService: TrainingResourceService
   ) {}
@@ -122,10 +120,10 @@ export class CatalogueTrainingResourcesComponent implements OnInit {
 
   getResources() {
     this.toggleLoading = true;
-    this.trainingResourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('active').value, null, null,
-      this.dataForm.get('status').value, null, this.dataForm.get('catalogue_id').value).subscribe(
+    this.catalogueService.getTrainingsOfCatalogue(this.dataForm.get('catalogue_id').value,
+      this.dataForm.get('from').value, this.dataForm.get('quantity').value,
+      this.dataForm.get('order').value, this.dataForm.get('orderField').value,
+      this.dataForm.get('status').value, this.dataForm.get('query').value).subscribe(
       res => {
           this.toggleLoading = false;
           this.trainingResourceBundles = res['results'];

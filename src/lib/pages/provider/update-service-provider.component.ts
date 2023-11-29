@@ -121,15 +121,21 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
           //     this.push('multimedia', this.multimediaURLDesc.mandatory, true);
           //   }
           // }
-          if (this.provider.structureTypes && this.provider.structureTypes.length > 1) {
-            for (let i = 0; i < this.provider.structureTypes.length - 1; i++) {
-              this.push('structureTypes', this.structureTypesDesc.mandatory);
+          if (this.provider.alternativeIdentifiers) {
+            for (let i = 0; i < this.provider.alternativeIdentifiers.length - 1; i++) {
+              this.pushAlternativeIdentifier();
             }
           }
 
           if (this.provider.multimedia && this.provider.multimedia.length > 1) {
             for (let i = 0; i < this.provider.multimedia.length - 1; i++) {
               this.multimediaArray.push(this.newMultimedia());
+            }
+          }
+
+          if (this.provider.structureTypes && this.provider.structureTypes.length > 1) {
+            for (let i = 0; i < this.provider.structureTypes.length - 1; i++) {
+              this.push('structureTypes', this.structureTypesDesc.mandatory);
             }
           }
 
