@@ -132,7 +132,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
     if (dontGetServices) {
 
     } else {
-      this.resourceService.getResourceBundleById(this.service.id, this.catalogueId).subscribe(
+      this.resourceService.getServiceBundleById(this.service.id, this.catalogueId).subscribe(
         res => { if (res!=null) this.resourceBundle = res },
         err => {
           this.errorMessage = 'An error occurred while retrieving the history of this service. ' + err.error;

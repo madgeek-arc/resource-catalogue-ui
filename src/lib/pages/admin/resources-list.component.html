@@ -86,7 +86,7 @@
                   <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
                     <ng-container *ngFor="let f of facets">
                       <ng-container *ngIf="f.field === 'catalogue_id'">
-                        <h5 class="uk-margin-top">{{f.label}}</h5>
+                        <h5 class="uk-margin-top">Catalogue</h5>
                         <div class="uk-padding uk-padding-remove-top uk-padding-remove-left">
                           <div class="uk-margin-small-top" *ngFor="let catalogue of f.values">
                             <label class="uk-margin-small-left">
@@ -101,7 +101,7 @@
                       </ng-container>
 
                       <ng-container *ngIf="f.field === 'resource_organisation'">
-                        <h5 class="uk-margin-top">{{f.label}}</h5>
+                        <h5 class="uk-margin-top">Provider</h5>
                         <label
                           class="uk-margin-small-left uk-margin-small-bottom uk-search uk-search-default uk-width-3-4@m">
                           <span uk-search-icon></span>
@@ -186,17 +186,6 @@
                             <option value="false">Inactive</option>
                           </select>
                         </div>
-                      </div>
-                    </div>
-
-                    <div class="uk-margin-right">
-                      <label class="" for="type">Type </label>
-                      <div class="uk-inline">
-                        <select class="uk-input uk-select" id="type" (change)="handleChangeAndResetPage()" formControlName="type">
-                          <option value="" selected>All</option>
-                          <option value="service">Service</option>
-                          <option value="datasource">Datasource</option>
-                        </select>
                       </div>
                     </div>
 
@@ -304,7 +293,7 @@
 <!--                            <span class="uk-badge" title="Monitoring Status" style="background: dimgrey;">NA</span>-->
 <!--                          </ng-container>-->
 
-                        <div *ngIf="serviceBundle?.resourceExtras?.horizontalService && !showMainAuditForm" class="uk-label uk-position-bottom-right uk-margin-large" style="margin-right: 40px">
+                        <div *ngIf="serviceBundle?.service?.horizontalService && !showMainAuditForm" class="uk-label uk-position-bottom-right uk-margin-large" style="margin-right: 40px">
                           <span>Horizontal</span>
                         </div>
 
@@ -313,42 +302,35 @@
                             <div class="uk-width-1-5">
                               <div>
                                 <img class="el-image uk-border-rounded"
-                                     src="{{ getPayload(serviceBundle).logo ? getPayload(serviceBundle).logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
+                                     src="{{ serviceBundle.service.logo ? serviceBundle.service.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
                               </div>
                             </div>
 
                             <div class="uk-width-4-5">
                               <div class="providerName">
                                 <span class="uk-margin-auto-vertical">
-<!--                                  <ng-container *ngIf="getPayload(serviceBundle).catalogueId==='eosc' else anotherCatalogue">-->
+<!--                                  <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc' else anotherCatalogue">-->
 <!--                                <span *ngIf="serviceBundle.status!=='approved'" class="uk-margin-auto-vertical">-->
 <!--                                  <h5 class="uk-display-inline-block" data-uk-tooltip-->
 <!--                                      title="Your resource provider is not yet active, therefore you cannot access its monitoring dashboard">-->
-<!--                                    {{ getPayload(serviceBundle).name }}-->
+<!--                                    {{ serviceBundle.service.name }}-->
 <!--                                  </h5>-->
 <!--                                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
 <!--                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
 <!--                                  </a>-->
 <!--                                </span>-->
 <!--                                <span *ngIf="serviceBundle.status==='approved'" class="uk-margin-auto-vertical">-->
-                                  <ng-container *ngIf="getPayload(serviceBundle)===serviceBundle.service">
-                                    <a [routerLink]="['/dashboard', getPayload(serviceBundle).catalogueId, getPayload(serviceBundle).resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the service dashboard">
-                                      {{ getPayload(serviceBundle).name }}
+                                    <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, serviceBundle.service.resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the service dashboard">
+                                      {{ serviceBundle.service.name }}
                                     </a>
-                                  </ng-container>
-                                  <ng-container *ngIf="getPayload(serviceBundle)===serviceBundle.datasource">
-                                    <a [routerLink]="['/dashboard', getPayload(serviceBundle).catalogueId, getPayload(serviceBundle).resourceOrganisation, 'datasource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the service dashboard">
-                                      {{ getPayload(serviceBundle).name }}
-                                    </a>
-                                  </ng-container>
-<!--                                  <a [routerLink]="['/dashboard', getPayload(serviceBundle).catalogueId, getPayload(serviceBundle).resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the service dashboard">-->
-<!--                                      {{ getPayload(serviceBundle).name }}-->
+<!--                                  <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, serviceBundle.service.resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the service dashboard">-->
+<!--                                      {{ serviceBundle.service.name }}-->
 <!--                                  </a>-->
 <!--                                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
 <!--                                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
 <!--                                  </a>-->
 <!--                                  </ng-container>-->
-<!--                                  <ng-template #anotherCatalogue>{{ getPayload(serviceBundle).name }}</ng-template>-->
+<!--                                  <ng-template #anotherCatalogue>{{ serviceBundle.service.name }}</ng-template>-->
                                 </span>
                               </div>
 
@@ -364,10 +346,10 @@
                                     <span class="statusLabel">{{serviceORresource}} Status: </span>{{labels[statuses.indexOf(serviceBundle.status)]}}
                                   </div>
                                   <div class="uk-margin-small-top">
-                                    <span class="statusLabel">Resource Organisation: </span>{{ providersPage?.results ? getProviderNameWithId(getPayload(serviceBundle).resourceOrganisation) : ''}}
+                                    <span class="statusLabel">Resource Organisation: </span>{{ providersPage?.results ? getProviderNameWithId(serviceBundle.service.resourceOrganisation) : ''}}
                                   </div>
                                   <div class="uk-margin-small-top">
-                                    <span class="statusLabel">Resource Providers: </span>{{ providersPage?.results ? getProviderNamesWithIds(getPayload(serviceBundle).resourceProviders) : ''}}
+                                    <span class="statusLabel">Resource Providers: </span>{{ providersPage?.results ? getProviderNamesWithIds(serviceBundle.service.resourceProviders) : ''}}
                                   </div>
                                   <!--                              <div class="uk-margin-small-top">-->
                                   <!--                                <span class="statusLabel">Status: </span>{{ serviceBundle.active ? 'Active' : 'Inactive' }}-->
@@ -393,7 +375,7 @@
                                     <ng-container *ngIf="!serviceBundle.latestAuditInfo"><i>Never audited</i></ng-container>
                                   </div>
                                   <div class="uk-margin-small-top">
-                                    <span class="statusLabel">Catalogue id: </span>{{ getPayload(serviceBundle).catalogueId }}
+                                    <span class="statusLabel">Catalogue id: </span>{{ serviceBundle.service.catalogueId }}
                                   </div>
                                 </div>
 
@@ -404,7 +386,7 @@
                             <!--<div class="uk-width-1-5">
                               <div class="action-buttons">
 
-                                <div *ngIf="isProviderActive(getPayload(serviceBundle).resourceOrganisation) ; else elseBlock">
+                                <div *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlock">
                                   <button class="uk-button uk-button-action uk-display-block uk-margin-small-top"
                                           (click)="toggleService(serviceBundle)">
                                     <ng-container *ngIf="serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
@@ -422,7 +404,7 @@
                                   </div>
                                 </ng-template>
 
-                                <button routerLink="/provider/{{getPayload(serviceBundle).resourceOrganisation}}/{{getPayload(serviceBundle) ? 'resource' : 'datasource'}}/update/{{serviceBundle.id}}"
+                                <button routerLink="/provider/{{serviceBundle.service.resourceOrganisation}}/resource/update/{{serviceBundle.id}}"
                                         class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
                                   <i class="fa fa-pencil" aria-hidden="true"></i> Update {{serviceORresource}}
                                 </button>
@@ -451,11 +433,11 @@
 <!--                          </button>-->
 <!--                        </ng-container>-->
 
-                        <ng-container *ngIf="getPayload(serviceBundle).catalogueId!=='eosc'">
+                        <ng-container *ngIf="serviceBundle.service.catalogueId!=='eosc'">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
-                              routerLink="/provider/{{getPayload(serviceBundle).catalogueId}}/{{getPayload(serviceBundle).resourceOrganisation}}/{{getPayload(serviceBundle)===serviceBundle.service ? 'resource' : 'datasource'}}/view/{{serviceBundle.id}}"
+                              routerLink="/provider/{{serviceBundle.service.catalogueId}}/{{serviceBundle.service.resourceOrganisation}}/resource/view/{{serviceBundle.id}}"
                               class="uk-button uk-button-link" style="">
                               <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
                               View {{serviceORresource}}
@@ -488,11 +470,11 @@
                           </div>
                         </ng-container>
 
-                        <ng-container *ngIf="getPayload(serviceBundle).catalogueId==='eosc'">
+                        <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc'">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
-                              routerLink="/provider/{{getPayload(serviceBundle).resourceOrganisation}}/{{getPayload(serviceBundle)===serviceBundle.service ? 'resource' : 'datasource'}}/update/{{serviceBundle.id}}"
+                              routerLink="/provider/{{serviceBundle.service.resourceOrganisation}}/resource/update/{{serviceBundle.id}}"
                               class="uk-button uk-button-link"
                               style="">
                               <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
@@ -535,28 +517,13 @@
                                   </ng-container>
 
                                   <ng-container class="uk-margin-small-bottom">
-                                    <li (click)="toggleHorizontalService(serviceBundle)">
-                                      <a><i class="fa fa-toggle-right fa-lg uk-margin-small-right"></i>
-                                        {{serviceBundle?.resourceExtras?.horizontalService===true ? 'Unmark' : 'Mark'}} as Horizontal Service</a>
-                                    </li>
-                                    <li class="uk-nav-divider"></li>
-                                  </ng-container>
-
-                                  <ng-container class="uk-margin-small-bottom">
-                                    <li (click)="showResourceCategories(serviceBundle)">
-                                      <a><i class="fa fa-edit fa-lg uk-margin-small-right"></i>Update Research Categories</a>
-                                    </li>
-                                    <li class="uk-nav-divider"></li>
-                                  </ng-container>
-
-                                  <ng-container class="uk-margin-small-bottom">
                                     <li (click)="showEoscIFGuidelines(serviceBundle)">
                                       <a><i class="fa fa-edit fa-lg uk-margin-small-right"></i>Update EOSC IF Guidelines</a>
                                     </li>
                                     <li class="uk-nav-divider"></li>
                                   </ng-container>
 
-                                  <ng-container *ngIf="isProviderActive(getPayload(serviceBundle).resourceOrganisation) ; else elseBlockList">
+                                  <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlockList">
                                     <div>
                                       <li class="uk-button uk-button-link uk-padding-small"
                                               (click)="toggleService(serviceBundle)">
@@ -611,7 +578,7 @@
                           <div *ngIf="showMainAuditForm && selectedService === serviceBundle">
 <!--                            <hr>-->
                             <div>
-                              <p>You are about to audit "{{ getPayload(selectedService).name }}".</p>
+                              <p>You are about to audit "{{ selectedService.service.name }}".</p>
                               <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
                             </div>
                             <form>
@@ -676,13 +643,16 @@
 </div>
 
 <div id="deletionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-header uk-h4">Delete {{serviceORresource}}</div>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedService">
-      <h6>Are you sure you want to delete "{{ getPayload(selectedService).name }}" ?</h6>
+      <h6>Are you sure you want to delete "{{ selectedService.service.name }}" ?</h6>
       <p>Deleting a {{serviceORresource}} is an irreversible action.</p>
     </div>
-    <button *ngIf="selectedService" class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="deleteService(selectedService)">Delete</button>
-    <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-secondary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button *ngIf="selectedService" class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteService(selectedService)">Delete</button>
+    </div>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
@@ -693,12 +663,15 @@
 </div>
 
 <div id="suspensionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-header uk-h4">Suspend {{serviceORresource}}</div>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <ng-container *ngIf="selectedService">
-      <h6 class="uk-margin-medium-bottom">Are you sure you want to {{selectedService.suspended==true ? 'un' : ''}}suspend "{{ getPayload(selectedService).name }}"?</h6>
-      <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="suspendService()">
-        {{selectedService.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
-      <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+      <h6 class="uk-margin-medium-bottom">Are you sure you want to {{selectedService.suspended==true ? 'un' : ''}}suspend "{{ selectedService.service.name }}"?</h6>
+      <div class="uk-text-right">
+        <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+        <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="suspendService()">
+          {{selectedService.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
+      </div>
     </ng-container>
   </div>
   <div *ngIf="loadingMessage">
@@ -712,7 +685,7 @@
 <div id="sendMailModal" uk-modal>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedService">
-      <p>You are about to send a notification email to the admins of "{{ getPayload(selectedService).name }}", requesting an update for this {{serviceORresource}}.</p>
+      <p>You are about to send a notification email to the admins of "{{ selectedService.service.name }}", requesting an update for this {{serviceORresource}}.</p>
       <p>Do you want to proceed?</p>
     </div>
     <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="sendMailForUpdate(selectedService)">OK</button>
@@ -729,8 +702,8 @@
 <div id="moveResourceModal" uk-modal>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedService">
-      <p>{{serviceORresource}} "{{ getPayload(selectedService).name }}" is currently managed by provider "{{ getPayload(selectedService).resourceOrganisation }}."</p>
-      <p>Choose another provider to move "{{ getPayload(selectedService).name }}".</p>
+      <p>{{serviceORresource}} "{{ selectedService.service.name }}" is currently managed by provider "{{ selectedService.service.resourceOrganisation }}."</p>
+      <p>Choose another provider to move "{{ selectedService.service.name }}".</p>
       <p style="color: grey">The initial {{serviceORresource | lowercase}} will be deleted from its current provider.</p>
 
       <form [formGroup]="providersDropdownForm">
@@ -769,53 +742,11 @@
   </div>
 </div>
 
-<div id="researchCategoriesModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <div *ngIf="selectedService">
-
-      <div class="uk-h3 uk-padding uk-text-center">{{getPayload(selectedService).name}}</div>
-
-      <form [formGroup]="extrasForm" role="form" class="uk-form uk-margin uk-width-1-1">
-        <div formArrayName="researchCategories" class="uk-margin-large-bottom">
-          <label class="uk-form-label uk-text-right" for="researchCategories">Research Category</label>
-          <div class="uk-form-controls uk-margin-medium-top">
-            <div *ngFor="let researchCategory of getFieldAsFormArray('researchCategories').controls; let i=index"
-                 [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('researchCategories').controls.length-1 !== i}">
-              <ng-select *ngIf="researchCategoriesVoc" class="uk-width-9-10" id="researchCategories"
-                         [items]="researchCategoriesVoc"
-                         bindLabel="name"
-                         bindValue="id"
-                         clearAllText="Clear"
-                         [formControlName]="i">
-              </ng-select>
-              <a *ngIf="getFieldAsFormArray('researchCategories').length > 1"
-                 class="remove-element uk-padding-small"
-                 (click)="remove('researchCategories', i)">
-                <i class="fa fa-times" aria-hidden="true"></i>
-              </a>
-            </div>
-            <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-              <a class="add-new-element" (click)="push('researchCategories')">
-                <i class="fa fa-plus" aria-hidden="true"></i> Add an additional Research Category
-              </a>
-            </div>
-          </div>
-        </div>
-      </form>
-<!--<pre>{{selectedService.resourceExtras|json}}</pre>-->
-<!--<pre>{{extrasForm.value|json}}</pre>-->
-    </div>
-
-    <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="updateResearchCategories(selectedService)">Submit</button>
-    <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
-  </div>
-</div>
-
 <div id="eoscIFGuidelinesModal" uk-modal>
   <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <div *ngIf="selectedService">
 
-      <div class="uk-h3 uk-padding uk-text-center">{{getPayload(selectedService).name}}</div>
+      <div class="uk-h3 uk-padding uk-text-center">{{selectedService.service.name}}</div>
 
       <form [formGroup]="extrasForm" role="form" class="uk-form uk-margin uk-width-1-1">
         <div class="uk-margin-large-bottom">
@@ -899,7 +830,7 @@
 <!--  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">-->
 <!--    <h4>Audit</h4>-->
 <!--    <div *ngIf="selectedService">-->
-<!--      <p>You are about to validate "{{ getPayload(selectedService).name }}".</p>-->
+<!--      <p>You are about to validate "{{ selectedService.service.name }}".</p>-->
 <!--      <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>-->
 <!--    </div>-->
 <!--    <form>-->
@@ -916,7 +847,7 @@
 <!--  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">-->
 <!--    <h4>Audit</h4>-->
 <!--    <div *ngIf="selectedService">-->
-<!--      <p>You are about to invalidate "{{ getPayload(selectedService).name }}".</p>-->
+<!--      <p>You are about to invalidate "{{ selectedService.service.name }}".</p>-->
 <!--      <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>-->
 <!--    </div>-->
 <!--    <form>-->
@@ -978,22 +909,22 @@
             <div class="uk-width-1-5">
               <div>
                 <img class="el-image uk-border-rounded"
-                     src="{{ getPayload(serviceBundle).logo ? getPayload(serviceBundle).logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
+                     src="{{ serviceBundle.service.logo ? serviceBundle.service.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
               </div>
             </div>
 
             <div class="uk-width-4-5">
               <div class="providerName">
                 <span class="uk-margin-auto-vertical">
-<!--                <ng-container *ngIf="getPayload(serviceBundle).catalogueId==='eosc' else anotherCatalogue">-->
-                  <a [routerLink]="['/dashboard/' + getPayload(serviceBundle).resourceOrganisation + '/resource-dashboard', serviceBundle.id]" target="_blank" data-uk-tooltip title="Go to the service dashboard">
-                      {{ getPayload(serviceBundle).name }}
+<!--                <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc' else anotherCatalogue">-->
+                  <a [routerLink]="['/dashboard/' + serviceBundle.service.resourceOrganisation + '/resource-dashboard', serviceBundle.id]" target="_blank" data-uk-tooltip title="Go to the service dashboard">
+                      {{ serviceBundle.service.name }}
                   </a>
 <!--                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
 <!--                    <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>-->
 <!--                  </a>-->
 <!--                </ng-container>-->
-<!--                <ng-template #anotherCatalogue>{{ getPayload(serviceBundle).name }}</ng-template>-->
+<!--                <ng-template #anotherCatalogue>{{ serviceBundle.service.name }}</ng-template>-->
                 </span>
               </div>
               <div class="uk-margin-small-top">
@@ -1024,20 +955,20 @@
                 <ng-container *ngIf="!serviceBundle.latestAuditInfo"><i>Never audited</i></ng-container>
               </div>
               <div class="uk-margin-small-top">
-                <span class="statusLabel">Resource Organisation: </span>{{ getProviderNameWithId(getPayload(serviceBundle).resourceOrganisation) }}
+                <span class="statusLabel">Resource Organisation: </span>{{ getProviderNameWithId(serviceBundle.service.resourceOrganisation) }}
               </div>
               <div class="uk-margin-small-top">
-                <span class="statusLabel">Resource Providers: </span>{{ getProviderNamesWithIds(getPayload(serviceBundle).resourceProviders) }}
+                <span class="statusLabel">Resource Providers: </span>{{ getProviderNamesWithIds(serviceBundle.service.resourceProviders) }}
               </div>
               <div class="uk-margin-small-top">
-                <span class="statusLabel">Catalogue id: </span>{{ getPayload(serviceBundle).catalogueId }}
+                <span class="statusLabel">Catalogue id: </span>{{ serviceBundle.service.catalogueId }}
               </div>
             </div>
 
             <!--<div class="uk-width-2-5">
               <div class="action-buttons">
 
-                <div *ngIf="isProviderActive(getPayload(serviceBundle).resourceOrganisation) ; else elseBlock">
+                <div *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlock">
                   <button class="uk-button uk-button-action uk-display-block uk-margin-small-top"
                           (click)="toggleService(serviceBundle)">
                     <ng-container *ngIf="serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
@@ -1055,7 +986,7 @@
                   </div>
                 </ng-template>
 
-                <button routerLink="/provider/{{getPayload(serviceBundle).resourceOrganisation}}/{{getPayload(serviceBundle) ? 'resource' : 'datasource'}}/update/{{serviceBundle.id}}"
+                <button routerLink="/provider/{{serviceBundle.service.resourceOrganisation}}/resource/update/{{serviceBundle.id}}"
                         class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
                   <i class="fa fa-pencil" aria-hidden="true"></i> Update {{serviceORresource}}
                 </button>
@@ -1112,7 +1043,7 @@
           </div>
         </ng-container>-->
 
-        <ng-container *ngIf="getPayload(serviceBundle).catalogueId==='eosc'">
+        <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc'">
           <hr class="uk-margin-top">
             <button *ngIf="serviceBundle.active"
               class="uk-button uk-button-link uk-margin-medium-right"
@@ -1125,7 +1056,7 @@
             </button>
             <div uk-dropdown="mode: click">
               <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                <li (click)="editResourceInNewTab(getPayload(serviceBundle).resourceOrganisation, serviceBundle.id)"
+                <li (click)="editResourceInNewTab(serviceBundle.service.resourceOrganisation, serviceBundle.id)"
                   class="uk-button uk-button-link">
                   <a><i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
                   Update {{serviceORresource}}</a>
@@ -1136,7 +1067,7 @@
                   Delete {{serviceORresource}}</a>
                 </li>
 
-                <ng-container *ngIf="isProviderActive(getPayload(serviceBundle).resourceOrganisation) ; else elseBlockList">
+                <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlockList">
                   <li class="uk-button uk-button-link uk-margin-small-top"
                       (click)="toggleService(serviceBundle)">
                     <ng-container *ngIf="serviceBundle.status=='approved resource' && serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
@@ -1172,7 +1103,7 @@
             <div *ngIf="showSideAuditForm && selectedService === serviceBundle">
               <hr>
               <div>
-                <p>You are about to audit "{{ getPayload(selectedService).name }}".</p>
+                <p>You are about to audit "{{ selectedService.service.name }}".</p>
                 <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
               </div>
               <form>

@@ -37,11 +37,11 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
     this.serviceId = this.route.snapshot.paramMap.get('resourceId');
     if (this.serviceId) {
       this.editMode = true;
-      this.resourceService.getRichService(this.serviceId).subscribe(
-        richService => {
-          ResourceService.removeNulls(richService.service);
-          this.formPrepare(richService);
-          this.serviceForm.patchValue(richService.service);
+      this.resourceService.getService(this.serviceId).subscribe(
+        service => {
+          ResourceService.removeNulls(service);
+          this.formPrepare(service);
+          this.serviceForm.patchValue(service);
           for (const i in this.serviceForm.controls) {
             if (this.serviceForm.controls[i].value === null) {
               this.serviceForm.controls[i].setValue('');

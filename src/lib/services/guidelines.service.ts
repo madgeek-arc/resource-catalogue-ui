@@ -44,18 +44,20 @@ export class GuidelinesService {
   }
 
   /** new--> **/
-  getInteroperabilityRecordBundles(from?: string, quantity?: string, orderField?: string, order?: string, query?: string, catalogueId?: string, providerId?: string, status?: string, active?: string, suspended?: string) {
+  getInteroperabilityRecordBundles(from?: string, quantity?: string, orderField?: string, order?: string, query?: string,
+                                   catalogueId?: string, providerId?: string, status?: string, active?: string, suspended?: string, auditState? :string) {
     let params = new HttpParams();
     if (from && from !== '') params = params.append('from', from);
     if (quantity && quantity !== '') params = params.append('quantity', quantity);
     if (orderField && orderField !== '') params = params.append('orderField', orderField);
     if (order && order !== '') params = params.append('order', order);
     if (query && query !== '') params = params.append('query', query);
-    if (catalogueId && catalogueId !== '') params = params.append('catalogue_id', catalogueId);
-    if (providerId && providerId !== '') params = params.append('provider_id', providerId);
+    if (catalogueId?.length > 0) params = params.append('catalogue_id', catalogueId);
+    if (providerId?.length > 0) params = params.append('provider_id', providerId);
     if (status && status !== '') params = params.append('status', status);
     if (active && active !== '') params = params.append('active', active);
     if (suspended && suspended !== '') params = params.append('suspended', suspended);
+    if (auditState?.length > 0) params = params.append('auditState', auditState);
     return this.http.get(this.base + `/interoperabilityRecord/bundle/all`, {params});
   }
 
@@ -88,5 +90,9 @@ export class GuidelinesService {
 
   suspendInteroperabilityRecord(interoperabilityRecordId: string, catalogueId: string, suspend: boolean) {
     return this.http.put<InteroperabilityRecordBundle>(this.base + `/interoperabilityRecord/suspend?interoperabilityRecordId=${interoperabilityRecordId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
+  }
+
+  auditGuideline(id: string, action: string, catalogueId: string, comment: string) {
+    return this.http.patch(this.base + `/interoperabilityRecord/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
   }
 }

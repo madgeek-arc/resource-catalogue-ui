@@ -1,6 +1,7 @@
 export class Description {
-    desc: string;
     label: string;
+    desc: string;
+    placeholder: string;
     mandatory?: boolean;
     recommended?: boolean;
 }
@@ -69,6 +70,8 @@ export const serviceDescMap = new Map()
   .set('resourceOrganisationDesc', {mandatory: true, label: 'Resource Organisation', placeholder: 'Select resource organisation...', desc: 'The name of the organisation that manages or delivers the resource, or that coordinates the Resource delivery in a federated scenario.'})
   .set('resourceProvidersDesc', {mandatory: false, label: 'Resource Providers', placeholder: 'Select resource provider...', desc: 'The name(s) of (all) the Provider(s) that manage or deliver the Resource in federated scenarios.'})
   .set('webpageDesc', {mandatory: true,  label: 'Webpage', placeholder: 'Write webpage url...', desc: 'Webpage with information about the Resource usually hosted and maintained by the Provider.'})
+  .set('altIdTypeDesc', {mandatory: false, label: 'Alternative Identifier Type', placeholder: 'Write alternative identifier type...', desc: ''})
+  .set('altIdValueDesc', {mandatory: false, label: 'Alternative Identifier Value', placeholder: 'Write alternative identifier value...', desc: ''})
 // Marketing Information //
   .set('descriptionDesc', {mandatory: true,  label: 'Description', placeholder: 'Write a description...', desc: 'A high-level description in fairly non-technical terms of a) what the Resource does, functionality it provides and Resources it enables to access, b) the benefit to a user/customer delivered by a Resource; benefits are usually related to alleviating pains (e.g., eliminate undesired outcomes, obstacles or risks) or producing gains (e.g. increased performance, social gains, positive emotions or cost saving), c) list of customers, communities, users, etc. using the Resource.'})
   .set('taglineDesc', {mandatory: true,  label: 'Tagline', placeholder: 'Write a tagline...', desc: 'Short catchphrase for marketing and advertising purposes. It will be usually displayed close to the Resource name and should refer to the main value or purpose of the Resource.'})
@@ -86,6 +89,9 @@ export const serviceDescMap = new Map()
   .set('accessTypeDesc', {mandatory: false, label: 'Access Type', placeholder: 'Select access type...', desc: 'The way a user can access the Resource (Remote, Physical, Virtual, etc.).'})
   .set('accessModeDesc', {mandatory: false, label: 'Access Mode', placeholder: 'Select access mode...', desc: 'Eligibility/criteria for granting access to the Resource to users (excellence-based, free-conditionally, free etc.).'})
   .set('tagsDesc', {mandatory: false, label: 'Tags', placeholder: 'Write tag...', desc: 'Keywords associated to the Resource to simplify search by relevant keywords.'})
+  .set('serviceCategoriesDesc', {mandatory: false, label: 'Service Categories', placeholder: 'Write Service Categories...', desc: 'Service Category identifies the broad category of the service being described in the Service Profile.  Possible values can be selected from the Controlled Vocabulary, and multiple categories can be selected.  We encourage Providers to suggest additional categories using the "Other" category, but only broad, generally useful suggestions will be accepted.'})
+  .set('marketplaceLocationsDesc', {mandatory: false, label: 'Marketplace Locations', placeholder: 'Write Marketplace Locations ...', desc: 'Marketplace Location specifies the section(s) of the EOSC Marketplace where the service being described in the Service Profile should be displayed. Possible values can be selected from the Controlled Vocabulary, and multiple categories can be selected. The values are set by the Marketplace team.  Requests for new "locations" can be made through the Helpdesk and will be considered by the Marketplace team.'})
+  .set('horizontalServiceDesc', {mandatory: false,  label: 'Horizontal Service', placeholder: '', desc: 'Does Service consist a generic service or resource bringing significant value to two or more research infrastructures?'})
 // Geographical and Language Availability Information //
   .set('geographicalAvailabilityDesc', {mandatory: true, label: 'Geographical Availability', placeholder: 'Select geographical availability...', desc: 'Locations where the Resource is offered.'})
   .set('languageAvailabilitiesDesc', {mandatory: true, label: 'Language Availability', placeholder: 'Select language availability...', desc: 'Languages of the (user interface of the) Resource.'})
@@ -152,13 +158,14 @@ export const catalogueDescMap = new Map()
   .set('abbreviationDesc', {mandatory: true, label: 'Abbreviation', placeholder: 'Write abbreviation...', desc: 'An abbreviation of the (Multi-Provider Regional or Thematic) Catalogue Name.'})
   .set('websiteDesc', {mandatory: true, label: 'Website', placeholder: 'webpage URL', desc: 'Website with information about the (Multi-Provider Regional or Thematic) Catalogue.'})
   .set('legalEntityDesc', {mandatory: true, label: 'Legal Entity', desc: 'Is the Catalogue Owner a Legal Entity?'})
-  .set('legalStatusDesc', {mandatory: false, label: 'Legal Status', placeholder: 'Write legal status...', desc: 'Legal status of the (Multi-Provider Regional or Thematic) Catalogue Owner. The legal status is usually noted in the registration act/statutes. For independent legal entities (1) - legal status of the Catalogue Owner. For embedded Catalogue Owner (2) - legal status of the hosting legal entity. It is also possible to select Not a legal entity.'})
+  .set('legalStatusDesc', {mandatory: false, label: 'Legal Status', placeholder: 'Write legal status...', desc: 'Legal status of the (Multi-Provider Regional or Thematic) Catalogue Owner. The legal status is usually noted in the registration act/statutes. For independent legal entities (1) - legal status of the Catalogue Owner. For embedded Catalogue Owner (2) - legal status of the hosting legal entity.'})
   .set('hostingLegalEntityDesc', {mandatory: false, label: 'Hosting Legal Entity', placeholder: 'Write hosting legal entity...', desc: 'Name of the organisation legally hosting (housing) the Catalogue or its coordinating centre.'})
-  .set('inclusionCriteriaDesc', {mandatory: true, label: 'Inclusion Criteria', placeholder: 'Write inclusion criteria...', desc: ''})
-  .set('validationProcessDesc', {mandatory: true, label: 'Validation Process', placeholder: 'Write validation process...', desc: ''})
+  .set('inclusionCriteriaDesc', {mandatory: true, label: 'Inclusion Criteria', placeholder: 'Write inclusion criteria...', desc: 'Please provide a link to the Inclusion Criteria used to populate the Catalogue.'})
+  .set('validationProcessDesc', {mandatory: true, label: 'Validation Process', placeholder: 'Write validation process...', desc: 'Please provide a link to the document describing how validation is done and how the assessment against the Inclusion Criteria is performed.'})
   .set('endOfLifeDesc', {mandatory: true, label: 'End Of Life', placeholder: 'Write end of life...', desc: 'In terms of sustainability, what is the expected life of the catalogue?'})
   // Marketing Information //
   .set('descriptionDesc', {mandatory: true, label: 'Description', placeholder: 'Write a description...', desc: 'A high-level description of the Catalogue in fairly non-technical terms, with the vision, mission, objectives, background, experience.'})
+  .set('scopeDesc', {mandatory: true, label: 'Scope', placeholder: 'Write a description of the catalogue scope...', desc: 'A description of the catalogue scope, e.g. Thematic catalogue (specify thematic area), National catalogue (specify Country), etc.'})
   .set('logoDesc', {mandatory: true, label: 'Logo', placeholder: 'logo URL', desc: 'Link to the logo/visual identity of the Catalogue. Go to the Catalogue\'s website --> Right Click on the Catalogue\'s logo on the website --> Select "Copy Image Link" --> Paste it in the field below.'})
   .set('multimediaURLDesc', {mandatory: false, label: 'Multimedia URL', placeholder: 'Write link to multimedia...', desc: 'Links to video, slideshow, photos, screenshots with details of the Catalogue.'})
   .set('multimediaNameDesc', {mandatory: false, label: 'Multimedia Name', placeholder: 'Write multimedia name...', desc: 'Short description of the Multimedia content.'})
@@ -205,6 +212,7 @@ export const datasourceDescMap = new Map()
   .set('datasourceClassificationDesc', {mandatory: true, label: 'Data Source Classification', placeholder: '', desc: 'The specific type of the data source based on the vocabulary defined for this property.'})
   .set('researchEntityTypesDesc', {mandatory: true, label: 'Research Entity Types', placeholder: '', desc: 'The types of OpenAIRE entities managed by the data source, based on the vocabulary for this property.'})
   .set('thematicDesc', {mandatory: true, label: 'Thematic', placeholder: '', desc: 'Boolean value specifying if the data source is dedicated to a given discipline or is instead discipline agnostic.'})
+  .set('harvestableDesc', {mandatory: false, label: 'Harvestable', placeholder: '', desc: 'Boolean value specifying if the data source is harvestable.'})
 // Research Product Policies //
   .set('researchProductLicensingDesc', {mandatory: false, label: 'Research Product Licensing', placeholder: '', desc: 'Licenses under which the research products contained within the data sources can be made available. Repositories can allow a license to be defined for each research product, while for scientific databases the database is typically provided under a single license.'})
   .set('researchProductLicenseNameDesc', {mandatory: true, label: 'Research Product License Name', placeholder: '', desc: ''})
@@ -277,28 +285,10 @@ export const helpdeskDescMap = new Map()
 
 export const guidelinesDescMap = new Map()
   //EOSC Interoperability ID (auto-assigned)
-  .set('identifierDesc', {mandatory: true, label: 'Identifier (with mandatory type sub-property)', placeholder: '', desc: 'The Identifier is a unique string that identifies a resource. For software, determine whether the identifier is for a specific version of a piece of software, (per the Force11 Software Citation Principles), or for all versions. The record\'s primary key for locating it in the EOSC-IF database.'})
+  .set('identifierDesc', {mandatory: true, label: 'Identifier', placeholder: '', desc: 'The Identifier is a unique string that identifies a resource. For software, determine whether the identifier is for a specific version of a piece of software, (per the Force11 Software Citation Principles), or for all versions. For publications, this should be a URI or DOI. This is the record\'s primary key for locating it in the EOSC-IF database.'})
   .set('identifierTypeDesc', {mandatory: true, label: 'Identifier Type', placeholder: '', desc: 'The type of Identifier.'})
-  .set('creatorDesc', {mandatory: true, label: 'Creator', placeholder: '', desc: 'The main researchers involved in producing the data, or the authors of the publication, in priority order. To supply multiple creators, repeat this property.\n' +
-      '\n' +
-      '\n' +
-      'Note: \n' +
-      'The type of Creator is indeed not a ControlledList (so remove it), but a list of properties (a “record”). It can contain both persons (default value) and organisational entities. According to DataCite you may have something like this. \n' +
-      '\n' +
-      'creator[ creatorName = “Antonis Lempesis"", …, affiliation = ATHENA [@affiliationIdentifier = http://ror.org/123456],...] \n' +
-      'creator[ creatorName = “Diego Scardaci”, …, affiliation = EGI [@affiliationIdentifier = http://ror.org/123456],...] \n' +
-      'creator[ creatorName = “GEANT”, nameType=Organizational …, affiliation = GEANT [@affiliationIdentifier = http://ror.org/123456],... ] \n' +
-      '\n' +
-      'we should have clear guidelines. I am not sure however that curators should be providers. We have: \n' +
-      '\n' +
-      '- individuals managing the record \n' +
-      '- their institution (provider?) \n' +
-      '- institutions that actually maintain the guidelines \n' +
-      '\n' +
-      'Note that the latter generally differ from the previous two, unless we expect the institutions in charge of the standards to come and onboard their guidelines into the EOSC.\n' +
-      '\n' +
-      'Registered EOSC Providers may also be Creators'})
-  .set('creatorNameDesc', {mandatory: false, label: 'Creator Name', placeholder: '', desc: 'The full name of the creator. Can be organisation or personal name.'})
+  .set('creatorDesc', {mandatory: true, label: 'Creator', placeholder: '', desc: ''})
+  .set('creatorNameDesc', {mandatory: true, label: 'Creator Name', placeholder: '', desc: 'The full name of the creator. Can be organisation or personal name.'})
   .set('nameTypeDesc', {mandatory: true, label: 'Name Type', placeholder: '', desc: 'The type of name.'})
   .set('givenNameDesc', {mandatory: false, label: 'Given Name', placeholder: '', desc: 'The personal or first name of the creator.'})
   .set('familyNameDesc', {mandatory: false, label: 'Family Name', placeholder: '', desc: 'The surname or last name of the creator.'})
@@ -307,7 +297,7 @@ export const guidelinesDescMap = new Map()
   .set('affiliationIdentifierDesc', {mandatory: false, label: 'Affiliation Identifier', placeholder: '', desc: 'Uniquely identifies the organizational affiliation of the creator. The format is dependent upon scheme.'})
   .set('titleDesc', {mandatory: true, label: 'Title', placeholder: '', desc: 'A name or title by which a resource is known. May be the title of a dataset or the name of a piece of software.'})
   .set('publicationYearDesc', {mandatory: true, label: 'Publication Year', placeholder: '', desc: 'The year when the guideline was or will be made publicly available.  If an embargo period has been in effect, use the date when the embargo period ends. In the case of datasets, "publish" is understood to mean making the data available on a specific date to the community of researchers. If there is no standard publication year value, use the date that would be preferred from a citation perspective.'})
-  .set('resourceTypeDesc', {mandatory: true, label: 'Resource Type', placeholder: '', desc: 'A description of the resource. The recommended content is a single term of some detail so that a pair can be formed with the resourceTypeGeneral subproperty. For example, a resourceType of “Census Data” paired with a resourceTypeGeneral of “Dataset” yields “Dataset/Census Data”.'})
+  .set('resourceTypeDesc', {mandatory: true, label: 'Resource Type', placeholder: '', desc: 'A description of the resource. The recommended content is a single term of some detail so that a pair can be formed with the Resource Type General property. For example, "API", "Configuration Template", "Policy", "Metadata Schema". Text inserted here will inform a controlled vocabulary to be provided in future versions of this UI.'})
   .set('resourceTypeGeneralDesc', {mandatory: true, label: 'Resource Type General', placeholder: '', desc: 'The general type of a resource.'})
   .set('createdDesc', {mandatory: false, label: 'Created', placeholder: '', desc: 'Time/date the record was created.'})
   .set('updatedDesc', {mandatory: false, label: 'Updated', placeholder: '', desc: 'Time/date the record was last saved, with or without modifications.'})

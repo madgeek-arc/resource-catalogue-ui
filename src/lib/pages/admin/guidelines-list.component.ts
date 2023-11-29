@@ -1,20 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {ResourceService} from '../../../services/resource.service';
-import {ServiceProviderService} from '../../../services/service-provider.service';
-import {
-  ServiceBundle,
-  InteroperabilityRecord,
-  ProviderBundle,
-  VocabularyCuration,
-  VocabularyEntryRequest, InteroperabilityRecordBundle
-} from '../../../domain/eic-model';
-import {environment} from '../../../../environments/environment';
-import {AuthenticationService} from '../../../services/authentication.service';
+import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {ProviderBundle, InteroperabilityRecord, InteroperabilityRecordBundle, LoggingInfo} from '../../domain/eic-model';
+import {environment} from '../../../environments/environment';
+import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {URLParameter} from '../../../domain/url-parameter';
-import {NavigationService} from '../../../services/navigation.service';
-import {GuidelinesService} from "../../../services/guidelines.service";
+import {URLParameter} from '../../domain/url-parameter';
+import {NavigationService} from '../../services/navigation.service';
+import {GuidelinesService} from "../../services/guidelines.service";
 
 declare var UIkit: any;
 
@@ -34,6 +26,7 @@ export class GuidelinesListComponent implements OnInit {
     query: '',
     active: '',
     suspended: '',
+    auditState: new FormArray([]),
     catalogue_id: new FormArray([]),
     provider_id: new FormArray([]),
     status: ''
@@ -43,6 +36,10 @@ export class GuidelinesListComponent implements OnInit {
 
   urlParams: URLParameter[] = [];
 
+  commentAuditControl = new FormControl();
+  showMainAuditForm = false;
+  initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userFullName: '', userRole: '', type: '', comment: '', actionType: ''};
+
   errorMessage: string;
   loadingMessage = '';
 
@@ -51,6 +48,7 @@ export class GuidelinesListComponent implements OnInit {
   guidelines: InteroperabilityRecordBundle[] = [];
   selectedGuidelineId: string;
   selectedGuideline: InteroperabilityRecordBundle;
+  guidelinesForAudit: InteroperabilityRecordBundle[] = [];
 
   facets: any;
 
@@ -62,9 +60,12 @@ export class GuidelinesListComponent implements OnInit {
   pages: number[] = [];
   offset = 2;
 
-  constructor(private resourceService: ResourceService,
-              private serviceProviderService: ServiceProviderService,
-              private guidelinesService: GuidelinesService,
+  public auditStates: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
+  public auditLabels: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
+
+  @ViewChildren('auditCheckboxes') auditCheckboxes: QueryList<ElementRef>;
+
+  constructor(private guidelinesService: GuidelinesService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               private router: Router,
@@ -162,13 +163,37 @@ export class GuidelinesListComponent implements OnInit {
     this.handleChange();
   }
 
+  onSelectionChange(event: any, formControlName: string) {
+    const formArray: FormArray = this.dataForm.get(formControlName) as FormArray;
+    if (event.target.checked) {
+      // Add a new control in the arrayForm
+      formArray.push(new FormControl(event.target.value));
+    } else {
+      // find the unselected element
+      let i = 0;
+      formArray.controls.forEach((ctrl: FormControl) => {
+        if (ctrl.value === event.target.value) {
+          // Remove the unselected element from the arrayForm
+          formArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
+    this.handleChangeAndResetPage();
+  }
+
+  isAuditStateChecked(value: string) {
+    return this.dataForm.get('auditState').value.includes(value);
+  }
+
   getGuidelines() {
     this.loadingMessage = 'Loading guidelines entries...';
     this.guidelines = [];
     this.guidelinesService.getInteroperabilityRecordBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('catalogue_id').value, this.dataForm.get('provider_id').value,
-      this.dataForm.get('status').value, this.dataForm.get('active').value, this.dataForm.get('suspended').value).subscribe(
+      this.dataForm.get('catalogue_id').value, this.dataForm.get('provider_id').value, this.dataForm.get('status').value,
+      this.dataForm.get('active').value, this.dataForm.get('suspended').value, this.dataForm.get('auditState').value).subscribe(
       res => {
         this.guidelines = res['results'];
         this.facets = res['facets'];
@@ -230,7 +255,8 @@ export class GuidelinesListComponent implements OnInit {
           UIkit.modal('#suspensionModal').hide();
           UIkit.modal('#spinnerModal').hide();
           this.loadingMessage = '';
-          console.log(err);
+          this.errorMessage = err.error.error;
+          window.scroll(0,0);
         },
         () => {
           UIkit.modal('#spinnerModal').hide();
@@ -251,6 +277,39 @@ export class GuidelinesListComponent implements OnInit {
       }
     );
   }
+
+  /** Audit --> **/
+  showAuditForm(irBundle: InteroperabilityRecordBundle) {
+    this.commentAuditControl.reset();
+    this.selectedGuideline = irBundle;
+    this.showMainAuditForm = true;
+  }
+
+  resetAuditView() {
+    this.showMainAuditForm = false;
+    this.commentAuditControl.reset();
+  }
+
+  auditResourceAction(action: string, bundle: InteroperabilityRecordBundle) {
+    this.guidelinesService.auditGuideline(this.selectedGuideline.id, action, this.selectedGuideline.interoperabilityRecord.catalogueId, this.commentAuditControl.value)
+      .subscribe(
+        res => {this.getGuidelines();},
+        err => {console.log(err);},
+        () => {
+          this.guidelinesForAudit.forEach(
+            s => {
+              if (s.id === this.selectedGuideline.id) {
+                s.latestAuditInfo = this.initLatestAuditInfo;
+                s.latestAuditInfo.date = Date.now().toString();
+                s.latestAuditInfo.actionType = action;
+              }
+            }
+          );
+          this.resetAuditView();
+        }
+      );
+  }
+  /** <--Audit **/
 
   /** for facets--> **/
   isCatalogueChecked(value: string) {

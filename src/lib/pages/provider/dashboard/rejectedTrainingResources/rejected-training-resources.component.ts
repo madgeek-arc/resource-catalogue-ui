@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DatasourceBundle, ServiceBundle, Provider, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {TrainingResourceBundle, ProviderBundle} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -7,16 +7,16 @@ import {Paging} from '../../../../domain/paging';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
-import {DatasourceService} from "../../../../services/datasource.service";
+import {TrainingResourceService} from "../../../../services/training-resource.service";
+
+declare var UIkit: any;
 
 @Component({
-  selector: 'app-shared-datasources',
-  templateUrl: './shared-datasources.component.html',
+  selector: 'app-rejected-training-resources',
+  templateUrl: './rejected-training-resources.component.html',
 })
 
-export class SharedDatasourcesComponent implements OnInit {
-
-  serviceORresource = environment.serviceORresource;
+export class RejectedTrainingResourcesComponent implements OnInit {
 
   formPrepare = {
     from: '0'
@@ -29,8 +29,8 @@ export class SharedDatasourcesComponent implements OnInit {
   providerId: string;
   catalogueId: string;
   providerBundle: ProviderBundle;
-  datasourceBundles: Paging<DatasourceBundle>;
-  selectedDatasourceBundle: DatasourceBundle = null;
+  trainingResourceBundle: Paging<TrainingResourceBundle>;
+  selectedTrainingResource: TrainingResourceBundle = null;
   path: string;
 
   total: number;
@@ -45,25 +45,13 @@ export class SharedDatasourcesComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
-    private resourceService: ResourceService,
-    private datasourceService: DatasourceService
+    private trainingResourceService: TrainingResourceService
   ) {}
 
   ngOnInit(): void {
-    // this.path = this.route.snapshot.routeConfig.path;
     this.path = window.location.pathname;
-    // console.log('this.path --> ', this.path);
-    // console.log('window.location.pathname --> ', window.location.pathname);
-
-    if (this.path.includes('dashboard')) {
-      this.providerId = this.route.parent.snapshot.paramMap.get('provider');
-      this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
-    } else {
-      this.providerId = this.route.snapshot.paramMap.get('providerId');
-    }
-    // console.log('this.path: ', this.path);
-    // this.providerId = this.route.parent.snapshot.paramMap.get('provider');
-    // console.log('this.providerId: ', this.providerId);
+    this.providerId = this.route.snapshot.paramMap.get('providerId');
+    this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
 
     this.getProvider();
 
@@ -84,7 +72,7 @@ export class SharedDatasourcesComponent implements OnInit {
           }
 
           // this.handleChange();
-          this.getSharedServices();
+          this.getRejectedResources();
         },
         error => this.errorMessage = <any>error
       );
@@ -92,7 +80,7 @@ export class SharedDatasourcesComponent implements OnInit {
   }
 
   navigate(id: string) {
-    this.router.navigate([`/dashboard/${this.providerId}/shared-datasource-dashboard/`, id]);
+    this.router.navigate([`/provider/` + this.providerId + `/training-resource/update/`, id]);
   }
 
   getProvider() {
@@ -105,17 +93,41 @@ export class SharedDatasourcesComponent implements OnInit {
     );
   }
 
-  getSharedServices() {
-    this.datasourceService.getSharedDatasourcesByProvider(this.providerId, this.dataForm.get('from').value, this.itemsPerPage + '', 'ASC', 'name')
+  getRejectedResources() {
+    this.providerService.getRejectedResourcesOfProvider(this.providerId, this.dataForm.get('from').value,
+      this.itemsPerPage + '', 'ASC', 'title', 'training_resource')
       .subscribe(res => {
-          this.datasourceBundles = res;
+          this.trainingResourceBundle = res;
           this.total = res['total'];
           this.paginationInit();
         },
         err => {
-          this.errorMessage = 'An error occurred while retrieving the services of this provider. ' + err.error;
-        }
+          this.errorMessage = 'An error occurred while retrieving the training resources of this provider. ' + err.error;
+        },
+        () => {}
       );
+  }
+
+  setSelectedTrainingResource(trBundle: TrainingResourceBundle) {
+    this.selectedTrainingResource = trBundle;
+    UIkit.modal('#actionModal').show();
+  }
+
+  deleteTrainingResource(id: string) {
+    // UIkit.modal('#spinnerModal').show();
+    this.trainingResourceService.deleteTrainingResource(id).subscribe(
+      res => {},
+      error => {
+        // console.log(error);
+        // UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = 'Something went bad. ' + error.error ;
+        this.getRejectedResources();
+      },
+      () => {
+        this.getRejectedResources();
+        // UIkit.modal('#spinnerModal').hide();
+      }
+    );
   }
 
   handleChange() {
@@ -131,12 +143,13 @@ export class SharedDatasourcesComponent implements OnInit {
       }
     }
 
-    if (this.path.includes('/provider/shared-datasources')) {
-      this.router.navigate([`/provider/shared-datasources/` + this.providerId], {queryParams: map});
-    } else {
-      this.router.navigate([`/dashboard/` + this.providerId + `/shared-datasources`], {queryParams: map});
+    if (this.path.includes('/provider/rejected-training-resources')) {
+      this.router.navigate([`/provider/rejected-training-resources/` + this.providerId], {queryParams: map});
     }
-    // this.getPendingServices();
+    // else {
+    //   this.router.navigate([`/dashboard/` + this.providerId + `/rejected-training-resources`], {queryParams: map});
+    // }
+    // this.getPendingTrainingResources();
   }
 
   paginationInit() {

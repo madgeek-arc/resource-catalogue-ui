@@ -56,14 +56,14 @@
 
               <div [ngClass]="{'blur-filter': showLoader}">
 
-                <div *ngIf="!disable" class="requiredFields">Fields with (*) are mandatory and must be completed in order to save this form. Leaving
+                <div *ngIf="!disable" class="requiredFields">Fields with (*) are mandatory and must be completed in order to submit this form. Leaving
                   optional fields blank will remove the relevant heading from the published resource/provider profile.</div>
 
                 <div id="serviceForm">
 
                   <div class="uk-margin-bottom uk-flex uk-flex-right">
 
-                    <div>
+                    <div *ngIf="!disable && providersPage?.results?.length">
                       <button class="uk-button uk-button-primary" type="button" (click)="showSuggestionsModal()">Suggest</button>
                       <div uk-drop="pos: bottom-left">
                         <div class="uk-card uk-card-body uk-card-default">
@@ -256,7 +256,7 @@
                                 {{nameDesc.label + (nameDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{nameDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="name" class="uk-input uk-width-9-10" type="text" formControlName="name"
                                        (input)="handleBitSets(0, 0, 'name'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('name', this.editMode) }">
@@ -270,7 +270,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{abbreviationDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="abbreviation" class="uk-input uk-width-9-10" type="text"
                                        formControlName="abbreviation"
                                        (input)="handleBitSets(0, 21, 'abbreviation'); unsavedChangesPrompt()"
@@ -285,7 +285,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{resourceOrganisationDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <ng-select *ngIf="providersPage?.results?.length > 0" class="uk-width-9-10 uk-disabled" id="resourceOrganisation"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('resourceOrganisation', this.editMode)}"
                                            [items]="providersPage.results"
@@ -306,7 +306,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{resourceProvidersDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <div
                                   *ngFor="let provider of getFieldAsFormArray('resourceProviders').controls; let i=index"
                                   class="uk-margin-bottom">
@@ -338,7 +338,7 @@
                                 {{webpageDesc.label + (webpageDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{webpageDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
 
                                 <input id="webpage" class="uk-input uk-width-9-10" type="text" formControlName="webpage"
                                        placeholder="use http:// or https://"
@@ -348,6 +348,51 @@
                                   <a href="{{this.serviceForm.get('webpage').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
                                 </div>
 
+                              </div>
+                            </div>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">Alternative Identifiers</label>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div formArrayName="alternativeIdentifiers"
+                                     *ngFor="let altIdentifier of alternativeIdentifiersArray.controls; let i = index">
+                                  <div [formGroupName]="i"
+                                       class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="type">
+                                        {{ altIdTypeDesc.label + (altIdTypeDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div class="uk-form-description uk-margin-top uk-width-9-10">{{altIdTypeDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-top">
+                                        <input id="type" class="uk-input uk-width-9-10" type="text" formControlName="type"
+                                               (input)="unsavedChangesPrompt()"
+                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('alternativeIdentifiers', i, this.editMode, 'type')}">
+                                      </div>
+                                    </div>
+                                    <div class="uk-margin-bottom">
+                                      <label class="uk-form-label uk-text-right" for="value">
+                                        {{ altIdValueDesc.label + (altIdValueDesc.mandatory ? ' (*)' : '') }}
+                                      </label>
+                                      <div
+                                        class="uk-form-description uk-margin-top uk-width-9-10">{{altIdValueDesc.desc}}</div>
+                                      <div class="uk-form-controls uk-margin-top">
+                                        <input id="value" class="uk-input uk-width-9-10" type="text" formControlName="value"
+                                               (input)="unsavedChangesPrompt()">
+                                        <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('alternativeIdentifiers', i, this.editMode, 'value')}">-->
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                  <a *ngIf="getFieldAsFormArray('alternativeIdentifiers').length > 1 && !disable"
+                                     class="remove-element uk-padding-small uk-display-inline-block"
+                                     (click)="removeAlternativeIdentifier(i); unsavedChangesPrompt();">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                              </div>
+                              <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
+                                <a class="add-new-element" (click)="pushAlternativeIdentifier()">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add Alternative Identifier
+                                </a>
                               </div>
                             </div>
 
@@ -364,7 +409,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{descriptionDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top uk-width-9-10">
+                              <div class="uk-form-controls uk-margin-top uk-width-9-10">
                                 <!--                              <textarea id="description" class="uk-textarea uk-width-9-10" rows="4"-->
                                 <!--                                        formControlName="description"-->
                                 <!--                                        (input)="handleBitSets(1, 3, 'description'); unsavedChangesPrompt()"-->
@@ -386,7 +431,7 @@
                                 {{taglineDesc.label + (taglineDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{taglineDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="tagline" class="uk-input uk-width-9-10" type="text" formControlName="tagline"
                                        (input)="handleBitSets(1, 4, 'tagline'); unsavedChangesPrompt()"
                                        [ngClass]="{'uk-form-danger': checkFormValidity('tagline', this.editMode)}">
@@ -398,7 +443,7 @@
                                 {{logoDesc.label + (logoDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <!--                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{logoDesc.desc}}</div>-->
-                              <div class="uk-form-controls uk-margin-medium uk-margin-remove-bottom">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="logo" class="uk-input uk-width-9-10" type="text" formControlName="logo"
                                        placeholder="use http:// or https://"
                                        (input)="handleBitSets(1, 5, 'logo'); unsavedChangesPrompt()"
@@ -423,7 +468,7 @@
                                         {{ multimediaURLDesc.label + (multimediaURLDesc.mandatory ? ' (*)' : '') }}
                                       </label>
                                       <div class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaURLDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <input id="multimediaURL" class="uk-input uk-width-9-10" type="text" formControlName="multimediaURL" placeholder="use http:// or https://"
                                                (input)="unsavedChangesPrompt()"
                                                [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaURL')}">
@@ -438,7 +483,7 @@
                                       </label>
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{multimediaNameDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <input id="multimediaName" class="uk-input uk-width-9-10" type="text" formControlName="multimediaName"
                                                (input)="unsavedChangesPrompt()">
                                         <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('multimedia', i, this.editMode, 'multimediaName')}">-->
@@ -472,7 +517,7 @@
                                         {{ useCaseURLDesc.label + (useCaseURLDesc.mandatory ? ' (*)' : '') }}
                                       </label>
                                       <div class="uk-form-description uk-margin-top uk-width-9-10">{{useCaseURLDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <input id="useCaseURL" class="uk-input uk-width-9-10" type="text" formControlName="useCaseURL" placeholder="use http:// or https://"
                                                (input)="unsavedChangesPrompt()"
                                                [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i, this.editMode, 'useCaseURL')}">
@@ -487,7 +532,7 @@
                                       </label>
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{useCaseNameDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <input id="useCaseName" class="uk-input uk-width-9-10" type="text" formControlName="useCaseName"
                                                (input)="unsavedChangesPrompt()">
                                         <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('useCases', i, this.editMode, 'useCaseName')}">-->
@@ -541,7 +586,7 @@
                                       </label>
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{scientificDomainDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <ng-select *ngIf="scientificDomainVocabulary" class="uk-width-1-1" id="{{'scientificDomain ' + i}}"
                                                    (change)="onScientificDomainChange(i); unsavedChangesPrompt()"
                                                    [items]="sortVocabulariesByName(scientificDomainVocabulary)"
@@ -577,7 +622,7 @@
                                       </label>
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{scientificSubDomainDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <ng-select *ngIf="scientificSubDomainVocabulary" id="{{'scientificSubdomain ' + i}}"
                                                    class="uk-width-1-1"
                                                    (change)="handleBitSetsOfGroups(2, 7, 'scientificSubdomain', 'scientificDomains');
@@ -646,7 +691,7 @@
                                       </label>
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{categoryDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <ng-select *ngIf="categoriesVocabulary" id="{{'category ' + i}}"
                                                    class="uk-width-1-1"
                                                    (change)="onCategoryChange(i); unsavedChangesPrompt()"
@@ -684,7 +729,7 @@
                                       </label>
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{subcategoryDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <ng-select *ngIf="subCategoriesVocabulary" id="{{'subcategory ' + i}}"
                                                    class="uk-width-1-1"
                                                    (change)="handleBitSetsOfGroups(2, 9, 'subcategory', 'categories');
@@ -739,7 +784,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{targetUsersDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <div *ngFor="let provider of getFieldAsFormArray('targetUsers').controls; let i=index"
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('targetUsers').controls.length-1 !== i}">
                                   <ng-select *ngIf="targetUsersVocabulary" class="uk-width-9-10" id="targetUsers"
@@ -786,7 +831,7 @@
                                 {{accessTypeDesc.label + (accessTypeDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{accessTypeDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <div *ngFor="let provider of getFieldAsFormArray('accessTypes').controls; let i=index"
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('accessTypes').controls.length-1 !== i}">
                                   <ng-select *ngIf="accessTypesVocabulary" class="uk-width-9-10" id="accessTypes"
@@ -833,7 +878,7 @@
                                 {{accessModeDesc.label + (accessModeDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{accessModeDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <div *ngFor="let provider of getFieldAsFormArray('accessModes').controls; let i=index"
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('accessModes').controls.length-1 !== i}">
                                   <ng-select *ngIf="accessTypesVocabulary" class="uk-width-9-10" id="accessModes"
@@ -880,7 +925,7 @@
                                 {{tagsDesc.label + (tagsDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{tagsDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <div *ngFor="let provider of getFieldAsFormArray('tags').controls; let i=index"
                                      class="uk-margin-bottom">
                                   <input id="tags" class="uk-input uk-animation-slide-top-small uk-width-9-10"
@@ -903,6 +948,115 @@
                                 </div>
                               </div>
                             </div>
+                            <div formArrayName="serviceCategories" class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="serviceCategories">
+                                {{serviceCategoriesDesc.label + (serviceCategoriesDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div
+                                class="uk-form-description uk-margin-top uk-width-9-10">{{serviceCategoriesDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div
+                                  *ngFor="let place of getFieldAsFormArray('serviceCategories').controls; let i=index"
+                                  [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('serviceCategories').controls.length-1 !== i}">
+                                  <ng-select *ngIf="serviceCategoryVocabulary" class="uk-width-9-10" id="serviceCategories"
+                                             [items]="serviceCategoryVocabulary"
+                                             (change)="checkForDuplicates('serviceCategories');unsavedChangesPrompt()"
+                                             bindLabel="name"
+                                             bindValue="id"
+                                             clearAllText="Clear"
+                                             [formControlName]="i">
+                                  </ng-select>
+                                  <a *ngIf="getFieldAsFormArray('serviceCategories').length > 1 && !disable"
+                                     class="remove-element uk-padding-small" (click)="remove('serviceCategories', i);
+                                     unsavedChangesPrompt();">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                                <div class="uk-margin-small-top">
+                                  <i><small>For suggestions in amending the
+                                    "{{serviceCategoriesDesc.label}}" list, please select "Other", fill in your entry and press the "Submit" button below</small></i>
+                                </div>
+                                <div *ngFor="let place of getFieldAsFormArray('serviceCategories').controls; let i=index">
+                                  <div *ngIf="this.serviceForm.get('serviceCategories').value[i] === 'service_category-other'" class="uk-flex uk-flex-left">
+                                    <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default uk-margin-small-right" style="width: 250px;">
+                                      <label>
+                                        <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="serviceCategoryVocabularyEntryValueName">
+                                      </label>
+                                    </form>
+                                    <button class="uk-button uk-button-default uk-margin-small-top" type="submit"
+                                            (click)="submitVocSuggestion(this.vocabularyEntryForm.get('serviceCategoryVocabularyEntryValueName').value, 'SERVICE CATEGORY', null)">
+                                      Submit
+                                    </button>
+                                    <span class="uk-margin-top uk-margin-medium-left"><i>{{ this.vocabularyEntryForm.get('errorMessage').value ? this.vocabularyEntryForm.get('errorMessage').value : this.vocabularyEntryForm.get('successMessage').value}}</i></span>
+                                  </div>
+                                </div>
+                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                  <a class="add-new-element"
+                                     (click)="push('serviceCategories', serviceCategoriesDesc.mandatory)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    Add {{serviceCategoriesDesc.label}}
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div formArrayName="marketplaceLocations" class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="marketplaceLocations">
+                                {{marketplaceLocationsDesc.label + (marketplaceLocationsDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div
+                                class="uk-form-description uk-margin-top uk-width-9-10">{{marketplaceLocationsDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-top">
+                                <div
+                                  *ngFor="let place of getFieldAsFormArray('marketplaceLocations').controls; let i=index"
+                                  [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('marketplaceLocations').controls.length-1 !== i}">
+                                  <ng-select *ngIf="marketplaceLocationVocabulary" class="uk-width-9-10" id="marketplaceLocations"
+                                             [items]="marketplaceLocationVocabulary"
+                                             (change)="checkForDuplicates('marketplaceLocations');unsavedChangesPrompt()"
+                                             bindLabel="name"
+                                             bindValue="id"
+                                             clearAllText="Clear"
+                                             [formControlName]="i">
+                                  </ng-select>
+                                  <a *ngIf="getFieldAsFormArray('marketplaceLocations').length > 1 && !disable"
+                                     class="remove-element uk-padding-small" (click)="remove('marketplaceLocations', i);
+                                     unsavedChangesPrompt();">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                  <a class="add-new-element"
+                                     (click)="push('marketplaceLocations', marketplaceLocationsDesc.mandatory)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    Add {{marketplaceLocationsDesc.label}}
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right">
+                                {{ horizontalServiceDesc.label + (horizontalServiceDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div class="uk-form-controls uk-margin-top">
+                                <label>
+                                  <span class="uk-form-description uk-margin-small-right">{{horizontalServiceDesc.desc}}</span>
+                                  <!--                                <br>-->
+                                  <!--                                <label class="uk-margin-small-top">-->
+                                  <!--                                  <span class="uk-form-description uk-margin-small-right">horizontalService?</span>-->
+                                  <!--                                </label>-->
+                                  <label class="uk-margin-small-left uk-margin-small-right">
+                                    <input class="uk-radio" type="radio" name="horizontalService" id="horizontalServiceNo"
+                                           formControlName="horizontalService" [value]=false
+                                           (input)="unsavedChangesPrompt()"
+                                           [checked]="(this.serviceForm.get('horizontalService').value === false)">
+                                    No</label>
+                                  <label><input class="uk-radio" type="radio" name="horizontalService" id="horizontalServiceYes"
+                                                formControlName="horizontalService" [value]=true
+                                                (input)="unsavedChangesPrompt()"
+                                                [checked]="this.serviceForm.get('horizontalService').value === true">
+                                    Yes</label>
+                                </label>
+                              </div>
+                            </div>
 
                             <div class="uk-flex justify-content-between">
                               <div class="uk-flex-left">
@@ -922,7 +1076,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{geographicalAvailabilityDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <div
                                   *ngFor="let place of getFieldAsFormArray('geographicalAvailabilities').controls; let i=index"
                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('geographicalAvailabilities').controls.length-1 !== i}">
@@ -973,7 +1127,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{languageAvailabilitiesDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <div
                                   *ngFor="let provider of getFieldAsFormArray('languageAvailabilities').controls; let i=index"
                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('languageAvailabilities').controls.length-1 !== i}">
@@ -1037,7 +1191,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{resourceGeographicLocationsDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <div
                                   *ngFor="let provider of getFieldAsFormArray('resourceGeographicLocations').controls; let i=index"
                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('resourceGeographicLocations').controls.length-1 !== i}">
@@ -1106,7 +1260,7 @@
                                     </label>
                                     <div
                                       class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactFirstNameDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="mainContactFirstName" class="uk-input" type="text"
                                              formControlName="firstName"
                                              (input)="handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact'); unsavedChangesPrompt()"
@@ -1120,7 +1274,7 @@
                                     </label>
                                     <div
                                       class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactLastNameDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="mainContactLastName" class="uk-input" type="text"
                                              formControlName="lastName"
                                              (input)="handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact'); unsavedChangesPrompt()"
@@ -1134,7 +1288,7 @@
                                     </label>
                                     <div
                                       class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactEmailDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="mainContactEmail" class="uk-input" type="text" formControlName="email"
                                              (input)="handleBitSetsOfGroups(5, 15, 'email', 'mainContact'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.email', this.editMode)}">
@@ -1147,7 +1301,7 @@
                                     </label>
                                     <div
                                       class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactPhoneDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="mainContactPhone" class="uk-input" type="text" formControlName="phone"
 
                                              [ngClass]="{'uk-form-danger': checkFormValidity('mainContact.phone', this.editMode)}">
@@ -1160,7 +1314,7 @@
                                     </label>
                                     <div
                                       class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactPositionDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="mainContactPosition" class="uk-input" type="text"
                                              formControlName="position"
 
@@ -1174,7 +1328,7 @@
                                     </label>
                                     <div
                                       class="uk-form-description uk-margin-top uk-width-9-10">{{mainContactOrganisationDesc.desc}}</div>
-                                    <div class="uk-form-controls uk-margin-medium-top">
+                                    <div class="uk-form-controls uk-margin-top">
                                       <input id="mainContactOrganisation" class="uk-input" type="text"
                                              formControlName="organisation"
                                              (input)="unsavedChangesPrompt()"
@@ -1205,7 +1359,7 @@
                                       </label>
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactFirstNameDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <input id="firstName" class="uk-input" type="text" formControlName="firstName"
                                                (input)="unsavedChangesPrompt()"
                                                [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'firstName')}">
@@ -1218,7 +1372,7 @@
                                       </label>
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactLastNameDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <input id="lastName" class="uk-input" type="text" formControlName="lastName"
                                                (input)="unsavedChangesPrompt()"
                                                [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'lastName')}">
@@ -1231,7 +1385,7 @@
                                       </label>
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactEmailDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <input id="email" class="uk-input" type="text" formControlName="email"
                                                (input)="handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts'); unsavedChangesPrompt()"
                                                [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'email')}">
@@ -1244,7 +1398,7 @@
                                       </label>
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPhoneDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <input id="phone" class="uk-input" type="text" formControlName="phone"
                                                (input)="handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts'); unsavedChangesPrompt()"
                                                [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'phone')}">
@@ -1257,7 +1411,7 @@
                                       </label>
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactPositionDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <input id="position" class="uk-input" type="text" formControlName="position"
                                                (input)="unsavedChangesPrompt()"
                                                [ngClass]="{'uk-form-danger': checkFormArrayValidity('publicContacts', i, this.editMode, 'position')}">
@@ -1270,7 +1424,7 @@
                                       </label>
                                       <div
                                         class="uk-form-description uk-margin-top uk-width-9-10">{{publicContactOrganisationDesc.desc}}</div>
-                                      <div class="uk-form-controls uk-margin-medium-top">
+                                      <div class="uk-form-controls uk-margin-top">
                                         <input id="organisation" class="uk-input" type="text"
                                                formControlName="organisation"
                                                (input)="unsavedChangesPrompt()"
@@ -1298,7 +1452,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{helpdeskEmailDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="helpdeskEmail" class="uk-input uk-width-9-10" type="text"
                                        formControlName="helpdeskEmail"
                                        (input)="handleBitSets(5, 16, 'helpdeskEmail'); unsavedChangesPrompt()"
@@ -1312,7 +1466,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{securityContactEmailDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="securityContactEmail" class="uk-input uk-width-9-10" type="text"
                                        formControlName="securityContactEmail"
                                        (input)="handleBitSets(5, 17, 'securityContactEmail'); unsavedChangesPrompt()"
@@ -1407,7 +1561,7 @@
                                   </a>
                                 </div>
                                 <i><small>Suggested length is 100 characters</small></i>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
                                   <a class="add-new-element"
                                      (click)="push('certifications', certificationsDesc.mandatory, false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{certificationsDesc.label}}
@@ -1434,7 +1588,7 @@
                                   </a>
                                 </div>
                                 <i><small>Suggested length is 100 characters</small></i>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
                                   <a class="add-new-element"
                                      (click)="push('standards', standardsDesc.mandatory, false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{standardsDesc.label}}
@@ -1464,7 +1618,7 @@
                                   </a>
                                 </div>
                                 <i><small>Suggested length is 100 characters</small></i>
-                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-top">
                                   <a class="add-new-element"
                                      (click)="push('openSourceTechnologies', openSourceTechnologiesDesc.mandatory, false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
@@ -1545,7 +1699,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{requiredServicesDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <div
                                   *ngFor="let provider of getFieldAsFormArray('requiredResources').controls; let i=index"
                                   class="uk-margin-bottom">
@@ -1577,7 +1731,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{relatedServicesDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <div
                                   *ngFor="let provider of getFieldAsFormArray('relatedResources').controls; let i=index"
                                   class="uk-margin-bottom">
@@ -1609,7 +1763,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{relatedPlatformsDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <div
                                   *ngFor="let provider of getFieldAsFormArray('relatedPlatforms').controls; let i=index"
                                   class="uk-margin-bottom">
@@ -1627,7 +1781,6 @@
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                   </a>
                                 </div>
-                                <!--                                TODO: add Other value suggestion when VOC is ready-->
                                 <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
                                   <a class="add-new-element" (click)="push('relatedPlatforms', false)">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{relatedPlatformsDesc.label}}
@@ -1642,7 +1795,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{resourceCatalogueIdDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="catalogueId" class="uk-disabled uk-input uk-width-9-10" type="text" placeholder="eosc"
                                        formControlName="catalogueId"
                                        (input)="unsavedChangesPrompt()"
@@ -1668,7 +1821,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{fundingBodyDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <div *ngFor="let provider of getFieldAsFormArray('fundingBody').controls; let i=index"
                                      [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('fundingBody').controls.length-1 !== i}">
                                   <ng-select *ngIf="fundingBodyVocabulary" class="uk-width-9-10" id="fundingBody"
@@ -1717,7 +1870,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{fundingProgramDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <div
                                   *ngFor="let provider of getFieldAsFormArray('fundingPrograms').controls; let i=index"
                                   [ngClass]="{'uk-margin-bottom': getFieldAsFormArray('fundingPrograms').controls.length-1 !== i}">
@@ -1768,7 +1921,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{grantProjectNameDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <div
                                   *ngFor="let provider of getFieldAsFormArray('grantProjectNames').controls; let i=index"
                                   class="uk-margin-bottom">
@@ -1812,7 +1965,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{helpdeskPageDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="helpdeskPage" class="uk-input uk-width-9-10" type="text"
                                        formControlName="helpdeskPage" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
@@ -1828,7 +1981,7 @@
                                 {{userManualDesc.label + (userManualDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{userManualDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="userManual" class="uk-input uk-width-9-10" type="text"
                                        formControlName="userManual" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
@@ -1844,7 +1997,7 @@
                                 {{termsOfUseDesc.label + (termsOfUseDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{termsOfUseDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="termsOfUse" class="uk-input uk-width-9-10" type="text"
                                        formControlName="termsOfUse" placeholder="use http:// or https://"
                                        (input)="handleBitSets(9, 22, 'termsOfUse'); unsavedChangesPrompt()"
@@ -1861,7 +2014,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{privacyPolicyDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="privacyPolicy" class="uk-input uk-width-9-10" type="text"
                                        formControlName="privacyPolicy" placeholder="use http:// or https://"
                                        (input)="handleBitSets(9, 23, 'privacyPolicy'); unsavedChangesPrompt()"
@@ -1878,7 +2031,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{accessPolicyDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="accessPolicy" class="uk-input uk-width-9-10" type="text"
                                        formControlName="accessPolicy" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
@@ -1895,7 +2048,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{serviceLevelDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="serviceLevel" class="uk-input uk-width-9-10" type="text"
                                        formControlName="serviceLevel" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
@@ -1912,7 +2065,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{trainingInformationDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="trainingInformation" class="uk-input uk-width-9-10" type="text"
                                        formControlName="trainingInformation" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
@@ -1929,7 +2082,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{statusMonitoringDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="statusMonitoring" class="uk-input uk-width-9-10" type="text"
                                        formControlName="statusMonitoring" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
@@ -1946,7 +2099,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{maintenanceDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="maintenance" class="uk-input uk-width-9-10" type="text"
                                        formControlName="maintenance" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
@@ -1975,7 +2128,7 @@
                                 {{orderTypeDesc.label + (orderTypeDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{orderTypeDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <ng-select *ngIf="orderTypeVocabulary" class="uk-width-9-10" id="orderType"
                                            (change)="handleBitSets(10, 19, 'orderType'); unsavedChangesPrompt()"
                                            [ngClass]="{'uk-form-danger': checkFormValidity('orderType', this.editMode, orderTypeDesc.mandatory)}"
@@ -2008,7 +2161,7 @@
                                 {{orderDesc.label + (orderDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{orderDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="order" class="uk-input uk-width-9-10" type="text" formControlName="order"
                                        placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
@@ -2038,7 +2191,7 @@
                               </label>
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{paymentModelDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="paymentModel" class="uk-input uk-width-9-10" type="text"
                                        formControlName="paymentModel" placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
@@ -2054,7 +2207,7 @@
                                 {{pricingDesc.label + (pricingDesc.mandatory ? ' (*)' : '')}}
                               </label>
                               <div class="uk-form-description uk-margin-top uk-width-9-10">{{pricingDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-medium-top">
+                              <div class="uk-form-controls uk-margin-top">
                                 <input id="pricing" class="uk-input uk-width-9-10" type="text" formControlName="pricing"
                                        placeholder="use http:// or https://"
                                        (input)="unsavedChangesPrompt()"
@@ -2159,6 +2312,16 @@
                        [value]="suggestion.id"
                        (change)="onCheckboxChange($event, 'SubCategories')">
                 {{ suggestion.name }}
+              </label>
+            </li>
+            <div class="uk-text-bold uk-margin-medium-top">Tags</div>
+            <li *ngFor="let suggestion of suggestedTags">
+              <label>
+                <input type="checkbox"
+                       name="suggestion"
+                       [value]="suggestion"
+                       (change)="onCheckboxChange($event, 'Tags')">
+                {{ suggestion }}
               </label>
             </li>
           </ul>

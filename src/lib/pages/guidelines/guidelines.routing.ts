@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {CanActivateViaAuthGuard} from '../../../services/can-activate-auth-guard.service';
+import {CanActivateViaAuthGuard} from '../../services/can-activate-auth-guard.service';
 import {GuidelinesFormComponent} from "./guidelines-form.component";
-import {GuidelinesListComponent} from "./guidelines-list.component";
+import {GuidelinesListComponent} from "../admin/guidelines-list.component";
 import {UpdateGuidelinesFormComponent} from "./update-guidelines-form.component";
 
 

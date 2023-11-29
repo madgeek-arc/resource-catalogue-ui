@@ -42,7 +42,7 @@ export class ServiceFormComponent implements OnInit {
   serviceForm: FormGroup;
   provider: Provider;
   service: Service;
-  serviceID: string = null;
+  serviceId: string = null;
   errorMessage = '';
   successMessage: string = null;
   weights: string[] = [];
@@ -101,6 +101,7 @@ export class ServiceFormComponent implements OnInit {
     scientificDomainVocabularyEntryValueName: '',
     scientificSubDomainVocabularyEntryValueName: '',
     placesVocabularyEntryValueName: '',
+    serviceCategoryVocabularyEntryValueName: '',
     geographicalVocabularyEntryValueName: '',
     languagesVocabularyEntryValueName: '',
     vocabulary: '',
@@ -116,9 +117,11 @@ export class ServiceFormComponent implements OnInit {
 
   suggestedScientificSubDomains: string[] = [];
   suggestedSubCategories: string[] = [];
+  suggestedTags: string[] = [];
 
   selectedSuggestionsForScientificSubDomains: string[] = [];
   selectedSuggestionsForSubCategories: string[] = [];
+  selectedSuggestionsForTags: string[] = [];
 
   public filteredSubCategoriesVocabulary: Vocabulary[] = null;
   public filteredScientificSubDomainVocabulary: Vocabulary[] = null;
@@ -126,6 +129,8 @@ export class ServiceFormComponent implements OnInit {
   readonly nameDesc: dm.Description = dm.serviceDescMap.get('nameDesc');
   readonly abbreviationDesc: dm.Description = dm.serviceDescMap.get('abbreviationDesc');
   readonly webpageDesc: dm.Description = dm.serviceDescMap.get('webpageDesc');
+  readonly altIdTypeDesc: dm.Description = dm.serviceDescMap.get('altIdTypeDesc');
+  readonly altIdValueDesc: dm.Description = dm.serviceDescMap.get('altIdValueDesc');
   readonly descriptionDesc: dm.Description = dm.serviceDescMap.get('descriptionDesc');
   readonly taglineDesc: dm.Description = dm.serviceDescMap.get('taglineDesc');
   readonly logoDesc: dm.Description = dm.serviceDescMap.get('logoDesc');
@@ -142,6 +147,9 @@ export class ServiceFormComponent implements OnInit {
   readonly accessTypeDesc: dm.Description = dm.serviceDescMap.get('accessTypeDesc');
   readonly accessModeDesc: dm.Description = dm.serviceDescMap.get('accessModeDesc');
   readonly tagsDesc: dm.Description = dm.serviceDescMap.get('tagsDesc');
+  readonly serviceCategoriesDesc: dm.Description = dm.serviceDescMap.get('serviceCategoriesDesc');
+  readonly marketplaceLocationsDesc: dm.Description = dm.serviceDescMap.get('marketplaceLocationsDesc');
+  readonly horizontalServiceDesc: dm.Description = dm.serviceDescMap.get('horizontalServiceDesc');
   readonly geographicalAvailabilityDesc: dm.Description = dm.serviceDescMap.get('geographicalAvailabilityDesc');
   readonly languageAvailabilitiesDesc: dm.Description = dm.serviceDescMap.get('languageAvailabilitiesDesc');
   readonly mainContactFirstNameDesc: dm.Description = dm.serviceDescMap.get('mainContactFirstNameDesc');
@@ -195,6 +203,12 @@ export class ServiceFormComponent implements OnInit {
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
     webpage: ['', Validators.compose([Validators.required, URLValidator])],
+    alternativeIdentifiers: this.fb.array([
+      this.fb.group({
+        type: [''],
+        value: ['']
+      })
+    ]),
     description: ['', Validators.required],
     logo: ['', Validators.compose([Validators.required, URLValidator])],
     tagline: ['', Validators.required],
@@ -226,6 +240,9 @@ export class ServiceFormComponent implements OnInit {
     fundingPrograms: this.fb.array([this.fb.control('')]),
     grantProjectNames: this.fb.array([this.fb.control('')]),
     tags: this.fb.array([this.fb.control('')]),
+    serviceCategories: this.fb.array([this.fb.control('')]),
+    marketplaceLocations: this.fb.array([this.fb.control('')]),
+    horizontalService: [''],
     lifeCycleStatus: [''],
     trl: ['', Validators.required],
     version: [''],
@@ -291,6 +308,8 @@ export class ServiceFormComponent implements OnInit {
   public orderTypeVocabulary: Vocabulary[] = null;
   public phaseVocabulary: Vocabulary[] = null;
   public trlVocabulary: Vocabulary[] = null;
+  public serviceCategoryVocabulary: Vocabulary[] = null;
+  public marketplaceLocationVocabulary: Vocabulary[] = null;
   public superCategoriesVocabulary: Vocabulary[] = null;
   public categoriesVocabulary: Vocabulary[] = null;
   public subCategoriesVocabulary: Vocabulary[] = null;
@@ -325,6 +344,12 @@ export class ServiceFormComponent implements OnInit {
     this.errorMessage = '';
     this.showLoader = true;
     // this.scientificDomainArray.disable();
+    for (let i = 0; i < this.alternativeIdentifiersArray.length; i++) { //TODO: review the necessity of this
+      if (this.alternativeIdentifiersArray.controls[i].get('value').value === ''
+        || this.alternativeIdentifiersArray.controls[i].get('value').value === null) {
+        this.removeAlternativeIdentifier(i);
+      }
+    }
     for (let i = 0; i < this.multimediaArray.length; i++) {
       if (this.multimediaArray.controls[i].get('multimediaURL').value === ''
         || this.multimediaArray.controls[i].get('multimediaURL').value === null) {
@@ -345,7 +370,7 @@ export class ServiceFormComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          // return this.router.dashboardDraftResources(this.providerId); // redirect to draft list
+          // return this.router.dashboardDraftResources(this.providerId); // navigate to draft list
           return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
         },
         err => {
@@ -363,11 +388,13 @@ export class ServiceFormComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          return this.router.resourceDashboard(this.providerId, _service.id);  // redirect to resource-dashboard
-          // return this.router.dashboardResources(this.providerId);                  // redirect to provider dashboard -> resource list
-          // return this.router.dashboard(this.providerId);                          // redirect to provider dashboard
-          // return this.router.service(_service.id);                               // redirect to old service info page
-          // return window.location.href = this._marketplaceServicesURL + _service.id; // redirect to marketplace
+          if (this.pendingService && !this.firstServiceForm) return this.router.selectSubprofile(this.providerId, _service.id);  // navigate to select-subprofile
+          if (this.editMode || this.firstServiceForm) return this.router.resourceDashboard(this.providerId, _service.id);  // navigate to resource-dashboard
+          if (!this.editMode) return this.router.selectSubprofile(this.providerId, _service.id);  // navigate to select-subprofile
+          // return this.router.dashboardResources(this.providerId);                  // navigate to provider dashboard -> resource list
+          // return this.router.dashboard(this.providerId);                          // navigate to provider dashboard
+          // return this.router.service(_service.id);                               // navigate to old service info page
+          // return window.location.href = this._marketplaceServicesURL + _service.id; // navigate to marketplace
         },
         err => {
           this.showLoader = false;
@@ -414,6 +441,8 @@ export class ServiceFormComponent implements OnInit {
         this.orderTypeVocabulary = this.vocabularies[Type.ORDER_TYPE];
         this.phaseVocabulary = this.vocabularies[Type.LIFE_CYCLE_STATUS];
         this.trlVocabulary = this.vocabularies[Type.TRL];
+        this.serviceCategoryVocabulary = this.vocabularies[Type.SERVICE_CATEGORY];
+        this.marketplaceLocationVocabulary = this.vocabularies[Type.MARKETPLACE_LOCATION];
         this.superCategoriesVocabulary = this.vocabularies[Type.SUPERCATEGORY];
         this.categoriesVocabulary = this.vocabularies[Type.CATEGORY];
         this.subCategoriesVocabulary = this.vocabularies[Type.SUBCATEGORY];
@@ -434,6 +463,7 @@ export class ServiceFormComponent implements OnInit {
       () => {
         this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'Worldwide']);
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
+        this.premiumSort.transform(this.serviceCategoryVocabulary, ['Compute', 'Data Source', 'Storage']);
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
 
         let voc: Vocabulary[] = this.vocabularies[Type.SUBCATEGORY].concat(this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN]);
@@ -491,7 +521,7 @@ export class ServiceFormComponent implements OnInit {
                 this.categoryArray.push(this.newCategory());
                 // } else if (i === 'options') {
                 //   this.pushOption();
-                //TODO: add multimedia and use cases (also for DS)
+                //TODO: add multimedia and use cases
               } else if (i === 'providers' || i === 'targetUsers' || i === 'geographicalAvailabilities' || i === 'languageAvailabilities') {
                 this.push(i, true);
               } else {
@@ -770,6 +800,27 @@ export class ServiceFormComponent implements OnInit {
 
   /** <--Use Cases**/
 
+  /** Alternative Identifiers-->**/
+  newAlternativeIdentifier(): FormGroup {
+    return this.fb.group({
+      type: [''],
+      value: ['']
+    });
+  }
+
+  get alternativeIdentifiersArray() {
+    return this.serviceForm.get('alternativeIdentifiers') as FormArray;
+  }
+
+  pushAlternativeIdentifier() {
+    this.alternativeIdentifiersArray.push(this.newAlternativeIdentifier());
+  }
+
+  removeAlternativeIdentifier(index: number) {
+    this.alternativeIdentifiersArray.removeAt(index);
+  }
+  /** <--Alternative Identifiers**/
+
   /** Service Contact Info -->**/
 
   newContact(): FormGroup {
@@ -817,134 +868,149 @@ export class ServiceFormComponent implements OnInit {
     });
   }
 
-  formPrepare(richService: RichService) {
+  formPrepare(service: Service) {
 
     this.removeCategory(0);
-    if (richService.service.categories) {
-      for (let i = 0; i < richService.service.categories.length; i++) {
+    if (service.categories) {
+      for (let i = 0; i < service.categories.length; i++) {
         this.categoryArray.push(this.newCategory());
-        this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(richService.service.categories[i].category);
-        this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(richService.service.categories[i].subcategory);
+        this.categoryArray.controls[this.categoryArray.length - 1].get('category').setValue(service.categories[i].category);
+        this.categoryArray.controls[this.categoryArray.length - 1].get('subcategory').setValue(service.categories[i].subcategory);
       }
     } else {
       this.categoryArray.push(this.newCategory());
     }
 
     this.removeScientificDomain(0);
-    if (richService.service.scientificDomains) {
-      for (let i = 0; i < richService.service.scientificDomains.length; i++) {
+    if (service.scientificDomains) {
+      for (let i = 0; i < service.scientificDomains.length; i++) {
         this.scientificDomainArray.push(this.newScientificDomain());
         this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-          .get('scientificDomain').setValue(richService.service.scientificDomains[i].scientificDomain);
+          .get('scientificDomain').setValue(service.scientificDomains[i].scientificDomain);
         this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-          .get('scientificSubdomain').setValue(richService.service.scientificDomains[i].scientificSubdomain);
+          .get('scientificSubdomain').setValue(service.scientificDomains[i].scientificSubdomain);
       }
     } else {
       this.scientificDomainArray.push(this.newScientificDomain());
     }
 
-    if (richService.service.resourceProviders) {
-      for (let i = 0; i < richService.service.resourceProviders.length - 1; i++) {
+    if (service.resourceProviders) {
+      for (let i = 0; i < service.resourceProviders.length - 1; i++) {
         this.push('resourceProviders', true);
       }
     }
-    if (richService.service.multimedia) {
-      for (let i = 0; i < richService.service.multimedia.length - 1; i++) {
+    if (service.multimedia) {
+      for (let i = 0; i < service.multimedia.length - 1; i++) {
         this.pushMultimedia();
       }
     }
-    if (richService.service.useCases) {
-      for (let i = 0; i < richService.service.useCases.length - 1; i++) {
+    if (service.useCases) {
+      for (let i = 0; i < service.useCases.length - 1; i++) {
         this.pushUseCase();
       }
     }
-    if (richService.service.targetUsers) {
-      for (let i = 0; i < richService.service.targetUsers.length - 1; i++) {
+    if (service.alternativeIdentifiers) {
+      for (let i = 0; i < service.alternativeIdentifiers.length - 1; i++) {
+        this.pushAlternativeIdentifier();
+      }
+    }
+    if (service.targetUsers) {
+      for (let i = 0; i < service.targetUsers.length - 1; i++) {
         this.push('targetUsers', true);
       }
     }
-    if (richService.service.accessTypes) {
-      for (let i = 0; i < richService.service.accessTypes.length - 1; i++) {
+    if (service.accessTypes) {
+      for (let i = 0; i < service.accessTypes.length - 1; i++) {
         this.push('accessTypes', false);
       }
     }
-    if (richService.service.accessModes) {
-      for (let i = 0; i < richService.service.accessModes.length - 1; i++) {
+    if (service.accessModes) {
+      for (let i = 0; i < service.accessModes.length - 1; i++) {
         this.push('accessModes', false);
       }
     }
-    if (richService.service.tags) {
-      for (let i = 0; i < richService.service.tags.length - 1; i++) {
+    if (service.tags) {
+      for (let i = 0; i < service.tags.length - 1; i++) {
         this.push('tags', false);
       }
     }
-    if (richService.service.geographicalAvailabilities) {
-      for (let i = 0; i < richService.service.geographicalAvailabilities.length - 1; i++) {
+    if (service.serviceCategories) {
+      for (let i = 0; i < service.serviceCategories.length - 1; i++) {
+        this.push('serviceCategories', true);
+      }
+    }
+    if (service.marketplaceLocations) {
+      for (let i = 0; i < service.marketplaceLocations.length - 1; i++) {
+        this.push('marketplaceLocations', true);
+      }
+    }
+    if (service.geographicalAvailabilities) {
+      for (let i = 0; i < service.geographicalAvailabilities.length - 1; i++) {
         this.push('geographicalAvailabilities', true);
       }
     }
-    if (richService.service.languageAvailabilities) {
-      for (let i = 0; i < richService.service.languageAvailabilities.length - 1; i++) {
+    if (service.languageAvailabilities) {
+      for (let i = 0; i < service.languageAvailabilities.length - 1; i++) {
         this.push('languageAvailabilities', true);
       }
     }
-    if (richService.service.resourceGeographicLocations) {
-      for (let i = 0; i < richService.service.resourceGeographicLocations.length - 1; i++) {
+    if (service.resourceGeographicLocations) {
+      for (let i = 0; i < service.resourceGeographicLocations.length - 1; i++) {
         this.push('resourceGeographicLocations', true);
       }
     }
-    if (richService.service.publicContacts) {
-      for (let i = 0; i < richService.service.publicContacts.length - 1; i++) {
+    if (service.publicContacts) {
+      for (let i = 0; i < service.publicContacts.length - 1; i++) {
         this.pushPublicContact();
       }
     }
-    if (richService.service.certifications) {
-      for (let i = 0; i < richService.service.certifications.length - 1; i++) {
+    if (service.certifications) {
+      for (let i = 0; i < service.certifications.length - 1; i++) {
         this.push('certifications', false);
       }
     }
-    if (richService.service.standards) {
-      for (let i = 0; i < richService.service.standards.length - 1; i++) {
+    if (service.standards) {
+      for (let i = 0; i < service.standards.length - 1; i++) {
         this.push('standards', false);
       }
     }
-    if (richService.service.openSourceTechnologies) {
-      for (let i = 0; i < richService.service.openSourceTechnologies.length - 1; i++) {
+    if (service.openSourceTechnologies) {
+      for (let i = 0; i < service.openSourceTechnologies.length - 1; i++) {
         this.push('openSourceTechnologies', false);
       }
     }
-    if (richService.service.changeLog) {
-      for (let i = 0; i < richService.service.changeLog.length - 1; i++) {
+    if (service.changeLog) {
+      for (let i = 0; i < service.changeLog.length - 1; i++) {
         this.push('changeLog', false);
       }
     }
-    if (richService.service.requiredResources) {
-      for (let i = 0; i < richService.service.requiredResources.length - 1; i++) {
+    if (service.requiredResources) {
+      for (let i = 0; i < service.requiredResources.length - 1; i++) {
         this.push('requiredResources', false);
       }
     }
-    if (richService.service.relatedResources) {
-      for (let i = 0; i < richService.service.relatedResources.length - 1; i++) {
+    if (service.relatedResources) {
+      for (let i = 0; i < service.relatedResources.length - 1; i++) {
         this.push('relatedResources', false);
       }
     }
-    if (richService.service.relatedPlatforms) {
-      for (let i = 0; i < richService.service.relatedPlatforms.length - 1; i++) {
+    if (service.relatedPlatforms) {
+      for (let i = 0; i < service.relatedPlatforms.length - 1; i++) {
         this.push('relatedPlatforms', false);
       }
     }
-    if (richService.service.fundingBody) {
-      for (let i = 0; i < richService.service.fundingBody.length - 1; i++) {
+    if (service.fundingBody) {
+      for (let i = 0; i < service.fundingBody.length - 1; i++) {
         this.push('fundingBody', false);
       }
     }
-    if (richService.service.fundingPrograms) {
-      for (let i = 0; i < richService.service.fundingPrograms.length - 1; i++) {
+    if (service.fundingPrograms) {
+      for (let i = 0; i < service.fundingPrograms.length - 1; i++) {
         this.push('fundingPrograms', false);
       }
     }
-    if (richService.service.grantProjectNames) {
-      for (let i = 0; i < richService.service.grantProjectNames.length - 1; i++) {
+    if (service.grantProjectNames) {
+      for (let i = 0; i < service.grantProjectNames.length - 1; i++) {
         this.push('grantProjectNames', false);
       }
     }
@@ -1090,7 +1156,7 @@ export class ServiceFormComponent implements OnInit {
       }
     } else if (tabNum === 2) {  // Classification
       this.BitSetTab2.set(bitIndex, 1);
-      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.get(7) - this.BitSetTab2.get(9) - this.BitSetTab2.get(10);
+      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.get(7) - this.BitSetTab2.get(9) - this.BitSetTab2.get(10) - this.BitSetTab2.get(24) - this.BitSetTab2.get(25);
       if (this.remainingOnTab2 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
         this.calcCompletedTabs(tabNum, 1);
       }
@@ -1143,7 +1209,7 @@ export class ServiceFormComponent implements OnInit {
       }
     } else if (tabNum === 2) {  // Classification
       this.BitSetTab2.set(bitIndex, 0);
-      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.get(7) - this.BitSetTab2.get(9) - this.BitSetTab2.get(10);
+      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.get(7) - this.BitSetTab2.get(9) - this.BitSetTab2.get(10) - this.BitSetTab2.get(24) - this.BitSetTab2.get(25);
       if (this.completedTabsBitSet.get(tabNum) !== 0) {
         this.calcCompletedTabs(tabNum, 0);
       }
@@ -1221,7 +1287,7 @@ export class ServiceFormComponent implements OnInit {
 
   submitVocSuggestion(entryValueName, vocabulary, parent) {
     if (entryValueName.trim() !== '') {
-      this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'service', this.providerId, this.serviceID).subscribe(
+      this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'service', this.providerId, this.serviceId).subscribe(
         res => {
         },
         error => {
@@ -1263,12 +1329,13 @@ export class ServiceFormComponent implements OnInit {
           this.suggestedResponse = res;
           this.suggestedScientificSubDomains = this.suggestedResponse.find(item => item.field_name === "scientific_domains").suggestions;
           this.suggestedSubCategories = this.suggestedResponse.find(item => item.field_name === "categories").suggestions;
-          if((this.suggestedScientificSubDomains.length === 0) && (this.suggestedSubCategories.length === 0)) {this.emptySuggestionResponse = true}
+          this.suggestedTags = this.suggestedResponse.find(item => item.field_name === "tags").suggestions;
+          if((this.suggestedScientificSubDomains.length === 0) && (this.suggestedSubCategories.length === 0) && (this.suggestedTags.length === 0)) {this.emptySuggestionResponse = true}
           this.filteredScientificSubDomainVocabulary = this.scientificSubDomainVocabulary.filter((item) => this.suggestedScientificSubDomains.includes(item.id));
           this.filteredSubCategoriesVocabulary = this.subCategoriesVocabulary.filter((item) => this.suggestedSubCategories.includes(item.id));
         },
         error => {
-          console.log(error);
+          this.showLoader = false;
         },
         () => {
           this.clearSelectedSuggestions();
@@ -1281,6 +1348,7 @@ export class ServiceFormComponent implements OnInit {
   clearSelectedSuggestions(){
     this.selectedSuggestionsForScientificSubDomains = [];
     this.selectedSuggestionsForSubCategories= [];
+    this.selectedSuggestionsForTags= [];
   }
 
   onCheckboxChange(event: any, field: string) {
@@ -1291,6 +1359,8 @@ export class ServiceFormComponent implements OnInit {
         this.selectedSuggestionsForScientificSubDomains.push(id);
       } else if (field === 'SubCategories') {
         this.selectedSuggestionsForSubCategories.push(id);
+      } else if (field === 'Tags') {
+        this.selectedSuggestionsForTags.push(id);
       }
     } else {
       let index;
@@ -1304,6 +1374,11 @@ export class ServiceFormComponent implements OnInit {
         index = this.selectedSuggestionsForSubCategories.indexOf(id);
         if (index !== -1) {
           this.selectedSuggestionsForSubCategories.splice(index, 1);
+        }
+      } else if (field === 'Tags') {
+        index = this.selectedSuggestionsForTags.indexOf(id);
+        if (index !== -1) {
+          this.selectedSuggestionsForTags.splice(index, 1);
         }
       }
     }
@@ -1339,6 +1414,14 @@ export class ServiceFormComponent implements OnInit {
           this.categoryArray.push(categoryFormGroup);
           pushedNewValues = true;
         }
+      }
+    }
+    if (this.selectedSuggestionsForTags.length > 0) {
+      const tagsFormArray = this.serviceForm.get('tags') as FormArray;
+      if (tagsFormArray.at(0).value === '' && tagsFormArray.length === 1) tagsFormArray.clear();
+      for (const tag of this.selectedSuggestionsForTags) {
+        tagsFormArray.push(this.fb.control(tag)); // this.push('tags', false);
+        this.serviceForm.get('tags').setValue(tagsFormArray.value);
       }
     }
     if (pushedNewValues) {

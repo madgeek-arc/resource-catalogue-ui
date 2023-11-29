@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {InteroperabilityRecord, Type} from '../../../domain/eic-model';
+import {InteroperabilityRecord, Type} from '../../domain/eic-model';
 import {FormBuilder} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GuidelinesFormComponent} from "./guidelines-form.component";
-import {AuthenticationService} from "../../../services/authentication.service";
-import {ServiceProviderService} from "../../../services/service-provider.service";
-import {ResourceService} from "../../../services/resource.service";
-import {GuidelinesService} from "../../../services/guidelines.service";
+import {AuthenticationService} from "../../services/authentication.service";
+import {ServiceProviderService} from "../../services/service-provider.service";
+import {ResourceService} from "../../services/resource.service";
+import {GuidelinesService} from "../../services/guidelines.service";
 
 
 @Component({
@@ -82,6 +82,11 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
           if (this.guideline.eoscIntegrationOptions && this.guideline.eoscIntegrationOptions.length > 1) {
             for (let i = 0; i < this.guideline.eoscIntegrationOptions.length - 1; i++) {
               this.push('eoscIntegrationOptions', this.eoscIntegrationOptionsDesc.mandatory);
+            }
+          }
+          if (this.guideline.alternativeIdentifiers) {
+            for (let i = 0; i < this.guideline.alternativeIdentifiers.length - 1; i++) {
+              this.pushAlternativeIdentifier();
             }
           }
           this.guidelinesForm.patchValue(this.guideline);

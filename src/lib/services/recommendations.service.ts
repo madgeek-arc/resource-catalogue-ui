@@ -43,7 +43,8 @@ export class RecommendationsService {
                     },
                     "fields_to_suggest": [
                         "scientific_domains",
-                        "categories"
+                        "categories",
+                        "tags"
                     ],
                     "maximum_suggestions": 3
                   }`;

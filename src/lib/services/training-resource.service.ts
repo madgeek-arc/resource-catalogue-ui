@@ -332,7 +332,7 @@ export class TrainingResourceService {
   }
 
   getPendingService(id: string) {
-    return this.http.get<TrainingResourceBundle>(this.base + `/pendingService/rich/${id}/`, this.options); //TODO: revisit
+    return this.http.get<TrainingResourceBundle>(this.base + `/pendingService/rich/${id}/`, this.options); //not actually used
   }
 
   deletePendingService(id: string) {
@@ -357,12 +357,12 @@ export class TrainingResourceService {
     return this.http.patch(this.base + `/trainingResource/verifyTrainingResource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
-  getServiceTemplate(id: string) {  // gets oldest(?) pending resource of the provider // replaced with /resourceBundles/templates?id=testprovidertemplate
+  getServiceTemplate(id: string) {  // gets oldest(?) pending resource of the provider // replaced with /resourceTemplateBundles/templates?id=testprovidertemplate
     return this.http.get<Service[]>(this.base + `/trainingResource/getServiceTemplate/${id}`);
   }
 
   getResourceTemplateOfProvider(id: string) {  // returns the template, service or datasource
-    return this.http.get<any[]>(this.base + `/resourceBundles/templates?id=${id}`);
+    return this.http.get<any[]>(this.base + `/resourceTemplateBundles/templates?id=${id}`);
   }
 
   sendEmailForOutdatedTrainingResource(id: string) {

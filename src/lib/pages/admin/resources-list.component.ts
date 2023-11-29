@@ -8,8 +8,7 @@ import {
   Provider,
   ProviderBundle,
   Vocabulary,
-  Service,
-  Datasource
+  Service
 } from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -20,7 +19,6 @@ import {NavigationService} from '../../services/navigation.service';
 import {Paging} from '../../domain/paging';
 import {ResourceExtrasService} from '../../services/resource-extras.service';
 import {ServiceExtensionsService} from '../../services/service-extensions.service';
-import {DatasourceService} from "../../services/datasource.service";
 
 declare var UIkit: any;
 
@@ -40,7 +38,6 @@ export class ResourcesListComponent implements OnInit {
     from: '0',
     active: '',
     suspended: '',
-    type: '', //service or datasource
     auditState: new FormArray([]),
     status: new FormArray([]),
     resource_organisation: new FormArray([]),
@@ -49,7 +46,6 @@ export class ResourcesListComponent implements OnInit {
   dataForm: FormGroup;
 
   extrasFormPrepare = {
-    researchCategories: this.fb.array([this.fb.control('')]),
     eoscIFGuidelines: this.fb.array([
       this.fb.group({
         label: [''],
@@ -103,31 +99,19 @@ export class ResourcesListComponent implements OnInit {
   statusList = statusList;
   adminActionsMap = resourceStatusChangeMap;
 
-  public auditStates: Array<string> = [
-    'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
-  ];
-
-  public auditLabels: Array<string> = [
-    'Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'
-  ];
+  public auditStates: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
+  public auditLabels: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
 
   @ViewChildren('auditCheckboxes') auditCheckboxes: QueryList<ElementRef>;
 
-  public statuses: Array<string> = [
-    'approved resource', 'pending resource', 'rejected resource'
-  ];
-
-  public labels: Array<string> = [
-    `Approved`, `Pending`, `Rejected`
-  ];
+  public statuses: Array<string> = ['approved resource', 'pending resource', 'rejected resource'];
+  public labels: Array<string> = [`Approved`, `Pending`, `Rejected`];
 
   @ViewChildren('checkboxes') checkboxes: QueryList<ElementRef>;
 
-  researchCategoriesVoc: Vocabulary[] = null;
   semanticRelationshipVoc: Vocabulary[] = null;
 
   constructor(private resourceService: ResourceService,
-              private datasourceService: DatasourceService,
               private providerService: ServiceProviderService,
               private resourceExtrasService: ResourceExtrasService,
               private authenticationService: AuthenticationService,
@@ -248,17 +232,8 @@ export class ResourcesListComponent implements OnInit {
         }
       );
 
-      this.getResearchCategoriesVoc();
       this.getSemanticRelationshipVoc();
     }
-  }
-
-  getPayload(bundle : ServiceBundle): Service | Datasource {
-    return bundle.service != null ? bundle.service : bundle.datasource;
-  }
-
-  getServiceOrDatasourceType(bundle : ServiceBundle): string {
-    return bundle.service != null ? 'service' : 'datasource';
   }
 
   isStatusChecked(value: string) {
@@ -301,9 +276,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   onSelectionChange(event: any, formControlName: string) {
-
     const formArray: FormArray = this.dataForm.get(formControlName) as FormArray;
-
     if (event.target.checked) {
       // Add a new control in the arrayForm
       formArray.push(new FormControl(event.target.value));
@@ -316,7 +289,6 @@ export class ResourcesListComponent implements OnInit {
           formArray.removeAt(i);
           return;
         }
-
         i++;
       });
     }
@@ -367,7 +339,7 @@ export class ResourcesListComponent implements OnInit {
     this.services = [];
     this.resourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
       this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
-      this.dataForm.get('active').value, this.dataForm.get('suspended').value, this.dataForm.get('type').value,
+      this.dataForm.get('active').value, this.dataForm.get('suspended').value,
       this.dataForm.get('resource_organisation').value, this.dataForm.get('status').value,
       this.dataForm.get('auditState').value, this.dataForm.get('catalogue_id').value).subscribe(
       res => {
@@ -556,7 +528,7 @@ export class ResourcesListComponent implements OnInit {
 
   deleteService(bundle: ServiceBundle) {
     // UIkit.modal('#spinnerModal').show();
-    this.resourceService[bundle.service ? 'deleteService' : 'deleteDatasource'](bundle.id).subscribe(
+    this.resourceService.deleteService(bundle.id).subscribe(
       res => {},
       error => {
         // console.log(error);
@@ -573,7 +545,7 @@ export class ResourcesListComponent implements OnInit {
 
   suspendService() {
     UIkit.modal('#spinnerModal').show();
-    this.resourceService[this.selectedService.service ? 'suspendService' : 'suspendDatasource'](this.selectedService.id, this.getPayload(this.selectedService).catalogueId, !this.selectedService.suspended)
+    this.resourceService.suspendService(this.selectedService.id, this.selectedService.service.catalogueId, !this.selectedService.suspended)
       .subscribe(
         res => {
           UIkit.modal('#suspensionModal').hide();
@@ -584,7 +556,8 @@ export class ResourcesListComponent implements OnInit {
           UIkit.modal('#suspensionModal').hide();
           UIkit.modal('#spinnerModal').hide();
           this.loadingMessage = '';
-          console.log(err);
+          this.errorMessage = err.error.error;
+          window.scroll(0,0);
         },
         () => {
           UIkit.modal('#spinnerModal').hide();
@@ -594,30 +567,6 @@ export class ResourcesListComponent implements OnInit {
   }
 
   /** resourceExtras--> **/
-  toggleHorizontalService(bundle: ServiceBundle) {
-    UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateHorizontalService(bundle.id, this.getServiceOrDatasourceType(bundle), this.getPayload(bundle).catalogueId, !bundle?.resourceExtras?.horizontalService).subscribe(
-      res => {},
-      err => {
-        UIkit.modal('#spinnerModal').hide();
-        console.log(err)
-      },
-      () => {
-        UIkit.modal('#spinnerModal').hide();
-        location.reload();
-      }
-    );
-  }
-
-  showResourceCategories(bundle: ServiceBundle) {
-    this.selectedService = bundle;
-    if (this.selectedService) {
-      this.extrasFormPrep(this.selectedService);
-      this.extrasForm.patchValue(this.selectedService.resourceExtras);
-      UIkit.modal('#researchCategoriesModal').show();
-    }
-  }
-
   showEoscIFGuidelines(bundle: ServiceBundle) {
     this.selectedService = bundle;
     if (this.selectedService) {
@@ -627,24 +576,9 @@ export class ResourcesListComponent implements OnInit {
     }
   }
 
-  updateResearchCategories(bundle: ServiceBundle) {
-    UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateResearchCategories(bundle.id, this.getServiceOrDatasourceType(bundle), this.getPayload(bundle).catalogueId, this.extrasForm.value.researchCategories).subscribe(
-      res => {},
-      err => {
-        UIkit.modal('#spinnerModal').hide();
-        console.log(err);
-      },
-      () => {
-        UIkit.modal('#spinnerModal').hide();
-        location.reload();
-      }
-    );
-  }
-
   updateEoscIFGuidelines(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceExtrasService.updateEoscIFGuidelines(bundle.id, this.getServiceOrDatasourceType(bundle), this.getPayload(bundle).catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
+    this.resourceExtrasService.updateEoscIFGuidelines(bundle.id, 'service', bundle.service.catalogueId, this.extrasForm.value.eoscIFGuidelines).subscribe(
       res => {},
       err => {
         UIkit.modal('#spinnerModal').hide();
@@ -659,7 +593,6 @@ export class ResourcesListComponent implements OnInit {
 
   extrasFormPrep(bundle: ServiceBundle){
     //resets the 2 parts of the form and then fills them
-    this.extrasForm.setControl('researchCategories', this.fb.array([this.fb.control('')]));
     this.extrasForm.setControl('eoscIFGuidelines',
       this.fb.array([this.fb.group({
         label: [''],
@@ -668,11 +601,6 @@ export class ResourcesListComponent implements OnInit {
         url: ['']
       })
       ]));
-    if ( bundle?.resourceExtras?.researchCategories ) {
-      for (let i = 0; i < bundle.resourceExtras.researchCategories.length - 1; i++) {
-        this.push('researchCategories');
-      }
-    }
     if ( bundle?.resourceExtras?.eoscIFGuidelines ) {
       for (let i = 0; i < bundle.resourceExtras.eoscIFGuidelines.length - 1; i++) {
         this.pushEoscIFGuidelines();
@@ -727,7 +655,7 @@ export class ResourcesListComponent implements OnInit {
       return;
     }
     UIkit.modal('#spinnerModal').show();
-    this.providerService[bundle.service ? 'publishService' : 'publishDatasource'](bundle.id, this.getPayload(bundle).version, !bundle.active).subscribe(
+    this.providerService.publishService(bundle.id, bundle.service.version, !bundle.active).subscribe(
       res => {},
       error => {
         UIkit.modal('#spinnerModal').hide();
@@ -745,7 +673,7 @@ export class ResourcesListComponent implements OnInit {
     UIkit.modal('#spinnerModal').show();
     const providerId = serviceBundle.id.substring(0, serviceBundle.id.lastIndexOf('.'));
     const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerId)[0].serviceId;
-    this.resourceService[serviceBundle?.service ? 'verifyResource' : 'verifyDatasource'](templateId, active, status).subscribe(
+    this.resourceService.verifyResource(templateId, active, status).subscribe(
       res => {
         this.getProviders();
       },
@@ -761,38 +689,21 @@ export class ResourcesListComponent implements OnInit {
   }
 
   moveResourceToProvider(serviceBundle, providerId) {
-    if (serviceBundle?.service) {
-      UIkit.modal('#spinnerModal').show();
-        this.resourceService.moveResourceToProvider(serviceBundle.id, providerId, this.commentMoveControl.value).subscribe(
-          res => {},
-          error => {
-            // console.log(error);
-            UIkit.modal('#spinnerModal').hide();
-            this.errorMessage = 'Something went bad. ' + error.error;
-            this.getResources();
-          },
-          () => {
-            UIkit.modal('#spinnerModal').hide();
-            window.location.reload();
-          }
-        );
+    UIkit.modal('#spinnerModal').show();
+    this.resourceService.moveResourceToProvider(serviceBundle.id, providerId, this.commentMoveControl.value).subscribe(
+      res => {
+      },
+      error => {
+        // console.log(error);
+        UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = 'Something went bad. ' + error.error;
+        this.getResources();
+      },
+      () => {
+        UIkit.modal('#spinnerModal').hide();
+        window.location.reload();
       }
-      else if (serviceBundle?.datasource) {
-        UIkit.modal('#spinnerModal').show();
-        this.datasourceService.moveDatasourceToProvider(serviceBundle.id, providerId, this.commentMoveControl.value).subscribe(
-          res => {},
-          error => {
-            // console.log(error);
-            UIkit.modal('#spinnerModal').hide();
-            this.errorMessage = 'Something went bad. ' + error.error;
-            this.getResources();
-          },
-          () => {
-            UIkit.modal('#spinnerModal').hide();
-            window.location.reload();
-          }
-        );
-    }
+    );
   }
 
   showAuditForm(view: string, resource: ServiceBundle) {
@@ -812,7 +723,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   auditResourceAction(action: string, bundle: ServiceBundle) {
-    this.resourceService[bundle.service ? 'auditResource' : 'auditDatasource'](this.selectedService.id, action, this.getPayload(this.selectedService).catalogueId, this.commentAuditControl.value)
+    this.resourceService.auditResource(this.selectedService.id, action, this.selectedService.service.catalogueId, this.commentAuditControl.value)
       .subscribe(
         res => {
           if (!this.showSideAuditForm) {
@@ -836,15 +747,9 @@ export class ResourcesListComponent implements OnInit {
   }
 
   sendMailForUpdate(serviceBundle) {
-    if (serviceBundle?.service) {
-      this.resourceService.sendEmailForOutdatedResource(serviceBundle.id).subscribe(
-        res => {}, err => { console.log(err); }
-      );
-    } else if (serviceBundle?.datasource) {
-      this.datasourceService.sendEmailForOutdatedDatasource(serviceBundle.id).subscribe(
-        res => {}, err => { console.log(err); }
-      );
-    }
+    this.resourceService.sendEmailForOutdatedResource(serviceBundle.id).subscribe(
+      res => {}, err => { console.log(err); }
+    );
   }
 
   hasCreatedFirstService(id: string) {
@@ -934,12 +839,6 @@ export class ResourcesListComponent implements OnInit {
       }
     }
     return namesArray;
-  }
-
-  getResearchCategoriesVoc() {
-    this.resourceService.getVocabularyByType('RESEARCH_CATEGORY').subscribe(
-      suc => this.researchCategoriesVoc = suc
-    );
   }
 
   getSemanticRelationshipVoc() {
