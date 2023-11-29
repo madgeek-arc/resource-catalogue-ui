@@ -9,13 +9,13 @@
         <ul>
 
           <li [routerLinkActive]="['current_section']" #stats="routerLinkActive">
-            <a [routerLink]="['/dashboard/' + providerId + '/shared-resource-dashboard/' + resourceId + '/stats']">
+            <a [routerLink]="['/dashboard/' + catalogueId +'/'+ providerId + '/shared-resource-dashboard/' + resourceId + '/stats']">
               <img src="{{stats.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
               Statistics
             </a>
           </li>
           <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
-            <a [routerLink]="['/dashboard/' + providerId + '/shared-resource-dashboard/' + resourceId + '/history']">
+            <a [routerLink]="['/dashboard/' + catalogueId +'/'+ providerId + '/shared-resource-dashboard/' + resourceId + '/history']">
               <img src="{{services.isActive ? 'lib/assets/images/new-icons/history-active.svg' : 'lib/assets/images/new-icons/history.svg'}}" class="uk-margin-small-right">
               Update History
             </a>

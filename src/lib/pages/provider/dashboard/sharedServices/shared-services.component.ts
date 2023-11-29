@@ -90,7 +90,7 @@ export class SharedServicesComponent implements OnInit {
   }
 
   navigate(id: string) {
-    this.router.navigate([`/dashboard/${this.providerId}/shared-resource-dashboard/`, id]);
+    this.router.navigate([`/dashboard/${this.catalogueId}/${this.providerId}/shared-resource-dashboard/`, id]);
   }
 
   getProvider() {

@@ -68,7 +68,7 @@ const appRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard]
   },
   {
-    path: 'dashboard/:providerId/shared-resource-dashboard',
+    path: 'dashboard/:catalogueId/:providerId/shared-resource-dashboard',
     loadChildren: () => import('../lib/pages/provider/dashboard/resource-dashboard/shared-resource-dashboard.module').then(m => m.SharedResourceDashboardModule),
     canActivate: [CanActivateViaAuthGuard]
   },
