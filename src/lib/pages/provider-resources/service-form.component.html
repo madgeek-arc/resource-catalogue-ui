@@ -569,7 +569,7 @@
                           <li>
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right">
-                                Scientific Categorisation (*) <span style="color:#0055b9" (click)="showSuggestionsModal()">&nbsp;&nbsp;Press the Suggest button to get recommended values</span>
+                                Scientific Categorisation (*) <span *ngIf="!disable" style="color:#0055b9" (click)="showSuggestionsModal()">&nbsp;&nbsp;Press the Suggest button to get recommended values</span>
                               </label>
                               <div class="uk-form-controls uk-margin-top">
                                 <div formArrayName="scientificDomains"
@@ -673,7 +673,7 @@
 
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right">
-                                Categorisation (*) <span style="color:#0055b9" (click)="showSuggestionsModal()">&nbsp;&nbsp;Press the Suggest button to get recommended values</span>
+                                Categorisation (*) <span *ngIf="!disable" style="color:#0055b9" (click)="showSuggestionsModal()">&nbsp;&nbsp;Press the Suggest button to get recommended values</span>
                               </label>
                               <div class="uk-form-controls uk-margin-top">
                                 <div formArrayName="categories"
