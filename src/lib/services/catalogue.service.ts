@@ -79,7 +79,7 @@ export class CatalogueService {
     // }
     if (auditState && auditState.length > 0) {
       for (const auditValue of auditState) {
-        params = params.append('auditState', auditValue);
+        params = params.append('audit_state', auditValue);
       }
     }
     return this.http.get(this.base + `/catalogue/bundle/all`, {params});
@@ -133,4 +133,7 @@ export class CatalogueService {
     return this.http.put<CatalogueBundle>(this.base + `/catalogue/suspend?catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
   }
 
+  auditCatalogue(id: string, action: string, comment: string) {
+    return this.http.patch(this.base + `/catalogue/auditCatalogue/${id}?actionType=${action}&comment=${comment}`, this.options);
+  }
 }

@@ -34,8 +34,20 @@
                 <div class="uk-width-1-4">
 
                   <h4>Filters</h4>
-
                   <hr class="uk-margin-large-right">
+
+                  <h5>Audit State</h5>
+                  <form [formGroup]="dataForm">
+                    <div formArrayName="auditState" class="uk-padding uk-padding-remove-top">
+                      <div *ngFor="let auditState of auditStates;" class="uk-margin-small-top">
+                        <label class="status-value uk-margin-small-left">
+                          <input #auditCheckboxes class="uk-checkbox" type="checkbox" [value]="auditState"
+                                 (change)="onSelectionChange($event, 'auditState')" [checked]="isAuditStateChecked(auditState)">
+                          {{auditLabels[auditStates.indexOf(auditState)] | titlecase}}
+                        </label>
+                      </div>
+                    </div>
+                  </form>
 
                   <h5>Catalogue Status</h5>
                   <form [formGroup]="dataForm">
@@ -259,6 +271,13 @@
                                     (click)="showActionModal(catalogueBundle, 'rejected catalogue')" class="uk-margin-small-top">
                                   <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Reject</a>
                                 </li>
+                                <ng-container *ngIf="catalogueBundle.status === 'approved catalogue'">
+                                  <li class="uk-margin-small-bottom"
+                                      (click)="showAuditForm(catalogueBundle)">
+                                    <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
+                                  </li>
+                                </ng-container>
+                                <li class="uk-nav-divider"></li>
                                 <li *ngIf="(catalogueBundle.suspended==false)"
                                     (click)="showSuspensionModal(catalogueBundle)"
                                     class="uk-margin-small-top">
@@ -271,6 +290,24 @@
                                 </li>
                               </ul>
                             </div>
+                          </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="catalogueBundle.active">
+                          <div *ngIf="showMainAuditForm && selectedCatalogue === catalogueBundle">
+                            <!--                            <hr>-->
+                            <div>
+                              <p>You are about to audit "{{ selectedCatalogue.catalogue.name }}".</p>
+                              <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
+                            </div>
+                            <form>
+                              <div class="uk-margin">
+                                <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentAuditControl"></textarea>
+                              </div>
+                            </form>
+                            <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetAuditView()">Close</button>
+                            <button class="uk-button uk-button-secondary uk-align-right" type="submit" (click)="auditResourceAction('VALID', selectedCatalogue)">Validate</button>
+                            <button class="uk-button uk-button-danger uk-align-right" type="submit" (click)="auditResourceAction('INVALID', selectedCatalogue)">Invalidate</button>
                           </div>
                         </ng-container>
 
