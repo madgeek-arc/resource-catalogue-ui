@@ -452,6 +452,13 @@
                                   </li>
                                   <li class="uk-nav-divider"></li>
                                 </ng-container>
+                                <ng-container>
+                                  <li class="uk-margin-small-bottom"
+                                      (click)="showHLE(providerBundle)">
+                                    <a><i class="fa fa-eye fa-lg uk-margin-small-right"></i>Show HLE</a>
+                                  </li>
+                                  <li class="uk-nav-divider"></li>
+                                </ng-container>
                                 <ng-container *ngIf="providerBundle.status === 'approved provider' && providerBundle.templateStatus === 'no template status'">
                                   <i class="">Add First {{serviceORresource}}</i>
                                   <li class="uk-active">
@@ -900,5 +907,28 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<div id="HLEmodal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <div *ngIf="selectedProvider">
+      <div class="uk-h4 uk-padding uk-text-center uk-margin-remove-bottom">List of providers in which "{{selectedProvider.provider.name}}" appears as a Hosting Legal Entity</div>
+      <div *ngIf="!resourcesUnderHLE">No results available</div>
+      <div *ngFor="let item of resourcesUnderHLE; let i = index">
+        <div *ngIf="item.key === 'service' && i === 1" class="uk-h4 uk-padding uk-padding-remove-bottom uk-text-center">Their associated resources</div>
+        <h6>{{ item.key | titlecase }}s</h6>
+        <ul style="list-style-type: none">
+          <li *ngIf="item.values.length === 0">No results</li>
+<!--          <li *ngFor="let value of item.values">{{ value.name }}</li>-->
+          <li *ngFor="let value of item.values">
+            <a *ngIf="item.key === 'provider'" [routerLink]="['/dashboard', value.catalogue, value.id]" target="_blank">{{value.name}}</a>
+            <a *ngIf="item.key === 'service'" [routerLink]="['/dashboard', value.catalogue, value.id.split('.')[0], 'resource-dashboard', value.id]" target="_blank">{{value.name}}</a>
+            <a *ngIf="item.key === 'training_resource'" [routerLink]="['/dashboard', value.catalogue, value.id.split('.')[0], 'training-resource-dashboard', value.id]" target="_blank">{{value.name}}</a>
+            <a *ngIf="item.key === 'interoperability_record'" [routerLink]="['/guidelines/all?order=ASC&orderField=title&quantity=10&from=0&auditState=&catalogue_id=&provider_id=&query=' + value.id]">{{value.name}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
