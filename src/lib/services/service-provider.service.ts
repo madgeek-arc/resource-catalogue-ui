@@ -238,4 +238,8 @@ export class ServiceProviderService {
   suspendProvider(providerId: string, catalogueId: string, suspend: boolean) {
     return this.http.put<ProviderBundle>(this.base + `/provider/suspend?providerId=${providerId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
   }
+
+  getAllResourcesUnderHLE(providerName?: string){
+   return this.http.get<any>(this.base + `/provider/getAllResourcesUnderASpecificHLE?providerName=${providerName}`);
+  }
 }

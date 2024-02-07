@@ -49,6 +49,9 @@ export class ServiceProvidersListComponent implements OnInit {
   showMainAuditForm = false;
   initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userFullName: '', userRole: '', type: '', comment: '', actionType: ''};
 
+  showHLEmodal = false;
+  resourcesUnderHLE: any;
+
   errorMessage: string;
   loadingMessage = '';
 
@@ -685,6 +688,21 @@ export class ServiceProvidersListComponent implements OnInit {
           this.resetAuditView();
         }
       );
+  }
+
+  showHLE(bundle: ProviderBundle) {
+    this.loadingMessage = 'Loading HLE...'
+    this.selectedProvider = bundle;
+    this.serviceProviderService.getAllResourcesUnderHLE(this.selectedProvider.provider.name).subscribe(
+      res => {
+        this.resourcesUnderHLE = res;
+      },
+      err => {this.loadingMessage = ''},
+      () => {
+        this.loadingMessage = '';
+        UIkit.modal('#HLEmodal').show();
+      }
+    )
   }
 
   hasCreatedFirstService(providerId: string) {

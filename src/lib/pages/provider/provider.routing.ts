@@ -184,6 +184,14 @@ const providerRoutes: Routes = [
     }
   },
   {
+    path: ':providerId/training-resource/add/use-template/:trainingResourceId',
+    component: UpdateTrainingResource,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Add Training Resource'
+    }
+  },
+  {
     path: ':providerId/resource/:resourceId/datasource/metrics', // TODO: datasourceId maybe needed
     component: DatasourceMetricsComponent,
     canActivate: [CanActivateViaAuthGuard],

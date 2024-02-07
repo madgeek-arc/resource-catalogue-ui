@@ -3,7 +3,15 @@ import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {CatalogueService} from "../../services/catalogue.service";
 // import {statusChangeMap, statusList} from '../../domain/catalogue-status-list';
-import {LoggingInfo, Provider, CatalogueBundle, Service, Type, Vocabulary} from '../../domain/eic-model';
+import {
+  LoggingInfo,
+  Provider,
+  CatalogueBundle,
+  Service,
+  Type,
+  Vocabulary,
+  InteroperabilityRecordBundle
+} from '../../domain/eic-model';
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -41,9 +49,8 @@ export class CataloguesListComponent implements OnInit {
 
   urlParams: URLParameter[] = [];
 
-  commentControl = new FormControl();
+  commentAuditControl = new FormControl();
   // auditingProviderId: string;
-  showSideAuditForm = false;
   showMainAuditForm = false;
   initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userFullName: '', userRole: '', type: '', comment: '', actionType: ''};
 
@@ -53,6 +60,7 @@ export class CataloguesListComponent implements OnInit {
   catalogues: CatalogueBundle[] = [];
   cataloguesForAudit: CatalogueBundle[] = [];
   selectedCatalogue: CatalogueBundle;
+  selectedCataloguesForAudit: CatalogueBundle[] = [];
   newStatus: string;
   pushedApprove: boolean;
   verify: boolean;
@@ -91,6 +99,10 @@ export class CataloguesListComponent implements OnInit {
   public geographicalVocabulary: Vocabulary[] = null;
   public languagesVocabulary: Vocabulary[] = null;
   public statusesVocabulary: Vocabulary[] = null;
+
+  public auditStates: Array<string> = ['Valid', 'Not audited', 'Invalid and updated', 'Invalid and not updated'];
+  public auditLabels: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
+  @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
 
   // public statuses: Array<string> = ['approved provider', 'pending provider', 'rejected provider'];
   public statuses: Array<string> = ['approved catalogue', 'pending catalogue', 'rejected catalogue'];
@@ -251,9 +263,9 @@ export class CataloguesListComponent implements OnInit {
     this.handleChangeAndResetPage();
   }
 
-  // isAuditStateChecked(value: string) {
-  //   return this.dataForm.get('auditState').value.includes(value);
-  // }
+  isAuditStateChecked(value: string) {
+    return this.dataForm.get('auditState').value.includes(value);
+  }
 
   isStatusChecked(value: string) {
     return this.dataForm.get('status').value.includes(value);
@@ -512,5 +524,38 @@ export class CataloguesListComponent implements OnInit {
     }
     this.handleChangeAndResetPage();
   }
+
+  /** Audit --> **/
+  showAuditForm(catalogueBundle: CatalogueBundle) {
+    this.commentAuditControl.reset();
+    this.selectedCatalogue = catalogueBundle;
+    this.showMainAuditForm = true;
+  }
+
+  resetAuditView() {
+    this.showMainAuditForm = false;
+    this.commentAuditControl.reset();
+  }
+
+  auditResourceAction(action: string, bundle: CatalogueBundle) {
+    this.catalogueService.auditCatalogue(this.selectedCatalogue.id, action, this.commentAuditControl.value)
+      .subscribe(
+        res => {this.getCatalogues();},
+        err => {console.log(err);},
+        () => {
+          this.selectedCataloguesForAudit.forEach(
+            s => {
+              if (s.id === this.selectedCatalogue.id) {
+                s.latestAuditInfo = this.initLatestAuditInfo;
+                s.latestAuditInfo.date = Date.now().toString();
+                s.latestAuditInfo.actionType = action;
+              }
+            }
+          );
+          this.resetAuditView();
+        }
+      );
+  }
+  /** <--Audit **/
 
 }
