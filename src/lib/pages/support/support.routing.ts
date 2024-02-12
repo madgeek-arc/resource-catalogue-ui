@@ -17,7 +17,7 @@ const supportRoutes: Routes = [
     path: 'about',
     component: AboutComponent,
     data: {
-      breadcrumb: 'about'
+      breadcrumb: 'About'
     }
   },
   {
