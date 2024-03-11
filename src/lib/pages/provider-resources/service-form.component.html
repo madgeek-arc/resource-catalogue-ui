@@ -56,6 +56,8 @@
 
               <div [ngClass]="{'blur-filter': showLoader}">
 
+                <div *ngIf="!editMode" class="uk-alert uk-alert-warning">IMPORTANT: As of 15 March 2024, onboarding requests will no longer be possible on the EOSC Providers Portal. More updates coming soon.</div>
+
                 <div *ngIf="!disable" class="requiredFields">Fields with (*) are mandatory and must be completed in order to submit this form. Leaving
                   optional fields blank will remove the relevant heading from the published resource/provider profile.</div>
 

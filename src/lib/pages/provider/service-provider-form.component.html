@@ -51,8 +51,7 @@
 
               <div [ngClass]="{'blur-filter': showLoader}">
 
-                <div *ngIf="!edit" class="uk-alert uk-alert-primary">You are about to register a new {{serviceORresource}} Provider ({{projectName=='CatRIS' ? 'SP' : 'RP'}}).
-                  You will be able to register new {{serviceORresource | lowercase}}(s) when this process is completed and your {{projectName=='CatRIS' ? 'SP' : 'RP'}} is onboarded. For further information you may visit items under the ‘support’ menu.</div>
+                <div *ngIf="!edit" class="uk-alert uk-alert-warning">IMPORTANT: As of 15 March 2024, onboarding requests will no longer be possible on the EOSC Providers Portal. More updates coming soon.</div>
 
                 <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
 
