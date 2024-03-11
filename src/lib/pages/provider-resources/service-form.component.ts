@@ -839,7 +839,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   pushPublicContact() {
-    this.publicContactArray.push(this.newContact()); // FIXME
+    this.publicContactArray.push(this.newContact());
   }
 
   removePublicContact(index: number) {
@@ -1062,7 +1062,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   /** BitSets -->**/
-  /** TODO: maybe timeout can be removed with subject **/
+  /** maybe timeout can be removed with subject **/
   handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
     if (bitIndex === 0) {
       this.serviceName = this.serviceForm.get(formControlName).value;

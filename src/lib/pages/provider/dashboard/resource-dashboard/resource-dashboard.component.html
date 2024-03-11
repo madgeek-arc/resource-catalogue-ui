@@ -133,6 +133,12 @@
             </ng-container>
           </ng-container>
 
+          <li *ngIf="catalogueId !== 'eosc' && resourceBundle">
+            <a href="/provider/{{resourceBundle?.service.catalogueId}}/{{resourceBundle?.service.resourceOrganisation}}/resource/view/{{resourceBundle?.id}}">
+              <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true" style="color: #26c0e2"></i> View {{serviceORresource}}
+            </a>
+          </li>
+
           <li>
             <a href="{{_marketplaceServicesURL}}{{catalogueId}}.{{resourceId}}" target="_blank">
               <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right"> View in Catalogue

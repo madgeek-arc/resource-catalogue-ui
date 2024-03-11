@@ -799,7 +799,7 @@ export class ServiceProviderFormComponent implements OnInit {
       if (this.providerForm.controls[i].value && this.providerForm.controls[i].value.constructor === Array) {
 
       } else if (this.providerForm.controls[i].value && (i === 'location' || i === 'mainContact')) {
-        // TODO
+
       } else if (typeof this.providerForm.controls[i].value === 'boolean') {
         // console.log('skip boolean value');
       } else {

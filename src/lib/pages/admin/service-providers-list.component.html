@@ -520,7 +520,7 @@
                                   <li class="uk-nav-divider ng-star-inserted"></li>
                                 </ng-container>
                                 <ng-container *ngIf="((providerBundle.status === 'pending provider') || (providerBundle.status === 'rejected provider'))">
-                                  <!--                                  TODO: simplify more-->
+                                  <!-- could simplify more -->
                                   <li
                                     *ngIf="adminActionsMap[providerBundle.status] && adminActionsMap[providerBundle.status].appButtonTitle"
                                     (click)="showActionModal(providerBundle, adminActionsMap[providerBundle.status].onApprove, true, true)"
