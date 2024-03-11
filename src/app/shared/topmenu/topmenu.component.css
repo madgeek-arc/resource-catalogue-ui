@@ -408,7 +408,7 @@ li.leaf {
     border: 1px solid #D1303A;
 }
 
-/*TODO remove when we enable signUp*/
+/*remove when we enable signUp*/
 a.signUp, a:hover.signUp {
     color: #4D586A !important;
     cursor:not-allowed !important;

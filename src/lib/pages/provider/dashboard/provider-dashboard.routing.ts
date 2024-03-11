@@ -104,7 +104,7 @@ const providerDashboardRoutes: Routes = [
           isResource: false
         }
       },
-      // fixme do it with lazy loading?
+      // do it with lazy loading?
       // {
       //   path: 'resource/dashboard',
       //   loadChildren: './resource-dashboard.module#ResourceDashboardModule',

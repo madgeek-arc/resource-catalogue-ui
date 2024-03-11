@@ -508,7 +508,7 @@ export class ResourceService {
   }
 
   getPendingService(id: string) {
-    return this.http.get<ServiceBundle>(this.base + `/pendingService/${id}/`, this.options); //was rich TODO: could change response to Service and use along with getService
+    return this.http.get<ServiceBundle>(this.base + `/pendingService/${id}/`, this.options); //was richService. Could change response to Service and use along with getService
   }
 
   deletePendingService(id: string) {
