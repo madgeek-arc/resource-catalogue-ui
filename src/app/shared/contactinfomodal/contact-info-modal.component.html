@@ -1,0 +1,39 @@
+<div id="modal-info-consent" class="uk-flex-top" uk-modal="bg-close: false; esc-close: false;">
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+
+    <h4 class="text-center">Information for provider portal</h4>
+    <h5 class="text-center uk-margin-top">Transition to EOSC EU Node – Transfer of Contact Information</h5>
+    <p>In the context of the <a href="https://eoscfuture.eu/newsfuture/updates-on-the-transition-to-the-eosc-eu-node/" target="_blank">transition from the current EOSC platform to the EOSC EU Node</a>, EOSC Future would like to facilitate the transfer of the contact information of registered service providers to the EOSC EU Node operators.</p>
+    <p>This way, the EOSC EU Node team will be able to reach out directly to you for future communication concerning the EOSC EU Node, including future on-boarding and service integration activities. The privacy notice for the EOSC EU Node is available at [URL when available].</p>
+    <p>The European Commission will also receive a copy of the public EOSC catalogue in order to maintain discoverability and findability functions of existing resources through a transfer from mid-April on. Full features of the EOSC EU Node are expected to go live in the second half of 2024. This will however not automatically include the private contact data of the service administrators processed in the EOSC Providers Portal.</p>
+    <p>Therefore, EOSC Future is offering to transfer this contact information directly to the operators of the EOSC EU Node. This is a voluntary process. EOSC Future will not share the private contact information unless given explicit consent through the form below. You can consult the relevant EOSC Future Privacy Policy at LINK TO EOSC FUTURE PRIVACY POLICY.</p>
+
+    <span>The data transferred includes:</span>
+    <ul>
+      <li>First name</li>
+      <li>Last name</li>
+      <li>Email</li>
+      <li>Phone number (if available)</li>
+      <li>Position (if available)</li>
+    </ul>
+
+    <p>The data will be combined with publicly available information in the <a href="https://wiki.eoscfuture.eu/display/PUBLIC/A.+v4.00+EOSC+Provider+Profile" target="_blank">Provider Profile</a>  to allow the recipient to link the contact information to the respective provider and services.</p>
+    <h5>Consent</h5>
+    <p>I agree to transfer my personal data (first name, last name, email, phone number, position) from the EOSC Provider Portal operated by EOSC Future to the data controller of the EOSC EU Node, the European Commission, for future communication concerning the EOSC EU Node, including on-boarding and service integration activities.</p>
+    <p>Information on the applicable privacy policy of the recipient, including contact details and data subjects' rights are available at: link when available</p>
+
+<!--    <p class="" style=""><input class="uk-checkbox" type="checkbox" [(ngModel)]="checkboxChecked"> Yes, I agree to the transfer</p>-->
+    <p class="" style="">
+      <input class="uk-checkbox" type="checkbox" id="modalCheckbox" [(ngModel)]="checkboxChecked">
+      <label for="modalCheckbox">&nbsp;Yes, I agree to the transfer</label>
+    </p>
+
+    <span class="">Timeline</span>
+    <p>The current EOSC platform operated by EOSC Future will be phased out during April 2024. Given the time constraints of the EOSC Future project, the possibility to agree to the transfer is offered until DD April 2024, noon CEST.</p>
+
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button" routerLink="/home">Cancel</button>
+      <button class="uk-button uk-modal-close" type="button" [ngClass]="{'uk-disabled': !checkboxChecked, 'uk-button-primary': checkboxChecked}" (click)="contactInfoTransferAcceptance(true)">Submit</button>
+    </div>
+  </div>
+</div>
