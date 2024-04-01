@@ -44,12 +44,6 @@
 
             <div>
               <div class="uk-card">
-                <div class="uk-card-body" *ngIf="projectName==='CatRIS'">
-                  <highcharts-chart *ngIf="providerFavouritesOptions" [Highcharts]="Highcharts"
-                                    [options]="providerFavouritesOptions"
-                                    style="width: 100%; height: auto; display: block;">
-                  </highcharts-chart>
-                </div>
                 <div class="uk-card-body" *ngIf="projectName==='EOSC'">
                   <highcharts-chart *ngIf="providerAddsToProjectOptions"
                                     [Highcharts]="Highcharts"
@@ -72,16 +66,6 @@
               </div>
             </div>
 
-            <div>
-              <div class="uk-card">
-                <div class="uk-card-body">
-                  <highcharts-chart *ngIf="providerRatingsOptions" [Highcharts]="Highcharts"
-                                    [options]="providerRatingsOptions"
-                                    style="width: 100%; height: auto; display: block;">
-                  </highcharts-chart>
-                </div>
-              </div>
-            </div>
           </div>
 
         </li>
