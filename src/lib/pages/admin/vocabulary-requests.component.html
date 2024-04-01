@@ -28,12 +28,12 @@
 
                   <hr class="uk-margin-large-right">
 
-                  <div *ngIf="facets !== null && facets !== undefined && facets[1]?.values" class="refineCategory uk-grid-margin">
+                  <div *ngIf="facets !== null && facets !== undefined && facets[0]?.values" class="refineCategory uk-grid-margin">
                     <h3 class="uk-h3">Vocabularies</h3>
 <!--                    <label class="uk-margin-small-left uk-margin-medium-bottom">-->
 <!--                      <input class="uk-search-input" [(ngModel)]="searchFacet" placeholder="Search with provider id or provider name">-->
 <!--                    </label>-->
-                    <div class="uk-margin-small-top" *ngFor="let vocabulary of facets[1].values">
+                    <div class="uk-margin-small-top" *ngFor="let vocabulary of facets[0].values">
                       <div *ngIf="!searchFacet || searchFacet.toLowerCase() === vocabulary.value.toLowerCase()
                                                  || (vocabulary.label!=null && vocabulary.label.toLowerCase().includes(searchFacet.toLowerCase()))">
                         <label class="uk-margin-small-left">
