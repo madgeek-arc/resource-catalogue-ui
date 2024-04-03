@@ -107,20 +107,6 @@ export class TrainingResourceStatsComponent implements OnInit, OnDestroy {
       );
     }
 
-    this.trainingResourceService.getRatingsForService(this.trainingResource.id, period).pipe(
-      map(data => {
-        // console.log('Ratings', data);
-        // THESE 3 weird lines should be deleted when pgl makes everything ok :)
-        return Object.entries(data).map((d) => {
-          return [new Date(d[0]).getTime(), d[1]];
-        }).sort((l, r) => l[0] - r[0]);
-      })).subscribe(
-      data => this.setRatingsForResource(data),
-      err => {
-        this.errorMessage = 'An error occurred while retrieving ratings for this training resource. ' + err.error;
-      }
-    );
-
     if (dontGetResources) {
     } else {
       this.trainingResourceService.getServiceLoggingInfoHistory(this.trainingResource.id, this.catalogueId).subscribe(

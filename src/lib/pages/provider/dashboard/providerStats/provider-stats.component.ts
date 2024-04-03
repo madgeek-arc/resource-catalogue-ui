@@ -154,19 +154,6 @@ export class ProviderStatsComponent implements OnInit {
       }
     );
 
-    this.resourceService.getRatingsForProvider(this.providerId, period).pipe(
-      map(data => {
-        // THESE 3 weird lines should be deleted when pgl makes everything ok :)
-        return Object.entries(data).map((d) => {
-          return [new Date(d[0]).getTime(), d[1]];
-        }).sort((l, r) => l[0] - r[0]);
-      })).subscribe(
-      data => this.setRatingsForProvider(data),
-      err => {
-        this.errorMessage = 'An error occurred while retrieving ratings for this provider. ' + err.error;
-      }
-    );
-
     if (this.projectName === 'EOSC') {
 
       this.resourceService.getAddsToProjectForProvider(this.providerId, period).pipe(

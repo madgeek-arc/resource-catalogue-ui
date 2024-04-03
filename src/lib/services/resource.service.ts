@@ -276,16 +276,6 @@ export class ResourceService {
     }
   }
 
-  getRatingsForProvider(provider: string, period?: string) {
-    let params = new HttpParams();
-    if (period) {
-      params = params.append('by', period);
-      return this.http.get(this.base + `/stats/provider/ratings/${provider}`, {params});
-    } else {
-      return this.http.get(this.base + `/stats/provider/ratings/${provider}`);
-    }
-  }
-
   getVisitationPercentageForProvider(provider: string) {
     return this.get('stats/provider/visitation', provider);
   }
@@ -310,15 +300,6 @@ export class ResourceService {
       return this.http.get(this.base + `/stats/service/addToProject/${service}`, {params});
     }
     return this.http.get(this.base + `/stats/service/addToProject/${service}`);
-  }
-
-  getRatingsForService(service: string, period?: string) {
-    let params = new HttpParams();
-    if (period) {
-      params = params.append('by', period);
-      return this.http.get(this.base + `/stats/service/ratings/${service}`, {params});
-    }
-    return this.http.get(this.base + `/stats/service/ratings/${service}`);
   }
   /** STATS **/
 

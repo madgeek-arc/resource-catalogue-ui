@@ -136,4 +136,13 @@ export class CatalogueService {
   auditCatalogue(id: string, action: string, comment: string) {
     return this.http.patch(this.base + `/catalogue/auditCatalogue/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
+
+  getContactInfo() {
+    return this.http.get(this.base + `/contactInformation/getMy`, this.options);
+  }
+
+  setContactInfoTransfer(bool: boolean, mail?: string) {
+    return this.http.put(this.base + `/contactInformation/updateContactInfoTransfer?acceptedTransfer=${bool}`, this.options);
+  }
+
 }

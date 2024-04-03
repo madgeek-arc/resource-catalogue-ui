@@ -52,6 +52,7 @@ import {DatasourceService} from "../lib/services/datasource.service";
 import {TrainingResourceService} from "../lib/services/training-resource.service";
 import {RecommendationsService} from "../lib/services/recommendations.service";
 import {GuidelinesService} from "../lib/services/guidelines.service";
+import {ContactInfoModalComponent} from "./shared/contactinfomodal/contact-info-modal.component";
 
 declare var require: any;
 
@@ -98,6 +99,7 @@ export function highchartsFactory() {
     // ServiceEditComponent,
     // ServiceFormComponent,
     // ServiceUploadComponent,
+    ContactInfoModalComponent
   ],
   imports: [
     RouterModule,
@@ -158,7 +160,8 @@ export function highchartsFactory() {
     EOSCTopMenuComponent,
     BreadcrumbsComponent,
     DashboardBreadcrumbsComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    ContactInfoModalComponent
   ],
   bootstrap: [AppComponent]
 })
