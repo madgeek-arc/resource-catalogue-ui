@@ -46,12 +46,12 @@ export class ProviderInfoComponent implements OnInit {
     this.getProviderBundle();
     // this.getProvider();
 
-    if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
-      this.providerService.getProviderRequests(this.providerId).subscribe(
-        res => this.requests = res,
-        err => console.log(err)
-      );
-    }
+    // if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
+    //   this.providerService.getProviderRequests(this.providerId).subscribe(
+    //     res => this.requests = res,
+    //     err => console.log(err)
+    //   );
+    // }
   }
 
   getProviderBundle() {

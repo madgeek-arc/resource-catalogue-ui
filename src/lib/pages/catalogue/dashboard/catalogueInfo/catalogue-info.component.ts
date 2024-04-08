@@ -45,12 +45,12 @@ export class CatalogueInfoComponent implements OnInit {
     this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogue');
     this.getCatalogueBundle();
 
-    if (!isNullOrUndefined(this.catalogueId) && (this.catalogueId !== '')) {
-      this.providerService.getProviderRequests(this.catalogueId).subscribe(
-        res => this.requests = res,
-        err => console.log(err)
-      );
-    }
+    // if (!isNullOrUndefined(this.catalogueId) && (this.catalogueId !== '')) {
+    //   this.providerService.getProviderRequests(this.catalogueId).subscribe(
+    //     res => this.requests = res,
+    //     err => console.log(err)
+    //   );
+    // }
   }
 
   getCatalogueBundle() {

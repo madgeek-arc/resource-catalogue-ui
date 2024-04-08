@@ -24,12 +24,12 @@ export class MessagesComponent implements OnInit {
     this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     this.getProvider();
 
-    if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
-      this.providerService.getProviderRequests(this.providerId).subscribe(
-        res => this.requests = res,
-        err => console.log(err)
-      );
-    }
+    // if (!isNullOrUndefined(this.providerId) && (this.providerId !== '')) {
+    //   this.providerService.getProviderRequests(this.providerId).subscribe(
+    //     res => this.requests = res,
+    //     err => console.log(err)
+    //   );
+    // }
   }
 
   getProvider() {
