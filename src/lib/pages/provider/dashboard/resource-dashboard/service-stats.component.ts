@@ -116,19 +116,6 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
       );
     }
 
-    this.resourceService.getRatingsForService(this.service.id, period).pipe(
-      map(data => {
-        // THESE 3 weird lines should be deleted when pgl makes everything ok :)
-        return Object.entries(data).map((d) => {
-          return [new Date(d[0]).getTime(), d[1]];
-        }).sort((l, r) => l[0] - r[0]);
-      })).subscribe(
-      data => this.setRatingsForService(data),
-      err => {
-        this.errorMessage = 'An error occurred while retrieving ratings for this service. ' + err.error;
-      }
-    );
-
     if (dontGetServices) {
 
     } else {

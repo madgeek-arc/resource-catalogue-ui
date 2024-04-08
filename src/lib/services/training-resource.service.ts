@@ -171,15 +171,6 @@ export class TrainingResourceService {
     }
     return this.http.get(this.base + `/stats/trainingResource/addToProject/${service}`);
   }
-
-  getRatingsForService(service: string, period?: string) {
-    let params = new HttpParams();
-    if (period) {
-      params = params.append('by', period);
-      return this.http.get(this.base + `/stats/trainingResource/ratings/${service}`, {params});
-    }
-    return this.http.get(this.base + `/stats/trainingResource/ratings/${service}`);
-  }
   /** STATS **/
 
   getProvidersNames(status?: string) {
