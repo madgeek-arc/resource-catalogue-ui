@@ -57,7 +57,7 @@ export class GuidelinesService {
     if (status && status !== '') params = params.append('status', status);
     if (active && active !== '') params = params.append('active', active);
     if (suspended && suspended !== '') params = params.append('suspended', suspended);
-    if (auditState?.length > 0) params = params.append('auditState', auditState);
+    if (auditState?.length > 0) params = params.append('audit_state', auditState);
     return this.http.get(this.base + `/interoperabilityRecord/bundle/all`, {params});
   }
 

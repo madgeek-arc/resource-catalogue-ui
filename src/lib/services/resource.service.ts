@@ -373,7 +373,7 @@ export class ResourceService {
     }
     if (auditState && auditState.length > 0) {
       for (const auditValue of auditState) {
-        params = params.append('auditState', auditValue);
+        params = params.append('audit_state', auditValue);
       }
     }
     if (catalogue_id && catalogue_id.length > 0) {
@@ -414,7 +414,7 @@ export class ResourceService {
     }
     if (auditState && auditState.length > 0) {
       for (const auditValue of auditState) {
-        params = params.append('auditState', auditValue);
+        params = params.append('audit_state', auditValue);
       }
     }
     if (catalogue_id && catalogue_id.length > 0) {
