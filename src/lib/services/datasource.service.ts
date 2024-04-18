@@ -45,7 +45,8 @@ export class DatasourceService {
       for (const catalogueValue of catalogue_id) {
         params = params.append('catalogue_id', catalogueValue);
       }
-    } else params = params.append('catalogue_id', 'all');
+    }
+    // } else params = params.append('catalogue_id', 'all');
     if (service_id && service_id.length > 0) {
       for (const serviceValue of service_id) {
         params = params.append('service_id', serviceValue);

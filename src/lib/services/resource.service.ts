@@ -380,7 +380,8 @@ export class ResourceService {
       for (const catalogueValue of catalogue_id) {
         params = params.append('catalogue_id', catalogueValue);
       }
-    } else params = params.append('catalogue_id', 'all');
+    }
+    // } else params = params.append('catalogue_id', 'all');
     return this.http.get(this.base + `/provider/bundle/all`, {params});
     // return this.getAll("provider");
   }
@@ -421,9 +422,10 @@ export class ResourceService {
       for (const catalogueValue of catalogue_id) {
         params = params.append('catalogue_id', catalogueValue);
       }
-    } else {
-      params = params.append('catalogue_id', 'all');
     }
+    // } else {
+    //   params = params.append('catalogue_id', 'all');
+    // }
     return this.http.get<Bundle<Service>>(this.base + `/service/adminPage/all`, {params});
   }
 
