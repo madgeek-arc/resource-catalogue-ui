@@ -102,18 +102,40 @@ export class ServiceProviderService {
 
   getServicesOfProvider(id: string, catalogue_id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
     if (!query) { query = ''; }
-    if (!status) { status = 'approved resource,pending resource,rejected resource'; }
+    let params = new HttpParams();
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
+      }
+    } else {
+      const allStatus = ["approved resource","pending resource","rejected resource"];
+      for (const statusValue of allStatus) {
+        params = params.append('status', statusValue);
+      }
+    }
+
     if (active === 'statusAll') {
       return this.http.get<Paging<ServiceBundle>>(this.base +
-        `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+        `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`, {params});
     }
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
+      `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&query=${query}`, {params});
   }
 
   getDatasourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
     if (!query) { query = ''; }
     if (!status) { status = 'approved resource,pending resource,rejected resource'; }
+    let params = new HttpParams();
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
+      }
+    } else {
+      const allStatus = ["approved resource","pending resource","rejected resource"];
+      for (const statusValue of allStatus) {
+        params = params.append('status', statusValue);
+      }
+    }
     if (active === 'statusAll') {
       return this.http.get<Paging<Datasource>>(this.base +
         `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
@@ -124,13 +146,23 @@ export class ServiceProviderService {
 
   getTrainingResourcesOfProvider(id: string, catalogue_id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
     if (!query) { query = ''; }
-    if (!status) { status = 'approved resource,pending resource,rejected resource'; }
+    let params = new HttpParams();
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
+      }
+    } else {
+      const allStatus = ["approved resource","pending resource","rejected resource"];
+      for (const statusValue of allStatus) {
+        params = params.append('status', statusValue);
+      }
+    }
     if (active === 'statusAll') {
       return this.http.get<Paging<TrainingResourceBundle>>(this.base +
-        `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+        `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`, {params});
     }
     return this.http.get<Paging<TrainingResourceBundle>>(this.base +
-      `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
+      `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&query=${query}`, {params});
   }
 
   getRejectedResourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, resourceType: string) {
