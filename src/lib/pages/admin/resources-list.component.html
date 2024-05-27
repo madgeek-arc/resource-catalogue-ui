@@ -650,7 +650,7 @@
       <p>Deleting a {{serviceORresource}} is an irreversible action.</p>
     </div>
     <div class="uk-text-right">
-      <button class="uk-button uk-button-secondary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
       <button *ngIf="selectedService" class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteService(selectedService)">Delete</button>
     </div>
   </div>
@@ -668,7 +668,7 @@
     <ng-container *ngIf="selectedService">
       <h6 class="uk-margin-medium-bottom">Are you sure you want to {{selectedService.suspended==true ? 'un' : ''}}suspend "{{ selectedService.service.name }}"?</h6>
       <div class="uk-text-right">
-        <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+        <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
         <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="suspendService()">
           {{selectedService.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
       </div>
@@ -688,8 +688,8 @@
       <p>You are about to send a notification email to the admins of "{{ selectedService.service.name }}", requesting an update for this {{serviceORresource}}.</p>
       <p>Do you want to proceed?</p>
     </div>
+    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
     <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="sendMailForUpdate(selectedService)">OK</button>
-    <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
@@ -726,9 +726,11 @@
           </div>
         </form>
 <!--        <pre>{{providersDropdownForm.value | json }}</pre>-->
-        <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button"
-                (click)="moveResourceToProvider(selectedService, providersDropdownForm.get('resourceOrganisation').value)">OK</button>
-        <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
+        <div class="uk-text-right">
+          <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+          <button class="uk-button uk-button-primary uk-modal-close" type="button"
+                  (click)="moveResourceToProvider(selectedService, providersDropdownForm.get('resourceOrganisation').value)">OK</button>
+        </div>
       </form>
 
     </div>
@@ -839,7 +841,7 @@
 <!--      </div>-->
 <!--    </form>-->
 <!--    <button class="uk-button uk-button-secondary uk-modal-close uk-align-right" type="submit" (click)="auditResourceAction('VALID')">Validate</button>-->
-<!--    &lt;!&ndash;    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>&ndash;&gt;-->
+<!--    &lt;!&ndash;    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>&ndash;&gt;-->
 <!--  </div>-->
 <!--</div>-->
 
@@ -856,7 +858,7 @@
 <!--      </div>-->
 <!--    </form>-->
 <!--    <button class="uk-button uk-button-danger uk-modal-close uk-align-right" type="submit" (click)="auditResourceAction('INVALID')">Invalidate</button>-->
-<!--    &lt;!&ndash;    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>&ndash;&gt;-->
+<!--    &lt;!&ndash;    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>&ndash;&gt;-->
 <!--  </div>-->
 <!--</div>-->
 
