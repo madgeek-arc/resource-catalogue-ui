@@ -96,11 +96,11 @@
       </form>
 
 
-      <div *ngIf="providerServices && providerServices.results.length === 0">
+      <div *ngIf="providerServices && providerServices?.results?.length === 0">
         <p>No {{serviceORresource | lowercase}}s found</p>
       </div>
 
-      <div *ngIf="providerServices && providerServices.results.length > 0">
+      <div *ngIf="providerServices && providerServices?.results?.length > 0">
 
         <div class="uk-flex uk-flex-middle uk-flex-between">
 
