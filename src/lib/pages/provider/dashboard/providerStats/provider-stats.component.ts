@@ -373,7 +373,7 @@ export class ProviderStatsComponent implements OnInit {
 
   groupServicesOfProviderPerPlace(services: ServiceBundle[]) {
     const ret = {};
-    if (this.providerServices && this.providerServices.results.length > 0) {
+    if (this.providerServices && this.providerServices?.results?.length > 0) {
       for (const service of services) {
         if (service?.service?.geographicalAvailabilities) {
           for (const place of service.service.geographicalAvailabilities) {
