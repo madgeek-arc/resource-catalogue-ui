@@ -182,7 +182,7 @@ export class DatasourcesListComponent implements OnInit {
         this.loadingMessage = '';
       },
       () => {
-        for (let i = 0; i < this.datasources.length; i++) {
+        for (let i = 0; i < this.datasources?.length; i++) {
           if (this.datasources[i]?.datasource?.serviceId) {
             this.serviceIdsOnView.push(this.datasources[i].datasource.serviceId);
           }
