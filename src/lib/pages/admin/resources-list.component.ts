@@ -672,7 +672,7 @@ export class ResourcesListComponent implements OnInit {
   templateAction(serviceBundle, active, status) {
     this.loadingMessage = '';
     UIkit.modal('#spinnerModal').show();
-    const providerId = serviceBundle.id.substring(0, serviceBundle.id.lastIndexOf('.'));
+    const providerId = serviceBundle.service.resourceOrganisation;
     const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerId)[0].serviceId;
     this.resourceService.verifyResource(templateId, active, status).subscribe(
       res => {
