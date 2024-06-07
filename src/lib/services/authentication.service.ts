@@ -100,7 +100,7 @@ export class AuthenticationService {
     }
     sessionStorage.setItem('redirect_url', redirectUrl);
     // console.log(redirectUrl);
-    window.location.href = environment.API_ENDPOINT + '/openid_connect_login';
+    window.location.href = environment.API_ENDPOINT + '/oauth2/authorization/eosc';
     // console.log(window.location.href);
   }
 
@@ -110,7 +110,7 @@ export class AuthenticationService {
       this.getUserInfo();
     } else {
       sessionStorage.setItem('redirect_url', window.location.pathname);
-      window.location.href = environment.API_ENDPOINT + '/openid_connect_login';
+      window.location.href = environment.API_ENDPOINT + '/oauth2/authorization/eosc';
     }
   }
 
@@ -121,7 +121,7 @@ export class AuthenticationService {
       this.cookie = null;
       this.expiresAt = null;
       sessionStorage.clear();
-      window.location.href = environment.API_ENDPOINT + '/openid_logout';
+      window.location.href = environment.API_ENDPOINT + '/logout';
     }
   }
 
