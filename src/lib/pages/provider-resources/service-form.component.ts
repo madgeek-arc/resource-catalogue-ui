@@ -470,9 +470,9 @@ export class ServiceFormComponent implements OnInit {
         this.subVocabularies = this.groupByKey(voc, 'parentId');
 
         this.providerId = this.route.snapshot.paramMap.get('providerId');
-        if (this.editMode && this.projectName === 'EOSC' && !(this.route.snapshot.paramMap.get('resourceId').startsWith(this.providerId+'.'))) {
-          return this.router.go('/404');
-        }
+        // if (this.editMode && this.projectName === 'EOSC' && !(this.route.snapshot.paramMap.get('resourceId').startsWith(this.providerId+'.'))) {
+        //   return this.router.go('/404');
+        // }
 
         this.showProviderName(this.providerId);
         if(this.catalogueId == 'eosc') this.displayedCatalogueName = `| Catalogue: EOSC`
