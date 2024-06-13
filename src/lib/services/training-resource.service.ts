@@ -75,7 +75,7 @@ export class TrainingResourceService {
   }
 
   getSome(resourceType: string, ids: string[]) {
-    return this.http.get(this.base + `/${resourceType}/byID/${ids.toString()}/`);
+    return this.http.get(this.base + `/${resourceType}/ids/${ids.toString()}/`);
   }
 
   get(resourceType: string, id: string) {
@@ -135,7 +135,7 @@ export class TrainingResourceService {
   getSelectedServices(ids: string[]) {
     /*return this.getSome("service", ids).map(res => <Service[]> <any> res);*/
     // return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
-    return this.http.get<RichService[]>(this.base + `/trainingResource/rich/byID/${ids.toString()}/`, this.options);
+    return this.http.get<RichService[]>(this.base + `/trainingResource/rich/ids/${ids.toString()}/`, this.options);
   }
 
   getServicesByCategories() {
