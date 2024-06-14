@@ -5,13 +5,11 @@ import {
   ServiceBundle,
   Datasource,
   LoggingInfo,
-  Catalogue,
   Provider,
   ProviderBundle,
   ProviderRequest,
-  Service,
   ServiceHistory,
-  VocabularyCuration, CatalogueBundle, DatasourceBundle, TrainingResource, TrainingResourceBundle
+  VocabularyCuration, TrainingResourceBundle
 } from '../domain/eic-model';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
@@ -53,7 +51,7 @@ export class ServiceProviderService {
   }
 
   updateAndPublishPendingProvider(updatedFields: any, comment: string): Observable<Provider> {
-    return this.http.put<Provider>(this.base + '/pendingProvider/transform/active', updatedFields, this.options);
+    return this.http.put<Provider>(this.base + '/provider/draft/transform', updatedFields, this.options);
   }
 
   verifyProvider(id: string, active: boolean, status: string) { // use for onboarding process
@@ -73,7 +71,7 @@ export class ServiceProviderService {
   }
 
   getMyPendingProviders() {
-    return this.http.get<ProviderBundle[]>(this.base + '/pendingProvider/getMyPendingProviders', this.options);
+    return this.http.get<ProviderBundle[]>(this.base + '/provider/draft/getMyDraftProviders', this.options);
   }
 
   getMyServiceProviders() {
@@ -97,7 +95,7 @@ export class ServiceProviderService {
   }
 
   getPendingProviderById(id: string) {
-    return this.http.get<Provider>(this.base + `/pendingProvider/provider/${id}`, this.options);
+    return this.http.get<Provider>(this.base + `/provider/draft/${id}`, this.options);
   }
 
   getServicesOfProvider(id: string, catalogue_id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
@@ -190,10 +188,10 @@ export class ServiceProviderService {
 
   temporarySaveProvider(provider: Provider, providerExists: boolean) {
     // console.log('providerExists ', providerExists);
-    if (providerExists) {
-      return this.http.put<Provider>(this.base + '/pendingProvider/provider', provider, this.options);
+    if (providerExists) { //todo: revisit
+      return this.http.put<Provider>(this.base + '/provider/draft', provider, this.options);
     }
-    return this.http.put<Provider>(this.base + '/pendingProvider/pending', provider, this.options);
+    return this.http.put<Provider>(this.base + '/provider/draft', provider, this.options);
   }
 
   getProviderRequests(id: string) {
@@ -202,14 +200,14 @@ export class ServiceProviderService {
 
   hasAdminAcceptedTerms(id: string, pendingProvider: boolean) {
     if (pendingProvider) {
-      return this.http.get<boolean>(this.base + `/pendingProvider/hasAdminAcceptedTerms?providerId=${id}`);
+      return this.http.get<boolean>(this.base + `/provider/draft/hasAdminAcceptedTerms?providerId=${id}`);
     }
     return this.http.get<boolean>(this.base + `/provider/hasAdminAcceptedTerms?providerId=${id}`);
   }
 
   adminAcceptedTerms(id: string, pendingProvider: boolean) {
     if (pendingProvider) {
-      return this.http.put(this.base + `/pendingProvider/adminAcceptedTerms?providerId=${id}`, this.options);
+      return this.http.put(this.base + `/provider/draft/adminAcceptedTerms?providerId=${id}`, this.options);
     }
     return this.http.put(this.base + `/provider/adminAcceptedTerms?providerId=${id}`, this.options);
   }

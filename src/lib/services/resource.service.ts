@@ -478,24 +478,24 @@ export class ResourceService {
 
   /** Draft(Pending) Services -->**/
   saveServiceAsDraft(service: Service) {
-    return this.http.put<Service>(this.base + '/pendingService/pending', service, this.options);
+    return this.http.put<Service>(this.base + '/service/draft', service, this.options);
   }
 
   submitPendingService(service: Service, shouldPut: boolean, comment: string) {
-    return this.http.put<Service>(this.base + '/pendingService/transform/resource', service, this.options);
+    return this.http.put<Service>(this.base + '/service/draft/transform', service, this.options);
   }
 
   getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      `/service/draft/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 
   getPendingService(id: string) {
-    return this.http.get<ServiceBundle>(this.base + `/pendingService/${id}/`, this.options); //was richService. Could change response to Service and use along with getService
+    return this.http.get<ServiceBundle>(this.base + `/service/draft/${id}/`, this.options); //was richService. Could change response to Service and use along with getService
   }
 
   deletePendingService(id: string) {
-    return this.http.delete(this.base + '/pendingService/' + id, this.options);
+    return this.http.delete(this.base + '/service/draft/' + id, this.options);
   }
   /** <-- Draft(Pending) Services **/
 
