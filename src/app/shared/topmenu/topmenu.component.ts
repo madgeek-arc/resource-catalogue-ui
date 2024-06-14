@@ -31,7 +31,7 @@ export class EOSCTopMenuComponent implements OnInit, OnDestroy {
   supportOpen = false;
 
   constructor(public authenticationService: AuthenticationService, private renderer: Renderer2,
-              public router: Router, public fb: FormBuilder, public navigationService: NavigationService,
+              public router: Router, public fb: FormBuilder, public navigator: NavigationService,
               private route: ActivatedRoute, public resourceService: ResourceService) {
     this.searchForm = fb.group({'query': ['']});
   }
@@ -47,14 +47,14 @@ export class EOSCTopMenuComponent implements OnInit, OnDestroy {
       if (query[0] === 'query') {
         query[1] = searchValue;
       } else {
-        return this.navigationService.search({query: searchValue});
+        return this.navigator.search({query: searchValue});
       }
       params[1] = query.join('=');
       params = params.slice(1);
       url = params.join(';');
       window.location.href = '/search;' + url;
     } else {
-      return this.navigationService.search({query: searchValue});
+      return this.navigator.search({query: searchValue});
     }
   }
 
@@ -63,7 +63,7 @@ export class EOSCTopMenuComponent implements OnInit, OnDestroy {
     // this.getUsername();
     // this.getUsersurname();
 
-    this.navigationService.paramsObservable.subscribe(params => {
+    this.navigator.paramsObservable.subscribe(params => {
 
       if (params != null) {
         for (const urlParameter of params) {
@@ -142,6 +142,6 @@ export class EOSCTopMenuComponent implements OnInit, OnDestroy {
 
   signUpAndRegisterAservice() {
     sessionStorage.setItem('forward_url', '/provider/add');
-    this.navigationService.router.navigateByUrl('/provider/add');
+    this.navigator.router.navigateByUrl('/provider/add');
   }
 }

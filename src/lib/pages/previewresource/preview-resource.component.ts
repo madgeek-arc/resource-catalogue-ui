@@ -47,7 +47,7 @@ export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
   public languagesVocabulary: Vocabulary[] = null;
 
   constructor(public route: ActivatedRoute,
-              public router: NavigationService,
+              public navigator: NavigationService,
               public resourceService: ResourceService) {
   }
 

@@ -78,7 +78,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   resourceService: ResourceService = this.injector.get(ResourceService);
   serviceExtensionsService: ServiceExtensionsService = this.injector.get(ServiceExtensionsService);
 
-  router: NavigationService = this.injector.get(NavigationService);
+  navigator: NavigationService = this.injector.get(NavigationService);
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -87,7 +87,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(FormBuilder);
-    this.router = this.injector.get(NavigationService);
+    this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
@@ -134,8 +134,8 @@ export class HelpdeskExtensionFormComponent implements OnInit {
       this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode, 'eosc', this.resourceType).subscribe(
         _service => {
           this.showLoader = false;
-          if (this.resourceType==='service') return this.router.resourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // navigate to resource-dashboard
-          if (this.resourceType==='training_resource') return this.router.trainingResourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // navigate to training-resource-dashboard
+          if (this.resourceType==='service') return this.navigator.resourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // navigate to resource-dashboard
+          if (this.resourceType==='training_resource') return this.navigator.trainingResourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // navigate to training-resource-dashboard
         },
         err => {
           this.showLoader = false;

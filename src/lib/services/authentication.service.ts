@@ -16,7 +16,7 @@ export class AuthenticationService {
   cookie = null;
   expiresAt = null;
 
-  constructor(public navigationService: NavigationService) {
+  constructor(public navigator: NavigationService) {
     // this.user = JSON.parse(getCookie(this.cookieName));
 
     // check if user has already logged in
@@ -70,7 +70,7 @@ export class AuthenticationService {
         sessionStorage.removeItem('forward_url');
       }
       if (url !== null) {
-        this.navigationService.router.navigateByUrl(url);
+        this.navigator.router.navigateByUrl(url);
       }
     }
   }
@@ -96,7 +96,7 @@ export class AuthenticationService {
   public refreshLogin(redirectUrl: string) {
     deleteCookie(this.cookieName);
     if (!redirectUrl) {
-      redirectUrl = this.navigationService.router.url;
+      redirectUrl = this.navigator.router.url;
     }
     sessionStorage.setItem('redirect_url', redirectUrl);
     // console.log(redirectUrl);

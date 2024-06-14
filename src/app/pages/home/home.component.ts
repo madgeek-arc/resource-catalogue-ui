@@ -8,7 +8,7 @@ import {NavigationService} from '../../../lib/services/navigation.service';
 })
 export class HomeComponent {
 
-  constructor(public router: NavigationService) {
+  constructor(public navigator: NavigationService) {
   }
 }
 

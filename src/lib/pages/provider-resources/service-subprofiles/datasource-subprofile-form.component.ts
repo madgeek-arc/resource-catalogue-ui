@@ -155,7 +155,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   resourceService: ResourceService = this.injector.get(ResourceService);
   serviceExtensionsService: ServiceExtensionsService = this.injector.get(ServiceExtensionsService);
 
-  router: NavigationService = this.injector.get(NavigationService);
+  navigator: NavigationService = this.injector.get(NavigationService);
 
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
@@ -173,7 +173,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(FormBuilder);
-    this.router = this.injector.get(NavigationService);
+    this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
@@ -212,8 +212,8 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       this.datasourceService.submitDatasource(this.serviceForm.value, this.editMode).subscribe(
         _ds => {
           this.showLoader = false;
-          if (this.addOpenAIRE) return this.router.datasourceSubmitted(_ds.id);
-          return this.router.resourceDashboard(_ds.serviceId.split('.')[0], _ds.serviceId);
+          if (this.addOpenAIRE) return this.navigator.datasourceSubmitted(_ds.id);
+          return this.navigator.resourceDashboard(_ds.serviceId.split('.')[0], _ds.serviceId);
         },
         err => {
           this.showLoader = false;
@@ -491,11 +491,11 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       error => {
         this.showLoader = false;
         this.errorMessage = 'Something went bad. ' + error.error ;
-        return this.router.resourceDashboard(this.datasource.serviceId.split('.')[0], this.datasource.serviceId);
+        return this.navigator.resourceDashboard(this.datasource.serviceId.split('.')[0], this.datasource.serviceId);
       },
       () => {
         this.showLoader = false;
-        return this.router.resourceDashboard(this.datasource.serviceId.split('.')[0], this.datasource.serviceId);
+        return this.navigator.resourceDashboard(this.datasource.serviceId.split('.')[0], this.datasource.serviceId);
       }
     );
   }

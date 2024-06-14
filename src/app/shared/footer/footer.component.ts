@@ -10,12 +10,12 @@ import {NavigationService} from '../../../lib/services/navigation.service';
 })
 export class EOSCFooterComponent {
 
-  constructor(public authenticationService: AuthenticationService, public navigationService: NavigationService) {
+  constructor(public authenticationService: AuthenticationService, public navigator: NavigationService) {
   }
 
   signUpAndRegisterAservice() {
     sessionStorage.setItem('forward_url', '/provider/add');
-    this.navigationService.router.navigateByUrl('/provider/add');
+    this.navigator.router.navigateByUrl('/provider/add');
   }
 
   scrollToTop(){

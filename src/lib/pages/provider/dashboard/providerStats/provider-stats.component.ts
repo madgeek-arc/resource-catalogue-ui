@@ -77,7 +77,7 @@ export class ProviderStatsComponent implements OnInit {
     public authenticationService: AuthenticationService,
     public resourceService: ResourceService,
     public recommendationsService: RecommendationsService,
-    public router: NavigationService,
+    public navigator: NavigationService,
     private route: ActivatedRoute,
     private providerService: ServiceProviderService
   ) {
@@ -621,7 +621,7 @@ export class ProviderStatsComponent implements OnInit {
 
   visitSelectedServicePage(serviceId: string) {
     UIkit.modal('#servicesPerCountryModal').hide();
-    this.router.router.navigateByUrl('/service/' + serviceId);
+    this.navigator.router.navigateByUrl('/service/' + serviceId);
   }
 
   setMapDistributionOfServices(mapData: any) {

@@ -26,7 +26,7 @@ export class ProviderHistoryComponent implements OnInit {
   public errorMessage: string;
 
   constructor(private route: ActivatedRoute,
-              private router: NavigationService,
+              private navigator: NavigationService,
               private resourceService: ResourceService,
               private providerService: ServiceProviderService) {
   }

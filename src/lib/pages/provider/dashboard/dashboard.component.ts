@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,
               public serviceProviderService: ServiceProviderService,
-              public router: NavigationService,
+              public navigator: NavigationService,
               private route: ActivatedRoute) {
   }
 

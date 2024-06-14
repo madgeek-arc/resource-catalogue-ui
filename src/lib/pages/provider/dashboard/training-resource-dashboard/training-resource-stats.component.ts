@@ -44,7 +44,7 @@ export class TrainingResourceStatsComponent implements OnInit, OnDestroy {
   statisticPeriod: string;
 
   constructor(private route: ActivatedRoute,
-              private router: NavigationService,
+              private navigator: NavigationService,
               private resourceService: ResourceService,
               private trainingResourceService: TrainingResourceService) {
   }
@@ -67,7 +67,7 @@ export class TrainingResourceStatsComponent implements OnInit, OnDestroy {
         },
         err => {
           if (err.status === 404) {
-            this.router.go('/404');
+            this.navigator.go('/404');
           }
           this.errorMessage = 'An error occurred while retrieving data for this training resource. ' + err.error;
         }

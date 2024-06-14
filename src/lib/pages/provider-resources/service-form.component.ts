@@ -297,7 +297,7 @@ export class ServiceFormComponent implements OnInit {
   premiumSort = new PremiumSortPipe();
   resourceService: ResourceService = this.injector.get(ResourceService);
 
-  router: NavigationService = this.injector.get(NavigationService);
+  navigator: NavigationService = this.injector.get(NavigationService);
 
   public fundingBodyVocabulary: Vocabulary[] = null;
   public fundingProgramVocabulary: Vocabulary[] = null;
@@ -328,7 +328,7 @@ export class ServiceFormComponent implements OnInit {
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(FormBuilder);
-    this.router = this.injector.get(NavigationService);
+    this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
@@ -371,7 +371,7 @@ export class ServiceFormComponent implements OnInit {
           // console.log(_service);
           this.showLoader = false;
           // return this.router.dashboardDraftResources(this.providerId); // navigate to draft list
-          return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
+          return this.navigator.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
         },
         err => {
           this.showLoader = false;
@@ -388,9 +388,9 @@ export class ServiceFormComponent implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          if (this.pendingService && !this.firstServiceForm) return this.router.selectSubprofile(this.providerId, _service.id);  // navigate to select-subprofile
-          if (this.editMode || this.firstServiceForm) return this.router.resourceDashboard(this.providerId, _service.id);  // navigate to resource-dashboard
-          if (!this.editMode) return this.router.selectSubprofile(this.providerId, _service.id);  // navigate to select-subprofile
+          if (this.pendingService && !this.firstServiceForm) return this.navigator.selectSubprofile(this.providerId, _service.id);  // navigate to select-subprofile
+          if (this.editMode || this.firstServiceForm) return this.navigator.resourceDashboard(this.providerId, _service.id);  // navigate to resource-dashboard
+          if (!this.editMode) return this.navigator.selectSubprofile(this.providerId, _service.id);  // navigate to select-subprofile
           // return this.router.dashboardResources(this.providerId);                  // navigate to provider dashboard -> resource list
           // return this.router.dashboard(this.providerId);                          // navigate to provider dashboard
           // return this.router.service(_service.id);                               // navigate to old service info page

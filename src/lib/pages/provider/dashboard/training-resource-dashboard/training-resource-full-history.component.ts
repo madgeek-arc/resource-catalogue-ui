@@ -25,7 +25,7 @@ export class TrainingResourceFullHistoryComponent implements OnInit, OnDestroy {
 
   trainingResourceHistory: Paging<LoggingInfo>;
 
-  constructor(private route: ActivatedRoute, private router: NavigationService, private trainingResourceService: TrainingResourceService) {
+  constructor(private route: ActivatedRoute, private navigator: NavigationService, private trainingResourceService: TrainingResourceService) {
   }
 
   ngOnInit() {
@@ -41,7 +41,7 @@ export class TrainingResourceFullHistoryComponent implements OnInit, OnDestroy {
         },
         err => {
           if (err.status === 404) {
-            this.router.go('/404');
+            this.navigator.go('/404');
           }
           this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
         }

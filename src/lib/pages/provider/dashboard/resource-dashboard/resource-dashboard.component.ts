@@ -33,7 +33,7 @@ export class ResourceDashboardComponent implements OnInit {
               public resourceService: ResourceService,
               public serviceExtensionsService: ServiceExtensionsService,
               public datasourceService: DatasourceService,
-              public router: NavigationService,
+              public navigator: NavigationService,
               private route: ActivatedRoute) {
   }
 
