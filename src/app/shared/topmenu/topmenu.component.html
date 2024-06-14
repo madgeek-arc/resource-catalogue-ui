@@ -77,8 +77,7 @@
                                                              routerLinkActive="uk-active"
                                                              class="uk-offcanvas-close offcanvas-close">My Providers</a>
                     </li>
-                    <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/provider/all']" routerLinkActive="uk-active">View
-                      Providers</a></li>
+                    <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/provider/all']" routerLinkActive="uk-active">View Providers</a></li>
                     <li class="uk-nav-divider"></li>
                     <li><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
                 </ul>
@@ -86,14 +85,18 @@
 
               <li class="uk-nav-header uk-parent" [routerLinkActive]="['uk-active']">For Catalogues
                 <ul class="uk-nav-sub">
-                  <li><a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active"
-                         class="uk-offcanvas-close offcanvas-close">Add a Catalogue</a></li>
+<!--                  <li>-->
+<!--                    <a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active" class="uk-offcanvas-close offcanvas-close">Add a Catalogue</a>-->
+<!--                  </li>-->
                   <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/catalogue/my']"
-                                                                                                       routerLinkActive="uk-active"
-                                                                                                       class="uk-offcanvas-close offcanvas-close">My Catalogues</a>
+                     routerLinkActive="uk-active" class="uk-offcanvas-close offcanvas-close">My Catalogues</a>
                   </li>
-                  <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/catalogue/all']" routerLinkActive="uk-active">View Catalogues</a></li>
-                  <li><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
+                  <li *ngIf="authenticationService.isAdmin()">
+                    <a [routerLink]="['/catalogue/all']" routerLinkActive="uk-active">View Catalogues</a>
+                  </li>
+                  <li>
+                    <a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a>
+                  </li>
                 </ul>
               </li>
 
@@ -211,9 +214,8 @@
                   <div class="uk-navbar-dropdown-grid uk-child-width-1-1 uk-grid uk-grid-stack" uk-grid="">
                     <div class="uk-first-column">
                       <ul class="uk-nav uk-navbar-dropdown-nav">
-                        <li><a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active">Add a Catalogue</a></li>
-                        <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/catalogue/my']"
-                                                                                                             routerLinkActive="uk-active">My Catalogues</a></li>
+<!--                        <li><a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active">Add a Catalogue</a></li>-->
+                        <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/catalogue/my']" routerLinkActive="uk-active">My Catalogues</a></li>
                         <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
                       </ul>
                     </div>
