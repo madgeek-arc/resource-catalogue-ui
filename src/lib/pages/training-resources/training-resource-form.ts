@@ -347,7 +347,7 @@ export class TrainingResourceForm implements OnInit {
         let voc: Vocabulary[] = this.vocabularies[Type.SUBCATEGORY].concat(this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN]);
         this.subVocabularies = this.groupByKey(voc, 'parentId');
 
-        this.providerId = this.route.snapshot.paramMap.get('providerId');
+        this.providerId = this.router.createId(this.route, 'provider_prefix', 'provider_suffix');
         if (this.editMode && !(this.route.snapshot.paramMap.get('trainingResourceId').startsWith(this.providerId+'.'))) {
           return this.router.go('/404');
         }

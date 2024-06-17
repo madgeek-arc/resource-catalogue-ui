@@ -25,7 +25,7 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
               protected serviceProviderService: ServiceProviderService,
               protected injector: Injector,
               public datePipe: DatePipe,
-              public navigationService: NavigationService) {
+              public navigator: NavigationService) {
     super(injector, authenticationService, serviceProviderService, route);
     this.editMode = true;
   }
@@ -49,7 +49,7 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
         this.trainingResourceService[this.pendingResource ? 'getPendingService' : 'getTrainingResourceBundle'](this.trainingResourceId, this.catalogueId)
           .subscribe(trBundle => {
               if (trBundle.trainingResource.contact === null) //in case of unauthorized access backend will not show sensitive info
-                this.navigationService.go('/forbidden')
+                this.navigator.go('/forbidden')
               ResourceService.removeNulls(trBundle.trainingResource);
               this.formPrepare(trBundle.trainingResource);
               this.serviceForm.patchValue(trBundle.trainingResource);

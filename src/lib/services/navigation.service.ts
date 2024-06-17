@@ -12,6 +12,16 @@ export class NavigationService {
     constructor(public router: Router) {
     }
 
+
+    createId(route: ActivatedRoute, prefix: string, suffix: string) {
+      console.log(route.snapshot);
+      return route.snapshot.paramMap.get(prefix) + '/' + route.snapshot.paramMap.get(suffix);
+    }
+
+    splitId(id: string): string[]  {
+      return id.split('/')
+    }
+
     service(id: string) {
         return this.router.navigate(['/service', id]);
     }

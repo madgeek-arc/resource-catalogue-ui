@@ -39,7 +39,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: 'add/:providerId',
+    path: 'add/:provider_prefix/:provider_suffix',
     component: UpdateServiceProviderComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -96,7 +96,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':providerId/add-first-service',
+    path: ':provider_prefix/:provider_suffix/add-first-service',
     component: AddFirstServiceComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -104,7 +104,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':providerId/add-first-training-resource',
+    path: ':provider_prefix/:provider_suffix/add-first-training-resource',
     component: AddFirstTrainingResourceComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {

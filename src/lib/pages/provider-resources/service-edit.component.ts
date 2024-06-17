@@ -28,7 +28,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               protected catalogueService: CatalogueService,
               protected injector: Injector,
               public datePipe: DatePipe,
-              public navigationService: NavigationService) {
+              public navigator: NavigationService) {
     super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route);
     this.editMode = true;
   }
@@ -50,7 +50,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
         this.resourceService[this.pendingService ? 'getPendingService' : 'getServiceBundleById'](this.serviceId, this.catalogueId)
           .subscribe(serviceBundle => {
               if (serviceBundle.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
-                this.navigationService.go('/forbidden')
+                this.navigator.go('/forbidden')
               ResourceService.removeNulls(serviceBundle.service);
               //remove catalogueId. prefix for same catalogue entries
               if (serviceBundle.service.requiredResources) {

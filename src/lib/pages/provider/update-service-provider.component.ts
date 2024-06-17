@@ -7,6 +7,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CatalogueService} from "../../services/catalogue.service";
+import {NavigationService} from "../../services/navigation.service";
 
 declare var UIkit: any;
 
@@ -25,14 +26,15 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
               public resourceService: ResourceService,
               public catalogueService: CatalogueService,
               public router: Router,
-              public route: ActivatedRoute) {
+              public route: ActivatedRoute,
+              public navigator: NavigationService) {
     super(fb, authService, serviceProviderService, resourceService, catalogueService, router, route);
   }
 
   ngOnInit() {
     this.edit = true;
     const path = this.route.snapshot.routeConfig.path;
-    this.providerId = this.route.snapshot.paramMap.get('providerId');
+    this.providerId = this.navigator.createId(this.route, 'provider_prefix', 'provider_suffix');
     if (path.includes(':catalogueId')) {
       this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     }
