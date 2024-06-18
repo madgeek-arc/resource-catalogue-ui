@@ -431,7 +431,7 @@ export class ResourceService {
 
   getServiceBundleById(id: string, catalogueId?: string) {
     if (!catalogueId) catalogueId ='eosc';
-    return this.http.get<ServiceBundle>(this.base + `/serviceBundle/${id}?catalogue_id=${catalogueId}`, this.options);
+    return this.http.get<ServiceBundle>(this.base + `/service/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
   getMyServiceProviders() {
