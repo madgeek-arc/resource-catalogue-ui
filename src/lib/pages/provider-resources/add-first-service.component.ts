@@ -32,9 +32,9 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
   ngOnInit() {
     super.ngOnInit();
     this.firstServiceForm = true;
-    // this.providerId = this.route.snapshot.paramMap.get('providerId');
+    // this.providerId = this.navigator.createId(this.route, 'provider_prefix', 'provider_suffix');
     // this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
-    this.serviceId = this.route.snapshot.paramMap.get('resourceId');
+    this.serviceId = this.navigator.createId(this.route, 'resource_prefix', 'resource_suffix');
     if (this.serviceId) {
       this.editMode = true;
       this.resourceService.getService(this.serviceId).subscribe(

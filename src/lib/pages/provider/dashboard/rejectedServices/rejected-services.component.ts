@@ -7,6 +7,7 @@ import {Paging} from '../../../../domain/paging';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
+import {NavigationService} from "../../../../services/navigation.service";
 
 declare var UIkit: any;
 
@@ -45,13 +46,14 @@ export class RejectedServicesComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private navigator: NavigationService,
     private providerService: ServiceProviderService,
     private service: ResourceService
   ) {}
 
   ngOnInit(): void {
     this.path = window.location.pathname;
-    this.providerId = this.route.snapshot.paramMap.get('providerId');
+    this.providerId = this.navigator.createId(this.route, 'provider_prefix', 'provider_suffix');
     this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
 
     this.getProvider();

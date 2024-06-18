@@ -7,6 +7,7 @@ import {Paging} from '../../../../domain/paging';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
+import {NavigationService} from "../../../../services/navigation.service";
 
 @Component({
   selector: 'app-shared-services',
@@ -43,6 +44,7 @@ export class SharedServicesComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private navigator: NavigationService,
     private providerService: ServiceProviderService,
     private resourceService: ResourceService
   ) {}
@@ -57,7 +59,7 @@ export class SharedServicesComponent implements OnInit {
       this.providerId = this.route.parent.snapshot.paramMap.get('provider');
       this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     } else {
-      this.providerId = this.route.snapshot.paramMap.get('providerId');
+      this.providerId = this.navigator.createId(this.route, 'provider_prefix', 'provider_suffix');
     }
     // console.log('this.path: ', this.path);
     // this.providerId = this.route.parent.snapshot.paramMap.get('provider');

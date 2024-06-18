@@ -348,7 +348,7 @@
                             <!--                                  <i class="fa fa-thumbs-down " aria-hidden="true"></i>-->
                             <!--                                  {{ adminActionsMap[providerBundle.status].rejButtonTitle }}-->
                             <!--                                </button>-->
-                            <!--                                <button [routerLink]="['/provider/update/', providerBundle.id]"-->
+                            <!--                                <button [routerLink]="['/provider/update/' + providerBundle.id]"-->
                             <!--                                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">-->
                             <!--                                  <i class="fa fa-edit" aria-hidden="true"></i> Edit Provider-->
                             <!--                                </button>-->
@@ -430,7 +430,7 @@
                         <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc'">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
-                            <button [routerLink]="['/provider/update/', providerBundle.id]"
+                            <button [routerLink]="['/provider/update/' + providerBundle.id]"
                                     class="uk-button uk-button-link"
                                     style="padding-right: 40px; border-right: 1px solid #ccc">
                               <i class="fa fa-edit fa-lg uk-margin-small-right" aria-hidden="true"></i> Edit Provider
@@ -839,7 +839,7 @@
             <!--                  <i class="fa fa-thumbs-down " aria-hidden="true"></i>-->
             <!--                  {{ adminActionsMap[providerBundle.status].rejButtonTitle }}-->
             <!--                </button>-->
-            <!--                <button [routerLink]="['/provider/update/', providerBundle.id]"-->
+            <!--                <button [routerLink]="['/provider/update/' + providerBundle.id]"-->
             <!--                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">-->
             <!--                  <i class="fa fa-edit" aria-hidden="true"></i> Edit Provider-->
             <!--                </button>-->

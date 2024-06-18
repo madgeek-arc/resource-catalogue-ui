@@ -161,7 +161,7 @@ export class GuidelinesFormComponent implements OnInit {
 
   ngOnInit() {
     // const path = this.route.snapshot.routeConfig.path;
-    // if (path.includes('update/:guidelineId')) {
+    // if (path.includes('update/:guideline_prefix/:guideline_suffix')) {
     //
     // }
     this.setVocabularies();

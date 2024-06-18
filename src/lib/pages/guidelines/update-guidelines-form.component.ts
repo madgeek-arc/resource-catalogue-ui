@@ -32,7 +32,7 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
     this.edit = true;
     this.guidelineId = this.route.snapshot.paramMap.get('guidelineId');
     const path = this.route.snapshot.routeConfig.path;
-    if (path === 'info/:guidelineId') {
+    if (path === 'info/:guideline_prefix/:guideline_suffix') {
       this.disable = true;
     }
     super.ngOnInit();

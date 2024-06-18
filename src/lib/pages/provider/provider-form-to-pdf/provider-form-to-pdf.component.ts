@@ -180,10 +180,10 @@ export class ProviderFormToPdfComponent implements OnInit {
   ngOnInit() {
 
     const path = this.route.snapshot.routeConfig.path;
-    if (path.includes('add/:providerId')) {
+    if (path.includes('add/:provider_prefix/:provider_suffix')) {
       this.pendingProvider = true;
     }
-    // if (path.includes('view/:providerId')) {
+    // if (path.includes('view/:provider_prefix/:provider_suffix')) {
     //   this.pendingProvider = true;
     // }
     // this.setVocabularies();

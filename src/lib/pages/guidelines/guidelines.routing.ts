@@ -9,7 +9,7 @@ import {UpdateGuidelinesFormComponent} from "./update-guidelines-form.component"
 const guidelinesRoutes: Routes = [
 
   {
-    path: ':providerId/add',
+    path: ':provider_prefix/:provider_suffix/add',
     component: GuidelinesFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -17,7 +17,7 @@ const guidelinesRoutes: Routes = [
     }
   },
   {
-    path: ':providerId/update/:guidelineId',
+    path: ':provider_prefix/:provider_suffix/update/:guideline_prefix/:guideline_suffix',
     component: UpdateGuidelinesFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {

@@ -37,13 +37,14 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes(':catalogueId')) { this.catalogueId = this.route.snapshot.paramMap.get('catalogueId') }
     else { this.catalogueId = 'eosc' }
-    if (path === ':catalogueId/:providerId/resource/view/:resourceId') this.disable = true; // view-only mode
+    if (path === ':catalogueId/:provider_prefix/:provider_suffix/resource/view/:resource_prefix/:resource_suffix') this.disable = true; // view-only mode
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
     } else {
       this.sub = this.route.params.subscribe(params => {
-        this.serviceId = params['resourceId'];
+        // this.serviceId = params['resourceId'];
+        this.serviceId = this.navigator.createId(this.route, 'resource_prefix', 'resource_suffix');
         const pathName = window.location.pathname;
         if (pathName.includes('draft-resource/update')) this.pendingService = true;
         // this.resourceService.getService(this.serviceID).subscribe(service => {

@@ -8,7 +8,7 @@ import {TrainingResourceDashboardComponent} from './training-resource-dashboard.
 
 const trainingResourceDashboardRoutes: Routes = [
   {
-    path: ':trainingResourceId',
+    path: ':training_prefix/:training_suffix',
     component: TrainingResourceDashboardComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {

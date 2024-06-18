@@ -251,16 +251,16 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       },
       () => {}
     )
-    if (this.route.snapshot.paramMap.get('resourceId')) {
-      this.serviceId = this.route.snapshot.paramMap.get('resourceId');
+    if (this.route.snapshot.paramMap.get('resource_prefix')) {
+      this.serviceId = this.navigator.createId(this.route, 'resource_prefix', 'resource_suffix');
       this.resourceType = 'service';
     }
-    if (this.route.snapshot.paramMap.get('datasourceId')) {
-      this.serviceId = this.route.snapshot.paramMap.get('datasourceId');
+    if (this.route.snapshot.paramMap.get('datasource_prefix')) {
+      this.serviceId = this.navigator.createId(this.route, 'datasource_prefix', 'datasource_suffix');
       this.resourceType = 'datasource';
     }
-    if (this.route.snapshot.paramMap.get('trainingResourceId')) {
-      this.serviceId = this.route.snapshot.paramMap.get('trainingResourceId');
+    if (this.route.snapshot.paramMap.get('training_prefix')) {
+      this.serviceId = this.navigator.createId(this.route, 'training_prefix', 'training_suffix');
       this.resourceType = 'training_resource';
     }
     this.serviceForm.get('serviceId').setValue(this.serviceId);

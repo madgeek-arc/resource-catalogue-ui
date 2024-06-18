@@ -106,7 +106,7 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
             for (let i = 0; i < this.catalogue.users.length - 1; i++) {
               this.addUser();
             }
-          } else if (path === 'add/:providerId') {
+          } else if (path === 'add/:provider_prefix/:provider_suffix') {
             this.addDefaultUser();
           }
 

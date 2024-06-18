@@ -348,9 +348,9 @@ export class TrainingResourceForm implements OnInit {
         this.subVocabularies = this.groupByKey(voc, 'parentId');
 
         this.providerId = this.router.createId(this.route, 'provider_prefix', 'provider_suffix');
-        if (this.editMode && !(this.route.snapshot.paramMap.get('trainingResourceId').startsWith(this.providerId+'.'))) {
-          return this.router.go('/404');
-        }
+        // if (this.editMode && !(this.route.snapshot.paramMap.get('trainingResourceId').startsWith(this.providerId+'.'))) { //todo: Revisit. What was achieved here?
+        //   return this.router.go('/404');
+        // }
 
         this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
         this.handleBitSets(0, 1, 'resourceOrganisation');

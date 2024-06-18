@@ -5,6 +5,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {ResourceService} from '../../services/resource.service';
 import {Service, TrainingResource} from '../../domain/eic-model';
 import {ServiceProviderService} from '../../services/service-provider.service';
+import {NavigationService} from "../../services/navigation.service";
 
 @Component({
   selector: 'app-add-first-training-resource',
@@ -18,7 +19,8 @@ export class AddFirstTrainingResourceComponent extends TrainingResourceForm impl
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
-              protected route: ActivatedRoute) {
+              protected route: ActivatedRoute,
+              protected navigator: NavigationService) {
     super(injector, authenticationService, serviceProviderService, route);
     this.editMode = false;
   }
@@ -26,9 +28,9 @@ export class AddFirstTrainingResourceComponent extends TrainingResourceForm impl
   ngOnInit() {
     super.ngOnInit();
     this.firstServiceForm = true;
-    // this.providerId = this.route.snapshot.paramMap.get('providerId');
+    // this.providerId = this.navigator.createId(this.route, 'provider_prefix', 'provider_suffix');
     // this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
-    this.trainingResourceId = this.route.snapshot.paramMap.get('trainingResourceId');
+    this.trainingResourceId = this.navigator.createId(this.route, 'training_prefix', 'training_suffix');
     if (this.trainingResourceId) {
       this.editMode = true;
       this.trainingResourceService.getTrainingResourceBundle(this.trainingResourceId).subscribe(

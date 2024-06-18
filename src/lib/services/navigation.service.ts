@@ -14,12 +14,13 @@ export class NavigationService {
 
 
     createId(route: ActivatedRoute, prefix: string, suffix: string) {
-      console.log(route.snapshot);
+      // console.log(route.snapshot);
+      if (!route.snapshot.paramMap.get(prefix) || !route.snapshot.paramMap.get(suffix)) return null;
       return route.snapshot.paramMap.get(prefix) + '/' + route.snapshot.paramMap.get(suffix);
     }
 
     splitId(id: string): string[]  {
-      return id.split('/')
+      return id.split('/');
     }
 
     service(id: string) {

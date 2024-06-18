@@ -84,15 +84,15 @@ const catalogueDashboardRoutes: Routes = [
       //   component: ServiceUploadComponent
       // },
       // {
-      //   path: 'resource/update/:resourceId',
+      //   path: 'resource/update/:resource_prefix/:resource_suffix',
       //   component: ServiceEditComponent
       // },
       // {
-      //   path: 'resource/dashboard/:resourceId',
-      //   redirectTo: 'resource/dashboard/:resourceId/stats',
+      //   path: 'resource/dashboard/:resource_prefix/:resource_suffix',
+      //   redirectTo: 'resource/dashboard/:resource_prefix/:resource_suffix/stats',
       // },
       // {
-      //   path: 'resource/dashboard/:resourceId/stats',
+      //   path: 'resource/dashboard/:resource_prefix/:resource_suffix/stats',
       //   component: ServiceStatsComponent,
       //   data: {
       //     isResource: true
