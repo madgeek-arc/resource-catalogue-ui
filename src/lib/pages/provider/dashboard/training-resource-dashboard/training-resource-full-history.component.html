@@ -80,7 +80,7 @@
                 </div>
               </div>
 
-              <button [routerLink]="['/dashboard/' + catalogueId + '/' + trainingResource.resourceOrganisation + '/training-resource-dashboard/' + trainingResource.id + '/history']"
+              <button [routerLink]="['/dashboard/' + catalogueId + '/' + encodeURIComponent(trainingResource.resourceOrganisation) + '/training-resource-dashboard/' + encodeURIComponent(trainingResource.id) + '/history']"
                       class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
               </button>

@@ -66,4 +66,6 @@ export class TrainingResourceHistoryComponent implements OnInit, OnDestroy {
   handleError(error) {
     this.errorMessage = 'System error retrieving training resource (Server responded: ' + error + ')';
   }
+
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

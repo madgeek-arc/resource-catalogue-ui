@@ -55,4 +55,5 @@ export class ProviderHistoryComponent implements OnInit {
     );
   }
 
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

@@ -61,4 +61,5 @@ export class DashboardComponent implements OnInit {
       );
   }
 
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

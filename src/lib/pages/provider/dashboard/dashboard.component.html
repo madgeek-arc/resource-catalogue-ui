@@ -181,7 +181,7 @@
           </ng-container>
 
           <li *ngIf="catalogueId !== 'eosc' && providerBundle">
-            <a href="/provider/view/{{providerBundle?.provider.catalogueId}}/{{providerBundle?.id}}">
+            <a href="/provider/view/{{providerBundle?.provider.catalogueId}}/{{encodeURIComponent(providerBundle?.id)}}">
               <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true" style="color: #26c0e2"></i> View Provider
             </a>
           </li>

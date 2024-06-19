@@ -78,4 +78,5 @@ export class ResourceDashboardComponent implements OnInit {
     );
   }
 
+  public readonly encodeURIComponent = encodeURIComponent;
 }
