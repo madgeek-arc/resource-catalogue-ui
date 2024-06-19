@@ -320,7 +320,7 @@
 <!--                                  </a>-->
 <!--                                </span>-->
 <!--                                <span *ngIf="serviceBundle.status==='approved'" class="uk-margin-auto-vertical">-->
-                                    <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, serviceBundle.service.resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the service dashboard">
+                                    <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, encodeURIComponent(serviceBundle.service.resourceOrganisation), 'resource-dashboard', encodeURIComponent(serviceBundle.id)]" data-uk-tooltip title="Go to the service dashboard">
                                       {{ serviceBundle.service.name }}
                                     </a>
 <!--                                  <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, serviceBundle.service.resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the service dashboard">-->
@@ -437,7 +437,7 @@
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
-                              routerLink="/provider/{{serviceBundle.service.catalogueId}}/{{serviceBundle.service.resourceOrganisation}}/resource/view/{{serviceBundle.id}}"
+                              routerLink="/provider/{{serviceBundle.service.catalogueId}}/{{encodeURIComponent(serviceBundle.service.resourceOrganisation)}}/resource/view/{{encodeURIComponent(serviceBundle.id)}}"
                               class="uk-button uk-button-link" style="">
                               <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
                               View {{serviceORresource}}
@@ -474,7 +474,7 @@
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
-                              routerLink="/provider/{{serviceBundle.service.resourceOrganisation}}/resource/update/{{serviceBundle.id}}"
+                              routerLink="/provider/{{encodeURIComponent(serviceBundle.service.resourceOrganisation)}}/resource/update/{{encodeURIComponent(serviceBundle.id)}}"
                               class="uk-button uk-button-link"
                               style="">
                               <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
@@ -919,7 +919,7 @@
               <div class="providerName">
                 <span class="uk-margin-auto-vertical">
 <!--                <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc' else anotherCatalogue">-->
-                  <a [routerLink]="['/dashboard/' + serviceBundle.service.resourceOrganisation + '/resource-dashboard', serviceBundle.id]" target="_blank" data-uk-tooltip title="Go to the service dashboard">
+                  <a [routerLink]="['/dashboard/' + encodeURIComponent(serviceBundle.service.resourceOrganisation) + '/resource-dashboard', encodeURIComponent(serviceBundle.id)]" target="_blank" data-uk-tooltip title="Go to the service dashboard">
                       {{ serviceBundle.service.name }}
                   </a>
 <!--                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
