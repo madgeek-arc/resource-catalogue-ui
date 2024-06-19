@@ -207,9 +207,9 @@ export class ServiceProviderService {
 
   adminAcceptedTerms(id: string, pendingProvider: boolean) {
     if (pendingProvider) {
-      return this.http.put(this.base + `/provider/draft/adminAcceptedTerms?providerId=${id}`, this.options);
+      return this.http.put(this.base + `/provider/adminAcceptedTerms?providerId=${id}&isDraft=true`, this.options);
     }
-    return this.http.put(this.base + `/provider/adminAcceptedTerms?providerId=${id}`, this.options);
+    return this.http.put(this.base + `/provider/adminAcceptedTerms?providerId=${id}&isDraft=false`, this.options);
   }
 
   validateUrl(url: string) {
