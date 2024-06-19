@@ -158,12 +158,12 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.route.snapshot.paramMap.get('resource_prefix')) {
-      this.serviceId = this.navigator.createId(this.route, 'resource_prefix', 'resource_suffix');
+    if (this.route.snapshot.paramMap.get('resourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('resourceId');
       this.resourceType = 'service';
     }
-    if (this.route.snapshot.paramMap.get('training_prefix')) {
-      this.serviceId = this.navigator.createId(this.route, 'training_prefix', 'training_suffix');
+    if (this.route.snapshot.paramMap.get('trainingResourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('trainingResourceId');
       this.resourceType = 'training_resource';
     }
     this.serviceForm.get('serviceId').setValue(this.serviceId);

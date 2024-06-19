@@ -60,8 +60,8 @@ export class DatasourceSelectComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.providerId = this.navigator.createId(this.route, 'provider_prefix', 'provider_suffix');
-    this.resourceId = this.navigator.createId(this.route, 'resource_prefix', 'resource_suffix');
+    this.providerId = this.route.snapshot.paramMap.get('providerId');
+    this.resourceId = this.route.snapshot.paramMap.get('resourceId');
 
     this.getProvider();
 

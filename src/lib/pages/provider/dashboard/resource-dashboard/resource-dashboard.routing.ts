@@ -10,7 +10,7 @@ import {MonitoringInfoComponent} from "./monitoring-info.component";
 
 const resourceDashboardRoutes: Routes = [
   {
-    path: ':resource_prefix/:resource_suffix',
+    path: ':resourceId',
     component: ResourceDashboardComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {

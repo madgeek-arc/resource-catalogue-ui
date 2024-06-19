@@ -63,17 +63,17 @@ const appRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard]
   },
   {
-    path: 'dashboard/:catalogueId/:provider_prefix/:provider_suffix/resource-dashboard',
+    path: 'dashboard/:catalogueId/:providerId/resource-dashboard',
     loadChildren: () => import('../lib/pages/provider/dashboard/resource-dashboard/resource-dashboard.module').then(m => m.ResourceDashboardModule),
     canActivate: [CanActivateViaAuthGuard]
   },
   {
-    path: 'dashboard/:catalogueId/:provider_prefix/:provider_suffix/shared-resource-dashboard',
+    path: 'dashboard/:catalogueId/:providerId/shared-resource-dashboard',
     loadChildren: () => import('../lib/pages/provider/dashboard/resource-dashboard/shared-resource-dashboard.module').then(m => m.SharedResourceDashboardModule),
     canActivate: [CanActivateViaAuthGuard]
   },
   {
-    path: 'dashboard/:catalogueId/:provider_prefix/:provider_suffix/training-resource-dashboard',
+    path: 'dashboard/:catalogueId/:providerId/training-resource-dashboard',
     loadChildren: () => import('../lib/pages/provider/dashboard/training-resource-dashboard/training-resource-dashboard.module').then(m => m.TrainingResourceDashboardModule),
     canActivate: [CanActivateViaAuthGuard]
   },

@@ -860,4 +860,5 @@ export class ResourcesListComponent implements OnInit {
   //   );
   // }
 
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

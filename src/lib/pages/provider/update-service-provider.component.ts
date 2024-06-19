@@ -34,11 +34,11 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
   ngOnInit() {
     this.edit = true;
     const path = this.route.snapshot.routeConfig.path;
-    this.providerId = this.navigator.createId(this.route, 'provider_prefix', 'provider_suffix');
+    this.providerId = this.route.snapshot.paramMap.get('providerId');
     if (path.includes(':catalogueId')) {
       this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     }
-    if (path === 'view/:catalogueId/:provider_prefix/:provider_suffix') {
+    if (path === 'view/:catalogueId/:providerId') {
       this.disable = true;
     }
     super.ngOnInit();
@@ -80,7 +80,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
   getProvider() {
     this.errorMessage = '';
     const path = this.route.snapshot.routeConfig.path;
-    this.serviceProviderService[(path === 'add/:provider_prefix/:provider_suffix' ? 'getPendingProviderById' : 'getServiceProviderById')](this.providerId, this.catalogueId)
+    this.serviceProviderService[(path === 'add/:providerId' ? 'getPendingProviderById' : 'getServiceProviderById')](this.providerId, this.catalogueId)
       .subscribe(
         provider => this.provider = provider,
         err => {
@@ -88,7 +88,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
           this.errorMessage = 'Something went wrong.';
         },
         () => {
-          if(this.provider.users===null && this.provider.mainContact===null && path!=='add/:provider_prefix/:provider_suffix') //in case of unauthorized access backend will not show sensitive info (drafts excluded)
+          if(this.provider.users===null && this.provider.mainContact===null && path!=='add/:providerId') //in case of unauthorized access backend will not show sensitive info (drafts excluded)
             this.router.navigateByUrl('/forbidden')
           // console.log(Object.keys(this.provider));
           ResourceService.removeNulls(this.provider);
@@ -115,7 +115,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             for (let i = 0; i < this.provider.users.length - 1; i++) {
               this.addUser();
             }
-          } else if (path === 'add/:provider_prefix/:provider_suffix') {
+          } else if (path === 'add/:providerId') {
             this.addDefaultUser();
           }
           // if (this.provider.multimedia && this.provider.multimedia.length > 1) {

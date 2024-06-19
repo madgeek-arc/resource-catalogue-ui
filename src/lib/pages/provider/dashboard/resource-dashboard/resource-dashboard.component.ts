@@ -39,8 +39,8 @@ export class ResourceDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
-    this.providerId = this.navigator.createId(this.route, 'provider_prefix', 'provider_suffix');
-    this.resourceId = this.navigator.createId(this.route, 'resource_prefix', 'resource_suffix');
+    this.providerId = this.route.snapshot.paramMap.get('providerId');
+    this.resourceId = this.route.snapshot.paramMap.get('resourceId');
     this.resourceService.getServiceBundleById(this.resourceId, this.catalogueId).subscribe(
       res => { if (res!=null) this.resourceBundle = res },
       error => {},

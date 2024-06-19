@@ -39,7 +39,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: 'add/:provider_prefix/:provider_suffix',
+    path: 'add/:providerId',
     component: UpdateServiceProviderComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -48,7 +48,7 @@ const providerRoutes: Routes = [
   },
   // fixme move this to the dashboard module when no longer in form
   {
-    path: 'view/:catalogueId/:provider_prefix/:provider_suffix',
+    path: 'view/:catalogueId/:providerId',
     component: UpdateServiceProviderComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -56,7 +56,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: 'update/:provider_prefix/:provider_suffix',
+    path: 'update/:providerId',
     component: UpdateServiceProviderComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -72,7 +72,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: 'draft-resources/:provider_prefix/:provider_suffix',
+    path: 'draft-resources/:providerId',
     component: PendingServicesComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -80,7 +80,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: 'rejected-resources/:provider_prefix/:provider_suffix',
+    path: 'rejected-resources/:providerId',
     component: RejectedServicesComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -88,7 +88,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: 'rejected-training-resources/:provider_prefix/:provider_suffix',
+    path: 'rejected-training-resources/:providerId',
     component: RejectedTrainingResourcesComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -96,7 +96,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/add-first-service',
+    path: ':providerId/add-first-service',
     component: AddFirstServiceComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -104,7 +104,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/add-first-training-resource',
+    path: ':providerId/add-first-training-resource',
     component: AddFirstTrainingResourceComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -112,7 +112,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/resource/update-template/:resource_prefix/:resource_suffix',
+    path: ':providerId/resource/update-template/:resourceId',
     component: AddFirstServiceComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -120,7 +120,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/draft-resource/update/:resource_prefix/:resource_suffix',
+    path: ':providerId/draft-resource/update/:resourceId',
     component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -128,7 +128,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/resource/add',
+    path: ':providerId/resource/add',
     component: ServiceUploadComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -136,7 +136,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/training-resource/add',
+    path: ':providerId/training-resource/add',
     component: TrainingResourceForm,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -144,7 +144,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/service/:resource_prefix/:resource_suffix/select-subprofile', //for eosc only
+    path: ':providerId/service/:resourceId/select-subprofile', //for eosc only
     component: SelectSubprofileComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -152,7 +152,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/resource/:resource_prefix/:resource_suffix/datasource/select',
+    path: ':providerId/resource/:resourceId/datasource/select',
     component: DatasourceSelectComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -160,7 +160,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/resource/:resource_prefix/:resource_suffix/subprofile/datasource',
+    path: ':providerId/resource/:resourceId/subprofile/datasource',
     component: DatasourceSubprofileFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -168,7 +168,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/resource/:resource_prefix/:resource_suffix/subprofile/datasource/addOpenAIRE/:openaireId',
+    path: ':providerId/resource/:resourceId/subprofile/datasource/addOpenAIRE/:openaireId',
     component: DatasourceSubprofileFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -176,7 +176,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/resource/add/use-template/:resource_prefix/:resource_suffix',
+    path: ':providerId/resource/add/use-template/:resourceId',
     component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -184,7 +184,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/training-resource/add/use-template/:training_prefix/:training_suffix',
+    path: ':providerId/training-resource/add/use-template/:trainingResourceId',
     component: UpdateTrainingResource,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -192,7 +192,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/resource/:resource_prefix/:resource_suffix/datasource/metrics', // TODO: datasourceId maybe needed
+    path: ':providerId/resource/:resourceId/datasource/metrics', // TODO: datasourceId maybe needed
     component: DatasourceMetricsComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -200,7 +200,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/resource/update/:resource_prefix/:resource_suffix',
+    path: ':providerId/resource/update/:resourceId',
     component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -208,7 +208,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/training-resource/update/:training_prefix/:training_suffix',
+    path: ':providerId/training-resource/update/:trainingResourceId',
     component: UpdateTrainingResource,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -216,7 +216,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':catalogueId/:provider_prefix/:provider_suffix/resource/view/:resource_prefix/:resource_suffix',
+    path: ':catalogueId/:providerId/resource/view/:resourceId',
     component: ServiceEditComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -224,7 +224,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':catalogueId/:provider_prefix/:provider_suffix/training-resource/view/:training_prefix/:training_suffix',
+    path: ':catalogueId/:providerId/training-resource/view/:trainingResourceId',
     component: UpdateTrainingResource,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -248,7 +248,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/resource/monitoring/:resource_prefix/:resource_suffix',
+    path: ':providerId/resource/monitoring/:resourceId',
     component: MonitoringExtensionFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -256,7 +256,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/resource/helpdesk/:resource_prefix/:resource_suffix',
+    path: ':providerId/resource/helpdesk/:resourceId',
     component: HelpdeskExtensionFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -264,7 +264,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/datasource/monitoring/:datasourceId',
+    path: ':providerId/datasource/monitoring/:datasourceId',
     component: MonitoringExtensionFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -272,7 +272,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/datasource/helpdesk/:datasourceId',
+    path: ':providerId/datasource/helpdesk/:datasourceId',
     component: HelpdeskExtensionFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -280,7 +280,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/training-resource/monitoring/:training_prefix/:training_suffix',
+    path: ':providerId/training-resource/monitoring/:trainingResourceId',
     component: MonitoringExtensionFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -288,7 +288,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/training-resource/helpdesk/:training_prefix/:training_suffix',
+    path: ':providerId/training-resource/helpdesk/:trainingResourceId',
     component: HelpdeskExtensionFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
@@ -296,7 +296,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':provider_prefix/:provider_suffix/resource/guidelines/:resource_prefix/:resource_suffix',
+    path: ':providerId/resource/guidelines/:resourceId',
     component: ResourceGuidelinesFormComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {

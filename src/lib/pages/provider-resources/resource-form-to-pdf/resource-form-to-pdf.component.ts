@@ -394,7 +394,7 @@ export class ResourceFormToPdfComponent implements OnInit {
         this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'Worldwide']);
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
-        this.providerId = this.navigator.createId(this.route, 'provider_prefix', 'provider_suffix');
+        this.providerId = this.route.snapshot.paramMap.get('providerId');
         this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
       }
     );

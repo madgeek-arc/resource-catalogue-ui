@@ -855,4 +855,6 @@ export class ServiceProvidersListComponent implements OnInit {
     }*/
   }
 
+  protected readonly encodeURI = encodeURI;
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

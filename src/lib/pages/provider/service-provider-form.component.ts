@@ -236,10 +236,10 @@ export class ServiceProviderFormComponent implements OnInit {
   ngOnInit() {
 
     const path = this.route.snapshot.routeConfig.path;
-    if (path.includes('add/:provider_prefix/:provider_suffix')) {
+    if (path.includes('add/:providerId')) {
       this.pendingProvider = true;
     }
-    // if (path.includes('view/:provider_prefix/:provider_suffix')) {
+    // if (path.includes('view/:providerId')) {
     //   this.pendingProvider = true;
     // }
     this.setVocabularies();
@@ -283,7 +283,7 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     }
 
-    if (this._hasUserConsent && path !== 'view/:catalogueId/:provider_prefix/:provider_suffix') {
+    if (this._hasUserConsent && path !== 'view/:catalogueId/:providerId') {
       if (this.edit) {
         this.serviceProviderService.hasAdminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
           boolean => { this.agreedToTerms = boolean; },
@@ -323,7 +323,7 @@ export class ServiceProviderFormComponent implements OnInit {
     // this.trimFormWhiteSpaces();
     const path = this.route.snapshot.routeConfig.path;
     let method;
-    if (path === 'add/:provider_prefix/:provider_suffix') {
+    if (path === 'add/:providerId') {
       method = 'updateAndPublishPendingProvider';
     } else {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
@@ -361,7 +361,7 @@ export class ServiceProviderFormComponent implements OnInit {
     if (tempSave) {
       this.showLoader = true;
       window.scrollTo(0, 0);
-      this.serviceProviderService.temporarySaveProvider(this.providerForm.value, (path !== 'add/:provider_prefix/:provider_suffix' && this.edit))
+      this.serviceProviderService.temporarySaveProvider(this.providerForm.value, (path !== 'add/:providerId' && this.edit))
         .subscribe(
           res => {
             this.showLoader = false;

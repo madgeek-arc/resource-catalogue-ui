@@ -53,7 +53,7 @@ export class RejectedServicesComponent implements OnInit {
 
   ngOnInit(): void {
     this.path = window.location.pathname;
-    this.providerId = this.navigator.createId(this.route, 'provider_prefix', 'provider_suffix');
+    this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
 
     this.getProvider();

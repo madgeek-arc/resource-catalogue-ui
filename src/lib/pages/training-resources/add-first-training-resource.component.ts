@@ -28,9 +28,9 @@ export class AddFirstTrainingResourceComponent extends TrainingResourceForm impl
   ngOnInit() {
     super.ngOnInit();
     this.firstServiceForm = true;
-    // this.providerId = this.navigator.createId(this.route, 'provider_prefix', 'provider_suffix');
+    // this.providerId = this.route.snapshot.paramMap.get('providerId');
     // this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
-    this.trainingResourceId = this.navigator.createId(this.route, 'training_prefix', 'training_suffix');
+    this.trainingResourceId = this.route.snapshot.paramMap.get('trainingResourceId');
     if (this.trainingResourceId) {
       this.editMode = true;
       this.trainingResourceService.getTrainingResourceBundle(this.trainingResourceId).subscribe(

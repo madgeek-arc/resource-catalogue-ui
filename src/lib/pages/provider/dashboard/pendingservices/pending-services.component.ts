@@ -61,7 +61,7 @@ export class PendingServicesComponent implements OnInit {
       this.providerId = this.route.parent.snapshot.paramMap.get('provider');
       this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     } else {
-      this.providerId = this.navigator.createId(this.route, 'provider_prefix', 'provider_suffix');
+      this.providerId = this.route.snapshot.paramMap.get('providerId');
     }
     // console.log('this.path: ', this.path);
     // this.providerId = this.route.parent.snapshot.paramMap.get('provider');

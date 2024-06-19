@@ -469,7 +469,7 @@ export class ServiceFormComponent implements OnInit {
         let voc: Vocabulary[] = this.vocabularies[Type.SUBCATEGORY].concat(this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN]);
         this.subVocabularies = this.groupByKey(voc, 'parentId');
 
-        this.providerId = this.navigator.createId(this.route, 'provider_prefix', 'provider_suffix');
+        this.providerId = this.route.snapshot.paramMap.get('providerId');
         // if (this.editMode && this.projectName === 'EOSC' && !(this.route.snapshot.paramMap.get('resourceId').startsWith(this.providerId+'.'))) {
         //   return this.router.go('/404');
         // }

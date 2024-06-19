@@ -9,7 +9,7 @@ import {environment} from '../../../../../environments/environment';
 
 const sharedResourceDashboardRoutes: Routes = [
   {
-    path: ':resource_prefix/:resource_suffix',
+    path: ':resourceId',
     component: SharedResourceDashboardComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {
