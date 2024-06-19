@@ -85,9 +85,9 @@
 
               <li class="uk-nav-header uk-parent" [routerLinkActive]="['uk-active']">For Catalogues
                 <ul class="uk-nav-sub">
-<!--                  <li>-->
-<!--                    <a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active" class="uk-offcanvas-close offcanvas-close">Add a Catalogue</a>-->
-<!--                  </li>-->
+                  <li>
+                    <a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active" class="uk-offcanvas-close offcanvas-close">Add a Catalogue</a>
+                  </li>
                   <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/catalogue/my']"
                      routerLinkActive="uk-active" class="uk-offcanvas-close offcanvas-close">My Catalogues</a>
                   </li>
@@ -214,7 +214,7 @@
                   <div class="uk-navbar-dropdown-grid uk-child-width-1-1 uk-grid uk-grid-stack" uk-grid="">
                     <div class="uk-first-column">
                       <ul class="uk-nav uk-navbar-dropdown-nav">
-<!--                        <li><a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active">Add a Catalogue</a></li>-->
+                        <li><a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active">Add a Catalogue</a></li>
                         <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/catalogue/my']" routerLinkActive="uk-active">My Catalogues</a></li>
                         <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
                       </ul>
