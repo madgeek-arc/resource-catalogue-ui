@@ -371,7 +371,7 @@ export class ServiceFormComponent implements OnInit {
           // console.log(_service);
           this.showLoader = false;
           // return this.router.dashboardDraftResources(this.providerId); // navigate to draft list
-          return this.navigator.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
+          return this.navigator.go('/provider/' + encodeURIComponent(_service.resourceOrganisation) + '/draft-resource/update/' + encodeURIComponent(_service.id));
         },
         err => {
           this.showLoader = false;

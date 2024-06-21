@@ -446,4 +446,5 @@ export class GuidelinesListComponent implements OnInit {
     }
   }
 
+    protected readonly encodeURIComponent = encodeURIComponent;
 }

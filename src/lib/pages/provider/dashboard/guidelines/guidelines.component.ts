@@ -183,4 +183,5 @@ export class GuidelinesComponent implements OnInit {
     }
   }
 
+    protected readonly encodeURIComponent = encodeURIComponent;
 }

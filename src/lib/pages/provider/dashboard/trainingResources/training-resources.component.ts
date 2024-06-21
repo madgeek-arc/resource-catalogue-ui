@@ -229,4 +229,5 @@ export class TrainingResourcesComponent implements OnInit {
     }
   }
 
+    protected readonly encodeURIComponent = encodeURIComponent;
 }

@@ -365,12 +365,12 @@ export class ServiceProviderFormComponent implements OnInit {
         .subscribe(
           res => {
             this.showLoader = false;
-            this.router.navigate([`/provider/add/${res.id}`]);
+            this.router.navigate([`/provider/add/${encodeURIComponent(res.id)}`]);
           },
           err => {
             this.showLoader = false;
             window.scrollTo(0, 0);
-            this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
+            this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
           },
           () => {
             this.showLoader = false;
@@ -386,7 +386,7 @@ export class ServiceProviderFormComponent implements OnInit {
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
-          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
+          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
         },
         () => {
           this.showLoader = false;

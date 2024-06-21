@@ -209,4 +209,5 @@ export class MyServiceProvidersComponent implements OnInit {
     }
   }
 
+    protected readonly encodeURIComponent = encodeURIComponent;
 }

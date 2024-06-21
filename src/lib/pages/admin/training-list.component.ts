@@ -887,4 +887,5 @@ export class TrainingListComponent implements OnInit {
     );
   }
 
+    protected readonly encodeURIComponent = encodeURIComponent;
 }

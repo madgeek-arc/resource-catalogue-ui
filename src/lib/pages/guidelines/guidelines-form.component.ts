@@ -166,7 +166,7 @@ export class GuidelinesFormComponent implements OnInit {
     // }
     this.setVocabularies();
     this.guidelinesForm = this.fb.group(this.formDefinition);
-    this.guidelinesForm.get('providerId').setValue(this.route.snapshot.paramMap.get('providerId'));
+    this.guidelinesForm.get('providerId').setValue(decodeURIComponent(this.route.snapshot.paramMap.get('providerId')));
     // if (this.edit === false) {
     //   // this.pushDomain();
     // }
@@ -235,7 +235,7 @@ export class GuidelinesFormComponent implements OnInit {
         },
         () => {
           this.showLoader = false;
-          this.router.navigate(['/dashboard/eosc/'+ this.guidelinesForm.get('providerId').value +'/guidelines/']);
+          this.router.navigate(['/dashboard/eosc/'+ encodeURIComponent(this.guidelinesForm.get('providerId').value) +'/guidelines/']);
         }
       );
     } else {

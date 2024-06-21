@@ -115,5 +115,6 @@ export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
 
   getNameForProvider(id: string) {
     return this.providers.find(x => x.id === id).name;
+    // return this.providers.find(x => encodeURIComponent(x.id) === encodeURIComponent(id)).name;
   }
 }

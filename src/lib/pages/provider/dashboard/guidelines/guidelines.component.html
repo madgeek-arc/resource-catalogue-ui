@@ -150,7 +150,7 @@
                 <div *ngIf="catalogueId==='eosc'" class="uk-width-1-4">
                   <div class="action-buttons">
                     <button
-                      [routerLink]="['/guidelines/'+ irBundle.interoperabilityRecord.providerId +'/update/'+ irBundle.id]"
+                      [routerLink]="['/guidelines/'+ encodeURIComponent(irBundle.interoperabilityRecord.providerId) +'/update/'+ encodeURIComponent(irBundle.id)]"
                       class="uk-button uk-button-action uk-display-block uk-margin-small-top">
                       <i class="fa fa-pencil fa-lg" aria-hidden="true"></i> Update Guidelines
                     </button>
