@@ -400,4 +400,5 @@ export class DatasourcesListComponent implements OnInit {
   }
   /** <--Pagination **/
 
+    protected readonly encodeURIComponent = encodeURIComponent;
 }

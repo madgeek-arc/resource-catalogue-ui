@@ -226,9 +226,9 @@
                             <span class="statusLabel">Service ID: </span>{{ datasourceBundle.datasource.serviceId }}
                           </div>
 
-                          <div class="uk-margin-small-top">
-                            <span class="statusLabel">Provider ID: </span>{{ datasourceBundle.datasource.serviceId.split('.')[0] }}
-                          </div>
+<!--                          <div class="uk-margin-small-top">-->
+<!--                            <span class="statusLabel">Provider ID: </span>{{ datasourceBundle.datasource.serviceId.split('.')[0] }}-->
+<!--                          </div>-->
 
                           <div class="uk-margin-small-top">
                             <span class="statusLabel">Catalogue ID: </span>{{ datasourceBundle.datasource.catalogueId }}
@@ -260,7 +260,7 @@
                       <hr class="uk-margin-top">
                       <div class="uk-align-right uk-margin-bottom">
                         <button
-                          routerLink="/provider/{{datasourceBundle.datasource.serviceId.split('.')[0]}}/resource/{{datasourceBundle.datasource.serviceId}}/subprofile/datasource"
+                          routerLink="/provider/{{encodeURIComponent(datasourceBundle.id)}}/resource/{{encodeURIComponent(datasourceBundle.datasource.serviceId)}}/subprofile/datasource"
                           class="uk-button uk-button-link"
                           style="">
                           <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
