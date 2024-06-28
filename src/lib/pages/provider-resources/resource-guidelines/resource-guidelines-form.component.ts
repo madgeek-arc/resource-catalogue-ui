@@ -57,7 +57,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
 
   ngOnInit() {
     this.serviceId = this.route.snapshot.paramMap.get('resourceId');
-    this.guidelinesForm.get('resourceId').setValue(this.serviceId);
+    this.guidelinesForm.get('resourceId').setValue(decodeURIComponent(this.serviceId));
 
     this.guidelinesService.getGuidelinesOfResource(this.serviceId).subscribe(
       res => { if(res!=null) {
