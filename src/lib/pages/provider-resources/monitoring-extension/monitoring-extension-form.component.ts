@@ -146,7 +146,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
       this.serviceId = this.route.snapshot.paramMap.get('trainingResourceId');
       this.resourceType = 'training_resource';
     }
-    this.serviceForm.get('serviceId').setValue(this.serviceId);
+    this.serviceForm.get('serviceId').setValue(decodeURIComponent(this.serviceId));
 
     this.setServiceTypes();
 
