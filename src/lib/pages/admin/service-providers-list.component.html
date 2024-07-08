@@ -462,7 +462,7 @@
                                 <ng-container *ngIf="providerBundle.status === 'approved provider' && providerBundle.templateStatus === 'no template status'">
                                   <i class="">Add First {{serviceORresource}}</i>
                                   <li class="uk-active">
-                                    <a routerLink="{{ encodeURIComponent(getLinkToFirstService(providerBundle.id)) }}">
+                                    <a routerLink="{{ getLinkToFirstService(encodeURIComponent(providerBundle.id)) }}">
                                       <i class="fa fa-dot-circle-o uk-margin-small-right"></i>
                                       Create First {{serviceORresource}}</a>
                                   </li>
@@ -475,7 +475,7 @@
                                   <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
                                     <li class="uk-active">
                                       <a *ngIf="projectName!='EOSC'"
-                                         routerLink="{{ encodeURIComponent(getLinkToFirstService(providerBundle.id)) }}"
+                                         routerLink="{{ getLinkToFirstService(encodeURIComponent(providerBundle.id)) }}"
                                          class="">
                                         <i class="fa fa-eye"></i> View First {{serviceORresource}}
                                       </a>
@@ -485,7 +485,7 @@
                                       </a>
                                     </li>
                                     <li class="uk-active">
-                                      <a routerLink="{{ encodeURIComponent(getLinkToEditFirstService(providerBundle.id)) }}"
+                                      <a routerLink="{{ getLinkToEditFirstService(encodeURIComponent(providerBundle.id)) }}"
                                          class="uk-margin-small-top">
                                         <i class="fa fa-pencil"></i> Edit First {{serviceORresource}}
                                       </a>
@@ -505,7 +505,7 @@
 <!--                                      </a>-->
 <!--                                    </li>-->
                                     <li class="uk-active">
-                                      <a routerLink="{{ encodeURIComponent(getLinkToEditFirstTrainingResource(providerBundle.id)) }}"
+                                      <a routerLink="{{ getLinkToEditFirstTrainingResource(encodeURIComponent(providerBundle.id)) }}"
                                          class="uk-margin-small-top">
                                         <i class="fa fa-pencil"></i> Edit First Training Resource
                                       </a>

@@ -104,13 +104,13 @@
           <ng-container *ngIf="catalogueId==='eosc'">
             <ng-container *ngIf="providerBundle?.templateStatus === 'rejected template' || (providerBundle?.status === 'approved provider' && providerBundle?.templateStatus === 'no template status')">
               <li>
-                <a [routerLink]="['/provider/' + providerId + '/add-first-service/']">
+                <a [routerLink]="['/provider/' + encodeURIComponent(providerId) + '/add-first-service/']">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add first {{serviceORresource}}
                 </a>
               </li>
               <li>
-                <a [routerLink]="['/provider/' + providerId + '/add-first-training-resource/']">
+                <a [routerLink]="['/provider/' + encodeURIComponent(providerId) + '/add-first-training-resource/']">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add first Training Resource
                 </a>
