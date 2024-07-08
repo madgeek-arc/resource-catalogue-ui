@@ -203,6 +203,7 @@ export class DatasourcesListComponent implements OnInit {
                     ...datasource,
                     logo: matchingService.logo,
                     name: matchingService.name,
+                    resourceOrganisation: matchingService.resourceOrganisation,
                   };
                 }
                 return datasource; // if no match is found, return the service as is

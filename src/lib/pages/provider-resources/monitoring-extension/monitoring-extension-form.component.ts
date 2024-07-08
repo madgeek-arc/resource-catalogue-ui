@@ -114,8 +114,8 @@ export class MonitoringExtensionFormComponent implements OnInit {
       this.serviceExtensionsService.uploadMonitoringService(this.serviceForm.value, this.editMode, 'eosc', this.resourceType).subscribe(
         _service => {
           this.showLoader = false;
-          if (this.resourceType==='service') return this.navigator.resourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // navigate to resource-dashboard
-          if (this.resourceType==='training_resource') return this.navigator.trainingResourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // navigate to training-resource-dashboard
+          if (this.resourceType==='service') return this.navigator.resourceDashboard(this.serviceForm.value.resourceOrganisation, this.serviceId); // navigate to resource-dashboard
+          if (this.resourceType==='training_resource') return this.navigator.trainingResourceDashboard(this.serviceForm.value.resourceOrganisation, this.serviceId); // navigate to training-resource-dashboard
         },
         err => {
           this.showLoader = false;

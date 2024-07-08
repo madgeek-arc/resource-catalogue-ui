@@ -177,27 +177,27 @@
 
                 <hr class="adminResultsHeader">
 
-                <div *ngFor="let datasourceBundle of enrichedDatasources" class="uk-card provider-card uk-margin-medium-top">
+                <div *ngFor="let datasourceBundlePlus of enrichedDatasources" class="uk-card provider-card uk-margin-medium-top">
                   <div class="uk-card-body uk-padding-remove-bottom">
 
-                    <div *ngIf="datasourceBundle.status === 'approved datasource'" class="approved">
+                    <div *ngIf="datasourceBundlePlus.status === 'approved datasource'" class="approved">
                       <div class="uk-card-badge uk-label">Approved</div>
                     </div>
-                    <div *ngIf="datasourceBundle.status === 'pending datasource'" class="pending">
+                    <div *ngIf="datasourceBundlePlus.status === 'pending datasource'" class="pending">
                       <div class="uk-card-badge uk-label">Pending</div>
                     </div>
-                    <div *ngIf="(datasourceBundle.status === 'rejected datasource')" class="rejected">
+                    <div *ngIf="(datasourceBundlePlus.status === 'rejected datasource')" class="rejected">
                       <div class="uk-card-badge uk-label">Rejected</div>
                     </div>
 
-                    <div *ngIf="datasourceBundle.active" class="approved">
+                    <div *ngIf="datasourceBundlePlus.active" class="approved">
                       <div class="uk-label uk-align-right">Active</div>
                     </div>
-                    <div *ngIf="!datasourceBundle.active" class="rejected">
+                    <div *ngIf="!datasourceBundlePlus.active" class="rejected">
                       <div class="uk-label uk-align-right">Inactive</div>
                     </div>
 
-                    <div *ngIf="datasourceBundle.suspended" class="rejected">
+                    <div *ngIf="datasourceBundlePlus.suspended" class="rejected">
                       <div class="uk-label uk-align-right">Suspended</div>
                     </div>
 
@@ -206,15 +206,15 @@
                         <div class="uk-width-1-5">
                           <div>
                             <img class="el-image uk-border-rounded"
-                                 src="{{ datasourceBundle.logo ? datasourceBundle.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
+                                 src="{{ datasourceBundlePlus.logo ? datasourceBundlePlus.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
                           </div>
                         </div>
 
                         <div class="uk-width-4-5" style="padding-left: 100px;">
                           <div class="providerName uk-margin-bottom">
-                            <a [routerLink]="['/dashboard', datasourceBundle.datasource.catalogueId, datasourceBundle.datasource.serviceId.split('.')[0], 'resource-dashboard', datasourceBundle.datasource.serviceId]"
+                            <a [routerLink]="['/dashboard', datasourceBundlePlus.datasource.catalogueId, datasourceBundlePlus.resourceOrganisation, 'resource-dashboard', datasourceBundlePlus.datasource.serviceId]"
                                data-uk-tooltip title="Go to the service dashboard">
-                              {{ datasourceBundle.name }}
+                              {{ datasourceBundlePlus.name }}
                             </a>
                           </div>
 
@@ -223,15 +223,15 @@
 <!--                          </div>-->
 
                           <div class="uk-margin-small-top">
-                            <span class="statusLabel">Service ID: </span>{{ datasourceBundle.datasource.serviceId }}
+                            <span class="statusLabel">Service ID: </span>{{ datasourceBundlePlus.datasource.serviceId }}
                           </div>
 
-<!--                          <div class="uk-margin-small-top">-->
-<!--                            <span class="statusLabel">Provider ID: </span>{{ datasourceBundle.datasource.serviceId.split('.')[0] }}-->
-<!--                          </div>-->
+                          <div class="uk-margin-small-top">
+                            <span class="statusLabel">Provider ID: </span>{{ datasourceBundlePlus.resourceOrganisation }}
+                          </div>
 
                           <div class="uk-margin-small-top">
-                            <span class="statusLabel">Catalogue ID: </span>{{ datasourceBundle.datasource.catalogueId }}
+                            <span class="statusLabel">Catalogue ID: </span>{{ datasourceBundlePlus.datasource.catalogueId }}
                           </div>
 
                         </div>
@@ -260,31 +260,31 @@
                       <hr class="uk-margin-top">
                       <div class="uk-align-right uk-margin-bottom">
                         <button
-                          routerLink="/provider/{{encodeURIComponent(datasourceBundle.id)}}/resource/{{encodeURIComponent(datasourceBundle.datasource.serviceId)}}/subprofile/datasource"
+                          routerLink="/provider/{{encodeURIComponent(datasourceBundlePlus.id)}}/resource/{{encodeURIComponent(datasourceBundlePlus.datasource.serviceId)}}/subprofile/datasource"
                           class="uk-button uk-button-link"
                           style="">
                           <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
                           Update
                         </button>
 
-                        <button (click)="showDeletionModal(datasourceBundle.id)"
+                        <button (click)="showDeletionModal(datasourceBundlePlus.id)"
                                 class="uk-button uk-button-link uk-margin-medium-left"
                                 style="padding-left: 40px; border-left: 1px solid #ccc">
                           <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
                           Delete
                         </button>
 
-                        <ng-container *ngIf="datasourceBundle.status==='pending datasource'">
+                        <ng-container *ngIf="datasourceBundlePlus.status==='pending datasource'">
                           <button class="uk-button uk-button-link uk-margin-medium-left"
                                   style="padding-left: 40px; border-left: 1px solid #ccc">
                             <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
                           </button>
                           <div uk-dropdown="mode: click">
                             <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                              <li class="uk-active" (click)="verifyDatasource(datasourceBundle.id, true, 'approved datasource')">
+                              <li class="uk-active" (click)="verifyDatasource(datasourceBundlePlus.id, true, 'approved datasource')">
                                 <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve </a>
                               </li>
-                              <li class="uk-active" (click)="verifyDatasource(datasourceBundle.id, true, 'rejected datasource')">
+                              <li class="uk-active" (click)="verifyDatasource(datasourceBundlePlus.id, true, 'rejected datasource')">
                                 <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject </a>
                               </li>
 <!--                              <li *ngIf="(datasourceBundle.status === 'approved datasource') && (!datasourceBundle.active)"

@@ -32,6 +32,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   pendingService = false;
   addOpenAIRE = false; //on addOpenAIRE path
   openaireId: string = null; //datasource OA id
+  providerId: string;
   editMode = false;
   hasChanges = false;
   serviceForm: FormGroup;
@@ -213,7 +214,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
         _ds => {
           this.showLoader = false;
           if (this.addOpenAIRE) return this.navigator.datasourceSubmitted(_ds.id);
-          return this.navigator.resourceDashboard(_ds.serviceId.split('.')[0], _ds.serviceId);
+          return this.navigator.resourceDashboard(this.providerId, _ds.serviceId); // fixme: Datasource providerId -2test
         },
         err => {
           this.showLoader = false;
@@ -236,7 +237,8 @@ export class DatasourceSubprofileFormComponent implements OnInit {
 
   ngOnInit() {
     this.addOpenAIRE = window.location.pathname.includes('addOpenAIRE');
-    this.openaireId = this.route.snapshot.paramMap.get('openaireId')
+    this.openaireId = this.route.snapshot.paramMap.get('openaireId');
+    this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.resourceService.getAllVocabulariesByType().subscribe(
       suc => {
         this.vocabularies = <Map<string, Vocabulary[]>>suc;
@@ -491,11 +493,11 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       error => {
         this.showLoader = false;
         this.errorMessage = 'Something went bad. ' + error.error ;
-        return this.navigator.resourceDashboard(this.datasource.serviceId.split('.')[0], this.datasource.serviceId);
+        return this.navigator.resourceDashboard(this.providerId, this.datasource.serviceId); // fixme: Datasource providerId -2test
       },
       () => {
         this.showLoader = false;
-        return this.navigator.resourceDashboard(this.datasource.serviceId.split('.')[0], this.datasource.serviceId);
+        return this.navigator.resourceDashboard(this.providerId, this.datasource.serviceId); // fixme: Datasource providerId -2test
       }
     );
   }
