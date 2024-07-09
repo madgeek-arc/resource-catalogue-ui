@@ -474,7 +474,7 @@ export class ServiceFormComponent implements OnInit {
         //   return this.router.go('/404');
         // }
 
-        this.showProviderName(this.providerId);
+        this.showProviderName(decodeURIComponent(this.providerId));
         if(this.catalogueId == 'eosc') this.displayedCatalogueName = `| Catalogue: EOSC`
         else if(this.catalogueId) this.showCatalogueName(this.catalogueId);
 
