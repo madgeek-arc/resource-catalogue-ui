@@ -99,10 +99,10 @@
                                   <div uk-dropdown>
                                     <ul class="uk-nav uk-dropdown-nav">
                                       <li class="uk-active">
-                                        <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">Add First {{serviceORresource}}</a>
+                                        <a routerLink="{{ getLinkToFirstService(encodeURIComponent(providerBundle.id)) }}">Add First {{serviceORresource}}</a>
                                       </li>
                                       <li class="uk-active">
-                                        <a routerLink="{{ getLinkToFirstTrainingResource(providerBundle.id) }}">Add First Training Resource</a>
+                                        <a routerLink="{{ getLinkToFirstTrainingResource(encodeURIComponent(providerBundle.id)) }}">Add First Training Resource</a>
                                       </li>
                                       <li *ngIf="checkForDraftServices(providerBundle.id)" class="uk-active">
                                         <a [routerLink]="['/provider/draft-resources/' + encodeURIComponent(providerBundle.id)] ">
