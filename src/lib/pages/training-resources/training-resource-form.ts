@@ -352,7 +352,7 @@ export class TrainingResourceForm implements OnInit {
         //   return this.router.go('/404');
         // }
 
-        this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
+        this.serviceForm.get('resourceOrganisation').setValue(decodeURIComponent(this.providerId));
         this.handleBitSets(0, 1, 'resourceOrganisation');
 
         if (!this.editMode) { // prefill main contact info

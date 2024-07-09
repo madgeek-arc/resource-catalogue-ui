@@ -478,7 +478,7 @@ export class ServiceFormComponent implements OnInit {
         if(this.catalogueId == 'eosc') this.displayedCatalogueName = `| Catalogue: EOSC`
         else if(this.catalogueId) this.showCatalogueName(this.catalogueId);
 
-        this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
+        this.serviceForm.get('resourceOrganisation').setValue(decodeURIComponent(this.providerId));
         this.handleBitSets(0, 1, 'resourceOrganisation');
 
         if (!this.editMode) { // prefill main contact info

@@ -300,7 +300,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
           if (this.datasource) { //fill the form -->
             this.formPrepare(this.datasource);
             this.serviceForm.patchValue(this.datasource);
-            this.serviceForm.get('serviceId').setValue(this.serviceId);
+            this.serviceForm.get('serviceId').setValue(decodeURIComponent(this.serviceId));
             this.serviceForm.get('catalogueId').setValue('eosc');
 
           }
