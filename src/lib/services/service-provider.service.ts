@@ -87,14 +87,18 @@ export class ServiceProviderService {
   }
 
   getServiceProviderBundleById(id: string, catalogue_id?: string) {
-    id = decodeURIComponent(id);
+    // console.log(id)
+    id = decodeURIComponent(id); // fixme me: revisit for double decode if necessary
+    // console.log(id)
     if(!catalogue_id) catalogue_id = 'eosc';
     // return this.http.get<ProviderBundle>(this.base + `/provider/bundle/${id}`, this.options);
     return this.http.get<ProviderBundle>(this.base + `/provider/bundle/${id}?catalogue_id=${catalogue_id}`, this.options);
   }
 
   getServiceProviderById(id: string, catalogue_id?: string) {
-    id = decodeURIComponent(id);
+    // console.log(id)
+    id = decodeURIComponent(id); // fixme me: revisit for double decode if necessary
+    // console.log(id)
     if(!catalogue_id) catalogue_id = 'eosc';
     // return this.http.get<Provider>(this.base + `/provider/${id}`, this.options);
     return this.http.get<Provider>(this.base + `/provider/${id}?catalogue_id=${catalogue_id}`, this.options);

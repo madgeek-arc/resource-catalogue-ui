@@ -48,7 +48,6 @@ export class NavigationService {
     }
 
     resourceDashboard(providerId: string, serviceId: string, catalogueId?: string) {
-      console.log('resourceDashboard(providerId: string, serviceId: string, catalogueId?: string)');
       providerId = encodeURIComponent(providerId);
       serviceId = encodeURIComponent(serviceId);
       if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/resource-dashboard/${serviceId}/stats`]);

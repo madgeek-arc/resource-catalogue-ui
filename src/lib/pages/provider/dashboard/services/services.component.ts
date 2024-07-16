@@ -161,7 +161,7 @@ export class ServicesComponent implements OnInit {
 
   deleteService(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceService[bundle.service ? 'deleteService' : 'deleteDatasource'](bundle.id).subscribe(
+    this.resourceService[bundle.service ? 'deleteService' : 'deleteDatasource'](bundle.id).subscribe( //todo: seems outdated
       res => {},
       error => {
         UIkit.modal('#spinnerModal').hide();
