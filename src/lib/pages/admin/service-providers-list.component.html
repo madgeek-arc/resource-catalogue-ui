@@ -869,7 +869,7 @@
                   class="uk-margin-small-top">
                 <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Deactivate</a>
               </li>
-              <li (click)="editProviderInNewTab(providerBundle.id)"
+              <li (click)="editProviderInNewTab(encodeURIComponent(providerBundle.id))"
                   class="uk-margin-small-top">
                 <a><i class="fa fa-edit uk-margin-small-right" aria-hidden="true"></i>Edit Provider</a>
               </li>

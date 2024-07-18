@@ -1058,7 +1058,7 @@
             </button>
             <div uk-dropdown="mode: click">
               <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                <li (click)="editResourceInNewTab(serviceBundle.service.resourceOrganisation, serviceBundle.id)"
+                <li (click)="editResourceInNewTab(encodeURIComponent(serviceBundle.service.resourceOrganisation), encodeURIComponent(serviceBundle.id))"
                   class="uk-button uk-button-link">
                   <a><i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
                   Update {{serviceORresource}}</a>
