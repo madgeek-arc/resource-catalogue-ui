@@ -10,10 +10,10 @@
 }
 
 .footer {
-    background: #52636B;
+    /*background: #52636B;*/
+    /*color: #A6AEB1;*/
+    background: #f2f2f2;
     color: #A6AEB1;
-}
-.footer {
     margin-top: 100px;
 }
 
