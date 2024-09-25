@@ -335,9 +335,9 @@ export class ResourceService {
     params = params.append('from', '0');
     params = params.append('quantity', '10000');
     if (status === 'approved provider') { //not matched hence never reached, do we need approved providers or all?
-      return this.http.get<Paging<Provider>>(this.base + `/provider/all/?status=approved provider`, {params, withCredentials: true});
+      return this.http.get<Paging<Provider>>(this.base + `/provider/all?status=approved provider`, {params, withCredentials: true});
     }
-    return this.http.get<Paging<Provider>>(this.base + `/provider/all/`, {params, withCredentials: true});
+    return this.http.get<Paging<Provider>>(this.base + `/provider/all`, {params, withCredentials: true});
   }
 
   getProviders(from: string, quantity: string) {
@@ -510,7 +510,7 @@ export class ResourceService {
   /** <-- Draft(Pending) Services **/
 
   getFeaturedServices() { //einfra leftover
-    return this.http.get<Service[]>(this.base + `/service/featured/all/`);
+    return this.http.get<Service[]>(this.base + `/service/featured/all`);
   }
 
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
