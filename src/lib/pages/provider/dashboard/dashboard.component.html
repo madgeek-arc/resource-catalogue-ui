@@ -169,7 +169,7 @@
               </li>
             </ng-container>
             <li>
-              <a [routerLink]="['/provider/update/' + providerId]">
+              <a [routerLink]="['/provider/update/' + encodeURIComponent(providerId)]">
                 <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Update Provider
               </a>
             </li>

@@ -50,4 +50,6 @@ export class TrainingResourceDashboardComponent implements OnInit {
       }
     );
   }
+
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

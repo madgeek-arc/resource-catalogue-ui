@@ -227,4 +227,5 @@ export class ServicesComponent implements OnInit {
     }
   }
 
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

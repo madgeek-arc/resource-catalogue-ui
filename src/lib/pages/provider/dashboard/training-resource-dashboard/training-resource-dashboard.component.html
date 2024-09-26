@@ -35,7 +35,7 @@
 
           <ng-container *ngIf="catalogueId === 'eosc'">
             <li>
-              <a [routerLink]="['/provider/' + providerId + '/training-resource/update/' + trainingResourceId]">
+              <a [routerLink]="['/provider/' + encodeURIComponent(providerId) + '/training-resource/update/' + encodeURIComponent(trainingResourceId)]">
                 <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                 Update Training Resource
               </a>
