@@ -272,7 +272,7 @@
                                 <span class="uk-margin-auto-vertical">
 <!--                                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' else anotherCatalogue">-->
                                     <ng-container *ngIf="providerBundle.status === 'approved provider'">
-                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id), 'stats']" data-uk-tooltip title="Go to the resource provider monitoring dashboard">
+                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id)]" data-uk-tooltip title="Go to the resource provider monitoring dashboard">
                                         {{ providerBundle.provider.name }}
                                       </a>
                                     </ng-container>
@@ -773,7 +773,7 @@
               <div class="providerName">
                 <span class="uk-margin-auto-vertical">
 <!--                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' else anotherCatalogue">-->
-                    <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id), 'stats']" target="_blank" data-uk-tooltip title="Go to the resource provider monitoring dashboard">
+                    <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id)]" target="_blank" data-uk-tooltip title="Go to the resource provider monitoring dashboard">
                         {{ providerBundle.provider.name }}
                     </a>
                   <!--                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc'">-->

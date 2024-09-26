@@ -21,7 +21,7 @@ const resourceDashboardRoutes: Routes = [
     children : [
       {
         path: '',
-        redirectTo: 'stats',
+        redirectTo: 'history',
         pathMatch: 'full',
         // data: {
         //   breadcrumb: 'Provider Dashboard'

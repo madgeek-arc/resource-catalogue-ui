@@ -17,7 +17,7 @@ const trainingResourceDashboardRoutes: Routes = [
     children : [
       {
         path: '',
-        redirectTo: 'stats',
+        redirectTo: 'history',
         pathMatch: 'full',
         // data: {
         //   breadcrumb: 'Statistics'
