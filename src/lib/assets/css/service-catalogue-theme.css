@@ -40,12 +40,12 @@ h3 {
 }
 
 a, .uk-link {
-  color: #EE7444 !important;
+  color: black !important;
   text-decoration: none !important;
 }
 
 a:hover, a:focus, a:active {
-  color: #EE7444 !important;
+  color: black !important;
   text-decoration: underline !important;
 }
 
