@@ -50,4 +50,6 @@ export class DatasourceSubmittedComponent implements OnInit {
       () => {}
     );
   }
+
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

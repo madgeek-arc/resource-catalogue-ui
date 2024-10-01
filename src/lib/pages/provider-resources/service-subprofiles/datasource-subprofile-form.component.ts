@@ -32,6 +32,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   pendingService = false;
   addOpenAIRE = false; //on addOpenAIRE path
   openaireId: string = null; //datasource OA id
+  providerId: string;
   editMode = false;
   hasChanges = false;
   serviceForm: FormGroup;
@@ -155,7 +156,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   resourceService: ResourceService = this.injector.get(ResourceService);
   serviceExtensionsService: ServiceExtensionsService = this.injector.get(ServiceExtensionsService);
 
-  router: NavigationService = this.injector.get(NavigationService);
+  navigator: NavigationService = this.injector.get(NavigationService);
 
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
@@ -173,7 +174,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(FormBuilder);
-    this.router = this.injector.get(NavigationService);
+    this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
@@ -212,8 +213,8 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       this.datasourceService.submitDatasource(this.serviceForm.value, this.editMode).subscribe(
         _ds => {
           this.showLoader = false;
-          if (this.addOpenAIRE) return this.router.datasourceSubmitted(_ds.id);
-          return this.router.resourceDashboard(_ds.serviceId.split('.')[0], _ds.serviceId);
+          if (this.addOpenAIRE) return this.navigator.datasourceSubmitted(_ds.id);
+          return this.navigator.resourceDashboard(this.providerId, _ds.serviceId); // fixme: Datasource providerId -2test
         },
         err => {
           this.showLoader = false;
@@ -236,7 +237,8 @@ export class DatasourceSubprofileFormComponent implements OnInit {
 
   ngOnInit() {
     this.addOpenAIRE = window.location.pathname.includes('addOpenAIRE');
-    this.openaireId = this.route.snapshot.paramMap.get('openaireId')
+    this.openaireId = this.route.snapshot.paramMap.get('openaireId');
+    this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.resourceService.getAllVocabulariesByType().subscribe(
       suc => {
         this.vocabularies = <Map<string, Vocabulary[]>>suc;
@@ -263,7 +265,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       this.serviceId = this.route.snapshot.paramMap.get('trainingResourceId');
       this.resourceType = 'training_resource';
     }
-    this.serviceForm.get('serviceId').setValue(this.serviceId);
+    this.serviceForm.get('serviceId').setValue(decodeURIComponent(this.serviceId)); // revisit?
 
     if (!this.addOpenAIRE) {
       this.datasourceService.getDatasourceByServiceId(this.serviceId).subscribe(
@@ -298,7 +300,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
           if (this.datasource) { //fill the form -->
             this.formPrepare(this.datasource);
             this.serviceForm.patchValue(this.datasource);
-            this.serviceForm.get('serviceId').setValue(this.serviceId);
+            this.serviceForm.get('serviceId').setValue(decodeURIComponent(this.serviceId));
             this.serviceForm.get('catalogueId').setValue('eosc');
 
           }
@@ -491,11 +493,11 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       error => {
         this.showLoader = false;
         this.errorMessage = 'Something went bad. ' + error.error ;
-        return this.router.resourceDashboard(this.datasource.serviceId.split('.')[0], this.datasource.serviceId);
+        return this.navigator.resourceDashboard(this.providerId, this.datasource.serviceId); // fixme: Datasource providerId -2test
       },
       () => {
         this.showLoader = false;
-        return this.router.resourceDashboard(this.datasource.serviceId.split('.')[0], this.datasource.serviceId);
+        return this.navigator.resourceDashboard(this.providerId, this.datasource.serviceId); // fixme: Datasource providerId -2test
       }
     );
   }

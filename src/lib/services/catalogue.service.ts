@@ -87,46 +87,86 @@ export class CatalogueService {
 
   getProvidersOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, status?: string, query?: string) {
     if (!query) { query = ''; }
-    if (!status) { status = 'approved provider,pending provider,rejected provider'; }
+    let params = new HttpParams();
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
+      }
+    } else {
+      const allStatus = ["approved provider","pending provider","rejected provider"];
+      for (const statusValue of allStatus) {
+        params = params.append('status', statusValue);
+      }
+    }
     return this.http.get<Paging<ProviderBundle>>(this.base +
-      `/provider/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+      `/provider/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`, {params});
   }
 
   getServicesOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, status?: string, query?: string) {
     if (!query) { query = ''; }
-    if (!status) { status = 'approved resource,pending resource,rejected resource'; }
-      return this.http.get<any>(this.base + `/service/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+    let params = new HttpParams();
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
+      }
+    } else {
+      const allStatus = ["approved resource","pending resource","rejected resource"];
+      for (const statusValue of allStatus) {
+        params = params.append('status', statusValue);
+      }
+    }
+      return this.http.get<any>(this.base + `/service/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`, {params});
   }
 
   getTrainingsOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, status?: string, query?: string) {
     if (!query) { query = ''; }
-    if (!status) { status = 'approved resource,pending resource,rejected resource'; }
-    return this.http.get<any>(this.base + `/trainingResource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+    let params = new HttpParams();
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
+      }
+    } else {
+      const allStatus = ["approved resource","pending resource","rejected resource"];
+      for (const statusValue of allStatus) {
+        params = params.append('status', statusValue);
+      }
+    }
+    return this.http.get<any>(this.base + `/trainingResource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`, {params});
   }
 
   getDatasourcesOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
     if (!query) { query = ''; }
-    if (!status) { status = 'approved resource,pending resource,rejected resource'; }
+    let params = new HttpParams();
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
+      }
+    } else {
+      const allStatus = ["approved resource","pending resource","rejected resource"];
+      for (const statusValue of allStatus) {
+        params = params.append('status', statusValue);
+      }
+    }
     if (active === 'statusAll') {
       return this.http.get<Paging<DatasourceBundle>>(this.base +
-        `/datasource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+        `/datasource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`, {params});
     }
     return this.http.get<Paging<DatasourceBundle>>(this.base +
-      `/datasource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
+      `/datasource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&query=${query}`, {params});
   }
 
   hasAdminAcceptedTerms(id: string, pendingCatalogue: boolean) {
     if (pendingCatalogue) {
-      return this.http.get<boolean>(this.base + `/pendingCatalogue/hasAdminAcceptedTerms?catalogueId=${id}`);
+      return this.http.get<boolean>(this.base + `/catalogue/hasAdminAcceptedTerms?catalogueId=${id}&isDraft=true`);
     }
-    return this.http.get<boolean>(this.base + `/catalogue/hasAdminAcceptedTerms?catalogueId=${id}`);
+    return this.http.get<boolean>(this.base + `/catalogue/hasAdminAcceptedTerms?catalogueId=${id}&isDraft=false`);
   }
 
   adminAcceptedTerms(id: string, pendingCatalogue: boolean) {
     if (pendingCatalogue) {
-      return this.http.put(this.base + `/pendingCatalogue/adminAcceptedTerms?catalogueId=${id}`, this.options);
+      return this.http.put(this.base + `/pendingCatalogue/adminAcceptedTerms?catalogueId=${id}&isDraft=true`, this.options);
     }
-    return this.http.put(this.base + `/catalogue/adminAcceptedTerms?catalogueId=${id}`, this.options);
+    return this.http.put(this.base + `/catalogue/adminAcceptedTerms?catalogueId=${id}&isDraft=false`, this.options);
   }
 
   suspendCatalogue(catalogueId: string, suspend: boolean) {

@@ -29,7 +29,7 @@ export class TrainingResourceDashboardComponent implements OnInit {
               public resourceService: ResourceService,
               public trainingResourceService: TrainingResourceService,
               public serviceExtensionsService: ServiceExtensionsService,
-              public router: NavigationService,
+              public navigator: NavigationService,
               private route: ActivatedRoute) {
   }
 
@@ -50,4 +50,6 @@ export class TrainingResourceDashboardComponent implements OnInit {
       }
     );
   }
+
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

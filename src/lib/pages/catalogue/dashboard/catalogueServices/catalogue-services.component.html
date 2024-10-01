@@ -237,7 +237,7 @@
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <h6 class="uk-margin-bottom" *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} '{{selectedService.service.name}}'?</h6>
-    <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="deleteService(selectedService)">Delete</button>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="deleteService(selectedService)">Delete</button>
+    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
   </div>
 </div>

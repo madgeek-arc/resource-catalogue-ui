@@ -272,17 +272,17 @@
                                 <span class="uk-margin-auto-vertical">
 <!--                                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' else anotherCatalogue">-->
                                     <ng-container *ngIf="providerBundle.status === 'approved provider'">
-                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'stats']" data-uk-tooltip title="Go to the resource provider monitoring dashboard">
+                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id)]" data-uk-tooltip title="Go to the resource provider monitoring dashboard">
                                         {{ providerBundle.provider.name }}
                                       </a>
                                     </ng-container>
                                     <ng-container *ngIf="providerBundle.status !== 'approved provider'">
-                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id]" data-uk-tooltip title="Go to the resource provider monitoring dashboard">
+                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id)]" data-uk-tooltip title="Go to the resource provider monitoring dashboard">
                                         {{ providerBundle.provider.name }}
                                       </a>
                                     </ng-container>
                                   <!--                                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' ">-->
-                                    <a [routerLink]="['/provider/view', providerBundle.provider.catalogueId, providerBundle.id]" class="uk-display-inline-block">
+                                    <a [routerLink]="['/provider/view', providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id)]" class="uk-display-inline-block">
                                       <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
                                     </a>
                                   <!--                                  </ng-container>-->
@@ -348,7 +348,7 @@
                             <!--                                  <i class="fa fa-thumbs-down " aria-hidden="true"></i>-->
                             <!--                                  {{ adminActionsMap[providerBundle.status].rejButtonTitle }}-->
                             <!--                                </button>-->
-                            <!--                                <button [routerLink]="['/provider/update/', providerBundle.id]"-->
+                            <!--                                <button [routerLink]="['/provider/update/' + providerBundle.id]"-->
                             <!--                                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">-->
                             <!--                                  <i class="fa fa-edit" aria-hidden="true"></i> Edit Provider-->
                             <!--                                </button>-->
@@ -396,7 +396,7 @@
                         <ng-container *ngIf="providerBundle.provider.catalogueId!=='eosc'">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
-                            <button [routerLink]="['/provider/view/',providerBundle.provider.catalogueId, providerBundle.id]" class="uk-button uk-button-link">
+                            <button [routerLink]="['/provider/view/',providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id)]" class="uk-button uk-button-link">
                               <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i> View Provider
                             </button>
 
@@ -430,7 +430,7 @@
                         <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc'">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
-                            <button [routerLink]="['/provider/update/', providerBundle.id]"
+                            <button [routerLink]="['/provider/update/' + encodeURIComponent(providerBundle.id)]"
                                     class="uk-button uk-button-link"
                                     style="padding-right: 40px; border-right: 1px solid #ccc">
                               <i class="fa fa-edit fa-lg uk-margin-small-right" aria-hidden="true"></i> Edit Provider
@@ -462,7 +462,7 @@
                                 <ng-container *ngIf="providerBundle.status === 'approved provider' && providerBundle.templateStatus === 'no template status'">
                                   <i class="">Add First {{serviceORresource}}</i>
                                   <li class="uk-active">
-                                    <a routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
+                                    <a routerLink="{{ getLinkToFirstService(encodeURIComponent(providerBundle.id)) }}">
                                       <i class="fa fa-dot-circle-o uk-margin-small-right"></i>
                                       Create First {{serviceORresource}}</a>
                                   </li>
@@ -475,7 +475,7 @@
                                   <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
                                     <li class="uk-active">
                                       <a *ngIf="projectName!='EOSC'"
-                                         routerLink="{{ getLinkToFirstService(providerBundle.id) }}"
+                                         routerLink="{{ getLinkToFirstService(encodeURIComponent(providerBundle.id)) }}"
                                          class="">
                                         <i class="fa fa-eye"></i> View First {{serviceORresource}}
                                       </a>
@@ -485,7 +485,7 @@
                                       </a>
                                     </li>
                                     <li class="uk-active">
-                                      <a routerLink="{{ getLinkToEditFirstService(providerBundle.id) }}"
+                                      <a routerLink="{{ getLinkToEditFirstService(encodeURIComponent(providerBundle.id)) }}"
                                          class="uk-margin-small-top">
                                         <i class="fa fa-pencil"></i> Edit First {{serviceORresource}}
                                       </a>
@@ -505,15 +505,15 @@
 <!--                                      </a>-->
 <!--                                    </li>-->
                                     <li class="uk-active">
-                                      <a routerLink="{{ getLinkToEditFirstTrainingResource(providerBundle.id) }}"
+                                      <a routerLink="{{ getLinkToEditFirstTrainingResource(encodeURIComponent(providerBundle.id)) }}"
                                          class="uk-margin-small-top">
                                         <i class="fa fa-pencil"></i> Edit First Training Resource
                                       </a>
                                     </li>
-                                    <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'approved resource', 'trainingResource')">
+                                    <li class="uk-active" (click)="templateAction(encodeURIComponent(providerBundle.id), true, 'approved resource', 'trainingResource')">
                                       <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve First Training Resource</a>
                                     </li>
-                                    <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'rejected resource', 'trainingResource')">
+                                    <li class="uk-active" (click)="templateAction(encodeURIComponent(providerBundle.id), true, 'rejected resource', 'trainingResource')">
                                       <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First Training Resource</a>
                                     </li>
                                   </ng-container>
@@ -652,7 +652,7 @@
       </p>
     </div>
     <div class="uk-text-right uk-margin-medium-top">
-      <button class="uk-button uk-button-secondary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
       <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="statusChangeAction()">Proceed</button>
     </div>
   </div>
@@ -672,7 +672,7 @@
       <p>Deleting a provider is an irreversible action.</p>
     </div>
     <div class="uk-text-right">
-      <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
       <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteProvider(selectedProvider.provider.id)">Delete</button>
     </div>
   </div>
@@ -692,7 +692,7 @@
       <p>All services of this provider will be automatically {{selectedProvider.suspended==true ? 'un' : ''}}suspended as well.</p>
       <p>This action may take a while to complete.</p>
       <div class="uk-text-right">
-        <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+        <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
         <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="suspendProvider()">
           {{selectedProvider.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
       </div>
@@ -773,11 +773,11 @@
               <div class="providerName">
                 <span class="uk-margin-auto-vertical">
 <!--                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' else anotherCatalogue">-->
-                    <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id, 'stats']" target="_blank" data-uk-tooltip title="Go to the resource provider monitoring dashboard">
+                    <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id)]" target="_blank" data-uk-tooltip title="Go to the resource provider monitoring dashboard">
                         {{ providerBundle.provider.name }}
                     </a>
                   <!--                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc'">-->
-                    <a [routerLink]="['/provider/view', providerBundle.provider.catalogueId, providerBundle.id]" target="_blank" class="uk-display-inline-block">
+                    <a [routerLink]="['/provider/view', providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id)]" target="_blank" class="uk-display-inline-block">
                       <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
                     </a>
                   <!--                  </ng-container>-->
@@ -839,7 +839,7 @@
             <!--                  <i class="fa fa-thumbs-down " aria-hidden="true"></i>-->
             <!--                  {{ adminActionsMap[providerBundle.status].rejButtonTitle }}-->
             <!--                </button>-->
-            <!--                <button [routerLink]="['/provider/update/', providerBundle.id]"-->
+            <!--                <button [routerLink]="['/provider/update/' + providerBundle.id]"-->
             <!--                        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">-->
             <!--                  <i class="fa fa-edit" aria-hidden="true"></i> Edit Provider-->
             <!--                </button>-->
@@ -869,7 +869,7 @@
                   class="uk-margin-small-top">
                 <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Deactivate</a>
               </li>
-              <li (click)="editProviderInNewTab(providerBundle.id)"
+              <li (click)="editProviderInNewTab(encodeURIComponent(providerBundle.id))"
                   class="uk-margin-small-top">
                 <a><i class="fa fa-edit uk-margin-small-right" aria-hidden="true"></i>Edit Provider</a>
               </li>
@@ -922,7 +922,8 @@
           <li *ngIf="item.values.length === 0">No results</li>
 <!--          <li *ngFor="let value of item.values">{{ value.name }}</li>-->
           <li *ngFor="let value of item.values">
-            <a *ngIf="item.key === 'provider'" [routerLink]="['/dashboard', value.catalogue, value.id]" target="_blank">{{value.name}}</a>
+            <a *ngIf="item.key === 'provider'" [routerLink]="['/dashboard', value.catalogue, encodeURIComponent(value.id)]" target="_blank">{{value.name}}</a>
+            <!--TODO: revisit            -->
             <a *ngIf="item.key === 'service'" [routerLink]="['/dashboard', value.catalogue, value.id.split('.')[0], 'resource-dashboard', value.id]" target="_blank">{{value.name}}</a>
             <a *ngIf="item.key === 'training_resource'" [routerLink]="['/dashboard', value.catalogue, value.id.split('.')[0], 'training-resource-dashboard', value.id]" target="_blank">{{value.name}}</a>
             <a *ngIf="item.key === 'interoperability_record'" [routerLink]="['/guidelines/all?order=ASC&orderField=title&quantity=10&from=0&auditState=&catalogue_id=&provider_id=&query=' + value.id]">{{value.name}}</a>

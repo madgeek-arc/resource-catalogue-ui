@@ -102,8 +102,8 @@ export class TrainingListComponent implements OnInit {
   statusList = statusList;
   adminActionsMap = resourceStatusChangeMap;
 
-  public auditStates: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
-  public auditLabels: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
+  public auditStates: Array<string> = ['Valid', 'Not audited', 'Invalid and updated', 'Invalid and not updated'];
+  public auditLabels: Array<string> = ['Valid', 'Not audited', 'Invalid and updated', 'Invalid and not updated'];
 
   @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
 
@@ -887,4 +887,5 @@ export class TrainingListComponent implements OnInit {
     );
   }
 
+    protected readonly encodeURIComponent = encodeURIComponent;
 }

@@ -42,7 +42,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
     interoperabilityRecordIds: this.fb.array([this.fb.control('')]),
   };
 
-  router: NavigationService = this.injector.get(NavigationService);
+  navigator: NavigationService = this.injector.get(NavigationService);
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -51,13 +51,13 @@ export class ResourceGuidelinesFormComponent implements OnInit {
               protected route: ActivatedRoute
   ) {
     this.fb = this.injector.get(FormBuilder);
-    this.router = this.injector.get(NavigationService);
+    this.navigator = this.injector.get(NavigationService);
     this.guidelinesForm = this.fb.group(this.formGroupMeta);
   }
 
   ngOnInit() {
     this.serviceId = this.route.snapshot.paramMap.get('resourceId');
-    this.guidelinesForm.get('resourceId').setValue(this.serviceId);
+    this.guidelinesForm.get('resourceId').setValue(decodeURIComponent(this.serviceId));
 
     this.guidelinesService.getGuidelinesOfResource(this.serviceId).subscribe(
       res => { if(res!=null) {
@@ -107,7 +107,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
     this.guidelinesService.assignGuidelinesToResource('service', this.editMode, this.guidelinesForm.value).subscribe(
       _ir => {
         this.showLoader = false;
-        return this.router.resourceDashboard(this.providerId, this.serviceId);  // navigate to resource-dashboard
+        return this.navigator.resourceDashboard(this.providerId, this.serviceId);  // navigate to resource-dashboard
       },
       err => {
         this.showLoader = false;
@@ -123,7 +123,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
 
     this.guidelinesService.deleteGuidelinesOfResource(this.serviceId, this.resourceGuidelines.id).subscribe(
       _ir => {
-        return this.router.resourceDashboard(this.providerId, this.serviceId);  // navigate to resource-dashboard
+        return this.navigator.resourceDashboard(this.providerId, this.serviceId);  // navigate to resource-dashboard
       },
       err => this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error)
     );

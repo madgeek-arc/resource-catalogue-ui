@@ -16,7 +16,7 @@ export class AuthenticationService {
   cookie = null;
   expiresAt = null;
 
-  constructor(public navigationService: NavigationService) {
+  constructor(public navigator: NavigationService) {
     // this.user = JSON.parse(getCookie(this.cookieName));
 
     // check if user has already logged in
@@ -70,7 +70,7 @@ export class AuthenticationService {
         sessionStorage.removeItem('forward_url');
       }
       if (url !== null) {
-        this.navigationService.router.navigateByUrl(url);
+        this.navigator.router.navigateByUrl(url);
       }
     }
   }
@@ -96,11 +96,11 @@ export class AuthenticationService {
   public refreshLogin(redirectUrl: string) {
     deleteCookie(this.cookieName);
     if (!redirectUrl) {
-      redirectUrl = this.navigationService.router.url;
+      redirectUrl = this.navigator.router.url;
     }
     sessionStorage.setItem('redirect_url', redirectUrl);
     // console.log(redirectUrl);
-    window.location.href = environment.API_ENDPOINT + '/openid_connect_login';
+    window.location.href = environment.API_ENDPOINT + '/oauth2/authorization/eosc';
     // console.log(window.location.href);
   }
 
@@ -110,7 +110,7 @@ export class AuthenticationService {
       this.getUserInfo();
     } else {
       sessionStorage.setItem('redirect_url', window.location.pathname);
-      window.location.href = environment.API_ENDPOINT + '/openid_connect_login';
+      window.location.href = environment.API_ENDPOINT + '/oauth2/authorization/eosc';
     }
   }
 
@@ -121,7 +121,7 @@ export class AuthenticationService {
       this.cookie = null;
       this.expiresAt = null;
       sessionStorage.clear();
-      window.location.href = environment.API_ENDPOINT + '/openid_logout';
+      window.location.href = environment.API_ENDPOINT + '/logout';
     }
   }
 

@@ -26,10 +26,12 @@ export class GuidelinesService {
   }
 
   getInteroperabilityRecordById(id: string) {
+    id = decodeURIComponent(id);
     return this.http.get<InteroperabilityRecord>(this.base + `/interoperabilityRecord/${id}`, this.options);
   }
 
   deleteInteroperabilityRecordById(id: string) {
+    id = decodeURIComponent(id);
     return this.http.delete(this.base + `/interoperabilityRecord/${id}`, this.options);
   }
 
@@ -53,21 +55,23 @@ export class GuidelinesService {
     if (order && order !== '') params = params.append('order', order);
     if (query && query !== '') params = params.append('query', query);
     if (catalogueId?.length > 0) params = params.append('catalogue_id', catalogueId);
-    if (providerId?.length > 0) params = params.append('provider_id', providerId);
+    if (providerId?.length > 0) params = params.append('provider_id', decodeURIComponent(providerId));
     if (status && status !== '') params = params.append('status', status);
     if (active && active !== '') params = params.append('active', active);
     if (suspended && suspended !== '') params = params.append('suspended', suspended);
-    if (auditState?.length > 0) params = params.append('auditState', auditState);
+    if (auditState?.length > 0) params = params.append('audit_state', auditState);
     return this.http.get(this.base + `/interoperabilityRecord/bundle/all`, {params});
   }
 
   getInteroperabilityRecordsOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, query: string, status: string) {
+    id = decodeURIComponent(id);
     if (!query) { query = '';}
     if (!status) { return this.http.get<Paging<InteroperabilityRecordBundle>>(this.base + `/interoperabilityRecord/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`); }
     return this.http.get<Paging<InteroperabilityRecordBundle>>(this.base + `/interoperabilityRecord/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}&status=${status}`);
   }
 
   verifyInteroperabilityRecord(id: string, active: boolean, status: string) {
+    id = decodeURIComponent(id);
     return this.http.patch(this.base + `/interoperabilityRecord/verify/${id}?active=${active}&status=${status}`, {}, this.options);
   }
    /** <-- new **/
@@ -75,6 +79,7 @@ export class GuidelinesService {
 
   /** resourceInteroperabilityRecord--> **/
   getGuidelinesOfResource(id: string) {
+    id = decodeURIComponent(id);
     // return this.http.get<ResourceGuidelines>(this.base + `/resourceInteroperabilityRecord/byResource/${id}`, this.options);
     return this.http.get<any>(this.base + `/resourceInteroperabilityRecord/byResource/${id}`, this.options);
   }
@@ -84,15 +89,19 @@ export class GuidelinesService {
   }
 
   deleteGuidelinesOfResource(resourceId: string, resourceInteroperabilityRecordId: string) { //resourceId may refer to serviceId or datasourceId
+    resourceId = decodeURIComponent(resourceId);
+    resourceInteroperabilityRecordId = decodeURIComponent(resourceInteroperabilityRecordId);
     return this.http.delete(this.base + `/resourceInteroperabilityRecord/${resourceId}/${resourceInteroperabilityRecordId}`, this.options);
   }
   /** <-- resourceInteroperabilityRecord **/
 
   suspendInteroperabilityRecord(interoperabilityRecordId: string, catalogueId: string, suspend: boolean) {
+    interoperabilityRecordId = decodeURIComponent(interoperabilityRecordId);
     return this.http.put<InteroperabilityRecordBundle>(this.base + `/interoperabilityRecord/suspend?interoperabilityRecordId=${interoperabilityRecordId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
   }
 
   auditGuideline(id: string, action: string, catalogueId: string, comment: string) {
+    id = decodeURIComponent(id);
     return this.http.patch(this.base + `/interoperabilityRecord/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
   }
 }

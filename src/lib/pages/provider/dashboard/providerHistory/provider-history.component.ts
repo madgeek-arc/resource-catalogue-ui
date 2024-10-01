@@ -26,12 +26,13 @@ export class ProviderHistoryComponent implements OnInit {
   public errorMessage: string;
 
   constructor(private route: ActivatedRoute,
-              private router: NavigationService,
+              private navigator: NavigationService,
               private resourceService: ResourceService,
               private providerService: ServiceProviderService) {
   }
 
   ngOnInit() {
+    console.log(this.route.parent.snapshot)
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     this.getProvider();
@@ -54,4 +55,5 @@ export class ProviderHistoryComponent implements OnInit {
     );
   }
 
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

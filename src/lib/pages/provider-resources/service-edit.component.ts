@@ -28,7 +28,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               protected catalogueService: CatalogueService,
               protected injector: Injector,
               public datePipe: DatePipe,
-              public navigationService: NavigationService) {
+              public navigator: NavigationService) {
     super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route);
     this.editMode = true;
   }
@@ -43,14 +43,15 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
       sessionStorage.removeItem('service');
     } else {
       this.sub = this.route.params.subscribe(params => {
-        this.serviceId = params['resourceId'];
+        // this.serviceId = params['resourceId'];
+        this.serviceId = this.route.snapshot.paramMap.get('resourceId');
         const pathName = window.location.pathname;
         if (pathName.includes('draft-resource/update')) this.pendingService = true;
         // this.resourceService.getService(this.serviceID).subscribe(service => {
         this.resourceService[this.pendingService ? 'getPendingService' : 'getServiceBundleById'](this.serviceId, this.catalogueId)
           .subscribe(serviceBundle => {
               if (serviceBundle.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
-                this.navigationService.go('/forbidden')
+                this.navigator.go('/forbidden')
               ResourceService.removeNulls(serviceBundle.service);
               //remove catalogueId. prefix for same catalogue entries
               if (serviceBundle.service.requiredResources) {

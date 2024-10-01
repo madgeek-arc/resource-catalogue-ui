@@ -88,7 +88,7 @@ export class ResourcesStatsComponent implements OnInit {
   constructor(
     public authenticationService: AuthenticationService,
     public resourceService: ResourceService,
-    public router: NavigationService,
+    public navigator: NavigationService,
     private sanitizer: DomSanitizer
   ) { }
 
@@ -198,7 +198,7 @@ export class ResourcesStatsComponent implements OnInit {
 
   visitSelectedServicePage(serviceId: string) {
     UIkit.modal('#servicesPerCountryModal').hide();
-    this.router.router.navigateByUrl('/service/' + serviceId);
+    this.navigator.router.navigateByUrl('/service/' + serviceId);
   }
 
   setMapDistributionOfServices(mapData: any) {

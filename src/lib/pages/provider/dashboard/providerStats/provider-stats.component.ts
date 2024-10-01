@@ -77,7 +77,7 @@ export class ProviderStatsComponent implements OnInit {
     public authenticationService: AuthenticationService,
     public resourceService: ResourceService,
     public recommendationsService: RecommendationsService,
-    public router: NavigationService,
+    public navigator: NavigationService,
     private route: ActivatedRoute,
     private providerService: ServiceProviderService
   ) {
@@ -373,7 +373,7 @@ export class ProviderStatsComponent implements OnInit {
 
   groupServicesOfProviderPerPlace(services: ServiceBundle[]) {
     const ret = {};
-    if (this.providerServices && this.providerServices.results.length > 0) {
+    if (this.providerServices && this.providerServices?.results?.length > 0) {
       for (const service of services) {
         if (service?.service?.geographicalAvailabilities) {
           for (const place of service.service.geographicalAvailabilities) {
@@ -621,7 +621,7 @@ export class ProviderStatsComponent implements OnInit {
 
   visitSelectedServicePage(serviceId: string) {
     UIkit.modal('#servicesPerCountryModal').hide();
-    this.router.router.navigateByUrl('/service/' + serviceId);
+    this.navigator.router.navigateByUrl('/service/' + serviceId);
   }
 
   setMapDistributionOfServices(mapData: any) {

@@ -47,7 +47,7 @@ export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
   public languagesVocabulary: Vocabulary[] = null;
 
   constructor(public route: ActivatedRoute,
-              public router: NavigationService,
+              public navigator: NavigationService,
               public resourceService: ResourceService) {
   }
 
@@ -115,5 +115,8 @@ export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
 
   getNameForProvider(id: string) {
     return this.providers.find(x => x.id === id).name;
+    // return this.providers.find(x => encodeURIComponent(x.id) === encodeURIComponent(id)).name;
   }
+
+  protected readonly decodeURIComponent = decodeURIComponent;
 }

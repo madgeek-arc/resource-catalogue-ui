@@ -15,18 +15,22 @@ export class ServiceExtensionsService {
   private options = {withCredentials: true};
 
   getMonitoringByServiceId(serviceId: string) {
+    serviceId = decodeURIComponent(serviceId);
     return this.http.get<Monitoring>(this.base + `/service-extensions/monitoring/byService/${serviceId}`, this.options);
   }
 
   getHelpdeskByServiceId(serviceId: string) {
+    serviceId = decodeURIComponent(serviceId);
     return this.http.get<Helpdesk>(this.base + `/service-extensions/helpdesk/byService/${serviceId}`, this.options);
   }
 
   getMonitoringService(id: string) {
+    id = decodeURIComponent(id);
     return this.http.get<Monitoring>(this.base + `/service-extensions/monitoring/${id}`, this.options);
   }
 
   getHelpdeskService(id: string) {
+    id = decodeURIComponent(id);
     return this.http.get<Helpdesk>(this.base + `/service-extensions/helpdesk/${id}`, this.options);
   }
 
@@ -47,11 +51,13 @@ export class ServiceExtensionsService {
   }
 
   getMonitoringStatus(serviceId: string, showAllStatuses?: boolean) {
+    serviceId = decodeURIComponent(serviceId);
     if (showAllStatuses) return this.http.get<MonitoringStatus[]>(this.base + `/service-extensions/monitoring/monitoringStatus/${serviceId}?allStatuses=true`, this.options);
     return this.http.get<MonitoringStatus[]>(this.base + `/service-extensions/monitoring/monitoringStatus/${serviceId}`, this.options); //current status
   }
 
   getMonitoringAvailability(serviceId: string) {
+    serviceId = decodeURIComponent(serviceId);
     const end_time = new Date().toISOString();
     const start_time = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
     return this.http.get<MonitoringStatus[]>(this.base + `/service-extensions/monitoring/monitoringAvailability/${serviceId}?start_time=${start_time}&end_time=${end_time}`, this.options);

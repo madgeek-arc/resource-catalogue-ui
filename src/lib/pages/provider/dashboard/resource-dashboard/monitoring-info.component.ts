@@ -33,7 +33,7 @@ export class MonitoringInfoComponent implements OnInit {
   loadingMessage = '';
 
   constructor(private route: ActivatedRoute,
-              private router: NavigationService,
+              private navigator: NavigationService,
               private resourceService: ResourceService,
               private serviceExtensionsService: ServiceExtensionsService) {
   }

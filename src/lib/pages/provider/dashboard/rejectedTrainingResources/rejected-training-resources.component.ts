@@ -8,6 +8,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
 import {TrainingResourceService} from "../../../../services/training-resource.service";
+import {NavigationService} from "../../../../services/navigation.service";
 
 declare var UIkit: any;
 
@@ -44,6 +45,7 @@ export class RejectedTrainingResourcesComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private navigator: NavigationService,
     private providerService: ServiceProviderService,
     private trainingResourceService: TrainingResourceService
   ) {}

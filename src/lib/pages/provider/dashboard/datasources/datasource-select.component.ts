@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Datasource, ServiceBundle, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {Datasource, ProviderBundle} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
@@ -8,6 +8,7 @@ import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
 import {DatasourceService} from "../../../../services/datasource.service";
+import {NavigationService} from "../../../../services/navigation.service";
 
 declare var UIkit: any;
 
@@ -52,6 +53,7 @@ export class DatasourceSelectComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private navigator: NavigationService,
     private providerService: ServiceProviderService,
     private service: ResourceService,
     private datasourceService: DatasourceService

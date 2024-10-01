@@ -96,11 +96,11 @@
       </form>
 
 
-      <div *ngIf="providerServices && providerServices.results.length === 0">
+      <div *ngIf="providerServices && providerServices?.results?.length === 0">
         <p>No {{serviceORresource | lowercase}}s found</p>
       </div>
 
-      <div *ngIf="providerServices && providerServices.results.length > 0">
+      <div *ngIf="providerServices && providerServices?.results?.length > 0">
 
         <div class="uk-flex uk-flex-middle uk-flex-between">
 
@@ -195,7 +195,7 @@
                 <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
                   <div class="action-buttons">
                     <button
-                      routerLink="/provider/{{serviceBundle.service.resourceOrganisation}}/resource/update/{{serviceBundle.id}}"
+                      [routerLink]="['/provider/' + encodeURIComponent(serviceBundle.service.resourceOrganisation)+'/resource/update/'+encodeURIComponent(serviceBundle.id)]"
                       class="uk-button uk-button-action uk-display-block uk-margin-small-top">
                       <i class="fa fa-pencil fa-lg" aria-hidden="true"></i> Update {{serviceORresource | lowercase}}
                     </button>
@@ -295,8 +295,8 @@
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <h6 *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} '{{selectedService.service.name}}'</h6>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteService(selectedService)">Delete</button>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteService(selectedService)">Delete</button>
+    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
   </div>
 </div>
 

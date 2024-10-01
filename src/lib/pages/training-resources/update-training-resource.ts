@@ -25,7 +25,7 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
               protected serviceProviderService: ServiceProviderService,
               protected injector: Injector,
               public datePipe: DatePipe,
-              public navigationService: NavigationService) {
+              public navigator: NavigationService) {
     super(injector, authenticationService, serviceProviderService, route);
     this.editMode = true;
   }
@@ -34,13 +34,14 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes(':catalogueId')) { this.catalogueId = this.route.snapshot.paramMap.get('catalogueId') }
     else { this.catalogueId = 'eosc' }
-    if (path === ':catalogueId/:providerId/training-resource/view/:trainingResourceId') this.disable = true; // view-only mode
+    if (path === ':catalogueId/:providerId/training-resource/view/:resourceId') this.disable = true; // view-only mode
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
     } else {
       this.sub = this.route.params.subscribe(params => {
-        this.trainingResourceId = params['trainingResourceId'];
+        // this.trainingResourceId = params['trainingResourceId'];
+        this.trainingResourceId = this.route.snapshot.paramMap.get('trainingResourceId');
         const pathName = window.location.pathname;
         if (pathName.includes('draft-training-resource/update')) {
           this.pendingResource = true;
@@ -49,7 +50,7 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
         this.trainingResourceService[this.pendingResource ? 'getPendingService' : 'getTrainingResourceBundle'](this.trainingResourceId, this.catalogueId)
           .subscribe(trBundle => {
               if (trBundle.trainingResource.contact === null) //in case of unauthorized access backend will not show sensitive info
-                this.navigationService.go('/forbidden')
+                this.navigator.go('/forbidden')
               ResourceService.removeNulls(trBundle.trainingResource);
               this.formPrepare(trBundle.trainingResource);
               this.serviceForm.patchValue(trBundle.trainingResource);

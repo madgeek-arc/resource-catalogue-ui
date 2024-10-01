@@ -26,6 +26,9 @@ export class ResourceDashboardComponent implements OnInit {
   helpdeskId: string;
   datasourceId: string; //subprofile
 
+  providerPID: string;
+  resourcePID: string;
+
   resourceBundle: ServiceBundle;
   errorMessage: string;
 
@@ -33,7 +36,7 @@ export class ResourceDashboardComponent implements OnInit {
               public resourceService: ResourceService,
               public serviceExtensionsService: ServiceExtensionsService,
               public datasourceService: DatasourceService,
-              public router: NavigationService,
+              public navigator: NavigationService,
               private route: ActivatedRoute) {
   }
 
@@ -41,6 +44,10 @@ export class ResourceDashboardComponent implements OnInit {
     this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.resourceId = this.route.snapshot.paramMap.get('resourceId');
+    console.log(this.providerId)
+    this.providerPID = decodeURIComponent(this.providerId);
+    this.resourcePID = decodeURIComponent(this.resourceId);
+    console.log(this.providerPID)
     this.resourceService.getServiceBundleById(this.resourceId, this.catalogueId).subscribe(
       res => { if (res!=null) this.resourceBundle = res },
       error => {},
@@ -78,4 +85,5 @@ export class ResourceDashboardComponent implements OnInit {
     );
   }
 
+  public readonly encodeURIComponent = encodeURIComponent;
 }

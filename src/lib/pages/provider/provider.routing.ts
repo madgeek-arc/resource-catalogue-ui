@@ -144,7 +144,7 @@ const providerRoutes: Routes = [
     }
   },
   {
-    path: ':providerId/service/:serviceId/select-subprofile', //for eosc only
+    path: ':providerId/service/:resourceId/select-subprofile', //for eosc only
     component: SelectSubprofileComponent,
     canActivate: [CanActivateViaAuthGuard],
     data: {

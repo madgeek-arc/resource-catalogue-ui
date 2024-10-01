@@ -12,57 +12,80 @@ export class NavigationService {
     constructor(public router: Router) {
     }
 
+
+    createId(route: ActivatedRoute, prefix: string, suffix: string) {
+      // console.log(route.snapshot);
+      if (!route.snapshot.paramMap.get(prefix) || !route.snapshot.paramMap.get(suffix)) return null;
+      return route.snapshot.paramMap.get(prefix) + '/' + route.snapshot.paramMap.get(suffix);
+    }
+
     service(id: string) {
+      id = encodeURIComponent(id);
         return this.router.navigate(['/service', id]);
     }
 
     dashboard(id: string, catalogueId?: string) {
+      id = encodeURIComponent(id);
       if(!catalogueId) return this.router.navigate([`/dashboard/eosc`, id]);
         return this.router.navigate([`/dashboard`, id]);
     }
 
     dashboardDatasources(providerId: string, catalogueId?: string) {
+      providerId = encodeURIComponent(providerId);
       if (!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/datasources`]);
       return this.router.navigate([`/dashboard/${catalogueId}/${providerId}/datasources`]);
     }
 
     dashboardResources(providerId: string, catalogueId?: string) {
+      providerId = encodeURIComponent(providerId);
       if (!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/resources`]);
       return this.router.navigate([`/dashboard/${catalogueId}/${providerId}/resources`]);
     }
 
     dashboardDraftResources(providerId: string) {
+      providerId = encodeURIComponent(providerId);
       return this.router.navigate([`/dashboard/${providerId}/draft-resources`]);
     }
 
     resourceDashboard(providerId: string, serviceId: string, catalogueId?: string) {
+      providerId = encodeURIComponent(providerId);
+      serviceId = encodeURIComponent(serviceId);
       if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/resource-dashboard/${serviceId}/stats`]);
       return this.router.navigate([`/dashboard/${providerId}/resource-dashboard/${serviceId}/stats`]);
     }
 
     datasourceDashboard(providerId: string, datasourceId: string, catalogueId?: string) {
+      providerId = encodeURIComponent(providerId);
+      datasourceId = encodeURIComponent(datasourceId);
       if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/datasource-dashboard/${datasourceId}/stats`]);
       return this.router.navigate([`/dashboard/${providerId}/datasource-dashboard/${datasourceId}/stats`]);
     }
 
     trainingResourceDashboard(providerId: string, trainingResourceId: string, catalogueId?: string) {
+      providerId = encodeURIComponent(providerId);
+      trainingResourceId = encodeURIComponent(trainingResourceId);
       if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/training-resource-dashboard/${trainingResourceId}/stats`]);
       return this.router.navigate([`/dashboard/${providerId}/training-resource-dashboard/${trainingResourceId}/stats`]);
     }
 
-    edit(id: string) {
-        return this.router.navigateByUrl(`/provider/${id.split('.')[0]}/resource/update/${id}`);
-    }
+    // edit(id: string) {
+    //   id = encodeURIComponent(id);
+    //     return this.router.navigateByUrl(`/provider/${id.split('.')[0]}/resource/update/${id}`);
+    // }
 
-    editAIRE(id: string) {
-      return this.router.navigate(['/provider/openaire/resource/update', id]);
-    }
+    // editAIRE(id: string) {
+    //   id = encodeURIComponent(id);
+    //   return this.router.navigate(['/provider/openaire/resource/update', id]);
+    // }
 
     selectSubprofile(providerId: string, serviceId :string){
+      providerId = encodeURIComponent(providerId);
+      serviceId = encodeURIComponent(serviceId);
       return this.router.navigate([`/provider/${providerId}/service/${serviceId}/select-subprofile`]);
     }
 
     datasourceSubmitted(id: string) {
+      id = encodeURIComponent(id);
       return this.router.navigate(['datasource/submitted', id]);
     }
 

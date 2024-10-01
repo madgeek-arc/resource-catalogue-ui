@@ -182,7 +182,7 @@ export class DatasourcesListComponent implements OnInit {
         this.loadingMessage = '';
       },
       () => {
-        for (let i = 0; i < this.datasources.length; i++) {
+        for (let i = 0; i < this.datasources?.length; i++) {
           if (this.datasources[i]?.datasource?.serviceId) {
             this.serviceIdsOnView.push(this.datasources[i].datasource.serviceId);
           }
@@ -203,6 +203,7 @@ export class DatasourcesListComponent implements OnInit {
                     ...datasource,
                     logo: matchingService.logo,
                     name: matchingService.name,
+                    resourceOrganisation: matchingService.resourceOrganisation,
                   };
                 }
                 return datasource; // if no match is found, return the service as is
@@ -400,4 +401,5 @@ export class DatasourcesListComponent implements OnInit {
   }
   /** <--Pagination **/
 
+    protected readonly encodeURIComponent = encodeURIComponent;
 }

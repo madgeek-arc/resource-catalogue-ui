@@ -131,7 +131,7 @@
                 <div class="uk-width-3-4"><a [href]="catalogue.logo" target="_blank">{{catalogue.logo}}</a></div>
               </div>
             </li>
-            <h5 *ngIf="catalogue.multimedia.length > 0" class="uk-margin-medium-top">Multimedia</h5>
+            <h5 *ngIf="catalogue?.multimedia?.length > 0" class="uk-margin-medium-top">Multimedia</h5>
             <li *ngFor="let multimedia of catalogue.multimedia">
               <div class="uk-grid">
                 <div class="uk-width-1-4">Multimedia URL</div>

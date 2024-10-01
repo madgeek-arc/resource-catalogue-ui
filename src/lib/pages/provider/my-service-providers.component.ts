@@ -82,7 +82,7 @@ export class MyServiceProvidersComponent implements OnInit {
                 // console.log(p.id);
                 this.resourceService.getDraftServicesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
                   res => {
-                    if (res.results.length > 0) {
+                    if (res.results?.length > 0) {
                       this.hasDraftServices.push({id: p.id, flag: true});
                     } else {
                       this.hasDraftServices.push({id: p.id, flag: false});
@@ -94,7 +94,7 @@ export class MyServiceProvidersComponent implements OnInit {
               if ((p.templateStatus === 'rejected template')) {
                 this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'name', 'service').subscribe(
                   res => {
-                    if (res.results.length > 0) {
+                    if (res.results?.length > 0) {
                       this.hasRejectedServices.push({id: p.id, flag: true});
                     } else {
                       this.hasRejectedServices.push({id: p.id, flag: false});
@@ -103,7 +103,7 @@ export class MyServiceProvidersComponent implements OnInit {
                 );
                 this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'title', 'training_resource').subscribe(
                   res => {
-                    if (res.results.length > 0) {
+                    if (res.results?.length > 0) {
                       this.hasRejectedTrainingResources.push({id: p.id, flag: true});
                     } else {
                       this.hasRejectedTrainingResources.push({id: p.id, flag: false});
@@ -209,4 +209,5 @@ export class MyServiceProvidersComponent implements OnInit {
     }
   }
 
+    protected readonly encodeURIComponent = encodeURIComponent;
 }

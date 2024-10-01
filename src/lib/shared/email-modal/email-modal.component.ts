@@ -17,10 +17,10 @@ export class EmailModalComponent {
   @Input() serviceIdsArray;
   public emailErrorMessage = '';
 
-  constructor(public fb: FormBuilder, public router: NavigationService, public route: ActivatedRoute,
+  constructor(public fb: FormBuilder, public route: ActivatedRoute,
               public resourceService: ResourceService,
               public authenticationService: AuthenticationService,
-              public navigationService: NavigationService, public emailService: EmailService) {
+              public navigator: NavigationService, public emailService: EmailService) {
   }
 
   emailForm = this.fb.group({

@@ -228,7 +228,7 @@ export class ResourceFormToPdfComponent implements OnInit {
   premiumSort = new PremiumSortPipe();
   resourceService: ResourceService = this.injector.get(ResourceService);
 
-  router: NavigationService = this.injector.get(NavigationService);
+  navigator: NavigationService = this.injector.get(NavigationService);
 
   public fundingBodyVocabulary: Vocabulary[] = null;
   public fundingProgramVocabulary: Vocabulary[] = null;
@@ -253,7 +253,7 @@ export class ResourceFormToPdfComponent implements OnInit {
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(FormBuilder);
-    this.router = this.injector.get(NavigationService);
+    this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
@@ -310,7 +310,7 @@ export class ResourceFormToPdfComponent implements OnInit {
           this.showLoader = false;
 
           // return this.router.go('/editPendingService/' + _service.id);
-          return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
+          return this.navigator.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
         },
         err => {
           this.showLoader = false;
@@ -395,7 +395,7 @@ export class ResourceFormToPdfComponent implements OnInit {
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
         this.providerId = this.route.snapshot.paramMap.get('providerId');
-        this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
+        this.serviceForm.get('resourceOrganisation').setValue(decodeURIComponent(this.providerId));
       }
     );
 

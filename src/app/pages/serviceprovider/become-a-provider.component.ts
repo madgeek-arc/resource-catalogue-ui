@@ -12,16 +12,16 @@ export class BecomeAProviderComponent {
 
   serviceORresource = environment.serviceORresource;
 
-  constructor(public router: NavigationService) {
+  constructor(public navigator: NavigationService) {
   }
 
   onSubmit(searchValue: SearchQuery) {
-    return this.router.search({query: searchValue.query});
+    return this.navigator.search({query: searchValue.query});
   }
 
   signUpAndRegisterAservice() {
     sessionStorage.setItem('forward_url', '/provider/add');
-    this.router.router.navigateByUrl('/provider/add');
+    this.navigator.router.navigateByUrl('/provider/add');
   }
 }
 

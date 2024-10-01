@@ -14,6 +14,7 @@ export class DatasourceService {
   private options = {withCredentials: true};
 
   getDatasource(id: string, catalogueId?: string) {
+    id = decodeURIComponent(id);
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
     if (!catalogueId) catalogueId = 'eosc';
@@ -21,10 +22,12 @@ export class DatasourceService {
   }
 
   deleteDatasource(id: string) {
+    id = decodeURIComponent(id);
     return this.http.delete(this.base + '/datasource/' + id, this.options);
   }
 
   deleteDatasourceWithoutAdminRights(catalogueId: string, serviceId: string) {
+    serviceId = decodeURIComponent(serviceId);
     return this.http.delete(this.base + `/datasource/${catalogueId}/${serviceId}`, this.options);
   }
 
@@ -45,16 +48,18 @@ export class DatasourceService {
       for (const catalogueValue of catalogue_id) {
         params = params.append('catalogue_id', catalogueValue);
       }
-    } else params = params.append('catalogue_id', 'all');
+    }
+    // } else params = params.append('catalogue_id', 'all');
     if (service_id && service_id.length > 0) {
       for (const serviceValue of service_id) {
-        params = params.append('service_id', serviceValue);
+        params = params.append('service_id', decodeURIComponent(serviceValue));
       }
     }
     return this.http.get(this.base + `/datasource/adminPage/all`, {params});
   }
 
   getDatasourceBundleById(id: string, catalogueId: string) {
+    id = decodeURIComponent(id);
     return this.http.get<DatasourceBundle>(this.base + `/datasource/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
@@ -73,6 +78,7 @@ export class DatasourceService {
   }
 
   isDatasourceRegisteredOnOpenAIRE(datasourceId: string) {
+    datasourceId = decodeURIComponent(datasourceId);
     return this.http.get<boolean>(this.base + `/datasource/isDatasourceRegisteredOnOpenAIRE/${datasourceId}`);
   }
 
@@ -84,10 +90,12 @@ export class DatasourceService {
   }
 
   verifyDatasource(id: string, active: boolean, status: string) {
+    id = decodeURIComponent(id);
     return this.http.patch(this.base + `/datasource/verifyDatasource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
   publishDatasource(id: string, version: string, active: boolean) { // toggles active/inactive datasource
+    id = decodeURIComponent(id);
     if (version === null) {
       return this.http.patch(this.base + `/datasource/publish/${id}?active=${active}`, this.options);
     }
@@ -95,16 +103,19 @@ export class DatasourceService {
   }
 
   auditDatasource(id: string, action: string, comment: string) {
+    id = decodeURIComponent(id);
     return this.http.patch(this.base + `/datasource/auditDatasource/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
   getDatasourceByServiceId(serviceId: string, catalogueId?:string){
+    serviceId = decodeURIComponent(serviceId);
     if (!catalogueId) catalogueId = 'eosc';
     return this.http.get<Datasource>(this.base + `/datasource/byService/${serviceId}?catalogue_id=${catalogueId}`, this.options);
     // return this.http.get<Datasource>(this.base + `/datasource/${serviceId}`, this.options);
   }
 
   getOpenAIREMetrics(datasourceId: string) {
+    datasourceId = decodeURIComponent(datasourceId);
     return this.http.get<OpenAIREMetrics>(this.base + `/datasource/isMetricsValid/${datasourceId}`);
   }
 

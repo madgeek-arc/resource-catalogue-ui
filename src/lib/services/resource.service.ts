@@ -79,6 +79,7 @@ export class ResourceService {
   }
 
   get(resourceType: string, id: string) {
+    id = decodeURIComponent(id);
     return this.http.get(this.base + `/${resourceType}/${id}/`, this.options);
   }
 
@@ -129,6 +130,7 @@ export class ResourceService {
   }
 
   getService(serviceId: string, catalogueId?: string) { // can handle public ids too
+    serviceId = decodeURIComponent(serviceId);
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? serviceId : [serviceId, version].join('/')}`, this.options);
     if (!catalogueId) catalogueId = 'eosc';
@@ -144,11 +146,12 @@ export class ResourceService {
 /*  getSelectedServices(ids: string[]) {
     /!*return this.getSome("service", ids).map(res => <Service[]> <any> res);*!/
     // return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
-    return this.http.get<RichService[]>(this.base + `/service/rich/byID/${ids.toString()}/`, this.options);
+    return this.http.get<RichService[]>(this.base + `/service/rich/ids/${ids.toString()}/`, this.options);
   }*/
 
   getMultipleResourcesById(commaSeparatedIds: string) { //feed with public ids (or not) of services, datasources, and training resources; returns only if resource exist; NOT bundles
-    return this.http.get<any[]>(this.base + `/public/resources/${commaSeparatedIds}/`, this.options);
+    commaSeparatedIds = decodeURIComponent(commaSeparatedIds);
+    return this.http.get<any[]>(this.base + `/service/ids?ids=${commaSeparatedIds}/`, this.options);
   }
 
 /*  getServicesOfferedByProvider(id: string): Observable<RichService[]> {
@@ -158,10 +161,12 @@ export class ResourceService {
   }*/
 
   deleteService(id: string) {
+    id = decodeURIComponent(id);
     return this.http.delete(this.base + '/service/' + id, this.options);
   }
 
   deleteDatasource(id: string) {
+    id = decodeURIComponent(id);
     return this.http.delete(this.base + '/datasource/' + id, this.options);
   }
 
@@ -330,9 +335,9 @@ export class ResourceService {
     params = params.append('from', '0');
     params = params.append('quantity', '10000');
     if (status === 'approved provider') { //not matched hence never reached, do we need approved providers or all?
-      return this.http.get<Paging<Provider>>(this.base + `/provider/all/?status=approved provider`, {params, withCredentials: true});
+      return this.http.get<Paging<Provider>>(this.base + `/provider/all?status=approved provider`, {params, withCredentials: true});
     }
-    return this.http.get<Paging<Provider>>(this.base + `/provider/all/`, {params, withCredentials: true});
+    return this.http.get<Paging<Provider>>(this.base + `/provider/all`, {params, withCredentials: true});
   }
 
   getProviders(from: string, quantity: string) {
@@ -373,14 +378,15 @@ export class ResourceService {
     }
     if (auditState && auditState.length > 0) {
       for (const auditValue of auditState) {
-        params = params.append('auditState', auditValue);
+        params = params.append('audit_state', auditValue);
       }
     }
     if (catalogue_id && catalogue_id.length > 0) {
       for (const catalogueValue of catalogue_id) {
         params = params.append('catalogue_id', catalogueValue);
       }
-    } else params = params.append('catalogue_id', 'all');
+    }
+    // } else params = params.append('catalogue_id', 'all');
     return this.http.get(this.base + `/provider/bundle/all`, {params});
     // return this.getAll("provider");
   }
@@ -414,22 +420,24 @@ export class ResourceService {
     }
     if (auditState && auditState.length > 0) {
       for (const auditValue of auditState) {
-        params = params.append('auditState', auditValue);
+        params = params.append('audit_state', auditValue);
       }
     }
     if (catalogue_id && catalogue_id.length > 0) {
       for (const catalogueValue of catalogue_id) {
         params = params.append('catalogue_id', catalogueValue);
       }
-    } else {
-      params = params.append('catalogue_id', 'all');
     }
+    // } else {
+    //   params = params.append('catalogue_id', 'all');
+    // }
     return this.http.get<Bundle<Service>>(this.base + `/service/adminPage/all`, {params});
   }
 
   getServiceBundleById(id: string, catalogueId?: string) {
+    id = decodeURIComponent(id);
     if (!catalogueId) catalogueId ='eosc';
-    return this.http.get<ServiceBundle>(this.base + `/serviceBundle/${id}?catalogue_id=${catalogueId}`, this.options);
+    return this.http.get<ServiceBundle>(this.base + `/service/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
   getMyServiceProviders() {
@@ -441,6 +449,7 @@ export class ResourceService {
   }
 
   getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+    id = decodeURIComponent(id);
     return this.http.get<Paging<ServiceBundle>>(this.base +
       `/service/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
@@ -476,61 +485,72 @@ export class ResourceService {
 
   /** Draft(Pending) Services -->**/
   saveServiceAsDraft(service: Service) {
-    return this.http.put<Service>(this.base + '/pendingService/pending', service, this.options);
+    return this.http.put<Service>(this.base + '/service/draft', service, this.options);
   }
 
   submitPendingService(service: Service, shouldPut: boolean, comment: string) {
-    return this.http.put<Service>(this.base + '/pendingService/transform/resource', service, this.options);
+    return this.http.put<Service>(this.base + '/service/draft/transform', service, this.options);
   }
 
   getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+    id = decodeURIComponent(id);
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      `/service/draft/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
   }
 
   getPendingService(id: string) {
-    return this.http.get<ServiceBundle>(this.base + `/pendingService/${id}/`, this.options); //was richService. Could change response to Service and use along with getService
+    id = decodeURIComponent(id);
+    return this.http.get<ServiceBundle>(this.base + `/service/draft/${id}/`, this.options); //was richService. Could change response to Service and use along with getService
   }
 
   deletePendingService(id: string) {
-    return this.http.delete(this.base + '/pendingService/' + id, this.options);
+    id = decodeURIComponent(id);
+    return this.http.delete(this.base + '/service/draft/' + id, this.options);
   }
   /** <-- Draft(Pending) Services **/
 
   getFeaturedServices() { //einfra leftover
-    return this.http.get<Service[]>(this.base + `/service/featured/all/`);
+    return this.http.get<Service[]>(this.base + `/service/featured/all`);
   }
 
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
+    serviceId = decodeURIComponent(serviceId);
     // return this.http.get<Paging<LoggingInfo>>(this.base + `/service/loggingInfoHistory/${serviceId}/`);
     return this.http.get<Paging<LoggingInfo>>(this.base + `/service/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
   }
 
   auditResource(id: string, action: string, catalogueId: string, comment: string) {
+    id = decodeURIComponent(id);
     return this.http.patch(this.base + `/service/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
   }
 
   auditDatasource(id: string, action: string, catalogueId: string, comment: string) {
+    id = decodeURIComponent(id);
     return this.http.patch(this.base + `/datasource/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
   }
 
   verifyResource(id: string, active: boolean, status: string) { // for 1st service
+    id = decodeURIComponent(id);
     return this.http.patch(this.base + `/service/verifyResource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
   getServiceTemplate(id: string) {  // gets oldest(?) pending resource of the provider // replaced with /resourceTemplateBundles/templates?id=testprovidertemplate
+    id = decodeURIComponent(id);
     return this.http.get<Service[]>(this.base + `/resource/getServiceTemplate/${id}`);
   }
 
   getResourceTemplateOfProvider(id: string) {  // returns the template, service or datasource
+    id = decodeURIComponent(id);
     return this.http.get<any[]>(this.base + `/resourceTemplateBundles/templates?id=${id}`);
   }
 
   sendEmailForOutdatedResource(id: string) {
+    id = decodeURIComponent(id);
     return this.http.get(this.base + `/service/sendEmailForOutdatedResource/${id}`);
   }
 
   moveResourceToProvider(resourceId: string, providerId: string, comment: string) {
+    resourceId = decodeURIComponent(resourceId);
     return this.http.post(this.base + `/service/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
   }
 
@@ -554,10 +574,12 @@ export class ResourceService {
   }
 
   suspendService(serviceId: string, catalogueId: string, suspend: boolean) {
+    serviceId = decodeURIComponent(serviceId);
     return this.http.put<ServiceBundle>(this.base + `/service/suspend?serviceId=${serviceId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
   }
 
   suspendDatasource(datasourceId: string, catalogueId: string, suspend: boolean) {
+    datasourceId = decodeURIComponent(datasourceId);
     return this.http.put<DatasourceBundle>(this.base + `/datasource/suspend?datasourceId=${datasourceId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
   }
 }

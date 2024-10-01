@@ -24,7 +24,7 @@ export class ServiceHistoryComponent implements OnInit, OnDestroy {
 
   serviceHistory: Paging<LoggingInfo>;
 
-  constructor(private route: ActivatedRoute, private router: NavigationService, private resourceService: ResourceService) {
+  constructor(private route: ActivatedRoute, private navigator: NavigationService, private resourceService: ResourceService) {
   }
 
   ngOnInit() {
@@ -40,7 +40,7 @@ export class ServiceHistoryComponent implements OnInit, OnDestroy {
         },
         err => {
           if (err.status === 404) {
-            this.router.go('/404');
+            this.navigator.go('/404');
           }
           this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
         }
@@ -64,4 +64,6 @@ export class ServiceHistoryComponent implements OnInit, OnDestroy {
   handleError(error) {
     this.errorMessage = 'System error retrieving service (Server responded: ' + error + ')';
   }
+
+    protected readonly encodeURIComponent = encodeURIComponent;
 }

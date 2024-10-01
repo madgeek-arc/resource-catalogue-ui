@@ -100,7 +100,7 @@
                               <label class="uk-margin-small-left">
                                 <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
                                        (change)="this.onSelection($event, 'resource_organisation', provider.value)"
-                                       [checked]="isChecked(provider.value, 'catalogue_id')">
+                                       [checked]="isChecked(provider.value, 'resource_organisation')">
                               </label>
                               <span> {{provider.label ? provider.label : provider.value}}</span>
                               <span> ({{provider.count}})</span>
@@ -354,7 +354,7 @@
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
-                              routerLink="/provider/{{trBundle.trainingResource.resourceOrganisation}}/training-resource/update/{{trBundle.id}}"
+                              routerLink="/provider/{{encodeURIComponent(trBundle.trainingResource.resourceOrganisation)}}/training-resource/update/{{encodeURIComponent(trBundle.id)}}"
                               class="uk-button uk-button-link"
                               style="">
                               <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>

@@ -348,11 +348,11 @@ export class TrainingResourceForm implements OnInit {
         this.subVocabularies = this.groupByKey(voc, 'parentId');
 
         this.providerId = this.route.snapshot.paramMap.get('providerId');
-        if (this.editMode && !(this.route.snapshot.paramMap.get('trainingResourceId').startsWith(this.providerId+'.'))) {
-          return this.router.go('/404');
-        }
+        // if (this.editMode && !(this.route.snapshot.paramMap.get('trainingResourceId').startsWith(this.providerId+'.'))) { //todo: Revisit. What was achieved here?
+        //   return this.router.go('/404');
+        // }
 
-        this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
+        this.serviceForm.get('resourceOrganisation').setValue(decodeURIComponent(this.providerId));
         this.handleBitSets(0, 1, 'resourceOrganisation');
 
         if (!this.editMode) { // prefill main contact info

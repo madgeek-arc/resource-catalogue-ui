@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
   private slideRight: boolean;
 
 
-  constructor(public fb: FormBuilder, public router: NavigationService, public resourceService: ResourceService) {
+  constructor(public fb: FormBuilder, public navigator: NavigationService, public resourceService: ResourceService) {
     this.searchForm = fb.group({'query': ['']});
   }
 
@@ -61,12 +61,12 @@ export class HomeComponent implements OnInit {
   }
 
   onSubmit(searchValue: SearchQuery) {
-    return this.router.search({query: searchValue.query});
+    return this.navigator.search({query: searchValue.query});
   }
 
   signUpAndRegisterAservice() {
     sessionStorage.setItem('forward_url', '/provider/add');
-    this.router.router.navigateByUrl('/provider/add');
+    this.navigator.router.navigateByUrl('/provider/add');
   }
 
   updateServiceList() {

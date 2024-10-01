@@ -99,8 +99,8 @@ export class ResourcesListComponent implements OnInit {
   statusList = statusList;
   adminActionsMap = resourceStatusChangeMap;
 
-  public auditStates: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
-  public auditLabels: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
+  public auditStates: Array<string> = ['Valid', 'Not audited', 'Invalid and updated', 'Invalid and not updated'];
+  public auditLabels: Array<string> = ['Valid', 'Not audited', 'Invalid and updated', 'Invalid and not updated'];
 
   @ViewChildren('auditCheckboxes') auditCheckboxes: QueryList<ElementRef>;
 
@@ -323,6 +323,7 @@ export class ResourcesListComponent implements OnInit {
               this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                 res => {
                   if (res) {
+                    console.log(res);
                     this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
                   }
                 }
@@ -671,7 +672,7 @@ export class ResourcesListComponent implements OnInit {
   templateAction(serviceBundle, active, status) {
     this.loadingMessage = '';
     UIkit.modal('#spinnerModal').show();
-    const providerId = serviceBundle.id.substring(0, serviceBundle.id.lastIndexOf('.'));
+    const providerId = serviceBundle.service.resourceOrganisation;
     const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerId)[0].serviceId;
     this.resourceService.verifyResource(templateId, active, status).subscribe(
       res => {
@@ -859,4 +860,5 @@ export class ResourcesListComponent implements OnInit {
   //   );
   // }
 
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

@@ -30,7 +30,7 @@ export class ServiceProviderFormComponent implements OnInit {
   displayedCatalogueName: string;
   providerName = '';
   errorMessage = '';
-  userInfo = {family_name: '', given_name: '', email: ''};
+  userInfo = {sub:'', family_name: '', given_name: '', email: ''};
   providerForm: FormGroup;
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
@@ -365,12 +365,12 @@ export class ServiceProviderFormComponent implements OnInit {
         .subscribe(
           res => {
             this.showLoader = false;
-            this.router.navigate([`/provider/add/${res.id}`]);
+            this.router.navigate([`/provider/add/${encodeURIComponent(res.id)}`]);
           },
           err => {
             this.showLoader = false;
             window.scrollTo(0, 0);
-            this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
+            this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
           },
           () => {
             this.showLoader = false;
@@ -386,7 +386,7 @@ export class ServiceProviderFormComponent implements OnInit {
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
-          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
+          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
         },
         () => {
           this.showLoader = false;
@@ -722,9 +722,11 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   addDefaultUser() {
+    this.userInfo.sub = this.authService.getUserProperty('sub');
     this.userInfo.given_name = this.authService.getUserProperty('given_name');
     this.userInfo.family_name = this.authService.getUserProperty('family_name');
     this.userInfo.email = this.authService.getUserProperty('email');
+    this.usersArray.controls[0].get('id').setValue(this.userInfo.sub);
     this.usersArray.controls[0].get('name').setValue(this.userInfo.given_name);
     this.usersArray.controls[0].get('surname').setValue(this.userInfo.family_name);
     this.usersArray.controls[0].get('email').setValue(this.userInfo.email);

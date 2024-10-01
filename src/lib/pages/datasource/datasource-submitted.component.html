@@ -52,8 +52,8 @@
 
                   </div>
 
-                  <ng-container *ngIf="datasource">
-                    <button [routerLink]="['/dashboard/'+datasource.catalogueId+'/'+this.datasource.serviceId.split('.')[0]+'/resource-dashboard/'+this.datasource.serviceId]"
+                  <ng-container *ngIf="datasource && service">
+                    <button [routerLink]="['/dashboard/'+datasource.catalogueId+'/'+encodeURIComponent(this.service.resourceOrganisation)+'/resource-dashboard/'+encodeURIComponent(this.datasource.serviceId)]"
                             class="uk-button uk-button-secondary uk-align-center" style="padding-left: 30px">
                       {{serviceORresource}} Dashboard
                     </button>

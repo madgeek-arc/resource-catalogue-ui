@@ -40,12 +40,12 @@
         <ul>
           <li>
             <ng-container *ngIf="!datasourceId">
-              <a [routerLink]="['/provider/' + providerId + '/resource/' + resourceId + '/datasource/select']">
+              <a [routerLink]="['/provider/' + encodeURIComponent(providerPID) + '/resource/' + encodeURIComponent(resourcePID) + '/datasource/select']">
                 <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Enable Datasource Subprofile
               </a>
             </ng-container>
             <ng-container *ngIf="datasourceId">
-              <a [routerLink]="['/provider/' + providerId + '/resource/' + resourceId + '/subprofile/datasource']">
+              <a [routerLink]="['/provider/' + encodeURIComponent(providerPID) + '/resource/' + encodeURIComponent(resourcePID) + '/subprofile/datasource']">
                 <img src="lib/assets/images/new-icons/update-service.svg" class="uk-margin-small-right"> Edit Datasource Subprofile
               </a>
             </ng-container>
@@ -82,13 +82,13 @@
         <ul>
           <ng-container *ngIf="resourceBundle && resourceBundle.status==='approved resource' && resourceBundle.active===true">
           <li>
-            <a [routerLink]="['/provider/' + providerId + '/resource/monitoring/' + resourceId]">
+            <a [routerLink]="['/provider/' + encodeURIComponent(providerId) + '/resource/monitoring/' + encodeURIComponent(resourceId)]">
               <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
               {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension
             </a>
           </li>
           <li>
-            <a [routerLink]="['/provider/' + providerId + '/resource/helpdesk/' + resourceId]">
+            <a [routerLink]="['/provider/' + encodeURIComponent(providerId) + '/resource/helpdesk/' + encodeURIComponent(resourceId)]">
               <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
               {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension
             </a>
@@ -113,14 +113,14 @@
 
           <ng-container *ngIf="catalogueId === 'eosc'">
             <li>
-              <a [routerLink]="['/provider/' + providerId + '/resource/update/' + resourceId]">
+              <a [routerLink]="['/provider/' + encodeURIComponent(providerId) + '/resource/update/' + encodeURIComponent(resourceId)]">
                 <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                 Update {{serviceORresource}}
               </a>
             </li>
             <ng-container *ngIf="resourceBundle && resourceBundle.status==='approved resource' && resourceBundle.active===true">
               <li>
-                <a [routerLink]="['/provider/' + providerId + '/resource/guidelines/' + resourceId]">
+                <a [routerLink]="['/provider/' + encodeURIComponent(providerId) + '/resource/guidelines/' + encodeURIComponent(resourceId)]">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Assign Guidelines
                 </a>
@@ -134,18 +134,19 @@
           </ng-container>
 
           <li *ngIf="catalogueId !== 'eosc' && resourceBundle">
-            <a href="/provider/{{resourceBundle?.service.catalogueId}}/{{resourceBundle?.service.resourceOrganisation}}/resource/view/{{resourceBundle?.id}}">
+            <a href="/provider/{{resourceBundle?.service.catalogueId}}/{{encodeURIComponent(resourceBundle?.service.resourceOrganisation)}}/resource/view/{{encodeURIComponent(resourceBundle?.id)}}">
               <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true" style="color: #26c0e2"></i> View {{serviceORresource}}
             </a>
           </li>
 
           <li>
+<!--            TODO: to check-->
             <a href="{{_marketplaceServicesURL}}{{catalogueId}}.{{resourceId}}" target="_blank">
               <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right"> View in Catalogue
             </a>
           </li>
           <li>
-            <a [routerLink]="['/dashboard', catalogueId, providerId, 'stats']">
+            <a [routerLink]="['/dashboard', catalogueId, providerId]">
               <img src="lib/assets/images/new-icons/stats.svg" class="uk-margin-small-right">
               Back to Provider Dashboard
             </a>
@@ -176,7 +177,7 @@
     </div>
     <div class="uk-text-right">
       <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
-      <button class="uk-button uk-button-primary" type="button" (click)="deleteDatasource(this.datasourceId)">Delete</button>
+      <button class="uk-button uk-button-danger" type="button" (click)="deleteDatasource(encodeURIComponent(this.datasourceId))">Delete</button>
     </div>
   </div>
 </div>
