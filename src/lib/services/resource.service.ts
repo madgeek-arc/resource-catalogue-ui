@@ -110,13 +110,6 @@ export class ResourceService {
     return this.http.get<VocabularyTree>(this.base + `/vocabulary/vocabularyTree/${type}`);
   }
 
-  getSubcategoriesIdsFromSuperCategory(parent: string, type: string) {
-    let params = new HttpParams();
-    params = params.append('parent', parent);
-    params = params.append('type', type);
-    return this.http.get<string[]>(this.base + '/service/childrenFromParent', {params});
-  }
-
   getServices() {
     return this.http.get(this.base + '/service/by/ID/'); // can get services by any field, like ID (capitalized)
   }
