@@ -21,6 +21,7 @@ import {PreviewResourceComponent} from '../pages/previewresource/preview-resourc
 import { HighchartsChartModule } from 'highcharts-angular';
 import {DashboardBreadcrumbsComponent} from "./breadcrumbs/dashboard-breadcrumbs.component";
 import {MarkdownModule} from "ngx-markdown";
+import {ComingSoonPageComponent} from "./coming-soon-page/coming-soon-page.component";
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import {MarkdownModule} from "ngx-markdown";
     ValuesPipe,
     ForbiddenPageComponent,
     NotFoundPageComponent,
+    ComingSoonPageComponent,
     EmailModalComponent,
     BreadcrumbsComponent,
     DashboardBreadcrumbsComponent,

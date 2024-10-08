@@ -11,6 +11,7 @@ import {OpenAPIComponent} from '../lib/pages/support/openapi/openapi.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
 import {HomeComponent} from './pages/home/home.component';
+import {ComingSoonPageComponent} from "../lib/shared/coming-soon-page/coming-soon-page.component";
 
 const appRoutes: Routes = [
   {
@@ -130,6 +131,13 @@ const appRoutes: Routes = [
     component: NotFoundPageComponent,
     data: {
       breadcrumb: 'Not Found'
+    }
+  },
+  {
+    path: 'comingSoon',
+    component: ComingSoonPageComponent,
+    data: {
+      breadcrumb: 'Coming Soon'
     }
   },
   {
