@@ -9,6 +9,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 import {NavigationService} from '../../services/navigation.service';
 import {DatasourceService} from "../../services/datasource.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -69,7 +70,8 @@ export class DatasourcesListComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private navigator: NavigationService,
-              private fb: FormBuilder
+              private fb: FormBuilder,
+              public pidHandler: pidHandler
   ) {
   }
 
@@ -401,5 +403,4 @@ export class DatasourcesListComponent implements OnInit {
   }
   /** <--Pagination **/
 
-    protected readonly encodeURIComponent = encodeURIComponent;
 }

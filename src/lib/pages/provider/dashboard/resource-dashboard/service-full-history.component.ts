@@ -7,6 +7,7 @@ import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
 import {zip} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
+import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 @Component({
   selector: 'app-service-full-history',
@@ -22,6 +23,7 @@ export class ServiceFullHistoryComponent implements OnInit, OnDestroy {
   public service: Service;
   public errorMessage: string;
   private sub: Subscription;
+  public pidHandler: pidHandler;
 
   serviceHistory: Paging<LoggingInfo>;
 
@@ -66,5 +68,4 @@ export class ServiceFullHistoryComponent implements OnInit, OnDestroy {
     this.errorMessage = 'System error retrieving service (Server responded: ' + error + ')';
   }
 
-  public readonly encodeURIComponent = encodeURIComponent;
 }

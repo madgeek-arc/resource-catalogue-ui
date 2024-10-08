@@ -24,6 +24,7 @@ import {zip} from 'rxjs';
 import {Paging} from '../../domain/paging';
 import {ResourceExtrasService} from "../../services/resource-extras.service";
 import {TrainingResourceService} from "../../services/training-resource.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -123,7 +124,8 @@ export class TrainingListComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private navigator: NavigationService,
-              private fb: FormBuilder
+              private fb: FormBuilder,
+              public pidHandler: pidHandler
   ) {
   }
 
@@ -887,5 +889,4 @@ export class TrainingListComponent implements OnInit {
     );
   }
 
-    protected readonly encodeURIComponent = encodeURIComponent;
 }

@@ -58,7 +58,7 @@
                           <div class="uk-card-body">
                             <div class="providerName">
                               <span class="uk-margin-auto-vertical" data-uk-tooltip title="Go to the {{serviceORresource | lowercase}} provider monitoring dashboard">
-                                <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id)]">
+                                <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, pidHandler.customEncodeURIComponent(providerBundle.id)]">
                                     {{ providerBundle.provider.name }}
                                 </a>
                               </span>
@@ -71,7 +71,7 @@
                               <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)]}}
                             </div>
                             <div class="uk-margin-top cardActionButtons">
-                              <button class="uk-button uk-button-action" routerLink="/provider/update/{{encodeURIComponent(providerBundle.id)}}">
+                              <button class="uk-button uk-button-action" routerLink="/provider/update/{{pidHandler.customEncodeURIComponent(providerBundle.id)}}">
                                 <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider</button>
 
                               <ng-container *ngIf="(providerBundle.templateStatus !== 'approved template')">
@@ -99,23 +99,23 @@
                                   <div uk-dropdown>
                                     <ul class="uk-nav uk-dropdown-nav">
                                       <li class="uk-active">
-                                        <a routerLink="{{ getLinkToFirstService(encodeURIComponent(providerBundle.id)) }}">Add First {{serviceORresource}}</a>
+                                        <a routerLink="{{ getLinkToFirstService(pidHandler.customEncodeURIComponent(providerBundle.id)) }}">Add First {{serviceORresource}}</a>
                                       </li>
                                       <li class="uk-active">
-                                        <a routerLink="{{ getLinkToFirstTrainingResource(encodeURIComponent(providerBundle.id)) }}">Add First Training Resource</a>
+                                        <a routerLink="{{ getLinkToFirstTrainingResource(pidHandler.customEncodeURIComponent(providerBundle.id)) }}">Add First Training Resource</a>
                                       </li>
                                       <li *ngIf="checkForDraftServices(providerBundle.id)" class="uk-active">
-                                        <a [routerLink]="['/provider/draft-resources/' + encodeURIComponent(providerBundle.id)] ">
+                                        <a [routerLink]="['/provider/draft-resources/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
                                           Select from draft {{serviceORresource | lowercase}}s
                                         </a>
                                       </li>
                                       <li *ngIf="checkForRejectedServices(providerBundle.id)" class="uk-active">
-                                        <a [routerLink]="['/provider/rejected-resources/' + encodeURIComponent(providerBundle.id)] ">
+                                        <a [routerLink]="['/provider/rejected-resources/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
                                           Select from rejected {{serviceORresource | lowercase}}s
                                         </a>
                                       </li>
                                       <li *ngIf="checkForRejectedTrainingResources(providerBundle.id)" class="uk-active">
-                                        <a [routerLink]="['/provider/rejected-training-resources/' + encodeURIComponent(providerBundle.id)] ">
+                                        <a [routerLink]="['/provider/rejected-training-resources/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
                                           Select from rejected training resources
                                         </a>
                                       </li>
@@ -135,7 +135,7 @@
                                   <!--                                <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">-->
                                   <li class="uk-margin-small-bottom">
                                     <!--                                    <ng-container *ngIf="providerBundle.status === 'approved provider'">-->
-                                    <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id)]">
+                                    <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, pidHandler.customEncodeURIComponent(providerBundle.id)]">
                                       Go to Dashboard
                                     </a>
                                     <!--                                    </ng-container>-->
@@ -147,12 +147,12 @@
                                   </li>
                                   <ng-container *ngIf="providerBundle.templateStatus==='approved template'">
                                     <li class="uk-margin-small-bottom">
-                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id), 'resources']">
+                                      <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, pidHandler.customEncodeURIComponent(providerBundle.id), 'resources']">
                                         View {{serviceORresource}}s
                                       </a>
                                     </li>
                                     <li class="uk-margin-small-bottom">
-                                      <a [routerLink]="['/provider/' + encodeURIComponent(providerBundle.id) + '/resource/add/']">
+                                      <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerBundle.id) + '/resource/add/']">
                                         Add new {{serviceORresource}}
                                       </a>
                                     </li>
@@ -221,7 +221,7 @@
                           <div class="uk-card-body">
                             <div class="providerName">
                               <span class="uk-margin-auto-vertical" data-uk-tooltip title="Go to the {{serviceORresource | lowercase}} provider monitoring dashboard">
-                                <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id)]">
+                                <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, pidHandler.customEncodeURIComponent(providerBundle.id)]">
                                     {{ providerBundle.provider.name }}
                                 </a>
                               </span>
@@ -232,7 +232,7 @@
                               <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)]}}
                             </div>
                             <div class="uk-margin-top cardActionButtons">
-                              <button class="uk-button uk-button-action" routerLink="/provider/update/{{encodeURIComponent(providerBundle.id)}}">
+                              <button class="uk-button uk-button-action" routerLink="/provider/update/{{pidHandler.customEncodeURIComponent(providerBundle.id)}}">
                                 <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider
                               </button>
                               <!--                              <ng-container *ngIf="(providerBundle.templateStatus === 'no template status')-->
@@ -296,7 +296,7 @@
                           <div class="uk-card-body">
                             <div class="providerName">
                               <span class="uk-margin-auto-vertical" data-uk-tooltip title="Go to the {{serviceORresource | lowercase}} provider monitoring dashboard">
-                                <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, encodeURIComponent(providerBundle.id)]">
+                                <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, pidHandler.customEncodeURIComponent(providerBundle.id)]">
                                     {{ providerBundle.provider.name }}
                                 </a>
                               </span>
@@ -307,7 +307,7 @@
                               <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)]}}
                             </div>
                             <div class="uk-margin-top cardActionButtons">
-                              <button class="uk-button uk-button-action" routerLink="/provider/update/{{encodeURIComponent(providerBundle.id)}}">
+                              <button class="uk-button uk-button-action" routerLink="/provider/update/{{pidHandler.customEncodeURIComponent(providerBundle.id)}}">
                                 <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider</button>
                               <button class="uk-button uk-button-action" *ngIf="providerBundle.templateStatus === 'rejected template'"
                                       routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
@@ -348,7 +348,7 @@
                               <span class="statusLabel">First {{serviceORresource}} Status: </span> Not available
                             </div>
                             <div class="uk-margin-top cardActionButtons">
-                              <button class="uk-button uk-button-action" routerLink="/provider/add/{{encodeURIComponent(providerBundle.id)}}">
+                              <button class="uk-button uk-button-action" routerLink="/provider/add/{{pidHandler.customEncodeURIComponent(providerBundle.id)}}">
                                 <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider</button>
                             </div>
                           </div>

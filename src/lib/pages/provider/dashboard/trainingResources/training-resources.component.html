@@ -194,7 +194,7 @@
                 <div *ngIf="catalogueId==='eosc'" class="uk-width-1-4">
                   <div class="action-buttons">
                     <button
-                      [routerLink]="['/provider/'+ encodeURIComponent(trBundle.trainingResource.resourceOrganisation) +'/training-resource/update/'+ encodeURIComponent(trBundle.id)]"
+                      [routerLink]="['/provider/'+ pidHandler.customEncodeURIComponent(trBundle.trainingResource.resourceOrganisation) +'/training-resource/update/'+ pidHandler.customEncodeURIComponent(trBundle.id)]"
                       class="uk-button uk-button-action uk-display-block uk-margin-small-top">
                       <i class="fa fa-pencil fa-lg" aria-hidden="true"></i> Update training resource
                     </button>

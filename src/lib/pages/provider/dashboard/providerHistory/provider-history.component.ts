@@ -6,6 +6,8 @@ import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
+import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
+
 
 @Component({
   selector: 'app-service-dashboard',
@@ -28,7 +30,8 @@ export class ProviderHistoryComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private navigator: NavigationService,
               private resourceService: ResourceService,
-              private providerService: ServiceProviderService) {
+              private providerService: ServiceProviderService,
+              public pidHandler: pidHandler) {
   }
 
   ngOnInit() {
@@ -55,5 +58,4 @@ export class ProviderHistoryComponent implements OnInit {
     );
   }
 
-  protected readonly encodeURIComponent = encodeURIComponent;
 }

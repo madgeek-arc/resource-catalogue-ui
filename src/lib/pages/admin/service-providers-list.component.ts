@@ -13,6 +13,7 @@ import {Paging} from '../../domain/paging';
 import {getLocaleDateFormat} from '@angular/common';
 import {zip} from 'rxjs';
 import {TrainingResourceService} from "../../services/training-resource.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -117,7 +118,8 @@ export class ServiceProvidersListComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               private router: Router,
-              private fb: FormBuilder
+              private fb: FormBuilder,
+              public pidHandler: pidHandler
   ) {
   }
 
@@ -855,6 +857,4 @@ export class ServiceProvidersListComponent implements OnInit {
     }*/
   }
 
-  protected readonly encodeURI = encodeURI;
-  protected readonly encodeURIComponent = encodeURIComponent;
 }

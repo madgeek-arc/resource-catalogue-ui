@@ -10,6 +10,8 @@ import {ResourceService} from '../../services/resource.service';
 import BitSet from 'bitset';
 import {environment} from '../../../environments/environment';
 import {CatalogueService} from "../../services/catalogue.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {NavigationService} from "../../services/navigation.service";
 
 declare var UIkit: any;
 
@@ -230,7 +232,9 @@ export class ServiceProviderFormComponent implements OnInit {
               public resourceService: ResourceService,
               public catalogueService: CatalogueService,
               public router: Router,
-              public route: ActivatedRoute) {
+              public route: ActivatedRoute,
+              public navigator: NavigationService,
+              public pidHandler: pidHandler) {
   }
 
   ngOnInit() {
@@ -365,7 +369,7 @@ export class ServiceProviderFormComponent implements OnInit {
         .subscribe(
           res => {
             this.showLoader = false;
-            this.router.navigate([`/provider/add/${encodeURIComponent(res.id)}`]);
+            this.router.navigate([`/provider/add/${this.pidHandler.customEncodeURIComponent(res.id)}`]);
           },
           err => {
             this.showLoader = false;

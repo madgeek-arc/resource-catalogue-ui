@@ -5,6 +5,7 @@ import {ResourceService} from "../../../services/resource.service";
 import {OpenAIREMetrics, PiwikInfo} from "../../../domain/eic-model";
 import {DatasourceService} from "../../../services/datasource.service";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
+import {pidHandler} from "../../../shared/pid-handler/pid-handler.service";
 
 @Component({
   selector: 'app-datasource-metrics',
@@ -30,7 +31,8 @@ export class DatasourceMetricsComponent implements OnInit {
   constructor(
     // private route: ActivatedRoute,
     private datasourceService: DatasourceService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public pidHandler: pidHandler
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +59,7 @@ export class DatasourceMetricsComponent implements OnInit {
 
   getViewsUrl () {
 
-    const encodedURL = encodeURIComponent('{"library":"HighCharts","chartDescription":{"queries":[{"name":"Monthly views","type":"line","query":{"name":"usagestats.views.monthly", "parameters":["' + this.openaireId + '"], "profile":"OpenAIRE All-inclusive" }}],"chart":{"backgroundColor":"#FFFFFFFF","borderColor":"#335cadff","borderRadius":0,"borderWidth":0,"plotBorderColor":"#ccccccff","plotBorderWidth":0},"title":{"text":""},"subtitle":{},"yAxis":{"title":{"text":"Monthly views"}},"xAxis":{"title":{}},"lang":{"noData":"No Data available for the Query"},"exporting":{"enabled":false},"plotOptions":{"series":{"dataLabels":{"enabled":false}}},"legend":{"enabled":false},"credits":{"href":null,"enabled":true,"text":"Created by OpenAIRE via HighCharts"}}}');
+    const encodedURL = this.pidHandler.customEncodeURIComponent('{"library":"HighCharts","chartDescription":{"queries":[{"name":"Monthly views","type":"line","query":{"name":"usagestats.views.monthly", "parameters":["' + this.openaireId + '"], "profile":"OpenAIRE All-inclusive" }}],"chart":{"backgroundColor":"#FFFFFFFF","borderColor":"#335cadff","borderRadius":0,"borderWidth":0,"plotBorderColor":"#ccccccff","plotBorderWidth":0},"title":{"text":""},"subtitle":{},"yAxis":{"title":{"text":"Monthly views"}},"xAxis":{"title":{}},"lang":{"noData":"No Data available for the Query"},"exporting":{"enabled":false},"plotOptions":{"series":{"dataLabels":{"enabled":false}}},"legend":{"enabled":false},"credits":{"href":null,"enabled":true,"text":"Created by OpenAIRE via HighCharts"}}}');
     this.viewsUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`https://services.openaire.eu/stats-tool/chart?json=${encodedURL}`);
 
     // this.viewsUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -67,7 +69,7 @@ export class DatasourceMetricsComponent implements OnInit {
 
   getDownloadsUrl () {
 
-    const encodedURL = encodeURIComponent('{"library":"HighCharts","chartDescription":{"queries":[{"name":"Monthly downloads","type":"line","query":{"name":"usagestats.downloads.monthly", "parameters":["' + this.openaireId + '"], "profile":"OpenAIRE All-inclusive" }}],"chart":{"backgroundColor":"#FFFFFFFF","borderColor":"#335cadff","borderRadius":0,"borderWidth":0,"plotBorderColor":"#ccccccff","plotBorderWidth":0},"title":{"text":""},"subtitle":{},"yAxis":{"title":{"text":"Monthly downloads"}},"xAxis":{"title":{}},"lang":{"noData":"No Data available for the Query"},"exporting":{"enabled":false},"plotOptions":{"series":{"dataLabels":{"enabled":false}}},"legend":{"enabled":false},"credits":{"href":null,"enabled":true,"text":"Created by OpenAIRE via HighCharts"}}}');
+    const encodedURL = this.pidHandler.customEncodeURIComponent('{"library":"HighCharts","chartDescription":{"queries":[{"name":"Monthly downloads","type":"line","query":{"name":"usagestats.downloads.monthly", "parameters":["' + this.openaireId + '"], "profile":"OpenAIRE All-inclusive" }}],"chart":{"backgroundColor":"#FFFFFFFF","borderColor":"#335cadff","borderRadius":0,"borderWidth":0,"plotBorderColor":"#ccccccff","plotBorderWidth":0},"title":{"text":""},"subtitle":{},"yAxis":{"title":{"text":"Monthly downloads"}},"xAxis":{"title":{}},"lang":{"noData":"No Data available for the Query"},"exporting":{"enabled":false},"plotOptions":{"series":{"dataLabels":{"enabled":false}}},"legend":{"enabled":false},"credits":{"href":null,"enabled":true,"text":"Created by OpenAIRE via HighCharts"}}}');
     this.downloadsUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`https://services.openaire.eu/stats-tool/chart?json=${encodedURL}`);
 
     // this.downloadsUrl = this.sanitizer.bypassSecurityTrustResourceUrl(

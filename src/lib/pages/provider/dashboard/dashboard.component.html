@@ -104,13 +104,13 @@
           <ng-container *ngIf="catalogueId==='eosc'">
             <ng-container *ngIf="providerBundle?.templateStatus === 'rejected template' || (providerBundle?.status === 'approved provider' && providerBundle?.templateStatus === 'no template status')">
               <li>
-                <a [routerLink]="['/provider/' + encodeURIComponent(providerId) + '/add-first-service/']">
+                <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-service/']">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add first {{serviceORresource}}
                 </a>
               </li>
               <li>
-                <a [routerLink]="['/provider/' + encodeURIComponent(providerId) + '/add-first-training-resource/']">
+                <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-training-resource/']">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add first Training Resource
                 </a>
@@ -169,7 +169,7 @@
               </li>
             </ng-container>
             <li>
-              <a [routerLink]="['/provider/update/' + encodeURIComponent(providerId)]">
+              <a [routerLink]="['/provider/update/' + pidHandler.customEncodeURIComponent(providerId)]">
                 <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Update Provider
               </a>
             </li>
@@ -181,7 +181,7 @@
           </ng-container>
 
           <li *ngIf="catalogueId !== 'eosc' && providerBundle">
-            <a href="/provider/view/{{providerBundle?.provider.catalogueId}}/{{encodeURIComponent(providerBundle?.id)}}">
+            <a href="/provider/view/{{providerBundle?.provider.catalogueId}}/{{pidHandler.customEncodeURIComponent(providerBundle?.id)}}">
               <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true" style="color: #26c0e2"></i> View Provider
             </a>
           </li>

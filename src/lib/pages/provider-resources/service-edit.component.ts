@@ -10,6 +10,7 @@ import {ServiceProviderService} from '../../services/service-provider.service';
 import {NavigationService} from "../../services/navigation.service";
 import {RecommendationsService} from "../../services/recommendations.service";
 import {CatalogueService} from "../../services/catalogue.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 @Component({
   selector: 'app-service-edit',
@@ -28,8 +29,9 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               protected catalogueService: CatalogueService,
               protected injector: Injector,
               public datePipe: DatePipe,
-              public navigator: NavigationService) {
-    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route);
+              public navigator: NavigationService,
+              public pidHandler: pidHandler) {
+    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler);
     this.editMode = true;
   }
 

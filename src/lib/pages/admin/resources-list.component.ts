@@ -19,6 +19,7 @@ import {NavigationService} from '../../services/navigation.service';
 import {Paging} from '../../domain/paging';
 import {ResourceExtrasService} from '../../services/resource-extras.service';
 import {ServiceExtensionsService} from '../../services/service-extensions.service';
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -119,7 +120,8 @@ export class ResourcesListComponent implements OnInit {
               private router: Router,
               private navigator: NavigationService,
               private fb: FormBuilder,
-              private serviceExtensionsService: ServiceExtensionsService
+              private serviceExtensionsService: ServiceExtensionsService,
+              public pidHandler: pidHandler
   ) {
   }
 
@@ -860,5 +862,4 @@ export class ResourcesListComponent implements OnInit {
   //   );
   // }
 
-  protected readonly encodeURIComponent = encodeURIComponent;
 }

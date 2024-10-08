@@ -7,6 +7,7 @@ import {NavigationService} from '../../../../services/navigation.service';
 import {environment} from '../../../../../environments/environment';
 import {TrainingResourceBundle} from "../../../../domain/eic-model";
 import {TrainingResourceService} from "../../../../services/training-resource.service";
+import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 
 @Component({
@@ -30,7 +31,8 @@ export class TrainingResourceDashboardComponent implements OnInit {
               public trainingResourceService: TrainingResourceService,
               public serviceExtensionsService: ServiceExtensionsService,
               public navigator: NavigationService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public pidHandler: pidHandler) {
   }
 
   ngOnInit() {
@@ -51,5 +53,4 @@ export class TrainingResourceDashboardComponent implements OnInit {
     );
   }
 
-  protected readonly encodeURIComponent = encodeURIComponent;
 }

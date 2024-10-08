@@ -16,6 +16,7 @@ import {ServiceProviderService} from '../../services/service-provider.service';
 import {RecommendationsService} from "../../services/recommendations.service";
 import {CatalogueService} from "../../services/catalogue.service";
 import {catchError, map, mergeMap, timestamp} from "rxjs/operators";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -324,7 +325,8 @@ export class ServiceFormComponent implements OnInit {
               protected serviceProviderService: ServiceProviderService,
               protected recommendationsService: RecommendationsService,
               protected catalogueService: CatalogueService,
-              protected route: ActivatedRoute
+              protected route: ActivatedRoute,
+              public pidHandler: pidHandler
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(FormBuilder);
@@ -371,7 +373,7 @@ export class ServiceFormComponent implements OnInit {
           // console.log(_service);
           this.showLoader = false;
           // return this.router.dashboardDraftResources(this.providerId); // navigate to draft list
-          return this.navigator.go('/provider/' + encodeURIComponent(_service.resourceOrganisation) + '/draft-resource/update/' + encodeURIComponent(_service.id));
+          return this.navigator.go('/provider/' + this.pidHandler.customEncodeURIComponent(_service.resourceOrganisation) + '/draft-resource/update/' + this.pidHandler.customEncodeURIComponent(_service.id));
         },
         err => {
           this.showLoader = false;

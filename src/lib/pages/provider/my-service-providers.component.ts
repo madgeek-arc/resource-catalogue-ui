@@ -5,6 +5,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {ProviderBundle} from '../../domain/eic-model';
 import {zip} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 @Component({
   selector: 'app-my-service-providers',
@@ -40,7 +41,8 @@ export class MyServiceProvidersComponent implements OnInit {
   constructor(
     private serviceProviderService: ServiceProviderService,
     private resourceService: ResourceService,
-    public authenticationService: AuthenticationService
+    public authenticationService: AuthenticationService,
+    public pidHandler: pidHandler
   ) {
   }
 
@@ -209,5 +211,4 @@ export class MyServiceProvidersComponent implements OnInit {
     }
   }
 
-    protected readonly encodeURIComponent = encodeURIComponent;
 }

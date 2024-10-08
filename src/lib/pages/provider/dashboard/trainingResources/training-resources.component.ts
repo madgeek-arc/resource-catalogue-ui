@@ -8,6 +8,7 @@ import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
 import {ServiceExtensionsService} from "../../../../services/service-extensions.service";
 import {TrainingResourceService} from "../../../../services/training-resource.service";
+import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -60,7 +61,8 @@ export class TrainingResourcesComponent implements OnInit {
     private router: Router,
     private providerService: ServiceProviderService,
     private trainingResourceService: TrainingResourceService,
-    private serviceExtensionsService: ServiceExtensionsService
+    private serviceExtensionsService: ServiceExtensionsService,
+    public pidHandler: pidHandler
   ) {}
 
   ngOnInit(): void {
@@ -229,5 +231,4 @@ export class TrainingResourcesComponent implements OnInit {
     }
   }
 
-    protected readonly encodeURIComponent = encodeURIComponent;
 }

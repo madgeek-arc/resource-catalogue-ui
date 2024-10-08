@@ -8,6 +8,7 @@ import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
 import {ServiceExtensionsService} from "../../../../services/service-extensions.service";
+import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -60,7 +61,8 @@ export class ServicesComponent implements OnInit {
     private router: Router,
     private providerService: ServiceProviderService,
     private resourceService: ResourceService,
-    private serviceExtensionsService: ServiceExtensionsService
+    private serviceExtensionsService: ServiceExtensionsService,
+    public pidHandler: pidHandler
   ) {}
 
   ngOnInit(): void {
@@ -227,5 +229,4 @@ export class ServicesComponent implements OnInit {
     }
   }
 
-  protected readonly encodeURIComponent = encodeURIComponent;
 }

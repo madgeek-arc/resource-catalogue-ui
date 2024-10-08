@@ -11,6 +11,7 @@ import BitSet from 'bitset';
 import {environment} from '../../../environments/environment';
 import {PremiumSortPipe} from "../../shared/pipes/premium-sort.pipe";
 import {GuidelinesService} from "../../services/guidelines.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -156,7 +157,8 @@ export class GuidelinesFormComponent implements OnInit {
               public guidelinesService: GuidelinesService,
               public resourceService: ResourceService,
               public router: Router,
-              public route: ActivatedRoute) {
+              public route: ActivatedRoute,
+              public pidHandler: pidHandler) {
   }
 
   ngOnInit() {
@@ -235,7 +237,7 @@ export class GuidelinesFormComponent implements OnInit {
         },
         () => {
           this.showLoader = false;
-          this.router.navigate(['/dashboard/eosc/'+ encodeURIComponent(this.guidelinesForm.get('providerId').value) +'/guidelines/']);
+          this.router.navigate(['/dashboard/eosc/'+ this.pidHandler.customEncodeURIComponent(this.guidelinesForm.get('providerId').value) +'/guidelines/']);
         }
       );
     } else {

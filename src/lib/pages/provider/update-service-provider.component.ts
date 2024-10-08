@@ -8,6 +8,7 @@ import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CatalogueService} from "../../services/catalogue.service";
 import {NavigationService} from "../../services/navigation.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -27,8 +28,9 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
               public catalogueService: CatalogueService,
               public router: Router,
               public route: ActivatedRoute,
-              public navigator: NavigationService) {
-    super(fb, authService, serviceProviderService, resourceService, catalogueService, router, route);
+              public navigator: NavigationService,
+              public pidHandler: pidHandler) {
+    super(fb, authService, serviceProviderService, resourceService, catalogueService, router, route, navigator, pidHandler);
   }
 
   ngOnInit() {

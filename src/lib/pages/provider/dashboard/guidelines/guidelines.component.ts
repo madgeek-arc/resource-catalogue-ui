@@ -6,6 +6,7 @@ import {Paging} from '../../../../domain/paging';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {GuidelinesService} from "../../../../services/guidelines.service";
+import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -52,7 +53,8 @@ export class GuidelinesComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
-    private guidelinesService: GuidelinesService
+    private guidelinesService: GuidelinesService,
+    public pidHandler: pidHandler
   ) {}
 
   ngOnInit(): void {
@@ -183,5 +185,4 @@ export class GuidelinesComponent implements OnInit {
     }
   }
 
-    protected readonly encodeURIComponent = encodeURIComponent;
 }

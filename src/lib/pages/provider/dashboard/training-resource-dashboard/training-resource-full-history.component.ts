@@ -7,6 +7,7 @@ import {Paging} from '../../../../domain/paging';
 import {zip} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
 import {TrainingResourceService} from "../../../../services/training-resource.service";
+import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 @Component({
   selector: 'app-training-resource-full-history',
@@ -22,6 +23,7 @@ export class TrainingResourceFullHistoryComponent implements OnInit, OnDestroy {
   public trainingResource: TrainingResource;
   public errorMessage: string;
   private sub: Subscription;
+  public pidHandler: pidHandler;
 
   trainingResourceHistory: Paging<LoggingInfo>;
 
@@ -66,5 +68,4 @@ export class TrainingResourceFullHistoryComponent implements OnInit, OnDestroy {
     this.errorMessage = 'System error retrieving training resource (Server responded: ' + error + ')';
   }
 
-  public readonly encodeURIComponent = encodeURIComponent;
 }

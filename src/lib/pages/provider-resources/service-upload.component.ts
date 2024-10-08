@@ -7,6 +7,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {RecommendationsService} from "../../services/recommendations.service";
 import {CatalogueService} from "../../services/catalogue.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 @Component({
   selector: 'app-service-upload',
@@ -20,8 +21,9 @@ export class ServiceUploadComponent extends ServiceFormComponent implements OnIn
               protected serviceProviderService: ServiceProviderService,
               protected recommendationsService: RecommendationsService,
               protected catalogueService: CatalogueService,
-              protected route: ActivatedRoute) {
-    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route);
+              protected route: ActivatedRoute,
+              public pidHandler: pidHandler) {
+    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler);
     this.editMode = false;
   }
 

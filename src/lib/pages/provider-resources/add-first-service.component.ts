@@ -8,6 +8,7 @@ import {Service} from '../../domain/eic-model';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {RecommendationsService} from "../../services/recommendations.service";
 import {CatalogueService} from "../../services/catalogue.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 @Component({
   selector: 'app-add-first-service',
@@ -24,8 +25,9 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
               protected recommendationsService: RecommendationsService,
               protected catalogueService: CatalogueService,
               protected route: ActivatedRoute,
-              private datePipe: DatePipe) {
-    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route);
+              private datePipe: DatePipe,
+              public pidHandler: pidHandler) {
+    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler);
     this.editMode = false;
   }
 

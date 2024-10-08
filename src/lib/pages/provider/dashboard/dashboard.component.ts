@@ -6,6 +6,7 @@ import {ResourceService} from '../../../services/resource.service';
 import {environment} from '../../../../environments/environment';
 import {ServiceProviderService} from '../../../services/service-provider.service';
 import {ProviderBundle} from '../../../domain/eic-model';
+import {pidHandler} from '../../../shared/pid-handler/pid-handler.service';
 
 declare var UIkit: any;
 
@@ -25,7 +26,8 @@ export class DashboardComponent implements OnInit {
               public resourceService: ResourceService,
               public serviceProviderService: ServiceProviderService,
               public navigator: NavigationService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public pidHandler: pidHandler) {
   }
 
   ngOnInit() {
@@ -61,5 +63,4 @@ export class DashboardComponent implements OnInit {
       );
   }
 
-  protected readonly encodeURIComponent = encodeURIComponent;
 }

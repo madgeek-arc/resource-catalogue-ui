@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {DatasourceService} from "../../services/datasource.service";
 import {ResourceService} from "../../services/resource.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 
 @Component({
@@ -26,7 +27,8 @@ export class DatasourceSubmittedComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private datasourceService: DatasourceService,
-    private resourceService: ResourceService
+    private resourceService: ResourceService,
+    public pidHandler: pidHandler
   ) {}
 
   ngOnInit(): void {
@@ -51,5 +53,4 @@ export class DatasourceSubmittedComponent implements OnInit {
     );
   }
 
-  protected readonly encodeURIComponent = encodeURIComponent;
 }
