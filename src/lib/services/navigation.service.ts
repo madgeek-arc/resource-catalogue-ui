@@ -52,22 +52,22 @@ export class NavigationService {
     resourceDashboard(providerId: string, serviceId: string, catalogueId?: string) {
       providerId = this.pidHandler.customEncodeURIComponent(providerId);
       serviceId = this.pidHandler.customEncodeURIComponent(serviceId);
-      if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/resource-dashboard/${serviceId}/stats`]);
-      return this.router.navigate([`/dashboard/${providerId}/resource-dashboard/${serviceId}/stats`]);
+      if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/resource-dashboard/${serviceId}/history`]);
+      return this.router.navigate([`/dashboard/${providerId}/resource-dashboard/${serviceId}/history`]);
     }
 
     datasourceDashboard(providerId: string, datasourceId: string, catalogueId?: string) {
       providerId = this.pidHandler.customEncodeURIComponent(providerId);
       datasourceId = this.pidHandler.customEncodeURIComponent(datasourceId);
-      if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/datasource-dashboard/${datasourceId}/stats`]);
-      return this.router.navigate([`/dashboard/${providerId}/datasource-dashboard/${datasourceId}/stats`]);
+      if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/datasource-dashboard/${datasourceId}/history`]);
+      return this.router.navigate([`/dashboard/${providerId}/datasource-dashboard/${datasourceId}/history`]);
     }
 
     trainingResourceDashboard(providerId: string, trainingResourceId: string, catalogueId?: string) {
       providerId = this.pidHandler.customEncodeURIComponent(providerId);
       trainingResourceId = this.pidHandler.customEncodeURIComponent(trainingResourceId);
-      if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/training-resource-dashboard/${trainingResourceId}/stats`]);
-      return this.router.navigate([`/dashboard/${providerId}/training-resource-dashboard/${trainingResourceId}/stats`]);
+      if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/training-resource-dashboard/${trainingResourceId}/history`]);
+      return this.router.navigate([`/dashboard/${providerId}/training-resource-dashboard/${trainingResourceId}/history`]);
     }
 
     // edit(id: string) {
