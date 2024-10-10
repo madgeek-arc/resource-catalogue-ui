@@ -95,7 +95,7 @@ export class TrainingResourceService {
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
     if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<TrainingResource>(this.base + `/trainingResource/${id}/?catalogue_id=${catalogueId}`, this.options);
+    return this.http.get<TrainingResource>(this.base + `/trainingResource/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
   getTrainingResourceBundle(id: string, catalogueId?:string) { //old rich

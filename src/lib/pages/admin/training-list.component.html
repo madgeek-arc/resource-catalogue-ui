@@ -255,7 +255,7 @@
                             <div class="uk-width-4-5">
                               <div class="providerName">
                                 <span class="uk-margin-auto-vertical">
-                                  <a [routerLink]="['/dashboard', trBundle.trainingResource.catalogueId, pidHandler.customEncodeURIComponent(trBundle.trainingResource.resourceOrganisation), 'training-resource-dashboard', trBundle.id]" data-uk-tooltip title="Go to the training resource dashboard">
+                                  <a [routerLink]="['/dashboard', trBundle.trainingResource.catalogueId, pidHandler.customEncodeURIComponent(trBundle.trainingResource.resourceOrganisation), 'training-resource-dashboard', pidHandler.customEncodeURIComponent(trBundle.id)]" data-uk-tooltip title="Go to the training resource dashboard">
                                       {{ trBundle.trainingResource.title }}
                                   </a>
                                 </span>
