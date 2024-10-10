@@ -80,7 +80,7 @@ export class ResourceService {
 
   get(resourceType: string, id: string) {
     id = decodeURIComponent(id);
-    return this.http.get(this.base + `/${resourceType}/${id}/`, this.options);
+    return this.http.get(this.base + `/${resourceType}/${id}`, this.options);
   }
 
 /*  search(urlParameters: URLParameter[]) {
@@ -493,7 +493,7 @@ export class ResourceService {
 
   getPendingService(id: string) {
     id = decodeURIComponent(id);
-    return this.http.get<ServiceBundle>(this.base + `/service/draft/${id}/`, this.options); //was richService. Could change response to Service and use along with getService
+    return this.http.get<ServiceBundle>(this.base + `/service/draft/${id}`, this.options); //was richService. Could change response to Service and use along with getService
   }
 
   deletePendingService(id: string) {

@@ -56,7 +56,7 @@ export class TrainingResourceService {
 
   get(resourceType: string, id: string) {
     id = decodeURIComponent(id);
-    return this.http.get(this.base + `/${resourceType}/${id}/`, this.options);
+    return this.http.get(this.base + `/${resourceType}/${id}`, this.options);
   }
 
   search(urlParameters: URLParameter[]) {
@@ -301,7 +301,7 @@ export class TrainingResourceService {
 
   getPendingService(id: string) {
     id = decodeURIComponent(id);
-    return this.http.get<TrainingResourceBundle>(this.base + `/pendingService/rich/${id}/`, this.options); //not actually used
+    return this.http.get<TrainingResourceBundle>(this.base + `/pendingService/rich/${id}`, this.options); //not actually used
   }
 
   deletePendingService(id: string) {

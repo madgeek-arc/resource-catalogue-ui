@@ -18,11 +18,11 @@ export class GuidelinesService {
 
   /** InteroperabilityRecords --> **/
   addInteroperabilityRecord(interoperabilityRecord: InteroperabilityRecord) {
-    return this.http.post<InteroperabilityRecord>(this.base + '/interoperabilityRecord/', interoperabilityRecord, this.options);
+    return this.http.post<InteroperabilityRecord>(this.base + '/interoperabilityRecord', interoperabilityRecord, this.options);
   }
 
   updateInteroperabilityRecord(interoperabilityRecord: InteroperabilityRecord) {
-    return this.http.put<InteroperabilityRecord>(this.base + '/interoperabilityRecord/', interoperabilityRecord, this.options);
+    return this.http.put<InteroperabilityRecord>(this.base + '/interoperabilityRecord', interoperabilityRecord, this.options);
   }
 
   getInteroperabilityRecordById(id: string) {
