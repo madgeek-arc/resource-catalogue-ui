@@ -120,11 +120,16 @@
             <div id="block-system-user-menu" class="block block-system block-border block-menu">
               <div class="content">
                 <ul id="globalmenu" class="uk-nav uk-navbar-nav uk-navbar-right uk-float-right">
-                  <li class="first leaf"><a href="https://eosc-portal.eu/contact-us">Contact Us</a></li>
+<!--                  <li class="first leaf"><a href="https://eosc-portal.eu/contact-us">Contact Us</a></li>
                   <li class="leaf"><a href="https://eosc-portal.eu">Portal Home</a></li>
                   <li class="leaf"><a href="https://marketplace.eosc-portal.eu/">Catalogue & Marketplace</a></li>
                   <li class="leaf"><a class="active" href="https://providers.eosc-portal.eu/provider/my">Providers Dashboard</a></li>
-                  <li class="leaf"><a href="https://eosc-portal.eu/providers-documentation">Providers Documentation</a></li>
+                  <li class="leaf"><a href="https://eosc-portal.eu/providers-documentation">Providers Documentation</a></li>-->
+                  <li class="first leaf"><a href="./comingSoon">Contact Us</a></li>
+                  <li class="leaf"><a href="./comingSoon">Portal Home</a></li>
+                  <li class="leaf"><a href="./comingSoon">Catalogue & Marketplace</a></li>
+                  <li class="leaf"><a class="active" href="./comingSoon">Providers Dashboard</a></li>
+                  <li class="leaf"><a href="./comingSoon">Providers Documentation</a></li>
                   <ng-container *ngIf="!authenticationService.isLoggedIn()">
                     <li class="leaf"><a class="loginLink" (click)="authenticationService.login()">Login</a></li>
                   </ng-container>
