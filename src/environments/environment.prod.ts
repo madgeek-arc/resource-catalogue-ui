@@ -10,14 +10,14 @@ export const environment = {
   projectMail: 'onboarding@eosc-portal.eu',
   serviceORresource: 'Service',
   hasUserConsent: true,
-  privacyPolicyURL: 'https://www.eosc-portal.eu/privacy-policy-summary',
-  onboardingAgreementURL: 'https://wiki.eoscfuture.eu/display/PUBLIC/EOSC+Catalogue+Onboarding+Agreement+and+Workflow',
-  marketplaceServicesURL: 'https://marketplace.eosc-portal.eu/services/',
-  marketplaceDatasourcesURL: 'https://marketplace.eosc-portal.eu/services/',
-  marketplaceTrainingResourcesURL: 'https://search.eosc-portal.eu/trainings/',
+  privacyPolicyURL: './comingSoon',
+  onboardingAgreementURL: './comingSoon',
+  marketplaceServicesURL: './comingSoon',
+  marketplaceDatasourcesURL: './comingSoon',
+  marketplaceTrainingResourcesURL: './comingSoon',
   API_TOKEN_ENDPOINT: 'https://aai.eosc-portal.eu/providers-api',
   INSIGHTS_ENDPOINT: 'provider_insights_api/v1/statistics/rs',
   AUTOCOMPLETION_ENDPOINT: 'v1/auto_completion',
   showHelpContent: false,
-  MONITORING_URL: 'https://eosc.ui.argo.grnet.gr'
+  MONITORING_URL: './comingSoon'
 };
