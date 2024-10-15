@@ -39,15 +39,28 @@ h3 {
   opacity: 1;
 }
 
-a, .uk-link {
-  color: black !important;
+a {
+  color: var(--link-color) !important;
   text-decoration: none !important;
 }
 
-a:hover, a:focus, a:active {
+/* Override styles for specific cases */
+ul a, ol a {
   color: black !important;
+}
+
+/* Hover, focus, and active states */
+a:hover, a:focus, a:active {
+  color: var(--link-color);
   text-decoration: underline !important;
 }
+
+/* Maintain hover effect for links in lists */
+ul a:hover, ol a:hover {
+  color: black;
+  text-decoration: underline !important;
+}
+
 
 .clear-style {
   padding-left: 0px !important;
