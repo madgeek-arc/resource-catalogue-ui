@@ -26,7 +26,7 @@ export class DatasourceSelectComponent implements OnInit {
     from: '0',
     quantity: '10',
     order: 'ASC',
-    orderField: 'name',
+    sort: 'name',
     query: '',
   };
 
@@ -102,7 +102,7 @@ export class DatasourceSelectComponent implements OnInit {
   getOpenAIREDatasources() {
     this.showLoader = true;
     this.datasourceService.getOpenAIREDatasources(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value)
+      this.dataForm.get('sort').value, this.dataForm.get('order').value, this.dataForm.get('query').value)
       .subscribe(res => {
           this.datasources = res;
           this.total = res['total'];

@@ -35,7 +35,7 @@ export class CataloguesListComponent implements OnInit {
 
   formPrepare = {
     query: '',
-    orderField: 'name',
+    sort: 'name',
     order: 'ASC',
     quantity: '10',
     from: '0',
@@ -318,7 +318,7 @@ export class CataloguesListComponent implements OnInit {
     this.loadingMessage = 'Loading Providers...';
     this.catalogues = [];
     this.catalogueService.getCatalogueBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value, this.dataForm.get('suspended').value,
+      this.dataForm.get('sort').value, this.dataForm.get('order').value, this.dataForm.get('query').value, this.dataForm.get('suspended').value,
       this.dataForm.get('status').value, this.dataForm.get('templateStatus').value, this.dataForm.get('auditState').value).subscribe(
       res => {
         this.catalogues = res['results'];

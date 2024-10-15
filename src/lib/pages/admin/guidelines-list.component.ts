@@ -21,7 +21,7 @@ export class GuidelinesListComponent implements OnInit {
 
   formPrepare = {
     order: 'ASC',
-    orderField: 'title',
+    sort: 'title',
     quantity: '10',
     from: '0',
     query: '',
@@ -193,7 +193,7 @@ export class GuidelinesListComponent implements OnInit {
     this.loadingMessage = 'Loading guidelines entries...';
     this.guidelines = [];
     this.guidelinesService.getInteroperabilityRecordBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
+      this.dataForm.get('sort').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
       this.dataForm.get('catalogue_id').value, this.dataForm.get('provider_id').value, this.dataForm.get('status').value,
       this.dataForm.get('active').value, this.dataForm.get('suspended').value, this.dataForm.get('auditState').value).subscribe(
       res => {

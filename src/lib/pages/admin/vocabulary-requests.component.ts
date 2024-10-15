@@ -22,7 +22,7 @@ export class VocabularyRequestsComponent implements OnInit {
   formPrepare = {
     status: 'Pending',
     order: 'DESC',
-    orderField: 'date_of_request',
+    sort: 'date_of_request',
     quantity: '10',
     from: '0',
     query: '',
@@ -151,7 +151,7 @@ export class VocabularyRequestsComponent implements OnInit {
     this.vocabularyCurations = [];
     this.serviceProviderService.getVocabularyCuration(this.dataForm.get('status').value,
       this.dataForm.get('from').value, this.dataForm.get('quantity').value, this.dataForm.get('order').value,
-      this.dataForm.get('orderField').value, this.dataForm.get('vocabulary').value, this.dataForm.get('query').value).subscribe(
+      this.dataForm.get('sort').value, this.dataForm.get('vocabulary').value, this.dataForm.get('query').value).subscribe(
       res => {
         this.vocabularyCurations = res['results'];
         this.facets = res['facets'];

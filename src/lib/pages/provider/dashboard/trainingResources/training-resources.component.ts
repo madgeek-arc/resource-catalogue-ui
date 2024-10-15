@@ -26,7 +26,7 @@ export class TrainingResourcesComponent implements OnInit {
     from: '0',
     quantity: '10',
     order: 'ASC',
-    orderField: 'title',
+    sort: 'title',
     query: '',
     active: 'statusAll',
     status: ''
@@ -132,7 +132,7 @@ export class TrainingResourcesComponent implements OnInit {
 
   getTrainingResources() {
     this.providerService.getTrainingResourcesOfProvider(this.providerId, this.catalogueId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('order').value, this.dataForm.get('orderField').value,
+      this.dataForm.get('order').value, this.dataForm.get('sort').value,
       this.dataForm.get('active').value, this.dataForm.get('status').value, this.dataForm.get('query').value)
       .subscribe(res => {
           this.trainingResources = res;

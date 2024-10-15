@@ -109,7 +109,7 @@ export class ServiceProviderService {
     return this.http.get<Provider>(this.base + `/provider/draft/${id}`, this.options);
   }
 
-  getServicesOfProvider(id: string, catalogue_id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
+  getServicesOfProvider(id: string, catalogue_id: string, from: string, quantity: string, order: string, sort: string, active: string, status?: string, query?: string) {
     id = decodeURIComponent(id);
     if (!query) { query = ''; }
     let params = new HttpParams();
@@ -126,13 +126,13 @@ export class ServiceProviderService {
 
     if (active === 'statusAll') {
       return this.http.get<Paging<ServiceBundle>>(this.base +
-        `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`, {params});
+        `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&query=${query}`, {params});
     }
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&query=${query}`, {params});
+      `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&query=${query}`, {params});
   }
 
-  getDatasourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
+  getDatasourcesOfProvider(id: string, from: string, quantity: string, order: string, sort: string, active: string, status?: string, query?: string) {
     id = decodeURIComponent(id);
     if (!query) { query = ''; }
     if (!status) { status = 'approved resource,pending resource,rejected resource'; }
@@ -149,13 +149,13 @@ export class ServiceProviderService {
     }
     if (active === 'statusAll') {
       return this.http.get<Paging<Datasource>>(this.base +
-        `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+        `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&status=${status}&query=${query}`);
     }
     return this.http.get<Paging<Datasource>>(this.base +
-      `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
+      `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&status=${status}&query=${query}`);
   }
 
-  getTrainingResourcesOfProvider(id: string, catalogue_id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
+  getTrainingResourcesOfProvider(id: string, catalogue_id: string, from: string, quantity: string, order: string, sort: string, active: string, status?: string, query?: string) {
     id = decodeURIComponent(id);
     if (!query) { query = ''; }
     let params = new HttpParams();
@@ -171,15 +171,15 @@ export class ServiceProviderService {
     }
     if (active === 'statusAll') {
       return this.http.get<Paging<TrainingResourceBundle>>(this.base +
-        `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`, {params});
+        `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&query=${query}`, {params});
     }
     return this.http.get<Paging<TrainingResourceBundle>>(this.base +
-      `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&query=${query}`, {params});
+      `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&query=${query}`, {params});
   }
 
-  getRejectedResourcesOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, resourceType: string) {
+  getRejectedResourcesOfProvider(id: string, from: string, quantity: string, order: string, sort: string, resourceType: string) {
     return this.http.get<Paging<any>>(this.base +
-      `/provider/resources/rejected/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&resourceType=${resourceType}`);
+      `/provider/resources/rejected/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&resourceType=${resourceType}`);
   }
 
   publishService(id: string, version: string, active: boolean) { // toggles active/inactive service
@@ -250,13 +250,13 @@ export class ServiceProviderService {
     }
   }
 
-  getVocabularyCuration(status: string, from: string, quantity: string, order: string, orderField: string, vocabulary?: string, query?: string) {
+  getVocabularyCuration(status: string, from: string, quantity: string, order: string, sort: string, vocabulary?: string, query?: string) {
     let params = new HttpParams();
     params = params.append('status', status);
     params = params.append('from', from);
     params = params.append('quantity', quantity);
     params = params.append('order', order);
-    params = params.append('orderField', orderField);
+    params = params.append('sort', sort);
     if (query && query !== '') {
       params = params.append('query', query);
     }

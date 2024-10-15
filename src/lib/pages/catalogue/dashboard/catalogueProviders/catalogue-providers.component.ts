@@ -25,7 +25,7 @@ export class CatalogueProvidersComponent implements OnInit {
     from: '0',
     quantity: '10',
     order: 'ASC',
-    orderField: 'name',
+    sort: 'name',
     query: '',
     // active: 'statusAll',
     status: ''
@@ -104,7 +104,7 @@ export class CatalogueProvidersComponent implements OnInit {
   getProviders() {
     this.toggleLoading = true;
     this.catalogueService.getProvidersOfCatalogue(this.catalogueId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('order').value, this.dataForm.get('orderField').value,
+      this.dataForm.get('order').value, this.dataForm.get('sort').value,
       this.dataForm.get('status').value, this.dataForm.get('query').value)
       .subscribe(res => {
           this.toggleLoading = false;

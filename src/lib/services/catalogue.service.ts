@@ -55,11 +55,11 @@ export class CatalogueService {
     return this.http.get<CatalogueBundle>(this.base + `/catalogue/bundle/${id}`, this.options);
   }
 
-  getCatalogueBundles(from: string, quantity: string, orderField: string, order: string, query: string, suspended: string, status: string[], templateStatus: string[], auditState: string[]) {
+  getCatalogueBundles(from: string, quantity: string, sort: string, order: string, query: string, suspended: string, status: string[], templateStatus: string[], auditState: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
-    params = params.append('orderField', orderField);
+    params = params.append('sort', sort);
     params = params.append('order', order);
     if (query && query !== '') {
       params = params.append('query', query);
@@ -85,7 +85,7 @@ export class CatalogueService {
     return this.http.get(this.base + `/catalogue/bundle/all`, {params});
   }
 
-  getProvidersOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, status?: string, query?: string) {
+  getProvidersOfCatalogue(id: string, from: string, quantity: string, order: string, sort: string, status?: string, query?: string) {
     if (!query) { query = ''; }
     let params = new HttpParams();
     if (status && status.length > 0) {
@@ -99,10 +99,10 @@ export class CatalogueService {
       }
     }
     return this.http.get<Paging<ProviderBundle>>(this.base +
-      `/provider/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`, {params});
+      `/provider/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&query=${query}`, {params});
   }
 
-  getServicesOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, status?: string, query?: string) {
+  getServicesOfCatalogue(id: string, from: string, quantity: string, order: string, sort: string, status?: string, query?: string) {
     if (!query) { query = ''; }
     let params = new HttpParams();
     if (status && status.length > 0) {
@@ -115,10 +115,10 @@ export class CatalogueService {
         params = params.append('status', statusValue);
       }
     }
-      return this.http.get<any>(this.base + `/service/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`, {params});
+      return this.http.get<any>(this.base + `/service/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&query=${query}`, {params});
   }
 
-  getTrainingsOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, status?: string, query?: string) {
+  getTrainingsOfCatalogue(id: string, from: string, quantity: string, order: string, sort: string, status?: string, query?: string) {
     if (!query) { query = ''; }
     let params = new HttpParams();
     if (status && status.length > 0) {
@@ -131,10 +131,10 @@ export class CatalogueService {
         params = params.append('status', statusValue);
       }
     }
-    return this.http.get<any>(this.base + `/trainingResource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`, {params});
+    return this.http.get<any>(this.base + `/trainingResource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&query=${query}`, {params});
   }
 
-  getDatasourcesOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
+  getDatasourcesOfCatalogue(id: string, from: string, quantity: string, order: string, sort: string, active: string, status?: string, query?: string) {
     if (!query) { query = ''; }
     let params = new HttpParams();
     if (status && status.length > 0) {
@@ -149,10 +149,10 @@ export class CatalogueService {
     }
     if (active === 'statusAll') {
       return this.http.get<Paging<DatasourceBundle>>(this.base +
-        `/datasource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`, {params});
+        `/datasource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&query=${query}`, {params});
     }
     return this.http.get<Paging<DatasourceBundle>>(this.base +
-      `/datasource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&query=${query}`, {params});
+      `/datasource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&query=${query}`, {params});
   }
 
   hasAdminAcceptedTerms(id: string, pendingCatalogue: boolean) {

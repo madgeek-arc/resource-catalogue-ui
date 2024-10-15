@@ -35,23 +35,23 @@ export class GuidelinesService {
     return this.http.delete(this.base + `/interoperabilityRecord/${id}`, this.options);
   }
 
-  getInteroperabilityRecords(from?: string, quantity?: string, orderField?: string, order?: string, query?: string) { //open for EPOT and Providers
+  getInteroperabilityRecords(from?: string, quantity?: string, sort?: string, order?: string, query?: string) { //open for EPOT and Providers
     let params = new HttpParams();
     if (from && from !== '') params = params.append('from', from);
     if (quantity && quantity !== '') params = params.append('quantity', quantity);
-    if (orderField && orderField !== '') params = params.append('orderField', orderField);
+    if (sort && sort !== '') params = params.append('sort', sort);
     if (order && order !== '') params = params.append('order', order);
     if (query && query !== '') params = params.append('query', query);
     return this.http.get(this.base + `/interoperabilityRecord/all`, {params});
   }
 
   /** new--> **/
-  getInteroperabilityRecordBundles(from?: string, quantity?: string, orderField?: string, order?: string, query?: string,
+  getInteroperabilityRecordBundles(from?: string, quantity?: string, sort?: string, order?: string, query?: string,
                                    catalogueId?: string, providerId?: string, status?: string, active?: string, suspended?: string, auditState? :string) {
     let params = new HttpParams();
     if (from && from !== '') params = params.append('from', from);
     if (quantity && quantity !== '') params = params.append('quantity', quantity);
-    if (orderField && orderField !== '') params = params.append('orderField', orderField);
+    if (sort && sort !== '') params = params.append('sort', sort);
     if (order && order !== '') params = params.append('order', order);
     if (query && query !== '') params = params.append('query', query);
     if (catalogueId?.length > 0) params = params.append('catalogue_id', catalogueId);
@@ -63,11 +63,11 @@ export class GuidelinesService {
     return this.http.get(this.base + `/interoperabilityRecord/bundle/all`, {params});
   }
 
-  getInteroperabilityRecordsOfProvider(id: string, from: string, quantity: string, order: string, orderField: string, query: string, status: string) {
+  getInteroperabilityRecordsOfProvider(id: string, from: string, quantity: string, order: string, sort: string, query: string, status: string) {
     id = decodeURIComponent(id);
     if (!query) { query = '';}
-    if (!status) { return this.http.get<Paging<InteroperabilityRecordBundle>>(this.base + `/interoperabilityRecord/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}`); }
-    return this.http.get<Paging<InteroperabilityRecordBundle>>(this.base + `/interoperabilityRecord/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&query=${query}&status=${status}`);
+    if (!status) { return this.http.get<Paging<InteroperabilityRecordBundle>>(this.base + `/interoperabilityRecord/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&query=${query}`); }
+    return this.http.get<Paging<InteroperabilityRecordBundle>>(this.base + `/interoperabilityRecord/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&query=${query}&status=${status}`);
   }
 
   verifyInteroperabilityRecord(id: string, active: boolean, status: string) {

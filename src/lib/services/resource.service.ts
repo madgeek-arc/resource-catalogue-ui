@@ -95,7 +95,7 @@ export class ResourceService {
     // const questionMark = urlParameters.length > 0 ? '?' : '';
     // return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`, this.options)
     return this.http.get<Paging<RichService>>(
-      this.base + `/service/rich/all?orderField=name&order=asc&${searchQuery.toString()}`, this.options);
+      this.base + `/service/rich/all?sort=name&order=asc&${searchQuery.toString()}`, this.options);
   }*/
 
   getAllVocabulariesByType() {
@@ -337,18 +337,18 @@ export class ResourceService {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
-    params = params.append('orderField', 'creation_date');
+    params = params.append('sort', 'creation_date');
     params = params.append('order', 'desc');
     return this.http.get(this.base + `/provider/all`, {params});
     // return this.getAll("provider");
   }
 
-  getProviderBundles(from: string, quantity: string, orderField: string, order: string, query: string, active: string, suspended: string,
+  getProviderBundles(from: string, quantity: string, sort: string, order: string, query: string, active: string, suspended: string,
                      status: string[], templateStatus: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
-    params = params.append('orderField', orderField);
+    params = params.append('sort', sort);
     params = params.append('order', order);
     if (query && query !== '') {
       params = params.append('query', query);
@@ -384,12 +384,12 @@ export class ResourceService {
     // return this.getAll("provider");
   }
 
-  getResourceBundles(from: string, quantity: string, orderField: string, order: string, query: string, active: string, suspended: string,
+  getResourceBundles(from: string, quantity: string, sort: string, order: string, query: string, active: string, suspended: string,
                      resource_organisation: string[], status: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
-    params = params.append('orderField', orderField);
+    params = params.append('sort', sort);
     params = params.append('order', order);
     // params = params.append('active', active);
     if (query && query !== '') {
@@ -441,10 +441,10 @@ export class ResourceService {
     return this.http.get<ServiceBundle[]>(this.base + `/service/randomResources?quantity=${quantity}`, this.options);
   }
 
-  getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+  getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, sort: string) {
     id = decodeURIComponent(id);
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/service/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      `/service/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}`);
   }
 
   getEU() {
@@ -485,10 +485,10 @@ export class ResourceService {
     return this.http.put<Service>(this.base + '/service/draft/transform', service, this.options);
   }
 
-  getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+  getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, sort: string) {
     id = decodeURIComponent(id);
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/service/draft/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      `/service/draft/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}`);
   }
 
   getPendingService(id: string) {

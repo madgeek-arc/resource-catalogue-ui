@@ -71,7 +71,7 @@ export class TrainingResourceService {
     // const questionMark = urlParameters.length > 0 ? '?' : '';
     // return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`, this.options)
     return this.http.get<Paging<RichService>>(
-      this.base + `/trainingResource/rich/all?orderField=title&order=asc&${searchQuery.toString()}`, this.options);
+      this.base + `/trainingResource/rich/all?sort=title&order=asc&${searchQuery.toString()}`, this.options);
   }
 
   getAllVocabulariesByType() {
@@ -160,18 +160,18 @@ export class TrainingResourceService {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
-    params = params.append('orderField', 'creation_date');
+    params = params.append('sort', 'creation_date');
     params = params.append('order', 'desc');
     return this.http.get(this.base + `/provider/all`, {params});
     // return this.getAll("provider");
   }
 
-  getProviderBundles(from: string, quantity: string, orderField: string, order: string, query: string,
+  getProviderBundles(from: string, quantity: string, sort: string, order: string, query: string,
                      status: string[], templateStatus: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
-    params = params.append('orderField', orderField);
+    params = params.append('sort', sort);
     params = params.append('order', order);
     if (query && query !== '') {
       params = params.append('query', query);
@@ -201,12 +201,12 @@ export class TrainingResourceService {
     // return this.getAll("provider");
   }
 
-  getResourceBundles(from: string, quantity: string, orderField: string, order: string, query: string, active: string, suspended: string,
+  getResourceBundles(from: string, quantity: string, sort: string, order: string, query: string, active: string, suspended: string,
                      resource_organisation: string[], status: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
-    params = params.append('orderField', orderField);
+    params = params.append('sort', sort);
     params = params.append('order', order);
     // params = params.append('active', active);
     if (query && query !== '') {
@@ -248,10 +248,10 @@ export class TrainingResourceService {
     return this.http.get<ServiceBundle[]>(this.base + `/trainingResource/randomResources?quantity=${quantity}`, this.options);
   }
 
-  getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+  getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, sort: string) {
     id = decodeURIComponent(id);
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/trainingResource/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      `/trainingResource/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}`);
   }
 
   getEU() {
@@ -293,10 +293,10 @@ export class TrainingResourceService {
     return this.http.put<TrainingResource>(this.base + '/pendingService/transform/resource', trainingResource, this.options);
   }
 
-  getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+  getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, sort: string) {
     id = decodeURIComponent(id);
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}`);
   }
 
   getPendingService(id: string) {

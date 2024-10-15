@@ -152,9 +152,9 @@
                       </div>
 
                       <div class="uk-inline">
-                        <label class="" for="orderField">Order by </label>
+                        <label class="" for="sort">Order by </label>
                         <div class="uk-inline">
-                          <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
+                          <select class="uk-input uk-select" id="sort" (change)="handleChangeAndResetPage()" formControlName="sort">
                             <option value="name" selected>Name</option>
                             <option value="abbreviation">Abbreviation</option>
                             <option value="registeredAt">Creation Date</option>
@@ -926,7 +926,7 @@
             <!--TODO: revisit            -->
             <a *ngIf="item.key === 'service'" [routerLink]="['/dashboard', value.catalogue, value.id.split('.')[0], 'resource-dashboard', value.id]" target="_blank">{{value.name}}</a>
             <a *ngIf="item.key === 'training_resource'" [routerLink]="['/dashboard', value.catalogue, value.id.split('.')[0], 'training-resource-dashboard', value.id]" target="_blank">{{value.name}}</a>
-            <a *ngIf="item.key === 'interoperability_record'" [routerLink]="['/guidelines/all?order=ASC&orderField=title&quantity=10&from=0&auditState=&catalogue_id=&provider_id=&query=' + value.id]">{{value.name}}</a>
+            <a *ngIf="item.key === 'interoperability_record'" [routerLink]="['/guidelines/all?order=ASC&sort=title&quantity=10&from=0&auditState=&catalogue_id=&provider_id=&query=' + value.id]">{{value.name}}</a>
           </li>
         </ul>
       </div>

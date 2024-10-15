@@ -21,7 +21,7 @@ export class CatalogueTrainingResourcesComponent implements OnInit {
     from: '0',
     quantity: '10',
     order: 'ASC',
-    orderField: 'title',
+    sort: 'title',
     query: '',
     active: '',
     status: '',
@@ -122,7 +122,7 @@ export class CatalogueTrainingResourcesComponent implements OnInit {
     this.toggleLoading = true;
     this.catalogueService.getTrainingsOfCatalogue(this.dataForm.get('catalogue_id').value,
       this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('order').value, this.dataForm.get('orderField').value,
+      this.dataForm.get('order').value, this.dataForm.get('sort').value,
       this.dataForm.get('status').value, this.dataForm.get('query').value).subscribe(
       res => {
           this.toggleLoading = false;

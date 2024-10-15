@@ -24,7 +24,7 @@ export class DatasourcesListComponent implements OnInit {
 
   formPrepare = {
     order: 'ASC',
-    orderField: 'id',
+    sort: 'id',
     quantity: '10',
     from: '0',
     query: '',
@@ -168,7 +168,7 @@ export class DatasourcesListComponent implements OnInit {
     this.loadingMessage = 'Loading datasource entries...';
     this.datasources = [];
     this.datasourceService.getDatasourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
+      this.dataForm.get('sort').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
       this.dataForm.get('status').value, this.dataForm.get('catalogue_id').value, this.dataForm.get('service_id').value).subscribe(
       res => {
         this.datasources = res['results'];

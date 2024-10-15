@@ -31,12 +31,12 @@ export class DatasourceService {
     return this.http.delete(this.base + `/datasource/${catalogueId}/${serviceId}`, this.options);
   }
 
-  getDatasourceBundles(from: string, quantity: string, orderField: string, order: string, query: string,
+  getDatasourceBundles(from: string, quantity: string, sort: string, order: string, query: string,
                        status: string, catalogue_id: string[], service_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
-    params = params.append('orderField', orderField);
+    params = params.append('sort', sort);
     params = params.append('order', order);
     if (status && status !== '') {
       params = params.append('status', status);
@@ -63,11 +63,11 @@ export class DatasourceService {
     return this.http.get<DatasourceBundle>(this.base + `/datasource/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
-  getOpenAIREDatasources(from: string, quantity: string, orderField: string, order: string, query: string) {
+  getOpenAIREDatasources(from: string, quantity: string, sort: string, order: string, query: string) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
-    params = params.append('orderField', orderField);
+    params = params.append('sort', sort);
     params = params.append('order', order);
     params = params.append('query', query);
     return this.http.get<Paging<Datasource>>(this.base + '/datasource/getAllOpenAIREDatasources', {params});

@@ -26,7 +26,7 @@ export class ServicesComponent implements OnInit {
     from: '0',
     quantity: '10',
     order: 'ASC',
-    orderField: 'name',
+    sort: 'name',
     query: '',
     active: 'statusAll',
     status: ''
@@ -130,7 +130,7 @@ export class ServicesComponent implements OnInit {
 
   getServices() {
     this.providerService.getServicesOfProvider(this.providerId, this.catalogueId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('order').value, this.dataForm.get('orderField').value,
+      this.dataForm.get('order').value, this.dataForm.get('sort').value,
       this.dataForm.get('active').value, this.dataForm.get('status').value, this.dataForm.get('query').value)
       .subscribe(res => {
           this.providerServices = res;
