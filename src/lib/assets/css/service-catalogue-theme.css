@@ -61,6 +61,9 @@ ul a:hover, ol a:hover {
   text-decoration: underline !important;
 }
 
+.colored-link { /* Class to apply color on exceptions */
+  color: var(--link-color) !important;
+}
 
 .clear-style {
   padding-left: 0px !important;
