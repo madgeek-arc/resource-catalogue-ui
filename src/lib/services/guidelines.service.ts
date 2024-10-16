@@ -41,7 +41,7 @@ export class GuidelinesService {
     if (quantity && quantity !== '') params = params.append('quantity', quantity);
     if (sort && sort !== '') params = params.append('sort', sort);
     if (order && order !== '') params = params.append('order', order);
-    if (query && query !== '') params = params.append('query', query);
+    if (query && query !== '') params = params.append('keyword', query);
     return this.http.get(this.base + `/interoperabilityRecord/all`, {params});
   }
 
@@ -53,7 +53,7 @@ export class GuidelinesService {
     if (quantity && quantity !== '') params = params.append('quantity', quantity);
     if (sort && sort !== '') params = params.append('sort', sort);
     if (order && order !== '') params = params.append('order', order);
-    if (query && query !== '') params = params.append('query', query);
+    if (query && query !== '') params = params.append('keyword', query);
     if (catalogueId?.length > 0) params = params.append('catalogue_id', catalogueId);
     if (providerId?.length > 0) params = params.append('provider_id', decodeURIComponent(providerId));
     if (status && status !== '') params = params.append('status', status);

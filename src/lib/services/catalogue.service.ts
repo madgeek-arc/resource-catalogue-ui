@@ -62,7 +62,7 @@ export class CatalogueService {
     params = params.append('sort', sort);
     params = params.append('order', order);
     if (query && query !== '') {
-      params = params.append('query', query);
+      params = params.append('keyword', query);
     }
     if (suspended && suspended !== '') {
       params = params.append('suspended', suspended);

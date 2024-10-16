@@ -351,7 +351,7 @@ export class ResourceService {
     params = params.append('sort', sort);
     params = params.append('order', order);
     if (query && query !== '') {
-      params = params.append('query', query);
+      params = params.append('keyword', query);
     }
     if (active && active !== '') {
       params = params.append('active', active);
@@ -393,7 +393,7 @@ export class ResourceService {
     params = params.append('order', order);
     // params = params.append('active', active);
     if (query && query !== '') {
-      params = params.append('query', query);
+      params = params.append('keyword', query);
     }
     if (active && active !== '') {
       params = params.append('active', active);
@@ -434,7 +434,7 @@ export class ResourceService {
   }
 
   getMyServiceProviders() {
-    return this.http.get<Provider[]>(this.base + '/provider/getMyServiceProviders');
+    return this.http.get<Provider[]>(this.base + '/provider/getMyProviders');
   }
 
   getRandomResources(quantity: string) {
@@ -478,7 +478,7 @@ export class ResourceService {
 
   /** Draft(Pending) Services -->**/
   saveServiceAsDraft(service: Service) {
-    return this.http.put<Service>(this.base + '/service/draft', service, this.options);
+    return this.http.post<Service>(this.base + '/service/draft', service, this.options);
   }
 
   submitPendingService(service: Service, shouldPut: boolean, comment: string) {

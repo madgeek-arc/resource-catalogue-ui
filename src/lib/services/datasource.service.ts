@@ -42,7 +42,7 @@ export class DatasourceService {
       params = params.append('status', status);
     }
     if (query && query !== '') {
-      params = params.append('query', query);
+      params = params.append('keyword', query);
     }
     if (catalogue_id && catalogue_id.length > 0) {
       for (const catalogueValue of catalogue_id) {
@@ -69,7 +69,7 @@ export class DatasourceService {
     params = params.append('quantity', quantity);
     params = params.append('sort', sort);
     params = params.append('order', order);
-    params = params.append('query', query);
+    params = params.append('keyword', query);
     return this.http.get<Paging<Datasource>>(this.base + '/datasource/getAllOpenAIREDatasources', {params});
   }
 

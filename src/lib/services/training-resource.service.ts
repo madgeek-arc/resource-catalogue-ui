@@ -174,7 +174,7 @@ export class TrainingResourceService {
     params = params.append('sort', sort);
     params = params.append('order', order);
     if (query && query !== '') {
-      params = params.append('query', query);
+      params = params.append('keyword', query);
     }
     if (status && status.length > 0) {
       for (const statusValue of status) {
@@ -210,7 +210,7 @@ export class TrainingResourceService {
     params = params.append('order', order);
     // params = params.append('active', active);
     if (query && query !== '') {
-      params = params.append('query', query);
+      params = params.append('keyword', query);
     }
     if (active && active !== '') {
       params = params.append('active', active);

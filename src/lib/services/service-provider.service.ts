@@ -79,7 +79,7 @@ export class ServiceProviderService {
   }
 
   getMyServiceProviders() {
-    return this.http.get<ProviderBundle[]>(this.base + '/provider/getMyServiceProviders', this.options);
+    return this.http.get<ProviderBundle[]>(this.base + '/provider/getMyProviders', this.options);
   }
 
   getRandomProviders(quantity: string) {
@@ -258,7 +258,7 @@ export class ServiceProviderService {
     params = params.append('order', order);
     params = params.append('sort', sort);
     if (query && query !== '') {
-      params = params.append('query', query);
+      params = params.append('keyword', query);
     }
     if (vocabulary && vocabulary.length > 0) {
       for (const voc of vocabulary) {
