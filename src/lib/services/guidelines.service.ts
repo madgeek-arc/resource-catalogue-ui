@@ -66,8 +66,8 @@ export class GuidelinesService {
   getInteroperabilityRecordsOfProvider(id: string, from: string, quantity: string, order: string, sort: string, query: string, status: string) {
     id = decodeURIComponent(id);
     if (!query) { query = '';}
-    if (!status) { return this.http.get<Paging<InteroperabilityRecordBundle>>(this.base + `/interoperabilityRecord/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&query=${query}`); }
-    return this.http.get<Paging<InteroperabilityRecordBundle>>(this.base + `/interoperabilityRecord/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&query=${query}&status=${status}`);
+    if (!status) { return this.http.get<Paging<InteroperabilityRecordBundle>>(this.base + `/interoperabilityRecord/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`); }
+    return this.http.get<Paging<InteroperabilityRecordBundle>>(this.base + `/interoperabilityRecord/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}&status=${status}`);
   }
 
   verifyInteroperabilityRecord(id: string, active: boolean, status: string) {

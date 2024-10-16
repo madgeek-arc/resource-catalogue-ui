@@ -126,10 +126,10 @@ export class ServiceProviderService {
 
     if (active === 'statusAll') {
       return this.http.get<Paging<ServiceBundle>>(this.base +
-        `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&query=${query}`, {params});
+        `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
     }
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&query=${query}`, {params});
+      `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&keyword=${query}`, {params});
   }
 
   getDatasourcesOfProvider(id: string, from: string, quantity: string, order: string, sort: string, active: string, status?: string, query?: string) {
@@ -149,10 +149,10 @@ export class ServiceProviderService {
     }
     if (active === 'statusAll') {
       return this.http.get<Paging<Datasource>>(this.base +
-        `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&status=${status}&query=${query}`);
+        `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&status=${status}&keyword=${query}`);
     }
     return this.http.get<Paging<Datasource>>(this.base +
-      `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&status=${status}&query=${query}`);
+      `/datasource/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&status=${status}&keyword=${query}`);
   }
 
   getTrainingResourcesOfProvider(id: string, catalogue_id: string, from: string, quantity: string, order: string, sort: string, active: string, status?: string, query?: string) {
@@ -171,10 +171,10 @@ export class ServiceProviderService {
     }
     if (active === 'statusAll') {
       return this.http.get<Paging<TrainingResourceBundle>>(this.base +
-        `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&query=${query}`, {params});
+        `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
     }
     return this.http.get<Paging<TrainingResourceBundle>>(this.base +
-      `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&query=${query}`, {params});
+      `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&keyword=${query}`, {params});
   }
 
   getRejectedResourcesOfProvider(id: string, from: string, quantity: string, order: string, sort: string, resourceType: string) {
