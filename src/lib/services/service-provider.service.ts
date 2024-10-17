@@ -208,6 +208,7 @@ export class ServiceProviderService {
     if (providerExists) { //todo: revisit
       return this.http.put<Provider>(this.base + '/provider/draft', provider, this.options);
     }
+    console.log('provider not exists');
     return this.http.post<Provider>(this.base + '/provider/draft', provider, this.options);
   }
 
