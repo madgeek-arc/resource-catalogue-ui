@@ -707,8 +707,7 @@ export class TrainingListComponent implements OnInit {
   templateAction(id, active, status) {
     this.loadingMessage = '';
     UIkit.modal('#spinnerModal').show();
-    const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
-    this.trainingResourceService.verifyTrainingResource(templateId, active, status).subscribe(
+    this.trainingResourceService.verifyTrainingResource(id, active, status).subscribe(
       res => {
         this.getProviders();
       },

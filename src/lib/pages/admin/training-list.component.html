@@ -424,10 +424,10 @@
                                 </ng-container>
 
                                 <ng-container *ngIf="trBundle.status=='pending resource'">
-                                  <li class="uk-active" (click)="templateAction(trBundle.id.substring(0, trBundle.id.lastIndexOf('.')), true, 'approved resource')">
+                                  <li class="uk-active" (click)="templateAction(trBundle.id, true, 'approved resource')">
                                     <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve First Training Resource</a>
                                   </li>
-                                  <li class="uk-active" (click)="templateAction(trBundle.id.substring(0, trBundle.id.lastIndexOf('.')), true, 'rejected resource')">
+                                  <li class="uk-active" (click)="templateAction(trBundle.id, true, 'rejected resource')">
                                     <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First Training Resource</a>
                                   </li>
                                 </ng-container>
