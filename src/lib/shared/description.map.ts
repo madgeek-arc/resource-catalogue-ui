@@ -235,7 +235,7 @@ export const trainingDescMap = new Map()
   .set('urlTypeDesc', {mandatory: false, label: 'Resource URL type', placeholder: '', desc: 'The designation of identifier scheme used for the resource URL. It represents the type of the URL of the resource, that is the used scheme (e.g., Web Address URL, DOI, ARK, etc.).'})
   .set('eoscRelatedServiceDesc', {mandatory: false, label: 'EOSC related Service', placeholder: '', desc: 'The name(s) of (all) the EOSC Catalogue/Marketplace registered Service(s) for which this training resource is referring to (Refer to the EOSC Service ID when applicable).'})
   // Detailed & access Information //
-  .set('descriptionDesc', {mandatory: false, label: 'Description', placeholder: '', desc: 'A brief synopsis about or description of the learning resource.'})
+  .set('descriptionDesc', {mandatory: true, label: 'Description', placeholder: '', desc: 'A brief synopsis about or description of the learning resource.'})
   .set('keywordsDesc', {mandatory: false, label: 'Keywords', placeholder: '', desc: 'The keyword(s) or tag(s) used to describe the resource.'})
   .set('licenseDesc', {mandatory: true, label: 'License', placeholder: '', desc: 'A license document that applies to this content, typically indicated by URL.'})
   .set('accessRightsDesc', {mandatory: true, label: 'Access Rights', placeholder: '', desc: 'The access status of a resource (open, restricted, paid).'})
