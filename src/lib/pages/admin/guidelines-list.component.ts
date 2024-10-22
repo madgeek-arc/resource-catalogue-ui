@@ -280,6 +280,19 @@ export class GuidelinesListComponent implements OnInit {
     );
   }
 
+  publishGuideline(id: string, active: boolean){ // Activates/Deactivates
+    this.loadingMessage = '';
+    UIkit.modal('#spinnerModal').show();
+    this.guidelinesService.publishInteroperabilityRecord(id, active).subscribe(
+      res => this.getGuidelines(),
+      err => UIkit.modal('#spinnerModal').hide(),
+      () => {
+        UIkit.modal('#spinnerModal').hide();
+        location.reload();
+      }
+    );
+  }
+
   /** Audit --> **/
   showAuditForm(irBundle: InteroperabilityRecordBundle) {
     this.commentAuditControl.reset();
