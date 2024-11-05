@@ -67,4 +67,5 @@ export class ServiceHistoryComponent implements OnInit, OnDestroy {
     this.errorMessage = 'System error retrieving service (Server responded: ' + error + ')';
   }
 
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

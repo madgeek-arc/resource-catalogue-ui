@@ -94,7 +94,7 @@
 
                   <div class="uk-margin-top uk-text-center">
                     <a *ngIf="service"
-                       [routerLink]="['/dashboard/' + catalogueId + '/' + pidHandler.customEncodeURIComponent(service.resourceOrganisation) + '/resource-dashboard/' + pidHandler.customEncodeURIComponent(service.id) + '/fullHistory']"
+                       [routerLink]="['/dashboard/' + catalogueId + '/' + encodeURIComponent(service.resourceOrganisation) + '/resource-dashboard/' + encodeURIComponent(service.id) + '/fullHistory']"
                        class="uk-h3 uk-link">See more results ...</a>
                   </div>
 
