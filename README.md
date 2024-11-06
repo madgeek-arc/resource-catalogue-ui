@@ -1,3 +1,5 @@
+![Build Status](https://builds.madgik.di.uoa.gr/buildStatus/icon?job=eosc-ui)
+
 # Resource Catalogue UI
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.9.
