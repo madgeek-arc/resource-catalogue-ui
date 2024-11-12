@@ -204,11 +204,9 @@ export class ServiceProviderService {
   }
 
   temporarySaveProvider(provider: Provider, providerExists: boolean) {
-    // console.log('providerExists ', providerExists);
-    if (providerExists) { //todo: revisit
+    if (providerExists) {
       return this.http.put<Provider>(this.base + '/provider/draft', provider, this.options);
     }
-    console.log('provider not exists');
     return this.http.post<Provider>(this.base + '/provider/draft', provider, this.options);
   }
 

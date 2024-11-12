@@ -35,7 +35,7 @@ export class ProviderHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.route.parent.snapshot)
+    // console.log(this.route.parent.snapshot)
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     this.getProvider();

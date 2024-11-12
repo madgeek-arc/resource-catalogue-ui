@@ -477,7 +477,15 @@ export class ResourceService {
   }
 
   /** Draft(Pending) Services -->**/
-  saveServiceAsDraft(service: Service) {
+  temporarySaveService(service: Service) {
+    const serviceExists = (service.id !== '');
+    if (serviceExists) {
+      return this.http.put<Service>(this.base + '/service/draft', service, this.options);
+    }
+    return this.http.post<Service>(this.base + '/service/draft', service, this.options);
+  }
+
+  saveServiceAsDraft(service: Service) { //todo: delete
     return this.http.post<Service>(this.base + '/service/draft', service, this.options);
   }
 
@@ -493,7 +501,7 @@ export class ResourceService {
 
   getPendingService(id: string) {
     id = decodeURIComponent(id);
-    return this.http.get<ServiceBundle>(this.base + `/service/draft/${id}`, this.options); //was richService. Could change response to Service and use along with getService
+    return this.http.get<any>(this.base + `/service/draft/${id}`, this.options); //was richService. Could change response to Service and use along with getService
   }
 
   deletePendingService(id: string) {
