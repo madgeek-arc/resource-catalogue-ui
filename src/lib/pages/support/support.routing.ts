@@ -4,11 +4,13 @@ import {DevelopersComponent} from './developers/developers.component';
 import {FAQsComponent} from './faqs/faqs.component';
 import {OpenAPIComponent} from './openapi/openapi.component';
 import {AboutComponent} from "./about/about.component";
+import {CanActivateViaAuthGuard} from "../../services/can-activate-auth-guard.service";
 
 const supportRoutes: Routes = [
   {
     path: 'support/faqs',
     component: FAQsComponent,
+    canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'FAQs'
     }
@@ -16,6 +18,7 @@ const supportRoutes: Routes = [
   {
     path: 'about',
     component: AboutComponent,
+    canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'About'
     }
@@ -23,6 +26,7 @@ const supportRoutes: Routes = [
   {
     path: 'developers',
     component: DevelopersComponent,
+    canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Developers'
     }
@@ -30,6 +34,7 @@ const supportRoutes: Routes = [
   {
     path: 'openapi',
     component: OpenAPIComponent,
+    canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Open API'
     }

@@ -22,12 +22,14 @@ const appRoutes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    canActivate: [CanActivateViaAuthGuard],
     // redirectTo: 'becomeAProvider',
     // pathMatch: 'full'
   },
   {
     path: 'becomeAProvider',
     component: BecomeAProviderComponent,
+    canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Become A Provider'
     }
@@ -35,6 +37,7 @@ const appRoutes: Routes = [
   {
     path: 'stats/providers',
     component: ProvidersStatsComponent,
+    canActivate: [CanActivateViaAuthGuard],
     pathMatch: 'full',
     data: {
       breadcrumb: 'Providers Statistics'
@@ -43,6 +46,7 @@ const appRoutes: Routes = [
   {
     path: 'stats/resources',
     component: ResourcesStatsComponent,
+    canActivate: [CanActivateViaAuthGuard],
     pathMatch: 'full',
     data: {
       breadcrumb: 'Resources Statistics'
@@ -104,6 +108,7 @@ const appRoutes: Routes = [
   {
     path: 'developers',
     component: DevelopersComponent,
+    canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Developers'
     }
@@ -111,6 +116,7 @@ const appRoutes: Routes = [
   {
     path: 'openapi',
     component: OpenAPIComponent,
+    canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Open API'
     }
