@@ -100,7 +100,7 @@ export class AuthenticationService {
     }
     sessionStorage.setItem('redirect_url', redirectUrl);
     // console.log(redirectUrl);
-    window.location.href = environment.API_ENDPOINT + '/oauth2/authorization/eosc';
+    window.location.href = environment.API_LOGIN;
     // console.log(window.location.href);
   }
 
@@ -110,7 +110,7 @@ export class AuthenticationService {
       this.getUserInfo();
     } else {
       sessionStorage.setItem('redirect_url', window.location.pathname);
-      window.location.href = environment.API_ENDPOINT + '/oauth2/authorization/eosc';
+      window.location.href = environment.API_LOGIN;
     }
   }
 

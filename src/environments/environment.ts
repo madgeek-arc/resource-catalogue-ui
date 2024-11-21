@@ -9,6 +9,7 @@ export const environment = {
   MATOMO_SITE: 3,
   FAQ_ENDPOINT: 'https://dl105.madgik.di.uoa.gr/faq/api',
   API_ENDPOINT: '/api', // to change the end point go to proxy.conf.json file
+  API_LOGIN: '/api/login',
   STATS_ENDPOINT: 'https://providers.eosc-portal.eu/stats-api/',
   projectName: 'EOSC',
   projectMail: 'onboarding@eosc-portal.eu', // used for suggestions

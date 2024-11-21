@@ -5,6 +5,7 @@ export const environment = {
   MATOMO_SITE: 2,
   FAQ_ENDPOINT: '/faq/api',
   API_ENDPOINT: '/api',
+  API_LOGIN: '/api/oauth2/authorization/google',
   STATS_ENDPOINT: 'https://beta.eosc-portal.eu/stats-api/',
   projectName: 'EOSC',
   projectMail: 'onboarding@eosc-portal.eu',
