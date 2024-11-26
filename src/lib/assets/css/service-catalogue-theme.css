@@ -422,7 +422,7 @@ a.remove-element i {
  ========================================================================== */
 
 #sidebar_main {
-  width: 320px;
+  width: 270px;
   border-right: 1px solid rgba(0,0,0,.12);
   position: fixed;
   height: 100%;
