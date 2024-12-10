@@ -147,6 +147,7 @@ export class AuthenticationService {
     if (this.isLoggedIn()) {
       return !isNullOrUndefined(this.user.given_name) ? this.user.given_name : '';
     }
+    return '';
   }
 
   getUserSurname() {

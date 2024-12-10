@@ -22,7 +22,7 @@ const appRoutes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [CanActivateViaAuthGuard],
+    // canActivate: [CanActivateViaAuthGuard],
     // redirectTo: 'becomeAProvider',
     // pathMatch: 'full'
   },

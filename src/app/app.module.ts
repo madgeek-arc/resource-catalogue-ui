@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -100,7 +100,9 @@ export function highchartsFactory() {
     // ServiceEditComponent,
     // ServiceFormComponent,
     // ServiceUploadComponent,
-    ContactInfoModalComponent
+    ContactInfoModalComponent,
+    // EoscCommonMainHeader,
+    // EoscCommonMainFooter
   ],
   imports: [
     RouterModule,
@@ -132,6 +134,7 @@ export function highchartsFactory() {
     MarkdownModule.forRoot(),
     AppRoutingModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

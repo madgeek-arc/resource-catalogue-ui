@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, NO_ERRORS_SCHEMA,} from '@angular/core';
 import {JoinPipe} from './pipes/join.pipe';
 import {KeysPipe} from './pipes/keys.pipe';
 import {LookUpPipe} from './pipes/lookup.pipe';
@@ -22,6 +22,8 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import {DashboardBreadcrumbsComponent} from "./breadcrumbs/dashboard-breadcrumbs.component";
 import {MarkdownModule} from "ngx-markdown";
 import {ComingSoonPageComponent} from "./coming-soon-page/coming-soon-page.component";
+import {ExternalHeaderComponent} from "../../app/shared/eosc-commons/eosc-commons-header";
+import {ExternalFooterComponent} from "../../app/shared/eosc-commons/eosc-commons-footer";
 
 @NgModule({
   imports: [
@@ -50,8 +52,11 @@ import {ComingSoonPageComponent} from "./coming-soon-page/coming-soon-page.compo
     SharedServicesComponent,
     RejectedServicesComponent,
     RejectedTrainingResourcesComponent,
-    PreviewResourceComponent
+    PreviewResourceComponent,
+    ExternalHeaderComponent,
+    ExternalFooterComponent
   ],
+  schemas: [NO_ERRORS_SCHEMA],
   exports: [
     JoinPipe,
     KeysPipe,
@@ -68,7 +73,9 @@ import {ComingSoonPageComponent} from "./coming-soon-page/coming-soon-page.compo
     SharedServicesComponent,
     RejectedServicesComponent,
     RejectedTrainingResourcesComponent,
-    PreviewResourceComponent
+    PreviewResourceComponent,
+    ExternalHeaderComponent,
+    ExternalFooterComponent
   ]
 })
 export class SharedModule {
