@@ -116,13 +116,17 @@ export class AuthenticationService {
 
   public logout() {
     if (this.isLoggedIn()) {
-      deleteCookie(this.cookieName);
-      this.user = null;
-      this.cookie = null;
-      this.expiresAt = null;
-      sessionStorage.clear();
+      this.clearUserData();
       window.location.href = environment.API_ENDPOINT + '/logout';
     }
+  }
+
+  public clearUserData() {
+    deleteCookie(this.cookieName);
+    this.user = null;
+    this.cookie = null;
+    this.expiresAt = null;
+    sessionStorage.clear();
   }
 
   public isLoggedIn(): boolean {
