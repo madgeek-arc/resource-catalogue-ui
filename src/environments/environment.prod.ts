@@ -6,6 +6,7 @@ export const environment = {
   FAQ_ENDPOINT: '/faq/api',
   API_ENDPOINT: '/api',
   API_LOGIN: '/api/oauth2/authorization/eosc',
+  API_LOGOUT: './api/logout',
   STATS_ENDPOINT: 'https://providers.eosc-portal.eu/stats-api/',
   projectName: 'EOSC',
   projectMail: 'onboarding@eosc-portal.eu',
