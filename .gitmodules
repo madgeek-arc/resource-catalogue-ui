@@ -1,0 +1,3 @@
+[submodule "src/lib/dynamic-catalogue"]
+	path = src/lib/dynamic-catalogue
+	url = https://github.com/madgeek-arc/catalogue-ui
