@@ -106,3 +106,6 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+
+# Ignore the angular cache directory
+.angular/cache
