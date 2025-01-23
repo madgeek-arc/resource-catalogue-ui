@@ -39,7 +39,6 @@ import {EOSCFooterComponent} from './shared/footer/footer.component';
 import {EOSCTopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
-import {MatomoModule} from 'ngx-matomo';
 import {MarkdownModule} from "ngx-markdown";
 import {HighchartsChartModule} from "highcharts-angular";
 import {environment} from '../environments/environment';
@@ -119,18 +118,6 @@ export function highchartsFactory() {
     // ProviderDashboardModule,
     HighchartsChartModule,
     CookieLawModule,
-    MatomoModule.forRoot({
-      scriptUrl: environment.MATOMO_URL + 'matomo.js',
-      trackers: [
-        {
-          trackerUrl: environment.MATOMO_URL + 'matomo.php',
-          siteId: environment.MATOMO_SITE
-        }
-      ],
-      routeTracking: {
-        enable: true
-      }
-    }),
     MarkdownModule.forRoot(),
     AppRoutingModule,
   ],
