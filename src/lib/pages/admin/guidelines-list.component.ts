@@ -3,7 +3,7 @@ import {ProviderBundle, InteroperabilityRecord, InteroperabilityRecordBundle, Lo
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 import {NavigationService} from '../../services/navigation.service';
 import {GuidelinesService} from "../../services/guidelines.service";
@@ -27,17 +27,17 @@ export class GuidelinesListComponent implements OnInit {
     query: '',
     active: '',
     suspended: '',
-    auditState: new FormArray([]),
-    catalogue_id: new FormArray([]),
-    provider_id: new FormArray([]),
+    auditState: new UntypedFormArray([]),
+    catalogue_id: new UntypedFormArray([]),
+    provider_id: new UntypedFormArray([]),
     status: ''
   };
 
-  dataForm: FormGroup;
+  dataForm: UntypedFormGroup;
 
   urlParams: URLParameter[] = [];
 
-  commentAuditControl = new FormControl();
+  commentAuditControl = new UntypedFormControl();
   showMainAuditForm = false;
   initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userFullName: '', userRole: '', type: '', comment: '', actionType: ''};
 
@@ -71,7 +71,7 @@ export class GuidelinesListComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private navigator: NavigationService,
-              private fb: FormBuilder,
+              private fb: UntypedFormBuilder,
               public pidHandler: pidHandler
   ) {
   }
@@ -89,21 +89,21 @@ export class GuidelinesListComponent implements OnInit {
           for (const i in params) {
             if (i === 'provider_id') {
               if (this.dataForm.get('provider_id').value.length === 0) {
-                const formArrayNew: FormArray = this.dataForm.get('provider_id') as FormArray;
+                const formArrayNew: UntypedFormArray = this.dataForm.get('provider_id') as UntypedFormArray;
                 // formArrayNew = this.fb.array([]);
                 for (const provider_id of params[i].split(',')) {
                   if (provider_id !== '') {
-                    formArrayNew.push(new FormControl(provider_id));
+                    formArrayNew.push(new UntypedFormControl(provider_id));
                   }
                 }
               }
             } else if (i === 'catalogue_id') {
               if (this.dataForm.get('catalogue_id').value.length === 0) {
-                const formArrayNew: FormArray = this.dataForm.get('catalogue_id') as FormArray;
+                const formArrayNew: UntypedFormArray = this.dataForm.get('catalogue_id') as UntypedFormArray;
                 // formArrayNew = this.fb.array([]);
                 for (const catalogue_id of params[i].split(',')) {
                   if (catalogue_id !== '') {
-                    formArrayNew.push(new FormControl(catalogue_id));
+                    formArrayNew.push(new UntypedFormControl(catalogue_id));
                   }
                 }
               }
@@ -166,14 +166,14 @@ export class GuidelinesListComponent implements OnInit {
   }
 
   onSelectionChange(event: any, formControlName: string) {
-    const formArray: FormArray = this.dataForm.get(formControlName) as FormArray;
+    const formArray: UntypedFormArray = this.dataForm.get(formControlName) as UntypedFormArray;
     if (event.target.checked) {
       // Add a new control in the arrayForm
-      formArray.push(new FormControl(event.target.value));
+      formArray.push(new UntypedFormControl(event.target.value));
     } else {
       // find the unselected element
       let i = 0;
-      formArray.controls.forEach((ctrl: FormControl) => {
+      formArray.controls.forEach((ctrl: UntypedFormControl) => {
         if (ctrl.value === event.target.value) {
           // Remove the unselected element from the arrayForm
           formArray.removeAt(i);
@@ -336,10 +336,10 @@ export class GuidelinesListComponent implements OnInit {
   }
 
   onSelection(e, category: string, value: string) {
-    const formArrayNew: FormArray = this.dataForm.get(category) as FormArray;
+    const formArrayNew: UntypedFormArray = this.dataForm.get(category) as UntypedFormArray;
     if (e.target.checked) {
       this.addParameterToURL(category, value);
-      formArrayNew.push(new FormControl(value));
+      formArrayNew.push(new UntypedFormControl(value));
     } else {
       let categoryIndex = 0;
       for (const urlParameter of this.urlParams) {

@@ -1,4 +1,4 @@
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
@@ -28,7 +28,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
   pendingService = false;
   editMode = false;
   hasChanges = false;
-  serviceForm: FormGroup;
+  serviceForm: UntypedFormGroup;
   provider: Provider;
   service: Service;
   monitoring: Monitoring;
@@ -37,7 +37,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
   successMessage: string = null;
   weights: string[] = [];
   tabs: boolean[] = [false];
-  fb: FormBuilder = this.injector.get(FormBuilder);
+  fb: UntypedFormBuilder = this.injector.get(UntypedFormBuilder);
   disable = false;
   isPortalAdmin = false;
 
@@ -85,7 +85,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
               protected route: ActivatedRoute
   ) {
     this.resourceService = this.injector.get(ResourceService);
-    this.fb = this.injector.get(FormBuilder);
+    this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
@@ -181,7 +181,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
 
   /** manage form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.serviceForm.get(field) as FormArray;
+    return this.serviceForm.get(field) as UntypedFormArray;
   }
 
   push(field: string, required: boolean, url?: boolean) {
@@ -206,7 +206,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
   /** <--manage form arrays **/
 
   /** MonitoringGroups -->**/
-  newMonitoringGroup(): FormGroup {
+  newMonitoringGroup(): UntypedFormGroup {
     return this.fb.group({
       serviceType: ['', Validators.required],
       endpoint: ['', Validators.required]
@@ -214,7 +214,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
   }
 
   get monitoringGroupsArray() {
-    return this.serviceForm.get('monitoringGroups') as FormArray;
+    return this.serviceForm.get('monitoringGroups') as UntypedFormArray;
   }
 
   pushMonitoringGroup() {
@@ -228,7 +228,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
   /** <--MonitoringGroups**/
 
   /** MetricsGroups -->**/
-  newMetricsGroup(): FormGroup {
+  newMetricsGroup(): UntypedFormGroup {
     return this.fb.group({
       probe: ['', URLValidator],
       metric: ['', URLValidator],
@@ -236,7 +236,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
   }
 
   get metricsGroupsArray() {
-    return this.serviceForm.get('metrics') as FormArray;
+    return this.serviceForm.get('metrics') as UntypedFormArray;
   }
 
   pushMetricsGroup() {

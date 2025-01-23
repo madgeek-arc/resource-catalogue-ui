@@ -1,4 +1,4 @@
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
@@ -35,7 +35,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   providerId: string;
   editMode = false;
   hasChanges = false;
-  serviceForm: FormGroup;
+  serviceForm: UntypedFormGroup;
   provider: Provider;
   service: Service;
   datasource: Datasource;
@@ -43,7 +43,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   successMessage: string = null;
   weights: string[] = [];
   tabs: boolean[] = [false];
-  fb: FormBuilder = this.injector.get(FormBuilder);
+  fb: UntypedFormBuilder = this.injector.get(UntypedFormBuilder);
   disable = false;
   isPortalAdmin = false;
 
@@ -173,7 +173,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
               protected route: ActivatedRoute
   ) {
     this.resourceService = this.injector.get(ResourceService);
-    this.fb = this.injector.get(FormBuilder);
+    this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
@@ -329,7 +329,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
 
   /** manage form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.serviceForm.get(field) as FormArray;
+    return this.serviceForm.get(field) as UntypedFormArray;
   }
 
   push(field: string, required: boolean, url?: boolean) {
@@ -354,7 +354,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   /** <--manage form arrays **/
 
   /** Licensing -->**/
-  newLicensing(): FormGroup {
+  newLicensing(): UntypedFormGroup {
     return this.fb.group({
       researchProductLicenseName: [''],
       researchProductLicenseURL: ['', Validators.compose([Validators.required, URLValidator])]
@@ -362,7 +362,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   }
 
   get licensingArray() {
-    return this.serviceForm.get('researchProductLicensings') as FormArray;
+    return this.serviceForm.get('researchProductLicensings') as UntypedFormArray;
   }
 
   pushLicensing() {
@@ -376,12 +376,12 @@ export class DatasourceSubprofileFormComponent implements OnInit {
 
   /** MetadataLicensing -->**/
   get metadataLicensingArray() {
-    return this.serviceForm.get('researchProductMetadataLicensing') as FormArray;
+    return this.serviceForm.get('researchProductMetadataLicensing') as UntypedFormArray;
   }
   /** <--MetadataLicensing**/
 
   /** Persistent Identity Systems--> **/
-  newPersistentIdentitySystem(): FormGroup {
+  newPersistentIdentitySystem(): UntypedFormGroup {
     return this.fb.group({
       persistentIdentityEntityType: [''],
       persistentIdentityEntityTypeSchemes: this.fb.array([''])
@@ -389,7 +389,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   }
 
   get persistentIdentitySystemArray() {
-    return this.serviceForm.get('persistentIdentitySystems') as FormArray;
+    return this.serviceForm.get('persistentIdentitySystems') as UntypedFormArray;
   }
 
   pushPersistentIdentitySystem() {
@@ -403,11 +403,11 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   pushPersistentIdentityEntityTypeScheme(i) {
     // const control = (<FormArray>this.serviceForm.controls['persistentIdentitySystems']).at(i).get('persistentIdentityEntityTypeSchemes') as FormArray;
     // control.push(this.fb.control(''));
-    (this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes') as FormArray).push(this.fb.control(''));
+    (this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes') as UntypedFormArray).push(this.fb.control(''));
   }
 
   removePersistentIdentityEntityTypeScheme(i:number, index: number) {
-    (this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes') as FormArray).removeAt(index);
+    (this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes') as UntypedFormArray).removeAt(index);
   }
   /** <--Persistent Identity Systems**/
 

@@ -1,4 +1,4 @@
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
@@ -30,14 +30,14 @@ export class ResourceFormToPdfComponent implements OnInit {
   providerId: string;
   editMode: boolean;
   hasChanges = false;
-  serviceForm: FormGroup;
+  serviceForm: UntypedFormGroup;
   service: Service;
   serviceID: string;
   errorMessage = '';
   successMessage: string = null;
   weights: string[] = [];
   tabs: boolean[] = [false, false, false, false, false, false, false, false, false, false, false, false];
-  fb: FormBuilder = this.injector.get(FormBuilder);
+  fb: UntypedFormBuilder = this.injector.get(UntypedFormBuilder);
   disable = false;
 
   requiredOnTab0 = 3;
@@ -252,7 +252,7 @@ export class ResourceFormToPdfComponent implements OnInit {
               protected route: ActivatedRoute
   ) {
     this.resourceService = this.injector.get(ResourceService);
-    this.fb = this.injector.get(FormBuilder);
+    this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
@@ -438,20 +438,20 @@ export class ResourceFormToPdfComponent implements OnInit {
     // console.log(ret);
   }
 
-  private setAsTouched_(form: FormGroup, ret: any) {
+  private setAsTouched_(form: UntypedFormGroup, ret: any) {
     Object.keys(form.controls).forEach(control => {
       const control_ = form.controls[control];
       // console.log(control, control_);
       if (!control_.valid) {
         ret[control] = {};
         if (control_.hasOwnProperty('controls')) {
-          this.setAsTouched_(control_ as FormGroup, ret[control]);
+          this.setAsTouched_(control_ as UntypedFormGroup, ret[control]);
         } else {
           if (control_.enabled && !control_.valid) {
             // console.log(control);
             ret[control] = control_.valid;
-            (control_ as FormGroup).markAsDirty();
-            (control_ as FormGroup).markAsTouched();
+            (control_ as UntypedFormGroup).markAsDirty();
+            (control_ as UntypedFormGroup).markAsTouched();
             // console.log(control, form.controls[control].valid);
           }
         }
@@ -591,7 +591,7 @@ export class ResourceFormToPdfComponent implements OnInit {
 
   /** manage form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.serviceForm.get(field) as FormArray;
+    return this.serviceForm.get(field) as UntypedFormArray;
   }
 
   push(field: string, required: boolean, url?: boolean) {
@@ -616,7 +616,7 @@ export class ResourceFormToPdfComponent implements OnInit {
 
   /** Categorization & Scientific Domain--> **/
 
-  newCategory(): FormGroup {
+  newCategory(): UntypedFormGroup {
     return this.fb.group({
       // supercategory: ['', Validators.required],
       category: ['', Validators.required],
@@ -625,7 +625,7 @@ export class ResourceFormToPdfComponent implements OnInit {
   }
 
   get categoryArray() {
-    return this.serviceForm.get('categories') as FormArray;
+    return this.serviceForm.get('categories') as UntypedFormArray;
   }
 
   pushCategory() {
@@ -643,7 +643,7 @@ export class ResourceFormToPdfComponent implements OnInit {
     this.categoryArray.controls[index].get('subcategory').enable();
   }
 
-  newScientificDomain(): FormGroup {
+  newScientificDomain(): UntypedFormGroup {
     return this.fb.group({
       scientificDomain: ['', Validators.required],
       scientificSubdomain: ['', Validators.required]
@@ -651,7 +651,7 @@ export class ResourceFormToPdfComponent implements OnInit {
   }
 
   get scientificDomainArray() {
-    return this.serviceForm.get('scientificDomains') as FormArray;
+    return this.serviceForm.get('scientificDomains') as UntypedFormArray;
   }
 
   pushScientificDomain() {
@@ -672,7 +672,7 @@ export class ResourceFormToPdfComponent implements OnInit {
 
   /** Service Contact Info -->**/
 
-  newContact(): FormGroup {
+  newContact(): UntypedFormGroup {
     return this.fb.group({
       firstName: [''],
       lastName: [''],
@@ -684,7 +684,7 @@ export class ResourceFormToPdfComponent implements OnInit {
   }
 
   get publicContactArray() {
-    return this.serviceForm.get('publicContacts') as FormArray;
+    return this.serviceForm.get('publicContacts') as UntypedFormArray;
   }
 
   pushPublicContact() {

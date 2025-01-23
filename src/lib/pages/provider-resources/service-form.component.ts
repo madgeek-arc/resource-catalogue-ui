@@ -1,4 +1,4 @@
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
@@ -40,7 +40,7 @@ export class ServiceFormComponent implements OnInit {
   displayedCatalogueName: string;
   editMode = false;
   hasChanges = false;
-  serviceForm: FormGroup;
+  serviceForm: UntypedFormGroup;
   provider: Provider;
   service: Service;
   serviceId: string = null;
@@ -48,7 +48,7 @@ export class ServiceFormComponent implements OnInit {
   successMessage: string = null;
   weights: string[] = [];
   tabs: boolean[] = [false, false, false, false, false, false, false, false, false, false, false, false];
-  fb: FormBuilder = this.injector.get(FormBuilder);
+  fb: UntypedFormBuilder = this.injector.get(UntypedFormBuilder);
   disable = false;
   isPortalAdmin = false;
 
@@ -87,7 +87,7 @@ export class ServiceFormComponent implements OnInit {
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
-  vocabularyEntryForm: FormGroup;
+  vocabularyEntryForm: UntypedFormGroup;
   vocSuggestionsForm = {
     fundingBodyVocabularyEntryValueName: '',
     fundingProgramVocabularyEntryValueName: '',
@@ -110,7 +110,7 @@ export class ServiceFormComponent implements OnInit {
     successMessage: ''
   };
 
-  commentControl = new FormControl();
+  commentControl = new UntypedFormControl();
 
   noSuggestionsCall: boolean;
   suggestedResponse: any;
@@ -329,7 +329,7 @@ export class ServiceFormComponent implements OnInit {
               public pidHandler: pidHandler
   ) {
     this.resourceService = this.injector.get(ResourceService);
-    this.fb = this.injector.get(FormBuilder);
+    this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
@@ -546,20 +546,20 @@ export class ServiceFormComponent implements OnInit {
     this.setAsTouched_(this.serviceForm, ret);
   }
 
-  private setAsTouched_(form: FormGroup, ret: any) {
+  private setAsTouched_(form: UntypedFormGroup, ret: any) {
     Object.keys(form.controls).forEach(control => {
       const control_ = form.controls[control];
       // console.log(control, control_);
       if (!control_.valid) {
         ret[control] = {};
         if (control_.hasOwnProperty('controls')) {
-          this.setAsTouched_(control_ as FormGroup, ret[control]);
+          this.setAsTouched_(control_ as UntypedFormGroup, ret[control]);
         } else {
           if (control_.enabled && !control_.valid) {
             // console.log(control);
             ret[control] = control_.valid;
-            (control_ as FormGroup).markAsDirty();
-            (control_ as FormGroup).markAsTouched();
+            (control_ as UntypedFormGroup).markAsDirty();
+            (control_ as UntypedFormGroup).markAsTouched();
             // console.log(control, form.controls[control].valid);
           }
         }
@@ -680,7 +680,7 @@ export class ServiceFormComponent implements OnInit {
 
   /** manage form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.serviceForm.get(field) as FormArray;
+    return this.serviceForm.get(field) as UntypedFormArray;
   }
 
   push(field: string, required: boolean, url?: boolean) {
@@ -706,7 +706,7 @@ export class ServiceFormComponent implements OnInit {
 
   /** Categorization & Scientific Domain--> **/
 
-  newCategory(): FormGroup {
+  newCategory(): UntypedFormGroup {
     return this.fb.group({
       // supercategory: ['', Validators.required],
       category: ['', Validators.required],
@@ -715,7 +715,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   get categoryArray() {
-    return this.serviceForm.get('categories') as FormArray;
+    return this.serviceForm.get('categories') as UntypedFormArray;
   }
 
   pushCategory() {
@@ -733,7 +733,7 @@ export class ServiceFormComponent implements OnInit {
     this.categoryArray.controls[index].get('subcategory').enable();
   }
 
-  newScientificDomain(): FormGroup {
+  newScientificDomain(): UntypedFormGroup {
     return this.fb.group({
       scientificDomain: ['', Validators.required],
       scientificSubdomain: ['', Validators.required]
@@ -741,7 +741,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   get scientificDomainArray() {
-    return this.serviceForm.get('scientificDomains') as FormArray;
+    return this.serviceForm.get('scientificDomains') as UntypedFormArray;
   }
 
   pushScientificDomain() {
@@ -761,7 +761,7 @@ export class ServiceFormComponent implements OnInit {
   /** <-- Categorization & Scientific Domain**/
 
   /** Multimedia -->**/
-  newMultimedia(): FormGroup {
+  newMultimedia(): UntypedFormGroup {
     return this.fb.group({
       multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
       multimediaName: ['']
@@ -769,7 +769,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   get multimediaArray() {
-    return this.serviceForm.get('multimedia') as FormArray;
+    return this.serviceForm.get('multimedia') as UntypedFormArray;
   }
 
   pushMultimedia() {
@@ -782,7 +782,7 @@ export class ServiceFormComponent implements OnInit {
   /** <--Multimedia**/
 
   /** Use Cases-->**/
-  newUseCase(): FormGroup {
+  newUseCase(): UntypedFormGroup {
     return this.fb.group({
       useCaseURL: ['', Validators.compose([Validators.required, URLValidator])],
       useCaseName: ['']
@@ -790,7 +790,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   get useCasesArray() {
-    return this.serviceForm.get('useCases') as FormArray;
+    return this.serviceForm.get('useCases') as UntypedFormArray;
   }
 
   pushUseCase() {
@@ -804,7 +804,7 @@ export class ServiceFormComponent implements OnInit {
   /** <--Use Cases**/
 
   /** Alternative Identifiers-->**/
-  newAlternativeIdentifier(): FormGroup {
+  newAlternativeIdentifier(): UntypedFormGroup {
     return this.fb.group({
       type: [''],
       value: ['']
@@ -812,7 +812,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   get alternativeIdentifiersArray() {
-    return this.serviceForm.get('alternativeIdentifiers') as FormArray;
+    return this.serviceForm.get('alternativeIdentifiers') as UntypedFormArray;
   }
 
   pushAlternativeIdentifier() {
@@ -826,7 +826,7 @@ export class ServiceFormComponent implements OnInit {
 
   /** Service Contact Info -->**/
 
-  newContact(): FormGroup {
+  newContact(): UntypedFormGroup {
     return this.fb.group({
       firstName: [''],
       lastName: [''],
@@ -838,7 +838,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   get publicContactArray() {
-    return this.serviceForm.get('publicContacts') as FormArray;
+    return this.serviceForm.get('publicContacts') as UntypedFormArray;
   }
 
   pushPublicContact() {
@@ -1420,7 +1420,7 @@ export class ServiceFormComponent implements OnInit {
       }
     }
     if (this.selectedSuggestionsForTags.length > 0) {
-      const tagsFormArray = this.serviceForm.get('tags') as FormArray;
+      const tagsFormArray = this.serviceForm.get('tags') as UntypedFormArray;
       if (tagsFormArray.at(0).value === '' && tagsFormArray.length === 1) tagsFormArray.clear();
       for (const tag of this.selectedSuggestionsForTags) {
         tagsFormArray.push(this.fb.control(tag)); // this.push('tags', false);

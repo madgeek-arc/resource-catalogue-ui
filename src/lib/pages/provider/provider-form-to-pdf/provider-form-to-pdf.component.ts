@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import * as dm from '../../../shared/description.map';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {ServiceProviderService} from '../../../services/service-provider.service';
@@ -31,7 +31,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   providerName = '';
   errorMessage = '';
   userInfo = {family_name: '', given_name: '', email: ''};
-  providerForm: FormGroup;
+  providerForm: UntypedFormGroup;
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   premiumSort = new PremiumSortPipe();
@@ -169,7 +169,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   // canvas_image_width: number;
   // canvas_image_height: number;
 
-  constructor(public fb: FormBuilder,
+  constructor(public fb: UntypedFormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
               public resourceService: ResourceService,
@@ -334,7 +334,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   /** check form fields and tabs validity--> **/
 
   /** Categorization --> **/
-  newScientificDomain(): FormGroup {
+  newScientificDomain(): UntypedFormGroup {
     return this.fb.group({
       scientificDomain: [''],
       scientificSubdomain: ['']
@@ -342,7 +342,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   }
 
   get domainArray() {
-    return this.providerForm.get('scientificDomains') as FormArray;
+    return this.providerForm.get('scientificDomains') as UntypedFormArray;
   }
 
   pushDomain() {
@@ -362,7 +362,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   /** <-- Categorization **/
 
   /** MERIL scientificDomains --> **/
-  newMerilScientificDomain(): FormGroup {
+  newMerilScientificDomain(): UntypedFormGroup {
     return this.fb.group({
       merilScientificDomain: [''],
       merilScientificSubdomain: ['']
@@ -370,7 +370,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   }
 
   get merilDomainArray() {
-    return this.providerForm.get('merilScientificDomains') as FormArray;
+    return this.providerForm.get('merilScientificDomains') as UntypedFormArray;
   }
 
   pushMerilDomain() {
@@ -391,7 +391,7 @@ export class ProviderFormToPdfComponent implements OnInit {
 
   /** handle form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.providerForm.get(field) as FormArray;
+    return this.providerForm.get(field) as UntypedFormArray;
   }
 
   remove(field: string, i: number) {
@@ -415,7 +415,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   /** <--handle form arrays**/
 
   /** Contact Info -->**/
-  newContact(): FormGroup {
+  newContact(): UntypedFormGroup {
     return this.fb.group({
       firstName: [''],
       lastName: [''],
@@ -426,7 +426,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   }
 
   get publicContactArray() {
-    return this.providerForm.get('publicContacts') as FormArray;
+    return this.providerForm.get('publicContacts') as UntypedFormArray;
   }
 
   pushPublicContact() {
@@ -440,7 +440,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   /** <--Contact Info **/
 
   /** User Array -->**/
-  user(): FormGroup {
+  user(): UntypedFormGroup {
     return this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.email])],
       id: [''],
@@ -450,7 +450,7 @@ export class ProviderFormToPdfComponent implements OnInit {
   }
 
   get usersArray() { // return form fields as array
-    return this.providerForm.get('users') as FormArray;
+    return this.providerForm.get('users') as UntypedFormArray;
   }
 
   addUser() {
