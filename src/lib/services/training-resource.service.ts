@@ -33,7 +33,7 @@ export class TrainingResourceService {
     const isArray = obj instanceof Array;
     for (const k in obj) {
       if (obj[k] === null || obj[k] === '') {
-        isArray ? obj.splice(k, 1) : delete obj[k];
+        isArray ? obj.splice(+k, 1) : delete obj[k];
       } else if (typeof obj[k] === 'object') {
         if (typeof obj[k].value !== 'undefined' && typeof obj[k].lang !== 'undefined') {
           if (obj[k].value === '' && obj[k].lang === 'en') {
