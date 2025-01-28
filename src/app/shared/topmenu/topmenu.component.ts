@@ -2,7 +2,7 @@ import {
   Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild, ViewEncapsulation
 } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../../lib/domain/url-parameter';
 import {AuthenticationService} from '../../../lib/services/authentication.service';
 import {NavigationService} from '../../../lib/services/navigation.service';
@@ -20,7 +20,7 @@ export class EOSCTopMenuComponent implements OnInit, OnDestroy {
 
   beta = environment.beta;
 
-  public searchForm: FormGroup;
+  public searchForm: UntypedFormGroup;
 
   urlParameters: URLParameter[] = [];
   //
@@ -31,7 +31,7 @@ export class EOSCTopMenuComponent implements OnInit, OnDestroy {
   supportOpen = false;
 
   constructor(public authenticationService: AuthenticationService, private renderer: Renderer2,
-              public router: Router, public fb: FormBuilder, public navigator: NavigationService,
+              public router: Router, public fb: UntypedFormBuilder, public navigator: NavigationService,
               private route: ActivatedRoute, public resourceService: ResourceService) {
     this.searchForm = fb.group({'query': ['']});
   }

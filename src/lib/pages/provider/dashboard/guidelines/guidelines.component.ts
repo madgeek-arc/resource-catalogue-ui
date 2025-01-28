@@ -3,7 +3,7 @@ import {InteroperabilityRecordBundle, ProviderBundle} from '../../../../domain/e
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Paging} from '../../../../domain/paging';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {GuidelinesService} from "../../../../services/guidelines.service";
 import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
@@ -28,7 +28,7 @@ export class GuidelinesComponent implements OnInit {
     status: ''
   };
 
-  dataForm: FormGroup;
+  dataForm: UntypedFormGroup;
 
   errorMessage = '';
   // toggleLoading = false;
@@ -49,7 +49,7 @@ export class GuidelinesComponent implements OnInit {
   pages: number[] = [];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,

@@ -1,4 +1,4 @@
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
@@ -24,7 +24,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
   providerId: string;
   editMode = false;
   hasChanges = false;
-  guidelinesForm: FormGroup;
+  guidelinesForm: UntypedFormGroup;
   service: Service;
   serviceId: string = null;
   resourceGuidelines: ResourceInteroperabilityRecord;
@@ -32,7 +32,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
   errorMessage = '';
   loadingMessage = '';
   successMessage: string = null;
-  fb: FormBuilder = this.injector.get(FormBuilder);
+  fb: UntypedFormBuilder = this.injector.get(UntypedFormBuilder);
   disable = false;
 
   formGroupMeta = {
@@ -50,7 +50,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
               protected guidelinesService: GuidelinesService,
               protected route: ActivatedRoute
   ) {
-    this.fb = this.injector.get(FormBuilder);
+    this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
     this.guidelinesForm = this.fb.group(this.formGroupMeta);
   }
@@ -131,7 +131,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
 
   /** manage form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.guidelinesForm.get(field) as FormArray;
+    return this.guidelinesForm.get(field) as UntypedFormArray;
   }
 
   push(field: string) {

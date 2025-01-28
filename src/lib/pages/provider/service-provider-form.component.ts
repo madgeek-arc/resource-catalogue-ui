@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import * as dm from '../../shared/description.map';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
@@ -33,7 +33,7 @@ export class ServiceProviderFormComponent implements OnInit {
   providerName = '';
   errorMessage = '';
   userInfo = {sub:'', family_name: '', given_name: '', email: ''};
-  providerForm: FormGroup;
+  providerForm: UntypedFormGroup;
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
@@ -76,7 +76,7 @@ export class ServiceProviderFormComponent implements OnInit {
   authorizedRepresentative = false;
   agreedToTerms: boolean;
 
-  vocabularyEntryForm: FormGroup;
+  vocabularyEntryForm: UntypedFormGroup;
   suggestionsForm = {
     domainsVocabularyEntryValueName: '',
     categoriesVocabularyEntryValueName: '',
@@ -95,7 +95,7 @@ export class ServiceProviderFormComponent implements OnInit {
     successMessage: ''
   };
 
-  commentControl = new FormControl();
+  commentControl = new UntypedFormControl();
 
   readonly fullNameDesc: dm.Description = dm.providerDescMap.get('fullNameDesc');
   readonly abbreviationDesc: dm.Description = dm.providerDescMap.get('abbreviationDesc');
@@ -226,7 +226,7 @@ export class ServiceProviderFormComponent implements OnInit {
     users: this.fb.array([this.user()])
   };
 
-  constructor(public fb: FormBuilder,
+  constructor(public fb: UntypedFormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
               public resourceService: ResourceService,
@@ -550,7 +550,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   /** Categorization --> **/
-  newScientificDomain(): FormGroup {
+  newScientificDomain(): UntypedFormGroup {
     return this.fb.group({
       scientificDomain: [''],
       scientificSubdomain: ['']
@@ -558,7 +558,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   get domainArray() {
-    return this.providerForm.get('scientificDomains') as FormArray;
+    return this.providerForm.get('scientificDomains') as UntypedFormArray;
   }
 
   pushDomain() {
@@ -578,7 +578,7 @@ export class ServiceProviderFormComponent implements OnInit {
   /** <-- Categorization **/
 
   /** MERIL scientificDomains --> **/
-  newMerilScientificDomain(): FormGroup {
+  newMerilScientificDomain(): UntypedFormGroup {
     return this.fb.group({
       merilScientificDomain: [''],
       merilScientificSubdomain: ['']
@@ -586,7 +586,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   get merilDomainArray() {
-    return this.providerForm.get('merilScientificDomains') as FormArray;
+    return this.providerForm.get('merilScientificDomains') as UntypedFormArray;
   }
 
   pushMerilDomain() {
@@ -607,7 +607,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
   /** handle form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.providerForm.get(field) as FormArray;
+    return this.providerForm.get(field) as UntypedFormArray;
   }
 
   remove(field: string, i: number) {
@@ -631,7 +631,7 @@ export class ServiceProviderFormComponent implements OnInit {
   /** <--handle form arrays**/
 
   /** Multimedia -->**/
-  newMultimedia(): FormGroup {
+  newMultimedia(): UntypedFormGroup {
     return this.fb.group({
       multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
       multimediaName: ['']
@@ -639,7 +639,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   get multimediaArray() {
-    return this.providerForm.get('multimedia') as FormArray;
+    return this.providerForm.get('multimedia') as UntypedFormArray;
   }
 
   pushMultimedia() {
@@ -653,7 +653,7 @@ export class ServiceProviderFormComponent implements OnInit {
   /** <--Multimedia**/
 
   /** Alternative Identifiers-->**/
-  newAlternativeIdentifier(): FormGroup {
+  newAlternativeIdentifier(): UntypedFormGroup {
     return this.fb.group({
       type: [''],
       value: ['']
@@ -661,7 +661,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   get alternativeIdentifiersArray() {
-    return this.providerForm.get('alternativeIdentifiers') as FormArray;
+    return this.providerForm.get('alternativeIdentifiers') as UntypedFormArray;
   }
 
   pushAlternativeIdentifier() {
@@ -674,7 +674,7 @@ export class ServiceProviderFormComponent implements OnInit {
   /** <--Alternative Identifiers**/
 
   /** Contact Info -->**/
-  newContact(): FormGroup {
+  newContact(): UntypedFormGroup {
     return this.fb.group({
       firstName: [''],
       lastName: [''],
@@ -685,7 +685,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   get publicContactArray() {
-    return this.providerForm.get('publicContacts') as FormArray;
+    return this.providerForm.get('publicContacts') as UntypedFormArray;
   }
 
   pushPublicContact() {
@@ -699,7 +699,7 @@ export class ServiceProviderFormComponent implements OnInit {
   /** <--Contact Info **/
 
   /** User Array -->**/
-  user(): FormGroup {
+  user(): UntypedFormGroup {
     return this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.email])],
       id: [''],
@@ -709,7 +709,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   get usersArray() { // return form fields as array
-    return this.providerForm.get('users') as FormArray;
+    return this.providerForm.get('users') as UntypedFormArray;
   }
 
   addUser() {

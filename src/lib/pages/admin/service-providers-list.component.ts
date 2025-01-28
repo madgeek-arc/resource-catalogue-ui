@@ -7,7 +7,7 @@ import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 import {Paging} from '../../domain/paging';
 import {getLocaleDateFormat} from '@angular/common';
@@ -34,17 +34,17 @@ export class ServiceProvidersListComponent implements OnInit {
     from: '0',
     active: '',
     suspended: '',
-    status: new FormArray([]),
-    templateStatus: new FormArray([]),
-    auditState: new FormArray([]),
-    catalogue_id: new FormArray([])
+    status: new UntypedFormArray([]),
+    templateStatus: new UntypedFormArray([]),
+    auditState: new UntypedFormArray([]),
+    catalogue_id: new UntypedFormArray([])
   };
 
-  dataForm: FormGroup;
+  dataForm: UntypedFormGroup;
 
   urlParams: URLParameter[] = [];
 
-  commentControl = new FormControl();
+  commentControl = new UntypedFormControl();
   // auditingProviderId: string;
   showSideAuditForm = false;
   showMainAuditForm = false;
@@ -118,7 +118,7 @@ export class ServiceProvidersListComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               private router: Router,
-              private fb: FormBuilder,
+              private fb: UntypedFormBuilder,
               public pidHandler: pidHandler
   ) {
   }
@@ -140,44 +140,44 @@ export class ServiceProvidersListComponent implements OnInit {
             for (const i in params) {
               if (i === 'status') {
                 if (this.dataForm.get('status').value.length === 0) {
-                  const formArrayNew: FormArray = this.dataForm.get('status') as FormArray;
+                  const formArrayNew: UntypedFormArray = this.dataForm.get('status') as UntypedFormArray;
                   // formArrayNew = this.fb.array([]);
                   for (const status of params[i].split(',')) {
                     if (status !== '') {
-                      formArrayNew.push(new FormControl(status));
+                      formArrayNew.push(new UntypedFormControl(status));
                     }
                   }
                 }
                 foundStatus = true;
               } else if (i === 'templateStatus') {
                 if (this.dataForm.get('templateStatus').value.length === 0) {
-                  const formArrayNew: FormArray = this.dataForm.get('templateStatus') as FormArray;
+                  const formArrayNew: UntypedFormArray = this.dataForm.get('templateStatus') as UntypedFormArray;
                   // formArrayNew = this.fb.array([]);
                   for (const templateStatus of params[i].split(',')) {
                     if (templateStatus !== '') {
-                      formArrayNew.push(new FormControl(templateStatus));
+                      formArrayNew.push(new UntypedFormControl(templateStatus));
                     }
                   }
                 }
                 foundTemplateStatus = true;
               } else if (i === 'auditState') {
                 if (this.dataForm.get('auditState').value.length === 0) {
-                  const formArrayNew: FormArray = this.dataForm.get('auditState') as FormArray;
+                  const formArrayNew: UntypedFormArray = this.dataForm.get('auditState') as UntypedFormArray;
                   // formArrayNew = this.fb.array([]);
                   for (const auditState of params[i].split(',')) {
                     if (auditState !== '') {
-                      formArrayNew.push(new FormControl(auditState));
+                      formArrayNew.push(new UntypedFormControl(auditState));
                     }
                   }
                 }
                 foundState = true;
               } else if (i === 'catalogue_id') {
                 if (this.dataForm.get('catalogue_id').value.length === 0) {
-                  const formArrayNew: FormArray = this.dataForm.get('catalogue_id') as FormArray;
+                  const formArrayNew: UntypedFormArray = this.dataForm.get('catalogue_id') as UntypedFormArray;
                   // formArrayNew = this.fb.array([]);
                   for (const catalogue_id of params[i].split(',')) {
                     if (catalogue_id !== '') {
-                      formArrayNew.push(new FormControl(catalogue_id));
+                      formArrayNew.push(new UntypedFormControl(catalogue_id));
                     }
                   }
                 }
@@ -188,15 +188,15 @@ export class ServiceProvidersListComponent implements OnInit {
 
             // if no status in URL, check all statuses by default
             if (!foundStatus) {
-              const formArray: FormArray = this.dataForm.get('status') as FormArray;
+              const formArray: UntypedFormArray = this.dataForm.get('status') as UntypedFormArray;
               this.statuses.forEach(status => {
-                formArray.push(new FormControl(status));
+                formArray.push(new UntypedFormControl(status));
               });
             }
             if (!foundTemplateStatus) {
-              const formArray: FormArray = this.dataForm.get('templateStatus') as FormArray;
+              const formArray: UntypedFormArray = this.dataForm.get('templateStatus') as UntypedFormArray;
               this.templateStatuses.forEach(templateStatus => {
-                formArray.push(new FormControl(templateStatus));
+                formArray.push(new UntypedFormControl(templateStatus));
               });
             }
 
@@ -248,15 +248,15 @@ export class ServiceProvidersListComponent implements OnInit {
 
   onSelectionChange(event: any, formControlName: string) {
 
-    const formArray: FormArray = this.dataForm.get(formControlName) as FormArray;
+    const formArray: UntypedFormArray = this.dataForm.get(formControlName) as UntypedFormArray;
 
     if (event.target.checked) {
       // Add a new control in the arrayForm
-      formArray.push(new FormControl(event.target.value));
+      formArray.push(new UntypedFormControl(event.target.value));
     } else {
       // find the unselected element
       let i = 0;
-      formArray.controls.forEach((ctrl: FormControl) => {
+      formArray.controls.forEach((ctrl: UntypedFormControl) => {
         if (ctrl.value === event.target.value) {
           // Remove the unselected element from the arrayForm
           formArray.removeAt(i);
@@ -403,10 +403,10 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   onSelection(e, category: string, value: string) {
-    const formArrayNew: FormArray = this.dataForm.get(category) as FormArray;
+    const formArrayNew: UntypedFormArray = this.dataForm.get(category) as UntypedFormArray;
     if (e.target.checked) {
       this.addParameterToURL(category, value);
-      formArrayNew.push(new FormControl(value));
+      formArrayNew.push(new UntypedFormControl(value));
     } else {
       let categoryIndex = 0;
       for (const urlParameter of this.urlParams) {
@@ -798,11 +798,11 @@ export class ServiceProvidersListComponent implements OnInit {
 
   checkAll(check: boolean, name: string) {
     if (name === 'statuses') {
-      const formArray: FormArray = this.dataForm.get('status') as FormArray;
+      const formArray: UntypedFormArray = this.dataForm.get('status') as UntypedFormArray;
       if (check) {
         formArray.controls.length = 0;
         for (let i = 0; i < this.statuses.length; i++) {
-          formArray.push(new FormControl(this.statuses[i]));
+          formArray.push(new UntypedFormControl(this.statuses[i]));
         }
       } else {
         while (formArray.controls.length > 0 ) {
@@ -810,11 +810,11 @@ export class ServiceProvidersListComponent implements OnInit {
         }
       }
     } else if (name === 'templateStatuses') {
-      const formArray: FormArray = this.dataForm.get('templateStatus') as FormArray;
+      const formArray: UntypedFormArray = this.dataForm.get('templateStatus') as UntypedFormArray;
       if (check) {
         formArray.controls.length = 0;
         for (let i = 0; i < this.templateStatuses.length; i++) {
-          formArray.push(new FormControl(this.templateStatuses[i]));
+          formArray.push(new UntypedFormControl(this.templateStatuses[i]));
         }
       } else {
         while (formArray.controls.length > 0 ) {

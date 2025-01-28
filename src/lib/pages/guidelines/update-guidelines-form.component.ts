@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {InteroperabilityRecord, Type} from '../../domain/eic-model';
-import {FormBuilder} from '@angular/forms';
+import {UntypedFormBuilder} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GuidelinesFormComponent} from "./guidelines-form.component";
 import {AuthenticationService} from "../../services/authentication.service";
@@ -19,7 +19,7 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
   guideline: InteroperabilityRecord;
   guidelineId: string;
 
-  constructor(public fb: FormBuilder,
+  constructor(public fb: UntypedFormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
               public guidelinesService: GuidelinesService,

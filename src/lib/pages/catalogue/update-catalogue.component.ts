@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Catalogue, Provider, Type} from '../../domain/eic-model';
 import {ServiceProviderFormComponent} from '../provider/service-provider-form.component';
 import {ResourceService} from '../../services/resource.service';
-import {FormBuilder} from '@angular/forms';
+import {UntypedFormBuilder} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -20,7 +20,7 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
   errorMessage: string;
   catalogue: Catalogue;
 
-  constructor(public fb: FormBuilder,
+  constructor(public fb: UntypedFormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
               public catalogueService: CatalogueService,

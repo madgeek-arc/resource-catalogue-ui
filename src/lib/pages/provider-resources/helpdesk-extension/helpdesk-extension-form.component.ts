@@ -1,4 +1,4 @@
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
@@ -28,7 +28,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   pendingService = false;
   editMode = false;
   hasChanges = false;
-  serviceForm: FormGroup;
+  serviceForm: UntypedFormGroup;
   provider: Provider;
   service: Service;
   helpdesk: Helpdesk;
@@ -36,7 +36,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   successMessage: string = null;
   weights: string[] = [];
   tabs: boolean[] = [false];
-  fb: FormBuilder = this.injector.get(FormBuilder);
+  fb: UntypedFormBuilder = this.injector.get(UntypedFormBuilder);
   disable = false;
   isPortalAdmin = false;
 
@@ -86,7 +86,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
               protected route: ActivatedRoute
   ) {
     this.resourceService = this.injector.get(ResourceService);
-    this.fb = this.injector.get(FormBuilder);
+    this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
@@ -199,7 +199,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
 
   /** manage form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.serviceForm.get(field) as FormArray;
+    return this.serviceForm.get(field) as UntypedFormArray;
   }
 
   push(field: string, required: boolean, url?: boolean) {

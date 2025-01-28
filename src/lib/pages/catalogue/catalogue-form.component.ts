@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import * as dm from '../../shared/description.map';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
@@ -30,7 +30,7 @@ export class CatalogueFormComponent implements OnInit {
   catalogueName = '';
   errorMessage = '';
   userInfo = {sub:'', family_name: '', given_name: '', email: ''};
-  catalogueForm: FormGroup;
+  catalogueForm: UntypedFormGroup;
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
@@ -74,7 +74,7 @@ export class CatalogueFormComponent implements OnInit {
   onboardingAgreement = false;
   agreedToTerms: boolean;
 
-  vocabularyEntryForm: FormGroup;
+  vocabularyEntryForm: UntypedFormGroup;
   suggestionsForm = {
     domainsVocabularyEntryValueName: '',
     categoriesVocabularyEntryValueName: '',
@@ -86,7 +86,7 @@ export class CatalogueFormComponent implements OnInit {
     successMessage: ''
   };
 
-  commentControl = new FormControl();
+  commentControl = new UntypedFormControl();
 
   readonly fullNameDesc: dm.Description = dm.catalogueDescMap.get('fullNameDesc');
   readonly abbreviationDesc: dm.Description = dm.catalogueDescMap.get('abbreviationDesc');
@@ -187,7 +187,7 @@ export class CatalogueFormComponent implements OnInit {
     users: this.fb.array([this.user()])
   };
 
-  constructor(public fb: FormBuilder,
+  constructor(public fb: UntypedFormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
               public catalogueService: CatalogueService,
@@ -473,7 +473,7 @@ export class CatalogueFormComponent implements OnInit {
   }
 
   /** Categorization --> **/
-  newScientificDomain(): FormGroup {
+  newScientificDomain(): UntypedFormGroup {
     return this.fb.group({
       scientificDomain: [''],
       scientificSubdomain: ['']
@@ -481,7 +481,7 @@ export class CatalogueFormComponent implements OnInit {
   }
 
   get domainArray() {
-    return this.catalogueForm.get('scientificDomains') as FormArray;
+    return this.catalogueForm.get('scientificDomains') as UntypedFormArray;
   }
 
   pushDomain() {
@@ -502,7 +502,7 @@ export class CatalogueFormComponent implements OnInit {
 
   /** handle form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.catalogueForm.get(field) as FormArray;
+    return this.catalogueForm.get(field) as UntypedFormArray;
   }
 
   remove(field: string, i: number) {
@@ -526,7 +526,7 @@ export class CatalogueFormComponent implements OnInit {
   /** <--handle form arrays**/
 
   /** Multimedia -->**/
-  newMultimedia(): FormGroup {
+  newMultimedia(): UntypedFormGroup {
     return this.fb.group({
       multimediaURL: ['', Validators.compose([Validators.required, URLValidator])],
       multimediaName: ['']
@@ -534,7 +534,7 @@ export class CatalogueFormComponent implements OnInit {
   }
 
   get multimediaArray() {
-    return this.catalogueForm.get('multimedia') as FormArray;
+    return this.catalogueForm.get('multimedia') as UntypedFormArray;
   }
 
   pushMultimedia() {
@@ -548,7 +548,7 @@ export class CatalogueFormComponent implements OnInit {
   /** <--Multimedia**/
 
   /** Contact Info -->**/
-  newContact(): FormGroup {
+  newContact(): UntypedFormGroup {
     return this.fb.group({
       firstName: [''],
       lastName: [''],
@@ -559,7 +559,7 @@ export class CatalogueFormComponent implements OnInit {
   }
 
   get publicContactArray() {
-    return this.catalogueForm.get('publicContacts') as FormArray;
+    return this.catalogueForm.get('publicContacts') as UntypedFormArray;
   }
 
   pushPublicContact() {
@@ -573,7 +573,7 @@ export class CatalogueFormComponent implements OnInit {
   /** <--Contact Info **/
 
   /** User Array -->**/
-  user(): FormGroup {
+  user(): UntypedFormGroup {
     return this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.email])],
       id: [''],
@@ -583,7 +583,7 @@ export class CatalogueFormComponent implements OnInit {
   }
 
   get usersArray() { // return form fields as array
-    return this.catalogueForm.get('users') as FormArray;
+    return this.catalogueForm.get('users') as UntypedFormArray;
   }
 
   addUser() {
