@@ -24,8 +24,7 @@ import {LMarkdownEditorModule} from 'ngx-markdown-editor';
     CatalogueRouting,
     ReusableComponentsModule,
     HighchartsChartModule,
-    NgSelectModule,
-
+    NgSelectModule
   ],
   declarations: [
     // MyServiceProvidersComponent,

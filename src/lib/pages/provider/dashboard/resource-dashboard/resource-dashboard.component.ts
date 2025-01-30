@@ -46,10 +46,10 @@ export class ResourceDashboardComponent implements OnInit {
     this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.resourceId = this.route.snapshot.paramMap.get('resourceId');
-    console.log(this.providerId)
+    // console.log(this.providerId);
     this.providerPID = decodeURIComponent(this.providerId);
     this.resourcePID = decodeURIComponent(this.resourceId);
-    console.log(this.providerPID)
+    // console.log(this.providerPID);
     this.resourceService.getServiceBundleById(this.resourceId, this.catalogueId).subscribe(
       res => { if (res!=null) this.resourceBundle = res },
       error => {},
