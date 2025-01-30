@@ -21,5 +21,6 @@ export const environment = {
   INSIGHTS_ENDPOINT: 'provider_insights_api/v1/statistics/rs',
   AUTOCOMPLETION_ENDPOINT: 'v1/auto_completion',
   showHelpContent: false,
-  MONITORING_URL: './comingSoon'
+  MONITORING_URL: './comingSoon',
+  WS_ENDPOINT: ''
 };

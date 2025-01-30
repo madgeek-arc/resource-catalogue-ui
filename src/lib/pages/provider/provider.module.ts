@@ -29,6 +29,7 @@ import {AddFirstTrainingResourceComponent} from "../training-resources/add-first
 import {DatasourcesListComponent} from "../admin/datasources-list.component";
 import {SelectSubprofileComponent} from "../provider-resources/service-subprofiles/select-subprofile.component";
 import {DatasourceMetricsComponent} from "../provider-resources/service-subprofiles/datasource-metrics.component";
+import {CatalogueUiModule} from "../../../dynamic-catalogue/catalogue-ui.module";
 
 
 @NgModule({
@@ -42,7 +43,7 @@ import {DatasourceMetricsComponent} from "../provider-resources/service-subprofi
     ReusableComponentsModule,
     HighchartsChartModule,
     NgSelectModule,
-
+    CatalogueUiModule
   ],
   declarations: [
     MyServiceProvidersComponent,
