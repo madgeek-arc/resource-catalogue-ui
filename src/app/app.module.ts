@@ -34,7 +34,6 @@ import {ServiceEditComponent} from '../lib/pages/provider-resources/service-edit
 import {AuthenticationInterceptor} from '../lib/services/authentication-interceptor';
 import {CookieLawModule} from '../lib/shared/reusablecomponents/cookie-law/cookie-law.module';
 import {EmailService} from '../lib/services/email.service';
-import {TreeviewModule} from 'ngx-treeview';
 import {EOSCFooterComponent} from './shared/footer/footer.component';
 import {EOSCTopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
@@ -111,7 +110,6 @@ export function highchartsFactory() {
     ReactiveFormsModule,
     ReusableComponentsModule,
     SharedModule,
-    TreeviewModule.forRoot(),
     // StarRatingModule.forRoot(),
     SupportModule,
     // ProviderModule,
