@@ -43,12 +43,12 @@ export class TrainingResourceDashboardComponent implements OnInit {
       res => { if (res!=null) this.trainingResourceBundle = res },
       error => {},
       () => {
-        // this.serviceExtensionsService.getMonitoringByServiceId(this.trainingResourceId).subscribe(
-        //   res => { if (res!=null) this.monitoringId = res.id }
-        // );
-        // this.serviceExtensionsService.getHelpdeskByServiceId(this.trainingResourceId).subscribe(
-        //   res => { if (res!=null) this.helpdeskId = res.id }
-        // );
+        this.serviceExtensionsService.getMonitoringByServiceId(this.trainingResourceId).subscribe(
+          res => { if (res!=null) this.monitoringId = res.id }
+        );
+        this.serviceExtensionsService.getHelpdeskByServiceId(this.trainingResourceId).subscribe(
+          res => { if (res!=null) this.helpdeskId = res.id }
+        );
       }
     );
   }

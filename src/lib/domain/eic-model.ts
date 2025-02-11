@@ -160,7 +160,7 @@ export class Monitoring {
   id: string;
   serviceId: string; //should change to generic resourceId
   monitoredBy: string;
-  monitoringGroups: MonitoringGroups[];
+  monitoringGroups: MonitoringGroup[];
 }
 
 export class Helpdesk {
@@ -567,15 +567,15 @@ export class MapValues {
   values: Value[];
 }
 
-export class Metrics {
-  probe: string[];
-  metric: string[];
+export class Metric {
+  probe: URL;
+  metric: URL;
 }
 
-export class MonitoringGroups {
+export class MonitoringGroup {
   serviceType: string;
   endpoint: string;
-  // metrics: Metrics[];
+  metrics: Metric[]; //hidden and unused
 }
 
 export class Multimedia {

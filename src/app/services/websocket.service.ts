@@ -21,7 +21,9 @@ interface Action {
   index?: number;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'  // Ensures the service is available globally
+})
 export class WebsocketService {
   private surveyAnswerId: string | null = null;
   private type: string | null = null;
