@@ -1,0 +1,44 @@
+<div>
+  <ul uk-tab="connect: #chapter-tabs; animation: uk-animation-fade" class="uk-grid">
+    <li *ngFor="let chapter of chapterModel; let i=index" class="uk-width-1-1">
+      <div class="uk-flex uk-flex-middle uk-width-1-1">
+        <div class="uk-width-3-5">
+          <span (click)="emitSelection('chapter')">{{(i + 1) + ' ' + (chapter.name !== '' ? chapter.name : 'Untitled chapter')}}</span>
+        </div>
+        <div class="uk-width-1-5">
+          <a class="" (click)="deleteChapter(i)">
+            <span class="material-icons">delete</span>
+          </a>
+        </div>
+      </div>
+<!--      <ul [attr.uk-tab]="'connect: #section-tabs-'+chapter.chapter.id">-->
+      <ul uk-tab="connect: #section-tabs; animation: uk-animation-fade">
+        <li *ngFor="let section of chapter.subSections; let j=index" class="uk-margin-small uk-margin-small-left uk-width-1-1">
+          <span (click)="emitSelection('section')">
+            {{(i+1) + '.' + (j+1) + ' ' + (section.name !== '' ? section.name : 'Untitled section')}}
+          </span>
+          <div *ngFor="let field of section.fields; let k=index" class="uk-margin-small">
+            <span class="uk-margin-small-left">
+              {{(i+1) + '.' + (j+1) + '.' + (k+1) + ' ' + (field.label.text !== '' ? field.label.text : 'Untitled question')}}
+            </span>
+          </div>
+          <div class="uk-margin-small">
+            <a class="uk-flex uk-flex-middle" (click)="addField(i, j)">
+              <span class="material-icons">add</span> Question
+            </a>
+          </div>
+        </li>
+      </ul>
+
+      <div class="uk-margin-small">
+        <a class="uk-flex uk-flex-middle" (click)="addSection(i)">
+          <span class="material-icons">add</span> Section
+        </a>
+      </div>
+
+    </li>
+  </ul>
+  <a class="uk-flex uk-flex-middle uk-margin-small" (click)="pushChapter()">
+    <span class="material-icons">add</span> {{chapterModel.length === 0 ? 'Create the first chapter': 'Chapter'}}
+  </a>
+</div>

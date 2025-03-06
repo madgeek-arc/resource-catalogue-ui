@@ -1,0 +1,17 @@
+<div class="uk-margin uk-card uk-card-body uk-card-default uk-margin-medium-bottom">
+  <div class="uk-margin">
+    <label for="chapterName" class="uk-form-label uk-margin-small-bottom">Chapter Name*</label>
+    <div class="uk-form-controls">
+      <input id="chapterName" class="uk-input" [(ngModel)]="chapter.name" placeholder="Untitled Chapter">
+    </div>
+  </div>
+  <div class="uk-margin">
+    <label for="chapterDescription" class="uk-form-label uk-margin-small-bottom">Description*</label>
+    <div class="uk-form-controls">
+      <ckeditor id="chapterDescription" [editor]="editor"
+                [(ngModel)]="chapter.description"
+                [config]="{placeholder: 'Give a short description for the chapter'}">
+      </ckeditor>
+    </div>
+  </div>
+</div>

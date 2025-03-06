@@ -1,0 +1,23 @@
+<form [formGroup]="form" class="uk-margin-small-bottom {{fieldData.form.display.cssClasses}}" [ngClass]="{'uk-hidden clear-style': hideField}">
+  <table [formGroupName]="fieldData.name" class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+    <thead>
+    <tr>
+      <th>{{fieldData.label.text}}</th>
+      <th *ngFor="let value of fieldData.typeInfo.values" class="">{{value}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let row of fieldData.subFields">
+      <td class="">
+        {{row.label.text}}<br>
+        {{row.form.description.text}}
+      </td>
+      <td *ngFor="let value of fieldData.typeInfo.values" class="uk-text-center">
+        <input class="uk-radio uk-margin-small-right" type="radio"
+               [formControlName]="row.name" [name]="row.name" [value]="value">
+      </td>
+    </tr>
+    </tbody>
+  </table>
+<!--  <pre>{{form.getRawValue() | json}}</pre>-->
+</form>

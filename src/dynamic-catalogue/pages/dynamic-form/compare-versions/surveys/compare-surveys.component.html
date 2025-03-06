@@ -1,0 +1,29 @@
+
+<!--Chapter Selection-->
+<div *ngIf="ready && model" [ngClass]="{'uk-display-none': (model.sections.length === 1 || !model.sections[0].subSections)}">
+  <ul class="chapter-tabs uk-tab" uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade">
+    <li class="" *ngFor="let section of model.sections">
+      <a *ngIf="(!section.subType || section.subType===subType)">{{section.name}}
+<!--        <span *ngIf="chapterChangeMap.get(section.id)" class="material-icons md-10 uk-margin-small-left">circle</span>-->
+      </a>
+    </li>
+  </ul>
+</div>
+
+<div class="titleAndActionsBar uk-flex uk-flex-right" style="min-height: 40px"></div>
+
+<div *ngIf="ready && model; else showLoader">
+  <ul id="top-navigation-tabs" class="uk-switcher">
+    <li *ngFor="let section of model.sections let i = index">
+      <app-chapter-compare [formA]="getFormGroup(formA, i)" [formB]="getFormGroup(formB, i)" [tabsHeader]="tabsHeader"
+                           [entryA]="entryA" [entryB]="entryB" [fields]="model.sections[i].subSections"
+                           [chapter]="model.sections[i]" [vocabularies]="vocabulariesMap"
+                           [subVocabularies]="subVocabularies">
+      </app-chapter-compare>
+    </li>
+  </ul>
+</div>
+
+<ng-template #showLoader class="whiteFilm" style="min-height: 100vh">
+  <i class="loader-big" aria-hidden="true"></i>
+</ng-template>

@@ -1,0 +1,31 @@
+<div [ngSwitch]="typeInfo.type" class="uk-margin-small">
+  <!-- the same view can be shown in more than one case -->
+  <div *ngSwitchCase="'string'">This is a small text</div>
+  <div *ngSwitchCase="'largeText'">This is a big text</div>
+  <div *ngSwitchCase="'radio'">
+    <div *ngFor="let value of typeInfo.values; let i = index; trackBy: trackBy">
+      <div class="uk-flex uk-flex-middle uk-margin-small">
+        <span class="material-icons uk-margin-small-right">radio_button_unchecked</span>
+        <input class="uk-input uk-width-9-10" [(ngModel)]="typeInfo.values[i]">
+        <a><span (click)="remove(i)" class="material-icons">close</span></a>
+      </div>
+    </div>
+    <div class="uk-flex uk-flex-middle">
+      <span class="material-icons uk-margin-small-right">radio_button_unchecked</span>
+      <a (click)="addOption()">Add Option</a>
+    </div>
+  </div>
+  <div *ngSwitchCase="'select'">
+    <div *ngFor="let value of typeInfo.values; let i = index; trackBy: trackBy">
+      <div class="uk-flex uk-flex-middle uk-margin-small">
+        <span class="uk-margin-small-right">{{i + 1 + '.'}}</span>
+        <input class="uk-input uk-width-9-10" [(ngModel)]="typeInfo.values[i]">
+        <a><span (click)="remove(i)" class="material-icons">close</span></a>
+      </div>
+    </div>
+    <div class="uk-flex uk-flex-middle">
+      <span class="uk-margin-small-right">{{typeInfo.values.length + 1 + '.'}}</span>
+      <a (click)="addOption()">Add Option</a>
+    </div>
+  </div>
+</div>
