@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import * as dm from '../../shared/description.map';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -14,6 +14,7 @@ import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {NavigationService} from "../../services/navigation.service";
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
+import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
 
 declare var UIkit: any;
 
@@ -24,7 +25,7 @@ declare var UIkit: any;
   providers: [FormControlService]
 })
 export class ServiceProviderFormComponent implements OnInit {
-
+  @ViewChild(SurveyComponent) child: SurveyComponent
   model: Model = null;
   vocabulariesMap: Map<string, object[]> = null;
   subVocabulariesMap: Map<string, object[]> = null
@@ -248,7 +249,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
   ngOnInit() {
 
-    this.formService.getFormModelById('m-b-provider').subscribe(
+    this.serviceProviderService.getFormModelById('m-b-provider').subscribe(
       res => this.model = res,
       err => console.log(err)
     )

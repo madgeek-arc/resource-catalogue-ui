@@ -1,5 +1,5 @@
 import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {Component, Injector, OnInit} from '@angular/core';
+import {Component, Injector, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
@@ -12,6 +12,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
 import {Model} from "../../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../../dynamic-catalogue/services/form-control.service";
+import {SurveyComponent} from "../../../../dynamic-catalogue/pages/dynamic-form/survey.component";
 
 @Component({
   selector: 'app-resource-monitoring-extension-form',
@@ -20,7 +21,7 @@ import {FormControlService} from "../../../../dynamic-catalogue/services/form-co
   providers: [FormControlService]
 })
 export class MonitoringExtensionFormComponent implements OnInit {
-
+  @ViewChild(SurveyComponent) child: SurveyComponent
   model: Model = null;
   vocabulariesMap: Map<string, object[]> = null;
   // vocabulariesMap: { [name: string]: { id: string, name: string }[]; } = {}
@@ -95,7 +96,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
 
     this.setServiceTypes();
 
-    this.formService.getFormModelById('m-b-monitoring').subscribe(
+    this.serviceProviderService.getFormModelById('m-b-monitoring').subscribe(
       res => this.model = res,
       err => console.log(err)
     )
