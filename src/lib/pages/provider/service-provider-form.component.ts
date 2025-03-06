@@ -12,15 +12,23 @@ import {environment} from '../../../environments/environment';
 import {CatalogueService} from "../../services/catalogue.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {NavigationService} from "../../services/navigation.service";
+import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
+import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 
 declare var UIkit: any;
 
 @Component({
   selector: 'app-new-service-provider',
   templateUrl: './service-provider-form.component.html',
-  styleUrls: ['./service-provider-form.component.css']
+  styleUrls: ['./service-provider-form.component.css'],
+  providers: [FormControlService]
 })
 export class ServiceProviderFormComponent implements OnInit {
+
+  model: Model = null;
+  vocabulariesMap: Map<string, object[]> = null;
+  subVocabulariesMap: Map<string, object[]> = null
+  payloadAnswer: object = null;
 
   _hasUserConsent = environment.hasUserConsent;
   serviceORresource = environment.serviceORresource;
@@ -234,10 +242,16 @@ export class ServiceProviderFormComponent implements OnInit {
               public router: Router,
               public route: ActivatedRoute,
               public navigator: NavigationService,
-              public pidHandler: pidHandler) {
+              public pidHandler: pidHandler,
+              public formService: FormControlService) {
   }
 
   ngOnInit() {
+
+    this.formService.getFormModelById('m-b-provider').subscribe(
+      res => this.model = res,
+      err => console.log(err)
+    )
 
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes('add/:providerId')) {
@@ -307,12 +321,65 @@ export class ServiceProviderFormComponent implements OnInit {
 
     this.isPortalAdmin = this.authService.isAdmin();
 
-    this.initUserBitSets(); // Admin + mainContact
+    // this.initUserBitSets(); // Admin + mainContact
 
     if(this.catalogueId == 'eosc') this.displayedCatalogueName = `| Catalogue: EOSC`
     else if(this.catalogueId) this.showCatalogueName(this.catalogueId)
 
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
+  }
+
+  submitForm(value: any, tempSave: boolean){
+    console.log('submitForm');
+    window.scrollTo(0, 0);
+    if (!this.authService.isLoggedIn()) {
+      sessionStorage.setItem('provider', JSON.stringify(this.providerForm.value)); // TODO: check this
+      this.authService.login();
+    }
+
+    this.errorMessage = '';
+    // this.trimFormWhiteSpaces();
+    const path = this.route.snapshot.routeConfig.path;
+    let method;
+    if (path === 'add/:providerId') {
+      method = 'updateAndPublishPendingProvider';
+    } else {
+      method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
+    }
+
+    if (tempSave) {
+      this.showLoader = true;
+      this.serviceProviderService.temporarySaveProvider(this.providerForm.value, (path !== 'provider/add/:providerId' && this.edit))
+        .subscribe(
+          res => {
+            this.showLoader = false;
+            this.router.navigate([`/provider/add/${this.pidHandler.customEncodeURIComponent(res.id)}`]);
+          },
+          err => {
+            this.showLoader = false;
+            this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
+          },
+          () => {
+            this.showLoader = false;
+          }
+        );
+    } else {
+      this.showLoader = true;
+      console.log(value);
+      console.log(value[0].value.Provider);
+      this.serviceProviderService[method](value[0].value.Provider, this.commentControl.value).subscribe(
+        res => {
+        },
+        err => {
+          this.showLoader = false;
+          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
+        },
+        () => {
+          this.showLoader = false;
+          this.router.navigate(['/provider/my']);
+        }
+      );
+    }
   }
 
   registerProvider(tempSave: boolean) {
@@ -522,6 +589,9 @@ export class ServiceProviderFormComponent implements OnInit {
   setVocabularies() {
     this.resourceService.getAllVocabulariesByType().subscribe(
       res => {
+        this.vocabulariesMap = res;
+        let subVocs: Vocabulary[] = this.vocabulariesMap['SCIENTIFIC_SUBDOMAIN'].concat(this.vocabulariesMap['PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN']);
+        this.subVocabulariesMap = this.groupByKey(subVocs, 'parentId');
         this.vocabularies = res;
         this.placesVocabulary = this.vocabularies[Type.COUNTRY];
         this.providerTypeVocabulary = this.vocabularies[Type.PROVIDER_STRUCTURE_TYPE];
@@ -890,7 +960,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   /** BitSets -->**/
-  handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
+  /*handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
     if (bitIndex === 0) {
       this.providerName = this.providerForm.get(formControlName).value;
     }
@@ -1032,7 +1102,7 @@ export class ServiceProviderFormComponent implements OnInit {
     this.completedTabsBitSet.set(tabNum, setValue);
     this.completedTabs = this.completedTabsBitSet.cardinality();
   }
-
+*/
   /** <--BitSets **/
 
   /** Terms Modal--> **/
@@ -1072,7 +1142,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
   /** <--Submit Comment Modal **/
 
-  submitSuggestion(entryValueName, vocabulary, parent) {
+  /*submitSuggestion(entryValueName, vocabulary, parent) {
     if (entryValueName.trim() !== '') {
       this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'provider', this.providerId, null).subscribe(
         res => {
@@ -1087,7 +1157,7 @@ export class ServiceProviderFormComponent implements OnInit {
         }
       );
     }
-  }
+  }*/
 
   showNotification() {
     UIkit.notification({
