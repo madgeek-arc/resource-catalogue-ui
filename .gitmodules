@@ -1,0 +1,3 @@
+[submodule "src/dynamic-catologue"]
+	path = src/dynamic-catologue
+	url = git@github.com:madgeek-arc/catalogue-ui.git
