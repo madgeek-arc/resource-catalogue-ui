@@ -8,19 +8,19 @@
 
     <app-survey [payload]="payloadAnswer" [model]="model" [vocabulariesMap]="vocabulariesMap" [tabsHeader]=""
                 [subVocabularies]="" (submit)="submitForm($event)" [activeUsers]="[]">
+
       <div *ngIf="model" class="uk-grid form-top-section">
         <h5 class="uk-width-1-1 uk-margin-bottom">{{ model.name }}</h5>
         <p class="uk-margin-bottom" [innerHTML]="model.notice"></p>
       </div>
 
-      <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right" style="min-height: 40px">
+      <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end" style="min-height: 40px">
         <div>
           <button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">
-            Save
+            Submit
           </button>
         </div>
       </div>
-
     </app-survey>
   </div>
 </div>

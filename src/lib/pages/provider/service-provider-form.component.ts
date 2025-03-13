@@ -244,7 +244,7 @@ export class ServiceProviderFormComponent implements OnInit {
               public route: ActivatedRoute,
               public navigator: NavigationService,
               public pidHandler: pidHandler,
-              public formService: FormControlService) {
+              public dynamicFormService: FormControlService) {
   }
 
   ngOnInit() {
@@ -331,7 +331,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   submitForm(value: any, tempSave: boolean){
-    console.log('submitForm');
+    let providerValue = value[0].value.Provider;
     window.scrollTo(0, 0);
     if (!this.authService.isLoggedIn()) {
       sessionStorage.setItem('provider', JSON.stringify(this.providerForm.value)); // TODO: check this
@@ -348,7 +348,12 @@ export class ServiceProviderFormComponent implements OnInit {
       method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
     }
 
-    if (tempSave) {
+    this.cleanArrayProperty(providerValue, 'multimedia');
+    this.cleanArrayProperty(providerValue, 'scientificDomains');
+    this.cleanArrayProperty(providerValue, 'merilScientificDomains');
+    // console.log(providerValue);
+
+    if (tempSave) {//TODO
       this.showLoader = true;
       this.serviceProviderService.temporarySaveProvider(this.providerForm.value, (path !== 'provider/add/:providerId' && this.edit))
         .subscribe(
@@ -366,9 +371,7 @@ export class ServiceProviderFormComponent implements OnInit {
         );
     } else {
       this.showLoader = true;
-      console.log(value);
-      console.log(value[0].value.Provider);
-      this.serviceProviderService[method](value[0].value.Provider, this.commentControl.value).subscribe(
+      this.serviceProviderService[method](providerValue, this.commentControl.value).subscribe(
         res => {
         },
         err => {
@@ -593,6 +596,7 @@ export class ServiceProviderFormComponent implements OnInit {
         this.vocabulariesMap = res;
         let subVocs: Vocabulary[] = this.vocabulariesMap['SCIENTIFIC_SUBDOMAIN'].concat(this.vocabulariesMap['PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN']);
         this.subVocabulariesMap = this.groupByKey(subVocs, 'parentId');
+
         this.vocabularies = res;
         this.placesVocabulary = this.vocabularies[Type.COUNTRY];
         this.providerTypeVocabulary = this.vocabularies[Type.PROVIDER_STRUCTURE_TYPE];
@@ -1193,6 +1197,22 @@ export class ServiceProviderFormComponent implements OnInit {
       catalogue => this.displayedCatalogueName = `| Catalogue: ${catalogue.name}`,
       error => console.log(error)
     );
+  }
+
+  cleanArrayProperty(obj: any, property: string): void {
+    if (obj && Array.isArray(obj[property])) {
+      // Filter out elements that are entirely empty:
+      const cleaned = obj[property].filter((element: any) => {
+        if (element && typeof element === 'object') {
+          // Keep the element if at least one property has a non-empty value.
+          return Object.keys(element).some(key => element[key] !== null && element[key] !== '');
+        }
+        // For non-objects, keep the element if it's not null or ''.
+        return element !== null && element !== '';
+      });
+      // If the cleaned array is empty, set the property to null. Otherwise, update it.
+      obj[property] = cleaned.length ? cleaned : null;
+    }
   }
 
 }

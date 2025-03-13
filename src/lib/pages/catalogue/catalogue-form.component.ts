@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import * as dm from '../../shared/description.map';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -10,6 +10,9 @@ import {URLValidator} from '../../shared/validators/generic.validator';
 import {Vocabulary, Type, Provider} from '../../domain/eic-model';
 import BitSet from 'bitset';
 import {environment} from '../../../environments/environment';
+import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
+import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
+import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
 
 declare var UIkit: any;
 
@@ -17,8 +20,14 @@ declare var UIkit: any;
   selector: 'app-catalogue-form',
   templateUrl: './catalogue-form.component.html',
   // styleUrls: ['./service-provider-form.component.css']
+  providers: [FormControlService]
 })
 export class CatalogueFormComponent implements OnInit {
+  @ViewChild(SurveyComponent) child: SurveyComponent
+  model: Model = null;
+  vocabulariesMap: Map<string, object[]> = null;
+  subVocabulariesMap: Map<string, object[]> = null
+  payloadAnswer: object = null;
 
   _hasUserConsent = environment.hasUserConsent;
   serviceORresource = environment.serviceORresource;
@@ -193,10 +202,16 @@ export class CatalogueFormComponent implements OnInit {
               public catalogueService: CatalogueService,
               public resourceService: ResourceService,
               public router: Router,
-              public route: ActivatedRoute) {
+              public route: ActivatedRoute,
+              public dynamicFormService: FormControlService) {
   }
 
   ngOnInit() {
+
+    this.serviceProviderService.getFormModelById('m-b-catalogue').subscribe(
+      res => this.model = res,
+      err => console.log(err)
+    )
 
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes('add/:catalogueId')) {
@@ -261,9 +276,75 @@ export class CatalogueFormComponent implements OnInit {
 
     this.isPortalAdmin = this.authService.isAdmin();
 
-    this.initUserBitSets(); // Admin + mainContact
+    // this.initUserBitSets(); // Admin + mainContact
 
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
+  }
+
+  submitForm(value: any, tempSave: boolean) {
+    let catalogueValue = value[0].value.Catalogue;
+    window.scrollTo(0, 0);
+
+    if (!this.authService.isLoggedIn()) {
+      sessionStorage.setItem('provider', JSON.stringify(this.catalogueForm.value));
+      this.authService.login();
+    }
+
+    this.errorMessage = '';
+    // this.trimFormWhiteSpaces();
+    const path = this.route.snapshot.routeConfig.path;
+    let method;
+    if (path === 'add/:catalogueId') {
+      method = 'updateAndPublishPendingProvider';
+    } else {
+      method = this.edit ? 'updateCatalogue' : 'createNewCatalogue';
+    }
+
+    this.cleanArrayProperty(catalogueValue, 'multimedia');
+    this.cleanArrayProperty(catalogueValue, 'scientificDomains');
+
+    if (tempSave) {//TODO
+      this.showLoader = true;
+      window.scrollTo(0, 0);
+      this.serviceProviderService.temporarySaveProvider(this.catalogueForm.value, (path !== 'add/:catalogueId' && this.edit))
+        .subscribe(
+          res => {
+            this.showLoader = false;
+            this.router.navigate([`/provider/add/${res.id}`]);
+          },
+          err => {
+            this.showLoader = false;
+            window.scrollTo(0, 0);
+            this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
+          },
+          () => {
+            this.showLoader = false;
+          }
+        );
+    } else {
+      this.showLoader = true;
+      window.scrollTo(0, 0);
+
+      this.catalogueService[method](catalogueValue, this.commentControl.value).subscribe(
+        res => {
+        },
+        err => {
+          this.showLoader = false;
+          window.scrollTo(0, 0);
+          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
+        },
+        () => {
+          this.showLoader = false;
+          if (this.edit) {
+            this.router.navigate(['/catalogue/my']);
+          } else {
+            this.router.navigate(['/catalogue/my']);
+            // this.authService.refreshLogin('/catalogue/my'); // fixme: not redirecting
+          }
+        }
+      );
+    }
+
   }
 
   registerCatalogue(tempSave: boolean) {
@@ -453,6 +534,10 @@ export class CatalogueFormComponent implements OnInit {
   setVocabularies() {
     this.resourceService.getAllVocabulariesByType().subscribe(
       res => {
+        this.vocabulariesMap = res;
+        let subVocs: Vocabulary[] = this.vocabulariesMap['SCIENTIFIC_SUBDOMAIN'].concat(this.vocabulariesMap['PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN']);
+        this.subVocabulariesMap = this.groupByKey(subVocs, 'parentId');
+
         this.vocabularies = res;
         this.placesVocabulary = this.vocabularies[Type.COUNTRY];
         this.domainsVocabulary = this.vocabularies[Type.SCIENTIFIC_DOMAIN];
@@ -708,7 +793,7 @@ export class CatalogueFormComponent implements OnInit {
   }
 
   /** BitSets -->**/
-  handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
+  /*handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
     if (bitIndex === 0) {
       this.catalogueName = this.catalogueForm.get(formControlName).value;
     }
@@ -850,7 +935,7 @@ export class CatalogueFormComponent implements OnInit {
     this.completedTabsBitSet.set(tabNum, setValue);
     this.completedTabs = this.completedTabsBitSet.cardinality();
   }
-
+*/
   /** <--BitSets **/
 
   /** Terms Modal--> **/
@@ -935,6 +1020,22 @@ export class CatalogueFormComponent implements OnInit {
     const element: HTMLElement = document.getElementById(id) as HTMLElement;
     element.click();
     window.scrollTo(0, -1);
+  }
+
+  cleanArrayProperty(obj: any, property: string): void {
+    if (obj && Array.isArray(obj[property])) {
+      // Filter out elements that are entirely empty:
+      const cleaned = obj[property].filter((element: any) => {
+        if (element && typeof element === 'object') {
+          // Keep the element if at least one property has a non-empty value.
+          return Object.keys(element).some(key => element[key] !== null && element[key] !== '');
+        }
+        // For non-objects, keep the element if it's not null or ''.
+        return element !== null && element !== '';
+      });
+      // If the cleaned array is empty, set the property to null. Otherwise, update it.
+      obj[property] = cleaned.length ? cleaned : null;
+    }
   }
 
 }
