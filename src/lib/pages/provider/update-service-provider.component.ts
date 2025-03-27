@@ -16,8 +16,7 @@ declare var UIkit: any;
 @Component({
   selector: 'app-update-service-provider',
   templateUrl: './service-provider-form.component.html',
-  styleUrls: ['./service-provider-form.component.css'],
-  providers: [FormControlService]
+  styleUrls: ['./service-provider-form.component.css']
 })
 export class UpdateServiceProviderComponent extends ServiceProviderFormComponent implements OnInit {
   errorMessage: string;

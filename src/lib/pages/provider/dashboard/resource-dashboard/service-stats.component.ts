@@ -86,7 +86,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
 
   getDataForService(period: string, dontGetServices?: boolean) {
 
-    this.setCountriesForService(this.service.geographicalAvailabilities);
+    // this.setCountriesForService(this.service.geographicalAvailabilities);
 
     this.resourceService.getVisitsForService(this.service.id, period).pipe(
       map(data => {

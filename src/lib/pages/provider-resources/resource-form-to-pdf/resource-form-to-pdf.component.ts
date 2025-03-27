@@ -778,7 +778,7 @@ export class ResourceFormToPdfComponent implements OnInit {
         this.push('resourceProviders', true);
       }
     }
-    if (richService.service.multimedia) {
+    /*if (richService.service.multimedia) {
       for (let i = 0; i < richService.service.multimedia.length - 1; i++) {
         this.push('multimedia', false);
       }
@@ -877,7 +877,7 @@ export class ResourceFormToPdfComponent implements OnInit {
       for (let i = 0; i < richService.service.grantProjectNames.length - 1; i++) {
         this.push('grantProjectNames', false);
       }
-    }
+    }*/
   }
 
   downloadServiceFormPDF() {

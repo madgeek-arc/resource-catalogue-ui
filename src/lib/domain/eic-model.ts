@@ -301,6 +301,31 @@ export class ServiceCategory {
 
 export class Service implements Identifiable {
   id: string;
+  name: string;
+  resourceOrganisation: string;
+  resourceProviders: string[];
+  webpage: URL;
+  alternativeIdentifiers: AlternativeIdentifier[];
+  description: string;
+  logo: URL;
+  scientificDomains: ServiceProviderDomain[];
+  categories: ServiceCategory[];
+  tags: string[];
+  trl: string;
+  catalogueId: string;
+  termsOfUse: URL;
+  privacyPolicy: URL;
+  accessPolicy: URL;
+  orderType: string;
+  order: URL;
+  paymentModel: URL;
+  pricing: URL;
+
+  version: string;
+}
+
+/*export class Service implements Identifiable {
+  id: string;
   abbreviation: string;
   name: string;
   resourceOrganisation: string;
@@ -358,7 +383,7 @@ export class Service implements Identifiable {
   order: URL;
   paymentModel: URL;
   pricing: URL;
-}
+}*/
 
 export class Datasource implements Identifiable {
   id: string;

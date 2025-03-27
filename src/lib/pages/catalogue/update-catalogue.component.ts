@@ -16,7 +16,7 @@ declare var UIkit: any;
   selector: 'app-update-catalogue',
   templateUrl: './catalogue-form.component.html',
   // styleUrls: ['./service-provider-form.component.css']
-  providers: [FormControlService]
+  // providers: [FormControlService]
 })
 export class UpdateCatalogueComponent extends CatalogueFormComponent implements OnInit {
   errorMessage: string;

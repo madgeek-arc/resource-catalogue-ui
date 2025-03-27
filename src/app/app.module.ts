@@ -52,6 +52,7 @@ import {RecommendationsService} from "../lib/services/recommendations.service";
 import {GuidelinesService} from "../lib/services/guidelines.service";
 import {ContactInfoModalComponent} from "./shared/contactinfomodal/contact-info-modal.component";
 import {pidHandler} from "../lib/shared/pid-handler/pid-handler.service";
+import {FormControlService} from "../dynamic-catalogue/services/form-control.service";
 
 declare var require: any;
 
@@ -141,7 +142,8 @@ export function highchartsFactory() {
     EmailService,
     DatePipe,
     RecommendationsService,
-    pidHandler
+    pidHandler,
+    FormControlService
   ],
   exports: [
     // FooterComponent,

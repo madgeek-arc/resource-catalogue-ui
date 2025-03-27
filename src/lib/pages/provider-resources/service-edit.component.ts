@@ -11,6 +11,7 @@ import {NavigationService} from "../../services/navigation.service";
 import {RecommendationsService} from "../../services/recommendations.service";
 import {CatalogueService} from "../../services/catalogue.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 
 @Component({
   selector: 'app-service-edit',
@@ -30,8 +31,9 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               protected injector: Injector,
               public datePipe: DatePipe,
               public navigator: NavigationService,
-              public pidHandler: pidHandler) {
-    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler);
+              public pidHandler: pidHandler,
+              public dynamicFormService: FormControlService) {
+    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService);
     this.editMode = true;
   }
 
@@ -52,6 +54,8 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
         if (this.pendingService) {
           this.resourceService.getPendingService(this.serviceId)
             .subscribe(service => {
+                this.payloadAnswer = {'answer': {Service: service}};
+                //clear below
                 if (service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
                   this.navigator.go('/forbidden')
                 ResourceService.removeNulls(service);
@@ -85,7 +89,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
                   this.serviceForm.disable();
                   this.serviceName = this.serviceForm.get('name').value;
                 } else {
-                  this.initServiceBitSets();
+                  // this.initServiceBitSets();
                 }
               }
             );
@@ -94,7 +98,10 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
       if (!this.pendingService) {
         this.resourceService.getServiceBundleById(this.serviceId, this.catalogueId)
           .subscribe(serviceBundle => {
-              if (serviceBundle.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
+              this.payloadAnswer = {'answer': {Service: serviceBundle.service}};
+              //clear below
+
+/*              if (serviceBundle.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info
                 this.navigator.go('/forbidden')
               ResourceService.removeNulls(serviceBundle.service);
               //remove catalogueId. prefix for same catalogue entries
@@ -103,7 +110,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               }
               if (serviceBundle.service.relatedResources) {
                 serviceBundle.service.relatedResources = serviceBundle.service.relatedResources.map(value => value.startsWith(this.catalogueId) ? value.substring(this.catalogueId.length + 1) : value);
-              }
+              }*/
               this.formPrepare(serviceBundle.service);
               this.serviceForm.patchValue(serviceBundle.service);
               for (const i in this.serviceForm.controls) {
@@ -127,7 +134,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
                 this.serviceForm.disable();
                 this.serviceName = this.serviceForm.get('name').value;
               } else {
-                this.initServiceBitSets();
+                // this.initServiceBitSets();
               }
             }
           );
@@ -139,7 +146,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     super.onSubmit(service, tempSave, this.pendingService);
   }
 
-  initServiceBitSets() {
+  /*initServiceBitSets() {
     this.handleBitSets(0, 0, 'name');
     this.handleBitSets(0, 21, 'abbreviation');
     this.handleBitSets(0, 1, 'resourceOrganisation');
@@ -162,6 +169,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     this.handleBitSets(9, 22, 'termsOfUse');
     this.handleBitSets(9, 23, 'privacyPolicy');
     this.handleBitSets(10, 19, 'orderType');
-  }
+  }*/
 
 }
