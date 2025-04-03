@@ -12,7 +12,7 @@ export const environment = {
   projectMail: 'onboarding@eosc-portal.eu',
   serviceORresource: 'Service',
   hasUserConsent: true,
-  privacyPolicyURL: './comingSoon',
+  privacyPolicyURL: 'https://docs.google.com/document/d/10fhcpZ7jngLM6VVTLLMXDN1QoVE3Jvoq4RF8NeYydSA/edit?tab=t.0#heading=h.kp1upoc0eymv',
   onboardingAgreementURL: './comingSoon',
   marketplaceServicesURL: './comingSoon',
   marketplaceDatasourcesURL: './comingSoon',
