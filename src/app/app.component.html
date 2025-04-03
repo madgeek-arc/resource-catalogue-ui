@@ -1,18 +1,20 @@
-<app-external-header uk-sticky style="z-index: 9999"></app-external-header>
-
 <div class="uk-offcanvas-content">
 
-  <app-top-menu-eosc *ngIf="!isLoginOrRegister" style="z-index: -1"></app-top-menu-eosc>
+  <div>
+    <app-external-header uk-sticky style="z-index: 9999"></app-external-header>
+    <app-top-menu-eosc *ngIf="!isLoginOrRegister" style="z-index: -1"></app-top-menu-eosc>
+  </div>
+
   <div style="margin-top: 159px;"></div>
   <app-breadcrumbs *ngIf="router.url != '/becomeAProvider' && router.url != '/home' && router.url != '/' && !isDashboardRoute()" ></app-breadcrumbs>
 <!--  <contact-info-modal></contact-info-modal>-->
   <router-outlet></router-outlet>
   <ng-container *ngIf="!isDashboardRoute(); else dashboard">
-    <app-footer-eosc></app-footer-eosc>
+    <app-external-footer></app-external-footer>
   </ng-container>
   <ng-template #dashboard>
-    <div style="margin-left: 320px">
-      <app-footer-eosc></app-footer-eosc>
+    <div style="margin-left: 260px">
+      <app-external-footer></app-external-footer>
     </div>
   </ng-template>
   <cookie-law position="bottom">
@@ -23,5 +25,3 @@
     </span></a>
   </cookie-law>
 </div>
-
-<app-external-footer></app-external-footer>
