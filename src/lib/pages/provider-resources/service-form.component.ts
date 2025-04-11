@@ -302,7 +302,8 @@ export class ServiceFormComponent implements OnInit {
 
   providersPage: Paging<Provider>;
   requiredResources: any;
-  relatedResources: any;
+  providersAsVocs: any;
+  resourcesAsVocs: any;
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
   premiumSort = new PremiumSortPipe();
@@ -345,7 +346,7 @@ export class ServiceFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  submitForm(value: any, tempSave: boolean) {//TODO
+  submitForm(value: any, tempSave: boolean) {
     let serviceValue = value[0].value.Service;
     window.scrollTo(0, 0);
 
@@ -368,6 +369,7 @@ export class ServiceFormComponent implements OnInit {
     // }
 
     this.cleanArrayProperty(serviceValue, 'multimedia');
+    this.cleanArrayProperty(serviceValue, 'useCases');
     this.cleanArrayProperty(serviceValue, 'alternativeIdentifiers');
     this.cleanArrayProperty(serviceValue, 'scientificDomains');
     this.cleanArrayProperty(serviceValue, 'categories');
@@ -407,7 +409,7 @@ export class ServiceFormComponent implements OnInit {
           window.scrollTo(0, 0);
           this.categoryArray.enable();
           this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
+          this.errorMessage = 'Something went bad, server responded: ' + err?.error?.message;
         }
       );
     }
@@ -510,21 +512,31 @@ export class ServiceFormComponent implements OnInit {
     zip(
       this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getAllRelatedResources(this.catalogueId ? this.catalogueId : 'eosc'),
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : 'eosc'),
+      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : 'eosc'),
       this.serviceProviderService.getFormModelById('m-b-service')
     ).subscribe(suc => {
         this.providersPage = <Paging<Provider>>suc[0];
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
-        this.requiredResources = suc[2];
-        this.relatedResources = this.requiredResources;
-        this.model = suc[3];
+        this.vocabulariesMap = suc[1];
+        this.providersAsVocs = suc[2];
+        this.resourcesAsVocs = suc[3];
+        this.model = suc[4];
         // this.getLocations();
 
-        this.vocabulariesMap = suc[1];
         let subVocs: Vocabulary[] = this.vocabulariesMap['SCIENTIFIC_SUBDOMAIN'].concat(this.vocabulariesMap['SUBCATEGORY']);
         this.subVocabulariesMap = this.groupByKey(subVocs, 'parentId');
 
-        this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
+        [this.providersAsVocs, this.resourcesAsVocs].forEach(vocSet => {
+          Object.entries(vocSet).forEach(([key, newItems]) => {
+            // Type assertion to ensure newItems is an array
+            const additionalItems = newItems as Vocabulary[];
+            const existingItems = this.vocabulariesMap[key] || [];
+            this.vocabulariesMap[key] = [...existingItems, ...additionalItems];
+          });
+        });
+
+/*        this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
         this.accessTypesVocabulary = this.vocabularies[Type.ACCESS_TYPE];
         this.accessModesVocabulary = this.vocabularies[Type.ACCESS_MODE];
         this.orderTypeVocabulary = this.vocabularies[Type.ORDER_TYPE];
@@ -544,7 +556,7 @@ export class ServiceFormComponent implements OnInit {
         // this.geographicalVocabulary = Object.assign(this.vocabularies[Type.COUNTRY],this.vocabularies[Type.REGION]);
         this.geographicalVocabulary = this.vocabularies[Type.REGION];
         this.geographicalVocabulary.push(...this.vocabularies[Type.COUNTRY]);
-        this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
+        this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];*/
       },
       error => {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
@@ -567,33 +579,29 @@ export class ServiceFormComponent implements OnInit {
         if(this.catalogueId == 'eosc') this.displayedCatalogueName = `| Catalogue: EOSC`
         else if(this.catalogueId) this.showCatalogueName(this.catalogueId);
 
-        // this.payloadAnswer = {'answer': {Service: service}};
-        // console.log(this.payloadAnswer);
-        // this.payloadAnswer = {'answer': { Service:
-        //       { 'resourceOrganisation': decodeURIComponent(this.providerId),
-        //         'resourceProviders': [decodeURIComponent(this.providerId)]}
-        // }};
-        // console.log(this.payloadAnswer);
-
-        this.serviceForm.get('resourceOrganisation').setValue(decodeURIComponent(this.providerId));
-        // this.handleBitSets(0, 1, 'resourceOrganisation');
-
-        if (!this.editMode) { // prefill main contact info
-          this.serviceProviderService.getServiceProviderById(this.providerId).subscribe(
-            res => { this.provider = res; },
-            err => { console.log(err); },
-            () => {
-              Object.entries(this.provider.mainContact).forEach(([key, val]) => {
-                if (val !== '' && val != null) {
-                  this.serviceForm.controls['mainContact'].get(key).setValue(val);
-                }
-              });
-              // this.handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact');
-              // this.handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact');
-              // this.handleBitSetsOfGroups(5, 15, 'email', 'mainContact');
-            }
-          );
+        if(!this.editMode){ //prefill field(s)
+          this.payloadAnswer = {'answer': { Service:
+                { 'resourceOrganisation': decodeURIComponent(this.providerId),
+                  'catalogueId': 'eosc'}
+          }};
         }
+
+        /*        if (!this.editMode) { // prefill main contact info
+                  this.serviceProviderService.getServiceProviderById(this.providerId).subscribe(
+                    res => { this.provider = res; },
+                    err => { console.log(err); },
+                    () => {
+                      Object.entries(this.provider.mainContact).forEach(([key, val]) => {
+                        if (val !== '' && val != null) {
+                          this.serviceForm.controls['mainContact'].get(key).setValue(val);
+                        }
+                      });
+                      // this.handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact');
+                      // this.handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact');
+                      // this.handleBitSetsOfGroups(5, 15, 'email', 'mainContact');
+                    }
+                  );
+                }*/
 
       }
     );

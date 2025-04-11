@@ -299,7 +299,7 @@ export class ServiceCategory {
   subcategory: string;
 }
 
-export class Service implements Identifiable {
+/*export class Service implements Identifiable {
   id: string;
   name: string;
   resourceOrganisation: string;
@@ -322,9 +322,9 @@ export class Service implements Identifiable {
   pricing: URL;
 
   version: string;
-}
+}*/
 
-/*export class Service implements Identifiable {
+export class Service implements Identifiable {
   id: string;
   abbreviation: string;
   name: string;
@@ -338,9 +338,7 @@ export class Service implements Identifiable {
   multimedia: Multimedia[];
   useCases: UseCase[];
   scientificDomains: ServiceProviderDomain[];
-  // scientificSubdomains: string[];
   categories: ServiceCategory[];  // anchor
-  // subcategories: string[];
   targetUsers: string[];
   accessTypes: string[];
   accessModes: string[];
@@ -383,7 +381,7 @@ export class Service implements Identifiable {
   order: URL;
   paymentModel: URL;
   pricing: URL;
-}*/
+}
 
 export class Datasource implements Identifiable {
   id: string;

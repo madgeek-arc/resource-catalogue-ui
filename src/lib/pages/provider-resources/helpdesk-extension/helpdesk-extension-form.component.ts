@@ -1,5 +1,5 @@
 import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {Component, Injector, OnInit} from '@angular/core';
+import {Component, Injector, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
@@ -11,6 +11,8 @@ import {URLValidator} from '../../../shared/validators/generic.validator';
 import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
+import {SurveyComponent} from "../../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {Model} from "../../../../dynamic-catalogue/domain/dynamic-form-model";
 
 @Component({
   selector: 'app-helpdesk-extension-form',
@@ -18,6 +20,11 @@ import {ServiceProviderService} from '../../../services/service-provider.service
   styleUrls: ['../../provider/service-provider-form.component.css']
 })
 export class HelpdeskExtensionFormComponent implements OnInit {
+  @ViewChild(SurveyComponent) child: SurveyComponent
+  model: Model = null;
+  vocabulariesMap: Map<string, object[]> = null;
+  // vocabulariesMap: { [name: string]: { id: string, name: string }[]; } = {}
+  payloadAnswer: object = null;
 
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
@@ -92,6 +99,11 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
+  submitForm(value) {//todo
+    window.scrollTo(0, 0);
+
+  }
+
   onSubmit() {
     if (!this.authenticationService.isLoggedIn()) {
       sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
@@ -158,6 +170,11 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.serviceProviderService.getFormModelById('m-b-helpdesk').subscribe(
+      res => this.model = res,
+      err => console.log(err)
+    )
+
     if (this.route.snapshot.paramMap.get('resourceId')) {
       this.serviceId = this.route.snapshot.paramMap.get('resourceId');
       this.resourceType = 'service';

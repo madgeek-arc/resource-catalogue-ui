@@ -1,3 +1,36 @@
+<!--<div *ngIf="model && vocabularies && subVocabularies" class="uk-section-default uk-section uk-section-small uk-padding-remove-top uk-padding-remove-bottom" style="min-height: 90vh;">-->
+<div *ngIf="model" class="uk-section-default uk-section uk-section-small uk-padding-remove-top uk-padding-remove-bottom" style="min-height: 90vh;">
+  <div class="uk-container uk-container-expand uk-margin-left uk-margin-right">
+
+    <div *ngIf="errorMessage" id="errorAlert" class="uk-alert-danger" uk-alert>
+      <a class="uk-alert-close" uk-close></a>
+      <pre class="uk-alert-danger">{{errorMessage}}</pre>
+    </div>
+
+    <ng-container *ngIf="(editMode && payloadAnswer) || !editMode">
+      <app-survey [payload]="payloadAnswer" [model]="model" [vocabulariesMap]="vocabulariesMap" [subVocabularies]="subVocabulariesMap"
+                  [tabsHeader]="" (submit)="submitForm($event, false, false)" [activeUsers]="[]">
+
+        <div *ngIf="model" class="uk-grid form-top-section">
+          <h5 class="uk-width-1-1 uk-margin-bottom">{{ model.name }}</h5>
+          <p class="uk-margin-bottom" [innerHTML]="model.notice"></p>
+        </div>
+
+        <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end" style="min-height: 40px">
+          <div>
+            <button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">
+              Submit
+            </button>
+          </div>
+        </div>
+      </app-survey>
+    </ng-container>
+  </div>
+</div>
+
+<pre>{{this.payloadAnswer|json}}</pre>
+
+<!--
 <div class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom" style="min-height: 325px">
   <div class="uk-container uk-container-expand">
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
@@ -18,17 +51,17 @@
         </div>
 
 
-        <!-- TOP HELP CONTENT -->
+        &lt;!&ndash; TOP HELP CONTENT &ndash;&gt;
         <app-help-content #topHelperContent [position]="'top'"
                           [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
         </app-help-content>
         <div class="uk-margin-medium-bottom">
           <div class="uk-grid">
-            <!-- LEFT HELP CONTENT -->
+            &lt;!&ndash; LEFT HELP CONTENT &ndash;&gt;
             <app-aside-help-content #leftHelperContent [position]="'left'"
                                     [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
             </app-aside-help-content>
-            <!-- MIDDLE -->
+            &lt;!&ndash; MIDDLE &ndash;&gt;
             <div class=" uk-width-expand@m uk-margin-medium-top">
               <div *ngIf="showLoader" class="uk-position-center">
                 <div uk-spinner="ratio: 2"></div>
@@ -47,8 +80,8 @@
                         <div class="uk-card uk-card-body uk-card-default">
                           <p class="uk-margin-remove-bottom">For questions related to the information that needs to be
                             filled in and suggestions on the portal, please contact us in <a href="mailto:onboarding@eosc-portal.eu">onboarding@eosc-portal.eu</a></p>
-                            <!--                        <p>For technical issues and questions, please contact us in <a href="mailto:providers@eosc-portal.eu">providers@eosc-portal.eu</a></p>-->
-                          <!-- TOP HELP CONTENT -->
+                            &lt;!&ndash;                        <p>For technical issues and questions, please contact us in <a href="mailto:providers@eosc-portal.eu">providers@eosc-portal.eu</a></p>&ndash;&gt;
+                          &lt;!&ndash; TOP HELP CONTENT &ndash;&gt;
                           <app-help-content #topHelperContent [position]="'top'"
                                             [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
                           </app-help-content>
@@ -80,7 +113,7 @@
                             <span>2. Datasource Content *</span>
                             <span *ngIf="!disable" class="circle-number">
                               <i *ngIf="remainingOnTab13==0" aria-hidden="true" class="fa fa-check"></i>
-<!--                              {{remainingOnTab13!=0 ? remainingOnTab13 +'*' : ''}}-->
+&lt;!&ndash;                              {{remainingOnTab13!=0 ? remainingOnTab13 +'*' : ''}}&ndash;&gt;
                             </span>
                           </a>
                         </li>
@@ -96,14 +129,14 @@
                         </li>
                       </ul>
 
-<!--                      <ng-container *ngIf="!disable">-->
-<!--                        <div class="requiredFields uk-text-right">*Required fields</div>-->
-<!--                        <div class="stepsCompleted uk-margin-top uk-text-center">{{completedTabs}} of {{requiredTabs}}</div>-->
-<!--                        <div class="uk-margin-small-top">-->
-<!--                          <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>-->
-<!--                          <div class="percentageNumber" [ngStyle]="{'margin-left.%': (loaderPercentage*0.9).toLocaleString()}">{{loaderPercentage}}%</div>-->
-<!--                        </div>-->
-<!--                      </ng-container>-->
+&lt;!&ndash;                      <ng-container *ngIf="!disable">&ndash;&gt;
+&lt;!&ndash;                        <div class="requiredFields uk-text-right">*Required fields</div>&ndash;&gt;
+&lt;!&ndash;                        <div class="stepsCompleted uk-margin-top uk-text-center">{{completedTabs}} of {{requiredTabs}}</div>&ndash;&gt;
+&lt;!&ndash;                        <div class="uk-margin-small-top">&ndash;&gt;
+&lt;!&ndash;                          <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>&ndash;&gt;
+&lt;!&ndash;                          <div class="percentageNumber" [ngStyle]="{'margin-left.%': (loaderPercentage*0.9).toLocaleString()}">{{loaderPercentage}}%</div>&ndash;&gt;
+&lt;!&ndash;                        </div>&ndash;&gt;
+&lt;!&ndash;                      </ng-container>&ndash;&gt;
                     </div>
 
                     <form [formGroup]="serviceForm" role="form" class="uk-form uk-margin uk-width-3-4">
@@ -111,7 +144,7 @@
                       <div class="formContainer">
 
                         <ul id="top-navigation-tabs" class="uk-switcher uk-margin-top uk-margin-bottom">
-                        <!--DATASOURCE POLICIES-->
+                        &lt;!&ndash;DATASOURCE POLICIES&ndash;&gt;
                         <li>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="submissionPolicyURL">
@@ -245,7 +278,7 @@
                           </div>
 
                         </li>
-                        <!--DATASOURCE CONTENT-->
+                        &lt;!&ndash;DATASOURCE CONTENT&ndash;&gt;
                         <li>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="jurisdiction">
@@ -316,10 +349,10 @@
                             <div class="uk-form-controls uk-margin-top">
                               <label>
                                 <span class="uk-form-description uk-margin-small-right">{{thematicDesc.desc}}</span>
-                                <!--                                <br>-->
-                                <!--                                <label class="uk-margin-small-top">-->
-                                <!--                                  <span class="uk-form-description uk-margin-small-right">thematic?</span>-->
-                                <!--                                </label>-->
+                                &lt;!&ndash;                                <br>&ndash;&gt;
+                                &lt;!&ndash;                                <label class="uk-margin-small-top">&ndash;&gt;
+                                &lt;!&ndash;                                  <span class="uk-form-description uk-margin-small-right">thematic?</span>&ndash;&gt;
+                                &lt;!&ndash;                                </label>&ndash;&gt;
                                 <label class="uk-margin-small-left uk-margin-small-right">
                                   <input class="uk-radio" type="radio" name="thematic" id="thematicNo"
                                          formControlName="thematic" [value]=false
@@ -341,10 +374,10 @@
                             <div class="uk-form-controls uk-margin-top">
                               <label>
                                 <span class="uk-form-description uk-margin-small-right">{{harvestableDesc.desc}}</span>
-                                <!--                                <br>-->
-                                <!--                                <label class="uk-margin-small-top">-->
-                                <!--                                  <span class="uk-form-description uk-margin-small-right">harvestable?</span>-->
-                                <!--                                </label>-->
+                                &lt;!&ndash;                                <br>&ndash;&gt;
+                                &lt;!&ndash;                                <label class="uk-margin-small-top">&ndash;&gt;
+                                &lt;!&ndash;                                  <span class="uk-form-description uk-margin-small-right">harvestable?</span>&ndash;&gt;
+                                &lt;!&ndash;                                </label>&ndash;&gt;
                                 <label class="uk-margin-small-left uk-margin-small-right">
                                   <input class="uk-radio" type="radio" name="harvestable" id="harvestableNo"
                                          formControlName="harvestable" [value]=false
@@ -370,7 +403,7 @@
                           </div>
 
                         </li>
-                        <!--RESEARCH PRODUCT POLICIES-->
+                        &lt;!&ndash;RESEARCH PRODUCT POLICIES&ndash;&gt;
                         <li>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right">Research Product Licensing</label>
@@ -456,7 +489,7 @@
                           </div>
 
                         </li>
-                        <!--RESEARCH PRODUCT METADATA-->
+                        &lt;!&ndash;RESEARCH PRODUCT METADATA&ndash;&gt;
                         <li>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right">Research Product Metadata Licensing</label>
@@ -522,14 +555,14 @@
 
                         </li>
                         </ul>
-<!--                              <pre>-->
-<!--                                {{serviceForm.valid}}-->
-<!--                                {{serviceForm.value | json}}-->
-<!--                              </pre>-->
+&lt;!&ndash;                              <pre>&ndash;&gt;
+&lt;!&ndash;                                {{serviceForm.valid}}&ndash;&gt;
+&lt;!&ndash;                                {{serviceForm.value | json}}&ndash;&gt;
+&lt;!&ndash;                              </pre>&ndash;&gt;
                       </div>
-                      <!--<button type="submit" class="btn btn-primary butn theme block full-width m-b">-->
-                      <!--{{editMode ? "Update" : "Add"}}-->
-                      <!--</button>-->
+                      &lt;!&ndash;<button type="submit" class="btn btn-primary butn theme block full-width m-b">&ndash;&gt;
+                      &lt;!&ndash;{{editMode ? "Update" : "Add"}}&ndash;&gt;
+                      &lt;!&ndash;</button>&ndash;&gt;
 
                     </form>
 
@@ -537,13 +570,13 @@
 
                 </div>
               </div>
-              <!-- RIGHT HELP CONTENT -->
+              &lt;!&ndash; RIGHT HELP CONTENT &ndash;&gt;
               <app-aside-help-content #rightHelperContent [position]="'right'"
                                       [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
               </app-aside-help-content>
             </div>
           </div>
-          <!-- BOTTOM HELP CONTENT -->
+          &lt;!&ndash; BOTTOM HELP CONTENT &ndash;&gt;
           <app-help-content #bottomHelperContent [position]="'bottom'"
                             [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
           </app-help-content>
@@ -552,3 +585,4 @@
     </div>
   </div>
 </div>
+-->

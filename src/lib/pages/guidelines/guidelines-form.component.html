@@ -1,3 +1,35 @@
+<div *ngIf="model && vocabulariesMap" class="uk-section-default uk-section uk-section-small uk-padding-remove-top uk-padding-remove-bottom" style="min-height: 90vh;">
+  <div class="uk-container uk-container-expand uk-margin-left uk-margin-right">
+
+    <div *ngIf="errorMessage" id="errorAlert" class="uk-alert-danger" uk-alert>
+      <a class="uk-alert-close" uk-close></a>
+      <pre class="uk-alert-danger">{{errorMessage}}</pre>
+    </div>
+
+    <ng-container *ngIf="(edit && payloadAnswer) || !edit">
+      <app-survey [payload]="payloadAnswer" [model]="model" [vocabulariesMap]="vocabulariesMap" [subVocabularies]="subVocabulariesMap"
+                  [tabsHeader]="" (submit)="submitForm($event)" [activeUsers]="[]">
+
+        <div *ngIf="model" class="uk-grid form-top-section">
+          <h5 class="uk-width-1-1 uk-margin-bottom">{{ model.name }}</h5>
+          <p class="uk-margin-bottom" [innerHTML]="model.notice"></p>
+        </div>
+
+        <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end" style="min-height: 40px">
+          <div>
+            <button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">
+              Submit
+            </button>
+          </div>
+        </div>
+      </app-survey>
+    </ng-container>
+  </div>
+</div>
+
+<pre>{{this.payloadAnswer|json}}</pre>
+
+<!--
 <div class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom" style="min-height: 325px">
   <div class="uk-container uk-container-expand">
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
@@ -14,18 +46,18 @@
             </div>
           </div>
           <div class="uk-flex uk-flex-middle">
-            <!--<button class="uk-button uk-button-primary">Discard</button>-->
-            <!--<button *ngIf="!disable && (!edit || pendingProvider)" class="uk-button uk-button-primary uk-margin-left" (click)="this.registerCatalogue(true)">Save as draft</button>-->
-<!--            <button *ngIf="!disable && loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left" type="button" (click)="onSubmit()">Submit</button>-->
+            &lt;!&ndash;<button class="uk-button uk-button-primary">Discard</button>&ndash;&gt;
+            &lt;!&ndash;<button *ngIf="!disable && (!edit || pendingProvider)" class="uk-button uk-button-primary uk-margin-left" (click)="this.registerCatalogue(true)">Save as draft</button>&ndash;&gt;
+&lt;!&ndash;            <button *ngIf="!disable && loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left" type="button" (click)="onSubmit()">Submit</button>&ndash;&gt;
             <button *ngIf="!disable" class="uk-button uk-button-secondary uk-margin-left" type="button" (click)="onSubmit()">Submit</button>
-<!--            <button *ngIf="disable" class="uk-button uk-button-secondary uk-margin-left" (click)="toggleDisable()">Edit</button>-->
+&lt;!&ndash;            <button *ngIf="disable" class="uk-button uk-button-secondary uk-margin-left" (click)="toggleDisable()">Edit</button>&ndash;&gt;
           </div>
         </div>
 
         <div class="uk-margin-medium-bottom">
           <div class="uk-grid">
 
-            <!-- MIDDLE -->
+            &lt;!&ndash; MIDDLE &ndash;&gt;
             <div class="uk-width-expand@m uk-margin-medium-top">
 
               <div *ngIf="showLoader" class="uk-position-center" style="z-index: 100">
@@ -46,7 +78,7 @@
                         <ng-container *ngIf="projectName === 'EOSC'">
                           <p class="uk-margin-remove-bottom">For questions related to the information that needs to be
                             filled in and suggestions on the portal, please contact us in <a href="mailto:onboarding@eosc-portal.eu">onboarding@eosc-portal.eu</a></p>
-                          <!--                        <p>For technical issues and questions, please contact us in <a href="mailto:providers@eosc-portal.eu">providers@eosc-portal.eu</a></p>-->
+                          &lt;!&ndash;                        <p>For technical issues and questions, please contact us in <a href="mailto:providers@eosc-portal.eu">providers@eosc-portal.eu</a></p>&ndash;&gt;
                         </ng-container>
 
                       </div>
@@ -63,42 +95,42 @@
                       <li class="uk-active">
                         <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[0]}" href="#" id="informationTab1">
                           <span>1. Information *</span>
-<!--                          <span class="circle-number">-->
-<!--                            <i *ngIf="remainingOnTab0==0" aria-hidden="true" class="fa fa-check"></i>-->
-<!--                            {{remainingOnTab0!=0 ? remainingOnTab0 +'*' : ''}}-->
-<!--                          </span>-->
+&lt;!&ndash;                          <span class="circle-number">&ndash;&gt;
+&lt;!&ndash;                            <i *ngIf="remainingOnTab0==0" aria-hidden="true" class="fa fa-check"></i>&ndash;&gt;
+&lt;!&ndash;                            {{remainingOnTab0!=0 ? remainingOnTab0 +'*' : ''}}&ndash;&gt;
+&lt;!&ndash;                          </span>&ndash;&gt;
                         </a>
                       </li>
                       <li>
                         <a class="remove-text-decoration uk-flex uk-flex-between" [ngClass]="{'form-error': tabs[1]}" href="#" id="creatorsTab2">
                           <span>2. Creators *</span>
-<!--                          <span class="circle-number">-->
-<!--                            <i *ngIf="remainingOnTab1==0" aria-hidden="true" class="fa fa-check"></i>-->
-<!--                            {{remainingOnTab1!=0 ? remainingOnTab1 +'*' : ''}}-->
-<!--                          </span>-->
+&lt;!&ndash;                          <span class="circle-number">&ndash;&gt;
+&lt;!&ndash;                            <i *ngIf="remainingOnTab1==0" aria-hidden="true" class="fa fa-check"></i>&ndash;&gt;
+&lt;!&ndash;                            {{remainingOnTab1!=0 ? remainingOnTab1 +'*' : ''}}&ndash;&gt;
+&lt;!&ndash;                          </span>&ndash;&gt;
                         </a>
                       </li>
                     </ul>
 
-<!--                    <div class="requiredFields uk-text-right">*Required fields</div>-->
-<!--                    <div class="stepsCompleted uk-margin-top uk-text-center">{{completedTabs}} of {{requiredTabs}}</div>-->
+&lt;!&ndash;                    <div class="requiredFields uk-text-right">*Required fields</div>&ndash;&gt;
+&lt;!&ndash;                    <div class="stepsCompleted uk-margin-top uk-text-center">{{completedTabs}} of {{requiredTabs}}</div>&ndash;&gt;
                     <div class="uk-margin-small-top">
                       <progress id="js-progressbar" class="uk-progress uk-margin-remove-bottom" value="{{loaderPercentage}}" max="100"></progress>
-<!--                      <div class="percentageNumber" [ngStyle]="{'margin-left.%': (loaderPercentage*0.9).toLocaleString()}">{{loaderPercentage}}%</div>-->
+&lt;!&ndash;                      <div class="percentageNumber" [ngStyle]="{'margin-left.%': (loaderPercentage*0.9).toLocaleString()}">{{loaderPercentage}}%</div>&ndash;&gt;
                     </div>
 
                   </div>
 
-                  <!--<div class="uk-width-3-4">-->
+                  &lt;!&ndash;<div class="uk-width-3-4">&ndash;&gt;
                   <form *ngIf="vocabularies" [formGroup]="guidelinesForm" class="uk-form uk-margin uk-width-3-4">
-                    <!--                    <pre>-->
-                    <!--                      &lt;!&ndash;{{guidelinesForm.value | json}}&ndash;&gt;-->
-                    <!--                      {{this.loaderBitSet.toString(2)}}-->
-                    <!--                      {{this.loaderBitSet.cardinality()}}-->
-                    <!--                    </pre>-->
+                    &lt;!&ndash;                    <pre>&ndash;&gt;
+                    &lt;!&ndash;                      &lt;!&ndash;{{guidelinesForm.value | json}}&ndash;&gt;&ndash;&gt;
+                    &lt;!&ndash;                      {{this.loaderBitSet.toString(2)}}&ndash;&gt;
+                    &lt;!&ndash;                      {{this.loaderBitSet.cardinality()}}&ndash;&gt;
+                    &lt;!&ndash;                    </pre>&ndash;&gt;
                     <div class="formContainer">
                       <ul id="top-navigation-tabs" class="uk-switcher uk-margin-top uk-margin-bottom">
-                        <!--BASIC-->
+                        &lt;!&ndash;BASIC&ndash;&gt;
                         <li class="uk-active">
                           <div formGroupName="identifierInfo" class="uk-margin-large-bottom">
                             <div class="uk-margin-bottom">
@@ -176,7 +208,7 @@
                                       <input id="resourceType" class="uk-input uk-width-9-10" type="text"
                                              formControlName="resourceType"
                                              (input)="unsavedChangesPrompt()">
-<!--                                             [ngClass]="{'uk-form-danger': checkFormValidity('resourceType', this.edit)}">-->
+&lt;!&ndash;                                             [ngClass]="{'uk-form-danger': checkFormValidity('resourceType', this.edit)}">&ndash;&gt;
                                     </div>
                                   </div>
 
@@ -240,7 +272,7 @@
                             </div>
                           </div>
 
-                          <!--<div formArrayName="relatedStandards" class="uk-margin-large-bottom">
+                          &lt;!&ndash;<div formArrayName="relatedStandards" class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="relatedStandards">
                               {{relatedStandardsDesc.label + (relatedStandardsDesc.mandatory ? ' (*)' : '')}}
                             </label>
@@ -264,7 +296,7 @@
                                 </a>
                               </div>
                             </div>
-                          </div>-->
+                          </div>&ndash;&gt;
 
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right">Related Standards</label>
@@ -296,7 +328,7 @@
                                     <div class="uk-form-controls uk-margin-top">
                                       <input id="relatedStandardIdentifier" class="uk-input uk-width-9-10" type="text" formControlName="relatedStandardIdentifier"
                                              (input)="unsavedChangesPrompt()">
-                                      <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedStandards', i, this.editMode, 'relatedStandardIdentifier')}">-->
+                                      &lt;!&ndash;                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('relatedStandards', i, this.editMode, 'relatedStandardIdentifier')}">&ndash;&gt;
                                     </div>
                                     <i><small>Suggested length is 250 characters</small></i>
                                   </div>
@@ -503,7 +535,7 @@
                                     <div class="uk-form-controls uk-margin-top">
                                       <input id="value" class="uk-input uk-width-9-10" type="text" formControlName="value"
                                              (input)="unsavedChangesPrompt()">
-                                      <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('alternativeIdentifiers', i, this.editMode, 'value')}">-->
+                                      &lt;!&ndash;                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('alternativeIdentifiers', i, this.editMode, 'value')}">&ndash;&gt;
                                     </div>
                                   </div>
 
@@ -528,7 +560,7 @@
 
                         </li>
 
-                        <!--creatorsTab2-->
+                        &lt;!&ndash;creatorsTab2&ndash;&gt;
                         <li>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right">Creators (*)</label>
@@ -636,7 +668,7 @@
                                 <a *ngIf="getFieldAsFormArray('creators').length > 1 && !disable"
                                    class="remove-element uk-padding-small uk-display-inline-block"
                                    (click)="removeCreator(i); unsavedChangesPrompt()">
-<!--                                   (click)="removeCreator(i); unsavedChangesPrompt(); handleBitSetsOfPublicContact(4, 15, 'email', 'creators')">-->
+&lt;!&ndash;                                   (click)="removeCreator(i); unsavedChangesPrompt(); handleBitSetsOfPublicContact(4, 15, 'email', 'creators')">&ndash;&gt;
                                   <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                               </div>
@@ -653,12 +685,12 @@
                         </li>
                       </ul>
                     </div>
-<!--                                                              <pre>-->
-<!--                                                                {{guidelinesForm.valid | json}}-->
-<!--                                                                {{guidelinesForm.value | json}}-->
-                    <!--                                            {{this.loaderBitSet.toString(2)}}-->
-                    <!--                                            {{this.loaderBitSet.cardinality()}}-->
-<!--                                                              </pre>-->
+&lt;!&ndash;                                                              <pre>&ndash;&gt;
+&lt;!&ndash;                                                                {{guidelinesForm.valid | json}}&ndash;&gt;
+&lt;!&ndash;                                                                {{guidelinesForm.value | json}}&ndash;&gt;
+                    &lt;!&ndash;                                            {{this.loaderBitSet.toString(2)}}&ndash;&gt;
+                    &lt;!&ndash;                                            {{this.loaderBitSet.cardinality()}}&ndash;&gt;
+&lt;!&ndash;                                                              </pre>&ndash;&gt;
                   </form>
 
                 </div>
@@ -673,3 +705,4 @@
 
   </div>
 </div>
+-->

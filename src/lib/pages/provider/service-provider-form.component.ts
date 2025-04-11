@@ -15,6 +15,7 @@ import {NavigationService} from "../../services/navigation.service";
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {zip} from "rxjs";
 
 declare var UIkit: any;
 
@@ -28,7 +29,7 @@ export class ServiceProviderFormComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent
   model: Model = null;
   vocabulariesMap: Map<string, object[]> = null;
-  subVocabulariesMap: Map<string, object[]> = null
+  subVocabulariesMap: Map<string, object[]> = null;
   payloadAnswer: object = null;
 
   _hasUserConsent = environment.hasUserConsent;
@@ -591,13 +592,36 @@ export class ServiceProviderFormComponent implements OnInit {
 
   /** get and set vocabularies **/
   setVocabularies() {
+    zip(
+      this.resourceService.getAllVocabulariesByType(),
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : 'eosc')
+    ).subscribe(data => {
+      console.log('inside')
+      this.vocabularies = <Map<string, Vocabulary[]>>data[0]; //old
+      this.vocabulariesMap = data[0];
+      let subVocs: Vocabulary[] = this.vocabulariesMap['SCIENTIFIC_SUBDOMAIN'].concat(this.vocabulariesMap['PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN']);
+      this.subVocabulariesMap = this.groupByKey(subVocs, 'parentId');
+      Object.keys(data[1]).forEach(key => {
+        const newItems = data[1][key];
+        const existingItems = this.vocabulariesMap[key] || [];
+        this.vocabulariesMap[key] = [...existingItems, ...newItems];
+      });
+      console.log(this.subVocabulariesMap);
+    },
+      error => {
+        this.errorMessage = 'Error during vocabularies loading.';
+      }
+    );
+  }
+
+/*setVocabulariesOld() {
     this.resourceService.getAllVocabulariesByType().subscribe(
       res => {
         this.vocabulariesMap = res;
         let subVocs: Vocabulary[] = this.vocabulariesMap['SCIENTIFIC_SUBDOMAIN'].concat(this.vocabulariesMap['PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN']);
         this.subVocabulariesMap = this.groupByKey(subVocs, 'parentId');
 
-        this.vocabularies = res;
+/!*        this.vocabularies = res;
         this.placesVocabulary = this.vocabularies[Type.COUNTRY];
         this.providerTypeVocabulary = this.vocabularies[Type.PROVIDER_STRUCTURE_TYPE];
         this.providerLCSVocabulary = this.vocabularies[Type.PROVIDER_LIFE_CYCLE_STATUS];
@@ -612,17 +636,18 @@ export class ServiceProviderFormComponent implements OnInit {
         this.networksVocabulary = this.vocabularies[Type.PROVIDER_NETWORK];
         this.societalGrandChallengesVocabulary = this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
         this.hostingLegalEntityVocabulary = this.vocabularies[Type.PROVIDER_HOSTING_LEGAL_ENTITY];
-        return this.vocabularies;
+        return this.vocabularies;*!/
       },
       error => console.log(JSON.stringify(error.error)),
       () => {
-        let voc: Vocabulary[] = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN].concat(this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN]);
-        this.subVocabularies = this.groupByKey(voc, 'parentId');
+        this.resourceService.getAllVocabulariesByType().subscribe(
 
-        return this.vocabularies;
+        // let voc: Vocabulary[] = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN].concat(this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN]);
+        // this.subVocabularies = this.groupByKey(voc, 'parentId');
+        // return this.vocabularies;
       }
     );
-  }
+  }*/
 
   /** Categorization --> **/
   newScientificDomain(): UntypedFormGroup {

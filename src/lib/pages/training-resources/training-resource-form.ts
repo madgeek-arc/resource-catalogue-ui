@@ -1,5 +1,5 @@
 import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {Component, Injector, OnInit} from '@angular/core';
+import {Component, Injector, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {TrainingResourceService} from '../../services/training-resource.service';
@@ -14,6 +14,9 @@ import BitSet from 'bitset';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ResourceService} from "../../services/resource.service";
+import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
+import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 
 declare var UIkit: any;
 
@@ -23,6 +26,12 @@ declare var UIkit: any;
   styleUrls: ['../provider/service-provider-form.component.css']
 })
 export class TrainingResourceForm implements OnInit {
+  @ViewChild(SurveyComponent) child: SurveyComponent
+  model: Model = null;
+  vocabulariesMap: Map<string, object[]> = null;
+  subVocabulariesMap: Map<string, object[]> = null
+  payloadAnswer: object = null;
+
   protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   projectMail = environment.projectMail;
   serviceName = '';
@@ -176,7 +185,8 @@ export class TrainingResourceForm implements OnInit {
   };
 
   providersPage: Paging<Provider>;
-  relatedResources: any;
+  providersAsVocs: any;
+  resourcesAsVocs: any;
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
   premiumSort = new PremiumSortPipe();
@@ -214,7 +224,8 @@ export class TrainingResourceForm implements OnInit {
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
-              protected route: ActivatedRoute
+              protected route: ActivatedRoute,
+              public dynamicFormService: FormControlService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.trainingResourceService = this.injector.get(TrainingResourceService);
@@ -222,6 +233,58 @@ export class TrainingResourceForm implements OnInit {
     this.router = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
+  }
+
+  submitForm(value: any, tempSave: boolean, pendingService: boolean) {//TODO
+    let trValue = value[0].value.TrainingResource;
+    window.scrollTo(0, 0);
+
+    if (!this.authenticationService.isLoggedIn()) {
+      sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
+      this.authenticationService.login();
+    }
+
+    this.errorMessage = '';
+    this.showLoader = true;
+
+    this.cleanArrayProperty(trValue, 'alternativeIdentifiers');
+    this.cleanArrayProperty(trValue, 'scientificDomains');
+
+    if (tempSave) {//TODO
+      this.trainingResourceService.saveServiceAsDraft(this.serviceForm.value).subscribe(
+        _service => {
+          // console.log(_service);
+          this.showLoader = false;
+          // return this.router.dashboardDraftResources(this.providerId); // navigate to draft list
+          return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
+        },
+        err => {
+          this.showLoader = false;
+          window.scrollTo(0, 0);
+          this.scientificDomainArray.enable();
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+        }
+      );
+    } else {
+      this.trainingResourceService[pendingService ? 'submitPendingService' : 'submitService']
+      (trValue, this.editMode, this.commentControl.value).subscribe(
+        _resource => {
+          // console.log(_service);
+          this.showLoader = false;
+          return this.router.trainingResourceDashboard(this.providerId, _resource.id);  // navigate to training-resource-dashboard
+          // return this.router.dashboardResources(this.providerId);                  // navigate to provider dashboard -> resource list
+          // return this.router.dashboard(this.providerId);                          // navigate to provider dashboard
+          // return this.router.service(_resource.id);                               // navigate to old service info page
+          // return window.location.href = this._marketplaceServicesURL + _resource.id; // navigate to marketplace
+        },
+        err => {
+          this.showLoader = false;
+          window.scrollTo(0, 0);
+          this.scientificDomainArray.enable();
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+        }
+      );
+    }
   }
 
   onSubmit(service: Service, tempSave: boolean, pendingService?: boolean) {
@@ -302,13 +365,32 @@ export class TrainingResourceForm implements OnInit {
     zip(
       this.trainingResourceService.getProvidersNames('approved'),
       this.trainingResourceService.getAllVocabulariesByType(),
-      this.resourceService.getAllRelatedResources(this.catalogueId ? this.catalogueId : 'eosc')
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : 'eosc'),
+      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : 'eosc'),
+      this.serviceProviderService.getFormModelById('m-b-training')
     ).subscribe(suc => {
         this.providersPage = <Paging<Provider>>suc[0];
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
-        this.relatedResources = suc[2];
+        this.vocabulariesMap = suc[1];
+        this.providersAsVocs = suc[2];
+        this.resourcesAsVocs = suc[3];
+        this.model = suc[4];
         // this.getLocations();
-        this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
+
+        this.vocabulariesMap = suc[1];
+        let subVocs: Vocabulary[] = this.vocabulariesMap['SCIENTIFIC_SUBDOMAIN'].concat(this.vocabulariesMap['SUBCATEGORY']);
+        this.subVocabulariesMap = this.groupByKey(subVocs, 'parentId');
+
+        [this.providersAsVocs, this.resourcesAsVocs].forEach(vocSet => {
+          Object.entries(vocSet).forEach(([key, newItems]) => {
+            // Type assertion to ensure newItems is an array
+            const additionalItems = newItems as Vocabulary[];
+            const existingItems = this.vocabulariesMap[key] || [];
+            this.vocabulariesMap[key] = [...existingItems, ...additionalItems];
+          });
+        });
+
+/*        this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
         this.accessTypesVocabulary = this.vocabularies[Type.ACCESS_TYPE];
         this.accessModesVocabulary = this.vocabularies[Type.ACCESS_MODE];
         this.orderTypeVocabulary = this.vocabularies[Type.ORDER_TYPE];
@@ -334,7 +416,7 @@ export class TrainingResourceForm implements OnInit {
         this.learningResourceTypesVocabulary = this.vocabularies[Type.TR_DCMI_TYPE];
         this.expertiseLevelVocabulary = this.vocabularies[Type.TR_EXPERTISE_LEVEL];
         this.qualificationsVocabulary = this.vocabularies[Type.TR_QUALIFICATION];
-        this.urlTypeVocabulary = this.vocabularies[Type.TR_URL_TYPE];
+        this.urlTypeVocabulary = this.vocabularies[Type.TR_URL_TYPE];*/
       },
       error => {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
@@ -348,14 +430,14 @@ export class TrainingResourceForm implements OnInit {
         this.subVocabularies = this.groupByKey(voc, 'parentId');
 
         this.providerId = this.route.snapshot.paramMap.get('providerId');
-        // if (this.editMode && !(this.route.snapshot.paramMap.get('trainingResourceId').startsWith(this.providerId+'.'))) { //todo: Revisit. What was achieved here?
-        //   return this.router.go('/404');
-        // }
 
-        this.serviceForm.get('resourceOrganisation').setValue(decodeURIComponent(this.providerId));
-        this.handleBitSets(0, 1, 'resourceOrganisation');
+        if(!this.editMode){ //prefill field(s)
+          this.payloadAnswer = {'answer': { TrainingResource:
+                { 'resourceOrganisation': decodeURIComponent(this.providerId)}
+            }};
+        }
 
-        if (!this.editMode) { // prefill main contact info
+/*        if (!this.editMode) { // prefill main contact info
           this.serviceProviderService.getServiceProviderById(this.providerId).subscribe(
             res => { this.provider = res; },
             err => { console.log(err); },
@@ -370,7 +452,7 @@ export class TrainingResourceForm implements OnInit {
               this.handleBitSetsOfGroups(5, 16, 'email', 'contact');
             }
           );
-        }
+        }*/
 
       }
     );
@@ -915,6 +997,22 @@ export class TrainingResourceForm implements OnInit {
     const element: HTMLElement = document.getElementById(id) as HTMLElement;
     element.click();
     window.scrollTo(0, -1);
+  }
+
+  cleanArrayProperty(obj: any, property: string): void {
+    if (obj && Array.isArray(obj[property])) {
+      // Filter out elements that are entirely empty:
+      const cleaned = obj[property].filter((element: any) => {
+        if (element && typeof element === 'object') {
+          // Keep the element if at least one property has a non-empty value.
+          return Object.keys(element).some(key => element[key] !== null && element[key] !== '');
+        }
+        // For non-objects, keep the element if it's not null or ''.
+        return element !== null && element !== '';
+      });
+      // If the cleaned array is empty, set the property to null. Otherwise, update it.
+      obj[property] = cleaned.length ? cleaned : null;
+    }
   }
 
 }

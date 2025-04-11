@@ -1,5 +1,5 @@
 import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {Component, Injector, OnInit} from '@angular/core';
+import {Component, Injector, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
@@ -13,6 +13,10 @@ import {ActivatedRoute} from '@angular/router';
 import {DatasourceService} from "../../../services/datasource.service";
 import BitSet from "bitset";
 import {PremiumSortPipe} from "../../../shared/pipes/premium-sort.pipe";
+import {SurveyComponent} from "../../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {Model} from "../../../../dynamic-catalogue/domain/dynamic-form-model";
+import {FormControlService} from "../../../../dynamic-catalogue/services/form-control.service";
+import {zip} from "rxjs";
 
 declare var UIkit: any;
 
@@ -22,6 +26,11 @@ declare var UIkit: any;
   styleUrls: ['../../provider/service-provider-form.component.css']
 })
 export class DatasourceSubprofileFormComponent implements OnInit {
+  @ViewChild(SurveyComponent) child: SurveyComponent
+  model: Model = null;
+  vocabulariesMap: Map<string, object[]> = null;
+  subVocabulariesMap: Map<string, object[]> = null
+  payloadAnswer: object = null;
 
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
@@ -170,7 +179,8 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
               protected datasourceService: DatasourceService,
-              protected route: ActivatedRoute
+              protected route: ActivatedRoute,
+              public dynamicFormService: FormControlService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
@@ -178,6 +188,33 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
+
+  submitForm(value: any, tempSave: boolean, pendingService: boolean) {//TODO
+    let datasourceValue = value[0].value.Datasource;
+    window.scrollTo(0, 0);
+
+    if (!this.authenticationService.isLoggedIn()) {
+      sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
+      this.authenticationService.login();
+    }
+
+    this.errorMessage = '';
+    this.showLoader = true;
+
+    this.datasourceService.submitDatasource(datasourceValue, this.editMode).subscribe(
+      _ds => {
+        this.showLoader = false;
+        if (this.addOpenAIRE) return this.navigator.datasourceSubmitted(_ds.id);
+        return this.navigator.resourceDashboard(this.providerId, _ds.serviceId); // fixme: Datasource providerId -2test
+      },
+      err => {
+        this.showLoader = false;
+        window.scrollTo(0, 0);
+        this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+      }
+    );
+}
+
 
   onSubmit() {
     if (!this.authenticationService.isLoggedIn()) {
@@ -239,19 +276,33 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     this.addOpenAIRE = window.location.pathname.includes('addOpenAIRE');
     this.openaireId = this.route.snapshot.paramMap.get('openaireId');
     this.providerId = this.route.snapshot.paramMap.get('providerId');
-    this.resourceService.getAllVocabulariesByType().subscribe(
+    this.resourceId = this.route.snapshot.paramMap.get('resourceId');
+    zip(
+      this.resourceService.getAllVocabulariesByType(),
+      this.resourceService.getFormModelById('m-b-datasource'),
+    ).subscribe(
       suc => {
-        this.vocabularies = <Map<string, Vocabulary[]>>suc;
-        this.jurisdictionVocabulary = this.vocabularies[Type.DS_JURISDICTION];
+        this.vocabularies = <Map<string, Vocabulary[]>>suc[0];
+        this.vocabulariesMap = suc[0];
+        this.model = suc[1];
+
+/*        this.jurisdictionVocabulary = this.vocabularies[Type.DS_JURISDICTION];
         this.classificationVocabulary = this.vocabularies[Type.DS_CLASSIFICATION];
         this.researchEntityTypeVocabulary = this.vocabularies[Type.DS_RESEARCH_ENTITY_TYPE];
         this.persistentIdentitySchemeVocabulary = this.vocabularies[Type.DS_PERSISTENT_IDENTITY_SCHEME];
-        this.accessRightsVocabulary = this.vocabularies[Type.DS_COAR_ACCESS_RIGHTS_1_0];
+        this.accessRightsVocabulary = this.vocabularies[Type.DS_COAR_ACCESS_RIGHTS_1_0];*/
       },
       error => {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
       },
-      () => {}
+      () => {
+        if(!this.editMode){ //prefill field(s)
+          this.payloadAnswer = {'answer': { Datasource:
+                { 'serviceId': decodeURIComponent(this.resourceId),
+                  'catalogueId': 'eosc'}
+            }};
+        }
+      }
     )
     if (this.route.snapshot.paramMap.get('resourceId')) {
       this.serviceId = this.route.snapshot.paramMap.get('resourceId');
@@ -500,6 +551,22 @@ export class DatasourceSubprofileFormComponent implements OnInit {
         return this.navigator.resourceDashboard(this.providerId, this.datasource.serviceId); // fixme: Datasource providerId -2test
       }
     );
+  }
+
+  cleanArrayProperty(obj: any, property: string): void {
+    if (obj && Array.isArray(obj[property])) {
+      // Filter out elements that are entirely empty:
+      const cleaned = obj[property].filter((element: any) => {
+        if (element && typeof element === 'object') {
+          // Keep the element if at least one property has a non-empty value.
+          return Object.keys(element).some(key => element[key] !== null && element[key] !== '');
+        }
+        // For non-objects, keep the element if it's not null or ''.
+        return element !== null && element !== '';
+      });
+      // If the cleaned array is empty, set the property to null. Otherwise, update it.
+      obj[property] = cleaned.length ? cleaned : null;
+    }
   }
 
 }

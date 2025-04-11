@@ -1,4 +1,35 @@
-<div class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom" style="min-height: 325px">
+<div *ngIf="model && vocabularies && subVocabularies" class="uk-section-default uk-section uk-section-small uk-padding-remove-top uk-padding-remove-bottom" style="min-height: 90vh;">
+  <div class="uk-container uk-container-expand uk-margin-left uk-margin-right">
+
+    <div *ngIf="errorMessage" id="errorAlert" class="uk-alert-danger" uk-alert>
+      <a class="uk-alert-close" uk-close></a>
+      <pre class="uk-alert-danger">{{errorMessage}}</pre>
+    </div>
+
+    <ng-container *ngIf="(editMode && payloadAnswer) || !editMode">
+      <app-survey [payload]="payloadAnswer" [model]="model" [vocabulariesMap]="vocabulariesMap" [subVocabularies]="subVocabulariesMap"
+                  [tabsHeader]="" (submit)="submitForm($event, false, false)" [activeUsers]="[]">
+
+        <div *ngIf="model" class="uk-grid form-top-section">
+          <h5 class="uk-width-1-1 uk-margin-bottom">{{ model.name }}</h5>
+          <p class="uk-margin-bottom" [innerHTML]="model.notice"></p>
+        </div>
+
+        <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end" style="min-height: 40px">
+          <div>
+            <button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">
+              Submit
+            </button>
+          </div>
+        </div>
+      </app-survey>
+    </ng-container>
+  </div>
+</div>
+
+<pre>{{this.payloadAnswer|json}}</pre>
+
+<!--<div class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom" style="min-height: 325px">
   <div class="uk-container uk-container-expand">
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
@@ -14,13 +45,13 @@
           </div>
           <div class="uk-flex uk-flex-middle">
             <ng-container *ngIf="!disable">
-              <!--<button class="uk-button uk-button-primary">Discard</button>-->
-<!--              <button class="uk-button uk-button-primary uk-margin-left"-->
-<!--                      (click)="openPreviewModal()">Preview-->
-<!--              </button>-->
-<!--              <button *ngIf="!editMode || pendingService"-->
-<!--                      class="uk-button uk-button-primary uk-margin-left" (click)="this.onSubmit(this.service, true)">Save as draft-->
-<!--              </button>-->
+              &lt;!&ndash;<button class="uk-button uk-button-primary">Discard</button>&ndash;&gt;
+&lt;!&ndash;              <button class="uk-button uk-button-primary uk-margin-left"&ndash;&gt;
+&lt;!&ndash;                      (click)="openPreviewModal()">Preview&ndash;&gt;
+&lt;!&ndash;              </button>&ndash;&gt;
+&lt;!&ndash;              <button *ngIf="!editMode || pendingService"&ndash;&gt;
+&lt;!&ndash;                      class="uk-button uk-button-primary uk-margin-left" (click)="this.onSubmit(this.service, true)">Save as draft&ndash;&gt;
+&lt;!&ndash;              </button>&ndash;&gt;
               <button *ngIf="loaderPercentage==100" class="uk-button uk-button-secondary uk-margin-left"
                       (click)="showCommentModal()" type="submit">Submit
               </button>
@@ -29,25 +60,25 @@
         </div>
 
 
-        <!--<h2 class="uk-text-center uk-h2 uk-scrollspy-inview uk-animation-slide-bottom-small" uk-scrollspy-class=""-->
-        <!--style="">-->
-        <!--<img class="el-image uk-border-rounded"-->
-        <!--src="{{(serviceForm && serviceForm.get('logo').value) ? serviceForm.get('logo').value : '/lib/assets/images/broken_image-black-48dp.svg'}}"-->
-        <!--width="50">-->
-        <!--{{editMode ? "Edit" : "Add"}} a {{serviceName}} service-->
-        <!--</h2>-->
+        &lt;!&ndash;<h2 class="uk-text-center uk-h2 uk-scrollspy-inview uk-animation-slide-bottom-small" uk-scrollspy-class=""&ndash;&gt;
+        &lt;!&ndash;style="">&ndash;&gt;
+        &lt;!&ndash;<img class="el-image uk-border-rounded"&ndash;&gt;
+        &lt;!&ndash;src="{{(serviceForm && serviceForm.get('logo').value) ? serviceForm.get('logo').value : '/lib/assets/images/broken_image-black-48dp.svg'}}"&ndash;&gt;
+        &lt;!&ndash;width="50">&ndash;&gt;
+        &lt;!&ndash;{{editMode ? "Edit" : "Add"}} a {{serviceName}} service&ndash;&gt;
+        &lt;!&ndash;</h2>&ndash;&gt;
 
-        <!-- TOP HELP CONTENT -->
+        &lt;!&ndash; TOP HELP CONTENT &ndash;&gt;
         <app-help-content #topHelperContent [position]="'top'"
                           [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
         </app-help-content>
         <div class="uk-margin-medium-bottom">
           <div class="uk-grid">
-            <!-- LEFT HELP CONTENT -->
+            &lt;!&ndash; LEFT HELP CONTENT &ndash;&gt;
             <app-aside-help-content #leftHelperContent [position]="'left'"
                                     [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
             </app-aside-help-content>
-            <!-- MIDDLE -->
+            &lt;!&ndash; MIDDLE &ndash;&gt;
             <div class=" uk-width-expand@m uk-margin-medium-top">
               <div *ngIf="showLoader" class="uk-position-center">
                 <div uk-spinner="ratio: 2"></div>
@@ -69,9 +100,9 @@
                             <p class="uk-margin-remove-bottom">For questions related to the information that needs to be
                               filled in and suggestions on the portal, please contact us in <a
                                 href="mailto:onboarding@eosc-portal.eu">onboarding@eosc-portal.eu</a></p>
-                            <!--                        <p>For technical issues and questions, please contact us in <a href="mailto:providers@eosc-portal.eu">providers@eosc-portal.eu</a></p>-->
+                            &lt;!&ndash;                        <p>For technical issues and questions, please contact us in <a href="mailto:providers@eosc-portal.eu">providers@eosc-portal.eu</a></p>&ndash;&gt;
                           </ng-container>
-                          <!-- TOP HELP CONTENT -->
+                          &lt;!&ndash; TOP HELP CONTENT &ndash;&gt;
                           <app-help-content #topHelperContent [position]="'top'"
                                             [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
                           </app-help-content>
@@ -148,12 +179,12 @@
                           </a>
                         </li>
 
-                        <!--<li class="uk-active"><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[0]}" href="#">Basic *</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[1]}" href="#">Marketing *</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[2]}" href="#">Classification *</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[3]}" href="#">Availability *</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[4]}" href="#">Location</a></li>-->
-                        <!--<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[5]}" href="#">Contact *</a></li>-->
+                        &lt;!&ndash;<li class="uk-active"><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[0]}" href="#">Basic *</a></li>&ndash;&gt;
+                        &lt;!&ndash;<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[1]}" href="#">Marketing *</a></li>&ndash;&gt;
+                        &lt;!&ndash;<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[2]}" href="#">Classification *</a></li>&ndash;&gt;
+                        &lt;!&ndash;<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[3]}" href="#">Availability *</a></li>&ndash;&gt;
+                        &lt;!&ndash;<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[4]}" href="#">Location</a></li>&ndash;&gt;
+                        &lt;!&ndash;<li><a class="remove-text-decoration" [ngClass]="{'form-error': tabs[5]}" href="#">Contact *</a></li>&ndash;&gt;
                       </ul>
 
                       <ng-container *ngIf="!disable">
@@ -174,14 +205,14 @@
                         </div>
                       </div>
 
-<!--                      <pre>-->
-<!--                        {{this.loaderBitSet.toString(2)}}-->
-<!--                        {{this.loaderBitSet.cardinality()}}-->
-<!--                      </pre>-->
+&lt;!&ndash;                      <pre>&ndash;&gt;
+&lt;!&ndash;                        {{this.loaderBitSet.toString(2)}}&ndash;&gt;
+&lt;!&ndash;                        {{this.loaderBitSet.cardinality()}}&ndash;&gt;
+&lt;!&ndash;                      </pre>&ndash;&gt;
 
                       <div class="formContainer">
                         <ul id="top-navigation-tabs" class="uk-switcher uk-margin-top uk-margin-bottom">
-                          <!--Basic-->
+                          &lt;!&ndash;Basic&ndash;&gt;
                           <li class="uk-active" id="Basic">
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="title">
@@ -243,7 +274,7 @@
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{resourceProvidersDesc.label}}
                                   </a>
                                 </div>
-                                <!--<i><small>{{resourceProvidersDesc.desc}}</small></i>-->
+                                &lt;!&ndash;<i><small>{{resourceProvidersDesc.desc}}</small></i>&ndash;&gt;
                               </div>
                             </div>
 
@@ -338,7 +369,7 @@
                                     <i class="fa fa-plus" aria-hidden="true"></i> Add {{eoscRelatedServiceDesc.label}}
                                   </a>
                                 </div>
-                                <!--<i><small>{{eoscRelatedServiceDesc.desc}}</small></i>-->
+                                &lt;!&ndash;<i><small>{{eoscRelatedServiceDesc.desc}}</small></i>&ndash;&gt;
                               </div>
                             </div>
 
@@ -369,7 +400,7 @@
                                       <div class="uk-form-controls uk-margin-top">
                                         <input id="value" class="uk-input uk-width-9-10" type="text" formControlName="value"
                                                (input)="unsavedChangesPrompt()">
-                                        <!--                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('alternativeIdentifiers', i, this.editMode, 'value')}">-->
+                                        &lt;!&ndash;                                               [ngClass]="{'uk-form-danger': checkFormArrayValidity('alternativeIdentifiers', i, this.editMode, 'value')}">&ndash;&gt;
                                       </div>
                                     </div>
 
@@ -393,7 +424,7 @@
                             </div>
 
                           </li>
-                          <!--Detailed & Access-->
+                          &lt;!&ndash;Detailed & Access&ndash;&gt;
                           <li>
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="description">
@@ -402,10 +433,10 @@
                               <div
                                 class="uk-form-description uk-margin-top uk-width-9-10">{{descriptionDesc.desc}}</div>
                               <div class="uk-form-controls uk-margin-top uk-width-9-10">
-                                <!--                              <textarea id="description" class="uk-textarea uk-width-9-10" rows="4"-->
-                                <!--                                        formControlName="description"-->
-                                <!--                                        (input)="handleBitSets(1, 3, 'description'); unsavedChangesPrompt()"-->
-                                <!--                                        [ngClass]="{'uk-form-danger': checkFormValidity('description', this.editMode)}"></textarea>-->
+                                &lt;!&ndash;                              <textarea id="description" class="uk-textarea uk-width-9-10" rows="4"&ndash;&gt;
+                                &lt;!&ndash;                                        formControlName="description"&ndash;&gt;
+                                &lt;!&ndash;                                        (input)="handleBitSets(1, 3, 'description'); unsavedChangesPrompt()"&ndash;&gt;
+                                &lt;!&ndash;                                        [ngClass]="{'uk-form-danger': checkFormValidity('description', this.editMode)}"></textarea>&ndash;&gt;
                                 <md-editor  id="description"
                                             [ngClass]="{'uk-form-danger': checkFormValidity('description', this.editMode)}"
                                             [height]="'250px'"
@@ -498,7 +529,7 @@
                             </div>
 
                           </li>
-                          <!--Learning-->
+                          &lt;!&ndash;Learning&ndash;&gt;
                           <li>
 
                             <div formArrayName="targetGroups" class="uk-margin-large-bottom">
@@ -738,7 +769,7 @@
                             </div>
 
                           </li>
-                          <!--Availability-->
+                          &lt;!&ndash;Availability&ndash;&gt;
                           <li>
                             <div formArrayName="languages" class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="languages">
@@ -853,7 +884,7 @@
                             </div>
 
                           </li>
-                          <!--Classification-->
+                          &lt;!&ndash;Classification&ndash;&gt;
                           <li>
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right">
@@ -864,10 +895,10 @@
                                      *ngFor="let category of scientificDomainArray.controls; let i = index">
                                   <div [formGroupName]="i"
                                        class="uk-margin-bottom formGroupElement uk-width-9-10 uk-display-inline-block">
-                                    <!--<a *ngIf="scientificDomainArray.length > 1" class="remove-element uk-padding-small"-->
-                                    <!--(click)="removeScientificDomain(i); unsavedChangesPrompt()">-->
-                                    <!--<i class="fa fa-times" aria-hidden="true"></i>-->
-                                    <!--</a>-->
+                                    &lt;!&ndash;<a *ngIf="scientificDomainArray.length > 1" class="remove-element uk-padding-small"&ndash;&gt;
+                                    &lt;!&ndash;(click)="removeScientificDomain(i); unsavedChangesPrompt()">&ndash;&gt;
+                                    &lt;!&ndash;<i class="fa fa-times" aria-hidden="true"></i>&ndash;&gt;
+                                    &lt;!&ndash;</a>&ndash;&gt;
                                     <div class="uk-margin-bottom">
                                       <label class="uk-form-label uk-text-right" for="{{'scientificDomain ' + i}}">
                                         {{scientificDomainDesc.label + (scientificDomainDesc.mandatory ? ' (*)' : '')}}
@@ -889,7 +920,7 @@
                                         </div>
                                         <div *ngIf="this.scientificDomainArray.controls[i].get('scientificDomain').value">
                                           <div *ngIf="this.scientificDomainArray.controls[i].get('scientificDomain').value === 'scientific_domain-other'" class="uk-flex uk-flex-left">
-                                            <!--                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default" style="width: 250px;">-->
+                                            &lt;!&ndash;                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default" style="width: 250px;">&ndash;&gt;
                                             <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                               <label>
                                                 <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="scientificDomainVocabularyEntryValueName">
@@ -927,7 +958,7 @@
                                         </div>
                                         <div *ngIf="this.scientificDomainArray.controls[i].get('scientificDomain').value && this.scientificDomainArray.controls[i].get('scientificSubdomain').value">
                                           <div *ngIf="this.scientificDomainArray.controls[i].get('scientificSubdomain').value.includes('-other')" class="uk-flex uk-flex-left">
-                                            <!--                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default" style="width: 250px;">-->
+                                            &lt;!&ndash;                                          <form [formGroup]="vocabularyEntryForm" (ngSubmit)="submitSuggestion()" class="uk-search uk-search-default" style="width: 250px;">&ndash;&gt;
                                             <form [formGroup]="vocabularyEntryForm" class="uk-search uk-search-default" style="width: 250px;">
                                               <label>
                                                 <input class="uk-input uk-margin-small-top" type="search" placeholder="" formControlName="scientificSubDomainVocabularyEntryValueName">
@@ -969,7 +1000,7 @@
                             </div>
 
                           </li>
-                          <!--Contact-->
+                          &lt;!&ndash;Contact&ndash;&gt;
                           <li>
                             <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right">Contact (*)</label>
@@ -1014,7 +1045,7 @@
                                       <input id="contactEmail" class="uk-input" type="text" formControlName="email"
                                              (input)="handleBitSetsOfGroups(5, 16, 'email', 'contact'); unsavedChangesPrompt()"
                                              [ngClass]="{'uk-form-danger': checkFormValidity('contact.email', this.editMode)}">
-                                      <!--<i><small>{{ contactEmailDesc.desc }}</small></i>-->
+                                      &lt;!&ndash;<i><small>{{ contactEmailDesc.desc }}</small></i>&ndash;&gt;
                                     </div>
                                   </div>
                                   <div class="uk-margin-bottom">
@@ -1066,13 +1097,13 @@
 
                           </li>
                         </ul>
-<!--                                                <pre>-->
-<!--                                                  {{serviceForm.value | json}}-->
-<!--                                                </pre>-->
+&lt;!&ndash;                                                <pre>&ndash;&gt;
+&lt;!&ndash;                                                  {{serviceForm.value | json}}&ndash;&gt;
+&lt;!&ndash;                                                </pre>&ndash;&gt;
                       </div>
-                      <!--<button type="submit" class="btn btn-primary butn theme block full-width m-b">-->
-                      <!--{{editMode ? "Update" : "Add"}}-->
-                      <!--</button>-->
+                      &lt;!&ndash;<button type="submit" class="btn btn-primary butn theme block full-width m-b">&ndash;&gt;
+                      &lt;!&ndash;{{editMode ? "Update" : "Add"}}&ndash;&gt;
+                      &lt;!&ndash;</button>&ndash;&gt;
 
                     </form>
 
@@ -1080,13 +1111,13 @@
 
                 </div>
               </div>
-              <!-- RIGHT HELP CONTENT -->
+              &lt;!&ndash; RIGHT HELP CONTENT &ndash;&gt;
               <app-aside-help-content #rightHelperContent [position]="'right'"
                                       [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
               </app-aside-help-content>
             </div>
           </div>
-          <!-- BOTTOM HELP CONTENT -->
+          &lt;!&ndash; BOTTOM HELP CONTENT &ndash;&gt;
           <app-help-content #bottomHelperContent [position]="'bottom'"
                             [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
           </app-help-content>
@@ -1094,7 +1125,7 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->
 
 
 <div id="modal-preview" class="uk-flex-top uk-modal-container" uk-modal="bg-close: true; esc-close: true;">

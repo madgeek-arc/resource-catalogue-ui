@@ -17,6 +17,7 @@ import {URLParameter} from '../domain/url-parameter';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {Info} from '../domain/info';
+import {Model} from "../../dynamic-catalogue/domain/dynamic-form-model";
 
 declare var UIkit: any;
 
@@ -118,7 +119,11 @@ export class ResourceService {
     return this.http.get<BrowseResults>(this.base + '/service/by/category/');
   }
 
-  getAllRelatedResources(catalogueId: string){ // Gets services, datasources, trainings (low level ids for specified catalogue, public ids for others)
+  getProvidersAsVocs(catalogueId: string){
+    return this.http.get(this.base + `/provider/providerIdToNameMap?catalogueId=${catalogueId}`);
+  }
+
+  getResourcesAsVocs(catalogueId: string){ // Gets services and trainings as VOCs
     return this.http.get(this.base + `/service/resourceIdToNameMap?catalogueId=${catalogueId}`);
   }
 
@@ -582,5 +587,9 @@ export class ResourceService {
   suspendDatasource(datasourceId: string, catalogueId: string, suspend: boolean) {
     datasourceId = decodeURIComponent(datasourceId);
     return this.http.put<DatasourceBundle>(this.base + `/datasource/suspend?datasourceId=${datasourceId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
+  }
+
+  getFormModelById(id: string) {
+    return this.http.get<Model>(this.base + `/forms/models/${id}`);
   }
 }
