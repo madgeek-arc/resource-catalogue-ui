@@ -50,7 +50,6 @@ import {DatasourceService} from "../lib/services/datasource.service";
 import {TrainingResourceService} from "../lib/services/training-resource.service";
 import {RecommendationsService} from "../lib/services/recommendations.service";
 import {GuidelinesService} from "../lib/services/guidelines.service";
-import {ContactInfoModalComponent} from "./shared/contactinfomodal/contact-info-modal.component";
 import {pidHandler} from "../lib/shared/pid-handler/pid-handler.service";
 
 declare var require: any;
@@ -98,7 +97,6 @@ export function highchartsFactory() {
     // ServiceEditComponent,
     // ServiceFormComponent,
     // ServiceUploadComponent,
-    ContactInfoModalComponent,
     // EoscCommonMainHeader,
     // EoscCommonMainFooter
   ],
@@ -150,8 +148,7 @@ export function highchartsFactory() {
     EOSCTopMenuComponent,
     BreadcrumbsComponent,
     DashboardBreadcrumbsComponent,
-    FeedbackComponent,
-    ContactInfoModalComponent
+    FeedbackComponent
   ],
   bootstrap: [AppComponent]
 })
