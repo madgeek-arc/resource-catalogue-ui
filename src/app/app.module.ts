@@ -34,7 +34,6 @@ import {ServiceEditComponent} from '../lib/pages/provider-resources/service-edit
 import {AuthenticationInterceptor} from '../lib/services/authentication-interceptor';
 import {CookieLawModule} from '../lib/shared/reusablecomponents/cookie-law/cookie-law.module';
 import {EmailService} from '../lib/services/email.service';
-import {EOSCFooterComponent} from './shared/footer/footer.component';
 import {EOSCTopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
@@ -79,7 +78,6 @@ export function highchartsFactory() {
     EOSCTopMenuComponent,
     // BreadcrumbsComponent,
     FooterComponent,
-    EOSCFooterComponent,
     FeedbackComponent,
     // USER
     // DashboardComponent,
@@ -143,7 +141,6 @@ export function highchartsFactory() {
   ],
   exports: [
     // FooterComponent,
-    EOSCFooterComponent,
     // TopMenuComponent,
     EOSCTopMenuComponent,
     BreadcrumbsComponent,
