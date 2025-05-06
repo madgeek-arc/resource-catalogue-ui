@@ -7,7 +7,6 @@
 
   <div style="margin-top: 159px;"></div>
   <app-breadcrumbs *ngIf="router.url != '/becomeAProvider' && router.url != '/home' && router.url != '/' && !isDashboardRoute()" ></app-breadcrumbs>
-<!--  <contact-info-modal></contact-info-modal>-->
   <router-outlet></router-outlet>
   <ng-container *ngIf="!isDashboardRoute(); else dashboard">
     <app-external-footer></app-external-footer>

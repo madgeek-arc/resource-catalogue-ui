@@ -13,7 +13,7 @@ export const environment = {
   API_LOGOUT: '/api/logout',
   STATS_ENDPOINT: 'https://providers.eosc-portal.eu/stats-api/',
   projectName: 'EOSC',
-  projectMail: 'onboarding@eosc-portal.eu', // used for suggestions
+  projectMail: 'support@sandbox.eosc-beyond.eu',
   serviceORresource: 'Service',
   hasUserConsent: true,
   privacyPolicyURL: 'https://docs.google.com/document/d/10fhcpZ7jngLM6VVTLLMXDN1QoVE3Jvoq4RF8NeYydSA/edit?tab=t.0#heading=h.kp1upoc0eymv',
@@ -23,7 +23,7 @@ export const environment = {
   marketplaceServicesURL: './comingSoon',
   marketplaceDatasourcesURL: './comingSoon',
   marketplaceTrainingResourcesURL: './comingSoon',
-  API_TOKEN_ENDPOINT: 'https://aai.eosc-portal.eu/providers-api',
+  API_TOKEN_ENDPOINT: 'https://core-proxy.sandbox.eosc-beyond.eu/providers-api/',
   INSIGHTS_ENDPOINT: 'provider_insights_api/v1/statistics/rs',
   AUTOCOMPLETION_ENDPOINT: 'v1/auto_completion',
   showHelpContent: false,
