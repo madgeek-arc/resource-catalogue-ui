@@ -13,7 +13,7 @@ export const environment = {
   API_LOGOUT: '/api/logout',
   STATS_ENDPOINT: 'https://providers.eosc-portal.eu/stats-api/',
   projectName: 'EOSC',
-  projectMail: 'onboarding@eosc-portal.eu', // used for suggestions
+  projectMail: 'support@sandbox.eosc-beyond.eu',
   serviceORresource: 'Service',
   hasUserConsent: true,
   privacyPolicyURL: './comingSoon',
