@@ -29,18 +29,18 @@
                                     tokens programmatically when they expire. Refresh tokens expire at the end of each
                                     year, so you’ll also need to reissue new refresh tokens from year to year. In case
                                     you need to reissue or manage refresh tokens, you can easily do it, just follow the
-                                    instructions <a href="https://aai.eosc-portal.eu/auth/realms/core/account/#/applications" target="_blank">here</a>.</p>
+                                    instructions <a href="https://core-proxy.sandbox.eosc-beyond.eu/auth/realms/core/account/#/applications" target="_blank">here</a>.</p>
 
                                   <p>The obtained token can be used in a bearer authorization header like this: 'Authorization: Bearer [token]'.
                                     <br>For example, a call for adding a new resource goes like this:</p>
-                                  <p>
-                                    curl -X POST
-                                    <br>--header 'Content-Type: application/json'
-                                    <br>--header Authorization: Bearer &lt;TOKEN&gt;'
-                                    <br>--header 'Accept: application/json'
-                                    <br>-d '&lt;input data in json format&gt;' 'https://api.providers.sandbox.eosc-beyond.eu/resource'
-                                  </p>
-
+                                  <pre class="uk-padding-remove">
+                                    <code>
+   curl -X POST
+   --header 'Content-Type: application/json'
+   --header Authorization: Bearer &lt;TOKEN&gt;'
+   --header 'Accept: application/json'
+   -d '&lt;input data in json format&gt;' 'https://api.providers.sandbox.eosc-beyond.eu/&lt;resource&gt;'</code>
+                                  </pre>
                                 </div>
                             </div>
                         </div>
