@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import * as dm from '../../shared/description.map';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -832,4 +832,6 @@ export class GuidelinesFormComponent implements OnInit {
     }
   }
 
+  protected readonly environment = environment;
+  protected readonly isDevMode = isDevMode;
 }

@@ -27,7 +27,9 @@
   </div>
 </div>
 
-<pre>{{this.payloadAnswer|json}}</pre>
+<ng-container *ngIf="isDevMode()">
+  <pre>{{this.payloadAnswer|json}}</pre>
+</ng-container>
 
 <!--
 <div class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom" style="min-height: 325px">

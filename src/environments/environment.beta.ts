@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   beta: true,
   CATALOGUE: 'eosc',
   MATOMO_URL: 'https://providers.eosc-portal.eu/matomo/',

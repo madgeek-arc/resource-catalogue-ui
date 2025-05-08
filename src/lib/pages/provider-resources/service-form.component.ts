@@ -1,5 +1,5 @@
 import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {Component, Injector, OnInit, ViewChild} from '@angular/core';
+import {Component, Injector, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
@@ -1560,4 +1560,6 @@ export class ServiceFormComponent implements OnInit {
     }
   }
 
+  protected readonly environment = environment;
+  protected readonly isDevMode = isDevMode;
 }

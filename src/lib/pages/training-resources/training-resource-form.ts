@@ -1,5 +1,5 @@
 import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {Component, Injector, OnInit, ViewChild} from '@angular/core';
+import {Component, Injector, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {TrainingResourceService} from '../../services/training-resource.service';
@@ -1015,4 +1015,6 @@ export class TrainingResourceForm implements OnInit {
     }
   }
 
+  protected readonly environment = environment;
+  protected readonly isDevMode = isDevMode;
 }

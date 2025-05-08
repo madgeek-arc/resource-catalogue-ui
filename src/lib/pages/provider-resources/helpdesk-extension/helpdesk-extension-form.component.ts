@@ -1,5 +1,5 @@
 import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {Component, Injector, OnInit, ViewChild} from '@angular/core';
+import {Component, Injector, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
@@ -276,4 +276,6 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     this.serviceForm.get('helpdeskType').setValue(event.target.value);
   }
 
+  protected readonly environment = environment;
+  protected readonly isDevMode = isDevMode;
 }

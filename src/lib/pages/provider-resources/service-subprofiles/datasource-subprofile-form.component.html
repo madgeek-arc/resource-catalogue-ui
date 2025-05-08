@@ -28,7 +28,7 @@
   </div>
 </div>
 
-<ng-container *ngIf="!environment.production">
+<ng-container *ngIf="isDevMode()">
   <pre>{{this.payloadAnswer|json}}</pre>
 </ng-container>
 
