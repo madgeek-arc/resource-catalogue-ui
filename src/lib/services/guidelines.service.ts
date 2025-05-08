@@ -8,6 +8,8 @@ import {
 } from '../domain/eic-model';
 import {Paging} from "../domain/paging";
 
+const CATALOGUE = environment.CATALOGUE;
+
 @Injectable()
 export class GuidelinesService {
 
@@ -107,6 +109,10 @@ export class GuidelinesService {
 
   auditGuideline(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
-    return this.http.patch(this.base + `/interoperabilityRecord/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
+    if(!catalogueId) catalogueId = CATALOGUE;
+    if (catalogueId === CATALOGUE)
+      return this.http.patch(this.base + `/interoperabilityRecord/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
+    else
+      return this.http.patch(this.base + `/catalogue/${catalogueId}/interoperabilityRecord/auditInteroperabilityRecord/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 }

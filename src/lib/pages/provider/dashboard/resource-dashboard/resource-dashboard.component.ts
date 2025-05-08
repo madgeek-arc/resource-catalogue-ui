@@ -19,6 +19,7 @@ export class ResourceDashboardComponent implements OnInit {
 
   _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
+  CATALOGUE = environment.CATALOGUE;
 
   catalogueId: string;
   providerId: string;
@@ -54,15 +55,17 @@ export class ResourceDashboardComponent implements OnInit {
       res => { if (res!=null) this.resourceBundle = res },
       error => {},
       () => {
-        this.serviceExtensionsService.getMonitoringByServiceId(this.resourceId).subscribe(
-          res => { if (res!=null) this.monitoringId = res.id }
-        );
-        this.serviceExtensionsService.getHelpdeskByServiceId(this.resourceId).subscribe(
-          res => { if (res!=null) this.helpdeskId = res.id }
-        );
-        this.datasourceService.getDatasourceByServiceId(this.resourceId).subscribe(
+        this.datasourceService.getDatasourceByServiceId(this.resourceId, this.catalogueId).subscribe(
           res => { if (res!=null) this.datasourceId = res.id }
         );
+        if (this.catalogueId === this.CATALOGUE){
+          this.serviceExtensionsService.getMonitoringByServiceId(this.resourceId).subscribe(
+            res => { if (res!=null) this.monitoringId = res.id }
+          );
+          this.serviceExtensionsService.getHelpdeskByServiceId(this.resourceId).subscribe(
+            res => { if (res!=null) this.helpdeskId = res.id }
+          );
+        }
       }
     );
   }

@@ -139,6 +139,7 @@ export class ServiceFormComponent implements OnInit {
 
   readonly nameDesc: dm.Description = dm.serviceDescMap.get('nameDesc');
   readonly abbreviationDesc: dm.Description = dm.serviceDescMap.get('abbreviationDesc');
+  readonly nodeDesc: dm.Description = dm.serviceDescMap.get('nodeDesc');
   readonly webpageDesc: dm.Description = dm.serviceDescMap.get('webpageDesc');
   readonly altIdTypeDesc: dm.Description = dm.serviceDescMap.get('altIdTypeDesc');
   readonly altIdValueDesc: dm.Description = dm.serviceDescMap.get('altIdValueDesc');
@@ -213,6 +214,7 @@ export class ServiceFormComponent implements OnInit {
     id: [''],
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
+    node: [''],
     webpage: ['', Validators.compose([Validators.required, URLValidator])],
     alternativeIdentifiers: this.fb.array([
       this.fb.group({
@@ -330,6 +332,7 @@ export class ServiceFormComponent implements OnInit {
   public placesVocabulary: Vocabulary[] = [];
   public geographicalVocabulary: Vocabulary[] = null;
   public languagesVocabulary: Vocabulary[] = null;
+  public nodeVocabulary: Vocabulary[] = null;
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -536,27 +539,6 @@ export class ServiceFormComponent implements OnInit {
           });
         });
 
-/*        this.targetUsersVocabulary = this.vocabularies[Type.TARGET_USER];
-        this.accessTypesVocabulary = this.vocabularies[Type.ACCESS_TYPE];
-        this.accessModesVocabulary = this.vocabularies[Type.ACCESS_MODE];
-        this.orderTypeVocabulary = this.vocabularies[Type.ORDER_TYPE];
-        this.phaseVocabulary = this.vocabularies[Type.LIFE_CYCLE_STATUS];
-        this.trlVocabulary = this.vocabularies[Type.TRL];
-        this.serviceCategoryVocabulary = this.vocabularies[Type.SERVICE_CATEGORY];
-        this.marketplaceLocationVocabulary = this.vocabularies[Type.MARKETPLACE_LOCATION];
-        this.superCategoriesVocabulary = this.vocabularies[Type.SUPERCATEGORY];
-        this.categoriesVocabulary = this.vocabularies[Type.CATEGORY];
-        this.subCategoriesVocabulary = this.vocabularies[Type.SUBCATEGORY];
-        this.scientificDomainVocabulary = this.vocabularies[Type.SCIENTIFIC_DOMAIN];
-        this.scientificSubDomainVocabulary = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
-        this.fundingBodyVocabulary = this.vocabularies[Type.FUNDING_BODY];
-        this.fundingProgramVocabulary = this.vocabularies[Type.FUNDING_PROGRAM];
-        this.relatedPlatformsVocabulary = this.vocabularies[Type.RELATED_PLATFORM];
-        this.placesVocabulary = this.vocabularies[Type.COUNTRY];
-        // this.geographicalVocabulary = Object.assign(this.vocabularies[Type.COUNTRY],this.vocabularies[Type.REGION]);
-        this.geographicalVocabulary = this.vocabularies[Type.REGION];
-        this.geographicalVocabulary.push(...this.vocabularies[Type.COUNTRY]);
-        this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];*/
       },
       error => {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
@@ -711,6 +693,8 @@ export class ServiceFormComponent implements OnInit {
   markTabs() {
     this.tabs[0] = (this.checkFormValidity('name', this.editMode)
       || this.checkFormValidity('abbreviation', this.editMode)
+      || this.checkFormValidity('node', this.editMode)
+      || this.checkEveryArrayFieldValidity('catalogueId', this.editMode)
       || this.checkFormValidity('resourceOrganisation', this.editMode)
       || this.checkEveryArrayFieldValidity('resourceProviders', this.editMode)
       || this.checkFormValidity('webpage', this.editMode));
@@ -756,8 +740,7 @@ export class ServiceFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('changeLog', this.editMode));
     this.tabs[7] = (this.checkEveryArrayFieldValidity('requiredResources', this.editMode)
       || this.checkEveryArrayFieldValidity('relatedResources', this.editMode)
-      || this.checkEveryArrayFieldValidity('relatedPlatforms', this.editMode)
-      || this.checkEveryArrayFieldValidity('catalogueId', this.editMode));
+      || this.checkEveryArrayFieldValidity('relatedPlatforms', this.editMode));
     this.tabs[8] = (this.checkEveryArrayFieldValidity('fundingBody', this.editMode)
       || this.checkEveryArrayFieldValidity('fundingPrograms', this.editMode)
       || this.checkEveryArrayFieldValidity('grantProjectNames', this.editMode));

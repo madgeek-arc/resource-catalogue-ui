@@ -311,6 +311,39 @@
                             </div>
 
                             <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="node">
+                                {{ nodeDesc.label + (nodeDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div class="uk-form-description uk-margin-top uk-width-9-10">{{nodeDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-top">
+                                <ng-select class="uk-width-9-10" id="node"
+                                           [ngClass]="{'uk-form-danger': checkFormValidity('node', this.editMode)}"
+                                           [items]="nodeVocabulary"
+                                           (input)="unsavedChangesPrompt()"
+                                           (change)="unsavedChangesPrompt()"
+                                           bindLabel="name"
+                                           bindValue="id"
+                                           clearAllText="Clear"
+                                           formControlName="node">
+                                </ng-select>
+                              </div>
+                            </div>
+
+                            <div class="uk-margin-large-bottom">
+                              <label class="uk-form-label uk-text-right" for="catalogueId">
+                                {{resourceCatalogueIdDesc.label + (resourceCatalogueIdDesc.mandatory ? ' (*)' : '')}}
+                              </label>
+                              <div
+                                class="uk-form-description uk-margin-top uk-width-9-10">{{resourceCatalogueIdDesc.desc}}</div>
+                              <div class="uk-form-controls uk-margin-top">
+                                <input id="catalogueId" class="uk-disabled uk-input uk-width-9-10" type="text" placeholder="eosc"
+                                       formControlName="catalogueId"
+                                       (input)="unsavedChangesPrompt()"
+                                       [ngClass]="{'uk-form-danger': checkFormValidity('catalogueId', this.editMode)}">
+                              </div>
+                            </div>
+
+                            <div class="uk-margin-large-bottom">
                               <label class="uk-form-label uk-text-right" for="resourceOrganisation">
                                 {{resourceOrganisationDesc.label + (resourceOrganisationDesc.mandatory ? ' (*)' : '')}}
                               </label>
@@ -1818,19 +1851,6 @@
                                   </a>
                                 </div>
                                 &lt;!&ndash;<i><small>{{relatedPlatformsDesc.desc}}</small></i>&ndash;&gt;
-                              </div>
-                            </div>
-                            <div class="uk-margin-large-bottom">
-                              <label class="uk-form-label uk-text-right" for="catalogueId">
-                                {{resourceCatalogueIdDesc.label + (resourceCatalogueIdDesc.mandatory ? ' (*)' : '')}}
-                              </label>
-                              <div
-                                class="uk-form-description uk-margin-top uk-width-9-10">{{resourceCatalogueIdDesc.desc}}</div>
-                              <div class="uk-form-controls uk-margin-top">
-                                <input id="catalogueId" class="uk-disabled uk-input uk-width-9-10" type="text" placeholder="eosc"
-                                       formControlName="catalogueId"
-                                       (input)="unsavedChangesPrompt()"
-                                       [ngClass]="{'uk-form-danger': checkFormValidity('catalogueId', this.editMode)}">
                               </div>
                             </div>
 

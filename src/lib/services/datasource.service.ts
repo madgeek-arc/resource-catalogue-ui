@@ -2,8 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
-import {Datasource, DatasourceBundle, OpenAIREMetrics} from '../domain/eic-model';
+import {Datasource, DatasourceBundle, OpenAIREMetrics, ProviderBundle} from '../domain/eic-model';
 import {Paging} from '../domain/paging';
+
+const CATALOGUE = environment.CATALOGUE;
 
 @Injectable()
 export class DatasourceService {
@@ -109,9 +111,13 @@ export class DatasourceService {
 
   getDatasourceByServiceId(serviceId: string, catalogueId?:string){
     serviceId = decodeURIComponent(serviceId);
-    if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<Datasource>(this.base + `/datasource/byService/${serviceId}?catalogue_id=${catalogueId}`, this.options);
-    // return this.http.get<Datasource>(this.base + `/datasource/${serviceId}`, this.options);
+
+    if(!catalogueId) catalogueId = CATALOGUE;
+    if (catalogueId === CATALOGUE)
+
+      return this.http.get<Datasource>(this.base + `/datasource/byService/${serviceId}?catalogue_id=${catalogueId}`, this.options);
+    else
+      return this.http.get<Datasource>(this.base + `/catalogue/${catalogueId}/datasource/${serviceId}`, this.options);
   }
 
   getOpenAIREMetrics(datasourceId: string) {

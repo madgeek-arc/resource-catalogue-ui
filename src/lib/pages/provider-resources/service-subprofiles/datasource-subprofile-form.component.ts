@@ -101,6 +101,9 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
+  readonly nodeDesc: dm.Description = dm.datasourceDescMap.get('nodeDesc');
+  readonly catalogueIdDesc: dm.Description = dm.datasourceDescMap.get('catalogueIdDesc');
+
   readonly submissionPolicyURLDesc: dm.Description = dm.datasourceDescMap.get('submissionPolicyURLDesc');
   readonly preservationPolicyURLDesc: dm.Description = dm.datasourceDescMap.get('preservationPolicyURLDesc');
   readonly versionControlDesc: dm.Description = dm.datasourceDescMap.get('versionControlDesc');
@@ -125,6 +128,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   formGroupMeta = {
     id: [''],
     serviceId: [''],
+    node: [''],
     catalogueId: ['eosc'],
 
     submissionPolicyURL: this.fb.control(''),
@@ -175,6 +179,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   public researchEntityTypeVocabulary: Vocabulary[] = null;
   public persistentIdentitySchemeVocabulary: Vocabulary[] = null;
   public accessRightsVocabulary: Vocabulary[] = null;
+  public nodeVocabulary: Vocabulary[] = null;
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -282,15 +287,10 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       this.resourceService.getFormModelById('m-b-datasource'),
     ).subscribe(
       suc => {
+        // TODO: 2 vars with the same data / keep one
         this.vocabularies = <Map<string, Vocabulary[]>>suc[0];
         this.vocabulariesMap = suc[0];
         this.model = suc[1];
-
-/*        this.jurisdictionVocabulary = this.vocabularies[Type.DS_JURISDICTION];
-        this.classificationVocabulary = this.vocabularies[Type.DS_CLASSIFICATION];
-        this.researchEntityTypeVocabulary = this.vocabularies[Type.DS_RESEARCH_ENTITY_TYPE];
-        this.persistentIdentitySchemeVocabulary = this.vocabularies[Type.DS_PERSISTENT_IDENTITY_SCHEME];
-        this.accessRightsVocabulary = this.vocabularies[Type.DS_COAR_ACCESS_RIGHTS_1_0];*/
       },
       error => {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
@@ -569,4 +569,5 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     }
   }
 
+  protected readonly environment = environment;
 }

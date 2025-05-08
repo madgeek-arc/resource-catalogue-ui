@@ -226,7 +226,24 @@
                             </div>
                             <i><small>Suggested length is 30 characters</small></i>
                           </div>
-
+                          <div class="uk-margin-large-bottom">
+                            <label class="uk-form-label uk-text-right" for="node">
+                              {{ nodeDesc.label + (nodeDesc.mandatory ? ' (*)' : '')}}
+                            </label>
+                            <div class="uk-form-description uk-margin-top uk-width-9-10">{{nodeDesc.desc}}</div>
+                            <div class="uk-form-controls uk-margin-top">
+                              <ng-select class="uk-width-9-10" id="node"
+                                         [ngClass]="{'uk-form-danger': checkFormValidity('node', this.edit)}"
+                                         [items]="nodeVocabulary"
+                                         (input)="unsavedChangesPrompt()"
+                                         (change)="unsavedChangesPrompt()"
+                                         bindLabel="name"
+                                         bindValue="id"
+                                         clearAllText="Clear"
+                                         formControlName="node">
+                              </ng-select>
+                            </div>
+                          </div>
                           <div class="uk-margin-large-bottom">
                             <label class="uk-form-label uk-text-right" for="website">
                               {{ websiteDesc.label + (websiteDesc.mandatory ? ' (*)' : '')}}

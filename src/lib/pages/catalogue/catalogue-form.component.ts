@@ -99,6 +99,7 @@ export class CatalogueFormComponent implements OnInit {
 
   readonly fullNameDesc: dm.Description = dm.catalogueDescMap.get('fullNameDesc');
   readonly abbreviationDesc: dm.Description = dm.catalogueDescMap.get('abbreviationDesc');
+  readonly nodeDesc: dm.Description = dm.catalogueDescMap.get('nodeDesc');
   readonly websiteDesc: dm.Description = dm.catalogueDescMap.get('websiteDesc');
   readonly descriptionDesc: dm.Description = dm.catalogueDescMap.get('descriptionDesc');
   readonly scopeDesc: dm.Description = dm.catalogueDescMap.get('scopeDesc');
@@ -140,11 +141,13 @@ export class CatalogueFormComponent implements OnInit {
   legalStatusVocabulary: Vocabulary[] = null;
   networksVocabulary: Vocabulary[] = null;
   hostingLegalEntityVocabulary: Vocabulary[] = null;
+  nodeVocabulary: Vocabulary[] = null;
 
   readonly formDefinition = {
     id: [''],
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
+    node: [''],
     website: ['', Validators.compose([Validators.required, URLValidator])],
     legalEntity: [''],
     legalStatus: [''],
@@ -493,6 +496,7 @@ export class CatalogueFormComponent implements OnInit {
   markTabs() {
     this.tabs[0] = (this.checkFormValidity('name', this.edit)
       || this.checkFormValidity('abbreviation', this.edit)
+      || this.checkFormValidity('node', this.edit)
       || this.checkFormValidity('website', this.edit)
       || this.checkEveryArrayFieldValidity('legalEntity', this.edit)
       || this.checkFormValidity('legalStatus', this.edit)
@@ -539,6 +543,7 @@ export class CatalogueFormComponent implements OnInit {
         this.subVocabulariesMap = this.groupByKey(subVocs, 'parentId');
 
         this.vocabularies = res;
+        this.nodeVocabulary = this.vocabularies[Type.NODE];
         this.placesVocabulary = this.vocabularies[Type.COUNTRY];
         this.domainsVocabulary = this.vocabularies[Type.SCIENTIFIC_DOMAIN];
         this.categoriesVocabulary = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];

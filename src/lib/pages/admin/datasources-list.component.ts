@@ -21,6 +21,7 @@ declare var UIkit: any;
 export class DatasourcesListComponent implements OnInit {
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
+  CATALOGUE = environment.CATALOGUE;
 
   formPrepare = {
     order: 'ASC',

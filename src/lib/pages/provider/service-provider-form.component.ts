@@ -109,6 +109,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
   readonly fullNameDesc: dm.Description = dm.providerDescMap.get('fullNameDesc');
   readonly abbreviationDesc: dm.Description = dm.providerDescMap.get('abbreviationDesc');
+  readonly nodeDesc: dm.Description = dm.providerDescMap.get('nodeDesc');
   readonly websiteDesc: dm.Description = dm.providerDescMap.get('websiteDesc');
   readonly descriptionDesc: dm.Description = dm.providerDescMap.get('descriptionDesc');
   readonly logoDesc: dm.Description = dm.providerDescMap.get('logoDesc');
@@ -166,11 +167,13 @@ export class ServiceProviderFormComponent implements OnInit {
   networksVocabulary: Vocabulary[] = null;
   societalGrandChallengesVocabulary: Vocabulary[] = null;
   hostingLegalEntityVocabulary: Vocabulary[] = null;
+  nodeVocabulary: Vocabulary[] = null;
 
   readonly formDefinition = {
     id: [''],
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
+    node: [''],
     website: ['', Validators.compose([Validators.required, URLValidator])],
     legalEntity: [''],
     legalStatus: [''],
@@ -543,6 +546,8 @@ export class ServiceProviderFormComponent implements OnInit {
   markTabs() {
     this.tabs[0] = (this.checkFormValidity('name', this.edit)
       || this.checkFormValidity('abbreviation', this.edit)
+      || this.checkFormValidity('node', this.edit)
+      || this.checkEveryArrayFieldValidity('catalogueId', this.edit)
       || this.checkFormValidity('website', this.edit)
       || this.checkEveryArrayFieldValidity('legalEntity', this.edit)
       || this.checkFormValidity('legalStatus', this.edit)
@@ -574,8 +579,7 @@ export class ServiceProviderFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('certifications', this.edit));
     this.tabs[6] = (this.checkEveryArrayFieldValidity('participatingCountries', this.edit)
       || this.checkEveryArrayFieldValidity('affiliations', this.edit)
-      || this.checkEveryArrayFieldValidity('networks', this.edit)
-      || this.checkEveryArrayFieldValidity('catalogueId', this.edit));
+      || this.checkEveryArrayFieldValidity('networks', this.edit));
     this.tabs[7] = (this.checkEveryArrayFieldValidity('esfriDomains', this.edit)
       || this.checkFormValidity('esfriType', this.edit)
       || this.checkEveryArrayFieldValidity('merilScientificDomains', this.edit, 'merilScientificDomain')
@@ -613,41 +617,6 @@ export class ServiceProviderFormComponent implements OnInit {
       }
     );
   }
-
-/*setVocabulariesOld() {
-    this.resourceService.getAllVocabulariesByType().subscribe(
-      res => {
-        this.vocabulariesMap = res;
-        let subVocs: Vocabulary[] = this.vocabulariesMap['SCIENTIFIC_SUBDOMAIN'].concat(this.vocabulariesMap['PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN']);
-        this.subVocabulariesMap = this.groupByKey(subVocs, 'parentId');
-
-/!*        this.vocabularies = res;
-        this.placesVocabulary = this.vocabularies[Type.COUNTRY];
-        this.providerTypeVocabulary = this.vocabularies[Type.PROVIDER_STRUCTURE_TYPE];
-        this.providerLCSVocabulary = this.vocabularies[Type.PROVIDER_LIFE_CYCLE_STATUS];
-        this.domainsVocabulary = this.vocabularies[Type.SCIENTIFIC_DOMAIN];
-        this.categoriesVocabulary = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
-        this.merilDomainsVocabulary = this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_DOMAIN];
-        this.merilCategoriesVocabulary = this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN];
-        this.esfriDomainVocabulary = this.vocabularies[Type.PROVIDER_ESFRI_DOMAIN];
-        this.legalStatusVocabulary = this.vocabularies[Type.PROVIDER_LEGAL_STATUS];
-        this.esfriVocabulary = this.vocabularies[Type.PROVIDER_ESFRI_TYPE];
-        this.areasOfActivityVocabulary = this.vocabularies[Type.PROVIDER_AREA_OF_ACTIVITY];
-        this.networksVocabulary = this.vocabularies[Type.PROVIDER_NETWORK];
-        this.societalGrandChallengesVocabulary = this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
-        this.hostingLegalEntityVocabulary = this.vocabularies[Type.PROVIDER_HOSTING_LEGAL_ENTITY];
-        return this.vocabularies;*!/
-      },
-      error => console.log(JSON.stringify(error.error)),
-      () => {
-        this.resourceService.getAllVocabulariesByType().subscribe(
-
-        // let voc: Vocabulary[] = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN].concat(this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN]);
-        // this.subVocabularies = this.groupByKey(voc, 'parentId');
-        // return this.vocabularies;
-      }
-    );
-  }*/
 
   /** Categorization --> **/
   newScientificDomain(): UntypedFormGroup {

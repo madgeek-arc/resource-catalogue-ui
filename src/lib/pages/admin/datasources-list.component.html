@@ -259,20 +259,22 @@
 
                       <hr class="uk-margin-top">
                       <div class="uk-align-right uk-margin-bottom">
-                        <button
-                          routerLink="/provider/{{pidHandler.customEncodeURIComponent(datasourceBundlePlus.id)}}/resource/{{pidHandler.customEncodeURIComponent(datasourceBundlePlus.datasource.serviceId)}}/subprofile/datasource"
-                          class="uk-button uk-button-link"
-                          style="">
-                          <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
-                          Update
-                        </button>
+                        <ng-container *ngIf="datasourceBundlePlus.datasource.catalogueId===CATALOGUE">
+                          <button
+                            routerLink="/provider/{{pidHandler.customEncodeURIComponent(datasourceBundlePlus.id)}}/resource/{{pidHandler.customEncodeURIComponent(datasourceBundlePlus.datasource.serviceId)}}/subprofile/datasource"
+                            class="uk-button uk-button-link"
+                            style="">
+                            <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                            Update
+                          </button>
 
-                        <button (click)="showDeletionModal(datasourceBundlePlus.id)"
-                                class="uk-button uk-button-link uk-margin-medium-left"
-                                style="padding-left: 40px; border-left: 1px solid #ccc">
-                          <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
-                          Delete
-                        </button>
+                          <button (click)="showDeletionModal(datasourceBundlePlus.id)"
+                                  class="uk-button uk-button-link uk-margin-medium-left"
+                                  style="padding-left: 40px; border-left: 1px solid #ccc">
+                            <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                            Delete
+                          </button>
+                        </ng-container>
 
                         <ng-container *ngIf="datasourceBundlePlus.status==='pending datasource'">
                           <button class="uk-button uk-button-link uk-margin-medium-left"
