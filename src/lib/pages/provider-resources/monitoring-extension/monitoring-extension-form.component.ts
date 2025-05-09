@@ -4,7 +4,7 @@ import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
-import {Provider, Service, Type, Monitoring} from '../../../domain/eic-model';
+import {Provider, Service, Type, Monitoring, Vocabulary} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {URLValidator} from '../../../shared/validators/generic.validator';
 import {environment} from '../../../../environments/environment';
@@ -13,6 +13,7 @@ import {ServiceProviderService} from '../../../services/service-provider.service
 import {Model} from "../../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../../dynamic-catalogue/services/form-control.service";
 import {SurveyComponent} from "../../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {zip} from "rxjs";
 
 @Component({
   selector: 'app-resource-monitoring-extension-form',
@@ -94,7 +95,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
   ngOnInit() {
     this.getIdsFromCurrentPath();
 
-    this.setServiceTypes();
+    this.getServiceTypesAndNode();
 
     this.serviceProviderService.getFormModelById('m-b-monitoring').subscribe(
       res => this.model = res,
@@ -126,7 +127,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
     }
   }
 
-  setServiceTypes() {
+  getServiceTypesAndNode() {
     this.serviceExtensionsService.getServiceTypes().subscribe(
       res => {
         const map: { [name: string]: { id: string, name: string }[];  } = {'serviceTypesVoc': []};
@@ -135,11 +136,16 @@ export class MonitoringExtensionFormComponent implements OnInit {
         })
         this.vocabulariesMap = <Map<string, object[]>><unknown>map;
       },
-      error => console.log(JSON.stringify(error.error)),
+      error => console.log('getServiceTypes error:', JSON.stringify(error.error)),
       () => {
-        // this.initTypeDescriptions();
-        // console.log(this.serviceTypesVoc);
-        // console.log(this.vocabulariesMap);
+        this.resourceService.getVocabularyByType('NODE').subscribe(
+          nodeRes => {
+            const vocMap = <{ [key: string]: object[] }>(<unknown>this.vocabulariesMap);
+            vocMap['NODE'] = nodeRes;
+            this.vocabulariesMap = <Map<string, object[]>><unknown>vocMap;
+          },
+          nodeErr => console.log('NODE fetch error:', JSON.stringify(nodeErr.error))
+        );
       }
     );
   }

@@ -600,7 +600,6 @@ export class ServiceProviderFormComponent implements OnInit {
       this.resourceService.getAllVocabulariesByType(),
       this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : 'eosc')
     ).subscribe(data => {
-      console.log('inside')
       this.vocabularies = <Map<string, Vocabulary[]>>data[0]; //old
       this.vocabulariesMap = data[0];
       let subVocs: Vocabulary[] = this.vocabulariesMap['SCIENTIFIC_SUBDOMAIN'].concat(this.vocabulariesMap['PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN']);
