@@ -1,35 +1,34 @@
-<div *ngIf="model" class="uk-section-default uk-section uk-section-small uk-padding-remove-top uk-padding-remove-bottom" style="min-height: 90vh;">
-  <div class="uk-container uk-container-expand uk-margin-left uk-margin-right">
+<!--<div *ngIf="model" class="uk-section-default uk-section uk-section-small uk-padding-remove-top uk-padding-remove-bottom" style="min-height: 90vh;">-->
+<!--  <div class="uk-container uk-container-expand uk-margin-left uk-margin-right">-->
 
-    <div *ngIf="errorMessage" id="errorAlert" class="uk-alert-danger" uk-alert>
-      <a class="uk-alert-close" uk-close></a>
-      <pre class="uk-alert-danger">{{errorMessage}}</pre>
-    </div>
+<!--    <div *ngIf="errorMessage" id="errorAlert" class="uk-alert-danger" uk-alert>-->
+<!--      <a class="uk-alert-close" uk-close></a>-->
+<!--      <pre class="uk-alert-danger">{{errorMessage}}</pre>-->
+<!--    </div>-->
 
-    <app-survey [payload]="payloadAnswer" [model]="model" [vocabulariesMap]="vocabulariesMap" [tabsHeader]=""
-                [subVocabularies]="" (submit)="submitForm($event)" [activeUsers]="[]">
+<!--    <app-survey [payload]="payloadAnswer" [model]="model" [vocabulariesMap]="vocabulariesMap" [tabsHeader]=""-->
+<!--                [subVocabularies]="" (submit)="submitForm($event)" [activeUsers]="[]">-->
 
-      <div *ngIf="model" class="uk-grid form-top-section">
-        <h5 class="uk-width-1-1 uk-margin-bottom">{{ model.name }}</h5>
-        <p class="uk-margin-bottom" [innerHTML]="model.notice"></p>
-      </div>
+<!--      <div *ngIf="model" class="uk-grid form-top-section">-->
+<!--        <h5 class="uk-width-1-1 uk-margin-bottom">{{ model.name }}</h5>-->
+<!--        <p class="uk-margin-bottom" [innerHTML]="model.notice"></p>-->
+<!--      </div>-->
 
-      <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end" style="min-height: 40px">
-        <div>
-          <button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">
-            Submit
-          </button>
-        </div>
-      </div>
-    </app-survey>
-  </div>
-</div>
+<!--      <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end" style="min-height: 40px">-->
+<!--        <div>-->
+<!--          <button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">-->
+<!--            Submit-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </app-survey>-->
+<!--  </div>-->
+<!--</div>-->
 
-<ng-container *ngIf="isDevMode()">
-  <pre>{{this.payloadAnswer|json}}</pre>
-</ng-container>
+<!--<ng-container *ngIf="isDevMode()">-->
+<!--  <pre>{{this.payloadAnswer|json}}</pre>-->
+<!--</ng-container>-->
 
-<!--
 <div class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom" style="min-height: 325px">
   <div class="uk-container uk-container-expand">
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
@@ -51,17 +50,17 @@
         </div>
 
 
-        &lt;!&ndash; TOP HELP CONTENT &ndash;&gt;
+        <!-- TOP HELP CONTENT -->
         <app-help-content #topHelperContent [position]="'top'"
                           [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
         </app-help-content>
         <div class="uk-margin-medium-bottom">
           <div class="uk-grid">
-            &lt;!&ndash; LEFT HELP CONTENT &ndash;&gt;
+            <!-- LEFT HELP CONTENT -->
             <app-aside-help-content #leftHelperContent [position]="'left'"
                                     [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
             </app-aside-help-content>
-            &lt;!&ndash; MIDDLE &ndash;&gt;
+            <!-- MIDDLE -->
             <div class=" uk-width-expand@m uk-margin-medium-top">
               <div *ngIf="showLoader" class="uk-position-center">
                 <div uk-spinner="ratio: 2"></div>
@@ -82,7 +81,7 @@
                             <p class="uk-margin-remove-bottom">For questions related to the information that needs to be
                               filled in and suggestions on the portal, please contact us in <a
                                 href="mailto:support@sandbox.eosc-beyond.eu">support@sandbox.eosc-beyond.eu</a></p>
-                            &lt;!&ndash;                        <p>For technical issues and questions, please contact us in <a href="mailto:support@sandbox.eosc-beyond.eu">support@sandbox.eosc-beyond.eu</a></p>&ndash;&gt;
+                            <!--                        <p>For technical issues and questions, please contact us in <a href="mailto:support@sandbox.eosc-beyond.eu">support@sandbox.eosc-beyond.eu</a></p>-->
                           </ng-container>
                           <ng-container *ngIf="projectName === 'CatRIS'">
                             <p>For questions related to the information that needs to be filled in and suggestions on the
@@ -102,7 +101,7 @@
                               href="../../../assets/files/CatRIS%20Catalogue%20API%20Guide.pdf"
                               target="_blank">here</a></p>
                           </ng-container>
-                          &lt;!&ndash; TOP HELP CONTENT &ndash;&gt;
+                          <!-- TOP HELP CONTENT -->
                           <app-help-content #topHelperContent [position]="'top'"
                                             [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
                           </app-help-content>
@@ -129,7 +128,7 @@
                           <label class="" for="orderBy">Guidelines for </label>
                           <div class="uk-inline">
                             <select (change)="selectChangeHandler($event)" class="uk-input uk-select" id="orderBy" formControlName="helpdeskType">
-&lt;!&ndash;                            <select class="uk-input uk-select" id="orderBy" (change)="" formControlName="order">&ndash;&gt;
+<!--                            <select class="uk-input uk-select" id="orderBy" (change)="" formControlName="order">-->
                               <option value="direct usage">Direct Usage</option>
                               <option value="ticket redirection">Ticket Redirection</option>
                               <option value="full integration">Full Integration with EOSC Helpdesk</option>
@@ -137,7 +136,7 @@
                           </div>
                         </div>
 
-                        &lt;!&ndash;Direct Usage&ndash;&gt;
+                        <!--Direct Usage-->
                         <div formArrayName="services" class="uk-margin-large-bottom">
                           <label class="uk-form-label uk-text-right" for="services">
                             {{servicesDesc.label + (servicesDesc.mandatory ? ' (*)' : '')}}
@@ -202,7 +201,7 @@
                             <div *ngIf="this.editMode && this.isPortalAdmin && this.serviceForm.get('organisation').value" class="uk-icon">
                               <a href="{{this.serviceForm.get('organisation').value}}" target="_blank">&nbsp;&nbsp;<i class="fa fa-external-link"></i></a>
                             </div>
-                            &lt;!&ndash;<i><small>{{organisationDesc.desc}}</small></i>&ndash;&gt;
+                            <!--<i><small>{{organisationDesc.desc}}</small></i>-->
                           </div>
                         </div>
                         <div *ngIf="this.serviceForm.get('helpdeskType').value!=='ticket redirection'" formArrayName="emails" class="uk-margin-large-bottom">
@@ -350,13 +349,13 @@
                           </div>
                         </div>
 
-&lt;!&ndash;                                                <pre>&ndash;&gt;
-&lt;!&ndash;                                                  {{serviceForm.value | json}}&ndash;&gt;
-&lt;!&ndash;                                                </pre>&ndash;&gt;
+<!--                                                <pre>-->
+<!--                                                  {{serviceForm.value | json}}-->
+<!--                                                </pre>-->
                       </div>
-                      &lt;!&ndash;<button type="submit" class="btn btn-primary butn theme block full-width m-b">&ndash;&gt;
-                      &lt;!&ndash;{{editMode ? "Update" : "Add"}}&ndash;&gt;
-                      &lt;!&ndash;</button>&ndash;&gt;
+                      <!--<button type="submit" class="btn btn-primary butn theme block full-width m-b">-->
+                      <!--{{editMode ? "Update" : "Add"}}-->
+                      <!--</button>-->
 
                     </form>
 
@@ -364,13 +363,13 @@
 
                 </div>
               </div>
-              &lt;!&ndash; RIGHT HELP CONTENT &ndash;&gt;
+              <!-- RIGHT HELP CONTENT -->
               <app-aside-help-content #rightHelperContent [position]="'right'"
                                       [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
               </app-aside-help-content>
             </div>
           </div>
-          &lt;!&ndash; BOTTOM HELP CONTENT &ndash;&gt;
+          <!-- BOTTOM HELP CONTENT -->
           <app-help-content #bottomHelperContent [position]="'bottom'"
                             [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
           </app-help-content>
@@ -379,4 +378,3 @@
     </div>
   </div>
 </div>
--->
