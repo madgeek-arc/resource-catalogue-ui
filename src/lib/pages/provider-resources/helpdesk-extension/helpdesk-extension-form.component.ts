@@ -47,9 +47,9 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   disable = false;
   isPortalAdmin = false;
 
+  providerId: string = null;
   serviceId: string = null; //filled for all types (service, training)
   resourceType = '';
-  //only one of these 2 ids will be filled from URL
   resourceId: string = null;
   trainingResourceId: string = null;
 
@@ -141,8 +141,8 @@ export class HelpdeskExtensionFormComponent implements OnInit {
       this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode, 'eosc', this.resourceType).subscribe(
         _service => {
           this.showLoader = false;
-          if (this.resourceType==='service') return this.navigator.resourceDashboard(this.serviceForm.value.resourceOrganisation, this.serviceId); // navigate to resource-dashboard
-          if (this.resourceType==='training_resource') return this.navigator.trainingResourceDashboard(this.serviceForm.value.resourceOrganisation, this.serviceId); // navigate to training-resource-dashboard
+          if (this.resourceType==='service') return this.navigator.resourceDashboard(this.providerId, this.serviceId); // navigate to resource-dashboard
+          if (this.resourceType==='training_resource') return this.navigator.trainingResourceDashboard(this.providerId, this.serviceId); // navigate to training-resource-dashboard
         },
         err => {
           this.showLoader = false;
@@ -169,15 +169,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     //   res => this.model = res,
     //   err => console.log(err)
     // )
-
-    if (this.route.snapshot.paramMap.get('resourceId')) {
-      this.serviceId = this.route.snapshot.paramMap.get('resourceId');
-      this.resourceType = 'service';
-    }
-    if (this.route.snapshot.paramMap.get('trainingResourceId')) {
-      this.serviceId = this.route.snapshot.paramMap.get('trainingResourceId');
-      this.resourceType = 'training_resource';
-    }
+    this.getIdsFromCurrentPath();
     this.serviceForm.get('serviceId').setValue(decodeURIComponent(this.serviceId));
 
     this.serviceExtensionsService.getHelpdeskByServiceId(this.serviceId).subscribe(
@@ -260,6 +252,20 @@ export class HelpdeskExtensionFormComponent implements OnInit {
       for (let i = 0; i < helpdesk.signatures.length - 1; i++) {
         this.push('signatures', false);
       }
+    }
+  }
+
+  getIdsFromCurrentPath(){
+    if (this.route.snapshot.paramMap.get('providerId')) {
+      this.providerId = this.route.snapshot.paramMap.get('providerId');
+    }
+    if (this.route.snapshot.paramMap.get('resourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('resourceId');
+      this.resourceType = 'service';
+    }
+    if (this.route.snapshot.paramMap.get('trainingResourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('trainingResourceId');
+      this.resourceType = 'training_resource';
     }
   }
 
