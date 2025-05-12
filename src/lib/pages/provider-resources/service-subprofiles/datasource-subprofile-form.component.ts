@@ -194,7 +194,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  submitForm(value: any, tempSave: boolean, pendingService: boolean) {//TODO
+  submitForm(value: any, tempSave: boolean, pendingService: boolean) {
     let datasourceValue = value[0].value.Datasource;
     window.scrollTo(0, 0);
 
@@ -206,6 +206,10 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     this.errorMessage = '';
     this.showLoader = true;
 
+    this.cleanArrayProperty(datasourceValue, 'persistentIdentitySystems');
+    this.cleanArrayProperty(datasourceValue, 'researchProductLicensings');
+    this.cleanArrayProperty(datasourceValue, 'researchProductMetadataLicensing', true);
+
     this.datasourceService.submitDatasource(datasourceValue, this.editMode).subscribe(
       _ds => {
         this.showLoader = false;
@@ -215,7 +219,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       err => {
         this.showLoader = false;
         window.scrollTo(0, 0);
-        this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+        this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
       }
     );
 }
@@ -333,8 +337,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
         },
         () => {
           if (this.datasource) { //fill the form -->
-            this.formPrepare(this.datasource);
-            this.serviceForm.patchValue(this.datasource);
+            this.payloadAnswer = {'answer': {Datasource: this.datasource}};
           }
         }
       );
@@ -555,19 +558,27 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     );
   }
 
-  cleanArrayProperty(obj: any, property: string): void {
-    if (obj && Array.isArray(obj[property])) {
-      // Filter out elements that are entirely empty:
-      const cleaned = obj[property].filter((element: any) => {
-        if (element && typeof element === 'object') {
-          // Keep the element if at least one property has a non-empty value.
-          return Object.keys(element).some(key => element[key] !== null && element[key] !== '');
+  cleanArrayProperty(obj: any, property: string, supportPlainObject = false): void {
+    const value = obj[property];
+
+    if (Array.isArray(value)) {
+      const cleaned = value.filter((element: any) => {
+        if (element && typeof element === 'object' && !Array.isArray(element)) {
+          return Object.keys(element).some(key => {
+            const val = element[key];
+            return val !== null && val !== '' && !(Array.isArray(val) && val.every(v => v === null || v === ''));
+          });
         }
-        // For non-objects, keep the element if it's not null or ''.
         return element !== null && element !== '';
       });
-      // If the cleaned array is empty, set the property to null. Otherwise, update it.
+
       obj[property] = cleaned.length ? cleaned : null;
+
+    } else if (supportPlainObject && value && typeof value === 'object') {
+      const allEmpty = Object.values(value).every(val =>
+        val === null || val === '' || (Array.isArray(val) && val.every(v => v === null || v === ''))
+      );
+      if (allEmpty) obj[property] = null;
     }
   }
 
