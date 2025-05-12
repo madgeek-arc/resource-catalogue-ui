@@ -269,7 +269,7 @@ export class TrainingResourceForm implements OnInit {
       this.trainingResourceService[pendingService ? 'submitPendingService' : 'submitService']
       (trValue, this.editMode, this.commentControl.value).subscribe(
         _resource => {
-          // console.log(_service);
+          // console.log(_resource);
           this.showLoader = false;
           return this.router.trainingResourceDashboard(this.providerId, _resource.id);  // navigate to training-resource-dashboard
           // return this.router.dashboardResources(this.providerId);                  // navigate to provider dashboard -> resource list
@@ -362,6 +362,7 @@ export class TrainingResourceForm implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoader = true;
     zip(
       this.trainingResourceService.getProvidersNames('approved'),
       this.trainingResourceService.getAllVocabulariesByType(),
@@ -453,7 +454,7 @@ export class TrainingResourceForm implements OnInit {
             }
           );
         }*/
-
+        this.showLoader = false;
       }
     );
 

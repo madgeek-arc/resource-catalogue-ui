@@ -210,6 +210,7 @@ export class CatalogueFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoader = true;
 
     this.serviceProviderService.getFormModelById('m-b-catalogue').subscribe(
       res => this.model = res,
@@ -556,7 +557,7 @@ export class CatalogueFormComponent implements OnInit {
       () => {
         let voc: Vocabulary[] = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN].concat(this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN]);
         this.subVocabularies = this.groupByKey(voc, 'parentId');
-
+        this.showLoader = false;
         return this.vocabularies;
       }
     );

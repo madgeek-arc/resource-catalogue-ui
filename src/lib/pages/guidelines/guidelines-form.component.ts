@@ -170,6 +170,7 @@ export class GuidelinesFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoader = true;
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.serviceProviderService.getFormModelById('m-b-guidelines').subscribe(
       res => this.model = res,
@@ -181,6 +182,7 @@ export class GuidelinesFormComponent implements OnInit {
                   'catalogueId': 'eosc'}
             }};
         }
+        this.showLoader = false;
       }
     )
 

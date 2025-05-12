@@ -512,6 +512,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoader = true;
     zip(
       this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
@@ -584,7 +585,7 @@ export class ServiceFormComponent implements OnInit {
                     }
                   );
                 }*/
-
+        this.showLoader = false;
       }
     );
 

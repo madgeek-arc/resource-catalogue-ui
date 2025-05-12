@@ -278,6 +278,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoader = true;
     this.addOpenAIRE = window.location.pathname.includes('addOpenAIRE');
     this.openaireId = this.route.snapshot.paramMap.get('openaireId');
     this.providerId = this.route.snapshot.paramMap.get('providerId');
@@ -302,6 +303,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
                   'catalogueId': 'eosc'}
             }};
         }
+        this.showLoader = false;
       }
     )
     if (this.route.snapshot.paramMap.get('resourceId')) {

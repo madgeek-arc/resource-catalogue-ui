@@ -252,6 +252,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoader = true;
 
     this.serviceProviderService.getFormModelById('m-b-provider').subscribe(
       res => this.model = res,
@@ -613,7 +614,8 @@ export class ServiceProviderFormComponent implements OnInit {
     },
       error => {
         this.errorMessage = 'Error during vocabularies loading.';
-      }
+      },
+      () => this.showLoader = false
     );
   }
 
