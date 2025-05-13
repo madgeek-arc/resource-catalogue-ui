@@ -108,6 +108,10 @@ export class ResourceService {
     return this.http.get<Vocabulary[]>(this.base + `/vocabulary/byType/${type}`);
   }
 
+  getTerritories() {
+    return this.http.get<Vocabulary[]>(this.base + `/vocabulary/getTerritories`);
+  }
+
   getNestedVocabulariesByType(type: string) {
     return this.http.get<VocabularyTree>(this.base + `/vocabulary/vocabularyTree/${type}`);
   }

@@ -306,6 +306,7 @@ export class ServiceFormComponent implements OnInit {
   requiredResources: any;
   providersAsVocs: any;
   resourcesAsVocs: any;
+  territoriesVoc: any;
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
   premiumSort = new PremiumSortPipe();
@@ -518,6 +519,7 @@ export class ServiceFormComponent implements OnInit {
       this.resourceService.getAllVocabulariesByType(),
       this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : 'eosc'),
       this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : 'eosc'),
+      this.resourceService.getTerritories(),
       this.serviceProviderService.getFormModelById('m-b-service')
     ).subscribe(suc => {
         this.providersPage = <Paging<Provider>>suc[0];
@@ -525,13 +527,14 @@ export class ServiceFormComponent implements OnInit {
         this.vocabulariesMap = suc[1];
         this.providersAsVocs = suc[2];
         this.resourcesAsVocs = suc[3];
-        this.model = suc[4];
+        this.territoriesVoc = suc[4]; //combined COUNTRY and REGION vocs
+        this.model = suc[5];
         // this.getLocations();
 
         let subVocs: Vocabulary[] = this.vocabulariesMap['SCIENTIFIC_SUBDOMAIN'].concat(this.vocabulariesMap['SUBCATEGORY']);
         this.subVocabulariesMap = this.groupByKey(subVocs, 'parentId');
 
-        [this.providersAsVocs, this.resourcesAsVocs].forEach(vocSet => {
+        [this.providersAsVocs, this.resourcesAsVocs, this.territoriesVoc].forEach(vocSet => {
           Object.entries(vocSet).forEach(([key, newItems]) => {
             // Type assertion to ensure newItems is an array
             const additionalItems = newItems as Vocabulary[];
