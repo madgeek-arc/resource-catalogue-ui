@@ -247,11 +247,11 @@ export class GuidelinesFormComponent implements OnInit {
       res => {},
       err => {
         this.showLoader = false;
-        this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
+        this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
       },
       () => {
         this.showLoader = false;
-        //this.router.navigate(['/dashboard/eosc/'+ this.pidHandler.customEncodeURIComponent(this.guidelinesForm.get('providerId').value) +'/guidelines/']); TODO
+        this.router.navigate(['/dashboard/eosc/'+ this.pidHandler.customEncodeURIComponent(this.providerId) +'/guidelines/']);
       }
     );
   }
@@ -285,7 +285,7 @@ export class GuidelinesFormComponent implements OnInit {
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
-          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
+          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
         },
         () => {
           this.showLoader = false;
