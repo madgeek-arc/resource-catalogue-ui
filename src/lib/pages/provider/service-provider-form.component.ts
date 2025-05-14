@@ -811,20 +811,6 @@ export class ServiceProviderFormComponent implements OnInit {
 
   /** <-- User Array**/
 
-  showLogoUrlModal() {
-    if (this.providerForm && this.providerForm.get('logo').value) {
-      this.logoUrl = this.providerForm.get('logo').value;
-    }
-    UIkit.modal('#logoUrlModal').show();
-  }
-
-  addLogoUrl(logoUrl: string) {
-    UIkit.modal('#logoUrlModal').hide();
-    this.logoUrl = logoUrl;
-    this.providerForm.get('logo').setValue(logoUrl);
-    this.providerForm.get('logo').updateValueAndValidity();
-  }
-
   getSortedChildrenCategories(childrenCategory: Vocabulary[], parentId: string) {
     return this.sortVocabulariesByName(childrenCategory.filter(entry => entry.parentId === parentId));
   }
