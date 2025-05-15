@@ -98,7 +98,12 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
       if (!this.pendingService) {
         this.resourceService.getServiceBundleById(this.serviceId, this.catalogueId)
           .subscribe(serviceBundle => {
-              this.payloadAnswer = {'answer': {Service: serviceBundle.service}};
+              this.service = serviceBundle.service;
+              const parsedService = {
+                ...this.service,
+                horizontalService: typeof this.service.horizontalService === 'boolean' ? this.service.horizontalService.toString() : this.service.horizontalService
+              };
+              this.payloadAnswer = {'answer': {Service: parsedService}};
               //clear below
 
 /*              if (serviceBundle.service.mainContact === null) //in case of unauthorized access backend will not show sensitive info

@@ -77,8 +77,12 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
     this.catalogueService[(path === 'add/:catalogueId' ? 'getPendingProviderById' : 'getCatalogueById')](this.catalogueId)
       .subscribe(
         catalogue => {
-          this.catalogue = catalogue,
-          this.payloadAnswer = {'answer': {Catalogue: catalogue}}
+          this.catalogue = catalogue;
+          const parsedCatalogue = {
+            ...this.catalogue,
+            legalEntity: typeof this.catalogue.legalEntity === 'boolean' ? this.catalogue.legalEntity.toString() : this.catalogue.legalEntity
+          };
+          this.payloadAnswer = {'answer': {Catalogue: parsedCatalogue}};
         },
         err => {
           console.log(err);

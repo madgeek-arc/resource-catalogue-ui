@@ -91,7 +91,11 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
       .subscribe(
         provider => {
           this.provider = provider;
-          this.payloadAnswer = {'answer': {Provider: provider}};
+          const parsedProvider = {
+            ...this.provider,
+            legalEntity: typeof this.provider.legalEntity === 'boolean' ? this.provider.legalEntity.toString() : this.provider.legalEntity
+          };
+          this.payloadAnswer = {'answer': {Provider: parsedProvider}};
         },
         err => {
           console.log(err);

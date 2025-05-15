@@ -337,7 +337,13 @@ export class DatasourceSubprofileFormComponent implements OnInit {
         },
         () => {
           if (this.datasource) { //fill the form -->
-            this.payloadAnswer = {'answer': {Datasource: this.datasource}};
+            const parsedDatasource = { ...this.datasource };
+            ['versionControl', 'thematic', 'harvestable'].forEach(field => {
+              if (typeof parsedDatasource[field] === 'boolean') {
+                parsedDatasource[field] = parsedDatasource[field].toString();
+              }
+            });
+            this.payloadAnswer = { 'answer': { Datasource: parsedDatasource } };
           }
         }
       );
