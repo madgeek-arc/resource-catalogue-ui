@@ -263,7 +263,7 @@ export class TrainingResourceForm implements OnInit {
           this.showLoader = false;
           window.scrollTo(0, 0);
           this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
         }
       );
     } else {
@@ -282,7 +282,7 @@ export class TrainingResourceForm implements OnInit {
           this.showLoader = false;
           window.scrollTo(0, 0);
           this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
         }
       );
     }
@@ -320,7 +320,7 @@ export class TrainingResourceForm implements OnInit {
           this.showLoader = false;
           window.scrollTo(0, 0);
           this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
         }
       );
     } else if (this.serviceForm.valid) {
@@ -340,7 +340,7 @@ export class TrainingResourceForm implements OnInit {
           this.showLoader = false;
           window.scrollTo(0, 0);
           this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
         }
       );
     } else {
@@ -423,7 +423,7 @@ export class TrainingResourceForm implements OnInit {
         this.urlTypeVocabulary = this.vocabularies[Type.TR_URL_TYPE];*/
       },
       error => {
-        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
+        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.message);
       },
       () => {
         this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'Worldwide']);
@@ -978,7 +978,7 @@ export class TrainingResourceForm implements OnInit {
         },
         error => {
           console.log(error);
-          this.vocabularyEntryForm.get('errorMessage').setValue(error.error.error);
+          this.vocabularyEntryForm.get('errorMessage').setValue(error.error.message);
         },
         () => {
           this.vocabularyEntryForm.reset();

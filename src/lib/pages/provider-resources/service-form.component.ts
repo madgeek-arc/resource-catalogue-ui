@@ -545,7 +545,7 @@ export class ServiceFormComponent implements OnInit {
 
       },
       error => {
-        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
+        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.message);
       },
       () => {
         this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'Worldwide']);
@@ -1384,7 +1384,7 @@ export class ServiceFormComponent implements OnInit {
         },
         error => {
           console.log(error);
-          this.vocabularyEntryForm.get('errorMessage').setValue(error.error.error);
+          this.vocabularyEntryForm.get('errorMessage').setValue(error.error.message);
         },
         () => {
           this.vocabularyEntryForm.reset();

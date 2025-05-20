@@ -319,7 +319,7 @@ export class CatalogueFormComponent implements OnInit {
           err => {
             this.showLoader = false;
             window.scrollTo(0, 0);
-            this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
+            this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
           },
           () => {
             this.showLoader = false;
@@ -335,7 +335,7 @@ export class CatalogueFormComponent implements OnInit {
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
-          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
+          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
         },
         () => {
           this.showLoader = false;
@@ -395,7 +395,7 @@ export class CatalogueFormComponent implements OnInit {
           err => {
             this.showLoader = false;
             window.scrollTo(0, 0);
-            this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
+            this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
           },
           () => {
             this.showLoader = false;
@@ -411,7 +411,7 @@ export class CatalogueFormComponent implements OnInit {
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
-          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
+          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
         },
         () => {
           this.showLoader = false;
@@ -990,7 +990,7 @@ export class CatalogueFormComponent implements OnInit {
         },
         error => {
           console.log(error);
-          this.vocabularyEntryForm.get('errorMessage').setValue(error.error.error);
+          this.vocabularyEntryForm.get('errorMessage').setValue(error.error.message);
         },
         () => {
           this.vocabularyEntryForm.reset();

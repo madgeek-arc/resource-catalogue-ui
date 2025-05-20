@@ -1135,7 +1135,7 @@ export class ServiceProviderFormComponent implements OnInit {
         },
         error => {
           console.log(error);
-          this.vocabularyEntryForm.get('errorMessage').setValue(error.error.error);
+          this.vocabularyEntryForm.get('errorMessage').setValue(error.error.message);
         },
         () => {
           this.vocabularyEntryForm.reset();

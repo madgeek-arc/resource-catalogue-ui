@@ -265,7 +265,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
         }
       );
     } else {
@@ -298,7 +298,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
         this.model = suc[1];
       },
       error => {
-        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
+        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.message);
       },
       () => {
         if(!this.editMode){ //prefill field(s)
