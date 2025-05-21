@@ -24,15 +24,12 @@ import {DynamicFormModule} from "../../../dynamic-catalogue/pages/dynamic-form/d
         HighchartsChartModule,
         NgSelectModule,
         MarkdownModule,
-        DynamicFormModule,
-
+        DynamicFormModule
     ],
   declarations: [
     GuidelinesFormComponent,
     UpdateGuidelinesFormComponent,
-
-
-    GuidelinesListComponent,
+    GuidelinesListComponent
   ]
 })
 

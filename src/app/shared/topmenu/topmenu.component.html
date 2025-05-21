@@ -231,6 +231,23 @@
                 </div>
               </li>
 
+              <li class="uk-parent" [routerLinkActive]="['uk-active']">
+                <a href="#" class="" aria-expanded="false">
+                  Adapters
+                </a>
+                <div class="uk-navbar-dropdown uk-navbar-dropdown-bottom-left" style="top: 80px; left: 106.55px;"
+                     id="forAdapters" (click)="onClick('forAdapters')">
+                  <div class="uk-navbar-dropdown-grid uk-child-width-1-1 uk-grid uk-grid-stack" uk-grid="">
+                    <div class="uk-first-column">
+                      <ul class="uk-nav uk-navbar-dropdown-nav">
+                        <li><a [routerLink]="['/adapters/add']" routerLinkActive="uk-active">Add an Adapter</a></li>
+                        <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/adapters/my']" routerLinkActive="uk-active">My Adapters</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
               <li *ngIf="authenticationService.isAdmin()" class="uk-parent" [routerLinkActive]="['uk-active']">
                 <a href="#" class="" aria-expanded="false">
                   For EPOT
@@ -247,6 +264,7 @@
                         <li class="uk-text-nowrap"><a class="uk-padding-remove-top" [routerLink]="['/provider/datasource/all']" routerLinkActive="uk-active">&boxur;<i class="fa "></i> Datasource Subprofiles</a></li>
                         <li><a [routerLink]="['/provider/training/all']" routerLinkActive="uk-active">Training Resources</a></li>
                         <li><a [routerLink]="['/guidelines/all']" routerLinkActive="uk-active">Guidelines</a></li>
+                        <li><a [routerLink]="['/adapters/all']" routerLinkActive="uk-active">Adapters</a></li>
                         <li><a [routerLink]="['/vocabulary-requests']" routerLinkActive="uk-active">Vocabulary Requests</a></li>
                       </ul>
                     </div>

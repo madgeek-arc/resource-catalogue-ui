@@ -186,6 +186,31 @@ export class HelpdeskBundle extends Bundle<Helpdesk> {
   helpdesk: Helpdesk;
 }
 
+export class AdapterBundle extends Bundle<Adapter> {
+  status: string;
+  adapter: Adapter;
+}
+
+export class Adapter implements Identifiable {
+  id: string;
+  name: string;
+  node: string;
+  catalogueId: string;
+  description: string;
+  linkedResource: string;
+  tagline: string;
+  logo: string;
+  documentation: URL;
+  repository: URL;
+  releases: URL[];
+  programmingLanguage: string;
+  license: string;
+  version: string;
+  changeLog: string;
+  lastUpdate: Date;
+  admins: User[];
+}
+
 export class Provider implements Identifiable {
   id: string;
   abbreviation: string;

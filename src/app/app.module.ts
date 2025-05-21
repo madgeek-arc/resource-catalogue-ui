@@ -51,6 +51,7 @@ import {RecommendationsService} from "../lib/services/recommendations.service";
 import {GuidelinesService} from "../lib/services/guidelines.service";
 import {pidHandler} from "../lib/shared/pid-handler/pid-handler.service";
 import {FormControlService} from "../dynamic-catalogue/services/form-control.service";
+import {AdaptersService} from "../lib/services/adapters.service";
 
 declare var require: any;
 
@@ -139,7 +140,8 @@ export function highchartsFactory() {
     DatePipe,
     RecommendationsService,
     pidHandler,
-    FormControlService
+    FormControlService,
+    AdaptersService
   ],
   exports: [
     // FooterComponent,
