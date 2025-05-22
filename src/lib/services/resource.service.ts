@@ -144,7 +144,7 @@ export class ResourceService {
 
   getMultipleResourcesById(commaSeparatedIds: string) { //feed with public ids (or not) of services, datasources, and training resources; returns only if resource exist; NOT bundles
     commaSeparatedIds = decodeURIComponent(commaSeparatedIds);
-    return this.http.get<any[]>(this.base + `/service/ids?ids=${commaSeparatedIds}/`, this.options);
+    return this.http.get<any[]>(this.base + `/service/ids?ids=${commaSeparatedIds}`, this.options);
   }
 
 /*  getServicesOfferedByProvider(id: string): Observable<RichService[]> {
