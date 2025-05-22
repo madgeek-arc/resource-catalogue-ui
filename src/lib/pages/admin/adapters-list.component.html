@@ -98,7 +98,7 @@
                                         <label class="" for="sort">Sort by </label>
                                         <div class="uk-inline">
                                             <select class="uk-input uk-select" id="sort" (change)="handleChangeAndResetPage()" formControlName="sort">
-                                                <option value="title" selected>Title</option>
+                                                <option value="name" selected>Name</option>
                                                 <option value="id">ID</option>
                                             </select>
                                         </div>
@@ -264,7 +264,7 @@
                                             <div class="uk-align-right uk-margin-bottom">
                                                 <ng-container *ngIf="adapterBundle.adapter.catalogueId===CATALOGUE">
                                                     <button
-                                                            routerLink="/adapters/{{pidHandler.customEncodeURIComponent(adapterBundle.adapter.providerId)}}/update/{{pidHandler.customEncodeURIComponent(adapterBundle.id)}}"
+                                                            routerLink="/adapters/update/{{pidHandler.customEncodeURIComponent(adapterBundle.id)}}"
                                                             class="uk-button uk-button-link"
                                                             style="">
                                                         <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
@@ -279,7 +279,7 @@
                                                     </button>
                                                 </ng-container>
 
-                                                <button class="uk-button uk-button-link uk-margin-medium-left"
+                                                <button class="uk-button uk-button-link uk-margin-medium-left uk-disabled"
                                                         style="padding-left: 40px; border-left: 1px solid #ccc">
                                                     <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
                                                 </button>

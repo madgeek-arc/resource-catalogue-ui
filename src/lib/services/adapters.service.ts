@@ -24,6 +24,7 @@ export class AdaptersService {
   }
 
   getAdapterById(id: string) {
+    if (id === null) return null;
     id = decodeURIComponent(id);
     return this.http.get<Adapter>(this.base + `/adapter/${id}`, this.options);
   }
