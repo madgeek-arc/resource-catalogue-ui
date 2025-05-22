@@ -22,7 +22,7 @@ export class AdaptersListComponent implements OnInit {
 
   formPrepare = {
     order: 'ASC',
-    sort: 'title',
+    sort: 'name',
     quantity: '10',
     from: '0',
     query: '',
