@@ -85,6 +85,11 @@ export class AdaptersService {
       return this.http.patch(this.base + `/catalogue/${catalogueId}/adapter/auditAdapter/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
+  getLinkedResourcesForAdapter(catalogueId?: string) {
+    if(!catalogueId) catalogueId = CATALOGUE;
+    return this.http.get<any>(this.base + `/adapter/resourceIdToNameMap?catalogueId=${catalogueId}`);
+  }
+
   getFormModelById(id: string) {
     return this.http.get<Model>(this.base + `/forms/models/${id}`);
   }

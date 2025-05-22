@@ -121,7 +121,15 @@ export class AdaptersFormComponent implements OnInit {
   getVocs(){
     this.resourceService.getAllVocabulariesByType().subscribe(
       res => this.vocabulariesMap = res,
-      err => console.log(err)
+      err => console.log(err),
+        () => {
+          this.adaptersService.getLinkedResourcesForAdapter().subscribe(
+              result => {
+                this.vocabulariesMap["ADAPTER_RESOURCES_VOC"] = result["ADAPTER_RESOURCES_VOC"];
+              },
+              err => console.log('Fetch error:', JSON.stringify(err.error))
+          );
+        }
     )
   }
 }
