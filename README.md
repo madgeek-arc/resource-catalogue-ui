@@ -1,8 +1,12 @@
-![Build Status](https://builds.madgik.di.uoa.gr/buildStatus/icon?job=eosc-ui)
+<div align="center">
+  <img src='https://eosc.eu/wp-content/uploads/2024/02/EOSC-Beyond-logo.png'></img>
+</div>
 
 # Resource Catalogue UI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.9.
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+
+---
 
 ## Development server
 
