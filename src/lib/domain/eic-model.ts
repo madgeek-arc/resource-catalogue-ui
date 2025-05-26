@@ -197,7 +197,7 @@ export class Adapter implements Identifiable {
   node: string;
   catalogueId: string;
   description: string;
-  linkedResource: string;
+  linkedResource: LinkedResource;
   tagline: string;
   logo: string;
   documentation: URL;
@@ -209,6 +209,11 @@ export class Adapter implements Identifiable {
   changeLog: string;
   lastUpdate: Date;
   admins: User[];
+}
+
+export class LinkedResource {
+  type: string;
+  id: string;
 }
 
 export class Provider implements Identifiable {

@@ -3,13 +3,10 @@ import {Component, Injector, OnInit, ViewChild, isDevMode} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
-import {ServiceExtensionsService} from '../../services/service-extensions.service';
 import {Provider, Service, Type, Adapter, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
-import {URLValidator} from '../../shared/validators/generic.validator';
 import {environment} from '../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ServiceProviderService} from '../../services/service-provider.service';
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
@@ -26,7 +23,7 @@ export class AdaptersFormComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent
   model: Model = null;
   vocabulariesMap: Map<string, object[]> = null;
-  // vocabulariesMap: { [name: string]: { id: string, name: string }[]; } = {}
+  subVocabulariesMap: Map<string, object[]> = null;
   payloadAnswer: object = null;
 
   serviceORresource = environment.serviceORresource;
@@ -101,15 +98,17 @@ export class AdaptersFormComponent implements OnInit {
       err => console.log(err)
     )
 
-    this.adaptersService.getAdapterById(this.adapterId).subscribe(
-      res => { if(res!=null) {
-        this.adapter = res;
-        this.editMode = true;
-        this.payloadAnswer = {'answer': {Adapter: res}};
-      }
-      },
-      err => { console.log(err); }
-    );
+    if(this.adapterId){
+      this.adaptersService.getAdapterById(this.adapterId).subscribe(
+        res => { if(res!=null) {
+          this.adapter = res;
+          this.editMode = true;
+          this.payloadAnswer = {'answer': {Adapter: res}};
+        }
+        },
+        err => { console.log(err); }
+      );
+    }
   }
 
   getIdsFromCurrentPath(){
@@ -122,14 +121,46 @@ export class AdaptersFormComponent implements OnInit {
     this.resourceService.getAllVocabulariesByType().subscribe(
       res => this.vocabulariesMap = res,
       err => console.log(err),
-        () => {
-          this.adaptersService.getLinkedResourcesForAdapter().subscribe(
-              result => {
-                this.vocabulariesMap["ADAPTER_RESOURCES_VOC"] = result["ADAPTER_RESOURCES_VOC"];
-              },
-              err => console.log('Fetch error:', JSON.stringify(err.error))
+      () => {
+          zip(//get vocs for linkedResource
+            this.adaptersService.getLinkedGuidelinesForAdapter(),
+            this.adaptersService.getLinkedServicesForAdapter()
+          ).subscribe(data => {
+              const unifiedResponse = {
+                LINKED_RESOURCE_VOCS_UNIFIED: [
+                  ...data[0].GUIDELINES_VOC,
+                  ...data[1].SERVICES_VOC
+                ]
+              };
+              let subVocs: Vocabulary[] = unifiedResponse.LINKED_RESOURCE_VOCS_UNIFIED.map(item => ({
+                id: item.id,
+                name: item.name,
+                description: null,
+                parentId: item.parentId,
+                type: null,
+                extras: {}
+              }));
+              this.subVocabulariesMap = this.groupByKey(subVocs, 'parentId');
+              const vocMap = <{ [key: string]: object[] }>(<unknown>this.vocabulariesMap);
+              vocMap['LINKED_RESOURCE_VOCS_UNIFIED'] = subVocs;
+              this.vocabulariesMap = <Map<string, object[]>>(<unknown>vocMap);
+            },
+            error => {
+              this.errorMessage = 'Error during vocabularies loading.';
+            },
+            () => this.showLoader = false
           );
-        }
+      }
     )
   }
+
+  groupByKey(array, key) {
+    return array.reduce((hash, obj) => {
+      if (obj[key] === undefined) {
+        return hash;
+      }
+      return Object.assign(hash, {[obj[key]]: (hash[obj[key]] || []).concat(obj)});
+    }, {});
+  }
+
 }

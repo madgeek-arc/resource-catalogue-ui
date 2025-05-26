@@ -610,7 +610,6 @@ export class ServiceProviderFormComponent implements OnInit {
         const existingItems = this.vocabulariesMap[key] || [];
         this.vocabulariesMap[key] = [...existingItems, ...newItems];
       });
-      console.log(this.subVocabulariesMap);
     },
       error => {
         this.errorMessage = 'Error during vocabularies loading.';

@@ -90,6 +90,16 @@ export class AdaptersService {
     return this.http.get<any>(this.base + `/adapter/resourceIdToNameMap?catalogueId=${catalogueId}`);
   }
 
+  getLinkedServicesForAdapter(catalogueId?: string) {
+    if(!catalogueId) catalogueId = CATALOGUE;
+    return this.http.get<any>(this.base + `/adapter/linkedResourceServiceMapDetails?catalogueId=${catalogueId}`);
+  }
+
+  getLinkedGuidelinesForAdapter(catalogueId?: string) {
+    if(!catalogueId) catalogueId = CATALOGUE;
+    return this.http.get<any>(this.base + `/adapter/linkedResourceGuidelineMapDetails?catalogueId=${catalogueId}`);
+  }
+
   getFormModelById(id: string) {
     return this.http.get<Model>(this.base + `/forms/models/${id}`);
   }
