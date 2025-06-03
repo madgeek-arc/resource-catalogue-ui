@@ -11,7 +11,6 @@ import {CanActivateViaAuthGuard} from '../lib/services/can-activate-auth-guard.s
 import {NavigationService} from '../lib/services/navigation.service';
 import {ResourceService} from '../lib/services/resource.service';
 import {CanActivateViaPubGuard} from '../lib/services/can-activate-pub-guard.service';
-import {FooterComponent} from '../lib/shared/footer/footer.component';
 import {BreadcrumbsComponent} from '../lib/shared/breadcrumbs/breadcrumbs.component';
 import {DashboardBreadcrumbsComponent} from '../lib/shared/breadcrumbs/dashboard-breadcrumbs.component';
 import {FeedbackComponent} from '../lib/shared/feedback/feedback.component';
@@ -79,7 +78,6 @@ export function highchartsFactory() {
     // PERSISTENT
     EOSCTopMenuComponent,
     // BreadcrumbsComponent,
-    FooterComponent,
     FeedbackComponent,
     // USER
     // DashboardComponent,
