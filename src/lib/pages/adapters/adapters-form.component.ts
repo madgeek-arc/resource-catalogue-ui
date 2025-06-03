@@ -90,6 +90,7 @@ export class AdaptersFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoader = true;
     this.getIdsFromCurrentPath();
     this.getVocs();
 
@@ -147,6 +148,7 @@ export class AdaptersFormComponent implements OnInit {
             },
             error => {
               this.errorMessage = 'Error during vocabularies loading.';
+              this.showLoader = false;
             },
             () => this.showLoader = false
           );
