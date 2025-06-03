@@ -13,7 +13,7 @@ export const environment = {
   projectMail: 'support@sandbox.eosc-beyond.eu',
   serviceORresource: 'Service',
   hasUserConsent: true,
-  privacyPolicyURL: 'https://docs.google.com/document/d/10fhcpZ7jngLM6VVTLLMXDN1QoVE3Jvoq4RF8NeYydSA/edit?tab=t.0#heading=h.kp1upoc0eymv',
+  privacyPolicyURL: 'assets/files/Privacy Policy – EOSC Innovation Sandbox -Service Catalogue.pdf',
   onboardingAgreementURL: './comingSoon',
   marketplaceServicesURL: './comingSoon',
   marketplaceDatasourcesURL: './comingSoon',
