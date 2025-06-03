@@ -526,10 +526,6 @@ export class ResourceService {
   }
   /** <-- Draft(Pending) Services **/
 
-  getFeaturedServices() { //einfra leftover
-    return this.http.get<Service[]>(this.base + `/service/featured/all`);
-  }
-
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
     serviceId = decodeURIComponent(serviceId);
     // return this.http.get<Paging<LoggingInfo>>(this.base + `/service/loggingInfoHistory/${serviceId}/`);
