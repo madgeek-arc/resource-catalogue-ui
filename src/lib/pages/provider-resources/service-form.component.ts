@@ -35,6 +35,7 @@ export class ServiceFormComponent implements OnInit {
   vocabulariesMap: Map<string, object[]> = null;
   subVocabulariesMap: Map<string, object[]> = null
   payloadAnswer: object = null;
+  formDataToSubmit: any = null;
 
   protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
@@ -1347,11 +1348,12 @@ export class ServiceFormComponent implements OnInit {
   /** <--BitSets **/
 
   /** Modals--> **/
-  showCommentModal() {
+  showCommentModal(formData: any) {
     if (this.editMode && !this.pendingService) {
+      this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
     } else {
-      this.onSubmit(this.serviceForm.value, false);
+      this.onSubmit(formData, false);
     }
   }
 

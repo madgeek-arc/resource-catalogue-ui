@@ -28,6 +28,7 @@ export class CatalogueFormComponent implements OnInit {
   vocabulariesMap: Map<string, object[]> = null;
   subVocabulariesMap: Map<string, object[]> = null
   payloadAnswer: object = null;
+  formDataToSubmit: any = null;
 
   _hasUserConsent = environment.hasUserConsent;
   serviceORresource = environment.serviceORresource;
@@ -973,11 +974,12 @@ export class CatalogueFormComponent implements OnInit {
   /** <--Terms Modal **/
 
   /** Submit Comment Modal--> **/
-  showCommentModal() {
+  showCommentModal(formData: any) {
     if (this.edit && !this.pendingCatalogue) {
+      this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
     } else {
-      this.registerCatalogue(false);
+      this.submitForm(formData, false);
     }
   }
 

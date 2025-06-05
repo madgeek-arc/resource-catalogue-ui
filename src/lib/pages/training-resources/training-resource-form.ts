@@ -31,6 +31,7 @@ export class TrainingResourceForm implements OnInit {
   vocabulariesMap: Map<string, object[]> = null;
   subVocabulariesMap: Map<string, object[]> = null
   payloadAnswer: object = null;
+  formDataToSubmit: any = null;
 
   protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   projectMail = environment.projectMail;
@@ -946,11 +947,12 @@ export class TrainingResourceForm implements OnInit {
   /** <--BitSets **/
 
   /** Modals--> **/
-  showCommentModal() {
+  showCommentModal(formData: any) {
     if (this.editMode && !this.pendingResource) {
+      this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
     } else {
-      this.onSubmit(this.serviceForm.value, false);
+      this.submitForm(formData,false,false);
     }
   }
 
