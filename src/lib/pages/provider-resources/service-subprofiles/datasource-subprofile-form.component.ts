@@ -301,11 +301,16 @@ export class DatasourceSubprofileFormComponent implements OnInit {
         this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.message);
       },
       () => {
-        if(!this.editMode){ //prefill field(s)
-          this.payloadAnswer = {'answer': { Datasource:
-                { 'serviceId': decodeURIComponent(this.resourceId),
-                  'catalogueId': 'eosc'}
-            }};
+        if (!this.editMode) { //prefill field(s)
+          this.payloadAnswer = {
+            'answer': {
+              Datasource:
+                {
+                  'serviceId': decodeURIComponent(this.resourceId),
+                  'catalogueId': environment.CATALOGUE
+                }
+            }
+          };
         }
         this.showLoader = false;
       }

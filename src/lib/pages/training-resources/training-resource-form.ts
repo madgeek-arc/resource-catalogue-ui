@@ -437,9 +437,15 @@ export class TrainingResourceForm implements OnInit {
         this.providerId = this.route.snapshot.paramMap.get('providerId');
 
         if(!this.editMode){ //prefill field(s)
-          this.payloadAnswer = {'answer': { TrainingResource:
-                { 'resourceOrganisation': decodeURIComponent(this.providerId)}
-            }};
+          this.payloadAnswer = {
+            'answer': {
+              TrainingResource:
+                {
+                  'resourceOrganisation': decodeURIComponent(this.providerId),
+                  'catalogueId': environment.CATALOGUE
+                }
+            }
+          };
         }
 
 /*        if (!this.editMode) { // prefill main contact info

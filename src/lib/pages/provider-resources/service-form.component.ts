@@ -569,7 +569,7 @@ export class ServiceFormComponent implements OnInit {
         if(!this.editMode){ //prefill field(s)
           this.payloadAnswer = {'answer': { Service:
                 { 'resourceOrganisation': decodeURIComponent(this.providerId),
-                  'catalogueId': 'eosc'}
+                  'catalogueId': environment.CATALOGUE}
           }};
         }
 
@@ -1353,7 +1353,7 @@ export class ServiceFormComponent implements OnInit {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
     } else {
-      this.onSubmit(formData, false);
+      this.submitForm(formData, false);
     }
   }
 

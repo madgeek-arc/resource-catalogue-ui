@@ -176,11 +176,16 @@ export class GuidelinesFormComponent implements OnInit {
       res => this.model = res,
       err => console.log(err),
       ()=>{
-        if(!this.edit){ //prefill field(s)
-          this.payloadAnswer = {'answer': { Guidelines:
-                { 'providerId': decodeURIComponent(this.providerId),
-                  'catalogueId': 'eosc'}
-            }};
+        if (!this.edit) { //prefill field(s)
+          this.payloadAnswer = {
+            'answer': {
+              Guidelines:
+                {
+                  'providerId': decodeURIComponent(this.providerId),
+                  'catalogueId': environment.CATALOGUE
+                }
+            }
+          };
         }
         this.showLoader = false;
       }

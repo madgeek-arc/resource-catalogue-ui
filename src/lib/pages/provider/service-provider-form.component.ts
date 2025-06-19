@@ -257,7 +257,18 @@ export class ServiceProviderFormComponent implements OnInit {
 
     this.serviceProviderService.getFormModelById('m-b-provider').subscribe(
       res => this.model = res,
-      err => console.log(err)
+      err => console.log(err),
+      () => {
+        if (!this.edit) { //prefill field(s)
+          this.payloadAnswer = {
+            'answer': {
+              Provider:
+                {'catalogueId': environment.CATALOGUE}
+            }
+          };
+        }
+        this.showLoader = false;
+      }
     )
 
     const path = this.route.snapshot.routeConfig.path;
