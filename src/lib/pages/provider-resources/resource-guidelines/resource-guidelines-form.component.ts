@@ -1,4 +1,4 @@
-import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
@@ -56,7 +56,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.serviceId = this.route.snapshot.paramMap.get('resourceId');
+    this.serviceId = this.route.parent.snapshot.paramMap.get('resourceId');
     this.guidelinesForm.get('resourceId').setValue(decodeURIComponent(this.serviceId));
 
     this.guidelinesService.getGuidelinesOfResource(this.serviceId).subscribe(
@@ -107,12 +107,15 @@ export class ResourceGuidelinesFormComponent implements OnInit {
     this.guidelinesService.assignGuidelinesToResource('service', this.editMode, this.guidelinesForm.value).subscribe(
       _ir => {
         this.showLoader = false;
-        return this.navigator.resourceDashboard(this.providerId, this.serviceId);  // navigate to resource-dashboard
       },
       err => {
         this.showLoader = false;
         window.scrollTo(0, 0);
         this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
+      },
+      () => {
+        console.log('reload page');
+        window.location.reload();
       }
     );
   }
@@ -125,7 +128,8 @@ export class ResourceGuidelinesFormComponent implements OnInit {
       _ir => {
         return this.navigator.resourceDashboard(this.providerId, this.serviceId);  // navigate to resource-dashboard
       },
-      err => this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error)
+      err => this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error),
+      () => window.location.reload()
     );
   }
 

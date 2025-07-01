@@ -10,6 +10,10 @@ import {ServiceFullHistoryComponent} from './service-full-history.component';
 import {ResourceDashboardRouting} from './resource-dashboard.routing';
 import {ResourceDashboardComponent} from './resource-dashboard.component';
 import {MonitoringInfoComponent} from "./monitoring-info.component";
+import {ResourceGuidelinesFormComponent} from "../../../provider-resources/resource-guidelines/resource-guidelines-form.component";
+import {NgSelectModule} from "@ng-select/ng-select";
+import {ConfigurationTemplatesComponent} from "./configuration-templates.component";
+import {DynamicFormModule} from "../../../../../dynamic-catalogue/pages/dynamic-form/dynamic-form.module";
 
 @NgModule({
   imports: [
@@ -20,13 +24,17 @@ import {MonitoringInfoComponent} from "./monitoring-info.component";
     ResourceDashboardRouting,
     ReusableComponentsModule,
     HighchartsChartModule,
+    NgSelectModule,
+    DynamicFormModule
   ],
   declarations: [
     ResourceDashboardComponent,
     ServiceStatsComponent,
     ServiceHistoryComponent,
     ServiceFullHistoryComponent,
-    MonitoringInfoComponent
+    MonitoringInfoComponent,
+    ResourceGuidelinesFormComponent,
+    ConfigurationTemplatesComponent
   ]
 })
 

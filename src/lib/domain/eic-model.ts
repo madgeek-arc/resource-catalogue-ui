@@ -44,6 +44,25 @@ export class Catalogue implements Identifiable {
   users: User[];
 }
 
+export class ConfigurationTemplate implements Identifiable {
+  id: string;
+  interoperabilityRecordId: string;
+  name: string;
+  catalogueId: string;
+  node: string;
+  description: string;
+  formModel: { [index: string]: any };
+}
+
+export class ConfigurationTemplateInstance implements Identifiable {
+  id: string;
+  resourceId: string;
+  configurationTemplateId: string;
+  catalogueId: string;
+  node: string;
+  payload: string; //payload: { [index: string]: any };
+}
+
 export class EmailMessage {
   recipientEmail: string;
   senderEmail: string;

@@ -5,9 +5,10 @@ import {ResourceService} from '../../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../../services/service-extensions.service';
 import {NavigationService} from '../../../../services/navigation.service';
 import {environment} from '../../../../../environments/environment';
-import {ServiceBundle} from "../../../../domain/eic-model";
+import {InteroperabilityRecord, ResourceInteroperabilityRecord, ServiceBundle} from "../../../../domain/eic-model";
 import {DatasourceService} from "../../../../services/datasource.service";
 import {pidHandler} from '../../../../shared/pid-handler/pid-handler.service';
+import {GuidelinesService} from "../../../../services/guidelines.service";
 
 declare var UIkit: any;
 
@@ -28,6 +29,9 @@ export class ResourceDashboardComponent implements OnInit {
   helpdeskId: string;
   datasourceId: string; //subprofile
 
+  resourceGuidelines: ResourceInteroperabilityRecord;
+  guidelines: InteroperabilityRecord[] = [];
+
   providerPID: string;
   resourcePID: string;
 
@@ -38,6 +42,7 @@ export class ResourceDashboardComponent implements OnInit {
               public resourceService: ResourceService,
               public serviceExtensionsService: ServiceExtensionsService,
               public datasourceService: DatasourceService,
+              public guidelinesService: GuidelinesService,
               public navigator: NavigationService,
               private route: ActivatedRoute,
               public pidHandler: pidHandler) {
@@ -66,8 +71,28 @@ export class ResourceDashboardComponent implements OnInit {
             res => { if (res!=null) this.helpdeskId = res.id }
           );
         }
+
+        this.guidelinesService.getGuidelinesOfResource(this.resourceId).subscribe(
+          res => {
+            if (res != null) this.resourceGuidelines = res;
+            console.log(res);
+          },
+          err => console.log(err),
+          () => {
+            this.guidelinesService.getInteroperabilityRecords('0', '9999').subscribe(
+              res => {
+                if (res != null) this.guidelines = res['results'];
+                console.log(this.guidelines);
+              }
+            );
+          }
+        );
       }
     );
+  }
+
+  getGuidelineName(id: string): string {
+    return this.guidelines?.find(g => g.id === id)?.title || id;
   }
 
   showDatasourceDeletionModal() {

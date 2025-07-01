@@ -7,6 +7,8 @@ import {ServiceFullHistoryComponent} from './service-full-history.component';
 import {ResourceDashboardComponent} from './resource-dashboard.component';
 import {environment} from '../../../../../environments/environment';
 import {MonitoringInfoComponent} from "./monitoring-info.component";
+import {ResourceGuidelinesFormComponent} from "../../../provider-resources/resource-guidelines/resource-guidelines-form.component";
+import {ConfigurationTemplatesComponent} from "./configuration-templates.component";
 
 const resourceDashboardRoutes: Routes = [
   {
@@ -42,6 +44,15 @@ const resourceDashboardRoutes: Routes = [
       {
         path: 'monitoringInfo',
         component: MonitoringInfoComponent
+      },
+      {
+        path: 'assignGuidelines',
+        component: ResourceGuidelinesFormComponent
+
+      },
+      {
+        path: 'templatesForGuideline/:guidelineId',
+        component: ConfigurationTemplatesComponent
       }
     ]
   },

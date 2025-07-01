@@ -12,7 +12,7 @@ export class pidHandler {
     return id;
   }
 
-  customDecodeURIComponent(id: string): string {
+  customDecodeURIComponent(id: string): string { // regular decode suffices
     // console.trace('customDecodeURIComponent called with id:', id);
     if (id.includes('%')) {
       return decodeURIComponent(id);
