@@ -9,7 +9,7 @@ import {SurveyComponent} from "../../../../../dynamic-catalogue/pages/dynamic-fo
 import {Model} from "../../../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormGroup} from "@angular/forms";
 import { forkJoin, of } from 'rxjs';
-import { catchError, switchMap, map } from 'rxjs/operators';
+import {catchError, switchMap, map, finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-monitoring-info',
@@ -35,7 +35,7 @@ export class ConfigurationTemplatesComponent implements OnInit {
   hasChanges = false;
   serviceId: string = null;
   guidelineId: string = null;
-  currentResourceGuideline: ResourceInteroperabilityRecord;
+  currentResourceGuideline: InteroperabilityRecord;
   displayMessage = '';
   errorMessage = '';
   loadingMessage = '';
@@ -58,6 +58,12 @@ export class ConfigurationTemplatesComponent implements OnInit {
   ngOnInitWorkaround() {
     this.resetVariables();
     this.serviceId = this.route.parent.snapshot.paramMap.get('resourceId');
+    this.showLoader = true;
+
+    this.guidelinesService.getInteroperabilityRecordById(this.guidelineId).subscribe(
+      res => this.currentResourceGuideline = res,
+      err => console.log(err)
+    )
 
     this.guidelinesService.getTemplatesForGuideline(this.guidelineId).pipe(
       switchMap(response => {
@@ -121,19 +127,23 @@ export class ConfigurationTemplatesComponent implements OnInit {
 
         // Wait for all model + instance pairs to complete
         return forkJoin(allTemplateCalls);
+      }),
+      finalize(() => {
+        this.showLoader = false; // fallback guarantee
       })
     ).subscribe({
       next: () => {
         this.ready = true; // ready to render forms
+        this.showLoader = false;
         console.log('All templates and instances processed.');
       },
       error: (err) => {
         console.error('Unhandled error during initialization', err);
         this.ready = true; // still mark as ready to avoid hanging
+        this.showLoader = false;
       }
     });
   }
-
 
   transformToModelId(templateId: string): string {
       return 'm-b-' + templateId.replace('/', '-');

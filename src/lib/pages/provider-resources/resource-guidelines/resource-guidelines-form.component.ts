@@ -62,6 +62,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
     this.guidelinesService.getGuidelinesOfResource(this.serviceId).subscribe(
       res => { if(res!=null) {
         this.resourceGuidelines = res;
+        console.log(this.resourceGuidelines.interoperabilityRecordIds.length)
         this.editMode = true;
         }
       },
@@ -94,7 +95,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
 
   }
 
-  onSubmit() {
+  submitGuidelines() {
     if (!this.authenticationService.isLoggedIn()) {
       sessionStorage.setItem('service', JSON.stringify(this.guidelinesForm.value));
       this.authenticationService.login();
@@ -180,6 +181,18 @@ export class ResourceGuidelinesFormComponent implements OnInit {
       pos: 'top-center',
       timeout: 7000
     });
+  }
+
+  showDeletionModal() {
+    UIkit.modal('#deletionModal').show();
+  }
+
+  onSubmit(){
+    if(this.resourceGuidelines?.interoperabilityRecordIds?.length>0) {
+      UIkit.modal('#submissionModal').show();
+    } else {
+      this.submitGuidelines();
+    }
   }
 
 }
