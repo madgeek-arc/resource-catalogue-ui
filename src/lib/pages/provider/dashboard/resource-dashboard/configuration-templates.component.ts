@@ -39,7 +39,7 @@ export class ConfigurationTemplatesComponent implements OnInit {
   displayMessage = '';
   errorMessage = '';
   loadingMessage = '';
-  successMessage: string = null;
+  saveMessageMap: { [templateId: string]: string } = {};
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -172,14 +172,15 @@ export class ConfigurationTemplatesComponent implements OnInit {
     this.guidelinesService.saveConfigurationTemplateInstance(ctiValue).subscribe({
       next: (savedInstance) => {
         myFormGroup.patchValue({ConfigurationTemplate: savedInstance}); // fill the form with the response because the id in now generated
-        console.log(`${isUpdate ? 'Updated' : 'Created'} template instance for ${templateId}`);
+        this.saveMessageMap[templateId] = isUpdate ? 'Updated successfully!' : 'Saved successfully!';
+        setTimeout(() => this.saveMessageMap[templateId] = '', 3000);
       },
       error: (err) => {
+        this.saveMessageMap[templateId] = isUpdate ? 'Update failed.' : 'Save failed.';
+        setTimeout(() => this.saveMessageMap[templateId] = '', 3000);
         console.error(`Failed to save template instance for ${templateId}`, err);
       }
     });
   }
 
 }
-
-

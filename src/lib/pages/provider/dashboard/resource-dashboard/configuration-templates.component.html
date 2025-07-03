@@ -26,6 +26,17 @@
                                'uk-width-1-3@m': templates.length > 2}">
         <!--                                        <pre>{{ formModels[template.id]?.id | json }}</pre>-->
                 <ng-container *ngIf="formModels[template.id]">
+
+                  <div *ngIf="saveMessageMap[template.id]"
+                       [ngClass]="{
+                         'uk-alert-success': saveMessageMap[template.id].includes('success'),
+                         'uk-alert-danger': saveMessageMap[template.id].includes('fail'),
+                         'uk-alert': true
+                       }" uk-alert>
+                    <a class="uk-alert-close" uk-close (click)="saveMessageMap[template.id] = ''"></a>
+                    <p>{{ saveMessageMap[template.id] }}</p>
+                  </div>
+
                   <app-survey #survey
                     [payload]="answersByTemplateId[template.id]"
                     [model]="formModels[template.id]"
