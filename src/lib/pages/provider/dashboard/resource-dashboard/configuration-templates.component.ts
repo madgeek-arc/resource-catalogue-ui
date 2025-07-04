@@ -10,6 +10,7 @@ import {Model} from "../../../../../dynamic-catalogue/domain/dynamic-form-model"
 import {FormGroup} from "@angular/forms";
 import { forkJoin, of } from 'rxjs';
 import {catchError, switchMap, map, finalize} from 'rxjs/operators';
+import {ServiceExtensionsService} from "../../../../services/service-extensions.service";
 
 @Component({
   selector: 'app-monitoring-info',
@@ -45,6 +46,7 @@ export class ConfigurationTemplatesComponent implements OnInit {
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
               protected guidelinesService: GuidelinesService,
+              protected serviceExtensionsService: ServiceExtensionsService,
               protected route: ActivatedRoute
   ) {}
 
@@ -57,6 +59,7 @@ export class ConfigurationTemplatesComponent implements OnInit {
 
   ngOnInitWorkaround() {
     this.resetVariables();
+    this.getServiceTypesAndSetVocabulariesMap();
     this.serviceId = this.route.parent.snapshot.paramMap.get('resourceId');
     this.showLoader = true;
 
@@ -181,6 +184,19 @@ export class ConfigurationTemplatesComponent implements OnInit {
         console.error(`Failed to save template instance for ${templateId}`, err);
       }
     });
+  }
+
+  getServiceTypesAndSetVocabulariesMap() { // adds Vocabulary for Monitoring
+    this.serviceExtensionsService.getServiceTypes().subscribe(
+      res => {
+        const map: { [name: string]: { id: string, name: string }[];  } = {'serviceTypesVoc': []};
+        res.forEach(item => {
+          map['serviceTypesVoc'].push({id: item.id, name: item.name})
+        })
+        this.vocabulariesMap = <Map<string, object[]>><unknown>map;
+      },
+      error => console.log('getServiceTypes error:', JSON.stringify(error.error))
+    );
   }
 
 }
