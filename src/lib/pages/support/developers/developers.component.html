@@ -10,29 +10,26 @@
                                 <div id="api-endpoints" class="section">
 
                                   <p>The EOSC Service Catalogue provides a REST API interface for access to the
-                                    Catalogues Providers, Resources, Controlled Vocabularies and other related
+                                    Catalogues Providers, Resources, Conbtrolled Vocabularies and other related
                                     entities. An API (Application programming interface) is a protocol intended to be
                                     used as an interface by software components to communicate with each other. The
-                                    complete <a href="../api/swagger-ui/index.html" target="_blank">EOSC API documentation</a>
-                                    is a living document, generated using frameworks compliant with
-                                    OpenAPI Specification 3.1.0.</p>
+                                    complete <a href="../openapi">EOSC API documentation</a> is a living document, generated using frameworks
+                                    compliant with OpenAPI Specification 2.0.</p>
 
-                                  <p>If you find a bug, have any questions or suggestions, please
-                                    <a href="mailto:support@sandbox.eosc-beyond.eu">get in touch with us</a>.</p>
+                                  <p>If you find a bug, have any questions or suggestions, please <a href="mailto:support@sandbox.eosc-beyond.eu">get in touch with us</a>.</p>
 
                                   <p>In general, publicly available information providers and resources stored in the
                                     Service Catalogue does not require an authentication. However, if alterations to the
                                     data stored are needed, then authentication is mandatory. For this, an API Token is
                                     needed.</p>
 
-                                  <p>You can obtain an API token <a href="{{apiTokenEndpoint}}" target="_blank">here</a>,
-                                    just authorise the webpage to read your account details in order to be able to issue
-                                    new access and refresh tokens. Access tokens expire in one hour so you’ll also need
-                                    the refresh token to re-generate access tokens programmatically when they expire.
-                                    Refresh tokens expire at the end of each year, so you’ll also need to reissue new
-                                    refresh tokens from year to year. In case you need to reissue or manage refresh tokens,
-                                    you can easily do it, just follow the instructions
-                                    <a href="https://core-proxy.sandbox.eosc-beyond.eu/auth/realms/core/account/#/applications" target="_blank">here</a>.</p>
+                                  <p>You can obtain an API token <a href="{{apiTokenEndpoint}}" target="_blank">here</a>, just authorise the webpage to read your account
+                                    details in order to be able to issue new access and refresh tokens. Access tokens
+                                    expire in one hour so you’ll also need the refresh token to re-generate access
+                                    tokens programmatically when they expire. Refresh tokens expire at the end of each
+                                    year, so you’ll also need to reissue new refresh tokens from year to year. In case
+                                    you need to reissue or manage refresh tokens, you can easily do it, just follow the
+                                    instructions <a href="https://core-proxy.sandbox.eosc-beyond.eu/auth/realms/core/account/#/applications" target="_blank">here</a>.</p>
 
                                   <p>The obtained token can be used in a bearer authorization header like this: 'Authorization: Bearer [token]'.
                                     <br>For example, a call for adding a new resource goes like this:</p>
