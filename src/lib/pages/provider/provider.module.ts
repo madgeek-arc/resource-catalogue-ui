@@ -22,7 +22,6 @@ import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring
 import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
 import {NgSelectModule} from '@ng-select/ng-select';
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
-import {ResourceGuidelinesFormComponent} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
 import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
@@ -66,7 +65,6 @@ import {CatalogueUiModule} from "../../../dynamic-catalogue/catalogue-ui.module"
     ResourceFormToPdfComponent,
     MonitoringExtensionFormComponent,
     HelpdeskExtensionFormComponent,
-    ResourceGuidelinesFormComponent,
     TrainingResourceForm,
     UpdateTrainingResource
   ]

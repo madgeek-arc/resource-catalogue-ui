@@ -1,0 +1,69 @@
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-top uk-padding-remove-bottom" style="min-height: 90vh;">
+    <div class="uk-container uk-container-expand uk-margin-left uk-margin-right">
+
+        <div *ngIf="currentResourceGuideline" class="uk-margin-large-top">
+            <h3>{{currentResourceGuideline.title}}</h3>
+        </div>
+
+        <div *ngIf="showLoader" class="uk-margin-large-top">
+          <div class="loader-big"></div>
+        </div>
+
+        <div *ngIf="displayMessage" class="uk-margin-large-top">
+          <span class="">{{displayMessage}}</span>
+        </div>
+
+        <ng-container *ngIf="templates?.length>0">
+
+            <div *ngIf="errorMessage" id="errorAlert" class="uk-alert-danger" uk-alert>
+              <a class="uk-alert-close" uk-close></a>
+              <pre class="uk-alert-danger">{{errorMessage}}</pre>
+            </div>
+
+            <div *ngIf="ready" class="uk-grid-small uk-margin-top" uk-grid>
+              <div *ngFor="let template of templates; let i = index"
+                   [ngClass]="{'uk-width-1-2@m': templates.length <= 2,
+                               'uk-width-1-3@m': templates.length > 2}">
+        <!--                                        <pre>{{ formModels[template.id]?.id | json }}</pre>-->
+                <ng-container *ngIf="formModels[template.id]">
+
+                  <div *ngIf="saveMessageMap[template.id]"
+                       [ngClass]="{
+                         'uk-alert-success': saveMessageMap[template.id].includes('success'),
+                         'uk-alert-danger': saveMessageMap[template.id].includes('fail'),
+                         'uk-alert': true
+                       }" uk-alert>
+                    <a class="uk-alert-close" uk-close (click)="saveMessageMap[template.id] = ''"></a>
+                    <p>{{ saveMessageMap[template.id] }}</p>
+                  </div>
+
+                  <app-survey #survey
+                    [payload]="answersByTemplateId[template.id]"
+                    [model]="formModels[template.id]"
+                    [vocabulariesMap]="vocabulariesMap"
+                    [subVocabularies]="subVocabulariesMap"
+                    [tabsHeader]=""
+                    [activeUsers]="[]"
+                    (submit)="saveForm($event, template.id)">
+                    <div class="uk-grid form-top-section">
+                      <h5 class="uk-width-1-1 uk-margin-bottom">{{ formModels[template.id].name }}</h5>
+                      <p class="uk-margin-bottom" [innerHTML]="formModels[template.id].notice"></p>
+                    </div>
+                    <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end">
+                      <button class="uk-button uk-button-secondary uk-margin-left"
+                              (click)="children.toArray()[i].parentSubmit()">Save</button>
+                    </div>
+                  </app-survey>
+        <!--          <pre>{{getAnswerForTemplate(template.id)|json}}</pre>-->
+                </ng-container>
+              </div>
+            </div>
+
+      </ng-container>
+
+    </div>
+</div>
+
+<!--<ng-container *ngIf="this.isDevMode()">-->
+<!--  <pre>{{this.payloadAnswer|json}}</pre>-->
+<!--</ng-container>-->

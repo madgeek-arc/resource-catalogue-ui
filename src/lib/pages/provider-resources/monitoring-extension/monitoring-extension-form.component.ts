@@ -57,7 +57,6 @@ export class MonitoringExtensionFormComponent implements OnInit {
   trainingResourceId: string = null;
 
   providersPage: Paging<Provider>;
-  serviceTypesVoc: any;
   resourceService: ResourceService = this.injector.get(ResourceService);
   serviceExtensionsService: ServiceExtensionsService = this.injector.get(ServiceExtensionsService);
   navigator: NavigationService = this.injector.get(NavigationService);

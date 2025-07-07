@@ -19,7 +19,7 @@ import {environment} from '../../../environments/environment';
 import {RejectedServicesComponent} from './dashboard/rejectedServices/rejected-services.component';
 import {DatasourceSelectComponent} from "./dashboard/datasources/datasource-select.component";
 import {RejectedTrainingResourcesComponent} from "./dashboard/rejectedTrainingResources/rejected-training-resources.component";
-import {ResourceGuidelinesFormComponent} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
+// import {ResourceGuidelinesFormComponent} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
 import {TrainingListComponent} from "../admin/training-list.component";
@@ -295,14 +295,14 @@ const providerRoutes: Routes = [
       breadcrumb: 'Helpdesk Extension'
     }
   },
-  {
-    path: ':providerId/resource/guidelines/:resourceId',
-    component: ResourceGuidelinesFormComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Resource Guidelines'
-    }
-  },
+  // {
+  //   path: ':providerId/resource/guidelines/:resourceId',
+  //   component: ResourceGuidelinesFormComponent,
+  //   canActivate: [CanActivateViaAuthGuard],
+  //   data: {
+  //     breadcrumb: 'Resource Guidelines'
+  //   }
+  // },
   {
     path: 'all',
     component: ServiceProvidersListComponent,

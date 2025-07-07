@@ -9,11 +9,11 @@
               Guidelines
             </div>
             <div class="providerName uk-margin-small-top">
-              <strong>{{serviceId}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
+              <strong>Service id: {{serviceId}}</strong> {{hasChanges ? '(unsaved changes)' : ''}}
             </div>
           </div>
           <div class="uk-flex uk-flex-middle">
-            <button *ngIf="resourceGuidelines?.id" class="uk-button uk-button-danger uk-margin-left" type="submit" (click)="this.removeAll()">Remove all</button>
+            <button *ngIf="resourceGuidelines?.id" class="uk-button uk-button-danger uk-margin-left" type="submit" (click)="this.showDeletionModal()">Remove all</button>
             <button class="uk-button uk-button-secondary uk-margin-left" type="submit" (click)="this.onSubmit()">Submit</button>
           </div>
         </div>
@@ -128,5 +128,33 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div id="deletionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-header uk-h4">Warning</div>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <ng-container>
+      <h6>Are you sure you want to remove Guidelines from this Service?</h6>
+      <p>Keep in mind that removing a Guideline will also delete all related configurations instances.</p>
+      <div class="uk-text-right">
+        <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+        <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="removeAll()">Delete</button>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<div id="submissionModal" uk-modal>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-header uk-h4">Warning</div>
+  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <ng-container>
+      <h6>You are about to make changes to the assigned Guidelines of this Service.</h6>
+      <p>Keep in mind that removing a Guideline will also delete all related configurations instances.</p>
+      <div class="uk-text-right">
+        <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+        <button class="uk-button uk-button-secondary uk-modal-close" type="button" (click)="submitGuidelines()">Submit</button>
+      </div>
+    </ng-container>
   </div>
 </div>

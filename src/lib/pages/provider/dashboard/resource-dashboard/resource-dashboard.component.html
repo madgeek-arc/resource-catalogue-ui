@@ -77,7 +77,7 @@
         </ul>
       </div>
 
-      <div *ngIf="catalogueId === 'eosc'" class="menu_section border_top">
+      <div *ngIf="catalogueId === CATALOGUE" class="menu_section border_top">
         <div class="sidebar_heading">EXTENSIONS</div>
         <ul>
           <ng-container *ngIf="resourceBundle && resourceBundle.status==='approved resource' && resourceBundle.active===true">
@@ -107,25 +107,53 @@
       </div>
 
       <div class="menu_section border_top">
+        <div class="sidebar_heading">GUIDELINES</div>
+
+        <ul>
+
+          <ng-container *ngIf="catalogueId === CATALOGUE">
+            <ng-container *ngIf="resourceBundle?.status === 'approved resource' && resourceBundle?.active === true">
+
+              <ng-container *ngIf="resourceGuidelines?.interoperabilityRecordIds?.length > 0">
+                <li *ngFor="let id of resourceGuidelines.interoperabilityRecordIds" [routerLinkActive]="['current_section']" #guideline="routerLinkActive">
+                  <a class="uk-text-truncate"
+                     [routerLink]="['./templatesForGuideline', id]"
+                     [title]="getGuidelineName(id)">
+                    <span class="guideline-name">
+                      <i class="fa fa-circle-thin" style="color: #26c0e2"></i>&nbsp;
+                      {{ getGuidelineName(id) }}
+                    </span>
+                  </a>
+                </li>
+              </ng-container>
+
+              <li [routerLinkActive]="['current_section']" #addGuidelines="routerLinkActive">
+                <a [routerLink]="['/dashboard', catalogueId, pidHandler.customEncodeURIComponent(providerId), 'resource-dashboard', pidHandler.customEncodeURIComponent(resourceId), 'assignGuidelines']">
+                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  Add/Remove Guidelines
+                </a>
+              </li>
+
+            </ng-container>
+          </ng-container>
+
+
+
+        </ul>
+      </div>
+
+      <div class="menu_section border_top">
         <div class="sidebar_heading">ACTIONS</div>
 
         <ul>
 
-          <ng-container *ngIf="catalogueId === 'eosc'">
+          <ng-container *ngIf="catalogueId === CATALOGUE">
             <li>
               <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/resource/update/' + pidHandler.customEncodeURIComponent(resourceId)]">
                 <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                 Update {{serviceORresource}}
               </a>
             </li>
-            <ng-container *ngIf="resourceBundle && resourceBundle.status==='approved resource' && resourceBundle.active===true">
-              <li>
-                <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/resource/guidelines/' + pidHandler.customEncodeURIComponent(resourceId)]">
-                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Assign Guidelines
-                </a>
-              </li>
-            </ng-container>
             <ng-container *ngIf="resourceBundle?.status!=='approved resource' || resourceBundle?.active!==true">
               <li uk-tooltip="Disabled until first service approval and/or service activation.">
                 <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Assign Guidelines</a>
