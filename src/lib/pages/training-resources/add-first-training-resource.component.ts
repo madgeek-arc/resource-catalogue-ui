@@ -6,6 +6,7 @@ import {ResourceService} from '../../services/resource.service';
 import {Service, TrainingResource} from '../../domain/eic-model';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {NavigationService} from "../../services/navigation.service";
+import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 
 @Component({
   selector: 'app-add-first-training-resource',
@@ -20,8 +21,9 @@ export class AddFirstTrainingResourceComponent extends TrainingResourceForm impl
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
               protected route: ActivatedRoute,
-              protected navigator: NavigationService) {
-    super(injector, authenticationService, serviceProviderService, route);
+              protected navigator: NavigationService,
+              public dynamicFormService: FormControlService) {
+    super(injector, authenticationService, serviceProviderService, route, dynamicFormService);
     this.editMode = false;
   }
 

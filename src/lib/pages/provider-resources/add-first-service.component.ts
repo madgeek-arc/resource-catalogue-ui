@@ -9,10 +9,12 @@ import {ServiceProviderService} from '../../services/service-provider.service';
 import {RecommendationsService} from "../../services/recommendations.service";
 import {CatalogueService} from "../../services/catalogue.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 
 @Component({
   selector: 'app-add-first-service',
-  templateUrl: './service-form.component.html'
+  templateUrl: './service-form.component.html',
+  providers: [FormControlService]
 })
 export class AddFirstServiceComponent extends ServiceFormComponent implements OnInit {
 
@@ -26,8 +28,9 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
               protected catalogueService: CatalogueService,
               protected route: ActivatedRoute,
               private datePipe: DatePipe,
-              public pidHandler: pidHandler) {
-    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler);
+              public pidHandler: pidHandler,
+              public dynamicFormService: FormControlService) {
+    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService);
     this.editMode = false;
   }
 

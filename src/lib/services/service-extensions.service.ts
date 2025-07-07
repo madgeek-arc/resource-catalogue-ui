@@ -6,6 +6,8 @@ import {Monitoring, Helpdesk, MonitoringBundle, HelpdeskBundle, MonitoringStatus
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
+const CATALOGUE = environment.CATALOGUE;
+
 @Injectable()
 export class ServiceExtensionsService {
 
@@ -14,11 +16,13 @@ export class ServiceExtensionsService {
   base = environment.API_ENDPOINT;
   private options = {withCredentials: true};
 
+  //native catlogue call only
   getMonitoringByServiceId(serviceId: string) {
     serviceId = decodeURIComponent(serviceId);
     return this.http.get<Monitoring>(this.base + `/service-extensions/monitoring/byService/${serviceId}`, this.options);
   }
 
+  //native catlogue call only
   getHelpdeskByServiceId(serviceId: string) {
     serviceId = decodeURIComponent(serviceId);
     return this.http.get<Helpdesk>(this.base + `/service-extensions/helpdesk/byService/${serviceId}`, this.options);
@@ -53,7 +57,8 @@ export class ServiceExtensionsService {
   getMonitoringStatus(serviceId: string, showAllStatuses?: boolean) {
     serviceId = decodeURIComponent(serviceId);
     if (showAllStatuses) return this.http.get<MonitoringStatus[]>(this.base + `/service-extensions/monitoring/monitoringStatus/${serviceId}?allStatuses=true`, this.options);
-    return this.http.get<MonitoringStatus[]>(this.base + `/service-extensions/monitoring/monitoringStatus/${serviceId}`, this.options); //current status
+      return null
+    // return this.http.get<MonitoringStatus[]>(this.base + `/service-extensions/monitoring/monitoringStatus/${serviceId}`, this.options); //current status
   }
 
   getMonitoringAvailability(serviceId: string) {

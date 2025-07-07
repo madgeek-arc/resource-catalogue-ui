@@ -362,7 +362,7 @@ export class ResourceFormToPdfComponent implements OnInit {
     zip(
       this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getAllRelatedResources('eosc')
+      this.resourceService.getResourcesAsVocs('eosc')
     ).subscribe(suc => {
         this.providersPage = <Paging<Provider>>suc[0];
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
@@ -778,7 +778,7 @@ export class ResourceFormToPdfComponent implements OnInit {
         this.push('resourceProviders', true);
       }
     }
-    if (richService.service.multimedia) {
+    /*if (richService.service.multimedia) {
       for (let i = 0; i < richService.service.multimedia.length - 1; i++) {
         this.push('multimedia', false);
       }
@@ -877,7 +877,7 @@ export class ResourceFormToPdfComponent implements OnInit {
       for (let i = 0; i < richService.service.grantProjectNames.length - 1; i++) {
         this.push('grantProjectNames', false);
       }
-    }
+    }*/
   }
 
   downloadServiceFormPDF() {

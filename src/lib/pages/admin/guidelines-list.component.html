@@ -275,20 +275,22 @@
 
                           <hr class="uk-margin-top">
                           <div class="uk-align-right uk-margin-bottom">
-                            <button
-                              routerLink="/guidelines/{{pidHandler.customEncodeURIComponent(guidelineBundle.interoperabilityRecord.providerId)}}/update/{{pidHandler.customEncodeURIComponent(guidelineBundle.id)}}"
-                              class="uk-button uk-button-link"
-                              style="">
-                              <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
-                              Update
-                            </button>
+                            <ng-container *ngIf="guidelineBundle.interoperabilityRecord.catalogueId===CATALOGUE">
+                              <button
+                                routerLink="/guidelines/{{pidHandler.customEncodeURIComponent(guidelineBundle.interoperabilityRecord.providerId)}}/update/{{pidHandler.customEncodeURIComponent(guidelineBundle.id)}}"
+                                class="uk-button uk-button-link"
+                                style="">
+                                <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                                Update
+                              </button>
 
-                            <button (click)="showDeletionModal(guidelineBundle.id)"
-                                    class="uk-button uk-button-link uk-margin-medium-left"
-                                    style="padding-left: 40px; border-left: 1px solid #ccc">
-                              <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
-                              Delete
-                            </button>
+                              <button (click)="showDeletionModal(guidelineBundle.id)"
+                                      class="uk-button uk-button-link uk-margin-medium-left"
+                                      style="padding-left: 40px; border-left: 1px solid #ccc">
+                                <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                                Delete
+                              </button>
+                            </ng-container>
 
                             <button class="uk-button uk-button-link uk-margin-medium-left"
                                     style="padding-left: 40px; border-left: 1px solid #ccc">

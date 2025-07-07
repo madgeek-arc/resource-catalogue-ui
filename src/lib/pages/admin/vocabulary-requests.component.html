@@ -28,7 +28,7 @@
 
                   <hr class="uk-margin-large-right">
 
-                  <div *ngIf="facets !== null && facets !== undefined && facets[0]?.values" class="refineCategory uk-grid-margin">
+                  <div *ngIf="facets !== null && facets !== undefined && facets[0]?.values; else noFacets" class="refineCategory uk-grid-margin">
                     <h3 class="uk-h3">Vocabularies</h3>
 <!--                    <label class="uk-margin-small-left uk-margin-medium-bottom">-->
 <!--                      <input class="uk-search-input" [(ngModel)]="searchFacet" placeholder="Search with provider id or provider name">-->
@@ -46,6 +46,10 @@
                       </div>
                     </div>
                   </div>
+
+                  <ng-template #noFacets>
+                    <div>No filters found.</div>
+                  </ng-template>
 
                 </div>
 

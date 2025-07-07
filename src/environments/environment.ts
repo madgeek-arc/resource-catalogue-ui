@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   beta: false,
+  CATALOGUE: 'eosc',
   MATOMO_URL: 'https://providers.eosc-portal.eu/matomo/',
   MATOMO_SITE: 3,
   FAQ_ENDPOINT: 'https://dl105.madgik.di.uoa.gr/faq/api',
@@ -16,7 +17,7 @@ export const environment = {
   projectMail: 'support@sandbox.eosc-beyond.eu',
   serviceORresource: 'Service',
   hasUserConsent: true,
-  privacyPolicyURL: './comingSoon',
+  privacyPolicyURL: 'assets/files/Privacy Policy – EOSC Innovation Sandbox -Service Catalogue.pdf',
   onboardingAgreementURL: './comingSoon',
   // marketplaceServicesURL: 'https://marketplace-beta.docker-fid.grid.cyf-kr.edu.pl/services/',
   // marketplaceDatasourcesURL: 'https://marketplace-beta.docker-fid.grid.cyf-kr.edu.pl/datasources/',
@@ -27,7 +28,8 @@ export const environment = {
   INSIGHTS_ENDPOINT: 'provider_insights_api/v1/statistics/rs',
   AUTOCOMPLETION_ENDPOINT: 'v1/auto_completion',
   showHelpContent: false,
-  MONITORING_URL: './comingSoon'
+  MONITORING_URL: './comingSoon',
+  WS_ENDPOINT: ''
 };
 
 /*

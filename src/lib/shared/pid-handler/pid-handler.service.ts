@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class pidHandler {
   customEncodeURIComponent(id: string): string {
+    // console.trace('customEncodeURIComponent called with id:', id);
     if (id.includes('/')) {
       return encodeURIComponent(id);
     }
@@ -12,6 +13,7 @@ export class pidHandler {
   }
 
   customDecodeURIComponent(id: string): string {
+    // console.trace('customDecodeURIComponent called with id:', id);
     if (id.includes('%')) {
       return decodeURIComponent(id);
     }

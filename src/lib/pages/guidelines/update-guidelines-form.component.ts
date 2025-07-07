@@ -53,7 +53,10 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
     this.errorMessage = '';
     const path = this.route.snapshot.routeConfig.path;
     this.guidelinesService.getInteroperabilityRecordById(this.guidelineId).subscribe(
-        guideline => this.guideline = guideline,
+        guideline => {
+          this.guideline = guideline,
+          this.payloadAnswer = {'answer': {Guidelines: guideline}};
+        },
         err => {
           console.log(err);
           this.errorMessage = 'Something went wrong.';

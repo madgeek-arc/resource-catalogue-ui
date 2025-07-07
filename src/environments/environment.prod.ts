@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
   beta: false,
+  CATALOGUE: 'eosc',
   MATOMO_URL: 'https://providers.eosc-portal.eu/matomo/',
   MATOMO_SITE: 1,
   FAQ_ENDPOINT: '/faq/api',
@@ -12,7 +13,7 @@ export const environment = {
   projectMail: 'support@sandbox.eosc-beyond.eu',
   serviceORresource: 'Service',
   hasUserConsent: true,
-  privacyPolicyURL: './comingSoon',
+  privacyPolicyURL: 'assets/files/Privacy Policy – EOSC Innovation Sandbox -Service Catalogue.pdf',
   onboardingAgreementURL: './comingSoon',
   marketplaceServicesURL: './comingSoon',
   marketplaceDatasourcesURL: './comingSoon',
@@ -21,5 +22,6 @@ export const environment = {
   INSIGHTS_ENDPOINT: 'provider_insights_api/v1/statistics/rs',
   AUTOCOMPLETION_ENDPOINT: 'v1/auto_completion',
   showHelpContent: false,
-  MONITORING_URL: './comingSoon'
+  MONITORING_URL: './comingSoon',
+  WS_ENDPOINT: ''
 };

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import * as dm from '../../shared/description.map';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -12,15 +12,26 @@ import {environment} from '../../../environments/environment';
 import {CatalogueService} from "../../services/catalogue.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {NavigationService} from "../../services/navigation.service";
+import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
+import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
+import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {zip} from "rxjs";
 
 declare var UIkit: any;
 
 @Component({
   selector: 'app-new-service-provider',
   templateUrl: './service-provider-form.component.html',
-  styleUrls: ['./service-provider-form.component.css']
+  styleUrls: ['./service-provider-form.component.css'],
+  providers: [FormControlService]
 })
 export class ServiceProviderFormComponent implements OnInit {
+  @ViewChild(SurveyComponent) child: SurveyComponent
+  model: Model = null;
+  vocabulariesMap: Map<string, object[]> = null;
+  subVocabulariesMap: Map<string, object[]> = null;
+  payloadAnswer: object = null;
+  formDataToSubmit: any = null;
 
   _hasUserConsent = environment.hasUserConsent;
   serviceORresource = environment.serviceORresource;
@@ -99,6 +110,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
   readonly fullNameDesc: dm.Description = dm.providerDescMap.get('fullNameDesc');
   readonly abbreviationDesc: dm.Description = dm.providerDescMap.get('abbreviationDesc');
+  readonly nodeDesc: dm.Description = dm.providerDescMap.get('nodeDesc');
   readonly websiteDesc: dm.Description = dm.providerDescMap.get('websiteDesc');
   readonly descriptionDesc: dm.Description = dm.providerDescMap.get('descriptionDesc');
   readonly logoDesc: dm.Description = dm.providerDescMap.get('logoDesc');
@@ -156,11 +168,13 @@ export class ServiceProviderFormComponent implements OnInit {
   networksVocabulary: Vocabulary[] = null;
   societalGrandChallengesVocabulary: Vocabulary[] = null;
   hostingLegalEntityVocabulary: Vocabulary[] = null;
+  nodeVocabulary: Vocabulary[] = null;
 
   readonly formDefinition = {
     id: [''],
     name: ['', Validators.required],
     abbreviation: ['', Validators.required],
+    node: [''],
     website: ['', Validators.compose([Validators.required, URLValidator])],
     legalEntity: [''],
     legalStatus: [''],
@@ -234,10 +248,28 @@ export class ServiceProviderFormComponent implements OnInit {
               public router: Router,
               public route: ActivatedRoute,
               public navigator: NavigationService,
-              public pidHandler: pidHandler) {
+              public pidHandler: pidHandler,
+              public dynamicFormService: FormControlService) {
   }
 
   ngOnInit() {
+    this.showLoader = true;
+
+    this.serviceProviderService.getFormModelById('m-b-provider').subscribe(
+      res => this.model = res,
+      err => console.log(err),
+      () => {
+        if (!this.edit) { //prefill field(s)
+          this.payloadAnswer = {
+            'answer': {
+              Provider:
+                {'catalogueId': environment.CATALOGUE}
+            }
+          };
+        }
+        this.showLoader = false;
+      }
+    )
 
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes('add/:providerId')) {
@@ -307,12 +339,68 @@ export class ServiceProviderFormComponent implements OnInit {
 
     this.isPortalAdmin = this.authService.isAdmin();
 
-    this.initUserBitSets(); // Admin + mainContact
+    // this.initUserBitSets(); // Admin + mainContact
 
     if(this.catalogueId == 'eosc') this.displayedCatalogueName = `| Catalogue: EOSC`
     else if(this.catalogueId) this.showCatalogueName(this.catalogueId)
 
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
+  }
+
+  submitForm(value: any, tempSave: boolean){
+    let providerValue = value[0].value.Provider;
+    window.scrollTo(0, 0);
+    if (!this.authService.isLoggedIn()) {
+      sessionStorage.setItem('provider', JSON.stringify(this.providerForm.value)); // TODO: check this
+      this.authService.login();
+    }
+
+    this.errorMessage = '';
+    // this.trimFormWhiteSpaces();
+    const path = this.route.snapshot.routeConfig.path;
+    let method;
+    if (path === 'add/:providerId') {
+      method = 'updateAndPublishPendingProvider';
+    } else {
+      method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
+    }
+
+    this.cleanArrayProperty(providerValue, 'multimedia');
+    this.cleanArrayProperty(providerValue, 'scientificDomains');
+    this.cleanArrayProperty(providerValue, 'merilScientificDomains');
+    // console.log(providerValue);
+
+    if (tempSave) {//TODO
+      this.showLoader = true;
+      this.serviceProviderService.temporarySaveProvider(this.providerForm.value, (path !== 'provider/add/:providerId' && this.edit))
+        .subscribe(
+          res => {
+            this.showLoader = false;
+            this.router.navigate([`/provider/add/${this.pidHandler.customEncodeURIComponent(res.id)}`]);
+          },
+          err => {
+            this.showLoader = false;
+            this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
+          },
+          () => {
+            this.showLoader = false;
+          }
+        );
+    } else {
+      this.showLoader = true;
+      this.serviceProviderService[method](providerValue, this.commentControl.value).subscribe(
+        res => {
+        },
+        err => {
+          this.showLoader = false;
+          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
+        },
+        () => {
+          this.showLoader = false;
+          this.router.navigate(['/provider/my']);
+        }
+      );
+    }
   }
 
   registerProvider(tempSave: boolean) {
@@ -471,6 +559,8 @@ export class ServiceProviderFormComponent implements OnInit {
   markTabs() {
     this.tabs[0] = (this.checkFormValidity('name', this.edit)
       || this.checkFormValidity('abbreviation', this.edit)
+      || this.checkFormValidity('node', this.edit)
+      || this.checkEveryArrayFieldValidity('catalogueId', this.edit)
       || this.checkFormValidity('website', this.edit)
       || this.checkEveryArrayFieldValidity('legalEntity', this.edit)
       || this.checkFormValidity('legalStatus', this.edit)
@@ -502,8 +592,7 @@ export class ServiceProviderFormComponent implements OnInit {
       || this.checkEveryArrayFieldValidity('certifications', this.edit));
     this.tabs[6] = (this.checkEveryArrayFieldValidity('participatingCountries', this.edit)
       || this.checkEveryArrayFieldValidity('affiliations', this.edit)
-      || this.checkEveryArrayFieldValidity('networks', this.edit)
-      || this.checkEveryArrayFieldValidity('catalogueId', this.edit));
+      || this.checkEveryArrayFieldValidity('networks', this.edit));
     this.tabs[7] = (this.checkEveryArrayFieldValidity('esfriDomains', this.edit)
       || this.checkFormValidity('esfriType', this.edit)
       || this.checkEveryArrayFieldValidity('merilScientificDomains', this.edit, 'merilScientificDomain')
@@ -520,32 +609,24 @@ export class ServiceProviderFormComponent implements OnInit {
 
   /** get and set vocabularies **/
   setVocabularies() {
-    this.resourceService.getAllVocabulariesByType().subscribe(
-      res => {
-        this.vocabularies = res;
-        this.placesVocabulary = this.vocabularies[Type.COUNTRY];
-        this.providerTypeVocabulary = this.vocabularies[Type.PROVIDER_STRUCTURE_TYPE];
-        this.providerLCSVocabulary = this.vocabularies[Type.PROVIDER_LIFE_CYCLE_STATUS];
-        this.domainsVocabulary = this.vocabularies[Type.SCIENTIFIC_DOMAIN];
-        this.categoriesVocabulary = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN];
-        this.merilDomainsVocabulary = this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_DOMAIN];
-        this.merilCategoriesVocabulary = this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN];
-        this.esfriDomainVocabulary = this.vocabularies[Type.PROVIDER_ESFRI_DOMAIN];
-        this.legalStatusVocabulary = this.vocabularies[Type.PROVIDER_LEGAL_STATUS];
-        this.esfriVocabulary = this.vocabularies[Type.PROVIDER_ESFRI_TYPE];
-        this.areasOfActivityVocabulary = this.vocabularies[Type.PROVIDER_AREA_OF_ACTIVITY];
-        this.networksVocabulary = this.vocabularies[Type.PROVIDER_NETWORK];
-        this.societalGrandChallengesVocabulary = this.vocabularies[Type.PROVIDER_SOCIETAL_GRAND_CHALLENGE];
-        this.hostingLegalEntityVocabulary = this.vocabularies[Type.PROVIDER_HOSTING_LEGAL_ENTITY];
-        return this.vocabularies;
+    zip(
+      this.resourceService.getAllVocabulariesByType(),
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : 'eosc')
+    ).subscribe(data => {
+      this.vocabularies = <Map<string, Vocabulary[]>>data[0]; //old
+      this.vocabulariesMap = data[0];
+      let subVocs: Vocabulary[] = this.vocabulariesMap['SCIENTIFIC_SUBDOMAIN'].concat(this.vocabulariesMap['PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN']);
+      this.subVocabulariesMap = this.groupByKey(subVocs, 'parentId');
+      Object.keys(data[1]).forEach(key => {
+        const newItems = data[1][key];
+        const existingItems = this.vocabulariesMap[key] || [];
+        this.vocabulariesMap[key] = [...existingItems, ...newItems];
+      });
+    },
+      error => {
+        this.errorMessage = 'Error during vocabularies loading.';
       },
-      error => console.log(JSON.stringify(error.error)),
-      () => {
-        let voc: Vocabulary[] = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN].concat(this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN]);
-        this.subVocabularies = this.groupByKey(voc, 'parentId');
-
-        return this.vocabularies;
-      }
+      () => this.showLoader = false
     );
   }
 
@@ -741,20 +822,6 @@ export class ServiceProviderFormComponent implements OnInit {
 
   /** <-- User Array**/
 
-  showLogoUrlModal() {
-    if (this.providerForm && this.providerForm.get('logo').value) {
-      this.logoUrl = this.providerForm.get('logo').value;
-    }
-    UIkit.modal('#logoUrlModal').show();
-  }
-
-  addLogoUrl(logoUrl: string) {
-    UIkit.modal('#logoUrlModal').hide();
-    this.logoUrl = logoUrl;
-    this.providerForm.get('logo').setValue(logoUrl);
-    this.providerForm.get('logo').updateValueAndValidity();
-  }
-
   getSortedChildrenCategories(childrenCategory: Vocabulary[], parentId: string) {
     return this.sortVocabulariesByName(childrenCategory.filter(entry => entry.parentId === parentId));
   }
@@ -890,7 +957,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   /** BitSets -->**/
-  handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
+  /*handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
     if (bitIndex === 0) {
       this.providerName = this.providerForm.get(formControlName).value;
     }
@@ -1032,7 +1099,7 @@ export class ServiceProviderFormComponent implements OnInit {
     this.completedTabsBitSet.set(tabNum, setValue);
     this.completedTabs = this.completedTabsBitSet.cardinality();
   }
-
+*/
   /** <--BitSets **/
 
   /** Terms Modal--> **/
@@ -1062,24 +1129,25 @@ export class ServiceProviderFormComponent implements OnInit {
   /** <--Terms Modal **/
 
   /** Submit Comment Modal--> **/
-  showCommentModal() {
+  showCommentModal(formData: any) {
     if (this.edit && !this.pendingProvider) {
+      this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
     } else {
-      this.registerProvider(false);
+      this.submitForm(formData, false);
     }
   }
 
   /** <--Submit Comment Modal **/
 
-  submitSuggestion(entryValueName, vocabulary, parent) {
+  /*submitSuggestion(entryValueName, vocabulary, parent) {
     if (entryValueName.trim() !== '') {
       this.serviceProviderService.submitVocabularyEntry(entryValueName, vocabulary, parent, 'provider', this.providerId, null).subscribe(
         res => {
         },
         error => {
           console.log(error);
-          this.vocabularyEntryForm.get('errorMessage').setValue(error.error.error);
+          this.vocabularyEntryForm.get('errorMessage').setValue(error.error.message);
         },
         () => {
           this.vocabularyEntryForm.reset();
@@ -1087,7 +1155,7 @@ export class ServiceProviderFormComponent implements OnInit {
         }
       );
     }
-  }
+  }*/
 
   showNotification() {
     UIkit.notification({
@@ -1124,4 +1192,22 @@ export class ServiceProviderFormComponent implements OnInit {
     );
   }
 
+  cleanArrayProperty(obj: any, property: string): void {
+    if (obj && Array.isArray(obj[property])) {
+      // Filter out elements that are entirely empty:
+      const cleaned = obj[property].filter((element: any) => {
+        if (element && typeof element === 'object') {
+          // Keep the element if at least one property has a non-empty value.
+          return Object.keys(element).some(key => element[key] !== null && element[key] !== '');
+        }
+        // For non-objects, keep the element if it's not null or ''.
+        return element !== null && element !== '';
+      });
+      // If the cleaned array is empty, set the property to null. Otherwise, update it.
+      obj[property] = cleaned.length ? cleaned : null;
+    }
+  }
+
+  protected readonly environment = environment;
+  protected readonly isDevMode = isDevMode;
 }

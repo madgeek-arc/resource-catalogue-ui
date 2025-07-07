@@ -20,6 +20,7 @@ import {catchError, map} from 'rxjs/operators';
 
 declare var UIkit: any;
 
+const CATALOGUE = environment.CATALOGUE;
 
 @Injectable()
 export class TrainingResourceService {
@@ -82,6 +83,10 @@ export class TrainingResourceService {
     return this.http.get<Vocabulary[]>(this.base + `/vocabulary/byType/${type}`);
   }
 
+  getTerritories() {
+    return this.http.get<Vocabulary[]>(this.base + `/vocabulary/getTerritories`);
+  }
+
   getNestedVocabulariesByType(type: string) {
     return this.http.get<VocabularyTree>(this.base + `/vocabulary/vocabularyTree/${type}`);
   }
@@ -90,18 +95,23 @@ export class TrainingResourceService {
     return this.http.get(this.base + '/trainingResource/by/ID/'); // needs capitalized 'ID' after back changes
   }
 
+  //TODO: rename to getTrainingResource
   getService(id: string, catalogueId?: string) {
     id = decodeURIComponent(id);
-    // if version becomes optional this should be reconsidered
-    // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
-    if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<TrainingResource>(this.base + `/trainingResource/${id}?catalogue_id=${catalogueId}`, this.options);
+    if (!catalogueId) catalogueId = CATALOGUE;
+    if (catalogueId === CATALOGUE)
+      return this.http.get<TrainingResource>(this.base + `/trainingResource/${id}?catalogue_id=${catalogueId}`, this.options);
+    else
+      return this.http.get<Service>(this.base + `/catalogue/${catalogueId}/trainingResource/${id}`, this.options);
   }
 
   getTrainingResourceBundle(id: string, catalogueId?:string) { //old rich
     id = decodeURIComponent(id);
-    if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<TrainingResourceBundle>(this.base + `/trainingResource/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
+    if (!catalogueId) catalogueId = CATALOGUE;
+    if (catalogueId === CATALOGUE)
+      return this.http.get<TrainingResourceBundle>(this.base + `/trainingResource/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
+    else
+      return this.http.get<TrainingResourceBundle>(this.base + `/catalogue/${catalogueId}/trainingResource/bundle/${id}`, this.options);
   }
 
   getSelectedServices(ids: string[]) {
@@ -315,15 +325,22 @@ export class TrainingResourceService {
     return this.http.get<Paging<ServiceHistory>>(this.base + `/trainingResource/history/${serviceId}/`);
   }
 
+  //TODO: rename to getTrainingLoggingInfoHistory
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
     serviceId = decodeURIComponent(serviceId);
-    // return this.http.get<Paging<LoggingInfo>>(this.base + `/resource/loggingInfoHistory/${serviceId}/`);
-    return this.http.get<Paging<LoggingInfo>>(this.base + `/trainingResource/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
+    if (catalogue_id === CATALOGUE)
+      return this.http.get<Paging<LoggingInfo>>(this.base + `/trainingResource/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
+    else
+      return this.http.get<Paging<LoggingInfo>>(this.base + `/catalogue/${catalogue_id}/trainingResource/loggingInfoHistory/${serviceId}`);
   }
 
   auditTrainingResource(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
-    return this.http.patch(this.base + `/trainingResource/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
+    if(!catalogueId) catalogueId = CATALOGUE;
+    if (catalogueId === CATALOGUE)
+      return this.http.patch(this.base + `/trainingResource/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
+    else
+      return this.http.patch(this.base + `/catalogue/${catalogueId}/trainingResource/auditTrainingResource/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
   verifyTrainingResource(id: string, active: boolean, status: string) { // for 1st service

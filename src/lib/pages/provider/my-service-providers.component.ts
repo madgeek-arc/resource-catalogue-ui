@@ -7,6 +7,8 @@ import {zip} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
+const CATALOGUE = environment.CATALOGUE;
+
 @Component({
   selector: 'app-my-service-providers',
   templateUrl: './my-service-providers.component.html'
@@ -80,7 +82,7 @@ export class MyServiceProvidersComponent implements OnInit {
                 );
               }
               // if (p.status === 'pending template submission') {
-              if (p.status === 'approved provider') {
+              if (p.status === 'approved provider' && p.provider.catalogueId === CATALOGUE) {
                 // console.log(p.id);
                 this.resourceService.getDraftServicesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
                   res => {

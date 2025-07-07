@@ -1,0 +1,161 @@
+<div class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom" style="min-height: 325px">
+  <div class="uk-container" style="min-height: 500px">
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
+      <div class="uk-width-1-1@m uk-first-column">
+
+        <h1 class="uk-h3 uk-text-center">My Adapters</h1>
+
+        <div class="uk-container uk-margin-medium-bottom">
+          <div class="uk-grid">
+
+
+            <!-- MIDDLE -->
+            <div class=" uk-width-expand@m">
+              <div>
+                <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{ errorMessage }}</div>
+                <div *ngIf="noAdaptersMessage" class="uk-alert">{{ noAdaptersMessage }}</div>
+
+                <div *ngIf="myAdapters && (myAdapters.length > 0)" class="">
+
+                  <div class="uk-margin-bottom uk-grid-small uk-child-width-auto uk-grid serviceStatuses">
+                    <span class="status-label">Show:</span>
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'approved adapter')" [checked]="isApprovedChecked"> Approved
+                    </label>
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'pending adapter')" [checked]="isPendingChecked"> Pending
+                    </label>
+                    <label class="status-value uk-margin-small-left">
+                      <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'rejected adapter')" [checked]="isRejectedChecked"> Rejected
+                    </label>
+                    <!--                    <label class="status-value uk-margin-small-left">-->
+                    <!--                      <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'incomplete')" [checked]="isIncompleteChecked"> Incomplete-->
+                    <!--                    </label>-->
+                  </div>
+
+                  <div *ngIf="isApprovedChecked && (myApprovedAdapters.length > 0)">
+                    <h3 class="uk-margin-remove">Approved</h3>
+                    <div class="uk-grid uk-grid-match uk-child-width-1-2">
+                      <div *ngFor="let adapterBundle of myApprovedAdapters" class="uk-grid-margin">
+
+                        <div class="uk-card uk-card-default provider-card">
+                          <div class="uk-card-media-top approved">
+                            <div class="uk-card-badge uk-label">Approved</div>
+                          </div>
+                          <div class="provider-logo">
+                            <span class="provider-logo-helper"></span>
+                            <img src="{{ adapterBundle.adapter.logo ? adapterBundle.adapter.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
+                          </div>
+                          <div class="uk-card-body">
+                            <div class="providerName">
+                              <span class="uk-margin-auto-vertical" data-uk-tooltip title="Open Adapter's form">
+                                <a [routerLink]="['/adapters/update', pidHandler.customEncodeURIComponent(adapterBundle.id)]">
+                                    {{ adapterBundle.adapter.name }}
+                                </a>
+                              </span>
+                            </div>
+                            <div class="uk-margin-small-top">
+                              <span class="statusLabel">Adapter Status: </span>Approved
+                            </div>
+                            <div class="uk-margin-top cardActionButtons">
+                              <button class="uk-button uk-button-action" routerLink="/adapters/update/{{pidHandler.customEncodeURIComponent(adapterBundle.id)}}">
+                                <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Adapter</button>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="isPendingChecked && (myPendingActionAdapters.length > 0)" class="uk-margin-medium-top">
+                    <h3 class="uk-margin-remove">Pending</h3>
+                    <div class="uk-grid uk-grid-match uk-child-width-1-2">
+                      <div *ngFor="let adapterBundle of myPendingActionAdapters" class="uk-grid-margin">
+
+                        <div class="uk-card uk-card-default provider-card">
+                          <div class="uk-card-media-top pending">
+                            <div class="uk-card-badge uk-label">Pending</div>
+                          </div>
+                          <div class="provider-logo">
+                            <span class="provider-logo-helper"></span>
+                            <img src="{{ adapterBundle.adapter.logo ? adapterBundle.adapter.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
+                          </div>
+                          <div class="uk-card-body">
+                            <div class="providerName">
+                              <span class="uk-margin-auto-vertical" data-uk-tooltip title="Open Adapter's form">
+                                <a [routerLink]="['adapters/update', adapterBundle.id]">
+                                    {{ adapterBundle.adapter.name }}
+                                </a>
+                              </span>
+                            </div>
+                            <div class="uk-margin-small-top">
+                              <span class="statusLabel">Adapter Status: </span>Pending
+                              <!--                              <br>-->
+                              <!--                              <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(adapterBundle.templateStatus)]}}-->
+                            </div>
+                            <div class="uk-margin-top cardActionButtons">
+                              <button class="uk-button uk-button-action" routerLink="/adapters/update/{{pidHandler.customEncodeURIComponent(adapterBundle.id)}}">
+                                <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Adapter
+                              </button>
+
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="isRejectedChecked && (myRejectedAdapters.length > 0)" class="uk-margin-medium-top">
+                    <h3 class="uk-margin-remove">Rejected</h3>
+                    <div class="uk-grid uk-grid-match uk-child-width-1-2">
+                      <div *ngFor="let adapterBundle of myRejectedAdapters" class="uk-grid-margin">
+
+                        <div class="uk-card uk-card-default provider-card">
+                          <div class="uk-card-media-top rejected">
+                            <div class="uk-card-badge uk-label">Rejected</div>
+                          </div>
+                          <div class="provider-logo">
+                            <span class="provider-logo-helper"></span>
+                            <img src="{{ adapterBundle.adapter.logo ? adapterBundle.adapter.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
+                          </div>
+                          <div class="uk-card-body">
+                            <div class="providerName">
+                              <span class="uk-margin-auto-vertical" data-uk-tooltip title="Open Adapter's form">
+                                <a [routerLink]="['adapters/update', adapterBundle.id]">
+                                    {{ adapterBundle.adapter.name }}
+                                </a>
+                              </span>
+                            </div>
+                            <div class="uk-margin-small-top">
+                              <span class="statusLabel">Adapter Status: </span>Rejected
+                              <!--                              <br>-->
+                              <!--                              <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(adapterBundle.templateStatus)]}}-->
+                            </div>
+                            <div class="uk-margin-top cardActionButtons">
+                              <button class="uk-button uk-button-action" routerLink="/adapters/update/{{pidHandler.customEncodeURIComponent(adapterBundle.id)}}">
+                                <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Adapter</button>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

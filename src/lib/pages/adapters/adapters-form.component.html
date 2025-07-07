@@ -1,0 +1,36 @@
+<div *ngIf="showLoader" class="uk-margin-large-top">
+  <div class="loader-big"></div>
+</div>
+
+<div *ngIf="model && vocabulariesMap" class="uk-section-default uk-section uk-section-small uk-padding-remove-top uk-padding-remove-bottom" style="min-height: 90vh;">
+  <div class="uk-container uk-container-expand uk-margin-left uk-margin-right">
+
+    <div *ngIf="errorMessage" id="errorAlert" class="uk-alert-danger" uk-alert>
+      <a class="uk-alert-close" uk-close></a>
+      <pre class="uk-alert-danger">{{errorMessage}}</pre>
+    </div>
+
+    <ng-container *ngIf="(editMode && payloadAnswer) || !editMode">
+      <app-survey [payload]="payloadAnswer" [model]="model" [vocabulariesMap]="vocabulariesMap" [subVocabularies]="subVocabulariesMap"
+                  [tabsHeader]="" (submit)="submitForm($event)" [activeUsers]="[]">
+
+        <div *ngIf="model" class="uk-grid form-top-section">
+          <h5 class="uk-width-1-1 uk-margin-bottom">{{ model.name }}</h5>
+          <p class="uk-margin-bottom" [innerHTML]="model.notice"></p>
+        </div>
+
+        <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end" style="min-height: 40px">
+          <div>
+            <button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">
+              Submit
+            </button>
+          </div>
+        </div>
+      </app-survey>
+    </ng-container>
+  </div>
+</div>
+
+<ng-container *ngIf="isDevMode()">
+  <pre>{{this.payloadAnswer|json}}</pre>
+</ng-container>

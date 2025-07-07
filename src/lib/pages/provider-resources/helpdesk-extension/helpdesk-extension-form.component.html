@@ -1,3 +1,34 @@
+<!--<div *ngIf="model" class="uk-section-default uk-section uk-section-small uk-padding-remove-top uk-padding-remove-bottom" style="min-height: 90vh;">-->
+<!--  <div class="uk-container uk-container-expand uk-margin-left uk-margin-right">-->
+
+<!--    <div *ngIf="errorMessage" id="errorAlert" class="uk-alert-danger" uk-alert>-->
+<!--      <a class="uk-alert-close" uk-close></a>-->
+<!--      <pre class="uk-alert-danger">{{errorMessage}}</pre>-->
+<!--    </div>-->
+
+<!--    <app-survey [payload]="payloadAnswer" [model]="model" [vocabulariesMap]="vocabulariesMap" [tabsHeader]=""-->
+<!--                [subVocabularies]="" (submit)="submitForm($event)" [activeUsers]="[]">-->
+
+<!--      <div *ngIf="model" class="uk-grid form-top-section">-->
+<!--        <h5 class="uk-width-1-1 uk-margin-bottom">{{ model.name }}</h5>-->
+<!--        <p class="uk-margin-bottom" [innerHTML]="model.notice"></p>-->
+<!--      </div>-->
+
+<!--      <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end" style="min-height: 40px">-->
+<!--        <div>-->
+<!--          <button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">-->
+<!--            Submit-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </app-survey>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<ng-container *ngIf="isDevMode()">-->
+<!--  <pre>{{this.payloadAnswer|json}}</pre>-->
+<!--</ng-container>-->
+
 <div class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom" style="min-height: 325px">
   <div class="uk-container uk-container-expand">
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
@@ -37,6 +68,8 @@
 
               <div [ngClass]="{'blur-filter': showLoader}">
 
+                <div *ngIf="!editMode" class="uk-alert uk-alert-warning">IMPORTANT: As of 15 March 2024, onboarding requests will no longer be possible on the EOSC Providers Portal. More updates coming soon.</div>
+
                 <div class="requiredFields">Fields with (*) are mandatory and must be completed in order to submit this form.</div>
 
                 <div id="serviceForm">
@@ -50,7 +83,7 @@
                             <p class="uk-margin-remove-bottom">For questions related to the information that needs to be
                               filled in and suggestions on the portal, please contact us in <a
                                 href="mailto:support@sandbox.eosc-beyond.eu">support@sandbox.eosc-beyond.eu</a></p>
-                            <!--                        <p>For technical issues and questions, please contact us in <a href="mailto:providers@eosc-portal.eu">providers@eosc-portal.eu</a></p>-->
+                            <!--                        <p>For technical issues and questions, please contact us in <a href="mailto:support@sandbox.eosc-beyond.eu">support@sandbox.eosc-beyond.eu</a></p>-->
                           </ng-container>
                           <ng-container *ngIf="projectName === 'CatRIS'">
                             <p>For questions related to the information that needs to be filled in and suggestions on the

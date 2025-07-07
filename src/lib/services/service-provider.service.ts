@@ -14,6 +14,9 @@ import {
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {Paging} from '../domain/paging';
+import {Model} from "../../dynamic-catalogue/domain/dynamic-form-model";
+
+const CATALOGUE = environment.CATALOGUE;
 
 @Injectable()
 export class ServiceProviderService {
@@ -46,7 +49,7 @@ export class ServiceProviderService {
   }
 
   updateServiceProvider(updatedFields: any, comment: string): Observable<Provider> {
-    console.log(`knocking on: ${this.base}/provider`);
+    // console.log(`knocking on: ${this.base}/provider`);
     return this.http.put<Provider>(this.base + `/provider?comment=${comment}`, updatedFields, this.options);
   }
 
@@ -61,7 +64,11 @@ export class ServiceProviderService {
 
   auditProvider(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
-    return this.http.patch(this.base + `/provider/auditProvider/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
+    if(!catalogueId) catalogueId = CATALOGUE;
+    if (catalogueId === CATALOGUE)
+      return this.http.patch(this.base + `/provider/auditProvider/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
+    else
+      return this.http.patch(this.base + `/catalogue/${catalogueId}/provider/auditProvider/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
   requestProviderDeletion(id: string) {
@@ -90,18 +97,24 @@ export class ServiceProviderService {
     // console.log(id)
     id = decodeURIComponent(id); // fixme me: revisit for double decode if necessary
     // console.log(id)
-    if(!catalogue_id) catalogue_id = 'eosc';
+    if(!catalogue_id) catalogue_id = CATALOGUE;
     // return this.http.get<ProviderBundle>(this.base + `/provider/bundle/${id}`, this.options);
-    return this.http.get<ProviderBundle>(this.base + `/provider/bundle/${id}?catalogue_id=${catalogue_id}`, this.options);
+    if (catalogue_id === CATALOGUE)
+      return this.http.get<ProviderBundle>(this.base + `/provider/bundle/${id}?catalogue_id=${catalogue_id}`, this.options);
+    else
+      return this.http.get<ProviderBundle>(this.base + `/catalogue/${catalogue_id}/provider/bundle/${id}`, this.options);
   }
 
   getServiceProviderById(id: string, catalogue_id?: string) {
     // console.log(id)
     id = decodeURIComponent(id); // fixme me: revisit for double decode if necessary
     // console.log(id)
-    if(!catalogue_id) catalogue_id = 'eosc';
+    if(!catalogue_id) catalogue_id = CATALOGUE;
     // return this.http.get<Provider>(this.base + `/provider/${id}`, this.options);
-    return this.http.get<Provider>(this.base + `/provider/${id}?catalogue_id=${catalogue_id}`, this.options);
+    if (catalogue_id === CATALOGUE)
+      return this.http.get<Provider>(this.base + `/provider/${id}?catalogue_id=${catalogue_id}`, this.options);
+    else
+      return this.http.get<Provider>(this.base + `/catalogue/${catalogue_id}/provider/${id}`, this.options);
   }
 
   getPendingProviderById(id: string) {
@@ -124,12 +137,17 @@ export class ServiceProviderService {
       }
     }
 
-    if (active === 'statusAll') {
+    if (catalogue_id === CATALOGUE) {
+      if (active === 'statusAll') {
+        return this.http.get<Paging<ServiceBundle>>(this.base +
+          `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
+      }
       return this.http.get<Paging<ServiceBundle>>(this.base +
-        `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
+        `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&keyword=${query}`, {params});
+    } else {
+      return this.http.get<Paging<ServiceBundle>>(this.base +
+        `/catalogue/${catalogue_id}/${id}/service/bundle/all?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
     }
-    return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&keyword=${query}`, {params});
   }
 
   getDatasourcesOfProvider(id: string, from: string, quantity: string, order: string, sort: string, active: string, status?: string, query?: string) {
@@ -169,12 +187,17 @@ export class ServiceProviderService {
         params = params.append('status', statusValue);
       }
     }
-    if (active === 'statusAll') {
+    if (catalogue_id === CATALOGUE) {
+      if (active === 'statusAll') {
+        return this.http.get<Paging<TrainingResourceBundle>>(this.base +
+          `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
+      }
       return this.http.get<Paging<TrainingResourceBundle>>(this.base +
-        `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
+        `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&keyword=${query}`, {params});
+    } else {
+      return this.http.get<Paging<TrainingResourceBundle>>(this.base +
+        `/catalogue/${catalogue_id}/${id}/trainingResource/bundle/all?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
     }
-    return this.http.get<Paging<TrainingResourceBundle>>(this.base +
-      `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&keyword=${query}`, {params});
   }
 
   getRejectedResourcesOfProvider(id: string, from: string, quantity: string, order: string, sort: string, resourceType: string) {
@@ -285,7 +308,11 @@ export class ServiceProviderService {
   getProviderLoggingInfoHistory(providerId: string, catalogue_id: string) {
     providerId = decodeURIComponent(providerId);
     // return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}/`);
-    return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}?catalogue_id=${catalogue_id}`);
+    // return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}?catalogue_id=${catalogue_id}`);
+    if (catalogue_id === CATALOGUE)
+      return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}?catalogue_id=${catalogue_id}`);
+    else
+      return this.http.get<Paging<LoggingInfo>>(this.base + `/catalogue/${catalogue_id}/provider/loggingInfoHistory/${providerId}`);
   }
 
   suspendProvider(providerId: string, catalogueId: string, suspend: boolean) {
@@ -295,5 +322,9 @@ export class ServiceProviderService {
 
   getAllResourcesUnderHLE(providerName?: string){
    return this.http.get<any>(this.base + `/provider/getAllResourcesUnderASpecificHLE?providerName=${providerName}`);
+  }
+
+  getFormModelById(id: string) {
+    return this.http.get<Model>(this.base + `/forms/models/${id}`);
   }
 }

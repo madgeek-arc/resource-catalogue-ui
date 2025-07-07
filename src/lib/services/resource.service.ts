@@ -17,9 +17,11 @@ import {URLParameter} from '../domain/url-parameter';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {Info} from '../domain/info';
+import {Model} from "../../dynamic-catalogue/domain/dynamic-form-model";
 
 declare var UIkit: any;
 
+const CATALOGUE = environment.CATALOGUE;
 
 @Injectable()
 export class ResourceService {
@@ -106,6 +108,10 @@ export class ResourceService {
     return this.http.get<Vocabulary[]>(this.base + `/vocabulary/byType/${type}`);
   }
 
+  getTerritories() {
+    return this.http.get<Vocabulary[]>(this.base + `/vocabulary/getTerritories`);
+  }
+
   getNestedVocabulariesByType(type: string) {
     return this.http.get<VocabularyTree>(this.base + `/vocabulary/vocabularyTree/${type}`);
   }
@@ -118,7 +124,11 @@ export class ResourceService {
     return this.http.get<BrowseResults>(this.base + '/service/by/category/');
   }
 
-  getAllRelatedResources(catalogueId: string){ // Gets services, datasources, trainings (low level ids for specified catalogue, public ids for others)
+  getProvidersAsVocs(catalogueId: string){
+    return this.http.get(this.base + `/provider/providerIdToNameMap?catalogueId=${catalogueId}`);
+  }
+
+  getResourcesAsVocs(catalogueId: string){ // Gets services and trainings as VOCs
     return this.http.get(this.base + `/service/resourceIdToNameMap?catalogueId=${catalogueId}`);
   }
 
@@ -126,8 +136,11 @@ export class ResourceService {
     serviceId = decodeURIComponent(serviceId);
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? serviceId : [serviceId, version].join('/')}`, this.options);
-    if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<Service>(this.base + `/service/${serviceId}?catalogue_id=${catalogueId}`, this.options);
+    if (!catalogueId) catalogueId = CATALOGUE;
+    if (catalogueId === CATALOGUE)
+      return this.http.get<Service>(this.base + `/service/${serviceId}?catalogue_id=${catalogueId}`, this.options);
+    else
+      return this.http.get<Service>(this.base + `/catalogue/${catalogueId}/service/${serviceId}`, this.options);
   }
 
   getRichService(id: string, catalogueId?:string, version?: string) { //deprecated
@@ -429,8 +442,11 @@ export class ResourceService {
 
   getServiceBundleById(id: string, catalogueId?: string) {
     id = decodeURIComponent(id);
-    if (!catalogueId) catalogueId ='eosc';
-    return this.http.get<ServiceBundle>(this.base + `/service/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
+    if (!catalogueId) catalogueId = CATALOGUE;
+    if (catalogueId === CATALOGUE)
+      return this.http.get<ServiceBundle>(this.base + `/service/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
+    else
+      return this.http.get<ServiceBundle>(this.base + `/catalogue/${catalogueId}/service/bundle/${id}`, this.options);
   }
 
   getMyServiceProviders() {
@@ -510,21 +526,26 @@ export class ResourceService {
   }
   /** <-- Draft(Pending) Services **/
 
-  getFeaturedServices() { //einfra leftover
-    return this.http.get<Service[]>(this.base + `/service/featured/all`);
-  }
-
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
     serviceId = decodeURIComponent(serviceId);
     // return this.http.get<Paging<LoggingInfo>>(this.base + `/service/loggingInfoHistory/${serviceId}/`);
-    return this.http.get<Paging<LoggingInfo>>(this.base + `/service/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
+    if (catalogue_id === CATALOGUE)
+      return this.http.get<Paging<LoggingInfo>>(this.base + `/service/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
+    else
+      return this.http.get<Paging<LoggingInfo>>(this.base + `/catalogue/${catalogue_id}/service/loggingInfoHistory/${serviceId}`);
   }
 
+  //TODO: rename to auditService
   auditResource(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
-    return this.http.patch(this.base + `/service/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
+    if(!catalogueId) catalogueId = CATALOGUE;
+    if (catalogueId === CATALOGUE)
+      return this.http.patch(this.base + `/service/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
+    else
+      return this.http.patch(this.base + `/catalogue/${catalogueId}/service/auditService/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
+  //TODO: unsued - remove
   auditDatasource(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
     return this.http.patch(this.base + `/datasource/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
@@ -582,5 +603,9 @@ export class ResourceService {
   suspendDatasource(datasourceId: string, catalogueId: string, suspend: boolean) {
     datasourceId = decodeURIComponent(datasourceId);
     return this.http.put<DatasourceBundle>(this.base + `/datasource/suspend?datasourceId=${datasourceId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
+  }
+
+  getFormModelById(id: string) {
+    return this.http.get<Model>(this.base + `/forms/models/${id}`);
   }
 }

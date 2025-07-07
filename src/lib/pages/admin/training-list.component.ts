@@ -230,7 +230,7 @@ export class TrainingListComponent implements OnInit {
           this.providersPage = <Paging<Provider>>suc;
         },
         error => {
-          this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
+          this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.message);
         },
         () => {
           this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));

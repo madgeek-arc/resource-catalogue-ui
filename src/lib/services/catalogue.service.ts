@@ -26,12 +26,12 @@ export class CatalogueService {
   private options = {withCredentials: true};
 
   createNewCatalogue(newProvider: any) {
-    console.log(`knocking on: ${this.base}/catalogue`);
+    // console.log(`knocking on: ${this.base}/catalogue`);
     return this.http.post(this.base + '/catalogue', newProvider, this.options);
   }
 
   updateCatalogue(updatedFields: any, comment: string): Observable<Catalogue> {
-    console.log(`knocking on: ${this.base}/catalogue`);
+    // console.log(`knocking on: ${this.base}/catalogue`);
     return this.http.put<Catalogue>(this.base + `/catalogue?comment=${comment}`, updatedFields, this.options);
   }
 

@@ -30,7 +30,8 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
               "node_modules/ngx-markdown-editor/assets/highlight.js/agate.min.css",
-              "node_modules/prismjs/themes/prism-okaidia.css"
+              "node_modules/prismjs/themes/prism-okaidia.css",
+              "node_modules/@angular/cdk/overlay-prebuilt.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -171,5 +172,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

@@ -1,5 +1,5 @@
 import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {Component, Injector, OnInit} from '@angular/core';
+import {Component, Injector, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
@@ -13,6 +13,10 @@ import {ActivatedRoute} from '@angular/router';
 import {DatasourceService} from "../../../services/datasource.service";
 import BitSet from "bitset";
 import {PremiumSortPipe} from "../../../shared/pipes/premium-sort.pipe";
+import {SurveyComponent} from "../../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {Model} from "../../../../dynamic-catalogue/domain/dynamic-form-model";
+import {FormControlService} from "../../../../dynamic-catalogue/services/form-control.service";
+import {zip} from "rxjs";
 
 declare var UIkit: any;
 
@@ -22,6 +26,11 @@ declare var UIkit: any;
   styleUrls: ['../../provider/service-provider-form.component.css']
 })
 export class DatasourceSubprofileFormComponent implements OnInit {
+  @ViewChild(SurveyComponent) child: SurveyComponent
+  model: Model = null;
+  vocabulariesMap: Map<string, object[]> = null;
+  subVocabulariesMap: Map<string, object[]> = null
+  payloadAnswer: object = null;
 
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
@@ -92,6 +101,9 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
+  readonly nodeDesc: dm.Description = dm.datasourceDescMap.get('nodeDesc');
+  readonly catalogueIdDesc: dm.Description = dm.datasourceDescMap.get('catalogueIdDesc');
+
   readonly submissionPolicyURLDesc: dm.Description = dm.datasourceDescMap.get('submissionPolicyURLDesc');
   readonly preservationPolicyURLDesc: dm.Description = dm.datasourceDescMap.get('preservationPolicyURLDesc');
   readonly versionControlDesc: dm.Description = dm.datasourceDescMap.get('versionControlDesc');
@@ -116,6 +128,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   formGroupMeta = {
     id: [''],
     serviceId: [''],
+    node: [''],
     catalogueId: ['eosc'],
 
     submissionPolicyURL: this.fb.control(''),
@@ -166,11 +179,13 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   public researchEntityTypeVocabulary: Vocabulary[] = null;
   public persistentIdentitySchemeVocabulary: Vocabulary[] = null;
   public accessRightsVocabulary: Vocabulary[] = null;
+  public nodeVocabulary: Vocabulary[] = null;
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
               protected datasourceService: DatasourceService,
-              protected route: ActivatedRoute
+              protected route: ActivatedRoute,
+              public dynamicFormService: FormControlService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
@@ -178,6 +193,37 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
+
+  submitForm(value: any, tempSave: boolean, pendingService: boolean) {
+    let datasourceValue = value[0].value.Datasource;
+    window.scrollTo(0, 0);
+
+    if (!this.authenticationService.isLoggedIn()) {
+      sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
+      this.authenticationService.login();
+    }
+
+    this.errorMessage = '';
+    this.showLoader = true;
+
+    this.cleanArrayProperty(datasourceValue, 'persistentIdentitySystems');
+    this.cleanArrayProperty(datasourceValue, 'researchProductLicensings');
+    this.cleanArrayProperty(datasourceValue, 'researchProductMetadataLicensing', true);
+
+    this.datasourceService.submitDatasource(datasourceValue, this.editMode).subscribe(
+      _ds => {
+        this.showLoader = false;
+        if (this.addOpenAIRE) return this.navigator.datasourceSubmitted(_ds.id);
+        return this.navigator.resourceDashboard(this.providerId, _ds.serviceId); // fixme: Datasource providerId -2test
+      },
+      err => {
+        this.showLoader = false;
+        window.scrollTo(0, 0);
+        this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
+      }
+    );
+}
+
 
   onSubmit() {
     if (!this.authenticationService.isLoggedIn()) {
@@ -219,7 +265,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
         }
       );
     } else {
@@ -236,22 +282,38 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoader = true;
     this.addOpenAIRE = window.location.pathname.includes('addOpenAIRE');
     this.openaireId = this.route.snapshot.paramMap.get('openaireId');
     this.providerId = this.route.snapshot.paramMap.get('providerId');
-    this.resourceService.getAllVocabulariesByType().subscribe(
+    this.resourceId = this.route.snapshot.paramMap.get('resourceId');
+    zip(
+      this.resourceService.getAllVocabulariesByType(),
+      this.resourceService.getFormModelById('m-b-datasource'),
+    ).subscribe(
       suc => {
-        this.vocabularies = <Map<string, Vocabulary[]>>suc;
-        this.jurisdictionVocabulary = this.vocabularies[Type.DS_JURISDICTION];
-        this.classificationVocabulary = this.vocabularies[Type.DS_CLASSIFICATION];
-        this.researchEntityTypeVocabulary = this.vocabularies[Type.DS_RESEARCH_ENTITY_TYPE];
-        this.persistentIdentitySchemeVocabulary = this.vocabularies[Type.DS_PERSISTENT_IDENTITY_SCHEME];
-        this.accessRightsVocabulary = this.vocabularies[Type.DS_COAR_ACCESS_RIGHTS_1_0];
+        // TODO: 2 vars with the same data / keep one
+        this.vocabularies = <Map<string, Vocabulary[]>>suc[0];
+        this.vocabulariesMap = suc[0];
+        this.model = suc[1];
       },
       error => {
-        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
+        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.message);
       },
-      () => {}
+      () => {
+        if (!this.editMode) { //prefill field(s)
+          this.payloadAnswer = {
+            'answer': {
+              Datasource:
+                {
+                  'serviceId': decodeURIComponent(this.resourceId),
+                  'catalogueId': environment.CATALOGUE
+                }
+            }
+          };
+        }
+        this.showLoader = false;
+      }
     )
     if (this.route.snapshot.paramMap.get('resourceId')) {
       this.serviceId = this.route.snapshot.paramMap.get('resourceId');
@@ -280,8 +342,13 @@ export class DatasourceSubprofileFormComponent implements OnInit {
         },
         () => {
           if (this.datasource) { //fill the form -->
-            this.formPrepare(this.datasource);
-            this.serviceForm.patchValue(this.datasource);
+            const parsedDatasource = { ...this.datasource };
+            ['versionControl', 'thematic', 'harvestable'].forEach(field => {
+              if (typeof parsedDatasource[field] === 'boolean') {
+                parsedDatasource[field] = parsedDatasource[field].toString();
+              }
+            });
+            this.payloadAnswer = { 'answer': { Datasource: parsedDatasource } };
           }
         }
       );
@@ -502,4 +569,30 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     );
   }
 
+  cleanArrayProperty(obj: any, property: string, supportPlainObject = false): void {
+    const value = obj[property];
+
+    if (Array.isArray(value)) {
+      const cleaned = value.filter((element: any) => {
+        if (element && typeof element === 'object' && !Array.isArray(element)) {
+          return Object.keys(element).some(key => {
+            const val = element[key];
+            return val !== null && val !== '' && !(Array.isArray(val) && val.every(v => v === null || v === ''));
+          });
+        }
+        return element !== null && element !== '';
+      });
+
+      obj[property] = cleaned.length ? cleaned : null;
+
+    } else if (supportPlainObject && value && typeof value === 'object') {
+      const allEmpty = Object.values(value).every(val =>
+        val === null || val === '' || (Array.isArray(val) && val.every(v => v === null || v === ''))
+      );
+      if (allEmpty) obj[property] = null;
+    }
+  }
+
+  protected readonly environment = environment;
+  protected readonly isDevMode = isDevMode;
 }

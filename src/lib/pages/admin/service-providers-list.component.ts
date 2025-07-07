@@ -240,7 +240,7 @@ export class ServiceProvidersListComponent implements OnInit {
         this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
       },
       error => {
-        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
+        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.message);
       },
       () => {}
     );

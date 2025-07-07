@@ -128,7 +128,7 @@ export class ProviderStatsComponent implements OnInit {
       this.providerService.getServicesOfProvider(this.providerId, this.catalogueId, '0', '50', 'ASC', 'name', 'true')
         .subscribe(res => {
             this.providerServices = res;
-            this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices.results);
+            // this.providerServicesGroupedByPlace = this.groupServicesOfProviderPerPlace(this.providerServices.results);
             if (this.providerServicesGroupedByPlace) {
               this.providerCoverage = Object.keys(this.providerServicesGroupedByPlace);
 
@@ -371,7 +371,7 @@ export class ProviderStatsComponent implements OnInit {
     this.getDataForProvider(this.statisticPeriod, true);
   }
 
-  groupServicesOfProviderPerPlace(services: ServiceBundle[]) {
+/*  groupServicesOfProviderPerPlace(services: ServiceBundle[]) {
     const ret = {};
     if (this.providerServices && this.providerServices?.results?.length > 0) {
       for (const service of services) {
@@ -387,7 +387,7 @@ export class ProviderStatsComponent implements OnInit {
       }
     }
     return ret;
-  }
+  }*/
 
   setVisitsForProvider(data: any) {
     if (data) {
