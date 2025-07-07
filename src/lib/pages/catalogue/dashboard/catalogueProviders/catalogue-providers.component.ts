@@ -4,7 +4,7 @@ import {ServiceProviderService} from '../../../../services/service-provider.serv
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
 import {CatalogueService} from "../../../../services/catalogue.service";
@@ -25,13 +25,13 @@ export class CatalogueProvidersComponent implements OnInit {
     from: '0',
     quantity: '10',
     order: 'ASC',
-    orderField: 'name',
+    sort: 'name',
     query: '',
     // active: 'statusAll',
     status: ''
   };
 
-  dataForm: FormGroup;
+  dataForm: UntypedFormGroup;
 
   errorMessage = '';
   toggleLoading = false;
@@ -51,7 +51,7 @@ export class CatalogueProvidersComponent implements OnInit {
   pages: number[] = [];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
@@ -104,7 +104,7 @@ export class CatalogueProvidersComponent implements OnInit {
   getProviders() {
     this.toggleLoading = true;
     this.catalogueService.getProvidersOfCatalogue(this.catalogueId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('order').value, this.dataForm.get('orderField').value,
+      this.dataForm.get('order').value, this.dataForm.get('sort').value,
       this.dataForm.get('status').value, this.dataForm.get('query').value)
       .subscribe(res => {
           this.toggleLoading = false;

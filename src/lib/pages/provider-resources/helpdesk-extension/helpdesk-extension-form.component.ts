@@ -1,5 +1,5 @@
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Component, Injector, OnInit} from '@angular/core';
+import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {Component, Injector, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
@@ -11,6 +11,8 @@ import {URLValidator} from '../../../shared/validators/generic.validator';
 import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
+import {SurveyComponent} from "../../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {Model} from "../../../../dynamic-catalogue/domain/dynamic-form-model";
 
 @Component({
   selector: 'app-helpdesk-extension-form',
@@ -18,6 +20,11 @@ import {ServiceProviderService} from '../../../services/service-provider.service
   styleUrls: ['../../provider/service-provider-form.component.css']
 })
 export class HelpdeskExtensionFormComponent implements OnInit {
+  @ViewChild(SurveyComponent) child: SurveyComponent
+  // model: Model = null;
+  // vocabulariesMap: Map<string, object[]> = null;
+  // vocabulariesMap: { [name: string]: { id: string, name: string }[]; } = {}
+  // payloadAnswer: object = null;
 
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
@@ -28,7 +35,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   pendingService = false;
   editMode = false;
   hasChanges = false;
-  serviceForm: FormGroup;
+  serviceForm: UntypedFormGroup;
   provider: Provider;
   service: Service;
   helpdesk: Helpdesk;
@@ -36,13 +43,13 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   successMessage: string = null;
   weights: string[] = [];
   tabs: boolean[] = [false];
-  fb: FormBuilder = this.injector.get(FormBuilder);
+  fb: UntypedFormBuilder = this.injector.get(UntypedFormBuilder);
   disable = false;
   isPortalAdmin = false;
 
+  providerId: string = null;
   serviceId: string = null; //filled for all types (service, training)
   resourceType = '';
-  //only one of these 2 ids will be filled from URL
   resourceId: string = null;
   trainingResourceId: string = null;
 
@@ -78,7 +85,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   resourceService: ResourceService = this.injector.get(ResourceService);
   serviceExtensionsService: ServiceExtensionsService = this.injector.get(ServiceExtensionsService);
 
-  router: NavigationService = this.injector.get(NavigationService);
+  navigator: NavigationService = this.injector.get(NavigationService);
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -86,8 +93,8 @@ export class HelpdeskExtensionFormComponent implements OnInit {
               protected route: ActivatedRoute
   ) {
     this.resourceService = this.injector.get(ResourceService);
-    this.fb = this.injector.get(FormBuilder);
-    this.router = this.injector.get(NavigationService);
+    this.fb = this.injector.get(UntypedFormBuilder);
+    this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
@@ -134,8 +141,8 @@ export class HelpdeskExtensionFormComponent implements OnInit {
       this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode, 'eosc', this.resourceType).subscribe(
         _service => {
           this.showLoader = false;
-          if (this.resourceType==='service') return this.router.resourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // navigate to resource-dashboard
-          if (this.resourceType==='training_resource') return this.router.trainingResourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // navigate to training-resource-dashboard
+          if (this.resourceType==='service') return this.navigator.resourceDashboard(this.providerId, this.serviceId); // navigate to resource-dashboard
+          if (this.resourceType==='training_resource') return this.navigator.trainingResourceDashboard(this.providerId, this.serviceId); // navigate to training-resource-dashboard
         },
         err => {
           this.showLoader = false;
@@ -158,15 +165,12 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.route.snapshot.paramMap.get('resourceId')) {
-      this.serviceId = this.route.snapshot.paramMap.get('resourceId');
-      this.resourceType = 'service';
-    }
-    if (this.route.snapshot.paramMap.get('trainingResourceId')) {
-      this.serviceId = this.route.snapshot.paramMap.get('trainingResourceId');
-      this.resourceType = 'training_resource';
-    }
-    this.serviceForm.get('serviceId').setValue(this.serviceId);
+    // this.serviceProviderService.getFormModelById('m-b-helpdesk').subscribe(
+    //   res => this.model = res,
+    //   err => console.log(err)
+    // )
+    this.getIdsFromCurrentPath();
+    this.serviceForm.get('serviceId').setValue(decodeURIComponent(this.serviceId));
 
     this.serviceExtensionsService.getHelpdeskByServiceId(this.serviceId).subscribe(
       res => { if(res!=null) {
@@ -199,7 +203,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
 
   /** manage form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.serviceForm.get(field) as FormArray;
+    return this.serviceForm.get(field) as UntypedFormArray;
   }
 
   push(field: string, required: boolean, url?: boolean) {
@@ -251,6 +255,20 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     }
   }
 
+  getIdsFromCurrentPath(){
+    if (this.route.snapshot.paramMap.get('providerId')) {
+      this.providerId = this.route.snapshot.paramMap.get('providerId');
+    }
+    if (this.route.snapshot.paramMap.get('resourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('resourceId');
+      this.resourceType = 'service';
+    }
+    if (this.route.snapshot.paramMap.get('trainingResourceId')) {
+      this.serviceId = this.route.snapshot.paramMap.get('trainingResourceId');
+      this.resourceType = 'training_resource';
+    }
+  }
+
   unsavedChangesPrompt() {
     this.hasChanges = true;
   }
@@ -259,4 +277,6 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     this.serviceForm.get('helpdeskType').setValue(event.target.value);
   }
 
+  protected readonly environment = environment;
+  protected readonly isDevMode = isDevMode;
 }

@@ -1,4 +1,4 @@
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
@@ -24,7 +24,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
   providerId: string;
   editMode = false;
   hasChanges = false;
-  guidelinesForm: FormGroup;
+  guidelinesForm: UntypedFormGroup;
   service: Service;
   serviceId: string = null;
   resourceGuidelines: ResourceInteroperabilityRecord;
@@ -32,7 +32,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
   errorMessage = '';
   loadingMessage = '';
   successMessage: string = null;
-  fb: FormBuilder = this.injector.get(FormBuilder);
+  fb: UntypedFormBuilder = this.injector.get(UntypedFormBuilder);
   disable = false;
 
   formGroupMeta = {
@@ -42,7 +42,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
     interoperabilityRecordIds: this.fb.array([this.fb.control('')]),
   };
 
-  router: NavigationService = this.injector.get(NavigationService);
+  navigator: NavigationService = this.injector.get(NavigationService);
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -50,14 +50,14 @@ export class ResourceGuidelinesFormComponent implements OnInit {
               protected guidelinesService: GuidelinesService,
               protected route: ActivatedRoute
   ) {
-    this.fb = this.injector.get(FormBuilder);
-    this.router = this.injector.get(NavigationService);
+    this.fb = this.injector.get(UntypedFormBuilder);
+    this.navigator = this.injector.get(NavigationService);
     this.guidelinesForm = this.fb.group(this.formGroupMeta);
   }
 
   ngOnInit() {
     this.serviceId = this.route.snapshot.paramMap.get('resourceId');
-    this.guidelinesForm.get('resourceId').setValue(this.serviceId);
+    this.guidelinesForm.get('resourceId').setValue(decodeURIComponent(this.serviceId));
 
     this.guidelinesService.getGuidelinesOfResource(this.serviceId).subscribe(
       res => { if(res!=null) {
@@ -107,7 +107,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
     this.guidelinesService.assignGuidelinesToResource('service', this.editMode, this.guidelinesForm.value).subscribe(
       _ir => {
         this.showLoader = false;
-        return this.router.resourceDashboard(this.providerId, this.serviceId);  // navigate to resource-dashboard
+        return this.navigator.resourceDashboard(this.providerId, this.serviceId);  // navigate to resource-dashboard
       },
       err => {
         this.showLoader = false;
@@ -123,7 +123,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
 
     this.guidelinesService.deleteGuidelinesOfResource(this.serviceId, this.resourceGuidelines.id).subscribe(
       _ir => {
-        return this.router.resourceDashboard(this.providerId, this.serviceId);  // navigate to resource-dashboard
+        return this.navigator.resourceDashboard(this.providerId, this.serviceId);  // navigate to resource-dashboard
       },
       err => this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error)
     );
@@ -131,7 +131,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
 
   /** manage form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.guidelinesForm.get(field) as FormArray;
+    return this.guidelinesForm.get(field) as UntypedFormArray;
   }
 
   push(field: string) {

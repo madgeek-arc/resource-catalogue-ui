@@ -51,7 +51,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
   statisticPeriod: string;
 
   constructor(private route: ActivatedRoute,
-              private router: NavigationService,
+              private navigator: NavigationService,
               private resourceService: ResourceService,
               private recommendationsService: RecommendationsService,
               private authenticationService: AuthenticationService,
@@ -76,7 +76,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
         },
         err => {
           if (err.status === 404) {
-            this.router.go('/404');
+            this.navigator.go('/404');
           }
           this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
         }
@@ -86,7 +86,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
 
   getDataForService(period: string, dontGetServices?: boolean) {
 
-    this.setCountriesForService(this.service.geographicalAvailabilities);
+    // this.setCountriesForService(this.service.geographicalAvailabilities);
 
     this.resourceService.getVisitsForService(this.service.id, period).pipe(
       map(data => {

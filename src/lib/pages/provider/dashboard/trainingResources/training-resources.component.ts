@@ -3,11 +3,12 @@ import {ProviderBundle, TrainingResourceBundle} from '../../../../domain/eic-mod
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Paging} from '../../../../domain/paging';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
 import {ServiceExtensionsService} from "../../../../services/service-extensions.service";
 import {TrainingResourceService} from "../../../../services/training-resource.service";
+import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -25,13 +26,13 @@ export class TrainingResourcesComponent implements OnInit {
     from: '0',
     quantity: '10',
     order: 'ASC',
-    orderField: 'title',
+    sort: 'title',
     query: '',
     active: 'statusAll',
     status: ''
   };
 
-  dataForm: FormGroup;
+  dataForm: UntypedFormGroup;
 
   errorMessage = '';
   // toggleLoading = false;
@@ -55,12 +56,13 @@ export class TrainingResourcesComponent implements OnInit {
   pages: number[] = [];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
     private trainingResourceService: TrainingResourceService,
-    private serviceExtensionsService: ServiceExtensionsService
+    private serviceExtensionsService: ServiceExtensionsService,
+    public pidHandler: pidHandler
   ) {}
 
   ngOnInit(): void {
@@ -130,7 +132,7 @@ export class TrainingResourcesComponent implements OnInit {
 
   getTrainingResources() {
     this.providerService.getTrainingResourcesOfProvider(this.providerId, this.catalogueId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('order').value, this.dataForm.get('orderField').value,
+      this.dataForm.get('order').value, this.dataForm.get('sort').value,
       this.dataForm.get('active').value, this.dataForm.get('status').value, this.dataForm.get('query').value)
       .subscribe(res => {
           this.trainingResources = res;

@@ -7,6 +7,7 @@ import {Paging} from '../../../../domain/paging';
 import {zip} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
 import {TrainingResourceService} from "../../../../services/training-resource.service";
+import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 @Component({
   selector: 'app-training-resource-full-history',
@@ -22,10 +23,11 @@ export class TrainingResourceFullHistoryComponent implements OnInit, OnDestroy {
   public trainingResource: TrainingResource;
   public errorMessage: string;
   private sub: Subscription;
+  public pidHandler: pidHandler;
 
   trainingResourceHistory: Paging<LoggingInfo>;
 
-  constructor(private route: ActivatedRoute, private router: NavigationService, private trainingResourceService: TrainingResourceService) {
+  constructor(private route: ActivatedRoute, private navigator: NavigationService, private trainingResourceService: TrainingResourceService) {
   }
 
   ngOnInit() {
@@ -41,7 +43,7 @@ export class TrainingResourceFullHistoryComponent implements OnInit, OnDestroy {
         },
         err => {
           if (err.status === 404) {
-            this.router.go('/404');
+            this.navigator.go('/404');
           }
           this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
         }
@@ -65,4 +67,5 @@ export class TrainingResourceFullHistoryComponent implements OnInit, OnDestroy {
   handleError(error) {
     this.errorMessage = 'System error retrieving training resource (Server responded: ' + error + ')';
   }
+
 }

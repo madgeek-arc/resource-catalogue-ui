@@ -5,10 +5,11 @@ import {DatasourceBundle, ProviderBundle, Service, ServiceBundle} from '../../do
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 import {NavigationService} from '../../services/navigation.service';
 import {DatasourceService} from "../../services/datasource.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -20,21 +21,22 @@ declare var UIkit: any;
 export class DatasourcesListComponent implements OnInit {
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
+  CATALOGUE = environment.CATALOGUE;
 
   formPrepare = {
     order: 'ASC',
-    orderField: 'id',
+    sort: 'id',
     quantity: '10',
     from: '0',
     query: '',
     // active: '',
     // suspended: 'false',
-    catalogue_id: new FormArray([]),
-    service_id: new FormArray([]), //facets
+    catalogue_id: new UntypedFormArray([]),
+    service_id: new UntypedFormArray([]), //facets
     status: ''
   };
 
-  dataForm: FormGroup;
+  dataForm: UntypedFormGroup;
 
   urlParams: URLParameter[] = [];
 
@@ -69,7 +71,8 @@ export class DatasourcesListComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private navigator: NavigationService,
-              private fb: FormBuilder
+              private fb: UntypedFormBuilder,
+              public pidHandler: pidHandler
   ) {
   }
 
@@ -86,21 +89,21 @@ export class DatasourcesListComponent implements OnInit {
             for (const i in params) {
               if (i === 'service_id') {
                 if (this.dataForm.get('service_id').value.length === 0) {
-                  const formArrayNew: FormArray = this.dataForm.get('service_id') as FormArray;
+                  const formArrayNew: UntypedFormArray = this.dataForm.get('service_id') as UntypedFormArray;
                   // formArrayNew = this.fb.array([]);
                   for (const service_id of params[i].split(',')) {
                     if (service_id !== '') {
-                      formArrayNew.push(new FormControl(service_id));
+                      formArrayNew.push(new UntypedFormControl(service_id));
                     }
                   }
                 }
               } else if (i === 'catalogue_id') {
                 if (this.dataForm.get('catalogue_id').value.length === 0) {
-                  const formArrayNew: FormArray = this.dataForm.get('catalogue_id') as FormArray;
+                  const formArrayNew: UntypedFormArray = this.dataForm.get('catalogue_id') as UntypedFormArray;
                   // formArrayNew = this.fb.array([]);
                   for (const catalogue_id of params[i].split(',')) {
                     if (catalogue_id !== '') {
-                      formArrayNew.push(new FormControl(catalogue_id));
+                      formArrayNew.push(new UntypedFormControl(catalogue_id));
                     }
                   }
                 }
@@ -166,7 +169,7 @@ export class DatasourcesListComponent implements OnInit {
     this.loadingMessage = 'Loading datasource entries...';
     this.datasources = [];
     this.datasourceService.getDatasourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
+      this.dataForm.get('sort').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
       this.dataForm.get('status').value, this.dataForm.get('catalogue_id').value, this.dataForm.get('service_id').value).subscribe(
       res => {
         this.datasources = res['results'];
@@ -182,7 +185,7 @@ export class DatasourcesListComponent implements OnInit {
         this.loadingMessage = '';
       },
       () => {
-        for (let i = 0; i < this.datasources.length; i++) {
+        for (let i = 0; i < this.datasources?.length; i++) {
           if (this.datasources[i]?.datasource?.serviceId) {
             this.serviceIdsOnView.push(this.datasources[i].datasource.serviceId);
           }
@@ -203,6 +206,7 @@ export class DatasourcesListComponent implements OnInit {
                     ...datasource,
                     logo: matchingService.logo,
                     name: matchingService.name,
+                    resourceOrganisation: matchingService.resourceOrganisation,
                   };
                 }
                 return datasource; // if no match is found, return the service as is
@@ -273,10 +277,10 @@ export class DatasourcesListComponent implements OnInit {
   }
 
   onSelection(e, category: string, value: string) {
-    const formArrayNew: FormArray = this.dataForm.get(category) as FormArray;
+    const formArrayNew: UntypedFormArray = this.dataForm.get(category) as UntypedFormArray;
     if (e.target.checked) {
       this.addParameterToURL(category, value);
-      formArrayNew.push(new FormControl(value));
+      formArrayNew.push(new UntypedFormControl(value));
     } else {
       let categoryIndex = 0;
       for (const urlParameter of this.urlParams) {

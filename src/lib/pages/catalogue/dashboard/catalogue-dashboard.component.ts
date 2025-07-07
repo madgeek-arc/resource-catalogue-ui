@@ -24,7 +24,7 @@ export class CatalogueDashboardComponent implements OnInit {
               public resourceService: ResourceService,
               public catalogueService: CatalogueService,
               public serviceProviderService: ServiceProviderService,
-              public router: NavigationService,
+              public navigator: NavigationService,
               private route: ActivatedRoute) {
   }
 

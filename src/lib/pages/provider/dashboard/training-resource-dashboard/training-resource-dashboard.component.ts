@@ -7,6 +7,7 @@ import {NavigationService} from '../../../../services/navigation.service';
 import {environment} from '../../../../../environments/environment';
 import {TrainingResourceBundle} from "../../../../domain/eic-model";
 import {TrainingResourceService} from "../../../../services/training-resource.service";
+import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 
 @Component({
@@ -29,8 +30,9 @@ export class TrainingResourceDashboardComponent implements OnInit {
               public resourceService: ResourceService,
               public trainingResourceService: TrainingResourceService,
               public serviceExtensionsService: ServiceExtensionsService,
-              public router: NavigationService,
-              private route: ActivatedRoute) {
+              public navigator: NavigationService,
+              private route: ActivatedRoute,
+              public pidHandler: pidHandler) {
   }
 
   ngOnInit() {
@@ -41,13 +43,14 @@ export class TrainingResourceDashboardComponent implements OnInit {
       res => { if (res!=null) this.trainingResourceBundle = res },
       error => {},
       () => {
-        // this.serviceExtensionsService.getMonitoringByServiceId(this.trainingResourceId).subscribe(
-        //   res => { if (res!=null) this.monitoringId = res.id }
-        // );
-        // this.serviceExtensionsService.getHelpdeskByServiceId(this.trainingResourceId).subscribe(
-        //   res => { if (res!=null) this.helpdeskId = res.id }
-        // );
+        this.serviceExtensionsService.getMonitoringByServiceId(this.trainingResourceId).subscribe(
+          res => { if (res!=null) this.monitoringId = res.id }
+        );
+        this.serviceExtensionsService.getHelpdeskByServiceId(this.trainingResourceId).subscribe(
+          res => { if (res!=null) this.helpdeskId = res.id }
+        );
       }
     );
   }
+
 }

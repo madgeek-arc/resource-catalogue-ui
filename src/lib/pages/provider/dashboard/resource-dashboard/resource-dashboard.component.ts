@@ -7,6 +7,7 @@ import {NavigationService} from '../../../../services/navigation.service';
 import {environment} from '../../../../../environments/environment';
 import {ServiceBundle} from "../../../../domain/eic-model";
 import {DatasourceService} from "../../../../services/datasource.service";
+import {pidHandler} from '../../../../shared/pid-handler/pid-handler.service';
 
 declare var UIkit: any;
 
@@ -18,6 +19,7 @@ export class ResourceDashboardComponent implements OnInit {
 
   _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
+  CATALOGUE = environment.CATALOGUE;
 
   catalogueId: string;
   providerId: string;
@@ -26,6 +28,9 @@ export class ResourceDashboardComponent implements OnInit {
   helpdeskId: string;
   datasourceId: string; //subprofile
 
+  providerPID: string;
+  resourcePID: string;
+
   resourceBundle: ServiceBundle;
   errorMessage: string;
 
@@ -33,27 +38,34 @@ export class ResourceDashboardComponent implements OnInit {
               public resourceService: ResourceService,
               public serviceExtensionsService: ServiceExtensionsService,
               public datasourceService: DatasourceService,
-              public router: NavigationService,
-              private route: ActivatedRoute) {
+              public navigator: NavigationService,
+              private route: ActivatedRoute,
+              public pidHandler: pidHandler) {
   }
 
   ngOnInit() {
     this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.resourceId = this.route.snapshot.paramMap.get('resourceId');
+    // console.log(this.providerId);
+    this.providerPID = decodeURIComponent(this.providerId);
+    this.resourcePID = decodeURIComponent(this.resourceId);
+    // console.log(this.providerPID);
     this.resourceService.getServiceBundleById(this.resourceId, this.catalogueId).subscribe(
       res => { if (res!=null) this.resourceBundle = res },
       error => {},
       () => {
-        this.serviceExtensionsService.getMonitoringByServiceId(this.resourceId).subscribe(
-          res => { if (res!=null) this.monitoringId = res.id }
-        );
-        this.serviceExtensionsService.getHelpdeskByServiceId(this.resourceId).subscribe(
-          res => { if (res!=null) this.helpdeskId = res.id }
-        );
-        this.datasourceService.getDatasourceByServiceId(this.resourceId).subscribe(
+        this.datasourceService.getDatasourceByServiceId(this.resourceId, this.catalogueId).subscribe(
           res => { if (res!=null) this.datasourceId = res.id }
         );
+        if (this.catalogueId === this.CATALOGUE){
+          this.serviceExtensionsService.getMonitoringByServiceId(this.resourceId).subscribe(
+            res => { if (res!=null) this.monitoringId = res.id }
+          );
+          this.serviceExtensionsService.getHelpdeskByServiceId(this.resourceId).subscribe(
+            res => { if (res!=null) this.helpdeskId = res.id }
+          );
+        }
       }
     );
   }

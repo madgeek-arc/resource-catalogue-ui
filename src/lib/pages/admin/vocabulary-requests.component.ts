@@ -5,7 +5,7 @@ import {ProviderBundle, VocabularyCuration, VocabularyEntryRequest} from '../../
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 import {NavigationService} from '../../services/navigation.service';
 
@@ -22,14 +22,14 @@ export class VocabularyRequestsComponent implements OnInit {
   formPrepare = {
     status: 'Pending',
     order: 'DESC',
-    orderField: 'dateOfRequest',
+    sort: 'date_of_request',
     quantity: '10',
     from: '0',
     query: '',
-    vocabulary: new FormArray([])
+    vocabulary: new UntypedFormArray([])
   };
 
-  dataForm: FormGroup;
+  dataForm: UntypedFormGroup;
 
   urlParams: URLParameter[] = [];
 
@@ -58,7 +58,7 @@ export class VocabularyRequestsComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private navigator: NavigationService,
-              private fb: FormBuilder
+              private fb: UntypedFormBuilder
   ) {
   }
 
@@ -76,11 +76,11 @@ export class VocabularyRequestsComponent implements OnInit {
               if (i === 'vocabulary') {
 
                 if (this.dataForm.get('vocabulary').value.length === 0) {
-                  const formArrayNew: FormArray = this.dataForm.get('vocabulary') as FormArray;
+                  const formArrayNew: UntypedFormArray = this.dataForm.get('vocabulary') as UntypedFormArray;
                   // formArrayNew = this.fb.array([]);
                   for (const vocabulary of params[i].split(',')) {
                     if (vocabulary !== '') {
-                      formArrayNew.push(new FormControl(vocabulary));
+                      formArrayNew.push(new UntypedFormControl(vocabulary));
                     }
                   }
                 }
@@ -151,7 +151,7 @@ export class VocabularyRequestsComponent implements OnInit {
     this.vocabularyCurations = [];
     this.serviceProviderService.getVocabularyCuration(this.dataForm.get('status').value,
       this.dataForm.get('from').value, this.dataForm.get('quantity').value, this.dataForm.get('order').value,
-      this.dataForm.get('orderField').value, this.dataForm.get('vocabulary').value, this.dataForm.get('query').value).subscribe(
+      this.dataForm.get('sort').value, this.dataForm.get('vocabulary').value, this.dataForm.get('query').value).subscribe(
       res => {
         this.vocabularyCurations = res['results'];
         this.facets = res['facets'];
@@ -174,10 +174,10 @@ export class VocabularyRequestsComponent implements OnInit {
   }
 
   onSelection(e, category: string, value: string) {
-    const formArrayNew: FormArray = this.dataForm.get('vocabulary') as FormArray;
+    const formArrayNew: UntypedFormArray = this.dataForm.get('vocabulary') as UntypedFormArray;
     if (e.target.checked) {
       this.addParameterToURL(category, value);
-      formArrayNew.push(new FormControl(value));
+      formArrayNew.push(new UntypedFormControl(value));
     } else {
       let categoryIndex = 0;
       for (const urlParameter of this.urlParams) {

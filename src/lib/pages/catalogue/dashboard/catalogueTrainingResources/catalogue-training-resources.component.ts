@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CatalogueBundle, TrainingResourceBundle} from '../../../../domain/eic-model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Paging} from '../../../../domain/paging';
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {CatalogueService} from "../../../../services/catalogue.service";
 import {TrainingResourceService} from "../../../../services/training-resource.service";
@@ -21,14 +21,14 @@ export class CatalogueTrainingResourcesComponent implements OnInit {
     from: '0',
     quantity: '10',
     order: 'ASC',
-    orderField: 'title',
+    sort: 'title',
     query: '',
     active: '',
     status: '',
-    catalogue_id: new FormArray([])
+    catalogue_id: new UntypedFormArray([])
   };
 
-  dataForm: FormGroup;
+  dataForm: UntypedFormGroup;
 
   errorMessage = '';
   toggleLoading = false;
@@ -46,7 +46,7 @@ export class CatalogueTrainingResourcesComponent implements OnInit {
   pages: number[] = [];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private catalogueService: CatalogueService,
@@ -59,7 +59,7 @@ export class CatalogueTrainingResourcesComponent implements OnInit {
     this.getCatalogue();
 
     this.dataForm = this.fb.group(this.formPrepare);
-    (this.dataForm.get('catalogue_id') as FormArray).push(new FormControl(this.catalogueId));
+    (this.dataForm.get('catalogue_id') as UntypedFormArray).push(new UntypedFormControl(this.catalogueId));
     this.urlParams = [];
     this.route.queryParams
       .subscribe(params => {
@@ -122,7 +122,7 @@ export class CatalogueTrainingResourcesComponent implements OnInit {
     this.toggleLoading = true;
     this.catalogueService.getTrainingsOfCatalogue(this.dataForm.get('catalogue_id').value,
       this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('order').value, this.dataForm.get('orderField').value,
+      this.dataForm.get('order').value, this.dataForm.get('sort').value,
       this.dataForm.get('status').value, this.dataForm.get('query').value).subscribe(
       res => {
           this.toggleLoading = false;

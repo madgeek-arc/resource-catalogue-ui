@@ -6,12 +6,13 @@ import {ResourceService} from '../../../services/resource.service';
 import {environment} from '../../../../environments/environment';
 import {ServiceProviderService} from '../../../services/service-provider.service';
 import {ProviderBundle} from '../../../domain/eic-model';
+import {pidHandler} from '../../../shared/pid-handler/pid-handler.service';
 
 declare var UIkit: any;
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
+  templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
 
@@ -24,8 +25,9 @@ export class DashboardComponent implements OnInit {
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,
               public serviceProviderService: ServiceProviderService,
-              public router: NavigationService,
-              private route: ActivatedRoute) {
+              public navigator: NavigationService,
+              private route: ActivatedRoute,
+              public pidHandler: pidHandler) {
   }
 
   ngOnInit() {

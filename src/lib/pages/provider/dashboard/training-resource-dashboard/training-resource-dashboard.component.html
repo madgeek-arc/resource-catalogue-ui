@@ -35,7 +35,7 @@
 
           <ng-container *ngIf="catalogueId === 'eosc'">
             <li>
-              <a [routerLink]="['/provider/' + providerId + '/training-resource/update/' + trainingResourceId]">
+              <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/training-resource/update/' + pidHandler.customEncodeURIComponent(trainingResourceId)]">
                 <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                 Update Training Resource
               </a>
@@ -64,7 +64,7 @@
             </a>
           </li>
           <li>
-            <a [routerLink]="['/dashboard', catalogueId, providerId, 'stats']">
+            <a [routerLink]="['/dashboard', catalogueId, providerId]">
               <img src="lib/assets/images/new-icons/stats.svg" class="uk-margin-small-right">
               Back to Provider Dashboard
             </a>

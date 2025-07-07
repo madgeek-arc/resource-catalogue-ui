@@ -1,5 +1,5 @@
 <!--MOBILE-->
-<div class="tm-header-mobile uk-hidden@m">
+<!--<div class="tm-header-mobile uk-hidden@m">
   <div *ngIf="beta" class="beta-badge-mobile"><span class="uk-label uk-label-danger">Beta instance<span class="uk-margin-small-left">&lt;</span></span></div>
   <nav class="uk-navbar-container uk-navbar" uk-navbar="">
     <div class="uk-navbar-left">
@@ -10,7 +10,7 @@
     </div>
     <div class="uk-navbar-center">
       <a class="uk-navbar-item uk-logo" [routerLink]="'/home'">
-        <img src="../../../assets/images/EOSC_Portal_Logo.png"
+        <img src="../../../assets/images/logo-eosc-beyond-horizontal-fc.png"
              class="uk-responsive-height" alt="EOSC Portal">
       </a>
     </div>
@@ -77,8 +77,7 @@
                                                              routerLinkActive="uk-active"
                                                              class="uk-offcanvas-close offcanvas-close">My Providers</a>
                     </li>
-                    <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/provider/all']" routerLinkActive="uk-active">View
-                      Providers</a></li>
+                    <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/provider/all']" routerLinkActive="uk-active">View Providers</a></li>
                     <li class="uk-nav-divider"></li>
                     <li><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
                 </ul>
@@ -86,14 +85,18 @@
 
               <li class="uk-nav-header uk-parent" [routerLinkActive]="['uk-active']">For Catalogues
                 <ul class="uk-nav-sub">
-                  <li><a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active"
-                         class="uk-offcanvas-close offcanvas-close">Add a Catalogue</a></li>
-                  <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/catalogue/my']"
-                                                                                                       routerLinkActive="uk-active"
-                                                                                                       class="uk-offcanvas-close offcanvas-close">My Catalogues</a>
+                  <li>
+                    <a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active" class="uk-offcanvas-close offcanvas-close">Add a Catalogue</a>
                   </li>
-                  <li *ngIf="authenticationService.isAdmin()"><a [routerLink]="['/catalogue/all']" routerLinkActive="uk-active">View Catalogues</a></li>
-                  <li><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
+                  <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/catalogue/my']"
+                     routerLinkActive="uk-active" class="uk-offcanvas-close offcanvas-close">My Catalogues</a>
+                  </li>
+                  <li *ngIf="authenticationService.isAdmin()">
+                    <a [routerLink]="['/catalogue/all']" routerLinkActive="uk-active">View Catalogues</a>
+                  </li>
+                  <li>
+                    <a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a>
+                  </li>
                 </ul>
               </li>
 
@@ -103,45 +106,50 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->
 
 
 <!--NO MOBILE-->
-<div id="header_main">
+<div id="header_main" style="margin-top: 47px">
   <div *ngIf="beta" class="beta-badge uk-visible@m"><span class="uk-label uk-label-danger">Beta instance<span class="uk-margin-small-left">&lt;</span></span></div>
-    <div id="top-header" class="uk-visible@m">
-    <div class="uk-container">
-      <div class="uk-grid">
-        <div class="uk-width-1-1@m uk-text-right">
-          <div class="region region-header-right">
-            <div id="block-system-user-menu" class="block block-system block-border block-menu">
-              <div class="content">
-                <ul id="globalmenu" class="uk-nav uk-navbar-nav uk-navbar-right uk-float-right">
-                  <li class="first leaf"><a href="https://eosc-portal.eu/contact-us">Contact Us</a></li>
-                  <li class="leaf"><a href="https://eosc-portal.eu">Portal Home</a></li>
-                  <li class="leaf"><a href="https://marketplace.eosc-portal.eu/">Catalogue & Marketplace</a></li>
-                  <li class="leaf"><a class="active" href="https://providers.eosc-portal.eu/provider/my">Providers Dashboard</a></li>
-                  <li class="leaf"><a href="https://eosc-portal.eu/providers-documentation">Providers Documentation</a></li>
-                  <ng-container *ngIf="!authenticationService.isLoggedIn()">
-                    <li class="leaf"><a class="loginLink" (click)="authenticationService.login()">Login</a></li>
-                  </ng-container>
-                  <ng-container *ngIf="authenticationService.isLoggedIn()">
-                    <li class="leaf">
-                    <span class="username" title="{{authenticationService.getUserEmail()}}">
-                      <svg class="svg-inline--fa fa-user fa-w-14 mr-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path></svg>
-                      {{authenticationService.getUserName()}} {{authenticationService.getUserSurname()}}
-                    </span>
-                    </li>
-                    <li class="last leaf"><a (click)="this.authenticationService.logout()"><strong>Logout</strong></a></li>
-                  </ng-container>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!--    <div id="top-header" class="uk-visible@m">-->
+<!--    <div class="uk-container">-->
+<!--      <div class="uk-grid">-->
+<!--        <div class="uk-width-1-1@m uk-text-right">-->
+<!--          <div class="region region-header-right">-->
+<!--            <div id="block-system-user-menu" class="block block-system block-border block-menu">-->
+<!--              <div class="content">-->
+<!--                <ul id="globalmenu" class="uk-nav uk-navbar-nav uk-navbar-right uk-float-right">-->
+<!--&lt;!&ndash;                  <li class="first leaf"><a href="https://eosc-portal.eu/contact-us">Contact Us</a></li>-->
+<!--                  <li class="leaf"><a href="https://eosc-portal.eu">Portal Home</a></li>-->
+<!--                  <li class="leaf"><a href="https://marketplace.eosc-portal.eu/">Catalogue & Marketplace</a></li>-->
+<!--                  <li class="leaf"><a class="active" href="https://providers.eosc-portal.eu/provider/my">Providers Dashboard</a></li>-->
+<!--                  <li class="leaf"><a href="https://eosc-portal.eu/providers-documentation">Providers Documentation</a></li>&ndash;&gt;-->
+<!--                  <li class="first leaf"><a href="./comingSoon">Contact Us</a></li>-->
+<!--                  <li class="leaf"><a href="./comingSoon">Portal Home</a></li>-->
+<!--                  <li class="leaf"><a href="./comingSoon">Catalogue & Marketplace</a></li>-->
+<!--                  <li class="leaf"><a class="active" href="./comingSoon">Providers Dashboard</a></li>-->
+<!--                  <li class="leaf"><a href="./comingSoon">Providers Documentation</a></li>-->
+<!--                  <ng-container *ngIf="!authenticationService.isLoggedIn()">-->
+<!--                    <li class="leaf"><a class="loginLink" (click)="authenticationService.login()">Login</a></li>-->
+<!--                  </ng-container>-->
+<!--                  <ng-container *ngIf="authenticationService.isLoggedIn()">-->
+<!--                    <li class="leaf">-->
+<!--                    <span class="username" title="{{authenticationService.getUserEmail()}}">-->
+<!--                      <svg class="svg-inline&#45;&#45;fa fa-user fa-w-14 mr-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path></svg>-->
+<!--                      {{authenticationService.getUserName()}} {{authenticationService.getUserSurname()}}-->
+<!--                    </span>-->
+<!--                    </li>-->
+<!--                    <li class="last leaf"><a (click)="this.authenticationService.logout()"><strong>Logout</strong></a></li>-->
+<!--                  </ng-container>-->
+<!--                </ul>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
 
 
   <div class="main-menu tm-header uk-visible@m tm-header-transparent">
@@ -154,18 +162,21 @@
         <nav class="uk-navbar" uk-navbar="{&quot;align&quot;:&quot;left&quot;}">
 
           <div class="uk-navbar-left">
-            <a class="uk-navbar-item uk-logo" [routerLink]="'/home'">
-              <img src="../../../assets/images/EOSC_Portal_Logo.png"
-                   class="uk-responsive-height" alt="EOSC Portal" style="width: 250px">
-            </a>
+<!--            <a class="uk-navbar-item uk-logo" [routerLink]="'/home'">-->
+<!--              <img src="../../../assets/images/logo-eosc-beyond-horizontal-fc.png"-->
+<!--                   class="uk-responsive-height" alt="EOSC Portal" style="width: 250px">-->
+<!--            </a>-->
           </div>
           <div class="uk-navbar-right align-self-center">
             <ul class="uk-navbar-nav">
               <li class="uk-parent" [routerLinkActive]="['uk-active']">
+                <a [routerLink]="['/home']" routerLinkActive="uk-active">Home</a>
+              </li>
+              <li class="uk-parent" [routerLinkActive]="['uk-active']">
                 <a [routerLink]="['/about']" routerLinkActive="uk-active">About</a>
               </li>
 
-              <li class="uk-parent" [routerLinkActive]="['uk-active']">
+              <!--<li class="uk-parent" [routerLinkActive]="['uk-active']">
                 <a href="#" class="" aria-expanded="false">
                   Statistics
                 </a>
@@ -180,7 +191,7 @@
                     </div>
                   </div>
                 </div>
-              </li>
+              </li>-->
 
               <li class="uk-parent" [routerLinkActive]="['uk-active']">
                 <a href="#" class="" aria-expanded="false">
@@ -212,9 +223,25 @@
                     <div class="uk-first-column">
                       <ul class="uk-nav uk-navbar-dropdown-nav">
                         <li><a [routerLink]="['/catalogue/add']" routerLinkActive="uk-active">Add a Catalogue</a></li>
-                        <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/catalogue/my']"
-                                                                                                             routerLinkActive="uk-active">My Catalogues</a></li>
+                        <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/catalogue/my']" routerLinkActive="uk-active">My Catalogues</a></li>
                         <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li class="uk-parent" [routerLinkActive]="['uk-active']">
+                <a href="#" class="" aria-expanded="false">
+                  Adapters
+                </a>
+                <div class="uk-navbar-dropdown uk-navbar-dropdown-bottom-left" style="top: 80px; left: 106.55px;"
+                     id="forAdapters" (click)="onClick('forAdapters')">
+                  <div class="uk-navbar-dropdown-grid uk-child-width-1-1 uk-grid uk-grid-stack" uk-grid="">
+                    <div class="uk-first-column">
+                      <ul class="uk-nav uk-navbar-dropdown-nav">
+                        <li><a [routerLink]="['/adapters/add']" routerLinkActive="uk-active">Add an Adapter</a></li>
+                        <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/adapters/my']" routerLinkActive="uk-active">My Adapters</a></li>
                       </ul>
                     </div>
                   </div>
@@ -237,6 +264,7 @@
                         <li class="uk-text-nowrap"><a class="uk-padding-remove-top" [routerLink]="['/provider/datasource/all']" routerLinkActive="uk-active">&boxur;<i class="fa "></i> Datasource Subprofiles</a></li>
                         <li><a [routerLink]="['/provider/training/all']" routerLinkActive="uk-active">Training Resources</a></li>
                         <li><a [routerLink]="['/guidelines/all']" routerLinkActive="uk-active">Guidelines</a></li>
+                        <li><a [routerLink]="['/adapters/all']" routerLinkActive="uk-active">Adapters</a></li>
                         <li><a [routerLink]="['/vocabulary-requests']" routerLinkActive="uk-active">Vocabulary Requests</a></li>
                       </ul>
                     </div>

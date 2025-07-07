@@ -6,6 +6,8 @@ import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
+import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
+
 
 @Component({
   selector: 'app-service-dashboard',
@@ -26,12 +28,14 @@ export class ProviderHistoryComponent implements OnInit {
   public errorMessage: string;
 
   constructor(private route: ActivatedRoute,
-              private router: NavigationService,
+              private navigator: NavigationService,
               private resourceService: ResourceService,
-              private providerService: ServiceProviderService) {
+              private providerService: ServiceProviderService,
+              public pidHandler: pidHandler) {
   }
 
   ngOnInit() {
+    // console.log(this.route.parent.snapshot)
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     this.getProvider();

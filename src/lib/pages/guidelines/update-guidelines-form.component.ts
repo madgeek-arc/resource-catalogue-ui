@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {InteroperabilityRecord, Type} from '../../domain/eic-model';
-import {FormBuilder} from '@angular/forms';
+import {UntypedFormBuilder} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GuidelinesFormComponent} from "./guidelines-form.component";
 import {AuthenticationService} from "../../services/authentication.service";
 import {ServiceProviderService} from "../../services/service-provider.service";
 import {ResourceService} from "../../services/resource.service";
 import {GuidelinesService} from "../../services/guidelines.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 
 @Component({
@@ -18,14 +19,15 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
   guideline: InteroperabilityRecord;
   guidelineId: string;
 
-  constructor(public fb: FormBuilder,
+  constructor(public fb: UntypedFormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
               public guidelinesService: GuidelinesService,
               public resourceService: ResourceService,
               public router: Router,
-              public route: ActivatedRoute) {
-    super(fb, authService, serviceProviderService, guidelinesService, resourceService, router, route);
+              public route: ActivatedRoute,
+              public pidHandler: pidHandler) {
+    super(fb, authService, serviceProviderService, guidelinesService, resourceService, router, route, pidHandler);
   }
 
   ngOnInit() {
@@ -51,7 +53,10 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
     this.errorMessage = '';
     const path = this.route.snapshot.routeConfig.path;
     this.guidelinesService.getInteroperabilityRecordById(this.guidelineId).subscribe(
-        guideline => this.guideline = guideline,
+        guideline => {
+          this.guideline = guideline,
+          this.payloadAnswer = {'answer': {Guidelines: guideline}};
+        },
         err => {
           console.log(err);
           this.errorMessage = 'Something went wrong.';

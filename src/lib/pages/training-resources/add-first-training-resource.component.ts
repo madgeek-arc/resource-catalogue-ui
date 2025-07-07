@@ -5,6 +5,8 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {ResourceService} from '../../services/resource.service';
 import {Service, TrainingResource} from '../../domain/eic-model';
 import {ServiceProviderService} from '../../services/service-provider.service';
+import {NavigationService} from "../../services/navigation.service";
+import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 
 @Component({
   selector: 'app-add-first-training-resource',
@@ -18,8 +20,10 @@ export class AddFirstTrainingResourceComponent extends TrainingResourceForm impl
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
-              protected route: ActivatedRoute) {
-    super(injector, authenticationService, serviceProviderService, route);
+              protected route: ActivatedRoute,
+              protected navigator: NavigationService,
+              public dynamicFormService: FormControlService) {
+    super(injector, authenticationService, serviceProviderService, route, dynamicFormService);
     this.editMode = false;
   }
 
@@ -27,7 +31,7 @@ export class AddFirstTrainingResourceComponent extends TrainingResourceForm impl
     super.ngOnInit();
     this.firstServiceForm = true;
     // this.providerId = this.route.snapshot.paramMap.get('providerId');
-    // this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
+    // this.serviceForm.get('resourceOrganisation').setValue(decodeURIComponent(this.providerId));
     this.trainingResourceId = this.route.snapshot.paramMap.get('trainingResourceId');
     if (this.trainingResourceId) {
       this.editMode = true;

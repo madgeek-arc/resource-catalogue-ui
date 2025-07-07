@@ -9,6 +9,7 @@ import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {NavigationService} from "../../services/navigation.service";
 import {TrainingResourceForm} from "./training-resource-form";
+import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 
 @Component({
   selector: 'app-update-training-resource',
@@ -25,8 +26,9 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
               protected serviceProviderService: ServiceProviderService,
               protected injector: Injector,
               public datePipe: DatePipe,
-              public navigationService: NavigationService) {
-    super(injector, authenticationService, serviceProviderService, route);
+              public navigator: NavigationService,
+              public dynamicFormService: FormControlService) {
+    super(injector, authenticationService, serviceProviderService, route, dynamicFormService);
     this.editMode = true;
   }
 
@@ -34,13 +36,14 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes(':catalogueId')) { this.catalogueId = this.route.snapshot.paramMap.get('catalogueId') }
     else { this.catalogueId = 'eosc' }
-    if (path === ':catalogueId/:providerId/training-resource/view/:trainingResourceId') this.disable = true; // view-only mode
+    if (path === ':catalogueId/:providerId/training-resource/view/:resourceId') this.disable = true; // view-only mode
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
     } else {
       this.sub = this.route.params.subscribe(params => {
-        this.trainingResourceId = params['trainingResourceId'];
+        // this.trainingResourceId = params['trainingResourceId'];
+        this.trainingResourceId = this.route.snapshot.paramMap.get('trainingResourceId');
         const pathName = window.location.pathname;
         if (pathName.includes('draft-training-resource/update')) {
           this.pendingResource = true;
@@ -49,10 +52,13 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
         this.trainingResourceService[this.pendingResource ? 'getPendingService' : 'getTrainingResourceBundle'](this.trainingResourceId, this.catalogueId)
           .subscribe(trBundle => {
               if (trBundle.trainingResource.contact === null) //in case of unauthorized access backend will not show sensitive info
-                this.navigationService.go('/forbidden')
+                this.navigator.go('/forbidden')
               ResourceService.removeNulls(trBundle.trainingResource);
               this.formPrepare(trBundle.trainingResource);
               this.serviceForm.patchValue(trBundle.trainingResource);
+
+              this.payloadAnswer = {'answer': {TrainingResource: trBundle.trainingResource}};
+
               for (const i in this.serviceForm.controls) {
                 if (this.serviceForm.controls[i].value === null) {
                   this.serviceForm.controls[i].setValue('');
@@ -74,7 +80,7 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
                 this.serviceForm.disable();
                 this.serviceName = this.serviceForm.get('title').value;
               } else {
-                this.initResourceBitSets();
+                // this.initResourceBitSets();
               }
             }
           );
@@ -86,7 +92,7 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
     super.onSubmit(service, tempSave, this.pendingResource);
   }
 
-  initResourceBitSets() {
+  /*initResourceBitSets() {
     this.handleBitSets(0, 0, 'title');
     this.handleBitSets(0, 1, 'resourceOrganisation');
     this.handleBitSets(0, 2, 'authors');
@@ -103,6 +109,6 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
     this.handleBitSetsOfGroups(5, 14, 'firstName', 'contact');
     this.handleBitSetsOfGroups(5, 15, 'lastName', 'contact');
     this.handleBitSetsOfGroups(5, 16, 'email', 'contact');
-  }
+  }*/
 
 }

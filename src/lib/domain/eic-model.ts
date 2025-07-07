@@ -160,7 +160,7 @@ export class Monitoring {
   id: string;
   serviceId: string; //should change to generic resourceId
   monitoredBy: string;
-  monitoringGroups: MonitoringGroups[];
+  monitoringGroups: MonitoringGroup[];
 }
 
 export class Helpdesk {
@@ -184,6 +184,36 @@ export class MonitoringBundle extends Bundle<Monitoring> {
 
 export class HelpdeskBundle extends Bundle<Helpdesk> {
   helpdesk: Helpdesk;
+}
+
+export class AdapterBundle extends Bundle<Adapter> {
+  status: string;
+  adapter: Adapter;
+}
+
+export class Adapter implements Identifiable {
+  id: string;
+  name: string;
+  node: string;
+  catalogueId: string;
+  description: string;
+  linkedResource: LinkedResource;
+  tagline: string;
+  logo: string;
+  documentation: URL;
+  repository: URL;
+  releases: URL[];
+  programmingLanguage: string;
+  license: string;
+  version: string;
+  changeLog: string;
+  lastUpdate: Date;
+  admins: User[];
+}
+
+export class LinkedResource {
+  type: string;
+  id: string;
 }
 
 export class Provider implements Identifiable {
@@ -299,6 +329,31 @@ export class ServiceCategory {
   subcategory: string;
 }
 
+/*export class Service implements Identifiable {
+  id: string;
+  name: string;
+  resourceOrganisation: string;
+  resourceProviders: string[];
+  webpage: URL;
+  alternativeIdentifiers: AlternativeIdentifier[];
+  description: string;
+  logo: URL;
+  scientificDomains: ServiceProviderDomain[];
+  categories: ServiceCategory[];
+  tags: string[];
+  trl: string;
+  catalogueId: string;
+  termsOfUse: URL;
+  privacyPolicy: URL;
+  accessPolicy: URL;
+  orderType: string;
+  order: URL;
+  paymentModel: URL;
+  pricing: URL;
+
+  version: string;
+}*/
+
 export class Service implements Identifiable {
   id: string;
   abbreviation: string;
@@ -313,9 +368,7 @@ export class Service implements Identifiable {
   multimedia: Multimedia[];
   useCases: UseCase[];
   scientificDomains: ServiceProviderDomain[];
-  // scientificSubdomains: string[];
   categories: ServiceCategory[];  // anchor
-  // subcategories: string[];
   targetUsers: string[];
   accessTypes: string[];
   accessModes: string[];
@@ -567,15 +620,15 @@ export class MapValues {
   values: Value[];
 }
 
-export class Metrics {
-  probe: string[];
-  metric: string[];
+export class Metric {
+  probe: URL;
+  metric: URL;
 }
 
-export class MonitoringGroups {
+export class MonitoringGroup {
   serviceType: string;
   endpoint: string;
-  // metrics: Metrics[];
+  metrics: Metric[]; //hidden and unused
 }
 
 export class Multimedia {
@@ -718,5 +771,6 @@ export const enum Type {
   TR_QUALIFICATION = "TR_QUALIFICATION",
   TR_URL_TYPE = "TR_URL_TYPE",
   SERVICE_CATEGORY = "SERVICE_CATEGORY",
-  MARKETPLACE_LOCATION = "MARKETPLACE_LOCATION"
+  MARKETPLACE_LOCATION = "MARKETPLACE_LOCATION",
+  NODE = "NODE"
 }

@@ -1,4 +1,4 @@
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
@@ -30,14 +30,14 @@ export class ResourceFormToPdfComponent implements OnInit {
   providerId: string;
   editMode: boolean;
   hasChanges = false;
-  serviceForm: FormGroup;
+  serviceForm: UntypedFormGroup;
   service: Service;
   serviceID: string;
   errorMessage = '';
   successMessage: string = null;
   weights: string[] = [];
   tabs: boolean[] = [false, false, false, false, false, false, false, false, false, false, false, false];
-  fb: FormBuilder = this.injector.get(FormBuilder);
+  fb: UntypedFormBuilder = this.injector.get(UntypedFormBuilder);
   disable = false;
 
   requiredOnTab0 = 3;
@@ -228,7 +228,7 @@ export class ResourceFormToPdfComponent implements OnInit {
   premiumSort = new PremiumSortPipe();
   resourceService: ResourceService = this.injector.get(ResourceService);
 
-  router: NavigationService = this.injector.get(NavigationService);
+  navigator: NavigationService = this.injector.get(NavigationService);
 
   public fundingBodyVocabulary: Vocabulary[] = null;
   public fundingProgramVocabulary: Vocabulary[] = null;
@@ -252,8 +252,8 @@ export class ResourceFormToPdfComponent implements OnInit {
               protected route: ActivatedRoute
   ) {
     this.resourceService = this.injector.get(ResourceService);
-    this.fb = this.injector.get(FormBuilder);
-    this.router = this.injector.get(NavigationService);
+    this.fb = this.injector.get(UntypedFormBuilder);
+    this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
@@ -310,7 +310,7 @@ export class ResourceFormToPdfComponent implements OnInit {
           this.showLoader = false;
 
           // return this.router.go('/editPendingService/' + _service.id);
-          return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
+          return this.navigator.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
         },
         err => {
           this.showLoader = false;
@@ -362,7 +362,7 @@ export class ResourceFormToPdfComponent implements OnInit {
     zip(
       this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getAllRelatedResources('eosc')
+      this.resourceService.getResourcesAsVocs('eosc')
     ).subscribe(suc => {
         this.providersPage = <Paging<Provider>>suc[0];
         this.vocabularies = <Map<string, Vocabulary[]>>suc[1];
@@ -395,7 +395,7 @@ export class ResourceFormToPdfComponent implements OnInit {
         this.premiumSort.transform(this.languagesVocabulary, ['English']);
         this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
         this.providerId = this.route.snapshot.paramMap.get('providerId');
-        this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
+        this.serviceForm.get('resourceOrganisation').setValue(decodeURIComponent(this.providerId));
       }
     );
 
@@ -438,20 +438,20 @@ export class ResourceFormToPdfComponent implements OnInit {
     // console.log(ret);
   }
 
-  private setAsTouched_(form: FormGroup, ret: any) {
+  private setAsTouched_(form: UntypedFormGroup, ret: any) {
     Object.keys(form.controls).forEach(control => {
       const control_ = form.controls[control];
       // console.log(control, control_);
       if (!control_.valid) {
         ret[control] = {};
         if (control_.hasOwnProperty('controls')) {
-          this.setAsTouched_(control_ as FormGroup, ret[control]);
+          this.setAsTouched_(control_ as UntypedFormGroup, ret[control]);
         } else {
           if (control_.enabled && !control_.valid) {
             // console.log(control);
             ret[control] = control_.valid;
-            (control_ as FormGroup).markAsDirty();
-            (control_ as FormGroup).markAsTouched();
+            (control_ as UntypedFormGroup).markAsDirty();
+            (control_ as UntypedFormGroup).markAsTouched();
             // console.log(control, form.controls[control].valid);
           }
         }
@@ -591,7 +591,7 @@ export class ResourceFormToPdfComponent implements OnInit {
 
   /** manage form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.serviceForm.get(field) as FormArray;
+    return this.serviceForm.get(field) as UntypedFormArray;
   }
 
   push(field: string, required: boolean, url?: boolean) {
@@ -616,7 +616,7 @@ export class ResourceFormToPdfComponent implements OnInit {
 
   /** Categorization & Scientific Domain--> **/
 
-  newCategory(): FormGroup {
+  newCategory(): UntypedFormGroup {
     return this.fb.group({
       // supercategory: ['', Validators.required],
       category: ['', Validators.required],
@@ -625,7 +625,7 @@ export class ResourceFormToPdfComponent implements OnInit {
   }
 
   get categoryArray() {
-    return this.serviceForm.get('categories') as FormArray;
+    return this.serviceForm.get('categories') as UntypedFormArray;
   }
 
   pushCategory() {
@@ -643,7 +643,7 @@ export class ResourceFormToPdfComponent implements OnInit {
     this.categoryArray.controls[index].get('subcategory').enable();
   }
 
-  newScientificDomain(): FormGroup {
+  newScientificDomain(): UntypedFormGroup {
     return this.fb.group({
       scientificDomain: ['', Validators.required],
       scientificSubdomain: ['', Validators.required]
@@ -651,7 +651,7 @@ export class ResourceFormToPdfComponent implements OnInit {
   }
 
   get scientificDomainArray() {
-    return this.serviceForm.get('scientificDomains') as FormArray;
+    return this.serviceForm.get('scientificDomains') as UntypedFormArray;
   }
 
   pushScientificDomain() {
@@ -672,7 +672,7 @@ export class ResourceFormToPdfComponent implements OnInit {
 
   /** Service Contact Info -->**/
 
-  newContact(): FormGroup {
+  newContact(): UntypedFormGroup {
     return this.fb.group({
       firstName: [''],
       lastName: [''],
@@ -684,7 +684,7 @@ export class ResourceFormToPdfComponent implements OnInit {
   }
 
   get publicContactArray() {
-    return this.serviceForm.get('publicContacts') as FormArray;
+    return this.serviceForm.get('publicContacts') as UntypedFormArray;
   }
 
   pushPublicContact() {
@@ -778,7 +778,7 @@ export class ResourceFormToPdfComponent implements OnInit {
         this.push('resourceProviders', true);
       }
     }
-    if (richService.service.multimedia) {
+    /*if (richService.service.multimedia) {
       for (let i = 0; i < richService.service.multimedia.length - 1; i++) {
         this.push('multimedia', false);
       }
@@ -877,7 +877,7 @@ export class ResourceFormToPdfComponent implements OnInit {
       for (let i = 0; i < richService.service.grantProjectNames.length - 1; i++) {
         this.push('grantProjectNames', false);
       }
-    }
+    }*/
   }
 
   downloadServiceFormPDF() {

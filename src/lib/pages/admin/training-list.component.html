@@ -100,7 +100,7 @@
                               <label class="uk-margin-small-left">
                                 <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
                                        (change)="this.onSelection($event, 'resource_organisation', provider.value)"
-                                       [checked]="isChecked(provider.value, 'catalogue_id')">
+                                       [checked]="isChecked(provider.value, 'resource_organisation')">
                               </label>
                               <span> {{provider.label ? provider.label : provider.value}}</span>
                               <span> ({{provider.count}})</span>
@@ -146,9 +146,9 @@
                       </div>
 
                       <div class="uk-inline">
-                        <label class="" for="orderField">Order by </label>
+                        <label class="" for="sort">Order by </label>
                         <div class="uk-inline">
-                          <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
+                          <select class="uk-input uk-select" id="sort" (change)="handleChangeAndResetPage()" formControlName="sort">
                             <option value="title" selected>Title</option>
                             <option value="registeredAt">Creation Date</option>
                             <option value="modifiedAt">Modification Date</option>
@@ -255,7 +255,7 @@
                             <div class="uk-width-4-5">
                               <div class="providerName">
                                 <span class="uk-margin-auto-vertical">
-                                  <a [routerLink]="['/dashboard', trBundle.trainingResource.catalogueId, trBundle.trainingResource.resourceOrganisation, 'training-resource-dashboard', trBundle.id]" data-uk-tooltip title="Go to the training resource dashboard">
+                                  <a [routerLink]="['/dashboard', trBundle.trainingResource.catalogueId, pidHandler.customEncodeURIComponent(trBundle.trainingResource.resourceOrganisation), 'training-resource-dashboard', pidHandler.customEncodeURIComponent(trBundle.id)]" data-uk-tooltip title="Go to the training resource dashboard">
                                       {{ trBundle.trainingResource.title }}
                                   </a>
                                 </span>
@@ -354,7 +354,7 @@
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
-                              routerLink="/provider/{{trBundle.trainingResource.resourceOrganisation}}/training-resource/update/{{trBundle.id}}"
+                              routerLink="/provider/{{pidHandler.customEncodeURIComponent(trBundle.trainingResource.resourceOrganisation)}}/training-resource/update/{{pidHandler.customEncodeURIComponent(trBundle.id)}}"
                               class="uk-button uk-button-link"
                               style="">
                               <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
@@ -424,10 +424,10 @@
                                 </ng-container>
 
                                 <ng-container *ngIf="trBundle.status=='pending resource'">
-                                  <li class="uk-active" (click)="templateAction(trBundle.id.substring(0, trBundle.id.lastIndexOf('.')), true, 'approved resource')">
+                                  <li class="uk-active" (click)="templateAction(trBundle.id, true, 'approved resource')">
                                     <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve First Training Resource</a>
                                   </li>
-                                  <li class="uk-active" (click)="templateAction(trBundle.id.substring(0, trBundle.id.lastIndexOf('.')), true, 'rejected resource')">
+                                  <li class="uk-active" (click)="templateAction(trBundle.id, true, 'rejected resource')">
                                     <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First Training Resource</a>
                                   </li>
                                 </ng-container>

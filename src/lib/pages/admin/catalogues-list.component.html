@@ -100,9 +100,9 @@
                       </div>
 
                       <div class="uk-inline">
-                        <label class="" for="orderField">Order by </label>
+                        <label class="" for="sort">Order by </label>
                         <div class="uk-inline">
-                          <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
+                          <select class="uk-input uk-select" id="sort" (change)="handleChangeAndResetPage()" formControlName="sort">
                             <option value="name" selected>Name</option>
                             <option value="abbreviation">Abbreviation</option>
                             <option value="registeredAt">Creation Date</option>
@@ -368,8 +368,10 @@
           'The Catalogue will be prompted to update the resource template.')}}
       </p>
     </div>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="statusChangeActionCatalogue()">Proceed</button>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="statusChangeActionCatalogue()">Proceed</button>
+    </div>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
@@ -385,8 +387,10 @@
       <h6>Are you sure you want to delete "{{ selectedCatalogue.catalogue.name }}" ?</h6>
       <p>Deleting a catalogue is an irreversible action.</p>
     </div>
-    <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteCatalogue(selectedCatalogue.catalogue.id)">Delete</button>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteCatalogue(selectedCatalogue.catalogue.id)">Delete</button>
+    </div>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
@@ -404,7 +408,7 @@
       <p>All providers and resources of this catalogue will be automatically {{selectedCatalogue.suspended==true ? 'un' : ''}}suspended as well.</p>
       <p>This action may take a while to complete.</p>
       <div class="uk-text-right">
-        <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+        <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
         <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="suspendCatalogue()">
           {{selectedCatalogue.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
       </div>

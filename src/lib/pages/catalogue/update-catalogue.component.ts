@@ -2,12 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {Catalogue, Provider, Type} from '../../domain/eic-model';
 import {ServiceProviderFormComponent} from '../provider/service-provider-form.component';
 import {ResourceService} from '../../services/resource.service';
-import {FormBuilder} from '@angular/forms';
+import {UntypedFormBuilder} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CatalogueFormComponent} from "./catalogue-form.component";
 import {CatalogueService} from "../../services/catalogue.service";
+import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 
 declare var UIkit: any;
 
@@ -15,19 +16,21 @@ declare var UIkit: any;
   selector: 'app-update-catalogue',
   templateUrl: './catalogue-form.component.html',
   // styleUrls: ['./service-provider-form.component.css']
+  // providers: [FormControlService]
 })
 export class UpdateCatalogueComponent extends CatalogueFormComponent implements OnInit {
   errorMessage: string;
   catalogue: Catalogue;
 
-  constructor(public fb: FormBuilder,
+  constructor(public fb: UntypedFormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
               public catalogueService: CatalogueService,
               public resourceService: ResourceService,
               public router: Router,
-              public route: ActivatedRoute) {
-    super(fb, authService, serviceProviderService, catalogueService, resourceService, router, route);
+              public route: ActivatedRoute,
+              public dynamicFormService: FormControlService) {
+    super(fb, authService, serviceProviderService, catalogueService, resourceService, router, route, dynamicFormService);
   }
 
   ngOnInit() {
@@ -73,7 +76,14 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
     const path = this.route.snapshot.routeConfig.path;
     this.catalogueService[(path === 'add/:catalogueId' ? 'getPendingProviderById' : 'getCatalogueById')](this.catalogueId)
       .subscribe(
-        catalogue => this.catalogue = catalogue,
+        catalogue => {
+          this.catalogue = catalogue;
+          const parsedCatalogue = {
+            ...this.catalogue,
+            legalEntity: typeof this.catalogue.legalEntity === 'boolean' ? this.catalogue.legalEntity.toString() : this.catalogue.legalEntity
+          };
+          this.payloadAnswer = {'answer': {Catalogue: parsedCatalogue}};
+        },
         err => {
           console.log(err);
           this.errorMessage = 'Something went wrong.';
@@ -83,25 +93,7 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
             this.router.navigateByUrl('/forbidden')
           // console.log(Object.keys(this.catalogue));
           ResourceService.removeNulls(this.catalogue);
-          // TODO: get it done this way
-          // const keys = Object.keys(this.catalogue);
-          // for (const key of keys) {
-          //   if (key === 'id' || key === 'active' || key === 'status') { continue; }
-          //   if (this.catalogueForm.controls[key].value.constructor === Array) {
-          //     for (let i = 0; i < this.catalogue[key].length - 1; i++) {
-          //       console.log(key);
-          //       if (key === 'users') {
-          //         this.addUser();
-          //       } else {
-          //         if (this.catalogue[key] && this.catalogue[key].length > 1) {
-          //           for (let j = 0; j < this.catalogue[key].length - 1; j++) {
-          //             this.push(key, false);
-          //           }
-          //         }
-          //       }
-          //     }
-          //   }
-          // }
+
           if (this.catalogue.users && this.catalogue.users.length > 1) {
             for (let i = 0; i < this.catalogue.users.length - 1; i++) {
               this.addUser();
@@ -166,7 +158,7 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
           if (this.disable) {
             this.catalogueForm.disable();
           }
-          this.initCatalogueBitSets();
+          // this.initCatalogueBitSets();
         }
       );
   }
@@ -176,7 +168,7 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
     this.catalogueForm.enable();
   }
 
-  initCatalogueBitSets() {
+  /*initCatalogueBitSets() {
     this.handleBitSets(0, 0, 'name');
     this.handleBitSets(0, 1, 'abbreviation');
     this.handleBitSets(0, 2, 'website');
@@ -196,6 +188,6 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
     this.handleBitSetsOfGroups(4, 11, 'email', 'mainContact');
     this.handleBitSetsOfPublicContact(4, 15, 'email', 'publicContacts');
     this.initUserBitSets();
-  }
+  }*/
 
 }

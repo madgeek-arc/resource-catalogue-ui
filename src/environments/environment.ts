@@ -5,27 +5,31 @@
 export const environment = {
   production: false,
   beta: false,
+  CATALOGUE: 'eosc',
   MATOMO_URL: 'https://providers.eosc-portal.eu/matomo/',
   MATOMO_SITE: 3,
   FAQ_ENDPOINT: 'https://dl105.madgik.di.uoa.gr/faq/api',
-  API_ENDPOINT: '/eic-registry', // to change the end point go to proxy.conf.json file
+  API_ENDPOINT: '/api', // to change the end point go to proxy.conf.json file
+  API_LOGIN: '/api/login',
+  API_LOGOUT: '/api/logout',
   STATS_ENDPOINT: 'https://providers.eosc-portal.eu/stats-api/',
   projectName: 'EOSC',
-  projectMail: 'onboarding@eosc-portal.eu', // used for suggestions
+  projectMail: 'support@sandbox.eosc-beyond.eu',
   serviceORresource: 'Service',
   hasUserConsent: true,
-  privacyPolicyURL: 'https://www.eosc-portal.eu/privacy-policy-summary',
-  onboardingAgreementURL: 'https://wiki.eoscfuture.eu/display/PUBLIC/EOSC+Catalogue+Onboarding+Agreement+and+Workflow',
+  privacyPolicyURL: 'assets/files/Privacy Policy – EOSC Innovation Sandbox -Service Catalogue.pdf',
+  onboardingAgreementURL: './comingSoon',
   // marketplaceServicesURL: 'https://marketplace-beta.docker-fid.grid.cyf-kr.edu.pl/services/',
   // marketplaceDatasourcesURL: 'https://marketplace-beta.docker-fid.grid.cyf-kr.edu.pl/datasources/',
-  marketplaceServicesURL: 'https://beta.marketplace.eosc-portal.eu/services/',
-  marketplaceDatasourcesURL: 'https://beta.marketplace.eosc-portal.eu/services/',
-  marketplaceTrainingResourcesURL: 'https://search.eosc-portal.eu/trainings/',
-  API_TOKEN_ENDPOINT: 'https://aai.eosc-portal.eu/providers-api',
+  marketplaceServicesURL: './comingSoon',
+  marketplaceDatasourcesURL: './comingSoon',
+  marketplaceTrainingResourcesURL: './comingSoon',
+  API_TOKEN_ENDPOINT: 'https://core-proxy.sandbox.eosc-beyond.eu/providers-api/',
   INSIGHTS_ENDPOINT: 'provider_insights_api/v1/statistics/rs',
   AUTOCOMPLETION_ENDPOINT: 'v1/auto_completion',
   showHelpContent: false,
-  MONITORING_URL: 'https://eosc.ui.devel.argo.grnet.gr'
+  MONITORING_URL: './comingSoon',
+  WS_ENDPOINT: ''
 };
 
 /*

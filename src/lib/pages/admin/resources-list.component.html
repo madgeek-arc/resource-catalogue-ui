@@ -115,7 +115,7 @@
                               <label class="uk-margin-small-left">
                                 <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
                                        (change)="this.onSelection($event, 'resource_organisation', provider.value)"
-                                       [checked]="isChecked(provider.value, 'catalogue_id')">
+                                       [checked]="isChecked(provider.value, 'resource_organisation')">
                               </label>
                               <span> {{provider.label ? provider.label : provider.value}}</span>
                               <span> ({{provider.count}})</span>
@@ -162,9 +162,9 @@
                       </div>
 
                       <div class="uk-inline">
-                        <label class="" for="orderField">Order by </label>
+                        <label class="" for="sort">Order by </label>
                         <div class="uk-inline">
-                          <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
+                          <select class="uk-input uk-select" id="sort" (change)="handleChangeAndResetPage()" formControlName="sort">
                             <option value="name" selected>Name</option>
                             <option value="registeredAt">Creation Date</option>
                             <option value="modifiedAt">Modification Date</option>
@@ -182,8 +182,8 @@
                         <div class="uk-inline">
                           <select class="uk-input uk-select" id="active" (change)="handleChangeAndResetPage()" formControlName="active">
                             <option value="" selected></option>
-                            <option value="true">Active</option>
-                            <option value="false">Inactive</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
                           </select>
                         </div>
                       </div>
@@ -320,7 +320,7 @@
 <!--                                  </a>-->
 <!--                                </span>-->
 <!--                                <span *ngIf="serviceBundle.status==='approved'" class="uk-margin-auto-vertical">-->
-                                    <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, serviceBundle.service.resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the service dashboard">
+                                    <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, pidHandler.customEncodeURIComponent(serviceBundle.service.resourceOrganisation), 'resource-dashboard', pidHandler.customEncodeURIComponent(serviceBundle.id)]" data-uk-tooltip title="Go to the service dashboard">
                                       {{ serviceBundle.service.name }}
                                     </a>
 <!--                                  <a [routerLink]="['/dashboard', serviceBundle.service.catalogueId, serviceBundle.service.resourceOrganisation, 'resource-dashboard', serviceBundle.id]" data-uk-tooltip title="Go to the service dashboard">-->
@@ -437,7 +437,7 @@
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
-                              routerLink="/provider/{{serviceBundle.service.catalogueId}}/{{serviceBundle.service.resourceOrganisation}}/resource/view/{{serviceBundle.id}}"
+                              routerLink="/provider/{{serviceBundle.service.catalogueId}}/{{pidHandler.customEncodeURIComponent(serviceBundle.service.resourceOrganisation)}}/resource/view/{{pidHandler.customEncodeURIComponent(serviceBundle.id)}}"
                               class="uk-button uk-button-link" style="">
                               <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
                               View {{serviceORresource}}
@@ -474,7 +474,7 @@
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
-                              routerLink="/provider/{{serviceBundle.service.resourceOrganisation}}/resource/update/{{serviceBundle.id}}"
+                              routerLink="/provider/{{pidHandler.customEncodeURIComponent(serviceBundle.service.resourceOrganisation)}}/resource/update/{{pidHandler.customEncodeURIComponent(serviceBundle.id)}}"
                               class="uk-button uk-button-link"
                               style="">
                               <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
@@ -650,7 +650,7 @@
       <p>Deleting a {{serviceORresource}} is an irreversible action.</p>
     </div>
     <div class="uk-text-right">
-      <button class="uk-button uk-button-secondary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
       <button *ngIf="selectedService" class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteService(selectedService)">Delete</button>
     </div>
   </div>
@@ -668,7 +668,7 @@
     <ng-container *ngIf="selectedService">
       <h6 class="uk-margin-medium-bottom">Are you sure you want to {{selectedService.suspended==true ? 'un' : ''}}suspend "{{ selectedService.service.name }}"?</h6>
       <div class="uk-text-right">
-        <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+        <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
         <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="suspendService()">
           {{selectedService.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
       </div>
@@ -688,8 +688,8 @@
       <p>You are about to send a notification email to the admins of "{{ selectedService.service.name }}", requesting an update for this {{serviceORresource}}.</p>
       <p>Do you want to proceed?</p>
     </div>
+    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
     <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button" (click)="sendMailForUpdate(selectedService)">OK</button>
-    <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
   </div>
   <div *ngIf="loadingMessage">
     <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
@@ -726,9 +726,11 @@
           </div>
         </form>
 <!--        <pre>{{providersDropdownForm.value | json }}</pre>-->
-        <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button"
-                (click)="moveResourceToProvider(selectedService, providersDropdownForm.get('resourceOrganisation').value)">OK</button>
-        <button class="uk-button uk-button-secondary uk-modal-close" type="button">Cancel</button>
+        <div class="uk-text-right">
+          <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+          <button class="uk-button uk-button-primary uk-modal-close" type="button"
+                  (click)="moveResourceToProvider(selectedService, providersDropdownForm.get('resourceOrganisation').value)">OK</button>
+        </div>
       </form>
 
     </div>
@@ -839,7 +841,7 @@
 <!--      </div>-->
 <!--    </form>-->
 <!--    <button class="uk-button uk-button-secondary uk-modal-close uk-align-right" type="submit" (click)="auditResourceAction('VALID')">Validate</button>-->
-<!--    &lt;!&ndash;    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>&ndash;&gt;-->
+<!--    &lt;!&ndash;    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>&ndash;&gt;-->
 <!--  </div>-->
 <!--</div>-->
 
@@ -856,7 +858,7 @@
 <!--      </div>-->
 <!--    </form>-->
 <!--    <button class="uk-button uk-button-danger uk-modal-close uk-align-right" type="submit" (click)="auditResourceAction('INVALID')">Invalidate</button>-->
-<!--    &lt;!&ndash;    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>&ndash;&gt;-->
+<!--    &lt;!&ndash;    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>&ndash;&gt;-->
 <!--  </div>-->
 <!--</div>-->
 
@@ -917,7 +919,7 @@
               <div class="providerName">
                 <span class="uk-margin-auto-vertical">
 <!--                <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc' else anotherCatalogue">-->
-                  <a [routerLink]="['/dashboard/' + serviceBundle.service.resourceOrganisation + '/resource-dashboard', serviceBundle.id]" target="_blank" data-uk-tooltip title="Go to the service dashboard">
+                  <a [routerLink]="['/dashboard/' + pidHandler.customEncodeURIComponent(serviceBundle.service.resourceOrganisation) + '/resource-dashboard', pidHandler.customEncodeURIComponent(serviceBundle.id)]" target="_blank" data-uk-tooltip title="Go to the service dashboard">
                       {{ serviceBundle.service.name }}
                   </a>
 <!--                  <a [routerLink]="['/provider/view',serviceBundle.id]" class="uk-display-inline-block">-->
@@ -1056,7 +1058,7 @@
             </button>
             <div uk-dropdown="mode: click">
               <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                <li (click)="editResourceInNewTab(serviceBundle.service.resourceOrganisation, serviceBundle.id)"
+                <li (click)="editResourceInNewTab(pidHandler.customEncodeURIComponent(serviceBundle.service.resourceOrganisation), pidHandler.customEncodeURIComponent(serviceBundle.id))"
                   class="uk-button uk-button-link">
                   <a><i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
                   Update {{serviceORresource}}</a>

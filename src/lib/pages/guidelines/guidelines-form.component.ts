@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, isDevMode, OnInit, ViewChild} from '@angular/core';
+import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import * as dm from '../../shared/description.map';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
@@ -11,6 +11,9 @@ import BitSet from 'bitset';
 import {environment} from '../../../environments/environment';
 import {PremiumSortPipe} from "../../shared/pipes/premium-sort.pipe";
 import {GuidelinesService} from "../../services/guidelines.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 
 declare var UIkit: any;
 
@@ -19,14 +22,20 @@ declare var UIkit: any;
   templateUrl: './guidelines-form.component.html',
 })
 export class GuidelinesFormComponent implements OnInit {
+  @ViewChild(SurveyComponent) child: SurveyComponent
+  model: Model = null;
+  vocabulariesMap: Map<string, object[]> = null;
+  subVocabulariesMap: Map<string, object[]> = null //?
+  payloadAnswer: object = null;
 
+  providerId: string;
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   guideline: InteroperabilityRecord;
   guidelineId: string = null;
   guidelineTitle = '';
   errorMessage = '';
-  guidelinesForm: FormGroup;
+  guidelinesForm: UntypedFormGroup;
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
   premiumSort = new PremiumSortPipe();
@@ -150,23 +159,45 @@ export class GuidelinesFormComponent implements OnInit {
     ])
   };
 
-  constructor(public fb: FormBuilder,
+  constructor(public fb: UntypedFormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
               public guidelinesService: GuidelinesService,
               public resourceService: ResourceService,
               public router: Router,
-              public route: ActivatedRoute) {
+              public route: ActivatedRoute,
+              public pidHandler: pidHandler) {
   }
 
   ngOnInit() {
+    this.showLoader = true;
+    this.providerId = this.route.snapshot.paramMap.get('providerId');
+    this.serviceProviderService.getFormModelById('m-b-guidelines').subscribe(
+      res => this.model = res,
+      err => console.log(err),
+      ()=>{
+        if (!this.edit) { //prefill field(s)
+          this.payloadAnswer = {
+            'answer': {
+              Guidelines:
+                {
+                  'providerId': decodeURIComponent(this.providerId),
+                  'catalogueId': environment.CATALOGUE
+                }
+            }
+          };
+        }
+        this.showLoader = false;
+      }
+    )
+
     // const path = this.route.snapshot.routeConfig.path;
     // if (path.includes('update/:guidelineId')) {
     //
     // }
     this.setVocabularies();
     this.guidelinesForm = this.fb.group(this.formDefinition);
-    this.guidelinesForm.get('providerId').setValue(this.route.snapshot.paramMap.get('providerId'));
+    this.guidelinesForm.get('providerId').setValue(decodeURIComponent(this.route.snapshot.paramMap.get('providerId')));
     // if (this.edit === false) {
     //   // this.pushDomain();
     // }
@@ -203,6 +234,34 @@ export class GuidelinesFormComponent implements OnInit {
 
   }
 
+  submitForm(value: any) {
+    let guidelinesValue = value[0].value.Guidelines;
+    window.scrollTo(0, 0);
+    if (!this.authService.isLoggedIn()) {
+      sessionStorage.setItem('guideline', JSON.stringify(this.guidelinesForm.value));
+      this.authService.login();
+    }
+
+    this.errorMessage = '';
+    this.showLoader = true;
+
+    this.cleanArrayProperty(guidelinesValue, 'alternativeIdentifiers');
+
+    let method = this.edit ? 'updateInteroperabilityRecord' : 'addInteroperabilityRecord';
+    this.guidelinesService[method](guidelinesValue).subscribe(
+      res => {},
+      err => {
+        this.showLoader = false;
+        this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
+      },
+      () => {
+        this.showLoader = false;
+        this.router.navigate(['/dashboard/eosc/'+ this.pidHandler.customEncodeURIComponent(this.providerId) +'/guidelines/']);
+      }
+    );
+  }
+
+
   onSubmit() {
     if (!this.authService.isLoggedIn()) {
       sessionStorage.setItem('guideline', JSON.stringify(this.guidelinesForm.value));
@@ -231,11 +290,11 @@ export class GuidelinesFormComponent implements OnInit {
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
-          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.error);
+          this.errorMessage = 'Something went wrong. ' + JSON.stringify(err.error.message);
         },
         () => {
           this.showLoader = false;
-          this.router.navigate(['/dashboard/eosc/'+ this.guidelinesForm.get('providerId').value +'/guidelines/']);
+          this.router.navigate(['/dashboard/eosc/'+ this.pidHandler.customEncodeURIComponent(this.guidelinesForm.get('providerId').value) +'/guidelines/']);
         }
       );
     } else {
@@ -351,28 +410,30 @@ export class GuidelinesFormComponent implements OnInit {
   setVocabularies() {
     this.resourceService.getAllVocabulariesByType().subscribe(
       res => {
-        this.vocabularies = res;
-        this.identifierTypeVocabulary = this.vocabularies[Type.IR_IDENTIFIER_TYPE];
-        this.nameTypeVocabulary = this.vocabularies[Type.IR_NAME_TYPE];
-        this.resourceTypeGeneralVocabulary = this.vocabularies[Type.IR_RESOURCE_TYPE_GENERAL];
-        this.statusVocabulary = this.vocabularies[Type.IR_STATUS];
-        this.domainVocabulary = this.vocabularies[Type.SCIENTIFIC_DOMAIN];
-        this.eoscGuidelineTypeVocabulary = this.vocabularies[Type.IR_EOSC_GUIDELINE_TYPE];
-        return this.vocabularies;
+        this.vocabulariesMap = res;
+
+        // this.vocabularies = res;
+        // this.identifierTypeVocabulary = this.vocabularies[Type.IR_IDENTIFIER_TYPE];
+        // this.nameTypeVocabulary = this.vocabularies[Type.IR_NAME_TYPE];
+        // this.resourceTypeGeneralVocabulary = this.vocabularies[Type.IR_RESOURCE_TYPE_GENERAL];
+        // this.statusVocabulary = this.vocabularies[Type.IR_STATUS];
+        // this.domainVocabulary = this.vocabularies[Type.SCIENTIFIC_DOMAIN];
+        // this.eoscGuidelineTypeVocabulary = this.vocabularies[Type.IR_EOSC_GUIDELINE_TYPE];
+        // return this.vocabularies;
       },
       error => console.log(JSON.stringify(error.error)),
       () => {
-        let voc: Vocabulary[] = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN].concat(this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN]);
-        this.subVocabularies = this.groupByKey(voc, 'parentId');
-        this.premiumSort.transform(this.statusVocabulary, ['Candidate', 'Proposed', 'Consultation', 'On Hold', 'Update Pending', 'Accepted', 'Operating', 'Deprecated', 'Abandoned', 'Withdrawn', 'Rejected']);
-        return this.vocabularies;
+        // let voc: Vocabulary[] = this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN].concat(this.vocabularies[Type.PROVIDER_MERIL_SCIENTIFIC_SUBDOMAIN]);
+        // this.subVocabularies = this.groupByKey(voc, 'parentId');
+        // this.premiumSort.transform(this.statusVocabulary, ['Candidate', 'Proposed', 'Consultation', 'On Hold', 'Update Pending', 'Accepted', 'Operating', 'Deprecated', 'Abandoned', 'Withdrawn', 'Rejected']);
+        // return this.vocabularies;
       }
     );
   }
 
   /** handle form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.guidelinesForm.get(field) as FormArray;
+    return this.guidelinesForm.get(field) as UntypedFormArray;
   }
 
   remove(field: string, i: number) {
@@ -397,7 +458,7 @@ export class GuidelinesFormComponent implements OnInit {
 
   /** ResourceTypeInfo--> **/
 
-  newResourceTypeInfo(): FormGroup {
+  newResourceTypeInfo(): UntypedFormGroup {
     return this.fb.group({
       resourceType: [''],
       resourceTypeGeneral: ['']
@@ -405,7 +466,7 @@ export class GuidelinesFormComponent implements OnInit {
   }
 
   get resourceTypeInfoArray() {
-    return this.guidelinesForm.get('resourceTypesInfo') as FormArray;
+    return this.guidelinesForm.get('resourceTypesInfo') as UntypedFormArray;
   }
 
   pushResourceTypeInfo() {
@@ -419,7 +480,7 @@ export class GuidelinesFormComponent implements OnInit {
   /** <-- ResourceTypeInfo**/
 
   /** Rights-->**/
-  newRight(): FormGroup {
+  newRight(): UntypedFormGroup {
     return this.fb.group({
       rightTitle: ['', Validators.required],
       rightURI: ['', Validators.compose([Validators.required, URLValidator])],
@@ -428,7 +489,7 @@ export class GuidelinesFormComponent implements OnInit {
   }
 
   get rightsArray() {
-    return this.guidelinesForm.get('rights') as FormArray;
+    return this.guidelinesForm.get('rights') as UntypedFormArray;
   }
 
   pushRight() {
@@ -442,7 +503,7 @@ export class GuidelinesFormComponent implements OnInit {
   /** <--Rights**/
 
   /** Related Standards -->**/
-  newRelatedStandard(): FormGroup {
+  newRelatedStandard(): UntypedFormGroup {
     return this.fb.group({
       relatedStandardURI: ['', URLValidator],
       relatedStandardIdentifier: ['']
@@ -450,7 +511,7 @@ export class GuidelinesFormComponent implements OnInit {
   }
 
   get relatedStandardsArray() {
-    return this.guidelinesForm.get('relatedStandards') as FormArray;
+    return this.guidelinesForm.get('relatedStandards') as UntypedFormArray;
   }
 
   pushRelatedStandard() {
@@ -464,7 +525,7 @@ export class GuidelinesFormComponent implements OnInit {
   /** <--Related Standards **/
 
   /** Alternative Identifiers-->**/
-  newAlternativeIdentifier(): FormGroup {
+  newAlternativeIdentifier(): UntypedFormGroup {
     return this.fb.group({
       type: [''],
       value: ['']
@@ -472,7 +533,7 @@ export class GuidelinesFormComponent implements OnInit {
   }
 
   get alternativeIdentifiersArray() {
-    return this.guidelinesForm.get('alternativeIdentifiers') as FormArray;
+    return this.guidelinesForm.get('alternativeIdentifiers') as UntypedFormArray;
   }
 
   pushAlternativeIdentifier() {
@@ -485,7 +546,7 @@ export class GuidelinesFormComponent implements OnInit {
   /** <--Alternative Identifiers**/
 
   /** Creators as public contacts -->**/
-  newCreator(): FormGroup {
+  newCreator(): UntypedFormGroup {
     return this.fb.group({
       creatorNameTypeInfo: this.fb.group({creatorName:'', nameType:'ir_name_type-personal'}),
       givenName: [''],
@@ -496,7 +557,7 @@ export class GuidelinesFormComponent implements OnInit {
   }
 
   get creatorsArray() {
-    return this.guidelinesForm.get('creators') as FormArray;
+    return this.guidelinesForm.get('creators') as UntypedFormArray;
   }
 
   pushCreator() {
@@ -762,4 +823,22 @@ export class GuidelinesFormComponent implements OnInit {
     console.log('findInvalidControls ', invalid);
   }
 
+  cleanArrayProperty(obj: any, property: string): void {
+    if (obj && Array.isArray(obj[property])) {
+      // Filter out elements that are entirely empty:
+      const cleaned = obj[property].filter((element: any) => {
+        if (element && typeof element === 'object') {
+          // Keep the element if at least one property has a non-empty value.
+          return Object.keys(element).some(key => element[key] !== null && element[key] !== '');
+        }
+        // For non-objects, keep the element if it's not null or ''.
+        return element !== null && element !== '';
+      });
+      // If the cleaned array is empty, set the property to null. Otherwise, update it.
+      obj[property] = cleaned.length ? cleaned : null;
+    }
+  }
+
+  protected readonly environment = environment;
+  protected readonly isDevMode = isDevMode;
 }

@@ -4,10 +4,11 @@ import {ServiceProviderService} from '../../../../services/service-provider.serv
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
 import {ServiceExtensionsService} from "../../../../services/service-extensions.service";
+import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -25,13 +26,13 @@ export class ServicesComponent implements OnInit {
     from: '0',
     quantity: '10',
     order: 'ASC',
-    orderField: 'name',
+    sort: 'name',
     query: '',
     active: 'statusAll',
     status: ''
   };
 
-  dataForm: FormGroup;
+  dataForm: UntypedFormGroup;
 
   errorMessage = '';
   // toggleLoading = false;
@@ -55,12 +56,13 @@ export class ServicesComponent implements OnInit {
   pages: number[] = [];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
     private resourceService: ResourceService,
-    private serviceExtensionsService: ServiceExtensionsService
+    private serviceExtensionsService: ServiceExtensionsService,
+    public pidHandler: pidHandler
   ) {}
 
   ngOnInit(): void {
@@ -128,7 +130,7 @@ export class ServicesComponent implements OnInit {
 
   getServices() {
     this.providerService.getServicesOfProvider(this.providerId, this.catalogueId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('order').value, this.dataForm.get('orderField').value,
+      this.dataForm.get('order').value, this.dataForm.get('sort').value,
       this.dataForm.get('active').value, this.dataForm.get('status').value, this.dataForm.get('query').value)
       .subscribe(res => {
           this.providerServices = res;
@@ -161,7 +163,7 @@ export class ServicesComponent implements OnInit {
 
   deleteService(bundle: ServiceBundle) {
     UIkit.modal('#spinnerModal').show();
-    this.resourceService[bundle.service ? 'deleteService' : 'deleteDatasource'](bundle.id).subscribe(
+    this.resourceService[bundle.service ? 'deleteService' : 'deleteDatasource'](bundle.id).subscribe( //todo: seems outdated
       res => {},
       error => {
         UIkit.modal('#spinnerModal').hide();

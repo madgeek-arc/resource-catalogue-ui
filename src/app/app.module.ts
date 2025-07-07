@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -11,7 +11,6 @@ import {CanActivateViaAuthGuard} from '../lib/services/can-activate-auth-guard.s
 import {NavigationService} from '../lib/services/navigation.service';
 import {ResourceService} from '../lib/services/resource.service';
 import {CanActivateViaPubGuard} from '../lib/services/can-activate-pub-guard.service';
-import {FooterComponent} from '../lib/shared/footer/footer.component';
 import {BreadcrumbsComponent} from '../lib/shared/breadcrumbs/breadcrumbs.component';
 import {DashboardBreadcrumbsComponent} from '../lib/shared/breadcrumbs/dashboard-breadcrumbs.component';
 import {FeedbackComponent} from '../lib/shared/feedback/feedback.component';
@@ -34,12 +33,9 @@ import {ServiceEditComponent} from '../lib/pages/provider-resources/service-edit
 import {AuthenticationInterceptor} from '../lib/services/authentication-interceptor';
 import {CookieLawModule} from '../lib/shared/reusablecomponents/cookie-law/cookie-law.module';
 import {EmailService} from '../lib/services/email.service';
-import {TreeviewModule} from 'ngx-treeview';
-import {EOSCFooterComponent} from './shared/footer/footer.component';
 import {EOSCTopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
-import {MatomoModule} from 'ngx-matomo';
 import {MarkdownModule} from "ngx-markdown";
 import {HighchartsChartModule} from "highcharts-angular";
 import {environment} from '../environments/environment';
@@ -52,7 +48,9 @@ import {DatasourceService} from "../lib/services/datasource.service";
 import {TrainingResourceService} from "../lib/services/training-resource.service";
 import {RecommendationsService} from "../lib/services/recommendations.service";
 import {GuidelinesService} from "../lib/services/guidelines.service";
-import {ContactInfoModalComponent} from "./shared/contactinfomodal/contact-info-modal.component";
+import {pidHandler} from "../lib/shared/pid-handler/pid-handler.service";
+import {FormControlService} from "../dynamic-catalogue/services/form-control.service";
+import {AdaptersService} from "../lib/services/adapters.service";
 
 declare var require: any;
 
@@ -80,8 +78,6 @@ export function highchartsFactory() {
     // PERSISTENT
     EOSCTopMenuComponent,
     // BreadcrumbsComponent,
-    FooterComponent,
-    EOSCFooterComponent,
     FeedbackComponent,
     // USER
     // DashboardComponent,
@@ -99,7 +95,8 @@ export function highchartsFactory() {
     // ServiceEditComponent,
     // ServiceFormComponent,
     // ServiceUploadComponent,
-    ContactInfoModalComponent
+    // EoscCommonMainHeader,
+    // EoscCommonMainFooter
   ],
   imports: [
     RouterModule,
@@ -109,28 +106,16 @@ export function highchartsFactory() {
     ReactiveFormsModule,
     ReusableComponentsModule,
     SharedModule,
-    TreeviewModule.forRoot(),
     // StarRatingModule.forRoot(),
     SupportModule,
     // ProviderModule,
     // ProviderDashboardModule,
     HighchartsChartModule,
     CookieLawModule,
-    MatomoModule.forRoot({
-      scriptUrl: environment.MATOMO_URL + 'matomo.js',
-      trackers: [
-        {
-          trackerUrl: environment.MATOMO_URL + 'matomo.php',
-          siteId: environment.MATOMO_SITE
-        }
-      ],
-      routeTracking: {
-        enable: true
-      }
-    }),
     MarkdownModule.forRoot(),
     AppRoutingModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -151,17 +136,18 @@ export function highchartsFactory() {
     CatalogueService,
     EmailService,
     DatePipe,
-    RecommendationsService
+    RecommendationsService,
+    pidHandler,
+    FormControlService,
+    AdaptersService
   ],
   exports: [
     // FooterComponent,
-    EOSCFooterComponent,
     // TopMenuComponent,
     EOSCTopMenuComponent,
     BreadcrumbsComponent,
     DashboardBreadcrumbsComponent,
-    FeedbackComponent,
-    ContactInfoModalComponent
+    FeedbackComponent
   ],
   bootstrap: [AppComponent]
 })

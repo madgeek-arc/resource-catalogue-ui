@@ -1,23 +1,32 @@
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Component, Injector, OnInit} from '@angular/core';
+import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {Component, Injector, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../services/service-extensions.service';
-import * as dm from '../../../shared/description.map';
-import {Provider, Service, Type, Monitoring} from '../../../domain/eic-model';
+import {Provider, Service, Type, Monitoring, Vocabulary} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {URLValidator} from '../../../shared/validators/generic.validator';
 import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
+import {Model} from "../../../../dynamic-catalogue/domain/dynamic-form-model";
+import {FormControlService} from "../../../../dynamic-catalogue/services/form-control.service";
+import {SurveyComponent} from "../../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {zip} from "rxjs";
 
 @Component({
   selector: 'app-resource-monitoring-extension-form',
   templateUrl: './monitoring-extension-form.component.html',
-  styleUrls: ['../../provider/service-provider-form.component.css']
+  styleUrls: ['../../provider/service-provider-form.component.css'],
+  providers: [FormControlService]
 })
 export class MonitoringExtensionFormComponent implements OnInit {
+  @ViewChild(SurveyComponent) child: SurveyComponent
+  model: Model = null;
+  vocabulariesMap: Map<string, object[]> = null;
+  // vocabulariesMap: { [name: string]: { id: string, name: string }[]; } = {}
+  payloadAnswer: object = null;
 
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
@@ -28,7 +37,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
   pendingService = false;
   editMode = false;
   hasChanges = false;
-  serviceForm: FormGroup;
+  serviceForm: UntypedFormGroup;
   provider: Provider;
   service: Service;
   monitoring: Monitoring;
@@ -37,107 +46,77 @@ export class MonitoringExtensionFormComponent implements OnInit {
   successMessage: string = null;
   weights: string[] = [];
   tabs: boolean[] = [false];
-  fb: FormBuilder = this.injector.get(FormBuilder);
+  fb: UntypedFormBuilder = this.injector.get(UntypedFormBuilder);
   disable = false;
   isPortalAdmin = false;
-
+  providerId: string = null;
   serviceId: string = null; //filled for all types (service, training)
   resourceType = '';
   //only one of these 2 ids will be filled from URL
   resourceId: string = null;
   trainingResourceId: string = null;
 
-  readonly serviceTypeDesc: dm.Description = dm.monitoringDescMap.get('serviceTypeDesc');
-  readonly endpointDesc: dm.Description = dm.monitoringDescMap.get('endpointDesc');
-  readonly probeDesc: dm.Description = dm.monitoringDescMap.get('probeDesc');
-  readonly metricDesc: dm.Description = dm.monitoringDescMap.get('metricDesc');
-
-
-  formGroupMeta = {
-    id: [''],
-    serviceId: [''],
-    monitoringGroups: this.fb.array([
-      this.fb.group({
-        serviceType: ['', Validators.required],
-        endpoint: ['', Validators.required]
-      })
-    ]),
-    // metrics: this.fb.array([
-    //   this.fb.group({
-    //     probe: ['', URLValidator],
-    //     metric: ['', URLValidator],
-    //   })
-    // ])
-  };
-
   providersPage: Paging<Provider>;
-  requiredResources: any;
-  relatedResources: any;
   serviceTypesVoc: any;
   resourceService: ResourceService = this.injector.get(ResourceService);
   serviceExtensionsService: ServiceExtensionsService = this.injector.get(ServiceExtensionsService);
-
-  router: NavigationService = this.injector.get(NavigationService);
+  navigator: NavigationService = this.injector.get(NavigationService);
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
-              protected route: ActivatedRoute
+              protected route: ActivatedRoute,
+              public formService: FormControlService
   ) {
     this.resourceService = this.injector.get(ResourceService);
-    this.fb = this.injector.get(FormBuilder);
-    this.router = this.injector.get(NavigationService);
-    this.serviceForm = this.fb.group(this.formGroupMeta);
+    this.fb = this.injector.get(UntypedFormBuilder);
+    this.navigator = this.injector.get(NavigationService);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  onSubmit() {
-    if (!this.authenticationService.isLoggedIn()) {
-      sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
-      this.authenticationService.login();
-    }
-
-    this.errorMessage = '';
-    this.showLoader = true;
-    for (let i = 0; i < this.monitoringGroupsArray.length; i++) {
-      if (this.monitoringGroupsArray.controls[i].get('serviceType').value === ''
-        || this.monitoringGroupsArray.controls[i].get('endpoint').value === null) {
-        this.removeMonitoringGroup(i);
+  submitForm(value) {
+    window.scrollTo(0, 0);
+    if (!value[0].value.Monitoring.serviceId) value[0].value.Monitoring.serviceId = decodeURIComponent(this.serviceId);
+    this.serviceExtensionsService.uploadMonitoringService(value[0].value.Monitoring, this.editMode, 'eosc', this.resourceType).subscribe(
+      _service => {
+        this.showLoader = false;
+        if (this.resourceType==='service') return this.navigator.resourceDashboard(this.providerId, this.serviceId); // navigate to resource-dashboard
+        if (this.resourceType==='training_resource') return this.navigator.trainingResourceDashboard(this.providerId, this.serviceId); // navigate to training-resource-dashboard
+      },
+      err => {
+        this.showLoader = false;
+        window.scrollTo(0, 0);
+        console.log(err);
+        this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
       }
-    }
-
-    // console.log('this.serviceForm.valid ', this.serviceForm.valid);
-    // console.log('Submitted service --> ', service);
-    // console.log('Submitted service value--> ', this.serviceForm.value);
-    if (this.serviceForm.valid) {
-      window.scrollTo(0, 0);
-      this.serviceExtensionsService.uploadMonitoringService(this.serviceForm.value, this.editMode, 'eosc', this.resourceType).subscribe(
-        _service => {
-          this.showLoader = false;
-          if (this.resourceType==='service') return this.router.resourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // navigate to resource-dashboard
-          if (this.resourceType==='training_resource') return this.router.trainingResourceDashboard(this.serviceId.split('.')[0], this.serviceId);  // navigate to training-resource-dashboard
-        },
-        err => {
-          this.showLoader = false;
-          window.scrollTo(0, 0);
-          this.monitoringGroupsArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
-        }
-      );
-    } else {
-      window.scrollTo(0, 0);
-      this.showLoader = false;
-
-      this.serviceForm.markAsDirty();
-      this.serviceForm.updateValueAndValidity();
-      if (!this.serviceForm.valid) {
-        this.errorMessage = 'Please fill in all required fields (marked with an asterisk), ' +
-          'and fix the data format in fields underlined with a red colour.';
-      }
-    }
+    );
   }
 
   ngOnInit() {
+    this.getIdsFromCurrentPath();
+
+    this.getServiceTypesAndNode();
+
+    this.serviceProviderService.getFormModelById('m-b-monitoring').subscribe(
+      res => this.model = res,
+      err => console.log(err)
+    )
+
+    this.serviceExtensionsService.getMonitoringByServiceId(this.serviceId).subscribe(
+      res => { if(res!=null) {
+        this.monitoring = res;
+        this.editMode = true;
+        this.payloadAnswer = {'answer': {Monitoring: res}};
+        }
+      },
+      err => { console.log(err); }
+    );
+  }
+
+  getIdsFromCurrentPath(){
+    if (this.route.snapshot.paramMap.get('providerId')) {
+      this.providerId = this.route.snapshot.paramMap.get('providerId');
+    }
     if (this.route.snapshot.paramMap.get('resourceId')) {
       this.serviceId = this.route.snapshot.paramMap.get('resourceId');
       this.resourceType = 'service';
@@ -146,165 +125,28 @@ export class MonitoringExtensionFormComponent implements OnInit {
       this.serviceId = this.route.snapshot.paramMap.get('trainingResourceId');
       this.resourceType = 'training_resource';
     }
-    this.serviceForm.get('serviceId').setValue(this.serviceId);
-
-    this.setServiceTypes();
-
-    this.serviceExtensionsService.getMonitoringByServiceId(this.serviceId).subscribe(
-      res => { if(res!=null) {
-        this.monitoring = res;
-        this.editMode = true;
-        // console.log(this.monitoring);
-      }
-      },
-      err => { console.log(err); },
-      () => {
-        if (this.monitoring) { //fill the form -->
-          this.formPrepare(this.monitoring);
-          this.serviceForm.patchValue(this.monitoring);
-        }
-      }
-    );
   }
 
-  checkFormValidity(name: string, edit: boolean): boolean {
-    return (this.serviceForm.get(name).invalid && (edit || this.serviceForm.get(name).dirty));
-  }
-
-  checkFormArrayValidity(name: string, position: number, edit: boolean, groupName?: string): boolean {
-    if (groupName) {
-      return this.getFieldAsFormArray(name).get([position]).get(groupName).invalid
-        && (edit || this.getFieldAsFormArray(name).get([position]).get(groupName).dirty);
-    }
-    return (this.getFieldAsFormArray(name).get([position]).invalid && (edit || this.getFieldAsFormArray(name).get([position]).dirty));
-  }
-
-  /** manage form arrays--> **/
-  getFieldAsFormArray(field: string) {
-    return this.serviceForm.get(field) as FormArray;
-  }
-
-  push(field: string, required: boolean, url?: boolean) {
-    if (required) {
-      if (url) {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.compose([Validators.required, URLValidator])));
-      } else {
-        this.getFieldAsFormArray(field).push(this.fb.control('', Validators.required));
-      }
-    } else if (url) {
-      // console.log('added non mandatory url field');
-      this.getFieldAsFormArray(field).push(this.fb.control('', URLValidator));
-    } else {
-      this.getFieldAsFormArray(field).push(this.fb.control(''));
-    }
-  }
-
-  remove(field: string, i: number) {
-    this.getFieldAsFormArray(field).removeAt(i);
-  }
-
-  /** <--manage form arrays **/
-
-  /** MonitoringGroups -->**/
-  newMonitoringGroup(): FormGroup {
-    return this.fb.group({
-      serviceType: ['', Validators.required],
-      endpoint: ['', Validators.required]
-    });
-  }
-
-  get monitoringGroupsArray() {
-    return this.serviceForm.get('monitoringGroups') as FormArray;
-  }
-
-  pushMonitoringGroup() {
-    this.monitoringGroupsArray.push(this.newMonitoringGroup());
-  }
-
-  removeMonitoringGroup(index: number) {
-    this.monitoringGroupsArray.removeAt(index);
-    this.initTypeDescriptions();
-  }
-  /** <--MonitoringGroups**/
-
-  /** MetricsGroups -->**/
-  newMetricsGroup(): FormGroup {
-    return this.fb.group({
-      probe: ['', URLValidator],
-      metric: ['', URLValidator],
-    });
-  }
-
-  get metricsGroupsArray() {
-    return this.serviceForm.get('metrics') as FormArray;
-  }
-
-  pushMetricsGroup() {
-    this.metricsGroupsArray.push(this.newMetricsGroup());
-  }
-
-  removeMetricsGroup(index: number) {
-    this.metricsGroupsArray.removeAt(index);
-  }
-  /** <--MetricsGroups**/
-
-  formPrepare(monitoring: Monitoring) {
-
-    this.monitoringGroupsArray.removeAt(0); //this.removeMonitoringGroup(0); would also trigger the this.initTypeDescriptions();
-    if (monitoring.monitoringGroups) {
-      for (let i = 0; i < monitoring.monitoringGroups.length; i++) {
-        this.monitoringGroupsArray.push(this.newMonitoringGroup());
-        this.monitoringGroupsArray.controls[this.monitoringGroupsArray.length - 1].get('serviceType').setValue(monitoring.monitoringGroups[i].serviceType);
-        this.monitoringGroupsArray.controls[this.monitoringGroupsArray.length - 1].get('endpoint').setValue(monitoring.monitoringGroups[i].endpoint);
-      }
-    } else {
-      this.monitoringGroupsArray.push(this.newMonitoringGroup());
-    }
-    //
-    // this.removeScientificDomain(0);
-    // if (helpdesk.scientificDomains) {
-    //   for (let i = 0; i < helpdesk.scientificDomains.length; i++) {
-    //     this.scientificDomainArray.push(this.newScientificDomain());
-    //     this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-    //       .get('scientificDomain').setValue(helpdesk.scientificDomains[i].scientificDomain);
-    //     this.scientificDomainArray.controls[this.scientificDomainArray.length - 1]
-    //       .get('scientificSubdomain').setValue(helpdesk.scientificDomains[i].scientificSubdomain);
-    //   }
-    // } else {
-    //   this.scientificDomainArray.push(this.newScientificDomain());
-    // }
-
-  }
-
-  unsavedChangesPrompt() {
-    this.hasChanges = true;
-  }
-
-  initTypeDescriptions(){
-    this.typeDescriptions = [];
-    if(this.monitoring && this.serviceTypesVoc){
-      for(let i=0; i<this.monitoring.monitoringGroups.length; i++) {
-        this.findTypeDescription(i);
-      }
-    }
-  }
-
-  findTypeDescription(i){
-    for(let j=0; j<this.serviceTypesVoc.length; j++) {
-      if(this.serviceTypesVoc[j].name === this.monitoringGroupsArray.controls[i].get('serviceType').value){
-        this.typeDescriptions[i] = this.serviceTypesVoc[j].description;
-        break;
-      }
-    }
-  }
-
-  setServiceTypes() {
+  getServiceTypesAndNode() {
     this.serviceExtensionsService.getServiceTypes().subscribe(
       res => {
-        this.serviceTypesVoc = res;
+        const map: { [name: string]: { id: string, name: string }[];  } = {'serviceTypesVoc': []};
+        res.forEach(item => {
+          map['serviceTypesVoc'].push({id: item.id, name: item.name})
+        })
+        this.vocabulariesMap = <Map<string, object[]>><unknown>map;
       },
-      error => console.log(JSON.stringify(error.error)),
-      () => {this.initTypeDescriptions()}
+      error => console.log('getServiceTypes error:', JSON.stringify(error.error)),
+      () => {
+        this.resourceService.getVocabularyByType('NODE').subscribe(
+          nodeRes => {
+            const vocMap = <{ [key: string]: object[] }>(<unknown>this.vocabulariesMap);
+            vocMap['NODE'] = nodeRes;
+            this.vocabulariesMap = <Map<string, object[]>><unknown>vocMap;
+          },
+          nodeErr => console.log('NODE fetch error:', JSON.stringify(nodeErr.error))
+        );
+      }
     );
   }
 

@@ -4,7 +4,7 @@ import {ServiceProviderService} from '../../../../services/service-provider.serv
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
 import {CatalogueService} from "../../../../services/catalogue.service";
@@ -23,17 +23,17 @@ export class CatalogueServicesComponent implements OnInit {
 
   formPrepare = {
     order: 'ASC',
-    orderField: 'name',
+    sort: 'name',
     from: '0',
     quantity: '10',
     active: '',
     query: '',
     status: '',
     // status: new FormArray([]),
-    catalogue_id: new FormArray([])
+    catalogue_id: new UntypedFormArray([])
   };
 
-  dataForm: FormGroup;
+  dataForm: UntypedFormGroup;
 
   errorMessage = '';
   toggleLoading = false;
@@ -52,7 +52,7 @@ export class CatalogueServicesComponent implements OnInit {
   pages: number[] = [];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
@@ -66,7 +66,7 @@ export class CatalogueServicesComponent implements OnInit {
     this.getCatalogue();
 
     this.dataForm = this.fb.group(this.formPrepare);
-    (this.dataForm.get('catalogue_id') as FormArray).push(new FormControl(this.catalogueId));
+    (this.dataForm.get('catalogue_id') as UntypedFormArray).push(new UntypedFormControl(this.catalogueId));
     this.urlParams = [];
     this.route.queryParams
       .subscribe(params => {
@@ -129,7 +129,7 @@ export class CatalogueServicesComponent implements OnInit {
     this.toggleLoading = true;
     this.catalogueService.getServicesOfCatalogue(this.dataForm.get('catalogue_id').value,
       this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('order').value, this.dataForm.get('orderField').value,
+      this.dataForm.get('order').value, this.dataForm.get('sort').value,
       this.dataForm.get('status').value, this.dataForm.get('query').value).subscribe(
         res => {
           this.toggleLoading = false;

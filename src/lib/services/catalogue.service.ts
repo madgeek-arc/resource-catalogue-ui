@@ -26,12 +26,12 @@ export class CatalogueService {
   private options = {withCredentials: true};
 
   createNewCatalogue(newProvider: any) {
-    console.log(`knocking on: ${this.base}/catalogue`);
+    // console.log(`knocking on: ${this.base}/catalogue`);
     return this.http.post(this.base + '/catalogue', newProvider, this.options);
   }
 
   updateCatalogue(updatedFields: any, comment: string): Observable<Catalogue> {
-    console.log(`knocking on: ${this.base}/catalogue`);
+    // console.log(`knocking on: ${this.base}/catalogue`);
     return this.http.put<Catalogue>(this.base + `/catalogue?comment=${comment}`, updatedFields, this.options);
   }
 
@@ -55,14 +55,14 @@ export class CatalogueService {
     return this.http.get<CatalogueBundle>(this.base + `/catalogue/bundle/${id}`, this.options);
   }
 
-  getCatalogueBundles(from: string, quantity: string, orderField: string, order: string, query: string, suspended: string, status: string[], templateStatus: string[], auditState: string[]) {
+  getCatalogueBundles(from: string, quantity: string, sort: string, order: string, query: string, suspended: string, status: string[], templateStatus: string[], auditState: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
-    params = params.append('orderField', orderField);
+    params = params.append('sort', sort);
     params = params.append('order', order);
     if (query && query !== '') {
-      params = params.append('query', query);
+      params = params.append('keyword', query);
     }
     if (suspended && suspended !== '') {
       params = params.append('suspended', suspended);
@@ -85,48 +85,88 @@ export class CatalogueService {
     return this.http.get(this.base + `/catalogue/bundle/all`, {params});
   }
 
-  getProvidersOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, status?: string, query?: string) {
+  getProvidersOfCatalogue(id: string, from: string, quantity: string, order: string, sort: string, status?: string, query?: string) {
     if (!query) { query = ''; }
-    if (!status) { status = 'approved provider,pending provider,rejected provider'; }
+    let params = new HttpParams();
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
+      }
+    } else {
+      const allStatus = ["approved provider","pending provider","rejected provider"];
+      for (const statusValue of allStatus) {
+        params = params.append('status', statusValue);
+      }
+    }
     return this.http.get<Paging<ProviderBundle>>(this.base +
-      `/provider/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+      `/provider/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
   }
 
-  getServicesOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, status?: string, query?: string) {
+  getServicesOfCatalogue(id: string, from: string, quantity: string, order: string, sort: string, status?: string, query?: string) {
     if (!query) { query = ''; }
-    if (!status) { status = 'approved resource,pending resource,rejected resource'; }
-      return this.http.get<any>(this.base + `/service/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+    let params = new HttpParams();
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
+      }
+    } else {
+      const allStatus = ["approved resource","pending resource","rejected resource"];
+      for (const statusValue of allStatus) {
+        params = params.append('status', statusValue);
+      }
+    }
+      return this.http.get<any>(this.base + `/service/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
   }
 
-  getTrainingsOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, status?: string, query?: string) {
+  getTrainingsOfCatalogue(id: string, from: string, quantity: string, order: string, sort: string, status?: string, query?: string) {
     if (!query) { query = ''; }
-    if (!status) { status = 'approved resource,pending resource,rejected resource'; }
-    return this.http.get<any>(this.base + `/trainingResource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+    let params = new HttpParams();
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
+      }
+    } else {
+      const allStatus = ["approved resource","pending resource","rejected resource"];
+      for (const statusValue of allStatus) {
+        params = params.append('status', statusValue);
+      }
+    }
+    return this.http.get<any>(this.base + `/trainingResource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
   }
 
-  getDatasourcesOfCatalogue(id: string, from: string, quantity: string, order: string, orderField: string, active: string, status?: string, query?: string) {
+  getDatasourcesOfCatalogue(id: string, from: string, quantity: string, order: string, sort: string, active: string, status?: string, query?: string) {
     if (!query) { query = ''; }
-    if (!status) { status = 'approved resource,pending resource,rejected resource'; }
+    let params = new HttpParams();
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
+      }
+    } else {
+      const allStatus = ["approved resource","pending resource","rejected resource"];
+      for (const statusValue of allStatus) {
+        params = params.append('status', statusValue);
+      }
+    }
     if (active === 'statusAll') {
       return this.http.get<Paging<DatasourceBundle>>(this.base +
-        `/datasource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&status=${status}&query=${query}`);
+        `/datasource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
     }
     return this.http.get<Paging<DatasourceBundle>>(this.base +
-      `/datasource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}&active=${active}&status=${status}&query=${query}`);
+      `/datasource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&keyword=${query}`, {params});
   }
 
   hasAdminAcceptedTerms(id: string, pendingCatalogue: boolean) {
     if (pendingCatalogue) {
-      return this.http.get<boolean>(this.base + `/pendingCatalogue/hasAdminAcceptedTerms?catalogueId=${id}`);
+      return this.http.get<boolean>(this.base + `/catalogue/hasAdminAcceptedTerms?catalogueId=${id}&isDraft=true`);
     }
-    return this.http.get<boolean>(this.base + `/catalogue/hasAdminAcceptedTerms?catalogueId=${id}`);
+    return this.http.get<boolean>(this.base + `/catalogue/hasAdminAcceptedTerms?catalogueId=${id}&isDraft=false`);
   }
 
   adminAcceptedTerms(id: string, pendingCatalogue: boolean) {
     if (pendingCatalogue) {
-      return this.http.put(this.base + `/pendingCatalogue/adminAcceptedTerms?catalogueId=${id}`, this.options);
+      return this.http.put(this.base + `/pendingCatalogue/adminAcceptedTerms?catalogueId=${id}&isDraft=true`, this.options);
     }
-    return this.http.put(this.base + `/catalogue/adminAcceptedTerms?catalogueId=${id}`, this.options);
+    return this.http.put(this.base + `/catalogue/adminAcceptedTerms?catalogueId=${id}&isDraft=false`, this.options);
   }
 
   suspendCatalogue(catalogueId: string, suspend: boolean) {

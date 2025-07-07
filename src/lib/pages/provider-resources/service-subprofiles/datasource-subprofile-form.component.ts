@@ -1,5 +1,5 @@
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Component, Injector, OnInit} from '@angular/core';
+import {UntypedFormArray, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {Component, Injector, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
@@ -13,6 +13,10 @@ import {ActivatedRoute} from '@angular/router';
 import {DatasourceService} from "../../../services/datasource.service";
 import BitSet from "bitset";
 import {PremiumSortPipe} from "../../../shared/pipes/premium-sort.pipe";
+import {SurveyComponent} from "../../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {Model} from "../../../../dynamic-catalogue/domain/dynamic-form-model";
+import {FormControlService} from "../../../../dynamic-catalogue/services/form-control.service";
+import {zip} from "rxjs";
 
 declare var UIkit: any;
 
@@ -22,6 +26,11 @@ declare var UIkit: any;
   styleUrls: ['../../provider/service-provider-form.component.css']
 })
 export class DatasourceSubprofileFormComponent implements OnInit {
+  @ViewChild(SurveyComponent) child: SurveyComponent
+  model: Model = null;
+  vocabulariesMap: Map<string, object[]> = null;
+  subVocabulariesMap: Map<string, object[]> = null
+  payloadAnswer: object = null;
 
   serviceORresource = environment.serviceORresource;
   projectName = environment.projectName;
@@ -32,9 +41,10 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   pendingService = false;
   addOpenAIRE = false; //on addOpenAIRE path
   openaireId: string = null; //datasource OA id
+  providerId: string;
   editMode = false;
   hasChanges = false;
-  serviceForm: FormGroup;
+  serviceForm: UntypedFormGroup;
   provider: Provider;
   service: Service;
   datasource: Datasource;
@@ -42,7 +52,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   successMessage: string = null;
   weights: string[] = [];
   tabs: boolean[] = [false];
-  fb: FormBuilder = this.injector.get(FormBuilder);
+  fb: UntypedFormBuilder = this.injector.get(UntypedFormBuilder);
   disable = false;
   isPortalAdmin = false;
 
@@ -91,6 +101,9 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   loaderBitSet = new BitSet;
   loaderPercentage = 0;
 
+  readonly nodeDesc: dm.Description = dm.datasourceDescMap.get('nodeDesc');
+  readonly catalogueIdDesc: dm.Description = dm.datasourceDescMap.get('catalogueIdDesc');
+
   readonly submissionPolicyURLDesc: dm.Description = dm.datasourceDescMap.get('submissionPolicyURLDesc');
   readonly preservationPolicyURLDesc: dm.Description = dm.datasourceDescMap.get('preservationPolicyURLDesc');
   readonly versionControlDesc: dm.Description = dm.datasourceDescMap.get('versionControlDesc');
@@ -115,6 +128,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   formGroupMeta = {
     id: [''],
     serviceId: [''],
+    node: [''],
     catalogueId: ['eosc'],
 
     submissionPolicyURL: this.fb.control(''),
@@ -155,7 +169,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   resourceService: ResourceService = this.injector.get(ResourceService);
   serviceExtensionsService: ServiceExtensionsService = this.injector.get(ServiceExtensionsService);
 
-  router: NavigationService = this.injector.get(NavigationService);
+  navigator: NavigationService = this.injector.get(NavigationService);
 
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
@@ -165,18 +179,51 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   public researchEntityTypeVocabulary: Vocabulary[] = null;
   public persistentIdentitySchemeVocabulary: Vocabulary[] = null;
   public accessRightsVocabulary: Vocabulary[] = null;
+  public nodeVocabulary: Vocabulary[] = null;
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
               protected datasourceService: DatasourceService,
-              protected route: ActivatedRoute
+              protected route: ActivatedRoute,
+              public dynamicFormService: FormControlService
   ) {
     this.resourceService = this.injector.get(ResourceService);
-    this.fb = this.injector.get(FormBuilder);
-    this.router = this.injector.get(NavigationService);
+    this.fb = this.injector.get(UntypedFormBuilder);
+    this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
+
+  submitForm(value: any, tempSave: boolean, pendingService: boolean) {
+    let datasourceValue = value[0].value.Datasource;
+    window.scrollTo(0, 0);
+
+    if (!this.authenticationService.isLoggedIn()) {
+      sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
+      this.authenticationService.login();
+    }
+
+    this.errorMessage = '';
+    this.showLoader = true;
+
+    this.cleanArrayProperty(datasourceValue, 'persistentIdentitySystems');
+    this.cleanArrayProperty(datasourceValue, 'researchProductLicensings');
+    this.cleanArrayProperty(datasourceValue, 'researchProductMetadataLicensing', true);
+
+    this.datasourceService.submitDatasource(datasourceValue, this.editMode).subscribe(
+      _ds => {
+        this.showLoader = false;
+        if (this.addOpenAIRE) return this.navigator.datasourceSubmitted(_ds.id);
+        return this.navigator.resourceDashboard(this.providerId, _ds.serviceId); // fixme: Datasource providerId -2test
+      },
+      err => {
+        this.showLoader = false;
+        window.scrollTo(0, 0);
+        this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
+      }
+    );
+}
+
 
   onSubmit() {
     if (!this.authenticationService.isLoggedIn()) {
@@ -212,13 +259,13 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       this.datasourceService.submitDatasource(this.serviceForm.value, this.editMode).subscribe(
         _ds => {
           this.showLoader = false;
-          if (this.addOpenAIRE) return this.router.datasourceSubmitted(_ds.id);
-          return this.router.resourceDashboard(_ds.serviceId.split('.')[0], _ds.serviceId);
+          if (this.addOpenAIRE) return this.navigator.datasourceSubmitted(_ds.id);
+          return this.navigator.resourceDashboard(this.providerId, _ds.serviceId); // fixme: Datasource providerId -2test
         },
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.error);
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
         }
       );
     } else {
@@ -235,21 +282,38 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoader = true;
     this.addOpenAIRE = window.location.pathname.includes('addOpenAIRE');
-    this.openaireId = this.route.snapshot.paramMap.get('openaireId')
-    this.resourceService.getAllVocabulariesByType().subscribe(
+    this.openaireId = this.route.snapshot.paramMap.get('openaireId');
+    this.providerId = this.route.snapshot.paramMap.get('providerId');
+    this.resourceId = this.route.snapshot.paramMap.get('resourceId');
+    zip(
+      this.resourceService.getAllVocabulariesByType(),
+      this.resourceService.getFormModelById('m-b-datasource'),
+    ).subscribe(
       suc => {
-        this.vocabularies = <Map<string, Vocabulary[]>>suc;
-        this.jurisdictionVocabulary = this.vocabularies[Type.DS_JURISDICTION];
-        this.classificationVocabulary = this.vocabularies[Type.DS_CLASSIFICATION];
-        this.researchEntityTypeVocabulary = this.vocabularies[Type.DS_RESEARCH_ENTITY_TYPE];
-        this.persistentIdentitySchemeVocabulary = this.vocabularies[Type.DS_PERSISTENT_IDENTITY_SCHEME];
-        this.accessRightsVocabulary = this.vocabularies[Type.DS_COAR_ACCESS_RIGHTS_1_0];
+        // TODO: 2 vars with the same data / keep one
+        this.vocabularies = <Map<string, Vocabulary[]>>suc[0];
+        this.vocabulariesMap = suc[0];
+        this.model = suc[1];
       },
       error => {
-        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
+        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.message);
       },
-      () => {}
+      () => {
+        if (!this.editMode) { //prefill field(s)
+          this.payloadAnswer = {
+            'answer': {
+              Datasource:
+                {
+                  'serviceId': decodeURIComponent(this.resourceId),
+                  'catalogueId': environment.CATALOGUE
+                }
+            }
+          };
+        }
+        this.showLoader = false;
+      }
     )
     if (this.route.snapshot.paramMap.get('resourceId')) {
       this.serviceId = this.route.snapshot.paramMap.get('resourceId');
@@ -263,7 +327,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       this.serviceId = this.route.snapshot.paramMap.get('trainingResourceId');
       this.resourceType = 'training_resource';
     }
-    this.serviceForm.get('serviceId').setValue(this.serviceId);
+    this.serviceForm.get('serviceId').setValue(decodeURIComponent(this.serviceId)); // revisit?
 
     if (!this.addOpenAIRE) {
       this.datasourceService.getDatasourceByServiceId(this.serviceId).subscribe(
@@ -278,8 +342,13 @@ export class DatasourceSubprofileFormComponent implements OnInit {
         },
         () => {
           if (this.datasource) { //fill the form -->
-            this.formPrepare(this.datasource);
-            this.serviceForm.patchValue(this.datasource);
+            const parsedDatasource = { ...this.datasource };
+            ['versionControl', 'thematic', 'harvestable'].forEach(field => {
+              if (typeof parsedDatasource[field] === 'boolean') {
+                parsedDatasource[field] = parsedDatasource[field].toString();
+              }
+            });
+            this.payloadAnswer = { 'answer': { Datasource: parsedDatasource } };
           }
         }
       );
@@ -298,7 +367,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
           if (this.datasource) { //fill the form -->
             this.formPrepare(this.datasource);
             this.serviceForm.patchValue(this.datasource);
-            this.serviceForm.get('serviceId').setValue(this.serviceId);
+            this.serviceForm.get('serviceId').setValue(decodeURIComponent(this.serviceId));
             this.serviceForm.get('catalogueId').setValue('eosc');
 
           }
@@ -327,7 +396,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
 
   /** manage form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.serviceForm.get(field) as FormArray;
+    return this.serviceForm.get(field) as UntypedFormArray;
   }
 
   push(field: string, required: boolean, url?: boolean) {
@@ -352,7 +421,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   /** <--manage form arrays **/
 
   /** Licensing -->**/
-  newLicensing(): FormGroup {
+  newLicensing(): UntypedFormGroup {
     return this.fb.group({
       researchProductLicenseName: [''],
       researchProductLicenseURL: ['', Validators.compose([Validators.required, URLValidator])]
@@ -360,7 +429,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   }
 
   get licensingArray() {
-    return this.serviceForm.get('researchProductLicensings') as FormArray;
+    return this.serviceForm.get('researchProductLicensings') as UntypedFormArray;
   }
 
   pushLicensing() {
@@ -374,12 +443,12 @@ export class DatasourceSubprofileFormComponent implements OnInit {
 
   /** MetadataLicensing -->**/
   get metadataLicensingArray() {
-    return this.serviceForm.get('researchProductMetadataLicensing') as FormArray;
+    return this.serviceForm.get('researchProductMetadataLicensing') as UntypedFormArray;
   }
   /** <--MetadataLicensing**/
 
   /** Persistent Identity Systems--> **/
-  newPersistentIdentitySystem(): FormGroup {
+  newPersistentIdentitySystem(): UntypedFormGroup {
     return this.fb.group({
       persistentIdentityEntityType: [''],
       persistentIdentityEntityTypeSchemes: this.fb.array([''])
@@ -387,7 +456,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   }
 
   get persistentIdentitySystemArray() {
-    return this.serviceForm.get('persistentIdentitySystems') as FormArray;
+    return this.serviceForm.get('persistentIdentitySystems') as UntypedFormArray;
   }
 
   pushPersistentIdentitySystem() {
@@ -401,11 +470,11 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   pushPersistentIdentityEntityTypeScheme(i) {
     // const control = (<FormArray>this.serviceForm.controls['persistentIdentitySystems']).at(i).get('persistentIdentityEntityTypeSchemes') as FormArray;
     // control.push(this.fb.control(''));
-    (this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes') as FormArray).push(this.fb.control(''));
+    (this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes') as UntypedFormArray).push(this.fb.control(''));
   }
 
   removePersistentIdentityEntityTypeScheme(i:number, index: number) {
-    (this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes') as FormArray).removeAt(index);
+    (this.persistentIdentitySystemArray.controls[i].get('persistentIdentityEntityTypeSchemes') as UntypedFormArray).removeAt(index);
   }
   /** <--Persistent Identity Systems**/
 
@@ -491,13 +560,39 @@ export class DatasourceSubprofileFormComponent implements OnInit {
       error => {
         this.showLoader = false;
         this.errorMessage = 'Something went bad. ' + error.error ;
-        return this.router.resourceDashboard(this.datasource.serviceId.split('.')[0], this.datasource.serviceId);
+        return this.navigator.resourceDashboard(this.providerId, this.datasource.serviceId); // fixme: Datasource providerId -2test
       },
       () => {
         this.showLoader = false;
-        return this.router.resourceDashboard(this.datasource.serviceId.split('.')[0], this.datasource.serviceId);
+        return this.navigator.resourceDashboard(this.providerId, this.datasource.serviceId); // fixme: Datasource providerId -2test
       }
     );
   }
 
+  cleanArrayProperty(obj: any, property: string, supportPlainObject = false): void {
+    const value = obj[property];
+
+    if (Array.isArray(value)) {
+      const cleaned = value.filter((element: any) => {
+        if (element && typeof element === 'object' && !Array.isArray(element)) {
+          return Object.keys(element).some(key => {
+            const val = element[key];
+            return val !== null && val !== '' && !(Array.isArray(val) && val.every(v => v === null || v === ''));
+          });
+        }
+        return element !== null && element !== '';
+      });
+
+      obj[property] = cleaned.length ? cleaned : null;
+
+    } else if (supportPlainObject && value && typeof value === 'object') {
+      const allEmpty = Object.values(value).every(val =>
+        val === null || val === '' || (Array.isArray(val) && val.every(v => v === null || v === ''))
+      );
+      if (allEmpty) obj[property] = null;
+    }
+  }
+
+  protected readonly environment = environment;
+  protected readonly isDevMode = isDevMode;
 }

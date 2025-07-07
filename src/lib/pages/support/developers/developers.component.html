@@ -10,13 +10,13 @@
                                 <div id="api-endpoints" class="section">
 
                                   <p>The EOSC Service Catalogue provides a REST API interface for access to the
-                                    Catalogues Providers, Resources, Conbtrolled Vocabularies and other related
+                                    Catalogues Providers, Resources, Controlled Vocabularies and other related
                                     entities. An API (Application programming interface) is a protocol intended to be
                                     used as an interface by software components to communicate with each other. The
-                                    complete <a href="../openapi">EOSC API documentation</a> is a living document, generated using frameworks
+                                    complete <a href="../api/swagger-ui/index.html" target="_blank">EOSC API documentation</a> is a living document, generated using frameworks
                                     compliant with OpenAPI Specification 2.0.</p>
 
-                                  <p>If you find a bug, have any questions or suggestions, please <a href="mailto:api@eosc-portal.eu">get in touch with us</a>.</p>
+                                  <p>If you find a bug, have any questions or suggestions, please <a href="mailto:support@sandbox.eosc-beyond.eu">get in touch with us</a>.</p>
 
                                   <p>In general, publicly available information providers and resources stored in the
                                     Service Catalogue does not require an authentication. However, if alterations to the
@@ -29,18 +29,18 @@
                                     tokens programmatically when they expire. Refresh tokens expire at the end of each
                                     year, so you’ll also need to reissue new refresh tokens from year to year. In case
                                     you need to reissue or manage refresh tokens, you can easily do it, just follow the
-                                    instructions <a href="https://aai.eosc-portal.eu/auth/realms/core/account/#/applications" target="_blank">here</a>.</p>
+                                    instructions <a href="https://core-proxy.sandbox.eosc-beyond.eu/auth/realms/core/account/#/applications" target="_blank">here</a>.</p>
 
                                   <p>The obtained token can be used in a bearer authorization header like this: 'Authorization: Bearer [token]'.
                                     <br>For example, a call for adding a new resource goes like this:</p>
-                                  <p>
-                                    curl -X POST
-                                    <br>--header 'Content-Type: application/json'
-                                    <br>--header Authorization: Bearer &lt;TOKEN&gt;'
-                                    <br>--header 'Accept: application/json'
-                                    <br>-d '&lt;input data in json format&gt;' 'https://api.eosc-portal.eu/resource'
-                                  </p>
-
+                                  <pre class="uk-padding-remove">
+                                    <code>
+   curl -X POST
+   --header 'Content-Type: application/json'
+   --header Authorization: Bearer &lt;TOKEN&gt;'
+   --header 'Accept: application/json'
+   -d '&lt;input data in json format&gt;' 'https://api.providers.sandbox.eosc-beyond.eu/&lt;resource&gt;'</code>
+                                  </pre>
                                 </div>
                             </div>
                         </div>

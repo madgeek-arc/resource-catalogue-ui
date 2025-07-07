@@ -5,6 +5,9 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {ProviderBundle} from '../../domain/eic-model';
 import {zip} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+
+const CATALOGUE = environment.CATALOGUE;
 
 @Component({
   selector: 'app-my-service-providers',
@@ -40,7 +43,8 @@ export class MyServiceProvidersComponent implements OnInit {
   constructor(
     private serviceProviderService: ServiceProviderService,
     private resourceService: ResourceService,
-    public authenticationService: AuthenticationService
+    public authenticationService: AuthenticationService,
+    public pidHandler: pidHandler
   ) {
   }
 
@@ -78,11 +82,11 @@ export class MyServiceProvidersComponent implements OnInit {
                 );
               }
               // if (p.status === 'pending template submission') {
-              if (p.status === 'approved provider') {
+              if (p.status === 'approved provider' && p.provider.catalogueId === CATALOGUE) {
                 // console.log(p.id);
                 this.resourceService.getDraftServicesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
                   res => {
-                    if (res.results.length > 0) {
+                    if (res.results?.length > 0) {
                       this.hasDraftServices.push({id: p.id, flag: true});
                     } else {
                       this.hasDraftServices.push({id: p.id, flag: false});
@@ -94,7 +98,7 @@ export class MyServiceProvidersComponent implements OnInit {
               if ((p.templateStatus === 'rejected template')) {
                 this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'name', 'service').subscribe(
                   res => {
-                    if (res.results.length > 0) {
+                    if (res.results?.length > 0) {
                       this.hasRejectedServices.push({id: p.id, flag: true});
                     } else {
                       this.hasRejectedServices.push({id: p.id, flag: false});
@@ -103,7 +107,7 @@ export class MyServiceProvidersComponent implements OnInit {
                 );
                 this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'title', 'training_resource').subscribe(
                   res => {
-                    if (res.results.length > 0) {
+                    if (res.results?.length > 0) {
                       this.hasRejectedTrainingResources.push({id: p.id, flag: true});
                     } else {
                       this.hasRejectedTrainingResources.push({id: p.id, flag: false});

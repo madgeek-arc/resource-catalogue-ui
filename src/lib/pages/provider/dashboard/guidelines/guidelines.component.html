@@ -47,9 +47,9 @@
           </div>
 
           <div class="uk-inline">
-            <label class="" for="orderField">Order by </label>
+            <label class="" for="sort">Order by </label>
             <div class="uk-inline">
-              <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
+              <select class="uk-input uk-select" id="sort" (change)="handleChangeAndResetPage()" formControlName="sort">
                 <option value="title" selected>Title</option>
                 <option value="registeredAt">Creation Date</option>
                 <option value="modifiedAt">Modification Date</option>
@@ -83,11 +83,11 @@
       </form>
 
 
-      <div *ngIf="guidelines && guidelines.results.length === 0">
+      <div *ngIf="guidelines && guidelines?.results?.length === 0">
         <p>No guidelines found</p>
       </div>
 
-      <div *ngIf="guidelines && guidelines.results.length > 0">
+      <div *ngIf="guidelines && guidelines?.results?.length > 0">
 
         <div class="uk-flex uk-flex-middle uk-flex-between">
 
@@ -150,7 +150,7 @@
                 <div *ngIf="catalogueId==='eosc'" class="uk-width-1-4">
                   <div class="action-buttons">
                     <button
-                      [routerLink]="['/guidelines/'+ irBundle.interoperabilityRecord.providerId +'/update/'+ irBundle.id]"
+                      [routerLink]="['/guidelines/'+ pidHandler.customEncodeURIComponent(irBundle.interoperabilityRecord.providerId) +'/update/'+ pidHandler.customEncodeURIComponent(irBundle.id)]"
                       class="uk-button uk-button-action uk-display-block uk-margin-small-top">
                       <i class="fa fa-pencil fa-lg" aria-hidden="true"></i> Update Guidelines
                     </button>
@@ -186,8 +186,8 @@
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <h6 *ngIf="selectedGuideline">Are you sure you want to delete the guidelines: '{{selectedGuideline.interoperabilityRecord.title}}'</h6>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button" (click)="deleteGuidelines(selectedGuideline.id)">Delete</button>
-    <button class="uk-button uk-button-primary uk-modal-close" type="button">Cancel</button>
+    <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteGuidelines(selectedGuideline.id)">Delete</button>
+    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
   </div>
 </div>
 

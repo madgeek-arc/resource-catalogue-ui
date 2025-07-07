@@ -2,11 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {Provider, Type} from '../../domain/eic-model';
 import {ServiceProviderFormComponent} from './service-provider-form.component';
 import {ResourceService} from '../../services/resource.service';
-import {FormBuilder} from '@angular/forms';
+import {UntypedFormBuilder} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CatalogueService} from "../../services/catalogue.service";
+import {NavigationService} from "../../services/navigation.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 
 declare var UIkit: any;
 
@@ -19,14 +22,17 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
   errorMessage: string;
   provider: Provider;
 
-  constructor(public fb: FormBuilder,
+  constructor(public fb: UntypedFormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
               public resourceService: ResourceService,
               public catalogueService: CatalogueService,
               public router: Router,
-              public route: ActivatedRoute) {
-    super(fb, authService, serviceProviderService, resourceService, catalogueService, router, route);
+              public route: ActivatedRoute,
+              public navigator: NavigationService,
+              public pidHandler: pidHandler,
+              public formService: FormControlService) {
+    super(fb, authService, serviceProviderService, resourceService, catalogueService, router, route, navigator, pidHandler, formService);
   }
 
   ngOnInit() {
@@ -39,13 +45,15 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
     if (path === 'view/:catalogueId/:providerId') {
       this.disable = true;
     }
-    super.ngOnInit();
+
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
     } else {
       if (this.vocabularies === null) {
         this.resourceService.getAllVocabulariesByType().subscribe(
           res => {
+            this.vocabulariesMap = res;
+
             this.vocabularies = res;
             this.placesVocabulary = this.vocabularies[Type.COUNTRY];
             this.providerTypeVocabulary = this.vocabularies[Type.PROVIDER_STRUCTURE_TYPE];
@@ -69,6 +77,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
         this.getProvider();
       }
     }
+    super.ngOnInit();
   }
 
   registerProvider(tempSave: boolean) {
@@ -80,7 +89,14 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
     const path = this.route.snapshot.routeConfig.path;
     this.serviceProviderService[(path === 'add/:providerId' ? 'getPendingProviderById' : 'getServiceProviderById')](this.providerId, this.catalogueId)
       .subscribe(
-        provider => this.provider = provider,
+        provider => {
+          this.provider = provider;
+          const parsedProvider = {
+            ...this.provider,
+            legalEntity: typeof this.provider.legalEntity === 'boolean' ? this.provider.legalEntity.toString() : this.provider.legalEntity
+          };
+          this.payloadAnswer = {'answer': {Provider: parsedProvider}};
+        },
         err => {
           console.log(err);
           this.errorMessage = 'Something went wrong.';
@@ -89,8 +105,9 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
           if(this.provider.users===null && this.provider.mainContact===null && path!=='add/:providerId') //in case of unauthorized access backend will not show sensitive info (drafts excluded)
             this.router.navigateByUrl('/forbidden')
           // console.log(Object.keys(this.provider));
+
           ResourceService.removeNulls(this.provider);
-          // TODO: get it done this way
+
           // const keys = Object.keys(this.provider);
           // for (const key of keys) {
           //   if (key === 'id' || key === 'active' || key === 'status') { continue; }
@@ -109,7 +126,8 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
           //     }
           //   }
           // }
-          if (this.provider.users && this.provider.users.length > 1) {
+
+          /*if (this.provider.users && this.provider.users.length > 1) {
             for (let i = 0; i < this.provider.users.length - 1; i++) {
               this.addUser();
             }
@@ -222,7 +240,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
           if (this.disable) {
             this.providerForm.disable();
           }
-          this.initProviderBitSets();
+          this.initProviderBitSets();*/
         }
       );
   }
@@ -232,7 +250,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
     this.providerForm.enable();
   }
 
-  initProviderBitSets() {
+/*  initProviderBitSets() {
     this.handleBitSets(0, 0, 'name');
     this.handleBitSets(0, 1, 'abbreviation');
     this.handleBitSets(0, 2, 'website');
@@ -248,6 +266,6 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
     this.handleBitSetsOfGroups(4, 11, 'email', 'mainContact');
     this.handleBitSetsOfPublicContact(4, 15, 'email', 'publicContacts');
     this.initUserBitSets();
-  }
+  }*/
 
 }

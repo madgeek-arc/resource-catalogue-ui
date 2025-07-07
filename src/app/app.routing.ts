@@ -11,6 +11,7 @@ import {OpenAPIComponent} from '../lib/pages/support/openapi/openapi.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
 import {HomeComponent} from './pages/home/home.component';
+import {ComingSoonPageComponent} from "../lib/shared/coming-soon-page/coming-soon-page.component";
 
 const appRoutes: Routes = [
   {
@@ -21,12 +22,14 @@ const appRoutes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    // canActivate: [CanActivateViaAuthGuard],
     // redirectTo: 'becomeAProvider',
     // pathMatch: 'full'
   },
   {
     path: 'becomeAProvider',
     component: BecomeAProviderComponent,
+    canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Become A Provider'
     }
@@ -34,6 +37,7 @@ const appRoutes: Routes = [
   {
     path: 'stats/providers',
     component: ProvidersStatsComponent,
+    canActivate: [CanActivateViaAuthGuard],
     pathMatch: 'full',
     data: {
       breadcrumb: 'Providers Statistics'
@@ -42,6 +46,7 @@ const appRoutes: Routes = [
   {
     path: 'stats/resources',
     component: ResourcesStatsComponent,
+    canActivate: [CanActivateViaAuthGuard],
     pathMatch: 'full',
     data: {
       breadcrumb: 'Resources Statistics'
@@ -93,6 +98,11 @@ const appRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard]
   },
   {
+    path: 'adapters',
+    loadChildren: () => import('../lib/pages/adapters/adapters.module').then(m => m.AdaptersModule),
+    canActivate: [CanActivateViaAuthGuard]
+  },
+  {
     path: 'vocabulary-requests',
     component: VocabularyRequestsComponent,
     canActivate: [CanActivateViaAuthGuard],
@@ -103,6 +113,7 @@ const appRoutes: Routes = [
   {
     path: 'developers',
     component: DevelopersComponent,
+    canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Developers'
     }
@@ -110,6 +121,7 @@ const appRoutes: Routes = [
   {
     path: 'openapi',
     component: OpenAPIComponent,
+    canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Open API'
     }
@@ -133,6 +145,13 @@ const appRoutes: Routes = [
     }
   },
   {
+    path: 'comingSoon',
+    component: ComingSoonPageComponent,
+    data: {
+      breadcrumb: 'Coming Soon'
+    }
+  },
+  {
     path: '**',
     redirectTo: 'notFound',
     pathMatch: 'full',
@@ -145,7 +164,7 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' })
+    RouterModule.forRoot(appRoutes, {})
   ],
   declarations: [],
   exports: [RouterModule]

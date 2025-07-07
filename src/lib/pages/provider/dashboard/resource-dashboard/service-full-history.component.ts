@@ -7,6 +7,7 @@ import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
 import {zip} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
+import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 @Component({
   selector: 'app-service-full-history',
@@ -22,10 +23,11 @@ export class ServiceFullHistoryComponent implements OnInit, OnDestroy {
   public service: Service;
   public errorMessage: string;
   private sub: Subscription;
+  public pidHandler: pidHandler;
 
   serviceHistory: Paging<LoggingInfo>;
 
-  constructor(private route: ActivatedRoute, private router: NavigationService, private resourceService: ResourceService) {
+  constructor(private route: ActivatedRoute, private navigator: NavigationService, private resourceService: ResourceService) {
   }
 
   ngOnInit() {
@@ -41,7 +43,7 @@ export class ServiceFullHistoryComponent implements OnInit, OnDestroy {
         },
         err => {
           if (err.status === 404) {
-            this.router.go('/404');
+            this.navigator.go('/404');
           }
           this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
         }
@@ -65,4 +67,6 @@ export class ServiceFullHistoryComponent implements OnInit, OnDestroy {
   handleError(error) {
     this.errorMessage = 'System error retrieving service (Server responded: ' + error + ')';
   }
+
+  public readonly encodeURIComponent = encodeURIComponent;
 }

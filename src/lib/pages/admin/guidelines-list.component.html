@@ -95,9 +95,9 @@
                       </div>
 
                       <div class="uk-inline uk-margin-right">
-                        <label class="" for="orderField">Sort by </label>
+                        <label class="" for="sort">Sort by </label>
                         <div class="uk-inline">
-                          <select class="uk-input uk-select" id="orderField" (change)="handleChangeAndResetPage()" formControlName="orderField">
+                          <select class="uk-input uk-select" id="sort" (change)="handleChangeAndResetPage()" formControlName="sort">
                             <option value="title" selected>Title</option>
                             <option value="id">ID</option>
                           </select>
@@ -275,20 +275,22 @@
 
                           <hr class="uk-margin-top">
                           <div class="uk-align-right uk-margin-bottom">
-                            <button
-                              routerLink="/guidelines/{{guidelineBundle.interoperabilityRecord.providerId}}/update/{{guidelineBundle.id}}"
-                              class="uk-button uk-button-link"
-                              style="">
-                              <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
-                              Update
-                            </button>
+                            <ng-container *ngIf="guidelineBundle.interoperabilityRecord.catalogueId===CATALOGUE">
+                              <button
+                                routerLink="/guidelines/{{pidHandler.customEncodeURIComponent(guidelineBundle.interoperabilityRecord.providerId)}}/update/{{pidHandler.customEncodeURIComponent(guidelineBundle.id)}}"
+                                class="uk-button uk-button-link"
+                                style="">
+                                <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                                Update
+                              </button>
 
-                            <button (click)="showDeletionModal(guidelineBundle.id)"
-                                    class="uk-button uk-button-link uk-margin-medium-left"
-                                    style="padding-left: 40px; border-left: 1px solid #ccc">
-                              <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
-                              Delete
-                            </button>
+                              <button (click)="showDeletionModal(guidelineBundle.id)"
+                                      class="uk-button uk-button-link uk-margin-medium-left"
+                                      style="padding-left: 40px; border-left: 1px solid #ccc">
+                                <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                                Delete
+                              </button>
+                            </ng-container>
 
                             <button class="uk-button uk-button-link uk-margin-medium-left"
                                     style="padding-left: 40px; border-left: 1px solid #ccc">
@@ -303,12 +305,12 @@
                                   </li>
                                 </ng-container>
                                 <li *ngIf="(guidelineBundle.status === 'approved interoperability record') && (!guidelineBundle.active)"
-                                    (click)="verifyGuideline(guidelineBundle.id, true, 'approved interoperability record')"
+                                    (click)="publishGuideline(guidelineBundle.id, true)"
                                     class="uk-margin-small-top">
                                   <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
                                 </li>
                                 <li *ngIf="(guidelineBundle.status === 'approved interoperability record') && (guidelineBundle.active)"
-                                    (click)="verifyGuideline(guidelineBundle.id, false, 'approved interoperability record')"
+                                    (click)="publishGuideline(guidelineBundle.id, false)"
                                     class="uk-margin-small-top">
                                   <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Deactivate</a>
                                 </li>
@@ -383,7 +385,7 @@
       <p>Deleting an interoperability record is an irreversible action.</p>
     </div>
     <div class="uk-text-right">
-      <button class="uk-button uk-button-secondary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
       <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteGuideline(selectedGuidelineId)">Delete</button>
     </div>
   </div>
@@ -401,7 +403,7 @@
     <ng-container *ngIf="selectedGuideline">
       <h6 class="uk-margin-medium-bottom">Are you sure you want to {{selectedGuideline.suspended==true ? 'un' : ''}}suspend "{{ selectedGuideline.interoperabilityRecord.title }}"?</h6>
       <div class="uk-text-right">
-        <button class="uk-button uk-button-primary uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+        <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
         <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="suspendInteroperabilityRecord()">
           {{selectedGuideline.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
       </div>

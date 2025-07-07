@@ -12,21 +12,22 @@ import {MyCataloguesComponent} from "./my-catalogues.component";
 import {CataloguesListComponent} from "../admin/catalogues-list.component";
 import {NgSelectModule} from '@ng-select/ng-select';
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
+import {DynamicFormModule} from "../../../dynamic-catalogue/pages/dynamic-form/dynamic-form.module";
 
 
 @NgModule({
-  imports: [
-    SharedModule,
-    CommonModule,
-    FormsModule,
-    LMarkdownEditorModule,
-    ReactiveFormsModule,
-    CatalogueRouting,
-    ReusableComponentsModule,
-    HighchartsChartModule,
-    NgSelectModule,
-
-  ],
+    imports: [
+        SharedModule,
+        CommonModule,
+        FormsModule,
+        LMarkdownEditorModule,
+        ReactiveFormsModule,
+        CatalogueRouting,
+        ReusableComponentsModule,
+        HighchartsChartModule,
+        NgSelectModule,
+        DynamicFormModule
+    ],
   declarations: [
     // MyServiceProvidersComponent,
     CatalogueFormComponent,

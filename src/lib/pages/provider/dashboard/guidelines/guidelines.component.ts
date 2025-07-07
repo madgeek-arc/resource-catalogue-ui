@@ -3,9 +3,10 @@ import {InteroperabilityRecordBundle, ProviderBundle} from '../../../../domain/e
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Paging} from '../../../../domain/paging';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {GuidelinesService} from "../../../../services/guidelines.service";
+import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -21,13 +22,13 @@ export class GuidelinesComponent implements OnInit {
     from: '0',
     quantity: '10',
     order: 'ASC',
-    orderField: 'title',
+    sort: 'title',
     query: '',
     // active: 'statusAll',
     status: ''
   };
 
-  dataForm: FormGroup;
+  dataForm: UntypedFormGroup;
 
   errorMessage = '';
   // toggleLoading = false;
@@ -48,11 +49,12 @@ export class GuidelinesComponent implements OnInit {
   pages: number[] = [];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private providerService: ServiceProviderService,
-    private guidelinesService: GuidelinesService
+    private guidelinesService: GuidelinesService,
+    public pidHandler: pidHandler
   ) {}
 
   ngOnInit(): void {
@@ -96,7 +98,7 @@ export class GuidelinesComponent implements OnInit {
 
   getGuidelines() {
     this.guidelinesService.getInteroperabilityRecordsOfProvider(this.providerId, this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('order').value, this.dataForm.get('orderField').value, this.dataForm.get('query').value, this.dataForm.get('status').value)
+      this.dataForm.get('order').value, this.dataForm.get('sort').value, this.dataForm.get('query').value, this.dataForm.get('status').value)
       .subscribe(res => {
           this.guidelines = res;
           this.total = res['total'];

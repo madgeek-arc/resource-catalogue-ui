@@ -11,22 +11,24 @@ import {DatasourceSelectComponent} from "../provider/dashboard/datasources/datas
 import {DatasourceSubmittedComponent} from "./datasource-submitted.component";
 import {DatasourceSubprofileFormComponent} from "../provider-resources/service-subprofiles/datasource-subprofile-form.component";
 import {MarkdownModule} from "ngx-markdown";
+import {DynamicFormModule} from "../../../dynamic-catalogue/pages/dynamic-form/dynamic-form.module";
 
 
 @NgModule({
-  imports: [
-    SharedModule,
-    CommonModule,
-    FormsModule,
-    LMarkdownEditorModule,
-    ReactiveFormsModule,
-    DatasourceRouting,
-    ReusableComponentsModule,
-    HighchartsChartModule,
-    NgSelectModule,
-    MarkdownModule,
+    imports: [
+        SharedModule,
+        CommonModule,
+        FormsModule,
+        LMarkdownEditorModule,
+        ReactiveFormsModule,
+        DatasourceRouting,
+        ReusableComponentsModule,
+        HighchartsChartModule,
+        NgSelectModule,
+        MarkdownModule,
+        DynamicFormModule,
 
-  ],
+    ],
   declarations: [
     DatasourceSubprofileFormComponent,
     DatasourceSelectComponent,

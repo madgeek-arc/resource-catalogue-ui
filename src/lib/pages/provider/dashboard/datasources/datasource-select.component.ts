@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {Datasource, ServiceBundle, ProviderBundle, Service} from '../../../../domain/eic-model';
+import {Datasource, ProviderBundle} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {environment} from '../../../../../environments/environment';
 import {DatasourceService} from "../../../../services/datasource.service";
+import {NavigationService} from "../../../../services/navigation.service";
 
 declare var UIkit: any;
 
@@ -25,11 +26,11 @@ export class DatasourceSelectComponent implements OnInit {
     from: '0',
     quantity: '10',
     order: 'ASC',
-    orderField: 'name',
+    sort: 'name',
     query: '',
   };
 
-  dataForm: FormGroup;
+  dataForm: UntypedFormGroup;
 
   errorMessage = '';
   showLoader = false;
@@ -49,9 +50,10 @@ export class DatasourceSelectComponent implements OnInit {
   offset = 2;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private navigator: NavigationService,
     private providerService: ServiceProviderService,
     private service: ResourceService,
     private datasourceService: DatasourceService
@@ -100,7 +102,7 @@ export class DatasourceSelectComponent implements OnInit {
   getOpenAIREDatasources() {
     this.showLoader = true;
     this.datasourceService.getOpenAIREDatasources(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value)
+      this.dataForm.get('sort').value, this.dataForm.get('order').value, this.dataForm.get('query').value)
       .subscribe(res => {
           this.datasources = res;
           this.total = res['total'];

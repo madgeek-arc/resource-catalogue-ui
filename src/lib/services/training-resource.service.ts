@@ -20,6 +20,7 @@ import {catchError, map} from 'rxjs/operators';
 
 declare var UIkit: any;
 
+const CATALOGUE = environment.CATALOGUE;
 
 @Injectable()
 export class TrainingResourceService {
@@ -28,14 +29,12 @@ export class TrainingResourceService {
   }
   base = environment.API_ENDPOINT;
   private options = {withCredentials: true};
-  ACCESS_TYPES;
-  ORDER_TYPE;
 
   static removeNulls(obj) {
     const isArray = obj instanceof Array;
     for (const k in obj) {
       if (obj[k] === null || obj[k] === '') {
-        isArray ? obj.splice(k, 1) : delete obj[k];
+        isArray ? obj.splice(+k, 1) : delete obj[k];
       } else if (typeof obj[k] === 'object') {
         if (typeof obj[k].value !== 'undefined' && typeof obj[k].lang !== 'undefined') {
           if (obj[k].value === '' && obj[k].lang === 'en') {
@@ -56,30 +55,9 @@ export class TrainingResourceService {
     }
   }
 
-  getAll(resourceType: string) {
-    let params = new HttpParams();
-    params = params.append('from', '0');
-    params = params.append('quantity', '10000');
-    return this.http.get(this.base + `/${resourceType}/all`, {params});
-  }
-
-  getAllIndicators(resourceType: string) {
-    let params = new HttpParams();
-    params = params.append('from', '0');
-    params = params.append('quantity', '10000');
-    return this.http.get<Paging<Indicator>>(this.base + `/${resourceType}/all`, {params});
-  }
-
-  getBy(resourceType: string, resourceField: string) {
-    return this.http.get(this.base + `/${resourceType}/by/${resourceField}/`);
-  }
-
-  getSome(resourceType: string, ids: string[]) {
-    return this.http.get(this.base + `/${resourceType}/byID/${ids.toString()}/`);
-  }
-
   get(resourceType: string, id: string) {
-    return this.http.get(this.base + `/${resourceType}/${id}/`, this.options);
+    id = decodeURIComponent(id);
+    return this.http.get(this.base + `/${resourceType}/${id}`, this.options);
   }
 
   search(urlParameters: URLParameter[]) {
@@ -94,7 +72,7 @@ export class TrainingResourceService {
     // const questionMark = urlParameters.length > 0 ? '?' : '';
     // return this.http.get<SearchResults<RichService>>(this.base + `/service/rich/all${questionMark}${searchQuery.toString()}`, this.options)
     return this.http.get<Paging<RichService>>(
-      this.base + `/trainingResource/rich/all?orderField=title&order=asc&${searchQuery.toString()}`, this.options);
+      this.base + `/trainingResource/rich/all?sort=title&order=asc&${searchQuery.toString()}`, this.options);
   }
 
   getAllVocabulariesByType() {
@@ -105,37 +83,41 @@ export class TrainingResourceService {
     return this.http.get<Vocabulary[]>(this.base + `/vocabulary/byType/${type}`);
   }
 
-  getNestedVocabulariesByType(type: string) {
-    return this.http.get<VocabularyTree>(this.base + `/vocabulary/vocabularyTree/${type}`);
+  getTerritories() {
+    return this.http.get<Vocabulary[]>(this.base + `/vocabulary/getTerritories`);
   }
 
-  getSubcategoriesIdsFromSuperCategory(parent: string, type: string) {
-    let params = new HttpParams();
-    params = params.append('parent', parent);
-    params = params.append('type', type);
-    return this.http.get<string[]>(this.base + '/trainingResource/childrenFromParent', {params});
+  getNestedVocabulariesByType(type: string) {
+    return this.http.get<VocabularyTree>(this.base + `/vocabulary/vocabularyTree/${type}`);
   }
 
   getServices() {
     return this.http.get(this.base + '/trainingResource/by/ID/'); // needs capitalized 'ID' after back changes
   }
 
+  //TODO: rename to getTrainingResource
   getService(id: string, catalogueId?: string) {
-    // if version becomes optional this should be reconsidered
-    // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
-    if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<TrainingResource>(this.base + `/trainingResource/${id}/?catalogue_id=${catalogueId}`, this.options);
+    id = decodeURIComponent(id);
+    if (!catalogueId) catalogueId = CATALOGUE;
+    if (catalogueId === CATALOGUE)
+      return this.http.get<TrainingResource>(this.base + `/trainingResource/${id}?catalogue_id=${catalogueId}`, this.options);
+    else
+      return this.http.get<Service>(this.base + `/catalogue/${catalogueId}/trainingResource/${id}`, this.options);
   }
 
   getTrainingResourceBundle(id: string, catalogueId?:string) { //old rich
-    if (!catalogueId) catalogueId = 'eosc';
-    return this.http.get<TrainingResourceBundle>(this.base + `/trainingResource/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
+    id = decodeURIComponent(id);
+    if (!catalogueId) catalogueId = CATALOGUE;
+    if (catalogueId === CATALOGUE)
+      return this.http.get<TrainingResourceBundle>(this.base + `/trainingResource/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
+    else
+      return this.http.get<TrainingResourceBundle>(this.base + `/catalogue/${catalogueId}/trainingResource/bundle/${id}`, this.options);
   }
 
   getSelectedServices(ids: string[]) {
     /*return this.getSome("service", ids).map(res => <Service[]> <any> res);*/
     // return this.getSome('service/rich', ids).subscribe(res => <RichService[]><any>res);
-    return this.http.get<RichService[]>(this.base + `/trainingResource/rich/byID/${ids.toString()}/`, this.options);
+    return this.http.get<RichService[]>(this.base + `/trainingResource/rich/ids/${ids.toString()}/`, this.options);
   }
 
   getServicesByCategories() {
@@ -149,6 +131,7 @@ export class TrainingResourceService {
   // }
 
   deleteTrainingResource(id: string) {
+    id = decodeURIComponent(id);
     return this.http.delete(this.base + '/trainingResource/' + id, this.options);
   }
 
@@ -178,30 +161,30 @@ export class TrainingResourceService {
     params = params.append('from', '0');
     params = params.append('quantity', '10000');
     if (status === 'approved provider') {
-      return this.http.get<Paging<Provider>>(this.base + `/provider/all/?status=approved provider`, {params, withCredentials: true});
+      return this.http.get<Paging<Provider>>(this.base + `/provider/all?status=approved provider`, {params, withCredentials: true});
     }
-    return this.http.get<Paging<Provider>>(this.base + `/provider/all/`, {params, withCredentials: true});
+    return this.http.get<Paging<Provider>>(this.base + `/provider/all`, {params, withCredentials: true});
   }
 
   getProviders(from: string, quantity: string) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
-    params = params.append('orderField', 'creation_date');
+    params = params.append('sort', 'creation_date');
     params = params.append('order', 'desc');
     return this.http.get(this.base + `/provider/all`, {params});
     // return this.getAll("provider");
   }
 
-  getProviderBundles(from: string, quantity: string, orderField: string, order: string, query: string,
+  getProviderBundles(from: string, quantity: string, sort: string, order: string, query: string,
                      status: string[], templateStatus: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
-    params = params.append('orderField', orderField);
+    params = params.append('sort', sort);
     params = params.append('order', order);
     if (query && query !== '') {
-      params = params.append('query', query);
+      params = params.append('keyword', query);
     }
     if (status && status.length > 0) {
       for (const statusValue of status) {
@@ -215,28 +198,29 @@ export class TrainingResourceService {
     }
     if (auditState && auditState.length > 0) {
       for (const auditValue of auditState) {
-        params = params.append('auditState', auditValue);
+        params = params.append('audit_state', auditValue);
       }
     }
     if (catalogue_id && catalogue_id.length > 0) {
       for (const catalogueValue of catalogue_id) {
         params = params.append('catalogue_id', catalogueValue);
       }
-    } else params = params.append('catalogue_id', 'all');
+    }
+    // } else params = params.append('catalogue_id', 'all');
     return this.http.get(this.base + `/provider/bundle/all`, {params});
     // return this.getAll("provider");
   }
 
-  getResourceBundles(from: string, quantity: string, orderField: string, order: string, query: string, active: string, suspended: string,
+  getResourceBundles(from: string, quantity: string, sort: string, order: string, query: string, active: string, suspended: string,
                      resource_organisation: string[], status: string[], auditState: string[], catalogue_id: string[]) {
     let params = new HttpParams();
     params = params.append('from', from);
     params = params.append('quantity', quantity);
-    params = params.append('orderField', orderField);
+    params = params.append('sort', sort);
     params = params.append('order', order);
     // params = params.append('active', active);
     if (query && query !== '') {
-      params = params.append('query', query);
+      params = params.append('keyword', query);
     }
     if (active && active !== '') {
       params = params.append('active', active);
@@ -263,9 +247,10 @@ export class TrainingResourceService {
       for (const catalogueValue of catalogue_id) {
         params = params.append('catalogue_id', catalogueValue);
       }
-    } else {
-      params = params.append('catalogue_id', 'all');
     }
+    // } else {
+    //   params = params.append('catalogue_id', 'all');
+    // }
     return this.http.get<TrainingResourceBundle>(this.base + `/trainingResource/adminPage/all`, {params});
   }
 
@@ -273,9 +258,10 @@ export class TrainingResourceService {
     return this.http.get<ServiceBundle[]>(this.base + `/trainingResource/randomResources?quantity=${quantity}`, this.options);
   }
 
-  getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+  getSharedServicesByProvider(id: string, from: string, quantity: string, order: string, sort: string) {
+    id = decodeURIComponent(id);
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/trainingResource/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      `/trainingResource/getSharedResources/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}`);
   }
 
   getEU() {
@@ -317,50 +303,68 @@ export class TrainingResourceService {
     return this.http.put<TrainingResource>(this.base + '/pendingService/transform/resource', trainingResource, this.options);
   }
 
-  getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, orderField: string) {
+  getDraftServicesByProvider(id: string, from: string, quantity: string, order: string, sort: string) {
+    id = decodeURIComponent(id);
     return this.http.get<Paging<ServiceBundle>>(this.base +
-      `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&orderField=${orderField}`);
+      `/pendingService/byProvider/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}`);
   }
 
   getPendingService(id: string) {
-    return this.http.get<TrainingResourceBundle>(this.base + `/pendingService/rich/${id}/`, this.options); //not actually used
+    id = decodeURIComponent(id);
+    return this.http.get<TrainingResourceBundle>(this.base + `/pendingService/rich/${id}`, this.options); //not actually used
   }
 
   deletePendingService(id: string) {
+    id = decodeURIComponent(id);
     return this.http.delete(this.base + '/pendingService/' + id, this.options);
   }
   /** <-- Draft(Pending) Services **/
 
   getServiceHistory(serviceId: string) {
+    serviceId = decodeURIComponent(serviceId);
     return this.http.get<Paging<ServiceHistory>>(this.base + `/trainingResource/history/${serviceId}/`);
   }
 
+  //TODO: rename to getTrainingLoggingInfoHistory
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
-    // return this.http.get<Paging<LoggingInfo>>(this.base + `/resource/loggingInfoHistory/${serviceId}/`);
-    return this.http.get<Paging<LoggingInfo>>(this.base + `/trainingResource/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
+    serviceId = decodeURIComponent(serviceId);
+    if (catalogue_id === CATALOGUE)
+      return this.http.get<Paging<LoggingInfo>>(this.base + `/trainingResource/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
+    else
+      return this.http.get<Paging<LoggingInfo>>(this.base + `/catalogue/${catalogue_id}/trainingResource/loggingInfoHistory/${serviceId}`);
   }
 
   auditTrainingResource(id: string, action: string, catalogueId: string, comment: string) {
-    return this.http.patch(this.base + `/trainingResource/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
+    id = decodeURIComponent(id);
+    if(!catalogueId) catalogueId = CATALOGUE;
+    if (catalogueId === CATALOGUE)
+      return this.http.patch(this.base + `/trainingResource/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
+    else
+      return this.http.patch(this.base + `/catalogue/${catalogueId}/trainingResource/auditTrainingResource/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
   verifyTrainingResource(id: string, active: boolean, status: string) { // for 1st service
+    id = decodeURIComponent(id);
     return this.http.patch(this.base + `/trainingResource/verifyTrainingResource/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
   getServiceTemplate(id: string) {  // gets oldest(?) pending resource of the provider // replaced with /resourceTemplateBundles/templates?id=testprovidertemplate
+    id = decodeURIComponent(id);
     return this.http.get<Service[]>(this.base + `/trainingResource/getServiceTemplate/${id}`);
   }
 
   getResourceTemplateOfProvider(id: string) {  // returns the template, service or datasource
+    id = decodeURIComponent(id);
     return this.http.get<any[]>(this.base + `/resourceTemplateBundles/templates?id=${id}`);
   }
 
   sendEmailForOutdatedTrainingResource(id: string) {
+    id = decodeURIComponent(id);
     return this.http.get(this.base + `/trainingResource/sendEmailForOutdatedResource/${id}`);
   }
 
   moveTrainingResourceToProvider(resourceId: string, providerId: string, comment: string) {
+    resourceId = decodeURIComponent(resourceId);
     return this.http.post(this.base + `/trainingResource/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
   }
 
@@ -384,10 +388,12 @@ export class TrainingResourceService {
   }
 
   publishTrainingResource(id: string, active: boolean) { // toggles active/inactive service
+    id = decodeURIComponent(id);
     return this.http.patch(this.base + `/trainingResource/publish/${id}?active=${active}`, this.options);
   }
 
   suspendTrainingResource(trainingResourceId: string, catalogueId: string, suspend: boolean) {
+    trainingResourceId = decodeURIComponent(trainingResourceId);
     return this.http.put<TrainingResourceBundle>(this.base + `/trainingResource/suspend?trainingResourceId=${trainingResourceId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
   }
 }

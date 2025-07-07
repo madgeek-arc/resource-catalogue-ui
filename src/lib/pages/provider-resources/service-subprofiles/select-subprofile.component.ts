@@ -24,7 +24,7 @@ export class SelectSubprofileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.serviceId = this.route.snapshot.paramMap.get('serviceId');
+    this.serviceId = this.route.snapshot.paramMap.get('serviceId');//TODO check
 
     this.ressourceService.getService(this.serviceId).subscribe(
       res => {this.service = res},

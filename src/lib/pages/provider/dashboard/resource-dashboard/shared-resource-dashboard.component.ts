@@ -21,7 +21,7 @@ export class SharedResourceDashboardComponent implements OnInit {
 
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,
-              public router: NavigationService,
+              public navigator: NavigationService,
               private route: ActivatedRoute) {
   }
 

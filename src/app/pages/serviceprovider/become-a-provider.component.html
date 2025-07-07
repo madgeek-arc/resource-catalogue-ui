@@ -1,4 +1,4 @@
-<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 325px">
+<div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom uk-padding-remove-top" style="min-height: 325px">
   <div class="uk-container">
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
@@ -36,10 +36,18 @@
 
                         <div class="field field-name-body field-type-text-with-summary field-label-hidden">
                           <div>
-                            <div property="content:encoded"><p style="text-align:center"><a
-                              (click)="signUpAndRegisterAservice()"><img alt=""
-                                                                         src="https://www.eosc-portal.eu/sites/default/files/header-become-provider.jpg"
-                                                                         style="width: 100%;"></a></p>
+                            <div property="content:encoded" style="">
+
+                              <div class="uk-position-relative" style="display: inline-block; width: 100%;">
+                                <a (click)="signUpAndRegisterAservice()">
+                                  <img alt="" src="../../../assets/images/EOSC_Dashboard_1532x800-min.png" style="width: 100%;"/>
+                                </a>
+
+                                <button class="uk-position-center uk-button uk-button-primary" (click)="signUpAndRegisterAservice()">
+                                  Apply Now
+                                </button>
+                              </div>
+
                               <p class="rtejustify"><span
                                 id="docs-internal-guid-1d945db6-7fff-d547-713d-7acedfa35adb"
                                 style="font-size:11pt;font-family:Arial;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">EOSC welcomes
@@ -101,16 +109,18 @@
                               </ul>
                               <h3 class="rtejustify">Interested?</h3>
                               <ul>
-                                <li class="rtejustify" style="font-size: large"><a (click)="signUpAndRegisterAservice()"><i>Apply now!</i></a></li>
+                                <li class="rtejustify" style="font-size: large"><a (click)="signUpAndRegisterAservice()" class="colored-link"><i>Apply now!</i></a></li>
                                 <br>
-                                <li class="rtejustify" style="font-size: large"><a href="https://eosc-portal.eu/providers-documentation"
-                                                          target="_blank"><i>Find more information in the Providers
-                                  Documentation section</i></a></li>
+<!--                                <li class="rtejustify" style="font-size: large"><a href="https://eosc-portal.eu/providers-documentation"-->
+<!--                                                          target="_blank"><i>Find more information in the Providers Documentation section</i></a></li>-->
+                                <li class="rtejustify" style="font-size: large"><a href="./comingSoon" target="_blank" class="colored-link"><i>Find more information in the Providers Documentation section</i></a></li>
                               </ul>
                               <br>
-                              <p class="rtejustify"><a
-                                href="https://eosc-portal.eu/sites/default/files/EOSC-hub%20Integration%20Handbook%20for%20Service%20Providers.pdf"
-                                target="_blank">Take a look at the EOSC-hub integration handbook for service providers</a>
+<!--                              <p class="rtejustify"><a href="https://eosc-portal.eu/sites/default/files/EOSC-hub%20Integration%20Handbook%20for%20Service%20Providers.pdf"-->
+<!--                                target="_blank">Take a look at the EOSC-hub integration handbook for service providers</a>-->
+<!--                              </p>-->
+                              <p class="rtejustify"><a href="./comingSoon"
+                                                       target="_blank">Take a look at the EOSC-hub integration handbook for service providers</a>
                               </p>
                             </div>
                           </div>

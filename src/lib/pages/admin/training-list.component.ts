@@ -15,7 +15,7 @@ import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
 import {NavigationService} from '../../services/navigation.service';
 import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
@@ -24,6 +24,7 @@ import {zip} from 'rxjs';
 import {Paging} from '../../domain/paging';
 import {ResourceExtrasService} from "../../services/resource-extras.service";
 import {TrainingResourceService} from "../../services/training-resource.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 declare var UIkit: any;
 
@@ -37,18 +38,18 @@ export class TrainingListComponent implements OnInit {
 
   formPrepare = {
     query: '',
-    orderField: 'title',
+    sort: 'title',
     order: 'ASC',
     quantity: '10',
     from: '0',
     active: '',
     suspended: '',
-    auditState: new FormArray([]),
-    status: new FormArray([]),
-    resource_organisation: new FormArray([]),
-    catalogue_id: new FormArray([])
+    auditState: new UntypedFormArray([]),
+    status: new UntypedFormArray([]),
+    resource_organisation: new UntypedFormArray([]),
+    catalogue_id: new UntypedFormArray([])
   };
-  dataForm: FormGroup;
+  dataForm: UntypedFormGroup;
 
   extrasFormPrepare = {
     researchCategories: this.fb.array([this.fb.control('')]),
@@ -61,11 +62,11 @@ export class TrainingListComponent implements OnInit {
       })
     ])
   };
-  extrasForm: FormGroup;
+  extrasForm: UntypedFormGroup;
 
   urlParams: URLParameter[] = [];
 
-  commentAuditControl = new FormControl();
+  commentAuditControl = new UntypedFormControl();
   showSideAuditForm = false;
   showMainAuditForm = false;
   initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userFullName: '', userRole: '', type: '', comment: '', actionType: ''};
@@ -95,15 +96,15 @@ export class TrainingListComponent implements OnInit {
   providersFormPrepare = {
     resourceOrganisation: ''
   };
-  providersDropdownForm: FormGroup;
+  providersDropdownForm: UntypedFormGroup;
   providersPage: Paging<Provider>;
-  commentMoveControl = new FormControl();
+  commentMoveControl = new UntypedFormControl();
 
   statusList = statusList;
   adminActionsMap = resourceStatusChangeMap;
 
-  public auditStates: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
-  public auditLabels: Array<string> = ['Valid', 'Not Audited', 'Invalid and updated', 'Invalid and not updated'];
+  public auditStates: Array<string> = ['Valid', 'Not audited', 'Invalid and updated', 'Invalid and not updated'];
+  public auditLabels: Array<string> = ['Valid', 'Not audited', 'Invalid and updated', 'Invalid and not updated'];
 
   @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
 
@@ -123,7 +124,8 @@ export class TrainingListComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private navigator: NavigationService,
-              private fb: FormBuilder
+              private fb: UntypedFormBuilder,
+              public pidHandler: pidHandler
   ) {
   }
 
@@ -146,11 +148,11 @@ export class TrainingListComponent implements OnInit {
               if (i === 'status') {
 
                 if (this.dataForm.get('status').value.length === 0) {
-                  const formArrayNew: FormArray = this.dataForm.get('status') as FormArray;
+                  const formArrayNew: UntypedFormArray = this.dataForm.get('status') as UntypedFormArray;
                   // formArrayNew = this.fb.array([]);
                   for (const status of params[i].split(',')) {
                     if (status !== '') {
-                      formArrayNew.push(new FormControl(status));
+                      formArrayNew.push(new UntypedFormControl(status));
                     }
                   }
                 }
@@ -159,11 +161,11 @@ export class TrainingListComponent implements OnInit {
               } else if (i === 'resource_organisation') {
 
                 if (this.dataForm.get('resource_organisation').value.length === 0) {
-                  const formArrayNew: FormArray = this.dataForm.get('resource_organisation') as FormArray;
+                  const formArrayNew: UntypedFormArray = this.dataForm.get('resource_organisation') as UntypedFormArray;
                   // formArrayNew = this.fb.array([]);
                   for (const resource_organisation of params[i].split(',')) {
                     if (resource_organisation !== '') {
-                      formArrayNew.push(new FormControl(resource_organisation));
+                      formArrayNew.push(new UntypedFormControl(resource_organisation));
                     }
                   }
                 }
@@ -171,11 +173,11 @@ export class TrainingListComponent implements OnInit {
               } else if (i === 'catalogue_id') {
 
                 if (this.dataForm.get('catalogue_id').value.length === 0) {
-                  const formArrayNew: FormArray = this.dataForm.get('catalogue_id') as FormArray;
+                  const formArrayNew: UntypedFormArray = this.dataForm.get('catalogue_id') as UntypedFormArray;
                   // formArrayNew = this.fb.array([]);
                   for (const catalogue_id of params[i].split(',')) {
                     if (catalogue_id !== '') {
-                      formArrayNew.push(new FormControl(catalogue_id));
+                      formArrayNew.push(new UntypedFormControl(catalogue_id));
                     }
                   }
                 }
@@ -183,11 +185,11 @@ export class TrainingListComponent implements OnInit {
               } else if (i === 'auditState') {
 
                 if (this.dataForm.get('auditState').value.length === 0) {
-                  const formArrayNew: FormArray = this.dataForm.get('auditState') as FormArray;
+                  const formArrayNew: UntypedFormArray = this.dataForm.get('auditState') as UntypedFormArray;
                   // formArrayNew = this.fb.array([]);
                   for (const auditState of params[i].split(',')) {
                     if (auditState !== '') {
-                      formArrayNew.push(new FormControl(auditState));
+                      formArrayNew.push(new UntypedFormControl(auditState));
                     }
                   }
                 }
@@ -200,11 +202,11 @@ export class TrainingListComponent implements OnInit {
 
             // if no status in URL, check all statuses by default
             if (!foundStatus) {
-              const formArray: FormArray = this.dataForm.get('status') as FormArray;
+              const formArray: UntypedFormArray = this.dataForm.get('status') as UntypedFormArray;
               // formArray = this.fb.array([]);
 
               this.statuses.forEach(status => {
-                formArray.push(new FormControl(status));
+                formArray.push(new UntypedFormControl(status));
               });
             }
 
@@ -228,7 +230,7 @@ export class TrainingListComponent implements OnInit {
           this.providersPage = <Paging<Provider>>suc;
         },
         error => {
-          this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
+          this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.message);
         },
         () => {
           this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
@@ -282,15 +284,15 @@ export class TrainingListComponent implements OnInit {
 
   onSelectionChange(event: any, formControlName: string) {
 
-    const formArray: FormArray = this.dataForm.get(formControlName) as FormArray;
+    const formArray: UntypedFormArray = this.dataForm.get(formControlName) as UntypedFormArray;
 
     if (event.target.checked) {
       // Add a new control in the arrayForm
-      formArray.push(new FormControl(event.target.value));
+      formArray.push(new UntypedFormControl(event.target.value));
     } else {
       // find the unselected element
       let i = 0;
-      formArray.controls.forEach((ctrl: FormControl) => {
+      formArray.controls.forEach((ctrl: UntypedFormControl) => {
         if (ctrl.value === event.target.value) {
           // Remove the unselected element from the arrayForm
           formArray.removeAt(i);
@@ -346,7 +348,7 @@ export class TrainingListComponent implements OnInit {
     this.loadingMessage = 'Loading training resources';
     this.trainingResourceBundles = [];
     this.trainingResourceService.getResourceBundles(this.dataForm.get('from').value, this.dataForm.get('quantity').value,
-      this.dataForm.get('orderField').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
+      this.dataForm.get('sort').value, this.dataForm.get('order').value, this.dataForm.get('query').value,
       this.dataForm.get('active').value, this.dataForm.get('suspended').value, this.dataForm.get('resource_organisation').value,
       this.dataForm.get('status').value, this.dataForm.get('auditState').value, this.dataForm.get('catalogue_id').value).subscribe(
       res => {
@@ -410,10 +412,10 @@ export class TrainingListComponent implements OnInit {
   }
 
   onSelection(e, category: string, value: string) {
-    const formArrayNew: FormArray = this.dataForm.get(category) as FormArray;
+    const formArrayNew: UntypedFormArray = this.dataForm.get(category) as UntypedFormArray;
     if (e.target.checked) {
       this.addParameterToURL(category, value);
-      formArrayNew.push(new FormControl(value));
+      formArrayNew.push(new UntypedFormControl(value));
     } else {
       let categoryIndex = 0;
       for (const urlParameter of this.urlParams) {
@@ -672,7 +674,7 @@ export class TrainingListComponent implements OnInit {
 
   /** manage form arrays--> **/
   getFieldAsFormArray(field: string) {
-    return this.extrasForm.get(field) as FormArray;
+    return this.extrasForm.get(field) as UntypedFormArray;
   }
 
   push(field: string) {
@@ -705,8 +707,7 @@ export class TrainingListComponent implements OnInit {
   templateAction(id, active, status) {
     this.loadingMessage = '';
     UIkit.modal('#spinnerModal').show();
-    const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
-    this.trainingResourceService.verifyTrainingResource(templateId, active, status).subscribe(
+    this.trainingResourceService.verifyTrainingResource(id, active, status).subscribe(
       res => {
         this.getProviders();
       },

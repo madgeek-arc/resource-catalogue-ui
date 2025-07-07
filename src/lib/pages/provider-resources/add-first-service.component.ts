@@ -8,10 +8,13 @@ import {Service} from '../../domain/eic-model';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {RecommendationsService} from "../../services/recommendations.service";
 import {CatalogueService} from "../../services/catalogue.service";
+import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 
 @Component({
   selector: 'app-add-first-service',
-  templateUrl: './service-form.component.html'
+  templateUrl: './service-form.component.html',
+  providers: [FormControlService]
 })
 export class AddFirstServiceComponent extends ServiceFormComponent implements OnInit {
 
@@ -24,8 +27,10 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
               protected recommendationsService: RecommendationsService,
               protected catalogueService: CatalogueService,
               protected route: ActivatedRoute,
-              private datePipe: DatePipe) {
-    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route);
+              private datePipe: DatePipe,
+              public pidHandler: pidHandler,
+              public dynamicFormService: FormControlService) {
+    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService);
     this.editMode = false;
   }
 
@@ -33,7 +38,7 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
     super.ngOnInit();
     this.firstServiceForm = true;
     // this.providerId = this.route.snapshot.paramMap.get('providerId');
-    // this.serviceForm.get('resourceOrganisation').setValue(this.providerId);
+    // this.serviceForm.get('resourceOrganisation').setValue(decodeURIComponent(this.providerId));
     this.serviceId = this.route.snapshot.paramMap.get('resourceId');
     if (this.serviceId) {
       this.editMode = true;
