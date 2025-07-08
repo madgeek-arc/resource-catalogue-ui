@@ -127,10 +127,12 @@ export class ResourceGuidelinesFormComponent implements OnInit {
 
     this.guidelinesService.deleteGuidelinesOfResource(this.serviceId, this.resourceGuidelines.id).subscribe(
       _ir => {
-        return this.navigator.resourceDashboard(this.providerId, this.serviceId);  // navigate to resource-dashboard
+        this.showLoader = false;
       },
-      err => this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error),
-      () => window.location.reload()
+      err => {
+        this.showLoader = false;
+        this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
+      }
     );
   }
 
