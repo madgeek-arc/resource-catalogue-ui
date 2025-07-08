@@ -127,7 +127,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
 
     this.guidelinesService.deleteGuidelinesOfResource(this.serviceId, this.resourceGuidelines.id).subscribe(
       _ir => {
-        this.showLoader = false;
+        window.location.reload();
       },
       err => {
         this.showLoader = false;
