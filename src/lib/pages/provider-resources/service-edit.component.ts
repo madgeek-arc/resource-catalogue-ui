@@ -1,5 +1,5 @@
 import {Component, Injector, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {DatePipe} from '@angular/common';
 import {ServiceFormComponent} from './service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -32,8 +32,9 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               public datePipe: DatePipe,
               public navigator: NavigationService,
               public pidHandler: pidHandler,
-              public dynamicFormService: FormControlService) {
-    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService);
+              public dynamicFormService: FormControlService,
+              public router: Router) {
+    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService, router);
     this.editMode = true;
   }
 

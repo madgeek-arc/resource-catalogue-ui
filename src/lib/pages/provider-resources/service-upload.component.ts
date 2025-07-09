@@ -3,7 +3,7 @@ import {Subscription} from 'rxjs';
 import {Service} from '../../domain/eic-model';
 import {ServiceFormComponent} from './service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {RecommendationsService} from "../../services/recommendations.service";
 import {CatalogueService} from "../../services/catalogue.service";
@@ -24,8 +24,9 @@ export class ServiceUploadComponent extends ServiceFormComponent implements OnIn
               protected catalogueService: CatalogueService,
               protected route: ActivatedRoute,
               public pidHandler: pidHandler,
-              dynamicFormService: FormControlService) {
-    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService);
+              public dynamicFormService: FormControlService,
+              public router: Router) {
+    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService, router);
     this.editMode = false;
   }
 

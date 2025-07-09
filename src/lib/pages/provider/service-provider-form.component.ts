@@ -52,6 +52,7 @@ export class ServiceProviderFormComponent implements OnInit {
   edit = false;
   hasChanges = false;
   pendingProvider = false;
+  saveAsDraftAvailable = false;
   disable = false;
   showLoader = false;
   tabs: boolean[] = [false, false, false, false, false, false, false, false];
@@ -279,6 +280,9 @@ export class ServiceProviderFormComponent implements OnInit {
     // if (path.includes('view/:providerId')) {
     //   this.pendingProvider = true;
     // }
+    if ( !this.router.url.includes('/update/') ) {
+      this.saveAsDraftAvailable = true;
+    }
     this.setVocabularies();
     this.providerForm = this.fb.group(this.formDefinition);
     if (this.edit === false) {
