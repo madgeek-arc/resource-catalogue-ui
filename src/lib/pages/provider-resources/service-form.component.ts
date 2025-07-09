@@ -11,7 +11,7 @@ import {Observable, of, zip} from 'rxjs';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
 import BitSet from 'bitset';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {RecommendationsService} from "../../services/recommendations.service";
 import {CatalogueService} from "../../services/catalogue.service";
@@ -45,6 +45,7 @@ export class ServiceFormComponent implements OnInit {
   firstServiceForm = false;
   showLoader = false;
   pendingService = false;
+  saveAsDraftAvailable = false;
   catalogueId: string;
   providerId: string;
   displayedProviderName: string;
@@ -344,7 +345,8 @@ export class ServiceFormComponent implements OnInit {
               protected catalogueService: CatalogueService,
               protected route: ActivatedRoute,
               public pidHandler: pidHandler,
-              public dynamicFormService: FormControlService) {
+              public dynamicFormService: FormControlService,
+              public router: Router) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
@@ -530,6 +532,9 @@ export class ServiceFormComponent implements OnInit {
 
   ngOnInit() {
     this.showLoader = true;
+    if ( !this.router.url.includes('/update/') || this.router.url.includes('/draft-resource/update/')) {
+      this.saveAsDraftAvailable = true;
+    }
     zip(
       this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
