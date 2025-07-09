@@ -12,7 +12,7 @@
                 <ng-container *ngIf="service">
                   <h3>Want to add a subprofile to your {{serviceORresource}}?</h3>
                   <p>You can skip this step and manage subprofiles anytime from the
-                    <a [routerLink]="'/dashboard/'+service.catalogueId+'/'+service.resourceOrganisation+'/resource-dashboard/'+service.id+'/history'">{{serviceORresource | lowercase}} dashboard</a>.</p>
+                    <a [routerLink]="'/dashboard/'+service.catalogueId+'/'+pidHandler.customEncodeURIComponent(service.resourceOrganisation)+'/resource-dashboard/'+pidHandler.customEncodeURIComponent(service.id)+'/history'">{{serviceORresource | lowercase}} dashboard</a>.</p>
 
                   <div class="uk-inline uk-margin-right">
                     <label class="" style="margin-right: 5px" for="subprofile">Subprofile</label>
@@ -25,7 +25,7 @@
 
                   <div class="uk-inline">
                     <div class="uk-flex uk-flex-right">
-                      <button [routerLink]="['/provider/' + service.resourceOrganisation + '/resource/' + serviceId + '/datasource/select/']"
+                      <button [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(service.resourceOrganisation) + '/resource/' + pidHandler.customEncodeURIComponent(serviceId) + '/datasource/select/']"
                               class="uk-button" [ngClass]="!selectedSubprofile ? 'uk-disabled' : 'uk-button-secondary'">
                         Next <i class="fa fa-arrow-right" aria-hidden="true"></i>
                       </button>

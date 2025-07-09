@@ -494,14 +494,11 @@ export class ResourceService {
 
   /** Draft(Pending) Services -->**/
   temporarySaveService(service: Service) {
-    const serviceExists = (service.id !== '');
+    console.log(!!service.id);
+    const serviceExists = !!service.id;
     if (serviceExists) {
       return this.http.put<Service>(this.base + '/service/draft', service, this.options);
     }
-    return this.http.post<Service>(this.base + '/service/draft', service, this.options);
-  }
-
-  saveServiceAsDraft(service: Service) { //todo: delete
     return this.http.post<Service>(this.base + '/service/draft', service, this.options);
   }
 

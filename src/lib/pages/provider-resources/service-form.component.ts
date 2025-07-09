@@ -49,6 +49,7 @@ export class ServiceFormComponent implements OnInit {
   providerId: string;
   displayedProviderName: string;
   displayedCatalogueName: string;
+  submitMode: 'draft' | 'submit' = 'submit';
   editMode = false;
   hasChanges = false;
   serviceForm: UntypedFormGroup;
@@ -351,7 +352,7 @@ export class ServiceFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  submitForm(value: any, tempSave: boolean) {
+  submitForm(value: any) {
     let serviceValue = value[0].value.Service;
     window.scrollTo(0, 0);
 
@@ -379,8 +380,8 @@ export class ServiceFormComponent implements OnInit {
     this.cleanArrayProperty(serviceValue, 'scientificDomains');
     this.cleanArrayProperty(serviceValue, 'categories');
 
-    if (tempSave) {//TODO
-      this.resourceService.temporarySaveService(this.serviceForm.value).subscribe(
+    if (this.submitMode === 'draft') {
+      this.resourceService.temporarySaveService(serviceValue).subscribe(
         _service => {
           // console.log(_service);
           this.showLoader = false;
@@ -396,10 +397,24 @@ export class ServiceFormComponent implements OnInit {
           this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error);
         }
       );
+    } else if (this.pendingService) {
+      this.resourceService.submitPendingService(serviceValue, this.editMode, this.commentControl.value).subscribe(
+        _service => {
+          this.showLoader = false;
+          if (!this.firstServiceForm || !this.editMode) return this.navigator.selectSubprofile(this.providerId, _service.id);  // navigate to select-subprofile
+          if (this.editMode || this.firstServiceForm) return this.navigator.resourceDashboard(this.providerId, _service.id);  // navigate to resource-dashboard
+        },
+        err => {
+          this.showLoader = false;
+          window.scrollTo(0, 0);
+          this.categoryArray.enable();
+          this.scientificDomainArray.enable();
+          this.errorMessage = 'Something went bad, server responded: ' + err?.error?.message;
+        }
+      );
     } else {
       this.resourceService.submitService(serviceValue, this.editMode, this.commentControl.value).subscribe(
         _service => {
-          // console.log(_service);
           this.showLoader = false;
           if (this.pendingService && !this.firstServiceForm) return this.navigator.selectSubprofile(this.providerId, _service.id);  // navigate to select-subprofile
           if (this.editMode || this.firstServiceForm) return this.navigator.resourceDashboard(this.providerId, _service.id);  // navigate to resource-dashboard
@@ -1353,7 +1368,7 @@ export class ServiceFormComponent implements OnInit {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
     } else {
-      this.submitForm(formData, false);
+      this.submitForm(formData);
     }
   }
 
