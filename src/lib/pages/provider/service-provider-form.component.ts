@@ -48,6 +48,7 @@ export class ServiceProviderFormComponent implements OnInit {
   logoUrl = '';
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
+  submitMode: 'draft' | 'submit' = 'submit';
   edit = false;
   hasChanges = false;
   pendingProvider = false;
@@ -347,7 +348,7 @@ export class ServiceProviderFormComponent implements OnInit {
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
   }
 
-  submitForm(value: any, tempSave: boolean){
+  submitForm(value: any){
     let providerValue = value[0].value.Provider;
     window.scrollTo(0, 0);
     if (!this.authService.isLoggedIn()) {
@@ -370,9 +371,9 @@ export class ServiceProviderFormComponent implements OnInit {
     this.cleanArrayProperty(providerValue, 'merilScientificDomains');
     // console.log(providerValue);
 
-    if (tempSave) {//TODO
+    if (this.submitMode === 'draft') {
       this.showLoader = true;
-      this.serviceProviderService.temporarySaveProvider(this.providerForm.value, (path !== 'provider/add/:providerId' && this.edit))
+      this.serviceProviderService.temporarySaveProvider(providerValue, (path !== 'provider/add/:providerId' && this.edit))
         .subscribe(
           res => {
             this.showLoader = false;
@@ -1134,7 +1135,7 @@ export class ServiceProviderFormComponent implements OnInit {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
     } else {
-      this.submitForm(formData, false);
+      this.submitForm(formData);
     }
   }
 
