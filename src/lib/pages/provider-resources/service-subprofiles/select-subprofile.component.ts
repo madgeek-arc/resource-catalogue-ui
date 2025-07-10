@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../../environments/environment';
 import {ResourceService} from "../../../services/resource.service";
 import {Service} from "../../../domain/eic-model";
+import {pidHandler} from "../../../shared/pid-handler/pid-handler.service";
 
 @Component({
   selector: 'app-select-subprofile',
@@ -20,11 +21,12 @@ export class SelectSubprofileComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private ressourceService: ResourceService
+    private ressourceService: ResourceService,
+    public pidHandler: pidHandler
   ) {}
 
   ngOnInit(): void {
-    this.serviceId = this.route.snapshot.paramMap.get('serviceId');//TODO check
+    this.serviceId = this.route.snapshot.paramMap.get('resourceId');
 
     this.ressourceService.getService(this.serviceId).subscribe(
       res => {this.service = res},

@@ -129,16 +129,10 @@ export class PendingServicesComponent implements OnInit {
   deleteService(bundle: ServiceBundle) {
     // UIkit.modal('#spinnerModal').show();
     this.resourceService.deletePendingService(bundle.id).subscribe(
-      res => {},
+      res => {window.location.reload()},
       error => {
-        // console.log(error);
         // UIkit.modal('#spinnerModal').hide();
         this.errorMessage = 'Something went bad. ' + error.error ;
-        this.getPendingServices();
-      },
-      () => {
-        this.getPendingServices();
-        // UIkit.modal('#spinnerModal').hide();
       }
     );
   }
