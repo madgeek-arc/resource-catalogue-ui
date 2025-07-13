@@ -127,6 +127,11 @@ const appRoutes: Routes = [
     }
   },
   {
+    path: 'helpdesk',
+    loadChildren: () => import('./pages/helpdesk/helpdesk.module').then(m => m.HelpdeskModule),
+    canActivate: [CanActivateViaAuthGuard]
+  },
+  {
     path: 'assets/files/:fileName',
     children: [ ]
   },
