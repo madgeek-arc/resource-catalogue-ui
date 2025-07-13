@@ -66,18 +66,21 @@ export class CreateTicketComponent implements OnInit {
         }
       };
 
+      console.log('🎫 Submitting ticket with data:', JSON.stringify(ticketData, null, 2));
+
       this.helpdeskService.createTicket(ticketData).subscribe({
         next: (response) => {
+          console.log('✅ Ticket submitted successfully:', response);
           this.loading = false;
           this.success = true;
           setTimeout(() => {
-            this.router.navigate(['/helpdesk/tickets']);
+            this.router.navigate(['/helpdesk/tickets']); // Navigate to helpdesk root instead
           }, 2000);
         },
         error: (err) => {
+          console.error('❌ Error submitting ticket:', err);
           this.loading = false;
-          this.error = 'Failed to create ticket. Please try again.';
-          console.error('Error creating ticket:', err);
+          this.error = `Failed to create ticket. Error: ${err.status} - ${err.message || 'Unknown error'}`;
         }
       });
     } else {

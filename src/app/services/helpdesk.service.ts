@@ -30,6 +30,9 @@ export class HelpdeskService {
       group: 'EPOT'
     };
     
+    console.log('🚀 Submitting ticket to:', this.webhookUrl);
+    console.log('📋 Ticket payload:', JSON.stringify(payload, null, 2));
+    
     return this.http.post<HelpdeskTicketResponse>(this.webhookUrl, payload);
   }
 
