@@ -248,7 +248,7 @@ export class DeployableServiceService {
     // } else {
     //   params = params.append('catalogue_id', 'all');
     // }
-    return this.http.get<DeployableServiceBundle>(this.base + `/deployableService/adminPage/all`, {params});
+    return this.http.get<DeployableServiceBundle>(this.base + `/deployableService/all`, {params});
   }
 
   getRandomResources(quantity: string) {

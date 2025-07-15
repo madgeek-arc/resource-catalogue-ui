@@ -27,6 +27,7 @@ import {AddFirstTrainingResourceComponent} from "../training-resources/add-first
 import {DatasourcesListComponent} from "../admin/datasources-list.component";
 import {SelectSubprofileComponent} from "../provider-resources/service-subprofiles/select-subprofile.component";
 import {DatasourceMetricsComponent} from "../provider-resources/service-subprofiles/datasource-metrics.component";
+import {DeployableServicesListComponent} from "../admin/deployable-services-list.component";
 
 const providerRoutes: Routes = [
 
@@ -333,6 +334,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'All Training Resources'
+    }
+  },
+  {
+    path: 'deployable-service/all',
+    component: DeployableServicesListComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'All Deployable Services'
     }
   }
 ];
