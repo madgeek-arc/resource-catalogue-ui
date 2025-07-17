@@ -147,6 +147,17 @@ export class MyServiceProvidersComponent implements OnInit {
     return false;
   }
 
+  hasCreatedFirstDeployableService(providerId: string) {
+    for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
+      if (this.serviceTemplatePerProvider[i].providerId == providerId) {
+        if (this.serviceTemplatePerProvider[i].deployableService) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   checkForDraftServices(id: string): boolean {
     for (let i = 0; i < this.hasDraftServices.length; i++) {
       if (this.hasDraftServices[i].id === id) {
@@ -187,6 +198,14 @@ export class MyServiceProvidersComponent implements OnInit {
       return '/provider/' + id + '/training-resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
     } else {
       return '/provider/' + id + '/add-first-training-resource';
+    }
+  }
+
+  getLinkToFirstDeployableService(id: string) {
+    if (this.hasCreatedFirstDeployableService(id)) {
+      return '/provider/' + id + '/deployable-service/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
+    } else {
+      return '/provider/' + id + '/add-first-deployable-service';
     }
   }
 

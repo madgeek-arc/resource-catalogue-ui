@@ -94,6 +94,9 @@
                                       <li class="uk-active">
                                         <a routerLink="{{ getLinkToFirstTrainingResource(pidHandler.customEncodeURIComponent(providerBundle.id)) }}">Add First Training Resource</a>
                                       </li>
+                                      <li class="uk-active">
+                                        <a routerLink="{{ getLinkToFirstDeployableService(pidHandler.customEncodeURIComponent(providerBundle.id)) }}">Add First Deployable Service</a>
+                                      </li>
                                       <li *ngIf="checkForDraftServices(providerBundle.id)" class="uk-active">
                                         <a [routerLink]="['/provider/draft-resources/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
                                           Select from draft {{serviceORresource | lowercase}}s

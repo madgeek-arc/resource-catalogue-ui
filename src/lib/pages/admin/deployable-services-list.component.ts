@@ -352,6 +352,7 @@ export class DeployableServicesListComponent implements OnInit {
       },
       () => {
         this.loadingMessage = '';
+        console.log(this.deployableServiceBundles);
       }
     );
   }

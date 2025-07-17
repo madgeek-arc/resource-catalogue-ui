@@ -15,6 +15,7 @@ import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
 import {URLParameter} from '../domain/url-parameter';
 import {throwError} from 'rxjs';
+import {Model} from "../../dynamic-catalogue/domain/dynamic-form-model";
 
 declare var UIkit: any;
 
@@ -117,95 +118,9 @@ export class DeployableServiceService {
     return this.http.get<RichService[]>(this.base + `/deployableService/rich/ids/${ids.toString()}/`, this.options);
   }
 
-  getServicesByCategories() {
-    return this.http.get<BrowseResults>(this.base + '/deployableService/by/category/');
-  }
-
-  // getServicesOfferedByProvider(id: string): Observable<RichService[]> {
-  //   return this.search([{key: 'quantity', values: ['100']}, {key: 'provider', values: [id]}]).pipe(
-  //     map(res => Object.values(res.results))
-  //   );
-  // }
-
   deleteDeployableService(id: string) {
     id = decodeURIComponent(id);
     return this.http.delete(this.base + '/deployableService/' + id, this.options);
-  }
-
-  /** STATS **/
-
-  getVisitsForService(service: string, period?: string) {
-    let params = new HttpParams();
-    if (period) {
-      params = params.append('by', period);
-      return this.http.get(this.base + `/stats/deployableService/visits/${service}`, {params});
-    }
-    return this.http.get(this.base + `/stats/deployableService/visits/${service}`);
-  }
-
-  getAddToProjectForService(service: string, period?: string) {
-    let params = new HttpParams();
-    if (period) {
-      params = params.append('by', period);
-      return this.http.get(this.base + `/stats/deployableService/addToProject/${service}`, {params});
-    }
-    return this.http.get(this.base + `/stats/deployableService/addToProject/${service}`);
-  }
-  /** STATS **/
-
-  getProvidersNames(status?: string) {
-    let params = new HttpParams();
-    params = params.append('from', '0');
-    params = params.append('quantity', '10000');
-    if (status === 'approved provider') {
-      return this.http.get<Paging<Provider>>(this.base + `/provider/all?status=approved provider`, {params, withCredentials: true});
-    }
-    return this.http.get<Paging<Provider>>(this.base + `/provider/all`, {params, withCredentials: true});
-  }
-
-  getProviders(from: string, quantity: string) {
-    let params = new HttpParams();
-    params = params.append('from', from);
-    params = params.append('quantity', quantity);
-    params = params.append('sort', 'creation_date');
-    params = params.append('order', 'desc');
-    return this.http.get(this.base + `/provider/all`, {params});
-    // return this.getAll("provider");
-  }
-
-  getProviderBundles(from: string, quantity: string, sort: string, order: string, query: string,
-                     status: string[], templateStatus: string[], auditState: string[], catalogue_id: string[]) {
-    let params = new HttpParams();
-    params = params.append('from', from);
-    params = params.append('quantity', quantity);
-    params = params.append('sort', sort);
-    params = params.append('order', order);
-    if (query && query !== '') {
-      params = params.append('keyword', query);
-    }
-    if (status && status.length > 0) {
-      for (const statusValue of status) {
-        params = params.append('status', statusValue);
-      }
-    }
-    if (templateStatus && templateStatus.length > 0) {
-      for (const templateStatusValue of templateStatus) {
-        params = params.append('templateStatus', templateStatusValue);
-      }
-    }
-    if (auditState && auditState.length > 0) {
-      for (const auditValue of auditState) {
-        params = params.append('audit_state', auditValue);
-      }
-    }
-    if (catalogue_id && catalogue_id.length > 0) {
-      for (const catalogueValue of catalogue_id) {
-        params = params.append('catalogue_id', catalogueValue);
-      }
-    }
-    // } else params = params.append('catalogue_id', 'all');
-    return this.http.get(this.base + `/provider/bundle/all`, {params});
-    // return this.getAll("provider");
   }
 
   getResourceBundles(from: string, quantity: string, sort: string, order: string, query: string, active: string, suspended: string,
@@ -248,7 +163,7 @@ export class DeployableServiceService {
     // } else {
     //   params = params.append('catalogue_id', 'all');
     // }
-    return this.http.get<DeployableServiceBundle>(this.base + `/deployableService/all`, {params});
+    return this.http.get<DeployableServiceBundle>(this.base + `/deployableService/bundle/all`, {params});
   }
 
   getRandomResources(quantity: string) {
@@ -391,5 +306,9 @@ export class DeployableServiceService {
   suspendDeployableService(deployableServiceId: string, catalogueId: string, suspend: boolean) {
     deployableServiceId = decodeURIComponent(deployableServiceId);
     return this.http.put<DeployableServiceBundle>(this.base + `/deployableService/suspend?deployableServiceId=${deployableServiceId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
+  }
+
+  getFormModelById(id: string) {
+    return this.http.get<Model>(this.base + `/forms/models/${id}`);
   }
 }

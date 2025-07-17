@@ -53,6 +53,12 @@
                 Training Resources
               </a>
             </li>
+            <li [routerLinkActive]="['current_section']" #deployableServices="routerLinkActive">
+              <a [routerLink]="['/dashboard', catalogueId, providerId, 'deployable-services']">
+                <img src="{{deployableServices.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+                Deployable Services
+              </a>
+            </li>
           </ng-container>
           <ng-container *ngIf="catalogueId==='eosc'">
             <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
@@ -79,6 +85,7 @@
                 Training Resources
               </a>
             </li>
+
             <li [routerLinkActive]="['current_section']" #guidelines="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'guidelines']">
                 <img src="{{guidelines.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
@@ -115,6 +122,12 @@
                   Add first Training Resource
                 </a>
               </li>
+              <li>
+                <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-deployable-service/']">
+                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  Add first Deployable Service
+                </a>
+              </li>
             </ng-container>
             <ng-container *ngIf="providerBundle?.status === 'pending provider'">
               <li uk-tooltip="Disabled until provider gets approved.">
@@ -122,6 +135,9 @@
               </li>
               <li uk-tooltip="Disabled until provider gets approved.">
                 <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first Training Resource</a>
+              </li>
+              <li uk-tooltip="Disabled until provider gets approved.">
+                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first Deployable Service</a>
               </li>
             </ng-container>
 <!--            this can be omitted unless told otherwise
@@ -144,6 +160,12 @@
                 <a [routerLink]="['/provider/' + providerId + '/training-resource/add/']">
                   <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add new Training Resource
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/provider/' + providerId + '/deployable-service/add/']">
+                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  Add new Deployable Service
                 </a>
               </li>
             </ng-container>
