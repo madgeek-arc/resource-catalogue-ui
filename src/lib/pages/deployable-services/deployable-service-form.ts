@@ -147,20 +147,20 @@ export class DeployableServiceForm implements OnInit {
     this.cleanArrayProperty(dsValue, 'scientificDomains');
 
     if (tempSave) {//TODO
-      this.deployableServiceService.saveServiceAsDraft(this.serviceForm.value).subscribe(
-        _service => {
-          // console.log(_service);
-          this.showLoader = false;
-          // return this.router.dashboardDraftResources(this.providerId); // navigate to draft list
-          return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
-        },
-        err => {
-          this.showLoader = false;
-          window.scrollTo(0, 0);
-          this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
-        }
-      );
+      // this.deployableServiceService.saveServiceAsDraft(this.serviceForm.value).subscribe(
+      //   _service => {
+      //     // console.log(_service);
+      //     this.showLoader = false;
+      //     // return this.router.dashboardDraftResources(this.providerId); // navigate to draft list
+      //     return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
+      //   },
+      //   err => {
+      //     this.showLoader = false;
+      //     window.scrollTo(0, 0);
+      //     this.scientificDomainArray.enable();
+      //     this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
+      //   }
+      // );
     } else {
       this.deployableServiceService[pendingService ? 'submitPendingService' : 'submitService']
       (dsValue, this.editMode, this.commentControl.value).subscribe(
@@ -176,86 +176,11 @@ export class DeployableServiceForm implements OnInit {
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
-          this.scientificDomainArray.enable();
           this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
           console.log(err);
           console.log(this.errorMessage);
         }
       );
-    }
-  }
-
-  onSubmit(service: Service, tempSave: boolean, pendingService?: boolean) {
-    // console.log('Submit');
-    // console.log(this.commentControl.value);
-    if (!this.authenticationService.isLoggedIn()) {
-      sessionStorage.setItem('service', JSON.stringify(this.serviceForm.value));
-      this.authenticationService.login();
-    }
-
-    this.errorMessage = '';
-    this.showLoader = true;
-    // this.scientificDomainArray.disable();
-    // console.log('this.serviceForm.valid ', this.serviceForm.valid);
-    // console.log('Submitted service --> ', service);
-    // console.log('Submitted service value--> ', this.serviceForm.value);
-    for (let i = 0; i < this.alternativeIdentifiersArray.length; i++) {
-      if (this.alternativeIdentifiersArray.controls[i].get('value').value === ''
-        || this.alternativeIdentifiersArray.controls[i].get('value').value === null) {
-        this.removeAlternativeIdentifier(i);
-      }
-    }
-    if (tempSave) {
-      this.trainingResourceService.saveServiceAsDraft(this.serviceForm.value).subscribe(
-        _service => {
-          // console.log(_service);
-          this.showLoader = false;
-          // return this.router.dashboardDraftResources(this.providerId); // navigate to draft list
-          return this.router.go('/provider/' + _service.resourceOrganisation + '/draft-resource/update/' + _service.id);
-        },
-        err => {
-          this.showLoader = false;
-          window.scrollTo(0, 0);
-          this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
-        }
-      );
-    } else if (this.serviceForm.valid) {
-      window.scrollTo(0, 0);
-      this.trainingResourceService[pendingService ? 'submitPendingService' : 'submitService']
-      (this.serviceForm.value, this.editMode, this.commentControl.value).subscribe(
-        _service => {
-          // console.log(_service);
-          this.showLoader = false;
-          return this.router.trainingResourceDashboard(this.providerId, _service.id);  // navigate to training-resource-dashboard
-          // return this.router.dashboardResources(this.providerId);                  // navigate to provider dashboard -> resource list
-          // return this.router.dashboard(this.providerId);                          // navigate to provider dashboard
-          // return this.router.service(_service.id);                               // navigate to old service info page
-          // return window.location.href = this._marketplaceServicesURL + _service.id; // navigate to marketplace
-        },
-        err => {
-          this.showLoader = false;
-          window.scrollTo(0, 0);
-          this.scientificDomainArray.enable();
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(err.error.message);
-        }
-      );
-    } else {
-      window.scrollTo(0, 0);
-      this.showLoader = false;
-
-      this.scientificDomainArray.enable();
-      this.setAsTouched();
-      this.markTabs();
-      this.serviceForm.markAsDirty();
-      this.serviceForm.updateValueAndValidity();
-      if (!this.serviceForm.valid) {
-        this.errorMessage = 'Please fill in all required fields (marked with an asterisk), ' +
-          'and fix the data format in fields underlined with a red colour.';
-        if (!this.serviceForm.controls['description'].valid) {
-          this.errorMessage += ' Description is an mandatory field.';
-        }
-      }
     }
   }
 
@@ -320,32 +245,6 @@ export class DeployableServiceForm implements OnInit {
     this.isPortalAdmin = this.authenticationService.isAdmin();
 
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
-
-    this.pushScientificDomain();
-
-    if (sessionStorage.getItem('service')) {
-      const data = JSON.parse(sessionStorage.getItem('service'));
-      for (const i in data) {
-        if (data.hasOwnProperty(i)) {
-          if (Array.isArray(data[i])) {
-            // console.log(i);
-            for (let j = 0; j < data[i].length - 1; j++) {
-              if (i === 'scientificDomains') {
-                this.scientificDomainArray.push(this.newScientificDomain());
-              } else if (i === 'providers' || i === 'targetUsers' || i === 'geographicalAvailabilities' || i === 'languages') {
-                this.push(i, true);
-              } else {
-                this.push(i, false);
-              }
-            }
-          }
-        }
-      }
-      this.serviceForm.patchValue(data);
-      if (!this.editMode) {
-        sessionStorage.removeItem('service');
-      }
-    }
   }
 
   public setAsTouched() {
@@ -476,56 +375,6 @@ export class DeployableServiceForm implements OnInit {
 
   /** <--manage form arrays **/
 
-  /** Scientific Domain--> **/
-
-  newScientificDomain(): UntypedFormGroup {
-    return this.fb.group({
-      scientificDomain: ['', Validators.required],
-      scientificSubdomain: ['', Validators.required]
-    });
-  }
-
-  get scientificDomainArray() {
-    return this.serviceForm.get('scientificDomains') as UntypedFormArray;
-  }
-
-  pushScientificDomain() {
-    this.scientificDomainArray.push(this.newScientificDomain());
-    this.scientificDomainArray.controls[this.scientificDomainArray.length - 1].get('scientificSubdomain').disable();
-  }
-
-  removeScientificDomain(index: number) {
-    this.scientificDomainArray.removeAt(index);
-  }
-
-  onScientificDomainChange(index: number) {
-    this.scientificDomainArray.controls[index].get('scientificSubdomain').enable();
-    this.scientificDomainArray.controls[index].get('scientificSubdomain').reset();
-  }
-
-  /** <-- Scientific Domain**/
-
-  /** Alternative Identifiers-->**/
-  newAlternativeIdentifier(): UntypedFormGroup {
-    return this.fb.group({
-      type: [''],
-      value: ['']
-    });
-  }
-
-  get alternativeIdentifiersArray() {
-    return this.serviceForm.get('alternativeIdentifiers') as UntypedFormArray;
-  }
-
-  pushAlternativeIdentifier() {
-    this.alternativeIdentifiersArray.push(this.newAlternativeIdentifier());
-  }
-
-  removeAlternativeIdentifier(index: number) {
-    this.alternativeIdentifiersArray.removeAt(index);
-  }
-  /** <--Alternative Identifiers**/
-
   getVocabularyById(vocabularies: Vocabulary[], id: string) {
     return vocabularies.find(entry => entry.id === id);
   }
@@ -553,176 +402,6 @@ export class DeployableServiceForm implements OnInit {
   timeOut(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
-
-  checkForDuplicates(formControlName, group?) {
-    if (group === 'scientificDomains') {
-      for (let i = 0; i < this.scientificDomainArray.controls.length; i++) {
-        for (let j = 0; j <  this.scientificDomainArray.controls.length; j++) {
-          if (i !== j && this.scientificDomainArray.controls[i].get('scientificDomain').value === this.scientificDomainArray.controls[j].get('scientificDomain').value ) {
-            if (this.scientificDomainArray.controls[i].get('scientificSubdomain').value === this.scientificDomainArray.controls[j].get('scientificSubdomain').value) {
-              this.showNotification();
-              return;
-            }
-          }
-        }
-      }
-    } else {
-      if (this.serviceForm.get(formControlName).value.length > 1) {
-        for (let i = 0; i < this.serviceForm.get(formControlName).value.length; i++) {
-          for (let j = 0; j < this.serviceForm.get(formControlName).value.length; j++) {
-            if (i !== j && this.serviceForm.get(formControlName).value[i] === this.serviceForm.get(formControlName).value[j]) {
-              this.showNotification();
-              return;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  /** BitSets -->**/
-  /** TODO: maybe timeout can be removed with subject **/
-  handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
-    if (bitIndex === 0) {
-      this.serviceName = this.serviceForm.get(formControlName).value;
-    }
-    // this.serviceForm.get(formControlName).updateValueAndValidity();
-    if (this.serviceForm.get(formControlName).valid) {
-      this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-      this.loaderBitSet.set(bitIndex, 1);
-    } else if (this.serviceForm.get(formControlName).invalid) {
-      this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-      this.loaderBitSet.set(bitIndex, 0);
-    } else if (this.serviceForm.get(formControlName).pending) {
-      this.timeOut(300).then( () => this.handleBitSets(tabNum, bitIndex, formControlName));
-      return;
-    }
-    this.updateLoaderPercentage();
-  }
-
-  handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group: string): void {
-    if (group === 'scientificDomains') {
-      for (const scientificDomain of this.scientificDomainArray.controls) {
-        if (scientificDomain.get('scientificSubdomain').value) {
-          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-          this.loaderBitSet.set(bitIndex - 1, 1);
-          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-          this.loaderBitSet.set(bitIndex, 1);
-        } else {
-          this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-          this.loaderBitSet.set(bitIndex - 1, 0);
-          this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-          this.loaderBitSet.set(bitIndex, 0);
-        }
-      }
-    } else {
-      this.serviceForm.controls[group].get(formControlName).updateValueAndValidity();
-      if (this.serviceForm.controls[group].get(formControlName).valid) {
-        this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-        this.loaderBitSet.set(bitIndex, 1);
-      } else if (this.serviceForm.controls[group].get(formControlName).invalid) {
-        this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-        this.loaderBitSet.set(bitIndex, 0);
-      }
-    }
-    this.updateLoaderPercentage();
-  }
-
-  updateLoaderPercentage() {
-    // console.log(this.loaderBitSet.toString(2));
-    // console.log('cardinality: ', this.loaderBitSet.cardinality());
-    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
-    // console.log(this.loaderPercentage, '%');
-  }
-
-  decreaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
-    if (tabNum === 0) {
-      this.BitSetTab0.set(bitIndex, 1);
-      this.remainingOnTab0 = this.requiredOnTab0 - this.BitSetTab0.cardinality();
-      if (this.remainingOnTab0 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-        this.calcCompletedTabs(tabNum, 1);
-      }
-    } else if (tabNum === 1) {
-      this.BitSetTab1.set(bitIndex, 1);
-      this.remainingOnTab1 = this.requiredOnTab1 - this.BitSetTab1.cardinality();
-      if (this.remainingOnTab1 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-        this.calcCompletedTabs(tabNum, 1);
-      }
-    } else if (tabNum === 2) {  // Learning
-      this.BitSetTab2.set(bitIndex, 1);
-      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.cardinality();
-      if (this.remainingOnTab2 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-        this.calcCompletedTabs(tabNum, 1);
-      }
-    } else if (tabNum === 3) {
-      this.BitSetTab3.set(bitIndex, 1);
-      this.remainingOnTab3 = this.requiredOnTab3 - this.BitSetTab3.cardinality();
-      if (this.remainingOnTab3 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-        this.calcCompletedTabs(tabNum, 1);
-      }
-    } else if (tabNum === 4) { // Classification
-      this.BitSetTab4.set(bitIndex, 1);
-      this.remainingOnTab4 = this.requiredOnTab4 - this.BitSetTab4.get(13);
-      if (this.remainingOnTab4 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-        this.calcCompletedTabs(tabNum, 1);
-      }
-    } else if (tabNum === 5) { // Contact
-      this.BitSetTab5.set(bitIndex, 1);
-      const contactCardinality = this.BitSetTab5.slice(14, 16).cardinality();
-      this.remainingOnTab5 = this.requiredOnTab5 - +(contactCardinality === 3);
-      if (this.remainingOnTab5 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-        this.calcCompletedTabs(tabNum, 1);
-      }
-    }
-  }
-
-  increaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
-    if (tabNum === 0) {
-      this.BitSetTab0.set(bitIndex, 0);
-      this.remainingOnTab0 = this.requiredOnTab0 - this.BitSetTab0.cardinality();
-      if (this.completedTabsBitSet.get(tabNum) !== 0) {
-        this.calcCompletedTabs(tabNum, 0);
-      }
-    } else if (tabNum === 1) {
-      this.BitSetTab1.set(bitIndex, 0);
-      this.remainingOnTab1 = this.requiredOnTab1 - this.BitSetTab1.cardinality();
-      if (this.completedTabsBitSet.get(tabNum) !== 0) {
-        this.calcCompletedTabs(tabNum, 0);
-      }
-    } else if (tabNum === 2) {  // Learning
-      this.BitSetTab2.set(bitIndex, 0);
-      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.cardinality();
-      if (this.completedTabsBitSet.get(tabNum) !== 0) {
-        this.calcCompletedTabs(tabNum, 0);
-      }
-    } else if (tabNum === 3) {
-      this.BitSetTab3.set(bitIndex, 0);
-      this.remainingOnTab3 = this.requiredOnTab3 - this.BitSetTab3.cardinality();
-      if (this.completedTabsBitSet.get(tabNum) !== 0) {
-        this.calcCompletedTabs(tabNum, 0);
-      }
-    } else if (tabNum === 4) { // Classification
-      this.BitSetTab4.set(bitIndex, 0);
-      this.remainingOnTab4 = this.requiredOnTab4 - this.BitSetTab4.get(13);
-      if (this.completedTabsBitSet.get(tabNum) !== 0) {
-        this.calcCompletedTabs(tabNum, 0);
-      }
-    } else if (tabNum === 5) { // Contact
-      this.BitSetTab5.set(bitIndex, 0);
-      const contactCardinality = this.BitSetTab5.slice(14, 16).cardinality();
-      this.remainingOnTab5 = this.requiredOnTab5 - +(contactCardinality === 3);
-      if (this.completedTabsBitSet.get(tabNum) !== 0) {
-        this.calcCompletedTabs(tabNum, 0);
-      }
-    }
-  }
-
-  calcCompletedTabs(tabNum: number, setValue: number) {
-    this.completedTabsBitSet.set(tabNum, setValue);
-    this.completedTabs = this.completedTabsBitSet.cardinality();
-  }
-
-  /** <--BitSets **/
 
   /** Modals--> **/
   showCommentModal(formData: any) {
@@ -758,12 +437,6 @@ export class DeployableServiceForm implements OnInit {
       }
       return Object.assign(hash, {[obj[key]]: (hash[obj[key]] || []).concat(obj)});
     }, {});
-  }
-
-  switchToTab(id: string){
-    const element: HTMLElement = document.getElementById(id) as HTMLElement;
-    element.click();
-    window.scrollTo(0, -1);
   }
 
   cleanArrayProperty(obj: any, property: string): void {

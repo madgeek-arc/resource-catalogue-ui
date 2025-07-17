@@ -88,10 +88,6 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
     }
   }
 
-  onSubmit(service: Service, tempSave: boolean) {
-    super.onSubmit(service, tempSave, this.pendingResource);
-  }
-
   /*initResourceBitSets() {
     this.handleBitSets(0, 0, 'title');
     this.handleBitSets(0, 1, 'resourceOrganisation');

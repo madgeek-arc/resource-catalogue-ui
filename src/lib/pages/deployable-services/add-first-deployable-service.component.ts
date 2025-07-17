@@ -52,13 +52,7 @@ export class AddFirstDeployableServiceComponent extends DeployableServiceForm im
 
   onSuccess(service) {
     this.successMessage = '' +
-      ' Resource uploaded successfully!';
+      'Resource uploaded successfully!';
   }
 
-  onSubmit(service: Service, tempSave: boolean) {
-    if (this.deployableServiceId) {
-      service.id = this.deployableServiceId;
-    }
-    super.onSubmit(service, tempSave);
-  }
 }

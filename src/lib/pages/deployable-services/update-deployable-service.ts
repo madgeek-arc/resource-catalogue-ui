@@ -1,7 +1,6 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DatePipe} from '@angular/common';
-import {ServiceFormComponent} from '../provider-resources/service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
 import {Service} from '../../domain/eic-model';
@@ -50,15 +49,14 @@ export class UpdateDeployableService extends DeployableServiceForm implements On
         // this.deployableServiceService.getService(this.resourceId).subscribe(service => {
         this.deployableServiceService[this.pendingResource ? 'getPendingService' : 'getDeployableServiceBundle'](this.deployableServiceId, this.catalogueId)
           .subscribe(dsBundle => {
+              this.payloadAnswer = {'answer': {DeployableService: dsBundle.deployableService}};
               // if (dsBundle.deployableService.contact === null) //in case of unauthorized access backend will not show sensitive info
               //   this.navigator.go('/forbidden')
               ResourceService.removeNulls(dsBundle.deployableService);
               // this.formPrepare(dsBundle.deployableService);
-              this.serviceForm.patchValue(dsBundle.deployableService);
+              // this.serviceForm.patchValue(dsBundle.deployableService);
 
-              this.payloadAnswer = {'answer': {DeployableService: dsBundle.deployableService}};
-
-              for (const i in this.serviceForm.controls) {
+/*              for (const i in this.serviceForm.controls) {
                 if (this.serviceForm.controls[i].value === null) {
                   this.serviceForm.controls[i].setValue('');
                 }
@@ -66,18 +64,18 @@ export class UpdateDeployableService extends DeployableServiceForm implements On
               if (this.serviceForm.get('versionDate').value) {
                 const versionDate = new Date(this.serviceForm.get('versionDate').value);
                 this.serviceForm.get('versionDate').setValue(this.datePipe.transform(versionDate, 'yyyy-MM-dd'));
-              }
+              }*/
             },
             err => this.errorMessage = 'Could not get the data for the requested service. ' + err.error,
             () => {
               if (window.location.href.indexOf('/add/use-template') > -1) {
                 this.editMode = false;
-                this.serviceForm.get('id').setValue('');
-                this.serviceForm.get('title').setValue('');
+                // this.serviceForm.get('id').setValue('');
+                // this.serviceForm.get('name').setValue('');
               }
               if (this.disable) {
-                this.serviceForm.disable();
-                this.serviceName = this.serviceForm.get('title').value;
+                // this.serviceForm.disable();
+                // this.serviceName = this.serviceForm.get('name').value;
               } else {
                 // this.initResourceBitSets();
               }
@@ -85,10 +83,6 @@ export class UpdateDeployableService extends DeployableServiceForm implements On
           );
       });
     }
-  }
-
-  onSubmit(service: Service, tempSave: boolean) {
-    super.onSubmit(service, tempSave, this.pendingResource);
   }
 
 }
