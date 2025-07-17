@@ -70,6 +70,13 @@ export class NavigationService {
       return this.router.navigate([`/dashboard/${providerId}/training-resource-dashboard/${trainingResourceId}/history`]);
     }
 
+    deployableServiceDashboard(providerId: string, deployableServiceId: string, catalogueId?: string) {
+      providerId = this.pidHandler.customEncodeURIComponent(providerId);
+      deployableServiceId = this.pidHandler.customEncodeURIComponent(deployableServiceId);
+      if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/deployable-service-dashboard/${deployableServiceId}/history`]);
+      return this.router.navigate([`/dashboard/${providerId}/deployable-service-dashboard/${deployableServiceId}/history`]);
+    }
+
     // edit(id: string) {
     //   id = pidHandler.customEncodeURIComponent(id);
     //     return this.router.navigateByUrl(`/provider/${id.split('.')[0]}/resource/update/${id}`);

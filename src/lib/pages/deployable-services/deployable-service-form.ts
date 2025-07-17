@@ -167,9 +167,9 @@ export class DeployableServiceForm implements OnInit {
         _service => {
           // console.log(_service);
           this.showLoader = false;
-          // return this.router.trainingResourceDashboard(this.providerId, _service.id);  // navigate to training-resource-dashboard
+          return this.router.deployableServiceDashboard(this.providerId, _service.id);  // navigate to deployable-service-dashboard
           // return this.router.dashboardResources(this.providerId);                  // navigate to provider dashboard -> resource list
-          return this.router.dashboard(this.providerId);                          // navigate to provider dashboard
+          // return this.router.dashboard(this.providerId);                          // navigate to provider dashboard
           // return this.router.service(_service.id);                               // navigate to old service info page
           // return window.location.href = this._marketplaceServicesURL + _service.id; // navigate to marketplace
         },
