@@ -249,14 +249,14 @@ export class DeployableServiceService {
     id = decodeURIComponent(id);
     if(!catalogueId) catalogueId = CATALOGUE;
     if (catalogueId === CATALOGUE)
-      return this.http.patch(this.base + `/deployableService/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/deployableService/audit/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
     else
-      return this.http.patch(this.base + `/catalogue/${catalogueId}/deployableService/auditDeployableService/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/catalogue/${catalogueId}/deployableService/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
   verifyDeployableService(id: string, active: boolean, status: string) { // for 1st service
     id = decodeURIComponent(id);
-    return this.http.patch(this.base + `/deployableService/verifyDeployableService/${id}?active=${active}&status=${status}`, {}, this.options);
+    return this.http.patch(this.base + `/deployableService/verify/${id}?active=${active}&status=${status}`, {}, this.options);
   }
 
   getServiceTemplate(id: string) {  // gets oldest(?) pending resource of the provider // replaced with /resourceTemplateBundles/templates?id=testprovidertemplate
@@ -305,7 +305,7 @@ export class DeployableServiceService {
 
   suspendDeployableService(deployableServiceId: string, catalogueId: string, suspend: boolean) {
     deployableServiceId = decodeURIComponent(deployableServiceId);
-    return this.http.put<DeployableServiceBundle>(this.base + `/deployableService/suspend?deployableServiceId=${deployableServiceId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
+    return this.http.put<DeployableServiceBundle>(this.base + `/deployableService/suspend?id=${deployableServiceId}&catalogueId=${catalogueId}&suspend=${suspend}`, this.options);
   }
 
   getFormModelById(id: string) {
