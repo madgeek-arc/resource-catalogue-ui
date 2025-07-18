@@ -50,7 +50,7 @@
             <label class="" for="sort">Order by </label>
             <div class="uk-inline">
               <select class="uk-input uk-select" id="sort" (change)="handleChangeAndResetPage()" formControlName="sort">
-                <option value="title" selected>Title</option>
+                <option value="name" selected>Name</option>
                 <option value="registeredAt">Creation Date</option>
                 <option value="modifiedAt">Modification Date</option>
               </select>
@@ -65,9 +65,22 @@
             <div class="uk-inline">
               <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
                 <option value="" selected>All</option>
-                <option value="approved interoperability record">Approved</option>
-                <option value="pending interoperability record">Pending</option>
-                <option value="rejected interoperability record">Rejected</option>
+                <option value="approved resource">Approved Resource</option>
+                <option value="pending resource">Pending Resource</option>
+                <option value="rejected resource">Rejected Resource</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="uk-margin-right">
+          <div class="uk-inline uk-margin-right">
+            <label class="" for="isActive">Is Active </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="isActive" (change)="handleChangeAndResetPage()" formControlName="active">
+                <option value="statusAll" selected>All</option>
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
               </select>
             </div>
           </div>
@@ -83,16 +96,16 @@
       </form>
 
 
-      <div *ngIf="guidelines && guidelines?.results?.length === 0">
-        <p>No guidelines found</p>
+      <div *ngIf="deployableServices && deployableServices?.results?.length === 0">
+        <p>No deployable services found</p>
       </div>
 
-      <div *ngIf="guidelines && guidelines?.results?.length > 0">
+      <div *ngIf="deployableServices && deployableServices?.results?.length > 0">
 
         <div class="uk-flex uk-flex-middle uk-flex-between">
 
           <div class="resultsInfo">
-            <span class="number">{{total}}</span> GUIDELINES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+            <span class="number">{{total}}</span> DEPLOYABLE SERVICES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
           </div>
 
           <ul class="uk-pagination" uk-margin>
@@ -108,60 +121,90 @@
         <hr class="adminResultsHeader">
 
         <div class="uk-margin-medium-top">
-          <div *ngFor="let irBundle of guidelines.results; let i = index" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+          <div *ngFor="let dsBundle of deployableServices.results; let i = index" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
 
             <div class="uk-card-body">
 
-              <div *ngIf="irBundle.status === 'approved interoperability record'" class="approved">
+              <div *ngIf="dsBundle.status === 'approved resource'" class="approved">
                 <div class="uk-card-badge uk-label">Approved</div>
               </div>
-              <div *ngIf="irBundle.status === 'pending interoperability record'" class="pending">
+              <div *ngIf="dsBundle.status === 'pending resource'" class="pending">
                 <div class="uk-card-badge uk-label">Pending</div>
               </div>
-              <div *ngIf="(irBundle.status === 'rejected interoperability record')" class="rejected">
+              <div *ngIf="(dsBundle.status === 'rejected resource')" class="rejected">
                 <div class="uk-card-badge uk-label">Rejected</div>
               </div>
 
               <div class="uk-grid">
                 <div class="uk-width-9-10"></div>
                 <div class="uk-width-1-10">
-                  <div *ngIf="irBundle.suspended" class="rejected">
+                  <div *ngIf="dsBundle.active" class="approved">
+                    <div class="uk-label uk-align-right">Active</div>
+                  </div>
+                  <div *ngIf="!dsBundle.active" class="rejected">
+                    <div class="uk-label uk-align-right">Inactive</div>
+                  </div>
+                  <div *ngIf="dsBundle.suspended" class="rejected">
                     <div class="uk-label uk-align-right">Suspended</div>
                   </div>
                 </div>
               </div>
 
               <div class="uk-grid uk-flex-middle uk-margin-remove-top">
+<!--                <div class="uk-width-1-6">-->
+<!--                  <img src="{{dsBundle.deployableService.logo ? dsBundle.deployableService.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">-->
+<!--                </div>-->
                 <div class="uk-width-3-4">
-                  <h4 class="uk-margin-medium-top">
-                    {{irBundle.interoperabilityRecord.title}}
+                  <h4 class="uk-margin-remove uk-padding-small uk-padding-remove-top uk-padding-remove-left uk-padding-remove-right">
+                    <a [routerLink]="['/dashboard', dsBundle.deployableService.catalogueId, dsBundle.deployableService.resourceOrganisation, 'deployable-service-dashboard', dsBundle.id]" data-uk-tooltip title="Go to the deployable service dashboard">
+                      {{dsBundle.deployableService.name}}
+                    </a>
                   </h4>
 
                   <div class="uk-margin-small-top">
-                    <span *ngIf="irBundle.interoperabilityRecord.description" class="uk-margin-small-top"><markdown [data]="irBundle.interoperabilityRecord.description"></markdown></span>
+                    <span *ngIf="dsBundle.deployableService.description" class="uk-margin-small-top"><markdown [data]="dsBundle.deployableService.description"></markdown></span>
                   </div>
                   <div class="uk-margin-small-top">
-                    <span class="">Creation Date: </span>{{ irBundle.metadata.registeredAt | date }}
+                    <span class="">Creation Date: </span>{{ dsBundle.metadata.registeredAt | date }}
                   </div>
                   <div class="uk-margin-small-top">
-                    <span class="">Last Update: </span>{{ irBundle.metadata.modifiedAt | date }}
+                    <span class="">Last Update: </span>{{ dsBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
                 <div *ngIf="catalogueId==='eosc'" class="uk-width-1-4">
                   <div class="action-buttons">
                     <button
-                      [routerLink]="['/guidelines/'+ pidHandler.customEncodeURIComponent(irBundle.interoperabilityRecord.providerId) +'/update/'+ pidHandler.customEncodeURIComponent(irBundle.id)]"
+                      [routerLink]="['/provider/'+ pidHandler.customEncodeURIComponent(dsBundle.deployableService.resourceOrganisation) +'/deployable-service/update/'+ pidHandler.customEncodeURIComponent(dsBundle.id)]"
                       class="uk-button uk-button-action uk-display-block uk-margin-small-top">
-                      <i class="fa fa-pencil fa-lg" aria-hidden="true"></i> Update Guidelines
+                      <i class="fa fa-pencil fa-lg" aria-hidden="true"></i> Update deployable service
                     </button>
-
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedGuidelines(irBundle)">
-                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete Guidelines
+                    <button *ngIf="providerBundle.templateStatus === 'approved template'"
+                            class="uk-button uk-button-action uk-display-block uk-margin-small-top"
+                            (click)="useAsTemplate(dsBundle.deployableService.id)">
+                      <i class="fa fa-copy fa-lg" aria-hidden="true"></i> Use as template
+                    </button>
+                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleDeployableService(dsBundle)">
+                      <ng-container *ngIf="dsBundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
+                      <ng-container *ngIf="!dsBundle.active">
+                        <!--                        <div *ngIf="providerService.status === 'pending resource' || providerService.status === 'rejected resource'"-->
+                        <!--                             uk-tooltip="title:Cannot activate a pending/rejected resource."></div>-->
+                        <i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate
+                      </ng-container>
+                    </button>
+                    <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">-->
+                    <!--<i class="fa fa-pencil fa-lg"></i> Edit {{serviceORresource | lowercase}}-->
+                    <!--</button>-->
+                    <button *ngIf="dsBundle.status !== 'pending resource'" class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedDeployableService(dsBundle)">
+                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete deployable service
                     </button>
                   </div>
                 </div>
               </div>
 
+              <!--&lt;!&ndash;              active/inactive label alternative&ndash;&gt;-->
+              <!--              <td class="uk-text-center">-->
+              <!--                <i class="fa fa-{{ providerService.active ? 'check':'close' }}"></i>-->
+              <!--              </td>-->
 
             </div>
 
@@ -185,10 +228,10 @@
 
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h6 *ngIf="selectedGuideline">Are you sure you want to delete the guidelines: '{{selectedGuideline.interoperabilityRecord.title}}'?</h6>
+    <h6 *ngIf="selectedDeployableService">Are you sure you want to delete the deployable service: '{{selectedDeployableService.deployableService.name}}'</h6>
     <div class="uk-text-right">
       <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
-      <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteGuidelines(selectedGuideline.id)">Delete</button>
+      <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteDeployableService(selectedDeployableService.id)">Delete</button>
     </div>
   </div>
 </div>

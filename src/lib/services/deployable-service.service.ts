@@ -9,7 +9,7 @@ import {
   Service,
   ServiceHistory,
   Vocabulary,
-  Type, ServiceBundle, LoggingInfo, DeployableServiceBundle, DeployableService,
+  Type, ServiceBundle, LoggingInfo, DeployableServiceBundle, DeployableService, TrainingResourceBundle,
 } from '../domain/eic-model';
 import {BrowseResults} from '../domain/browse-results';
 import {Paging} from '../domain/paging';
@@ -310,5 +310,32 @@ export class DeployableServiceService {
 
   getFormModelById(id: string) {
     return this.http.get<Model>(this.base + `/forms/models/${id}`);
+  }
+
+  getDeployableServicesOfProvider(id: string, catalogue_id: string, from: string, quantity: string, order: string, sort: string, active: string, status?: string, query?: string) {
+    id = decodeURIComponent(id);
+    if (!query) { query = ''; }
+    let params = new HttpParams();
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
+      }
+    } else {
+      const allStatus = ["approved resource","pending resource","rejected resource"];
+      for (const statusValue of allStatus) {
+        params = params.append('status', statusValue);
+      }
+    }
+    if (catalogue_id === CATALOGUE) {
+      if (active === 'statusAll') {
+        return this.http.get<Paging<DeployableServiceBundle>>(this.base +
+            `/deployableService/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
+      }
+      return this.http.get<Paging<DeployableServiceBundle>>(this.base +
+          `/deployableService/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&active=${active}&keyword=${query}`, {params});
+    } else {
+      return this.http.get<Paging<DeployableServiceBundle>>(this.base +
+          `/catalogue/${catalogue_id}/${id}/deployableService/bundle/all?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
+    }
   }
 }
