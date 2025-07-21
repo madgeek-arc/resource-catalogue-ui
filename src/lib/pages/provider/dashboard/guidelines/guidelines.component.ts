@@ -7,6 +7,7 @@ import {FormArray, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
 import {GuidelinesService} from "../../../../services/guidelines.service";
 import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
+import {environment} from "../../../../../environments/environment";
 
 declare var UIkit: any;
 
@@ -185,4 +186,5 @@ export class GuidelinesComponent implements OnInit {
     }
   }
 
+  protected readonly environment = environment;
 }

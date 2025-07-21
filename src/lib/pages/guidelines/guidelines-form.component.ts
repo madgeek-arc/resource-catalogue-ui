@@ -110,7 +110,7 @@ export class GuidelinesFormComponent implements OnInit {
 
   readonly formDefinition = {
     id: [''],
-    catalogueId: ['eosc'], //assuming that non-eosc providers cannot add/edit/assign guidelines
+    catalogueId: [environment.CATALOGUE], //assuming that non-eosc providers cannot add/edit/assign guidelines
     providerId: [''],
     title: ['', Validators.required],
     publicationYear: ['', Validators.required],

@@ -191,7 +191,7 @@
                     <span class="">Last Update: </span>{{ trBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div *ngIf="catalogueId==='eosc'" class="uk-width-1-4">
+                <div *ngIf="catalogueId === environment.CATALOGUE" class="uk-width-1-4">
                   <div class="action-buttons">
                     <button
                       [routerLink]="['/provider/'+ pidHandler.customEncodeURIComponent(trBundle.trainingResource.resourceOrganisation) +'/training-resource/update/'+ pidHandler.customEncodeURIComponent(trBundle.id)]"

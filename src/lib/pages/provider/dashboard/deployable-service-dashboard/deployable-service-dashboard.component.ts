@@ -16,6 +16,7 @@ import {DeployableServiceService} from "../../../../services/deployable-service.
 })
 export class DeployableServiceDashboardComponent implements OnInit {
 
+  protected readonly environment = environment;
   _marketplaceTrainingResourcesURL = environment.marketplaceTrainingResourcesURL;
 
   catalogueId: string;

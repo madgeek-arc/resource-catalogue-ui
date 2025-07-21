@@ -171,7 +171,7 @@
                     <span class="">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
+                <div *ngIf="catalogueId === environment.CATALOGUE" class="uk-width-1-6">
                   <div class="action-buttons">
                     <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(serviceBundle)">
                       <ng-container *ngIf="serviceBundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
@@ -191,7 +191,7 @@
                 </div>
               </div>
 
-              <ng-container *ngIf="serviceBundle.service.catalogueId!=='eosc'">
+              <ng-container *ngIf="serviceBundle.service.catalogueId !== environment.CATALOGUE">
                 <hr class="uk-margin-top">
                 <div class="uk-align-right">
                   <button

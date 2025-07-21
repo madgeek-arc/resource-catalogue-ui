@@ -5,6 +5,7 @@ import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGro
 import {URLParameter} from '../../../../domain/url-parameter';
 import {CatalogueService} from "../../../../services/catalogue.service";
 import {DeployableServiceService} from "../../../../services/deployable-service.service";
+import {environment} from '../../../../../environments/environment';
 
 declare var UIkit: any;
 
@@ -15,6 +16,8 @@ declare var UIkit: any;
 })
 
 export class CatalogueDeployableServicesComponent implements OnInit {
+
+  protected readonly environment = environment;
 
   formPrepare = {
     from: '0',

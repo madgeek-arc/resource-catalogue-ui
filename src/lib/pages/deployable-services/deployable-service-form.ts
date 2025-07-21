@@ -39,7 +39,6 @@ export class DeployableServiceForm implements OnInit {
   payloadAnswer: object = null;
   formDataToSubmit: any = null;
 
-  CATALOGUE = environment.CATALOGUE;
   _marketplaceServicesURL = environment.marketplaceServicesURL;
   projectMail = environment.projectMail;
   serviceName = '';
@@ -141,8 +140,8 @@ export class DeployableServiceForm implements OnInit {
     zip(
       this.trainingResourceService.getProvidersNames('approved'),
       this.trainingResourceService.getAllVocabulariesByType(),
-      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : this.CATALOGUE),
-      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : this.CATALOGUE),
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
+      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
       this.trainingResourceService.getTerritories(),
       this.deployableServiceService.getFormModelById('m-b-deployable')
     ).subscribe(suc => {

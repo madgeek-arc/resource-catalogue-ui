@@ -33,7 +33,7 @@
 
         <ul>
 
-          <ng-container *ngIf="catalogueId === 'eosc'">
+          <ng-container *ngIf="catalogueId === environment.CATALOGUE">
             <li>
               <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/training-resource/update/' + pidHandler.customEncodeURIComponent(trainingResourceId)]">
                 <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">

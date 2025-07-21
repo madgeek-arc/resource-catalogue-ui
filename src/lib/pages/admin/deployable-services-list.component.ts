@@ -1,7 +1,5 @@
 import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ResourceService} from '../../services/resource.service';
-import {ServiceProviderService} from '../../services/service-provider.service';
-import {resourceStatusChangeMap, statusList} from '../../domain/resource-status-list';
 import {
   DeployableServiceBundle,
   LoggingInfo,
@@ -9,16 +7,14 @@ import {
   ProviderBundle,
   Vocabulary,
 } from '../../domain/eic-model';
-import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {URLParameter} from '../../domain/url-parameter';
-import {NavigationService} from '../../services/navigation.service';
 import {Paging} from '../../domain/paging';
-import {ResourceExtrasService} from "../../services/resource-extras.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {DeployableServiceService} from "../../services/deployable-service.service";
+import {environment} from '../../../environments/environment';
 
 declare var UIkit: any;
 
@@ -29,6 +25,7 @@ declare var UIkit: any;
 export class DeployableServicesListComponent implements OnInit {
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
+  protected readonly environment = environment;
 
   formPrepare = {
     query: '',

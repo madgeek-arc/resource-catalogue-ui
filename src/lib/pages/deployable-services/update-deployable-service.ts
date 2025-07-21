@@ -3,13 +3,12 @@ import {ActivatedRoute} from '@angular/router';
 import {DatePipe} from '@angular/common';
 import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
-import {Service} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
-import {ServiceProviderService} from '../../services/service-provider.service';
 import {NavigationService} from "../../services/navigation.service";
 import {DeployableServiceForm} from "./deployable-service-form";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {DeployableServiceService} from "../../services/deployable-service.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-update-deployable-service',
@@ -33,7 +32,7 @@ export class UpdateDeployableService extends DeployableServiceForm implements On
   ngOnInit() {
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes(':catalogueId')) { this.catalogueId = this.route.snapshot.paramMap.get('catalogueId') }
-    else { this.catalogueId = 'eosc' }
+    else { this.catalogueId = environment.CATALOGUE }
     if (path === ':catalogueId/:providerId/deployable-service/view/:resourceId') this.disable = true; // view-only mode
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {

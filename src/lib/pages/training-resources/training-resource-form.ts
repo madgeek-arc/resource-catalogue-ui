@@ -368,8 +368,8 @@ export class TrainingResourceForm implements OnInit {
     zip(
       this.trainingResourceService.getProvidersNames('approved'),
       this.trainingResourceService.getAllVocabulariesByType(),
-      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : 'eosc'),
-      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : 'eosc'),
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
+      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
       this.trainingResourceService.getTerritories(),
       this.serviceProviderService.getFormModelById('m-b-training')
     ).subscribe(suc => {

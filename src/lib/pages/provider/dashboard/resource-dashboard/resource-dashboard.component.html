@@ -161,7 +161,7 @@
             </ng-container>
           </ng-container>
 
-          <li *ngIf="catalogueId !== 'eosc' && resourceBundle">
+          <li *ngIf="catalogueId !== CATALOGUE && resourceBundle">
             <a href="/provider/{{resourceBundle?.service.catalogueId}}/{{pidHandler.customEncodeURIComponent(resourceBundle?.service.resourceOrganisation)}}/resource/view/{{pidHandler.customEncodeURIComponent(resourceBundle?.id)}}">
               <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true" style="color: #26c0e2"></i> View {{serviceORresource}}
             </a>

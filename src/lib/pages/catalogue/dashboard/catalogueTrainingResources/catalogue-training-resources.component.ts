@@ -6,6 +6,7 @@ import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGro
 import {URLParameter} from '../../../../domain/url-parameter';
 import {CatalogueService} from "../../../../services/catalogue.service";
 import {TrainingResourceService} from "../../../../services/training-resource.service";
+import {environment} from "../../../../../environments/environment";
 
 declare var UIkit: any;
 
@@ -211,4 +212,5 @@ export class CatalogueTrainingResourcesComponent implements OnInit {
     }
   }
 
+  protected readonly environment = environment;
 }
