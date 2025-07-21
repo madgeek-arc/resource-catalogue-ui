@@ -39,7 +39,8 @@ export class DeployableServiceForm implements OnInit {
   payloadAnswer: object = null;
   formDataToSubmit: any = null;
 
-  protected _marketplaceServicesURL = environment.marketplaceServicesURL;
+  CATALOGUE = environment.CATALOGUE;
+  _marketplaceServicesURL = environment.marketplaceServicesURL;
   projectMail = environment.projectMail;
   serviceName = '';
   firstServiceForm = false;
@@ -61,49 +62,6 @@ export class DeployableServiceForm implements OnInit {
   disable = false;
   isPortalAdmin = false;
 
-  requiredOnTab0 = 4;
-  requiredOnTab1 = 3;
-  requiredOnTab2 = 3;
-  requiredOnTab3 = 2;
-  requiredOnTab4 = 1;
-  requiredOnTab5 = 1;
-
-  remainingOnTab0 = this.requiredOnTab0;
-  remainingOnTab1 = this.requiredOnTab1;
-  remainingOnTab2 = this.requiredOnTab2;
-  remainingOnTab3 = this.requiredOnTab3;
-  remainingOnTab4 = this.requiredOnTab4;
-  remainingOnTab5 = this.requiredOnTab5;
-
-  BitSetTab0 = new BitSet;
-  BitSetTab1 = new BitSet;
-  BitSetTab2 = new BitSet;
-  BitSetTab3 = new BitSet;
-  BitSetTab4 = new BitSet;
-  BitSetTab5 = new BitSet;
-
-  requiredTabs = 6;
-  completedTabs = 0;
-  completedTabsBitSet = new BitSet;
-
-  allRequiredFields = 17;
-  loaderBitSet = new BitSet;
-  loaderPercentage = 0;
-
-  vocabularyEntryForm: UntypedFormGroup;
-  suggestionsForm = {
-    targetGroupsVocabularyEntryValueName: '', //targetUsersVocabularyEntryValueName: '',
-    contentResourceTypesVocabularyEntryValueName: '',
-    learningResourceTypesVocabularyEntryValueName: '',
-    scientificDomainVocabularyEntryValueName: '',
-    scientificSubDomainVocabularyEntryValueName: '',
-    languagesVocabularyEntryValueName: '',
-    geographicalVocabularyEntryValueName: '',
-    vocabulary: '',
-    errorMessage: '',
-    successMessage: ''
-  };
-
   commentControl = new UntypedFormControl();
 
   providersPage: Paging<Provider>;
@@ -112,7 +70,6 @@ export class DeployableServiceForm implements OnInit {
   territoriesVoc: any;
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
-  premiumSort = new PremiumSortPipe();
   resourceService: ResourceService = this.injector.get(ResourceService);
   trainingResourceService: TrainingResourceService = this.injector.get(TrainingResourceService);
 
@@ -165,13 +122,8 @@ export class DeployableServiceForm implements OnInit {
       this.deployableServiceService[pendingService ? 'submitPendingService' : 'submitService']
       (dsValue, this.editMode, this.commentControl.value).subscribe(
         _service => {
-          // console.log(_service);
           this.showLoader = false;
           return this.router.deployableServiceDashboard(this.providerId, _service.id);  // navigate to deployable-service-dashboard
-          // return this.router.dashboardResources(this.providerId);                  // navigate to provider dashboard -> resource list
-          // return this.router.dashboard(this.providerId);                          // navigate to provider dashboard
-          // return this.router.service(_service.id);                               // navigate to old service info page
-          // return window.location.href = this._marketplaceServicesURL + _service.id; // navigate to marketplace
         },
         err => {
           this.showLoader = false;
@@ -189,8 +141,8 @@ export class DeployableServiceForm implements OnInit {
     zip(
       this.trainingResourceService.getProvidersNames('approved'),
       this.trainingResourceService.getAllVocabulariesByType(),
-      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : 'eosc'),
-      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : 'eosc'),
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : this.CATALOGUE),
+      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : this.CATALOGUE),
       this.trainingResourceService.getTerritories(),
       this.deployableServiceService.getFormModelById('m-b-deployable')
     ).subscribe(suc => {
@@ -244,7 +196,6 @@ export class DeployableServiceForm implements OnInit {
 
     this.isPortalAdmin = this.authenticationService.isAdmin();
 
-    this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
   }
 
   public setAsTouched() {
