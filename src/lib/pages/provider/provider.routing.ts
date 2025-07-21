@@ -27,6 +27,13 @@ import {AddFirstTrainingResourceComponent} from "../training-resources/add-first
 import {DatasourcesListComponent} from "../admin/datasources-list.component";
 import {SelectSubprofileComponent} from "../provider-resources/service-subprofiles/select-subprofile.component";
 import {DatasourceMetricsComponent} from "../provider-resources/service-subprofiles/datasource-metrics.component";
+import {DeployableServicesListComponent} from "../admin/deployable-services-list.component";
+import {DeployableServiceForm} from "../deployable-services/deployable-service-form";
+import {AddFirstDeployableServiceComponent} from "../deployable-services/add-first-deployable-service.component";
+import {UpdateDeployableService} from "../deployable-services/update-deployable-service";
+import {
+  RejectedDeployableServicesComponent
+} from "./dashboard/rejectedDeployableServices/rejected-deployable-services.component";
 
 const providerRoutes: Routes = [
 
@@ -96,6 +103,14 @@ const providerRoutes: Routes = [
     }
   },
   {
+    path: 'rejected-deployable-services/:providerId',
+    component: RejectedDeployableServicesComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Rejected Deployable Services'
+    }
+  },
+  {
     path: ':providerId/add-first-service',
     component: AddFirstServiceComponent,
     canActivate: [CanActivateViaAuthGuard],
@@ -109,6 +124,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Add Training Resource Template'
+    }
+  },
+  {
+    path: ':providerId/add-first-deployable-service',
+    component: AddFirstDeployableServiceComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Add Deployable Service Template'
     }
   },
   {
@@ -141,6 +164,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Add Training Resource'
+    }
+  },
+  {
+    path: ':providerId/deployable-service/add',
+    component: DeployableServiceForm,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Add Deployable Service'
     }
   },
   {
@@ -192,6 +223,14 @@ const providerRoutes: Routes = [
     }
   },
   {
+    path: ':providerId/deployable-service/add/use-template/:deployableServiceId',
+    component: UpdateDeployableService,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Add Deployable Service Resource'
+    }
+  },
+  {
     path: ':providerId/resource/:resourceId/datasource/metrics', // TODO: datasourceId maybe needed
     component: DatasourceMetricsComponent,
     canActivate: [CanActivateViaAuthGuard],
@@ -213,6 +252,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Edit Training Resource'
+    }
+  },
+  {
+    path: ':providerId/deployable-service/update/:deployableServiceId',
+    component: UpdateDeployableService,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Edit Deployable Service'
     }
   },
   {
@@ -333,6 +380,14 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'All Training Resources'
+    }
+  },
+  {
+    path: 'deployable-service/all',
+    component: DeployableServicesListComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'All Deployable Services'
     }
   }
 ];

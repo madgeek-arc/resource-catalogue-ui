@@ -58,6 +58,12 @@
               Training Resources
             </a>
           </li>
+          <li [routerLinkActive]="['current_section']" #deployables="routerLinkActive">
+            <a [routerLink]="['/catalogue-dashboard/' + catalogueId + '/deployable-services']">
+              <img src="{{deployables.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+              Deployable Services
+            </a>
+          </li>
         </ul>
       </div>
 

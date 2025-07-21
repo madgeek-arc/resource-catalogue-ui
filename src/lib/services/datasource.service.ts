@@ -19,7 +19,7 @@ export class DatasourceService {
     id = decodeURIComponent(id);
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
-    if (!catalogueId) catalogueId = 'eosc';
+    if (!catalogueId) catalogueId = environment.CATALOGUE;
     return this.http.get<Datasource>(this.base + `/datasource/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 

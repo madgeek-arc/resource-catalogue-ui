@@ -38,7 +38,7 @@ export class ServiceProviderFormComponent implements OnInit {
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
-  catalogueId: string = 'eosc';
+  catalogueId: string = environment.CATALOGUE;
   providerId: string = null;
   displayedCatalogueName: string;
   providerName = '';
@@ -346,7 +346,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
     // this.initUserBitSets(); // Admin + mainContact
 
-    if(this.catalogueId == 'eosc') this.displayedCatalogueName = `| Catalogue: EOSC`
+    if(this.catalogueId == environment.CATALOGUE) this.displayedCatalogueName = `| Catalogue: ${environment.projectName}`
     else if(this.catalogueId) this.showCatalogueName(this.catalogueId)
 
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
@@ -616,7 +616,7 @@ export class ServiceProviderFormComponent implements OnInit {
   setVocabularies() {
     zip(
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : 'eosc')
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE)
     ).subscribe(data => {
       this.vocabularies = <Map<string, Vocabulary[]>>data[0]; //old
       this.vocabulariesMap = data[0];

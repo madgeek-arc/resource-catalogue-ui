@@ -138,6 +138,12 @@ export class TrainingResourceBundle extends Bundle<TrainingResource> {
   trainingResource: TrainingResource;
 }
 
+export class DeployableServiceBundle extends Bundle<DeployableService> {
+  status: string;
+  auditState: string;
+  deployableService: DeployableService;
+}
+
 export class LoggingInfo {
   date: string;
   userEmail: string;
@@ -430,6 +436,25 @@ export class Service implements Identifiable {
   order: URL;
   paymentModel: URL;
   pricing: URL;
+}
+
+export class DeployableService implements Identifiable {
+  id: string;
+  name: string;
+  acronym: string;
+  resourceOrganisation: string;
+  catalogueId: string;
+  node: string;
+  url: URL;
+  scientificDomains: ServiceProviderDomain[];
+  tags: string[];
+  creators: Creator[];
+  description: string;
+  tagline: string;
+  logo: URL;
+  version: string;
+  lastUpdate: Date;
+  softwareLicense: string;
 }
 
 export class Datasource implements Identifiable {

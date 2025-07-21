@@ -538,8 +538,8 @@ export class ServiceFormComponent implements OnInit {
     zip(
       this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : 'eosc'),
-      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : 'eosc'),
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
+      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
       this.resourceService.getTerritories(),
       this.serviceProviderService.getFormModelById('m-b-service')
     ).subscribe(suc => {
@@ -583,7 +583,7 @@ export class ServiceFormComponent implements OnInit {
         // }
 
         this.showProviderName(decodeURIComponent(this.providerId));
-        if(this.catalogueId == 'eosc') this.displayedCatalogueName = `| Catalogue: EOSC`
+        if(this.catalogueId == environment.CATALOGUE) this.displayedCatalogueName = `| Catalogue: ${environment.projectName}`;
         else if(this.catalogueId) this.showCatalogueName(this.catalogueId);
 
         if(!this.editMode){ //prefill field(s)

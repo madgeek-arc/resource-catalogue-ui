@@ -309,7 +309,7 @@
                             <div class="uk-width-4-5">
                               <div class="providerName">
                                 <span class="uk-margin-auto-vertical">
-<!--                                  <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc' else anotherCatalogue">-->
+<!--                                  <ng-container *ngIf="serviceBundle.service.catalogueId===environment.CATALOGUE else anotherCatalogue">-->
 <!--                                <span *ngIf="serviceBundle.status!=='approved'" class="uk-margin-auto-vertical">-->
 <!--                                  <h5 class="uk-display-inline-block" data-uk-tooltip-->
 <!--                                      title="Your resource provider is not yet active, therefore you cannot access its monitoring dashboard">-->
@@ -433,7 +433,7 @@
 <!--                          </button>-->
 <!--                        </ng-container>-->
 
-                        <ng-container *ngIf="serviceBundle.service.catalogueId!=='eosc'">
+                        <ng-container *ngIf="serviceBundle.service.catalogueId !== environment.CATALOGUE">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
@@ -470,7 +470,7 @@
                           </div>
                         </ng-container>
 
-                        <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc'">
+                        <ng-container *ngIf="serviceBundle.service.catalogueId === environment.CATALOGUE">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
@@ -918,7 +918,7 @@
             <div class="uk-width-4-5">
               <div class="providerName">
                 <span class="uk-margin-auto-vertical">
-<!--                <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc' else anotherCatalogue">-->
+<!--                <ng-container *ngIf="serviceBundle.service.catalogueId===environment.CATALOGUE else anotherCatalogue">-->
                   <a [routerLink]="['/dashboard/' + pidHandler.customEncodeURIComponent(serviceBundle.service.resourceOrganisation) + '/resource-dashboard', pidHandler.customEncodeURIComponent(serviceBundle.id)]" target="_blank" data-uk-tooltip title="Go to the service dashboard">
                       {{ serviceBundle.service.name }}
                   </a>
@@ -1045,7 +1045,7 @@
           </div>
         </ng-container>-->
 
-        <ng-container *ngIf="serviceBundle.service.catalogueId==='eosc'">
+        <ng-container *ngIf="serviceBundle.service.catalogueId === environment.CATALOGUE">
           <hr class="uk-margin-top">
             <button *ngIf="serviceBundle.active"
               class="uk-button uk-button-link uk-margin-medium-right"

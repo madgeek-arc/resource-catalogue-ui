@@ -54,10 +54,4 @@ export class AddFirstTrainingResourceComponent extends TrainingResourceForm impl
     this.successMessage = 'Training Resource uploaded successfully!';
   }
 
-  onSubmit(service: Service, tempSave: boolean) {
-    if (this.trainingResourceId) {
-      service.id = this.trainingResourceId;
-    }
-    super.onSubmit(service, tempSave);
-  }
 }

@@ -1,0 +1,63 @@
+<div class="dashboard">
+  <div class="sidebar_main_swipe sidebar_main_active">
+    <aside id="sidebar_main">
+
+      <div class="menu_section uk-margin-medium-top">
+
+        <div *ngIf="deployableServiceBundle?.active === false" class="rejected">
+          <div class="uk-label uk-align-right uk-margin-right" uk-tooltip="Some actions are disabled for inactive resources.">Inactive</div>
+        </div>
+
+        <div class="sidebar_heading">MONITOR</div>
+
+        <ul>
+
+          <li [routerLinkActive]="['current_section']" #datasources="routerLinkActive">
+            <a [routerLink]="['/dashboard', catalogueId, providerId, 'deployable-service-dashboard', deployableServiceId, 'history']">
+              <img src="{{datasources.isActive ? 'lib/assets/images/new-icons/history-active.svg' : 'lib/assets/images/new-icons/history.svg'}}" class="uk-margin-small-right">
+              Update History
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+      <div class="menu_section border_top">
+        <div class="sidebar_heading">ACTIONS</div>
+
+        <ul>
+
+          <ng-container *ngIf="catalogueId === environment.CATALOGUE">
+            <li>
+              <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/deployable-service/update/' + pidHandler.customEncodeURIComponent(deployableServiceId)]">
+                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Update Deployable Service
+              </a>
+            </li>
+          </ng-container>
+
+          <li>
+<!--            <a href="{{_marketplaceTrainingResourcesURL}}{{catalogueId}}.{{deployableServiceId}}" target="_blank">-->
+            <a href="{{_marketplaceTrainingResourcesURL}}" target="_blank">
+              <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">
+              View in Catalogue
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/dashboard', catalogueId, providerId]">
+              <img src="lib/assets/images/new-icons/stats.svg" class="uk-margin-small-right">
+              Back to Provider Dashboard
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+    </aside><!-- main sidebar end -->
+
+    <div id="page_content">
+      <app-dashboard-breadcrumbs></app-dashboard-breadcrumbs>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

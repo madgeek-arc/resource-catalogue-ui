@@ -20,6 +20,7 @@ declare var UIkit: any;
 
 export class ServicesComponent implements OnInit {
 
+  protected readonly environment = environment;
   serviceORresource = environment.serviceORresource;
 
   formPrepare = {

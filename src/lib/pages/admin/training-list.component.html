@@ -313,7 +313,7 @@
                           </div>
                         </div>
 
-                        <ng-container *ngIf="trBundle.trainingResource.catalogueId!=='eosc'">
+                        <ng-container *ngIf="trBundle.trainingResource.catalogueId !== environment.CATALOGUE">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
@@ -350,7 +350,7 @@
                           </div>
                         </ng-container>
 
-                        <ng-container *ngIf="trBundle.trainingResource.catalogueId==='eosc'">
+                        <ng-container *ngIf="trBundle.trainingResource.catalogueId === environment.CATALOGUE">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
