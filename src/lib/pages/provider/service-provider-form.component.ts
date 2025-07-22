@@ -262,10 +262,19 @@ export class ServiceProviderFormComponent implements OnInit {
       err => console.log(err),
       () => {
         if (!this.edit) { //prefill field(s)
+          const currentUser = this.getCurrentUserInfo();
           this.payloadAnswer = {
             'answer': {
-              Provider:
-                {'catalogueId': environment.CATALOGUE}
+              Provider: {
+                'catalogueId': environment.CATALOGUE,
+                'users': [
+                  {
+                    name: currentUser.firstname,
+                    surname: currentUser.lastname,
+                    email: currentUser.email
+                  }
+                ]
+              }
             }
           };
         }
@@ -1211,6 +1220,14 @@ export class ServiceProviderFormComponent implements OnInit {
       // If the cleaned array is empty, set the property to null. Otherwise, update it.
       obj[property] = cleaned.length ? cleaned : null;
     }
+  }
+
+  getCurrentUserInfo(): { firstname: string; lastname: string; email: string } {
+    return {
+      firstname: this.authService.getUserName(),
+      lastname: this.authService.getUserSurname(),
+      email: this.authService.getUserEmail()
+    };
   }
 
   protected readonly environment = environment;
