@@ -34,7 +34,7 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
   }
 
   ngOnInit() {
-    this.edit = true;
+    this.editMode = true;
     this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     const path = this.route.snapshot.routeConfig.path;
     if (path === 'info/:catalogueId') {

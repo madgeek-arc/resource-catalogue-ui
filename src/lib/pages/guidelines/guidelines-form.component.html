@@ -10,7 +10,7 @@
       <pre class="uk-alert-danger">{{errorMessage}}</pre>
     </div>
 
-    <ng-container *ngIf="(edit && payloadAnswer) || !edit">
+    <ng-container *ngIf="(editMode && payloadAnswer) || !editMode">
       <app-survey [payload]="payloadAnswer" [model]="model" [vocabulariesMap]="vocabulariesMap" [subVocabularies]="subVocabulariesMap"
                   [tabsHeader]="" (submit)="submitForm($event)" [activeUsers]="[]">
 

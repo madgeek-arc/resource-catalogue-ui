@@ -42,7 +42,7 @@ export class CatalogueFormComponent implements OnInit {
   userInfo = {sub:'', family_name: '', given_name: '', email: ''};
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
-  edit = false;
+  editMode = false;
   hasChanges = false;
   pendingCatalogue = false;
   disable = false;
@@ -95,7 +95,7 @@ export class CatalogueFormComponent implements OnInit {
       res => this.model = res,
       err => console.log(err),
       () =>  {
-        if (!this.edit) { //prefill field(s)
+        if (!this.editMode) { //prefill field(s)
           const currentUser = this.getCurrentUserInfo();
           this.payloadAnswer = {
             'answer': {
@@ -124,7 +124,7 @@ export class CatalogueFormComponent implements OnInit {
     this.setVocabularies();
 
     if (this._hasUserConsent) {
-      if (this.edit) {
+      if (this.editMode) {
         this.catalogueService.hasAdminAcceptedTerms(this.catalogueId, this.pendingCatalogue).subscribe(
           boolean => { this.agreedToTerms = boolean; },
           error => console.log(error),
@@ -157,7 +157,7 @@ export class CatalogueFormComponent implements OnInit {
     if (path === 'add/:catalogueId') {
       method = 'updateAndPublishPendingProvider';
     } else {
-      method = this.edit ? 'updateCatalogue' : 'createNewCatalogue';
+      method = this.editMode ? 'updateCatalogue' : 'createNewCatalogue';
     }
 
     this.cleanArrayProperty(catalogueValue, 'multimedia');
@@ -166,7 +166,7 @@ export class CatalogueFormComponent implements OnInit {
     if (tempSave) {//TODO
       this.showLoader = true;
       window.scrollTo(0, 0);
-      this.serviceProviderService.temporarySaveProvider(catalogueValue, (path !== 'add/:catalogueId' && this.edit))
+      this.serviceProviderService.temporarySaveProvider(catalogueValue, (path !== 'add/:catalogueId' && this.editMode))
         .subscribe(
           res => {
             this.showLoader = false;
@@ -195,7 +195,7 @@ export class CatalogueFormComponent implements OnInit {
         },
         () => {
           this.showLoader = false;
-          if (this.edit) {
+          if (this.editMode) {
             this.router.navigate(['/catalogue/my']);
           } else {
             this.router.navigate(['/catalogue/my']);
@@ -276,7 +276,7 @@ export class CatalogueFormComponent implements OnInit {
   }
 
   acceptTerms() {
-    if (this._hasUserConsent && this.edit) {
+    if (this._hasUserConsent && this.editMode) {
       this.catalogueService.adminAcceptedTerms(this.catalogueId, this.pendingCatalogue).subscribe(
         res => {},
         error => { console.log(error); },
@@ -289,7 +289,7 @@ export class CatalogueFormComponent implements OnInit {
 
   /** Submit Comment Modal--> **/
   showCommentModal(formData: any) {
-    if (this.edit && !this.pendingCatalogue) {
+    if (this.editMode && !this.pendingCatalogue) {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
     } else {

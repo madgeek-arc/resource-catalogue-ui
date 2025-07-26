@@ -47,7 +47,7 @@ export class ServiceProviderFormComponent implements OnInit {
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
   submitMode: 'draft' | 'submit' = 'submit';
-  edit = false;
+  editMode = false;
   hasChanges = false;
   pendingProvider = false;
   saveAsDraftAvailable = false;
@@ -117,7 +117,7 @@ export class ServiceProviderFormComponent implements OnInit {
       res => this.model = res,
       err => console.log(err),
       () => {
-        if (!this.edit) { //prefill field(s)
+        if (!this.editMode) { //prefill field(s)
           const currentUser = this.getCurrentUserInfo();
           this.payloadAnswer = {
             'answer': {
@@ -151,7 +151,7 @@ export class ServiceProviderFormComponent implements OnInit {
     this.setVocabularies();
 
     if (this._hasUserConsent && path !== 'view/:catalogueId/:providerId') {
-      if (this.edit) {
+      if (this.editMode) {
         this.serviceProviderService.hasAdminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
           boolean => { this.agreedToTerms = boolean; },
           error => console.log(error),
@@ -187,7 +187,7 @@ export class ServiceProviderFormComponent implements OnInit {
     if (path === 'add/:providerId') {
       method = 'updateAndPublishPendingProvider';
     } else {
-      method = this.edit ? 'updateServiceProvider' : 'createNewServiceProvider';
+      method = this.editMode ? 'updateServiceProvider' : 'createNewServiceProvider';
     }
 
     this.cleanArrayProperty(providerValue, 'multimedia');
@@ -197,7 +197,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
     if (this.submitMode === 'draft') {
       this.showLoader = true;
-      this.serviceProviderService.temporarySaveProvider(providerValue, (path !== 'provider/add/:providerId' && this.edit))
+      this.serviceProviderService.temporarySaveProvider(providerValue, (path !== 'provider/add/:providerId' && this.editMode))
         .subscribe(
           res => {
             this.showLoader = false;
@@ -290,7 +290,7 @@ export class ServiceProviderFormComponent implements OnInit {
   }
 
   acceptTerms() {
-    if (this._hasUserConsent && this.edit) {
+    if (this._hasUserConsent && this.editMode) {
       this.serviceProviderService.adminAcceptedTerms(this.providerId, this.pendingProvider).subscribe(
         res => {},
         error => { console.log(error); },
@@ -303,7 +303,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
   /** Submit Comment Modal--> **/
   showCommentModal(formData: any) {
-    if (this.edit && !this.pendingProvider) {
+    if (this.editMode && !this.pendingProvider) {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
     } else {
