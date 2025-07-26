@@ -38,8 +38,4 @@ export class ServiceUploadComponent extends ServiceFormComponent implements OnIn
     this.successMessage = 'Resource uploaded successfully!';
   }
 
-  onSubmit(service: Service, tempSave: boolean) {
-    super.onSubmit(service, tempSave);
-  }
-
 }
