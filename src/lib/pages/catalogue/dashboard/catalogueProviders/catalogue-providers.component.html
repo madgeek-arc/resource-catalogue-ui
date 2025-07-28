@@ -171,7 +171,7 @@
                     <span class="">Last Update: </span>{{ providerBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
+                <div *ngIf="catalogueId === environment.CATALOGUE" class="uk-width-1-6">
                   <div class="action-buttons">
                     <!--                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(providerService)">-->
                     <!--                      <ng-container *ngIf="providerService.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>-->
@@ -191,7 +191,7 @@
                 </div>
               </div>
 
-              <ng-container *ngIf="providerBundle.provider.catalogueId!=='eosc'">
+              <ng-container *ngIf="providerBundle.provider.catalogueId !== environment.CATALOGUE">
                 <hr class="uk-margin-top">
                 <div class="uk-align-right">
                   <button [routerLink]="['/provider/view/', providerBundle.provider.catalogueId, providerBundle.id]" class="uk-button uk-button-link">
@@ -273,7 +273,9 @@
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <h6 *ngIf="selectedProvider">Are you sure you want to delete the provider '{{selectedProvider.provider.name}}'</h6>
-    <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteProvider(selectedProvider.id)">Delete</button>
-    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteProvider(selectedProvider.id)">Delete</button>
+    </div>
   </div>
 </div>

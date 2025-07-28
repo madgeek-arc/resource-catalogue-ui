@@ -20,6 +20,7 @@ declare var UIkit: any;
 
 export class TrainingResourcesComponent implements OnInit {
 
+  protected readonly environment = environment;
   serviceORresource = environment.serviceORresource;
 
   formPrepare = {

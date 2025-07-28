@@ -138,7 +138,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
           this.getFieldAsFormArray('signatures').removeAt(0);
         }
       }
-      this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode, 'eosc', this.resourceType).subscribe(
+      this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode, environment.CATALOGUE, this.resourceType).subscribe(
         _service => {
           this.showLoader = false;
           if (this.resourceType==='service') return this.navigator.resourceDashboard(this.providerId, this.serviceId); // navigate to resource-dashboard

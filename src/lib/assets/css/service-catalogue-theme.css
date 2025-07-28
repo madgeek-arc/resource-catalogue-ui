@@ -1289,3 +1289,12 @@ a[class*="wk-"]:hover {
 .uk-display-none {
   display: none;
 }
+
+.guideline-name {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px; /* adjust width as needed for your sidebar */
+  vertical-align: middle;
+}

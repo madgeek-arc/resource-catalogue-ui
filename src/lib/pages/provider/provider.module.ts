@@ -22,7 +22,6 @@ import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring
 import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
 import {NgSelectModule} from '@ng-select/ng-select';
 import {LMarkdownEditorModule} from 'ngx-markdown-editor';
-import {ResourceGuidelinesFormComponent} from "../provider-resources/resource-guidelines/resource-guidelines-form.component";
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
 import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
@@ -30,6 +29,10 @@ import {DatasourcesListComponent} from "../admin/datasources-list.component";
 import {SelectSubprofileComponent} from "../provider-resources/service-subprofiles/select-subprofile.component";
 import {DatasourceMetricsComponent} from "../provider-resources/service-subprofiles/datasource-metrics.component";
 import {CatalogueUiModule} from "../../../dynamic-catalogue/catalogue-ui.module";
+import {DeployableServicesListComponent} from "../admin/deployable-services-list.component";
+import {DeployableServiceForm} from "../deployable-services/deployable-service-form";
+import {UpdateDeployableService} from "../deployable-services/update-deployable-service";
+import {AddFirstDeployableServiceComponent} from "../deployable-services/add-first-deployable-service.component";
 
 
 @NgModule({
@@ -49,6 +52,7 @@ import {CatalogueUiModule} from "../../../dynamic-catalogue/catalogue-ui.module"
     MyServiceProvidersComponent,
     AddFirstServiceComponent,
     AddFirstTrainingResourceComponent,
+    AddFirstDeployableServiceComponent,
     ServiceProviderFormComponent,
     ServiceProviderInfoComponent,
     UpdateServiceProviderComponent,
@@ -56,6 +60,7 @@ import {CatalogueUiModule} from "../../../dynamic-catalogue/catalogue-ui.module"
     ResourcesListComponent,
     DatasourcesListComponent,
     TrainingListComponent,
+    DeployableServicesListComponent,
     SelectSubprofileComponent,
     DatasourceMetricsComponent,
     // FORMS
@@ -66,9 +71,10 @@ import {CatalogueUiModule} from "../../../dynamic-catalogue/catalogue-ui.module"
     ResourceFormToPdfComponent,
     MonitoringExtensionFormComponent,
     HelpdeskExtensionFormComponent,
-    ResourceGuidelinesFormComponent,
     TrainingResourceForm,
-    UpdateTrainingResource
+    UpdateTrainingResource,
+    DeployableServiceForm,
+    UpdateDeployableService
   ]
 })
 

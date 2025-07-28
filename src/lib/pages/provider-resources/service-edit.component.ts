@@ -12,6 +12,7 @@ import {RecommendationsService} from "../../services/recommendations.service";
 import {CatalogueService} from "../../services/catalogue.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-service-edit',
@@ -41,7 +42,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
   ngOnInit() {
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes(':catalogueId')) { this.catalogueId = this.route.snapshot.paramMap.get('catalogueId') }
-    else { this.catalogueId = 'eosc' }
+    else { this.catalogueId = environment.CATALOGUE }
     if (path === ':catalogueId/:providerId/resource/view/:resourceId') this.disable = true; // view-only mode
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {

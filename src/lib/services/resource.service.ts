@@ -144,7 +144,7 @@ export class ResourceService {
   }
 
   getRichService(id: string, catalogueId?:string, version?: string) { //deprecated
-    if (!catalogueId) catalogueId = 'eosc';
+    if (!catalogueId) catalogueId = environment.CATALOGUE;
     return this.http.get<RichService>(this.base + `/service/rich/${id}?catalogue_id=${catalogueId}`, this.options);
     // return this.http.get<RichService>(this.base + `/service/rich/${version === undefined ? id : [id, version].join('/')}/`, this.options);
   }

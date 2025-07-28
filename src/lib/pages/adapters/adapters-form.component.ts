@@ -96,7 +96,25 @@ export class AdaptersFormComponent implements OnInit {
 
     this.adaptersService.getFormModelById('m-b-adapter').subscribe(
       res => this.model = res,
-      err => console.log(err)
+      err => console.log(err),
+      () => {
+        if (!this.editMode) { //prefill field(s)
+          const currentUser = this.getCurrentUserInfo();
+          this.payloadAnswer = {
+            'answer': {
+              Adapter: {
+                'admins': [
+                  {
+                    name: currentUser.firstname,
+                    surname: currentUser.lastname,
+                    email: currentUser.email
+                  }
+                ]
+              }
+            }
+          };
+        }
+      }
     )
 
     if(this.adapterId){
@@ -163,6 +181,14 @@ export class AdaptersFormComponent implements OnInit {
       }
       return Object.assign(hash, {[obj[key]]: (hash[obj[key]] || []).concat(obj)});
     }, {});
+  }
+
+  getCurrentUserInfo(): { firstname: string; lastname: string; email: string } {
+    return {
+      firstname: this.authenticationService.getUserName(),
+      lastname: this.authenticationService.getUserSurname(),
+      email: this.authenticationService.getUserEmail()
+    };
   }
 
 }

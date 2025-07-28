@@ -44,6 +44,25 @@ export class Catalogue implements Identifiable {
   users: User[];
 }
 
+export class ConfigurationTemplate implements Identifiable {
+  id: string;
+  interoperabilityRecordId: string;
+  name: string;
+  catalogueId: string;
+  node: string;
+  description: string;
+  formModel: { [index: string]: any };
+}
+
+export class ConfigurationTemplateInstance implements Identifiable {
+  id: string;
+  resourceId: string;
+  configurationTemplateId: string;
+  catalogueId: string;
+  node: string;
+  payload: string; //payload: { [index: string]: any };
+}
+
 export class EmailMessage {
   recipientEmail: string;
   senderEmail: string;
@@ -117,6 +136,12 @@ export class DatasourceBundle extends Bundle<Datasource> {
 
 export class TrainingResourceBundle extends Bundle<TrainingResource> {
   trainingResource: TrainingResource;
+}
+
+export class DeployableServiceBundle extends Bundle<DeployableService> {
+  status: string;
+  auditState: string;
+  deployableService: DeployableService;
 }
 
 export class LoggingInfo {
@@ -411,6 +436,25 @@ export class Service implements Identifiable {
   order: URL;
   paymentModel: URL;
   pricing: URL;
+}
+
+export class DeployableService implements Identifiable {
+  id: string;
+  name: string;
+  acronym: string;
+  resourceOrganisation: string;
+  catalogueId: string;
+  node: string;
+  url: URL;
+  scientificDomains: ServiceProviderDomain[];
+  tags: string[];
+  creators: Creator[];
+  description: string;
+  tagline: string;
+  logo: URL;
+  version: string;
+  lastUpdate: Date;
+  softwareLicense: string;
 }
 
 export class Datasource implements Identifiable {

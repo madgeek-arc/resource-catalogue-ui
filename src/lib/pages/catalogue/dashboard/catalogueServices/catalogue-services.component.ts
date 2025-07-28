@@ -19,6 +19,7 @@ declare var UIkit: any;
 
 export class CatalogueServicesComponent implements OnInit {
 
+  protected readonly environment = environment;
   serviceORresource = environment.serviceORresource;
 
   formPrepare = {

@@ -38,7 +38,7 @@ export class ServiceProviderFormComponent implements OnInit {
   projectName = environment.projectName;
   projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
-  catalogueId: string = 'eosc';
+  catalogueId: string = environment.CATALOGUE;
   providerId: string = null;
   displayedCatalogueName: string;
   providerName = '';
@@ -262,10 +262,19 @@ export class ServiceProviderFormComponent implements OnInit {
       err => console.log(err),
       () => {
         if (!this.edit) { //prefill field(s)
+          const currentUser = this.getCurrentUserInfo();
           this.payloadAnswer = {
             'answer': {
-              Provider:
-                {'catalogueId': environment.CATALOGUE}
+              Provider: {
+                'catalogueId': environment.CATALOGUE,
+                'users': [
+                  {
+                    name: currentUser.firstname,
+                    surname: currentUser.lastname,
+                    email: currentUser.email
+                  }
+                ]
+              }
             }
           };
         }
@@ -346,7 +355,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
     // this.initUserBitSets(); // Admin + mainContact
 
-    if(this.catalogueId == 'eosc') this.displayedCatalogueName = `| Catalogue: EOSC`
+    if(this.catalogueId == environment.CATALOGUE) this.displayedCatalogueName = `| Catalogue: ${environment.projectName}`
     else if(this.catalogueId) this.showCatalogueName(this.catalogueId)
 
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
@@ -616,7 +625,7 @@ export class ServiceProviderFormComponent implements OnInit {
   setVocabularies() {
     zip(
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : 'eosc')
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE)
     ).subscribe(data => {
       this.vocabularies = <Map<string, Vocabulary[]>>data[0]; //old
       this.vocabulariesMap = data[0];
@@ -1211,6 +1220,14 @@ export class ServiceProviderFormComponent implements OnInit {
       // If the cleaned array is empty, set the property to null. Otherwise, update it.
       obj[property] = cleaned.length ? cleaned : null;
     }
+  }
+
+  getCurrentUserInfo(): { firstname: string; lastname: string; email: string } {
+    return {
+      firstname: this.authService.getUserName(),
+      lastname: this.authService.getUserSurname(),
+      email: this.authService.getUserEmail()
+    };
   }
 
   protected readonly environment = environment;

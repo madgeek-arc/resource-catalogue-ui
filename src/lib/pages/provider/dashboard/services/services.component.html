@@ -192,7 +192,7 @@
                     <span class="">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
+                <div *ngIf="catalogueId === environment.CATALOGUE" class="uk-width-1-6">
                   <div class="action-buttons">
                     <button
                       [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(serviceBundle.service.resourceOrganisation)+'/resource/update/'+pidHandler.customEncodeURIComponent(serviceBundle.id)]"
@@ -294,9 +294,11 @@
 
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h6 *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} '{{selectedService.service.name}}'</h6>
-    <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteService(selectedService)">Delete</button>
-    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+    <h6 *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} '{{selectedService.service.name}}'?</h6>
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteService(selectedService)">Delete</button>
+    </div>
   </div>
 </div>
 

@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit {
   providerStatus: string;
   providerBundle: ProviderBundle;
   serviceORresource = environment.serviceORresource;
+  protected readonly environment = environment;
 
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,

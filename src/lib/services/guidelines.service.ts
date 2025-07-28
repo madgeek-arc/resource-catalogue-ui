@@ -115,4 +115,32 @@ export class GuidelinesService {
     else
       return this.http.patch(this.base + `/catalogue/${catalogueId}/interoperabilityRecord/auditInteroperabilityRecord/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
+
+  /** Configuration Templates --> **/
+  getTemplatesForGuideline(guidelineId: string) {
+    guidelineId = decodeURIComponent(guidelineId);
+    return this.http.get<any>(this.base + `/configurationTemplate/getAllByInteroperabilityRecordId/${guidelineId}`, this.options);
+  }
+
+  getTemplatesForGuidelinesMapping() {
+    return this.http.get<any>(this.base + `/configurationTemplate/interoperabilityRecordIdToConfigurationTemplateListMap`, this.options);
+  }
+
+  saveConfigurationTemplateInstance(payload: any) {
+    console.log(payload);
+    const shouldPut = !!payload.id; // PUT if id exists, else POST
+    return this.http[shouldPut ? 'put' : 'post'](this.base + `/configurationTemplateInstance`, payload, this.options);
+  }
+
+  getInstancesByResourceId(resourceId: string) {
+    return this.http.get<any>(this.base + `/configurationTemplateInstance/getAllByResourceId/${resourceId}`, this.options);
+  }
+
+  getInstanceOfTemplate(resourceId: string, templateId: string) {
+    const resId = decodeURIComponent(resourceId);
+    const ctId = decodeURIComponent(templateId);
+    return this.http.get<any>(this.base + `/configurationTemplateInstance/resources/${resId}/templates/${ctId}`, this.options);
+  }
+
+  /** <-- Configuration Templates **/
 }

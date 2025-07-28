@@ -129,7 +129,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     id: [''],
     serviceId: [''],
     node: [''],
-    catalogueId: ['eosc'],
+    catalogueId: [environment.CATALOGUE],
 
     submissionPolicyURL: this.fb.control(''),
     preservationPolicyURL: this.fb.control(''),
@@ -368,7 +368,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
             this.formPrepare(this.datasource);
             this.serviceForm.patchValue(this.datasource);
             this.serviceForm.get('serviceId').setValue(decodeURIComponent(this.serviceId));
-            this.serviceForm.get('catalogueId').setValue('eosc');
+            this.serviceForm.get('catalogueId').setValue(environment.CATALOGUE);
 
           }
         }

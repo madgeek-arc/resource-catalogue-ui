@@ -24,6 +24,9 @@ import {MarkdownModule} from "ngx-markdown";
 import {ComingSoonPageComponent} from "./coming-soon-page/coming-soon-page.component";
 import {ExternalHeaderComponent} from "../../app/shared/eosc-commons/eosc-commons-header";
 import {ExternalFooterComponent} from "../../app/shared/eosc-commons/eosc-commons-footer";
+import {
+  RejectedDeployableServicesComponent
+} from "../pages/provider/dashboard/rejectedDeployableServices/rejected-deployable-services.component";
 
 @NgModule({
   imports: [
@@ -52,6 +55,7 @@ import {ExternalFooterComponent} from "../../app/shared/eosc-commons/eosc-common
     SharedServicesComponent,
     RejectedServicesComponent,
     RejectedTrainingResourcesComponent,
+    RejectedDeployableServicesComponent,
     PreviewResourceComponent,
     ExternalHeaderComponent,
     ExternalFooterComponent
@@ -73,6 +77,7 @@ import {ExternalFooterComponent} from "../../app/shared/eosc-commons/eosc-common
     SharedServicesComponent,
     RejectedServicesComponent,
     RejectedTrainingResourcesComponent,
+    RejectedDeployableServicesComponent,
     PreviewResourceComponent,
     ExternalHeaderComponent,
     ExternalFooterComponent

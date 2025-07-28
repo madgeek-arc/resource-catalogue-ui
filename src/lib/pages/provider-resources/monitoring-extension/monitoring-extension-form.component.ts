@@ -57,7 +57,6 @@ export class MonitoringExtensionFormComponent implements OnInit {
   trainingResourceId: string = null;
 
   providersPage: Paging<Provider>;
-  serviceTypesVoc: any;
   resourceService: ResourceService = this.injector.get(ResourceService);
   serviceExtensionsService: ServiceExtensionsService = this.injector.get(ServiceExtensionsService);
   navigator: NavigationService = this.injector.get(NavigationService);
@@ -77,7 +76,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
   submitForm(value) {
     window.scrollTo(0, 0);
     if (!value[0].value.Monitoring.serviceId) value[0].value.Monitoring.serviceId = decodeURIComponent(this.serviceId);
-    this.serviceExtensionsService.uploadMonitoringService(value[0].value.Monitoring, this.editMode, 'eosc', this.resourceType).subscribe(
+    this.serviceExtensionsService.uploadMonitoringService(value[0].value.Monitoring, this.editMode, environment.CATALOGUE, this.resourceType).subscribe(
       _service => {
         this.showLoader = false;
         if (this.resourceType==='service') return this.navigator.resourceDashboard(this.providerId, this.serviceId); // navigate to resource-dashboard
