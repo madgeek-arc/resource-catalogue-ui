@@ -56,6 +56,7 @@ export class ServiceProvidersListComponent implements OnInit {
 
   errorMessage: string;
   loadingMessage = '';
+  offCanvasMessage = '';
 
   providers: ProviderBundle[] = [];
   providersForAudit: ProviderBundle[] = [];
@@ -364,6 +365,7 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   getRandomProviders(quantity: string) {
+    this.offCanvasMessage = '';
     this.loadingMessage = 'Loading ' + quantity + ' random Providers...';
     this.providersForAudit = [];
     this.serviceProviderService.getRandomProviders(quantity).subscribe(
@@ -375,11 +377,14 @@ export class ServiceProvidersListComponent implements OnInit {
       },
       err => {
         console.log(err);
-        this.errorMessage = 'The list could not be retrieved';
         this.loadingMessage = '';
+        this.offCanvasMessage = 'The list could not be retrieved';
       },
       () => {
         this.loadingMessage = '';
+        if (this.providersForAudit.length === 0) {
+          this.offCanvasMessage = 'No providers found.';
+        }
         this.providersForAudit.forEach(
           p => {
             // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {

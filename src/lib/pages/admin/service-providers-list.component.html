@@ -714,6 +714,10 @@
       </div>
     </div>
 
+    <div *ngIf="offCanvasMessage">
+      <p>{{offCanvasMessage}}</p>
+    </div>
+
     <div *ngFor="let providerBundle of providersForAudit" class="uk-card provider-card uk-margin-medium-top">
       <div class="uk-card-body" style="padding-bottom: 20px;">
 
