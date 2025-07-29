@@ -326,7 +326,7 @@ export class ResourcesListComponent implements OnInit {
               this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                 res => {
                   if (res) {
-                    console.log(res);
+                    // console.log(res);
                     this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
                   }
                 }
