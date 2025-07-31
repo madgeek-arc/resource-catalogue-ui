@@ -5,7 +5,7 @@
         <div class="uk-display-inline">
           <h1 class="uk-h3">
             <img class="el-image uk-border-rounded"
-                 src="{{ (provider.logo) ? provider.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}"
+                 src="{{ (provider.logo) ? provider.logo : '/assets/images/broken_image-black-48dp.svg'}}"
                  width="70">
             <span class="uk-margin-small-left">{{provider.name}}
               <a *ngIf="isUserAdmin" routerLink="/provider/update/{{provider.id}}">

@@ -3,7 +3,7 @@
   <div class="uk-container uk-container-expand">
     <div *ngIf="breadcrumbs">
       <a class="goBackLink" [routerLink]="['/search']" *ngIf="goBack">
-        <img src="../../lib/assets/images/icons/ic_back_arrow_link.svg" class="uk-margin-small-right">Go Back to Services
+        <img src="../../assets/images/icons/ic_back_arrow_link.svg" class="uk-margin-small-right">Go Back to Services
       </a>
       <ul *ngIf="!goBack" class="uk-breadcrumb">
         <li *ngFor="let breadcrumb of breadcrumbs; let isLast = last; let i = index;">

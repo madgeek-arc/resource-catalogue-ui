@@ -5,7 +5,7 @@
       <div class="services-provider-container">
         <div *ngIf="service" class="uk-flex">
           <div>
-            <img src="{{ service.logo ? service.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+            <img src="{{ service.logo ? service.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
           </div>
           <div class="uk-margin-medium-left">
             <h3 class="uk-margin-remove">{{service.name}}</h3>
@@ -159,7 +159,7 @@
                               <div class="uk-grid">
                                 <div class="uk-width-1-5 uk-flex uk-flex-middle">
                                   <span class="uk-text-bold uk-margin-small-right" style="min-width: 20px;">{{ i + 1 }}</span>
-                                  <img src="{{competitor.logo ? competitor.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}" style="height: 50px;">
+                                  <img src="{{competitor.logo ? competitor.logo : '/assets/images/broken_image-black-48dp.svg'}}" style="height: 50px;">
                                 </div>
                                 <div class="uk-width-4-5">
                                   <span class="uk-text-bold"><a href="{{marketplaceServicesURL}}{{catalogueId}}.{{competitor.service_id}}" target="_blank">{{competitor.name}}</a></span>
