@@ -424,7 +424,7 @@ a.signUp, a:hover.signUp {
     font-size: 16px;
     padding: 0 15px;
     /*background: rgba(0,71,186,0.10) url("../../../assets/images/icons/ic_search.svg") no-repeat right;*/
-    background: #fff url("../../../lib/assets/images/icons/ic_search.svg") no-repeat right;
+    background: #fff url("../../../assets/images/icons/ic_search.svg") no-repeat right;
     background-origin: content-box;
 }
 
@@ -457,7 +457,7 @@ a.signUp, a:hover.signUp {
 .menuSearch:focus {
     outline: 0;
     /*background: rgba(0,71,186,0.10) url("../../../assets/images/icons/ic_search.svg") no-repeat right;*/
-    background: #fff url("../../../lib/assets/images/icons/ic_search.svg") no-repeat right;
+    background: #fff url("../../../assets/images/icons/ic_search.svg") no-repeat right;
     background-origin: content-box;
     color: rgba(0,71,186,1) !important;
     border: none !important;
