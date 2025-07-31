@@ -68,6 +68,7 @@ export class ResourcesListComponent implements OnInit {
 
   errorMessage: string;
   loadingMessage = '';
+  offCanvasMessage = '';
 
   providers: ProviderBundle[] = [];
   selectedProvider: ProviderBundle;
@@ -326,7 +327,7 @@ export class ResourcesListComponent implements OnInit {
               this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                 res => {
                   if (res) {
-                    console.log(res);
+                    // console.log(res);
                     this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
                   }
                 }
@@ -379,6 +380,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   getRandomResources(quantity: string) {
+    this.offCanvasMessage = '';
     this.loadingMessage = 'Loading ' + quantity + ' random ' + this.serviceORresource + 's...';
     this.servicesForAudit = [];
     this.resourceService.getRandomResources(quantity).subscribe(
@@ -392,11 +394,14 @@ export class ResourcesListComponent implements OnInit {
       },
       err => {
         console.log(err);
-        this.errorMessage = 'The list could not be retrieved';
         this.loadingMessage = '';
+        this.offCanvasMessage = 'The list could not be retrieved';
       },
       () => {
         this.loadingMessage = '';
+        if (this.servicesForAudit.length === 0) {
+          this.offCanvasMessage = 'No resources found.';
+        }
       }
     );
   }

@@ -46,7 +46,6 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
       this.resourceService.getService(this.serviceId).subscribe(
         service => {
           ResourceService.removeNulls(service);
-          this.formPrepare(service);
           this.serviceForm.patchValue(service);
           for (const i in this.serviceForm.controls) {
             if (this.serviceForm.controls[i].value === null) {
@@ -66,10 +65,4 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
     this.successMessage = 'Resource uploaded successfully!';
   }
 
-  onSubmit(service: Service, tempSave: boolean) {
-    if (this.serviceId) {
-      service.id = this.serviceId;
-    }
-    super.onSubmit(service, tempSave);
-  }
 }

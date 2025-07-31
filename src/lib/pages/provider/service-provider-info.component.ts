@@ -28,7 +28,7 @@ export class ServiceProviderInfoComponent extends UpdateServiceProviderComponent
   ngOnInit() {
     // this.getProvider();
     super.ngOnInit();
-    this.providerForm.disable();
+    // this.providerForm.disable();
   }
 
   // getProvider() {

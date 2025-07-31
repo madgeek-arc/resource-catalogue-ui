@@ -494,7 +494,6 @@ export class ResourceService {
 
   /** Draft(Pending) Services -->**/
   temporarySaveService(service: Service) {
-    console.log(!!service.id);
     const serviceExists = !!service.id;
     if (serviceExists) {
       return this.http.put<Service>(this.base + '/service/draft', service, this.options);
@@ -502,7 +501,7 @@ export class ResourceService {
     return this.http.post<Service>(this.base + '/service/draft', service, this.options);
   }
 
-  submitPendingService(service: Service, shouldPut: boolean, comment: string) {
+  submitPendingService(service: Service) {
     return this.http.put<Service>(this.base + '/service/draft/transform', service, this.options);
   }
 

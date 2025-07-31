@@ -39,7 +39,7 @@ export class GuidelinesFormComponent implements OnInit {
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
   premiumSort = new PremiumSortPipe();
-  edit = false;
+  editMode = false;
   hasChanges = false;
   disable = false;
   showLoader = false;
@@ -176,7 +176,7 @@ export class GuidelinesFormComponent implements OnInit {
       res => this.model = res,
       err => console.log(err),
       ()=>{
-        if (!this.edit) { //prefill field(s)
+        if (!this.editMode) { //prefill field(s)
           this.payloadAnswer = {
             'answer': {
               Guidelines:
@@ -198,7 +198,7 @@ export class GuidelinesFormComponent implements OnInit {
     this.setVocabularies();
     this.guidelinesForm = this.fb.group(this.formDefinition);
     this.guidelinesForm.get('providerId').setValue(decodeURIComponent(this.route.snapshot.paramMap.get('providerId')));
-    // if (this.edit === false) {
+    // if (this.editMode === false) {
     //   // this.pushDomain();
     // }
 
@@ -225,7 +225,7 @@ export class GuidelinesFormComponent implements OnInit {
         }
       }
       this.guidelinesForm.patchValue(data);
-      if (!this.edit) {
+      if (!this.editMode) {
         sessionStorage.removeItem('guideline');
       }
     }
@@ -247,7 +247,7 @@ export class GuidelinesFormComponent implements OnInit {
 
     this.cleanArrayProperty(guidelinesValue, 'alternativeIdentifiers');
 
-    let method = this.edit ? 'updateInteroperabilityRecord' : 'addInteroperabilityRecord';
+    let method = this.editMode ? 'updateInteroperabilityRecord' : 'addInteroperabilityRecord';
     this.guidelinesService[method](guidelinesValue).subscribe(
       res => {},
       err => {
@@ -272,7 +272,7 @@ export class GuidelinesFormComponent implements OnInit {
     // this.findInvalidControls();
     // this.trimFormWhiteSpaces();
     // const path = this.route.snapshot.routeConfig.path;
-    let method = this.edit ? 'updateInteroperabilityRecord' : 'addInteroperabilityRecord';
+    let method = this.editMode ? 'updateInteroperabilityRecord' : 'addInteroperabilityRecord';
 
     for (let i = 0; i < this.alternativeIdentifiersArray.length; i++) {
       if (this.alternativeIdentifiersArray.controls[i].get('value').value === ''

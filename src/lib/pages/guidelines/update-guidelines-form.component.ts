@@ -31,7 +31,7 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
   }
 
   ngOnInit() {
-    this.edit = true;
+    this.editMode = true;
     this.guidelineId = this.route.snapshot.paramMap.get('guidelineId');
     const path = this.route.snapshot.routeConfig.path;
     if (path === 'info/:guidelineId') {

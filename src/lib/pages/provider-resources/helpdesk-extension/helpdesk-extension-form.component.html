@@ -50,16 +50,10 @@
         </div>
 
 
-        <!-- TOP HELP CONTENT -->
-        <app-help-content #topHelperContent [position]="'top'"
-                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-        </app-help-content>
+
         <div class="uk-margin-medium-bottom">
           <div class="uk-grid">
-            <!-- LEFT HELP CONTENT -->
-            <app-aside-help-content #leftHelperContent [position]="'left'"
-                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-            </app-aside-help-content>
+
             <!-- MIDDLE -->
             <div class=" uk-width-expand@m uk-margin-medium-top">
               <div *ngIf="showLoader" class="uk-position-center">
@@ -103,10 +97,6 @@
                               href="../../../assets/files/CatRIS%20Catalogue%20API%20Guide.pdf"
                               target="_blank">here</a></p>
                           </ng-container>
-                          <!-- TOP HELP CONTENT -->
-                          <app-help-content #topHelperContent [position]="'top'"
-                                            [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-                          </app-help-content>
                         </div>
                       </div>
                     </div>
@@ -364,18 +354,8 @@
                   </div>
 
                 </div>
-              </div>
-              <!-- RIGHT HELP CONTENT -->
-              <app-aside-help-content #rightHelperContent [position]="'right'"
-                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-              </app-aside-help-content>
-            </div>
-          </div>
-          <!-- BOTTOM HELP CONTENT -->
-          <app-help-content #bottomHelperContent [position]="'bottom'"
-                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-          </app-help-content>
-        </div>
+              </div>            </div>
+          </div>        </div>
       </div>
     </div>
   </div>

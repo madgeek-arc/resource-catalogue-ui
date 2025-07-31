@@ -15,7 +15,7 @@
           <!--          <ng-container *ngIf="catalogueStatus === 'approved provider'">-->
           <!--            <li [routerLinkActive]="['current_section']" #stats="routerLinkActive">-->
           <!--              <a [routerLink]="['/catalogue-dashboard/' + catalogueId + '/stats']">-->
-          <!--                <img src="{{stats.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">-->
+          <!--                <img src="{{stats.isActive ? 'assets/images/new-icons/stats-active.svg' : 'assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">-->
           <!--                Statistics-->
           <!--              </a>-->
           <!--            </li>-->
@@ -23,44 +23,44 @@
           <!--          <ng-container *ngIf="catalogueStatus !== 'approved provider'">-->
           <!--            <li [routerLinkActive]="['current_section']" #stats="routerLinkActive" title="Statistics are disabled until your Provider completes the onboarding process.">-->
           <!--              <a>-->
-          <!--                <img src="{{stats.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">-->
+          <!--                <img src="{{stats.isActive ? 'assets/images/new-icons/stats-active.svg' : 'assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">-->
           <!--                Statistics-->
           <!--              </a>-->
           <!--            </li>-->
           <!--          </ng-container>-->
           <!--          <li [routerLinkActive]="['current_section']" #history="routerLinkActive">-->
           <!--            <a [routerLink]="['/catalogue-dashboard/' + catalogueId + '/history']">-->
-          <!--              <img src="{{history.isActive ? 'lib/assets/images/new-icons/history-active.svg' : 'lib/assets/images/new-icons/history.svg'}}" class="uk-margin-small-right">-->
+          <!--              <img src="{{history.isActive ? 'assets/images/new-icons/history-active.svg' : 'assets/images/new-icons/history.svg'}}" class="uk-margin-small-right">-->
           <!--              Update History-->
           <!--            </a>-->
           <!--          </li>-->
           <li [routerLinkActive]="['current_section']" #info="routerLinkActive">
             <a [routerLink]="['/catalogue-dashboard/' + catalogueId + '/info']">
-              <img src="{{info.isActive ? 'lib/assets/images/new-icons/info.svg' : 'lib/assets/images/new-icons/info.svg'}}" class="uk-margin-small-right">
+              <img src="{{info.isActive ? 'assets/images/new-icons/info.svg' : 'assets/images/new-icons/info.svg'}}" class="uk-margin-small-right">
               Info
             </a>
           </li>
           <li [routerLinkActive]="['current_section']" #providers="routerLinkActive">
             <a [routerLink]="['/catalogue-dashboard/' + catalogueId + '/providers']">
-              <img src="{{providers.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+              <img src="{{providers.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
               Providers
             </a>
           </li>
           <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
             <a [routerLink]="['/catalogue-dashboard/' + catalogueId + '/services']">
-              <img src="{{services.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+              <img src="{{services.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
               {{serviceORresource}}s
             </a>
           </li>
           <li [routerLinkActive]="['current_section']" #trainings="routerLinkActive">
             <a [routerLink]="['/catalogue-dashboard/' + catalogueId + '/training-resources']">
-              <img src="{{trainings.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+              <img src="{{trainings.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
               Training Resources
             </a>
           </li>
           <li [routerLinkActive]="['current_section']" #deployables="routerLinkActive">
             <a [routerLink]="['/catalogue-dashboard/' + catalogueId + '/deployable-services']">
-              <img src="{{deployables.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+              <img src="{{deployables.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
               Deployable Services
             </a>
           </li>
@@ -74,17 +74,17 @@
 
           <li>
             <a [routerLink]="['/catalogue/update/' + catalogueId]">
-              <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Update Catalogue
+              <img src="../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Update Catalogue
             </a>
           </li>
           <!--          <li>-->
           <!--            <a (click)="showRequestDeletionModal()">-->
-          <!--              <img src="lib/assets/images/new-icons/trashcan.svg" class="uk-margin-small-right">  Delete Provider-->
+          <!--              <img src="assets/images/new-icons/trashcan.svg" class="uk-margin-small-right">  Delete Provider-->
           <!--            </a>-->
           <!--          </li>-->
           <li>
             <a [routerLink]="['/developers']">
-              <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Use API
+              <img src="../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Use API
             </a>
           </li>
 

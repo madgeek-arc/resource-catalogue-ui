@@ -18,19 +18,9 @@
         <!--</div>-->
         <!--</div>-->
         <!--</div>-->
-        <!-- TOP HELP CONTENT -->
-        <app-help-content #topHelperContent [position]="'top'"
-                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-        </app-help-content>
 
         <div class="uk-margin-medium-bottom">
           <div class="uk-grid">
-
-            <!-- LEFT HELP CONTENT -->
-            <app-aside-help-content #leftHelperContent [position]="'left'"
-                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-            </app-aside-help-content>
-
 
             <!-- MIDDLE -->
             <div class=" uk-width-expand@m">
@@ -264,7 +254,7 @@
                             <div class="uk-width-1-5">
                               <div>
                                 <img class="el-image uk-border-rounded"
-                                     src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
+                                     src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}">
                               </div>
                             </div>
                             <div class="uk-width-4-5">
@@ -612,20 +602,8 @@
 
               </div>
 
-              <!-- RIGHT HELP CONTENT -->
-              <app-aside-help-content #rightHelperContent [position]="'right'"
-                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-              </app-aside-help-content>
-
             </div>
           </div>
-
-
-          <!-- BOTTOM HELP CONTENT -->
-          <app-help-content #bottomHelperContent [position]="'bottom'"
-                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-          </app-help-content>
-
 
         </div>
       </div>
@@ -736,6 +714,10 @@
       </div>
     </div>
 
+    <div *ngIf="offCanvasMessage">
+      <p>{{offCanvasMessage}}</p>
+    </div>
+
     <div *ngFor="let providerBundle of providersForAudit" class="uk-card provider-card uk-margin-medium-top">
       <div class="uk-card-body" style="padding-bottom: 20px;">
 
@@ -765,7 +747,7 @@
             <div class="uk-width-1-5">
               <div>
                 <img class="el-image uk-border-rounded"
-                     src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
+                     src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}">
               </div>
             </div>
 

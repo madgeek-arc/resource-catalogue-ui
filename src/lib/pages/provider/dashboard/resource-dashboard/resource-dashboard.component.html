@@ -14,19 +14,19 @@
 
           <li [routerLinkActive]="['current_section']" #stats="routerLinkActive">
             <a [routerLink]="['/dashboard', catalogueId, providerId, 'resource-dashboard', resourceId, 'stats']">
-              <img src="{{stats.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
+              <img src="{{stats.isActive ? 'assets/images/new-icons/stats-active.svg' : 'assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
               Statistics
             </a>
           </li>
           <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
             <a [routerLink]="['/dashboard', catalogueId, providerId, 'resource-dashboard', resourceId, 'history']">
-              <img src="{{services.isActive ? 'lib/assets/images/new-icons/history-active.svg' : 'lib/assets/images/new-icons/history.svg'}}" class="uk-margin-small-right">
+              <img src="{{services.isActive ? 'assets/images/new-icons/history-active.svg' : 'assets/images/new-icons/history.svg'}}" class="uk-margin-small-right">
               Update History
             </a>
           </li>
           <li [routerLinkActive]="['current_section']" #monitoringInfo="routerLinkActive">
             <a [routerLink]="['/dashboard', catalogueId, providerId, 'resource-dashboard', resourceId, 'monitoringInfo']">
-              <img src="{{monitoringInfo.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
+              <img src="{{monitoringInfo.isActive ? 'assets/images/new-icons/stats-active.svg' : 'assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
               Monitoring Information
             </a>
           </li>
@@ -41,22 +41,22 @@
           <li>
             <ng-container *ngIf="!datasourceId">
               <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerPID) + '/resource/' + pidHandler.customEncodeURIComponent(resourcePID) + '/datasource/select']">
-                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Enable Datasource Subprofile
+                <img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Enable Datasource Subprofile
               </a>
             </ng-container>
             <ng-container *ngIf="datasourceId">
               <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerPID) + '/resource/' + pidHandler.customEncodeURIComponent(resourcePID) + '/subprofile/datasource']">
-                <img src="lib/assets/images/new-icons/update-service.svg" class="uk-margin-small-right"> Edit Datasource Subprofile
+                <img src="../../../../../assets/images/new-icons/update-service.svg" class="uk-margin-small-right"> Edit Datasource Subprofile
               </a>
             </ng-container>
             <ng-container *ngIf="datasourceId">
               <a (click)="showDatasourceDeletionModal()">
-                <img src="lib/assets/images/new-icons/trashcan.svg" class="uk-margin-small-right"> Delete Datasource Subprofile
+                <img src="../../../../../assets/images/new-icons/trashcan.svg" class="uk-margin-small-right"> Delete Datasource Subprofile
               </a>
             </ng-container>
 <!--            <ng-container *ngIf="datasourceId">-->
 <!--              <a [routerLink]="['/provider/' + providerId + '/resource/' + resourceId + '/datasource/metrics']"> &lt;!&ndash; need to change to dashboard route &ndash;&gt;-->
-<!--                <img src="lib/assets/images/new-icons/stats.svg" class="uk-margin-small-right"> Research Products Accounting-->
+<!--                <img src="assets/images/new-icons/stats.svg" class="uk-margin-small-right"> Research Products Accounting-->
 <!--              </a>-->
 <!--            </ng-container>-->
           </li>
@@ -68,10 +68,10 @@
         <ul class="uk-disabled">
           <li>
             <ng-container *ngIf="!datasourceId">
-              <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Enable Datasource Subprofile</a>
+              <a><img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Enable Datasource Subprofile</a>
             </ng-container>
             <ng-container *ngIf="datasourceId">
-              <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Edit Datasource Subprofile</a>
+              <a><img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Edit Datasource Subprofile</a>
             </ng-container>
           </li>
         </ul>
@@ -83,13 +83,13 @@
           <ng-container *ngIf="resourceBundle && resourceBundle.status==='approved resource' && resourceBundle.active===true">
           <li>
             <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/resource/monitoring/' + pidHandler.customEncodeURIComponent(resourceId)]">
-              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+              <img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
               {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension
             </a>
           </li>
           <li>
             <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/resource/helpdesk/' + pidHandler.customEncodeURIComponent(resourceId)]">
-              <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+              <img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
               {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension
             </a>
           </li>
@@ -97,10 +97,10 @@
 
           <ng-container *ngIf="resourceBundle?.status!=='approved resource' || resourceBundle?.active!==true">
             <li uk-tooltip="Disabled until first service approval and/or service activation.">
-              <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension</a>
+              <a><img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension</a>
             </li>
             <li uk-tooltip="Disabled until first service approval and/or service activation.">
-              <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension</a>
+              <a><img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension</a>
             </li>
           </ng-container>
         </ul>
@@ -129,7 +129,7 @@
 
               <li [routerLinkActive]="['current_section']" #addGuidelines="routerLinkActive">
                 <a [routerLink]="['/dashboard', catalogueId, pidHandler.customEncodeURIComponent(providerId), 'resource-dashboard', pidHandler.customEncodeURIComponent(resourceId), 'assignGuidelines']">
-                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  <img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add/Remove Guidelines
                 </a>
               </li>
@@ -150,13 +150,13 @@
           <ng-container *ngIf="catalogueId === CATALOGUE">
             <li>
               <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/resource/update/' + pidHandler.customEncodeURIComponent(resourceId)]">
-                <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                <img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                 Update {{serviceORresource}}
               </a>
             </li>
             <ng-container *ngIf="resourceBundle?.status!=='approved resource' || resourceBundle?.active!==true">
               <li uk-tooltip="Disabled until first service approval and/or service activation.">
-                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Assign Guidelines</a>
+                <a><img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add/Remove Guidelines</a>
               </li>
             </ng-container>
           </ng-container>
@@ -171,12 +171,12 @@
 <!--            TODO: to check-->
 <!--            <a href="{{_marketplaceServicesURL}}{{catalogueId}}.{{resourceId}}" target="_blank">-->
             <a href="{{_marketplaceServicesURL}}" target="_blank">
-              <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right"> View in Catalogue
+              <img src="../../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right"> View in Catalogue
             </a>
           </li>
           <li>
             <a [routerLink]="['/dashboard', catalogueId, providerId]">
-              <img src="lib/assets/images/new-icons/stats.svg" class="uk-margin-small-right">
+              <img src="../../../../../assets/images/new-icons/stats.svg" class="uk-margin-small-right">
               Back to Provider Dashboard
             </a>
           </li>

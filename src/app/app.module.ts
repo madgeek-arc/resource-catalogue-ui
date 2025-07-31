@@ -59,8 +59,8 @@ export function highchartsFactory() {
   const hc = require('highcharts');
   require('highcharts/modules/heatmap')(hc);
   require('highcharts/modules/map')(hc);
-  require('../lib/assets/js/europe.js')(hc);
-  require('../lib/assets/js/world.js')(hc);
+  require('../assets/js/europe.js')(hc);
+  require('../assets/js/world.js')(hc);
   require('highcharts/modules/drilldown')(hc);
   require('highcharts/modules/exporting')(hc);
   require('highcharts/modules/offline-exporting')(hc);

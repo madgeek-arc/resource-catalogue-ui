@@ -4,7 +4,7 @@
         <div class="services-provider-container">
           <div *ngIf="providerBundle" class="uk-flex">
             <div>
-              <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+              <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
             </div>
             <div class="uk-margin-medium-left">
               <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
@@ -13,18 +13,8 @@
           </div>
         </div>
 
-        <!-- TOP HELP CONTENT -->
-        <app-help-content #topHelperContent [position]="'top'"
-                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-        </app-help-content>
-
         <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
           <div class="uk-grid">
-
-            <!-- LEFT HELP CONTENT -->
-            <app-aside-help-content #leftHelperContent [position]="'left'"
-                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-            </app-aside-help-content>
 
             <!-- MIDDLE -->
             <div class=" uk-width-expand@m">
@@ -95,20 +85,8 @@
                 </div>
               </div>
 
-              <!-- RIGHT HELP CONTENT -->
-              <app-aside-help-content #rightHelperContent [position]="'right'"
-                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-              </app-aside-help-content>
-
             </div>
           </div>
-
-
-          <!-- BOTTOM HELP CONTENT -->
-          <app-help-content #bottomHelperContent [position]="'bottom'"
-                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-          </app-help-content>
-
 
         </div>
 
