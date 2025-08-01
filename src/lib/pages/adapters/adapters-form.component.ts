@@ -103,6 +103,7 @@ export class AdaptersFormComponent implements OnInit {
           this.payloadAnswer = {
             'answer': {
               Adapter: {
+                'catalogueId': environment.CATALOGUE,
                 'admins': [
                   {
                     name: currentUser.firstname,
