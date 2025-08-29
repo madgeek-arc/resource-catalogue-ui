@@ -25,13 +25,18 @@ export class HelpdeskService {
    * Create a new ticket in the helpdesk
    */
   createTicket(ticket: CreateTicketRequest): Observable<HelpdeskTicketResponse> {
+    // Get the user's ID token for authentication
+    const userToken = this.getUserToken();
+    
     const payload = {
       ...ticket,
-      group: 'EPOT'
+      group: 'EPOT',
+      userToken: userToken // Include user token for backend authentication
     };
     
     console.log('🚀 Submitting ticket to:', this.webhookUrl);
     console.log('📋 Ticket payload:', JSON.stringify(payload, null, 2));
+    console.log('🔑 User token included:', userToken ? 'Yes' : 'No');
     
     return this.http.post<HelpdeskTicketResponse>(this.webhookUrl, payload);
   }
@@ -100,5 +105,36 @@ export class HelpdeskService {
       lastname: this.authService.getUserSurname(),
       email: this.authService.getUserEmail()
     };
+  }
+
+  /**
+   * Get the user's ID token for authentication
+   * This token can be used by the backend to authenticate and authorize API calls
+   */
+  getUserToken(): string | null {
+    try {
+      // Get the authentication cookie that contains the user's ID token
+      const authCookie = this.authService.cookie;
+      if (authCookie) {
+        console.log('🔑 User token retrieved from authentication cookie');
+        return authCookie;
+      }
+      
+      // Fallback: try to get from session storage if cookie is not available
+      const userInfo = sessionStorage.getItem('userInfo');
+      if (userInfo) {
+        const user = JSON.parse(userInfo);
+        if (user && user.eduperson_unique_id) {
+          console.log('🔑 User token retrieved from session storage');
+          return user.eduperson_unique_id;
+        }
+      }
+      
+      console.log('⚠️ No user token available');
+      return null;
+    } catch (error) {
+      console.error('❌ Error retrieving user token:', error);
+      return null;
+    }
   }
 } 

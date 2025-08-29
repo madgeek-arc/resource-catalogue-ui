@@ -34,15 +34,8 @@ export class CreateTicketComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Pre-fill with user info if available
-    const userInfo = this.helpdeskService.getCurrentUserInfo();
-    if (userInfo.email) {
-      this.ticketForm.patchValue({
-        customerFirstname: userInfo.firstname,
-        customerLastname: userInfo.lastname,
-        customerEmail: userInfo.email
-      });
-    }
+    // GDPR compliance: User must explicitly fill in their personal information
+    // No pre-filling of customer data even if available
   }
 
   onSubmit(): void {
@@ -50,7 +43,7 @@ export class CreateTicketComponent implements OnInit {
       this.loading = true;
       this.error = '';
 
-      const ticketData: any = {
+      const ticketData: CreateTicketRequest = {
         customer: {
           firstname: this.ticketForm.value.customerFirstname,
           lastname: this.ticketForm.value.customerLastname,
@@ -73,9 +66,10 @@ export class CreateTicketComponent implements OnInit {
           console.log('✅ Ticket submitted successfully:', response);
           this.loading = false;
           this.success = true;
-          setTimeout(() => {
-            this.router.navigate(['/helpdesk/tickets']); // Navigate to helpdesk root instead
-          }, 2000);
+          // Reset form after successful submission
+          this.ticketForm.reset();
+          // Don't navigate away to avoid routing issues with ticket list
+          // User can manually navigate to "My Tickets" if needed
         },
         error: (err) => {
           console.error('❌ Error submitting ticket:', err);
@@ -84,7 +78,7 @@ export class CreateTicketComponent implements OnInit {
         }
       });
     } else {
-      this.error = 'Please fill in all required fields: Title, Customer Email, and Message Body.';
+      this.error = 'Please fill in all required fields: Customer Firstname, Customer Lastname, Customer Email, Title, and Message Body.';
     }
   }
 

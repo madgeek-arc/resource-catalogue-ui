@@ -6,10 +6,10 @@
   
   <div class="helpdesk-navigation">
     <nav class="nav-tabs">
-      <a routerLink="create" routerLinkActive="active" class="nav-link">
+      <a [routerLink]="['/helpdesk/create']" routerLinkActive="active" class="nav-link">
         Create New Ticket
       </a>
-      <a routerLink="tickets" routerLinkActive="active" class="nav-link">
+      <a [routerLink]="['/helpdesk/tickets']" routerLinkActive="active" class="nav-link">
         My Tickets
       </a>
     </nav>

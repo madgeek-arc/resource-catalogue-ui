@@ -6,7 +6,7 @@
 
   <div *ngIf="success" class="success-message">
     <i class="fas fa-check-circle"></i>
-    <span>Ticket created successfully! Redirecting to your tickets...</span>
+    <span>Ticket created successfully! You can navigate to "My Tickets" to view your submitted tickets.</span>
   </div>
 
   <div *ngIf="error" class="error-message">
@@ -16,7 +16,6 @@
 
   <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()" class="ticket-form">
     <div *ngIf="error" class="error-message">{{ error }}</div>
-    <div *ngIf="success" class="success-message">Ticket created successfully!</div>
 
     <!-- Section 1: Customer Information -->
     <div class="form-section">

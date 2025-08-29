@@ -25,7 +25,8 @@ import { HelpdeskService } from '../../services/helpdesk.service';
     HelpdeskRoutingModule
   ],
   providers: [
-    HelpdeskService
+    // Temporarily removed HelpdeskService to test webpack chunk loading
+    // HelpdeskService
   ]
 })
 export class HelpdeskModule { } 
