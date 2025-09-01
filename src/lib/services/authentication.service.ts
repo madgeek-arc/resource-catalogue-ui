@@ -56,7 +56,7 @@ export class AuthenticationService {
       this.user = JSON.parse(this.b64DecodeUnicode(getCookie(this.cookieName).replace(/"/gi, '')));
 
       this.user.id = this.user.eduperson_unique_id;
-      // console.log(this.user);
+      console.log(this.user);
 
       sessionStorage.setItem('userInfo', JSON.stringify(this.user));
       this.expiresAt = moment().add(JSON.stringify(this.user.expireSec), 'second');

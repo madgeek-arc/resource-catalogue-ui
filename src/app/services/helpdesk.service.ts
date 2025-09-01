@@ -108,32 +108,32 @@ export class HelpdeskService {
   }
 
   /**
-   * Get the user's ID token for authentication
-   * This token can be used by the backend to authenticate and authorize API calls
+   * Get the user's persistent ID token for authentication
+   * This should be the 'sub' field from the AAI token, not the session cookie
    */
   getUserToken(): string | null {
     try {
-      // Get the authentication cookie that contains the user's ID token
-      const authCookie = this.authService.cookie;
-      if (authCookie) {
-        console.log('🔑 User token retrieved from authentication cookie');
-        return authCookie;
+      // Get the user object from AuthenticationService which contains the decoded AAI token
+      const user = this.authService.getUser();
+      if (user && user.sub) {
+        console.log('🔑 User persistent ID (sub) retrieved from AAI token:', user.sub);
+        return user.sub;
       }
       
-      // Fallback: try to get from session storage if cookie is not available
+      // Fallback: try to get from session storage if user object is not available
       const userInfo = sessionStorage.getItem('userInfo');
       if (userInfo) {
         const user = JSON.parse(userInfo);
-        if (user && user.eduperson_unique_id) {
-          console.log('🔑 User token retrieved from session storage');
-          return user.eduperson_unique_id;
+        if (user && user.sub) {
+          console.log('🔑 User persistent ID (sub) retrieved from session storage:', user.sub);
+          return user.sub;
         }
       }
       
-      console.log('⚠️ No user token available');
+      console.log('⚠️ No user persistent ID (sub) available');
       return null;
     } catch (error) {
-      console.error('❌ Error retrieving user token:', error);
+      console.error('❌ Error retrieving user persistent ID:', error);
       return null;
     }
   }
