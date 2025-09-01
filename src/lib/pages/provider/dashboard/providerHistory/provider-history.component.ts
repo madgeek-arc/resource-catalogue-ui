@@ -17,7 +17,6 @@ import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 export class ProviderHistoryComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
 
   catalogueId: string;
   providerId: string;

@@ -15,7 +15,6 @@ import {ServiceProviderService} from '../../../../services/service-provider.serv
 export class ProviderFullHistoryComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
 
   catalogueId: string;
   providerId: string;

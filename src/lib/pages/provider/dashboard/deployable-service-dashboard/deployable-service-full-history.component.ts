@@ -17,8 +17,6 @@ import {DeployableServiceService} from "../../../../services/deployable-service.
 
 export class DeployableServiceFullHistoryComponent implements OnInit, OnDestroy {
 
-  projectName = environment.projectName;
-
   public catalogueId: string;
   public deployableService: DeployableService;
   public errorMessage: string;

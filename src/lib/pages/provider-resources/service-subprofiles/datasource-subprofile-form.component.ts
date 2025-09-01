@@ -33,7 +33,6 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   payloadAnswer: object = null;
 
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
   projectMail = environment.projectMail;
   serviceName = '';
   firstServiceForm = false;

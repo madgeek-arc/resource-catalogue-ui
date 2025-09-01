@@ -17,7 +17,6 @@ import {DeployableServiceService} from "../../../../services/deployable-service.
 export class DeployableServiceHistoryComponent implements OnInit, OnDestroy {
 
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
 
   public catalogueId: string;
   public deployableService: DeployableService;

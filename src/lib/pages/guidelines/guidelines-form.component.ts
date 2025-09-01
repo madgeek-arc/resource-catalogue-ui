@@ -29,7 +29,6 @@ export class GuidelinesFormComponent implements OnInit {
   payloadAnswer: object = null;
 
   providerId: string;
-  projectName = environment.projectName;
   projectMail = environment.projectMail;
   guideline: InteroperabilityRecord;
   guidelineId: string = null;

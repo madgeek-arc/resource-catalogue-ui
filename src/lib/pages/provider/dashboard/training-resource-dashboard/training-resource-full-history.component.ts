@@ -17,8 +17,6 @@ import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 export class TrainingResourceFullHistoryComponent implements OnInit, OnDestroy {
 
-  projectName = environment.projectName;
-
   public catalogueId: string;
   public trainingResource: TrainingResource;
   public errorMessage: string;
