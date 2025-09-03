@@ -2,8 +2,6 @@ export const environment = {
   production: true,
   beta: false,
   CATALOGUE: 'eosc',
-  MATOMO_URL: 'https://providers.eosc-portal.eu/matomo/',
-  MATOMO_SITE: 1,
   FAQ_ENDPOINT: '/faq/api',
   API_ENDPOINT: '/api',
   API_LOGIN: '/api/oauth2/authorization/eosc',
