@@ -6,13 +6,14 @@ import {CatalogueBundle} from '../../domain/eic-model';
 import {zip} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {CatalogueService} from "../../services/catalogue.service";
+import {ConfigService} from '../../services/config.service';
 
 @Component({
   selector: 'app-my-catalogues',
   templateUrl: './my-catalogues.component.html'
 })
 export class MyCataloguesComponent implements OnInit {
-
+  catalogueName: string | null = null;
   serviceORresource = environment.serviceORresource;
 
   errorMessage: string;
@@ -40,11 +41,13 @@ export class MyCataloguesComponent implements OnInit {
     private serviceProviderService: ServiceProviderService,
     private catalogueService: CatalogueService,
     private resourceService: ResourceService,
-    public authenticationService: AuthenticationService
+    public authenticationService: AuthenticationService,
+    private config: ConfigService
   ) {
   }
 
   ngOnInit() {
+    this.catalogueName = this.config.getProperty('catalogueName');
     zip(this.catalogueService.getMyCatalogues())
       .subscribe(
         res => {

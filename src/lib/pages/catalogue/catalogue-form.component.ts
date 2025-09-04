@@ -32,7 +32,6 @@ export class CatalogueFormComponent implements OnInit {
   protected readonly environment = environment;
   _hasUserConsent = environment.hasUserConsent;
   serviceORresource = environment.serviceORresource;
-  projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
   onboardingAgreementURL = environment.onboardingAgreementURL;
   catalogueId: string = null;

@@ -34,7 +34,6 @@ export class TrainingResourceForm implements OnInit {
   formDataToSubmit: any = null;
 
   protected _marketplaceServicesURL = environment.marketplaceServicesURL;
-  projectMail = environment.projectMail;
   serviceName = '';
   firstServiceForm = false;
   showLoader = false;

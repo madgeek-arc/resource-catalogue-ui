@@ -38,7 +38,6 @@ export class ServiceFormComponent implements OnInit {
   protected readonly environment = environment;
   protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
-  projectMail = environment.projectMail;
   serviceName = '';
   firstServiceForm = false;
   showLoader = false;

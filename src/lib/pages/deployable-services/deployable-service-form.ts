@@ -40,7 +40,6 @@ export class DeployableServiceForm implements OnInit {
   formDataToSubmit: any = null;
 
   _marketplaceServicesURL = environment.marketplaceServicesURL;
-  projectMail = environment.projectMail;
   serviceName = '';
   firstServiceForm = false;
   showLoader = false;

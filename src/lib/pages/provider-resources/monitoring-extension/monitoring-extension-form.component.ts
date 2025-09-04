@@ -29,7 +29,6 @@ export class MonitoringExtensionFormComponent implements OnInit {
   payloadAnswer: object = null;
 
   serviceORresource = environment.serviceORresource;
-  projectMail = environment.projectMail;
   serviceName = '';
   firstServiceForm = false;
   showLoader = false;

@@ -35,7 +35,6 @@ export class ServiceProviderFormComponent implements OnInit {
   protected readonly environment = environment;
   _hasUserConsent = environment.hasUserConsent;
   serviceORresource = environment.serviceORresource;
-  projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
   catalogueId: string = environment.CATALOGUE;
   providerId: string = null;
