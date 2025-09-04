@@ -6,6 +6,7 @@ import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Vocabulary} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
+import {ConfigService} from '../../services/config.service';
 import {environment} from '../../../environments/environment';
 import {CatalogueService} from "../../services/catalogue.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
@@ -32,6 +33,7 @@ export class ServiceProviderFormComponent implements OnInit {
   formDataToSubmit: any = null;
 
   protected readonly isDevMode = isDevMode;
+  catalogueName: string | null = null;
   protected readonly environment = environment;
   _hasUserConsent = environment.hasUserConsent;
   serviceORresource = environment.serviceORresource;
@@ -105,10 +107,13 @@ export class ServiceProviderFormComponent implements OnInit {
               public route: ActivatedRoute,
               public navigator: NavigationService,
               public pidHandler: pidHandler,
-              public dynamicFormService: FormControlService) {
+              public dynamicFormService: FormControlService,
+              public config: ConfigService) {
   }
 
   ngOnInit() {
+    this.catalogueName = this.config.getProperty('catalogueName');
+
     this.showLoader = true;
 
     this.serviceProviderService.getFormModelById('m-b-provider').subscribe(
@@ -168,7 +173,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
     this.isPortalAdmin = this.authService.isAdmin();
 
-    if(this.catalogueId == environment.CATALOGUE) this.displayedCatalogueName = `| Catalogue: ${environment.projectName}`
+    if(this.catalogueId == environment.CATALOGUE) this.displayedCatalogueName = `| Catalogue: ${this.catalogueName}`
     else if(this.catalogueId) this.showCatalogueName(this.catalogueId)
 
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);

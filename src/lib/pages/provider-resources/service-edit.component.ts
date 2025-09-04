@@ -13,6 +13,7 @@ import {CatalogueService} from "../../services/catalogue.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {environment} from '../../../environments/environment';
+import {ConfigService} from "../../services/config.service";
 
 @Component({
   selector: 'app-service-edit',
@@ -34,8 +35,9 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               public navigator: NavigationService,
               public pidHandler: pidHandler,
               public dynamicFormService: FormControlService,
-              public router: Router) {
-    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService, router);
+              public router: Router,
+              public config: ConfigService) {
+    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService, router, config);
     this.editMode = true;
   }
 

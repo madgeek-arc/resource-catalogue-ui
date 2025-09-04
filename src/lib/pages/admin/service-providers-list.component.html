@@ -464,12 +464,12 @@
                                 <ng-container *ngIf="providerBundle.templateStatus==='pending template'">
                                   <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
                                     <li class="uk-active">
-                                      <a *ngIf="projectName!='EOSC'"
+                                      <a *ngIf="catalogueName!='EOSC'"
                                          routerLink="{{ getLinkToFirstService(pidHandler.customEncodeURIComponent(providerBundle.id)) }}"
                                          class="">
                                         <i class="fa fa-eye"></i> View First {{serviceORresource}}
                                       </a>
-                                      <a *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id, 'service')"
+                                      <a *ngIf="catalogueName=='EOSC'" (click)="openPreviewModal(providerBundle.id, 'service')"
                                          class="">
                                         <i class="fa fa-eye"></i> View First {{serviceORresource}}
                                       </a>

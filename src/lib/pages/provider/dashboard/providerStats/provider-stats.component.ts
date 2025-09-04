@@ -11,6 +11,7 @@ import {ServiceBundle, Provider, ProviderBundle} from '../../../../domain/eic-mo
 import {map} from 'rxjs/operators';
 import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
+import {ConfigService} from '../../../../services/config.service';
 import * as Highcharts from 'highcharts';
 import MapModule from 'highcharts/modules/map';
 MapModule(Highcharts);
@@ -29,8 +30,8 @@ declare var UIkit: any;
 
 export class ProviderStatsComponent implements OnInit {
 
+  catalogueName: string | null = null;
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
   marketplaceServicesURL = environment.marketplaceServicesURL;
   marketplaceDatasourcesURL = environment.marketplaceDatasourcesURL;
 
@@ -79,11 +80,13 @@ export class ProviderStatsComponent implements OnInit {
     public recommendationsService: RecommendationsService,
     public navigator: NavigationService,
     private route: ActivatedRoute,
-    private providerService: ServiceProviderService
+    private providerService: ServiceProviderService,
+    private config: ConfigService
   ) {
   }
 
   ngOnInit(): void {
+    this.catalogueName = this.config.getProperty('catalogueName');
     this.statisticPeriod = 'MONTH';
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
@@ -154,7 +157,7 @@ export class ProviderStatsComponent implements OnInit {
       }
     );
 
-    if (this.projectName === 'EOSC') {
+    if (this.catalogueName === 'EOSC') {
 
       this.resourceService.getAddsToProjectForProvider(this.providerId, period).pipe(
         map(data => {

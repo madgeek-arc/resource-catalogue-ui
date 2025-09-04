@@ -7,8 +7,6 @@ export const environment = {
   API_LOGIN: '/api/oauth2/authorization/eosc',
   API_LOGOUT: '/api/logout',
   STATS_ENDPOINT: 'https://providers.eosc-portal.eu/stats-api/',
-  projectName: 'EOSC',
-  projectMail: 'support@sandbox.eosc-beyond.eu',
   serviceORresource: 'Service',
   hasUserConsent: true,
   privacyPolicyURL: 'assets/files/Privacy Policy – EOSC Innovation Sandbox -Service Catalogue.pdf',

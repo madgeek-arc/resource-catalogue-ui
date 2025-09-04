@@ -9,6 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CatalogueFormComponent} from "./catalogue-form.component";
 import {CatalogueService} from "../../services/catalogue.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
+import {ConfigService} from "../../services/config.service";
 
 declare var UIkit: any;
 
@@ -29,8 +30,9 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
               public resourceService: ResourceService,
               public router: Router,
               public route: ActivatedRoute,
-              public dynamicFormService: FormControlService) {
-    super(fb, authService, serviceProviderService, catalogueService, resourceService, router, route, dynamicFormService);
+              public dynamicFormService: FormControlService,
+              public config: ConfigService) {
+    super(fb, authService, serviceProviderService, catalogueService, resourceService, router, route, dynamicFormService, config);
   }
 
   ngOnInit() {

@@ -15,6 +15,7 @@ import {Paging} from '../../domain/paging';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
+import {ConfigService} from '../../services/config.service';
 import {environment} from '../../../environments/environment';
 import BitSet from 'bitset';
 import {ActivatedRoute} from '@angular/router';

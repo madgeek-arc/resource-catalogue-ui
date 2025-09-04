@@ -44,7 +44,7 @@
 
             <div>
               <div class="uk-card">
-                <div class="uk-card-body" *ngIf="projectName==='EOSC'">
+                <div class="uk-card-body" *ngIf="catalogueName==='EOSC'">
                   <highcharts-chart *ngIf="providerAddsToProjectOptions"
                                     [Highcharts]="Highcharts"
                                     [options]="providerAddsToProjectOptions"
@@ -264,10 +264,10 @@
 
             <div>
               <div class="uk-card">
-                <div class="uk-card-body" *ngIf="projectName==='CatRIS'">
+                <div class="uk-card-body" *ngIf="catalogueName==='CatRIS'">
                   <highcharts-chart [Highcharts]="Highcharts" [options]="providerFavouritesOptions" style="width: 100%; display: block;"></highcharts-chart>
                 </div>
-                <div class="uk-card-body" *ngIf="projectName==='EOSC'">
+                <div class="uk-card-body" *ngIf="catalogueName==='EOSC'">
                   <highcharts-chart [Highcharts]="Highcharts" [options]="providerAddsToProjectOptions" style="width: 100%; display: block;"></highcharts-chart>
                 </div>
               </div>
@@ -289,7 +289,7 @@
               </div>
             </div>
 
-            &lt;!&ndash;        <div *ngIf="projectName==='EOSC'">&ndash;&gt;
+            &lt;!&ndash;        <div *ngIf="catalogueName==='EOSC'">&ndash;&gt;
             &lt;!&ndash;          <div class="uk-card">&ndash;&gt;
             &lt;!&ndash;            <div class="uk-card-body">&ndash;&gt;
             &lt;!&ndash;              <highcharts-chart [Highcharts]="Highcharts" [options]="providerOrdersOptions" style="width: 100%; display: block;"></highcharts-chart>&ndash;&gt;

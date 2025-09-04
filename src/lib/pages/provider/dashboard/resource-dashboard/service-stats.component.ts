@@ -8,6 +8,7 @@ import {ResourceService} from '../../../../services/resource.service';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
+import {ConfigService} from '../../../../services/config.service';
 import * as Highcharts from 'highcharts';
 import MapModule from 'highcharts/modules/map';
 import {RecommendationsService} from "../../../../services/recommendations.service";
@@ -23,9 +24,9 @@ const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
 })
 export class ServiceStatsComponent implements OnInit, OnDestroy {
 
+  catalogueName: string | null = null;
   marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
 
   public service: Service;
   public errorMessage: string;
@@ -55,10 +56,12 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
               private resourceService: ResourceService,
               private recommendationsService: RecommendationsService,
               private authenticationService: AuthenticationService,
-              private providerService: ServiceProviderService) {
+              private providerService: ServiceProviderService,
+              private config: ConfigService) {
   }
 
   ngOnInit() {
+    this.catalogueName = this.config.getProperty('catalogueName');
     this.statisticPeriod = 'MONTH';
     this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     // this.sub = this.route.params.subscribe(params => {
@@ -101,7 +104,7 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
       }
     );
 
-    if (this.projectName === 'EOSC') {
+    if (this.catalogueName === 'EOSC') {
       this.resourceService.getAddToProjectForService(this.service.id, period).pipe(
         map(data => {
           // THESE 3 weird lines should be deleted when pgl makes everything ok :)

@@ -7,6 +7,7 @@ import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
 import {GuidelinesService} from "../../../services/guidelines.service";
+import {ConfigService} from '../../../services/config.service';
 
 declare var UIkit: any;
 
@@ -17,6 +18,7 @@ declare var UIkit: any;
 })
 export class ResourceGuidelinesFormComponent implements OnInit {
 
+  catalogueSupportEmail: string | null = null;
   serviceORresource = environment.serviceORresource;
   showLoader = false;
   pendingService = false; // revisit
@@ -47,7 +49,8 @@ export class ResourceGuidelinesFormComponent implements OnInit {
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
               protected guidelinesService: GuidelinesService,
-              protected route: ActivatedRoute
+              protected route: ActivatedRoute,
+              protected config: ConfigService
   ) {
     this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
@@ -55,6 +58,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.catalogueSupportEmail = this.config.getProperty('catalogueSupportEmail');
     this.serviceId = this.route.parent.snapshot.paramMap.get('resourceId');
     this.guidelinesForm.get('resourceId').setValue(decodeURIComponent(this.serviceId));
 

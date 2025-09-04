@@ -40,8 +40,8 @@
                       <div uk-drop="pos: bottom-left">
                         <div class="uk-card uk-card-body uk-card-default">
                           <p class="uk-margin-remove-bottom">For questions related to the information that needs to be
-                            filled in and suggestions on the portal, please contact us in <a href="mailto:support@sandbox.eosc-beyond.eu">support@sandbox.eosc-beyond.eu</a></p>
-                            <!--<p>For technical issues and questions, please contact us in <a href="mailto:providers@eosc-portal.eu">providers@eosc-portal.eu</a></p>-->
+                            filled in and suggestions on the portal, please contact us in <a [href]="'mailto:' + catalogueSupportEmail">{{ catalogueSupportEmail }}</a>
+                          </p>
                         </div>
                       </div>
                     </div>
