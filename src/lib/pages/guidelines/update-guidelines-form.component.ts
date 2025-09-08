@@ -8,6 +8,7 @@ import {ServiceProviderService} from "../../services/service-provider.service";
 import {ResourceService} from "../../services/resource.service";
 import {GuidelinesService} from "../../services/guidelines.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {ConfigService} from "../../services/config.service";
 
 
 @Component({
@@ -26,8 +27,9 @@ export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent imple
               public resourceService: ResourceService,
               public router: Router,
               public route: ActivatedRoute,
-              public pidHandler: pidHandler) {
-    super(fb, authService, serviceProviderService, guidelinesService, resourceService, router, route, pidHandler);
+              public pidHandler: pidHandler,
+              public config: ConfigService) {
+    super(fb, authService, serviceProviderService, guidelinesService, resourceService, router, route, pidHandler, config);
   }
 
   ngOnInit() {

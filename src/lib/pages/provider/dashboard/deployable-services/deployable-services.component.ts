@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Paging} from '../../../../domain/paging';
 import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
+import {ConfigService} from "../../../../services/config.service";
 import {environment} from '../../../../../environments/environment';
 import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 import {DeployableServiceService} from "../../../../services/deployable-service.service";
@@ -18,7 +19,7 @@ declare var UIkit: any;
 })
 
 export class DeployableServicesComponent implements OnInit {
-
+  catalogueConfigId: string | null = null;
   protected readonly environment = environment;
   serviceORresource = environment.serviceORresource;
 
@@ -58,10 +59,12 @@ export class DeployableServicesComponent implements OnInit {
     private router: Router,
     private providerService: ServiceProviderService,
     private deployableServiceService: DeployableServiceService,
-    public pidHandler: pidHandler
+    public pidHandler: pidHandler,
+    public config: ConfigService
   ) {}
 
   ngOnInit(): void {
+    this.catalogueConfigId = this.config.getProperty('catalogueConfigId');
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
 

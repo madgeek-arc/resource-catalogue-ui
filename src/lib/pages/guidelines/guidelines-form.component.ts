@@ -8,6 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {Vocabulary, Type, Provider, InteroperabilityRecord} from '../../domain/eic-model';
 import BitSet from 'bitset';
+import {ConfigService} from "../../services/config.service";
 import {environment} from '../../../environments/environment';
 import {PremiumSortPipe} from "../../shared/pipes/premium-sort.pipe";
 import {GuidelinesService} from "../../services/guidelines.service";
@@ -28,6 +29,7 @@ export class GuidelinesFormComponent implements OnInit {
   subVocabulariesMap: Map<string, object[]> = null //?
   payloadAnswer: object = null;
 
+  catalogueConfigId: string | null = null;
   providerId: string;
   guideline: InteroperabilityRecord;
   guidelineId: string = null;
@@ -108,7 +110,7 @@ export class GuidelinesFormComponent implements OnInit {
 
   readonly formDefinition = {
     id: [''],
-    catalogueId: [environment.CATALOGUE], //assuming that non-eosc providers cannot add/edit/assign guidelines
+    catalogueId: [this.catalogueConfigId], //assuming that non-eosc providers cannot add/edit/assign guidelines
     providerId: [''],
     title: ['', Validators.required],
     publicationYear: ['', Validators.required],
@@ -164,10 +166,12 @@ export class GuidelinesFormComponent implements OnInit {
               public resourceService: ResourceService,
               public router: Router,
               public route: ActivatedRoute,
-              public pidHandler: pidHandler) {
+              public pidHandler: pidHandler,
+              public config: ConfigService) {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueConfigId');
     this.showLoader = true;
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.serviceProviderService.getFormModelById('m-b-guidelines').subscribe(
@@ -180,7 +184,7 @@ export class GuidelinesFormComponent implements OnInit {
               Guidelines:
                 {
                   'providerId': decodeURIComponent(this.providerId),
-                  'catalogueId': environment.CATALOGUE
+                  'catalogueId': this.catalogueConfigId
                 }
             }
           };

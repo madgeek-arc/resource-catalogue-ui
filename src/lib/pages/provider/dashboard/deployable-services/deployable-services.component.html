@@ -171,7 +171,7 @@
                     <span class="">Last Update: </span>{{ dsBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div *ngIf="catalogueId === environment.CATALOGUE" class="uk-width-1-4">
+                <div *ngIf="catalogueId === catalogueConfigId" class="uk-width-1-4">
                   <div class="action-buttons">
                     <button
                       [routerLink]="['/provider/'+ pidHandler.customEncodeURIComponent(dsBundle.deployableService.resourceOrganisation) +'/deployable-service/update/'+ pidHandler.customEncodeURIComponent(dsBundle.id)]"

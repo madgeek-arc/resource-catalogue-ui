@@ -45,6 +45,7 @@ export class DeployableServiceForm implements OnInit {
   firstServiceForm = false;
   showLoader = false;
   pendingResource = false;
+  catalogueConfigId: string | null = null;
   catalogueId: string;
   providerId: string;
   editMode = false;
@@ -79,7 +80,8 @@ export class DeployableServiceForm implements OnInit {
               protected authenticationService: AuthenticationService,
               protected deployableServiceService: DeployableServiceService,
               protected route: ActivatedRoute,
-              public dynamicFormService: FormControlService
+              public dynamicFormService: FormControlService,
+              public config: ConfigService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.trainingResourceService = this.injector.get(TrainingResourceService);
@@ -136,12 +138,13 @@ export class DeployableServiceForm implements OnInit {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueConfigId');
     this.showLoader = true;
     zip(
       this.trainingResourceService.getProvidersNames('approved'),
       this.trainingResourceService.getAllVocabulariesByType(),
-      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
-      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : this.catalogueConfigId),
+      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : this.catalogueConfigId),
       this.trainingResourceService.getTerritories(),
       this.deployableServiceService.getFormModelById('m-b-deployable')
     ).subscribe(suc => {
@@ -184,7 +187,7 @@ export class DeployableServiceForm implements OnInit {
               DeployableService:
                 {
                   'resourceOrganisation': decodeURIComponent(this.providerId),
-                  'catalogueId': environment.CATALOGUE
+                  'catalogueId': this.catalogueConfigId
                 }
             }
           };

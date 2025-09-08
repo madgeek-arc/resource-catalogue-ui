@@ -11,6 +11,7 @@ import {
   Type,
   Vocabulary
 } from '../../domain/eic-model';
+import {ConfigService} from "../../services/config.service";
 import {environment} from '../../../environments/environment';
 import {mergeMap} from 'rxjs/operators';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -33,6 +34,7 @@ declare var UIkit: any;
   templateUrl: './training-list.component.html'
 })
 export class TrainingListComponent implements OnInit {
+  catalogueConfigId: string | null = null;
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
   protected readonly environment = environment;
@@ -126,11 +128,13 @@ export class TrainingListComponent implements OnInit {
               private router: Router,
               private navigator: NavigationService,
               private fb: UntypedFormBuilder,
-              public pidHandler: pidHandler
+              public pidHandler: pidHandler,
+              public config: ConfigService
   ) {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueConfigId');
     if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
       this.router.navigateByUrl('/home');
     } else {

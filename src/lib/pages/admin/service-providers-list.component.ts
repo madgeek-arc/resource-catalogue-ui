@@ -23,6 +23,7 @@ declare var UIkit: any;
   templateUrl: './service-providers-list.component.html'
 })
 export class ServiceProvidersListComponent implements OnInit {
+  catalogueConfigId: string | null = null;
   catalogueName: string | null = null;
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
@@ -128,6 +129,7 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueConfigId');
     this.catalogueName = this.config.getProperty('catalogueName');
     if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
       this.router.navigateByUrl('/home');

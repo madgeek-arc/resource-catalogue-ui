@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
 import {ResourceService} from '../../../services/resource.service';
+import {ConfigService} from "../../../services/config.service";
 import {environment} from '../../../../environments/environment';
 import {ServiceProviderService} from '../../../services/service-provider.service';
 import {ProviderBundle} from '../../../domain/eic-model';
@@ -16,6 +17,7 @@ declare var UIkit: any;
 })
 export class DashboardComponent implements OnInit {
 
+  catalogueConfigId: string | null = null;
   catalogueId: string;
   providerId: string;
   providerStatus: string;
@@ -28,10 +30,12 @@ export class DashboardComponent implements OnInit {
               public serviceProviderService: ServiceProviderService,
               public navigator: NavigationService,
               private route: ActivatedRoute,
-              public pidHandler: pidHandler) {
+              public pidHandler: pidHandler,
+              public config: ConfigService) {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueConfigId');
     // this.activeTab = this.route.firstChild.snapshot.routeConfig.path;
     this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     this.providerId = this.route.snapshot.paramMap.get('provider');

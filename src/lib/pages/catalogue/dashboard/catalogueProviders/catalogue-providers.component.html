@@ -171,7 +171,7 @@
                     <span class="">Last Update: </span>{{ providerBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div *ngIf="catalogueId === environment.CATALOGUE" class="uk-width-1-6">
+                <div *ngIf="catalogueId === catalogueConfigId" class="uk-width-1-6">
                   <div class="action-buttons">
                     <!--                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(providerService)">-->
                     <!--                      <ng-container *ngIf="providerService.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>-->
@@ -191,7 +191,7 @@
                 </div>
               </div>
 
-              <ng-container *ngIf="providerBundle.provider.catalogueId !== environment.CATALOGUE">
+              <ng-container *ngIf="providerBundle.provider.catalogueId !== catalogueConfigId">
                 <hr class="uk-margin-top">
                 <div class="uk-align-right">
                   <button [routerLink]="['/provider/view/', providerBundle.provider.catalogueId, providerBundle.id]" class="uk-button uk-button-link">

@@ -5,6 +5,7 @@ import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {Provider, Service, Type, Adapter, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
+import {ConfigService} from "../../services/config.service";
 import {environment} from '../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
@@ -26,6 +27,7 @@ export class AdaptersFormComponent implements OnInit {
   subVocabulariesMap: Map<string, object[]> = null;
   payloadAnswer: object = null;
 
+  catalogueConfigId: string | null = null;
   serviceORresource = environment.serviceORresource;
   serviceName = '';
   firstServiceForm = false;
@@ -62,7 +64,8 @@ export class AdaptersFormComponent implements OnInit {
               protected authenticationService: AuthenticationService,
               protected adaptersService: AdaptersService,
               protected route: ActivatedRoute,
-              protected router: Router
+              protected router: Router,
+              protected config: ConfigService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
@@ -88,6 +91,7 @@ export class AdaptersFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueConfigId');
     this.showLoader = true;
     this.getIdsFromCurrentPath();
     this.getVocs();
@@ -101,7 +105,7 @@ export class AdaptersFormComponent implements OnInit {
           this.payloadAnswer = {
             'answer': {
               Adapter: {
-                'catalogueId': environment.CATALOGUE,
+                'catalogueId': this.catalogueConfigId,
                 'admins': [
                   {
                     name: currentUser.firstname,
