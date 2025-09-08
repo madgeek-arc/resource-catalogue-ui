@@ -33,7 +33,7 @@ export class ServiceProviderFormComponent implements OnInit {
   formDataToSubmit: any = null;
 
   protected readonly isDevMode = isDevMode;
-  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   catalogueName: string | null = null;
   protected readonly environment = environment;
   _hasUserConsent = environment.hasUserConsent;

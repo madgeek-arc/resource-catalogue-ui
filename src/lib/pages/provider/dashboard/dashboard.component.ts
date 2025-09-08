@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.catalogueConfigId = this.config.getProperty('catalogueConfigId');
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     // this.activeTab = this.route.firstChild.snapshot.routeConfig.path;
     this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     this.providerId = this.route.snapshot.paramMap.get('provider');

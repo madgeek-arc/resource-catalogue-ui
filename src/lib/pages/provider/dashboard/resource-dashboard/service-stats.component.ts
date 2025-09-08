@@ -24,7 +24,7 @@ const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
 })
 export class ServiceStatsComponent implements OnInit, OnDestroy {
 
-  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   catalogueName: string | null = null;
   marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;

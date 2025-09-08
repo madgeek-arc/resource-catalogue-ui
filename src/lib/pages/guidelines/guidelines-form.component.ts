@@ -171,7 +171,7 @@ export class GuidelinesFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.catalogueConfigId = this.config.getProperty('catalogueConfigId');
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     this.showLoader = true;
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.serviceProviderService.getFormModelById('m-b-guidelines').subscribe(

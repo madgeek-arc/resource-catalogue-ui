@@ -129,7 +129,7 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.catalogueConfigId = this.config.getProperty('catalogueConfigId');
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     this.catalogueName = this.config.getProperty('catalogueName');
     if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
       this.router.navigateByUrl('/home');

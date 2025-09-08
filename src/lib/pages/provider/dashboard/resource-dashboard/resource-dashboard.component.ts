@@ -21,7 +21,7 @@ export class ResourceDashboardComponent implements OnInit {
 
   _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
-  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   catalogueId: string;
   providerId: string;
   resourceId: string;

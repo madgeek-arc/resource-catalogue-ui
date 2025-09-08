@@ -30,7 +30,7 @@ declare var UIkit: any;
 
 export class ProviderStatsComponent implements OnInit {
 
-  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   catalogueName: string | null = null;
   serviceORresource = environment.serviceORresource;
   marketplaceServicesURL = environment.marketplaceServicesURL;

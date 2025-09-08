@@ -138,7 +138,7 @@ export class DeployableServiceForm implements OnInit {
   }
 
   ngOnInit() {
-    this.catalogueConfigId = this.config.getProperty('catalogueConfigId');
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     this.showLoader = true;
     zip(
       this.trainingResourceService.getProvidersNames('approved'),

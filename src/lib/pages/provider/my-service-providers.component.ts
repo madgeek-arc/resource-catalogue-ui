@@ -14,7 +14,7 @@ import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 })
 export class MyServiceProvidersComponent implements OnInit {
 
-  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   serviceORresource = environment.serviceORresource;
 
   errorMessage: string;

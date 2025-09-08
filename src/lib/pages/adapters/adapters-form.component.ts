@@ -91,7 +91,7 @@ export class AdaptersFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.catalogueConfigId = this.config.getProperty('catalogueConfigId');
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     this.showLoader = true;
     this.getIdsFromCurrentPath();
     this.getVocs();

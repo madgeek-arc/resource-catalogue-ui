@@ -33,7 +33,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   subVocabulariesMap: Map<string, object[]> = null
   payloadAnswer: object = null;
 
-  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   serviceORresource = environment.serviceORresource;
   serviceName = '';
   firstServiceForm = false;

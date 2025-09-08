@@ -17,7 +17,7 @@ declare var UIkit: any;
   styleUrls: ['../../provider/service-provider-form.component.css']
 })
 export class ResourceGuidelinesFormComponent implements OnInit {
-  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   catalogueSupportEmail: string | null = null;
   serviceORresource = environment.serviceORresource;
   showLoader = false;

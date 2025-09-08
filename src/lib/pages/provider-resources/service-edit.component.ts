@@ -22,7 +22,7 @@ import {ConfigService} from "../../services/config.service";
 })
 export class ServiceEditComponent extends ServiceFormComponent implements OnInit {
 
-  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   private sub: Subscription;
   // private serviceID: string;
 

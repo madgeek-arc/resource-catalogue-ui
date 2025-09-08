@@ -30,7 +30,7 @@ export class ConfigurationTemplatesComponent implements OnInit {
 
   protected readonly isDevMode = isDevMode;
 
-  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   serviceORresource = environment.serviceORresource;
   // projectMail = environment.projectMail;
   showLoader = false;
