@@ -33,12 +33,13 @@ export class ServiceProviderFormComponent implements OnInit {
   formDataToSubmit: any = null;
 
   protected readonly isDevMode = isDevMode;
+  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
   catalogueName: string | null = null;
   protected readonly environment = environment;
   _hasUserConsent = environment.hasUserConsent;
   serviceORresource = environment.serviceORresource;
   privacyPolicyURL = environment.privacyPolicyURL;
-  catalogueId: string = environment.CATALOGUE;
+  catalogueId: string = this.catalogueConfigId;
   providerId: string = null;
   displayedCatalogueName: string;
   providerName = '';
@@ -125,7 +126,7 @@ export class ServiceProviderFormComponent implements OnInit {
           this.payloadAnswer = {
             'answer': {
               Provider: {
-                'catalogueId': environment.CATALOGUE,
+                'catalogueId': this.catalogueConfigId,
                 'users': [
                   {
                     name: currentUser.firstname,
@@ -173,7 +174,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
     this.isPortalAdmin = this.authService.isAdmin();
 
-    if(this.catalogueId == environment.CATALOGUE) this.displayedCatalogueName = `| Catalogue: ${this.catalogueName}`
+    if(this.catalogueId == this.catalogueConfigId) this.displayedCatalogueName = `| Catalogue: ${this.catalogueName}`
     else if(this.catalogueId) this.showCatalogueName(this.catalogueId)
 
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
@@ -235,7 +236,7 @@ export class ServiceProviderFormComponent implements OnInit {
   setVocabularies() {
     zip(
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE)
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : this.catalogueConfigId)
     ).subscribe(data => {
       this.vocabularies = <Map<string, Vocabulary[]>>data[0]; //old
       this.vocabulariesMap = data[0];

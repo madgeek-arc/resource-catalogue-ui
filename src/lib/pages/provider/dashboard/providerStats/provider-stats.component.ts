@@ -30,6 +30,7 @@ declare var UIkit: any;
 
 export class ProviderStatsComponent implements OnInit {
 
+  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
   catalogueName: string | null = null;
   serviceORresource = environment.serviceORresource;
   marketplaceServicesURL = environment.marketplaceServicesURL;
@@ -1021,7 +1022,7 @@ export class ProviderStatsComponent implements OnInit {
 
   enrichMostRecommendedServices(data: any) {
     const observables = data.map(item =>
-      this.resourceService.getService(item.service_id, /\..*\./.test(item.service_id) ? item.service_id.split(".")[0] : environment.CATALOGUE)
+      this.resourceService.getService(item.service_id, /\..*\./.test(item.service_id) ? item.service_id.split(".")[0] : this.catalogueConfigId)
     );
 
     combineLatest(observables).subscribe(
@@ -1094,7 +1095,7 @@ export class ProviderStatsComponent implements OnInit {
         if (competitor.service_id !== 'tnp.lumi_etais__regular_access') {
           // competitorPublicIds.push(competitor.service_id);
           const isPublicId = /\..*\./.test(competitor.service_id); // if it has two dot occurrences its a publicId
-          this.resourceService.getService(competitor.service_id, isPublicId ? competitor.service_id.split(".")[0] : environment.CATALOGUE).subscribe(
+          this.resourceService.getService(competitor.service_id, isPublicId ? competitor.service_id.split(".")[0] : this.catalogueConfigId).subscribe(
             res => {
               const competitorWithDetails = {
                 service_id: competitor.service_id,
@@ -1124,7 +1125,7 @@ export class ProviderStatsComponent implements OnInit {
     for (const item of this.enrichedRecommendationsOfCompetitorsServices) {
       // outerServicesPublicIds.push(item.service_id);
       const isPublicId = /\..*\./.test(item.service_id); // if it has two dot occurrences its a publicId
-      this.resourceService.getService(item.service_id, isPublicId ? item.service_id.split(".")[0] : environment.CATALOGUE).subscribe(
+      this.resourceService.getService(item.service_id, isPublicId ? item.service_id.split(".")[0] : this.catalogueConfigId).subscribe(
         res => {
           item.logo = res.logo;
           item.name = res.name;

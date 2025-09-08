@@ -17,6 +17,7 @@ import {ResourceService} from "../../services/resource.service";
 import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
+import {ConfigService} from "../../services/config.service";
 
 declare var UIkit: any;
 
@@ -33,6 +34,7 @@ export class TrainingResourceForm implements OnInit {
   payloadAnswer: object = null;
   formDataToSubmit: any = null;
 
+  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
   protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceName = '';
   firstServiceForm = false;
@@ -226,7 +228,8 @@ export class TrainingResourceForm implements OnInit {
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
               protected route: ActivatedRoute,
-              public dynamicFormService: FormControlService
+              public dynamicFormService: FormControlService,
+              public config: ConfigService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.trainingResourceService = this.injector.get(TrainingResourceService);
@@ -367,8 +370,8 @@ export class TrainingResourceForm implements OnInit {
     zip(
       this.trainingResourceService.getProvidersNames('approved'),
       this.trainingResourceService.getAllVocabulariesByType(),
-      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
-      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : this.catalogueConfigId),
+      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : this.catalogueConfigId),
       this.trainingResourceService.getTerritories(),
       this.serviceProviderService.getFormModelById('m-b-training')
     ).subscribe(suc => {
@@ -441,7 +444,7 @@ export class TrainingResourceForm implements OnInit {
               TrainingResource:
                 {
                   'resourceOrganisation': decodeURIComponent(this.providerId),
-                  'catalogueId': environment.CATALOGUE
+                  'catalogueId': this.catalogueConfigId
                 }
             }
           };

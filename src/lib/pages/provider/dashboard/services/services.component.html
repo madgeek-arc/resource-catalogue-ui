@@ -192,7 +192,7 @@
                     <span class="">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div *ngIf="catalogueId === environment.CATALOGUE" class="uk-width-1-6">
+                <div *ngIf="catalogueId === catalogueConfigId" class="uk-width-1-6">
                   <div class="action-buttons">
                     <button
                       [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(serviceBundle.service.resourceOrganisation)+'/resource/update/'+pidHandler.customEncodeURIComponent(serviceBundle.id)]"

@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Paging} from '../../../../domain/paging';
 import {FormArray, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
+import {ConfigService} from "../../../../services/config.service";
 import {environment} from '../../../../../environments/environment';
 import {ServiceExtensionsService} from "../../../../services/service-extensions.service";
 import {TrainingResourceService} from "../../../../services/training-resource.service";
@@ -20,6 +21,7 @@ declare var UIkit: any;
 
 export class TrainingResourcesComponent implements OnInit {
 
+  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
   protected readonly environment = environment;
   serviceORresource = environment.serviceORresource;
 
@@ -63,7 +65,8 @@ export class TrainingResourcesComponent implements OnInit {
     private providerService: ServiceProviderService,
     private trainingResourceService: TrainingResourceService,
     private serviceExtensionsService: ServiceExtensionsService,
-    public pidHandler: pidHandler
+    public pidHandler: pidHandler,
+    public config: ConfigService
   ) {}
 
   ngOnInit(): void {

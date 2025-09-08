@@ -6,6 +6,7 @@ import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
 import {FormArray, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {URLParameter} from '../../../../domain/url-parameter';
+import {ConfigService} from "../../../../services/config.service";
 import {environment} from '../../../../../environments/environment';
 import {ServiceExtensionsService} from "../../../../services/service-extensions.service";
 import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
@@ -19,7 +20,7 @@ declare var UIkit: any;
 })
 
 export class ServicesComponent implements OnInit {
-
+  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
   protected readonly environment = environment;
   serviceORresource = environment.serviceORresource;
 
@@ -63,7 +64,8 @@ export class ServicesComponent implements OnInit {
     private providerService: ServiceProviderService,
     private resourceService: ResourceService,
     private serviceExtensionsService: ServiceExtensionsService,
-    public pidHandler: pidHandler
+    public pidHandler: pidHandler,
+    public config: ConfigService
   ) {}
 
   ngOnInit(): void {

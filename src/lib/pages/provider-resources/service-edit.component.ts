@@ -21,8 +21,9 @@ import {ConfigService} from "../../services/config.service";
   styleUrls: ['../provider/service-provider-form.component.css']
 })
 export class ServiceEditComponent extends ServiceFormComponent implements OnInit {
-  private sub: Subscription;
 
+  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
+  private sub: Subscription;
   // private serviceID: string;
 
   constructor(public route: ActivatedRoute,
@@ -44,7 +45,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
   ngOnInit() {
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes(':catalogueId')) { this.catalogueId = this.route.snapshot.paramMap.get('catalogueId') }
-    else { this.catalogueId = environment.CATALOGUE }
+    else { this.catalogueId = this.catalogueConfigId }
     if (path === ':catalogueId/:providerId/resource/view/:resourceId') this.disable = true; // view-only mode
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {

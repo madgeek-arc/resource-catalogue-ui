@@ -3,8 +3,8 @@ import {ActivatedRoute} from '@angular/router';
 import {AuthenticationService} from '../../../../services/authentication.service';
 import {ResourceService} from '../../../../services/resource.service';
 import {NavigationService} from '../../../../services/navigation.service';
+import {ConfigService} from "../../../../services/config.service";
 import {environment} from '../../../../../environments/environment';
-
 
 @Component({
   selector: 'app-shared-resource-dashboard',
@@ -15,14 +15,15 @@ export class SharedResourceDashboardComponent implements OnInit {
   _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
 
-  catalogueId = environment.CATALOGUE
+  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
   providerId: string;
   resourceId: string;
 
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,
               public navigator: NavigationService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private config: ConfigService) {
   }
 
   ngOnInit() {

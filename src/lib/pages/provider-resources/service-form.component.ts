@@ -36,6 +36,7 @@ export class ServiceFormComponent implements OnInit {
   formDataToSubmit: any = null;
 
   protected readonly isDevMode = isDevMode;
+  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
   catalogueName: string | null = null;
   protected readonly environment = environment;
   protected _marketplaceServicesURL = environment.marketplaceServicesURL;
@@ -226,8 +227,8 @@ export class ServiceFormComponent implements OnInit {
     zip(
       this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
-      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : this.catalogueConfigId),
+      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : this.catalogueConfigId),
       this.resourceService.getTerritories(),
       this.serviceProviderService.getFormModelById('m-b-service')
     ).subscribe(suc => {
@@ -271,13 +272,13 @@ export class ServiceFormComponent implements OnInit {
         // }
 
         this.showProviderName(decodeURIComponent(this.providerId));
-        if(this.catalogueId == environment.CATALOGUE) this.displayedCatalogueName = `| Catalogue: ${this.config.getProperty('catalogueName')}`;
+        if(this.catalogueId == this.catalogueConfigId) this.displayedCatalogueName = `| Catalogue: ${this.config.getProperty('catalogueName')}`;
         else if(this.catalogueId) this.showCatalogueName(this.catalogueId);
 
         if(!this.editMode){ //prefill field(s)
           this.payloadAnswer = {'answer': { Service:
                 { 'resourceOrganisation': decodeURIComponent(this.providerId),
-                  'catalogueId': environment.CATALOGUE}
+                  'catalogueId': this.catalogueConfigId}
           }};
         }
         this.showLoader = false;

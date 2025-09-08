@@ -17,7 +17,7 @@ declare var UIkit: any;
   styleUrls: ['../../provider/service-provider-form.component.css']
 })
 export class ResourceGuidelinesFormComponent implements OnInit {
-
+  catalogueConfigId: string = this.config.getProperty('catalogueConfigId');
   catalogueSupportEmail: string | null = null;
   serviceORresource = environment.serviceORresource;
   showLoader = false;
@@ -39,7 +39,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
   formGroupMeta = {
     id: [''],
     resourceId: [''],
-    catalogueId: [environment.CATALOGUE],
+    catalogueId: [this.catalogueConfigId],
     interoperabilityRecordIds: this.fb.array([this.fb.control('')]),
   };
 
