@@ -1,7 +1,6 @@
 export const environment = {
   production: true,
   beta: true,
-  CATALOGUE: 'eosc',
   FAQ_ENDPOINT: '/faq/api',
   API_ENDPOINT: '/api',
   API_LOGIN: '/api/oauth2/authorization/eosc',

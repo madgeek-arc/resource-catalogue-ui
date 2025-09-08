@@ -16,15 +16,17 @@ import {Paging} from '../domain/paging';
 import {URLParameter} from '../domain/url-parameter';
 import {throwError} from 'rxjs';
 import {Model} from "../../dynamic-catalogue/domain/dynamic-form-model";
+import {ConfigService} from "./config.service";
 
 declare var UIkit: any;
-
-const CATALOGUE = environment.CATALOGUE;
 
 @Injectable()
 export class DeployableServiceService {
 
-  constructor(public http: HttpClient, public authenticationService: AuthenticationService) {
+  private catalogueConfigId: string;
+
+  constructor(public http: HttpClient, public authenticationService: AuthenticationService, private configService: ConfigService) {
+    this.catalogueConfigId = this.configService.getProperty('catalogueId');
   }
   base = environment.API_ENDPOINT;
   private options = {withCredentials: true};
@@ -96,8 +98,8 @@ export class DeployableServiceService {
 
   getService(id: string, catalogueId?: string) {
     id = decodeURIComponent(id);
-    if (!catalogueId) catalogueId = CATALOGUE;
-    if (catalogueId === CATALOGUE)
+    if (!catalogueId) catalogueId = this.catalogueConfigId;
+    if (catalogueId === this.catalogueConfigId)
       return this.http.get<DeployableService>(this.base + `/deployableService/${id}?catalogue_id=${catalogueId}`, this.options);
     else
       return this.http.get<Service>(this.base + `/catalogue/${catalogueId}/deployableService/${id}`, this.options);
@@ -105,8 +107,8 @@ export class DeployableServiceService {
 
   getDeployableServiceBundle(id: string, catalogueId?:string) { //old rich
     id = decodeURIComponent(id);
-    if (!catalogueId) catalogueId = CATALOGUE;
-    if (catalogueId === CATALOGUE)
+    if (!catalogueId) catalogueId = this.catalogueConfigId;
+    if (catalogueId === this.catalogueConfigId)
       return this.http.get<DeployableServiceBundle>(this.base + `/deployableService/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
     else
       return this.http.get<DeployableServiceBundle>(this.base + `/catalogue/${catalogueId}/deployableService/bundle/${id}`, this.options);
@@ -239,7 +241,7 @@ export class DeployableServiceService {
 
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
     serviceId = decodeURIComponent(serviceId);
-    if (catalogue_id === CATALOGUE)
+    if (catalogue_id === this.catalogueConfigId)
       return this.http.get<Paging<LoggingInfo>>(this.base + `/deployableService/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
     else
       return this.http.get<Paging<LoggingInfo>>(this.base + `/catalogue/${catalogue_id}/deployableService/loggingInfoHistory/${serviceId}`);
@@ -247,8 +249,8 @@ export class DeployableServiceService {
 
   auditDeployableService(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
-    if(!catalogueId) catalogueId = CATALOGUE;
-    if (catalogueId === CATALOGUE)
+    if(!catalogueId) catalogueId = this.catalogueConfigId;
+    if (catalogueId === this.catalogueConfigId)
       return this.http.patch(this.base + `/deployableService/audit/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
     else
       return this.http.patch(this.base + `/catalogue/${catalogueId}/deployableService/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
@@ -326,7 +328,7 @@ export class DeployableServiceService {
         params = params.append('status', statusValue);
       }
     }
-    if (catalogue_id === CATALOGUE) {
+    if (catalogue_id === this.catalogueConfigId) {
       if (active === 'statusAll') {
         return this.http.get<Paging<DeployableServiceBundle>>(this.base +
             `/deployableService/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});

@@ -5,7 +5,6 @@
 export const environment = {
   production: false,
   beta: false,
-  CATALOGUE: 'eosc',
   FAQ_ENDPOINT: 'https://dl105.madgik.di.uoa.gr/faq/api',
   API_ENDPOINT: '/api', // to change the end point go to proxy.conf.json file
   API_LOGIN: '/api/login',
