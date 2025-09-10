@@ -78,7 +78,7 @@
 
                   <div class="uk-margin-top uk-text-center">
                     <a *ngIf="providerId"
-                       [routerLink]="['/dashboard/eosc/' + pidHandler.customEncodeURIComponent(providerId) + '/fullHistory']"
+                       [routerLink]="['/dashboard/' + catalogueConfigId +'/'+ pidHandler.customEncodeURIComponent(providerId) + '/fullHistory']"
                        class="uk-h3 uk-link">See more results ...</a>
                   </div>
 

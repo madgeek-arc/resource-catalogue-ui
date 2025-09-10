@@ -258,7 +258,7 @@ export class GuidelinesFormComponent implements OnInit {
       },
       () => {
         this.showLoader = false;
-        this.router.navigate(['/dashboard/eosc/'+ this.pidHandler.customEncodeURIComponent(this.providerId) +'/guidelines/']);
+        this.router.navigate(['/dashboard/' + this.catalogueConfigId +'/'+ this.pidHandler.customEncodeURIComponent(this.providerId) +'/guidelines/']);
       }
     );
   }
@@ -296,7 +296,7 @@ export class GuidelinesFormComponent implements OnInit {
         },
         () => {
           this.showLoader = false;
-          this.router.navigate(['/dashboard/eosc/'+ this.pidHandler.customEncodeURIComponent(this.guidelinesForm.get('providerId').value) +'/guidelines/']);
+          this.router.navigate(['/dashboard/' + this.catalogueConfigId +'/'+ this.pidHandler.customEncodeURIComponent(this.guidelinesForm.get('providerId').value) +'/guidelines/']);
         }
       );
     } else {
