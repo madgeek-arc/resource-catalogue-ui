@@ -307,6 +307,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
             'answer': {
               Datasource:
                 {
+                  'id': this.openaireId,
                   'serviceId': decodeURIComponent(this.resourceId),
                   'catalogueId': this.catalogueConfigId
                 }
