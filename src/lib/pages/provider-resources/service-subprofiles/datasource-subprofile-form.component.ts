@@ -17,6 +17,7 @@ import {SurveyComponent} from "../../../../dynamic-catalogue/pages/dynamic-form/
 import {Model} from "../../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../../dynamic-catalogue/services/form-control.service";
 import {zip} from "rxjs";
+import {ConfigService} from "../../../services/config.service";
 
 declare var UIkit: any;
 
@@ -32,9 +33,8 @@ export class DatasourceSubprofileFormComponent implements OnInit {
   subVocabulariesMap: Map<string, object[]> = null
   payloadAnswer: object = null;
 
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
-  projectMail = environment.projectMail;
   serviceName = '';
   firstServiceForm = false;
   showLoader = false;
@@ -129,7 +129,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     id: [''],
     serviceId: [''],
     node: [''],
-    catalogueId: [environment.CATALOGUE],
+    catalogueId: [this.catalogueConfigId],
 
     submissionPolicyURL: this.fb.control(''),
     preservationPolicyURL: this.fb.control(''),
@@ -185,7 +185,8 @@ export class DatasourceSubprofileFormComponent implements OnInit {
               protected authenticationService: AuthenticationService,
               protected datasourceService: DatasourceService,
               protected route: ActivatedRoute,
-              public dynamicFormService: FormControlService
+              public dynamicFormService: FormControlService,
+              public config: ConfigService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
@@ -306,8 +307,9 @@ export class DatasourceSubprofileFormComponent implements OnInit {
             'answer': {
               Datasource:
                 {
+                  'id': this.openaireId,
                   'serviceId': decodeURIComponent(this.resourceId),
-                  'catalogueId': environment.CATALOGUE
+                  'catalogueId': this.catalogueConfigId
                 }
             }
           };
@@ -368,7 +370,7 @@ export class DatasourceSubprofileFormComponent implements OnInit {
             this.formPrepare(this.datasource);
             this.serviceForm.patchValue(this.datasource);
             this.serviceForm.get('serviceId').setValue(decodeURIComponent(this.serviceId));
-            this.serviceForm.get('catalogueId').setValue(environment.CATALOGUE);
+            this.serviceForm.get('catalogueId').setValue(this.catalogueConfigId);
 
           }
         }

@@ -7,6 +7,7 @@ import {CatalogueService} from "../../services/catalogue.service";
 import {ResourceService} from '../../services/resource.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Vocabulary, Type} from '../../domain/eic-model';
+import {ConfigService} from '../../services/config.service';
 import {environment} from '../../../environments/environment';
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
@@ -29,15 +30,13 @@ export class CatalogueFormComponent implements OnInit {
   formDataToSubmit: any = null;
 
   protected readonly isDevMode = isDevMode;
+  catalogueName: string | null = null;
   protected readonly environment = environment;
   _hasUserConsent = environment.hasUserConsent;
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
-  projectMail = environment.projectMail;
   privacyPolicyURL = environment.privacyPolicyURL;
   onboardingAgreementURL = environment.onboardingAgreementURL;
   catalogueId: string = null;
-  catalogueName = '';
   errorMessage = '';
   userInfo = {sub:'', family_name: '', given_name: '', email: ''};
   vocabularies: Map<string, Vocabulary[]> = null;
@@ -85,10 +84,13 @@ export class CatalogueFormComponent implements OnInit {
               public resourceService: ResourceService,
               public router: Router,
               public route: ActivatedRoute,
-              public dynamicFormService: FormControlService) {
+              public dynamicFormService: FormControlService,
+              public config: ConfigService) {
   }
 
   ngOnInit() {
+    this.catalogueName = this.config.getProperty('catalogueName');
+
     this.showLoader = true;
 
     this.serviceProviderService.getFormModelById('m-b-catalogue').subscribe(

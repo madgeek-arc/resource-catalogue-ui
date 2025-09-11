@@ -8,6 +8,7 @@ import * as dm from '../../../shared/description.map';
 import {Provider, Service, Helpdesk} from '../../../domain/eic-model';
 import {Paging} from '../../../domain/paging';
 import {URLValidator} from '../../../shared/validators/generic.validator';
+import {ConfigService} from "../../../services/config.service";
 import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
@@ -26,9 +27,8 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   // vocabulariesMap: { [name: string]: { id: string, name: string }[]; } = {}
   // payloadAnswer: object = null;
 
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
-  projectMail = environment.projectMail;
   serviceName = '';
   firstServiceForm = false;
   showLoader = false;
@@ -90,7 +90,8 @@ export class HelpdeskExtensionFormComponent implements OnInit {
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
-              protected route: ActivatedRoute
+              protected route: ActivatedRoute,
+              protected config: ConfigService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
@@ -138,7 +139,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
           this.getFieldAsFormArray('signatures').removeAt(0);
         }
       }
-      this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode, environment.CATALOGUE, this.resourceType).subscribe(
+      this.serviceExtensionsService.uploadHelpdeskService(this.serviceForm.value, this.editMode, this.catalogueConfigId, this.resourceType).subscribe(
         _service => {
           this.showLoader = false;
           if (this.resourceType==='service') return this.navigator.resourceDashboard(this.providerId, this.serviceId); // navigate to resource-dashboard

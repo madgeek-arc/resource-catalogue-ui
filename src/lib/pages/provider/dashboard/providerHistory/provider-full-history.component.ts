@@ -6,6 +6,7 @@ import {ResourceService} from '../../../../services/resource.service';
 import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
+import {ConfigService} from "../../../../services/config.service";
 
 @Component({
   selector: 'app-service-dashboard',
@@ -15,8 +16,7 @@ import {ServiceProviderService} from '../../../../services/service-provider.serv
 export class ProviderFullHistoryComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
-
+  catalogueConfigId: string | null = null;
   catalogueId: string;
   providerId: string;
   providerBundle: ProviderBundle;
@@ -29,10 +29,12 @@ export class ProviderFullHistoryComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private navigator: NavigationService,
               private resourceService: ResourceService,
-              private providerService: ServiceProviderService) {
+              private providerService: ServiceProviderService,
+              private config: ConfigService) {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
     this.getProvider();

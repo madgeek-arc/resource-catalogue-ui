@@ -27,7 +27,7 @@
 
         <ul>
 
-          <ng-container *ngIf="catalogueId === environment.CATALOGUE">
+          <ng-container *ngIf="catalogueId === catalogueConfigId">
             <li>
               <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/deployable-service/update/' + pidHandler.customEncodeURIComponent(deployableServiceId)]">
                 <img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">

@@ -15,6 +15,7 @@ import {Paging} from '../../domain/paging';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
+import {ConfigService} from '../../services/config.service';
 import {environment} from '../../../environments/environment';
 import BitSet from 'bitset';
 import {ActivatedRoute} from '@angular/router';
@@ -40,11 +41,11 @@ export class DeployableServiceForm implements OnInit {
   formDataToSubmit: any = null;
 
   _marketplaceServicesURL = environment.marketplaceServicesURL;
-  projectMail = environment.projectMail;
   serviceName = '';
   firstServiceForm = false;
   showLoader = false;
   pendingResource = false;
+  catalogueConfigId: string | null = null;
   catalogueId: string;
   providerId: string;
   editMode = false;
@@ -79,7 +80,8 @@ export class DeployableServiceForm implements OnInit {
               protected authenticationService: AuthenticationService,
               protected deployableServiceService: DeployableServiceService,
               protected route: ActivatedRoute,
-              public dynamicFormService: FormControlService
+              public dynamicFormService: FormControlService,
+              public config: ConfigService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.trainingResourceService = this.injector.get(TrainingResourceService);
@@ -136,12 +138,13 @@ export class DeployableServiceForm implements OnInit {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     this.showLoader = true;
     zip(
       this.trainingResourceService.getProvidersNames('approved'),
       this.trainingResourceService.getAllVocabulariesByType(),
-      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
-      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : this.catalogueConfigId),
+      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : this.catalogueConfigId),
       this.trainingResourceService.getTerritories(),
       this.deployableServiceService.getFormModelById('m-b-deployable')
     ).subscribe(suc => {
@@ -184,7 +187,7 @@ export class DeployableServiceForm implements OnInit {
               DeployableService:
                 {
                   'resourceOrganisation': decodeURIComponent(this.providerId),
-                  'catalogueId': environment.CATALOGUE
+                  'catalogueId': this.catalogueConfigId
                 }
             }
           };

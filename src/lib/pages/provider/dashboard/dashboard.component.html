@@ -40,7 +40,7 @@
               Info
             </a>
           </li>
-          <ng-container *ngIf="catalogueId !== environment.CATALOGUE">
+          <ng-container *ngIf="catalogueId !== catalogueConfigId">
             <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'resources']">
                 <img src="{{services.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
@@ -60,7 +60,7 @@
               </a>
             </li>
           </ng-container>
-          <ng-container *ngIf="catalogueId === environment.CATALOGUE">
+          <ng-container *ngIf="catalogueId === catalogueConfigId">
             <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'resources']">
                 <img src="{{services.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
@@ -113,7 +113,7 @@
 
         <ul>
 
-          <ng-container *ngIf="catalogueId === environment.CATALOGUE">
+          <ng-container *ngIf="catalogueId === catalogueConfigId">
             <ng-container *ngIf="providerBundle?.templateStatus === 'rejected template' || (providerBundle?.status === 'approved provider' && providerBundle?.templateStatus === 'no template status')">
               <li>
                 <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-service/']">
@@ -207,7 +207,7 @@
             </li>
           </ng-container>
 
-          <li *ngIf="catalogueId !== environment.CATALOGUE && providerBundle">
+          <li *ngIf="catalogueId !== catalogueConfigId && providerBundle">
             <a href="/provider/view/{{providerBundle?.provider.catalogueId}}/{{pidHandler.customEncodeURIComponent(providerBundle?.id)}}">
               <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true" style="color: #26c0e2"></i> View Provider
             </a>

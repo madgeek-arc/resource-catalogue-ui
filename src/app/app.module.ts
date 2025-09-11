@@ -1,4 +1,4 @@
-import {NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, APP_INITIALIZER} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -52,8 +52,13 @@ import {pidHandler} from "../lib/shared/pid-handler/pid-handler.service";
 import {FormControlService} from "../dynamic-catalogue/services/form-control.service";
 import {AdaptersService} from "../lib/services/adapters.service";
 import {DeployableServiceService} from "../lib/services/deployable-service.service";
+import {ConfigService} from '../lib/services/config.service';
 
 declare var require: any;
+
+export function initConfig(configService: ConfigService) {
+  return () => configService.loadConfig();
+}
 
 export function highchartsFactory() {
   const hc = require('highcharts');
@@ -121,6 +126,12 @@ export function highchartsFactory() {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initConfig,
+      deps: [ConfigService],
       multi: true
     },
     AuthenticationService,

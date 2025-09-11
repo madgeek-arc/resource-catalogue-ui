@@ -4,6 +4,7 @@ import {AuthenticationService} from '../../../../services/authentication.service
 import {ResourceService} from '../../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../../services/service-extensions.service';
 import {NavigationService} from '../../../../services/navigation.service';
+import {ConfigService} from "../../../../services/config.service";
 import {environment} from '../../../../../environments/environment';
 import {TrainingResourceBundle} from "../../../../domain/eic-model";
 import {TrainingResourceService} from "../../../../services/training-resource.service";
@@ -16,6 +17,7 @@ import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 })
 export class TrainingResourceDashboardComponent implements OnInit {
 
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   protected readonly environment = environment;
   _marketplaceTrainingResourcesURL = environment.marketplaceTrainingResourcesURL;
 
@@ -33,7 +35,8 @@ export class TrainingResourceDashboardComponent implements OnInit {
               public serviceExtensionsService: ServiceExtensionsService,
               public navigator: NavigationService,
               private route: ActivatedRoute,
-              public pidHandler: pidHandler) {
+              public pidHandler: pidHandler,
+              public config: ConfigService) {
   }
 
   ngOnInit() {

@@ -10,6 +10,7 @@ import {CatalogueService} from "../../services/catalogue.service";
 import {NavigationService} from "../../services/navigation.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
+import {ConfigService} from "../../services/config.service";
 
 declare var UIkit: any;
 
@@ -31,8 +32,9 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
               public route: ActivatedRoute,
               public navigator: NavigationService,
               public pidHandler: pidHandler,
-              public formService: FormControlService) {
-    super(fb, authService, serviceProviderService, resourceService, catalogueService, router, route, navigator, pidHandler, formService);
+              public formService: FormControlService,
+              public config: ConfigService) {
+    super(fb, authService, serviceProviderService, resourceService, catalogueService, router, route, navigator, pidHandler, formService, config);
   }
 
   ngOnInit() {

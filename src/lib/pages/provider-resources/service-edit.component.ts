@@ -13,6 +13,7 @@ import {CatalogueService} from "../../services/catalogue.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {environment} from '../../../environments/environment';
+import {ConfigService} from "../../services/config.service";
 
 @Component({
   selector: 'app-service-edit',
@@ -20,8 +21,9 @@ import {environment} from '../../../environments/environment';
   styleUrls: ['../provider/service-provider-form.component.css']
 })
 export class ServiceEditComponent extends ServiceFormComponent implements OnInit {
-  private sub: Subscription;
 
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
+  private sub: Subscription;
   // private serviceID: string;
 
   constructor(public route: ActivatedRoute,
@@ -34,15 +36,16 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               public navigator: NavigationService,
               public pidHandler: pidHandler,
               public dynamicFormService: FormControlService,
-              public router: Router) {
-    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService, router);
+              public router: Router,
+              public config: ConfigService) {
+    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService, router, config);
     this.editMode = true;
   }
 
   ngOnInit() {
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes(':catalogueId')) { this.catalogueId = this.route.snapshot.paramMap.get('catalogueId') }
-    else { this.catalogueId = environment.CATALOGUE }
+    else { this.catalogueId = this.catalogueConfigId }
     if (path === ':catalogueId/:providerId/resource/view/:resourceId') this.disable = true; // view-only mode
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {

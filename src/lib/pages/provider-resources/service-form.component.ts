@@ -8,6 +8,7 @@ import {Paging} from '../../domain/paging';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {Observable, of, zip} from 'rxjs';
 import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
+import {ConfigService} from '../../services/config.service';
 import {environment} from '../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
@@ -35,11 +36,11 @@ export class ServiceFormComponent implements OnInit {
   formDataToSubmit: any = null;
 
   protected readonly isDevMode = isDevMode;
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
+  catalogueName: string | null = null;
   protected readonly environment = environment;
   protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
-  projectMail = environment.projectMail;
   serviceName = '';
   firstServiceForm = false;
   showLoader = false;
@@ -145,7 +146,8 @@ export class ServiceFormComponent implements OnInit {
               protected route: ActivatedRoute,
               public pidHandler: pidHandler,
               public dynamicFormService: FormControlService,
-              public router: Router) {
+              public router: Router,
+              public config: ConfigService) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
@@ -217,6 +219,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.catalogueName = this.config.getProperty('catalogueName');
     this.showLoader = true;
     if ( !this.router.url.includes('/update/') || this.router.url.includes('/draft-resource/update/')) {
       this.saveAsDraftAvailable = true;
@@ -224,8 +227,8 @@ export class ServiceFormComponent implements OnInit {
     zip(
       this.resourceService.getProvidersNames('approved'),
       this.resourceService.getAllVocabulariesByType(),
-      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
-      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : environment.CATALOGUE),
+      this.resourceService.getProvidersAsVocs(this.catalogueId ? this.catalogueId : this.catalogueConfigId),
+      this.resourceService.getResourcesAsVocs(this.catalogueId ? this.catalogueId : this.catalogueConfigId),
       this.resourceService.getTerritories(),
       this.serviceProviderService.getFormModelById('m-b-service')
     ).subscribe(suc => {
@@ -264,18 +267,18 @@ export class ServiceFormComponent implements OnInit {
         this.subVocabularies = this.groupByKey(voc, 'parentId');
 
         this.providerId = this.route.snapshot.paramMap.get('providerId');
-        // if (this.editMode && this.projectName === 'EOSC' && !(this.route.snapshot.paramMap.get('resourceId').startsWith(this.providerId+'.'))) {
+        // if (this.editMode && this.catalogueName === 'EOSC' && !(this.route.snapshot.paramMap.get('resourceId').startsWith(this.providerId+'.'))) {
         //   return this.router.go('/404');
         // }
 
         this.showProviderName(decodeURIComponent(this.providerId));
-        if(this.catalogueId == environment.CATALOGUE) this.displayedCatalogueName = `| Catalogue: ${environment.projectName}`;
+        if(this.catalogueId == this.catalogueConfigId) this.displayedCatalogueName = `| Catalogue: ${this.config.getProperty('catalogueName')}`;
         else if(this.catalogueId) this.showCatalogueName(this.catalogueId);
 
         if(!this.editMode){ //prefill field(s)
           this.payloadAnswer = {'answer': { Service:
                 { 'resourceOrganisation': decodeURIComponent(this.providerId),
-                  'catalogueId': environment.CATALOGUE}
+                  'catalogueId': this.catalogueConfigId}
           }};
         }
         this.showLoader = false;

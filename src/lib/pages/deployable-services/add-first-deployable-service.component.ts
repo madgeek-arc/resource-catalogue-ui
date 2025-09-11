@@ -7,6 +7,7 @@ import {DeployableService, Service} from '../../domain/eic-model';
 import {NavigationService} from "../../services/navigation.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {DeployableServiceService} from "../../services/deployable-service.service";
+import {ConfigService} from "../../services/config.service";
 
 @Component({
   selector: 'app-add-first-deployable-service',
@@ -22,8 +23,9 @@ export class AddFirstDeployableServiceComponent extends DeployableServiceForm im
               protected deployableServiceService: DeployableServiceService,
               protected route: ActivatedRoute,
               protected navigator: NavigationService,
-              public dynamicFormService: FormControlService) {
-    super(injector, authenticationService, deployableServiceService, route, dynamicFormService);
+              public dynamicFormService: FormControlService,
+              public config: ConfigService) {
+    super(injector, authenticationService, deployableServiceService, route, dynamicFormService, config);
     this.editMode = false;
   }
 

@@ -4,6 +4,7 @@ import {AuthenticationService} from '../../../../services/authentication.service
 import {ResourceService} from '../../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../../services/service-extensions.service';
 import {NavigationService} from '../../../../services/navigation.service';
+import {ConfigService} from "../../../../services/config.service";
 import {environment} from '../../../../../environments/environment';
 import {InteroperabilityRecord, ResourceInteroperabilityRecord, ServiceBundle} from "../../../../domain/eic-model";
 import {DatasourceService} from "../../../../services/datasource.service";
@@ -20,8 +21,7 @@ export class ResourceDashboardComponent implements OnInit {
 
   _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
-  CATALOGUE = environment.CATALOGUE;
-
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   catalogueId: string;
   providerId: string;
   resourceId: string;
@@ -45,7 +45,8 @@ export class ResourceDashboardComponent implements OnInit {
               public guidelinesService: GuidelinesService,
               public navigator: NavigationService,
               private route: ActivatedRoute,
-              public pidHandler: pidHandler) {
+              public pidHandler: pidHandler,
+              public config: ConfigService) {
   }
 
   ngOnInit() {
@@ -63,7 +64,7 @@ export class ResourceDashboardComponent implements OnInit {
         this.datasourceService.getDatasourceByServiceId(this.resourceId, this.catalogueId).subscribe(
           res => { if (res!=null) this.datasourceId = res.id }
         );
-        if (this.catalogueId === this.CATALOGUE){
+        if (this.catalogueId === this.catalogueConfigId){
           this.serviceExtensionsService.getMonitoringByServiceId(this.resourceId).subscribe(
             res => { if (res!=null) this.monitoringId = res.id }
           );

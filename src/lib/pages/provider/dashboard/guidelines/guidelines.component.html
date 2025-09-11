@@ -147,7 +147,7 @@
                     <span class="">Last Update: </span>{{ irBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div *ngIf="catalogueId === environment.CATALOGUE" class="uk-width-1-4">
+                <div *ngIf="catalogueId === catalogueConfigId" class="uk-width-1-4">
                   <div class="action-buttons">
                     <button
                       [routerLink]="['/guidelines/'+ pidHandler.customEncodeURIComponent(irBundle.interoperabilityRecord.providerId) +'/update/'+ pidHandler.customEncodeURIComponent(irBundle.id)]"

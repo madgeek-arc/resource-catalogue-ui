@@ -10,6 +10,7 @@ import {
   Vocabulary,
   Service
 } from '../../domain/eic-model';
+import {ConfigService} from "../../services/config.service";
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -28,6 +29,7 @@ declare var UIkit: any;
   templateUrl: './resources-list.component.html'
 })
 export class ResourcesListComponent implements OnInit {
+  catalogueConfigId: string | null = null;
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
   protected readonly environment = environment;
@@ -123,11 +125,13 @@ export class ResourcesListComponent implements OnInit {
               private navigator: NavigationService,
               private fb: UntypedFormBuilder,
               private serviceExtensionsService: ServiceExtensionsService,
-              public pidHandler: pidHandler
+              public pidHandler: pidHandler,
+              public config: ConfigService
   ) {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
       this.router.navigateByUrl('/home');
     } else {

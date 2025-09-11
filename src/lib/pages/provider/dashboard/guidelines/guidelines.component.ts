@@ -8,6 +8,7 @@ import {URLParameter} from '../../../../domain/url-parameter';
 import {GuidelinesService} from "../../../../services/guidelines.service";
 import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 import {environment} from "../../../../../environments/environment";
+import {ConfigService} from "../../../../services/config.service";
 
 declare var UIkit: any;
 
@@ -35,6 +36,7 @@ export class GuidelinesComponent implements OnInit {
   // toggleLoading = false;
   urlParams: URLParameter[] = [];
   providerId: string;
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   catalogueId: string;
   providerBundle: ProviderBundle;
   guidelines: Paging<InteroperabilityRecordBundle>;
@@ -55,7 +57,8 @@ export class GuidelinesComponent implements OnInit {
     private router: Router,
     private providerService: ServiceProviderService,
     private guidelinesService: GuidelinesService,
-    public pidHandler: pidHandler
+    public pidHandler: pidHandler,
+    public config: ConfigService
   ) {}
 
   ngOnInit(): void {
