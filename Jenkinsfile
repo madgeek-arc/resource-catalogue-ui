@@ -78,30 +78,15 @@ pipeline {
         }
       }
       steps {
-        withCredentials([string(credentialsId: 'jenkins-github-pat', variable: 'GITHUB_TOKEN')]) {
-          sh '''
-            . /etc/profile.d/load_nvm.sh > /dev/null
-            nvm use 20
-            npx release-please release-pr --repo-url ${GIT_URL} --token ${GITHUB_TOKEN}
-          '''
-        }
-      }
-    }
-
-    stage('Publish Release') {
-      when {
-        allOf {
-          branch 'master'
-          not { changeRequest() }  // skip PR builds
-        }
-      }
-      steps {
-        withCredentials([string(credentialsId: 'jenkins-github-pat', variable: 'GITHUB_TOKEN')]) {
-          sh '''
-            . /etc/profile.d/load_nvm.sh > /dev/null
-            nvm use 20
-            npx release-please github-release --repo-url ${GIT_URL} --token ${GITHUB_TOKEN}
-          '''
+        lock(resource: 'release-resource-catalogue-ui') {
+          withCredentials([string(credentialsId: 'jenkins-github-pat', variable: 'GH_TOKEN')]) {
+            sh '''
+              . /etc/profile.d/load_nvm.sh > /dev/null
+              nvm use 20
+              npx release-please github-release --repo-url ${GIT_URL} --token ${GH_TOKEN}
+              npx release-please release-pr --repo-url ${GIT_URL} --token ${GH_TOKEN}
+            '''
+          }
         }
       }
     }
