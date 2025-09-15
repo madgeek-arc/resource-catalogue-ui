@@ -47,7 +47,7 @@
     "seedrandom": "^3.0.5",
     "tslib": "^2.0.0",
     "uikit": "3.9.2",
-    "zone.js": "~0.15.1"
+    "zone.js": "~0.13.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.2.16",
@@ -67,6 +67,6 @@
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",
     "ts-node": "~7.0.0",
-    "typescript": "~5.4.5"
+    "typescript": "~4.9.3"
   }
 }
