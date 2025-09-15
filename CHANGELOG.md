@@ -49,6 +49,24 @@
 
 
 
+## [5.2.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v5.1.0...v5.2.0) (2025-09-15)
+
+
+### Features
+
+* add config service to replace some environmental vars (mail & name) ([6a6176f](https://github.com/madgeek-arc/resource-catalogue-ui/commit/6a6176fbcedac476f13195a1cc70661c65f13f3c))
+
+
+### Bug Fixes
+
+* autofill catalogue id on adapters form ([8a71fea](https://github.com/madgeek-arc/resource-catalogue-ui/commit/8a71feadc3b5541deb440dee07453ec860e35286))
+* autofill catalogue id on adapters form ([0684693](https://github.com/madgeek-arc/resource-catalogue-ui/commit/068469381491660fb4e8659e52dcf3958fe9db97))
+* display message at offcanvas audit on empty list return ([ec924c5](https://github.com/madgeek-arc/resource-catalogue-ui/commit/ec924c5d01b30a211f8e8ccb4c04c7d2ed333524))
+* paths with catalogue id ([7c01dfa](https://github.com/madgeek-arc/resource-catalogue-ui/commit/7c01dfa4144579beafc7f907960aeca0278b30f6))
+* rename config property ([146b622](https://github.com/madgeek-arc/resource-catalogue-ui/commit/146b622dc0d640c7bf6020bc00b6b2143eab680e))
+* send openaire id on new datasource submissions ([7b9ee89](https://github.com/madgeek-arc/resource-catalogue-ui/commit/7b9ee89b160720b49f44caf1ee9e0464d10f5f96))
+* use public getter in navigation service for config catalogueId ([958f510](https://github.com/madgeek-arc/resource-catalogue-ui/commit/958f510e78b6dfa04644f6a9f62d57e449da3752))
+
 ## [5.0.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v4.0.0...v5.0.0) (2025-05-22)
 
 
@@ -86,6 +104,3 @@
 
 * Revert "add the extra tabs on markTabs() for DataSource form" ([1496980](https://github.com/madgeek-arc/resource-catalogue-ui/commit/14969809bba1463d7b4caad2cd69b174630fbb28))
 * Revert "disabled vocabulary requests approve/reject buttons" ([abe9adc](https://github.com/madgeek-arc/resource-catalogue-ui/commit/abe9adcbd626db7c36b45abc7e2cb5eceed0acd8))
-
-
-
