@@ -1025,17 +1025,18 @@ export class ProviderStatsComponent implements OnInit {
       this.resourceService.getService(item.service_id, /\..*\./.test(item.service_id) ? item.service_id.split(".")[0] : this.catalogueConfigId)
     );
 
-    combineLatest(observables).subscribe(
-      results => {
-        results.forEach((res: any, index) => {
-          data[index].service_name = res.name;
-        });
-        this.setMostRecommendedServices(data);
+    combineLatest(observables).subscribe({
+      next: results => {
+        const updatedData = data.map((item, index) => ({
+          ...item,
+          service_name: results[index]?.name
+        }));
+        this.setMostRecommendedServices(updatedData);
       },
-      error => {
-        this.errorMessage = error;
+      error: err => {
+        this.errorMessage = err;
       }
-    );
+    });
   }
 
   setMostRecommendedServices(data: any) {

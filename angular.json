@@ -42,6 +42,9 @@
               "node_modules/prismjs/components/prism-csharp.min.js",
               "node_modules/prismjs/components/prism-css.min.js"
             ],
+            "allowedCommonJsDependencies": [
+              "uikit"
+            ],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
