@@ -9,6 +9,7 @@ import {NavigationService} from "../../services/navigation.service";
 import {TrainingResourceForm} from "./training-resource-form";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {environment} from '../../../environments/environment';
+import {ConfigService} from "../../services/config.service";
 
 @Component({
   selector: 'app-update-training-resource',
@@ -26,15 +27,16 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
               protected injector: Injector,
               public datePipe: DatePipe,
               public navigator: NavigationService,
-              public dynamicFormService: FormControlService) {
-    super(injector, authenticationService, serviceProviderService, route, dynamicFormService);
+              public dynamicFormService: FormControlService,
+              public config: ConfigService) {
+    super(injector, authenticationService, serviceProviderService, route, dynamicFormService, config);
     this.editMode = true;
   }
 
   ngOnInit() {
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes(':catalogueId')) { this.catalogueId = this.route.snapshot.paramMap.get('catalogueId') }
-    else { this.catalogueId = environment.CATALOGUE }
+    else { this.catalogueId = this.catalogueConfigId }
     if (path === ':catalogueId/:providerId/training-resource/view/:resourceId') this.disable = true; // view-only mode
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {

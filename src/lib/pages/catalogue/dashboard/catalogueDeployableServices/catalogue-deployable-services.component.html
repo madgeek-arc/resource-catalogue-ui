@@ -4,7 +4,7 @@
     <div class="services-provider-container">
       <div *ngIf="catalogueBundle" class="uk-flex">
         <div>
-          <img src="{{ catalogueBundle.catalogue.logo ? catalogueBundle.catalogue.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+          <img src="{{ catalogueBundle.catalogue.logo ? catalogueBundle.catalogue.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
         </div>
         <div class="uk-margin-medium-left">
           <h3 class="uk-margin-remove">{{catalogueBundle.catalogue.name}}</h3>
@@ -152,7 +152,7 @@
 
               <div class="uk-grid uk-flex-middle uk-margin-remove-top">
                 <div class="uk-width-1-6">
-<!--                  <img src="{{bundle.deployableService.logo ? bundle.deployableService.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">-->
+<!--                  <img src="{{bundle.deployableService.logo ? bundle.deployableService.logo : '/assets/images/broken_image-black-48dp.svg'}}">-->
                 </div>
                 <div class="uk-width-2-3">
                   <h4 class="uk-margin-remove">
@@ -171,7 +171,7 @@
                     <span class="">Last Update: </span>{{ bundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div *ngIf="catalogueId === environment.CATALOGUE" class="uk-width-1-6">
+                <div *ngIf="catalogueId === catalogueConfigId" class="uk-width-1-6">
                   <div class="action-buttons">
                     <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleDeployableService(bundle)">
                       <ng-container *ngIf="bundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
@@ -190,7 +190,7 @@
                 </div>
               </div>
 
-              <ng-container *ngIf="bundle.deployableService.catalogueId !== environment.CATALOGUE">
+              <ng-container *ngIf="bundle.deployableService.catalogueId !== catalogueConfigId">
                 <hr class="uk-margin-top">
                 <div class="uk-align-right">
                   <button

@@ -3,19 +3,8 @@
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
 
-        <!-- TOP HELP CONTENT -->
-        <app-help-content #topHelperContent [position]="'top'"
-                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-        </app-help-content>
-
         <div class="uk-margin-medium-bottom">
           <div class="uk-grid">
-
-            <!-- LEFT HELP CONTENT -->
-            <app-aside-help-content #leftHelperContent [position]="'left'"
-                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-            </app-aside-help-content>
-
 
             <!-- MIDDLE -->
             <div class=" uk-width-expand@m">
@@ -248,7 +237,7 @@
                             <div class="uk-width-1-5">
 <!--                              <div>-->
 <!--                                <img class="el-image uk-border-rounded"-->
-<!--                                     src="{{ '/lib/assets/images/broken_image-black-48dp.svg' }}">-->
+<!--                                     src="{{ '/assets/images/broken_image-black-48dp.svg' }}">-->
 <!--                              </div>-->
                             </div>
 
@@ -313,7 +302,7 @@
                           </div>
                         </div>
 
-                        <ng-container *ngIf="trBundle.trainingResource.catalogueId !== environment.CATALOGUE">
+                        <ng-container *ngIf="trBundle.trainingResource.catalogueId !== catalogueConfigId">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
@@ -350,7 +339,7 @@
                           </div>
                         </ng-container>
 
-                        <ng-container *ngIf="trBundle.trainingResource.catalogueId === environment.CATALOGUE">
+                        <ng-container *ngIf="trBundle.trainingResource.catalogueId === catalogueConfigId">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
@@ -479,20 +468,8 @@
 
               </div>
 
-              <!-- RIGHT HELP CONTENT -->
-              <app-aside-help-content #rightHelperContent [position]="'right'"
-                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-              </app-aside-help-content>
-
             </div>
           </div>
-
-
-          <!-- BOTTOM HELP CONTENT -->
-          <app-help-content #bottomHelperContent [position]="'bottom'"
-                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-          </app-help-content>
-
 
         </div>
       </div>

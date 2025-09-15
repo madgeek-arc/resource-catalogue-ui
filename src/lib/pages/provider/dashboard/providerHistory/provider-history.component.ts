@@ -7,6 +7,7 @@ import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
+import {ConfigService} from "../../../../services/config.service";
 
 
 @Component({
@@ -17,8 +18,7 @@ import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 export class ProviderHistoryComponent implements OnInit {
 
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
-
+  catalogueConfigId: string | null = null;
   catalogueId: string;
   providerId: string;
   providerBundle: ProviderBundle;
@@ -31,10 +31,12 @@ export class ProviderHistoryComponent implements OnInit {
               private navigator: NavigationService,
               private resourceService: ResourceService,
               private providerService: ServiceProviderService,
-              public pidHandler: pidHandler) {
+              public pidHandler: pidHandler,
+              public config: ConfigService) {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     // console.log(this.route.parent.snapshot)
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');

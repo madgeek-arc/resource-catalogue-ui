@@ -18,15 +18,17 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {Info} from '../domain/info';
 import {Model} from "../../dynamic-catalogue/domain/dynamic-form-model";
+import {ConfigService} from "./config.service";
 
 declare var UIkit: any;
-
-const CATALOGUE = environment.CATALOGUE;
 
 @Injectable()
 export class ResourceService {
 
-  constructor(public http: HttpClient, public authenticationService: AuthenticationService) {
+  private catalogueConfigId: string;
+
+  constructor(public http: HttpClient, public authenticationService: AuthenticationService, private configService: ConfigService) {
+    this.catalogueConfigId = this.configService.getProperty('catalogueId');
   }
   base = environment.API_ENDPOINT;
   private options = {withCredentials: true};
@@ -136,15 +138,15 @@ export class ResourceService {
     serviceId = decodeURIComponent(serviceId);
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? serviceId : [serviceId, version].join('/')}`, this.options);
-    if (!catalogueId) catalogueId = CATALOGUE;
-    if (catalogueId === CATALOGUE)
+    if (!catalogueId) catalogueId = this.catalogueConfigId;
+    if (catalogueId === this.catalogueConfigId)
       return this.http.get<Service>(this.base + `/service/${serviceId}?catalogue_id=${catalogueId}`, this.options);
     else
       return this.http.get<Service>(this.base + `/catalogue/${catalogueId}/service/${serviceId}`, this.options);
   }
 
   getRichService(id: string, catalogueId?:string, version?: string) { //deprecated
-    if (!catalogueId) catalogueId = environment.CATALOGUE;
+    if (!catalogueId) catalogueId = this.catalogueConfigId;
     return this.http.get<RichService>(this.base + `/service/rich/${id}?catalogue_id=${catalogueId}`, this.options);
     // return this.http.get<RichService>(this.base + `/service/rich/${version === undefined ? id : [id, version].join('/')}/`, this.options);
   }
@@ -442,8 +444,8 @@ export class ResourceService {
 
   getServiceBundleById(id: string, catalogueId?: string) {
     id = decodeURIComponent(id);
-    if (!catalogueId) catalogueId = CATALOGUE;
-    if (catalogueId === CATALOGUE)
+    if (!catalogueId) catalogueId = this.catalogueConfigId;
+    if (catalogueId === this.catalogueConfigId)
       return this.http.get<ServiceBundle>(this.base + `/service/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
     else
       return this.http.get<ServiceBundle>(this.base + `/catalogue/${catalogueId}/service/bundle/${id}`, this.options);
@@ -494,7 +496,6 @@ export class ResourceService {
 
   /** Draft(Pending) Services -->**/
   temporarySaveService(service: Service) {
-    console.log(!!service.id);
     const serviceExists = !!service.id;
     if (serviceExists) {
       return this.http.put<Service>(this.base + '/service/draft', service, this.options);
@@ -502,7 +503,7 @@ export class ResourceService {
     return this.http.post<Service>(this.base + '/service/draft', service, this.options);
   }
 
-  submitPendingService(service: Service, shouldPut: boolean, comment: string) {
+  submitPendingService(service: Service) {
     return this.http.put<Service>(this.base + '/service/draft/transform', service, this.options);
   }
 
@@ -526,7 +527,7 @@ export class ResourceService {
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
     serviceId = decodeURIComponent(serviceId);
     // return this.http.get<Paging<LoggingInfo>>(this.base + `/service/loggingInfoHistory/${serviceId}/`);
-    if (catalogue_id === CATALOGUE)
+    if (catalogue_id === this.catalogueConfigId)
       return this.http.get<Paging<LoggingInfo>>(this.base + `/service/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
     else
       return this.http.get<Paging<LoggingInfo>>(this.base + `/catalogue/${catalogue_id}/service/loggingInfoHistory/${serviceId}`);
@@ -535,8 +536,8 @@ export class ResourceService {
   //TODO: rename to auditService
   auditResource(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
-    if(!catalogueId) catalogueId = CATALOGUE;
-    if (catalogueId === CATALOGUE)
+    if(!catalogueId) catalogueId = this.catalogueConfigId;
+    if (catalogueId === this.catalogueConfigId)
       return this.http.patch(this.base + `/service/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
     else
       return this.http.patch(this.base + `/catalogue/${catalogueId}/service/auditService/${id}?actionType=${action}&comment=${comment}`, this.options);

@@ -16,7 +16,6 @@ import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 export class ServiceHistoryComponent implements OnInit, OnDestroy {
 
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
 
   public catalogueId: string;
   public service: Service;

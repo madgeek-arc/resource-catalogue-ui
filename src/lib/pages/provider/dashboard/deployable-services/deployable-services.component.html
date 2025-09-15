@@ -4,7 +4,7 @@
     <div class="services-provider-container">
       <div *ngIf="providerBundle" class="uk-flex">
         <div>
-          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
         </div>
         <div class="uk-margin-medium-left">
           <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
@@ -152,7 +152,7 @@
 
               <div class="uk-grid uk-flex-middle uk-margin-remove-top">
 <!--                <div class="uk-width-1-6">-->
-<!--                  <img src="{{dsBundle.deployableService.logo ? dsBundle.deployableService.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">-->
+<!--                  <img src="{{dsBundle.deployableService.logo ? dsBundle.deployableService.logo : '/assets/images/broken_image-black-48dp.svg'}}">-->
 <!--                </div>-->
                 <div class="uk-width-3-4">
                   <h4 class="uk-margin-remove uk-padding-small uk-padding-remove-top uk-padding-remove-left uk-padding-remove-right">
@@ -171,7 +171,7 @@
                     <span class="">Last Update: </span>{{ dsBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div *ngIf="catalogueId === environment.CATALOGUE" class="uk-width-1-4">
+                <div *ngIf="catalogueId === catalogueConfigId" class="uk-width-1-4">
                   <div class="action-buttons">
                     <button
                       [routerLink]="['/provider/'+ pidHandler.customEncodeURIComponent(dsBundle.deployableService.resourceOrganisation) +'/deployable-service/update/'+ pidHandler.customEncodeURIComponent(dsBundle.id)]"

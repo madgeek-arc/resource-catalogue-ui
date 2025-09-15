@@ -19,9 +19,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/lib/assets"
+              "src/assets"
             ],
             "styles": [
               "node_modules/uikit/dist/css/uikit.css",

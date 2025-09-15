@@ -206,7 +206,7 @@
                         <div class="uk-width-1-5">
                           <div>
                             <img class="el-image uk-border-rounded"
-                                 src="{{ datasourceBundlePlus.logo ? datasourceBundlePlus.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
+                                 src="{{ datasourceBundlePlus.logo ? datasourceBundlePlus.logo : '/assets/images/broken_image-black-48dp.svg' }}">
                           </div>
                         </div>
 
@@ -259,7 +259,7 @@
 
                       <hr class="uk-margin-top">
                       <div class="uk-align-right uk-margin-bottom">
-                        <ng-container *ngIf="datasourceBundlePlus.datasource.catalogueId===CATALOGUE">
+                        <ng-container *ngIf="datasourceBundlePlus.datasource.catalogueId===catalogueConfigId">
                           <button
                             routerLink="/provider/{{pidHandler.customEncodeURIComponent(datasourceBundlePlus.id)}}/resource/{{pidHandler.customEncodeURIComponent(datasourceBundlePlus.datasource.serviceId)}}/subprofile/datasource"
                             class="uk-button uk-button-link"

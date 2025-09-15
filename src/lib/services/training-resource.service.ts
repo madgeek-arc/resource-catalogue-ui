@@ -17,15 +17,17 @@ import {Paging} from '../domain/paging';
 import {URLParameter} from '../domain/url-parameter';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
+import {ConfigService} from "./config.service";
 
 declare var UIkit: any;
-
-const CATALOGUE = environment.CATALOGUE;
 
 @Injectable()
 export class TrainingResourceService {
 
-  constructor(public http: HttpClient, public authenticationService: AuthenticationService) {
+  private catalogueConfigId: string;
+
+  constructor(public http: HttpClient, public authenticationService: AuthenticationService, private configService: ConfigService) {
+    this.catalogueConfigId = this.configService.getProperty('catalogueId');
   }
   base = environment.API_ENDPOINT;
   private options = {withCredentials: true};
@@ -98,8 +100,8 @@ export class TrainingResourceService {
   //TODO: rename to getTrainingResource
   getService(id: string, catalogueId?: string) {
     id = decodeURIComponent(id);
-    if (!catalogueId) catalogueId = CATALOGUE;
-    if (catalogueId === CATALOGUE)
+    if (!catalogueId) catalogueId = this.catalogueConfigId;
+    if (catalogueId === this.catalogueConfigId)
       return this.http.get<TrainingResource>(this.base + `/trainingResource/${id}?catalogue_id=${catalogueId}`, this.options);
     else
       return this.http.get<Service>(this.base + `/catalogue/${catalogueId}/trainingResource/${id}`, this.options);
@@ -107,8 +109,8 @@ export class TrainingResourceService {
 
   getTrainingResourceBundle(id: string, catalogueId?:string) { //old rich
     id = decodeURIComponent(id);
-    if (!catalogueId) catalogueId = CATALOGUE;
-    if (catalogueId === CATALOGUE)
+    if (!catalogueId) catalogueId = this.catalogueConfigId;
+    if (catalogueId === this.catalogueConfigId)
       return this.http.get<TrainingResourceBundle>(this.base + `/trainingResource/bundle/${id}?catalogue_id=${catalogueId}`, this.options);
     else
       return this.http.get<TrainingResourceBundle>(this.base + `/catalogue/${catalogueId}/trainingResource/bundle/${id}`, this.options);
@@ -328,7 +330,7 @@ export class TrainingResourceService {
   //TODO: rename to getTrainingLoggingInfoHistory
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
     serviceId = decodeURIComponent(serviceId);
-    if (catalogue_id === CATALOGUE)
+    if (catalogue_id === this.catalogueConfigId)
       return this.http.get<Paging<LoggingInfo>>(this.base + `/trainingResource/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
     else
       return this.http.get<Paging<LoggingInfo>>(this.base + `/catalogue/${catalogue_id}/trainingResource/loggingInfoHistory/${serviceId}`);
@@ -336,8 +338,8 @@ export class TrainingResourceService {
 
   auditTrainingResource(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
-    if(!catalogueId) catalogueId = CATALOGUE;
-    if (catalogueId === CATALOGUE)
+    if(!catalogueId) catalogueId = this.catalogueConfigId;
+    if (catalogueId === this.catalogueConfigId)
       return this.http.patch(this.base + `/trainingResource/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
     else
       return this.http.patch(this.base + `/catalogue/${catalogueId}/trainingResource/auditTrainingResource/${id}?actionType=${action}&comment=${comment}`, this.options);

@@ -16,8 +16,6 @@ import {TrainingListComponent} from '../admin/training-list.component';
 import {ServiceEditComponent} from '../provider-resources/service-edit.component';
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
 import {ServiceFormComponent} from '../provider-resources/service-form.component';
-import { ProviderFormToPdfComponent } from './provider-form-to-pdf/provider-form-to-pdf.component';
-import { ResourceFormToPdfComponent } from '../provider-resources/resource-form-to-pdf/resource-form-to-pdf.component';
 import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring-extension/monitoring-extension-form.component";
 import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
 import {NgSelectModule} from '@ng-select/ng-select';
@@ -67,8 +65,6 @@ import {AddFirstDeployableServiceComponent} from "../deployable-services/add-fir
     ServiceEditComponent,
     ServiceFormComponent,
     ServiceUploadComponent,
-    ProviderFormToPdfComponent,
-    ResourceFormToPdfComponent,
     MonitoringExtensionFormComponent,
     HelpdeskExtensionFormComponent,
     TrainingResourceForm,

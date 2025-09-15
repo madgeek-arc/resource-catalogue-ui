@@ -237,7 +237,7 @@
                             <div class="uk-width-1-5">
                               <!--                              <div>-->
                               <!--                                <img class="el-image uk-border-rounded"-->
-                              <!--                                     src="{{ '/lib/assets/images/broken_image-black-48dp.svg' }}">-->
+                              <!--                                     src="{{ '/assets/images/broken_image-black-48dp.svg' }}">-->
                               <!--                              </div>-->
                             </div>
 
@@ -302,7 +302,7 @@
                           </div>
                         </div>
 
-                        <ng-container *ngIf="dsBundle.deployableService.catalogueId !== environment.CATALOGUE">
+                        <ng-container *ngIf="dsBundle.deployableService.catalogueId !== catalogueConfigId">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button
@@ -339,7 +339,7 @@
                           </div>
                         </ng-container>
 
-                        <ng-container *ngIf="dsBundle.deployableService.catalogueId === environment.CATALOGUE">
+                        <ng-container *ngIf="dsBundle.deployableService.catalogueId === catalogueConfigId">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button

@@ -8,7 +8,6 @@ import {environment} from '../../../environments/environment';
 })
 export class NotFoundPageComponent implements OnInit {
 
-  projectName = environment.projectName;
   serviceORresource = environment.serviceORresource;
 
   constructor() { }

@@ -1,5 +1,6 @@
 import {Component, Injector, OnInit, ViewChild, isDevMode, ViewChildren, QueryList} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {ConfigService} from "../../../../services/config.service";
 import {environment} from '../../../../../environments/environment';
 import {InteroperabilityRecord, ResourceInteroperabilityRecord} from "../../../../domain/eic-model";
 import {AuthenticationService} from "../../../../services/authentication.service";
@@ -29,6 +30,7 @@ export class ConfigurationTemplatesComponent implements OnInit {
 
   protected readonly isDevMode = isDevMode;
 
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   serviceORresource = environment.serviceORresource;
   // projectMail = environment.projectMail;
   showLoader = false;
@@ -47,7 +49,8 @@ export class ConfigurationTemplatesComponent implements OnInit {
               protected serviceProviderService: ServiceProviderService,
               protected guidelinesService: GuidelinesService,
               protected serviceExtensionsService: ServiceExtensionsService,
-              protected route: ActivatedRoute
+              protected route: ActivatedRoute,
+              protected config: ConfigService
   ) {}
 
   ngOnInit() {
@@ -115,7 +118,7 @@ export class ConfigurationTemplatesComponent implements OnInit {
                         ConfigurationTemplate: {
                           resourceId: decodeURIComponent(this.serviceId),
                           configurationTemplateId: modelId.split("-").slice(2).join("/"),
-                          catalogueId: environment.CATALOGUE
+                          catalogueId: this.catalogueConfigId
                         }
                       }
                     };

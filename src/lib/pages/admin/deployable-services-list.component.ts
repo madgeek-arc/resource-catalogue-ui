@@ -15,6 +15,7 @@ import {Paging} from '../../domain/paging';
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {DeployableServiceService} from "../../services/deployable-service.service";
 import {environment} from '../../../environments/environment';
+import {ConfigService} from "../../services/config.service";
 
 declare var UIkit: any;
 
@@ -23,6 +24,7 @@ declare var UIkit: any;
   templateUrl: './deployable-services-list.component.html',
 })
 export class DeployableServicesListComponent implements OnInit {
+  catalogueConfigId: string | null = null;
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
   protected readonly environment = environment;
@@ -110,11 +112,13 @@ export class DeployableServicesListComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private fb: UntypedFormBuilder,
-              public pidHandler: pidHandler
+              public pidHandler: pidHandler,
+              public config: ConfigService
   ) {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
       this.router.navigateByUrl('/home');
     } else {
@@ -349,7 +353,6 @@ export class DeployableServicesListComponent implements OnInit {
       },
       () => {
         this.loadingMessage = '';
-        console.log(this.deployableServiceBundles);
       }
     );
   }

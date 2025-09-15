@@ -4,7 +4,7 @@
     <div class="services-provider-container">
       <div *ngIf="providerBundle" class="uk-flex">
         <div>
-          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
         </div>
         <div class="uk-margin-medium-left">
           <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
@@ -147,7 +147,7 @@
                     <span class="">Last Update: </span>{{ irBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div *ngIf="catalogueId === environment.CATALOGUE" class="uk-width-1-4">
+                <div *ngIf="catalogueId === catalogueConfigId" class="uk-width-1-4">
                   <div class="action-buttons">
                     <button
                       [routerLink]="['/guidelines/'+ pidHandler.customEncodeURIComponent(irBundle.interoperabilityRecord.providerId) +'/update/'+ pidHandler.customEncodeURIComponent(irBundle.id)]"

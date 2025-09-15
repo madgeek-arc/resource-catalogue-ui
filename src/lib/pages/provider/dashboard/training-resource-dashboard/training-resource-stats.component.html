@@ -6,7 +6,7 @@
         <div class="services-provider-container">
           <div *ngIf="trainingResource" class="uk-flex">
 <!--            <div>-->
-<!--              <img src="{{ trainingResource.logo ? trainingResource.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">-->
+<!--              <img src="{{ trainingResource.logo ? trainingResource.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">-->
 <!--            </div>-->
             <div class="uk-margin-medium-left">
               <h3 class="uk-margin-remove">{{trainingResource.title}}</h3>
@@ -18,18 +18,12 @@
           </div>
         </div>
 
-        <!-- TOP HELP CONTENT -->
-        <app-help-content #topHelperContent [position]="'top'"
-                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-        </app-help-content>
+
 
         <div class="uk-container uk-container-expand uk-margin-medium-top uk-margin-medium-bottom">
           <div class="uk-grid">
 
-            <!-- LEFT HELP CONTENT -->
-            <app-aside-help-content #leftHelperContent [position]="'left'"
-                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-            </app-aside-help-content>
+
 
             <!-- MIDDLE -->
             <div class=" uk-width-expand@m">
@@ -52,7 +46,7 @@
 
               <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
 
-                <div *ngIf="resourceAddsToProjectOptions && projectName==='EOSC'">
+                <div *ngIf="resourceAddsToProjectOptions && catalogueName==='EOSC'">
                   <div class="uk-card">
                     <div class="uk-card-body">
                       <highcharts-chart *ngIf="resourceAddsToProjectOptions" [Highcharts]="Highcharts"
@@ -90,18 +84,8 @@
 
               </div>
 
-              <!-- RIGHT HELP CONTENT -->
-              <app-aside-help-content #rightHelperContent [position]="'right'"
-                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-              </app-aside-help-content>
-
             </div>
           </div>
-
-          <!-- BOTTOM HELP CONTENT -->
-          <app-help-content #bottomHelperContent [position]="'bottom'"
-                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-          </app-help-content>
 
 
         </div>

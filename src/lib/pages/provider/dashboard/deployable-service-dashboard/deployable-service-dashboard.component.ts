@@ -4,6 +4,7 @@ import {AuthenticationService} from '../../../../services/authentication.service
 import {ResourceService} from '../../../../services/resource.service';
 import {ServiceExtensionsService} from '../../../../services/service-extensions.service';
 import {NavigationService} from '../../../../services/navigation.service';
+import {ConfigService} from "../../../../services/config.service";
 import {environment} from '../../../../../environments/environment';
 import {DeployableServiceBundle} from "../../../../domain/eic-model";
 import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
@@ -15,7 +16,7 @@ import {DeployableServiceService} from "../../../../services/deployable-service.
   templateUrl: './deployable-service-dashboard.component.html',
 })
 export class DeployableServiceDashboardComponent implements OnInit {
-
+  catalogueConfigId: string | null = null;
   protected readonly environment = environment;
   _marketplaceTrainingResourcesURL = environment.marketplaceTrainingResourcesURL;
 
@@ -33,10 +34,12 @@ export class DeployableServiceDashboardComponent implements OnInit {
               public serviceExtensionsService: ServiceExtensionsService,
               public navigator: NavigationService,
               private route: ActivatedRoute,
-              public pidHandler: pidHandler) {
+              public pidHandler: pidHandler,
+              public config: ConfigService) {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.deployableServiceId = this.route.snapshot.paramMap.get('deployableServiceId');

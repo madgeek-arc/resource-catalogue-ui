@@ -1,4 +1,4 @@
-# [5.1.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v5.0.0...v5.1.0) (2025-07-28)
+## [5.1.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v5.0.0...v5.1.0) (2025-07-28)
 
 
 ### Bug Fixes
@@ -49,7 +49,7 @@
 
 
 
-# [5.0.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v4.0.0...v5.0.0) (2025-05-22)
+## [5.0.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v4.0.0...v5.0.0) (2025-05-22)
 
 
 ### Bug Fixes
@@ -63,7 +63,7 @@
 
 
 
-# [4.0.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/d1c968264d0c4169b93225b3633f0ea9485afdf0...v4.0.0) (2022-07-04)
+## [4.0.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/d1c968264d0c4169b93225b3633f0ea9485afdf0...v4.0.0) (2022-07-04)
 
 
 ### Bug Fixes

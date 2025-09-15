@@ -10,8 +10,6 @@ import {ServiceProvidersListComponent} from '../admin/service-providers-list.com
 import {ResourcesListComponent} from '../admin/resources-list.component';
 import {ServiceEditComponent} from '../provider-resources/service-edit.component';
 import {ServiceUploadComponent} from '../provider-resources/service-upload.component';
-import {ProviderFormToPdfComponent} from './provider-form-to-pdf/provider-form-to-pdf.component';
-import {ResourceFormToPdfComponent} from '../provider-resources/resource-form-to-pdf/resource-form-to-pdf.component';
 import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring-extension/monitoring-extension-form.component";
 import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
 import {DatasourceSubprofileFormComponent} from "../provider-resources/service-subprofiles/datasource-subprofile-form.component";
@@ -276,22 +274,6 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'View Training Resource'
-    }
-  },
-  {
-    path: 'provider2pdf',
-    component: ProviderFormToPdfComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Provider Form To PDF'
-    }
-  },
-  {
-    path: 'resource2pdf',
-    component: ResourceFormToPdfComponent,
-    canActivate: [CanActivateViaAuthGuard],
-    data: {
-      breadcrumb: 'Provider Form To PDF'
     }
   },
   {

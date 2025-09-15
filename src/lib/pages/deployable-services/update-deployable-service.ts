@@ -9,6 +9,7 @@ import {DeployableServiceForm} from "./deployable-service-form";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {DeployableServiceService} from "../../services/deployable-service.service";
 import {environment} from "../../../environments/environment";
+import {ConfigService} from "../../services/config.service";
 
 @Component({
   selector: 'app-update-deployable-service',
@@ -24,15 +25,16 @@ export class UpdateDeployableService extends DeployableServiceForm implements On
               protected injector: Injector,
               public datePipe: DatePipe,
               public navigator: NavigationService,
-              public dynamicFormService: FormControlService) {
-    super(injector, authenticationService, deployableServiceService, route, dynamicFormService);
+              public dynamicFormService: FormControlService,
+              public config: ConfigService) {
+    super(injector, authenticationService, deployableServiceService, route, dynamicFormService, config);
     this.editMode = true;
   }
 
   ngOnInit() {
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes(':catalogueId')) { this.catalogueId = this.route.snapshot.paramMap.get('catalogueId') }
-    else { this.catalogueId = environment.CATALOGUE }
+    else { this.catalogueId = this.catalogueConfigId }
     if (path === ':catalogueId/:providerId/deployable-service/view/:resourceId') this.disable = true; // view-only mode
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {

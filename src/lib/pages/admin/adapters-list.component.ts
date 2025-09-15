@@ -1,5 +1,6 @@
 import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ProviderBundle, Adapter, AdapterBundle, LoggingInfo} from '../../domain/eic-model';
+import {ConfigService} from "../../services/config.service";
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -18,7 +19,7 @@ declare var UIkit: any;
 export class AdaptersListComponent implements OnInit {
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
-  CATALOGUE = environment.CATALOGUE;
+  catalogueConfigId: string | null = null;
 
   formPrepare = {
     order: 'ASC',
@@ -73,11 +74,13 @@ export class AdaptersListComponent implements OnInit {
               private router: Router,
               private navigator: NavigationService,
               private fb: UntypedFormBuilder,
-              public pidHandler: pidHandler
+              public pidHandler: pidHandler,
+              public config: ConfigService
   ) {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
       this.router.navigateByUrl('/home');
     } else {

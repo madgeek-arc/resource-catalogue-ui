@@ -15,13 +15,15 @@ import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {Paging} from '../domain/paging';
 import {Model} from "../../dynamic-catalogue/domain/dynamic-form-model";
-
-const CATALOGUE = environment.CATALOGUE;
+import {ConfigService} from "./config.service";
 
 @Injectable()
 export class ServiceProviderService {
 
-  constructor(public http: HttpClient, public authenticationService: AuthenticationService) {
+  private catalogueConfigId: string;
+
+  constructor(public http: HttpClient, public authenticationService: AuthenticationService, private configService: ConfigService) {
+    this.catalogueConfigId = this.configService.getProperty('catalogueId');
   }
 
   private base = environment.API_ENDPOINT;
@@ -64,8 +66,8 @@ export class ServiceProviderService {
 
   auditProvider(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
-    if(!catalogueId) catalogueId = CATALOGUE;
-    if (catalogueId === CATALOGUE)
+    if(!catalogueId) catalogueId = this.catalogueConfigId;
+    if (catalogueId === this.catalogueConfigId)
       return this.http.patch(this.base + `/provider/auditProvider/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
     else
       return this.http.patch(this.base + `/catalogue/${catalogueId}/provider/auditProvider/${id}?actionType=${action}&comment=${comment}`, this.options);
@@ -97,9 +99,9 @@ export class ServiceProviderService {
     // console.log(id)
     id = decodeURIComponent(id); // fixme me: revisit for double decode if necessary
     // console.log(id)
-    if(!catalogue_id) catalogue_id = CATALOGUE;
+    if(!catalogue_id) catalogue_id = this.catalogueConfigId;
     // return this.http.get<ProviderBundle>(this.base + `/provider/bundle/${id}`, this.options);
-    if (catalogue_id === CATALOGUE)
+    if (catalogue_id === this.catalogueConfigId)
       return this.http.get<ProviderBundle>(this.base + `/provider/bundle/${id}?catalogue_id=${catalogue_id}`, this.options);
     else
       return this.http.get<ProviderBundle>(this.base + `/catalogue/${catalogue_id}/provider/bundle/${id}`, this.options);
@@ -109,9 +111,9 @@ export class ServiceProviderService {
     // console.log(id)
     id = decodeURIComponent(id); // fixme me: revisit for double decode if necessary
     // console.log(id)
-    if(!catalogue_id) catalogue_id = CATALOGUE;
+    if(!catalogue_id) catalogue_id = this.catalogueConfigId;
     // return this.http.get<Provider>(this.base + `/provider/${id}`, this.options);
-    if (catalogue_id === CATALOGUE)
+    if (catalogue_id === this.catalogueConfigId)
       return this.http.get<Provider>(this.base + `/provider/${id}?catalogue_id=${catalogue_id}`, this.options);
     else
       return this.http.get<Provider>(this.base + `/catalogue/${catalogue_id}/provider/${id}`, this.options);
@@ -137,7 +139,7 @@ export class ServiceProviderService {
       }
     }
 
-    if (catalogue_id === CATALOGUE) {
+    if (catalogue_id === this.catalogueConfigId) {
       if (active === 'statusAll') {
         return this.http.get<Paging<ServiceBundle>>(this.base +
           `/service/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
@@ -187,7 +189,7 @@ export class ServiceProviderService {
         params = params.append('status', statusValue);
       }
     }
-    if (catalogue_id === CATALOGUE) {
+    if (catalogue_id === this.catalogueConfigId) {
       if (active === 'statusAll') {
         return this.http.get<Paging<TrainingResourceBundle>>(this.base +
           `/trainingResource/byProvider/${id}?catalogue_id=${catalogue_id}&from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
@@ -309,7 +311,7 @@ export class ServiceProviderService {
     providerId = decodeURIComponent(providerId);
     // return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}/`);
     // return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}?catalogue_id=${catalogue_id}`);
-    if (catalogue_id === CATALOGUE)
+    if (catalogue_id === this.catalogueConfigId)
       return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}?catalogue_id=${catalogue_id}`);
     else
       return this.http.get<Paging<LoggingInfo>>(this.base + `/catalogue/${catalogue_id}/provider/loggingInfoHistory/${providerId}`);

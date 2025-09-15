@@ -6,6 +6,7 @@ import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGro
 import {URLParameter} from '../../../../domain/url-parameter';
 import {CatalogueService} from "../../../../services/catalogue.service";
 import {TrainingResourceService} from "../../../../services/training-resource.service";
+import {ConfigService} from "../../../../services/config.service";
 import {environment} from "../../../../../environments/environment";
 
 declare var UIkit: any;
@@ -17,6 +18,8 @@ declare var UIkit: any;
 })
 
 export class CatalogueTrainingResourcesComponent implements OnInit {
+
+  catalogueConfigId: string | null = null;
 
   formPrepare = {
     from: '0',
@@ -51,10 +54,12 @@ export class CatalogueTrainingResourcesComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private catalogueService: CatalogueService,
-    private trainingResourceService: TrainingResourceService
+    private trainingResourceService: TrainingResourceService,
+    private config: ConfigService
   ) {}
 
   ngOnInit(): void {
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogue');
 
     this.getCatalogue();

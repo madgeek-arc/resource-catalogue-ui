@@ -9,6 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CatalogueFormComponent} from "./catalogue-form.component";
 import {CatalogueService} from "../../services/catalogue.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
+import {ConfigService} from "../../services/config.service";
 
 declare var UIkit: any;
 
@@ -29,12 +30,13 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
               public resourceService: ResourceService,
               public router: Router,
               public route: ActivatedRoute,
-              public dynamicFormService: FormControlService) {
-    super(fb, authService, serviceProviderService, catalogueService, resourceService, router, route, dynamicFormService);
+              public dynamicFormService: FormControlService,
+              public config: ConfigService) {
+    super(fb, authService, serviceProviderService, catalogueService, resourceService, router, route, dynamicFormService, config);
   }
 
   ngOnInit() {
-    this.edit = true;
+    this.editMode = true;
     this.catalogueId = this.route.snapshot.paramMap.get('catalogueId');
     const path = this.route.snapshot.routeConfig.path;
     if (path === 'info/:catalogueId') {
@@ -67,10 +69,6 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
     }
   }
 
-  registerCatalogue(tempSave: boolean) {
-    super.registerCatalogue(tempSave);
-  }
-
   getProvider() {
     this.errorMessage = '';
     const path = this.route.snapshot.routeConfig.path;
@@ -93,101 +91,8 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
             this.router.navigateByUrl('/forbidden')
           // console.log(Object.keys(this.catalogue));
           ResourceService.removeNulls(this.catalogue);
-
-          if (this.catalogue.users && this.catalogue.users.length > 1) {
-            for (let i = 0; i < this.catalogue.users.length - 1; i++) {
-              this.addUser();
-            }
-          } else if (path === 'add/:providerId') {
-            this.addDefaultUser();
-          }
-
-          // if (this.catalogue.multimedia && this.catalogue.multimedia.length > 1) {
-          //   for (let i = 0; i < this.catalogue.multimedia.length - 1; i++) {
-          //     this.push('multimedia', this.multimediaURLDesc.mandatory, true);
-          //   }
-          // }
-
-          if (this.catalogue.multimedia && this.catalogue.multimedia.length > 1) {
-            for (let i = 0; i < this.catalogue.multimedia.length - 1; i++) {
-              this.multimediaArray.push(this.newMultimedia());
-            }
-          }
-
-          if (this.catalogue.scientificDomains) {
-            // this.removeDomain(0);
-            for (let i = 0; i < this.catalogue.scientificDomains.length; i++) {
-              this.domainArray.push(this.newScientificDomain());
-
-              // for (let j = 0; j < this.categoriesVocabulary.length; j++) {
-              //   if (this.categoriesVocabulary[j].id === this.catalogue.scientificDomains[i]) {
-              //     this.domainArray.controls[this.domainArray.length - 1].get('domain').setValue(this.categoriesVocabulary[j].parentId);
-              //     this.domainArray.controls[this.domainArray.length - 1].get('scientificSubdomain').setValue(this.categoriesVocabulary[j].id);
-              //   }
-              // }
-            }
-          } else this.domainArray.push(this.newScientificDomain());
-
-          if (this.catalogue.publicContacts && this.catalogue.publicContacts.length > 1) {
-            for (let i = 0; i < this.catalogue.publicContacts.length - 1; i++) {
-              this.pushPublicContact();
-            }
-          }
-          if (this.catalogue.tags && this.catalogue.tags.length > 1) {
-            for (let i = 0; i < this.catalogue.tags.length - 1; i++) {
-              this.push('tags', this.tagsDesc.mandatory);
-            }
-          }
-          if (this.catalogue.participatingCountries && this.catalogue.participatingCountries.length > 1) {
-            for (let i = 0; i < this.catalogue.participatingCountries.length - 1; i++) {
-              this.push('participatingCountries', this.participatingCountriesDesc.mandatory);
-            }
-          }
-          if (this.catalogue.affiliations && this.catalogue.affiliations.length > 1) {
-            for (let i = 0; i < this.catalogue.affiliations.length - 1; i++) {
-              this.push('affiliations', this.affiliationDesc.mandatory);
-            }
-          }
-          if (this.catalogue.networks && this.catalogue.networks.length > 1) {
-            for (let i = 0; i < this.catalogue.networks.length - 1; i++) {
-              this.push('networks', this.networksDesc.mandatory);
-            }
-          }
-          this.catalogueForm.patchValue(this.catalogue);
-          this.catalogueForm.updateValueAndValidity();
-          if (this.disable) {
-            this.catalogueForm.disable();
-          }
-          // this.initCatalogueBitSets();
         }
       );
   }
-
-  toggleDisable() {
-    this.disable = !this.disable;
-    this.catalogueForm.enable();
-  }
-
-  /*initCatalogueBitSets() {
-    this.handleBitSets(0, 0, 'name');
-    this.handleBitSets(0, 1, 'abbreviation');
-    this.handleBitSets(0, 2, 'website');
-    this.handleBitSets(0, 16, 'legalEntity');
-    this.handleBitSets(0, 17, 'inclusionCriteria');
-    this.handleBitSets(0, 18, 'validationProcess');
-    this.handleBitSets(0, 19, 'endOfLife');
-    this.handleBitSets(0, 20, 'scope');
-    this.handleBitSets(1, 3, 'description');
-    this.handleBitSets(1, 4, 'logo');
-    this.handleBitSetsOfGroups(3, 5, 'streetNameAndNumber', 'location');
-    this.handleBitSetsOfGroups(3, 6, 'postalCode', 'location');
-    this.handleBitSetsOfGroups(3, 7, 'city', 'location');
-    this.handleBitSetsOfGroups(3, 8, 'country', 'location');
-    this.handleBitSetsOfGroups(4, 9, 'firstName', 'mainContact');
-    this.handleBitSetsOfGroups(4, 10, 'lastName', 'mainContact');
-    this.handleBitSetsOfGroups(4, 11, 'email', 'mainContact');
-    this.handleBitSetsOfPublicContact(4, 15, 'email', 'publicContacts');
-    this.initUserBitSets();
-  }*/
 
 }

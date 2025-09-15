@@ -4,7 +4,7 @@
     <div class="services-provider-container">
       <div *ngIf="providerBundle" class="uk-flex">
         <div>
-          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
         </div>
         <div class="uk-margin-medium-left">
           <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
@@ -152,7 +152,7 @@
 
               <div class="uk-grid uk-flex-middle uk-margin-remove-top">
 <!--                <div class="uk-width-1-6">-->
-<!--                  <img src="{{trainingResource.trainingResource.logo ? trainingResource.trainingResource.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">-->
+<!--                  <img src="{{trainingResource.trainingResource.logo ? trainingResource.trainingResource.logo : '/assets/images/broken_image-black-48dp.svg'}}">-->
 <!--                </div>-->
                 <div class="uk-width-3-4">
                   <h4 class="uk-margin-remove uk-padding-small uk-padding-remove-top uk-padding-remove-left uk-padding-remove-right">
@@ -191,7 +191,7 @@
                     <span class="">Last Update: </span>{{ trBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div *ngIf="catalogueId === environment.CATALOGUE" class="uk-width-1-4">
+                <div *ngIf="catalogueId === catalogueConfigId" class="uk-width-1-4">
                   <div class="action-buttons">
                     <button
                       [routerLink]="['/provider/'+ pidHandler.customEncodeURIComponent(trBundle.trainingResource.resourceOrganisation) +'/training-resource/update/'+ pidHandler.customEncodeURIComponent(trBundle.id)]"
@@ -251,7 +251,7 @@
       <!--<div class="uk-child-width-expand uk-flex-middle uk-grid uk-grid-stack uk-padding-small" uk-grid="">-->
       <!--<div class="uk-width-1-6@m uk-first-column">-->
       <!--<img-->
-      <!--src="{{providerService.service.logo ? providerService.service.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}"-->
+      <!--src="{{providerService.service.logo ? providerService.service.logo : '/assets/images/broken_image-black-48dp.svg'}}"-->
       <!--class="uk-border-rounded uk-padding-small center">-->
       <!--</div>-->
       <!--<div class="uk-width-2-3@m uk-padding-remove">-->
