@@ -854,18 +854,14 @@ export interface HelpdeskArticle {
 export interface CreateTicketRequest {
   title: string;
   group?: string;
-  customer: {
-    firstname: string;
-    lastname: string;
-    email: string;
-  };
   article: {
     subject?: string;
     body: string;
     type?: string;
     internal?: boolean;
   };
-  userToken?: string; // User's ID token for backend authentication
+  // Note: customer data and userToken removed for GDPR compliance
+  // Backend handles user identification via access token
 }
 
 export interface CreateUserRequest {

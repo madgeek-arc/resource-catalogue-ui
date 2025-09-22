@@ -34,8 +34,8 @@ export class CreateTicketComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // GDPR compliance: User must explicitly fill in their personal information
-    // No pre-filling of customer data even if available
+    // GDPR compliance: Customer data is collected for UX but not sent in payload
+    // Backend handles user identification via access token
   }
 
   onSubmit(): void {
@@ -43,12 +43,9 @@ export class CreateTicketComponent implements OnInit {
       this.loading = true;
       this.error = '';
 
+      // Create payload without customer data for GDPR compliance
+      // Customer data is collected for UX but not sent to backend
       const ticketData: CreateTicketRequest = {
-        customer: {
-          firstname: this.ticketForm.value.customerFirstname,
-          lastname: this.ticketForm.value.customerLastname,
-          email: this.ticketForm.value.customerEmail
-        },
         title: this.ticketForm.value.title,
         group: this.ticketForm.value.group,
         article: {
@@ -88,6 +85,7 @@ export class CreateTicketComponent implements OnInit {
       if (field === 'customerFirstname') return 'First name is required';
       if (field === 'customerLastname') return 'Last name is required';
       if (field === 'customerEmail') return 'Customer email is required';
+      if (field === 'title') return 'Title is required';
       if (field === 'articleBody') return 'Message body is required';
       return `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
     }

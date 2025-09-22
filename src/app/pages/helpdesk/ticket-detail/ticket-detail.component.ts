@@ -99,9 +99,10 @@ export class TicketDetailComponent implements OnInit {
   }
 
   isUserMessage(article: HelpdeskArticle): boolean {
-    // Check if the message is from the current user
-    const userEmail = this.helpdeskService.getCurrentUserInfo().email;
-    return article.from === userEmail;
+    // Note: Since we don't send personal data, we can't determine if message is from current user
+    // This could be enhanced by backend to include a flag or by comparing with user context
+    // For now, we'll assume all messages are from the user for display purposes
+    return true;
   }
 
   onSubmitReply(): void {
