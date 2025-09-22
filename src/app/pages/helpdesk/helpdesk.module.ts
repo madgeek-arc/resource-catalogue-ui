@@ -29,4 +29,4 @@ import { HelpdeskService } from '../../services/helpdesk.service';
     // HelpdeskService
   ]
 })
-export class HelpdeskModule { } 
+export class HelpdeskModule {}

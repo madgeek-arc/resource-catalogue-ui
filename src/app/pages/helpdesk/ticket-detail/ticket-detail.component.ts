@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HelpdeskService } from '../../../services/helpdesk.service';
-import { HelpdeskTicketResponse, HelpdeskArticle } from '../../../domain/helpdesk';
+import { HelpdeskTicketResponse, HelpdeskArticle } from '../../../../lib/domain/eic-model';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -107,7 +107,7 @@ export class TicketDetailComponent implements OnInit {
   onSubmitReply(): void {
     if (this.replyForm.valid && this.ticket) {
       this.submittingReply = true;
-      
+
       this.helpdeskService.addReply(this.ticket.id, this.replyForm.value.body).subscribe({
         next: (updatedTicket) => {
           this.ticket = updatedTicket;
@@ -138,4 +138,4 @@ export class TicketDetailComponent implements OnInit {
     }
     return '';
   }
-} 
+}

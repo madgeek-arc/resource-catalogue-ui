@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HelpdeskService } from '../../../services/helpdesk.service';
-import { HelpdeskTicketResponse } from '../../../domain/helpdesk';
+import { HelpdeskTicketResponse } from '../../../../lib/domain/eic-model';
 
 @Component({
   selector: 'app-ticket-list',
@@ -105,4 +105,4 @@ export class TicketListComponent implements OnInit {
     }
     return this.tickets.filter(ticket => ticket.status === status).length;
   }
-} 
+}

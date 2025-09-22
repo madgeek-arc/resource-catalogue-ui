@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HelpdeskService } from '../../../services/helpdesk.service';
-import { CreateTicketRequest } from '../../../domain/helpdesk';
+import { CreateTicketRequest } from '../../../../lib/domain/eic-model';
 
 @Component({
   selector: 'app-create-ticket',
@@ -100,4 +100,4 @@ export class CreateTicketComponent implements OnInit {
     }
     return '';
   }
-} 
+}
