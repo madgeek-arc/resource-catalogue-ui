@@ -8,6 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {Vocabulary, Type, Provider, InteroperabilityRecord} from '../../domain/eic-model';
 import BitSet from 'bitset';
+import {ConfigService} from "../../services/config.service";
 import {environment} from '../../../environments/environment';
 import {PremiumSortPipe} from "../../shared/pipes/premium-sort.pipe";
 import {GuidelinesService} from "../../services/guidelines.service";
@@ -28,9 +29,8 @@ export class GuidelinesFormComponent implements OnInit {
   subVocabulariesMap: Map<string, object[]> = null //?
   payloadAnswer: object = null;
 
+  catalogueConfigId: string | null = null;
   providerId: string;
-  projectName = environment.projectName;
-  projectMail = environment.projectMail;
   guideline: InteroperabilityRecord;
   guidelineId: string = null;
   guidelineTitle = '';
@@ -39,7 +39,7 @@ export class GuidelinesFormComponent implements OnInit {
   vocabularies: Map<string, Vocabulary[]> = null;
   subVocabularies: Map<string, Vocabulary[]> = null;
   premiumSort = new PremiumSortPipe();
-  edit = false;
+  editMode = false;
   hasChanges = false;
   disable = false;
   showLoader = false;
@@ -110,7 +110,7 @@ export class GuidelinesFormComponent implements OnInit {
 
   readonly formDefinition = {
     id: [''],
-    catalogueId: ['eosc'], //assuming that non-eosc providers cannot add/edit/assign guidelines
+    catalogueId: [this.catalogueConfigId], //assuming that non-eosc providers cannot add/edit/assign guidelines
     providerId: [''],
     title: ['', Validators.required],
     publicationYear: ['', Validators.required],
@@ -166,23 +166,25 @@ export class GuidelinesFormComponent implements OnInit {
               public resourceService: ResourceService,
               public router: Router,
               public route: ActivatedRoute,
-              public pidHandler: pidHandler) {
+              public pidHandler: pidHandler,
+              public config: ConfigService) {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     this.showLoader = true;
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.serviceProviderService.getFormModelById('m-b-guidelines').subscribe(
       res => this.model = res,
       err => console.log(err),
       ()=>{
-        if (!this.edit) { //prefill field(s)
+        if (!this.editMode) { //prefill field(s)
           this.payloadAnswer = {
             'answer': {
               Guidelines:
                 {
                   'providerId': decodeURIComponent(this.providerId),
-                  'catalogueId': environment.CATALOGUE
+                  'catalogueId': this.catalogueConfigId
                 }
             }
           };
@@ -198,7 +200,7 @@ export class GuidelinesFormComponent implements OnInit {
     this.setVocabularies();
     this.guidelinesForm = this.fb.group(this.formDefinition);
     this.guidelinesForm.get('providerId').setValue(decodeURIComponent(this.route.snapshot.paramMap.get('providerId')));
-    // if (this.edit === false) {
+    // if (this.editMode === false) {
     //   // this.pushDomain();
     // }
 
@@ -225,7 +227,7 @@ export class GuidelinesFormComponent implements OnInit {
         }
       }
       this.guidelinesForm.patchValue(data);
-      if (!this.edit) {
+      if (!this.editMode) {
         sessionStorage.removeItem('guideline');
       }
     }
@@ -247,7 +249,7 @@ export class GuidelinesFormComponent implements OnInit {
 
     this.cleanArrayProperty(guidelinesValue, 'alternativeIdentifiers');
 
-    let method = this.edit ? 'updateInteroperabilityRecord' : 'addInteroperabilityRecord';
+    let method = this.editMode ? 'updateInteroperabilityRecord' : 'addInteroperabilityRecord';
     this.guidelinesService[method](guidelinesValue).subscribe(
       res => {},
       err => {
@@ -256,7 +258,7 @@ export class GuidelinesFormComponent implements OnInit {
       },
       () => {
         this.showLoader = false;
-        this.router.navigate(['/dashboard/eosc/'+ this.pidHandler.customEncodeURIComponent(this.providerId) +'/guidelines/']);
+        this.router.navigate(['/dashboard/' + this.catalogueConfigId +'/'+ this.pidHandler.customEncodeURIComponent(this.providerId) +'/guidelines/']);
       }
     );
   }
@@ -272,7 +274,7 @@ export class GuidelinesFormComponent implements OnInit {
     // this.findInvalidControls();
     // this.trimFormWhiteSpaces();
     // const path = this.route.snapshot.routeConfig.path;
-    let method = this.edit ? 'updateInteroperabilityRecord' : 'addInteroperabilityRecord';
+    let method = this.editMode ? 'updateInteroperabilityRecord' : 'addInteroperabilityRecord';
 
     for (let i = 0; i < this.alternativeIdentifiersArray.length; i++) {
       if (this.alternativeIdentifiersArray.controls[i].get('value').value === ''
@@ -294,7 +296,7 @@ export class GuidelinesFormComponent implements OnInit {
         },
         () => {
           this.showLoader = false;
-          this.router.navigate(['/dashboard/eosc/'+ this.pidHandler.customEncodeURIComponent(this.guidelinesForm.get('providerId').value) +'/guidelines/']);
+          this.router.navigate(['/dashboard/' + this.catalogueConfigId +'/'+ this.pidHandler.customEncodeURIComponent(this.guidelinesForm.get('providerId').value) +'/guidelines/']);
         }
       );
     } else {

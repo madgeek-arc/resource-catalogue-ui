@@ -6,8 +6,6 @@ import {Monitoring, Helpdesk, MonitoringBundle, HelpdeskBundle, MonitoringStatus
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
-const CATALOGUE = environment.CATALOGUE;
-
 @Injectable()
 export class ServiceExtensionsService {
 

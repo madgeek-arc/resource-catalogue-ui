@@ -4,7 +4,7 @@
     <div class="services-provider-container">
       <div *ngIf="providerBundle" class="uk-flex">
         <div>
-          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
         </div>
         <div class="uk-margin-medium-left">
           <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
@@ -48,7 +48,7 @@
             <div class="uk-card-body">
               <div class="uk-grid uk-flex-middle">
                 <div class="uk-width-1-6">
-                  <img src="{{providerService.service.logo ? providerService.service.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
+                  <img src="{{providerService.service.logo ? providerService.service.logo : '/assets/images/broken_image-black-48dp.svg'}}">
                 </div>
                 <div class="uk-width-2-3">
                   <h4 class="uk-margin-remove">{{providerService.service.name}}</h4>
@@ -94,8 +94,10 @@
 
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h6 *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} '{{selectedService.service.name}}'</h6>
-    <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteService(selectedService.id)">Delete</button>
-    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+    <h6 *ngIf="selectedService">Are you sure you want to delete the {{serviceORresource | lowercase}} '{{selectedService.service.name}}'?</h6>
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteService(selectedService.id)">Delete</button>
+    </div>
   </div>
 </div>

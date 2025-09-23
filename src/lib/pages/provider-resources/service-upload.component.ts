@@ -9,6 +9,7 @@ import {RecommendationsService} from "../../services/recommendations.service";
 import {CatalogueService} from "../../services/catalogue.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
+import {ConfigService} from "../../services/config.service";
 
 @Component({
   selector: 'app-service-upload',
@@ -25,8 +26,9 @@ export class ServiceUploadComponent extends ServiceFormComponent implements OnIn
               protected route: ActivatedRoute,
               public pidHandler: pidHandler,
               public dynamicFormService: FormControlService,
-              public router: Router) {
-    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService, router);
+              public router: Router,
+              public config: ConfigService) {
+    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService, router, config);
     this.editMode = false;
   }
 
@@ -36,10 +38,6 @@ export class ServiceUploadComponent extends ServiceFormComponent implements OnIn
 
   onSuccess(service) {
     this.successMessage = 'Resource uploaded successfully!';
-  }
-
-  onSubmit(service: Service, tempSave: boolean) {
-    super.onSubmit(service, tempSave);
   }
 
 }

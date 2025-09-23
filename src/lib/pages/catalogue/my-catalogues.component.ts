@@ -12,7 +12,6 @@ import {CatalogueService} from "../../services/catalogue.service";
   templateUrl: './my-catalogues.component.html'
 })
 export class MyCataloguesComponent implements OnInit {
-
   serviceORresource = environment.serviceORresource;
 
   errorMessage: string;

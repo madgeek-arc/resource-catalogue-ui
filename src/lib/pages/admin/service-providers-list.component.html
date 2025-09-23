@@ -18,19 +18,9 @@
         <!--</div>-->
         <!--</div>-->
         <!--</div>-->
-        <!-- TOP HELP CONTENT -->
-        <app-help-content #topHelperContent [position]="'top'"
-                          [ngClass]="topHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-        </app-help-content>
 
         <div class="uk-margin-medium-bottom">
           <div class="uk-grid">
-
-            <!-- LEFT HELP CONTENT -->
-            <app-aside-help-content #leftHelperContent [position]="'left'"
-                                    [ngClass]="leftHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-            </app-aside-help-content>
-
 
             <!-- MIDDLE -->
             <div class=" uk-width-expand@m">
@@ -264,13 +254,13 @@
                             <div class="uk-width-1-5">
                               <div>
                                 <img class="el-image uk-border-rounded"
-                                     src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
+                                     src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}">
                               </div>
                             </div>
                             <div class="uk-width-4-5">
                               <div class="providerName">
                                 <span class="uk-margin-auto-vertical">
-<!--                                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' else anotherCatalogue">-->
+<!--                                  <ng-container *ngIf="providerBundle.provider.catalogueId===catalogueConfigId else anotherCatalogue">-->
                                     <ng-container *ngIf="providerBundle.status === 'approved provider'">
                                       <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, pidHandler.customEncodeURIComponent(providerBundle.id)]" data-uk-tooltip title="Go to the resource provider monitoring dashboard">
                                         {{ providerBundle.provider.name }}
@@ -281,7 +271,7 @@
                                         {{ providerBundle.provider.name }}
                                       </a>
                                     </ng-container>
-                                  <!--                                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' ">-->
+                                  <!--                                  <ng-container *ngIf="providerBundle.provider.catalogueId===catalogueConfigId ">-->
                                     <a [routerLink]="['/provider/view', providerBundle.provider.catalogueId, pidHandler.customEncodeURIComponent(providerBundle.id)]" class="uk-display-inline-block">
                                       <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
                                     </a>
@@ -393,7 +383,7 @@
                         <!--                          </div>-->
                         <!--                        </ng-container>-->
 
-                        <ng-container *ngIf="providerBundle.provider.catalogueId!=='eosc'">
+                        <ng-container *ngIf="providerBundle.provider.catalogueId !== catalogueConfigId">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button [routerLink]="['/provider/view/',providerBundle.provider.catalogueId, pidHandler.customEncodeURIComponent(providerBundle.id)]" class="uk-button uk-button-link">
@@ -427,7 +417,7 @@
                           </div>
                         </ng-container>
 
-                        <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc'">
+                        <ng-container *ngIf="providerBundle.provider.catalogueId === catalogueConfigId">
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button [routerLink]="['/provider/update/' + pidHandler.customEncodeURIComponent(providerBundle.id)]"
@@ -474,12 +464,12 @@
                                 <ng-container *ngIf="providerBundle.templateStatus==='pending template'">
                                   <ng-container *ngIf="hasCreatedFirstService(providerBundle.id)">
                                     <li class="uk-active">
-                                      <a *ngIf="projectName!='EOSC'"
+                                      <a *ngIf="catalogueName!='EOSC'"
                                          routerLink="{{ getLinkToFirstService(pidHandler.customEncodeURIComponent(providerBundle.id)) }}"
                                          class="">
                                         <i class="fa fa-eye"></i> View First {{serviceORresource}}
                                       </a>
-                                      <a *ngIf="projectName=='EOSC'" (click)="openPreviewModal(providerBundle.id, 'service')"
+                                      <a *ngIf="catalogueName=='EOSC'" (click)="openPreviewModal(providerBundle.id, 'service')"
                                          class="">
                                         <i class="fa fa-eye"></i> View First {{serviceORresource}}
                                       </a>
@@ -612,20 +602,8 @@
 
               </div>
 
-              <!-- RIGHT HELP CONTENT -->
-              <app-aside-help-content #rightHelperContent [position]="'right'"
-                                      [ngClass]="rightHelperContent.isPresent()?'tm-sidebar uk-width-1-4@m uk-first-column':'clear-style'">
-              </app-aside-help-content>
-
             </div>
           </div>
-
-
-          <!-- BOTTOM HELP CONTENT -->
-          <app-help-content #bottomHelperContent [position]="'bottom'"
-                            [ngClass]="bottomHelperContent.isPresent()?'uk-margin-medium-top uk-margin-medium-bottom':'clear-style'">
-          </app-help-content>
-
 
         </div>
       </div>
@@ -736,6 +714,10 @@
       </div>
     </div>
 
+    <div *ngIf="offCanvasMessage">
+      <p>{{offCanvasMessage}}</p>
+    </div>
+
     <div *ngFor="let providerBundle of providersForAudit" class="uk-card provider-card uk-margin-medium-top">
       <div class="uk-card-body" style="padding-bottom: 20px;">
 
@@ -765,18 +747,18 @@
             <div class="uk-width-1-5">
               <div>
                 <img class="el-image uk-border-rounded"
-                     src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}">
+                     src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}">
               </div>
             </div>
 
             <div class="uk-width-4-5">
               <div class="providerName">
                 <span class="uk-margin-auto-vertical">
-<!--                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc' else anotherCatalogue">-->
+<!--                  <ng-container *ngIf="providerBundle.provider.catalogueId === catalogueConfigId else anotherCatalogue">-->
                     <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, pidHandler.customEncodeURIComponent(providerBundle.id)]" target="_blank" data-uk-tooltip title="Go to the resource provider monitoring dashboard">
                         {{ providerBundle.provider.name }}
                     </a>
-                  <!--                  <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc'">-->
+                  <!--                  <ng-container *ngIf="providerBundle.provider.catalogueId === catalogueConfigId">-->
                     <a [routerLink]="['/provider/view', providerBundle.provider.catalogueId, pidHandler.customEncodeURIComponent(providerBundle.id)]" target="_blank" class="uk-display-inline-block">
                       <i aria-hidden="true" class="fa fa-info-circle fa-lg uk-margin-left"></i>
                     </a>
@@ -852,7 +834,7 @@
           </div>
         </div>
 
-        <ng-container *ngIf="providerBundle.provider.catalogueId==='eosc'">
+        <ng-container *ngIf="providerBundle.provider.catalogueId === catalogueConfigId">
           <hr class="uk-margin-top">
           <button *ngIf="providerBundle.status == 'approved provider'"
                   class="uk-button uk-button-link uk-margin-medium-right"

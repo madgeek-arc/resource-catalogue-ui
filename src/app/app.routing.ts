@@ -12,6 +12,9 @@ import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provide
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
 import {HomeComponent} from './pages/home/home.component';
 import {ComingSoonPageComponent} from "../lib/shared/coming-soon-page/coming-soon-page.component";
+import {
+  DeployableServiceDashboardModule
+} from "../lib/pages/provider/dashboard/deployable-service-dashboard/deployable-service-dashboard.module";
 
 const appRoutes: Routes = [
   {
@@ -80,6 +83,11 @@ const appRoutes: Routes = [
   {
     path: 'dashboard/:catalogueId/:providerId/training-resource-dashboard',
     loadChildren: () => import('../lib/pages/provider/dashboard/training-resource-dashboard/training-resource-dashboard.module').then(m => m.TrainingResourceDashboardModule),
+    canActivate: [CanActivateViaAuthGuard]
+  },
+  {
+    path: 'dashboard/:catalogueId/:providerId/deployable-service-dashboard',
+    loadChildren: () => import('../lib/pages/provider/dashboard/deployable-service-dashboard/deployable-service-dashboard.module').then(m => m.DeployableServiceDashboardModule),
     canActivate: [CanActivateViaAuthGuard]
   },
   {

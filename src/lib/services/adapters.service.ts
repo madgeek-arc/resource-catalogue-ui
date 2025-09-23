@@ -2,15 +2,19 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
-import {Adapter, AdapterBundle, CatalogueBundle, InteroperabilityRecordBundle} from '../domain/eic-model';
+import {Adapter, AdapterBundle} from '../domain/eic-model';
 import {Model} from "../../dynamic-catalogue/domain/dynamic-form-model";
-
-const CATALOGUE = environment.CATALOGUE;
+import {ConfigService} from "./config.service";
 
 @Injectable()
 export class AdaptersService {
 
-  constructor(public http: HttpClient, public authenticationService: AuthenticationService) {
+  private catalogueConfigId: string;
+
+  constructor(public http: HttpClient,
+              public authenticationService: AuthenticationService,
+              private configService: ConfigService) {
+    this.catalogueConfigId = this.configService.getProperty('catalogueId');
   }
   base = environment.API_ENDPOINT;
   private options = {withCredentials: true};
@@ -78,25 +82,25 @@ export class AdaptersService {
 
   auditAdapter(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
-    if(!catalogueId) catalogueId = CATALOGUE;
-    if (catalogueId === CATALOGUE)
+    if(!catalogueId) catalogueId = this.catalogueConfigId;
+    if (catalogueId === this.catalogueConfigId)
       return this.http.patch(this.base + `/adapter/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
     else
       return this.http.patch(this.base + `/catalogue/${catalogueId}/adapter/auditAdapter/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
   getLinkedResourcesForAdapter(catalogueId?: string) {
-    if(!catalogueId) catalogueId = CATALOGUE;
+    if(!catalogueId) catalogueId = this.catalogueConfigId;
     return this.http.get<any>(this.base + `/adapter/resourceIdToNameMap?catalogueId=${catalogueId}`);
   }
 
   getLinkedServicesForAdapter(catalogueId?: string) {
-    if(!catalogueId) catalogueId = CATALOGUE;
+    if(!catalogueId) catalogueId = this.catalogueConfigId;
     return this.http.get<any>(this.base + `/adapter/linkedResourceServiceMapDetails?catalogueId=${catalogueId}`);
   }
 
   getLinkedGuidelinesForAdapter(catalogueId?: string) {
-    if(!catalogueId) catalogueId = CATALOGUE;
+    if(!catalogueId) catalogueId = this.catalogueConfigId;
     return this.http.get<any>(this.base + `/adapter/linkedResourceGuidelineMapDetails?catalogueId=${catalogueId}`);
   }
 

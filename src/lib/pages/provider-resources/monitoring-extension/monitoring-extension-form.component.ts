@@ -14,6 +14,7 @@ import {Model} from "../../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../../dynamic-catalogue/services/form-control.service";
 import {SurveyComponent} from "../../../../dynamic-catalogue/pages/dynamic-form/survey.component";
 import {zip} from "rxjs";
+import {ConfigService} from "../../../services/config.service";
 
 @Component({
   selector: 'app-resource-monitoring-extension-form',
@@ -28,9 +29,8 @@ export class MonitoringExtensionFormComponent implements OnInit {
   // vocabulariesMap: { [name: string]: { id: string, name: string }[]; } = {}
   payloadAnswer: object = null;
 
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
-  projectMail = environment.projectMail;
   serviceName = '';
   firstServiceForm = false;
   showLoader = false;
@@ -65,7 +65,8 @@ export class MonitoringExtensionFormComponent implements OnInit {
               protected authenticationService: AuthenticationService,
               protected serviceProviderService: ServiceProviderService,
               protected route: ActivatedRoute,
-              public formService: FormControlService
+              public formService: FormControlService,
+              protected config: ConfigService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
@@ -76,7 +77,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
   submitForm(value) {
     window.scrollTo(0, 0);
     if (!value[0].value.Monitoring.serviceId) value[0].value.Monitoring.serviceId = decodeURIComponent(this.serviceId);
-    this.serviceExtensionsService.uploadMonitoringService(value[0].value.Monitoring, this.editMode, 'eosc', this.resourceType).subscribe(
+    this.serviceExtensionsService.uploadMonitoringService(value[0].value.Monitoring, this.editMode, this.catalogueConfigId, this.resourceType).subscribe(
       _service => {
         this.showLoader = false;
         if (this.resourceType==='service') return this.navigator.resourceDashboard(this.providerId, this.serviceId); // navigate to resource-dashboard

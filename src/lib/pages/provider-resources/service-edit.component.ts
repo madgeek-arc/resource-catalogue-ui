@@ -12,6 +12,8 @@ import {RecommendationsService} from "../../services/recommendations.service";
 import {CatalogueService} from "../../services/catalogue.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
+import {environment} from '../../../environments/environment';
+import {ConfigService} from "../../services/config.service";
 
 @Component({
   selector: 'app-service-edit',
@@ -19,8 +21,9 @@ import {FormControlService} from "../../../dynamic-catalogue/services/form-contr
   styleUrls: ['../provider/service-provider-form.component.css']
 })
 export class ServiceEditComponent extends ServiceFormComponent implements OnInit {
-  private sub: Subscription;
 
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
+  private sub: Subscription;
   // private serviceID: string;
 
   constructor(public route: ActivatedRoute,
@@ -33,15 +36,16 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               public navigator: NavigationService,
               public pidHandler: pidHandler,
               public dynamicFormService: FormControlService,
-              public router: Router) {
-    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService, router);
+              public router: Router,
+              public config: ConfigService) {
+    super(injector, authenticationService, serviceProviderService, recommendationsService, catalogueService, route, pidHandler, dynamicFormService, router, config);
     this.editMode = true;
   }
 
   ngOnInit() {
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes(':catalogueId')) { this.catalogueId = this.route.snapshot.paramMap.get('catalogueId') }
-    else { this.catalogueId = 'eosc' }
+    else { this.catalogueId = this.catalogueConfigId }
     if (path === ':catalogueId/:providerId/resource/view/:resourceId') this.disable = true; // view-only mode
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {
@@ -67,7 +71,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
                 if (service.relatedResources) {
                   service.relatedResources = service.relatedResources.map(value => value.startsWith(this.catalogueId) ? value.substring(this.catalogueId.length + 1) : value);
                 }
-                this.formPrepare(service);
                 this.serviceForm.patchValue(service);
                 for (const i in this.serviceForm.controls) {
                   if (this.serviceForm.controls[i].value === null) {
@@ -117,7 +120,6 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               if (serviceBundle.service.relatedResources) {
                 serviceBundle.service.relatedResources = serviceBundle.service.relatedResources.map(value => value.startsWith(this.catalogueId) ? value.substring(this.catalogueId.length + 1) : value);
               }*/
-              this.formPrepare(serviceBundle.service);
               this.serviceForm.patchValue(serviceBundle.service);
               for (const i in this.serviceForm.controls) {
                 if (this.serviceForm.controls[i].value === null) {
@@ -147,34 +149,5 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
       }
     }
   }
-
-  onSubmit(service: Service, tempSave: boolean) {
-    super.onSubmit(service, tempSave, this.pendingService);
-  }
-
-  /*initServiceBitSets() {
-    this.handleBitSets(0, 0, 'name');
-    this.handleBitSets(0, 21, 'abbreviation');
-    this.handleBitSets(0, 1, 'resourceOrganisation');
-    this.handleBitSets(0, 2, 'webpage');
-    this.handleBitSets(1, 3, 'description');
-    this.handleBitSets(1, 4, 'tagline');
-    this.handleBitSets(1, 5, 'logo');
-    this.handleBitSetsOfGroups(2, 7, 'scientificSubdomain', 'scientificDomains');
-    this.handleBitSetsOfGroups(2, 9, 'subcategory', 'categories');
-    this.handleBitSets(2, 10, 'targetUsers');
-    this.handleBitSets(3, 11, 'geographicalAvailabilities');
-    this.handleBitSets(3, 12, 'languageAvailabilities');
-    this.handleBitSetsOfGroups(5, 13, 'firstName', 'mainContact');
-    this.handleBitSetsOfGroups(5, 14, 'lastName', 'mainContact');
-    this.handleBitSetsOfGroups(5, 15, 'email', 'mainContact');
-    this.handleBitSetsOfPublicContact(5, 20, 'email', 'publicContacts');
-    this.handleBitSets(5, 16, 'helpdeskEmail');
-    this.handleBitSets(5, 17, 'securityContactEmail');
-    this.handleBitSets(6, 18, 'trl');
-    this.handleBitSets(9, 22, 'termsOfUse');
-    this.handleBitSets(9, 23, 'privacyPolicy');
-    this.handleBitSets(10, 19, 'orderType');
-  }*/
 
 }

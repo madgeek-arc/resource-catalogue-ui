@@ -11,6 +11,7 @@ import {environment} from '../../../../../environments/environment';
 import * as Highcharts from 'highcharts';
 import MapModule from 'highcharts/modules/map';
 MapModule(Highcharts);
+import {ConfigService} from '../../../../services/config.service';
 
 declare var require: any;
 const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
@@ -22,8 +23,7 @@ const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
 })
 export class TrainingResourceStatsComponent implements OnInit, OnDestroy {
 
-  projectName = environment.projectName;
-
+  catalogueName: string | null = null;
   public catalogueId: string;
   public trainingResource: TrainingResource;
   public errorMessage: string;
@@ -46,10 +46,12 @@ export class TrainingResourceStatsComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private navigator: NavigationService,
               private resourceService: ResourceService,
-              private trainingResourceService: TrainingResourceService) {
+              private trainingResourceService: TrainingResourceService,
+              private config: ConfigService) {
   }
 
   ngOnInit() {
+    this.catalogueName = this.config.getProperty('catalogueName');
     this.catalogueId = window.location.href.split('dashboard/')[1].split('/')[0];
     this.statisticPeriod = 'MONTH';
     // this.sub = this.route.params.subscribe(params => {
@@ -92,7 +94,7 @@ export class TrainingResourceStatsComponent implements OnInit, OnDestroy {
       }
     );
 
-    if (this.projectName === 'EOSC') {
+    if (this.catalogueName === 'EOSC') {
       this.trainingResourceService.getAddToProjectForService(this.trainingResource.id, period).pipe(
         map(data => {
           // THESE 3 weird lines should be deleted when pgl makes everything ok :)

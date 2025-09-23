@@ -5,6 +5,7 @@ import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {Provider, Service, Type, Adapter, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
+import {ConfigService} from "../../services/config.service";
 import {environment} from '../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
@@ -26,9 +27,8 @@ export class AdaptersFormComponent implements OnInit {
   subVocabulariesMap: Map<string, object[]> = null;
   payloadAnswer: object = null;
 
+  catalogueConfigId: string | null = null;
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
-  projectMail = environment.projectMail;
   serviceName = '';
   firstServiceForm = false;
   showLoader = false;
@@ -64,7 +64,8 @@ export class AdaptersFormComponent implements OnInit {
               protected authenticationService: AuthenticationService,
               protected adaptersService: AdaptersService,
               protected route: ActivatedRoute,
-              protected router: Router
+              protected router: Router,
+              protected config: ConfigService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
@@ -90,13 +91,33 @@ export class AdaptersFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     this.showLoader = true;
     this.getIdsFromCurrentPath();
     this.getVocs();
 
     this.adaptersService.getFormModelById('m-b-adapter').subscribe(
       res => this.model = res,
-      err => console.log(err)
+      err => console.log(err),
+      () => {
+        if (!this.editMode) { //prefill field(s)
+          const currentUser = this.getCurrentUserInfo();
+          this.payloadAnswer = {
+            'answer': {
+              Adapter: {
+                'catalogueId': this.catalogueConfigId,
+                'admins': [
+                  {
+                    name: currentUser.firstname,
+                    surname: currentUser.lastname,
+                    email: currentUser.email
+                  }
+                ]
+              }
+            }
+          };
+        }
+      }
     )
 
     if(this.adapterId){
@@ -163,6 +184,14 @@ export class AdaptersFormComponent implements OnInit {
       }
       return Object.assign(hash, {[obj[key]]: (hash[obj[key]] || []).concat(obj)});
     }, {});
+  }
+
+  getCurrentUserInfo(): { firstname: string; lastname: string; email: string } {
+    return {
+      firstname: this.authenticationService.getUserName(),
+      lastname: this.authenticationService.getUserSurname(),
+      email: this.authenticationService.getUserEmail()
+    };
   }
 
 }

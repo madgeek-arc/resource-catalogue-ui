@@ -11,6 +11,7 @@ import {ServiceBundle, Provider, ProviderBundle} from '../../../../domain/eic-mo
 import {map} from 'rxjs/operators';
 import {Paging} from '../../../../domain/paging';
 import {environment} from '../../../../../environments/environment';
+import {ConfigService} from '../../../../services/config.service';
 import * as Highcharts from 'highcharts';
 import MapModule from 'highcharts/modules/map';
 MapModule(Highcharts);
@@ -29,8 +30,9 @@ declare var UIkit: any;
 
 export class ProviderStatsComponent implements OnInit {
 
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
+  catalogueName: string | null = null;
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
   marketplaceServicesURL = environment.marketplaceServicesURL;
   marketplaceDatasourcesURL = environment.marketplaceDatasourcesURL;
 
@@ -79,11 +81,13 @@ export class ProviderStatsComponent implements OnInit {
     public recommendationsService: RecommendationsService,
     public navigator: NavigationService,
     private route: ActivatedRoute,
-    private providerService: ServiceProviderService
+    private providerService: ServiceProviderService,
+    private config: ConfigService
   ) {
   }
 
   ngOnInit(): void {
+    this.catalogueName = this.config.getProperty('catalogueName');
     this.statisticPeriod = 'MONTH';
     this.providerId = this.route.parent.snapshot.paramMap.get('provider');
     this.catalogueId = this.route.parent.snapshot.paramMap.get('catalogueId');
@@ -154,7 +158,7 @@ export class ProviderStatsComponent implements OnInit {
       }
     );
 
-    if (this.projectName === 'EOSC') {
+    if (this.catalogueName === 'EOSC') {
 
       this.resourceService.getAddsToProjectForProvider(this.providerId, period).pipe(
         map(data => {
@@ -1018,7 +1022,7 @@ export class ProviderStatsComponent implements OnInit {
 
   enrichMostRecommendedServices(data: any) {
     const observables = data.map(item =>
-      this.resourceService.getService(item.service_id, /\..*\./.test(item.service_id) ? item.service_id.split(".")[0] : 'eosc')
+      this.resourceService.getService(item.service_id, /\..*\./.test(item.service_id) ? item.service_id.split(".")[0] : this.catalogueConfigId)
     );
 
     combineLatest(observables).subscribe(
@@ -1091,7 +1095,7 @@ export class ProviderStatsComponent implements OnInit {
         if (competitor.service_id !== 'tnp.lumi_etais__regular_access') {
           // competitorPublicIds.push(competitor.service_id);
           const isPublicId = /\..*\./.test(competitor.service_id); // if it has two dot occurrences its a publicId
-          this.resourceService.getService(competitor.service_id, isPublicId ? competitor.service_id.split(".")[0] : 'eosc').subscribe(
+          this.resourceService.getService(competitor.service_id, isPublicId ? competitor.service_id.split(".")[0] : this.catalogueConfigId).subscribe(
             res => {
               const competitorWithDetails = {
                 service_id: competitor.service_id,
@@ -1121,7 +1125,7 @@ export class ProviderStatsComponent implements OnInit {
     for (const item of this.enrichedRecommendationsOfCompetitorsServices) {
       // outerServicesPublicIds.push(item.service_id);
       const isPublicId = /\..*\./.test(item.service_id); // if it has two dot occurrences its a publicId
-      this.resourceService.getService(item.service_id, isPublicId ? item.service_id.split(".")[0] : 'eosc').subscribe(
+      this.resourceService.getService(item.service_id, isPublicId ? item.service_id.split(".")[0] : this.catalogueConfigId).subscribe(
         res => {
           item.logo = res.logo;
           item.name = res.name;

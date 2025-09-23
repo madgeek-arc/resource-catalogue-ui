@@ -1,6 +1,6 @@
 {
   "name": "resource-catalogue-ui",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
@@ -34,11 +34,9 @@
     "font-awesome": "^4.7.0",
     "highcharts": "^11.4.8",
     "highcharts-angular": "^4.0.1",
-    "html2canvas": "^1.0.0-rc.7",
     "jest": "^29.7.0",
     "jquery": "^3.6.0",
     "jsonpath": "^1.1.1",
-    "jspdf": "^2.3.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "ng2-date-picker": "^16.0.0",

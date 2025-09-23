@@ -262,7 +262,7 @@
 
                                             <hr class="uk-margin-top">
                                             <div class="uk-align-right uk-margin-bottom">
-                                                <ng-container *ngIf="adapterBundle.adapter.catalogueId===CATALOGUE">
+                                                <ng-container *ngIf="adapterBundle.adapter.catalogueId===catalogueConfigId">
                                                     <button
                                                             routerLink="/adapters/update/{{pidHandler.customEncodeURIComponent(adapterBundle.id)}}"
                                                             class="uk-button uk-button-link"

@@ -4,13 +4,15 @@ import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
 import {Datasource, DatasourceBundle, OpenAIREMetrics, ProviderBundle} from '../domain/eic-model';
 import {Paging} from '../domain/paging';
-
-const CATALOGUE = environment.CATALOGUE;
+import {ConfigService} from "./config.service";
 
 @Injectable()
 export class DatasourceService {
 
-  constructor(public http: HttpClient, public authenticationService: AuthenticationService) {
+  private catalogueConfigId: string;
+
+  constructor(public http: HttpClient, public authenticationService: AuthenticationService, private configService: ConfigService) {
+    this.catalogueConfigId = this.configService.getProperty('catalogueId');
   }
   base = environment.API_ENDPOINT;
   private options = {withCredentials: true};
@@ -19,7 +21,7 @@ export class DatasourceService {
     id = decodeURIComponent(id);
     // if version becomes optional this should be reconsidered
     // return this.http.get<Service>(this.base + `/service/${version === undefined ? id : [id, version].join('/')}`, this.options);
-    if (!catalogueId) catalogueId = 'eosc';
+    if (!catalogueId) catalogueId = this.catalogueConfigId;
     return this.http.get<Datasource>(this.base + `/datasource/${id}?catalogue_id=${catalogueId}`, this.options);
   }
 
@@ -112,8 +114,8 @@ export class DatasourceService {
   getDatasourceByServiceId(serviceId: string, catalogueId?:string){
     serviceId = decodeURIComponent(serviceId);
 
-    if(!catalogueId) catalogueId = CATALOGUE;
-    if (catalogueId === CATALOGUE)
+    if(!catalogueId) catalogueId = this.catalogueConfigId;
+    if (catalogueId === this.catalogueConfigId)
 
       return this.http.get<Datasource>(this.base + `/datasource/byService/${serviceId}?catalogue_id=${catalogueId}`, this.options);
     else

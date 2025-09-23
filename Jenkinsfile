@@ -21,16 +21,8 @@ pipeline {
             echo "Detected develop branch version: ${VERSION}"
           } else if (env.BRANCH_NAME == 'master') {
             VERSION = PROJECT_VERSION
-            DOCKER_TAG = "${VERSION}-beta"
+            DOCKER_TAG = "${VERSION}"
             echo "Detected master branch version: ${VERSION}"
-          } else if (env.BRANCH_NAME.startsWith('release/')) {
-            VERSION = env.BRANCH_NAME.split('/')[1]
-            DOCKER_TAG = "${VERSION}-beta"
-            echo "Detected release branch version: ${VERSION}"
-          } else if (env.TAG_NAME != null) {
-            VERSION = env.TAG_NAME.replaceFirst(/^v/, '')
-            DOCKER_TAG = VERSION
-            echo "Detected tag: ${env.TAG_NAME} (version ${VERSION})"
           } else {
             VERSION = PROJECT_VERSION
             def branch = env.BRANCH_NAME.replace('/', '-')
@@ -74,6 +66,27 @@ pipeline {
       steps{
         script {
           sh "docker rmi ${DOCKER_IMAGE.id}"
+        }
+      }
+    }
+
+    stage('Prepare Release PR') {
+      when {
+        allOf {
+          branch 'master'
+          not { changeRequest() }  // skip PR builds
+        }
+      }
+      steps {
+        lock(resource: 'release-resource-catalogue-ui') {
+          withCredentials([string(credentialsId: 'jenkins-github-pat', variable: 'GH_TOKEN')]) {
+            sh '''
+              . /etc/profile.d/load_nvm.sh > /dev/null
+              nvm use 20
+              npx release-please github-release --repo-url ${GIT_URL} --token ${GH_TOKEN}
+              npx release-please release-pr --repo-url ${GIT_URL} --token ${GH_TOKEN}
+            '''
+          }
         }
       }
     }

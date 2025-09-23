@@ -1,15 +1,15 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DatePipe} from '@angular/common';
-import {ServiceFormComponent} from '../provider-resources/service-form.component';
 import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
-import {Service} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {NavigationService} from "../../services/navigation.service";
 import {TrainingResourceForm} from "./training-resource-form";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
+import {environment} from '../../../environments/environment';
+import {ConfigService} from "../../services/config.service";
 
 @Component({
   selector: 'app-update-training-resource',
@@ -27,15 +27,16 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
               protected injector: Injector,
               public datePipe: DatePipe,
               public navigator: NavigationService,
-              public dynamicFormService: FormControlService) {
-    super(injector, authenticationService, serviceProviderService, route, dynamicFormService);
+              public dynamicFormService: FormControlService,
+              public config: ConfigService) {
+    super(injector, authenticationService, serviceProviderService, route, dynamicFormService, config);
     this.editMode = true;
   }
 
   ngOnInit() {
     const path = this.route.snapshot.routeConfig.path;
     if (path.includes(':catalogueId')) { this.catalogueId = this.route.snapshot.paramMap.get('catalogueId') }
-    else { this.catalogueId = 'eosc' }
+    else { this.catalogueId = this.catalogueConfigId }
     if (path === ':catalogueId/:providerId/training-resource/view/:resourceId') this.disable = true; // view-only mode
     super.ngOnInit();
     if (sessionStorage.getItem('service')) {
@@ -87,28 +88,5 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
       });
     }
   }
-
-  onSubmit(service: Service, tempSave: boolean) {
-    super.onSubmit(service, tempSave, this.pendingResource);
-  }
-
-  /*initResourceBitSets() {
-    this.handleBitSets(0, 0, 'title');
-    this.handleBitSets(0, 1, 'resourceOrganisation');
-    this.handleBitSets(0, 2, 'authors');
-    this.handleBitSets(0, 3, 'url');
-    this.handleBitSets(1, 4, 'license');
-    this.handleBitSets(1, 5, 'accessRights');
-    this.handleBitSets(1, 6, 'versionDate');
-    this.handleBitSets(2, 7, 'targetGroups');
-    this.handleBitSets(2, 8, 'learningOutcomes');
-    this.handleBitSets(2, 9, 'expertiseLevel');
-    this.handleBitSets(3, 10, 'languages');
-    this.handleBitSets(3, 11, 'geographicalAvailabilities');
-    this.handleBitSetsOfGroups(4, 13, 'scientificSubdomain', 'scientificDomains');
-    this.handleBitSetsOfGroups(5, 14, 'firstName', 'contact');
-    this.handleBitSetsOfGroups(5, 15, 'lastName', 'contact');
-    this.handleBitSetsOfGroups(5, 16, 'email', 'contact');
-  }*/
 
 }

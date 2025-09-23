@@ -275,7 +275,7 @@
 
                           <hr class="uk-margin-top">
                           <div class="uk-align-right uk-margin-bottom">
-                            <ng-container *ngIf="guidelineBundle.interoperabilityRecord.catalogueId===CATALOGUE">
+                            <ng-container *ngIf="guidelineBundle.interoperabilityRecord.catalogueId===catalogueConfigId">
                               <button
                                 routerLink="/guidelines/{{pidHandler.customEncodeURIComponent(guidelineBundle.interoperabilityRecord.providerId)}}/update/{{pidHandler.customEncodeURIComponent(guidelineBundle.id)}}"
                                 class="uk-button uk-button-link"

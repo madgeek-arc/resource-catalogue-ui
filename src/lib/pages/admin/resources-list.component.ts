@@ -10,6 +10,7 @@ import {
   Vocabulary,
   Service
 } from '../../domain/eic-model';
+import {ConfigService} from "../../services/config.service";
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -28,8 +29,10 @@ declare var UIkit: any;
   templateUrl: './resources-list.component.html'
 })
 export class ResourcesListComponent implements OnInit {
+  catalogueConfigId: string | null = null;
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
+  protected readonly environment = environment;
 
   formPrepare = {
     query: '',
@@ -67,6 +70,7 @@ export class ResourcesListComponent implements OnInit {
 
   errorMessage: string;
   loadingMessage = '';
+  offCanvasMessage = '';
 
   providers: ProviderBundle[] = [];
   selectedProvider: ProviderBundle;
@@ -121,11 +125,13 @@ export class ResourcesListComponent implements OnInit {
               private navigator: NavigationService,
               private fb: UntypedFormBuilder,
               private serviceExtensionsService: ServiceExtensionsService,
-              public pidHandler: pidHandler
+              public pidHandler: pidHandler,
+              public config: ConfigService
   ) {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
     if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
       this.router.navigateByUrl('/home');
     } else {
@@ -325,7 +331,7 @@ export class ResourcesListComponent implements OnInit {
               this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                 res => {
                   if (res) {
-                    console.log(res);
+                    // console.log(res);
                     this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
                   }
                 }
@@ -378,6 +384,7 @@ export class ResourcesListComponent implements OnInit {
   }
 
   getRandomResources(quantity: string) {
+    this.offCanvasMessage = '';
     this.loadingMessage = 'Loading ' + quantity + ' random ' + this.serviceORresource + 's...';
     this.servicesForAudit = [];
     this.resourceService.getRandomResources(quantity).subscribe(
@@ -391,11 +398,14 @@ export class ResourcesListComponent implements OnInit {
       },
       err => {
         console.log(err);
-        this.errorMessage = 'The list could not be retrieved';
         this.loadingMessage = '';
+        this.offCanvasMessage = 'The list could not be retrieved';
       },
       () => {
         this.loadingMessage = '';
+        if (this.servicesForAudit.length === 0) {
+          this.offCanvasMessage = 'No resources found.';
+        }
       }
     );
   }

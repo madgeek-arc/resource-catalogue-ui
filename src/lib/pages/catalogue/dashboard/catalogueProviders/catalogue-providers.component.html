@@ -4,7 +4,7 @@
     <div class="services-provider-container">
       <div *ngIf="catalogueBundle" class="uk-flex">
         <div>
-          <img src="{{ catalogueBundle.catalogue.logo ? catalogueBundle.catalogue.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+          <img src="{{ catalogueBundle.catalogue.logo ? catalogueBundle.catalogue.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
         </div>
         <div class="uk-margin-medium-left">
           <h3 class="uk-margin-remove">{{catalogueBundle.catalogue.name}}</h3>
@@ -152,7 +152,7 @@
 
               <div class="uk-grid uk-flex-middle uk-margin-remove-top">
                 <div class="uk-width-1-6">
-                  <img src="{{providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}">
+                  <img src="{{providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg'}}">
                 </div>
                 <div class="uk-width-2-3">
                   <h4 class="uk-margin-remove">
@@ -171,7 +171,7 @@
                     <span class="">Last Update: </span>{{ providerBundle.metadata.modifiedAt | date }}
                   </div>
                 </div>
-                <div *ngIf="catalogueId==='eosc'" class="uk-width-1-6">
+                <div *ngIf="catalogueId === catalogueConfigId" class="uk-width-1-6">
                   <div class="action-buttons">
                     <!--                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleService(providerService)">-->
                     <!--                      <ng-container *ngIf="providerService.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>-->
@@ -191,7 +191,7 @@
                 </div>
               </div>
 
-              <ng-container *ngIf="providerBundle.provider.catalogueId!=='eosc'">
+              <ng-container *ngIf="providerBundle.provider.catalogueId !== catalogueConfigId">
                 <hr class="uk-margin-top">
                 <div class="uk-align-right">
                   <button [routerLink]="['/provider/view/', providerBundle.provider.catalogueId, providerBundle.id]" class="uk-button uk-button-link">
@@ -230,7 +230,7 @@
       <!--<div class="uk-child-width-expand uk-flex-middle uk-grid uk-grid-stack uk-padding-small" uk-grid="">-->
       <!--<div class="uk-width-1-6@m uk-first-column">-->
       <!--<img-->
-      <!--src="{{providerService.service.logo ? providerService.service.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}"-->
+      <!--src="{{providerService.service.logo ? providerService.service.logo : '/assets/images/broken_image-black-48dp.svg'}}"-->
       <!--class="uk-border-rounded uk-padding-small center">-->
       <!--</div>-->
       <!--<div class="uk-width-2-3@m uk-padding-remove">-->
@@ -273,7 +273,9 @@
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <h6 *ngIf="selectedProvider">Are you sure you want to delete the provider '{{selectedProvider.provider.name}}'</h6>
-    <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteProvider(selectedProvider.id)">Delete</button>
-    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteProvider(selectedProvider.id)">Delete</button>
+    </div>
   </div>
 </div>

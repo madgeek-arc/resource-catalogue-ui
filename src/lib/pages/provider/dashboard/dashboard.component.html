@@ -15,7 +15,7 @@
           <ng-container *ngIf="providerStatus === 'approved provider'">
             <li [routerLinkActive]="['current_section']" #stats="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'stats']">
-                <img src="{{stats.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
+                <img src="{{stats.isActive ? 'assets/images/new-icons/stats-active.svg' : 'assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
                 Statistics
               </a>
             </li>
@@ -23,72 +23,84 @@
           <ng-container *ngIf="providerStatus !== 'approved provider'">
             <li [routerLinkActive]="['current_section']" #stats="routerLinkActive" title="Statistics are disabled until your Provider completes the onboarding process.">
               <a>
-                <img src="{{stats.isActive ? 'lib/assets/images/new-icons/stats-active.svg' : 'lib/assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
+                <img src="{{stats.isActive ? 'assets/images/new-icons/stats-active.svg' : 'assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
                 Statistics
               </a>
             </li>
           </ng-container>
           <li [routerLinkActive]="['current_section']" #history="routerLinkActive">
             <a [routerLink]="['/dashboard', catalogueId, providerId, 'history']">
-              <img src="{{history.isActive ? 'lib/assets/images/new-icons/history-active.svg' : 'lib/assets/images/new-icons/history.svg'}}" class="uk-margin-small-right">
+              <img src="{{history.isActive ? 'assets/images/new-icons/history-active.svg' : 'assets/images/new-icons/history.svg'}}" class="uk-margin-small-right">
               Update History
             </a>
           </li>
           <li [routerLinkActive]="['current_section']" #info="routerLinkActive">
             <a [routerLink]="['/dashboard', catalogueId, providerId, 'info']">
-              <img src="{{info.isActive ? 'lib/assets/images/new-icons/info.svg' : 'lib/assets/images/new-icons/info.svg'}}" class="uk-margin-small-right">
+              <img src="{{info.isActive ? 'assets/images/new-icons/info.svg' : 'assets/images/new-icons/info.svg'}}" class="uk-margin-small-right">
               Info
             </a>
           </li>
-          <ng-container *ngIf="catalogueId!=='eosc'">
+          <ng-container *ngIf="catalogueId !== catalogueConfigId">
             <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'resources']">
-                <img src="{{services.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+                <img src="{{services.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
                 {{serviceORresource}}s
               </a>
             </li>
             <li [routerLinkActive]="['current_section']" #trainingResources="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'training-resources']">
-                <img src="{{trainingResources.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+                <img src="{{trainingResources.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
                 Training Resources
               </a>
             </li>
+            <li [routerLinkActive]="['current_section']" #deployableServices="routerLinkActive">
+              <a [routerLink]="['/dashboard', catalogueId, providerId, 'deployable-services']">
+                <img src="{{deployableServices.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+                Deployable Services
+              </a>
+            </li>
           </ng-container>
-          <ng-container *ngIf="catalogueId==='eosc'">
+          <ng-container *ngIf="catalogueId === catalogueConfigId">
             <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'resources']">
-                <img src="{{services.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+                <img src="{{services.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
                 {{serviceORresource}}s
               </a>
             </li>
             <li [routerLinkActive]="['current_section']" #sharedServices="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'shared-resources']">
-                <img src="{{sharedServices.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+                <img src="{{sharedServices.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
                 Shared {{serviceORresource}}s
               </a>
             </li>
             <li [routerLinkActive]="['current_section']" #draftServices="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'draft-resources']">
-                <img src="{{draftServices.isActive ? 'lib/assets/images/new-icons/draft-services-active.svg' : 'lib/assets/images/new-icons/draft-services.svg'}}" class="uk-margin-small-right">
+                <img src="{{draftServices.isActive ? 'assets/images/new-icons/draft-services-active.svg' : 'assets/images/new-icons/draft-services.svg'}}" class="uk-margin-small-right">
                 Draft {{serviceORresource}}s
               </a>
             </li>
             <li [routerLinkActive]="['current_section']" #trainingResources="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'training-resources']">
-                <img src="{{trainingResources.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+                <img src="{{trainingResources.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
                 Training Resources
+              </a>
+            </li>
+            <li [routerLinkActive]="['current_section']" #deployableServices="routerLinkActive">
+              <a [routerLink]="['/dashboard', catalogueId, providerId, 'deployable-services']">
+                <img src="{{deployableServices.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+                Deployable Services
               </a>
             </li>
             <li [routerLinkActive]="['current_section']" #guidelines="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'guidelines']">
-                <img src="{{guidelines.isActive ? 'lib/assets/images/new-icons/services-active.svg' : 'lib/assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
+                <img src="{{guidelines.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
                 Guidelines
               </a>
             </li>
           </ng-container>
           <!--<li [routerLinkActive]="['current_section']" #messages="routerLinkActive">
             <a [routerLink]="['/dashboard', catalogueId, providerId, 'messages']" routerLinkActive="">
-              <img src="{{messages.isActive ? 'lib/assets/images/new-icons/envelope-active.svg' : 'lib/assets/images/new-icons/envelope.svg'}}" class="uk-margin-small-right">
+              <img src="{{messages.isActive ? 'assets/images/new-icons/envelope-active.svg' : 'assets/images/new-icons/envelope.svg'}}" class="uk-margin-small-right">
               Messages
             </a>
           </li>-->
@@ -101,34 +113,43 @@
 
         <ul>
 
-          <ng-container *ngIf="catalogueId==='eosc'">
+          <ng-container *ngIf="catalogueId === catalogueConfigId">
             <ng-container *ngIf="providerBundle?.templateStatus === 'rejected template' || (providerBundle?.status === 'approved provider' && providerBundle?.templateStatus === 'no template status')">
               <li>
                 <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-service/']">
-                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add first {{serviceORresource}}
                 </a>
               </li>
               <li>
                 <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-training-resource/']">
-                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add first Training Resource
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-deployable-service/']">
+                  <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  Add first Deployable Service
                 </a>
               </li>
             </ng-container>
             <ng-container *ngIf="providerBundle?.status === 'pending provider'">
               <li uk-tooltip="Disabled until provider gets approved.">
-                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first {{serviceORresource}}</a>
+                <a><img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first {{serviceORresource}}</a>
               </li>
               <li uk-tooltip="Disabled until provider gets approved.">
-                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first Training Resource</a>
+                <a><img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first Training Resource</a>
+              </li>
+              <li uk-tooltip="Disabled until provider gets approved.">
+                <a><img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first Deployable Service</a>
               </li>
             </ng-container>
 <!--            this can be omitted unless told otherwise
             <ng-container *ngIf="providerBundle?.status === 'pending provider' || providerBundle?.status === 'rejected provider'">
               <li title="This action is disabled until your Provider proceeds on the onboarding process.">
                 <a>
-                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  <img src="assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add first {{serviceORresource | lowercase}}
                 </a>
               </li>
@@ -136,51 +157,57 @@
             <ng-container *ngIf="providerBundle?.templateStatus === 'approved template'">
               <li>
                 <a [routerLink]="['/provider/' + providerId + '/resource/add/']">
-                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add new {{serviceORresource}}
                 </a>
               </li>
               <li>
                 <a [routerLink]="['/provider/' + providerId + '/training-resource/add/']">
-                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add new Training Resource
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/provider/' + providerId + '/deployable-service/add/']">
+                  <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  Add new Deployable Service
                 </a>
               </li>
             </ng-container>
 <!--            <ng-container *ngIf="providerBundle?.templateStatus !== 'approved template'">
               <li uk-tooltip="Disabled until first resource approval.">
-                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new {{serviceORresource}}</a>
+                <a><img src="assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new {{serviceORresource}}</a>
               </li>
               <li uk-tooltip="Disabled until first resource approval.">
-                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new Training Resource</a>
+                <a><img src="assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new Training Resource</a>
               </li>
             </ng-container>-->
             <ng-container *ngIf="providerBundle?.status === 'approved provider'">
               <li>
                 <a [routerLink]="['/guidelines/' + providerId + '/add/']">
-                  <img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                  <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                   Add new Guideline
                 </a>
               </li>
             </ng-container>
             <ng-container *ngIf="providerBundle?.status !== 'approved provider'">
               <li uk-tooltip="Disabled until provider gets approved.">
-                <a><img src="lib/assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new Guideline</a>
+                <a><img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new Guideline</a>
               </li>
             </ng-container>
             <li>
               <a [routerLink]="['/provider/update/' + pidHandler.customEncodeURIComponent(providerId)]">
-                <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Update Provider
+                <img src="../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Update Provider
               </a>
             </li>
             <li>
               <a (click)="showRequestDeletionModal()">
-                <img src="lib/assets/images/new-icons/trashcan.svg" class="uk-margin-small-right">  Delete Provider
+                <img src="../../../../assets/images/new-icons/trashcan.svg" class="uk-margin-small-right">  Delete Provider
               </a>
             </li>
           </ng-container>
 
-          <li *ngIf="catalogueId !== 'eosc' && providerBundle">
+          <li *ngIf="catalogueId !== catalogueConfigId && providerBundle">
             <a href="/provider/view/{{providerBundle?.provider.catalogueId}}/{{pidHandler.customEncodeURIComponent(providerBundle?.id)}}">
               <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true" style="color: #26c0e2"></i> View Provider
             </a>
@@ -188,7 +215,7 @@
 
           <li>
             <a [routerLink]="['/developers']">
-              <img src="lib/assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Use API
+              <img src="../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Use API
             </a>
           </li>
 

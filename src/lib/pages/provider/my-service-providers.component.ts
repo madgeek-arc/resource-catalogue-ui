@@ -4,10 +4,9 @@ import {ResourceService} from '../../services/resource.service';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ProviderBundle} from '../../domain/eic-model';
 import {zip} from 'rxjs';
+import {ConfigService} from "../../services/config.service";
 import {environment} from '../../../environments/environment';
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
-
-const CATALOGUE = environment.CATALOGUE;
 
 @Component({
   selector: 'app-my-service-providers',
@@ -15,6 +14,7 @@ const CATALOGUE = environment.CATALOGUE;
 })
 export class MyServiceProvidersComponent implements OnInit {
 
+  catalogueConfigId: string = this.config.getProperty('catalogueId');
   serviceORresource = environment.serviceORresource;
 
   errorMessage: string;
@@ -44,7 +44,8 @@ export class MyServiceProvidersComponent implements OnInit {
     private serviceProviderService: ServiceProviderService,
     private resourceService: ResourceService,
     public authenticationService: AuthenticationService,
-    public pidHandler: pidHandler
+    public pidHandler: pidHandler,
+    public config: ConfigService
   ) {
   }
 
@@ -82,7 +83,7 @@ export class MyServiceProvidersComponent implements OnInit {
                 );
               }
               // if (p.status === 'pending template submission') {
-              if (p.status === 'approved provider' && p.provider.catalogueId === CATALOGUE) {
+              if (p.status === 'approved provider' && p.provider.catalogueId === this.catalogueConfigId) {
                 // console.log(p.id);
                 this.resourceService.getDraftServicesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
                   res => {
@@ -147,6 +148,17 @@ export class MyServiceProvidersComponent implements OnInit {
     return false;
   }
 
+  hasCreatedFirstDeployableService(providerId: string) {
+    for (let i = 0; i < this.serviceTemplatePerProvider.length; i++) {
+      if (this.serviceTemplatePerProvider[i].providerId == providerId) {
+        if (this.serviceTemplatePerProvider[i].deployableService) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   checkForDraftServices(id: string): boolean {
     for (let i = 0; i < this.hasDraftServices.length; i++) {
       if (this.hasDraftServices[i].id === id) {
@@ -187,6 +199,14 @@ export class MyServiceProvidersComponent implements OnInit {
       return '/provider/' + id + '/training-resource/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
     } else {
       return '/provider/' + id + '/add-first-training-resource';
+    }
+  }
+
+  getLinkToFirstDeployableService(id: string) {
+    if (this.hasCreatedFirstDeployableService(id)) {
+      return '/provider/' + id + '/deployable-service/update/' + this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId;
+    } else {
+      return '/provider/' + id + '/add-first-deployable-service';
     }
   }
 

@@ -14,6 +14,7 @@ import {getLocaleDateFormat} from '@angular/common';
 import {zip} from 'rxjs';
 import {TrainingResourceService} from "../../services/training-resource.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {ConfigService} from '../../services/config.service';
 
 declare var UIkit: any;
 
@@ -22,9 +23,11 @@ declare var UIkit: any;
   templateUrl: './service-providers-list.component.html'
 })
 export class ServiceProvidersListComponent implements OnInit {
+  catalogueConfigId: string | null = null;
+  catalogueName: string | null = null;
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
+  protected readonly environment = environment;
 
   formPrepare = {
     query: '',
@@ -55,6 +58,7 @@ export class ServiceProvidersListComponent implements OnInit {
 
   errorMessage: string;
   loadingMessage = '';
+  offCanvasMessage = '';
 
   providers: ProviderBundle[] = [];
   providersForAudit: ProviderBundle[] = [];
@@ -119,11 +123,14 @@ export class ServiceProvidersListComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private fb: UntypedFormBuilder,
-              public pidHandler: pidHandler
+              public pidHandler: pidHandler,
+              private config: ConfigService
   ) {
   }
 
   ngOnInit() {
+    this.catalogueConfigId = this.config.getProperty('catalogueId');
+    this.catalogueName = this.config.getProperty('catalogueName');
     if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
       this.router.navigateByUrl('/home');
     } else {
@@ -363,6 +370,7 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   getRandomProviders(quantity: string) {
+    this.offCanvasMessage = '';
     this.loadingMessage = 'Loading ' + quantity + ' random Providers...';
     this.providersForAudit = [];
     this.serviceProviderService.getRandomProviders(quantity).subscribe(
@@ -374,11 +382,14 @@ export class ServiceProvidersListComponent implements OnInit {
       },
       err => {
         console.log(err);
-        this.errorMessage = 'The list could not be retrieved';
         this.loadingMessage = '';
+        this.offCanvasMessage = 'The list could not be retrieved';
       },
       () => {
         this.loadingMessage = '';
+        if (this.providersForAudit.length === 0) {
+          this.offCanvasMessage = 'No providers found.';
+        }
         this.providersForAudit.forEach(
           p => {
             // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {

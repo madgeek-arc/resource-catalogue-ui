@@ -134,6 +134,22 @@ export class CatalogueService {
     return this.http.get<any>(this.base + `/trainingResource/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
   }
 
+  getDeployableServicesOfCatalogue(id: string, from: string, quantity: string, order: string, sort: string, status?: string, query?: string) {
+    if (!query) { query = ''; }
+    let params = new HttpParams();
+    if (status && status.length > 0) {
+      for (const statusValue of status) {
+        params = params.append('status', statusValue);
+      }
+    } else {
+      const allStatus = ["approved resource","pending resource","rejected resource"];
+      for (const statusValue of allStatus) {
+        params = params.append('status', statusValue);
+      }
+    }
+    return this.http.get<any>(this.base + `/deployableService/byCatalogue/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&keyword=${query}`, {params});
+  }
+
   getDatasourcesOfCatalogue(id: string, from: string, quantity: string, order: string, sort: string, active: string, status?: string, query?: string) {
     if (!query) { query = ''; }
     let params = new HttpParams();

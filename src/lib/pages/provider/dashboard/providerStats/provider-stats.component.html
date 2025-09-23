@@ -5,7 +5,7 @@
       <div class="services-provider-container">
         <div *ngIf="providerBundle" class="uk-flex">
           <div>
-            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/lib/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
           </div>
           <div class="uk-margin-medium-left">
             <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
@@ -44,7 +44,7 @@
 
             <div>
               <div class="uk-card">
-                <div class="uk-card-body" *ngIf="projectName==='EOSC'">
+                <div class="uk-card-body" *ngIf="catalogueName==='EOSC'">
                   <highcharts-chart *ngIf="providerAddsToProjectOptions"
                                     [Highcharts]="Highcharts"
                                     [options]="providerAddsToProjectOptions"
@@ -236,7 +236,7 @@
                             <div class="uk-grid">
                               <div class="uk-width-1-5 uk-flex uk-flex-middle">
                                 <span class="uk-text-bold uk-margin-small-right" style="min-width: 20px;">{{ i + 1 }}</span>
-                                <img src="{{competitor.logo ? competitor.logo : '/lib/assets/images/broken_image-black-48dp.svg'}}" style="height: 50px;">
+                                <img src="{{competitor.logo ? competitor.logo : '/assets/images/broken_image-black-48dp.svg'}}" style="height: 50px;">
                               </div>
                               <div class="uk-width-4-5">
                                 <span class="uk-text-bold"><a href="{{marketplaceServicesURL}}{{catalogueId}}.{{competitor.service_id}}" target="_blank">{{competitor.name}}</a></span>
@@ -264,10 +264,10 @@
 
             <div>
               <div class="uk-card">
-                <div class="uk-card-body" *ngIf="projectName==='CatRIS'">
+                <div class="uk-card-body" *ngIf="catalogueName==='CatRIS'">
                   <highcharts-chart [Highcharts]="Highcharts" [options]="providerFavouritesOptions" style="width: 100%; display: block;"></highcharts-chart>
                 </div>
-                <div class="uk-card-body" *ngIf="projectName==='EOSC'">
+                <div class="uk-card-body" *ngIf="catalogueName==='EOSC'">
                   <highcharts-chart [Highcharts]="Highcharts" [options]="providerAddsToProjectOptions" style="width: 100%; display: block;"></highcharts-chart>
                 </div>
               </div>
@@ -289,7 +289,7 @@
               </div>
             </div>
 
-            &lt;!&ndash;        <div *ngIf="projectName==='EOSC'">&ndash;&gt;
+            &lt;!&ndash;        <div *ngIf="catalogueName==='EOSC'">&ndash;&gt;
             &lt;!&ndash;          <div class="uk-card">&ndash;&gt;
             &lt;!&ndash;            <div class="uk-card-body">&ndash;&gt;
             &lt;!&ndash;              <highcharts-chart [Highcharts]="Highcharts" [options]="providerOrdersOptions" style="width: 100%; display: block;"></highcharts-chart>&ndash;&gt;

@@ -31,7 +31,6 @@ declare var UIkit: any;
 export class CataloguesListComponent implements OnInit {
   url = environment.API_ENDPOINT;
   serviceORresource = environment.serviceORresource;
-  projectName = environment.projectName;
 
   formPrepare = {
     query: '',

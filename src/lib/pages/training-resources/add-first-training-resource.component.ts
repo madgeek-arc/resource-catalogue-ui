@@ -7,6 +7,8 @@ import {Service, TrainingResource} from '../../domain/eic-model';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {NavigationService} from "../../services/navigation.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
+import {config} from "rxjs";
+import {ConfigService} from "../../services/config.service";
 
 @Component({
   selector: 'app-add-first-training-resource',
@@ -22,8 +24,9 @@ export class AddFirstTrainingResourceComponent extends TrainingResourceForm impl
               protected serviceProviderService: ServiceProviderService,
               protected route: ActivatedRoute,
               protected navigator: NavigationService,
-              public dynamicFormService: FormControlService) {
-    super(injector, authenticationService, serviceProviderService, route, dynamicFormService);
+              public dynamicFormService: FormControlService,
+              public config: ConfigService) {
+    super(injector, authenticationService, serviceProviderService, route, dynamicFormService, config);
     this.editMode = false;
   }
 
@@ -54,10 +57,4 @@ export class AddFirstTrainingResourceComponent extends TrainingResourceForm impl
     this.successMessage = 'Training Resource uploaded successfully!';
   }
 
-  onSubmit(service: Service, tempSave: boolean) {
-    if (this.trainingResourceId) {
-      service.id = this.trainingResourceId;
-    }
-    super.onSubmit(service, tempSave);
-  }
 }

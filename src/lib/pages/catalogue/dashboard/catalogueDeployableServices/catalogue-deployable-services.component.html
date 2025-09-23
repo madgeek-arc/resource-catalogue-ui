@@ -1,0 +1,239 @@
+<div class="uk-section uk-section-xsmall">
+  <div class="uk-container uk-container-expand">
+
+    <div class="services-provider-container">
+      <div *ngIf="catalogueBundle" class="uk-flex">
+        <div>
+          <img src="{{ catalogueBundle.catalogue.logo ? catalogueBundle.catalogue.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+        </div>
+        <div class="uk-margin-medium-left">
+          <h3 class="uk-margin-remove">{{catalogueBundle.catalogue.name}}</h3>
+          <div><span class="status-label">Catalogue Status: </span>{{ catalogueBundle.status.substr(0,catalogueBundle.status.indexOf(' ')) | titlecase }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="uk-margin-large-top">
+      <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">
+        <p>{{errorMessage}}</p>
+      </div>
+
+      <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters uk-margin-bottom">
+
+        <div class="uk-margin-right">
+          <div class="">
+            <label class="" for="quantity">Results per page </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="quantity" (change)="handleChangeAndResetPage()" formControlName="quantity">
+                <option value="10" selected>10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="uk-margin-right">
+
+          <div class="uk-inline uk-margin-right">
+            <label class="" for="order">Order </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="order" (change)="handleChangeAndResetPage()" formControlName="order">
+                <option value="ASC" selected>Ascending</option>
+                <option value="DESC">Descending</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="uk-inline">
+            <label class="" for="sort">Order by </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="sort" (change)="handleChangeAndResetPage()" formControlName="sort">
+                <option value="name" selected>Name</option>
+                <option value="registeredAt">Creation Date</option>
+                <option value="modifiedAt">Modification Date</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+<!--        <div class="uk-margin-right">-->
+<!--          <div class="uk-inline uk-margin-right">-->
+<!--            <label class="" for="status">Status </label>-->
+<!--            <div class="uk-inline">-->
+<!--              <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">-->
+<!--                <option value="" selected>All</option>-->
+<!--                <option value="approved resource">Approved Resource</option>-->
+<!--                <option value="pending resource">Pending Resource</option>-->
+<!--                <option value="rejected resource">Rejected Resource</option>-->
+<!--              </select>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+        <div class="uk-margin-right">
+          <div class="uk-inline uk-margin-right">
+            <label class="" for="isActive">Is Active </label>
+            <div class="uk-inline">
+              <select class="uk-input uk-select" id="isActive" (change)="handleChangeAndResetPage()" formControlName="active">
+                <option value="" selected>All</option>
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="uk-flex uk-flex-right">
+          <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
+            <span uk-search-icon></span>
+            <input class="uk-search-input" type="search" placeholder="Search..." formControlName="query">
+          </form>
+        </div>
+
+      </form>
+
+
+      <div *ngIf="deployableServiceBundles && deployableServiceBundles.length === 0">
+        <p>No Deployable Services found</p>
+      </div>
+
+      <div *ngIf="deployableServiceBundles && deployableServiceBundles.length > 0">
+
+        <div class="uk-flex uk-flex-middle uk-flex-between">
+
+          <div class="resultsInfo">
+            <span class="number">{{total}}</span> DEPLOYABLE SERVICES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+          </div>
+
+          <ul class="uk-pagination" uk-margin>
+            <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+            <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
+              <a (click)="goToPage(i)">{{i}}</a>
+            </li>
+            <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+          </ul>
+
+        </div>
+
+        <hr class="adminResultsHeader">
+
+        <div class="uk-margin-medium-top">
+          <div *ngFor="let bundle of deployableServiceBundles" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+
+            <div class="uk-card-body">
+
+              <div *ngIf="bundle.status === 'approved resource'" class="approved">
+                <div class="uk-card-badge uk-label">Approved</div>
+              </div>
+              <div *ngIf="bundle.status === 'pending resource'" class="pending">
+                <div class="uk-card-badge uk-label">Pending</div>
+              </div>
+              <div *ngIf="(bundle.status === 'rejected resource')" class="rejected">
+                <div class="uk-card-badge uk-label">Rejected</div>
+              </div>
+
+              <div class="uk-grid">
+                <div class="uk-width-9-10"></div>
+                <div class="uk-width-1-10">
+                  <div *ngIf="bundle.active" class="approved">
+                    <div class="uk-label uk-align-right">Active</div>
+                  </div>
+                  <div *ngIf="!bundle.active" class="rejected">
+                    <div class="uk-label uk-align-right">Inactive</div>
+                  </div>
+                  <div *ngIf="bundle.suspended" class="rejected">
+                    <div class="uk-label uk-align-right">Suspended</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="uk-grid uk-flex-middle uk-margin-remove-top">
+                <div class="uk-width-1-6">
+<!--                  <img src="{{bundle.deployableService.logo ? bundle.deployableService.logo : '/assets/images/broken_image-black-48dp.svg'}}">-->
+                </div>
+                <div class="uk-width-2-3">
+                  <h4 class="uk-margin-remove">
+                    <a [routerLink]="['/dashboard', bundle.deployableService.catalogueId, bundle.deployableService.resourceOrganisation, 'deployable-service-dashboard', bundle.id]" data-uk-tooltip title="Go to the Deployable Service dashboard">
+                      {{ bundle.deployableService.name }}
+                    </a>
+<!--                    <a (click)="navigate(bundle.id)">{{bundle.deployableService.name}}</a>-->
+                  </h4>
+                  <div class="uk-margin-small-top">
+                    <span *ngIf="bundle.deployableService.description" class="uk-margin-small-top"><markdown [data]="bundle.deployableService.description"></markdown></span>
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <span class="">Creation Date: </span>{{ bundle.metadata.registeredAt | date }}
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <span class="">Last Update: </span>{{ bundle.metadata.modifiedAt | date }}
+                  </div>
+                </div>
+                <div *ngIf="catalogueId === catalogueConfigId" class="uk-width-1-6">
+                  <div class="action-buttons">
+                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleDeployableService(bundle)">
+                      <ng-container *ngIf="bundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
+                      <ng-container *ngIf="!bundle.active">
+                        <!--                        <div *ngIf="providerService.status === 'pending resource' || providerService.status === 'rejected resource'"-->
+                        <!--                             uk-tooltip="title:Cannot activate a pending/rejected resource."></div>-->
+                        <i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate
+                      </ng-container>
+                    </button>
+                    <!--<i class="fa fa-pencil fa-lg"></i> Edit Deployable Service-->
+                    <!--</button>-->
+                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedDeployableService(bundle)">
+                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <ng-container *ngIf="bundle.deployableService.catalogueId !== catalogueConfigId">
+                <hr class="uk-margin-top">
+                <div class="uk-align-right">
+                  <button
+                    routerLink="/provider/{{bundle.deployableService.catalogueId}}/{{bundle.deployableService.resourceOrganisation}}/deployable-service/view/{{bundle.id}}"
+                    class="uk-button uk-button-link" style="">
+                    <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                    View Deployable Service
+                  </button>
+                </div>
+              </ng-container>
+
+            </div>
+
+          </div>
+        </div>
+
+        <ul class="uk-pagination uk-flex-right" uk-margin>
+          <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+          <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
+            <a (click)="goToPage(i)">{{i}}</a>
+          </li>
+          <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+        </ul>
+
+      </div>
+
+      <div *ngIf="toggleLoading">
+        <div class="loader-small">
+          <div class="greyFilm"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="actionModal" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <h6 class="uk-margin-bottom" *ngIf="selectedDeployableService">Are you sure you want to delete the Deployable Service '{{selectedDeployableService.deployableService.name}}'?</h6>
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-danger uk-modal-close uk-margin-small-right" type="button" (click)="deleteDeployableService(selectedDeployableService.id)">Delete</button>
+    </div>
+  </div>
+</div>

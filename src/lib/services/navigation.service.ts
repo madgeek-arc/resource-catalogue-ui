@@ -2,18 +2,22 @@ import {Injectable} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import {pidHandler} from "../shared/pid-handler/pid-handler.service";
+import {ConfigService} from "./config.service";
 
 @Injectable()
 export class NavigationService {
 
     public searchParams: Subject<any> = new Subject();
-
     private breadcrumbs_: Subject<any> = new Subject<any>();
 
     constructor(public router: Router,
-                public pidHandler: pidHandler) {
+                public pidHandler: pidHandler,
+                public configService: ConfigService) {
     }
 
+    public get catalogueConfigId(): string | null {
+      return this.configService.getProperty('catalogueId');
+    }
 
     createId(route: ActivatedRoute, prefix: string, suffix: string) {
       // console.log(route.snapshot);
@@ -28,19 +32,19 @@ export class NavigationService {
 
     dashboard(id: string, catalogueId?: string) {
       id = this.pidHandler.customEncodeURIComponent(id);
-      if(!catalogueId) return this.router.navigate([`/dashboard/eosc`, id]);
+      if(!catalogueId) return this.router.navigate([`/dashboard/${this.catalogueConfigId}`, id]);
         return this.router.navigate([`/dashboard`, id]);
     }
 
     dashboardDatasources(providerId: string, catalogueId?: string) {
       providerId = this.pidHandler.customEncodeURIComponent(providerId);
-      if (!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/datasources`]);
+      if (!catalogueId) return this.router.navigate([`/dashboard/${this.catalogueConfigId}/${providerId}/datasources`]);
       return this.router.navigate([`/dashboard/${catalogueId}/${providerId}/datasources`]);
     }
 
     dashboardResources(providerId: string, catalogueId?: string) {
       providerId = this.pidHandler.customEncodeURIComponent(providerId);
-      if (!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/resources`]);
+      if (!catalogueId) return this.router.navigate([`/dashboard/${this.catalogueConfigId}/${providerId}/resources`]);
       return this.router.navigate([`/dashboard/${catalogueId}/${providerId}/resources`]);
     }
 
@@ -49,25 +53,32 @@ export class NavigationService {
       return this.router.navigate([`/dashboard/${providerId}/draft-resources`]);
     }
 
-    resourceDashboard(providerId: string, serviceId: string, catalogueId?: string) {
+    resourceDashboard(providerId: string, serviceId: string, catalogueId?: string){
       providerId = this.pidHandler.customEncodeURIComponent(providerId);
       serviceId = this.pidHandler.customEncodeURIComponent(serviceId);
-      if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/resource-dashboard/${serviceId}/history`]);
+      if(!catalogueId) return this.router.navigate([`/dashboard/${this.catalogueConfigId}/${providerId}/resource-dashboard/${serviceId}/history`]);
       return this.router.navigate([`/dashboard/${providerId}/resource-dashboard/${serviceId}/history`]);
     }
 
     datasourceDashboard(providerId: string, datasourceId: string, catalogueId?: string) {
       providerId = this.pidHandler.customEncodeURIComponent(providerId);
       datasourceId = this.pidHandler.customEncodeURIComponent(datasourceId);
-      if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/datasource-dashboard/${datasourceId}/history`]);
+      if(!catalogueId) return this.router.navigate([`/dashboard/${this.catalogueConfigId}/${providerId}/datasource-dashboard/${datasourceId}/history`]);
       return this.router.navigate([`/dashboard/${providerId}/datasource-dashboard/${datasourceId}/history`]);
     }
 
     trainingResourceDashboard(providerId: string, trainingResourceId: string, catalogueId?: string) {
       providerId = this.pidHandler.customEncodeURIComponent(providerId);
       trainingResourceId = this.pidHandler.customEncodeURIComponent(trainingResourceId);
-      if(!catalogueId) return this.router.navigate([`/dashboard/eosc/${providerId}/training-resource-dashboard/${trainingResourceId}/history`]);
+      if(!catalogueId) return this.router.navigate([`/dashboard/${this.catalogueConfigId}/${providerId}/training-resource-dashboard/${trainingResourceId}/history`]);
       return this.router.navigate([`/dashboard/${providerId}/training-resource-dashboard/${trainingResourceId}/history`]);
+    }
+
+    deployableServiceDashboard(providerId: string, deployableServiceId: string, catalogueId?: string) {
+      providerId = this.pidHandler.customEncodeURIComponent(providerId);
+      deployableServiceId = this.pidHandler.customEncodeURIComponent(deployableServiceId);
+      if(!catalogueId) return this.router.navigate([`/dashboard/${this.catalogueConfigId}/${providerId}/deployable-service-dashboard/${deployableServiceId}/history`]);
+      return this.router.navigate([`/dashboard/${providerId}/deployable-service-dashboard/${deployableServiceId}/history`]);
     }
 
     // edit(id: string) {

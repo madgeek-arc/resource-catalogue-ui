@@ -7,13 +7,15 @@ import {
   InteroperabilityRecord, TrainingResourceBundle, InteroperabilityRecordBundle, CatalogueBundle, DatasourceBundle,
 } from '../domain/eic-model';
 import {Paging} from "../domain/paging";
-
-const CATALOGUE = environment.CATALOGUE;
+import {ConfigService} from "./config.service";
 
 @Injectable()
 export class GuidelinesService {
 
-  constructor(public http: HttpClient, public authenticationService: AuthenticationService) {
+  private catalogueConfigId: string;
+
+  constructor(public http: HttpClient, public authenticationService: AuthenticationService, private configService: ConfigService) {
+    this.catalogueConfigId = this.configService.getProperty('catalogueId');
   }
   base = environment.API_ENDPOINT;
   private options = {withCredentials: true};
@@ -109,8 +111,8 @@ export class GuidelinesService {
 
   auditGuideline(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
-    if(!catalogueId) catalogueId = CATALOGUE;
-    if (catalogueId === CATALOGUE)
+    if(!catalogueId) catalogueId = this.catalogueConfigId;
+    if (catalogueId === this.catalogueConfigId)
       return this.http.patch(this.base + `/interoperabilityRecord/auditResource/${id}?actionType=${action}&catalogueId=${catalogueId}&comment=${comment}`, this.options);
     else
       return this.http.patch(this.base + `/catalogue/${catalogueId}/interoperabilityRecord/auditInteroperabilityRecord/${id}?actionType=${action}&comment=${comment}`, this.options);
