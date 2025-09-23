@@ -21,9 +21,10 @@ export class CreateTicketComponent implements OnInit {
     public router: Router
   ) {
     this.ticketForm = this.fb.group({
-      customerFirstname: ['', [Validators.required]],
-      customerLastname: ['', [Validators.required]],
-      customerEmail: ['', [Validators.required, Validators.email]],
+      // Customer information - commented out as per request
+      // customerFirstname: ['', [Validators.required]],
+      // customerLastname: ['', [Validators.required]],
+      // customerEmail: ['', [Validators.required, Validators.email]],
       title: ['', [Validators.required, Validators.minLength(5)]],
       group: [''], // Optional field
       articleSubject: [''],
@@ -75,16 +76,17 @@ export class CreateTicketComponent implements OnInit {
         }
       });
     } else {
-      this.error = 'Please fill in all required fields: Customer Firstname, Customer Lastname, Customer Email, Title, and Message Body.';
+      this.error = 'Please fill in all required fields: Title and Message Body.';
     }
   }
 
   getErrorMessage(field: string): string {
     const control = this.ticketForm.get(field);
     if (control?.hasError('required')) {
-      if (field === 'customerFirstname') return 'First name is required';
-      if (field === 'customerLastname') return 'Last name is required';
-      if (field === 'customerEmail') return 'Customer email is required';
+      // Customer field error messages - commented out as per request
+      // if (field === 'customerFirstname') return 'First name is required';
+      // if (field === 'customerLastname') return 'Last name is required';
+      // if (field === 'customerEmail') return 'Customer email is required';
       if (field === 'title') return 'Title is required';
       if (field === 'articleBody') return 'Message body is required';
       return `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;

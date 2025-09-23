@@ -1,7 +1,7 @@
 <div class="create-ticket-container">
   <div class="form-header">
     <h2>Create New Support Ticket</h2>
-    <p>Submit a new support request to the EOSC Beyond helpdesk team. Your personal information is collected for form validation but not transmitted for GDPR compliance.</p>
+    <p>Submit a new support request to the EOSC Beyond helpdesk team.</p>
   </div>
 
   <div *ngIf="success" class="success-message">
@@ -17,7 +17,8 @@
   <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()" class="ticket-form">
     <div *ngIf="error" class="error-message">{{ error }}</div>
 
-    <!-- Section 1: Customer Information -->
+    <!-- Section 1: Customer Information - commented out as per request -->
+    <!--
     <div class="form-section">
       <h3 class="section-title">Customer Information</h3>
       <p class="section-description">Your personal information is collected for form validation but will not be sent anywhere for GDPR compliance.</p>
@@ -46,6 +47,7 @@
         </div>
       </div>
     </div>
+    -->
 
     <!-- Section 2: Ticket Information -->
     <div class="form-section">
@@ -95,7 +97,7 @@
 
     <button type="submit" [disabled]="loading || ticketForm.invalid">Submit Ticket</button>
     <div *ngIf="loading" class="loading-message">Submitting...</div>
-    <div class="mandatory-note">Fields with <span class="required">*</span> are mandatory and must be completed in order to submit this form. Personal information is collected for form validation but not transmitted for GDPR compliance.</div>
+    <div class="mandatory-note">Fields with <span class="required">*</span> are mandatory and must be completed in order to submit this form.</div>
   </form>
 
   <div class="help-info">

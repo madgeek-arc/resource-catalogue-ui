@@ -78,6 +78,39 @@
   margin: 0 0 20px 0;
 }
 
+.construction-message {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  background: #f8f9fa;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.construction-message i {
+  font-size: 4rem;
+  color: #ffc107;
+  margin-bottom: 20px;
+}
+
+.construction-message h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.construction-message p {
+  margin: 0 0 10px 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.construction-message p:last-child {
+  margin-bottom: 0;
+  font-weight: 500;
+  color: #667eea;
+}
+
 .filters {
   margin-bottom: 30px;
 }
