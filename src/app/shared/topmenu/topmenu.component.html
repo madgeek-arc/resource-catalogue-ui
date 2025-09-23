@@ -205,6 +205,7 @@
                         <li><a [routerLink]="['/becomeAProvider']" routerLinkActive="uk-active">Become a Provider</a></li>
                         <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/provider/my']"
                                                                                                              routerLinkActive="uk-active">My Providers</a></li>
+                        <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/helpdesk']" routerLinkActive="uk-active">Helpdesk</a></li>
 <!--                        <li *ngIf="authenticationService.isLoggedIn()" class="uk-nav-divider"></li>-->
                         <li *ngIf="authenticationService.isLoggedIn()"><a [routerLink]="['/developers']" routerLinkActive="uk-active">Public API</a></li>
                       </ul>

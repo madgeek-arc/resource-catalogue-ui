@@ -1,0 +1,74 @@
+<!-- My Tickets HTML template - commented out as webhook is under construction -->
+<!--
+<div class="ticket-list-container">
+  <div class="list-header">
+    <div class="header-content">
+      <h2>My Support Tickets</h2>
+      <p>View and manage your support requests</p>
+    </div>
+    <button class="btn btn-primary" (click)="createNewTicket()">
+      New Ticket
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    <i class="fas fa-exclamation-circle"></i>
+    <span>{{ error }}</span>
+    <button class="btn btn-sm btn-outline" (click)="loadTickets()">Retry</button>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading your tickets...</p>
+  </div>
+
+  <div *ngIf="!loading && tickets.length === 0" class="empty-state">
+    <i class="fas fa-ticket-alt"></i>
+    <h3>No tickets found</h3>
+    <p>You haven't created any support tickets yet.</p>
+    <button class="btn btn-primary" (click)="createNewTicket()">
+      Create Your First Ticket
+    </button>
+  </div>
+
+  <div *ngIf="!loading && tickets.length > 0" class="ticket-content">
+    <div class="filters">
+      <div class="status-filters">
+        <button 
+          *ngFor="let status of ['all', 'open', 'pending', 'closed']" 
+          [class.active]="selectedStatus === status"
+          (click)="selectedStatus = status"
+          class="filter-btn"
+        >
+          {{ status.charAt(0).toUpperCase() + status.slice(1) }}
+          <span class="count">({{ getTicketCount(status) }})</span>
+        </button>
+      </div>
+    </div>
+
+    <table class="tickets-table">
+      <thead>
+        <tr>
+          <th>Number</th>
+          <th>Date</th>
+          <th>Ticket Title</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticket of sortedTickets" (click)="viewTicket(ticket.id)" class="ticket-row">
+          <td>#{{ ticket.id }}</td>
+          <td>{{ formatDate(ticket.created_at) }}</td>
+          <td>{{ ticket.title }}</td>
+          <td><span [class]="getStatusClass(ticket.status)">{{ ticket.status }}</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="sortedTickets.length === 0" class="no-results">
+      <i class="fas fa-search"></i>
+      <p>No tickets found with the selected filter.</p>
+    </div>
+  </div>
+</div>
+--> 
