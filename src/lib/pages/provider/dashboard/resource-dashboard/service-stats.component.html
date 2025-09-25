@@ -9,7 +9,8 @@
           </div>
           <div class="uk-margin-medium-left">
             <h3 class="uk-margin-remove">{{service.name}}</h3>
-<!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
+            <div><span class="status-label">ID: </span>{{ resourceBundle.id}}</div>
+<!--              <div><span class="status-label">Status: </span>{{ resourceBundle.status | titlecase}}</div>-->
             <div *ngIf="resourceBundle?.metadata?.registeredBy && resourceBundle?.metadata?.registeredAt">
               <span class="status-label">Registered by: </span>{{ resourceBundle.metadata.registeredBy }} on {{ resourceBundle.metadata.registeredAt | date}}
             </div>
