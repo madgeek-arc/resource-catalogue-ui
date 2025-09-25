@@ -14,6 +14,7 @@ import {ResourceGuidelinesFormComponent} from "../../../provider-resources/resou
 import {NgSelectModule} from "@ng-select/ng-select";
 import {ConfigurationTemplatesComponent} from "./configuration-templates.component";
 import {DynamicFormModule} from "../../../../../dynamic-catalogue/pages/dynamic-form/dynamic-form.module";
+import {ServiceAccountingStatsComponent} from "./service-accounting-stats.component";
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import {DynamicFormModule} from "../../../../../dynamic-catalogue/pages/dynamic-
     ServiceHistoryComponent,
     ServiceFullHistoryComponent,
     MonitoringInfoComponent,
+    ServiceAccountingStatsComponent,
     ResourceGuidelinesFormComponent,
     ConfigurationTemplatesComponent
   ]

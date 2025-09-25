@@ -28,6 +28,12 @@
               </a>
             </li>
           </ng-container>
+          <li [routerLinkActive]="['current_section']" #accountingStats="routerLinkActive">
+            <a [routerLink]="['/dashboard', catalogueId, providerId, 'accountingStats']">
+              <img src="{{accountingStats.isActive ? 'assets/images/new-icons/stats-active.svg' : 'assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
+              Accounting Statistics
+            </a>
+          </li>
           <li [routerLinkActive]="['current_section']" #history="routerLinkActive">
             <a [routerLink]="['/dashboard', catalogueId, providerId, 'history']">
               <img src="{{history.isActive ? 'assets/images/new-icons/history-active.svg' : 'assets/images/new-icons/history.svg'}}" class="uk-margin-small-right">
