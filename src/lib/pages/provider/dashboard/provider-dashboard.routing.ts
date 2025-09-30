@@ -15,6 +15,7 @@ import {ProviderFullHistoryComponent} from './providerHistory/provider-full-hist
 import {TrainingResourcesComponent} from "./trainingResources/training-resources.component";
 import {GuidelinesComponent} from "./guidelines/guidelines.component";
 import {DeployableServicesComponent} from "./deployable-services/deployable-services.component";
+import {ProviderAccountingStatsComponent} from "./providerAccountingStats/provider-accounting-stats.component";
 
 const providerDashboardRoutes: Routes = [
   {
@@ -38,6 +39,13 @@ const providerDashboardRoutes: Routes = [
       {
         path: 'stats',
         component: ProviderStatsComponent,
+        data: {
+          isResource: false
+        }
+      },
+      {
+        path: 'accountingStats',
+        component: ProviderAccountingStatsComponent,
         data: {
           isResource: false
         }

@@ -30,6 +30,12 @@
               Monitoring Information
             </a>
           </li>
+          <li [routerLinkActive]="['current_section']" #accountingStats="routerLinkActive">
+            <a [routerLink]="['/dashboard', catalogueId, providerId, 'resource-dashboard', resourceId, 'accountingStats']">
+              <img src="{{accountingStats.isActive ? 'assets/images/new-icons/stats-active.svg' : 'assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
+              Accounting Statistics
+            </a>
+          </li>
 
         </ul>
       </div>

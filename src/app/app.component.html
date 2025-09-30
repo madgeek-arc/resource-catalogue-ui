@@ -8,6 +8,16 @@
   <div style="margin-top: 159px;"></div>
   <app-breadcrumbs *ngIf="router.url != '/becomeAProvider' && router.url != '/home' && router.url != '/' && !isDashboardRoute()" ></app-breadcrumbs>
   <router-outlet></router-outlet>
+
+  <div class="helpdesk-overlay uk-animation-scale-up">
+    <button class="uk-button helpdesk-overlay-button" [routerLink]="['/helpdesk/create']" type="button">
+    <span class="helpdesk-span">
+      <i class="fa fa-question-circle-o fa-lg"></i>
+      <span class="helpdesk-label">Helpdesk</span>
+    </span>
+    </button>
+  </div>
+
   <ng-container *ngIf="!isDashboardRoute(); else dashboard">
     <app-external-footer></app-external-footer>
   </ng-container>
