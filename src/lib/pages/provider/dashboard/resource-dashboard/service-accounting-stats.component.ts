@@ -14,25 +14,33 @@ import {Service} from "../../../../domain/eic-model";
 export class ServiceAccountingStatsComponent implements OnInit {
 
   service: Service;
+  resourceId: string;
+  catalogueId: string;
   loadingMessage: string = '';
   errorMessage: string;
   noDataMessage: string = '';
   private sub: Subscription;
   metricList: any[] = [];
 
-  constructor(private route: ActivatedRoute,
-              private resourceService: ResourceService,
-              private accountingStatsService: AccountingStatsService) {
-  }
+  selectedRange: string = 'all';
+  startDate: string;
+  endDate: string;
+
+  constructor(
+    private route: ActivatedRoute,
+    private resourceService: ResourceService,
+    private accountingStatsService: AccountingStatsService) {}
 
   ngOnInit() {
     this.sub = this.route.parent.params.subscribe(params => {
-      const resourceId = params['resourceId'];
-      const catalogueId = params['catalogueId'];
+      this.resourceId = params['resourceId'];
+      this.catalogueId = params['catalogueId'];
+
+      this.setDateRange('all');
 
       forkJoin({
-        stats: this.accountingStatsService.getAccountingStatsForService(resourceId),
-        service: this.resourceService.getService(resourceId, catalogueId)
+        stats: this.accountingStatsService.getAccountingStatsForService(this.resourceId, this.startDate, this.endDate),
+        service: this.resourceService.getService(this.resourceId, this.catalogueId)
       }).subscribe({
         next: ({ stats, service }) => {
           this.service = service;
@@ -45,6 +53,66 @@ export class ServiceAccountingStatsComponent implements OnInit {
           if (this.metricList.length === 0) { this.noDataMessage = 'No data available for this service.' }
         }
       });
+    });
+  }
+
+  onRangeChange() {
+    if (this.selectedRange === 'custom') {
+      // leave dates as user set them (don’t overwrite)
+      return;
+    }
+    this.setDateRange(this.selectedRange);
+    this.reloadStats();
+  }
+
+  onCustomDateChange() {
+    // when user changes calendars manually force dropdown to "custom"
+    this.selectedRange = 'custom';
+
+    if (this.startDate && this.endDate) {
+      this.reloadStats();
+    }
+  }
+
+  setDateRange(range: string) {
+    const today = new Date();
+    this.endDate = today.toISOString().split('T')[0];
+
+    switch (range) {
+      case 'week':
+        this.startDate = new Date(today.setDate(today.getDate() - 7))
+          .toISOString().split('T')[0];
+        break;
+      case 'month':
+        this.startDate = new Date(today.setMonth(today.getMonth() - 1))
+          .toISOString().split('T')[0];
+        break;
+      case 'year':
+        this.startDate = new Date(today.setFullYear(today.getFullYear() - 1))
+          .toISOString().split('T')[0];
+        break;
+      case 'all':
+      default:
+        this.startDate = '1970-01-01';
+        break;
+    }
+  }
+
+  reloadStats() {
+    this.noDataMessage = '';
+    this.errorMessage = '';
+    this.metricList = [];
+
+    this.accountingStatsService.getAccountingStatsForService(this.resourceId, this.startDate, this.endDate).subscribe({
+      next: (stats) => {
+        this.metricList = stats?.data || [];
+        if (this.metricList.length === 0) {
+          this.noDataMessage = 'No data available for this service.';
+        }
+      },
+      error: (err) => {
+        this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
+      }
     });
   }
 
