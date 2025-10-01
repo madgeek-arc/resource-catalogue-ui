@@ -19,20 +19,13 @@ export class AccountingStatsService {
     return this.http.get<any>(this.base + `/accounting/project/report?start=${start}&end=${end}`, this.options);
   }
 
-  getAccountingStatsForProvider(id: string, start?: string, end?: string) {
-    // const idDecoded = decodeURIComponent(id);
-    const idDecoded = '21.T15999/tMIsWB';
-    start = start || this.getDefaultStartDate();
-    end = end || this.getDefaultEndDate();
+  getAccountingStatsForProvider(id: string, start: string, end: string) {
+    const idDecoded = decodeURIComponent(id);
     return this.http.get<any>(this.base + `/accounting/project/provider/${idDecoded}/report?start=${start}&end=${end}`, this.options);
   }
 
-  getAccountingStatsForService(id: string, start?: string, end?: string) {
-    // const idDecoded = decodeURIComponent(id);
-    const idDecoded = '21.T15999/DOAf7t';
-    console.log(idDecoded);
-    start = start || this.getDefaultStartDate();
-    end = end || this.getDefaultEndDate();
+  getAccountingStatsForService(id: string, start: string, end: string) {
+    const idDecoded = decodeURIComponent(id);
     return this.http.get<any>(this.base + `/accounting/project/installation/${idDecoded}/report?start=${start}&end=${end}`, this.options);
   }
 

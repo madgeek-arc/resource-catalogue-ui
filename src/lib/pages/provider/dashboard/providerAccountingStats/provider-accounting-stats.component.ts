@@ -37,18 +37,18 @@ export class ProviderAccountingStatsComponent implements OnInit {
     this.setDateRange('all');
 
     forkJoin({
-      stats: this.accountingStatsService.getAccountingStatsForProvider(this.providerId),
+      stats: this.accountingStatsService.getAccountingStatsForProvider(this.providerId, this.startDate, this.endDate),
       provider: this.serviceProviderService.getServiceProviderById(this.providerId, this.catalogueId)
     }).subscribe({
       next: ({ stats, provider }) => {
         this.provider = provider;
         this.metricList = stats?.aggregated_metrics || []; //assuming that we need the aggregated metrics
+        if (this.metricList.length === 0) {
+          this.noDataMessage = stats?.message || 'No data available for this provider.';
+        }
       },
       error: (err) => {
-        this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
-      },
-      complete: () => {
-        if (this.metricList.length === 0) { this.noDataMessage = 'No data available for this service.' }
+        this.errorMessage = 'An error occurred while retrieving data for this provider. ' + err.error;
       }
     });
   }
@@ -100,11 +100,11 @@ export class ProviderAccountingStatsComponent implements OnInit {
     this.errorMessage = '';
     this.metricList = [];
 
-    this.accountingStatsService.getAccountingStatsForService(this.providerId, this.startDate, this.endDate).subscribe({
+    this.accountingStatsService.getAccountingStatsForProvider(this.providerId, this.startDate, this.endDate).subscribe({
       next: (stats) => {
-        this.metricList = stats?.data || [];
+        this.metricList = stats?.aggregated_metrics || [];
         if (this.metricList.length === 0) {
-          this.noDataMessage = 'No data available for this provider.';
+          this.noDataMessage = stats?.message || 'No data available for this provider.';
         }
       },
       error: (err) => {
@@ -115,7 +115,7 @@ export class ProviderAccountingStatsComponent implements OnInit {
 
   getColor(metricName: string): string {
     let hash = 0;
-    for (let i = 0; i < metricName.length; i++) {
+    for (let i = 0; i < metricName?.length; i++) {
       hash = metricName.charCodeAt(i) + ((hash << 5) - hash);
     }
     const hue = Math.abs(hash) % 360;

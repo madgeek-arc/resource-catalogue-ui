@@ -45,12 +45,12 @@ export class ServiceAccountingStatsComponent implements OnInit {
         next: ({ stats, service }) => {
           this.service = service;
           this.metricList = stats?.data || [];
+          if (this.metricList.length === 0) {
+            this.noDataMessage = stats?.message || 'No data available for this service.';
+          }
         },
         error: (err) => {
           this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error;
-        },
-        complete: () => {
-          if (this.metricList.length === 0) { this.noDataMessage = 'No data available for this service.' }
         }
       });
     });
@@ -107,7 +107,7 @@ export class ServiceAccountingStatsComponent implements OnInit {
       next: (stats) => {
         this.metricList = stats?.data || [];
         if (this.metricList.length === 0) {
-          this.noDataMessage = 'No data available for this service.';
+          this.noDataMessage = stats?.message || 'No data available for this service.';
         }
       },
       error: (err) => {
@@ -118,7 +118,7 @@ export class ServiceAccountingStatsComponent implements OnInit {
 
   getColor(metricName: string): string {
     let hash = 0;
-    for (let i = 0; i < metricName.length; i++) {
+    for (let i = 0; i < metricName?.length; i++) {
       hash = metricName.charCodeAt(i) + ((hash << 5) - hash);
     }
     const hue = Math.abs(hash) % 360;
