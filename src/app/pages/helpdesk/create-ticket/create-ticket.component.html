@@ -5,17 +5,14 @@
   </div>
 
   <div *ngIf="success" class="success-message">
-    <i class="fas fa-check-circle"></i>
     <span>Ticket created successfully! You can navigate to "My Tickets" to view your submitted tickets.</span>
   </div>
 
-  <div *ngIf="error" class="error-message">
-    <i class="fas fa-exclamation-circle"></i>
-    <span>{{ error }}</span>
+  <div *ngIf="errorMessage" class="error-message">
+    <span>{{ errorMessage }}</span>
   </div>
 
   <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()" class="ticket-form">
-    <div *ngIf="error" class="error-message">{{ error }}</div>
 
     <!-- Section 1: Customer Information - commented out as per request -->
     <!--
