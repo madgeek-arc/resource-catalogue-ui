@@ -10,7 +10,6 @@ import {Service} from "../../../../domain/eic-model";
   selector: 'app-service-accounting-stats',
   templateUrl: './service-accounting-stats.component.html'
 })
-
 export class ServiceAccountingStatsComponent implements OnInit {
 
   service: Service;
@@ -45,6 +44,9 @@ export class ServiceAccountingStatsComponent implements OnInit {
         next: ({ stats, service }) => {
           this.service = service;
           this.metricList = stats?.data || [];
+
+          this.metricList.sort((a, b) => a.metric_name.localeCompare(b.metric_name));
+
           if (this.metricList.length === 0) {
             this.noDataMessage = stats?.message || 'No data available for this service.';
           }
@@ -80,16 +82,13 @@ export class ServiceAccountingStatsComponent implements OnInit {
 
     switch (range) {
       case 'week':
-        this.startDate = new Date(today.setDate(today.getDate() - 7))
-          .toISOString().split('T')[0];
+        this.startDate = new Date(today.setDate(today.getDate() - 7)).toISOString().split('T')[0];
         break;
       case 'month':
-        this.startDate = new Date(today.setMonth(today.getMonth() - 1))
-          .toISOString().split('T')[0];
+        this.startDate = new Date(today.setMonth(today.getMonth() - 1)).toISOString().split('T')[0];
         break;
       case 'year':
-        this.startDate = new Date(today.setFullYear(today.getFullYear() - 1))
-          .toISOString().split('T')[0];
+        this.startDate = new Date(today.setFullYear(today.getFullYear() - 1)).toISOString().split('T')[0];
         break;
       case 'all':
       default:
@@ -106,6 +105,9 @@ export class ServiceAccountingStatsComponent implements OnInit {
     this.accountingStatsService.getAccountingStatsForService(this.resourceId, this.startDate, this.endDate).subscribe({
       next: (stats) => {
         this.metricList = stats?.data || [];
+
+        this.metricList.sort((a, b) => a.metric_name.localeCompare(b.metric_name));
+
         if (this.metricList.length === 0) {
           this.noDataMessage = stats?.message || 'No data available for this service.';
         }
@@ -124,5 +126,4 @@ export class ServiceAccountingStatsComponent implements OnInit {
     const hue = Math.abs(hash) % 360;
     return `hsl(${hue}, 70%, 70%)`;
   }
-
 }

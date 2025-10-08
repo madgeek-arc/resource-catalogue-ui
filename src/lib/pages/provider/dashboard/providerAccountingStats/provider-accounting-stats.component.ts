@@ -43,6 +43,9 @@ export class ProviderAccountingStatsComponent implements OnInit {
       next: ({ stats, provider }) => {
         this.provider = provider;
         this.metricList = stats?.aggregated_metrics || []; //assuming that we need the aggregated metrics
+
+        this.metricList.sort((a, b) => a.metric_name.localeCompare(b.metric_name));
+
         if (this.metricList.length === 0) {
           this.noDataMessage = stats?.message || 'No data available for this provider.';
         }
@@ -103,6 +106,9 @@ export class ProviderAccountingStatsComponent implements OnInit {
     this.accountingStatsService.getAccountingStatsForProvider(this.providerId, this.startDate, this.endDate).subscribe({
       next: (stats) => {
         this.metricList = stats?.aggregated_metrics || [];
+
+        this.metricList.sort((a, b) => a.metric_name.localeCompare(b.metric_name));
+
         if (this.metricList.length === 0) {
           this.noDataMessage = stats?.message || 'No data available for this provider.';
         }
