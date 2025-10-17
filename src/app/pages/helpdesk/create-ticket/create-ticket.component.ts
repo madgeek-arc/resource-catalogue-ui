@@ -57,24 +57,32 @@ export class CreateTicketComponent implements OnInit {
         }
       };
 
-      console.log('🎫 Submitting ticket with data:', JSON.stringify(ticketData, null, 2));
+            console.log('🎫 Submitting ticket with data:', JSON.stringify(ticketData, null, 2));
+            console.log('🌐 Sending to KIT webhook via helpdesk service');
 
-      this.helpdeskService.createTicket(ticketData).subscribe({
-        next: (response) => {
-          console.log('✅ Ticket submitted successfully:', response);
-          this.loading = false;
-          this.success = true;
-          // Reset form after successful submission
-          this.ticketForm.reset();
-          // Don't navigate away to avoid routing issues with ticket list
-          // User can manually navigate to "My Tickets" if needed
-        },
-        error: (err) => {
-          console.error('❌ Error submitting ticket:', err);
-          this.loading = false;
-          this.error = `Failed to create ticket. Error: ${err.status} - ${err.message || 'Unknown error'}`;
-        }
-      });
+            this.helpdeskService.createTicket(ticketData).subscribe({
+              next: (response) => {
+                console.log('✅ Ticket submitted successfully:', response);
+                this.loading = false;
+                this.success = true;
+                // Reset form after successful submission
+                this.ticketForm.reset();
+                // Don't navigate away to avoid routing issues with ticket list
+                // User can manually navigate to "My Tickets" if needed
+              },
+              error: (err) => {
+                console.error('❌ Error submitting ticket:', err);
+                console.error('🔍 Full error details:', {
+                  status: err.status,
+                  statusText: err.statusText,
+                  url: err.url,
+                  error: err.error,
+                  message: err.message
+                });
+                this.loading = false;
+                this.error = `Failed to create ticket. Error: ${err.status} - ${err.error || err.message || 'Unknown error'}`;
+              }
+            });
     } else {
       this.error = 'Please fill in all required fields: Title and Message Body.';
     }

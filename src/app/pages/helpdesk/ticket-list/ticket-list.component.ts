@@ -1,5 +1,3 @@
-// My Tickets screen - commented out as webhook is under construction
-/*
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HelpdeskService } from '../../../services/helpdesk.service';
@@ -107,32 +105,4 @@ export class TicketListComponent implements OnInit {
     }
     return this.tickets.filter(ticket => ticket.status === status).length;
   }
-}
-*/
-
-// Temporary placeholder component
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-ticket-list',
-  template: `
-    <div class="ticket-list-container">
-      <div class="list-header">
-        <div class="header-content">
-          <h2>My Support Tickets</h2>
-          <p>This feature is currently under construction</p>
-        </div>
-      </div>
-      <div class="construction-message">
-        <i class="fas fa-tools"></i>
-        <h3>Coming Soon</h3>
-        <p>The "My Tickets" functionality is currently under development. The webhook from our backend team is still being constructed.</p>
-        <p>You can still create new tickets using the "Create Ticket" option.</p>
-      </div>
-    </div>
-  `,
-  styleUrls: ['./ticket-list.component.css']
-})
-export class TicketListComponent {
-  // Placeholder component - functionality commented out above
 }
