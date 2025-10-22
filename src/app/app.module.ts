@@ -36,7 +36,7 @@ import {EmailService} from '../lib/services/email.service';
 import {EOSCTopMenuComponent} from './shared/topmenu/topmenu.component';
 import {BecomeAProviderComponent} from './pages/serviceprovider/become-a-provider.component';
 import {VocabularyRequestsComponent} from '../lib/pages/admin/vocabulary-requests.component';
-import {MarkdownModule} from "ngx-markdown";
+// import {MarkdownModule} from "ngx-markdown";
 import {HighchartsChartModule} from "highcharts-angular";
 import {environment} from '../environments/environment';
 import {HomeComponent} from './pages/home/home.component';
@@ -120,7 +120,7 @@ export function highchartsFactory() {
     // ProviderDashboardModule,
     HighchartsChartModule,
     CookieLawModule,
-    MarkdownModule.forRoot(),
+    // MarkdownModule.forRoot(),
     AppRoutingModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

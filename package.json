@@ -40,8 +40,6 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "ng2-date-picker": "^16.0.0",
-    "ngx-markdown": "^16.0.0",
-    "ngx-markdown-editor": "^5.3.4",
     "pdfmake": "^0.2.7",
     "rxjs": "~6.6.7",
     "seedrandom": "^3.0.5",

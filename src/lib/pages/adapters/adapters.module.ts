@@ -4,8 +4,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SharedModule} from "../../shared/shared.module";
 import {HighchartsChartModule} from 'highcharts-angular';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {LMarkdownEditorModule} from 'ngx-markdown-editor';
-import {MarkdownModule} from "ngx-markdown";
+// import {LMarkdownEditorModule} from 'ngx-markdown-editor';
+// import {MarkdownModule} from "ngx-markdown";
 import {AdaptersRouting} from "./adapters.routing";
 import {AdaptersFormComponent} from "./adapters-form.component";
 import {DynamicFormModule} from "../../../dynamic-catalogue/pages/dynamic-form/dynamic-form.module";
@@ -19,12 +19,12 @@ import {ReusableComponentsModule} from "../../shared/reusablecomponents/reusable
     SharedModule,
     CommonModule,
     FormsModule,
-    LMarkdownEditorModule,
+    // LMarkdownEditorModule,
     ReactiveFormsModule,
     AdaptersRouting,
     HighchartsChartModule,
     NgSelectModule,
-    MarkdownModule,
+    // MarkdownModule,
     DynamicFormModule,
     ReusableComponentsModule
   ],

@@ -20,7 +20,7 @@ import {RejectedTrainingResourcesComponent} from "../pages/provider/dashboard/re
 import {PreviewResourceComponent} from '../pages/previewresource/preview-resource.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import {DashboardBreadcrumbsComponent} from "./breadcrumbs/dashboard-breadcrumbs.component";
-import {MarkdownModule} from "ngx-markdown";
+// import {MarkdownModule} from "ngx-markdown";
 import {ComingSoonPageComponent} from "./coming-soon-page/coming-soon-page.component";
 import {ExternalHeaderComponent} from "../../app/shared/eosc-commons/eosc-commons-header";
 import {ExternalFooterComponent} from "../../app/shared/eosc-commons/eosc-commons-footer";
@@ -34,7 +34,7 @@ import {
     ReactiveFormsModule,
     RouterModule,
     HighchartsChartModule,
-    MarkdownModule
+    // MarkdownModule
   ],
   declarations: [
     JoinPipe,
