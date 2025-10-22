@@ -1,6 +1,6 @@
 import {NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, APP_INITIALIZER} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
 // import {HomeComponent} from '../lib/pages/home/home.component';
@@ -75,98 +75,92 @@ export function highchartsFactory() {
   return hc;
 }
 
-@NgModule({
-  declarations: [
-    // MAIN
-    AppComponent,
-    HomeComponent,
-    ProvidersStatsComponent,
-    ResourcesStatsComponent,
-    BecomeAProviderComponent,
-    // PERSISTENT
-    EOSCTopMenuComponent,
-    // BreadcrumbsComponent,
-    FeedbackComponent,
-    // USER
-    // DashboardComponent,
-    // ServiceStatsComponent,
-    // // SERVICE PROVIDER ADMIN
-    // ServiceProviderFormComponent,
-    // ServiceProviderInfoComponent,
-    // UpdateServiceProviderComponent,
-    // AddFirstServiceComponent,
-    // MyServiceProvidersComponent,
-    // ADMIN
-    VocabularyRequestsComponent,
-    // ServiceProvidersListComponent,
-    // FORMS
-    // ServiceEditComponent,
-    // ServiceFormComponent,
-    // ServiceUploadComponent,
-    // EoscCommonMainHeader,
-    // EoscCommonMainFooter
-  ],
-  imports: [
-    RouterModule,
-    CommonModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ReusableComponentsModule,
-    SharedModule,
-    // StarRatingModule.forRoot(),
-    SupportModule,
-    // ProviderModule,
-    // ProviderDashboardModule,
-    HighchartsChartModule,
-    CookieLawModule,
-    // MarkdownModule.forRoot(),
-    AppRoutingModule,
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthenticationInterceptor,
-      multi: true
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initConfig,
-      deps: [ConfigService],
-      multi: true
-    },
-    AuthenticationService,
-    CanActivateViaAuthGuard,
-    CanActivateViaPubGuard,
-    NavigationService,
-    ResourceService,
-    DatasourceService,
-    TrainingResourceService,
-    DeployableServiceService,
-    ServiceProviderService,
-    ServiceExtensionsService,
-    ResourceExtrasService,
-    GuidelinesService,
-    CatalogueService,
-    EmailService,
-    DatePipe,
-    RecommendationsService,
-    pidHandler,
-    FormControlService,
-    AdaptersService,
-    HelpdeskService,
-    AccountingStatsService
-  ],
-  exports: [
-    // FooterComponent,
-    // TopMenuComponent,
-    EOSCTopMenuComponent,
-    BreadcrumbsComponent,
-    DashboardBreadcrumbsComponent,
-    FeedbackComponent
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        // MAIN
+        AppComponent,
+        HomeComponent,
+        ProvidersStatsComponent,
+        ResourcesStatsComponent,
+        BecomeAProviderComponent,
+        // PERSISTENT
+        EOSCTopMenuComponent,
+        // BreadcrumbsComponent,
+        FeedbackComponent,
+        // USER
+        // DashboardComponent,
+        // ServiceStatsComponent,
+        // // SERVICE PROVIDER ADMIN
+        // ServiceProviderFormComponent,
+        // ServiceProviderInfoComponent,
+        // UpdateServiceProviderComponent,
+        // AddFirstServiceComponent,
+        // MyServiceProvidersComponent,
+        // ADMIN
+        VocabularyRequestsComponent,
+        // ServiceProvidersListComponent,
+        // FORMS
+        // ServiceEditComponent,
+        // ServiceFormComponent,
+        // ServiceUploadComponent,
+        // EoscCommonMainHeader,
+        // EoscCommonMainFooter
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    exports: [
+        // FooterComponent,
+        // TopMenuComponent,
+        EOSCTopMenuComponent,
+        BreadcrumbsComponent,
+        DashboardBreadcrumbsComponent,
+        FeedbackComponent
+    ],
+    bootstrap: [AppComponent], imports: [RouterModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ReusableComponentsModule,
+        SharedModule,
+        // StarRatingModule.forRoot(),
+        SupportModule,
+        // ProviderModule,
+        // ProviderDashboardModule,
+        HighchartsChartModule,
+        CookieLawModule,
+        // MarkdownModule.forRoot(),
+        AppRoutingModule], providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthenticationInterceptor,
+            multi: true
+        },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initConfig,
+            deps: [ConfigService],
+            multi: true
+        },
+        AuthenticationService,
+        CanActivateViaAuthGuard,
+        CanActivateViaPubGuard,
+        NavigationService,
+        ResourceService,
+        DatasourceService,
+        TrainingResourceService,
+        DeployableServiceService,
+        ServiceProviderService,
+        ServiceExtensionsService,
+        ResourceExtrasService,
+        GuidelinesService,
+        CatalogueService,
+        EmailService,
+        DatePipe,
+        RecommendationsService,
+        pidHandler,
+        FormControlService,
+        AdaptersService,
+        HelpdeskService,
+        AccountingStatsService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {
 }
