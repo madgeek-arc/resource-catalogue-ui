@@ -491,7 +491,10 @@ export class ResourceService {
   submitService(service: Service, shouldPut: boolean, comment: string) {
     // console.log(JSON.stringify(service));
     // console.log(`knocking on: ${this.base}/service`);
-    return this.http[shouldPut ? 'put' : 'post']<Service>(this.base + `/service?comment=${comment}`, service, this.options);
+    if (shouldPut)
+      return this.http.put<Service>(this.base + `/service?comment=${comment}`, service, this.options);
+    else
+      return this.http.post<Service>(this.base + `/service?comment=${comment}`, service, this.options);
   }
 
   /** Draft(Pending) Services -->**/
