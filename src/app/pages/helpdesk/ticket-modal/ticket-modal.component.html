@@ -1,0 +1,81 @@
+<div *ngIf="isOpen" class="modal-overlay" (click)="onBackdropClick($event)">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Ticket Details</h2>
+      <button class="close-btn" (click)="onClose()">
+        <i class="fa fa-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body" *ngIf="ticket">
+      <!-- Ticket Header -->
+      <div class="ticket-header">
+        <div class="ticket-title-section">
+          <h3>{{ ticket.title }}</h3>
+          <div class="ticket-meta">
+            <span class="ticket-id">#{{ ticket.number }}</span>
+            <span class="ticket-date"
+              >Created {{ formatDate(ticket.created_at) }}</span
+            >
+          </div>
+        </div>
+        <div class="ticket-status-section">
+          <div class="status-badge">
+            <i [class]="getStatusIcon(ticket.status || ticket.state)"></i>
+            <span [class]="getStatusClass(ticket.status || ticket.state)">{{
+              ticket.status || ticket.state
+            }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ticket Articles/Conversation -->
+      <div
+        class="ticket-conversation"
+        *ngIf="ticket.articles && ticket.articles.length > 0"
+      >
+        <h4>Conversation</h4>
+        <div class="conversation-timeline">
+          <div
+            *ngFor="let article of ticket.articles; let i = index"
+            class="conversation-item"
+            [class.user-message]="isUserMessage(article)"
+            [class.support-message]="!isUserMessage(article)"
+          >
+            <div class="message-header">
+              <span class="message-author">
+                {{ isUserMessage(article) ? "You" : "EOSC Beyond Support" }}
+              </span>
+              <span class="message-time">
+                {{ formatTime(article.created_at) }}
+              </span>
+            </div>
+
+            <div class="message-body">
+              <p>{{ article.body }}</p>
+            </div>
+
+            <div class="message-footer">
+              <span class="message-date">{{
+                formatDate(article.created_at)
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Articles Message -->
+      <div
+        *ngIf="!ticket.articles || ticket.articles.length === 0"
+        class="no-articles"
+      >
+        <i class="fa fa-comment"></i>
+        <p>No conversation history available for this ticket.</p>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="onClose()">Close</button>
+    </div>
+  </div>
+</div>

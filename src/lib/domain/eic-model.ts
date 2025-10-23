@@ -2,7 +2,6 @@
 /* eslint-disable */
 // Generated using typescript-generator version 2.16.538 on 2020-06-10 11:50:49.
 
-
 export class Bundle<T> implements Identifiable {
   id: string;
   metadata: Metadata;
@@ -91,11 +90,12 @@ export class ExtrasMapType {
   entry: ExtrasType[];
 }
 
-export class XmlAdapter<ValueType, BoundType> {
-}
+export class XmlAdapter<ValueType, BoundType> {}
 
-export class ExtrasMapTypeAdapter extends XmlAdapter<ExtrasMapType, { [index: string]: string }> {
-}
+export class ExtrasMapTypeAdapter extends XmlAdapter<
+  ExtrasMapType,
+  { [index: string]: string }
+> {}
 
 export class ExtrasType {
   key: string;
@@ -393,7 +393,7 @@ export class Service implements Identifiable {
   multimedia: Multimedia[];
   useCases: UseCase[];
   scientificDomains: ServiceProviderDomain[];
-  categories: ServiceCategory[];  // anchor
+  categories: ServiceCategory[]; // anchor
   targetUsers: string[];
   accessTypes: string[];
   accessModes: string[];
@@ -693,7 +693,8 @@ export class OpenAIREMetrics {
   totalOpenaireViews: number;
 }
 
-export class PiwikInfo { // provide
+export class PiwikInfo {
+  // provide
   repositoryId: string;
   openaireId: string;
   repositoryName: string;
@@ -730,17 +731,13 @@ export class VocabularyTree {
   children: VocabularyTree[];
 }
 
-export class XMLGregorianCalendar implements Cloneable {
-}
+export class XMLGregorianCalendar implements Cloneable {}
 
-export class URL implements Serializable {
-}
+export class URL implements Serializable {}
 
-export interface Cloneable {
-}
+export interface Cloneable {}
 
-export interface Serializable {
-}
+export interface Serializable {}
 
 export const enum UserActionType {
   FAVOURITE = "FAVOURITE",
@@ -816,7 +813,7 @@ export const enum Type {
   TR_URL_TYPE = "TR_URL_TYPE",
   SERVICE_CATEGORY = "SERVICE_CATEGORY",
   MARKETPLACE_LOCATION = "MARKETPLACE_LOCATION",
-  NODE = "NODE"
+  NODE = "NODE",
 }
 
 /* HELPDESK --> */
@@ -850,7 +847,8 @@ export interface HelpdeskUser {
 }
 
 export interface HelpdeskTicketResponse {
-  id: string;
+  id?: string; // Internal database ID (optional)
+  number: string; // Zammad ticket number (e.g., "22003")
   title: string;
   group: string;
   customer: {
@@ -858,7 +856,8 @@ export interface HelpdeskTicketResponse {
     lastname: string;
     email: string;
   };
-  status: string;
+  status?: string; // Optional for backward compatibility
+  state?: string; // Zammad uses 'state' field
   created_at: string;
   updated_at: string;
   articles: HelpdeskArticle[];
@@ -879,6 +878,7 @@ export interface HelpdeskArticle {
 export interface CreateTicketRequest {
   title: string;
   group?: string;
+  status?: string;
   article: {
     subject?: string;
     body: string;

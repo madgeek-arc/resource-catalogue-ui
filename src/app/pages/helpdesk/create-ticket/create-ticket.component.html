@@ -5,12 +5,15 @@
   </div>
 
   <div *ngIf="success" class="success-message">
-    <i class="fas fa-check-circle"></i>
-    <span>Ticket created successfully! You can navigate to "My Tickets" to view your submitted tickets.</span>
+    <i class="fa fa-check-circle"></i>
+    <span
+      >Ticket created successfully! You can navigate to "My Tickets" to view
+      your submitted tickets.</span
+    >
   </div>
 
   <div *ngIf="error" class="error-message">
-    <i class="fas fa-exclamation-circle"></i>
+    <i class="fa fa-exclamation-circle"></i>
     <span>{{ error }}</span>
   </div>
 
@@ -52,12 +55,18 @@
     <!-- Section 2: Ticket Information -->
     <div class="form-section">
       <h3 class="section-title">Ticket Information</h3>
-      
+
       <div class="form-group">
         <label for="title">Title <span class="required">*</span></label>
         <input id="title" type="text" formControlName="title" />
-        <div class="validation-error" *ngIf="ticketForm.get('title')?.invalid && (ticketForm.get('title')?.dirty || ticketForm.get('title')?.touched)">
-          {{ getErrorMessage('title') }}
+        <div
+          class="validation-error"
+          *ngIf="
+            ticketForm.get('title')?.invalid &&
+            (ticketForm.get('title')?.dirty || ticketForm.get('title')?.touched)
+          "
+        >
+          {{ getErrorMessage("title") }}
         </div>
       </div>
 
@@ -68,14 +77,25 @@
 
       <div class="form-group">
         <label for="articleSubject">Subject</label>
-        <input id="articleSubject" type="text" formControlName="articleSubject" />
+        <input
+          id="articleSubject"
+          type="text"
+          formControlName="articleSubject"
+        />
       </div>
 
       <div class="form-group">
         <label for="articleBody">Message <span class="required">*</span></label>
         <textarea id="articleBody" formControlName="articleBody"></textarea>
-        <div class="validation-error" *ngIf="ticketForm.get('articleBody')?.invalid && (ticketForm.get('articleBody')?.dirty || ticketForm.get('articleBody')?.touched)">
-          {{ getErrorMessage('articleBody') }}
+        <div
+          class="validation-error"
+          *ngIf="
+            ticketForm.get('articleBody')?.invalid &&
+            (ticketForm.get('articleBody')?.dirty ||
+              ticketForm.get('articleBody')?.touched)
+          "
+        >
+          {{ getErrorMessage("articleBody") }}
         </div>
       </div>
 
@@ -90,18 +110,24 @@
 
       <div class="form-group">
         <label>
-          <input type="checkbox" formControlName="articleInternal" /> Internal Note
+          <input type="checkbox" formControlName="articleInternal" /> Internal
+          Note
         </label>
       </div>
     </div>
 
-    <button type="submit" [disabled]="loading || ticketForm.invalid">Submit Ticket</button>
+    <button type="submit" [disabled]="loading || ticketForm.invalid">
+      Submit Ticket
+    </button>
     <div *ngIf="loading" class="loading-message">Submitting...</div>
-    <div class="mandatory-note">Fields with <span class="required">*</span> are mandatory and must be completed in order to submit this form.</div>
+    <div class="mandatory-note">
+      Fields with <span class="required">*</span> are mandatory and must be
+      completed in order to submit this form.
+    </div>
   </form>
 
   <div class="help-info">
-    <h4><i class="fas fa-info-circle"></i> Tips for better support</h4>
+    <h4><i class="fa fa-info-circle"></i> Tips for better support</h4>
     <ul>
       <li>Provide clear and specific information about your issue</li>
       <li>Include any error messages or screenshots if applicable</li>
@@ -109,4 +135,4 @@
       <li>Specify which service or resource you're having trouble with</li>
     </ul>
   </div>
-</div> 
+</div>
