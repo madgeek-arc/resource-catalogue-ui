@@ -205,10 +205,11 @@ export class DeployableServiceService {
     // console.log(JSON.stringify(service));
     // console.log(`knocking on: ${this.base}/service`);
     if (!comment && shouldPut) return this.http.put<DeployableService>(this.base + `/deployableService`, deployableService, this.options);
-    if (shouldPut)
+    if (shouldPut) {
       return this.http.put<DeployableService>(this.base + `/deployableService?comment=${comment}`, deployableService, this.options);
-    else
+    } else {
       return this.http.post<DeployableService>(this.base + `/deployableService?comment=${comment}`, deployableService, this.options);
+    }
   }
 
   /** Draft(Pending) Services -->**/

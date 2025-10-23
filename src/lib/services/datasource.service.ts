@@ -91,9 +91,10 @@ export class DatasourceService {
     // console.log(`knocking on: ${this.base}/datasource`);
     // return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base + '/datasource', datasource, this.options);
     if (shouldPut) {
-      return this.http.put<Datasource>(this.base + '/datasource', datasource, this.options);
+      return this.http.put<Datasource>(this.base + '/datasource', datasource, this.options); //comment param can be used on update
+    } else {
+      return this.http.post<Datasource>(this.base + '/datasource', datasource, this.options);
     }
-    return this.http.post<Datasource>(this.base + '/datasource', datasource, this.options);
   }
 
   verifyDatasource(id: string, active: boolean, status: string) {

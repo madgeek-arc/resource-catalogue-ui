@@ -293,12 +293,11 @@ export class TrainingResourceService {
     // console.log(JSON.stringify(service));
     // console.log(`knocking on: ${this.base}/service`);
     if (!comment && shouldPut) return this.http.put<TrainingResource>(this.base + `/trainingResource`, trainingResource, this.options);
-    if (shouldPut)
+    if (shouldPut) {
       return this.http.put<TrainingResource>(this.base + `/trainingResource?comment=${comment}`, trainingResource, this.options);
-    else
+    } else {
       return this.http.post<TrainingResource>(this.base + `/trainingResource?comment=${comment}`, trainingResource, this.options);
-    // return this.http[shouldPut ? 'put' : 'post']<TrainingResource>(this.base + `/trainingResource?comment=${comment}`, trainingResource, this.options);
-
+    }
   }
 
   /** Draft(Pending) Services -->**/

@@ -20,11 +20,11 @@ export class AdaptersService {
   private options = {withCredentials: true};
 
   uploadAdapter(adapter: Adapter, shouldPut: boolean) {
-
-    if (shouldPut)
+    if (shouldPut) {
       return this.http.put<Adapter>(this.base + '/adapter', adapter, this.options);
-    else
+    } else {
       return this.http.post<Adapter>(this.base + '/adapter', adapter, this.options);
+    }
   }
 
   getMyAdapters() {
