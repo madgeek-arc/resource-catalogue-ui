@@ -9,6 +9,7 @@ import {environment} from '../../../../../environments/environment';
 import {MonitoringInfoComponent} from "./monitoring-info.component";
 import {ResourceGuidelinesFormComponent} from "../../../provider-resources/resource-guidelines/resource-guidelines-form.component";
 import {ConfigurationTemplatesComponent} from "./configuration-templates.component";
+import {ServiceAccountingStatsComponent} from "./service-accounting-stats.component";
 
 const resourceDashboardRoutes: Routes = [
   {
@@ -44,6 +45,10 @@ const resourceDashboardRoutes: Routes = [
       {
         path: 'monitoringInfo',
         component: MonitoringInfoComponent
+      },
+      {
+        path: 'accountingStats',
+        component: ServiceAccountingStatsComponent
       },
       {
         path: 'assignGuidelines',

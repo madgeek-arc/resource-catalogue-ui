@@ -5,18 +5,3 @@
   background-position: left center;
   /*background: #F4F4F4 url("../../../assets/images/bg-page.png") no-repeat 0% 20%;*/
 }
-
-
-
-/* Helpdesk link styling */
-.helpdesk-link {
-  color: #EE7444;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.helpdesk-link:hover {
-  color: #d65a2e;
-  text-decoration: underline;
-}

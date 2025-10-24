@@ -8,6 +8,7 @@
         </div>
         <div class="uk-margin-medium-left">
           <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
+          <div><span class="status-label">ID: </span>{{ providerBundle.id}}</div>
           <div><span class="status-label">Provider Status: </span>{{ providerBundle.status.substr(0,providerBundle.status.indexOf(' ')) | titlecase }}</div>
         </div>
       </div>

@@ -12,8 +12,9 @@ import { CreateTicketRequest } from "../../../../lib/domain/eic-model";
 export class CreateTicketComponent implements OnInit {
   ticketForm: FormGroup;
   loading = false;
-  error = "";
   success = false;
+  // successMessage = '';
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -43,7 +44,7 @@ export class CreateTicketComponent implements OnInit {
   onSubmit(): void {
     if (this.ticketForm.valid) {
       this.loading = true;
-      this.error = "";
+      this.errorMessage = '';
 
       // Create payload without customer data for GDPR compliance
       // Customer data is collected for UX but not sent to backend
@@ -59,15 +60,15 @@ export class CreateTicketComponent implements OnInit {
         },
       };
 
-      console.log(
+      console.debug(
         "🎫 Submitting ticket with data:",
         JSON.stringify(ticketData, null, 2)
       );
-      console.log("🌐 Sending to KIT webhook via helpdesk service");
+      console.debug("🌐 Sending to KIT webhook via helpdesk service");
 
       this.helpdeskService.createTicket(ticketData).subscribe({
         next: (response) => {
-          console.log("✅ Ticket submitted successfully:", response);
+          console.debug("✅ Ticket submitted successfully:", response);
           this.loading = false;
           this.success = true;
           // Reset form after successful submission
@@ -85,14 +86,11 @@ export class CreateTicketComponent implements OnInit {
             message: err.message,
           });
           this.loading = false;
-          this.error = `Failed to create ticket. Error: ${err.status} - ${
-            err.error || err.message || "Unknown error"
-          }`;
-        },
+          this.errorMessage = `${err.error.message || 'Failed to create ticket.'}`;
+        }
       });
     } else {
-      this.error =
-        "Please fill in all required fields: Title and Message Body.";
+      this.errorMessage = 'Please fill in all required fields marked with an asterisk (*).';
     }
   }
 
