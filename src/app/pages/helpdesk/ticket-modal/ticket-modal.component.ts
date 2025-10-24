@@ -1,4 +1,12 @@
-import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
 import { HelpdeskTicketResponse } from "../../../../lib/domain/eic-model";
 
 @Component({
@@ -6,7 +14,7 @@ import { HelpdeskTicketResponse } from "../../../../lib/domain/eic-model";
   templateUrl: "./ticket-modal.component.html",
   styleUrls: ["./ticket-modal.component.css"],
 })
-export class TicketModalComponent implements OnInit {
+export class TicketModalComponent implements OnInit, OnChanges {
   @Input() ticket: HelpdeskTicketResponse | null = null;
   @Input() isOpen: boolean = false;
   @Output() closeModal = new EventEmitter<void>();
@@ -15,7 +23,17 @@ export class TicketModalComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["isOpen"]) {
+      console.log("🔄 Modal isOpen changed:", changes["isOpen"].currentValue);
+    }
+    if (changes["ticket"]) {
+      console.log("🎫 Modal ticket changed:", changes["ticket"].currentValue);
+    }
+  }
+
   onClose(): void {
+    console.log("❌ Modal close requested");
     this.closeModal.emit();
   }
 

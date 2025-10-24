@@ -46,7 +46,7 @@
             ]
           "
           [class.active]="selectedStatus === status"
-          (click)="selectedStatus = status; onStatusChange()"
+          (click)="setStatusFilter(status)"
           class="filter-btn"
         >
           {{ status.charAt(0).toUpperCase() + status.slice(1) }}
@@ -66,7 +66,7 @@
       </thead>
       <tbody>
         <tr
-          *ngFor="let ticket of paginatedTickets"
+          *ngFor="let ticket of paginatedTickets; let i = index"
           (click)="viewTicket(ticket.number)"
           class="ticket-row"
         >
@@ -94,9 +94,7 @@
       <div class="pagination-info">
         <span
           >Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to
-          {{
-            Math.min(currentPage * itemsPerPage, getFilteredTickets().length)
-          }}
+          {{ getEndIndex() }}
           of {{ getFilteredTickets().length }} tickets</span
         >
       </div>

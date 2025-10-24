@@ -12,6 +12,12 @@
   border-bottom: 2px solid #f0f0f0;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .header-content h2 {
   margin: 0 0 5px 0;
   color: #333;

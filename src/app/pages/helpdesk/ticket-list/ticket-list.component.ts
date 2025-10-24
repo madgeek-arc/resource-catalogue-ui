@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { HelpdeskService } from "../../../services/helpdesk.service";
 import { HelpdeskTicketResponse } from "../../../../lib/domain/eic-model";
@@ -23,9 +23,14 @@ export class TicketListComponent implements OnInit {
   selectedTicket: HelpdeskTicketResponse | null = null;
   isModalOpen = false;
 
+  // Cached filtered tickets to prevent multiple evaluations
+  private _cachedFilteredTickets: HelpdeskTicketResponse[] = [];
+  private _lastFilterStatus = "";
+
   constructor(
     private helpdeskService: HelpdeskService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -35,6 +40,9 @@ export class TicketListComponent implements OnInit {
   loadTickets(): void {
     this.loading = true;
     this.error = "";
+    // Clear cache when loading new tickets
+    this._cachedFilteredTickets = [];
+    this._lastFilterStatus = "";
 
     this.helpdeskService.getUserTickets().subscribe({
       next: (tickets) => {
@@ -51,12 +59,32 @@ export class TicketListComponent implements OnInit {
   }
 
   getFilteredTickets(): HelpdeskTicketResponse[] {
-    if (this.selectedStatus === "all") {
-      return this.tickets;
+    // Use cache if status hasn't changed
+    if (
+      this._lastFilterStatus === this.selectedStatus &&
+      this._cachedFilteredTickets.length > 0
+    ) {
+      return this._cachedFilteredTickets;
     }
-    return this.tickets.filter(
-      (ticket) => (ticket.status || ticket.state) === this.selectedStatus
+
+    let filtered: HelpdeskTicketResponse[];
+    if (this.selectedStatus === "all") {
+      filtered = this.tickets;
+    } else {
+      filtered = this.tickets.filter(
+        (ticket) => (ticket.status || ticket.state) === this.selectedStatus
+      );
+    }
+
+    // Cache the result
+    this._cachedFilteredTickets = filtered;
+    this._lastFilterStatus = this.selectedStatus;
+
+    console.log(
+      `🔍 Filtered tickets for status "${this.selectedStatus}":`,
+      filtered.length
     );
+    return filtered;
   }
 
   get sortedTickets(): HelpdeskTicketResponse[] {
@@ -84,11 +112,32 @@ export class TicketListComponent implements OnInit {
   onStatusChange(): void {
     this.currentPage = 1;
     this.updatePagination();
+    this.cdr.detectChanges();
+  }
+
+  setStatusFilter(status: string): void {
+    console.log(
+      "🔄 Changing status filter from",
+      this.selectedStatus,
+      "to",
+      status
+    );
+    this.selectedStatus = status;
+    this.onStatusChange();
+    console.log(
+      "📊 After filter change - paginated tickets:",
+      this.paginatedTickets.map((t) => ({
+        number: t.number,
+        status: t.status || t.state,
+      }))
+    );
   }
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
+      this.cdr.detectChanges();
+      console.log("📄 Navigated to page:", page);
     }
   }
 
@@ -158,19 +207,38 @@ export class TicketListComponent implements OnInit {
   }
 
   viewTicket(ticketId: string): void {
-    // Find the ticket by ID or number
-    const ticket = this.tickets.find(
+    console.log("🔍 Viewing ticket:", ticketId);
+    // First try to find in the current paginated tickets (most reliable)
+    let ticket = this.paginatedTickets.find(
       (t) => t.id === ticketId || t.number === ticketId
     );
+
+    // If not found in paginated, try the full tickets array
+    if (!ticket) {
+      ticket = this.tickets.find(
+        (t) => t.id === ticketId || t.number === ticketId
+      );
+    }
+
+    console.log("🎫 Found ticket:", ticket);
     if (ticket) {
       this.selectedTicket = ticket;
       this.isModalOpen = true;
+      this.cdr.detectChanges();
+      console.log("✅ Modal opened for ticket:", ticket.number);
+    } else {
+      console.error("❌ Ticket not found:", ticketId);
+      console.log(
+        "Available tickets:",
+        this.paginatedTickets.map((t) => t.number)
+      );
     }
   }
 
   closeModal(): void {
     this.isModalOpen = false;
     this.selectedTicket = null;
+    this.cdr.detectChanges();
   }
 
   createNewTicket(): void {
@@ -184,5 +252,10 @@ export class TicketListComponent implements OnInit {
     return this.tickets.filter(
       (ticket) => (ticket.status || ticket.state) === status
     ).length;
+  }
+
+  getEndIndex(): number {
+    const filteredLength = this.getFilteredTickets().length;
+    return Math.min(this.currentPage * this.itemsPerPage, filteredLength);
   }
 }
