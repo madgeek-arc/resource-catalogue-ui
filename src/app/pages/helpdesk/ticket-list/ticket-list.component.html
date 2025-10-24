@@ -1,5 +1,3 @@
-<!-- My Tickets HTML template - commented out as webhook is under construction -->
-<!--
 <div class="ticket-list-container">
   <div class="list-header">
     <div class="header-content">
@@ -12,9 +10,11 @@
   </div>
 
   <div *ngIf="error" class="error-message">
-    <i class="fas fa-exclamation-circle"></i>
+    <i class="fa fa-exclamation-circle"></i>
     <span>{{ error }}</span>
-    <button class="btn btn-sm btn-outline" (click)="loadTickets()">Retry</button>
+    <button class="btn btn-sm btn-outline" (click)="loadTickets()">
+      Retry
+    </button>
   </div>
 
   <div *ngIf="loading" class="loading-container">
@@ -23,7 +23,7 @@
   </div>
 
   <div *ngIf="!loading && tickets.length === 0" class="empty-state">
-    <i class="fas fa-ticket-alt"></i>
+    <i class="fa fa-ticket"></i>
     <h3>No tickets found</h3>
     <p>You haven't created any support tickets yet.</p>
     <button class="btn btn-primary" (click)="createNewTicket()">
@@ -34,10 +34,19 @@
   <div *ngIf="!loading && tickets.length > 0" class="ticket-content">
     <div class="filters">
       <div class="status-filters">
-        <button 
-          *ngFor="let status of ['all', 'open', 'pending', 'closed']" 
+        <button
+          *ngFor="
+            let status of [
+              'all',
+              'new',
+              'open',
+              'pending close',
+              'pending reminder',
+              'closed'
+            ]
+          "
           [class.active]="selectedStatus === status"
-          (click)="selectedStatus = status"
+          (click)="setStatusFilter(status)"
           class="filter-btn"
         >
           {{ status.charAt(0).toUpperCase() + status.slice(1) }}
@@ -56,19 +65,94 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let ticket of sortedTickets" (click)="viewTicket(ticket.id)" class="ticket-row">
-          <td>#{{ ticket.id }}</td>
-          <td>{{ formatDate(ticket.created_at) }}</td>
-          <td>{{ ticket.title }}</td>
-          <td><span [class]="getStatusClass(ticket.status)">{{ ticket.status }}</span></td>
+        <tr
+          *ngFor="let ticket of paginatedTickets; let i = index"
+          (click)="viewTicket(ticket.number)"
+          class="ticket-row"
+        >
+          <td data-label="Number">#{{ ticket.number }}</td>
+          <td data-label="Date">{{ formatDate(ticket.created_at) }}</td>
+          <td data-label="Title">{{ ticket.title }}</td>
+          <td data-label="Status">
+            <span
+              class="status-badge"
+              [class]="getStatusClass(ticket.status || ticket.state)"
+              >{{ ticket.status || ticket.state }}</span
+            >
+          </td>
         </tr>
       </tbody>
     </table>
 
-    <div *ngIf="sortedTickets.length === 0" class="no-results">
-      <i class="fas fa-search"></i>
+    <div *ngIf="paginatedTickets.length === 0" class="no-results">
+      <i class="fa fa-search"></i>
       <p>No tickets found with the selected filter.</p>
     </div>
+
+    <!-- Pagination Controls -->
+    <div *ngIf="totalPages > 1" class="pagination-container">
+      <div class="pagination-info">
+        <span
+          >Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to
+          {{ getEndIndex() }}
+          of {{ getFilteredTickets().length }} tickets</span
+        >
+      </div>
+
+      <div class="pagination-controls">
+        <button
+          class="pagination-btn"
+          [disabled]="currentPage === 1"
+          (click)="goToPage(1)"
+          title="First page"
+        >
+          <i class="fa fa-angle-double-left"></i>
+        </button>
+
+        <button
+          class="pagination-btn"
+          [disabled]="currentPage === 1"
+          (click)="goToPage(currentPage - 1)"
+          title="Previous page"
+        >
+          <i class="fa fa-angle-left"></i>
+        </button>
+
+        <button
+          *ngFor="let page of getPageNumbers()"
+          class="pagination-btn"
+          [class.active]="page === currentPage"
+          (click)="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+
+        <button
+          class="pagination-btn"
+          [disabled]="currentPage === totalPages"
+          (click)="goToPage(currentPage + 1)"
+          title="Next page"
+        >
+          <i class="fa fa-angle-right"></i>
+        </button>
+
+        <button
+          class="pagination-btn"
+          [disabled]="currentPage === totalPages"
+          (click)="goToPage(totalPages)"
+          title="Last page"
+        >
+          <i class="fa fa-angle-double-right"></i>
+        </button>
+      </div>
+    </div>
   </div>
+
+  <!-- Ticket Modal -->
+  <app-ticket-modal
+    [ticket]="selectedTicket"
+    [isOpen]="isModalOpen"
+    (closeModal)="closeModal()"
+  >
+  </app-ticket-modal>
 </div>
---> 
