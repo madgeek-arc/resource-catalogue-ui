@@ -36,14 +36,7 @@
       <div class="status-filters">
         <button
           *ngFor="
-            let status of [
-              'all',
-              'new',
-              'open',
-              'pending close',
-              'pending reminder',
-              'closed'
-            ]
+            let status of ['all', 'new', 'open', 'closed']
           "
           [class.active]="selectedStatus === status"
           (click)="setStatusFilter(status)"
@@ -76,8 +69,8 @@
           <td data-label="Status">
             <span
               class="status-badge"
-              [class]="getStatusClass(ticket.status || ticket.state)"
-              >{{ ticket.status || ticket.state }}</span
+              [class]="getStatusClass(getTicketState(ticket))"
+              >{{ getTicketState(ticket) }}</span
             >
           </td>
         </tr>

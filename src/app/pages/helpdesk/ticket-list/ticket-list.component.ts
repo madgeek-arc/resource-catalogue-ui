@@ -72,7 +72,7 @@ export class TicketListComponent implements OnInit {
       filtered = this.tickets;
     } else {
       filtered = this.tickets.filter(
-        (ticket) => (ticket.status || ticket.state) === this.selectedStatus
+        (ticket) => this.getTicketState(ticket) === this.selectedStatus
       );
     }
 
@@ -128,7 +128,8 @@ export class TicketListComponent implements OnInit {
       "📊 After filter change - paginated tickets:",
       this.paginatedTickets.map((t) => ({
         number: t.number,
-        status: t.status || t.state,
+        state_id: t.state_id,
+        state: this.getTicketState(t),
       }))
     );
   }
@@ -160,7 +161,7 @@ export class TicketListComponent implements OnInit {
     return pages;
   }
 
-  getStatusClass(statusOrState: string): string {
+  getStatusClass(statusOrState: string | undefined): string {
     const status = statusOrState?.toLowerCase() || "";
     switch (status) {
       case "new":
@@ -178,7 +179,7 @@ export class TicketListComponent implements OnInit {
     }
   }
 
-  getStatusIcon(statusOrState: string): string {
+  getStatusIcon(statusOrState: string | undefined): string {
     const status = statusOrState?.toLowerCase() || "";
     switch (status) {
       case "new":
@@ -196,43 +197,110 @@ export class TicketListComponent implements OnInit {
     }
   }
 
+  /**
+   * Converts state_id to state name
+   * state_id: 1 --> "new"
+   * state_id: 2 --> "open"
+   * state_id: 3 --> "pending reminder"
+   * state_id: 4 --> "closed"
+   * state_id: 7 --> "pending close"
+   */
+  getStateFromId(stateId: number | undefined): string {
+    if (!stateId) {
+      return "";
+    }
+    switch (stateId) {
+      case 1:
+        return "new";
+      case 2:
+        return "open";
+      case 3:
+        return "pending reminder";
+      case 4:
+        return "closed";
+      case 7:
+        return "pending close";
+      default:
+        return "";
+    }
+  }
+
+  /**
+   * Gets the state name from a ticket, checking state_id first, then state
+   */
+  getTicketState(ticket: HelpdeskTicketResponse): string {
+    if (ticket.state_id !== undefined) {
+      return this.getStateFromId(ticket.state_id);
+    }
+    return ticket.state || "";
+  }
+
   formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    if (!dateString) {
+      return "";
+    }
+    const date = new Date(dateString);
+    // Use UTC methods to get the time as it appears in the ISO string (UTC timezone)
+    const day = date.getUTCDate();
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const month = monthNames[date.getUTCMonth()];
+    const year = date.getUTCFullYear();
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    // Format: "Oct 31, 2025, 14:14" (24-hour format)
+    return `${month} ${day}, ${year}, ${hours}:${minutes}`;
   }
 
   viewTicket(ticketId: string): void {
     console.log("🔍 Viewing ticket:", ticketId);
-    // First try to find in the current paginated tickets (most reliable)
-    let ticket = this.paginatedTickets.find(
+
+    // First find the ticket in our list to get the number
+    let ticketFromList = this.paginatedTickets.find(
       (t) => t.id === ticketId || t.number === ticketId
     );
 
-    // If not found in paginated, try the full tickets array
-    if (!ticket) {
-      ticket = this.tickets.find(
+    if (!ticketFromList) {
+      ticketFromList = this.tickets.find(
         (t) => t.id === ticketId || t.number === ticketId
       );
     }
 
-    console.log("🎫 Found ticket:", ticket);
-    if (ticket) {
-      this.selectedTicket = ticket;
-      this.isModalOpen = true;
-      this.cdr.detectChanges();
-      console.log("✅ Modal opened for ticket:", ticket.number);
-    } else {
+    if (!ticketFromList) {
       console.error("❌ Ticket not found:", ticketId);
-      console.log(
-        "Available tickets:",
-        this.paginatedTickets.map((t) => t.number)
-      );
+      return;
     }
+
+    // Fetch full ticket details including close_at
+    const ticketNumber = ticketFromList.number;
+    this.helpdeskService.getTicket(ticketNumber).subscribe({
+      next: (fullTicket) => {
+        console.log("🎫 Full ticket details:", fullTicket);
+        this.selectedTicket = fullTicket;
+        this.isModalOpen = true;
+        this.cdr.detectChanges();
+        console.log("✅ Modal opened for ticket:", fullTicket.number);
+      },
+      error: (err) => {
+        console.error("❌ Error fetching ticket details:", err);
+        // Fallback to ticket from list if API call fails
+        this.selectedTicket = ticketFromList;
+        this.isModalOpen = true;
+        this.cdr.detectChanges();
+      },
+    });
   }
 
   closeModal(): void {
@@ -250,7 +318,7 @@ export class TicketListComponent implements OnInit {
       return this.tickets.length;
     }
     return this.tickets.filter(
-      (ticket) => (ticket.status || ticket.state) === status
+      (ticket) => this.getTicketState(ticket) === status
     ).length;
   }
 

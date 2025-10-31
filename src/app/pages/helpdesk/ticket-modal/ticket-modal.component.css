@@ -65,47 +65,19 @@
   flex: 1;
 }
 
-/* Ticket Header */
-.ticket-header {
+/* Ticket Header Row - Number and State */
+.ticket-header-row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 32px;
-  padding-bottom: 24px;
-  border-bottom: 2px solid #f8f9fa;
-}
-
-.ticket-title-section h3 {
-  margin: 0 0 12px 0;
-  font-size: 28px;
-  font-weight: 600;
-  color: #2c3e50;
-  line-height: 1.3;
-}
-
-.ticket-meta {
-  display: flex;
-  gap: 20px;
   align-items: center;
+  margin-bottom: 16px;
 }
 
-.ticket-id {
+.ticket-number {
   font-family: "Courier New", monospace;
   font-weight: 600;
   color: #667eea;
-  background: #f8f9fa;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-.ticket-date {
-  color: #6c757d;
-  font-size: 14px;
-}
-
-.ticket-status-section {
-  flex-shrink: 0;
+  font-size: 18px;
 }
 
 /* Status Badge */
@@ -117,7 +89,7 @@
   border-radius: 25px;
   font-size: 14px;
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: capitalize;
   letter-spacing: 0.5px;
 }
 
@@ -151,18 +123,28 @@
   color: #6c757d;
 }
 
-/* Conversation */
-.ticket-conversation h4 {
-  margin: 0 0 20px 0;
-  font-size: 20px;
+/* Ticket Title */
+.ticket-title {
+  margin: 0 0 24px 0;
+  font-size: 24px;
   font-weight: 600;
   color: #2c3e50;
+  line-height: 1.4;
 }
 
+/* Divider */
+.divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 24px 0;
+}
+
+/* Conversation */
 .conversation-timeline {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin-bottom: 24px;
 }
 
 .conversation-item {
@@ -231,6 +213,7 @@
   text-align: center;
   padding: 40px 20px;
   color: #6c757d;
+  margin-bottom: 24px;
 }
 
 .no-articles i {
@@ -242,6 +225,31 @@
 .no-articles p {
   margin: 0;
   font-size: 16px;
+}
+
+/* Timeline */
+.ticket-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.timeline-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.timeline-label {
+  font-weight: 600;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.timeline-value {
+  color: #2c3e50;
+  font-size: 14px;
 }
 
 /* Modal Footer */
@@ -298,20 +306,20 @@
     padding: 24px;
   }
 
-  .ticket-header {
+  .ticket-header-row {
     flex-direction: column;
-    gap: 16px;
     align-items: flex-start;
+    gap: 12px;
   }
 
-  .ticket-title-section h3 {
-    font-size: 24px;
+  .ticket-title {
+    font-size: 20px;
   }
 
-  .ticket-meta {
+  .timeline-item {
     flex-direction: column;
-    gap: 8px;
     align-items: flex-start;
+    gap: 4px;
   }
 
   .conversation-item {
