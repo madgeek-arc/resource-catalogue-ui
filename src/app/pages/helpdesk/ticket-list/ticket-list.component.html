@@ -35,9 +35,7 @@
     <div class="filters">
       <div class="status-filters">
         <button
-          *ngFor="
-            let status of ['all', 'new', 'open', 'closed']
-          "
+          *ngFor="let status of ['all', 'new', 'open', 'closed']"
           [class.active]="selectedStatus === status"
           (click)="setStatusFilter(status)"
           class="filter-btn"

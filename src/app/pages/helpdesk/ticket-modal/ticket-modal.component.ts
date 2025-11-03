@@ -126,11 +126,6 @@ export class TicketModalComponent implements OnInit, OnChanges {
     return `${hours}:${minutes}`;
   }
 
-  isUserMessage(article: any): boolean {
-    // Assuming user messages have a specific type or from field
-    return article.type === "note" && !article.internal;
-  }
-
   /**
    * Converts state_id to state name
    * state_id: 1 --> "new"

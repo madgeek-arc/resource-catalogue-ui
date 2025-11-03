@@ -264,34 +264,52 @@ export class TicketListComponent implements OnInit {
     return `${month} ${day}, ${year}, ${hours}:${minutes}`;
   }
 
-  viewTicket(ticketId: string): void {
-    console.log("🔍 Viewing ticket:", ticketId);
+  viewTicket(ticketNumber: string): void {
+    console.log("🔍 Viewing ticket with number:", ticketNumber);
 
-    // First find the ticket in our list to get the number
+    // Find the ticket in our list using ticket.number (string)
     let ticketFromList = this.paginatedTickets.find(
-      (t) => t.id === ticketId || t.number === ticketId
+      (t) => t.number === ticketNumber
     );
 
     if (!ticketFromList) {
-      ticketFromList = this.tickets.find(
-        (t) => t.id === ticketId || t.number === ticketId
-      );
+      ticketFromList = this.tickets.find((t) => t.number === ticketNumber);
     }
 
     if (!ticketFromList) {
-      console.error("❌ Ticket not found:", ticketId);
+      console.error("❌ Ticket not found with number:", ticketNumber);
       return;
     }
 
-    // Fetch full ticket details including close_at
-    const ticketNumber = ticketFromList.number;
-    this.helpdeskService.getTicket(ticketNumber).subscribe({
+    if (!ticketFromList.id) {
+      console.error("❌ Ticket ID is missing for ticket:", ticketNumber);
+      return;
+    }
+
+    // Use ticket.id (number) for API call: GET /helpdesk/tickets/{ticket_id}
+    const ticketIdForApi = String(ticketFromList.id); // Convert number to string
+    console.log("📞 Calling API with ticket ID:", ticketIdForApi);
+    this.helpdeskService.getTicket(ticketIdForApi).subscribe({
       next: (fullTicket) => {
-        console.log("🎫 Full ticket details:", fullTicket);
-        this.selectedTicket = fullTicket;
+        console.log("🎫 Full ticket details (raw):", fullTicket);
+
+        // Handle case where API returns an array instead of a single object
+        let ticketData: HelpdeskTicketResponse;
+        if (Array.isArray(fullTicket)) {
+          ticketData = fullTicket[0];
+          console.log(
+            "📋 API returned array, using first element:",
+            ticketData
+          );
+        } else {
+          ticketData = fullTicket;
+        }
+
+        console.log("🎫 Processed ticket data:", ticketData);
+        this.selectedTicket = ticketData;
         this.isModalOpen = true;
         this.cdr.detectChanges();
-        console.log("✅ Modal opened for ticket:", fullTicket.number);
+        console.log("✅ Modal opened for ticket:", ticketData.number);
       },
       error: (err) => {
         console.error("❌ Error fetching ticket details:", err);

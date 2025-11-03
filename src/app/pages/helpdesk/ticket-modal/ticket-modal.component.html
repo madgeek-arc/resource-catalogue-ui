@@ -1,7 +1,10 @@
 <div *ngIf="isOpen" class="modal-overlay" (click)="onBackdropClick($event)">
   <div class="modal-container" (click)="$event.stopPropagation()">
     <div class="modal-header">
-      <h2>Ticket Details</h2>
+      <h2>
+        Ticket Details
+        <span class="ticket-id-label" *ngIf="ticket?.id">(Ticket ID: {{ ticket.id }})</span>
+      </h2>
       <button class="close-btn" (click)="onClose()">
         <i class="fa fa-times"></i>
       </button>
@@ -29,32 +32,17 @@
       <!-- Message Body / Conversation -->
       <div
         class="ticket-conversation"
+        [class]="getStatusClass(getTicketState(ticket)) + '-box'"
         *ngIf="ticket.articles && ticket.articles.length > 0"
       >
+        <h4 class="conversation-header">Ticket's Message</h4>
         <div class="conversation-timeline">
           <div
             *ngFor="let article of ticket.articles; let i = index"
             class="conversation-item"
-            [class.user-message]="isUserMessage(article)"
-            [class.support-message]="!isUserMessage(article)"
           >
-            <div class="message-header">
-              <span class="message-author">
-                {{ isUserMessage(article) ? "You" : "EOSC Beyond Support" }}
-              </span>
-              <span class="message-time">
-                {{ formatTime(article.created_at) }}
-              </span>
-            </div>
-
             <div class="message-body">
               <p [innerHTML]="cleanBodyHtml(article.body)"></p>
-            </div>
-
-            <div class="message-footer">
-              <span class="message-date">{{
-                formatDate(article.created_at)
-              }}</span>
             </div>
           </div>
         </div>

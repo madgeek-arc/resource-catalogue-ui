@@ -847,7 +847,7 @@ export interface HelpdeskUser {
 }
 
 export interface HelpdeskTicketResponse {
-  id?: string; // Internal database ID (optional)
+  id?: string | number; // Internal database ID (optional, can be string or number)
   number: string; // Zammad ticket number (e.g., "22003")
   title: string;
   group: string;
@@ -856,7 +856,6 @@ export interface HelpdeskTicketResponse {
     lastname: string;
     email: string;
   };
-  status?: string; // Optional for backward compatibility
   state?: string; // Zammad state name (string)
   state_id?: number; // Zammad state ID (1=new, 2=open, 3=pending reminder, 4=closed, 7=pending close)
   created_at: string;

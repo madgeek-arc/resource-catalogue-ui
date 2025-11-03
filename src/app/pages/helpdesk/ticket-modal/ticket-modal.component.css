@@ -43,6 +43,12 @@
   font-weight: 600;
 }
 
+.ticket-id-label {
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
 .close-btn {
   background: none;
   border: none;
@@ -140,34 +146,59 @@
 }
 
 /* Conversation */
-.conversation-timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.ticket-conversation {
+  padding: 16px;
+  border-radius: 12px;
   margin-bottom: 24px;
 }
 
-.conversation-item {
-  padding: 20px;
-  border-radius: 12px;
-  border-left: 4px solid #e9ecef;
+.status-new-box {
+  background: #e3f2fd;
+}
+
+.status-open-box {
+  background: #ffe6e6;
+}
+
+.status-pending-close-box {
+  background: #fff3cd;
+}
+
+.status-pending-reminder-box {
+  background: #f3e5f5;
+}
+
+.status-closed-box {
+  background: #d4edda;
+}
+
+.status-default-box {
   background: #f8f9fa;
+}
+
+.conversation-header {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  color: #2c3e50;
+}
+
+.conversation-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.conversation-item {
+  padding: 16px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.7);
   transition: all 0.2s ease;
 }
 
 .conversation-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.conversation-item.user-message {
-  background: #e3f2fd;
-  border-left-color: #2196f3;
-}
-
-.conversation-item.support-message {
-  background: #f3e5f5;
-  border-left-color: #9c27b0;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .message-header {
