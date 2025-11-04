@@ -7,7 +7,7 @@
       </a>
       <ul *ngIf="!goBack" class="uk-breadcrumb">
         <li *ngFor="let breadcrumb of breadcrumbs; let isLast = last; let i = index;">
-          <a [routerLink]="[breadcrumb.url, breadcrumb.params]" *ngIf="!isLast" href="">{{breadcrumb.label}}</a>
+          <a [routerLink]="[breadcrumb.url]" [queryParams]="breadcrumb.params" *ngIf="!isLast">{{ breadcrumb.label }}</a>
           <span *ngIf="isLast">{{breadcrumb.label}}</span>
         </li>
       </ul>
