@@ -50,10 +50,10 @@ export class CreateTicketComponent implements OnInit {
       };
 
       console.debug(
-        "🎫 Submitting ticket with data:",
+        "Submitting ticket with data:",
         JSON.stringify(ticketData, null, 2)
       );
-      console.debug("🌐 Sending to KIT webhook via helpdesk service");
+      console.debug("Sending to KIT webhook via helpdesk service");
 
       this.helpdeskService.createTicket(ticketData).subscribe({
         next: (response) => {
@@ -66,8 +66,8 @@ export class CreateTicketComponent implements OnInit {
           // User can manually navigate to "My Tickets" if needed
         },
         error: (err) => {
-          console.error("❌ Error submitting ticket:", err);
-          console.error("🔍 Full error details:", {
+          console.error("Error submitting ticket:", err);
+          console.error("Full error details:", {
             status: err.status,
             statusText: err.statusText,
             url: err.url,

@@ -81,7 +81,7 @@ export class TicketListComponent implements OnInit {
     this._lastFilterStatus = this.selectedStatus;
 
     console.log(
-      `🔍 Filtered tickets for status "${this.selectedStatus}":`,
+      `Filtered tickets for status "${this.selectedStatus}":`,
       filtered.length
     );
     return filtered;
@@ -117,7 +117,7 @@ export class TicketListComponent implements OnInit {
 
   setStatusFilter(status: string): void {
     console.log(
-      "🔄 Changing status filter from",
+      "Changing status filter from",
       this.selectedStatus,
       "to",
       status
@@ -125,7 +125,7 @@ export class TicketListComponent implements OnInit {
     this.selectedStatus = status;
     this.onStatusChange();
     console.log(
-      "📊 After filter change - paginated tickets:",
+      "After filter change - paginated tickets:",
       this.paginatedTickets.map((t) => ({
         number: t.number,
         state_id: t.state_id,
@@ -265,7 +265,7 @@ export class TicketListComponent implements OnInit {
   }
 
   viewTicket(ticketNumber: string): void {
-    console.log("🔍 Viewing ticket with number:", ticketNumber);
+    console.log("Viewing ticket with number:", ticketNumber);
 
     // Find the ticket in our list using ticket.number (string)
     let ticketFromList = this.paginatedTickets.find(
@@ -277,42 +277,42 @@ export class TicketListComponent implements OnInit {
     }
 
     if (!ticketFromList) {
-      console.error("❌ Ticket not found with number:", ticketNumber);
+      console.error("Ticket not found with number:", ticketNumber);
       return;
     }
 
     if (!ticketFromList.id) {
-      console.error("❌ Ticket ID is missing for ticket:", ticketNumber);
+      console.error("Ticket ID is missing for ticket:", ticketNumber);
       return;
     }
 
     // Use ticket.id (number) for API call: GET /helpdesk/tickets/{ticket_id}
     const ticketIdForApi = String(ticketFromList.id); // Convert number to string
-    console.log("📞 Calling API with ticket ID:", ticketIdForApi);
+    console.log("Calling API with ticket ID:", ticketIdForApi);
     this.helpdeskService.getTicket(ticketIdForApi).subscribe({
       next: (fullTicket) => {
-        console.log("🎫 Full ticket details (raw):", fullTicket);
+        console.log("Full ticket details (raw):", fullTicket);
 
         // Handle case where API returns an array instead of a single object
         let ticketData: HelpdeskTicketResponse;
         if (Array.isArray(fullTicket)) {
           ticketData = fullTicket[0];
           console.log(
-            "📋 API returned array, using first element:",
+            "API returned array, using first element:",
             ticketData
           );
         } else {
           ticketData = fullTicket;
         }
 
-        console.log("🎫 Processed ticket data:", ticketData);
+        console.log("Processed ticket data:", ticketData);
         this.selectedTicket = ticketData;
         this.isModalOpen = true;
         this.cdr.detectChanges();
-        console.log("✅ Modal opened for ticket:", ticketData.number);
+        console.log("Modal opened for ticket:", ticketData.number);
       },
       error: (err) => {
-        console.error("❌ Error fetching ticket details:", err);
+        console.error("Error fetching ticket details:", err);
         // Fallback to ticket from list if API call fails
         this.selectedTicket = ticketFromList;
         this.isModalOpen = true;

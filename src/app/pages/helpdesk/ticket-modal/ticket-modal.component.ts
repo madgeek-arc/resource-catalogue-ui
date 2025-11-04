@@ -25,13 +25,13 @@ export class TicketModalComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["isOpen"]) {
-      console.log("🔄 Modal isOpen changed:", changes["isOpen"].currentValue);
+      console.log("Modal isOpen changed:", changes["isOpen"].currentValue);
     }
     if (changes["ticket"]) {
       const ticket = changes["ticket"].currentValue;
-      console.log("🎫 Modal ticket changed:", ticket);
+      console.log("Modal ticket changed:", ticket);
       if (ticket) {
-        console.log("📅 Ticket timestamps:", {
+        console.log("Ticket timestamps:", {
           created_at: ticket.created_at,
           updated_at: ticket.updated_at,
           close_at: ticket.close_at,
