@@ -72,7 +72,7 @@ export class TicketListComponent implements OnInit {
       filtered = this.tickets;
     } else {
       filtered = this.tickets.filter(
-        (ticket) => (ticket.status || ticket.state) === this.selectedStatus
+        (ticket) => this.getTicketState(ticket) === this.selectedStatus
       );
     }
 
@@ -128,7 +128,8 @@ export class TicketListComponent implements OnInit {
       "📊 After filter change - paginated tickets:",
       this.paginatedTickets.map((t) => ({
         number: t.number,
-        status: t.status || t.state,
+        state_id: t.state_id,
+        state: this.getTicketState(t),
       }))
     );
   }
@@ -160,7 +161,7 @@ export class TicketListComponent implements OnInit {
     return pages;
   }
 
-  getStatusClass(statusOrState: string): string {
+  getStatusClass(statusOrState: string | undefined): string {
     const status = statusOrState?.toLowerCase() || "";
     switch (status) {
       case "new":
@@ -178,7 +179,7 @@ export class TicketListComponent implements OnInit {
     }
   }
 
-  getStatusIcon(statusOrState: string): string {
+  getStatusIcon(statusOrState: string | undefined): string {
     const status = statusOrState?.toLowerCase() || "";
     switch (status) {
       case "new":
@@ -196,43 +197,128 @@ export class TicketListComponent implements OnInit {
     }
   }
 
-  formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+  /**
+   * Converts state_id to state name
+   * state_id: 1 --> "new"
+   * state_id: 2 --> "open"
+   * state_id: 3 --> "pending reminder"
+   * state_id: 4 --> "closed"
+   * state_id: 7 --> "pending close"
+   */
+  getStateFromId(stateId: number | undefined): string {
+    if (!stateId) {
+      return "";
+    }
+    switch (stateId) {
+      case 1:
+        return "new";
+      case 2:
+        return "open";
+      case 3:
+        return "pending reminder";
+      case 4:
+        return "closed";
+      case 7:
+        return "pending close";
+      default:
+        return "";
+    }
   }
 
-  viewTicket(ticketId: string): void {
-    console.log("🔍 Viewing ticket:", ticketId);
-    // First try to find in the current paginated tickets (most reliable)
-    let ticket = this.paginatedTickets.find(
-      (t) => t.id === ticketId || t.number === ticketId
+  /**
+   * Gets the state name from a ticket, checking state_id first, then state
+   */
+  getTicketState(ticket: HelpdeskTicketResponse): string {
+    if (ticket.state_id !== undefined) {
+      return this.getStateFromId(ticket.state_id);
+    }
+    return ticket.state || "";
+  }
+
+  formatDate(dateString: string): string {
+    if (!dateString) {
+      return "";
+    }
+    const date = new Date(dateString);
+    // Use UTC methods to get the time as it appears in the ISO string (UTC timezone)
+    const day = date.getUTCDate();
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const month = monthNames[date.getUTCMonth()];
+    const year = date.getUTCFullYear();
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    // Format: "Oct 31, 2025, 14:14" (24-hour format)
+    return `${month} ${day}, ${year}, ${hours}:${minutes}`;
+  }
+
+  viewTicket(ticketNumber: string): void {
+    console.log("🔍 Viewing ticket with number:", ticketNumber);
+
+    // Find the ticket in our list using ticket.number (string)
+    let ticketFromList = this.paginatedTickets.find(
+      (t) => t.number === ticketNumber
     );
 
-    // If not found in paginated, try the full tickets array
-    if (!ticket) {
-      ticket = this.tickets.find(
-        (t) => t.id === ticketId || t.number === ticketId
-      );
+    if (!ticketFromList) {
+      ticketFromList = this.tickets.find((t) => t.number === ticketNumber);
     }
 
-    console.log("🎫 Found ticket:", ticket);
-    if (ticket) {
-      this.selectedTicket = ticket;
-      this.isModalOpen = true;
-      this.cdr.detectChanges();
-      console.log("✅ Modal opened for ticket:", ticket.number);
-    } else {
-      console.error("❌ Ticket not found:", ticketId);
-      console.log(
-        "Available tickets:",
-        this.paginatedTickets.map((t) => t.number)
-      );
+    if (!ticketFromList) {
+      console.error("❌ Ticket not found with number:", ticketNumber);
+      return;
     }
+
+    if (!ticketFromList.id) {
+      console.error("❌ Ticket ID is missing for ticket:", ticketNumber);
+      return;
+    }
+
+    // Use ticket.id (number) for API call: GET /helpdesk/tickets/{ticket_id}
+    const ticketIdForApi = String(ticketFromList.id); // Convert number to string
+    console.log("📞 Calling API with ticket ID:", ticketIdForApi);
+    this.helpdeskService.getTicket(ticketIdForApi).subscribe({
+      next: (fullTicket) => {
+        console.log("🎫 Full ticket details (raw):", fullTicket);
+
+        // Handle case where API returns an array instead of a single object
+        let ticketData: HelpdeskTicketResponse;
+        if (Array.isArray(fullTicket)) {
+          ticketData = fullTicket[0];
+          console.log(
+            "📋 API returned array, using first element:",
+            ticketData
+          );
+        } else {
+          ticketData = fullTicket;
+        }
+
+        console.log("🎫 Processed ticket data:", ticketData);
+        this.selectedTicket = ticketData;
+        this.isModalOpen = true;
+        this.cdr.detectChanges();
+        console.log("✅ Modal opened for ticket:", ticketData.number);
+      },
+      error: (err) => {
+        console.error("❌ Error fetching ticket details:", err);
+        // Fallback to ticket from list if API call fails
+        this.selectedTicket = ticketFromList;
+        this.isModalOpen = true;
+        this.cdr.detectChanges();
+      },
+    });
   }
 
   closeModal(): void {
@@ -250,7 +336,7 @@ export class TicketListComponent implements OnInit {
       return this.tickets.length;
     }
     return this.tickets.filter(
-      (ticket) => (ticket.status || ticket.state) === status
+      (ticket) => this.getTicketState(ticket) === status
     ).length;
   }
 

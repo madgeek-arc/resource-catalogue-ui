@@ -1,64 +1,48 @@
 <div *ngIf="isOpen" class="modal-overlay" (click)="onBackdropClick($event)">
   <div class="modal-container" (click)="$event.stopPropagation()">
     <div class="modal-header">
-      <h2>Ticket Details</h2>
+      <h2>
+        Ticket Details
+        <span class="ticket-id-label" *ngIf="ticket?.id">(Ticket ID: {{ ticket.id }})</span>
+      </h2>
       <button class="close-btn" (click)="onClose()">
         <i class="fa fa-times"></i>
       </button>
     </div>
 
     <div class="modal-body" *ngIf="ticket">
-      <!-- Ticket Header -->
-      <div class="ticket-header">
-        <div class="ticket-title-section">
-          <h3>{{ ticket.title }}</h3>
-          <div class="ticket-meta">
-            <span class="ticket-id">#{{ ticket.number }}</span>
-            <span class="ticket-date"
-              >Created {{ formatDate(ticket.created_at) }}</span
-            >
-          </div>
-        </div>
-        <div class="ticket-status-section">
-          <div class="status-badge">
-            <i [class]="getStatusIcon(ticket.status || ticket.state)"></i>
-            <span [class]="getStatusClass(ticket.status || ticket.state)">{{
-              ticket.status || ticket.state
-            }}</span>
-          </div>
-        </div>
+      <!-- Ticket Number and State Header -->
+      <div class="ticket-header-row">
+        <span class="ticket-number">#{{ ticket.number }}</span>
+        <span
+          class="status-badge"
+          [class]="getStatusClass(getTicketState(ticket))"
+        >
+          <i [class]="getStatusIcon(getTicketState(ticket))"></i>
+          {{ getTicketState(ticket) }}
+        </span>
       </div>
 
-      <!-- Ticket Articles/Conversation -->
+      <!-- Title -->
+      <h3 class="ticket-title">{{ ticket.title }}</h3>
+
+      <!-- Divider -->
+      <div class="divider"></div>
+
+      <!-- Message Body / Conversation -->
       <div
         class="ticket-conversation"
+        [class]="getStatusClass(getTicketState(ticket)) + '-box'"
         *ngIf="ticket.articles && ticket.articles.length > 0"
       >
-        <h4>Conversation</h4>
+        <h4 class="conversation-header">Ticket's Message</h4>
         <div class="conversation-timeline">
           <div
             *ngFor="let article of ticket.articles; let i = index"
             class="conversation-item"
-            [class.user-message]="isUserMessage(article)"
-            [class.support-message]="!isUserMessage(article)"
           >
-            <div class="message-header">
-              <span class="message-author">
-                {{ isUserMessage(article) ? "You" : "EOSC Beyond Support" }}
-              </span>
-              <span class="message-time">
-                {{ formatTime(article.created_at) }}
-              </span>
-            </div>
-
             <div class="message-body">
-              <p>{{ article.body }}</p>
-            </div>
-
-            <div class="message-footer">
-              <span class="message-date">{{
-                formatDate(article.created_at)
-              }}</span>
+              <p [innerHTML]="cleanBodyHtml(article.body)"></p>
             </div>
           </div>
         </div>
@@ -71,6 +55,25 @@
       >
         <i class="fa fa-comment"></i>
         <p>No conversation history available for this ticket.</p>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider"></div>
+
+      <!-- Timeline -->
+      <div class="ticket-timeline">
+        <div class="timeline-item">
+          <span class="timeline-label">Created:</span>
+          <span class="timeline-value">{{ formatDate(ticket.created_at) }}</span>
+        </div>
+        <div class="timeline-item" *ngIf="ticket.updated_at">
+          <span class="timeline-label">Updated:</span>
+          <span class="timeline-value">{{ formatDate(ticket.updated_at) }}</span>
+        </div>
+        <div class="timeline-item" *ngIf="ticket.close_at">
+          <span class="timeline-label">Closed:</span>
+          <span class="timeline-value">{{ formatDate(ticket.close_at) }}</span>
+        </div>
       </div>
     </div>
 

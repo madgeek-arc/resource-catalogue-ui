@@ -28,7 +28,15 @@ export class TicketModalComponent implements OnInit, OnChanges {
       console.log("🔄 Modal isOpen changed:", changes["isOpen"].currentValue);
     }
     if (changes["ticket"]) {
-      console.log("🎫 Modal ticket changed:", changes["ticket"].currentValue);
+      const ticket = changes["ticket"].currentValue;
+      console.log("🎫 Modal ticket changed:", ticket);
+      if (ticket) {
+        console.log("📅 Ticket timestamps:", {
+          created_at: ticket.created_at,
+          updated_at: ticket.updated_at,
+          close_at: ticket.close_at,
+        });
+      }
     }
   }
 
@@ -43,8 +51,9 @@ export class TicketModalComponent implements OnInit, OnChanges {
     }
   }
 
-  getStatusClass(status: string): string {
-    switch (status.toLowerCase()) {
+  getStatusClass(status: string | undefined): string {
+    const statusLower = status?.toLowerCase() || "";
+    switch (statusLower) {
       case "new":
         return "status-new";
       case "open":
@@ -60,8 +69,9 @@ export class TicketModalComponent implements OnInit, OnChanges {
     }
   }
 
-  getStatusIcon(status: string): string {
-    switch (status.toLowerCase()) {
+  getStatusIcon(status: string | undefined): string {
+    const statusLower = status?.toLowerCase() || "";
+    switch (statusLower) {
       case "new":
         return "fa fa-plus-circle";
       case "open":
@@ -77,25 +87,94 @@ export class TicketModalComponent implements OnInit, OnChanges {
     }
   }
 
-  formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+  formatDate(dateString: string | undefined): string {
+    if (!dateString) {
+      return "";
+    }
+    const date = new Date(dateString);
+    // Use UTC methods to get the time as it appears in the ISO string (UTC timezone)
+    const day = date.getUTCDate();
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const month = monthNames[date.getUTCMonth()];
+    const year = date.getUTCFullYear();
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    return `${day} ${month} ${year} at ${hours}:${minutes}`;
   }
 
-  formatTime(dateString: string): string {
-    return new Date(dateString).toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+  formatTime(dateString: string | undefined): string {
+    if (!dateString) {
+      return "";
+    }
+    const date = new Date(dateString);
+    // Use UTC methods to get the time as it appears in the ISO string (UTC timezone)
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
   }
 
-  isUserMessage(article: any): boolean {
-    // Assuming user messages have a specific type or from field
-    return article.type === "note" && !article.internal;
+  /**
+   * Converts state_id to state name
+   * state_id: 1 --> "new"
+   * state_id: 2 --> "open"
+   * state_id: 3 --> "pending reminder"
+   * state_id: 4 --> "closed"
+   * state_id: 7 --> "pending close"
+   */
+  getStateFromId(stateId: number | undefined): string {
+    if (!stateId) {
+      return "";
+    }
+    switch (stateId) {
+      case 1:
+        return "new";
+      case 2:
+        return "open";
+      case 3:
+        return "pending reminder";
+      case 4:
+        return "closed";
+      case 7:
+        return "pending close";
+      default:
+        return "";
+    }
+  }
+
+  /**
+   * Gets the state name from a ticket, checking state_id first, then state
+   */
+  getTicketState(ticket: HelpdeskTicketResponse | null): string {
+    if (!ticket) {
+      return "";
+    }
+    if (ticket.state_id !== undefined) {
+      return this.getStateFromId(ticket.state_id);
+    }
+    return ticket.state || "";
+  }
+
+  /**
+   * Strips leading <br> tags from HTML content
+   */
+  cleanBodyHtml(html: string | undefined): string {
+    if (!html) {
+      return "";
+    }
+    // Remove leading <br> or <br/> tags (case insensitive, with optional attributes)
+    return html.replace(/^(<br\s*\/?>)+/i, "");
   }
 }
