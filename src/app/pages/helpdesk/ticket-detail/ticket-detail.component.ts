@@ -109,11 +109,13 @@ export class TicketDetailComponent implements OnInit {
   }
 
   onSubmitReply(): void {
-    if (this.replyForm.valid && this.ticket) {
+    if (this.replyForm.valid && this.ticket && this.ticket.id) {
       this.submittingReply = true;
 
+      // Convert id to string for API call
+      const ticketId = String(this.ticket.id);
       this.helpdeskService
-        .addReply(this.ticket.id, this.replyForm.value.body)
+        .addReply(ticketId, this.replyForm.value.body)
         .subscribe({
           next: (updatedTicket) => {
             this.ticket = updatedTicket;

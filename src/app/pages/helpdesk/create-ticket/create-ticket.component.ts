@@ -22,17 +22,9 @@ export class CreateTicketComponent implements OnInit {
     public router: Router
   ) {
     this.ticketForm = this.fb.group({
-      // Customer information - commented out as per request
-      // customerFirstname: ['', [Validators.required]],
-      // customerLastname: ['', [Validators.required]],
-      // customerEmail: ['', [Validators.required, Validators.email]],
       title: ["", [Validators.required, Validators.minLength(5)]],
-      group: [""], // Optional field
       status: ["new"], // Default status for new tickets
-      articleSubject: [""],
       articleBody: ["", [Validators.required, Validators.minLength(10)]],
-      articleType: ["note"],
-      articleInternal: [false],
     });
   }
 
@@ -50,13 +42,10 @@ export class CreateTicketComponent implements OnInit {
       // Customer data is collected for UX but not sent to backend
       const ticketData: CreateTicketRequest = {
         title: this.ticketForm.value.title,
-        group: this.ticketForm.value.group,
         status: this.ticketForm.value.status,
         article: {
-          subject: this.ticketForm.value.articleSubject,
+          subject: this.ticketForm.value.title, // Use title as subject if not provided
           body: this.ticketForm.value.articleBody,
-          type: this.ticketForm.value.articleType,
-          internal: this.ticketForm.value.articleInternal,
         },
       };
 
@@ -107,6 +96,9 @@ export class CreateTicketComponent implements OnInit {
     }
     if (control?.hasError("minlength")) {
       const requiredLength = control.errors?.["minlength"].requiredLength;
+      if (field === "articleBody") {
+        return `Message should be at least ${requiredLength} characters`;
+      }
       return `${
         field.charAt(0).toUpperCase() + field.slice(1)
       } must be at least ${requiredLength} characters`;
