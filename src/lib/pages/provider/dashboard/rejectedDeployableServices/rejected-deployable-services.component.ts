@@ -12,8 +12,9 @@ import {DeployableServiceService} from "../../../../services/deployable-service.
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-rejected-deployable-services',
-  templateUrl: './rejected-deployable-services.component.html',
+    selector: 'app-rejected-deployable-services',
+    templateUrl: './rejected-deployable-services.component.html',
+    standalone: false
 })
 
 export class RejectedDeployableServicesComponent implements OnInit {

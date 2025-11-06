@@ -12,8 +12,9 @@ import {FormControlService} from "../../../dynamic-catalogue/services/form-contr
 import {ConfigService} from "../../services/config.service";
 
 @Component({
-  selector: 'app-service-upload',
-  templateUrl: './service-form.component.html'
+    selector: 'app-service-upload',
+    templateUrl: './service-form.component.html',
+    standalone: false
 })
 export class ServiceUploadComponent extends ServiceFormComponent implements OnInit {
   private sub: Subscription;

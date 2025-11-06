@@ -89,19 +89,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "resource-catalogue-ui:build",
-            "port": 3000
+            "port": 3000,
+            "buildTarget": "resource-catalogue-ui:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "resource-catalogue-ui:build:production"
+              "buildTarget": "resource-catalogue-ui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "resource-catalogue-ui:build"
+            "buildTarget": "resource-catalogue-ui:build"
           }
         },
         "test": {

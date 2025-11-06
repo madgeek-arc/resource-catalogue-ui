@@ -22,10 +22,11 @@ import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-service-form',
-  templateUrl: './service-form.component.html',
-  styleUrls: ['../provider/service-provider-form.component.css'],
-  providers: [FormControlService]
+    selector: 'app-service-form',
+    templateUrl: './service-form.component.html',
+    styleUrls: ['../provider/service-provider-form.component.css'],
+    providers: [FormControlService],
+    standalone: false
 })
 export class ServiceFormComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent

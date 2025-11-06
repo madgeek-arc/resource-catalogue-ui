@@ -8,8 +8,9 @@ import {environment} from '../../../environments/environment';
 import {CatalogueService} from "../../services/catalogue.service";
 
 @Component({
-  selector: 'app-my-catalogues',
-  templateUrl: './my-catalogues.component.html'
+    selector: 'app-my-catalogues',
+    templateUrl: './my-catalogues.component.html',
+    standalone: false
 })
 export class MyCataloguesComponent implements OnInit {
   serviceORresource = environment.serviceORresource;

@@ -19,8 +19,9 @@ import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-guidelines-form',
-  templateUrl: './guidelines-form.component.html',
+    selector: 'app-guidelines-form',
+    templateUrl: './guidelines-form.component.html',
+    standalone: false
 })
 export class GuidelinesFormComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent

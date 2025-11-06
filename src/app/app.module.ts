@@ -1,4 +1,4 @@
-import {NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, APP_INITIALIZER} from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, inject, provideAppInitializer } from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -133,12 +133,10 @@ export function highchartsFactory() {
             useClass: AuthenticationInterceptor,
             multi: true
         },
-        {
-            provide: APP_INITIALIZER,
-            useFactory: initConfig,
-            deps: [ConfigService],
-            multi: true
-        },
+        provideAppInitializer(() => {
+        const initializerFn = (initConfig)(inject(ConfigService));
+        return initializerFn();
+      }),
         AuthenticationService,
         CanActivateViaAuthGuard,
         CanActivateViaPubGuard,

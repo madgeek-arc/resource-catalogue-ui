@@ -10,9 +10,10 @@ import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 import {DeployableServiceService} from "../../../../services/deployable-service.service";
 
 @Component({
-  selector: 'app-deployable-service-full-history',
-  templateUrl: './deployable-service-full-history.component.html',
-  styleUrls: ['../resource-dashboard/service-stats.component.css']
+    selector: 'app-deployable-service-full-history',
+    templateUrl: './deployable-service-full-history.component.html',
+    styleUrls: ['../resource-dashboard/service-stats.component.css'],
+    standalone: false
 })
 
 export class DeployableServiceFullHistoryComponent implements OnInit, OnDestroy {

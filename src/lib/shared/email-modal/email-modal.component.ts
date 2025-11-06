@@ -9,8 +9,9 @@ import {EmailService} from '../../services/email.service';
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-email-modal',
-  templateUrl: './email-modal.component.html'
+    selector: 'app-email-modal',
+    templateUrl: './email-modal.component.html',
+    standalone: false
 })
 export class EmailModalComponent {
 

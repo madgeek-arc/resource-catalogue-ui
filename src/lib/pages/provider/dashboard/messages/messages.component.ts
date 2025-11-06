@@ -5,8 +5,9 @@ import {isNullOrUndefined} from '../../../../shared/tools';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 
 @Component({
-  selector: 'app-messages',
-  templateUrl: './messages.component.html'
+    selector: 'app-messages',
+    templateUrl: './messages.component.html',
+    standalone: false
 })
 export class MessagesComponent implements OnInit {
 

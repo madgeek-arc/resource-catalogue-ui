@@ -15,10 +15,11 @@ import {zip} from "rxjs";
 import {AdaptersService} from "../../services/adapters.service";
 
 @Component({
-  selector: 'app-resource-adapters-form',
-  templateUrl: './adapters-form.component.html',
-  styleUrls: ['../provider/service-provider-form.component.css'],
-  providers: [FormControlService]
+    selector: 'app-resource-adapters-form',
+    templateUrl: './adapters-form.component.html',
+    styleUrls: ['../provider/service-provider-form.component.css'],
+    providers: [FormControlService],
+    standalone: false
 })
 export class AdaptersFormComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent

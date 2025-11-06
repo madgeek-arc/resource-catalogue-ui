@@ -13,8 +13,9 @@ import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-guidelines-list',
-  templateUrl: './guidelines-list.component.html'
+    selector: 'app-guidelines-list',
+    templateUrl: './guidelines-list.component.html',
+    standalone: false
 })
 export class GuidelinesListComponent implements OnInit {
   url = environment.API_ENDPOINT;

@@ -12,8 +12,9 @@ import {NavigationService} from "../../../../services/navigation.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-rejected-services',
-  templateUrl: './rejected-services.component.html',
+    selector: 'app-rejected-services',
+    templateUrl: './rejected-services.component.html',
+    standalone: false
 })
 
 export class RejectedServicesComponent implements OnInit {

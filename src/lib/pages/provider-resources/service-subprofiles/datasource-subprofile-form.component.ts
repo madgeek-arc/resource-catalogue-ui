@@ -22,9 +22,10 @@ import {ConfigService} from "../../../services/config.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-datasource-subprofile-form',
-  templateUrl: './datasource-subprofile-form.component.html',
-  styleUrls: ['../../provider/service-provider-form.component.css']
+    selector: 'app-datasource-subprofile-form',
+    templateUrl: './datasource-subprofile-form.component.html',
+    styleUrls: ['../../provider/service-provider-form.component.css'],
+    standalone: false
 })
 export class DatasourceSubprofileFormComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent

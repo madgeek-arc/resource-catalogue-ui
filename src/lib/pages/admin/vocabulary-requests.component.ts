@@ -12,8 +12,9 @@ import {NavigationService} from '../../services/navigation.service';
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-vocabulary-requests',
-  templateUrl: './vocabulary-requests.component.html'
+    selector: 'app-vocabulary-requests',
+    templateUrl: './vocabulary-requests.component.html',
+    standalone: false
 })
 export class VocabularyRequestsComponent implements OnInit {
   url = environment.API_ENDPOINT;

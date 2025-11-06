@@ -30,8 +30,9 @@ import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-training-list',
-  templateUrl: './training-list.component.html'
+    selector: 'app-training-list',
+    templateUrl: './training-list.component.html',
+    standalone: false
 })
 export class TrainingListComponent implements OnInit {
   catalogueConfigId: string | null = null;

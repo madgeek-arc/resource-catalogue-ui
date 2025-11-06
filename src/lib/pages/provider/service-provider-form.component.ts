@@ -19,10 +19,11 @@ import {zip} from "rxjs";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-new-service-provider',
-  templateUrl: './service-provider-form.component.html',
-  styleUrls: ['./service-provider-form.component.css'],
-  providers: [FormControlService]
+    selector: 'app-new-service-provider',
+    templateUrl: './service-provider-form.component.html',
+    styleUrls: ['./service-provider-form.component.css'],
+    providers: [FormControlService],
+    standalone: false
 })
 export class ServiceProviderFormComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent

@@ -5,9 +5,10 @@ import { HelpdeskService } from '../../../services/helpdesk.service';
 import { CreateTicketRequest } from '../../../../lib/domain/eic-model';
 
 @Component({
-  selector: 'app-create-ticket',
-  templateUrl: './create-ticket.component.html',
-  styleUrls: ['./create-ticket.component.css']
+    selector: 'app-create-ticket',
+    templateUrl: './create-ticket.component.html',
+    styleUrls: ['./create-ticket.component.css'],
+    standalone: false
 })
 export class CreateTicketComponent implements OnInit {
   ticketForm: FormGroup;

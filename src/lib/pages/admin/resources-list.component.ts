@@ -25,8 +25,9 @@ import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-resources-list',
-  templateUrl: './resources-list.component.html'
+    selector: 'app-resources-list',
+    templateUrl: './resources-list.component.html',
+    standalone: false
 })
 export class ResourcesListComponent implements OnInit {
   catalogueConfigId: string | null = null;

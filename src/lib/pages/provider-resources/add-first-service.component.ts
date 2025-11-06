@@ -13,9 +13,10 @@ import {FormControlService} from "../../../dynamic-catalogue/services/form-contr
 import {ConfigService} from "../../services/config.service";
 
 @Component({
-  selector: 'app-add-first-service',
-  templateUrl: './service-form.component.html',
-  providers: [FormControlService]
+    selector: 'app-add-first-service',
+    templateUrl: './service-form.component.html',
+    providers: [FormControlService],
+    standalone: false
 })
 export class AddFirstServiceComponent extends ServiceFormComponent implements OnInit {
 

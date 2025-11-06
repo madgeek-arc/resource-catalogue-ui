@@ -114,8 +114,8 @@ export class TicketListComponent implements OnInit {
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-ticket-list',
-  template: `
+    selector: 'app-ticket-list',
+    template: `
     <div class="ticket-list-container">
       <div class="list-header">
         <div class="header-content">
@@ -131,7 +131,8 @@ import { Component } from '@angular/core';
       </div>
     </div>
   `,
-  styleUrls: ['./ticket-list.component.css']
+    styleUrls: ['./ticket-list.component.css'],
+    standalone: false
 })
 export class TicketListComponent {
   // Placeholder component - functionality commented out above

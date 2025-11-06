@@ -2,7 +2,10 @@ import {Pipe, PipeTransform} from '@angular/core';
 import {FacetValue} from '../../domain/facet';
 import {Vocabulary} from '../../domain/eic-model';
 
-@Pipe({name: 'premiumsort'})
+@Pipe({
+    name: 'premiumsort',
+    standalone: false
+})
 export class PremiumSortPipe implements PipeTransform {
   transform(arr: Vocabulary[], weights: string[]): any {
     const ret = (arr || []).sort((a, b): number => {
@@ -24,7 +27,10 @@ export class PremiumSortPipe implements PipeTransform {
   }
 }
 
-@Pipe({name: 'premiumSortFacets'})
+@Pipe({
+    name: 'premiumSortFacets',
+    standalone: false
+})
 export class PremiumSortFacetsPipe implements PipeTransform {
   transform(arr: FacetValue[], weights: string[]): any {
     const ret = (arr || []).sort((a, b): number => {

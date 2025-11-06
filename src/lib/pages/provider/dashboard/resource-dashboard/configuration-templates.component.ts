@@ -14,8 +14,9 @@ import {catchError, switchMap, map, finalize} from 'rxjs/operators';
 import {ServiceExtensionsService} from "../../../../services/service-extensions.service";
 
 @Component({
-  selector: 'app-monitoring-info',
-  templateUrl: './configuration-templates.component.html'
+    selector: 'app-monitoring-info',
+    templateUrl: './configuration-templates.component.html',
+    standalone: false
 })
 
 export class ConfigurationTemplatesComponent implements OnInit {
