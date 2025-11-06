@@ -76,14 +76,12 @@ export class ResourceDashboardComponent implements OnInit {
         this.guidelinesService.getGuidelinesOfResource(this.resourceId).subscribe(
           res => {
             if (res != null) this.resourceGuidelines = res;
-            console.log(res);
           },
           err => console.log(err),
           () => {
             this.guidelinesService.getInteroperabilityRecords('0', '9999').subscribe(
               res => {
                 if (res != null) this.guidelines = res['results'];
-                console.log(this.guidelines);
               }
             );
           }

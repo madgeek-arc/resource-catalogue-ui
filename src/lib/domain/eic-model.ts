@@ -2,7 +2,6 @@
 /* eslint-disable */
 // Generated using typescript-generator version 2.16.538 on 2020-06-10 11:50:49.
 
-
 export class Bundle<T> implements Identifiable {
   id: string;
   metadata: Metadata;
@@ -91,11 +90,12 @@ export class ExtrasMapType {
   entry: ExtrasType[];
 }
 
-export class XmlAdapter<ValueType, BoundType> {
-}
+export class XmlAdapter<ValueType, BoundType> {}
 
-export class ExtrasMapTypeAdapter extends XmlAdapter<ExtrasMapType, { [index: string]: string }> {
-}
+export class ExtrasMapTypeAdapter extends XmlAdapter<
+  ExtrasMapType,
+  { [index: string]: string }
+> {}
 
 export class ExtrasType {
   key: string;
@@ -393,7 +393,7 @@ export class Service implements Identifiable {
   multimedia: Multimedia[];
   useCases: UseCase[];
   scientificDomains: ServiceProviderDomain[];
-  categories: ServiceCategory[];  // anchor
+  categories: ServiceCategory[]; // anchor
   targetUsers: string[];
   accessTypes: string[];
   accessModes: string[];
@@ -693,7 +693,8 @@ export class OpenAIREMetrics {
   totalOpenaireViews: number;
 }
 
-export class PiwikInfo { // provide
+export class PiwikInfo {
+  // provide
   repositoryId: string;
   openaireId: string;
   repositoryName: string;
@@ -730,17 +731,13 @@ export class VocabularyTree {
   children: VocabularyTree[];
 }
 
-export class XMLGregorianCalendar implements Cloneable {
-}
+export class XMLGregorianCalendar implements Cloneable {}
 
-export class URL implements Serializable {
-}
+export class URL implements Serializable {}
 
-export interface Cloneable {
-}
+export interface Cloneable {}
 
-export interface Serializable {
-}
+export interface Serializable {}
 
 export const enum UserActionType {
   FAVOURITE = "FAVOURITE",
@@ -816,5 +813,86 @@ export const enum Type {
   TR_URL_TYPE = "TR_URL_TYPE",
   SERVICE_CATEGORY = "SERVICE_CATEGORY",
   MARKETPLACE_LOCATION = "MARKETPLACE_LOCATION",
-  NODE = "NODE"
+  NODE = "NODE",
 }
+
+/* HELPDESK --> */
+export interface HelpdeskTicket {
+  id?: string;
+  title: string;
+  group: string;
+  customer: {
+    firstname: string;
+    lastname: string;
+    email: string;
+  };
+  status?: string;
+  created_at?: string;
+  updated_at?: string;
+  article: {
+    subject?: string;
+    body: string;
+    type?: string;
+    internal?: boolean;
+  };
+}
+
+export interface HelpdeskUser {
+  id?: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface HelpdeskTicketResponse {
+  id?: string | number; // Internal database ID (optional, can be string or number)
+  number: string; // Zammad ticket number (e.g., "22003")
+  title: string;
+  group: string;
+  customer: {
+    firstname: string;
+    lastname: string;
+    email: string;
+  };
+  state?: string; // Zammad state name (string)
+  state_id?: number; // Zammad state ID (1=new, 2=open, 3=pending reminder, 4=closed, 7=pending close)
+  created_at: string;
+  updated_at: string;
+  close_at?: string; // Date when ticket was closed (if applicable)
+  articles: HelpdeskArticle[];
+}
+
+export interface HelpdeskArticle {
+  id: string;
+  subject: string;
+  body: string;
+  type: string;
+  internal: boolean;
+  created_at: string;
+  updated_at: string;
+  from: string;
+  to: string;
+}
+
+export interface CreateTicketRequest {
+  title: string;
+  group?: string;
+  status?: string;
+  article: {
+    subject?: string;
+    body: string;
+    type?: string;
+    internal?: boolean;
+  };
+  // Note: customer data and userToken removed for GDPR compliance
+  // Backend handles user identification via access token
+}
+
+export interface CreateUserRequest {
+  firstname: string;
+  lastname: string;
+  email: string;
+}
+/* HELPDESK <-- */

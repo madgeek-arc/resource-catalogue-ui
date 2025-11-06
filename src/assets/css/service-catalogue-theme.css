@@ -1209,6 +1209,23 @@ a[class*="wk-"]:hover {
   color: var(--primary-color);
 }
 
+.audit-overlay-button:hover span::after {
+  content: ' Audit';
+  font-weight: bold;
+  color: var(--primary-color, #6299EC); /* use same fallback */
+  margin-left: 8px;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* Optional: animate appearance */
+.audit-overlay-button span::after {
+  content: '';
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-size: 14px;
+}
+
 .offcanvas-audit {
   /*padding-top: 150px;*/
   left: 320px;
@@ -1265,6 +1282,64 @@ a[class*="wk-"]:hover {
   border-color: #cccccc;
 }
 
+/* ========================
+        Helpdesk overlay
+ ========================== */
+
+.helpdesk-overlay {
+  position: fixed;
+  z-index: 100;
+  right: 0;
+  top: 65%;
+}
+
+.helpdesk-overlay-button {
+  background-color: #fff;
+  padding: 0;
+  border: none;
+}
+
+/* This matches audit-overlay-button span exactly */
+.helpdesk-span {
+  background: #C7DBF8B3;
+  padding: 14px; /* match audit */
+  box-shadow: 0px 3px 12px #00000026;
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 30px;
+
+  display: inline-flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1; /* prevents vertical stretching */
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+/* Hidden label initially */
+.helpdesk-label {
+  opacity: 0;
+  max-width: 0;
+  margin-left: 6px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+/* Show label on hover */
+.helpdesk-overlay-button:hover .helpdesk-label {
+  opacity: 1;
+  max-width: 200px;
+}
+
+/* Icon styling */
+.helpdesk-overlay-button i {
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 16px; /* same as fa-lg */
+  line-height: 1;
+}
 
 /* ========================
         Label

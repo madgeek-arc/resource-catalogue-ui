@@ -1,0 +1,21 @@
+<div class="helpdesk-container">
+  <div class="helpdesk-header">
+    <h1>EOSC Beyond Helpdesk</h1>
+    <p>Get support for your EOSC Beyond services and resources</p>
+  </div>
+  
+  <div class="helpdesk-navigation">
+    <nav class="nav-tabs">
+      <a [routerLink]="['/helpdesk/create']" routerLinkActive="active" class="nav-link">
+        Create New Ticket
+      </a>
+      <a [routerLink]="['/helpdesk/tickets']" routerLinkActive="active" class="nav-link">
+        My Tickets
+      </a>
+    </nav>
+  </div>
+  
+  <div class="helpdesk-content">
+    <router-outlet></router-outlet>
+  </div>
+</div> 
