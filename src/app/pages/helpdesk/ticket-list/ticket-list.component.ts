@@ -80,7 +80,7 @@ export class TicketListComponent implements OnInit {
     this._cachedFilteredTickets = filtered;
     this._lastFilterStatus = this.selectedStatus;
 
-    console.log(
+    console.debug(
       `Filtered tickets for status "${this.selectedStatus}":`,
       filtered.length
     );
@@ -116,7 +116,7 @@ export class TicketListComponent implements OnInit {
   }
 
   setStatusFilter(status: string): void {
-    console.log(
+    console.debug(
       "Changing status filter from",
       this.selectedStatus,
       "to",
@@ -124,7 +124,7 @@ export class TicketListComponent implements OnInit {
     );
     this.selectedStatus = status;
     this.onStatusChange();
-    console.log(
+    console.debug(
       "After filter change - paginated tickets:",
       this.paginatedTickets.map((t) => ({
         number: t.number,
@@ -138,7 +138,7 @@ export class TicketListComponent implements OnInit {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
       this.cdr.detectChanges();
-      console.log("📄 Navigated to page:", page);
+      console.debug("Navigated to page:", page);
     }
   }
 
@@ -291,25 +291,22 @@ export class TicketListComponent implements OnInit {
     console.log("Calling API with ticket ID:", ticketIdForApi);
     this.helpdeskService.getTicket(ticketIdForApi).subscribe({
       next: (fullTicket) => {
-        console.log("Full ticket details (raw):", fullTicket);
+        console.debug("Full ticket details (raw):", fullTicket);
 
         // Handle case where API returns an array instead of a single object
         let ticketData: HelpdeskTicketResponse;
         if (Array.isArray(fullTicket)) {
           ticketData = fullTicket[0];
-          console.log(
-            "API returned array, using first element:",
-            ticketData
-          );
+          console.debug("API returned array, using first element:", ticketData);
         } else {
           ticketData = fullTicket;
         }
 
-        console.log("Processed ticket data:", ticketData);
+        console.debug("Processed ticket data:", ticketData);
         this.selectedTicket = ticketData;
         this.isModalOpen = true;
         this.cdr.detectChanges();
-        console.log("Modal opened for ticket:", ticketData.number);
+        console.debug("Modal opened for ticket:", ticketData.number);
       },
       error: (err) => {
         console.error("Error fetching ticket details:", err);

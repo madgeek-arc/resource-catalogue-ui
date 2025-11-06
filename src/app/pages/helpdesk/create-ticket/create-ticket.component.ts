@@ -57,7 +57,7 @@ export class CreateTicketComponent implements OnInit {
 
       this.helpdeskService.createTicket(ticketData).subscribe({
         next: (response) => {
-          console.debug("✅ Ticket submitted successfully:", response);
+          console.debug(" Ticket submitted successfully:", response);
           this.loading = false;
           this.success = true;
           // Reset form after successful submission
