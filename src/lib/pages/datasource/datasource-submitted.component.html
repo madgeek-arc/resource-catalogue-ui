@@ -6,12 +6,13 @@
         <div class="uk-container uk-container-large uk-margin-medium-top uk-margin-medium-bottom">
           <div class="uk-grid">
             <div class=" uk-width-expand@m">
-              ﻿
+
               <div>
 
-                <div *ngIf="registeredAtOpenAIRE === false" class="">
-                  <h3>Want to onboard your research products into the EOSC?</h3>
-                  <p>Access the EOSC Research Products Provider Dashboard powered by <a href="http://provide.openaire.eu" target="_blank">OpenAIRE PROVIDE</a>.
+                @if (registeredAtOpenAIRE === false) {
+                  <div class="">
+                    <h3>Want to onboard your research products into the EOSC?</h3>
+                    <p>Access the EOSC Research Products Provider Dashboard powered by <a href="http://provide.openaire.eu" target="_blank">OpenAIRE PROVIDE</a>.
                     Find the datasource that you have onboarded and follow the necessary steps to complete the
                     onboarding and perform the validation of your metadata records for compliance with the EOSC
                     Interoperability Framework for Research Products (DataCite and Dublin Core-like profiles).
@@ -19,53 +20,52 @@
                     from your repository.
                   </p>
                 </div>
+              }
 
-                <div class="uk-margin-medium-top">
-                  <div class="uk-width-1-1 uk-align-center">
-                  <div *ngIf="service" class="uk-card uk-card-small uk-card-default uk-margin-large-bottom service-card">
-
-                    <div class="uk-card-body">
-
-                      <div class="uk-grid uk-flex-middle uk-margin-remove-top">
-                        <div class="uk-width-1-6">
-                          <img src="{{service.logo ? service.logo : '/assets/images/broken_image-black-48dp.svg'}}">
-                        </div>
-                        <div class="uk-width-2-3">
-                          <h4>{{service.name}}</h4>
-                          <div>{{service.description}}</div>
-<!--                          <div class="">-->
-<!--                            <span class="statusLabel">Datasource ID: </span>{{ datasource.id }}-->
-<!--                          </div>-->
-<!--                          <div class="uk-margin-small-top">-->
-<!--                            <span class="statusLabel">Service ID: </span>{{ datasource.serviceId }}-->
-<!--                          </div>-->
-<!--                          <div class="uk-margin-small-top">-->
-<!--                            <span class="statusLabel">Provider ID: </span>{{ datasource.serviceId.split('.')[0] }}-->
-<!--                          </div>-->
-<!--                          <div class="uk-margin-small-top">-->
-<!--                            <span class="statusLabel">Catalogue ID: </span>{{ datasource.catalogueId }}-->
-<!--                          </div>-->
-                        </div>
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                  <ng-container *ngIf="datasource && service">
-                    <button [routerLink]="['/dashboard/'+datasource.catalogueId+'/'+pidHandler.customEncodeURIComponent(this.service.resourceOrganisation)+'/resource-dashboard/'+pidHandler.customEncodeURIComponent(this.datasource.serviceId)]"
-                            class="uk-button uk-button-secondary uk-align-center" style="padding-left: 30px">
-                      {{serviceORresource}} Dashboard
-                    </button>
-                  </ng-container>
-
+              <div class="uk-margin-medium-top">
+                <div class="uk-width-1-1 uk-align-center">
+                  @if (service) {
+                    <div class="uk-card uk-card-small uk-card-default uk-margin-large-bottom service-card">
+                      <div class="uk-card-body">
+                        <div class="uk-grid uk-flex-middle uk-margin-remove-top">
+                          <div class="uk-width-1-6">
+                            <img src="{{service.logo ? service.logo : '/assets/images/broken_image-black-48dp.svg'}}">
+                          </div>
+                          <div class="uk-width-2-3">
+                            <h4>{{service.name}}</h4>
+                            <div>{{service.description}}</div>
+                            <!--                          <div class="">-->
+                            <!--                            <span class="statusLabel">Datasource ID: </span>{{ datasource.id }}-->
+                          <!--                          </div>-->
+                          <!--                          <div class="uk-margin-small-top">-->
+                          <!--                            <span class="statusLabel">Service ID: </span>{{ datasource.serviceId }}-->
+                        <!--                          </div>-->
+                        <!--                          <div class="uk-margin-small-top">-->
+                        <!--                            <span class="statusLabel">Provider ID: </span>{{ datasource.serviceId.split('.')[0] }}-->
+                      <!--                          </div>-->
+                      <!--                          <div class="uk-margin-small-top">-->
+                      <!--                            <span class="statusLabel">Catalogue ID: </span>{{ datasource.catalogueId }}-->
+                    <!--                          </div>-->
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          }
+
+          @if (datasource && service) {
+            <button [routerLink]="['/dashboard/'+datasource.catalogueId+'/'+pidHandler.customEncodeURIComponent(this.service.resourceOrganisation)+'/resource-dashboard/'+pidHandler.customEncodeURIComponent(this.datasource.serviceId)]"
+              class="uk-button uk-button-secondary uk-align-center" style="padding-left: 30px">
+              {{serviceORresource}} Dashboard
+            </button>
+          }
+
         </div>
       </div>
     </div>
   </div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>

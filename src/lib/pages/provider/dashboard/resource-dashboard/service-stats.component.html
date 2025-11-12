@@ -3,19 +3,23 @@
     <div class="uk-padding-remove-bottom" style="min-height: 500px">
 
       <div class="services-provider-container">
-        <div *ngIf="service" class="uk-flex">
-          <div>
-            <img src="{{ service.logo ? service.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
-          </div>
-          <div class="uk-margin-medium-left">
-            <h3 class="uk-margin-remove">{{service.name}}</h3>
-            <div><span class="status-label">ID: </span>{{ resourceBundle.id}}</div>
-<!--              <div><span class="status-label">Status: </span>{{ resourceBundle.status | titlecase}}</div>-->
-            <div *ngIf="resourceBundle?.metadata?.registeredBy && resourceBundle?.metadata?.registeredAt">
-              <span class="status-label">Registered by: </span>{{ resourceBundle.metadata.registeredBy }} on {{ resourceBundle.metadata.registeredAt | date}}
+        @if (service) {
+          <div class="uk-flex">
+            <div>
+              <img src="{{ service.logo ? service.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+            </div>
+            <div class="uk-margin-medium-left">
+              <h3 class="uk-margin-remove">{{service.name}}</h3>
+              <div><span class="status-label">ID: </span>{{ resourceBundle.id}}</div>
+              <!--              <div><span class="status-label">Status: </span>{{ resourceBundle.status | titlecase}}</div>-->
+              @if (resourceBundle?.metadata?.registeredBy && resourceBundle?.metadata?.registeredAt) {
+                <div>
+                  <span class="status-label">Registered by: </span>{{ resourceBundle.metadata.registeredBy }} on {{ resourceBundle.metadata.registeredAt | date}}
+                </div>
+              }
             </div>
           </div>
-        </div>
+        }
       </div>
 
       <ul class="uk-visible@m uk-tab uk-tab-large uk-margin-medium-top" data-uk-tab="{connect:'#terminology_tabbed',animation: 'slide-bottom'}">
@@ -31,159 +35,185 @@
 
               <div class=" uk-width-expand@m">
 
-                <div *ngIf="errorMessage" class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
+                @if (errorMessage) {
+                  <div class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
+                }
 
-  <!--              <div *ngIf="service" class="uk-grid">-->
-  <!--                <div class="uk-width-1-1@m">-->
-  <!--                  <div class="uk-width-2-5@m uk-float-right">-->
-  <!--                    <div class="uk-flex uk-flex-between uk-margin-left">-->
-  <!--                    <div class="uk-float-left uk-margin-small-left uk-margin-small-right">-->
-  <!--                      <a href="{{_marketplaceServicesURL}}{{(serviceORresource === 'Service' ? '/service/': '') + service.id}}"-->
-  <!--                         target="_blank" class="uk-button uk-button-primary">View in Catalogue</a>-->
-  <!--                    </div>-->
-  <!--                    <div class="uk-float-right uk-margin-small-left uk-margin-small-right">-->
-  <!--                      <a href="/provider/{{service.resourceOrganisation}}/resource/update/{{service.id}}" class="uk-button uk-button-secondary"-->
-  <!--                         style="width: 160px">Update</a>-->
-  <!--                    </div>-->
-  <!--                    </div>-->
-  <!--                  </div>-->
+                <!--              <div *ngIf="service" class="uk-grid">-->
+                <!--                <div class="uk-width-1-1@m">-->
+                <!--                  <div class="uk-width-2-5@m uk-float-right">-->
+                <!--                    <div class="uk-flex uk-flex-between uk-margin-left">-->
+                <!--                    <div class="uk-float-left uk-margin-small-left uk-margin-small-right">-->
+                <!--                      <a href="{{_marketplaceServicesURL}}{{(serviceORresource === 'Service' ? '/service/': '') + service.id}}"-->
+              <!--                         target="_blank" class="uk-button uk-button-primary">View in Catalogue</a>-->
+            <!--                    </div>-->
+            <!--                    <div class="uk-float-right uk-margin-small-left uk-margin-small-right">-->
+            <!--                      <a href="/provider/{{service.resourceOrganisation}}/resource/update/{{service.id}}" class="uk-button uk-button-secondary"-->
+          <!--                         style="width: 160px">Update</a>-->
+        <!--                    </div>-->
+      <!--                    </div>-->
+    <!--                  </div>-->
   <!--                </div>-->
-  <!--              </div>-->
+<!--              </div>-->
 
-                <div *ngIf="service" class="uk-grid">
-                  <div class="uk-width-4-5"></div>
-                  <div class="uk-width-1-5">
-                    <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
-                            (change)="onPeriodChange($event)">
-                      <option value="DAY">Daily</option>
-                      <option value="WEEK">Weekly</option>
-                      <option value="MONTH" selected>Monthly</option>
-                      <option value="YEAR">Yearly</option>
-                    </select>
-                    <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
-                  </div>
-                </div>
-
-                <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
-
-                  <div *ngIf="serviceAddsToProjectOptions && catalogueName==='EOSC'">
-                    <div class="uk-card">
-                      <div class="uk-card-body">
-                        <highcharts-chart *ngIf="serviceAddsToProjectOptions" [Highcharts]="Highcharts"
-                                          [options]="serviceAddsToProjectOptions"
-                                          style="width: 100%; height: auto; display: block;">
-                        </highcharts-chart>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div *ngIf="serviceVisitsOptions">
-                    <div class="uk-card">
-                      <div class="uk-card-body">
-                        <highcharts-chart *ngIf="serviceVisitsOptions"
-                          [Highcharts]="Highcharts"
-                          [options]="serviceVisitsOptions"
-                          style="width: 100%; height: auto; display: block;">
-                        </highcharts-chart>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="uk-grid uk-margin-bottom">
-                    <div class="uk-width-1-1">
-                      <div style="width:100%">
-                        <highcharts-chart *ngIf="serviceMapOptions"
-                                          [Highcharts]="Highcharts"
-                                          [options]="serviceMapOptions"
-                                          [constructorType]="chartConstructor"
-                                          style="width: 100%; height: auto; display: block;">
-                        </highcharts-chart>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-              </div>
-            </div>
-
-
-          </div>
-
-        </li>
-        <li aria-hidden="true" style="animation-duration: 200ms;">
-
-          <!--          <div class="uk-grid">-->
-          <!--            <div class="uk-width-4-5"></div>-->
-          <!--            <div class="uk-width-1-5 ">-->
-          <!--              <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"-->
-          <!--                      (change)="onPeriodChange($event)">-->
-          <!--                <option value="DAY">Daily</option>-->
-          <!--                <option value="WEEK">Weekly</option>-->
-          <!--                <option value="MONTH" selected>Monthly</option>-->
-          <!--                <option value="YEAR">Yearly</option>-->
-          <!--              </select>-->
-          <!--              <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>-->
-          <!--            </div>-->
-          <!--          </div>-->
-
-          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l uk-margin-remove-top">
-
-            <div>
-              <div class="uk-card">
-                <div class="uk-card-body">
-                  <div *ngIf="!recommendationsOverTimeForService && !errorMessage" class="uk-position-center uk-margin-xlarge-top">
-                    <div uk-spinner="ratio: 2.5"></div>
-                  </div>
-                  <highcharts-chart *ngIf="recommendationsOverTimeForService" [Highcharts]="Highcharts"
-                                    [options]="recommendationsOverTimeForService"
-                                    style="width: 100%; height: auto; display: block;">
-                  </highcharts-chart>
-                </div>
-              </div>
-            </div>
-
-            <div class="uk-grid uk-child-width-1-1@m uk-child-width-1-1@l uk-margin-remove-top">
-              <div class="uk-card">
-                <div *ngIf="!emptyResponseOnGetCompetitorsServices" class="uk-card-body">
-                  <div *ngIf="enrichedRecommendationsOfCompetitorsServices.length==0 && !errorMessage" class="uk-position-center uk-margin-xlarge-top">
-                    <div uk-spinner="ratio: 2.5"></div>
-                  </div>
-                  <ng-container *ngIf="enrichedRecommendationsOfCompetitorsServices?.length>0">
-                    <h5 class="uk-text-center uk-margin-bottom" style="color:#333333;font-size:18px;fill:#333333;" y="24">Services recommended next to your services</h5>
-                    <div uk-accordion>
-                      <div *ngFor="let item of enrichedRecommendationsOfCompetitorsServices" class="uk-open">
-                        <h3 class="uk-accordion-title"> {{ item.name }} <span class="uk-align-right" style=color:#004494>({{ item.total_competitor_recommendations }} times)</span></h3>
-                        <div class="uk-accordion-content">
-                          <ul class="uk-list uk-list-striped">
-                            <li *ngFor="let competitor of item.competitors; let i = index">
-                              <div class="uk-grid">
-                                <div class="uk-width-1-5 uk-flex uk-flex-middle">
-                                  <span class="uk-text-bold uk-margin-small-right" style="min-width: 20px;">{{ i + 1 }}</span>
-                                  <img src="{{competitor.logo ? competitor.logo : '/assets/images/broken_image-black-48dp.svg'}}" style="height: 50px;">
-                                </div>
-                                <div class="uk-width-4-5">
-                                  <span class="uk-text-bold"><a href="{{marketplaceServicesURL}}{{catalogueId}}.{{competitor.service_id}}" target="_blank">{{competitor.name}}</a></span>
-                                  <!--                                <span class="uk-text-bold"><a href="{{marketplaceDatasourcesURL}}{{catalogueId}}.{{competitor.service_id}}" target="_blank">{{competitor.name}}</a></span>-->
-                                  <span class="uk-align-right">{{ ((competitor.recommendations / item.total_competitor_recommendations) * 100).toFixed(2) }}%</span>
-                                  <span class="uk-text-truncate uk-display-block uk-text-center">{{ competitor.description }}</span>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </ng-container>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-        </li>
-      </ul>
-
+@if (service) {
+  <div class="uk-grid">
+    <div class="uk-width-4-5"></div>
+    <div class="uk-width-1-5">
+      <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
+        (change)="onPeriodChange($event)">
+        <option value="DAY">Daily</option>
+        <option value="WEEK">Weekly</option>
+        <option value="MONTH" selected>Monthly</option>
+        <option value="YEAR">Yearly</option>
+      </select>
+      <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
     </div>
   </div>
+}
+
+<div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
+
+  @if (serviceAddsToProjectOptions && catalogueName==='EOSC') {
+    <div>
+      <div class="uk-card">
+        <div class="uk-card-body">
+          @if (serviceAddsToProjectOptions) {
+            <highcharts-chart [Highcharts]="Highcharts"
+              [options]="serviceAddsToProjectOptions"
+              style="width: 100%; height: auto; display: block;">
+            </highcharts-chart>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (serviceVisitsOptions) {
+    <div>
+      <div class="uk-card">
+        <div class="uk-card-body">
+          @if (serviceVisitsOptions) {
+            <highcharts-chart
+              [Highcharts]="Highcharts"
+              [options]="serviceVisitsOptions"
+              style="width: 100%; height: auto; display: block;">
+            </highcharts-chart>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <div class="uk-grid uk-margin-bottom">
+    <div class="uk-width-1-1">
+      <div style="width:100%">
+        @if (serviceMapOptions) {
+          <highcharts-chart
+            [Highcharts]="Highcharts"
+            [options]="serviceMapOptions"
+            [constructorType]="chartConstructor"
+            style="width: 100%; height: auto; display: block;">
+          </highcharts-chart>
+        }
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+</div>
+
+
+</div>
+
+</li>
+<li aria-hidden="true" style="animation-duration: 200ms;">
+
+  <!--          <div class="uk-grid">-->
+  <!--            <div class="uk-width-4-5"></div>-->
+  <!--            <div class="uk-width-1-5 ">-->
+  <!--              <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"-->
+  <!--                      (change)="onPeriodChange($event)">-->
+  <!--                <option value="DAY">Daily</option>-->
+  <!--                <option value="WEEK">Weekly</option>-->
+  <!--                <option value="MONTH" selected>Monthly</option>-->
+  <!--                <option value="YEAR">Yearly</option>-->
+<!--              </select>-->
+<!--              <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l uk-margin-remove-top">
+
+  <div>
+    <div class="uk-card">
+      <div class="uk-card-body">
+        @if (!recommendationsOverTimeForService && !errorMessage) {
+          <div class="uk-position-center uk-margin-xlarge-top">
+            <div uk-spinner="ratio: 2.5"></div>
+          </div>
+        }
+        @if (recommendationsOverTimeForService) {
+          <highcharts-chart [Highcharts]="Highcharts"
+            [options]="recommendationsOverTimeForService"
+            style="width: 100%; height: auto; display: block;">
+          </highcharts-chart>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="uk-grid uk-child-width-1-1@m uk-child-width-1-1@l uk-margin-remove-top">
+    <div class="uk-card">
+      @if (!emptyResponseOnGetCompetitorsServices) {
+        <div class="uk-card-body">
+          @if (enrichedRecommendationsOfCompetitorsServices.length==0 && !errorMessage) {
+            <div class="uk-position-center uk-margin-xlarge-top">
+              <div uk-spinner="ratio: 2.5"></div>
+            </div>
+          }
+          @if (enrichedRecommendationsOfCompetitorsServices?.length>0) {
+            <h5 class="uk-text-center uk-margin-bottom" style="color:#333333;font-size:18px;fill:#333333;" y="24">Services recommended next to your services</h5>
+            <div uk-accordion>
+              @for (item of enrichedRecommendationsOfCompetitorsServices; track item) {
+                <div class="uk-open">
+                  <h3 class="uk-accordion-title"> {{ item.name }} <span class="uk-align-right" style=color:#004494>({{ item.total_competitor_recommendations }} times)</span></h3>
+                  <div class="uk-accordion-content">
+                    <ul class="uk-list uk-list-striped">
+                      @for (competitor of item.competitors; track competitor; let i = $index) {
+                        <li>
+                          <div class="uk-grid">
+                            <div class="uk-width-1-5 uk-flex uk-flex-middle">
+                              <span class="uk-text-bold uk-margin-small-right" style="min-width: 20px;">{{ i + 1 }}</span>
+                              <img src="{{competitor.logo ? competitor.logo : '/assets/images/broken_image-black-48dp.svg'}}" style="height: 50px;">
+                            </div>
+                            <div class="uk-width-4-5">
+                              <span class="uk-text-bold"><a href="{{marketplaceServicesURL}}{{catalogueId}}.{{competitor.service_id}}" target="_blank">{{competitor.name}}</a></span>
+                              <!--                                <span class="uk-text-bold"><a href="{{marketplaceDatasourcesURL}}{{catalogueId}}.{{competitor.service_id}}" target="_blank">{{competitor.name}}</a></span>-->
+                              <span class="uk-align-right">{{ ((competitor.recommendations / item.total_competitor_recommendations) * 100).toFixed(2) }}%</span>
+                              <span class="uk-text-truncate uk-display-block uk-text-center">{{ competitor.description }}</span>
+                            </div>
+                          </div>
+                        </li>
+                      }
+                    </ul>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+</div>
+
+</li>
+</ul>
+
+</div>
+</div>
 </div>

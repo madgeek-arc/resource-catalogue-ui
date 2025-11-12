@@ -4,9 +4,11 @@
 
       <div class="menu_section uk-margin-medium-top">
 
-        <div *ngIf="deployableServiceBundle?.active === false" class="rejected">
-          <div class="uk-label uk-align-right uk-margin-right" uk-tooltip="Some actions are disabled for inactive resources.">Inactive</div>
-        </div>
+        @if (deployableServiceBundle?.active === false) {
+          <div class="rejected">
+            <div class="uk-label uk-align-right uk-margin-right" uk-tooltip="Some actions are disabled for inactive resources.">Inactive</div>
+          </div>
+        }
 
         <div class="sidebar_heading">MONITOR</div>
 
@@ -27,17 +29,17 @@
 
         <ul>
 
-          <ng-container *ngIf="catalogueId === catalogueConfigId">
+          @if (catalogueId === catalogueConfigId) {
             <li>
               <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/deployable-service/update/' + pidHandler.customEncodeURIComponent(deployableServiceId)]">
                 <img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                 Update Deployable Service
               </a>
             </li>
-          </ng-container>
+          }
 
           <li>
-<!--            <a href="{{_marketplaceTrainingResourcesURL}}{{catalogueId}}.{{deployableServiceId}}" target="_blank">-->
+            <!--            <a href="{{_marketplaceTrainingResourcesURL}}{{catalogueId}}.{{deployableServiceId}}" target="_blank">-->
             <a href="{{_marketplaceTrainingResourcesURL}}" target="_blank">
               <img src="../../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">
               View in Catalogue

@@ -13,7 +13,9 @@
             </div>
           </div>
           <div class="uk-flex uk-flex-middle">
-            <button *ngIf="resourceGuidelines?.id" class="uk-button uk-button-danger uk-margin-left" type="submit" (click)="this.showDeletionModal()">Remove all</button>
+            @if (resourceGuidelines?.id) {
+              <button class="uk-button uk-button-danger uk-margin-left" type="submit" (click)="this.showDeletionModal()">Remove all</button>
+            }
             <button class="uk-button uk-button-secondary uk-margin-left" type="submit" (click)="this.onSubmit()">Submit</button>
           </div>
         </div>
@@ -24,9 +26,11 @@
 
             <!-- MIDDLE -->
             <div class=" uk-width-expand@m uk-margin-medium-top">
-              <div *ngIf="showLoader" class="uk-position-center">
-                <div uk-spinner="ratio: 2"></div>
-              </div>
+              @if (showLoader) {
+                <div class="uk-position-center">
+                  <div uk-spinner="ratio: 2"></div>
+                </div>
+              }
 
               <div [ngClass]="{'blur-filter': showLoader}">
 
@@ -48,12 +52,16 @@
 
                   </div>
 
-                  <div *ngIf="errorMessage" data-uk-alert="" class="uk-alert uk-alert-danger">
-                    <p>{{errorMessage}}</p>
-                  </div>
-                  <div *ngIf="successMessage" data-uk-alert="" class="uk-alert uk-alert-success">
-                    <p>{{successMessage}}</p>
-                  </div>
+                  @if (errorMessage) {
+                    <div data-uk-alert="" class="uk-alert uk-alert-danger">
+                      <p>{{errorMessage}}</p>
+                    </div>
+                  }
+                  @if (successMessage) {
+                    <div data-uk-alert="" class="uk-alert uk-alert-success">
+                      <p>{{successMessage}}</p>
+                    </div>
+                  }
 
                   <div class="uk-grid">
 
@@ -67,76 +75,91 @@
                           </label>
                           <div class="uk-form-description uk-margin-top uk-width-9-10">Interoperability records list</div>
                           <div class="uk-form-controls uk-margin-medium-top">
-                            <div
-                              *ngFor="let ir of getFieldAsFormArray('interoperabilityRecordIds').controls; let i=index"
-                              class="uk-margin-bottom">
-                              <ng-select *ngIf="guidelines?.length > 0" class="uk-width-9-10" id="interoperabilityRecordIds"
-                                         [items]="guidelines"
-                                         (change)="checkForDuplicates('interoperabilityRecordIds'); unsavedChangesPrompt()"
-                                         bindLabel="title"
-                                         bindValue="id"
-                                         clearAllText="Clear"
-                                         [formControlName]="i">
-                              </ng-select>
-                              <a *ngIf="getFieldAsFormArray('interoperabilityRecordIds').length > 1 && !disable"
-                                 class="remove-element uk-padding-small"
-                                 (click)="remove('interoperabilityRecordIds', i); unsavedChangesPrompt()">
-                                <i class="fa fa-times" aria-hidden="true"></i>
-                              </a>
-                            </div>
-                            <div *ngIf="!disable" class="uk-width-9-10 uk-text-center uk-margin-medium-top">
-                              <a class="add-new-element"
-                                 (click)="push('interoperabilityRecordIds')">
-                                <i class="fa fa-plus" aria-hidden="true"></i> Add Guideline
-                              </a>
-                            </div>
+                            @for (ir of getFieldAsFormArray('interoperabilityRecordIds').controls; track ir; let i = $index) {
+                              <div
+                                class="uk-margin-bottom">
+                                @if (guidelines?.length > 0) {
+                                  <ng-select class="uk-width-9-10" id="interoperabilityRecordIds"
+                                    [items]="guidelines"
+                                    (change)="checkForDuplicates('interoperabilityRecordIds'); unsavedChangesPrompt()"
+                                    bindLabel="title"
+                                    bindValue="id"
+                                    clearAllText="Clear"
+                                    [formControlName]="i">
+                                  </ng-select>
+                                }
+                                @if (getFieldAsFormArray('interoperabilityRecordIds').length > 1 && !disable) {
+                                  <a
+                                    class="remove-element uk-padding-small"
+                                    (click)="remove('interoperabilityRecordIds', i); unsavedChangesPrompt()">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                  </a>
+                                }
+                              </div>
+                            }
+                            @if (!disable) {
+                              <div class="uk-width-9-10 uk-text-center uk-margin-medium-top">
+                                <a class="add-new-element"
+                                  (click)="push('interoperabilityRecordIds')">
+                                  <i class="fa fa-plus" aria-hidden="true"></i> Add Guideline
+                                </a>
+                              </div>
+                            }
                           </div>
                         </div>
 
-<!--                                                                        <pre>-->
-<!--                                                                          {{guidelinesForm.value | json}}-->
-<!--                                                                          {{guidelines|json}}-->
-<!--                                                                        </pre>-->
-                      </div>
+                        <!--                                                                        <pre>-->
+                        <!--                                                                          {{guidelinesForm.value | json}}-->
+                        <!--                                                                          {{guidelines|json}}-->
+                      <!--                                                                        </pre>-->
+                    </div>
 
-                    </form>
-
-                  </div>
+                  </form>
 
                 </div>
-              </div>
 
+              </div>
             </div>
-          </div>        </div>
+
+          </div>
+        </div>        </div>
       </div>
     </div>
   </div>
 </div>
 
 <div id="deletionModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-header uk-h4">Warning</div>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <ng-container>
-      <h6>Are you sure you want to remove Guidelines from this Service?</h6>
-      <p>Keep in mind that removing a Guideline will also delete all related configurations instances.</p>
-      <div class="uk-text-right">
-        <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
-        <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="removeAll()">Delete</button>
-      </div>
-    </ng-container>
-  </div>
+  @if (!loadingMessage) {
+    <div class="uk-modal-dialog uk-modal-header uk-h4">Warning</div>
+  }
+  @if (!loadingMessage) {
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+      <ng-container>
+        <h6>Are you sure you want to remove Guidelines from this Service?</h6>
+        <p>Keep in mind that removing a Guideline will also delete all related configurations instances.</p>
+        <div class="uk-text-right">
+          <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+          <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="removeAll()">Delete</button>
+        </div>
+      </ng-container>
+    </div>
+  }
 </div>
 
 <div id="submissionModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-header uk-h4">Warning</div>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <ng-container>
-      <h6>You are about to make changes to the assigned Guidelines of this Service.</h6>
-      <p>Keep in mind that removing a Guideline will also delete all related configurations instances.</p>
-      <div class="uk-text-right">
-        <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
-        <button class="uk-button uk-button-secondary uk-modal-close" type="button" (click)="submitGuidelines()">Submit</button>
-      </div>
-    </ng-container>
-  </div>
+  @if (!loadingMessage) {
+    <div class="uk-modal-dialog uk-modal-header uk-h4">Warning</div>
+  }
+  @if (!loadingMessage) {
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+      <ng-container>
+        <h6>You are about to make changes to the assigned Guidelines of this Service.</h6>
+        <p>Keep in mind that removing a Guideline will also delete all related configurations instances.</p>
+        <div class="uk-text-right">
+          <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+          <button class="uk-button uk-button-secondary uk-modal-close" type="button" (click)="submitGuidelines()">Submit</button>
+        </div>
+      </ng-container>
+    </div>
+  }
 </div>
