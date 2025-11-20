@@ -8,7 +8,6 @@ import {environment} from '../environments/environment';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  isLoginOrRegister = false;
 
   breadcrumbs: string[] = [];
 

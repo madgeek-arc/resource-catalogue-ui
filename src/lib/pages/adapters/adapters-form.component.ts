@@ -70,7 +70,7 @@ export class AdaptersFormComponent implements OnInit {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
-    this.weights[0] = this.authenticationService.user.email.split('@')[0];
+    this.weights[0] = this.authenticationService.getUserEmail().split('@')[0];
   }
 
   submitForm(value) {

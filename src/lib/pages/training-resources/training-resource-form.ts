@@ -236,7 +236,7 @@ export class TrainingResourceForm implements OnInit {
     this.fb = this.injector.get(UntypedFormBuilder);
     this.router = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
-    this.weights[0] = this.authenticationService.user.email.split('@')[0];
+    this.weights[0] = this.authenticationService.getUserEmail().split('@')[0];
   }
 
   submitForm(value: any, tempSave: boolean, pendingService: boolean) {//TODO

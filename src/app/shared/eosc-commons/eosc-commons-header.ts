@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from "../../../environments/environment";
 import { AuthenticationService } from "../../../lib/services/authentication.service";
 
 @Component({
@@ -13,30 +12,25 @@ import { AuthenticationService } from "../../../lib/services/authentication.serv
 })
 export class ExternalHeaderComponent implements OnInit {
   name = this.authService.getUserName();
-  loginUrl = environment.API_LOGIN;
-  logoutUrl = environment.API_LOGOUT;
+  loginUrl = this.authService.getLoginUrl();
+  logoutUrl = this.authService.getLogoutUrl();
 
-  constructor(public authService: AuthenticationService) {}
-
-  ngOnInit(): void {
-    // Call external theme's rendering function for header
-    setTimeout(() => {
-      window['eosccommon']?.renderMainHeader?.('.commons-header');
-      this.addLogoutListener();
-    }, 0);
+  constructor(public authService: AuthenticationService) {
+    this.authService.refreshUserInfo();
   }
 
-  private addLogoutListener(): void {
-    const headerElement = document.querySelector('.commons-header');
-
-    if (headerElement) {
-      headerElement.addEventListener('click', (event) => {
-        const target = event.target as HTMLElement;
-
-        if (target && target.getAttribute('href') === this.logoutUrl) {
-          this.authService.clearUserData();
+  ngOnInit(): void {
+    this.authService.currentUser$.subscribe({
+      next: user => {
+        if (user) {
+          this.name = user.name;
+          // this.name = `${user.name} ${user.surname}`;
         }
-      });
-    }
+      }
+    });
+    // Call external theme's rendering function for header inside a small timeout (so that user can be retrieved from the backend)
+    setTimeout(() => {
+      window['eosccommon']?.renderMainHeader?.('.commons-header');
+    }, 150);
   }
 }
