@@ -196,8 +196,8 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  submitForm(value: any, tempSave: boolean, pendingService: boolean) {
-    let datasourceValue = value[0].value.Datasource;
+  submitForm(formData: any, tempSave: boolean, pendingService: boolean) {
+    let datasourceValue = formData.value.Datasource;
     window.scrollTo(0, 0);
 
     if (!this.authenticationService.isLoggedIn()) {

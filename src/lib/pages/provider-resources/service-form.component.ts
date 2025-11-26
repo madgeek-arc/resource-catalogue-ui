@@ -155,8 +155,8 @@ export class ServiceFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  submitForm(value: any) {
-    let serviceValue = value[0].value.Service;
+  submitForm(formData: any) {
+    let serviceValue = formData.value.Service;
     window.scrollTo(0, 0);
 
     if (!this.authenticationService.isLoggedIn()) {

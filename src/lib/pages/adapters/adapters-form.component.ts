@@ -74,10 +74,10 @@ export class AdaptersFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  submitForm(value) {
+  submitForm(formData) {
     window.scrollTo(0, 0);
-    if (!value[0].value.Adapter.serviceId) value[0].value.Adapter.serviceId = decodeURIComponent(this.adapterId);
-    this.adaptersService.uploadAdapter(value[0].value.Adapter, this.editMode).subscribe(
+    if (!formData.value.Adapter.serviceId) formData.value.Adapter.serviceId = decodeURIComponent(this.adapterId);
+    this.adaptersService.uploadAdapter(formData.value.Adapter, this.editMode).subscribe(
       _service => {
         this.showLoader = false;
         this.router.navigate(['/adapters/my']);

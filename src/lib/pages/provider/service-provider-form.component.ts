@@ -181,8 +181,8 @@ export class ServiceProviderFormComponent implements OnInit {
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
   }
 
-  submitForm(value: any){
-    let providerValue = value[0].value.Provider;
+  submitForm(formData: any){
+    let providerValue = formData.value.Provider;
     window.scrollTo(0, 0);
 
     this.errorMessage = '';

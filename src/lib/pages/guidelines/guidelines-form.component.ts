@@ -237,8 +237,8 @@ export class GuidelinesFormComponent implements OnInit {
 
   }
 
-  submitForm(value: any) {
-    let guidelinesValue = value[0].value.Guidelines;
+  submitForm(formData: any) {
+    let guidelinesValue = formData.value.Guidelines;
     window.scrollTo(0, 0);
     if (!this.authService.isLoggedIn()) {
       sessionStorage.setItem('guideline', JSON.stringify(this.guidelinesForm.value));

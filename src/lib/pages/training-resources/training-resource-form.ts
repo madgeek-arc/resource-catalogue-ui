@@ -240,8 +240,8 @@ export class TrainingResourceForm implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  submitForm(value: any, tempSave: boolean, pendingService: boolean) {//TODO
-    let trValue = value[0].value.TrainingResource;
+  submitForm(formData: any, tempSave: boolean, pendingService: boolean) {//TODO
+    let trValue = formData.value.TrainingResource;
     window.scrollTo(0, 0);
 
     if (!this.authenticationService.isLoggedIn()) {

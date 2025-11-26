@@ -91,8 +91,8 @@ export class DeployableServiceForm implements OnInit {
     this.weights[0] = this.authenticationService.user.email.split('@')[0];
   }
 
-  submitForm(value: any, tempSave: boolean, pendingService: boolean) {//TODO
-    let dsValue = value[0].value.DeployableService;
+  submitForm(formData: any, tempSave: boolean, pendingService: boolean) {//TODO
+    let dsValue = formData.value.DeployableService;
     window.scrollTo(0, 0);
 
 /*    if (!this.authenticationService.isLoggedIn()) {
