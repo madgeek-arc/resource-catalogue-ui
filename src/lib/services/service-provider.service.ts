@@ -302,11 +302,6 @@ export class ServiceProviderService {
     return this.http.put<VocabularyCuration>(this.base + `/vocabularyCuration/approveOrRejectVocabularyCuration?approved=false&rejectionReason=${rejectionReason}`, curation, this.options);
   }
 
-  getProviderHistory(providerId: string) {
-    providerId = decodeURIComponent(providerId);
-    return this.http.get<Paging<ServiceHistory>>(this.base + `/provider/history/${providerId}/`);
-  }
-
   getProviderLoggingInfoHistory(providerId: string, catalogue_id: string) {
     providerId = decodeURIComponent(providerId);
     // return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}/`);

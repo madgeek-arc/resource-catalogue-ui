@@ -326,11 +326,6 @@ export class TrainingResourceService {
   }
   /** <-- Draft(Pending) Services **/
 
-  getServiceHistory(serviceId: string) {
-    serviceId = decodeURIComponent(serviceId);
-    return this.http.get<Paging<ServiceHistory>>(this.base + `/trainingResource/history/${serviceId}/`);
-  }
-
   //TODO: rename to getTrainingLoggingInfoHistory
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
     serviceId = decodeURIComponent(serviceId);

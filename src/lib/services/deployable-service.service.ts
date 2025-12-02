@@ -238,11 +238,6 @@ export class DeployableServiceService {
   }
   /** <-- Draft(Pending) Services **/
 
-  getServiceHistory(serviceId: string) {
-    serviceId = decodeURIComponent(serviceId);
-    return this.http.get<Paging<ServiceHistory>>(this.base + `/deployableService/history/${serviceId}/`);
-  }
-
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
     serviceId = decodeURIComponent(serviceId);
     if (catalogue_id === this.catalogueConfigId)
