@@ -20,8 +20,9 @@ import {ConfigService} from "../../services/config.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-deployable-services-list',
-  templateUrl: './deployable-services-list.component.html',
+    selector: 'app-deployable-services-list',
+    templateUrl: './deployable-services-list.component.html',
+    standalone: false
 })
 export class DeployableServicesListComponent implements OnInit {
   catalogueConfigId: string | null = null;

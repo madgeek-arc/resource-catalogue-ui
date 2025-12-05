@@ -26,29 +26,27 @@ export type CookieLawAnimation = 'topIn' | 'bottomIn' | 'topOut' | 'bottomOut';
 export type CookieLawTarget = '_blank' | '_self';
 
 @Component({
-  selector: 'cookie-law',
-  // encapsulation: ViewEncapsulation.None,
-  animations: [
-    trigger('state', [
-      state('bottomOut', style({ transform: 'translateY(100%)' })),
-      state('topOut', style({ transform: 'translateY(-100%)' })),
-      state('*', style({ transform: 'translateY(0)' })),
-
-      transition('void => topIn', [
-        style({ transform: 'translateY(-100%)' }),
-        animate('1000ms ease-in-out'),
-      ]),
-
-      transition('void => bottomIn', [
-        style({ transform: 'translateY(100%)' }),
-        animate('1000ms ease-in-out'),
-      ]),
-
-      transition('* => *', animate('1000ms ease-out')),
-    ])
-  ],
-  styleUrls: [ './cookie-law.css' ],
-  templateUrl: './cookie-law.html',
+    selector: 'cookie-law',
+    // encapsulation: ViewEncapsulation.None,
+    animations: [
+        trigger('state', [
+            state('bottomOut', style({ transform: 'translateY(100%)' })),
+            state('topOut', style({ transform: 'translateY(-100%)' })),
+            state('*', style({ transform: 'translateY(0)' })),
+            transition('void => topIn', [
+                style({ transform: 'translateY(-100%)' }),
+                animate('1000ms ease-in-out'),
+            ]),
+            transition('void => bottomIn', [
+                style({ transform: 'translateY(100%)' }),
+                animate('1000ms ease-in-out'),
+            ]),
+            transition('* => *', animate('1000ms ease-out')),
+        ])
+    ],
+    styleUrls: ['./cookie-law.css'],
+    templateUrl: './cookie-law.html',
+    standalone: false
 })
 export class CookieLawComponent implements OnInit {
   public cookieLawSeen: boolean;

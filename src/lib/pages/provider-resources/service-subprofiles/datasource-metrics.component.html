@@ -1,72 +1,80 @@
 <div id="page_content_inner">
-<!--  <h2 *ngIf="piwik" class="heading_b uk-margin-bottom">{{ piwik ? piwik.repositoryName : 'Metrics'}}</h2>-->
+  <!--  <h2 *ngIf="piwik" class="heading_b uk-margin-bottom">{{ piwik ? piwik.repositoryName : 'Metrics'}}</h2>-->
 
   <div class="uk-grid">
 
     <!-- MIDDLE -->
     <div class=" uk-width-expand@m">
 
-      <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{ errorMessage }}</div>
-      <div *ngIf="loadingMessage" class="loading-big">
-        <div class="loader-big" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
-          {{ loadingMessage }}
+      @if (errorMessage) {
+        <div class="uk-alert uk-alert-danger">{{ errorMessage }}</div>
+      }
+      @if (loadingMessage) {
+        <div class="loading-big">
+          <div class="loader-big" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+            {{ loadingMessage }}
+          </div>
+          <div class="transparentFilm"></div>
         </div>
-        <div class="transparentFilm"></div>
-      </div>
-      <div *ngIf="openAIREMetrics" class="uk-padding-large uk-padding-remove-top uk-padding-remove-bottom">
+      }
+      @if (openAIREMetrics) {
+        <div class="uk-padding-large uk-padding-remove-top uk-padding-remove-bottom">
+          <div class="uk-grid uk-grid-match uk-child-width-1-3@l uk-child-width-1-3@m uk-grid-medium uk-sortable sortable-handler" data-uk-sortable="" data-uk-grid-margin="">
+            <div class="uk-row-first" style="">
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_sale peity_data" style="display: none;">5,3,9,6,5,9,7,3,5,2</span><svg class="peity" height="28" width="64"><polygon fill="#d1e4f6" points="0 27.5 0 12.5 7.111111111111111 18.5 14.222222222222221 0.5 21.333333333333332 9.5 28.444444444444443 12.5 35.55555555555556 0.5 42.666666666666664 6.5 49.77777777777777 18.5 56.888888888888886 12.5 64 21.5 64 27.5"></polygon><polyline fill="none" points="0 12.5 7.111111111111111 18.5 14.222222222222221 0.5 21.333333333333332 9.5 28.444444444444443 12.5 35.55555555555556 0.5 42.666666666666664 6.5 49.77777777777777 18.5 56.888888888888886 12.5 64 21.5" stroke="#0288d1" stroke-width="1" stroke-linecap="square"></polyline></svg></div>
+                  <span class="uk-text-muted uk-text-small">views in OpenAIRE</span>
+                  <h2 class="uk-margin-remove"><span class="countUpMe">{{ openAIREMetrics.pageViews | number }}</span></h2>
+                </div>
+              </div>
+            </div>
+            <div style="">
+              <div class="uk-card">
+                <div class="uk-card-body">
+                  <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_live peity_data" style="display: none;">3,5,2,10,2,7,0,2,8,8,7,2,4,8,0,6,6,7,9,5</span><svg class="peity" height="28" width="64"><polygon fill="#efebe9" points="0 27.5 0 19.4 3.3684210526315788 14 6.7368421052631575 22.1 10.105263157894736 0.5 13.473684210526315 22.1 16.842105263157894 8.600000000000001 20.210526315789473 27.5 23.57894736842105 22.1 26.94736842105263 5.899999999999999 30.31578947368421 5.899999999999999 33.68421052631579 8.600000000000001 37.05263157894737 22.1 40.421052631578945 16.7 43.78947368421052 5.899999999999999 47.1578947368421 27.5 50.526315789473685 11.3 53.89473684210526 11.3 57.263157894736835 8.600000000000001 60.63157894736842 3.1999999999999993 64 14 64 27.5"></polygon><polyline fill="none" points="0 19.4 3.3684210526315788 14 6.7368421052631575 22.1 10.105263157894736 0.5 13.473684210526315 22.1 16.842105263157894 8.600000000000001 20.210526315789473 27.5 23.57894736842105 22.1 26.94736842105263 5.899999999999999 30.31578947368421 5.899999999999999 33.68421052631579 8.600000000000001 37.05263157894737 22.1 40.421052631578945 16.7 43.78947368421052 5.899999999999999 47.1578947368421 27.5 50.526315789473685 11.3 53.89473684210526 11.3 57.263157894736835 8.600000000000001 60.63157894736842 3.1999999999999993 64 14" stroke="#5d4037" stroke-width="1" stroke-linecap="square"></polyline></svg></div>
+                  <span class="uk-text-muted uk-text-small">views in local repository</span>
+                  <h2 class="uk-margin-remove" id="peity_live_text">{{ openAIREMetrics.totalViews | number }}
+                    @if (openAIREMetrics.totalOpenaireViews) {
+                      <span class="comment">( {{ openAIREMetrics.totalOpenaireViews | number }} from OpenAIRE )</span>
+                    }</h2>
+                  </div>
+                </div>
+              </div>
+              <div class="" style="">
+                <div class="uk-card">
+                  <div class="uk-card-body">
+                    <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_visitors peity_data" style="display: none;">5,3,9,6,5,9,7</span><svg class="peity" height="28" width="48"><rect data-value="5" fill="#d84315" x="1.3714285714285717" y="12.444444444444443" width="4.114285714285715" height="15.555555555555557"></rect><rect data-value="3" fill="#d84315" x="8.228571428571428" y="18.666666666666668" width="4.114285714285716" height="9.333333333333332"></rect><rect data-value="9" fill="#d84315" x="15.085714285714287" y="0" width="4.1142857142857086" height="28"></rect><rect data-value="6" fill="#d84315" x="21.942857142857147" y="9.333333333333336" width="4.114285714285707" height="18.666666666666664"></rect><rect data-value="5" fill="#d84315" x="28.800000000000004" y="12.444444444444443" width="4.114285714285707" height="15.555555555555557"></rect><rect data-value="9" fill="#d84315" x="35.65714285714286" y="0" width="4.114285714285707" height="28"></rect><rect data-value="7" fill="#d84315" x="42.51428571428572" y="6.222222222222221" width="4.114285714285707" height="21.77777777777778"></rect></svg></div>
+                    <span class="uk-text-muted uk-text-small">downloads in local repository</span>
+                    <h2 class="uk-margin-remove">{{ openAIREMetrics.totalDownloads | number }}
+                      @if (openAIREMetrics.totalOpenaireDownloads) {
+                        <span class="comment">( {{ openAIREMetrics.totalOpenaireDownloads | number }} from OpenAIRE )</span>
+                      }</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="uk-grid">
+                <div class="uk-width-1-1">
+                  <div class="uk-card">
+                    <div class="uk-card-body">
+                      <iframe class="statsFrame" [src]="viewsUrl"></iframe>
+                    </div>
+                  </div>
+                </div>
+                <div class="uk-width-1-1 uk-margin-medium-top">
+                  <div class="uk-card">
+                    <div class="uk-card-body">
+                      <iframe class="statsFrame" [src]="downloadsUrl"></iframe>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
 
-        <div class="uk-grid uk-grid-match uk-child-width-1-3@l uk-child-width-1-3@m uk-grid-medium uk-sortable sortable-handler" data-uk-sortable="" data-uk-grid-margin="">
-          <div class="uk-row-first" style="">
-            <div class="uk-card">
-              <div class="uk-card-body">
-                <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_sale peity_data" style="display: none;">5,3,9,6,5,9,7,3,5,2</span><svg class="peity" height="28" width="64"><polygon fill="#d1e4f6" points="0 27.5 0 12.5 7.111111111111111 18.5 14.222222222222221 0.5 21.333333333333332 9.5 28.444444444444443 12.5 35.55555555555556 0.5 42.666666666666664 6.5 49.77777777777777 18.5 56.888888888888886 12.5 64 21.5 64 27.5"></polygon><polyline fill="none" points="0 12.5 7.111111111111111 18.5 14.222222222222221 0.5 21.333333333333332 9.5 28.444444444444443 12.5 35.55555555555556 0.5 42.666666666666664 6.5 49.77777777777777 18.5 56.888888888888886 12.5 64 21.5" stroke="#0288d1" stroke-width="1" stroke-linecap="square"></polyline></svg></div>
-                <span class="uk-text-muted uk-text-small">views in OpenAIRE</span>
-                <h2 class="uk-margin-remove"><span class="countUpMe">{{ openAIREMetrics.pageViews | number }}</span></h2>
-              </div>
-            </div>
-          </div>
-          <div style="">
-            <div class="uk-card">
-              <div class="uk-card-body">
-                <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_live peity_data" style="display: none;">3,5,2,10,2,7,0,2,8,8,7,2,4,8,0,6,6,7,9,5</span><svg class="peity" height="28" width="64"><polygon fill="#efebe9" points="0 27.5 0 19.4 3.3684210526315788 14 6.7368421052631575 22.1 10.105263157894736 0.5 13.473684210526315 22.1 16.842105263157894 8.600000000000001 20.210526315789473 27.5 23.57894736842105 22.1 26.94736842105263 5.899999999999999 30.31578947368421 5.899999999999999 33.68421052631579 8.600000000000001 37.05263157894737 22.1 40.421052631578945 16.7 43.78947368421052 5.899999999999999 47.1578947368421 27.5 50.526315789473685 11.3 53.89473684210526 11.3 57.263157894736835 8.600000000000001 60.63157894736842 3.1999999999999993 64 14 64 27.5"></polygon><polyline fill="none" points="0 19.4 3.3684210526315788 14 6.7368421052631575 22.1 10.105263157894736 0.5 13.473684210526315 22.1 16.842105263157894 8.600000000000001 20.210526315789473 27.5 23.57894736842105 22.1 26.94736842105263 5.899999999999999 30.31578947368421 5.899999999999999 33.68421052631579 8.600000000000001 37.05263157894737 22.1 40.421052631578945 16.7 43.78947368421052 5.899999999999999 47.1578947368421 27.5 50.526315789473685 11.3 53.89473684210526 11.3 57.263157894736835 8.600000000000001 60.63157894736842 3.1999999999999993 64 14" stroke="#5d4037" stroke-width="1" stroke-linecap="square"></polyline></svg></div>
-                <span class="uk-text-muted uk-text-small">views in local repository</span>
-                <h2 class="uk-margin-remove" id="peity_live_text">{{ openAIREMetrics.totalViews | number }}
-                  <span *ngIf="openAIREMetrics.totalOpenaireViews" class="comment">( {{ openAIREMetrics.totalOpenaireViews | number }} from OpenAIRE )</span></h2>
-              </div>
-            </div>
-          </div>
-          <div class="" style="">
-            <div class="uk-card">
-              <div class="uk-card-body">
-                <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_visitors peity_data" style="display: none;">5,3,9,6,5,9,7</span><svg class="peity" height="28" width="48"><rect data-value="5" fill="#d84315" x="1.3714285714285717" y="12.444444444444443" width="4.114285714285715" height="15.555555555555557"></rect><rect data-value="3" fill="#d84315" x="8.228571428571428" y="18.666666666666668" width="4.114285714285716" height="9.333333333333332"></rect><rect data-value="9" fill="#d84315" x="15.085714285714287" y="0" width="4.1142857142857086" height="28"></rect><rect data-value="6" fill="#d84315" x="21.942857142857147" y="9.333333333333336" width="4.114285714285707" height="18.666666666666664"></rect><rect data-value="5" fill="#d84315" x="28.800000000000004" y="12.444444444444443" width="4.114285714285707" height="15.555555555555557"></rect><rect data-value="9" fill="#d84315" x="35.65714285714286" y="0" width="4.114285714285707" height="28"></rect><rect data-value="7" fill="#d84315" x="42.51428571428572" y="6.222222222222221" width="4.114285714285707" height="21.77777777777778"></rect></svg></div>
-                <span class="uk-text-muted uk-text-small">downloads in local repository</span>
-                <h2 class="uk-margin-remove">{{ openAIREMetrics.totalDownloads | number }}
-                  <span *ngIf="openAIREMetrics.totalOpenaireDownloads" class="comment">( {{ openAIREMetrics.totalOpenaireDownloads | number }} from OpenAIRE )</span></h2>
-              </div>
-            </div>
-          </div>
         </div>
 
-        <div class="uk-grid">
-          <div class="uk-width-1-1">
-            <div class="uk-card">
-              <div class="uk-card-body">
-                <iframe class="statsFrame" [src]="viewsUrl"></iframe>
-              </div>
-            </div>
-          </div>
-          <div class="uk-width-1-1 uk-margin-medium-top">
-            <div class="uk-card">
-              <div class="uk-card-body">
-                <iframe class="statsFrame" [src]="downloadsUrl"></iframe>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
     </div>
-
-  </div>
-
-</div>

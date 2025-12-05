@@ -23,9 +23,9 @@ declare var UIkit: any;
 
 
 @Component({
-  selector: 'app-provider-stats',
-  templateUrl: './provider-stats.component.html',
-  // styleUrls: ['']
+    selector: 'app-provider-stats',
+    templateUrl: './provider-stats.component.html',
+    standalone: false
 })
 
 export class ProviderStatsComponent implements OnInit {

@@ -10,7 +10,7 @@ import {ServicesComponent} from './services/services.component';
 import {MessagesComponent} from './messages/messages.component';
 import {DashboardComponent} from './dashboard.component';
 import {ServiceStatsComponent} from './resource-dashboard/service-stats.component';
-import {MarkdownModule} from 'ngx-markdown';
+// import {MarkdownModule} from 'ngx-markdown';
 import {ProviderHistoryComponent} from './providerHistory/provider-history.component';
 import {ProviderFullHistoryComponent} from './providerHistory/provider-full-history.component';
 import {HighchartsChartModule} from "highcharts-angular";
@@ -28,7 +28,7 @@ import {ProviderAccountingStatsComponent} from "./providerAccountingStats/provid
     ProviderDashboardRouting,
     ReusableComponentsModule,
     HighchartsChartModule,
-    MarkdownModule.forChild(),
+    // MarkdownModule.forChild(),
 
   ],
   declarations: [

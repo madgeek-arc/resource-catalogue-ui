@@ -13,9 +13,10 @@ import {CatalogueService} from "../../../../services/catalogue.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-catalogue-providers',
-  templateUrl: './catalogue-providers.component.html',
-  styleUrls: ['../../../provider/dashboard/services/service.component.css']
+    selector: 'app-catalogue-providers',
+    templateUrl: './catalogue-providers.component.html',
+    styleUrls: ['../../../provider/dashboard/services/service.component.css'],
+    standalone: false
 })
 
 export class CatalogueProvidersComponent implements OnInit {

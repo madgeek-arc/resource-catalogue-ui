@@ -10,9 +10,10 @@ import {TrainingResourceService} from "../../../../services/training-resource.se
 import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 @Component({
-  selector: 'app-training-resource-full-history',
-  templateUrl: './training-resource-full-history.component.html',
-  styleUrls: ['../resource-dashboard/service-stats.component.css']
+    selector: 'app-training-resource-full-history',
+    templateUrl: './training-resource-full-history.component.html',
+    styleUrls: ['../resource-dashboard/service-stats.component.css'],
+    standalone: false
 })
 
 export class TrainingResourceFullHistoryComponent implements OnInit, OnDestroy {

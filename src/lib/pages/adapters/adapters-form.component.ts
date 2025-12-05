@@ -15,10 +15,11 @@ import {zip} from "rxjs";
 import {AdaptersService} from "../../services/adapters.service";
 
 @Component({
-  selector: 'app-resource-adapters-form',
-  templateUrl: './adapters-form.component.html',
-  styleUrls: ['../provider/service-provider-form.component.css'],
-  providers: [FormControlService]
+    selector: 'app-resource-adapters-form',
+    templateUrl: './adapters-form.component.html',
+    styleUrls: ['../provider/service-provider-form.component.css'],
+    providers: [FormControlService],
+    standalone: false
 })
 export class AdaptersFormComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent
@@ -73,10 +74,10 @@ export class AdaptersFormComponent implements OnInit {
     this.weights[0] = this.authenticationService.getUserEmail().split('@')[0];
   }
 
-  submitForm(value) {
+  submitForm(formData) {
     window.scrollTo(0, 0);
-    if (!value[0].value.Adapter.serviceId) value[0].value.Adapter.serviceId = decodeURIComponent(this.adapterId);
-    this.adaptersService.uploadAdapter(value[0].value.Adapter, this.editMode).subscribe(
+    if (!formData.value.Adapter.serviceId) formData.value.Adapter.serviceId = decodeURIComponent(this.adapterId);
+    this.adaptersService.uploadAdapter(formData.value.Adapter, this.editMode).subscribe(
       _service => {
         this.showLoader = false;
         this.router.navigate(['/adapters/my']);

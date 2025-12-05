@@ -12,9 +12,10 @@ import {environment} from "../../../../../environments/environment";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-catalogue-training-resources',
-  templateUrl: './catalogue-training-resources.component.html',
-  styleUrls: ['../../../provider/dashboard/services/service.component.css']
+    selector: 'app-catalogue-training-resources',
+    templateUrl: './catalogue-training-resources.component.html',
+    styleUrls: ['../../../provider/dashboard/services/service.component.css'],
+    standalone: false
 })
 
 export class CatalogueTrainingResourcesComponent implements OnInit {

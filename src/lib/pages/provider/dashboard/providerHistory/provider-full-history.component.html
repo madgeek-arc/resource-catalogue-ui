@@ -1,80 +1,99 @@
 <div class="uk-section uk-section-xsmall uk-padding-remove-bottom">
   <div class="uk-container uk-container-expand">
 
-        <div class="services-provider-container">
-          <div *ngIf="providerBundle" class="uk-flex">
-            <div>
-              <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
-            </div>
-            <div class="uk-margin-medium-left">
-              <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
-              <div><span class="status-label">ID: </span>{{ providerBundle.id}}</div>
-              <div><span class="status-label">Status: </span>{{providerBundle.status | titlecase}}</div>
+    <div class="services-provider-container">
+      @if (providerBundle) {
+        <div class="uk-flex">
+          <div>
+            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+          </div>
+          <div class="uk-margin-medium-left">
+            <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
+            <div><span class="status-label">ID: </span>{{ providerBundle.id}}</div>
+            <div><span class="status-label">Status: </span>{{providerBundle.status | titlecase}}</div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+      <div class="uk-grid">
+
+        <!-- MIDDLE -->
+        <div class=" uk-width-expand@m">
+
+          @if (errorMessage) {
+            <div class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
+          }
+          <!--              <div *ngIf="loadingMessage" class="loading-big">-->
+          <!--                <div class="loader-big" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">-->
+          <!--                  {{ loadingMessage }}-->
+        <!--                </div>-->
+        <!--                <div class="transparentFilm"></div>-->
+      <!--              </div>-->
+      <!--              <div *ngIf="noAggregations">{{ noAggregations }}</div>-->
+      @if (providerHistory?.results?.length>0) {
+        <div>
+          <div  class="uk-width-1-1@m uk-margin-medium-bottom">
+            <div class="uk-card uk-card-default uk-margin-medium-bottom">
+              <div class="uk-overflow-container">
+                <table class="uk-table uk-table-divider uk-table-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>User</th>
+                      <th >Action</th>
+                      <th class="uk-text-center">Comment</th>
+                      <!--                          <th class="uk-text-center">Version changed</th>-->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (history of providerHistory.results; track history) {
+                      <tr>
+                        <td>@if (history.date) {
+                          <span>{{ history.date | date : "MM-dd-yyyy" }}</span>
+                        }</td>
+                        <td class="">
+                          @if (history.userFullName) {
+                            <span>{{ history.userFullName }}</span>
+                          }
+                          @if (history.userFullName && history.userEmail) {
+                            <span> - </span>
+                          }
+                          @if (history.userEmail) {
+                            <span>{{ history.userEmail }}</span>
+                          }
+                          @if (history.userRole) {
+                            <span> ({{ history.userRole }})</span>
+                          }</td>
+                          <td class="">@if (history.actionType) {
+                            <span>{{ history.actionType }}</span>
+                          }</td>
+                          <td class="uk-text-center">@if (history.comment && history.comment!=='null') {
+                            <span>{{ history.comment }}</span>
+                          }</td>
+                          <!--                          <td class="uk-text-center"><span-->
+                        <!--                            *ngIf="history.actionType === 'updated version'" class="uk-badge">✓</span>-->
+                      <!--                          </td>-->
+                    </tr>
+                  }
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
+      </div>
+    }
 
-        <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
-          <div class="uk-grid">
-
-            <!-- MIDDLE -->
-            <div class=" uk-width-expand@m">
-
-              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
-              <!--              <div *ngIf="loadingMessage" class="loading-big">-->
-              <!--                <div class="loader-big" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">-->
-              <!--                  {{ loadingMessage }}-->
-              <!--                </div>-->
-              <!--                <div class="transparentFilm"></div>-->
-              <!--              </div>-->
-              <!--              <div *ngIf="noAggregations">{{ noAggregations }}</div>-->
-              <div *ngIf="providerHistory?.results?.length>0">
-                <div  class="uk-width-1-1@m uk-margin-medium-bottom">
-
-                  <div class="uk-card uk-card-default uk-margin-medium-bottom">
-                    <div class="uk-overflow-container">
-                      <table class="uk-table uk-table-divider uk-table-nowrap">
-                        <thead>
-                        <tr>
-                          <th>Date</th>
-                          <th>User</th>
-                          <th >Action</th>
-                          <th class="uk-text-center">Comment</th>
-<!--                          <th class="uk-text-center">Version changed</th>-->
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="let history of providerHistory.results">
-                          <td><span *ngIf="history.date">{{ history.date | date : "MM-dd-yyyy" }}</span></td>
-                          <td class="">
-                            <span *ngIf="history.userFullName">{{ history.userFullName }}</span>
-                            <span *ngIf="history.userFullName && history.userEmail"> - </span>
-                            <span *ngIf="history.userEmail">{{ history.userEmail }}</span>
-                            <span *ngIf="history.userRole"> ({{ history.userRole }})</span></td>
-                          <td class=""><span *ngIf="history.actionType">{{ history.actionType }}</span></td>
-                          <td class="uk-text-center"><span *ngIf="history.comment && history.comment!=='null'">{{ history.comment }}</span></td>
-<!--                          <td class="uk-text-center"><span-->
-<!--                            *ngIf="history.actionType === 'updated version'" class="uk-badge">✓</span>-->
-<!--                          </td>-->
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
-
-                  </div>
-
-                </div>
-              </div>
-
-              <button [routerLink]="['/dashboard/' + catalogueConfigId +'/'+ providerId + '/history']"
-                      class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
-              </button>
-
-            </div>
-
-          </div>
-        </div>
+    <button [routerLink]="['/dashboard/' + catalogueConfigId +'/'+ providerId + '/history']"
+      class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+    </button>
 
   </div>
+
+</div>
+</div>
+
+</div>
 </div>

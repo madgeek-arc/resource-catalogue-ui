@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from "../../../lib/services/authentication.service";
 
 @Component({
-  selector: 'app-external-header',
-  template: `<div
+    selector: 'app-external-header',
+    template: `<div
       class="commons-header"
       [attr.username]="name"
       [attr.login-url]="loginUrl"
       [attr.logout-url]="logoutUrl"
   ></div>`,
+    standalone: false
 })
 export class ExternalHeaderComponent implements OnInit {
   name = this.authService.getUserName();

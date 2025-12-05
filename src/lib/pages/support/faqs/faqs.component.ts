@@ -7,9 +7,10 @@ import {ActiveTopicQuestions} from '../../../domain/faq-active-topic-questions';
 import {FAQService} from '../../../services/faq.service';
 
 @Component({
-  selector: 'app-faqs',
-  templateUrl: './faqs.component.html',
-  styleUrls: ['./faqs.component.css']
+    selector: 'app-faqs',
+    templateUrl: './faqs.component.html',
+    styleUrls: ['./faqs.component.css'],
+    standalone: false
 })
 export class FAQsComponent implements OnInit {
 

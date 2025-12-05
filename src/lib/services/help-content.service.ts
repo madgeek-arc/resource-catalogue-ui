@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {PageContent} from '../domain/page-content';
 import {environment} from '../../environments/environment';
 import {throwError} from 'rxjs';

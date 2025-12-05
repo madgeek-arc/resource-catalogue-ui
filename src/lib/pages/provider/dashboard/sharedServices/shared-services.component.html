@@ -2,82 +2,87 @@
   <div class="uk-container uk-container-expand">
 
     <div class="services-provider-container">
-      <div *ngIf="providerBundle" class="uk-flex">
-        <div>
-          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+      @if (providerBundle) {
+        <div class="uk-flex">
+          <div>
+            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+          </div>
+          <div class="uk-margin-medium-left">
+            <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
+            <div><span class="status-label">ID: </span>{{ providerBundle.id}}</div>
+            <div><span class="status-label">Status: </span>{{providerBundle.status | titlecase}}</div>
+          </div>
         </div>
-        <div class="uk-margin-medium-left">
-          <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
-          <div><span class="status-label">ID: </span>{{ providerBundle.id}}</div>
-          <div><span class="status-label">Status: </span>{{providerBundle.status | titlecase}}</div>
-        </div>
-      </div>
+      }
     </div>
 
     <div class="uk-margin-large-top">
-      <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">
-        <p>{{errorMessage}}</p>
-      </div>
-
-      <div *ngIf="providerServices && providerServices?.results?.length === 0">
-        <p>No shared {{serviceORresource | lowercase}}s found</p>
-      </div>
-
-      <div *ngIf="providerServices && providerServices?.results?.length > 0">
-
-        <div class="uk-flex uk-flex-middle uk-flex-between">
-
-          <div class="resultsInfo">
-            <span class="number">{{total}}</span> SHARED {{serviceORresource | uppercase}}S, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
-          </div>
-
-          <ul class="uk-pagination" uk-margin>
-            <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
-            <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
-              <a (click)="goToPage(i)">{{i}}</a>
-            </li>
-            <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
-          </ul>
-
+      @if (errorMessage) {
+        <div class="uk-alert uk-alert-danger">
+          <p>{{errorMessage}}</p>
         </div>
+      }
 
-        <hr class="adminResultsHeader">
+      @if (providerServices && providerServices?.results?.length === 0) {
+        <div>
+          <p>No shared {{serviceORresource | lowercase}}s found</p>
+        </div>
+      }
 
-        <div class="uk-margin-medium-top">
-          <div *ngFor="let serviceBundle of providerServices.results" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
-
-            <div class="uk-card-body">
-              <div class="uk-grid uk-flex-middle">
-                <div class="uk-width-1-6">
-                  <img src="{{serviceBundle.service.logo ? serviceBundle.service.logo : '/assets/images/broken_image-black-48dp.svg'}}">
-                </div>
-                <div class="uk-width-2-3">
-                  <h4 class="uk-margin-remove">
-                    <a (click)="navigate(serviceBundle.id)">{{serviceBundle.service.name}}</a>
-                  </h4>
-                  <span *ngIf="serviceBundle.service.description" class="uk-margin-small-top"><markdown [data]="serviceBundle.service.description"></markdown></span>
-                </div>
-                <div class="uk-width-1-6">
-                  <div class="action-buttons">
-                    <!--                      no button atm-->
+      @if (providerServices && providerServices?.results?.length > 0) {
+        <div>
+          <div class="uk-flex uk-flex-middle uk-flex-between">
+            <div class="resultsInfo">
+              <span class="number">{{total}}</span> SHARED {{serviceORresource | uppercase}}S, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+            </div>
+            <ul class="uk-pagination" uk-margin>
+              <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+              @for (i of pages; track i) {
+                <li [ngClass]="i === currentPage ? 'uk-active': ''">
+                  <a (click)="goToPage(i)">{{i}}</a>
+                </li>
+              }
+              <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+            </ul>
+          </div>
+          <hr class="adminResultsHeader">
+          <div class="uk-margin-medium-top">
+            @for (serviceBundle of providerServices.results; track serviceBundle) {
+              <div class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+                <div class="uk-card-body">
+                  <div class="uk-grid uk-flex-middle">
+                    <div class="uk-width-1-6">
+                      <img src="{{serviceBundle.service.logo ? serviceBundle.service.logo : '/assets/images/broken_image-black-48dp.svg'}}">
+                    </div>
+                    <div class="uk-width-2-3">
+                      <h4 class="uk-margin-remove">
+                        <a (click)="navigate(serviceBundle.id)">{{serviceBundle.service.name}}</a>
+                      </h4>
+                      @if (serviceBundle.service.description) {
+                        <span class="uk-margin-small-top"><markdown [data]="serviceBundle.service.description"></markdown></span>
+                      }
+                    </div>
+                    <div class="uk-width-1-6">
+                      <div class="action-buttons">
+                        <!--                      no button atm-->
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-
-            </div>
-
+            }
           </div>
+          <ul class="uk-pagination uk-flex-right" uk-margin>
+            <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+            @for (i of pages; track i) {
+              <li [ngClass]="i === currentPage ? 'uk-active': ''">
+                <a (click)="goToPage(i)">{{i}}</a>
+              </li>
+            }
+            <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+          </ul>
         </div>
-
-        <ul class="uk-pagination uk-flex-right" uk-margin>
-          <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
-          <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
-            <a (click)="goToPage(i)">{{i}}</a>
-          </li>
-          <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
-        </ul>
-
-      </div>
+      }
 
     </div>
 

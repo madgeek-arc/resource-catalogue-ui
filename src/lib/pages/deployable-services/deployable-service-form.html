@@ -1,60 +1,66 @@
-<div *ngIf="showLoader" class="uk-margin-large-top">
-  <div class="loader-big"></div>
-</div>
-
-<div *ngIf="model && vocabularies && subVocabularies" class="uk-section-default uk-section uk-section-small uk-padding-remove-top uk-padding-remove-bottom" style="min-height: 90vh;">
-  <div class="uk-container uk-container-expand uk-margin-left uk-margin-right">
-
-    <div *ngIf="errorMessage" id="errorAlert" class="uk-alert-danger" uk-alert>
-      <a class="uk-alert-close" uk-close></a>
-      <pre class="uk-alert-danger">{{errorMessage}}</pre>
-    </div>
-
-    <ng-container *ngIf="(editMode && payloadAnswer) || !editMode">
-      <app-survey [payload]="payloadAnswer" [model]="model" [vocabulariesMap]="vocabulariesMap" [subVocabularies]="subVocabulariesMap"
-                  [tabsHeader]="" (submit)="showCommentModal($event)" [activeUsers]="[]">
-
-        <div *ngIf="model" class="uk-grid form-top-section">
-          <h5 class="uk-width-1-1 uk-margin-bottom">{{ model.name }}</h5>
-          <p class="uk-margin-bottom" [innerHTML]="model.notice"></p>
-        </div>
-
-        <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end" style="min-height: 40px">
-          <div>
-            <button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">
-              Submit
-            </button>
-          </div>
-        </div>
-      </app-survey>
-    </ng-container>
+@if (showLoader) {
+  <div class="uk-margin-large-top">
+    <div class="loader-big"></div>
   </div>
-</div>
+}
 
-<ng-container *ngIf="isDevMode()">
+@if (model && vocabularies && subVocabularies) {
+  <div class="uk-section-default uk-section uk-section-small uk-padding-remove-top uk-padding-remove-bottom" style="min-height: 90vh;">
+    <div class="uk-container uk-container-expand uk-margin-left uk-margin-right">
+      @if (errorMessage) {
+        <div id="errorAlert" class="uk-alert-danger" uk-alert>
+          <a class="uk-alert-close" uk-close></a>
+          <pre class="uk-alert-danger">{{errorMessage}}</pre>
+        </div>
+      }
+      @if ((editMode && payloadAnswer) || !editMode) {
+        <app-survey [payload]="payloadAnswer" [model]="model" [vocabulariesMap]="vocabulariesMap" [subVocabularies]="subVocabulariesMap"
+          [tabsHeader]="" (submit)="showCommentModal($event)" [activeUsers]="[]">
+          @if (model) {
+            <div class="uk-grid form-top-section">
+              <h5 class="uk-width-1-1 uk-margin-bottom">{{ model.name }}</h5>
+              <p class="uk-margin-bottom" [innerHTML]="model.notice"></p>
+            </div>
+          }
+          <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end" style="min-height: 40px">
+            <div>
+              <button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">
+                Submit
+              </button>
+            </div>
+          </div>
+        </app-survey>
+      }
+    </div>
+  </div>
+}
+
+@if (isDevMode()) {
   <pre>{{this.payloadAnswer|json}}</pre>
-</ng-container>
+}
 
 <!--<div id="modal-preview" class="uk-flex-top uk-modal-container" uk-modal="bg-close: true; esc-close: true;">
-  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+<div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
 
-    <ng-container *ngIf="(providersPage?.results?.length > 0) && !disable">
-      <app-preview-resource [resource]="serviceForm.value" [vocabularies]="vocabularies" [providers]="providersPage.results"></app-preview-resource>
-    </ng-container>
+  <ng-container *ngIf="(providersPage?.results?.length > 0) && !disable">
+    <app-preview-resource [resource]="serviceForm.value" [vocabularies]="vocabularies" [providers]="providersPage.results"></app-preview-resource>
+  </ng-container>
 
-  </div>
+</div>
 </div>-->
 
 <div id="commentModal" uk-modal>
-  <div *ngIf="!showLoader" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h4>Add a comment <span style="color: grey">(optional)</span></h4>
-    <p class="uk-margin">Before submitting your changes, please provide us with the reason of your update and any comments you may have.</p>
-    <form>
-      <div class="uk-margin">
-        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
-      </div>
-    </form>
-    <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="submit" (click)="submitForm(formDataToSubmit,false,false)">Submit</button>
-    <!--    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>-->
-  </div>
+  @if (!showLoader) {
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+      <h4>Add a comment <span style="color: grey">(optional)</span></h4>
+      <p class="uk-margin">Before submitting your changes, please provide us with the reason of your update and any comments you may have.</p>
+      <form>
+        <div class="uk-margin">
+          <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
+        </div>
+      </form>
+      <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="submit" (click)="submitForm(formDataToSubmit,false,false)">Submit</button>
+      <!--    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>-->
+    </div>
+  }
 </div>

@@ -22,9 +22,10 @@ import {ConfigService} from "../../services/config.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-training-resource-form',
-  templateUrl: './training-resource-form.html',
-  styleUrls: ['../provider/service-provider-form.component.css']
+    selector: 'app-training-resource-form',
+    templateUrl: './training-resource-form.html',
+    styleUrls: ['../provider/service-provider-form.component.css'],
+    standalone: false
 })
 export class TrainingResourceForm implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent
@@ -239,8 +240,8 @@ export class TrainingResourceForm implements OnInit {
     this.weights[0] = this.authenticationService.getUserEmail().split('@')[0];
   }
 
-  submitForm(value: any, tempSave: boolean, pendingService: boolean) {//TODO
-    let trValue = value[0].value.TrainingResource;
+  submitForm(formData: any, tempSave: boolean, pendingService: boolean) {//TODO
+    let trValue = formData.value.TrainingResource;
     window.scrollTo(0, 0);
 
     if (!this.authenticationService.isLoggedIn()) {

@@ -16,9 +16,10 @@ import {environment} from '../../../environments/environment';
 import {ConfigService} from "../../services/config.service";
 
 @Component({
-  selector: 'app-service-edit',
-  templateUrl: './service-form.component.html',
-  styleUrls: ['../provider/service-provider-form.component.css']
+    selector: 'app-service-edit',
+    templateUrl: './service-form.component.html',
+    styleUrls: ['../provider/service-provider-form.component.css'],
+    standalone: false
 })
 export class ServiceEditComponent extends ServiceFormComponent implements OnInit {
 

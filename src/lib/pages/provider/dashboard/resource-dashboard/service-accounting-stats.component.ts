@@ -7,8 +7,9 @@ import {Service} from "../../../../domain/eic-model";
 
 
 @Component({
-  selector: 'app-service-accounting-stats',
-  templateUrl: './service-accounting-stats.component.html'
+    selector: 'app-service-accounting-stats',
+    templateUrl: './service-accounting-stats.component.html',
+    standalone: false
 })
 export class ServiceAccountingStatsComponent implements OnInit {
 

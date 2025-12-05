@@ -11,8 +11,9 @@ import {config} from "rxjs";
 import {ConfigService} from "../../services/config.service";
 
 @Component({
-  selector: 'app-add-first-training-resource',
-  templateUrl: './training-resource-form.html'
+    selector: 'app-add-first-training-resource',
+    templateUrl: './training-resource-form.html',
+    standalone: false
 })
 export class AddFirstTrainingResourceComponent extends TrainingResourceForm implements OnInit {
 

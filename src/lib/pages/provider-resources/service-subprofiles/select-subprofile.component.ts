@@ -6,8 +6,9 @@ import {Service} from "../../../domain/eic-model";
 import {pidHandler} from "../../../shared/pid-handler/pid-handler.service";
 
 @Component({
-  selector: 'app-select-subprofile',
-  templateUrl: './select-subprofile.component.html',
+    selector: 'app-select-subprofile',
+    templateUrl: './select-subprofile.component.html',
+    standalone: false
 })
 
 export class SelectSubprofileComponent implements OnInit {

@@ -6,48 +6,46 @@
         <div class="uk-container uk-container-large uk-margin-medium-top uk-margin-medium-bottom">
           <div class="uk-grid">
             <div class=" uk-width-expand@m">
-              ﻿
+
               <div class="uk-text-center">
 
-                <ng-container *ngIf="service">
+                @if (service) {
                   <h3>Want to add a subprofile to your {{serviceORresource}}?</h3>
                   <p>You can skip this step and manage subprofiles anytime from the
                     <a [routerLink]="'/dashboard/'+service.catalogueId+'/'+pidHandler.customEncodeURIComponent(service.resourceOrganisation)+'/resource-dashboard/'+pidHandler.customEncodeURIComponent(service.id)+'/history'">{{serviceORresource | lowercase}} dashboard</a>.</p>
-
-                  <div class="uk-inline uk-margin-right">
-                    <label class="" style="margin-right: 5px" for="subprofile">Subprofile</label>
+                    <div class="uk-inline uk-margin-right">
+                      <label class="" style="margin-right: 5px" for="subprofile">Subprofile</label>
+                      <div class="uk-inline">
+                        <select class="uk-input uk-select" id="subprofile" [(ngModel)]="selectedSubprofile" name="subprofile">
+                          <option value="datasource">Datasource</option>
+                        </select>
+                      </div>
+                    </div>
                     <div class="uk-inline">
-                      <select class="uk-input uk-select" id="subprofile" [(ngModel)]="selectedSubprofile" name="subprofile">
-                        <option value="datasource">Datasource</option>
-                      </select>
+                      <div class="uk-flex uk-flex-right">
+                        <button [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(service.resourceOrganisation) + '/resource/' + pidHandler.customEncodeURIComponent(serviceId) + '/datasource/select/']"
+                          class="uk-button" [ngClass]="!selectedSubprofile ? 'uk-disabled' : 'uk-button-secondary'">
+                          Next <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  }
 
-                  <div class="uk-inline">
-                    <div class="uk-flex uk-flex-right">
-                      <button [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(service.resourceOrganisation) + '/resource/' + pidHandler.customEncodeURIComponent(serviceId) + '/datasource/select/']"
-                              class="uk-button" [ngClass]="!selectedSubprofile ? 'uk-disabled' : 'uk-button-secondary'">
-                        Next <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                      </button>
-                    </div>
-                  </div>
-                </ng-container>
-
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <ng-container *ngIf="service">
-<!--        <button [routerLink]="['/dashboard/'+this.service.catalogueId+'/'+this.service.resourceOrganisation+'/resources']"-->
-<!--                class="uk-button uk-button-action uk-display-block uk-margin-medium-top" style="padding-left: 30px">-->
-<!--          <i class="fa fa-arrow-left" aria-hidden="true"></i> Dashboard-->
-<!--        </button>-->
-<!--        <button [routerLink]="['/dashboard/'+this.service.catalogueId+'/'+this.service.resourceOrganisation+'/resource-dashboard/'+this.service.id+'/history']"-->
-<!--                class="uk-button uk-button-action uk-display-block uk-margin-medium-top" style="padding-left: 30px">-->
-<!--          <i class="fa fa-arrow-left" aria-hidden="true"></i> {{serviceORresource}} Dashboard-->
-<!--        </button>-->
-      </ng-container>
-    </div>
+        @if (service) {
+          <!--        <button [routerLink]="['/dashboard/'+this.service.catalogueId+'/'+this.service.resourceOrganisation+'/resources']"-->
+          <!--                class="uk-button uk-button-action uk-display-block uk-margin-medium-top" style="padding-left: 30px">-->
+          <!--          <i class="fa fa-arrow-left" aria-hidden="true"></i> Dashboard-->
+        <!--        </button>-->
+        <!--        <button [routerLink]="['/dashboard/'+this.service.catalogueId+'/'+this.service.resourceOrganisation+'/resource-dashboard/'+this.service.id+'/history']"-->
+        <!--                class="uk-button uk-button-action uk-display-block uk-margin-medium-top" style="padding-left: 30px">-->
+        <!--          <i class="fa fa-arrow-left" aria-hidden="true"></i> {{serviceORresource}} Dashboard-->
+      <!--        </button>-->
+    }
   </div>
+</div>
 </div>

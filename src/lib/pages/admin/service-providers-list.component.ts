@@ -19,8 +19,9 @@ import {ConfigService} from '../../services/config.service';
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-service-providers-list',
-  templateUrl: './service-providers-list.component.html'
+    selector: 'app-service-providers-list',
+    templateUrl: './service-providers-list.component.html',
+    standalone: false
 })
 export class ServiceProvidersListComponent implements OnInit {
   catalogueConfigId: string | null = null;

@@ -349,7 +349,7 @@
                                 <div>
                                   <div class="uk-margin-small-top">
                                     <span class="statusLabel">Creation Date: </span>
-                                    <ng-container *ngIf="serviceBundle.metadata.registeredAt>0; else noCreationDate">{{ serviceBundle.metadata.registeredAt | date }}</ng-container>
+                                    <ng-container *ngIf="serviceBundle.metadata.registeredAt; else noCreationDate">{{ serviceBundle.metadata.registeredAt | date }}</ng-container>
                                     <ng-template #noCreationDate><i>Unknown</i></ng-template>
                                   </div>
                                   <div class="uk-margin-small-top">
@@ -924,7 +924,7 @@
 <!--              </div>-->
               <div class="uk-margin-small-top">
                 <span class="statusLabel">Creation Date: </span>
-                <ng-container *ngIf="serviceBundle.metadata.registeredAt>0; else noCreationDate">{{ serviceBundle.metadata.registeredAt | date }}</ng-container>
+                <ng-container *ngIf="serviceBundle.metadata.registeredAt; else noCreationDate">{{ serviceBundle.metadata.registeredAt | date }}</ng-container>
                 <ng-template #noCreationDate><i>Unknown</i></ng-template>
               </div>
               <div class="uk-margin-small-top">

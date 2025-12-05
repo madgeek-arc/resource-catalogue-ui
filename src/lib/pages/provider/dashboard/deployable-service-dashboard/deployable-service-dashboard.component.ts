@@ -12,8 +12,9 @@ import {DeployableServiceService} from "../../../../services/deployable-service.
 
 
 @Component({
-  selector: 'app-deployable-service-dashboard',
-  templateUrl: './deployable-service-dashboard.component.html',
+    selector: 'app-deployable-service-dashboard',
+    templateUrl: './deployable-service-dashboard.component.html',
+    standalone: false
 })
 export class DeployableServiceDashboardComponent implements OnInit {
   catalogueConfigId: string | null = null;

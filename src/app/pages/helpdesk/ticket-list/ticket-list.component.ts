@@ -2,12 +2,36 @@ import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { HelpdeskService } from "../../../services/helpdesk.service";
 import { HelpdeskTicketResponse } from "../../../../lib/domain/eic-model";
+import {TicketModalComponent} from '../ticket-modal/ticket-modal.component';
 
 @Component({
   selector: "app-ticket-list",
   templateUrl: "./ticket-list.component.html",
   styleUrls: ["./ticket-list.component.css"],
+  standalone: true,
+  imports: [TicketModalComponent]
 })
+// @Component({
+//   selector: 'app-ticket-list',
+//   template: `
+//     <div class="ticket-list-container">
+//       <div class="list-header">
+//         <div class="header-content">
+//           <h2>My Support Tickets</h2>
+//           <p>This feature is currently under construction</p>
+//         </div>
+//       </div>
+//       <div class="construction-message">
+//         <i class="fas fa-tools"></i>
+//         <h3>Coming Soon</h3>
+//         <p>The "My Tickets" functionality is currently under development. The webhook from our backend team is still being constructed.</p>
+//         <p>You can still create new tickets using the "Create Ticket" option.</p>
+//       </div>
+//     </div>
+//   `,
+//   styleUrls: ['./ticket-list.component.css'],
+//   standalone: true
+// })
 export class TicketListComponent implements OnInit {
   tickets: HelpdeskTicketResponse[] = [];
   loading = true;

@@ -8,8 +8,9 @@ import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 
 @Component({
-  selector: 'app-datasource-submitted',
-  templateUrl: './datasource-submitted.component.html',
+    selector: 'app-datasource-submitted',
+    templateUrl: './datasource-submitted.component.html',
+    standalone: false
 })
 
 export class DatasourceSubmittedComponent implements OnInit {

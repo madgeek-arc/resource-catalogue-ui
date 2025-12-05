@@ -11,10 +11,11 @@ import {environment} from '../../../environments/environment';
 
 
 @Component({
-  selector: 'app-top-menu-eosc',
-  templateUrl: './topmenu.component.html',
-  styleUrls: ['./topmenu.component.css'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-top-menu-eosc',
+    templateUrl: './topmenu.component.html',
+    styleUrls: ['./topmenu.component.css'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class EOSCTopMenuComponent implements OnInit, OnDestroy {
 

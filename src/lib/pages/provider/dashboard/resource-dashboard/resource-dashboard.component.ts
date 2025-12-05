@@ -14,8 +14,9 @@ import {GuidelinesService} from "../../../../services/guidelines.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-resource-dashboard',
-  templateUrl: './resource-dashboard.component.html',
+    selector: 'app-resource-dashboard',
+    templateUrl: './resource-dashboard.component.html',
+    standalone: false
 })
 export class ResourceDashboardComponent implements OnInit {
 

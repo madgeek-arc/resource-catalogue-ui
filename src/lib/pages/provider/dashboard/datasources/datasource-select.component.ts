@@ -13,9 +13,10 @@ import {NavigationService} from "../../../../services/navigation.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-datasource-select',
-  templateUrl: './datasource-select.component.html',
-  styleUrls: ['../services/service.component.css']
+    selector: 'app-datasource-select',
+    templateUrl: './datasource-select.component.html',
+    styleUrls: ['../services/service.component.css'],
+    standalone: false
 })
 
 export class DatasourceSelectComponent implements OnInit {

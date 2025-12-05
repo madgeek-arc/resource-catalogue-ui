@@ -19,8 +19,9 @@ import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-guidelines-form',
-  templateUrl: './guidelines-form.component.html',
+    selector: 'app-guidelines-form',
+    templateUrl: './guidelines-form.component.html',
+    standalone: false
 })
 export class GuidelinesFormComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent
@@ -236,8 +237,8 @@ export class GuidelinesFormComponent implements OnInit {
 
   }
 
-  submitForm(value: any) {
-    let guidelinesValue = value[0].value.Guidelines;
+  submitForm(formData: any) {
+    let guidelinesValue = formData.value.Guidelines;
     window.scrollTo(0, 0);
     if (!this.authService.isLoggedIn()) {
       sessionStorage.setItem('guideline', JSON.stringify(this.guidelinesForm.value));

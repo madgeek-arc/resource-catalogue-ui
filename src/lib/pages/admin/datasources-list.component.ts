@@ -15,8 +15,9 @@ import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-datasources-list',
-  templateUrl: './datasources-list.component.html'
+    selector: 'app-datasources-list',
+    templateUrl: './datasources-list.component.html',
+    standalone: false
 })
 
 export class DatasourcesListComponent implements OnInit {

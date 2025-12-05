@@ -25,8 +25,9 @@ import {zip} from 'rxjs';
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-catalogues-list',
-  templateUrl: './catalogues-list.component.html'
+    selector: 'app-catalogues-list',
+    templateUrl: './catalogues-list.component.html',
+    standalone: false
 })
 export class CataloguesListComponent implements OnInit {
   url = environment.API_ENDPOINT;

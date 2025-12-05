@@ -3,209 +3,234 @@
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid="">
       <div class="uk-width-1-1@m uk-first-column">
 
-            <!-- MIDDLE -->
-            <div class=" uk-width-expand@m">
+        <!-- MIDDLE -->
+        <div class=" uk-width-expand@m">
 
-              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
+          @if (errorMessage) {
+            <div class="uk-alert uk-alert-danger">{{errorMessage}}</div>
+          }
 
-              <div class="uk-grid uk-margin-top">
+          <div class="uk-grid uk-margin-top">
 
-                <div class="uk-width-1-4">
+            <div class="uk-width-1-4">
 
-                  <h4>Filters</h4>
-                  <hr class="uk-margin-large-right">
+              <h4>Filters</h4>
+              <hr class="uk-margin-large-right">
 
-                  <h5>Audit State</h5>
-                  <form [formGroup]="dataForm">
-                    <div formArrayName="auditState" class="uk-padding uk-padding-remove-top">
-                      <div *ngFor="let auditState of auditStates;" class="uk-margin-small-top">
-                        <label class="status-value uk-margin-small-left">
-                          <input #auditCheckboxes class="uk-checkbox" type="checkbox" [value]="auditState"
-                                 (change)="onSelectionChange($event, 'auditState')" [checked]="isAuditStateChecked(auditState)">
-                          {{auditLabels[auditStates.indexOf(auditState)] | titlecase}}
-                        </label>
-                      </div>
+              <h5>Audit State</h5>
+              <form [formGroup]="dataForm">
+                <div formArrayName="auditState" class="uk-padding uk-padding-remove-top">
+                  @for (auditState of auditStates; track auditState) {
+                    <div class="uk-margin-small-top">
+                      <label class="status-value uk-margin-small-left">
+                        <input #auditCheckboxes class="uk-checkbox" type="checkbox" [value]="auditState"
+                          (change)="onSelectionChange($event, 'auditState')" [checked]="isAuditStateChecked(auditState)">
+                        {{auditLabels[auditStates.indexOf(auditState)] | titlecase}}
+                      </label>
                     </div>
-                  </form>
+                  }
+                </div>
+              </form>
 
-                  <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
-                    <ng-container *ngFor="let f of facets">
-                      <ng-container *ngIf="f.field === 'provider_id'">
-                        <h5 class="">Provider</h5>
-                        <div class="uk-padding uk-padding-remove-top">
-                          <div class="uk-margin-small-top" *ngFor="let provider of f.values">
+              @if (facets && facets.length>0) {
+                <div class="refineCategory uk-grid-margin">
+                  @for (f of facets; track f) {
+                    @if (f.field === 'provider_id') {
+                      <h5 class="">Provider</h5>
+                      <div class="uk-padding uk-padding-remove-top">
+                        @for (provider of f.values; track provider) {
+                          <div class="uk-margin-small-top">
                             <label class="uk-margin-small-left">
                               <input class="uk-checkbox" type="checkbox" name="filter" value="provider" data-md-icheck
-                                     (change)="this.onSelection($event, 'provider_id', provider.value)"
-                                     [checked]="isProviderChecked(provider.value)">
+                                (change)="this.onSelection($event, 'provider_id', provider.value)"
+                                [checked]="isProviderChecked(provider.value)">
                             </label>
                             <span> {{provider.label ? provider.label : provider.value}}</span>
                             <span> ({{provider.count}})</span>
                           </div>
-                        </div>
-                      </ng-container>
-
-                      <ng-container *ngIf="f.field === 'catalogue_id'">
-                        <h5 class="">Catalogue</h5>
-                        <div class="uk-padding uk-padding-remove-top">
-                          <div class="uk-margin-small-top" *ngFor="let catalogue of f.values">
+                        }
+                      </div>
+                    }
+                    @if (f.field === 'catalogue_id') {
+                      <h5 class="">Catalogue</h5>
+                      <div class="uk-padding uk-padding-remove-top">
+                        @for (catalogue of f.values; track catalogue) {
+                          <div class="uk-margin-small-top">
                             <label class="uk-margin-small-left">
                               <input class="uk-checkbox" type="checkbox" name="filter" value="catalogue" data-md-icheck
-                                     (change)="this.onSelection($event, 'catalogue_id', catalogue.value)"
-                                     [checked]="isCatalogueChecked(catalogue.value)">
+                                (change)="this.onSelection($event, 'catalogue_id', catalogue.value)"
+                                [checked]="isCatalogueChecked(catalogue.value)">
                             </label>
                             <span> {{catalogue.label ? catalogue.label : catalogue.value}}</span>
                             <span> ({{catalogue.count}})</span>
                           </div>
-                        </div>
-                      </ng-container>
-                    </ng-container>
+                        }
+                      </div>
+                    }
+                  }
+                </div>
+              }
+
+            </div>
+
+            <div class="uk-width-3-4">
+
+              <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters">
+
+                <div class="uk-margin-right">
+                  <div class="">
+                    <label class="" for="quantity">Results per page </label>
+                    <div class="uk-inline">
+                      <select class="uk-input uk-select" id="quantity" (change)="handleChangeAndResetPage()" formControlName="quantity">
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="uk-margin-right">
+
+                  <div class="uk-inline uk-margin-right">
+                    <label class="" for="orderBy">Order by </label>
+                    <div class="uk-inline">
+                      <select class="uk-input uk-select" id="orderBy" (change)="handleChangeAndResetPage()" formControlName="order">
+                        <option value="ASC">Ascending</option>
+                        <option value="DESC" selected>Descending</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="uk-inline uk-margin-right">
+                    <label class="" for="sort">Sort by </label>
+                    <div class="uk-inline">
+                      <select class="uk-input uk-select" id="sort" (change)="handleChangeAndResetPage()" formControlName="sort">
+                        <option value="title" selected>Title</option>
+                        <option value="id">ID</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="uk-inline uk-margin-right">
+                    <label class="" for="status">Status </label>
+                    <div class="uk-inline">
+                      <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
+                        <option value="" selected>All</option>
+                        <option value="approved interoperability record">Approved</option>
+                        <option value="rejected interoperability record">Rejected</option>
+                        <option value="pending interoperability record">Pending</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="uk-inline uk-margin-right">
+                    <label class="" for="active">Active </label>
+                    <div class="uk-inline">
+                      <select class="uk-input uk-select" id="active" (change)="handleChangeAndResetPage()" formControlName="active">
+                        <option value="" selected></option>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <label class="" for="suspended">Suspended </label>
+                  <div class="uk-inline">
+                    <select class="uk-input uk-select" id="suspended" (change)="handleChangeAndResetPage()" formControlName="suspended">
+                      <option value="" selected></option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
                   </div>
 
                 </div>
 
-                <div class="uk-width-3-4">
-
-                  <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters">
-
-                    <div class="uk-margin-right">
-                      <div class="">
-                        <label class="" for="quantity">Results per page </label>
-                        <div class="uk-inline">
-                          <select class="uk-input uk-select" id="quantity" (change)="handleChangeAndResetPage()" formControlName="quantity">
-                            <option value="10" selected>10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="uk-margin-right">
-
-                      <div class="uk-inline uk-margin-right">
-                        <label class="" for="orderBy">Order by </label>
-                        <div class="uk-inline">
-                          <select class="uk-input uk-select" id="orderBy" (change)="handleChangeAndResetPage()" formControlName="order">
-                            <option value="ASC">Ascending</option>
-                            <option value="DESC" selected>Descending</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div class="uk-inline uk-margin-right">
-                        <label class="" for="sort">Sort by </label>
-                        <div class="uk-inline">
-                          <select class="uk-input uk-select" id="sort" (change)="handleChangeAndResetPage()" formControlName="sort">
-                            <option value="title" selected>Title</option>
-                            <option value="id">ID</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div class="uk-inline uk-margin-right">
-                        <label class="" for="status">Status </label>
-                        <div class="uk-inline">
-                          <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
-                            <option value="" selected>All</option>
-                            <option value="approved interoperability record">Approved</option>
-                            <option value="rejected interoperability record">Rejected</option>
-                            <option value="pending interoperability record">Pending</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div class="uk-inline uk-margin-right">
-                        <label class="" for="active">Active </label>
-                        <div class="uk-inline">
-                          <select class="uk-input uk-select" id="active" (change)="handleChangeAndResetPage()" formControlName="active">
-                            <option value="" selected></option>
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <label class="" for="suspended">Suspended </label>
-                      <div class="uk-inline">
-                        <select class="uk-input uk-select" id="suspended" (change)="handleChangeAndResetPage()" formControlName="suspended">
-                          <option value="" selected></option>
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
-                        </select>
-                      </div>
-
-                    </div>
-
-                    <div class="">
-                      <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
-                        <span uk-search-icon></span>
-                        <input class="uk-search-input" type="search" placeholder="Search (id, name)" formControlName="query">
-                      </form>
-                    </div>
-
+                <div class="">
+                  <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
+                    <span uk-search-icon></span>
+                    <input class="uk-search-input" type="search" placeholder="Search (id, name)" formControlName="query">
                   </form>
+                </div>
+
+              </form>
 
 
-                  <div *ngIf="loadingMessage" class="uk-margin-large-top">
-                    <div class="loader-big"></div>
-                  </div>
+              @if (loadingMessage) {
+                <div class="uk-margin-large-top">
+                  <div class="loader-big"></div>
+                </div>
+              }
 
-                  <div *ngIf="!loadingMessage && (!guidelines || (guidelines.length==0))" class="uk-margin-large-top">
-                    No guidelines found for your selections.
-                  </div>
+              @if (!loadingMessage && (!guidelines || (guidelines.length==0))) {
+                <div class="uk-margin-large-top">
+                  No guidelines found for your selections.
+                </div>
+              }
 
-                  <div *ngIf="guidelines && (guidelines.length>0)" id="serviceForm" class="uk-margin-medium-top">
-
-                    <div class="uk-flex uk-flex-middle uk-flex-between">
-
-                      <div class="resultsInfo">
-                        <span class="number">{{total}}</span> GUIDELINES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
-                      </div>
-
-                      <ul class="uk-pagination">
-                        <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous></span><span uk-pagination-previous></span></a></li>
-                        <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
-                        <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
+              @if (guidelines && (guidelines.length>0)) {
+                <div id="serviceForm" class="uk-margin-medium-top">
+                  <div class="uk-flex uk-flex-middle uk-flex-between">
+                    <div class="resultsInfo">
+                      <span class="number">{{total}}</span> GUIDELINES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+                    </div>
+                    <ul class="uk-pagination">
+                      @if (currentPage>2 && pageTotal>5) {
+                        <li><a (click)="goToPage(1)"><span uk-pagination-previous></span><span uk-pagination-previous></span></a></li>
+                      }
+                      @if (currentPage!==1) {
+                        <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+                      }
+                      @for (i of pages; track i) {
+                        <li [ngClass]="i === currentPage ? 'uk-active': ''">
                           <a (click)="goToPage(i)">{{i}}</a>
                         </li>
-                        <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
-                        <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next></span><span uk-pagination-next></span></a></li>
-                      </ul>
-
-                    </div>
-
-
-                    <hr class="adminResultsHeader">
-
-                    <div *ngFor="let guidelineBundle of guidelines" class="uk-card provider-card uk-margin-medium-top">
+                      }
+                      @if (currentPage!==pageTotal) {
+                        <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+                      }
+                      @if (currentPage<pageTotal-1 && pageTotal>5) {
+                        <li><a (click)="goToPage(pageTotal)"><span uk-pagination-next></span><span uk-pagination-next></span></a></li>
+                      }
+                    </ul>
+                  </div>
+                  <hr class="adminResultsHeader">
+                  @for (guidelineBundle of guidelines; track guidelineBundle) {
+                    <div class="uk-card provider-card uk-margin-medium-top">
                       <div class="uk-card-body uk-padding-remove-bottom">
-
-                        <div *ngIf="guidelineBundle.status === 'approved interoperability record'" class="approved">
-                          <div class="uk-card-badge uk-label">Approved</div>
-                        </div>
-                        <div *ngIf="guidelineBundle.status === 'pending interoperability record'" class="pending">
-                          <div class="uk-card-badge uk-label">Pending</div>
-                        </div>
-                        <div *ngIf="(guidelineBundle.status === 'rejected interoperability record')" class="rejected">
-                          <div class="uk-card-badge uk-label">Rejected</div>
-                        </div>
-
-                        <div *ngIf="guidelineBundle.active" class="approved">
-                          <div class="uk-label uk-align-right">Active</div>
-                        </div>
-                        <div *ngIf="!guidelineBundle.active" class="rejected">
-                          <div class="uk-label uk-align-right" [ngClass]="guidelineBundle.status === 'pending interoperability record' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
-                        </div>
-
-                        <div *ngIf="guidelineBundle.suspended" class="rejected">
-                          <div class="uk-label uk-align-right" [ngClass]="guidelineBundle.status === 'pending interoperability record' ? 'uk-position-top-right uk-margin-xlarge-right' : ''">Suspended</div>
-                        </div>
-
+                        @if (guidelineBundle.status === 'approved interoperability record') {
+                          <div class="approved">
+                            <div class="uk-card-badge uk-label">Approved</div>
+                          </div>
+                        }
+                        @if (guidelineBundle.status === 'pending interoperability record') {
+                          <div class="pending">
+                            <div class="uk-card-badge uk-label">Pending</div>
+                          </div>
+                        }
+                        @if ((guidelineBundle.status === 'rejected interoperability record')) {
+                          <div class="rejected">
+                            <div class="uk-card-badge uk-label">Rejected</div>
+                          </div>
+                        }
+                        @if (guidelineBundle.active) {
+                          <div class="approved">
+                            <div class="uk-label uk-align-right">Active</div>
+                          </div>
+                        }
+                        @if (!guidelineBundle.active) {
+                          <div class="rejected">
+                            <div class="uk-label uk-align-right" [ngClass]="guidelineBundle.status === 'pending interoperability record' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
+                          </div>
+                        }
+                        @if (guidelineBundle.suspended) {
+                          <div class="rejected">
+                            <div class="uk-label uk-align-right" [ngClass]="guidelineBundle.status === 'pending interoperability record' ? 'uk-position-top-right uk-margin-xlarge-right' : ''">Suspended</div>
+                          </div>
+                        }
                         <div class="">
                           <div class="uk-grid">
-
                             <div class="uk-width-4-5" style="padding-left: 100px;">
                               <div class="providerName uk-margin-bottom">
                                 {{ guidelineBundle.interoperabilityRecord.title }}
@@ -221,155 +246,171 @@
                                   <div class="uk-margin-small-top">
                                     <span class="statusLabel">Catalogue ID: </span>{{ guidelineBundle.interoperabilityRecord.catalogueId }}
                                   </div>
-    <!--                              <div class="uk-margin-small-top">-->
-    <!--                                <span class="statusLabel">Creators: </span><span *ngFor="let creator of guidelineBundle.interoperabilityRecord.creators; let i = index">{{i>0 ? ', ' : ''}} {{creator.creatorNameTypeInfo.creatorName}}</span>-->
-    <!--                              </div>-->
-<!--                                  <div class="uk-margin-small-top">-->
-<!--                                    <span class="statusLabel">Description: </span>{{ guidelineBundle.interoperabilityRecord.description }}-->
-<!--                                  </div>-->
-                                </div>
-
-                                <div>
-                                  <div class="uk-margin-small-top">
-                                    <span class="statusLabel">Creation Date: </span>
-                                    <ng-container *ngIf="guidelineBundle.metadata.registeredAt>0; else noCreationDate">{{ guidelineBundle.metadata.registeredAt | date }}</ng-container>
-                                    <ng-template #noCreationDate><i>Unknown</i></ng-template>
-                                  </div>
-                                  <div class="uk-margin-small-top">
-                                    <span class="statusLabel">Last Update: </span>{{ guidelineBundle.metadata.modifiedAt | date }}
-                                  </div>
-                                  <div class="uk-margin-small-top">
-                                    <span class="statusLabel">Last Audit: </span>
-                                    <ng-container *ngIf="guidelineBundle.latestAuditInfo">
-                                      {{guidelineBundle.latestAuditInfo.actionType | titlecase}}ated
-                                      on {{ guidelineBundle.latestAuditInfo.date | date}}
-                                      by {{ guidelineBundle.latestAuditInfo.userFullName}}
-                                    </ng-container>
-                                    <ng-container *ngIf="!guidelineBundle.latestAuditInfo"><i>Never audited</i></ng-container>
-                                  </div>
-                                </div>
-
+                                  <!--                              <div class="uk-margin-small-top">-->
+                                  <!--                                <span class="statusLabel">Creators: </span><span *ngFor="let creator of guidelineBundle.interoperabilityRecord.creators; let i = index">{{i>0 ? ', ' : ''}} {{creator.creatorNameTypeInfo.creatorName}}</span>-->
+                                <!--                              </div>-->
+                                <!--                                  <div class="uk-margin-small-top">-->
+                                <!--                                    <span class="statusLabel">Description: </span>{{ guidelineBundle.interoperabilityRecord.description }}-->
+                              <!--                                  </div>-->
+                            </div>
+                            <div>
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Creation Date: </span>
+                                @if (guidelineBundle.metadata.registeredAt>0) {
+                                  {{ guidelineBundle.metadata.registeredAt | date }}
+                                } @else {
+                                  <i>Unknown</i>
+                                }
                               </div>
-                            </div>
-
-                            <div class="uk-width-1-5">
-                              <ng-container *ngIf="guidelineBundle.status === 'pending interoperability record'">
-                                <div class="action-buttons uk-flex uk-flex-middle uk-flex-center" style="flex-direction: column;">
-                                  <button (click)="verifyGuideline(guidelineBundle.id, true, 'approved interoperability record')" class="uk-button uk-button-primary uk-display-block">
-                                    <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i> Approve
-                                  </button>
-                                  <button (click)="verifyGuideline(guidelineBundle.id, true, 'rejected interoperability record')" class="uk-button uk-button-danger uk-display-block uk-margin-small-top">
-                                    <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>  Reject
-                                  </button>
-
-<!--                                <button routerLink="/guidelines/{{guidelineBundle.interoperabilityRecord.providerId}}/update/{{guidelineBundle.id}}" class="uk-button uk-button-primary uk-display-block">-->
-<!--                                  <i class="fa fa-edit fa-lg" aria-hidden="true"></i> Update-->
-<!--                                </button>-->
-<!--                                <button (click)="showDeletionModal(guidelineBundle.id)" class="uk-button uk-button-danger uk-display-block">-->
-<!--                                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete-->
-<!--                                </button>-->
-                                </div>
-                              </ng-container>
-                            </div>
-                          </div>
-
-                          <hr class="uk-margin-top">
-                          <div class="uk-align-right uk-margin-bottom">
-                            <ng-container *ngIf="guidelineBundle.interoperabilityRecord.catalogueId===catalogueConfigId">
-                              <button
-                                routerLink="/guidelines/{{pidHandler.customEncodeURIComponent(guidelineBundle.interoperabilityRecord.providerId)}}/update/{{pidHandler.customEncodeURIComponent(guidelineBundle.id)}}"
-                                class="uk-button uk-button-link"
-                                style="">
-                                <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
-                                Update
-                              </button>
-
-                              <button (click)="showDeletionModal(guidelineBundle.id)"
-                                      class="uk-button uk-button-link uk-margin-medium-left"
-                                      style="padding-left: 40px; border-left: 1px solid #ccc">
-                                <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
-                                Delete
-                              </button>
-                            </ng-container>
-
-                            <button class="uk-button uk-button-link uk-margin-medium-left"
-                                    style="padding-left: 40px; border-left: 1px solid #ccc">
-                              <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
-                            </button>
-                            <div uk-dropdown="mode: click">
-                              <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                                <ng-container *ngIf="guidelineBundle.active && guidelineBundle.status=='approved interoperability record'">
-                                  <li class="uk-margin-small-bottom"
-                                      (click)="showAuditForm(guidelineBundle)">
-                                    <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
-                                  </li>
-                                </ng-container>
-                                <li *ngIf="(guidelineBundle.status === 'approved interoperability record') && (!guidelineBundle.active)"
-                                    (click)="publishGuideline(guidelineBundle.id, true)"
-                                    class="uk-margin-small-top">
-                                  <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
-                                </li>
-                                <li *ngIf="(guidelineBundle.status === 'approved interoperability record') && (guidelineBundle.active)"
-                                    (click)="publishGuideline(guidelineBundle.id, false)"
-                                    class="uk-margin-small-top">
-                                  <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Deactivate</a>
-                                </li>
-                                <li *ngIf="(guidelineBundle.suspended==false)"
-                                    (click)="showSuspensionModal(guidelineBundle)"
-                                    class="uk-margin-small-top">
-                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Suspend</a>
-                                </li>
-                                <li *ngIf="(guidelineBundle.suspended==true)"
-                                    (click)="showSuspensionModal(guidelineBundle)"
-                                    class="uk-margin-small-top">
-                                  <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
-                                </li>
-                              </ul>
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Last Update: </span>{{ guidelineBundle.metadata.modifiedAt | date }}
+                              </div>
+                              <div class="uk-margin-small-top">
+                                <span class="statusLabel">Last Audit: </span>
+                                @if (guidelineBundle.latestAuditInfo) {
+                                  {{guidelineBundle.latestAuditInfo.actionType | titlecase}}ated
+                                  on {{ guidelineBundle.latestAuditInfo.date | date}}
+                                  by {{ guidelineBundle.latestAuditInfo.userFullName}}
+                                }
+                                @if (!guidelineBundle.latestAuditInfo) {
+                                  <i>Never audited</i>
+                                }
+                              </div>
                             </div>
                           </div>
                         </div>
-
-                        <ng-container *ngIf="guidelineBundle.active">
-                          <div *ngIf="showMainAuditForm && selectedGuideline === guidelineBundle">
-                            <!--                            <hr>-->
-                            <div>
-                              <p>You are about to audit "{{ selectedGuideline.interoperabilityRecord.title }}".</p>
-                              <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
-                            </div>
-                            <form>
-                              <div class="uk-margin">
-                                <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentAuditControl"></textarea>
-                              </div>
-                            </form>
-                            <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetAuditView()">Close</button>
-                            <button class="uk-button uk-button-secondary uk-align-right" type="submit" (click)="auditResourceAction('VALID', selectedGuideline)">Validate</button>
-                            <button class="uk-button uk-button-danger uk-align-right" type="submit" (click)="auditResourceAction('INVALID', selectedGuideline)">Invalidate</button>
-                          </div>
-                        </ng-container>
-
-                      </div>
+                        <div class="uk-width-1-5">
+                          @if (guidelineBundle.status === 'pending interoperability record') {
+                            <div class="action-buttons uk-flex uk-flex-middle uk-flex-center" style="flex-direction: column;">
+                              <button (click)="verifyGuideline(guidelineBundle.id, true, 'approved interoperability record')" class="uk-button uk-button-primary uk-display-block">
+                                <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i> Approve
+                              </button>
+                              <button (click)="verifyGuideline(guidelineBundle.id, true, 'rejected interoperability record')" class="uk-button uk-button-danger uk-display-block uk-margin-small-top">
+                                <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>  Reject
+                              </button>
+                              <!--                                <button routerLink="/guidelines/{{guidelineBundle.interoperabilityRecord.providerId}}/update/{{guidelineBundle.id}}" class="uk-button uk-button-primary uk-display-block">-->
+                              <!--                                  <i class="fa fa-edit fa-lg" aria-hidden="true"></i> Update-->
+                            <!--                                </button>-->
+                            <!--                                <button (click)="showDeletionModal(guidelineBundle.id)" class="uk-button uk-button-danger uk-display-block">-->
+                            <!--                                  <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete-->
+                          <!--                                </button>-->
+                        </div>
+                      }
                     </div>
-
-                    <ul class="uk-pagination uk-flex-right uk-margin">
-                      <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous></span><span uk-pagination-previous></span></a></li>
-                      <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
-                      <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
-                        <a (click)="goToPage(i)">{{i}}</a>
-                      </li>
-                      <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
-                      <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next></span><span uk-pagination-next></span></a></li>
-                    </ul>
-
                   </div>
-
+                  <hr class="uk-margin-top">
+                  <div class="uk-align-right uk-margin-bottom">
+                    @if (guidelineBundle.interoperabilityRecord.catalogueId===catalogueConfigId) {
+                      <button
+                        routerLink="/guidelines/{{pidHandler.customEncodeURIComponent(guidelineBundle.interoperabilityRecord.providerId)}}/update/{{pidHandler.customEncodeURIComponent(guidelineBundle.id)}}"
+                        class="uk-button uk-button-link"
+                        style="">
+                        <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                        Update
+                      </button>
+                      <button (click)="showDeletionModal(guidelineBundle.id)"
+                        class="uk-button uk-button-link uk-margin-medium-left"
+                        style="padding-left: 40px; border-left: 1px solid #ccc">
+                        <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                        Delete
+                      </button>
+                    }
+                    <button class="uk-button uk-button-link uk-margin-medium-left"
+                      style="padding-left: 40px; border-left: 1px solid #ccc">
+                      <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
+                    </button>
+                    <div uk-dropdown="mode: click">
+                      <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+                        @if (guidelineBundle.active && guidelineBundle.status=='approved interoperability record') {
+                          <li class="uk-margin-small-bottom"
+                            (click)="showAuditForm(guidelineBundle)">
+                            <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
+                          </li>
+                        }
+                        @if ((guidelineBundle.status === 'approved interoperability record') && (!guidelineBundle.active)) {
+                          <li
+                            (click)="publishGuideline(guidelineBundle.id, true)"
+                            class="uk-margin-small-top">
+                            <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
+                          </li>
+                        }
+                        @if ((guidelineBundle.status === 'approved interoperability record') && (guidelineBundle.active)) {
+                          <li
+                            (click)="publishGuideline(guidelineBundle.id, false)"
+                            class="uk-margin-small-top">
+                            <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Deactivate</a>
+                          </li>
+                        }
+                        @if ((guidelineBundle.suspended==false)) {
+                          <li
+                            (click)="showSuspensionModal(guidelineBundle)"
+                            class="uk-margin-small-top">
+                            <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Suspend</a>
+                          </li>
+                        }
+                        @if ((guidelineBundle.suspended==true)) {
+                          <li
+                            (click)="showSuspensionModal(guidelineBundle)"
+                            class="uk-margin-small-top">
+                            <a><i aria-hidden="true" class="fa fa-dot-circle-o uk-margin-small-right"></i>Unsuspend</a>
+                          </li>
+                        }
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-
+                @if (guidelineBundle.active) {
+                  @if (showMainAuditForm && selectedGuideline === guidelineBundle) {
+                    <div>
+                      <!--                            <hr>-->
+                      <div>
+                        <p>You are about to audit "{{ selectedGuideline.interoperabilityRecord.title }}".</p>
+                        <p>Please fill in the reason(s) of your action. <span style="color: grey">(optional)</span></p>
+                      </div>
+                      <form>
+                        <div class="uk-margin">
+                          <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentAuditControl"></textarea>
+                        </div>
+                      </form>
+                      <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetAuditView()">Close</button>
+                      <button class="uk-button uk-button-secondary uk-align-right" type="submit" (click)="auditResourceAction('VALID', selectedGuideline)">Validate</button>
+                      <button class="uk-button uk-button-danger uk-align-right" type="submit" (click)="auditResourceAction('INVALID', selectedGuideline)">Invalidate</button>
+                    </div>
+                  }
+                }
               </div>
-
+            </div>
+          }
+          <ul class="uk-pagination uk-flex-right uk-margin">
+            @if (currentPage>2 && pageTotal>5) {
+              <li><a (click)="goToPage(1)"><span uk-pagination-previous></span><span uk-pagination-previous></span></a></li>
+            }
+            @if (currentPage!==1) {
+              <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+            }
+            @for (i of pages; track i) {
+              <li [ngClass]="i === currentPage ? 'uk-active': ''">
+                <a (click)="goToPage(i)">{{i}}</a>
+              </li>
+            }
+            @if (currentPage!==pageTotal) {
+              <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+            }
+            @if (currentPage<pageTotal-1 && pageTotal>5) {
+              <li><a (click)="goToPage(pageTotal)"><span uk-pagination-next></span><span uk-pagination-next></span></a></li>
+            }
+          </ul>
         </div>
-      </div>
+      }
+
     </div>
+
   </div>
+
+</div>
+</div>
+</div>
+</div>
 </div>
 
 <div id="spinnerModal" uk-modal>
@@ -378,41 +419,55 @@
 </div>
 
 <div id="deletionModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-header uk-h4">Delete Guidelines</div>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <div *ngIf="selectedGuidelineId">
-      <h6>Are you sure you want to delete interoperability record with id: "{{ selectedGuidelineId }}" ?</h6>
-      <p>Deleting an interoperability record is an irreversible action.</p>
+  @if (!loadingMessage) {
+    <div class="uk-modal-dialog uk-modal-header uk-h4">Delete Guidelines</div>
+  }
+  @if (!loadingMessage) {
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+      @if (selectedGuidelineId) {
+        <div>
+          <h6>Are you sure you want to delete interoperability record with id: "{{ selectedGuidelineId }}" ?</h6>
+          <p>Deleting an interoperability record is an irreversible action.</p>
+        </div>
+      }
+      <div class="uk-text-right">
+        <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+        <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteGuideline(selectedGuidelineId)">Delete</button>
+      </div>
     </div>
-    <div class="uk-text-right">
-      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
-      <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteGuideline(selectedGuidelineId)">Delete</button>
+  }
+  @if (loadingMessage) {
+    <div>
+      <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+        {{ loadingMessage }}
+      </div>
+      <!--    <div class="whiteFilm"></div>-->
     </div>
-  </div>
-  <div *ngIf="loadingMessage">
-    <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
-      {{ loadingMessage }}
-    </div>
-    <!--    <div class="whiteFilm"></div>-->
-  </div>
+  }
 </div>
 
 <div id="suspensionModal" uk-modal>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-header uk-h4">Suspend Guidelines</div>
-  <div *ngIf="!loadingMessage" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <ng-container *ngIf="selectedGuideline">
-      <h6 class="uk-margin-medium-bottom">Are you sure you want to {{selectedGuideline.suspended==true ? 'un' : ''}}suspend "{{ selectedGuideline.interoperabilityRecord.title }}"?</h6>
-      <div class="uk-text-right">
-        <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
-        <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="suspendInteroperabilityRecord()">
+  @if (!loadingMessage) {
+    <div class="uk-modal-dialog uk-modal-header uk-h4">Suspend Guidelines</div>
+  }
+  @if (!loadingMessage) {
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+      @if (selectedGuideline) {
+        <h6 class="uk-margin-medium-bottom">Are you sure you want to {{selectedGuideline.suspended==true ? 'un' : ''}}suspend "{{ selectedGuideline.interoperabilityRecord.title }}"?</h6>
+        <div class="uk-text-right">
+          <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+          <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="suspendInteroperabilityRecord()">
           {{selectedGuideline.suspended==true ? 'Unsuspend' : 'Suspend'}}</button>
-      </div>
-    </ng-container>
-  </div>
-  <div *ngIf="loadingMessage">
-    <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
-      {{ loadingMessage }}
+        </div>
+      }
     </div>
-    <!--    <div class="whiteFilm"></div>-->
-  </div>
+  }
+  @if (loadingMessage) {
+    <div>
+      <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+        {{ loadingMessage }}
+      </div>
+      <!--    <div class="whiteFilm"></div>-->
+    </div>
+  }
 </div>

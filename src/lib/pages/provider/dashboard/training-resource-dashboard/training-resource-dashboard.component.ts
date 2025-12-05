@@ -12,8 +12,9 @@ import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 
 @Component({
-  selector: 'app-training-resource-dashboard',
-  templateUrl: './training-resource-dashboard.component.html',
+    selector: 'app-training-resource-dashboard',
+    templateUrl: './training-resource-dashboard.component.html',
+    standalone: false
 })
 export class TrainingResourceDashboardComponent implements OnInit {
 
