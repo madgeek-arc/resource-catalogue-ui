@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { HelpdeskService } from '../../../services/helpdesk.service';
-import { CreateTicketRequest } from '../../../../lib/domain/eic-model';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { HelpdeskService } from "../../../services/helpdesk.service";
+import { CreateTicketRequest } from "../../../../lib/domain/eic-model";
 
 @Component({
     selector: 'app-create-ticket',
@@ -23,16 +23,9 @@ export class CreateTicketComponent implements OnInit {
     public router: Router
   ) {
     this.ticketForm = this.fb.group({
-      // Customer information - commented out as per request
-      // customerFirstname: ['', [Validators.required]],
-      // customerLastname: ['', [Validators.required]],
-      // customerEmail: ['', [Validators.required, Validators.email]],
-      title: ['', [Validators.required, Validators.minLength(5)]],
-      group: [''], // Optional field
-      articleSubject: [''],
-      articleBody: ['', [Validators.required, Validators.minLength(10)]],
-      articleType: ['note'],
-      articleInternal: [false]
+      title: ["", [Validators.required, Validators.minLength(5)]],
+      status: ["new"], // Default status for new tickets
+      articleBody: ["", [Validators.required, Validators.minLength(10)]],
     });
   }
 
@@ -50,20 +43,22 @@ export class CreateTicketComponent implements OnInit {
       // Customer data is collected for UX but not sent to backend
       const ticketData: CreateTicketRequest = {
         title: this.ticketForm.value.title,
-        group: this.ticketForm.value.group,
+        status: this.ticketForm.value.status,
         article: {
-          subject: this.ticketForm.value.articleSubject,
+          subject: this.ticketForm.value.title, // Use title as subject if not provided
           body: this.ticketForm.value.articleBody,
-          type: this.ticketForm.value.articleType,
-          internal: this.ticketForm.value.articleInternal
-        }
+        },
       };
 
-      console.log('🎫 Submitting ticket with data:', JSON.stringify(ticketData, null, 2));
+      console.debug(
+        "Submitting ticket with data:",
+        JSON.stringify(ticketData, null, 2)
+      );
+      console.debug("Sending to KIT webhook via helpdesk service");
 
       this.helpdeskService.createTicket(ticketData).subscribe({
         next: (response) => {
-          console.log('✅ Ticket submitted:', response);
+          console.debug(" Ticket submitted successfully:", response);
           this.loading = false;
           this.success = true;
           // Reset form after successful submission
@@ -72,7 +67,14 @@ export class CreateTicketComponent implements OnInit {
           // User can manually navigate to "My Tickets" if needed
         },
         error: (err) => {
-          console.error('❌ Error submitting ticket:', err);
+          console.error("Error submitting ticket:", err);
+          console.error("Full error details:", {
+            status: err.status,
+            statusText: err.statusText,
+            url: err.url,
+            error: err.error,
+            message: err.message,
+          });
           this.loading = false;
           this.errorMessage = `${err.error.message || 'Failed to create ticket.'}`;
         }
@@ -84,22 +86,27 @@ export class CreateTicketComponent implements OnInit {
 
   getErrorMessage(field: string): string {
     const control = this.ticketForm.get(field);
-    if (control?.hasError('required')) {
+    if (control?.hasError("required")) {
       // Customer field error messages - commented out as per request
       // if (field === 'customerFirstname') return 'First name is required';
       // if (field === 'customerLastname') return 'Last name is required';
       // if (field === 'customerEmail') return 'Customer email is required';
-      if (field === 'title') return 'Title is required';
-      if (field === 'articleBody') return 'Message body is required';
+      if (field === "title") return "Title is required";
+      if (field === "articleBody") return "Message body is required";
       return `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
     }
-    if (control?.hasError('minlength')) {
-      const requiredLength = control.errors?.['minlength'].requiredLength;
-      return `${field.charAt(0).toUpperCase() + field.slice(1)} must be at least ${requiredLength} characters`;
+    if (control?.hasError("minlength")) {
+      const requiredLength = control.errors?.["minlength"].requiredLength;
+      if (field === "articleBody") {
+        return `Message should be at least ${requiredLength} characters`;
+      }
+      return `${
+        field.charAt(0).toUpperCase() + field.slice(1)
+      } must be at least ${requiredLength} characters`;
     }
-    if (control?.hasError('email')) {
-      return 'Please enter a valid email address';
+    if (control?.hasError("email")) {
+      return "Please enter a valid email address";
     }
-    return '';
+    return "";
   }
 }

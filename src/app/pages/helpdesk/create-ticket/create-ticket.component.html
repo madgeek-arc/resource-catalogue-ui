@@ -17,7 +17,6 @@
   }
 
   <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()" class="ticket-form">
-
     <!-- Section 1: Customer Information - commented out as per request -->
     <!--
     <div class="form-section">
@@ -65,16 +64,6 @@
       </div>
 
       <div class="form-group">
-        <label for="group">Group</label>
-        <input id="group" type="text" formControlName="group" />
-      </div>
-
-      <div class="form-group">
-        <label for="articleSubject">Subject</label>
-        <input id="articleSubject" type="text" formControlName="articleSubject" />
-      </div>
-
-      <div class="form-group">
         <label for="articleBody">Message <span class="required">*</span></label>
         <textarea id="articleBody" formControlName="articleBody"></textarea>
         @if (ticketForm.get('articleBody')?.invalid && (ticketForm.get('articleBody')?.dirty || ticketForm.get('articleBody')?.touched)) {
@@ -82,21 +71,6 @@
             {{ getErrorMessage('articleBody') }}
           </div>
         }
-      </div>
-
-      <div class="form-group">
-        <label for="articleType">Type</label>
-        <select id="articleType" formControlName="articleType">
-          <option value="note">Note</option>
-          <option value="question">Question</option>
-          <option value="incident">Incident</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>
-          <input type="checkbox" formControlName="articleInternal" /> Internal Note
-        </label>
       </div>
     </div>
 
@@ -111,7 +85,7 @@
     <h4><i class="fa fa-info-circle"></i> Tips for better support</h4>
     <ul>
       <li>Provide clear and specific information about your issue</li>
-      <li>Include any error messages or screenshots if applicable</li>
+      <li>Include any error messages if applicable</li>
       <li>Mention the steps you've already tried to resolve the issue</li>
       <li>Specify which service or resource you're having trouble with</li>
     </ul>

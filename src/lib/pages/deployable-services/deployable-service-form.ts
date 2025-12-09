@@ -88,7 +88,7 @@ export class DeployableServiceForm implements OnInit {
     this.trainingResourceService = this.injector.get(TrainingResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
     this.router = this.injector.get(NavigationService);
-    this.weights[0] = this.authenticationService.user.email.split('@')[0];
+    this.weights[0] = this.authenticationService.getUserEmail().split('@')[0];
   }
 
   submitForm(formData: any, tempSave: boolean, pendingService: boolean) {//TODO

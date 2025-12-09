@@ -132,7 +132,7 @@ export class ServiceProvidersListComponent implements OnInit {
   ngOnInit() {
     this.catalogueConfigId = this.config.getProperty('catalogueId');
     this.catalogueName = this.config.getProperty('catalogueName');
-    if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
+    if (!this.authenticationService.isAdmin()) {
       this.router.navigateByUrl('/home');
     } else {
       this.dataForm = this.fb.group(this.formPrepare);

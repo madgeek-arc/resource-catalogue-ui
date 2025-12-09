@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HelpdeskService } from '../../../services/helpdesk.service';
-import { HelpdeskTicketResponse, HelpdeskArticle } from '../../../../lib/domain/eic-model';
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { HelpdeskService } from "../../../services/helpdesk.service";
+import {
+  HelpdeskTicketResponse,
+  HelpdeskArticle,
+} from "../../../../lib/domain/eic-model";
 
 @Component({
     selector: 'app-ticket-detail',
@@ -13,7 +16,7 @@ import { HelpdeskTicketResponse, HelpdeskArticle } from '../../../../lib/domain/
 export class TicketDetailComponent implements OnInit {
   ticket: HelpdeskTicketResponse | null = null;
   loading = true;
-  error = '';
+  error = "";
   replyForm: FormGroup;
   submittingReply = false;
 
@@ -24,12 +27,12 @@ export class TicketDetailComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.replyForm = this.fb.group({
-      body: ['', [Validators.required, Validators.minLength(10)]]
+      body: ["", [Validators.required, Validators.minLength(10)]],
     });
   }
 
   ngOnInit(): void {
-    const ticketId = this.route.snapshot.paramMap.get('id');
+    const ticketId = this.route.snapshot.paramMap.get("id");
     if (ticketId) {
       this.loadTicket(ticketId);
     }
@@ -37,7 +40,7 @@ export class TicketDetailComponent implements OnInit {
 
   loadTicket(ticketId: string): void {
     this.loading = true;
-    this.error = '';
+    this.error = "";
 
     this.helpdeskService.getTicket(ticketId).subscribe({
       next: (ticket) => {
@@ -45,57 +48,57 @@ export class TicketDetailComponent implements OnInit {
         this.loading = false;
       },
       error: (err) => {
-        this.error = 'Failed to load ticket. Please try again.';
+        this.error = "Failed to load ticket. Please try again.";
         this.loading = false;
-        console.error('Error loading ticket:', err);
-      }
+        console.error("Error loading ticket:", err);
+      },
     });
   }
 
   getStatusClass(status: string): string {
     switch (status.toLowerCase()) {
-      case 'open':
-        return 'status-open';
-      case 'pending':
-        return 'status-pending';
-      case 'closed':
-        return 'status-closed';
-      case 'escalated':
-        return 'status-escalated';
+      case "open":
+        return "status-open";
+      case "pending":
+        return "status-pending";
+      case "closed":
+        return "status-closed";
+      case "escalated":
+        return "status-escalated";
       default:
-        return 'status-default';
+        return "status-default";
     }
   }
 
   getStatusIcon(status: string): string {
     switch (status.toLowerCase()) {
-      case 'open':
-        return 'fas fa-exclamation-circle';
-      case 'pending':
-        return 'fas fa-clock';
-      case 'closed':
-        return 'fas fa-check-circle';
-      case 'escalated':
-        return 'fas fa-arrow-up';
+      case "open":
+        return "fa fa-exclamation-circle";
+      case "pending":
+        return "fa fa-clock";
+      case "closed":
+        return "fa fa-check-circle";
+      case "escalated":
+        return "fa fa-arrow-up";
       default:
-        return 'fas fa-question-circle';
+        return "fa fa-question-circle";
     }
   }
 
   formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   }
 
   formatTime(dateString: string): string {
-    return new Date(dateString).toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Date(dateString).toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
     });
   }
 
@@ -107,37 +110,43 @@ export class TicketDetailComponent implements OnInit {
   }
 
   onSubmitReply(): void {
-    if (this.replyForm.valid && this.ticket) {
+    if (this.replyForm.valid && this.ticket && this.ticket.id) {
       this.submittingReply = true;
 
-      this.helpdeskService.addReply(this.ticket.id, this.replyForm.value.body).subscribe({
-        next: (updatedTicket) => {
-          this.ticket = updatedTicket;
-          this.replyForm.reset();
-          this.submittingReply = false;
-        },
-        error: (err) => {
-          this.error = 'Failed to send reply. Please try again.';
-          this.submittingReply = false;
-          console.error('Error sending reply:', err);
-        }
-      });
+      // Convert id to string for API call
+      const ticketId = String(this.ticket.id);
+      this.helpdeskService
+        .addReply(ticketId, this.replyForm.value.body)
+        .subscribe({
+          next: (updatedTicket) => {
+            this.ticket = updatedTicket;
+            this.replyForm.reset();
+            this.submittingReply = false;
+          },
+          error: (err) => {
+            this.error = "Failed to send reply. Please try again.";
+            this.submittingReply = false;
+            console.error("Error sending reply:", err);
+          },
+        });
     }
   }
 
   goBack(): void {
-    this.router.navigate(['/helpdesk/tickets']);
+    this.router.navigate(["/helpdesk/tickets"]);
   }
 
   getErrorMessage(field: string): string {
     const control = this.replyForm.get(field);
-    if (control?.hasError('required')) {
+    if (control?.hasError("required")) {
       return `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
     }
-    if (control?.hasError('minlength')) {
-      const requiredLength = control.errors?.['minlength'].requiredLength;
-      return `${field.charAt(0).toUpperCase() + field.slice(1)} must be at least ${requiredLength} characters`;
+    if (control?.hasError("minlength")) {
+      const requiredLength = control.errors?.["minlength"].requiredLength;
+      return `${
+        field.charAt(0).toUpperCase() + field.slice(1)
+      } must be at least ${requiredLength} characters`;
     }
-    return '';
+    return "";
   }
 }
