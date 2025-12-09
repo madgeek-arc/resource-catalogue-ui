@@ -7,7 +7,8 @@ import {isNullOrUndefined} from "../tools";
 
 
 @Pipe({
-    name: "sort"
+    name: "sort",
+    standalone: false
 })
 export class StringArraySortPipe implements PipeTransform {
     transform(array: Array<String>, args: string): Array<String> {

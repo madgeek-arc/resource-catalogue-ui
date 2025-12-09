@@ -12,8 +12,9 @@ import {NavigationService} from "../../../../services/navigation.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-pending-services',
-  templateUrl: './pending-services.component.html',
+    selector: 'app-pending-services',
+    templateUrl: './pending-services.component.html',
+    standalone: false
 })
 
 export class PendingServicesComponent implements OnInit {

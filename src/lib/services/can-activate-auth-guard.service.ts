@@ -9,10 +9,9 @@ export class CanActivateViaAuthGuard  {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const ret = this.authenticationService.isLoggedIn();
+        const ret = this.authenticationService.getIsUserLoggedIn();
         if (!ret) {
-            this.authenticationService.redirectURL = state.url;
-            this.authenticationService.login();
+            this.authenticationService.refreshLogin(null);
         }
         return ret;
     }

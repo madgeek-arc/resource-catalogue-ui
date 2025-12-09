@@ -16,9 +16,10 @@ import {SurveyComponent} from "../../../../dynamic-catalogue/pages/dynamic-form/
 import {Model} from "../../../../dynamic-catalogue/domain/dynamic-form-model";
 
 @Component({
-  selector: 'app-helpdesk-extension-form',
-  templateUrl: './helpdesk-extension-form.component.html',
-  styleUrls: ['../../provider/service-provider-form.component.css']
+    selector: 'app-helpdesk-extension-form',
+    templateUrl: './helpdesk-extension-form.component.html',
+    styleUrls: ['../../provider/service-provider-form.component.css'],
+    standalone: false
 })
 export class HelpdeskExtensionFormComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent
@@ -97,7 +98,7 @@ export class HelpdeskExtensionFormComponent implements OnInit {
     this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
-    this.weights[0] = this.authenticationService.user.email.split('@')[0];
+    this.weights[0] = this.authenticationService.getUserEmail().split('@')[0];
   }
 
   onSubmit() {

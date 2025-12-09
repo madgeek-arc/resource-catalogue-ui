@@ -16,10 +16,11 @@ import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/sur
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-catalogue-form',
-  templateUrl: './catalogue-form.component.html',
-  // styleUrls: ['./service-provider-form.component.css']
-  providers: [FormControlService]
+    selector: 'app-catalogue-form',
+    templateUrl: './catalogue-form.component.html',
+    // styleUrls: ['./service-provider-form.component.css']
+    providers: [FormControlService],
+    standalone: false
 })
 export class CatalogueFormComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent
@@ -148,8 +149,8 @@ export class CatalogueFormComponent implements OnInit {
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
   }
 
-  submitForm(value: any, tempSave: boolean) {
-    let catalogueValue = value[0].value.Catalogue;
+  submitForm(formData: any, tempSave: boolean) {
+    let catalogueValue = formData.value.Catalogue;
     window.scrollTo(0, 0);
 
     this.errorMessage = '';

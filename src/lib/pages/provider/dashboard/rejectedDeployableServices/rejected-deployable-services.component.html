@@ -2,99 +2,106 @@
   <div class="uk-container uk-container-expand">
 
     <div class="services-provider-container">
-      <div *ngIf="providerBundle" class="uk-flex">
-        <div>
-          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+      @if (providerBundle) {
+        <div class="uk-flex">
+          <div>
+            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+          </div>
+          <div class="uk-margin-medium-left">
+            <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
+            <div><span class="status-label">Status: </span>{{providerBundle.status | titlecase}}</div>
+          </div>
         </div>
-        <div class="uk-margin-medium-left">
-          <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
-          <div><span class="status-label">Status: </span>{{providerBundle.status | titlecase}}</div>
-        </div>
-      </div>
+      }
     </div>
 
     <div class="uk-margin-large-top">
-      <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">
-        <p>{{errorMessage}}</p>
-      </div>
-
-      <div *ngIf="deployableServiceBundle && deployableServiceBundle?.results?.length === 0">
-        <p>No rejected Deployable Services found</p>
-      </div>
-
-      <div *ngIf="deployableServiceBundle && deployableServiceBundle?.results?.length > 0">
-
-        <div class="uk-flex uk-flex-middle uk-flex-between">
-
-          <div class="resultsInfo">
-            <span class="number">{{total}}</span> REJECTED DEPLOYABLE SERVICES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
-          </div>
-
-          <ul class="uk-pagination" uk-margin>
-            <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
-            <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
-              <a (click)="goToPage(i)">{{i}}</a>
-            </li>
-            <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
-          </ul>
-
+      @if (errorMessage) {
+        <div class="uk-alert uk-alert-danger">
+          <p>{{errorMessage}}</p>
         </div>
+      }
 
-        <hr class="adminResultsHeader">
+      @if (deployableServiceBundle && deployableServiceBundle?.results?.length === 0) {
+        <div>
+          <p>No rejected Deployable Services found</p>
+        </div>
+      }
 
-        <div class="uk-margin-medium-top">
-          <div *ngFor="let dsBundle of deployableServiceBundle.results" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
-
-            <div class="uk-card-body">
-              <div class="uk-grid uk-flex-middle">
-                <!--                <div class="uk-width-1-6">-->
-                <!--                  <img src="{{dsBundle.deployableService.logo ? dsBundle.deployableService.logo : '/assets/images/broken_image-black-48dp.svg'}}">-->
-                <!--                </div>-->
-                <div class="uk-width-2-3">
-                  <h4 class="uk-margin-remove">{{dsBundle.deployableService.name}}</h4>
-                  <span *ngIf="dsBundle.deployableService.description" class="uk-margin-small-top"><markdown [data]="dsBundle.deployableService.description"></markdown></span>
-                </div>
-                <div class="uk-width-1-6">
-                  <div class="action-buttons">
-                    <button class="uk-button uk-button-action uk-display-block" (click)="navigate(dsBundle.id)">
-                      <i class="fa fa-pencil fa-lg"></i> Edit deployable service
-                    </button>
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedDeployableService(dsBundle)">
-                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete deployable service
-                    </button>
+      @if (deployableServiceBundle && deployableServiceBundle?.results?.length > 0) {
+        <div>
+          <div class="uk-flex uk-flex-middle uk-flex-between">
+            <div class="resultsInfo">
+              <span class="number">{{total}}</span> REJECTED DEPLOYABLE SERVICES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+            </div>
+            <ul class="uk-pagination" uk-margin>
+              <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+              @for (i of pages; track i) {
+                <li [ngClass]="i === currentPage ? 'uk-active': ''">
+                  <a (click)="goToPage(i)">{{i}}</a>
+                </li>
+              }
+              <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+            </ul>
+          </div>
+          <hr class="adminResultsHeader">
+          <div class="uk-margin-medium-top">
+            @for (dsBundle of deployableServiceBundle.results; track dsBundle) {
+              <div class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+                <div class="uk-card-body">
+                  <div class="uk-grid uk-flex-middle">
+                    <!--                <div class="uk-width-1-6">-->
+                    <!--                  <img src="{{dsBundle.deployableService.logo ? dsBundle.deployableService.logo : '/assets/images/broken_image-black-48dp.svg'}}">-->
+                  <!--                </div>-->
+                  <div class="uk-width-2-3">
+                    <h4 class="uk-margin-remove">{{dsBundle.deployableService.name}}</h4>
+                    @if (dsBundle.deployableService.description) {
+                      <span class="uk-margin-small-top"><markdown [data]="dsBundle.deployableService.description"></markdown></span>
+                    }
+                  </div>
+                  <div class="uk-width-1-6">
+                    <div class="action-buttons">
+                      <button class="uk-button uk-button-action uk-display-block" (click)="navigate(dsBundle.id)">
+                        <i class="fa fa-pencil fa-lg"></i> Edit deployable service
+                      </button>
+                      <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedDeployableService(dsBundle)">
+                        <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete deployable service
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-
             </div>
-
-          </div>
+          }
         </div>
-
         <ul class="uk-pagination uk-flex-right" uk-margin>
           <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
-          <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
-            <a (click)="goToPage(i)">{{i}}</a>
-          </li>
+          @for (i of pages; track i) {
+            <li [ngClass]="i === currentPage ? 'uk-active': ''">
+              <a (click)="goToPage(i)">{{i}}</a>
+            </li>
+          }
           <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
         </ul>
-
       </div>
+    }
 
-      <div id="spinnerModal" uk-modal>
-        <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
-        </div>
+    <div id="spinnerModal" uk-modal>
+      <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
       </div>
     </div>
-
-
   </div>
+
+
+</div>
 </div>
 
 
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h6 *ngIf="selectedDeployableService">Are you sure you want to delete the deployable service '{{selectedDeployableService.deployableService.name}}'?</h6>
+    @if (selectedDeployableService) {
+      <h6>Are you sure you want to delete the deployable service '{{selectedDeployableService.deployableService.name}}'?</h6>
+    }
     <div class="uk-text-right">
       <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
       <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteDeployableService(selectedDeployableService.id)">Delete</button>

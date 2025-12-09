@@ -17,10 +17,11 @@ import {zip} from "rxjs";
 import {ConfigService} from "../../../services/config.service";
 
 @Component({
-  selector: 'app-resource-monitoring-extension-form',
-  templateUrl: './monitoring-extension-form.component.html',
-  styleUrls: ['../../provider/service-provider-form.component.css'],
-  providers: [FormControlService]
+    selector: 'app-resource-monitoring-extension-form',
+    templateUrl: './monitoring-extension-form.component.html',
+    styleUrls: ['../../provider/service-provider-form.component.css'],
+    providers: [FormControlService],
+    standalone: false
 })
 export class MonitoringExtensionFormComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent
@@ -71,7 +72,7 @@ export class MonitoringExtensionFormComponent implements OnInit {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
-    this.weights[0] = this.authenticationService.user.email.split('@')[0];
+    this.weights[0] = this.authenticationService.getUserEmail().split('@')[0];
   }
 
   submitForm(value) {

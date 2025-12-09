@@ -6,8 +6,9 @@ import {ServiceProviderService} from '../../../../services/service-provider.serv
 import {ResourceService} from '../../../../services/resource.service';
 
 @Component({
-  selector: 'app-provider-info',
-  templateUrl: './provider-info.component.html'
+    selector: 'app-provider-info',
+    templateUrl: './provider-info.component.html',
+    standalone: false
 })
 export class ProviderInfoComponent implements OnInit {
 

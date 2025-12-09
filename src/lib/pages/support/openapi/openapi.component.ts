@@ -2,9 +2,10 @@ import {Component} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 
 @Component({
-  selector: 'app-openapi',
-  templateUrl: './openapi.component.html',
-  styleUrls: ['./openapi.component.css']
+    selector: 'app-openapi',
+    templateUrl: './openapi.component.html',
+    styleUrls: ['./openapi.component.css'],
+    standalone: false
 })
 export class OpenAPIComponent {
   private url = environment.API_ENDPOINT;

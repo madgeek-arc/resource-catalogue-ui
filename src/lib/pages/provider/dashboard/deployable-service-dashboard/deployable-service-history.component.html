@@ -4,105 +4,116 @@
       <div class="uk-width-1-1@m uk-first-column">
 
         <div class="services-provider-container">
-          <div *ngIf="deployableService" class="uk-flex">
-<!--            <div>-->
-<!--              <img src="{{ '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">-->
-<!--            </div>-->
+          @if (deployableService) {
+            <div class="uk-flex">
+              <!--            <div>-->
+              <!--              <img src="{{ '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">-->
+            <!--            </div>-->
             <div class="uk-margin-medium-left">
               <h3 class="uk-margin-remove">{{deployableService.title}}</h3>
               <!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
               <!--              <div *ngIf="serviceHistory?.results[0]?.registeredBy && serviceHistory?.results[0]?.registeredAt">
-                              <span class="status-label">Registered by: </span>{{ serviceHistory.results[0].registeredBy }} on {{ serviceHistory.results[0].registeredAt | date}}
-                            </div>-->
-            </div>
+              <span class="status-label">Registered by: </span>{{ serviceHistory.results[0].registeredBy }} on {{ serviceHistory.results[0].registeredAt | date}}
+            </div>-->
           </div>
         </div>
+      }
+    </div>
 
 
 
-        <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
-          <div class="uk-grid">
+    <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+      <div class="uk-grid">
 
 
 
-            <!-- MIDDLE -->
-            <div class=" uk-width-expand@m">
+        <!-- MIDDLE -->
+        <div class=" uk-width-expand@m">
 
-              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
+          @if (errorMessage) {
+            <div class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
+          }
 
-              <div *ngIf="deployableService" class="uk-grid">
-
-                <div class="uk-width-1-1">
-
-                  <section class="section">
-                    <div class="uk-container uk-container-center">
-                      <div class="uk-button uk-button-danger uk-disabled uk-position-top-center uk-margin-small-top todayBadge">Today</div>
-
-                      <div class="al_timeline">
-
-                        <ng-container *ngIf="deployableService && deployableServiceHistory?.results?.length>0">
-                          <ng-container *ngFor="let history of deployableServiceHistory.results; let i = index">
-                            <ng-container *ngIf="i < 10">
-
-                              <div class="al_timeline_block update">
-                                <div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up"></div>
-                                <div class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">
-                                  <div class="">
-                                    <div>
-                                      <div class="uk-card-badge uk-label uk-label-gray">
-                                        <span class="">{{history.type | titlecase}}</span></div>
+          @if (deployableService) {
+            <div class="uk-grid">
+              <div class="uk-width-1-1">
+                <section class="section">
+                  <div class="uk-container uk-container-center">
+                    <div class="uk-button uk-button-danger uk-disabled uk-position-top-center uk-margin-small-top todayBadge">Today</div>
+                    <div class="al_timeline">
+                      @if (deployableService && deployableServiceHistory?.results?.length>0) {
+                        @for (history of deployableServiceHistory.results; track history; let i = $index) {
+                          @if (i < 10) {
+                            <div class="al_timeline_block update">
+                              <div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up"></div>
+                              <div class="al_timeline_content uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-slide-right">
+                                <div class="">
+                                  <div>
+                                    <div class="uk-card-badge uk-label uk-label-gray">
+                                      <span class="">{{history.type | titlecase}}</span></div>
                                     </div>
                                     <div class="uk-position-top-right uk-margin-small uk-padding-small uk-padding-remove-top uk-padding-remove-bottom date-comment">
                                       {{history.date | date:'dd/MM/yyyy'}}
                                     </div>
-
                                     <div class="uk-margin-medium uk-text-left">
-                                      <h4 *ngIf="history.type === 'onboard'">Onboarding - {{history.actionType | titlecase}}</h4>
-                                      <h4 *ngIf="history.type === 'update'">Update - {{history.actionType | titlecase}}</h4>
-                                      <h4 *ngIf="history.type === 'audit'">Audited as {{history.actionType | titlecase}}</h4>
-                                      <h4 *ngIf="history.type === 'draft'">Saved as Draft</h4>
-
+                                      @if (history.type === 'onboard') {
+                                        <h4>Onboarding - {{history.actionType | titlecase}}</h4>
+                                      }
+                                      @if (history.type === 'update') {
+                                        <h4>Update - {{history.actionType | titlecase}}</h4>
+                                      }
+                                      @if (history.type === 'audit') {
+                                        <h4>Audited as {{history.actionType | titlecase}}</h4>
+                                      }
+                                      @if (history.type === 'draft') {
+                                        <h4>Saved as Draft</h4>
+                                      }
                                       <div>
-                                        <span *ngIf="history.userFullName || history.userEmail || history.userRole">by</span>
+                                        @if (history.userFullName || history.userEmail || history.userRole) {
+                                          <span>by</span>
+                                        }
                                         {{history.userFullName}}
-                                        <span *ngIf="history.userFullName && history.userEmail">-</span>
+                                        @if (history.userFullName && history.userEmail) {
+                                          <span>-</span>
+                                        }
                                         {{history.userEmail}}
-                                        <span *ngIf="history.userRole">({{history.userRole}})</span>
+                                        @if (history.userRole) {
+                                          <span>({{history.userRole}})</span>
+                                        }
                                       </div>
-                                      <div *ngIf="history.comment && history.comment!=='null'" class="uk-margin-medium-top">
-                                        <span class="comment"><i class="fa fa-comment uk-margin-small-right"></i>{{history.comment}}</span>
-                                      </div>
+                                      @if (history.comment && history.comment!=='null') {
+                                        <div class="uk-margin-medium-top">
+                                          <span class="comment"><i class="fa fa-comment uk-margin-small-right"></i>{{history.comment}}</span>
+                                        </div>
+                                      }
                                     </div>
-
                                   </div>
                                 </div>
                               </div>
-
-                            </ng-container>
-                          </ng-container>
-                        </ng-container>
-
+                            }
+                          }
+                        }
                       </div>
                     </div>
                   </section>
-
                   <div class="uk-margin-top uk-text-center">
-                    <a *ngIf="deployableService && pidHandler"
-                       [routerLink]="['/dashboard/' + catalogueId + '/' + pidHandler.customEncodeURIComponent(deployableService.resourceOrganisation) + '/deployable-service-dashboard/' + pidHandler.customEncodeURIComponent(deployableService.id) + '/fullHistory']"
-                       class="uk-h3 uk-link">See more results ...</a>
+                    @if (deployableService && pidHandler) {
+                      <a
+                        [routerLink]="['/dashboard/' + catalogueId + '/' + pidHandler.customEncodeURIComponent(deployableService.resourceOrganisation) + '/deployable-service-dashboard/' + pidHandler.customEncodeURIComponent(deployableService.id) + '/fullHistory']"
+                      class="uk-h3 uk-link">See more results ...</a>
+                    }
                   </div>
-
                 </div>
-
               </div>
+            }
 
-            </div>
           </div>
-
-
-
         </div>
+
+
+
       </div>
     </div>
   </div>
+</div>
 </div>

@@ -10,8 +10,9 @@ import {environment} from '../../../../../environments/environment';
 import {NavigationService} from "../../../../services/navigation.service";
 
 @Component({
-  selector: 'app-shared-services',
-  templateUrl: './shared-services.component.html',
+    selector: 'app-shared-services',
+    templateUrl: './shared-services.component.html',
+    standalone: false
 })
 
 export class SharedServicesComponent implements OnInit {

@@ -14,10 +14,9 @@ import {ConfigService} from "../../services/config.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-update-catalogue',
-  templateUrl: './catalogue-form.component.html',
-  // styleUrls: ['./service-provider-form.component.css']
-  // providers: [FormControlService]
+    selector: 'app-update-catalogue',
+    templateUrl: './catalogue-form.component.html',
+    standalone: false
 })
 export class UpdateCatalogueComponent extends CatalogueFormComponent implements OnInit {
   errorMessage: string;

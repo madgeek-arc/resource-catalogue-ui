@@ -14,8 +14,9 @@ interface IBreadcrumb {
 }
 
 @Component({
-  selector: 'app-breadcrumbs',
-  templateUrl: './breadcrumbs.component.html',
+    selector: 'app-breadcrumbs',
+    templateUrl: './breadcrumbs.component.html',
+    standalone: false
 })
 export class BreadcrumbsComponent implements OnInit {
 

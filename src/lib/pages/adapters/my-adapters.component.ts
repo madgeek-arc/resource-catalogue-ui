@@ -8,8 +8,9 @@ import {AdaptersService} from "../../services/adapters.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 @Component({
-  selector: 'app-my-adapters',
-  templateUrl: './my-adapters.component.html'
+    selector: 'app-my-adapters',
+    templateUrl: './my-adapters.component.html',
+    standalone: false
 })
 export class MyAdaptersComponent implements OnInit {
 

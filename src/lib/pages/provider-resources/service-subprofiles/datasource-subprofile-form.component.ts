@@ -22,9 +22,10 @@ import {ConfigService} from "../../../services/config.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-datasource-subprofile-form',
-  templateUrl: './datasource-subprofile-form.component.html',
-  styleUrls: ['../../provider/service-provider-form.component.css']
+    selector: 'app-datasource-subprofile-form',
+    templateUrl: './datasource-subprofile-form.component.html',
+    styleUrls: ['../../provider/service-provider-form.component.css'],
+    standalone: false
 })
 export class DatasourceSubprofileFormComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent
@@ -192,11 +193,11 @@ export class DatasourceSubprofileFormComponent implements OnInit {
     this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
     this.serviceForm = this.fb.group(this.formGroupMeta);
-    this.weights[0] = this.authenticationService.user.email.split('@')[0];
+    this.weights[0] = this.authenticationService.getUserEmail().split('@')[0];
   }
 
-  submitForm(value: any, tempSave: boolean, pendingService: boolean) {
-    let datasourceValue = value[0].value.Datasource;
+  submitForm(formData: any, tempSave: boolean, pendingService: boolean) {
+    let datasourceValue = formData.value.Datasource;
     window.scrollTo(0, 0);
 
     if (!this.authenticationService.isLoggedIn()) {

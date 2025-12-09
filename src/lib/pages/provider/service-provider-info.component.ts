@@ -8,9 +8,10 @@ import {environment} from '../../../environments/environment';
 declare var UIKit: any;
 
 @Component({
-  selector: 'app-service-provider-info',
-  // templateUrl: './service-provider-info.component.html'
-  templateUrl: './service-provider-form.component.html'
+    selector: 'app-service-provider-info',
+    // templateUrl: './service-provider-info.component.html'
+    templateUrl: './service-provider-form.component.html',
+    standalone: false
 })
 
 export class ServiceProviderInfoComponent extends UpdateServiceProviderComponent implements OnInit {

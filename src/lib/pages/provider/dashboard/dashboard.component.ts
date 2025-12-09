@@ -12,8 +12,9 @@ import {pidHandler} from '../../../shared/pid-handler/pid-handler.service';
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html'
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    standalone: false
 })
 export class DashboardComponent implements OnInit {
 

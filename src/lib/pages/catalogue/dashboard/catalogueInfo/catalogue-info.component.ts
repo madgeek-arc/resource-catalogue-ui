@@ -7,8 +7,9 @@ import {ResourceService} from '../../../../services/resource.service';
 import {CatalogueService} from "../../../../services/catalogue.service";
 
 @Component({
-  selector: 'app-catalogue-info',
-  templateUrl: './catalogue-info.component.html'
+    selector: 'app-catalogue-info',
+    templateUrl: './catalogue-info.component.html',
+    standalone: false
 })
 export class CatalogueInfoComponent implements OnInit {
 

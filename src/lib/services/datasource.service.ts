@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
 import {Datasource, DatasourceBundle, OpenAIREMetrics, ProviderBundle} from '../domain/eic-model';
@@ -90,7 +90,11 @@ export class DatasourceService {
     // console.log(JSON.stringify(datasource));
     // console.log(`knocking on: ${this.base}/datasource`);
     // return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base + '/datasource', datasource, this.options);
-    return this.http[shouldPut ? 'put' : 'post']<Datasource>(this.base + '/datasource', datasource, this.options); //comment param can be used on update
+    if (shouldPut) {
+      return this.http.put<Datasource>(this.base + '/datasource', datasource, this.options); //comment param can be used on update
+    } else {
+      return this.http.post<Datasource>(this.base + '/datasource', datasource, this.options);
+    }
   }
 
   verifyDatasource(id: string, active: boolean, status: string) {

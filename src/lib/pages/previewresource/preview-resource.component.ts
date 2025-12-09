@@ -9,7 +9,8 @@ import {environment} from "../../../environments/environment";
 @Component({
     selector: 'app-preview-resource',
     templateUrl: './preview-resource.component.html',
-  styleUrls: ['./preview-resource.component.css']
+    styleUrls: ['./preview-resource.component.css'],
+    standalone: false
 })
 export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
 

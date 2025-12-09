@@ -11,7 +11,7 @@ import {UpdateCatalogueComponent} from "./update-catalogue.component";
 import {MyCataloguesComponent} from "./my-catalogues.component";
 import {CataloguesListComponent} from "../admin/catalogues-list.component";
 import {NgSelectModule} from '@ng-select/ng-select';
-import {LMarkdownEditorModule} from 'ngx-markdown-editor';
+// import {LMarkdownEditorModule} from 'ngx-markdown-editor';
 import {DynamicFormModule} from "../../../dynamic-catalogue/pages/dynamic-form/dynamic-form.module";
 
 
@@ -20,7 +20,7 @@ import {DynamicFormModule} from "../../../dynamic-catalogue/pages/dynamic-form/d
         SharedModule,
         CommonModule,
         FormsModule,
-        LMarkdownEditorModule,
+        // LMarkdownEditorModule,
         ReactiveFormsModule,
         CatalogueRouting,
         ReusableComponentsModule,

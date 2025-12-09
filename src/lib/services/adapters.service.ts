@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
 import {Adapter, AdapterBundle} from '../domain/eic-model';
@@ -20,7 +20,11 @@ export class AdaptersService {
   private options = {withCredentials: true};
 
   uploadAdapter(adapter: Adapter, shouldPut: boolean) {
-    return this.http[shouldPut ? 'put' : 'post']<Adapter>(this.base + '/adapter', adapter, this.options);
+    if (shouldPut) {
+      return this.http.put<Adapter>(this.base + '/adapter', adapter, this.options);
+    } else {
+      return this.http.post<Adapter>(this.base + '/adapter', adapter, this.options);
+    }
   }
 
   getMyAdapters() {

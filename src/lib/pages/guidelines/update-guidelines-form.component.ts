@@ -12,8 +12,9 @@ import {ConfigService} from "../../services/config.service";
 
 
 @Component({
-  selector: 'app-update-guidelines-form',
-  templateUrl: './guidelines-form.component.html',
+    selector: 'app-update-guidelines-form',
+    templateUrl: './guidelines-form.component.html',
+    standalone: false
 })
 export class UpdateGuidelinesFormComponent extends GuidelinesFormComponent implements OnInit {
   errorMessage: string;

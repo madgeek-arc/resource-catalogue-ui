@@ -19,7 +19,7 @@ import {ServiceFormComponent} from '../provider-resources/service-form.component
 import {MonitoringExtensionFormComponent} from "../provider-resources/monitoring-extension/monitoring-extension-form.component";
 import {HelpdeskExtensionFormComponent} from "../provider-resources/helpdesk-extension/helpdesk-extension-form.component";
 import {NgSelectModule} from '@ng-select/ng-select';
-import {LMarkdownEditorModule} from 'ngx-markdown-editor';
+// import {LMarkdownEditorModule} from 'ngx-markdown-editor';
 import {TrainingResourceForm} from "../training-resources/training-resource-form";
 import {UpdateTrainingResource} from "../training-resources/update-training-resource";
 import {AddFirstTrainingResourceComponent} from "../training-resources/add-first-training-resource.component";
@@ -38,7 +38,7 @@ import {AddFirstDeployableServiceComponent} from "../deployable-services/add-fir
     SharedModule,
     CommonModule,
     FormsModule,
-    LMarkdownEditorModule,
+    // LMarkdownEditorModule,
     ReactiveFormsModule,
     ProviderRouting,
     ReusableComponentsModule,

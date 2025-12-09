@@ -20,8 +20,9 @@ import {ConfigService} from "../../services/config.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-deployable-services-list',
-  templateUrl: './deployable-services-list.component.html',
+    selector: 'app-deployable-services-list',
+    templateUrl: './deployable-services-list.component.html',
+    standalone: false
 })
 export class DeployableServicesListComponent implements OnInit {
   catalogueConfigId: string | null = null;
@@ -119,7 +120,7 @@ export class DeployableServicesListComponent implements OnInit {
 
   ngOnInit() {
     this.catalogueConfigId = this.config.getProperty('catalogueId');
-    if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
+    if (!this.authenticationService.isAdmin()) {
       this.router.navigateByUrl('/home');
     } else {
       this.dataForm = this.fb.group(this.formPrepare);

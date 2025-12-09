@@ -6,7 +6,7 @@ import {ReusableComponentsModule} from '../../../shared/reusablecomponents/reusa
 // import {ProviderStatsComponent} from './providerStats/provider-stats.component';
 import {CatalogueInfoComponent} from './catalogueInfo/catalogue-info.component';
 // import {ServiceStatsComponent} from './resource-dashboard/service-stats.component';
-import {MarkdownModule} from 'ngx-markdown';
+// import {MarkdownModule} from 'ngx-markdown';
 // import {ProviderHistoryComponent} from './providerHistory/provider-history.component';
 // import {ProviderFullHistoryComponent} from './providerHistory/provider-full-history.component';
 import {HighchartsChartModule} from "highcharts-angular";
@@ -28,7 +28,7 @@ import {
     CatalogueDashboardRouting,
     ReusableComponentsModule,
     HighchartsChartModule,
-    MarkdownModule.forChild(),
+    // MarkdownModule.forChild(),
 
   ],
   declarations: [

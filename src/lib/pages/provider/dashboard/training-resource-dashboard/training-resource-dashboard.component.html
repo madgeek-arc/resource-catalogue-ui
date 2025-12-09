@@ -4,9 +4,11 @@
 
       <div class="menu_section uk-margin-medium-top">
 
-        <div *ngIf="trainingResourceBundle?.active === false" class="rejected">
-          <div class="uk-label uk-align-right uk-margin-right" uk-tooltip="Some actions are disabled for inactive resources.">Inactive</div>
-        </div>
+        @if (trainingResourceBundle?.active === false) {
+          <div class="rejected">
+            <div class="uk-label uk-align-right uk-margin-right" uk-tooltip="Some actions are disabled for inactive resources.">Inactive</div>
+          </div>
+        }
 
         <div class="sidebar_heading">MONITOR</div>
 
@@ -33,15 +35,14 @@
 
         <ul>
 
-          <ng-container *ngIf="catalogueId === catalogueConfigId">
+          @if (catalogueId === catalogueConfigId) {
             <li>
               <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/training-resource/update/' + pidHandler.customEncodeURIComponent(trainingResourceId)]">
                 <img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
                 Update Training Resource
               </a>
             </li>
-
-            <ng-container *ngIf="trainingResourceBundle && trainingResourceBundle.status==='approved resource' && trainingResourceBundle.active===true">
+            @if (trainingResourceBundle && trainingResourceBundle.status==='approved resource' && trainingResourceBundle.active===true) {
               <li>
                 <a [routerLink]="['/provider/' + providerId + '/training-resource/monitoring/' + trainingResourceId]">
                   <img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
@@ -54,11 +55,11 @@
                   {{helpdeskId ? 'Edit' : 'Add'}} Helpdesk Extension
                 </a>
               </li>
-            </ng-container>
-          </ng-container>
+            }
+          }
 
           <li>
-<!--            <a href="{{_marketplaceTrainingResourcesURL}}{{catalogueId}}.{{trainingResourceId}}" target="_blank">-->
+            <!--            <a href="{{_marketplaceTrainingResourcesURL}}{{catalogueId}}.{{trainingResourceId}}" target="_blank">-->
             <a href="{{_marketplaceTrainingResourcesURL}}" target="_blank">
               <img src="../../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">
               View in Catalogue

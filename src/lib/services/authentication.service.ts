@@ -1,183 +1,133 @@
 import {Injectable} from '@angular/core';
-import {deleteCookie, getCookie, setCookie} from '../domain/utils';
-import {NavigationService} from './navigation.service';
-import {isNullOrUndefined} from '../shared/tools';
 import {environment} from '../../environments/environment';
 
-import * as moment from 'moment';
-import {timer} from 'rxjs';
+import {BehaviorSubject, Observable, Subscription, timer} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {User} from '../domain/user';
 
 
 @Injectable()
 export class AuthenticationService {
-  redirectURL = '/provider/my';
-  cookieName = 'info';
-  user = null;
-  cookie = null;
-  expiresAt = null;
+  private loginInterval: Subscription;
+  private apiUrl: string = environment.API_ENDPOINT;
+  private loginUrl = environment.API_LOGIN;
+  currentUserSubject: BehaviorSubject<User> = new BehaviorSubject<User | null>(null);
+  currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
 
-  constructor(public navigator: NavigationService) {
-    // this.user = JSON.parse(getCookie(this.cookieName));
-
-    // check if user has already logged in
-    this.getUserInfo();
-
-    // check every minute if cookie has expired.
-    timer(0, 60000).pipe().subscribe(x => {
-      // console.log(moment().toString() + ' ' + this.isLoggedIn());
-      if (!this.isLoggedIn()) {
-        deleteCookie(this.cookieName);
-        this.user = null;
-        this.cookie = null;
-        this.expiresAt = null;
-      }
-    });
+  constructor(public router: Router, private http: HttpClient) {
   }
 
-  /*public loginOLD(user: AAIUser) {
-      if (!this.isLoggedIn()) {
-          setCookie(this.cookieName, JSON.stringify(user), 1);
-          this.user = user;
-          this.navigationService.go(this.redirectURL);
-      }
-  }*/
-
-  public b64DecodeUnicode(str: string) {
-    return decodeURIComponent(Array.prototype.map.call(atob(str), function (c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+  public isLoggedIn() {
+    return this.getIsUserLoggedIn();
   }
 
-  public getUserInfo() {
-    // retrieve user information from cookie
-    this.cookie = getCookie(this.cookieName);
-    if (!this.isLoggedIn() && this.cookie !== null) {
-
-      this.user = JSON.parse(this.b64DecodeUnicode(getCookie(this.cookieName).replace(/"/gi, '')));
-
-      this.user.id = this.user.eduperson_unique_id;
-
-      sessionStorage.setItem('userInfo', JSON.stringify(this.user));
-      this.expiresAt = moment().add(JSON.stringify(this.user.expireSec), 'second');
-      // this.expiresAt = moment().add(75, 'second');
-      sessionStorage.setItem('expiresAt', JSON.stringify(this.expiresAt));
-
-      let url = sessionStorage.getItem('redirect_url');
-      sessionStorage.removeItem('redirect_url');
-      if (!(sessionStorage.getItem('forward_url') === null)) {
-        url = sessionStorage.getItem('forward_url');
-        sessionStorage.removeItem('forward_url');
-      }
-      if (url !== null) {
-        this.navigator.router.navigateByUrl(url);
-      }
-    }
+  public getLoginUrl(path: string = null): string {
+    const continueUrl = window.location.origin + encodeURIComponent(path ? path : this.router.url);
+    return `${this.loginUrl}?continue=${continueUrl}`;
   }
 
-  getUser() {
-    const user = JSON.parse(sessionStorage.getItem('userInfo'));
-    if (!isNullOrUndefined(user)) {
-      return user;
-    }
-    return null;
+  public getLogoutUrl(): string {
+    return `${this.apiUrl}/logout`;
   }
 
-  getUserProperty(property: string) {
-    if (isNullOrUndefined(this.user)) {
-      this.user = JSON.parse(sessionStorage.getItem('userInfo'));
+  getUserProperty(property: string): any {
+    if (this.getIsUserLoggedIn()) {
+      return this.currentUserSubject.value[property];
+    } else {
+      return '';
     }
-    if (!isNullOrUndefined(this.user) && !isNullOrUndefined(this.user[property]) && (this.user[property] !== 'null')) {
-      return this.user[property];
-    }
-    return null;
   }
 
   public refreshLogin(redirectUrl: string) {
-    deleteCookie(this.cookieName);
+    this.refreshUserInfo();
     if (!redirectUrl) {
-      redirectUrl = this.navigator.router.url;
+      redirectUrl = this.router.url;
     }
-    sessionStorage.setItem('redirect_url', redirectUrl);
-    // console.log(redirectUrl);
-    window.location.href = environment.API_LOGIN;
-    // console.log(window.location.href);
+    this.router.navigate([redirectUrl])
+      .then(r => console.debug('Redirecting to: ', redirectUrl));
   }
 
   public login() {
-    if (getCookie(this.cookieName) !== null && moment().isBefore(this.getExpiration())) {
-      console.log('found cookie');
-      this.getUserInfo();
-    } else {
-      sessionStorage.setItem('redirect_url', window.location.pathname);
-      window.location.href = environment.API_LOGIN;
-    }
-  }
-
-  public logout() {
-    if (this.isLoggedIn()) {
-      this.clearUserData();
-      window.location.href = environment.API_ENDPOINT + '/logout';
-    }
-  }
-
-  public clearUserData() {
-    deleteCookie(this.cookieName);
-    this.user = null;
-    this.cookie = null;
-    this.expiresAt = null;
-    sessionStorage.clear();
-  }
-
-  public isLoggedIn(): boolean {
-    return this.cookie != null && this.user != null && moment().isBefore(this.getExpiration());
-  }
-
-  getExpiration() {
-    if (isNullOrUndefined(this.expiresAt)) {
-      const expiration = sessionStorage.getItem('expiresAt');
-      this.expiresAt = moment(JSON.parse(expiration));
-    }
-    return this.expiresAt;
+    this.refreshLogin(null);
   }
 
   public getUserId(): string {
-    if (this.isLoggedIn()) {
-      return !isNullOrUndefined(this.user.id) ? this.user.id : 'null';
-    }
+    return this.getUserProperty('id');
   }
 
-  getUserName() {
-    if (this.isLoggedIn()) {
-      return !isNullOrUndefined(this.user.given_name) ? this.user.given_name : '';
-    }
-    return '';
+  public getIsUserLoggedIn() {
+    return (!this.loginInterval?.closed) && this.currentUserSubject.value !== null;
   }
 
-  getUserSurname() {
-    if (this.isLoggedIn()) {
-      return !isNullOrUndefined(this.user.family_name) ? this.user.family_name : '';
-    }
+  public getUserName(): string {
+    return this.getUserProperty('name');
   }
 
-  getUserEmail() {
-    return !isNullOrUndefined(this.user.email) ? this.user.email : 'null';
+  getUserSurname(): string {
+    return this.getUserProperty('surname');
+  }
+
+  public getUserEmail(): string {
+    return this.getUserProperty('email');
   }
 
   public getUserRoles(): string[] {
-    if (this.isLoggedIn()) {
-      return this.user.roles !== undefined ? this.user.roles : null;
-    }
+    return this.getUserProperty('roles');
   }
 
   isProvider() {
-    if (this.isLoggedIn()) {
-      return this.user.roles !== undefined ? this.user.roles.some(x => x === 'ROLE_PROVIDER') : false;
-    }
+    let roles: string[] = this.getUserRoles();
+    return roles !== undefined ? roles?.some(x => x === 'ROLE_PROVIDER') : false;
   }
 
   isAdmin() {
-    if (this.isLoggedIn()) {
-      return this.user.roles !== undefined ? this.user.roles.some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT') : false;
-    }
+    let roles: string[] = this.getUserRoles();
+    return roles != undefined && roles.length > 0 ? roles.some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT') : false;
   }
+
+  public refreshUserInfo() {
+    /* SETTING INTERVAL TO REFRESH SESSION TIMEOUT COUNTDOWN */
+    if (this.loginInterval == null || this.loginInterval.closed) {
+      this.loginInterval = timer(0, 1000 * 60 * 5).subscribe(() => {
+        this.http.get<User>(this.apiUrl + '/user/info', {withCredentials: true}).subscribe(
+          userInfo => {
+            sessionStorage.setItem('user', `${userInfo.name} ${userInfo.surname}`);
+            this.currentUserSubject.next(userInfo)
+          },
+          error => {
+            console.debug('/user/login status: ', error.status);
+            this.router.navigate(['/home']);
+            this.loginInterval.unsubscribe();
+            sessionStorage.clear();
+          },
+          () => {
+            console.debug(`User is:
+              ${this.currentUserSubject.value.name} ${this.currentUserSubject.value.surname}
+              ${this.currentUserSubject.value.email}
+              ${this.currentUserSubject.value.roles}`
+            )
+            if (sessionStorage.getItem('state.location')) {
+              let state = sessionStorage.getItem('state.location');
+              sessionStorage.removeItem('state.location');
+              console.debug(`returning to state: ${state}`);
+              this.router.navigate([state]);
+            }
+          }
+        );
+      });
+    }
+    console.debug('after refreshUserInfo');
+  }
+
+  public clearUserData() {
+    sessionStorage.clear();
+  }
+
+  public logout() {
+    this.clearUserData()
+    this.currentUserSubject.next(null);
+    window.location.href = this.getLogoutUrl();
+  }
+
 }

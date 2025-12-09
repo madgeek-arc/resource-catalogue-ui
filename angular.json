@@ -26,21 +26,12 @@
               "src/styles.scss",
               "node_modules/font-awesome/css/font-awesome.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/font-awesome/css/font-awesome.min.css",
-              "node_modules/ngx-markdown-editor/assets/highlight.js/agate.min.css",
-              "node_modules/prismjs/themes/prism-okaidia.css",
-              "node_modules/@angular/cdk/overlay-prebuilt.css"
+              "node_modules/font-awesome/css/font-awesome.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/uikit/dist/js/uikit.min.js",
-              "node_modules/uikit/dist/js/uikit-icons.min.js",
-              "node_modules/ngx-markdown-editor/assets/highlight.js/highlight.min.js",
-              "node_modules/ngx-markdown-editor/assets/marked.min.js",
-              "node_modules/marked/lib/marked.cjs",
-              "node_modules/prismjs/prism.js",
-              "node_modules/prismjs/components/prism-csharp.min.js",
-              "node_modules/prismjs/components/prism-css.min.js"
+              "node_modules/uikit/dist/js/uikit-icons.min.js"
             ],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -98,19 +89,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "resource-catalogue-ui:build",
-            "port": 3000
+            "port": 3000,
+            "buildTarget": "resource-catalogue-ui:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "resource-catalogue-ui:build:production"
+              "buildTarget": "resource-catalogue-ui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "resource-catalogue-ui:build"
+            "buildTarget": "resource-catalogue-ui:build"
           }
         },
         "test": {
@@ -173,5 +164,31 @@
   },
   "cli": {
     "analytics": false
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
   }
 }

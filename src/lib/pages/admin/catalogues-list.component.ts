@@ -25,8 +25,9 @@ import {zip} from 'rxjs';
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-catalogues-list',
-  templateUrl: './catalogues-list.component.html'
+    selector: 'app-catalogues-list',
+    templateUrl: './catalogues-list.component.html',
+    standalone: false
 })
 export class CataloguesListComponent implements OnInit {
   url = environment.API_ENDPOINT;
@@ -122,7 +123,7 @@ export class CataloguesListComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
+    if (!this.authenticationService.isAdmin()) {
       this.router.navigateByUrl('/home');
     } else {
       this.dataForm = this.fb.group(this.formPrepare);

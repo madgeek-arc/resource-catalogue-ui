@@ -10,9 +10,10 @@ import {environment} from '../../../../../environments/environment';
 import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 @Component({
-  selector: 'app-service-full-history',
-  templateUrl: './service-full-history.component.html',
-  styleUrls: ['./service-stats.component.css']
+    selector: 'app-service-full-history',
+    templateUrl: './service-full-history.component.html',
+    styleUrls: ['./service-stats.component.css'],
+    standalone: false
 })
 export class ServiceFullHistoryComponent implements OnInit, OnDestroy {
 

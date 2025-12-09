@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
 import {
@@ -293,7 +293,11 @@ export class TrainingResourceService {
     // console.log(JSON.stringify(service));
     // console.log(`knocking on: ${this.base}/service`);
     if (!comment && shouldPut) return this.http.put<TrainingResource>(this.base + `/trainingResource`, trainingResource, this.options);
-    return this.http[shouldPut ? 'put' : 'post']<TrainingResource>(this.base + `/trainingResource?comment=${comment}`, trainingResource, this.options);
+    if (shouldPut) {
+      return this.http.put<TrainingResource>(this.base + `/trainingResource?comment=${comment}`, trainingResource, this.options);
+    } else {
+      return this.http.post<TrainingResource>(this.base + `/trainingResource?comment=${comment}`, trainingResource, this.options);
+    }
   }
 
   /** Draft(Pending) Services -->**/
@@ -321,11 +325,6 @@ export class TrainingResourceService {
     return this.http.delete(this.base + '/pendingService/' + id, this.options);
   }
   /** <-- Draft(Pending) Services **/
-
-  getServiceHistory(serviceId: string) {
-    serviceId = decodeURIComponent(serviceId);
-    return this.http.get<Paging<ServiceHistory>>(this.base + `/trainingResource/history/${serviceId}/`);
-  }
 
   //TODO: rename to getTrainingLoggingInfoHistory
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
