@@ -118,7 +118,7 @@ export class ServiceProviderFormComponent implements OnInit {
 
     this.showLoader = true;
 
-    this.serviceProviderService.getFormModelById('m-b-provider').subscribe(
+    this.serviceProviderService.getFormModelById('m-b-providertest').subscribe(
       res => this.model = res,
       err => console.log(err),
       () => {
@@ -126,7 +126,7 @@ export class ServiceProviderFormComponent implements OnInit {
           const currentUser = this.getCurrentUserInfo();
           this.payloadAnswer = {
             'answer': {
-              Provider: {
+              provider: {
                 'catalogueId': this.catalogueConfigId,
                 'users': [
                   {

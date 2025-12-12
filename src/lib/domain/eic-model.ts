@@ -4,6 +4,7 @@
 
 export class Bundle<T> implements Identifiable {
   id: string;
+  catalogueId: string; // new v6
   metadata: Metadata;
   active: boolean;
   status: string;

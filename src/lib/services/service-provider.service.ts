@@ -243,9 +243,9 @@ export class ServiceProviderService {
   hasAdminAcceptedTerms(id: string, pendingProvider: boolean) {
     id = decodeURIComponent(id);
     if (pendingProvider) {
-      return this.http.get<boolean>(this.base + `/provider/hasAdminAcceptedTerms?providerId=${id}&isDraft=true`);
+      return this.http.get<boolean>(this.base + `/provider/hasAdminAcceptedTerms?id=${id}&isDraft=true`);
     }
-    return this.http.get<boolean>(this.base + `/provider/hasAdminAcceptedTerms?providerId=${id}&isDraft=false`);
+    return this.http.get<boolean>(this.base + `/provider/hasAdminAcceptedTerms?id=${id}&isDraft=false`);
   }
 
   adminAcceptedTerms(id: string, pendingProvider: boolean) {

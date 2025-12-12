@@ -94,7 +94,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
             ...this.provider,
             legalEntity: typeof this.provider.legalEntity === 'boolean' ? this.provider.legalEntity.toString() : this.provider.legalEntity
           };
-          this.payloadAnswer = {'answer': {Provider: parsedProvider}};
+          this.payloadAnswer = {'answer': {provider: parsedProvider}};
         },
         err => {
           console.log(err);
