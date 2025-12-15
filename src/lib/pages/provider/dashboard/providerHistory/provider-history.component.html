@@ -35,8 +35,8 @@
 
                   <div class="al_timeline">
 
-                    @if (providerHistory?.results?.length>0) {
-                      @for (history of providerHistory.results; track history; let i = $index) {
+                    @if (providerHistory?.length>0) {
+                      @for (history of providerHistory; track history; let i = $index) {
                         @if (i < 10) {
                           <div class="al_timeline_block update">
                             <div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up"></div>

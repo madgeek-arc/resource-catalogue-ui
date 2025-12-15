@@ -37,7 +37,7 @@
           <!--                <div class="transparentFilm"></div>-->
         <!--              </div>-->
         <!--              <div *ngIf="noAggregations">{{ noAggregations }}</div>-->
-        @if (service && serviceHistory?.results?.length>0) {
+        @if (service && serviceHistory?.length>0) {
           <div>
             <div  class="uk-width-1-1@m uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-margin-medium-bottom">
@@ -53,7 +53,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @for (history of serviceHistory.results; track history) {
+                      @for (history of serviceHistory; track history) {
                         <tr>
                           <td>@if (history.date) {
                             <span>{{ history.date | date : "MM-dd-yyyy" }}</span>

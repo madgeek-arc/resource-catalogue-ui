@@ -24,7 +24,7 @@ export class TrainingResourceFullHistoryComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public pidHandler: pidHandler;
 
-  trainingResourceHistory: Paging<LoggingInfo>;
+  trainingResourceHistory: LoggingInfo[];
 
   constructor(private route: ActivatedRoute, private navigator: NavigationService, private trainingResourceService: TrainingResourceService) {
   }

@@ -10,7 +10,7 @@
               <!--              <img src="{{ '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">-->
             <!--            </div>-->
             <div class="uk-margin-medium-left">
-              <h3 class="uk-margin-remove">{{deployableService.title}}</h3>
+              <h3 class="uk-margin-remove">{{deployableService.name}}</h3>
               <!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
               <!--              <div *ngIf="serviceHistory?.results[0]?.registeredBy && serviceHistory?.results[0]?.registeredAt">
               <span class="status-label">Registered by: </span>{{ serviceHistory.results[0].registeredBy }} on {{ serviceHistory.results[0].registeredAt | date}}
@@ -41,8 +41,8 @@
                   <div class="uk-container uk-container-center">
                     <div class="uk-button uk-button-danger uk-disabled uk-position-top-center uk-margin-small-top todayBadge">Today</div>
                     <div class="al_timeline">
-                      @if (deployableService && deployableServiceHistory?.results?.length>0) {
-                        @for (history of deployableServiceHistory.results; track history; let i = $index) {
+                      @if (deployableService && deployableServiceHistory?.length>0) {
+                        @for (history of deployableServiceHistory; track history; let i = $index) {
                           @if (i < 10) {
                             <div class="al_timeline_block update">
                               <div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up"></div>

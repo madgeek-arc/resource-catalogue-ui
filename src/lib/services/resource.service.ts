@@ -530,11 +530,11 @@ export class ResourceService {
 
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
     serviceId = decodeURIComponent(serviceId);
-    // return this.http.get<Paging<LoggingInfo>>(this.base + `/service/loggingInfoHistory/${serviceId}/`);
+    // return this.http.get<LoggingInfo[]>(this.base + `/service/loggingInfoHistory/${serviceId}/`);
     if (catalogue_id === this.catalogueConfigId)
-      return this.http.get<Paging<LoggingInfo>>(this.base + `/service/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
+      return this.http.get<LoggingInfo[]>(this.base + `/service/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
     else
-      return this.http.get<Paging<LoggingInfo>>(this.base + `/catalogue/${catalogue_id}/service/loggingInfoHistory/${serviceId}`);
+      return this.http.get<LoggingInfo[]>(this.base + `/catalogue/${catalogue_id}/service/loggingInfoHistory/${serviceId}`);
   }
 
   //TODO: rename to auditService

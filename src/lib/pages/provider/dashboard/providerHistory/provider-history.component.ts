@@ -23,7 +23,7 @@ export class ProviderHistoryComponent implements OnInit {
   catalogueId: string;
   providerId: string;
   providerBundle: ProviderBundle;
-  providerHistory: Paging<LoggingInfo>;
+  providerHistory: LoggingInfo[];
 
   public service: Service;
   public errorMessage: string;

@@ -40,7 +40,7 @@ export class TrainingResourceStatsComponent implements OnInit, OnDestroy {
   resourceAddsToProjectOptions: any = null;
   resourceMapOptions: any = null;
 
-  resourceHistory: Paging<LoggingInfo>;
+  resourceHistory: LoggingInfo[];
 
   statisticPeriod: string;
 

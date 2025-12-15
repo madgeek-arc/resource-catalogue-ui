@@ -10,7 +10,7 @@
               <!--              <img src="{{ deployableService.logo ? deployableService.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">-->
             <!--            </div>-->
             <div class="uk-margin-medium-left">
-              <h3 class="uk-margin-remove">{{deployableService.title}}</h3>
+              <h3 class="uk-margin-remove">{{deployableService.name}}</h3>
               <!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
               <!--              <div *ngIf="serviceHistory?.results[0]?.registeredBy && serviceHistory?.results[0]?.registeredAt">
               <span class="status-label">Registered by: </span>{{ serviceHistory.results[0].registeredBy }} on {{ serviceHistory.results[0].registeredAt | date}}
@@ -40,7 +40,7 @@
         <!--                <div class="transparentFilm"></div>-->
       <!--              </div>-->
       <!--              <div *ngIf="noAggregations">{{ noAggregations }}</div>-->
-      @if (deployableService && deployableServiceHistory?.results?.length>0) {
+      @if (deployableService && deployableServiceHistory?.length>0) {
         <div>
           <div  class="uk-width-1-1@m uk-margin-medium-bottom">
             <div class="uk-card uk-card-default uk-margin-medium-bottom">
@@ -56,7 +56,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @for (history of deployableServiceHistory.results; track history) {
+                    @for (history of deployableServiceHistory; track history) {
                       <tr>
                         <td>@if (history.date) {
                           <span>{{ history.date | date : "MM-dd-yyyy" }}</span>

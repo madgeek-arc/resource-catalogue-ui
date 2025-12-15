@@ -25,7 +25,7 @@ export class ProviderFullHistoryComponent implements OnInit {
   public service: Service;
   public errorMessage: string;
 
-  providerHistory: Paging<LoggingInfo>;
+  providerHistory: LoggingInfo[];
 
   constructor(private route: ActivatedRoute,
               private navigator: NavigationService,

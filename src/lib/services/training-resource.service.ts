@@ -330,9 +330,9 @@ export class TrainingResourceService {
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
     serviceId = decodeURIComponent(serviceId);
     if (catalogue_id === this.catalogueConfigId)
-      return this.http.get<Paging<LoggingInfo>>(this.base + `/trainingResource/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
+      return this.http.get<LoggingInfo[]>(this.base + `/trainingResource/loggingInfoHistory/${serviceId}?catalogue_id=${catalogue_id}`);
     else
-      return this.http.get<Paging<LoggingInfo>>(this.base + `/catalogue/${catalogue_id}/trainingResource/loggingInfoHistory/${serviceId}`);
+      return this.http.get<LoggingInfo[]>(this.base + `/catalogue/${catalogue_id}/trainingResource/loggingInfoHistory/${serviceId}`);
   }
 
   auditTrainingResource(id: string, action: string, catalogueId: string, comment: string) {

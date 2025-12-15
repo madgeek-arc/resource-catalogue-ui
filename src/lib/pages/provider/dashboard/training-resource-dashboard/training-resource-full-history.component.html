@@ -40,7 +40,7 @@
         <!--                <div class="transparentFilm"></div>-->
       <!--              </div>-->
       <!--              <div *ngIf="noAggregations">{{ noAggregations }}</div>-->
-      @if (trainingResource && trainingResourceHistory?.results?.length>0) {
+      @if (trainingResource && trainingResourceHistory?.length>0) {
         <div>
           <div  class="uk-width-1-1@m uk-margin-medium-bottom">
             <div class="uk-card uk-card-default uk-margin-medium-bottom">
@@ -56,7 +56,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @for (history of trainingResourceHistory.results; track history) {
+                    @for (history of trainingResourceHistory; track history) {
                       <tr>
                         <td>@if (history.date) {
                           <span>{{ history.date | date : "MM-dd-yyyy" }}</span>

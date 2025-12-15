@@ -304,12 +304,12 @@ export class ServiceProviderService {
 
   getProviderLoggingInfoHistory(providerId: string, catalogue_id: string) {
     providerId = decodeURIComponent(providerId);
-    // return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}/`);
-    // return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}?catalogue_id=${catalogue_id}`);
+    // return this.http.get<LoggingInfo[]>(this.base + `/provider/loggingInfoHistory/${providerId}/`);
+    // return this.http.get<LoggingInfo[]>(this.base + `/provider/loggingInfoHistory/${providerId}?catalogue_id=${catalogue_id}`);
     if (catalogue_id === this.catalogueConfigId)
-      return this.http.get<Paging<LoggingInfo>>(this.base + `/provider/loggingInfoHistory/${providerId}?catalogue_id=${catalogue_id}`);
+      return this.http.get<LoggingInfo[]>(this.base + `/provider/loggingInfoHistory/${providerId}?catalogue_id=${catalogue_id}`);
     else
-      return this.http.get<Paging<LoggingInfo>>(this.base + `/catalogue/${catalogue_id}/provider/loggingInfoHistory/${providerId}`);
+      return this.http.get<LoggingInfo[]>(this.base + `/catalogue/${catalogue_id}/provider/loggingInfoHistory/${providerId}`);
   }
 
   suspendProvider(providerId: string, catalogueId: string, suspend: boolean) {

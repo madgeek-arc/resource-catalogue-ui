@@ -38,8 +38,8 @@
                     <div class="uk-container uk-container-center">
                       <div class="uk-button uk-button-danger uk-disabled uk-position-top-center uk-margin-small-top todayBadge">Today</div>
                       <div class="al_timeline">
-                        @if (service && serviceHistory?.results?.length>0) {
-                          @for (history of serviceHistory.results; track history; let i = $index) {
+                        @if (service && serviceHistory?.length>0) {
+                          @for (history of serviceHistory; track history; let i = $index) {
                             @if (i < 10) {
                               <div class="al_timeline_block update">
                                 <div class="al_timeline_image uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up"></div>

@@ -24,7 +24,7 @@ export class ServiceHistoryComponent implements OnInit, OnDestroy {
   private sub: Subscription;
   public pidHandler: pidHandler;
 
-  serviceHistory: Paging<LoggingInfo>;
+  serviceHistory: LoggingInfo[];
 
   constructor(private route: ActivatedRoute, private navigator: NavigationService, private resourceService: ResourceService) {
   }
