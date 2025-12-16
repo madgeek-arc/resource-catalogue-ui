@@ -168,7 +168,7 @@
               </div>
               <div class="uk-width-2-3">
                 <h4 class="uk-margin-remove">
-                  <a [routerLink]="['/dashboard', providerBundle.provider.catalogueId, providerBundle.id]" data-uk-tooltip title="Go to the provider dashboard">
+                  <a [routerLink]="['/dashboard', providerBundle.catalogueId, providerBundle.id]" data-uk-tooltip title="Go to the provider dashboard">
                     {{ providerBundle.provider.name }}
                   </a>
                   <!--                    <a (click)="navigate(providerBundle.provider.id)">{{providerBundle.provider.name}}</a>-->
@@ -206,10 +206,10 @@
         </div>
       }
     </div>
-    @if (providerBundle.provider.catalogueId !== catalogueConfigId) {
+    @if (providerBundle.catalogueId !== catalogueConfigId) {
       <hr class="uk-margin-top">
       <div class="uk-align-right">
-        <button [routerLink]="['/provider/view/', providerBundle.provider.catalogueId, providerBundle.id]" class="uk-button uk-button-link">
+        <button [routerLink]="['/provider/view/', providerBundle.catalogueId, providerBundle.id]" class="uk-button uk-button-link">
           <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i> View Provider
         </button>
       </div>
