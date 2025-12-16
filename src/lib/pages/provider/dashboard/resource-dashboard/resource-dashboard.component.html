@@ -43,7 +43,7 @@
       </div>
 
 
-      @if (resourceBundle?.status === 'approved resource') {
+      @if (resourceBundle?.status === 'approved') {
         <div class="menu_section border_top">
           <div class="sidebar_heading">DATASOURCE SUBPROFILE</div>
           <ul>
@@ -73,7 +73,7 @@
     </div>
   }
 
-  @if (resourceBundle?.status !== 'approved resource') {
+  @if (resourceBundle?.status !== 'approved') {
     <div class="menu_section border_top" uk-tooltip="Disabled until first service approval.">
       <div class="sidebar_heading">DATASOURCE SUBPROFILE</div>
       <ul class="uk-disabled">
@@ -93,7 +93,7 @@
     <div class="menu_section border_top">
       <div class="sidebar_heading">EXTENSIONS</div>
       <ul>
-        @if (resourceBundle && resourceBundle.status==='approved resource' && resourceBundle.active===true) {
+        @if (resourceBundle && resourceBundle.status==='approved' && resourceBundle.active===true) {
           <li>
             <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/resource/monitoring/' + pidHandler.customEncodeURIComponent(resourceId)]">
               <img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
@@ -107,7 +107,7 @@
             </a>
           </li>
         }
-        @if (resourceBundle?.status!=='approved resource' || resourceBundle?.active!==true) {
+        @if (resourceBundle?.status!=='approved' || resourceBundle?.active!==true) {
           <li uk-tooltip="Disabled until first service approval and/or service activation.">
             <a><img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> {{monitoringId ? 'Edit' : 'Add'}} Monitoring Extension</a>
           </li>
@@ -125,7 +125,7 @@
     <ul>
 
       @if (catalogueId === catalogueConfigId) {
-        @if (resourceBundle?.status === 'approved resource' && resourceBundle?.active === true) {
+        @if (resourceBundle?.status === 'approved' && resourceBundle?.active === true) {
           @if (resourceGuidelines?.interoperabilityRecordIds?.length > 0) {
             @for (id of resourceGuidelines.interoperabilityRecordIds; track id) {
               <li [routerLinkActive]="['current_section']" #guideline="routerLinkActive">
@@ -166,7 +166,7 @@
             Update {{serviceORresource}}
           </a>
         </li>
-        @if (resourceBundle?.status!=='approved resource' || resourceBundle?.active!==true) {
+        @if (resourceBundle?.status!=='approved' || resourceBundle?.active!==true) {
           <li uk-tooltip="Disabled until first service approval and/or service activation.">
             <a><img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add/Remove Guidelines</a>
           </li>

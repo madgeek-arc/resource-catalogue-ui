@@ -109,7 +109,7 @@ export class DeployableServicesComponent implements OnInit {
   }
 
   toggleDeployableService(dsBundle: DeployableServiceBundle) {
-    if (dsBundle.status === 'pending resource' || dsBundle.status === 'rejected resource') {
+    if (dsBundle.status === 'pending' || dsBundle.status === 'rejected') {
       this.errorMessage = `You cannot activate a ${dsBundle.status}.`;
       window.scrollTo(0, 0);
       return;

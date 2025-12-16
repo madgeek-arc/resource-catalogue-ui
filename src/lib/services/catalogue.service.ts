@@ -93,7 +93,7 @@ export class CatalogueService {
         params = params.append('status', statusValue);
       }
     } else {
-      const allStatus = ["approved provider","pending provider","rejected provider"];
+      const allStatus = ["approved","pending","rejected"];
       for (const statusValue of allStatus) {
         params = params.append('status', statusValue);
       }
@@ -110,7 +110,7 @@ export class CatalogueService {
         params = params.append('status', statusValue);
       }
     } else {
-      const allStatus = ["approved resource","pending resource","rejected resource"];
+      const allStatus = ["approved","pending","rejected"];
       for (const statusValue of allStatus) {
         params = params.append('status', statusValue);
       }
@@ -126,7 +126,7 @@ export class CatalogueService {
         params = params.append('status', statusValue);
       }
     } else {
-      const allStatus = ["approved resource","pending resource","rejected resource"];
+      const allStatus = ["approved","pending","rejected"];
       for (const statusValue of allStatus) {
         params = params.append('status', statusValue);
       }
@@ -142,7 +142,7 @@ export class CatalogueService {
         params = params.append('status', statusValue);
       }
     } else {
-      const allStatus = ["approved resource","pending resource","rejected resource"];
+      const allStatus = ["approved","pending","rejected"];
       for (const statusValue of allStatus) {
         params = params.append('status', statusValue);
       }
@@ -158,7 +158,7 @@ export class CatalogueService {
         params = params.append('status', statusValue);
       }
     } else {
-      const allStatus = ["approved resource","pending resource","rejected resource"];
+      const allStatus = ["approved","pending","rejected"];
       for (const statusValue of allStatus) {
         params = params.append('status', statusValue);
       }

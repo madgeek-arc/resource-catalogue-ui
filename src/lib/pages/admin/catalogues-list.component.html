@@ -164,17 +164,17 @@
                       @for (catalogueBundle of catalogues; track catalogueBundle) {
                         <div class="uk-card provider-card uk-margin-medium-top">
                           <div class="uk-card-body" style="padding-bottom: 20px;">
-                            @if (catalogueBundle.status === 'approved catalogue') {
+                            @if (catalogueBundle.status === 'approved') {
                               <div class="approved">
                                 <div class="uk-card-badge uk-label">Approved</div>
                               </div>
                             }
-                            @if (catalogueBundle.status === 'pending catalogue') {
+                            @if (catalogueBundle.status === 'pending') {
                               <div class="pending">
                                 <div class="uk-card-badge uk-label">Pending</div>
                               </div>
                             }
-                            @if ((catalogueBundle.status === 'rejected catalogue')) {
+                            @if ((catalogueBundle.status === 'rejected')) {
                               <div class="rejected">
                                 <div class="uk-card-badge uk-label">Rejected</div>
                               </div>
@@ -282,19 +282,19 @@
                             <!--                                  <li class="uk-nav-divider"></li>-->
                           <!--                                </ng-container>-->
                           <!--                                Those 2  use the verify method to proceed with the onboarding process-->
-                          @if ((catalogueBundle.status === 'pending catalogue') || (catalogueBundle.status === 'rejected catalogue')) {
+                          @if ((catalogueBundle.status === 'pending') || (catalogueBundle.status === 'rejected')) {
                             <li
-                              (click)="showActionModal(catalogueBundle, 'approved catalogue')" class="uk-margin-small-top">
+                              (click)="showActionModal(catalogueBundle, 'approved')" class="uk-margin-small-top">
                               <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Approve</a>
                             </li>
                           }
-                          @if ((catalogueBundle.status === 'pending catalogue')) {
+                          @if ((catalogueBundle.status === 'pending')) {
                             <li
-                              (click)="showActionModal(catalogueBundle, 'rejected catalogue')" class="uk-margin-small-top">
+                              (click)="showActionModal(catalogueBundle, 'rejected')" class="uk-margin-small-top">
                               <a><i aria-hidden="true" class="fa fa-thumbs-down uk-margin-small-right"></i>Reject</a>
                             </li>
                           }
-                          @if (catalogueBundle.status === 'approved catalogue') {
+                          @if (catalogueBundle.status === 'approved') {
                             <li class="uk-margin-small-bottom"
                               (click)="showAuditForm(catalogueBundle)">
                               <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
@@ -393,8 +393,8 @@
           }
           @if (selectedCatalogue.status === newStatus) {
             <p>
-              {{ ((selectedCatalogue.status === 'approved catalogue') && !pushedApprove) ? 'The catalogue will be deactivated.' :
-              (((selectedCatalogue.status === 'approved catalogue') && pushedApprove) ? 'The catalogue will be activated.' :
+              {{ ((selectedCatalogue.status === 'approved') && !pushedApprove) ? 'The catalogue will be deactivated.' :
+              (((selectedCatalogue.status === 'approved') && pushedApprove) ? 'The catalogue will be activated.' :
               'The Catalogue will be prompted to update the resource template.')}}
             </p>
           }

@@ -14,7 +14,7 @@
 
         <ul>
 
-          @if (providerStatus === 'approved provider') {
+          @if (providerStatus === 'approved') {
             <li [routerLinkActive]="['current_section']" #stats="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'stats']">
                 <img src="{{stats.isActive ? 'assets/images/new-icons/stats-active.svg' : 'assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
@@ -22,7 +22,7 @@
               </a>
             </li>
           }
-          @if (providerStatus !== 'approved provider') {
+          @if (providerStatus !== 'approved') {
             <li [routerLinkActive]="['current_section']" #stats="routerLinkActive" title="Statistics are disabled until your Provider completes the onboarding process.">
               <a>
                 <img src="{{stats.isActive ? 'assets/images/new-icons/stats-active.svg' : 'assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
@@ -122,7 +122,7 @@
       <ul>
 
         @if (catalogueId === catalogueConfigId) {
-          @if (providerBundle?.templateStatus === 'rejected template' || (providerBundle?.status === 'approved provider' && providerBundle?.templateStatus === 'no template status')) {
+          @if (providerBundle?.templateStatus === 'rejected template' || (providerBundle?.status === 'approved' && providerBundle?.templateStatus === 'no template status')) {
             <li>
               <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-service/']">
                 <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
@@ -142,7 +142,7 @@
               </a>
             </li>
           }
-          @if (providerBundle?.status === 'pending provider') {
+          @if (providerBundle?.status === 'pending') {
             <li uk-tooltip="Disabled until provider gets approved.">
               <a><img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first {{serviceORresource}}</a>
             </li>
@@ -190,7 +190,7 @@
             <a><img src="assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new Training Resource</a>
           </li>
         </ng-container>-->
-        @if (providerBundle?.status === 'approved provider') {
+        @if (providerBundle?.status === 'approved') {
           <li>
             <a [routerLink]="['/guidelines/' + providerId + '/add/']">
               <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
@@ -198,7 +198,7 @@
             </a>
           </li>
         }
-        @if (providerBundle?.status !== 'approved provider') {
+        @if (providerBundle?.status !== 'approved') {
           <li uk-tooltip="Disabled until provider gets approved.">
             <a><img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new Guideline</a>
           </li>

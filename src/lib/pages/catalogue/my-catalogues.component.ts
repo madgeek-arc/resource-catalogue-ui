@@ -102,9 +102,9 @@ export class MyCataloguesComponent implements OnInit {
   */
 
   assignCatalogueToList(p: CatalogueBundle) {
-    if (p.status === 'rejected catalogue') {
+    if (p.status === 'rejected') {
       this.myRejectedCatalogues.push(p);
-    } else if ((p.status === 'approved catalogue')) {
+    } else if ((p.status === 'approved')) {
       this.myApprovedCatalogues.push(p);
     } else {
       this.myPendingActionCatalogues.push(p);
@@ -113,11 +113,11 @@ export class MyCataloguesComponent implements OnInit {
 
   onCheckChanged(e, status: string) {
 
-    if (status === 'approved catalogue') {
+    if (status === 'approved') {
       this.isApprovedChecked = e.target.checked;
-    } else if (status === 'pending catalogue') {
+    } else if (status === 'pending') {
       this.isPendingChecked = e.target.checked;
-    } else if (status === 'rejected catalogue') {
+    } else if (status === 'rejected') {
       this.isRejectedChecked = e.target.checked;
     }
     // else if (status === 'incomplete') {

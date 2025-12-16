@@ -115,9 +115,9 @@
                     <div class="uk-inline">
                       <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
                         <option value="" selected>All</option>
-                        <option value="pending datasource">Pending</option>
-                        <option value="approved datasource">Approved</option>
-                        <option value="rejected datasource">Rejected</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
                       </select>
                     </div>
                   </div>
@@ -196,17 +196,17 @@
     @for (datasourceBundlePlus of enrichedDatasources; track datasourceBundlePlus) {
       <div class="uk-card provider-card uk-margin-medium-top">
         <div class="uk-card-body uk-padding-remove-bottom">
-          @if (datasourceBundlePlus.status === 'approved datasource') {
+          @if (datasourceBundlePlus.status === 'approved') {
             <div class="approved">
               <div class="uk-card-badge uk-label">Approved</div>
             </div>
           }
-          @if (datasourceBundlePlus.status === 'pending datasource') {
+          @if (datasourceBundlePlus.status === 'pending') {
             <div class="pending">
               <div class="uk-card-badge uk-label">Pending</div>
             </div>
           }
-          @if ((datasourceBundlePlus.status === 'rejected datasource')) {
+          @if ((datasourceBundlePlus.status === 'rejected')) {
             <div class="rejected">
               <div class="uk-card-badge uk-label">Rejected</div>
             </div>
@@ -290,17 +290,17 @@
           Delete
         </button>
       }
-      @if (datasourceBundlePlus.status==='pending datasource') {
+      @if (datasourceBundlePlus.status==='pending') {
         <button class="uk-button uk-button-link uk-margin-medium-left"
           style="padding-left: 40px; border-left: 1px solid #ccc">
           <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More Options
         </button>
         <div uk-dropdown="mode: click">
           <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-            <li class="uk-active" (click)="verifyDatasource(datasourceBundlePlus.id, true, 'approved datasource')">
+            <li class="uk-active" (click)="verifyDatasource(datasourceBundlePlus.id, true, 'approved')">
               <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve </a>
             </li>
-            <li class="uk-active" (click)="verifyDatasource(datasourceBundlePlus.id, true, 'rejected datasource')">
+            <li class="uk-active" (click)="verifyDatasource(datasourceBundlePlus.id, true, 'rejected')">
               <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject </a>
             </li>
             <!--                              <li *ngIf="(datasourceBundle.status === 'approved datasource') && (!datasourceBundle.active)"

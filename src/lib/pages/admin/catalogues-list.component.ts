@@ -105,7 +105,7 @@ export class CataloguesListComponent implements OnInit {
   @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
 
   // public statuses: Array<string> = ['approved provider', 'pending provider', 'rejected provider'];
-  public statuses: Array<string> = ['approved catalogue', 'pending catalogue', 'rejected catalogue'];
+  public statuses: Array<string> = ['approved', 'pending', 'rejected'];
   public labels: Array<string> = ['Approved', 'Pending', 'Rejected'];
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
@@ -430,7 +430,7 @@ export class CataloguesListComponent implements OnInit {
   // }
 
   statusChangeActionCatalogue(){
-      const active = this.newStatus === 'approved catalogue';
+      const active = this.newStatus === 'approved';
       this.catalogueService.verifyCatalogue(this.selectedCatalogue.id, active, this.newStatus)
       .subscribe(
         res => {

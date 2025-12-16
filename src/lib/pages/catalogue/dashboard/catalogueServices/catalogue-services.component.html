@@ -128,17 +128,17 @@
       @for (serviceBundle of services; track serviceBundle) {
         <div class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
           <div class="uk-card-body">
-            @if (serviceBundle.status === 'approved resource') {
+            @if (serviceBundle.status === 'approved') {
               <div class="approved">
                 <div class="uk-card-badge uk-label">Approved</div>
               </div>
             }
-            @if (serviceBundle.status === 'pending resource') {
+            @if (serviceBundle.status === 'pending') {
               <div class="pending">
                 <div class="uk-card-badge uk-label">Pending</div>
               </div>
             }
-            @if ((serviceBundle.status === 'rejected resource')) {
+            @if ((serviceBundle.status === 'rejected')) {
               <div class="rejected">
                 <div class="uk-card-badge uk-label">Rejected</div>
               </div>

@@ -109,7 +109,7 @@ export class ServiceProvidersListComponent implements OnInit {
   public auditLabels: Array<string> = ['Valid', 'Not audited', 'Invalid and updated', 'Invalid and not updated'];
   @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
 
-  public statuses: Array<string> = ['approved provider', 'pending provider', 'rejected provider'];
+  public statuses: Array<string> = ['approved', 'pending', 'rejected'];
   public labels: Array<string> = ['Approved', 'Pending', 'Rejected'];
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
 
@@ -499,10 +499,10 @@ export class ServiceProvidersListComponent implements OnInit {
   }
 
   updateSelectedProvider() {
-    if (this.selectedProvider && (this.selectedProvider.status !== 'approved provider')) {
+    if (this.selectedProvider && (this.selectedProvider.status !== 'approved')) {
       const i = this.statusList.indexOf(this.selectedProvider.status);
       let active = false;
-      if (this.statusList[i + 1] === 'approved provider') {
+      if (this.statusList[i + 1] === 'approved') {
         active = true;
       }
       const updatedFields = Object.assign({
@@ -598,7 +598,7 @@ export class ServiceProvidersListComponent implements OnInit {
 
   statusChangeAction() {
     this.loadingMessage = '';
-    const active = this.pushedApprove && (this.newStatus === 'approved provider');
+    const active = this.pushedApprove && (this.newStatus === 'approved');
     if(this.verify){ //use verify method
       this.serviceProviderService.verifyProvider(this.selectedProvider.id, active, this.adminActionsMap[this.newStatus].statusId)
         .subscribe(

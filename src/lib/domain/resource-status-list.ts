@@ -1,25 +1,25 @@
-export const statusList = ['pending resource', 'approved resource', 'rejected resource'];
+export const statusList = ['pending', 'approved', 'rejected'];
 
 export const resourceStatusChangeMap = {
-  'pending resource': {
-    statusId: 'pending resource',
+  'pending': {
+    statusId: 'pending',
     appButtonTitle: 'Approve Resource',
     rejButtonTitle: 'Reject Resource',
-    onApprove: 'approved resource',
-    onReject: 'rejected resource'
+    onApprove: 'approved',
+    onReject: 'rejected'
   },
-  'approved resource': {
-    statusId: 'approved resource',
+  'approved': {
+    statusId: 'approved',
     appButtonTitle: '',
     rejButtonTitle: 'Deactivate',
     onApprove: '',
-    onReject: 'approved resource' //'rejected resource'
+    onReject: 'approved' //'rejected resource'
   },
-  'rejected resource': {
-    statusId: 'rejected resource',
+  'rejected': {
+    statusId: 'rejected',
     appButtonTitle: 'Approve Resource',
     rejButtonTitle: '',
-    onApprove: 'approved resource',
+    onApprove: 'approved',
     onReject: ''
   }
 };

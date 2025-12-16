@@ -60,9 +60,9 @@ export class MyAdaptersComponent implements OnInit {
   }
 
   assignAdapterToList(p: AdapterBundle) {
-    if (p.status === 'rejected adapter') {
+    if (p.status === 'rejected') {
       this.myRejectedAdapters.push(p);
-    } else if ((p.status === 'approved adapter')) {
+    } else if ((p.status === 'approved')) {
       this.myApprovedAdapters.push(p);
     } else {
       this.myPendingActionAdapters.push(p);
@@ -70,11 +70,11 @@ export class MyAdaptersComponent implements OnInit {
   }
 
   onCheckChanged(e, status: string) {
-    if (status === 'approved adapter') {
+    if (status === 'approved') {
       this.isApprovedChecked = e.target.checked;
-    } else if (status === 'pending adapter') {
+    } else if (status === 'pending') {
       this.isPendingChecked = e.target.checked;
-    } else if (status === 'rejected adapter') {
+    } else if (status === 'rejected') {
       this.isRejectedChecked = e.target.checked;
     }
   }

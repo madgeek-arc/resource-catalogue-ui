@@ -1,28 +1,28 @@
-export const statusList = ['pending provider', 'pending template submission', 'pending template approval','approved provider'];
+export const statusList = ['pending', 'pending template submission', 'pending template approval','approved'];
 // set 'rejected' when the admin rejects provider and
 // 'rejected template' when the admin rejects the service template
 
 
 export const statusChangeMap = {
-        'approved provider': {
-                     statusId: 'approved provider',
+        'approved': {
+                     statusId: 'approved',
                      appButtonTitle: '',
                      rejButtonTitle: 'Deactivate',
                      onApprove: '',
-                     onReject: 'approved provider' //'rejected provider'
+                     onReject: 'approved' //'rejected provider'
         },
-        'rejected provider': {
-                     statusId: 'rejected provider',
+        'rejected': {
+                     statusId: 'rejected',
                      appButtonTitle: 'Approve Provider',
                      rejButtonTitle: '',
-                     onApprove: 'approved provider',
+                     onApprove: 'approved',
                      onReject: ''
         },
-        'pending provider': {
-                     statusId: 'pending provider',
+        'pending': {
+                     statusId: 'pending',
                      appButtonTitle: 'Approve Provider',
                      rejButtonTitle: 'Reject Provider',
-                     onApprove: 'approved provider',
-                     onReject: 'rejected provider'
+                     onApprove: 'approved',
+                     onReject: 'rejected'
         }
     };

@@ -84,7 +84,7 @@ export class MyServiceProvidersComponent implements OnInit {
                 );
               }
               // if (p.status === 'pending template submission') {
-              if (p.status === 'approved provider' && p.provider.catalogueId === this.catalogueConfigId) {
+              if (p.status === 'approved' && p.provider.catalogueId === this.catalogueConfigId) {
                 // console.log(p.id);
                 this.resourceService.getDraftServicesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
                   res => {
@@ -212,9 +212,9 @@ export class MyServiceProvidersComponent implements OnInit {
   }
 
   assignProviderToList(p: ProviderBundle) {
-    if (p.status === 'rejected provider') {
+    if (p.status === 'rejected') {
       this.myRejectedProviders.push(p);
-    } else if ((p.status === 'approved provider')) {
+    } else if ((p.status === 'approved')) {
       this.myApprovedProviders.push(p);
     } else {
       this.myPendingActionProviders.push(p);
@@ -223,11 +223,11 @@ export class MyServiceProvidersComponent implements OnInit {
 
   onCheckChanged(e, status: string) {
 
-    if (status === 'approved provider') {
+    if (status === 'approved') {
       this.isApprovedChecked = e.target.checked;
-    } else if (status === 'pending provider') {
+    } else if (status === 'pending') {
       this.isPendingChecked = e.target.checked;
-    } else if (status === 'rejected provider') {
+    } else if (status === 'rejected') {
       this.isRejectedChecked = e.target.checked;
     } else if (status === 'incomplete') {
       this.isIncompleteChecked = e.target.checked;

@@ -70,9 +70,9 @@
             <div class="uk-inline">
               <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
                 <option value="" selected>All</option>
-                <option value="approved resource">Approved Resource</option>
-                <option value="pending resource">Pending Resource</option>
-                <option value="rejected resource">Rejected Resource</option>
+                <option value="approved">Approved Resource</option>
+                <option value="pending">Pending Resource</option>
+                <option value="rejected">Rejected Resource</option>
               </select>
             </div>
           </div>
@@ -128,17 +128,17 @@
             @for (dsBundle of deployableServices.results; track dsBundle; let i = $index) {
               <div class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
                 <div class="uk-card-body">
-                  @if (dsBundle.status === 'approved resource') {
+                  @if (dsBundle.status === 'approved') {
                     <div class="approved">
                       <div class="uk-card-badge uk-label">Approved</div>
                     </div>
                   }
-                  @if (dsBundle.status === 'pending resource') {
+                  @if (dsBundle.status === 'pending') {
                     <div class="pending">
                       <div class="uk-card-badge uk-label">Pending</div>
                     </div>
                   }
-                  @if ((dsBundle.status === 'rejected resource')) {
+                  @if ((dsBundle.status === 'rejected')) {
                     <div class="rejected">
                       <div class="uk-card-badge uk-label">Rejected</div>
                     </div>
@@ -213,7 +213,7 @@
                       <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">-->
                       <!--<i class="fa fa-pencil fa-lg"></i> Edit {{serviceORresource | lowercase}}-->
                     <!--</button>-->
-                    @if (dsBundle.status !== 'pending resource') {
+                    @if (dsBundle.status !== 'pending') {
                       <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedDeployableService(dsBundle)">
                         <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete deployable service
                       </button>

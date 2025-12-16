@@ -42,7 +42,7 @@
                 Update Training Resource
               </a>
             </li>
-            @if (trainingResourceBundle && trainingResourceBundle.status==='approved resource' && trainingResourceBundle.active===true) {
+            @if (trainingResourceBundle && trainingResourceBundle.status==='approved' && trainingResourceBundle.active===true) {
               <li>
                 <a [routerLink]="['/provider/' + providerId + '/training-resource/monitoring/' + trainingResourceId]">
                   <img src="../../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">

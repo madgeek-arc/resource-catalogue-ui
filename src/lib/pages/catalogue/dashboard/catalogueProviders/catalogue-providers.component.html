@@ -69,9 +69,9 @@
             <div class="uk-inline">
               <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
                 <option value="" selected>All</option>
-                <option value="approved resource">Approved Resource</option>
-                <option value="pending resource">Pending Resource</option>
-                <option value="rejected resource">Rejected Resource</option>
+                <option value="approved">Approved Resource</option>
+                <option value="pending">Pending Resource</option>
+                <option value="rejected">Rejected Resource</option>
               </select>
             </div>
           </div>
@@ -127,17 +127,17 @@
       @for (providerBundle of catalogueProviders.results; track providerBundle) {
         <div class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
           <div class="uk-card-body">
-            @if (providerBundle.status === 'approved resource') {
+            @if (providerBundle.status === 'approved') {
               <div class="approved">
                 <div class="uk-card-badge uk-label">Approved</div>
               </div>
             }
-            @if (providerBundle.status === 'pending resource') {
+            @if (providerBundle.status === 'pending') {
               <div class="pending">
                 <div class="uk-card-badge uk-label">Pending</div>
               </div>
             }
-            @if ((providerBundle.status === 'rejected resource')) {
+            @if ((providerBundle.status === 'rejected')) {
               <div class="rejected">
                 <div class="uk-card-badge uk-label">Rejected</div>
               </div>

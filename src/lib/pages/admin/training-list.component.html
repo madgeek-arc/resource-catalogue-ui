@@ -228,17 +228,17 @@
                     @for (trBundle of trainingResourceBundles; track trBundle) {
                       <div class="uk-card provider-card uk-margin-medium-top">
                         <div class="uk-card-body" style="padding-bottom: 20px;">
-                          @if (trBundle.status === 'approved resource') {
+                          @if (trBundle.status === 'approved') {
                             <div class="approved">
                               <div class="uk-card-badge uk-label">Approved</div>
                             </div>
                           }
-                          @if (trBundle.status === 'pending resource') {
+                          @if (trBundle.status === 'pending') {
                             <div class="pending">
                               <div class="uk-card-badge uk-label">Pending</div>
                             </div>
                           }
-                          @if ((trBundle.status === 'rejected resource')) {
+                          @if ((trBundle.status === 'rejected')) {
                             <div class="rejected">
                               <div class="uk-card-badge uk-label">Rejected</div>
                             </div>
@@ -346,7 +346,7 @@
                         </button>
                         <div uk-dropdown="mode: click">
                           <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                            @if (trBundle.active && trBundle.status=='approved resource') {
+                            @if (trBundle.active && trBundle.status=='approved') {
                               <li class="uk-margin-small-bottom"
                                 (click)="showAuditForm('main', trBundle)">
                                 <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
@@ -380,7 +380,7 @@
                           <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
                           Update Training Resource
                         </button>
-                        @if (trBundle.status !== 'pending resource') {
+                        @if (trBundle.status !== 'pending') {
                           <button (click)="showDeletionModal(trBundle)"
                             class="uk-button uk-button-link uk-margin-medium-left"
                             style="padding-left: 40px; border-left: 1px solid #ccc">
@@ -388,7 +388,7 @@
                             Delete Training Resource
                           </button>
                         }
-                        @if (trBundle.status!=='rejected resource') {
+                        @if (trBundle.status!=='rejected') {
                           <button
                             class="uk-button uk-button-link uk-margin-medium-left"
                             style="padding-left: 40px; border-left: 1px solid #ccc">
@@ -397,7 +397,7 @@
                         }
                         <div uk-dropdown="mode: click">
                           <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                            @if (trBundle.status=='approved resource') {
+                            @if (trBundle.status=='approved') {
                               @if (trBundle.active) {
                                 <ng-container class="uk-margin-small-bottom">
                                   <li (click)="showAuditForm('main', trBundle)">
@@ -452,11 +452,11 @@
                                 </li>
                               }
                             }
-                            @if (trBundle.status=='pending resource') {
-                              <li class="uk-active" (click)="templateAction(trBundle.id, true, 'approved resource')">
+                            @if (trBundle.status=='pending') {
+                              <li class="uk-active" (click)="templateAction(trBundle.id, true, 'approved')">
                                 <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve First Training Resource</a>
                               </li>
-                              <li class="uk-active" (click)="templateAction(trBundle.id, true, 'rejected resource')">
+                              <li class="uk-active" (click)="templateAction(trBundle.id, true, 'rejected')">
                                 <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First Training Resource</a>
                               </li>
                             }

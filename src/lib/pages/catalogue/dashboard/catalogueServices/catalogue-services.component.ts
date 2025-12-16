@@ -109,7 +109,7 @@ export class CatalogueServicesComponent implements OnInit {
   }
 
   toggleService(bundle: ServiceBundle) {
-    if (bundle.status === 'pending resource' || bundle.status === 'rejected resource') {
+    if (bundle.status === 'pending' || bundle.status === 'rejected') {
       this.errorMessage = `You cannot activate a ${bundle.status}.`;
       window.scrollTo(0, 0);
       return;

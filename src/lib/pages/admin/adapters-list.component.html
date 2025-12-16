@@ -118,9 +118,9 @@
                     <div class="uk-inline">
                       <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
                         <option value="" selected>All</option>
-                        <option value="approved adapter">Approved</option>
-                        <option value="rejected adapter">Rejected</option>
-                        <option value="pending adapter">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="pending">Pending</option>
                       </select>
                     </div>
                   </div>
@@ -199,17 +199,17 @@
                   @for (adapterBundle of adapters; track adapterBundle) {
                     <div class="uk-card provider-card uk-margin-medium-top">
                       <div class="uk-card-body uk-padding-remove-bottom">
-                        @if (adapterBundle.status === 'approved adapter') {
+                        @if (adapterBundle.status === 'approved') {
                           <div class="approved">
                             <div class="uk-card-badge uk-label">Approved</div>
                           </div>
                         }
-                        @if (adapterBundle.status === 'pending adapter') {
+                        @if (adapterBundle.status === 'pending') {
                           <div class="pending">
                             <div class="uk-card-badge uk-label">Pending</div>
                           </div>
                         }
-                        @if ((adapterBundle.status === 'rejected adapter')) {
+                        @if ((adapterBundle.status === 'rejected')) {
                           <div class="rejected">
                             <div class="uk-card-badge uk-label">Rejected</div>
                           </div>
@@ -221,12 +221,12 @@
                         }
                         @if (!adapterBundle.active) {
                           <div class="rejected">
-                            <div class="uk-label uk-align-right" [ngClass]="adapterBundle.status === 'pending adapter' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
+                            <div class="uk-label uk-align-right" [ngClass]="adapterBundle.status === 'pending' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
                           </div>
                         }
                         @if (adapterBundle.suspended) {
                           <div class="rejected">
-                            <div class="uk-label uk-align-right" [ngClass]="adapterBundle.status === 'pending adapter' ? 'uk-position-top-right uk-margin-xlarge-right' : ''">Suspended</div>
+                            <div class="uk-label uk-align-right" [ngClass]="adapterBundle.status === 'pending' ? 'uk-position-top-right uk-margin-xlarge-right' : ''">Suspended</div>
                           </div>
                         }
                         <div class="">
@@ -274,12 +274,12 @@
                               </div>
                             </div>
                             <div class="uk-width-1-5">
-                              @if (adapterBundle.status === 'pending adapter') {
+                              @if (adapterBundle.status === 'pending') {
                                 <div class="action-buttons uk-flex uk-flex-middle uk-flex-center" style="flex-direction: column;">
-                                  <button (click)="verifyAdapter(adapterBundle.id, true, 'approved adapter')" class="uk-button uk-button-primary uk-display-block">
+                                  <button (click)="verifyAdapter(adapterBundle.id, true, 'approved')" class="uk-button uk-button-primary uk-display-block">
                                     <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i> Approve
                                   </button>
-                                  <button (click)="verifyAdapter(adapterBundle.id, true, 'rejected adapter')" class="uk-button uk-button-danger uk-display-block uk-margin-small-top">
+                                  <button (click)="verifyAdapter(adapterBundle.id, true, 'rejected')" class="uk-button uk-button-danger uk-display-block uk-margin-small-top">
                                     <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>  Reject
                                   </button>
                                 </div>
@@ -309,20 +309,20 @@
                             </button>
                             <div uk-dropdown="mode: click">
                               <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                                @if (adapterBundle.active && adapterBundle.status=='approved adapter') {
+                                @if (adapterBundle.active && adapterBundle.status=='approved') {
                                   <li class="uk-margin-small-bottom"
                                     (click)="showAuditForm(adapterBundle)">
                                     <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
                                   </li>
                                 }
-                                @if ((adapterBundle.status === 'approved adapter') && (!adapterBundle.active)) {
+                                @if ((adapterBundle.status === 'approved') && (!adapterBundle.active)) {
                                   <li
                                     (click)="publishAdapter(adapterBundle.id, true)"
                                     class="uk-margin-small-top">
                                     <a><i aria-hidden="true" class="fa fa-thumbs-up uk-margin-small-right"></i>Activate</a>
                                   </li>
                                 }
-                                @if ((adapterBundle.status === 'approved adapter') && (adapterBundle.active)) {
+                                @if ((adapterBundle.status === 'approved') && (adapterBundle.active)) {
                                   <li
                                     (click)="publishAdapter(adapterBundle.id, false)"
                                     class="uk-margin-small-top">

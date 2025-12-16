@@ -240,13 +240,13 @@
                     <div *ngFor="let serviceBundle of services; let i = index" class="uk-card provider-card uk-margin-medium-top">
                       <div class="uk-card-body" style="padding-bottom: 20px;">
 
-                        <div *ngIf="serviceBundle.status === 'approved resource'" class="approved">
+                        <div *ngIf="serviceBundle.status === 'approved'" class="approved">
                           <div class="uk-card-badge uk-label">Approved</div>
                         </div>
-                        <div *ngIf="serviceBundle.status === 'pending resource'" class="pending">
+                        <div *ngIf="serviceBundle.status === 'pending'" class="pending">
                           <div class="uk-card-badge uk-label">Pending</div>
                         </div>
-                        <div *ngIf="(serviceBundle.status === 'rejected resource')" class="rejected">
+                        <div *ngIf="(serviceBundle.status === 'rejected')" class="rejected">
                           <div class="uk-card-badge uk-label">Rejected</div>
                         </div>
 
@@ -438,7 +438,7 @@
                             </button>
                             <div uk-dropdown="mode: click">
                               <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                                <ng-container *ngIf="serviceBundle.active && serviceBundle.status=='approved resource'">
+                                <ng-container *ngIf="serviceBundle.active && serviceBundle.status=='approved'">
                                   <li class="uk-margin-small-bottom"
                                       (click)="showAuditForm('main', serviceBundle)">
                                     <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
@@ -470,7 +470,7 @@
                               <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
                               Update {{serviceORresource}}
                             </button>
-                            <button *ngIf="serviceBundle.status !== 'pending resource'" (click)="showDeletionModal(serviceBundle)"
+                            <button *ngIf="serviceBundle.status !== 'pending'" (click)="showDeletionModal(serviceBundle)"
                                     class="uk-button uk-button-link uk-margin-medium-left"
                                     style="padding-left: 40px; border-left: 1px solid #ccc">
                               <i class="fa fa-trash fa-lg uk-margin-small-right" aria-hidden="true"></i>
@@ -483,7 +483,7 @@
                             <div uk-dropdown="mode: click">
                               <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
 
-                                <ng-container *ngIf="serviceBundle.status=='approved resource'">
+                                <ng-container *ngIf="serviceBundle.status=='approved'">
 
                                   <ng-container class="uk-margin-small-bottom" *ngIf="serviceBundle.active">
                                     <li (click)="showAuditForm('main', serviceBundle)">
@@ -535,16 +535,16 @@
 
                                 </ng-container>
 
-                                <ng-container *ngIf="serviceBundle.status=='pending resource'">
-                                  <li class="uk-active" (click)="templateAction(serviceBundle, true, 'approved resource')">
+                                <ng-container *ngIf="serviceBundle.status=='pending'">
+                                  <li class="uk-active" (click)="templateAction(serviceBundle, true, 'approved')">
                                     <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve First {{serviceORresource}}</a>
                                   </li>
-                                  <li class="uk-active" (click)="templateAction(serviceBundle, true, 'rejected resource')">
+                                  <li class="uk-active" (click)="templateAction(serviceBundle, true, 'rejected')">
                                     <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First {{serviceORresource}}</a>
                                   </li>
                                 </ng-container>
 
-                                <ng-container *ngIf="serviceBundle.status!=='rejected resource'">
+                                <ng-container *ngIf="serviceBundle.status!=='rejected'">
                                   <li class="uk-nav-divider"></li>
                                 </ng-container>
 
@@ -867,13 +867,13 @@
     <div *ngFor="let serviceBundle of servicesForAudit" class="uk-card provider-card uk-margin-medium-top">
       <div class="uk-card-body" style="padding-bottom: 20px;">
 
-        <div *ngIf="serviceBundle.status === 'approved resource'" class="approved">
+        <div *ngIf="serviceBundle.status === 'approved'" class="approved">
           <div class="uk-card-badge uk-label">Approved</div>
         </div>
-        <div *ngIf="serviceBundle.status === 'pending resource'" class="pending">
+        <div *ngIf="serviceBundle.status === 'pending'" class="pending">
           <div class="uk-card-badge uk-label">Pending</div>
         </div>
-        <div *ngIf="(serviceBundle.status === 'rejected resource')" class="rejected">
+        <div *ngIf="(serviceBundle.status === 'rejected')" class="rejected">
           <div class="uk-card-badge uk-label">Rejected</div>
         </div>
 
@@ -1054,8 +1054,8 @@
                 <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOrganisation) ; else elseBlockList">
                   <li class="uk-button uk-button-link uk-margin-small-top"
                       (click)="toggleService(serviceBundle)">
-                    <ng-container *ngIf="serviceBundle.status=='approved resource' && serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
-                    <ng-container *ngIf="serviceBundle.status=='approved resource' && !serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
+                    <ng-container *ngIf="serviceBundle.status=='approved' && serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
+                    <ng-container *ngIf="serviceBundle.status=='approved' && !serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
                   </li>
                 </ng-container>
 
@@ -1063,8 +1063,8 @@
                   <div uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
                     <li class="uk-button uk-button-link uk-disabled"
                         (click)="toggleService(serviceBundle)">
-                      <ng-container *ngIf="serviceBundle.status=='approved resource' && serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
-                      <ng-container *ngIf="serviceBundle.status=='approved resource' && !serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
+                      <ng-container *ngIf="serviceBundle.status=='approved' && serviceBundle.active"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deactivate {{serviceORresource}}</ng-container>
+                      <ng-container *ngIf="serviceBundle.status=='approved' && !serviceBundle.active"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Activate {{serviceORresource}}</ng-container>
                     </li>
                   </div>
                 </ng-template>

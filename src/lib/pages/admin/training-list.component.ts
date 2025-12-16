@@ -112,7 +112,7 @@ export class TrainingListComponent implements OnInit {
 
   @ViewChildren("auditCheckboxes") auditCheckboxes: QueryList<ElementRef>;
 
-  public statuses: Array<string> = ['approved resource', 'pending resource', 'rejected resource'];
+  public statuses: Array<string> = ['approved', 'pending', 'rejected'];
   public labels: Array<string> = [`Approved`, `Pending`, `Rejected`];
 
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;

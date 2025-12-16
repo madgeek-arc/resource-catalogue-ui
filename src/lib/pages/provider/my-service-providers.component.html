@@ -23,13 +23,13 @@
                     <div class="uk-margin-bottom uk-grid-small uk-child-width-auto uk-grid serviceStatuses">
                       <span class="status-label">Show:</span>
                       <label class="status-value uk-margin-small-left">
-                        <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'approved provider')" [checked]="isApprovedChecked"> Approved
+                        <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'approved')" [checked]="isApprovedChecked"> Approved
                       </label>
                       <label class="status-value uk-margin-small-left">
-                        <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'pending provider')" [checked]="isPendingChecked"> Pending
+                        <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'pending')" [checked]="isPendingChecked"> Pending
                       </label>
                       <label class="status-value uk-margin-small-left">
-                        <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'rejected provider')" [checked]="isRejectedChecked"> Rejected
+                        <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'rejected')" [checked]="isRejectedChecked"> Rejected
                       </label>
                       <label class="status-value uk-margin-small-left">
                         <input class="uk-checkbox" type="checkbox" (change)="onCheckChanged($event, 'incomplete')" [checked]="isIncompleteChecked"> Incomplete

@@ -114,7 +114,7 @@ export class TrainingResourcesComponent implements OnInit {
   }
 
   toggleTrainingResource(trBundle: TrainingResourceBundle) {
-    if (trBundle.status === 'pending resource' || trBundle.status === 'rejected resource') {
+    if (trBundle.status === 'pending' || trBundle.status === 'rejected') {
       this.errorMessage = `You cannot activate a ${trBundle.status}.`;
       window.scrollTo(0, 0);
       return;

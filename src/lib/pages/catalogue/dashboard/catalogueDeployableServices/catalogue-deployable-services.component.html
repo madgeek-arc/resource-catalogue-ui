@@ -127,17 +127,17 @@
       @for (bundle of deployableServiceBundles; track bundle) {
         <div class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
           <div class="uk-card-body">
-            @if (bundle.status === 'approved resource') {
+            @if (bundle.status === 'approved') {
               <div class="approved">
                 <div class="uk-card-badge uk-label">Approved</div>
               </div>
             }
-            @if (bundle.status === 'pending resource') {
+            @if (bundle.status === 'pending') {
               <div class="pending">
                 <div class="uk-card-badge uk-label">Pending</div>
               </div>
             }
-            @if ((bundle.status === 'rejected resource')) {
+            @if ((bundle.status === 'rejected')) {
               <div class="rejected">
                 <div class="uk-card-badge uk-label">Rejected</div>
               </div>

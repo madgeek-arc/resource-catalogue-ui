@@ -70,9 +70,9 @@
             <div class="uk-inline">
               <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
                 <option value="" selected>All</option>
-                <option value="approved interoperability record">Approved</option>
-                <option value="pending interoperability record">Pending</option>
-                <option value="rejected interoperability record">Rejected</option>
+                <option value="approved">Approved</option>
+                <option value="pending">Pending</option>
+                <option value="rejected">Rejected</option>
               </select>
             </div>
           </div>
@@ -115,17 +115,17 @@
             @for (irBundle of guidelines.results; track irBundle; let i = $index) {
               <div class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
                 <div class="uk-card-body">
-                  @if (irBundle.status === 'approved interoperability record') {
+                  @if (irBundle.status === 'approved') {
                     <div class="approved">
                       <div class="uk-card-badge uk-label">Approved</div>
                     </div>
                   }
-                  @if (irBundle.status === 'pending interoperability record') {
+                  @if (irBundle.status === 'pending') {
                     <div class="pending">
                       <div class="uk-card-badge uk-label">Pending</div>
                     </div>
                   }
-                  @if ((irBundle.status === 'rejected interoperability record')) {
+                  @if ((irBundle.status === 'rejected')) {
                     <div class="rejected">
                       <div class="uk-card-badge uk-label">Rejected</div>
                     </div>

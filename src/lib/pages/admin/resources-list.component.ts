@@ -110,7 +110,7 @@ export class ResourcesListComponent implements OnInit {
 
   @ViewChildren('auditCheckboxes') auditCheckboxes: QueryList<ElementRef>;
 
-  public statuses: Array<string> = ['approved resource', 'pending resource', 'rejected resource'];
+  public statuses: Array<string> = ['approved', 'pending', 'rejected'];
   public labels: Array<string> = [`Approved`, `Pending`, `Rejected`];
 
   @ViewChildren('checkboxes') checkboxes: QueryList<ElementRef>;
@@ -663,7 +663,7 @@ export class ResourcesListComponent implements OnInit {
   /** <--manage form arrays **/
 
   toggleService(bundle: ServiceBundle) {
-    if (bundle.status === 'pending resource' || bundle.status === 'rejected resource') {
+    if (bundle.status === 'pending' || bundle.status === 'rejected') {
       this.errorMessage = `You cannot activate a ${bundle.status}.`;
       window.scrollTo(0, 0);
       return;

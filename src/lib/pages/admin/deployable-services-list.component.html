@@ -228,17 +228,17 @@
                     @for (dsBundle of deployableServiceBundles; track dsBundle) {
                       <div class="uk-card provider-card uk-margin-medium-top">
                         <div class="uk-card-body" style="padding-bottom: 20px;">
-                          @if (dsBundle.status === 'approved resource') {
+                          @if (dsBundle.status === 'approved') {
                             <div class="approved">
                               <div class="uk-card-badge uk-label">Approved</div>
                             </div>
                           }
-                          @if (dsBundle.status === 'pending resource') {
+                          @if (dsBundle.status === 'pending') {
                             <div class="pending">
                               <div class="uk-card-badge uk-label">Pending</div>
                             </div>
                           }
-                          @if ((dsBundle.status === 'rejected resource')) {
+                          @if ((dsBundle.status === 'rejected')) {
                             <div class="rejected">
                               <div class="uk-card-badge uk-label">Rejected</div>
                             </div>
@@ -346,7 +346,7 @@
                         </button>
                         <div uk-dropdown="mode: click">
                           <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                            @if (dsBundle.active && dsBundle.status=='approved resource') {
+                            @if (dsBundle.active && dsBundle.status=='approved') {
                               <li class="uk-margin-small-bottom"
                                 (click)="showAuditForm('main', dsBundle)">
                                 <a><i class="fa fa-check-circle-o fa-lg uk-margin-small-right"></i>Audit</a>
@@ -380,7 +380,7 @@
                           <i class="fa fa-pencil fa-lg uk-margin-small-right" aria-hidden="true"></i>
                           Update Deployable Service
                         </button>
-                        @if (dsBundle.status !== 'pending resource') {
+                        @if (dsBundle.status !== 'pending') {
                           <button (click)="showDeletionModal(dsBundle)"
                             class="uk-button uk-button-link uk-margin-medium-left"
                             style="padding-left: 40px; border-left: 1px solid #ccc">
@@ -388,7 +388,7 @@
                             Delete Deployable Service
                           </button>
                         }
-                        @if (dsBundle.status!=='rejected resource') {
+                        @if (dsBundle.status!=='rejected') {
                           <button
                             class="uk-button uk-button-link uk-margin-medium-left"
                             style="padding-left: 40px; border-left: 1px solid #ccc">
@@ -397,7 +397,7 @@
                         }
                         <div uk-dropdown="mode: click">
                           <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                            @if (dsBundle.status=='approved resource') {
+                            @if (dsBundle.status=='approved') {
                               @if (dsBundle.active) {
                                 <ng-container class="uk-margin-small-bottom">
                                   <li (click)="showAuditForm('main', dsBundle)">
@@ -452,11 +452,11 @@
                                 </li>
                               }
                             }
-                            @if (dsBundle.status=='pending resource') {
-                              <li class="uk-active" (click)="templateAction(dsBundle.id, true, 'approved resource')">
+                            @if (dsBundle.status=='pending') {
+                              <li class="uk-active" (click)="templateAction(dsBundle.id, true, 'approved')">
                                 <a class="uk-margin-small-top"><i class="fa fa-thumbs-up"></i> Approve First Deployable Service</a>
                               </li>
-                              <li class="uk-active" (click)="templateAction(dsBundle.id, true, 'rejected resource')">
+                              <li class="uk-active" (click)="templateAction(dsBundle.id, true, 'rejected')">
                                 <a class="uk-margin-small-top"><i class="fa fa-thumbs-down"></i> Reject First Deployable Service</a>
                               </li>
                             }
