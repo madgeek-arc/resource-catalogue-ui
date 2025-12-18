@@ -104,7 +104,7 @@ export class ProviderStatsComponent implements OnInit {
         this.getDataForProvider(this.statisticPeriod);
       });
     } else {
-      this.providerService.getMyServiceProviders().subscribe(
+      this.providerService.getMyProviders().subscribe(
         res => {
           this.providerId = res[0].id;
           zip(

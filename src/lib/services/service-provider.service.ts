@@ -83,12 +83,9 @@ export class ServiceProviderService {
     return this.http.delete(this.base + `/provider/${id}`, this.options);
   }
 
-  getMyPendingProviders() {
-    return this.http.get<ProviderBundle[]>(this.base + '/provider/draft/getMyDraftProviders', this.options);
-  }
-
-  getMyServiceProviders() {
-    return this.http.get<ProviderBundle[]>(this.base + '/provider/getMyProviders', this.options);
+  getMyProviders(draftProviders: boolean = false) {
+    const params = new HttpParams().set('draft', draftProviders.toString());
+    return this.http.get<ProviderBundle[]>(this.base + '/provider/getMyProviders', {...this.options, params});
   }
 
   getRandomProviders(quantity: string) {

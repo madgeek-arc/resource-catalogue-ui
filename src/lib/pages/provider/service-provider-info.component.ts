@@ -48,7 +48,7 @@ export class ServiceProviderInfoComponent extends UpdateServiceProviderComponent
   // }
 
   getMyServiceProviders(id: string) {
-    this.serviceProviderService.getMyServiceProviders().subscribe(
+    this.serviceProviderService.getMyProviders().subscribe(
       providers => this.myProviders = providers,
       err => {
         console.log(err);

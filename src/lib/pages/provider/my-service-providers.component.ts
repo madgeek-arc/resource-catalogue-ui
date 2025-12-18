@@ -52,8 +52,8 @@ export class MyServiceProvidersComponent implements OnInit {
 
   ngOnInit() {
     zip(
-      this.serviceProviderService.getMyServiceProviders(),
-      this.serviceProviderService.getMyPendingProviders())
+      this.serviceProviderService.getMyProviders(),
+      this.serviceProviderService.getMyProviders(true))
       .subscribe(
         res => {
           this.myProviders = res[0];

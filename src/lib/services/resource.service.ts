@@ -451,10 +451,6 @@ export class ResourceService {
       return this.http.get<ServiceBundle>(this.base + `/catalogue/${catalogueId}/service/bundle/${id}`, this.options);
   }
 
-  getMyServiceProviders() {
-    return this.http.get<Provider[]>(this.base + '/provider/getMyProviders');
-  }
-
   getRandomResources(quantity: string) {
     return this.http.get<ServiceBundle[]>(this.base + `/service/randomResources?quantity=${quantity}`, this.options);
   }
