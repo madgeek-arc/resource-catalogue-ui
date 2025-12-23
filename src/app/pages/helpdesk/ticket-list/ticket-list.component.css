@@ -513,15 +513,15 @@
     gap: 15px;
     align-items: stretch;
   }
-
+  
   .tickets-grid {
     grid-template-columns: 1fr;
   }
-
+  
   .status-filters {
     justify-content: center;
   }
-
+  
   .ticket-card {
     padding: 15px;
   }

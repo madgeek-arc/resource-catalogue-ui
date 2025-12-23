@@ -40,7 +40,12 @@
           <div
             *ngFor="let article of ticket.articles; let i = index"
             class="conversation-item"
+            [class.message-user]="!isEpotMessage(article)"
+            [class.message-epot]="isEpotMessage(article)"
           >
+            <div class="message-originator">
+              {{ getMessageOriginator(article) }}
+            </div>
             <div class="message-body">
               <p [innerHTML]="cleanBodyHtml(article.body)"></p>
             </div>

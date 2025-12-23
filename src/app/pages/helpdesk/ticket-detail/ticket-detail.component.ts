@@ -117,17 +117,17 @@ export class TicketDetailComponent implements OnInit {
       this.helpdeskService
         .addReply(ticketId, this.replyForm.value.body)
         .subscribe({
-          next: (updatedTicket) => {
-            this.ticket = updatedTicket;
-            this.replyForm.reset();
-            this.submittingReply = false;
-          },
-          error: (err) => {
+        next: (updatedTicket) => {
+          this.ticket = updatedTicket;
+          this.replyForm.reset();
+          this.submittingReply = false;
+        },
+        error: (err) => {
             this.error = "Failed to send reply. Please try again.";
-            this.submittingReply = false;
+          this.submittingReply = false;
             console.error("Error sending reply:", err);
           },
-        });
+      });
     }
   }
 

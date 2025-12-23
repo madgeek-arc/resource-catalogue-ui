@@ -7,7 +7,10 @@ import {
   OnChanges,
   SimpleChanges,
 } from "@angular/core";
-import { HelpdeskTicketResponse } from "../../../../lib/domain/eic-model";
+import {
+  HelpdeskTicketResponse,
+  HelpdeskArticle,
+} from "../../../../lib/domain/eic-model";
 
 @Component({
   selector: "app-ticket-modal",
@@ -176,5 +179,23 @@ export class TicketModalComponent implements OnInit, OnChanges {
     }
     // Remove leading <br> or <br/> tags (case insensitive, with optional attributes)
     return html.replace(/^(<br\s*\/?>)+/i, "");
+  }
+
+  /**
+   * Determines if an article is from EPOT (Agent) or User (Customer)
+   * @param article The article to check
+   * @returns true if the article is from EPOT (Agent), false if from User (Customer)
+   */
+  isEpotMessage(article: HelpdeskArticle): boolean {
+    return article.sender === "Agent";
+  }
+
+  /**
+   * Gets the message originator label
+   * @param article The article to check
+   * @returns "EPOT" if from Agent, "USER" if from Customer
+   */
+  getMessageOriginator(article: HelpdeskArticle): string {
+    return this.isEpotMessage(article) ? "EPOT" : "USER";
   }
 }

@@ -194,11 +194,50 @@
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.7);
   transition: all 0.2s ease;
+  max-width: 75%;
 }
 
 .conversation-item:hover {
-  background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* User messages - left aligned */
+.message-user {
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.message-user:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+/* EPOT messages - right aligned with purple gradient */
+.message-epot {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.message-epot:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+.message-epot .message-body p {
+  color: white;
+}
+
+/* Message originator label */
+.message-originator {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.message-epot .message-originator {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .message-header {
