@@ -49,6 +49,22 @@
 
 
 
+## [5.4.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v5.3.0...v5.4.0) (2025-12-23)
+
+
+### Features
+
+* login functionality rework ([95dd660](https://github.com/madgeek-arc/resource-catalogue-ui/commit/95dd660719eb56758bc7dee8499376262906f249))
+
+
+### Bug Fixes
+
+* configuration templates submission error ([2c332a0](https://github.com/madgeek-arc/resource-catalogue-ui/commit/2c332a0e88146586fe094c41e668d698a1aa2dcd))
+* header renders correctly when logging in ([9ba1fc3](https://github.com/madgeek-arc/resource-catalogue-ui/commit/9ba1fc30909aa2900a41c4fa0dd710d80f1288d3))
+* Re-import CommonModule ([4356999](https://github.com/madgeek-arc/resource-catalogue-ui/commit/4356999c076a23846a8ca88dfe5948d3c433e3b5))
+* Strip time from ISO strings to handle partial date values ([5410f8f](https://github.com/madgeek-arc/resource-catalogue-ui/commit/5410f8ff7fd58a181236a6d2504c86abba946cf1))
+* update wildcard paths on proxy.conf.json ([ddff569](https://github.com/madgeek-arc/resource-catalogue-ui/commit/ddff56988e21f793fd8d3171888a5ee3b83bd52b))
+
 ## [5.3.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v5.2.0...v5.3.0) (2025-11-06)
 
 
