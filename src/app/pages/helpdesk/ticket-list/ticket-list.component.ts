@@ -3,13 +3,14 @@ import { Router } from "@angular/router";
 import { HelpdeskService } from "../../../services/helpdesk.service";
 import { HelpdeskTicketResponse } from "../../../../lib/domain/eic-model";
 import {TicketModalComponent} from '../ticket-modal/ticket-modal.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: "app-ticket-list",
   templateUrl: "./ticket-list.component.html",
   styleUrls: ["./ticket-list.component.css"],
   standalone: true,
-  imports: [TicketModalComponent]
+  imports: [TicketModalComponent, CommonModule]
 })
 // @Component({
 //   selector: 'app-ticket-list',
