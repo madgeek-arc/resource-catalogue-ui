@@ -22,10 +22,11 @@ import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-service-form',
-  templateUrl: './service-form.component.html',
-  styleUrls: ['../provider/service-provider-form.component.css'],
-  providers: [FormControlService]
+    selector: 'app-service-form',
+    templateUrl: './service-form.component.html',
+    styleUrls: ['../provider/service-provider-form.component.css'],
+    providers: [FormControlService],
+    standalone: false
 })
 export class ServiceFormComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent
@@ -151,11 +152,11 @@ export class ServiceFormComponent implements OnInit {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
-    this.weights[0] = this.authenticationService.user.email.split('@')[0];
+    this.weights[0] = this.authenticationService.getUserEmail().split('@')[0];
   }
 
-  submitForm(value: any) {
-    let serviceValue = value[0].value.Service;
+  submitForm(formData: any) {
+    let serviceValue = formData.value.Service;
     window.scrollTo(0, 0);
 
     if (!this.authenticationService.isLoggedIn()) {

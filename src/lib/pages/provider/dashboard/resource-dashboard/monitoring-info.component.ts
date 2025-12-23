@@ -10,8 +10,9 @@ import * as Highcharts from 'highcharts';
 
 
 @Component({
-  selector: 'app-monitoring-info',
-  templateUrl: './monitoring-info.component.html'
+    selector: 'app-monitoring-info',
+    templateUrl: './monitoring-info.component.html',
+    standalone: false
 })
 
 export class MonitoringInfoComponent implements OnInit {

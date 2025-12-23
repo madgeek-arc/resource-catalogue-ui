@@ -8,11 +8,14 @@ import {
   SimpleChanges,
 } from "@angular/core";
 import { HelpdeskTicketResponse } from "../../../../lib/domain/eic-model";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: "app-ticket-modal",
   templateUrl: "./ticket-modal.component.html",
   styleUrls: ["./ticket-modal.component.css"],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class TicketModalComponent implements OnInit, OnChanges {
   @Input() ticket: HelpdeskTicketResponse | null = null;

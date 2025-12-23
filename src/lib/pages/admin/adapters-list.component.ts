@@ -13,8 +13,9 @@ import {AdaptersService} from "../../services/adapters.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-adapters-list',
-  templateUrl: './adapters-list.component.html'
+    selector: 'app-adapters-list',
+    templateUrl: './adapters-list.component.html',
+    standalone: false
 })
 export class AdaptersListComponent implements OnInit {
   url = environment.API_ENDPOINT;
@@ -81,7 +82,7 @@ export class AdaptersListComponent implements OnInit {
 
   ngOnInit() {
     this.catalogueConfigId = this.config.getProperty('catalogueId');
-    if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
+    if (!this.authenticationService.isAdmin()) {
       this.router.navigateByUrl('/home');
     } else {
       this.dataForm = this.fb.group(this.formPrepare);

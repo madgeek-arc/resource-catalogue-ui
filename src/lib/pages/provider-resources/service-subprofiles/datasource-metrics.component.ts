@@ -8,8 +8,9 @@ import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {pidHandler} from "../../../shared/pid-handler/pid-handler.service";
 
 @Component({
-  selector: 'app-datasource-metrics',
-  templateUrl: './datasource-metrics.component.html',
+    selector: 'app-datasource-metrics',
+    templateUrl: './datasource-metrics.component.html',
+    standalone: false
 })
 
 export class DatasourceMetricsComponent implements OnInit {

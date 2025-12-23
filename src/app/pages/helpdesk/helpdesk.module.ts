@@ -5,9 +5,7 @@ import { RouterModule } from "@angular/router";
 
 import { HelpdeskComponent } from "./helpdesk.component";
 import { CreateTicketComponent } from "./create-ticket/create-ticket.component";
-import { TicketListComponent } from "./ticket-list/ticket-list.component";
 import { TicketDetailComponent } from "./ticket-detail/ticket-detail.component";
-import { TicketModalComponent } from "./ticket-modal/ticket-modal.component";
 import { HelpdeskRoutingModule } from "./helpdesk-routing.module";
 import { HelpdeskService } from "../../services/helpdesk.service";
 
@@ -15,9 +13,7 @@ import { HelpdeskService } from "../../services/helpdesk.service";
   declarations: [
     HelpdeskComponent,
     CreateTicketComponent,
-    TicketListComponent,
     TicketDetailComponent,
-    TicketModalComponent,
   ],
   imports: [
     CommonModule,

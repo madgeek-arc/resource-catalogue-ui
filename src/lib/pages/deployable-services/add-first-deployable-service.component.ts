@@ -10,8 +10,9 @@ import {DeployableServiceService} from "../../services/deployable-service.servic
 import {ConfigService} from "../../services/config.service";
 
 @Component({
-  selector: 'app-add-first-deployable-service',
-  templateUrl: './deployable-service-form.html'
+    selector: 'app-add-first-deployable-service',
+    templateUrl: './deployable-service-form.html',
+    standalone: false
 })
 export class AddFirstDeployableServiceComponent extends DeployableServiceForm implements OnInit {
 

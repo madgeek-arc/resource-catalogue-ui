@@ -17,9 +17,10 @@ declare var require: any;
 const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
 
 @Component({
-  selector: 'app-training-resource-stats',
-  templateUrl: './training-resource-stats.component.html',
-  styleUrls: ['../resource-dashboard/service-stats.component.css']
+    selector: 'app-training-resource-stats',
+    templateUrl: './training-resource-stats.component.html',
+    styleUrls: ['../resource-dashboard/service-stats.component.css'],
+    standalone: false
 })
 export class TrainingResourceStatsComponent implements OnInit, OnDestroy {
 

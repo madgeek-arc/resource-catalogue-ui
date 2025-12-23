@@ -30,8 +30,9 @@ import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-training-list',
-  templateUrl: './training-list.component.html'
+    selector: 'app-training-list',
+    templateUrl: './training-list.component.html',
+    standalone: false
 })
 export class TrainingListComponent implements OnInit {
   catalogueConfigId: string | null = null;
@@ -135,7 +136,7 @@ export class TrainingListComponent implements OnInit {
 
   ngOnInit() {
     this.catalogueConfigId = this.config.getProperty('catalogueId');
-    if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
+    if (!this.authenticationService.isAdmin()) {
       this.router.navigateByUrl('/home');
     } else {
       this.dataForm = this.fb.group(this.formPrepare);

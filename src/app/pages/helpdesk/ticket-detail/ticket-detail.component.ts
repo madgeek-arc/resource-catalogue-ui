@@ -8,9 +8,10 @@ import {
 } from "../../../../lib/domain/eic-model";
 
 @Component({
-  selector: "app-ticket-detail",
-  templateUrl: "./ticket-detail.component.html",
-  styleUrls: ["./ticket-detail.component.css"],
+    selector: 'app-ticket-detail',
+    templateUrl: './ticket-detail.component.html',
+    styleUrls: ['./ticket-detail.component.css'],
+    standalone: false
 })
 export class TicketDetailComponent implements OnInit {
   ticket: HelpdeskTicketResponse | null = null;

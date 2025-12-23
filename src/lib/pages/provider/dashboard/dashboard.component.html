@@ -4,30 +4,32 @@
 
       <div class="menu_section uk-margin-medium-top">
 
-        <div *ngIf="providerBundle?.active === false" class="rejected">
-          <div class="uk-label uk-align-right uk-margin-right">Inactive</div>
-        </div>
+        @if (providerBundle?.active === false) {
+          <div class="rejected">
+            <div class="uk-label uk-align-right uk-margin-right">Inactive</div>
+          </div>
+        }
 
         <div class="sidebar_heading">MONITOR</div>
 
         <ul>
 
-          <ng-container *ngIf="providerStatus === 'approved provider'">
+          @if (providerStatus === 'approved provider') {
             <li [routerLinkActive]="['current_section']" #stats="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'stats']">
                 <img src="{{stats.isActive ? 'assets/images/new-icons/stats-active.svg' : 'assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
                 Statistics
               </a>
             </li>
-          </ng-container>
-          <ng-container *ngIf="providerStatus !== 'approved provider'">
+          }
+          @if (providerStatus !== 'approved provider') {
             <li [routerLinkActive]="['current_section']" #stats="routerLinkActive" title="Statistics are disabled until your Provider completes the onboarding process.">
               <a>
                 <img src="{{stats.isActive ? 'assets/images/new-icons/stats-active.svg' : 'assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
                 Statistics
               </a>
             </li>
-          </ng-container>
+          }
           <li [routerLinkActive]="['current_section']" #accountingStats="routerLinkActive">
             <a [routerLink]="['/dashboard', catalogueId, providerId, 'accountingStats']">
               <img src="{{accountingStats.isActive ? 'assets/images/new-icons/stats-active.svg' : 'assets/images/new-icons/stats.svg'}}" class="uk-margin-small-right">
@@ -46,7 +48,7 @@
               Info
             </a>
           </li>
-          <ng-container *ngIf="catalogueId !== catalogueConfigId">
+          @if (catalogueId !== catalogueConfigId) {
             <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'resources']">
                 <img src="{{services.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
@@ -65,8 +67,8 @@
                 Deployable Services
               </a>
             </li>
-          </ng-container>
-          <ng-container *ngIf="catalogueId === catalogueConfigId">
+          }
+          @if (catalogueId === catalogueConfigId) {
             <li [routerLinkActive]="['current_section']" #services="routerLinkActive">
               <a [routerLink]="['/dashboard', catalogueId, providerId, 'resources']">
                 <img src="{{services.isActive ? 'assets/images/new-icons/services-active.svg' : 'assets/images/new-icons/services.svg'}}" class="uk-margin-small-right">
@@ -103,138 +105,140 @@
                 Guidelines
               </a>
             </li>
-          </ng-container>
+          }
           <!--<li [routerLinkActive]="['current_section']" #messages="routerLinkActive">
-            <a [routerLink]="['/dashboard', catalogueId, providerId, 'messages']" routerLinkActive="">
-              <img src="{{messages.isActive ? 'assets/images/new-icons/envelope-active.svg' : 'assets/images/new-icons/envelope.svg'}}" class="uk-margin-small-right">
-              Messages
-            </a>
-          </li>-->
+          <a [routerLink]="['/dashboard', catalogueId, providerId, 'messages']" routerLinkActive="">
+            <img src="{{messages.isActive ? 'assets/images/new-icons/envelope-active.svg' : 'assets/images/new-icons/envelope.svg'}}" class="uk-margin-small-right">
+            Messages
+          </a>
+        </li>-->
 
-        </ul>
-      </div>
-
-      <div class="menu_section border_top">
-        <div class="sidebar_heading">ACTIONS</div>
-
-        <ul>
-
-          <ng-container *ngIf="catalogueId === catalogueConfigId">
-            <ng-container *ngIf="providerBundle?.templateStatus === 'rejected template' || (providerBundle?.status === 'approved provider' && providerBundle?.templateStatus === 'no template status')">
-              <li>
-                <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-service/']">
-                  <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Add first {{serviceORresource}}
-                </a>
-              </li>
-              <li>
-                <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-training-resource/']">
-                  <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Add first Training Resource
-                </a>
-              </li>
-              <li>
-                <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-deployable-service/']">
-                  <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Add first Deployable Service
-                </a>
-              </li>
-            </ng-container>
-            <ng-container *ngIf="providerBundle?.status === 'pending provider'">
-              <li uk-tooltip="Disabled until provider gets approved.">
-                <a><img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first {{serviceORresource}}</a>
-              </li>
-              <li uk-tooltip="Disabled until provider gets approved.">
-                <a><img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first Training Resource</a>
-              </li>
-              <li uk-tooltip="Disabled until provider gets approved.">
-                <a><img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first Deployable Service</a>
-              </li>
-            </ng-container>
-<!--            this can be omitted unless told otherwise
-            <ng-container *ngIf="providerBundle?.status === 'pending provider' || providerBundle?.status === 'rejected provider'">
-              <li title="This action is disabled until your Provider proceeds on the onboarding process.">
-                <a>
-                  <img src="assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Add first {{serviceORresource | lowercase}}
-                </a>
-              </li>
-            </ng-container>-->
-            <ng-container *ngIf="providerBundle?.templateStatus === 'approved template'">
-              <li>
-                <a [routerLink]="['/provider/' + providerId + '/resource/add/']">
-                  <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Add new {{serviceORresource}}
-                </a>
-              </li>
-              <li>
-                <a [routerLink]="['/provider/' + providerId + '/training-resource/add/']">
-                  <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Add new Training Resource
-                </a>
-              </li>
-              <li>
-                <a [routerLink]="['/provider/' + providerId + '/deployable-service/add/']">
-                  <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Add new Deployable Service
-                </a>
-              </li>
-            </ng-container>
-<!--            <ng-container *ngIf="providerBundle?.templateStatus !== 'approved template'">
-              <li uk-tooltip="Disabled until first resource approval.">
-                <a><img src="assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new {{serviceORresource}}</a>
-              </li>
-              <li uk-tooltip="Disabled until first resource approval.">
-                <a><img src="assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new Training Resource</a>
-              </li>
-            </ng-container>-->
-            <ng-container *ngIf="providerBundle?.status === 'approved provider'">
-              <li>
-                <a [routerLink]="['/guidelines/' + providerId + '/add/']">
-                  <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                  Add new Guideline
-                </a>
-              </li>
-            </ng-container>
-            <ng-container *ngIf="providerBundle?.status !== 'approved provider'">
-              <li uk-tooltip="Disabled until provider gets approved.">
-                <a><img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new Guideline</a>
-              </li>
-            </ng-container>
-            <li>
-              <a [routerLink]="['/provider/update/' + pidHandler.customEncodeURIComponent(providerId)]">
-                <img src="../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Update Provider
-              </a>
-            </li>
-            <li>
-              <a (click)="showRequestDeletionModal()">
-                <img src="../../../../assets/images/new-icons/trashcan.svg" class="uk-margin-small-right">  Delete Provider
-              </a>
-            </li>
-          </ng-container>
-
-          <li *ngIf="catalogueId !== catalogueConfigId && providerBundle">
-            <a href="/provider/view/{{providerBundle?.provider.catalogueId}}/{{pidHandler.customEncodeURIComponent(providerBundle?.id)}}">
-              <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true" style="color: #26c0e2"></i> View Provider
-            </a>
-          </li>
-
-          <li>
-            <a [routerLink]="['/developers']">
-              <img src="../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Use API
-            </a>
-          </li>
-
-        </ul>
-      </div>
-
-    </aside><!-- main sidebar end -->
-
-    <div id="page_content">
-      <app-breadcrumbs></app-breadcrumbs>
-      <router-outlet></router-outlet>
+      </ul>
     </div>
+
+    <div class="menu_section border_top">
+      <div class="sidebar_heading">ACTIONS</div>
+
+      <ul>
+
+        @if (catalogueId === catalogueConfigId) {
+          @if (providerBundle?.templateStatus === 'rejected template' || (providerBundle?.status === 'approved provider' && providerBundle?.templateStatus === 'no template status')) {
+            <li>
+              <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-service/']">
+                <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Add first {{serviceORresource}}
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-training-resource/']">
+                <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Add first Training Resource
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-deployable-service/']">
+                <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Add first Deployable Service
+              </a>
+            </li>
+          }
+          @if (providerBundle?.status === 'pending provider') {
+            <li uk-tooltip="Disabled until provider gets approved.">
+              <a><img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first {{serviceORresource}}</a>
+            </li>
+            <li uk-tooltip="Disabled until provider gets approved.">
+              <a><img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first Training Resource</a>
+            </li>
+            <li uk-tooltip="Disabled until provider gets approved.">
+              <a><img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add first Deployable Service</a>
+            </li>
+          }
+          <!--            this can be omitted unless told otherwise
+          <ng-container *ngIf="providerBundle?.status === 'pending provider' || providerBundle?.status === 'rejected provider'">
+            <li title="This action is disabled until your Provider proceeds on the onboarding process.">
+              <a>
+                <img src="assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Add first {{serviceORresource | lowercase}}
+              </a>
+            </li>
+          </ng-container>-->
+          @if (providerBundle?.templateStatus === 'approved template') {
+            <li>
+              <a [routerLink]="['/provider/' + providerId + '/resource/add/']">
+                <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Add new {{serviceORresource}}
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/provider/' + providerId + '/training-resource/add/']">
+                <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Add new Training Resource
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/provider/' + providerId + '/deployable-service/add/']">
+                <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+                Add new Deployable Service
+              </a>
+            </li>
+          }
+          <!--            <ng-container *ngIf="providerBundle?.templateStatus !== 'approved template'">
+          <li uk-tooltip="Disabled until first resource approval.">
+            <a><img src="assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new {{serviceORresource}}</a>
+          </li>
+          <li uk-tooltip="Disabled until first resource approval.">
+            <a><img src="assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new Training Resource</a>
+          </li>
+        </ng-container>-->
+        @if (providerBundle?.status === 'approved provider') {
+          <li>
+            <a [routerLink]="['/guidelines/' + providerId + '/add/']">
+              <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
+              Add new Guideline
+            </a>
+          </li>
+        }
+        @if (providerBundle?.status !== 'approved provider') {
+          <li uk-tooltip="Disabled until provider gets approved.">
+            <a><img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right"> Add new Guideline</a>
+          </li>
+        }
+        <li>
+          <a [routerLink]="['/provider/update/' + pidHandler.customEncodeURIComponent(providerId)]">
+            <img src="../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Update Provider
+          </a>
+        </li>
+        <li>
+          <a (click)="showRequestDeletionModal()">
+            <img src="../../../../assets/images/new-icons/trashcan.svg" class="uk-margin-small-right">  Delete Provider
+          </a>
+        </li>
+      }
+
+      @if (catalogueId !== catalogueConfigId && providerBundle) {
+        <li>
+          <a href="/provider/view/{{providerBundle?.provider.catalogueId}}/{{pidHandler.customEncodeURIComponent(providerBundle?.id)}}">
+            <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true" style="color: #26c0e2"></i> View Provider
+          </a>
+        </li>
+      }
+
+      <li>
+        <a [routerLink]="['/developers']">
+          <img src="../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Use API
+        </a>
+      </li>
+
+    </ul>
   </div>
+
+</aside><!-- main sidebar end -->
+
+<div id="page_content">
+  <app-breadcrumbs></app-breadcrumbs>
+  <router-outlet></router-outlet>
+</div>
+</div>
 </div>
 
 

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {environment} from '../../environments/environment';
 import {
@@ -205,7 +205,11 @@ export class DeployableServiceService {
     // console.log(JSON.stringify(service));
     // console.log(`knocking on: ${this.base}/service`);
     if (!comment && shouldPut) return this.http.put<DeployableService>(this.base + `/deployableService`, deployableService, this.options);
-    return this.http[shouldPut ? 'put' : 'post']<DeployableService>(this.base + `/deployableService?comment=${comment}`, deployableService, this.options);
+    if (shouldPut) {
+      return this.http.put<DeployableService>(this.base + `/deployableService?comment=${comment}`, deployableService, this.options);
+    } else {
+      return this.http.post<DeployableService>(this.base + `/deployableService?comment=${comment}`, deployableService, this.options);
+    }
   }
 
   /** Draft(Pending) Services -->**/
@@ -233,11 +237,6 @@ export class DeployableServiceService {
     return this.http.delete(this.base + '/pendingService/' + id, this.options);
   }
   /** <-- Draft(Pending) Services **/
-
-  getServiceHistory(serviceId: string) {
-    serviceId = decodeURIComponent(serviceId);
-    return this.http.get<Paging<ServiceHistory>>(this.base + `/deployableService/history/${serviceId}/`);
-  }
 
   getServiceLoggingInfoHistory(serviceId: string, catalogue_id: string) {
     serviceId = decodeURIComponent(serviceId);

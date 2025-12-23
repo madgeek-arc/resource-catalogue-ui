@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {
   ServiceBundle,
@@ -300,11 +300,6 @@ export class ServiceProviderService {
       return this.http.put<VocabularyCuration>(this.base + `/vocabularyCuration/approveOrRejectVocabularyCuration?approved=true`, curation, this.options);
     }
     return this.http.put<VocabularyCuration>(this.base + `/vocabularyCuration/approveOrRejectVocabularyCuration?approved=false&rejectionReason=${rejectionReason}`, curation, this.options);
-  }
-
-  getProviderHistory(providerId: string) {
-    providerId = decodeURIComponent(providerId);
-    return this.http.get<Paging<ServiceHistory>>(this.base + `/provider/history/${providerId}/`);
   }
 
   getProviderLoggingInfoHistory(providerId: string, catalogue_id: string) {

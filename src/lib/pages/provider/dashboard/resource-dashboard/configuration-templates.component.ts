@@ -14,8 +14,9 @@ import {catchError, switchMap, map, finalize} from 'rxjs/operators';
 import {ServiceExtensionsService} from "../../../../services/service-extensions.service";
 
 @Component({
-  selector: 'app-monitoring-info',
-  templateUrl: './configuration-templates.component.html'
+    selector: 'app-monitoring-info',
+    templateUrl: './configuration-templates.component.html',
+    standalone: false
 })
 
 export class ConfigurationTemplatesComponent implements OnInit {
@@ -171,8 +172,8 @@ export class ConfigurationTemplatesComponent implements OnInit {
   }
 
   saveForm(submittedEvent: any, templateId: string): void {
-    let myFormGroup: FormGroup = submittedEvent[0];
-    const ctiValue = submittedEvent[0].value.ConfigurationTemplate;
+    let myFormGroup: FormGroup = submittedEvent;
+    const ctiValue = submittedEvent.value.ConfigurationTemplate;
     const isUpdate = !!ctiValue.id;
 
     this.guidelinesService.saveConfigurationTemplateInstance(ctiValue).subscribe({

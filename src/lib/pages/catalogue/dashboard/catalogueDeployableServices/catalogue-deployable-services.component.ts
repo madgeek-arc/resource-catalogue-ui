@@ -11,9 +11,10 @@ import {environment} from '../../../../../environments/environment';
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-catalogue-deployable-services',
-  templateUrl: './catalogue-deployable-services.component.html',
-  styleUrls: ['../../../provider/dashboard/services/service.component.css']
+    selector: 'app-catalogue-deployable-services',
+    templateUrl: './catalogue-deployable-services.component.html',
+    styleUrls: ['../../../provider/dashboard/services/service.component.css'],
+    standalone: false
 })
 
 export class CatalogueDeployableServicesComponent implements OnInit {

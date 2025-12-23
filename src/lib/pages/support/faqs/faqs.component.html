@@ -12,35 +12,43 @@
             <!-- MIDDLE -->
             <div class=" uk-width-expand@m">
 
-              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">{{errorMessage}}</div>
+              @if (errorMessage) {
+                <div class="uk-alert uk-alert-danger">{{errorMessage}}</div>
+              }
 
-              <div *ngIf="activeTopicQuestions && !errorMessage">
-
-                <div *ngIf="activeTopicQuestions.length==0" class="uk-alert uk-alert-warning">
-                  There are no active FAQs at the moment
-                </div>
-
-                <div *ngIf="activeTopicQuestions.length>0">
-
-                  <div *ngFor="let activeTopicQuestion of activeTopicQuestions" class="uk-margin-large-bottom">
-
-                    <h4>{{activeTopicQuestion.name}}</h4>
-                    <p *ngIf="activeTopicQuestion.description">{{activeTopicQuestion.description}}</p>
-
-                    <ul *ngIf="activeTopicQuestion.questions.length>0" uk-accordion>
-                      <li *ngFor="let question of activeTopicQuestion.questions" class="uk-margin-bottom">
-                        <h3 class="uk-accordion-title">{{question.question}}</h3>
-                        <div class="uk-accordion-content">
-                          <p>{{question.answer}}</p>
+              @if (activeTopicQuestions && !errorMessage) {
+                <div>
+                  @if (activeTopicQuestions.length==0) {
+                    <div class="uk-alert uk-alert-warning">
+                      There are no active FAQs at the moment
+                    </div>
+                  }
+                  @if (activeTopicQuestions.length>0) {
+                    <div>
+                      @for (activeTopicQuestion of activeTopicQuestions; track activeTopicQuestion) {
+                        <div class="uk-margin-large-bottom">
+                          <h4>{{activeTopicQuestion.name}}</h4>
+                          @if (activeTopicQuestion.description) {
+                            <p>{{activeTopicQuestion.description}}</p>
+                          }
+                          @if (activeTopicQuestion.questions.length>0) {
+                            <ul uk-accordion>
+                              @for (question of activeTopicQuestion.questions; track question) {
+                                <li class="uk-margin-bottom">
+                                  <h3 class="uk-accordion-title">{{question.question}}</h3>
+                                  <div class="uk-accordion-content">
+                                    <p>{{question.answer}}</p>
+                                  </div>
+                                </li>
+                              }
+                            </ul>
+                          }
                         </div>
-                      </li>
-                    </ul>
-
-                  </div>
-
+                      }
+                    </div>
+                  }
                 </div>
-
-              </div>
+              }
 
             </div>
 

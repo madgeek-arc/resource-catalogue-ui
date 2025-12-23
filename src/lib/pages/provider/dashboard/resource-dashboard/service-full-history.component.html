@@ -4,85 +4,106 @@
       <div class="uk-width-1-1@m uk-first-column">
 
         <div class="services-provider-container">
-          <div *ngIf="service" class="uk-flex">
-            <div>
-              <img src="{{ service.logo ? service.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
-            </div>
-            <div class="uk-margin-medium-left">
-              <h3 class="uk-margin-remove">{{service.name}}</h3>
-              <div><span class="status-label">ID: </span>{{ service.id}}</div>
-              <!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
-<!--              <div *ngIf="serviceHistory?.results[0]?.registeredBy && serviceHistory?.results[0]?.registeredAt">
+          @if (service) {
+            <div class="uk-flex">
+              <div>
+                <img src="{{ service.logo ? service.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+              </div>
+              <div class="uk-margin-medium-left">
+                <h3 class="uk-margin-remove">{{service.name}}</h3>
+                <div><span class="status-label">ID: </span>{{ service.id}}</div>
+                <!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
+                <!--              <div *ngIf="serviceHistory?.results[0]?.registeredBy && serviceHistory?.results[0]?.registeredAt">
                 <span class="status-label">Registered by: </span>{{ serviceHistory.results[0].registeredBy }} on {{ serviceHistory.results[0].registeredAt | date}}
               </div>-->
             </div>
           </div>
-        </div>
+        }
+      </div>
 
-        <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
-          <div class="uk-grid">
+      <div class="uk-container uk-margin-medium-top uk-margin-medium-bottom">
+        <div class="uk-grid">
 
-            <!-- MIDDLE -->
-            <div class=" uk-width-expand@m">
+          <!-- MIDDLE -->
+          <div class=" uk-width-expand@m">
 
-              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
-              <!--              <div *ngIf="loadingMessage" class="loading-big">-->
-              <!--                <div class="loader-big" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">-->
-              <!--                  {{ loadingMessage }}-->
-              <!--                </div>-->
-              <!--                <div class="transparentFilm"></div>-->
-              <!--              </div>-->
-              <!--              <div *ngIf="noAggregations">{{ noAggregations }}</div>-->
-              <div *ngIf="service && serviceHistory?.results?.length>0">
-                <div  class="uk-width-1-1@m uk-margin-medium-bottom">
-
-                  <div class="uk-card uk-card-default uk-margin-medium-bottom">
-                      <div class="uk-overflow-container">
-                        <table class="uk-table uk-table-divider uk-table-nowrap">
-                          <thead>
-                          <tr>
-                            <th>Date</th>
-                            <th>User</th>
-                            <th>Action</th>
-                            <th class="uk-text-center">Comment</th>
-                            <th class="uk-text-center">Version changed</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          <tr *ngFor="let history of serviceHistory.results">
-                            <td><span *ngIf="history.date">{{ history.date | date : "MM-dd-yyyy" }}</span></td>
-                            <td class="">
-                              <span *ngIf="history.userFullName">{{ history.userFullName }}</span>
-                              <span *ngIf="history.userFullName && history.userEmail"> - </span>
-                              <span *ngIf="history.userEmail">{{ history.userEmail }}</span>
-                              <span *ngIf="history.userRole"> ({{ history.userRole }})</span>
-                            </td>
-                            <td class=""><span *ngIf="history.actionType">{{ history.actionType }}</span></td>
-                            <td class="uk-text-center"><span *ngIf="history.comment && history.comment!=='null'">{{ history.comment }}</span></td>
-                            <td class="uk-text-center"><span
-                              *ngIf="history.actionType === 'updated version'" class="uk-badge">✓</span>
-                            </td>
-                          </tr>
-                          </tbody>
-                        </table>
-                      </div>
-
-                  </div>
-
-                </div>
+            @if (errorMessage) {
+              <div class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
+            }
+            <!--              <div *ngIf="loadingMessage" class="loading-big">-->
+            <!--                <div class="loader-big" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">-->
+            <!--                  {{ loadingMessage }}-->
+          <!--                </div>-->
+          <!--                <div class="transparentFilm"></div>-->
+        <!--              </div>-->
+        <!--              <div *ngIf="noAggregations">{{ noAggregations }}</div>-->
+        @if (service && serviceHistory?.results?.length>0) {
+          <div>
+            <div  class="uk-width-1-1@m uk-margin-medium-bottom">
+              <div class="uk-card uk-card-default uk-margin-medium-bottom">
+                <div class="uk-overflow-container">
+                  <table class="uk-table uk-table-divider uk-table-nowrap">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th class="uk-text-center">Comment</th>
+                        <th class="uk-text-center">Version changed</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (history of serviceHistory.results; track history) {
+                        <tr>
+                          <td>@if (history.date) {
+                            <span>{{ history.date | date : "MM-dd-yyyy" }}</span>
+                          }</td>
+                          <td class="">
+                            @if (history.userFullName) {
+                              <span>{{ history.userFullName }}</span>
+                            }
+                            @if (history.userFullName && history.userEmail) {
+                              <span> - </span>
+                            }
+                            @if (history.userEmail) {
+                              <span>{{ history.userEmail }}</span>
+                            }
+                            @if (history.userRole) {
+                              <span> ({{ history.userRole }})</span>
+                            }
+                          </td>
+                          <td class="">@if (history.actionType) {
+                            <span>{{ history.actionType }}</span>
+                          }</td>
+                          <td class="uk-text-center">@if (history.comment && history.comment!=='null') {
+                            <span>{{ history.comment }}</span>
+                          }</td>
+                          <td class="uk-text-center">@if (history.actionType === 'updated version') {
+                            <span
+                            class="uk-badge">✓</span>
+                          }
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
               </div>
-
-              <button [routerLink]="['/dashboard/' + catalogueId + '/' + encodeURIComponent(service.resourceOrganisation) + '/resource-dashboard/' + encodeURIComponent(service.id) + '/history']"
-                      class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
-              </button>
-
             </div>
-
           </div>
         </div>
+      }
 
-      </div>
+      <button [routerLink]="['/dashboard/' + catalogueId + '/' + encodeURIComponent(service.resourceOrganisation) + '/resource-dashboard/' + encodeURIComponent(service.id) + '/history']"
+        class="uk-button uk-button-action uk-display-block uk-margin-medium-top">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+      </button>
+
     </div>
+
   </div>
+</div>
+
+</div>
+</div>
+</div>
 </div>

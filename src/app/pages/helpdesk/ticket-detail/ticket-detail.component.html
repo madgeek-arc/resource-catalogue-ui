@@ -6,136 +6,123 @@
     </button>
   </div>
 
-  <div *ngIf="error" class="error-message">
-    <i class="fa fa-exclamation-circle"></i>
-    <span>{{ error }}</span>
-  </div>
-
-  <div *ngIf="loading" class="loading-container">
-    <div class="spinner"></div>
-    <p>Loading ticket details...</p>
-  </div>
-
-  <div *ngIf="!loading && ticket" class="ticket-content">
-    <div class="ticket-info">
-      <div class="ticket-header">
-        <div class="ticket-title-section">
-          <h1>{{ ticket.title }}</h1>
-          <div class="ticket-meta">
-            <span class="ticket-id">#{{ ticket.id }}</span>
-            <span class="ticket-date"
-              >Created {{ formatDate(ticket.created_at) }}</span
-            >
-          </div>
-        </div>
-        <div class="ticket-status-section">
-          <div class="status-badge">
-            <i [class]="getStatusIcon(ticket.status)"></i>
-            <span [class]="getStatusClass(ticket.status)">{{
-              ticket.status
-            }}</span>
-          </div>
-        </div>
-      </div>
+  @if (error) {
+    <div class="error-message">
+      <i class="fas fa-exclamation-circle"></i>
+      <span>{{ error }}</span>
     </div>
+  }
 
-    <div class="timeline-container">
-      <h3>Conversation Timeline</h3>
+  @if (loading) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading ticket details...</p>
+    </div>
+  }
 
-      <div class="timeline">
-        <div
-          *ngFor="let article of ticket.articles; let i = index"
-          class="timeline-item"
-          [class.user-message]="isUserMessage(article)"
-          [class.support-message]="!isUserMessage(article)"
-        >
-          <div class="timeline-marker">
-            <i *ngIf="isUserMessage(article)" class="fa fa-user"></i>
-            <i *ngIf="!isUserMessage(article)" class="fa fa-headset"></i>
+  @if (!loading && ticket) {
+    <div class="ticket-content">
+      <div class="ticket-info">
+        <div class="ticket-header">
+          <div class="ticket-title-section">
+            <h1>{{ ticket.title }}</h1>
+            <div class="ticket-meta">
+              <span class="ticket-id">#{{ ticket.id }}</span>
+              <span class="ticket-date">Created {{ formatDate(ticket.created_at) }}</span>
+            </div>
           </div>
-
-          <div class="timeline-content">
-            <div class="message-header">
-              <span class="message-author">
-                {{ isUserMessage(article) ? "You" : "EOSC Beyond Support" }}
-              </span>
-              <span class="message-time">
-                {{ formatTime(article.created_at) }}
-              </span>
-            </div>
-
-            <div class="message-body">
-              <p>{{ article.body }}</p>
-            </div>
-
-            <div class="message-footer">
-              <span class="message-date">{{
-                formatDate(article.created_at)
-              }}</span>
+          <div class="ticket-status-section">
+            <div class="status-badge">
+              <i [class]="getStatusIcon(ticket.status)"></i>
+              <span [class]="getStatusClass(ticket.status)">{{ ticket.status }}</span>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div *ngIf="ticket.status !== 'closed'" class="reply-section">
-      <h3>Add a Reply</h3>
-
-      <form
-        [formGroup]="replyForm"
-        (ngSubmit)="onSubmitReply()"
-        class="reply-form"
-      >
-        <div class="form-group">
-          <label for="replyBody">Your Message *</label>
-          <textarea
-            id="replyBody"
-            formControlName="body"
-            placeholder="Type your reply here..."
-            rows="5"
-            class="form-control"
-            [class.is-invalid]="
-              replyForm.get('body')?.invalid && replyForm.get('body')?.touched
-            "
-          ></textarea>
-          <div
-            *ngIf="
-              replyForm.get('body')?.invalid && replyForm.get('body')?.touched
-            "
-            class="error-text"
-          >
-            {{ getErrorMessage("body") }}
+      <div class="timeline-container">
+        <h3>Conversation Timeline</h3>
+        <div class="timeline">
+          @for (article of ticket.articles; track article; let i = $index) {
+            <div
+              class="timeline-item"
+              [class.user-message]="isUserMessage(article)"
+              [class.support-message]="!isUserMessage(article)"
+              >
+              <div class="timeline-marker">
+                @if (isUserMessage(article)) {
+                  <i class="fas fa-user"></i>
+                }
+                @if (!isUserMessage(article)) {
+                  <i class="fas fa-headset"></i>
+                }
+              </div>
+              <div class="timeline-content">
+                <div class="message-header">
+                  <span class="message-author">
+                    {{ isUserMessage(article) ? 'You' : 'EOSC Beyond Support' }}
+                  </span>
+                  <span class="message-time">
+                    {{ formatTime(article.created_at) }}
+                  </span>
+                </div>
+                <div class="message-body">
+                  <p>{{ article.body }}</p>
+                </div>
+                <div class="message-footer">
+                  <span class="message-date">{{ formatDate(article.created_at) }}</span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+      @if (ticket.status !== 'closed') {
+        <div class="reply-section">
+          <h3>Add a Reply</h3>
+          <form [formGroup]="replyForm" (ngSubmit)="onSubmitReply()" class="reply-form">
+            <div class="form-group">
+              <label for="replyBody">Your Message *</label>
+              <textarea
+                id="replyBody"
+                formControlName="body"
+                placeholder="Type your reply here..."
+                rows="5"
+                class="form-control"
+                [class.is-invalid]="replyForm.get('body')?.invalid && replyForm.get('body')?.touched"
+              ></textarea>
+              @if (replyForm.get('body')?.invalid && replyForm.get('body')?.touched) {
+                <div class="error-text">
+                  {{ getErrorMessage('body') }}
+                </div>
+              }
+            </div>
+            <div class="form-actions">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="replyForm.invalid || submittingReply"
+                >
+                @if (submittingReply) {
+                  <span class="spinner"></span>
+                }
+                {{ submittingReply ? 'Sending...' : 'Send Reply' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      }
+      @if (ticket.status === 'closed') {
+        <div class="ticket-closed">
+          <div class="closed-notice">
+            <i class="fas fa-lock"></i>
+            <h4>This ticket is closed</h4>
+            <p>This support ticket has been resolved and closed. If you need further assistance, please create a new ticket.</p>
+            <button class="btn btn-primary" (click)="router.navigate(['/helpdesk/create'])">
+              Create New Ticket
+            </button>
           </div>
         </div>
-
-        <div class="form-actions">
-          <button
-            type="submit"
-            class="btn btn-primary"
-            [disabled]="replyForm.invalid || submittingReply"
-          >
-            <span *ngIf="submittingReply" class="spinner"></span>
-            {{ submittingReply ? "Sending..." : "Send Reply" }}
-          </button>
-        </div>
-      </form>
+      }
     </div>
-
-    <div *ngIf="ticket.status === 'closed'" class="ticket-closed">
-      <div class="closed-notice">
-        <i class="fa fa-lock"></i>
-        <h4>This ticket is closed</h4>
-        <p>
-          This support ticket has been resolved and closed. If you need further
-          assistance, please create a new ticket.
-        </p>
-        <button
-          class="btn btn-primary"
-          (click)="router.navigate(['/helpdesk/create'])"
-        >
-          Create New Ticket
-        </button>
-      </div>
-    </div>
-  </div>
+  }
 </div>

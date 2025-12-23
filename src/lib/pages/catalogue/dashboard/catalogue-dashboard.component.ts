@@ -10,8 +10,9 @@ import {CatalogueService} from "../../../services/catalogue.service";
 
 
 @Component({
-  selector: 'app-catalogue-dashboard',
-  templateUrl: './catalogue-dashboard.component.html',
+    selector: 'app-catalogue-dashboard',
+    templateUrl: './catalogue-dashboard.component.html',
+    standalone: false
 })
 export class CatalogueDashboardComponent implements OnInit {
 

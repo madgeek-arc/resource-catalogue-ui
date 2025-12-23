@@ -14,9 +14,10 @@ import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-services',
-  templateUrl: './services.component.html',
-  styleUrls: ['./service.component.css']
+    selector: 'app-services',
+    templateUrl: './services.component.html',
+    styleUrls: ['./service.component.css'],
+    standalone: false
 })
 
 export class ServicesComponent implements OnInit {

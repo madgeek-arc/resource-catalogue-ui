@@ -1,39 +1,43 @@
-<div *ngIf="showLoader" class="uk-margin-large-top">
-  <div class="loader-big"></div>
-</div>
-
-<div *ngIf="model && vocabularies && subVocabularies" class="uk-section-default uk-section uk-section-small uk-padding-remove-top uk-padding-remove-bottom" style="min-height: 90vh;">
-  <div class="uk-container uk-container-expand uk-margin-left uk-margin-right">
-
-    <div *ngIf="errorMessage" id="errorAlert" class="uk-alert-danger" uk-alert>
-      <a class="uk-alert-close" uk-close></a>
-      <pre class="uk-alert-danger">{{errorMessage}}</pre>
-    </div>
-
-    <ng-container *ngIf="(editMode && payloadAnswer) || !editMode">
-      <app-survey [payload]="payloadAnswer" [model]="model" [vocabulariesMap]="vocabulariesMap" [subVocabularies]="subVocabulariesMap"
-                  [tabsHeader]="" (submit)="showCommentModal($event)" [activeUsers]="[]">
-
-        <div *ngIf="model" class="uk-grid form-top-section">
-          <h5 class="uk-width-1-1 uk-margin-bottom">{{ model.name }}</h5>
-          <p class="uk-margin-bottom" [innerHTML]="model.notice"></p>
-        </div>
-
-        <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end" style="min-height: 40px">
-          <div>
-            <button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">
-              Submit
-            </button>
-          </div>
-        </div>
-      </app-survey>
-    </ng-container>
+@if (showLoader) {
+  <div class="uk-margin-large-top">
+    <div class="loader-big"></div>
   </div>
-</div>
+}
 
-<ng-container *ngIf="isDevMode()">
+@if (model && vocabularies && subVocabularies) {
+  <div class="uk-section-default uk-section uk-section-small uk-padding-remove-top uk-padding-remove-bottom" style="min-height: 90vh;">
+    <div class="uk-container uk-container-expand uk-margin-left uk-margin-right">
+      @if (errorMessage) {
+        <div id="errorAlert" class="uk-alert-danger" uk-alert>
+          <a class="uk-alert-close" uk-close></a>
+          <pre class="uk-alert-danger">{{errorMessage}}</pre>
+        </div>
+      }
+      @if ((editMode && payloadAnswer) || !editMode) {
+        <app-survey [payload]="payloadAnswer" [model]="model" [vocabulariesMap]="vocabulariesMap" [subVocabularies]="subVocabulariesMap"
+          [tabsHeader]="" (submit)="showCommentModal($event)" [activeUsers]="[]">
+          @if (model) {
+            <div class="uk-grid form-top-section">
+              <h5 class="uk-width-1-1 uk-margin-bottom">{{ model.name }}</h5>
+              <p class="uk-margin-bottom" [innerHTML]="model.notice"></p>
+            </div>
+          }
+          <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end" style="min-height: 40px">
+            <div>
+              <button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">
+                Submit
+              </button>
+            </div>
+          </div>
+        </app-survey>
+      }
+    </div>
+  </div>
+}
+
+@if (isDevMode()) {
   <pre>{{this.payloadAnswer|json}}</pre>
-</ng-container>
+}
 
 <div id="modal-consent" class="uk-flex-top" uk-modal="bg-close: false; esc-close: false;">
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
@@ -49,50 +53,52 @@
       <!--          <input class="uk-checkbox" type="checkbox" id="codeOfConduct"  value="true"-->
       <!--                 (change)="toggleTerm('codeOfConduct')">-->
       <!--          <span class="uk-margin-small-left">I agree with the <a>EOSC Code of Conduct</a></span>-->
-      <!--        </label>-->
-      <!--      </div>-->
-      <div class="uk-form-controls uk-margin-bottom">
-        <label>
-          <input class="uk-checkbox" type="checkbox" id="privacyPolicy"  value="true"
-                 (change)="toggleTerm('privacyPolicy')">
-          <span class="uk-margin-small-left">I agree to the <a href="{{privacyPolicyURL}}" target="_blank">Privacy Policy</a></span>
-        </label>
-      </div>
-      <div class="uk-form-controls uk-margin-bottom">
-        <label>
-          <input class="uk-checkbox" type="checkbox" id="authorizedRepresentative"  value="true"
-                 (change)="toggleTerm('authorizedRepresentative')">
-          <span class="uk-margin-small-left">I assert that I am an authorized representative of this Catalogue</span>
-        </label>
-      </div>
-      <div class="uk-form-controls uk-margin-bottom">
-        <label>
-          <input class="uk-checkbox" type="checkbox" id="onboardingAgreement"  value="true"
-                 (change)="toggleTerm('onboardingAgreement')">
-          <span class="uk-margin-small-left">I have read and agree with the <a href="{{onboardingAgreementURL}}" target="_blank">EOSC Catalogue Onboarding Agreement</a></span>
-        </label>
-      </div>
-    </div>
-
-    <div class="uk-text-right">
-      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button" routerLink="/home">Cancel</button>
-      <button class="uk-button  uk-modal-close" type="button" (click)="acceptTerms()"
-              [ngClass]="{'uk-disabled' : !agreedToTerms, 'uk-button-secondary' : !agreedToTerms, 'uk-button-primary': agreedToTerms}">
-        Apply</button>
-    </div>
+    <!--        </label>-->
+  <!--      </div>-->
+  <div class="uk-form-controls uk-margin-bottom">
+    <label>
+      <input class="uk-checkbox" type="checkbox" id="privacyPolicy"  value="true"
+        (change)="toggleTerm('privacyPolicy')">
+      <span class="uk-margin-small-left">I agree to the <a href="{{privacyPolicyURL}}" target="_blank">Privacy Policy</a></span>
+    </label>
+  </div>
+  <div class="uk-form-controls uk-margin-bottom">
+    <label>
+      <input class="uk-checkbox" type="checkbox" id="authorizedRepresentative"  value="true"
+        (change)="toggleTerm('authorizedRepresentative')">
+      <span class="uk-margin-small-left">I assert that I am an authorized representative of this Catalogue</span>
+    </label>
+  </div>
+  <div class="uk-form-controls uk-margin-bottom">
+    <label>
+      <input class="uk-checkbox" type="checkbox" id="onboardingAgreement"  value="true"
+        (change)="toggleTerm('onboardingAgreement')">
+      <span class="uk-margin-small-left">I have read and agree with the <a href="{{onboardingAgreementURL}}" target="_blank">EOSC Catalogue Onboarding Agreement</a></span>
+    </label>
   </div>
 </div>
 
+<div class="uk-text-right">
+  <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button" routerLink="/home">Cancel</button>
+  <button class="uk-button  uk-modal-close" type="button" (click)="acceptTerms()"
+    [ngClass]="{'uk-disabled' : !agreedToTerms, 'uk-button-secondary' : !agreedToTerms, 'uk-button-primary': agreedToTerms}">
+  Apply</button>
+</div>
+</div>
+</div>
+
 <div id="commentModal" uk-modal>
-  <div *ngIf="!showLoader" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h4>Add a comment <span style="color: grey">(optional)</span></h4>
-    <p class="uk-margin">Before submitting your changes, please provide us with the reason of your update and any comments you may have.</p>
-    <form>
-      <div class="uk-margin">
-        <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
-      </div>
-    </form>
-    <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="submit" (click)="submitForm(formDataToSubmit, false)">Submit</button>
-    <!--    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>-->
-  </div>
+  @if (!showLoader) {
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+      <h4>Add a comment <span style="color: grey">(optional)</span></h4>
+      <p class="uk-margin">Before submitting your changes, please provide us with the reason of your update and any comments you may have.</p>
+      <form>
+        <div class="uk-margin">
+          <textarea class="uk-textarea" rows="5" placeholder="" [formControl]="commentControl"></textarea>
+        </div>
+      </form>
+      <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="submit" (click)="submitForm(formDataToSubmit, false)">Submit</button>
+      <!--    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>-->
+    </div>
+  }
 </div>

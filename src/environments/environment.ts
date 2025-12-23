@@ -7,7 +7,7 @@ export const environment = {
   beta: false,
   FAQ_ENDPOINT: 'https://dl105.madgik.di.uoa.gr/faq/api',
   API_ENDPOINT: '/api', // to change the end point go to proxy.conf.json file
-  API_LOGIN: '/api/login',
+  API_LOGIN: '/api/oauth2/authorization/eosc',
   API_LOGOUT: '/api/logout',
   STATS_ENDPOINT: 'https://providers.eosc-portal.eu/stats-api/',
   serviceORresource: 'Service',

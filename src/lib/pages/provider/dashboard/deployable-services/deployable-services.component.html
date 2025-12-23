@@ -2,22 +2,26 @@
   <div class="uk-container uk-container-expand">
 
     <div class="services-provider-container">
-      <div *ngIf="providerBundle" class="uk-flex">
-        <div>
-          <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+      @if (providerBundle) {
+        <div class="uk-flex">
+          <div>
+            <img src="{{ providerBundle.provider.logo ? providerBundle.provider.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+          </div>
+          <div class="uk-margin-medium-left">
+            <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
+            <div><span class="status-label">ID: </span>{{ providerBundle.id}}</div>
+            <div><span class="status-label">Provider Status: </span>{{ providerBundle.status.substr(0,providerBundle.status.indexOf(' ')) | titlecase }}</div>
+          </div>
         </div>
-        <div class="uk-margin-medium-left">
-          <h3 class="uk-margin-remove">{{providerBundle.provider.name}}</h3>
-          <div><span class="status-label">ID: </span>{{ providerBundle.id}}</div>
-          <div><span class="status-label">Provider Status: </span>{{ providerBundle.status.substr(0,providerBundle.status.indexOf(' ')) | titlecase }}</div>
-        </div>
-      </div>
+      }
     </div>
 
     <div class="uk-margin-large-top">
-      <div *ngIf="errorMessage" class="uk-alert uk-alert-danger">
-        <p>{{errorMessage}}</p>
-      </div>
+      @if (errorMessage) {
+        <div class="uk-alert uk-alert-danger">
+          <p>{{errorMessage}}</p>
+        </div>
+      }
 
       <form [formGroup]="dataForm" class="uk-form-horizontal uk-flex uk-flex-middle filters uk-margin-bottom">
 
@@ -97,139 +101,157 @@
       </form>
 
 
-      <div *ngIf="deployableServices && deployableServices?.results?.length === 0">
-        <p>No deployable services found</p>
-      </div>
-
-      <div *ngIf="deployableServices && deployableServices?.results?.length > 0">
-
-        <div class="uk-flex uk-flex-middle uk-flex-between">
-
-          <div class="resultsInfo">
-            <span class="number">{{total}}</span> DEPLOYABLE SERVICES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
-          </div>
-
-          <ul class="uk-pagination" uk-margin>
-            <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
-            <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
-              <a (click)="goToPage(i)">{{i}}</a>
-            </li>
-            <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
-          </ul>
-
+      @if (deployableServices && deployableServices?.results?.length === 0) {
+        <div>
+          <p>No deployable services found</p>
         </div>
+      }
 
-        <hr class="adminResultsHeader">
-
-        <div class="uk-margin-medium-top">
-          <div *ngFor="let dsBundle of deployableServices.results; let i = index" class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
-
-            <div class="uk-card-body">
-
-              <div *ngIf="dsBundle.status === 'approved resource'" class="approved">
-                <div class="uk-card-badge uk-label">Approved</div>
-              </div>
-              <div *ngIf="dsBundle.status === 'pending resource'" class="pending">
-                <div class="uk-card-badge uk-label">Pending</div>
-              </div>
-              <div *ngIf="(dsBundle.status === 'rejected resource')" class="rejected">
-                <div class="uk-card-badge uk-label">Rejected</div>
-              </div>
-
-              <div class="uk-grid">
-                <div class="uk-width-9-10"></div>
-                <div class="uk-width-1-10">
-                  <div *ngIf="dsBundle.active" class="approved">
-                    <div class="uk-label uk-align-right">Active</div>
+      @if (deployableServices && deployableServices?.results?.length > 0) {
+        <div>
+          <div class="uk-flex uk-flex-middle uk-flex-between">
+            <div class="resultsInfo">
+              <span class="number">{{total}}</span> DEPLOYABLE SERVICES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+            </div>
+            <ul class="uk-pagination" uk-margin>
+              <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+              @for (i of pages; track i) {
+                <li [ngClass]="i === currentPage ? 'uk-active': ''">
+                  <a (click)="goToPage(i)">{{i}}</a>
+                </li>
+              }
+              <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+            </ul>
+          </div>
+          <hr class="adminResultsHeader">
+          <div class="uk-margin-medium-top">
+            @for (dsBundle of deployableServices.results; track dsBundle; let i = $index) {
+              <div class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+                <div class="uk-card-body">
+                  @if (dsBundle.status === 'approved resource') {
+                    <div class="approved">
+                      <div class="uk-card-badge uk-label">Approved</div>
+                    </div>
+                  }
+                  @if (dsBundle.status === 'pending resource') {
+                    <div class="pending">
+                      <div class="uk-card-badge uk-label">Pending</div>
+                    </div>
+                  }
+                  @if ((dsBundle.status === 'rejected resource')) {
+                    <div class="rejected">
+                      <div class="uk-card-badge uk-label">Rejected</div>
+                    </div>
+                  }
+                  <div class="uk-grid">
+                    <div class="uk-width-9-10"></div>
+                    <div class="uk-width-1-10">
+                      @if (dsBundle.active) {
+                        <div class="approved">
+                          <div class="uk-label uk-align-right">Active</div>
+                        </div>
+                      }
+                      @if (!dsBundle.active) {
+                        <div class="rejected">
+                          <div class="uk-label uk-align-right">Inactive</div>
+                        </div>
+                      }
+                      @if (dsBundle.suspended) {
+                        <div class="rejected">
+                          <div class="uk-label uk-align-right">Suspended</div>
+                        </div>
+                      }
+                    </div>
                   </div>
-                  <div *ngIf="!dsBundle.active" class="rejected">
-                    <div class="uk-label uk-align-right">Inactive</div>
+                  <div class="uk-grid uk-flex-middle uk-margin-remove-top">
+                    <!--                <div class="uk-width-1-6">-->
+                    <!--                  <img src="{{dsBundle.deployableService.logo ? dsBundle.deployableService.logo : '/assets/images/broken_image-black-48dp.svg'}}">-->
+                  <!--                </div>-->
+                  <div class="uk-width-3-4">
+                    <h4 class="uk-margin-remove uk-padding-small uk-padding-remove-top uk-padding-remove-left uk-padding-remove-right">
+                      <a [routerLink]="['/dashboard', dsBundle.deployableService.catalogueId, dsBundle.deployableService.resourceOrganisation, 'deployable-service-dashboard', dsBundle.id]" data-uk-tooltip title="Go to the deployable service dashboard">
+                        {{dsBundle.deployableService.name}}
+                      </a>
+                    </h4>
+                    <div class="uk-margin-small-top">
+                      @if (dsBundle.deployableService.description) {
+                        <span class="uk-margin-small-top"><markdown [data]="dsBundle.deployableService.description"></markdown></span>
+                      }
+                    </div>
+                    <div class="uk-margin-small-top">
+                      <span class="">Creation Date: </span>{{ dsBundle.metadata.registeredAt | date }}
+                    </div>
+                    <div class="uk-margin-small-top">
+                      <span class="">Last Update: </span>{{ dsBundle.metadata.modifiedAt | date }}
+                    </div>
                   </div>
-                  <div *ngIf="dsBundle.suspended" class="rejected">
-                    <div class="uk-label uk-align-right">Suspended</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="uk-grid uk-flex-middle uk-margin-remove-top">
-<!--                <div class="uk-width-1-6">-->
-<!--                  <img src="{{dsBundle.deployableService.logo ? dsBundle.deployableService.logo : '/assets/images/broken_image-black-48dp.svg'}}">-->
-<!--                </div>-->
-                <div class="uk-width-3-4">
-                  <h4 class="uk-margin-remove uk-padding-small uk-padding-remove-top uk-padding-remove-left uk-padding-remove-right">
-                    <a [routerLink]="['/dashboard', dsBundle.deployableService.catalogueId, dsBundle.deployableService.resourceOrganisation, 'deployable-service-dashboard', dsBundle.id]" data-uk-tooltip title="Go to the deployable service dashboard">
-                      {{dsBundle.deployableService.name}}
-                    </a>
-                  </h4>
-
-                  <div class="uk-margin-small-top">
-                    <span *ngIf="dsBundle.deployableService.description" class="uk-margin-small-top"><markdown [data]="dsBundle.deployableService.description"></markdown></span>
-                  </div>
-                  <div class="uk-margin-small-top">
-                    <span class="">Creation Date: </span>{{ dsBundle.metadata.registeredAt | date }}
-                  </div>
-                  <div class="uk-margin-small-top">
-                    <span class="">Last Update: </span>{{ dsBundle.metadata.modifiedAt | date }}
-                  </div>
-                </div>
-                <div *ngIf="catalogueId === catalogueConfigId" class="uk-width-1-4">
-                  <div class="action-buttons">
-                    <button
-                      [routerLink]="['/provider/'+ pidHandler.customEncodeURIComponent(dsBundle.deployableService.resourceOrganisation) +'/deployable-service/update/'+ pidHandler.customEncodeURIComponent(dsBundle.id)]"
-                      class="uk-button uk-button-action uk-display-block uk-margin-small-top">
-                      <i class="fa fa-pencil fa-lg" aria-hidden="true"></i> Update deployable service
-                    </button>
-                    <button *ngIf="providerBundle.templateStatus === 'approved template'"
+                  @if (catalogueId === catalogueConfigId) {
+                    <div class="uk-width-1-4">
+                      <div class="action-buttons">
+                        <button
+                          [routerLink]="['/provider/'+ pidHandler.customEncodeURIComponent(dsBundle.deployableService.resourceOrganisation) +'/deployable-service/update/'+ pidHandler.customEncodeURIComponent(dsBundle.id)]"
+                          class="uk-button uk-button-action uk-display-block uk-margin-small-top">
+                          <i class="fa fa-pencil fa-lg" aria-hidden="true"></i> Update deployable service
+                        </button>
+                        @if (providerBundle.templateStatus === 'approved template') {
+                          <button
                             class="uk-button uk-button-action uk-display-block uk-margin-small-top"
                             (click)="useAsTemplate(dsBundle.deployableService.id)">
-                      <i class="fa fa-copy fa-lg" aria-hidden="true"></i> Use as template
-                    </button>
-                    <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleDeployableService(dsBundle)">
-                      <ng-container *ngIf="dsBundle.active"><i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate</ng-container>
-                      <ng-container *ngIf="!dsBundle.active">
-                        <!--                        <div *ngIf="providerService.status === 'pending resource' || providerService.status === 'rejected resource'"-->
-                        <!--                             uk-tooltip="title:Cannot activate a pending/rejected resource."></div>-->
-                        <i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate
-                      </ng-container>
-                    </button>
-                    <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">-->
-                    <!--<i class="fa fa-pencil fa-lg"></i> Edit {{serviceORresource | lowercase}}-->
+                            <i class="fa fa-copy fa-lg" aria-hidden="true"></i> Use as template
+                          </button>
+                        }
+                        <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="toggleDeployableService(dsBundle)">
+                          @if (dsBundle.active) {
+                            <i class="fa fa-close fa-lg" aria-hidden="true"></i> Deactivate
+                          }
+                          @if (!dsBundle.active) {
+                            <!--                        <div *ngIf="providerService.status === 'pending resource' || providerService.status === 'rejected resource'"-->
+                          <!--                             uk-tooltip="title:Cannot activate a pending/rejected resource."></div>-->
+                          <i class="fa fa-check fa-lg" aria-hidden="true"></i> Activate
+                        }
+                      </button>
+                      <!--<button class="uk-button uk-button-action uk-display-block" (click)="navigate(providerService.service.id)">-->
+                      <!--<i class="fa fa-pencil fa-lg"></i> Edit {{serviceORresource | lowercase}}-->
                     <!--</button>-->
-                    <button *ngIf="dsBundle.status !== 'pending resource'" class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedDeployableService(dsBundle)">
-                      <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete deployable service
-                    </button>
+                    @if (dsBundle.status !== 'pending resource') {
+                      <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedDeployableService(dsBundle)">
+                        <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete deployable service
+                      </button>
+                    }
                   </div>
                 </div>
-              </div>
-
-              <!--&lt;!&ndash;              active/inactive label alternative&ndash;&gt;-->
-              <!--              <td class="uk-text-center">-->
-              <!--                <i class="fa fa-{{ providerService.active ? 'check':'close' }}"></i>-->
-              <!--              </td>-->
-
+              }
             </div>
-
-          </div>
+            <!--&lt;!&ndash;              active/inactive label alternative&ndash;&gt;-->
+            <!--              <td class="uk-text-center">-->
+            <!--                <i class="fa fa-{{ providerService.active ? 'check':'close' }}"></i>-->
+          <!--              </td>-->
         </div>
-
-        <ul class="uk-pagination uk-flex-right" uk-margin>
-          <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
-          <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
-            <a (click)="goToPage(i)">{{i}}</a>
-          </li>
-          <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
-        </ul>
-
       </div>
-
-    </div>
-
+    }
   </div>
+  <ul class="uk-pagination uk-flex-right" uk-margin>
+    <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+    @for (i of pages; track i) {
+      <li [ngClass]="i === currentPage ? 'uk-active': ''">
+        <a (click)="goToPage(i)">{{i}}</a>
+      </li>
+    }
+    <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+  </ul>
+</div>
+}
+
+</div>
+
+</div>
 </div>
 
 <div id="actionModal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-    <h6 *ngIf="selectedDeployableService">Are you sure you want to delete the deployable service: '{{selectedDeployableService.deployableService.name}}'</h6>
+    @if (selectedDeployableService) {
+      <h6>Are you sure you want to delete the deployable service: '{{selectedDeployableService.deployableService.name}}'</h6>
+    }
     <div class="uk-text-right">
       <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
       <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteDeployableService(selectedDeployableService.id)">Delete</button>

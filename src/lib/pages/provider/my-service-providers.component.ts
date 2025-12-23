@@ -9,8 +9,9 @@ import {environment} from '../../../environments/environment';
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 
 @Component({
-  selector: 'app-my-service-providers',
-  templateUrl: './my-service-providers.component.html'
+    selector: 'app-my-service-providers',
+    templateUrl: './my-service-providers.component.html',
+    standalone: false
 })
 export class MyServiceProvidersComponent implements OnInit {
 

@@ -1,7 +1,10 @@
 
 import {Pipe, PipeTransform} from "@angular/core";
 
-@Pipe({name: "lookup"})
+@Pipe({
+    name: "lookup",
+    standalone: false
+})
 export class LookUpPipe implements PipeTransform {
     transform(keys: any[], dictionary: any): any {
         if(keys instanceof Array) {

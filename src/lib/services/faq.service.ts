@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 import {throwError} from 'rxjs';
 import {ActiveTopicQuestions} from '../domain/faq-active-topic-questions';
 import {environment} from '../../environments/environment';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
 import {Question} from '../domain/faq-question';
 

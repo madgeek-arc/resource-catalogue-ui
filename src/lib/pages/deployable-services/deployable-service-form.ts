@@ -28,9 +28,10 @@ import {DeployableServiceService} from "../../services/deployable-service.servic
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-deployable-service-form',
-  templateUrl: './deployable-service-form.html',
-  styleUrls: ['../provider/service-provider-form.component.css']
+    selector: 'app-deployable-service-form',
+    templateUrl: './deployable-service-form.html',
+    styleUrls: ['../provider/service-provider-form.component.css'],
+    standalone: false
 })
 export class DeployableServiceForm implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent
@@ -87,11 +88,11 @@ export class DeployableServiceForm implements OnInit {
     this.trainingResourceService = this.injector.get(TrainingResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
     this.router = this.injector.get(NavigationService);
-    this.weights[0] = this.authenticationService.user.email.split('@')[0];
+    this.weights[0] = this.authenticationService.getUserEmail().split('@')[0];
   }
 
-  submitForm(value: any, tempSave: boolean, pendingService: boolean) {//TODO
-    let dsValue = value[0].value.DeployableService;
+  submitForm(formData: any, tempSave: boolean, pendingService: boolean) {//TODO
+    let dsValue = formData.value.DeployableService;
     window.scrollTo(0, 0);
 
 /*    if (!this.authenticationService.isLoggedIn()) {

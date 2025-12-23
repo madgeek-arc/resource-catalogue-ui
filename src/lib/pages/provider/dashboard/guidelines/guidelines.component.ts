@@ -13,9 +13,10 @@ import {ConfigService} from "../../../../services/config.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-guidelines',
-  templateUrl: './guidelines.component.html',
-  styleUrls: ['../services/service.component.css']
+    selector: 'app-guidelines',
+    templateUrl: './guidelines.component.html',
+    styleUrls: ['../services/service.component.css'],
+    standalone: false
 })
 
 export class GuidelinesComponent implements OnInit {

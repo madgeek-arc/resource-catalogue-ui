@@ -4,93 +4,101 @@
       <div class="uk-width-1-1@m uk-first-column">
 
         <div class="services-provider-container">
-          <div *ngIf="service" class="uk-flex">
-            <div>
-              <img src="{{ service.logo ? service.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
-            </div>
-            <div class="uk-margin-medium-left">
-              <h3 class="uk-margin-remove">{{service.name}}
-<!--                <ng-container *ngIf="currentMonitoringStatus==='OK'">-->
-<!--                  <span class="uk-badge" title="Monitoring Status" style="background: #26aa0b;"><i class="fa fa-check"></i></span>-->
-<!--                </ng-container>-->
-<!--                <ng-container *ngIf="currentMonitoringStatus!=='OK' && currentMonitoringStatus!=='init'">-->
-<!--                  <span class="uk-badge" title="Monitoring Status" style="background: #aa1e0b;">X</span>-->
-<!--                </ng-container>-->
-<!--                <ng-container *ngIf="currentMonitoringStatus==='OK'">-->
-<!--                  <span class="uk-badge" title="Monitoring Status" style="background: #26aa0b;">OK</span>-->
-<!--                </ng-container>-->
-<!--                <ng-container *ngIf="currentMonitoringStatus==='WARNING'">-->
-<!--                  <span class="uk-badge" title="Monitoring Status" style="background: #aa1e0b;">WARNING</span>-->
-<!--                </ng-container>-->
-<!--                <ng-container *ngIf="currentMonitoringStatus==='CRITICAL'">-->
-<!--                  <span class="uk-badge" title="Monitoring Status" style="background: #aa1e0b;">CRITICAL</span>-->
-<!--                </ng-container>-->
-              </h3>
-              <div><span class="status-label">ID: </span>{{ service.id}}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="uk-container uk-container-expand uk-margin-medium-top uk-margin-medium-bottom">
-          <div class="uk-grid">
-
-            <!-- MIDDLE -->
-              <div *ngIf="currentMonitoringStatus" class="uk-padding uk-width-1-1@m@m">
-                <span class="uk-text-bold">Current Monitoring Status:  </span>
-                <ng-container *ngIf="currentMonitoringStatus==='NA'">
-                  <span class="uk-badge" title="Monitoring Status" style="background: dimgrey;">NA</span>
-                </ng-container>
-                <ng-container *ngIf="currentMonitoringStatus==='OK'">
-                  <span class="uk-badge" title="Monitoring Status" style="background: #28a745;">OK</span>
-                </ng-container>
-                <ng-container *ngIf="currentMonitoringStatus==='WARNING'">
-                  <span class="uk-badge" title="Monitoring Status" style="background: #ffc107;">WARNING</span>
-                </ng-container>
-                <ng-container *ngIf="currentMonitoringStatus==='CRITICAL'">
-                  <span class="uk-badge" title="Monitoring Status" style="background: #dc3545;">CRITICAL</span>
-                </ng-container>
-                <ng-container *ngIf="currentMonitoringStatus==='MISSING'">
-                  <span class="uk-badge" title="Monitoring Status" style="background: #17a2b8;">MISSING</span>
-                </ng-container>
-                <ng-container *ngIf="currentMonitoringStatus==='UNKNOWN'">
-                  <span class="uk-badge" title="Monitoring Status" style="background: #6c757d ;">UNKNOWN</span>
-                </ng-container>
+          @if (service) {
+            <div class="uk-flex">
+              <div>
+                <img src="{{ service.logo ? service.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
               </div>
-
-  <!--            <div class="uk-flex uk-flex-center uk-flex-middle" *ngIf="loadingMessage">-->
-  <!--              <div class="loader-big" style="text-align: center; padding-top: 170px; color: rgb(43,43,43); font-weight: bold;">-->
-  <!--                {{ loadingMessage }}-->
-  <!--              </div>-->
-  <!--            </div>-->
-  <!--            <div class="uk-grid">-->
-  <!--              <div *ngIf="monitoringData.length>0">-->
-<!--                  <div class="uk-card">-->
-<!--                    <div class="uk-card-body uk-card-default">-->
-                    <highcharts-chart *ngIf="monitoringData?.length>0"
-                                      [Highcharts]="Highcharts"
-                                      [options]="chartOptions"
-                                      style="width: 100%; height: 400px;">
-                    </highcharts-chart>
-<!--                    </div>-->
-<!--                  </div>-->
-  <!--              </div>-->
-  <!--            </div>-->
-
-              <div *ngIf="service">
-                <p>General Monitoring Information for your {{serviceORresource}} are available <a
-                  href="{{monitoringURL}}/eosc/dashboard/Default/{{service.id}}"
-                  target="_blank">here</a>.
-                </p>
-                <p>Also, the status report in a timeline view is available <a
-                  href="{{monitoringURL}}/eosc/report-status/Default/SERVICEGROUPS/{{service.id}}"
-                  target="_blank">here</a>.
-                </p>
-              </div>
-
-            </div>
-          </div>
-
-      </div>
+              <div class="uk-margin-medium-left">
+                <h3 class="uk-margin-remove">{{service.name}}
+                  <!--                <ng-container *ngIf="currentMonitoringStatus==='OK'">-->
+                  <!--                  <span class="uk-badge" title="Monitoring Status" style="background: #26aa0b;"><i class="fa fa-check"></i></span>-->
+                <!--                </ng-container>-->
+                <!--                <ng-container *ngIf="currentMonitoringStatus!=='OK' && currentMonitoringStatus!=='init'">-->
+                <!--                  <span class="uk-badge" title="Monitoring Status" style="background: #aa1e0b;">X</span>-->
+              <!--                </ng-container>-->
+              <!--                <ng-container *ngIf="currentMonitoringStatus==='OK'">-->
+              <!--                  <span class="uk-badge" title="Monitoring Status" style="background: #26aa0b;">OK</span>-->
+            <!--                </ng-container>-->
+            <!--                <ng-container *ngIf="currentMonitoringStatus==='WARNING'">-->
+            <!--                  <span class="uk-badge" title="Monitoring Status" style="background: #aa1e0b;">WARNING</span>-->
+          <!--                </ng-container>-->
+          <!--                <ng-container *ngIf="currentMonitoringStatus==='CRITICAL'">-->
+          <!--                  <span class="uk-badge" title="Monitoring Status" style="background: #aa1e0b;">CRITICAL</span>-->
+        <!--                </ng-container>-->
+      </h3>
+      <div><span class="status-label">ID: </span>{{ service.id}}</div>
     </div>
   </div>
+}
+</div>
+
+<div class="uk-container uk-container-expand uk-margin-medium-top uk-margin-medium-bottom">
+  <div class="uk-grid">
+
+    <!-- MIDDLE -->
+    @if (currentMonitoringStatus) {
+      <div class="uk-padding uk-width-1-1@m@m">
+        <span class="uk-text-bold">Current Monitoring Status:  </span>
+        @if (currentMonitoringStatus==='NA') {
+          <span class="uk-badge" title="Monitoring Status" style="background: dimgrey;">NA</span>
+        }
+        @if (currentMonitoringStatus==='OK') {
+          <span class="uk-badge" title="Monitoring Status" style="background: #28a745;">OK</span>
+        }
+        @if (currentMonitoringStatus==='WARNING') {
+          <span class="uk-badge" title="Monitoring Status" style="background: #ffc107;">WARNING</span>
+        }
+        @if (currentMonitoringStatus==='CRITICAL') {
+          <span class="uk-badge" title="Monitoring Status" style="background: #dc3545;">CRITICAL</span>
+        }
+        @if (currentMonitoringStatus==='MISSING') {
+          <span class="uk-badge" title="Monitoring Status" style="background: #17a2b8;">MISSING</span>
+        }
+        @if (currentMonitoringStatus==='UNKNOWN') {
+          <span class="uk-badge" title="Monitoring Status" style="background: #6c757d ;">UNKNOWN</span>
+        }
+      </div>
+    }
+
+    <!--            <div class="uk-flex uk-flex-center uk-flex-middle" *ngIf="loadingMessage">-->
+    <!--              <div class="loader-big" style="text-align: center; padding-top: 170px; color: rgb(43,43,43); font-weight: bold;">-->
+    <!--                {{ loadingMessage }}-->
+  <!--              </div>-->
+<!--            </div>-->
+<!--            <div class="uk-grid">-->
+<!--              <div *ngIf="monitoringData.length>0">-->
+<!--                  <div class="uk-card">-->
+<!--                    <div class="uk-card-body uk-card-default">-->
+@if (monitoringData?.length>0) {
+  <highcharts-chart
+    [Highcharts]="Highcharts"
+    [options]="chartOptions"
+    style="width: 100%; height: 400px;">
+  </highcharts-chart>
+}
+<!--                    </div>-->
+<!--                  </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+@if (service) {
+  <div>
+    <p>General Monitoring Information for your {{serviceORresource}} are available <a
+      href="{{monitoringURL}}/eosc/dashboard/Default/{{service.id}}"
+    target="_blank">here</a>.
+  </p>
+  <p>Also, the status report in a timeline view is available <a
+    href="{{monitoringURL}}/eosc/report-status/Default/SERVICEGROUPS/{{service.id}}"
+  target="_blank">here</a>.
+</p>
+</div>
+}
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
 </div>

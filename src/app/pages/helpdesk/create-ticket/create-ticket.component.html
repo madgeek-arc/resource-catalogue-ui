@@ -4,16 +4,17 @@
     <p>Submit a new support request to the EOSC Beyond helpdesk team.</p>
   </div>
 
-  <div *ngIf="success" class="success-message">
-    <span
-      >Ticket created successfully! You can navigate to "My Tickets" to view
-      your submitted tickets.</span
-    >
-  </div>
+  @if (success) {
+    <div class="success-message">
+      <span>Ticket created successfully! You can navigate to "My Tickets" to view your submitted tickets.</span>
+    </div>
+  }
 
-  <div *ngIf="errorMessage" class="error-message">
-    <span>{{ errorMessage }}</span>
-  </div>
+  @if (errorMessage) {
+    <div class="error-message">
+      <span>{{ errorMessage }}</span>
+    </div>
+  }
 
   <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()" class="ticket-form">
     <!-- Section 1: Customer Information - commented out as per request -->
@@ -55,41 +56,29 @@
       <div class="form-group">
         <label for="title">Title <span class="required">*</span></label>
         <input id="title" type="text" formControlName="title" />
-        <div
-          class="validation-error"
-          *ngIf="
-            ticketForm.get('title')?.invalid &&
-            (ticketForm.get('title')?.dirty || ticketForm.get('title')?.touched)
-          "
-        >
-          {{ getErrorMessage("title") }}
-        </div>
+        @if (ticketForm.get('title')?.invalid && (ticketForm.get('title')?.dirty || ticketForm.get('title')?.touched)) {
+          <div class="validation-error">
+            {{ getErrorMessage('title') }}
+          </div>
+        }
       </div>
 
       <div class="form-group">
         <label for="articleBody">Message <span class="required">*</span></label>
         <textarea id="articleBody" formControlName="articleBody"></textarea>
-        <div
-          class="validation-error"
-          *ngIf="
-            ticketForm.get('articleBody')?.invalid &&
-            (ticketForm.get('articleBody')?.dirty ||
-              ticketForm.get('articleBody')?.touched)
-          "
-        >
-          {{ getErrorMessage("articleBody") }}
-        </div>
+        @if (ticketForm.get('articleBody')?.invalid && (ticketForm.get('articleBody')?.dirty || ticketForm.get('articleBody')?.touched)) {
+          <div class="validation-error">
+            {{ getErrorMessage('articleBody') }}
+          </div>
+        }
       </div>
     </div>
 
-    <button type="submit" [disabled]="loading || ticketForm.invalid">
-      Submit Ticket
-    </button>
-    <div *ngIf="loading" class="loading-message">Submitting...</div>
-    <div class="mandatory-note">
-      Fields with <span class="required">*</span> are mandatory and must be
-      completed in order to submit this form.
-    </div>
+    <button type="submit" [disabled]="loading || ticketForm.invalid">Submit Ticket</button>
+    @if (loading) {
+      <div class="loading-message">Submitting...</div>
+    }
+    <div class="mandatory-note">Fields with <span class="required">*</span> are mandatory and must be completed in order to submit this form.</div>
   </form>
 
   <div class="help-info">

@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-dashboard-breadcrumbs',
-  templateUrl: './dashboard-breadcrumbs.component.html',
+    selector: 'app-dashboard-breadcrumbs',
+    templateUrl: './dashboard-breadcrumbs.component.html',
+    standalone: false
 })
 export class DashboardBreadcrumbsComponent implements OnInit {
 

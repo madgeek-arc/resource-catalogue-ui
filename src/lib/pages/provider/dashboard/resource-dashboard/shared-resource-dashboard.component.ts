@@ -7,8 +7,9 @@ import {ConfigService} from "../../../../services/config.service";
 import {environment} from '../../../../../environments/environment';
 
 @Component({
-  selector: 'app-shared-resource-dashboard',
-  templateUrl: './shared-resource-dashboard.component.html',
+    selector: 'app-shared-resource-dashboard',
+    templateUrl: './shared-resource-dashboard.component.html',
+    standalone: false
 })
 export class SharedResourceDashboardComponent implements OnInit {
 

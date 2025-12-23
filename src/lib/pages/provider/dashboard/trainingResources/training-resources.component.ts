@@ -14,9 +14,10 @@ import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-training-resources',
-  templateUrl: './training-resources.component.html',
-  styleUrls: ['../services/service.component.css']
+    selector: 'app-training-resources',
+    templateUrl: './training-resources.component.html',
+    styleUrls: ['../services/service.component.css'],
+    standalone: false
 })
 
 export class TrainingResourcesComponent implements OnInit {

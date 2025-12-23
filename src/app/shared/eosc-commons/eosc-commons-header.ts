@@ -1,42 +1,53 @@
-import { Component, OnInit } from '@angular/core';
-import { environment } from "../../../environments/environment";
-import { AuthenticationService } from "../../../lib/services/authentication.service";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AuthenticationService} from '../../../lib/services/authentication.service';
 
 @Component({
   selector: 'app-external-header',
-  template: `<div
-      class="commons-header"
-      [attr.username]="name"
-      [attr.login-url]="loginUrl"
-      [attr.logout-url]="logoutUrl"
-  ></div>`,
+  template: `
+    @if (name) {
+      <div
+        #renderLogin
+        class="commons-header"
+        [attr.username]="name"
+        [attr.logout-url]="logoutUrl"
+      ></div>
+    } @else {
+      <div
+        class="commons-header"
+        [attr.username]=""
+        [attr.login-url]="loginUrl"
+      ></div>
+    }
+  `,
+  standalone: false
 })
 export class ExternalHeaderComponent implements OnInit {
   name = this.authService.getUserName();
-  loginUrl = environment.API_LOGIN;
-  logoutUrl = environment.API_LOGOUT;
+  loginUrl = this.authService.getLoginUrl();
+  logoutUrl = this.authService.getLogoutUrl();
 
-  constructor(public authService: AuthenticationService) {}
-
-  ngOnInit(): void {
-    // Call external theme's rendering function for header
-    setTimeout(() => {
-      window['eosccommon']?.renderMainHeader?.('.commons-header');
-      this.addLogoutListener();
-    }, 0);
+  constructor(public authService: AuthenticationService) {
+    this.authService.refreshUserInfo();
   }
 
-  private addLogoutListener(): void {
-    const headerElement = document.querySelector('.commons-header');
-
-    if (headerElement) {
-      headerElement.addEventListener('click', (event) => {
-        const target = event.target as HTMLElement;
-
-        if (target && target.getAttribute('href') === this.logoutUrl) {
-          this.authService.clearUserData();
-        }
-      });
+  @ViewChild('renderLogin', {static: false})
+  set renderLogin(elementRef: ElementRef<HTMLDivElement> | undefined) {
+    if (elementRef) { // rerender when the element appears in the DOM
+      window['eosccommon']?.renderMainHeader?.('.commons-header');
     }
+  }
+
+  ngOnInit(): void {
+    this.authService.currentUser$.subscribe({
+      next: user => {
+        if (user) {
+          this.name = user.name;
+        }
+      }
+    });
+    // Call external theme's rendering function for header inside a small timeout (so that user can be retrieved from the backend)
+    setTimeout(() => {
+      window['eosccommon']?.renderMainHeader?.('.commons-header');
+    }, 0);
   }
 }

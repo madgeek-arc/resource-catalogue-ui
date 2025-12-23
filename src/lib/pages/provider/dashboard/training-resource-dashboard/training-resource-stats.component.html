@@ -4,92 +4,108 @@
       <div class="uk-width-1-1@m uk-first-column">
 
         <div class="services-provider-container">
-          <div *ngIf="trainingResource" class="uk-flex">
-<!--            <div>-->
-<!--              <img src="{{ trainingResource.logo ? trainingResource.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">-->
-<!--            </div>-->
+          @if (trainingResource) {
+            <div class="uk-flex">
+              <!--            <div>-->
+              <!--              <img src="{{ trainingResource.logo ? trainingResource.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">-->
+            <!--            </div>-->
             <div class="uk-margin-medium-left">
               <h3 class="uk-margin-remove">{{trainingResource.title}}</h3>
               <!--              <div><span class="status-label">Status: </span>{{ serviceBundle.status | titlecase}}</div>-->
               <!--              <div *ngIf="datasourceHistory?.results[0]?.registeredBy && datasourceHistory?.results[0]?.registeredAt">-->
               <!--                <span class="status-label">Registered by: </span>{{ datasourceHistory.results[0].registeredBy }} on {{ datasourceHistory.results[0].registeredAt | date}}-->
-              <!--              </div>-->
-            </div>
+            <!--              </div>-->
           </div>
         </div>
+      }
+    </div>
 
 
 
-        <div class="uk-container uk-container-expand uk-margin-medium-top uk-margin-medium-bottom">
-          <div class="uk-grid">
+    <div class="uk-container uk-container-expand uk-margin-medium-top uk-margin-medium-bottom">
+      <div class="uk-grid">
 
 
 
-            <!-- MIDDLE -->
-            <div class=" uk-width-expand@m">
+        <!-- MIDDLE -->
+        <div class=" uk-width-expand@m">
 
-              <div *ngIf="errorMessage" class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
+          @if (errorMessage) {
+            <div class="uk-alert uk-alert-danger uk-animation-slide-top">{{errorMessage}}</div>
+          }
 
-              <div *ngIf="trainingResource" class="uk-grid">
-                <div class="uk-width-4-5"></div>
-                <div class="uk-width-1-5">
-                  <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
-                          (change)="onPeriodChange($event)">
-                    <option value="DAY">Daily</option>
-                    <option value="WEEK">Weekly</option>
-                    <option value="MONTH" selected>Monthly</option>
-                    <option value="YEAR">Yearly</option>
-                  </select>
-                  <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
-                </div>
+          @if (trainingResource) {
+            <div class="uk-grid">
+              <div class="uk-width-4-5"></div>
+              <div class="uk-width-1-5">
+                <select class="uk-select uk-width-3-5" title="Change the interval of the displayed statistics"
+                  (change)="onPeriodChange($event)">
+                  <option value="DAY">Daily</option>
+                  <option value="WEEK">Weekly</option>
+                  <option value="MONTH" selected>Monthly</option>
+                  <option value="YEAR">Yearly</option>
+                </select>
+                <span class="uk-padding-small uk-padding-remove-vertical uk-padding-remove-right">report</span>
               </div>
-
-              <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
-
-                <div *ngIf="resourceAddsToProjectOptions && catalogueName==='EOSC'">
-                  <div class="uk-card">
-                    <div class="uk-card-body">
-                      <highcharts-chart *ngIf="resourceAddsToProjectOptions" [Highcharts]="Highcharts"
-                                        [options]="resourceAddsToProjectOptions"
-                                        style="width: 100%; height: auto; display: block;">
-                      </highcharts-chart>
-                    </div>
-                  </div>
-                </div>
-
-                <div *ngIf="resourceVisitsOptions">
-                  <div class="uk-card">
-                    <div class="uk-card-body">
-                      <highcharts-chart *ngIf="resourceVisitsOptions"
-                                        [Highcharts]="Highcharts"
-                                        [options]="resourceVisitsOptions"
-                                        style="width: 100%; height: auto; display: block;">
-                      </highcharts-chart>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="uk-grid uk-margin-bottom">
-                  <div class="uk-width-1-1">
-                    <div style="width:100%">
-                      <highcharts-chart *ngIf="resourceMapOptions"
-                                        [Highcharts]="Highcharts"
-                                        [options]="resourceMapOptions"
-                                        [constructorType]="chartConstructor"
-                                        style="width: 100%; height: auto; display: block;">
-                      </highcharts-chart>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
             </div>
-          </div>
+          }
 
+          <div class="uk-grid uk-child-width-1-2@m uk-child-width-1-2@l">
+
+            @if (resourceAddsToProjectOptions && catalogueName==='EOSC') {
+              <div>
+                <div class="uk-card">
+                  <div class="uk-card-body">
+                    @if (resourceAddsToProjectOptions) {
+                      <highcharts-chart [Highcharts]="Highcharts"
+                        [options]="resourceAddsToProjectOptions"
+                        style="width: 100%; height: auto; display: block;">
+                      </highcharts-chart>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+
+            @if (resourceVisitsOptions) {
+              <div>
+                <div class="uk-card">
+                  <div class="uk-card-body">
+                    @if (resourceVisitsOptions) {
+                      <highcharts-chart
+                        [Highcharts]="Highcharts"
+                        [options]="resourceVisitsOptions"
+                        style="width: 100%; height: auto; display: block;">
+                      </highcharts-chart>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+
+            <div class="uk-grid uk-margin-bottom">
+              <div class="uk-width-1-1">
+                <div style="width:100%">
+                  @if (resourceMapOptions) {
+                    <highcharts-chart
+                      [Highcharts]="Highcharts"
+                      [options]="resourceMapOptions"
+                      [constructorType]="chartConstructor"
+                      style="width: 100%; height: auto; display: block;">
+                    </highcharts-chart>
+                  }
+                </div>
+              </div>
+            </div>
+
+          </div>
 
         </div>
       </div>
+
+
     </div>
   </div>
+</div>
+</div>
 </div>

@@ -13,8 +13,9 @@ import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-guidelines-list',
-  templateUrl: './guidelines-list.component.html'
+    selector: 'app-guidelines-list',
+    templateUrl: './guidelines-list.component.html',
+    standalone: false
 })
 export class GuidelinesListComponent implements OnInit {
   url = environment.API_ENDPOINT;
@@ -81,7 +82,7 @@ export class GuidelinesListComponent implements OnInit {
 
   ngOnInit() {
     this.catalogueConfigId = this.config.getProperty('catalogueId');
-    if (!this.authenticationService.getUserProperty('roles').some(x => x === 'ROLE_ADMIN' || x === 'ROLE_EPOT')) {
+    if (!this.authenticationService.isAdmin()) {
       this.router.navigateByUrl('/home');
     } else {
       this.dataForm = this.fb.group(this.formPrepare);

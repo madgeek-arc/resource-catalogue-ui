@@ -13,8 +13,9 @@ import {NavigationService} from "../../../../services/navigation.service";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-rejected-training-resources',
-  templateUrl: './rejected-training-resources.component.html',
+    selector: 'app-rejected-training-resources',
+    templateUrl: './rejected-training-resources.component.html',
+    standalone: false
 })
 
 export class RejectedTrainingResourcesComponent implements OnInit {

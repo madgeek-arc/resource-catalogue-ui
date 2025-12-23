@@ -16,9 +16,9 @@ declare var UIkit: any;
 
 
 @Component({
-  selector: 'app-resources-stats',
-  templateUrl: './resources-stats.component.html',
-  // styleUrls: ['']
+    selector: 'app-resources-stats',
+    templateUrl: './resources-stats.component.html',
+    standalone: false
 })
 
 export class ResourcesStatsComponent implements OnInit {
