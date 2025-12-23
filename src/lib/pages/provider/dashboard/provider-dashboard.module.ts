@@ -5,7 +5,7 @@ import {SharedModule} from '../../../shared/shared.module';
 import {ProviderDashboardRouting} from './provider-dashboard.routing';
 import {ReusableComponentsModule} from '../../../shared/reusablecomponents/reusable-components.module';
 import {ProviderStatsComponent} from './providerStats/provider-stats.component';
-import {ProviderInfoComponent} from './providerInfo/provider-info.component';
+import {ProviderInfoComponent} from "./providerInfo/provider-info.component";
 import {ServicesComponent} from './services/services.component';
 import {MessagesComponent} from './messages/messages.component';
 import {DashboardComponent} from './dashboard.component';
@@ -28,6 +28,7 @@ import {ProviderAccountingStatsComponent} from "./providerAccountingStats/provid
     ProviderDashboardRouting,
     ReusableComponentsModule,
     HighchartsChartModule,
+    ProviderInfoComponent,
     // MarkdownModule.forChild(),
 
   ],
@@ -37,7 +38,6 @@ import {ProviderAccountingStatsComponent} from "./providerAccountingStats/provid
     ProviderAccountingStatsComponent,
     ProviderHistoryComponent,
     ProviderFullHistoryComponent,
-    ProviderInfoComponent,
     ServicesComponent,
     TrainingResourcesComponent,
     DeployableServicesComponent,

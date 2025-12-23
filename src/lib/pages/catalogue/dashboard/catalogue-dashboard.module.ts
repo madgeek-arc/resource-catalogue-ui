@@ -4,7 +4,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SharedModule} from '../../../shared/shared.module';
 import {ReusableComponentsModule} from '../../../shared/reusablecomponents/reusable-components.module';
 // import {ProviderStatsComponent} from './providerStats/provider-stats.component';
-import {CatalogueInfoComponent} from './catalogueInfo/catalogue-info.component';
 // import {ServiceStatsComponent} from './resource-dashboard/service-stats.component';
 // import {MarkdownModule} from 'ngx-markdown';
 // import {ProviderHistoryComponent} from './providerHistory/provider-history.component';
@@ -15,9 +14,8 @@ import {CatalogueDashboardRouting} from "./catalogue-dashboard.routing";
 import {CatalogueProvidersComponent} from "./catalogueProviders/catalogue-providers.component";
 import {CatalogueServicesComponent} from "./catalogueServices/catalogue-services.component";
 import {CatalogueTrainingResourcesComponent} from "./catalogueTrainingResources/catalogue-training-resources.component";
-import {
-  CatalogueDeployableServicesComponent
-} from "./catalogueDeployableServices/catalogue-deployable-services.component";
+import {CatalogueDeployableServicesComponent} from "./catalogueDeployableServices/catalogue-deployable-services.component";
+import {CatalogueInfoComponent} from "./catalogueInfo/catalogue-info.component";
 
 @NgModule({
   imports: [
@@ -28,6 +26,7 @@ import {
     CatalogueDashboardRouting,
     ReusableComponentsModule,
     HighchartsChartModule,
+    CatalogueInfoComponent,
     // MarkdownModule.forChild(),
 
   ],
@@ -36,7 +35,6 @@ import {
     // ProviderStatsComponent,
     // ProviderHistoryComponent,
     // ProviderFullHistoryComponent,
-    CatalogueInfoComponent,
     CatalogueProvidersComponent,
     CatalogueServicesComponent,
     CatalogueTrainingResourcesComponent,

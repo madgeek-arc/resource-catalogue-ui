@@ -8,7 +8,6 @@ import {ReusableComponentsModule} from '../../shared/reusablecomponents/reusable
 import {MyServiceProvidersComponent} from './my-service-providers.component';
 import {AddFirstServiceComponent} from '../provider-resources/add-first-service.component';
 import {ServiceProviderFormComponent} from './service-provider-form.component';
-import {ServiceProviderInfoComponent} from './service-provider-info.component';
 import {UpdateServiceProviderComponent} from './update-service-provider.component';
 import {ServiceProvidersListComponent} from '../admin/service-providers-list.component';
 import {ResourcesListComponent} from '../admin/resources-list.component';
@@ -52,7 +51,6 @@ import {AddFirstDeployableServiceComponent} from "../deployable-services/add-fir
     AddFirstTrainingResourceComponent,
     AddFirstDeployableServiceComponent,
     ServiceProviderFormComponent,
-    ServiceProviderInfoComponent,
     UpdateServiceProviderComponent,
     ServiceProvidersListComponent,
     ResourcesListComponent,

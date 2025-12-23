@@ -1,0 +1,130 @@
+@if (model && data) {
+
+  <!-- TABS -->
+  <ul class="uk-width-1-1 uk-margin-remove uk-tab form-tabs"
+      uk-tab="connect: #top-tabs; animation: uk-animation-fade">
+
+    @for (tab of getTabs(); track tab.id; let i = $index) {
+      <li [class.uk-active]="i === 0">
+        <a href="#"><span>{{ tab.name }}</span></a>
+      </li>
+    }
+  </ul>
+
+  <!-- CONTENT -->
+  <div class="uk-card uk-card-body uk-card-default uk-margin-top">
+    <ul id="top-tabs" class="uk-switcher">
+
+      @for (tab of getTabs(); track tab.id; let i = $index) {
+        <li [class.uk-active]="i === 0">
+
+          <ul class="uk-list uk-width-1-1">
+
+            @for (field of tab.fields; track field.id) {
+
+              @if (!isVisible(field)) {
+                <!-- hidden -->
+              }
+
+              @else if (isComposite(field)) {
+
+                <!-- COMPOSITE -->
+                @if (isMultiple(field)) {
+
+                  @for (item of valueOf(field, data); track item; let j = $index) {
+
+                    @if (j === 0) {
+                      <h5 class="uk-margin-medium-top">
+                        {{ field.label.text }}
+                      </h5>
+                    }
+
+                    <ul class="uk-list uk-width-1-1 uk-margin-medium-bottom">
+                      @for (sub of field.subFields; track sub.id) {
+                        <li>
+                          <div class="uk-grid">
+                            <div class="uk-width-1-4">
+                              {{ sub.label.text }}
+                            </div>
+                            <div class="uk-width-3-4">
+
+                              @if (sub.typeInfo?.type === 'vocabulary') {
+                                {{ displayVocValue(sub, item[sub.name]) }}
+                              }
+                              @else {
+                                {{ item[sub.name] || '—' }}
+                              }
+
+                            </div>
+                          </div>
+                        </li>
+                      }
+                    </ul>
+                  }
+
+                } @else {
+
+                  <h5 class="uk-margin-medium-top">
+                    {{ field.label.text }}
+                  </h5>
+
+                  <ul class="uk-list uk-width-1-1">
+                    @for (sub of field.subFields; track sub.id) {
+                      <li>
+                        <div class="uk-grid">
+                          <div class="uk-width-1-4">
+                            {{ sub.label.text }}
+                          </div>
+                          <div class="uk-width-3-4">
+
+                            @if (sub.typeInfo?.type === 'vocabulary') {
+                              {{ displayVocValue(sub, valueOf(field, data)?.[sub.name]) }}
+                            }
+                            @else {
+                              {{ valueOf(field, data)?.[sub.name] || '—' }}
+                            }
+
+                          </div>
+                        </div>
+                      </li>
+                    }
+                  </ul>
+                }
+
+              } @else {
+
+                <!-- PRIMITIVE -->
+                <li>
+                  <div class="uk-grid">
+                    <div class="uk-width-1-4">
+                      {{ field.label.text }}
+                    </div>
+                    <div class="uk-width-3-4">
+
+                      @if (field.typeInfo.type === 'url' && valueOf(field, data)) {
+                        <a [href]="valueOf(field, data)" target="_blank">
+                          {{ valueOf(field, data) }}
+                        </a>
+                      }
+                      @else if (field.typeInfo.type === 'richText') {
+                        <markdown [data]="valueOf(field, data)"></markdown>
+                      }
+                      @else if (field.typeInfo.type === 'vocabulary') {
+                        {{ displayVocValue(field, valueOf(field, data)) }}
+                      }
+                      @else {
+                        {{ valueOf(field, data) || '—' }}
+                      }
+
+                    </div>
+                  </div>
+                </li>
+
+              }
+            }
+          </ul>
+        </li>
+      }
+    </ul>
+  </div>
+}

@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from './dashboard.component';
 import {CanActivateViaAuthGuard} from '../../../services/can-activate-auth-guard.service';
 import {ProviderStatsComponent} from './providerStats/provider-stats.component';
-import {ProviderInfoComponent} from './providerInfo/provider-info.component';
+import {ProviderInfoComponent} from "./providerInfo/provider-info.component";
 import {ServicesComponent} from './services/services.component';
 import {PendingServicesComponent} from './pendingservices/pending-services.component';
 import {SharedServicesComponent} from "./sharedServices/shared-services.component";
