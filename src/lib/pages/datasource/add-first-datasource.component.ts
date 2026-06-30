@@ -9,6 +9,7 @@ import {ConfigService} from "../../services/config.service";
 import {DatasourceFormComponent} from "./datasource-form.component";
 import {DatasourceService} from "../../services/datasource.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {DeduplicationService} from "../../services/deduplication.service";
 
 @Component({
     selector: 'app-add-first-datasource',
@@ -27,8 +28,9 @@ export class AddFirstDatasourceComponent extends DatasourceFormComponent impleme
               protected router: Router,
               public dynamicFormService: FormControlService,
               public config: ConfigService,
-              public pidHandler: pidHandler) {
-    super(injector, authenticationService, datasourceService, route, router, dynamicFormService, config, pidHandler);
+              public pidHandler: pidHandler,
+              public deduplicationService: DeduplicationService) {
+    super(injector, authenticationService, datasourceService, route, router, dynamicFormService, config, pidHandler, deduplicationService);
     this.editMode = false;
   }
 

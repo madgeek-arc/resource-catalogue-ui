@@ -13,6 +13,7 @@ import {NavigationService} from "../../services/navigation.service";
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
 
 declare var UIkit: any;
 
@@ -50,6 +51,7 @@ export class ServiceProviderFormComponent implements OnInit {
   saveAsDraftAvailable = false;
   disable = false;
   showLoader = false;
+  similarResources: SimilarResource[] = [];
   tabs: boolean[] = [false, false, false, false, false, false, false, false];
   isPortalAdmin = false;
 
@@ -89,7 +91,8 @@ export class ServiceProviderFormComponent implements OnInit {
               public navigator: NavigationService,
               public pidHandler: pidHandler,
               public dynamicFormService: FormControlService,
-              public config: ConfigService) {
+              public config: ConfigService,
+              public deduplicationService: DeduplicationService) {
   }
 
   ngOnInit() {
@@ -259,8 +262,29 @@ export class ServiceProviderFormComponent implements OnInit {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
     } else {
-      this.submitForm(formData);
+      this.checkDuplicatesAndProceed(formData);
     }
+  }
+
+  checkDuplicatesAndProceed(formData: any) {
+    const providerValue = FormControlService.cleanObjectInPlace({...formData.value?.organisation ?? formData});
+    this.deduplicationService.checkBeforeAdd('organisation', providerValue).subscribe({
+      next: similar => {
+        if (similar && similar.length > 0) {
+          this.similarResources = similar;
+          this.formDataToSubmit = formData;
+          UIkit.modal('#dupWarningModal').show();
+        } else {
+          this.submitForm(formData);
+        }
+      },
+      error: () => this.submitForm(formData)
+    });
+  }
+
+  proceedDespiteSimilar() {
+    UIkit.modal('#dupWarningModal').hide();
+    this.submitForm(this.formDataToSubmit);
   }
 
   /** <--Submit Comment Modal **/

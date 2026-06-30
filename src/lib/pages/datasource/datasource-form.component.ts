@@ -13,6 +13,7 @@ import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {ConfigService} from "../../services/config.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
 
 declare var UIkit: any;
 
@@ -31,6 +32,8 @@ export class DatasourceFormComponent implements OnInit {
   firstServiceForm = false;
   showLoader = false;
   pendingResource = false;
+  similarResources: SimilarResource[] = [];
+  formDataToSubmit: any = null;
   saveAsDraftAvailable = false;
   addOpenAIRE = false; //on addOpenAIRE path
   openaireId: string = null; //datasource OA id
@@ -69,7 +72,8 @@ export class DatasourceFormComponent implements OnInit {
               protected router: Router,
               public dynamicFormService: FormControlService,
               public config: ConfigService,
-              public pidHandler: pidHandler
+              public pidHandler: pidHandler,
+              public deduplicationService: DeduplicationService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.navigator = this.injector.get(NavigationService);
@@ -210,6 +214,35 @@ export class DatasourceFormComponent implements OnInit {
         // return this.navigator.resourceDashboard(this.providerId, this.datasource.serviceId); // fixme: Datasource providerId -2test
       }
     );
+  }
+
+  showCommentModal(formData: any) {
+    if (this.editMode || this.pendingResource) {
+      this.submitForm(formData, false, this.pendingResource);
+    } else {
+      this.checkDuplicatesAndProceed(formData);
+    }
+  }
+
+  checkDuplicatesAndProceed(formData: any) {
+    const value = FormControlService.cleanObjectInPlace({...formData.value?.datasource ?? formData});
+    this.deduplicationService.checkBeforeAdd('datasource', value).subscribe({
+      next: similar => {
+        if (similar && similar.length > 0) {
+          this.similarResources = similar;
+          this.formDataToSubmit = formData;
+          UIkit.modal('#dupWarningModal').show();
+        } else {
+          this.submitForm(formData, false, false);
+        }
+      },
+      error: () => this.submitForm(formData, false, false)
+    });
+  }
+
+  proceedDespiteSimilar() {
+    UIkit.modal('#dupWarningModal').hide();
+    this.submitForm(this.formDataToSubmit, false, false);
   }
 
   protected readonly environment = environment;
