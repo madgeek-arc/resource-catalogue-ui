@@ -811,7 +811,7 @@ export class TrainingResourceForm implements OnInit {
   /** <--BitSets **/
 
   /** Modals--> **/
-  showCommentModal(formData: any) {
+  handleSubmit(formData: any) {
     if (this.editMode && !this.pendingResource) {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
@@ -889,6 +889,8 @@ export class TrainingResourceForm implements OnInit {
     element.click();
     window.scrollTo(0, -1);
   }
+
+  copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
 
   protected readonly environment = environment;
   protected readonly isDevMode = isDevMode;

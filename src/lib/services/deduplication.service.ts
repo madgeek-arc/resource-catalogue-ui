@@ -16,11 +16,7 @@ export class DeduplicationService {
 
   constructor(private http: HttpClient) {}
 
-  checkBeforeAdd(resourceType: string, resource: any, threshold = 0.93, quantity = 5): Observable<SimilarResource[]> {
-    return this.http.post<SimilarResource[]>(
-      `${this.base}/dedup/${resourceType}/check?threshold=${threshold}&quantity=${quantity}`,
-      resource,
-      this.options
-    );
+  checkBeforeAdd(resourceType: string, resource: any, threshold = 0.95, quantity = 5): Observable<SimilarResource[]> {
+    return this.http.post<SimilarResource[]>(`${this.base}/dedup/${resourceType}/check?threshold=${threshold}&quantity=${quantity}`, resource, this.options);
   }
 }

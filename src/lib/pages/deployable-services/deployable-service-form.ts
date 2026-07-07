@@ -208,7 +208,7 @@ export class DeployableServiceForm implements OnInit {
   }
 
   /** Modals--> **/
-  showCommentModal(formData: any) {
+  handleSubmit(formData: any) {
     if (this.editMode && !this.pendingResource) {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
@@ -263,6 +263,8 @@ export class DeployableServiceForm implements OnInit {
       return Object.assign(hash, {[obj[key]]: (hash[obj[key]] || []).concat(obj)});
     }, {});
   }
+
+  copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
 
   protected readonly environment = environment;
   protected readonly isDevMode = isDevMode;

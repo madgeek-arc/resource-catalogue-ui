@@ -159,7 +159,7 @@ export class GuidelinesFormComponent implements OnInit {
     console.log('findInvalidControls ', invalid);
   }
 
-  showCommentModal(formData: any) {
+  handleSubmit(formData: any) {
     if (this.editMode) {
       this.submitForm(formData);
     } else {
@@ -187,6 +187,8 @@ export class GuidelinesFormComponent implements OnInit {
     UIkit.modal('#dupWarningModal').hide();
     this.submitForm(this.formDataToSubmit);
   }
+
+  copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
 
   protected readonly environment = environment;
   protected readonly isDevMode = isDevMode;

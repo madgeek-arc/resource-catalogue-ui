@@ -14,7 +14,7 @@
         </div>
       }
       @if ((editMode && payloadAnswer) || !editMode) {
-        <app-survey [payload]="payloadAnswer" [model]="model" [tabsHeader]="" (submitForm)="showCommentModal($event)">
+        <app-survey [payload]="payloadAnswer" [model]="model" [tabsHeader]="" (submitForm)="handleSubmit($event)">
           @if (model) {
             <div class="uk-grid form-top-section">
               <h5 class="uk-width-1-1 uk-margin-bottom">{{ model.name }}</h5>
@@ -65,7 +65,16 @@
     @for (item of similarResources; track item.resource?.id) {
       <div class="uk-card uk-card-default uk-card-small uk-card-body uk-margin-small-bottom">
         <div class="uk-flex uk-flex-between uk-flex-middle">
-          <strong>{{ item.resource?.name }}</strong>
+          <div>
+            <strong>{{ item.resource?.name }}</strong>
+            <span
+              class="material-symbols-outlined uk-margin-small-left"
+              style="cursor: pointer; font-size: 18px; vertical-align: middle;"
+              title="Copy ID"
+              (click)="copy(item.resource?.id + '')">
+              content_copy
+            </span>
+          </div>
           <span class="uk-badge" [style.background-color]="'#1e87f0'">{{ (item.score * 100).toFixed(0) }}% similar</span>
         </div>
         @if (item.resource?.description) {

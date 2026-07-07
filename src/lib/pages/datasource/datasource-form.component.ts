@@ -216,7 +216,7 @@ export class DatasourceFormComponent implements OnInit {
     );
   }
 
-  showCommentModal(formData: any) {
+  handleSubmit(formData: any) {
     if (this.editMode || this.pendingResource) {
       this.submitForm(formData, false, this.pendingResource);
     } else {
@@ -244,6 +244,8 @@ export class DatasourceFormComponent implements OnInit {
     UIkit.modal('#dupWarningModal').hide();
     this.submitForm(this.formDataToSubmit, false, false);
   }
+
+  copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
 
   protected readonly environment = environment;
   protected readonly isDevMode = isDevMode;

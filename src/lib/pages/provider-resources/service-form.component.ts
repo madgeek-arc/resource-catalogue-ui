@@ -307,7 +307,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   /** Modals--> **/
-  showCommentModal(formData: any) {
+  handleSubmit(formData: any) {
     if (this.editMode && !this.pendingService) {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
@@ -390,7 +390,8 @@ export class ServiceFormComponent implements OnInit {
     const provider = this.providersPage.results.find(provider => provider.id === providerId);
     this.displayedProviderName = (provider.name ? `| Provider: ${provider.name} ` : '');
   }
-
   /** <--Display Provider and Catalogue Names **/
+
+  copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
 
 }

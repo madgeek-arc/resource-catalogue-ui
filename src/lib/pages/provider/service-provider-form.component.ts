@@ -257,7 +257,7 @@ export class ServiceProviderFormComponent implements OnInit {
   /** <--Terms Modal **/
 
   /** Submit Comment Modal--> **/
-  showCommentModal(formData: any) {
+  handleSubmit(formData: any) {
     if (this.editMode && !this.pendingProvider) {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
@@ -331,5 +331,7 @@ export class ServiceProviderFormComponent implements OnInit {
       email: this.authService.getUserEmail()
     };
   }
+
+  copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
 
 }

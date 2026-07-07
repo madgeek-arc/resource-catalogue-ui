@@ -178,7 +178,7 @@ export class CatalogueFormComponent implements OnInit {
   }
 
   /** Submit Comment Modal--> **/
-  showCommentModal(formData: any) {
+  handleSubmit(formData: any) {
     if (this.editMode && !this.pendingCatalogue) {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
@@ -207,6 +207,7 @@ export class CatalogueFormComponent implements OnInit {
     UIkit.modal('#dupWarningModal').hide();
     this.submitForm(this.formDataToSubmit, false);
   }
-
   /** <--Submit Comment Modal **/
+
+  copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
 }
