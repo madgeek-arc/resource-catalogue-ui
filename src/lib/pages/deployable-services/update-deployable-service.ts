@@ -10,6 +10,7 @@ import {FormControlService} from "../../../dynamic-catalogue/services/form-contr
 import {DeployableServiceService} from "../../services/deployable-service.service";
 import {environment} from "../../../environments/environment";
 import {ConfigService} from "../../services/config.service";
+import {DeduplicationService} from "../../services/deduplication.service";
 
 @Component({
     selector: 'app-update-deployable-service',
@@ -26,8 +27,9 @@ export class UpdateDeployableService extends DeployableServiceForm implements On
               public datePipe: DatePipe,
               public navigator: NavigationService,
               public dynamicFormService: FormControlService,
-              public config: ConfigService) {
-    super(injector, authenticationService, deployableServiceService, route, dynamicFormService, config);
+              public config: ConfigService,
+              public deduplicationService: DeduplicationService) {
+    super(injector, authenticationService, deployableServiceService, route, dynamicFormService, config, deduplicationService);
     this.editMode = true;
   }
 
