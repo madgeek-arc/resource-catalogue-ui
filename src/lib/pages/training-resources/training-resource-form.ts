@@ -17,6 +17,7 @@ import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/sur
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {ConfigService} from "../../services/config.service";
+import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
 
 declare let UIkit: any;
 
@@ -36,6 +37,7 @@ export class TrainingResourceForm implements OnInit {
   firstServiceForm = false;
   showLoader = false;
   pendingResource = false;
+  similarResources: SimilarResource[] = [];
   catalogueId: string;
   providerId: string;
   viewOnlyMode = false;
@@ -156,7 +158,8 @@ export class TrainingResourceForm implements OnInit {
               protected serviceProviderService: ServiceProviderService,
               protected route: ActivatedRoute,
               public dynamicFormService: FormControlService,
-              public config: ConfigService
+              public config: ConfigService,
+              public deduplicationService: DeduplicationService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.trainingResourceService = this.injector.get(TrainingResourceService);
@@ -808,13 +811,34 @@ export class TrainingResourceForm implements OnInit {
   /** <--BitSets **/
 
   /** Modals--> **/
-  showCommentModal(formData: any) {
+  handleSubmit(formData: any) {
     if (this.editMode && !this.pendingResource) {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
     } else {
-      this.submitForm(formData,false,false);
+      this.checkDuplicatesAndProceed(formData);
     }
+  }
+
+  checkDuplicatesAndProceed(formData: any) {
+    const value = FormControlService.cleanObjectInPlace({...formData.value?.trainingResource ?? formData});
+    this.deduplicationService.checkBeforeAdd('training_resource', value).subscribe({
+      next: similar => {
+        if (similar && similar.length > 0) {
+          this.similarResources = similar;
+          this.formDataToSubmit = formData;
+          UIkit.modal('#dupWarningModal').show();
+        } else {
+          this.submitForm(formData, false, false);
+        }
+      },
+      error: () => this.submitForm(formData, false, false)
+    });
+  }
+
+  proceedDespiteSimilar() {
+    UIkit.modal('#dupWarningModal').hide();
+    this.submitForm(this.formDataToSubmit, false, false);
   }
 
   openPreviewModal() {
@@ -865,6 +889,8 @@ export class TrainingResourceForm implements OnInit {
     element.click();
     window.scrollTo(0, -1);
   }
+
+  copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
 
   protected readonly environment = environment;
   protected readonly isDevMode = isDevMode;

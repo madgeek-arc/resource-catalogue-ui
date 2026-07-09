@@ -10,6 +10,7 @@ import {FormControlService} from "../../../dynamic-catalogue/services/form-contr
 import {ConfigService} from "../../services/config.service";
 import {DatasourceService} from "../../services/datasource.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {DeduplicationService} from "../../services/deduplication.service";
 
 @Component({
     selector: 'app-update-datasource',
@@ -28,8 +29,9 @@ export class UpdateDatasource extends DatasourceFormComponent implements OnInit 
               public navigator: NavigationService,
               public dynamicFormService: FormControlService,
               public config: ConfigService,
-              public pidHandler: pidHandler) {
-    super(injector, authenticationService, datasourceService, route, router, dynamicFormService, config, pidHandler);
+              public pidHandler: pidHandler,
+              public deduplicationService: DeduplicationService) {
+    super(injector, authenticationService, datasourceService, route, router, dynamicFormService, config, pidHandler, deduplicationService);
     this.editMode = true;
   }
 
