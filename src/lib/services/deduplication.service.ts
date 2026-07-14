@@ -5,7 +5,7 @@ import {environment} from '../../environments/environment';
 
 export interface SimilarResource {
   score: number;
-  resource: any;
+  result: any;
 }
 
 @Injectable()

@@ -62,23 +62,23 @@
       <span uk-icon="warning"></span> Similar resources already exist
     </h4>
     <p>Before proceeding, please review the following resources which are very similar to the one you are about to register:</p>
-    @for (item of similarResources; track item.resource?.id) {
+    @for (item of similarResources; track item.result?.id) {
       <div class="uk-card uk-card-default uk-card-small uk-card-body uk-margin-small-bottom">
         <div class="uk-flex uk-flex-between uk-flex-middle">
           <div>
-            <strong>{{ item.resource?.name }}</strong>
+            <strong>{{ item.result?.name }}</strong>
             <span
               class="material-symbols-outlined uk-margin-small-left"
               style="cursor: pointer; font-size: 18px; vertical-align: middle;"
               title="Copy ID"
-              (click)="copy(item.resource?.id + '')">
+              (click)="copy(item.result?.id + '')">
               content_copy
             </span>
           </div>
           <span class="uk-badge" [style.background-color]="'#1e87f0'">{{ (item.score * 100).toFixed(0) }}% similar</span>
         </div>
-        @if (item.resource?.description) {
-          <p class="uk-text-small uk-margin-small-top uk-margin-remove-bottom">{{ item.resource.description | slice:0:200 }}{{ item.resource.description.length > 200 ? '...' : '' }}</p>
+        @if (item.result?.description) {
+          <p class="uk-text-small uk-margin-small-top uk-margin-remove-bottom">{{ item.result.description | slice:0:200 }}{{ item.result.description.length > 200 ? '...' : '' }}</p>
         }
       </div>
     }
