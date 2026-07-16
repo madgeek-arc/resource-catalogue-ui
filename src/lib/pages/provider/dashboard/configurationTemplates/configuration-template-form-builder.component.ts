@@ -21,6 +21,7 @@ export class ConfigurationTemplateFormBuilderComponent implements OnInit {
 
   guidelineId!: string;
   backDestination!: string;
+  isSaving = false;
 
   ngOnInit() {
     this.guidelineId = this.route.snapshot.paramMap.get('guidelineId')!;
@@ -57,15 +58,22 @@ export class ConfigurationTemplateFormBuilderComponent implements OnInit {
   }
 
   saveMethod(data: any) {
+    if (this.isSaving) return; //prevent double saves
+
+    this.isSaving = true;
+
     const isEdit = !!data.id;
-    this.guidelinesService.saveModel(data, isEdit, this.guidelineId).subscribe({
-      next: () => {
-        this.router.navigate([`/guidelines/${this.guidelineId}/configuration-templates-management`]);
-      },
-      error: (err) => {
-        console.log('Failed:', err.error.detail);
-      },
-    });
+
+    this.guidelinesService.saveModel(data, isEdit, this.guidelineId)
+      .subscribe({
+        next: () => {
+          this.router.navigate([`/guidelines/${this.guidelineId}/configuration-templates-management`]);
+        },
+        error: (err) => {
+          console.log('Failed:', err.error.detail);
+          this.isSaving = false;
+        }
+      });
   }
 
 }
