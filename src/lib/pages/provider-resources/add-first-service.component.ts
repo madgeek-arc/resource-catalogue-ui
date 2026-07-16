@@ -10,6 +10,7 @@ import {CatalogueService} from "../../services/catalogue.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {ConfigService} from "../../services/config.service";
+import {DeduplicationService} from "../../services/deduplication.service";
 
 @Component({
     selector: 'app-add-first-service',
@@ -31,8 +32,9 @@ export class AddFirstServiceComponent extends ServiceFormComponent implements On
               public pidHandler: pidHandler,
               public dynamicFormService: FormControlService,
               public router: Router,
-              public config: ConfigService) {
-    super(injector, authenticationService, serviceProviderService, catalogueService, route, pidHandler, dynamicFormService, router, config);
+              public config: ConfigService,
+              public deduplicationService: DeduplicationService) {
+    super(injector, authenticationService, serviceProviderService, catalogueService, route, pidHandler, dynamicFormService, router, config, deduplicationService);
     this.editMode = false;
   }
 

@@ -7,6 +7,7 @@ import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {ConfigService} from "../../services/config.service";
 import {AdaptersFormComponent} from "./adapters-form.component";
 import {AdaptersService} from "../../services/adapters.service";
+import {DeduplicationService} from "../../services/deduplication.service";
 
 
 @Component({
@@ -25,8 +26,9 @@ export class UpdateAdaptersFormComponent extends AdaptersFormComponent implement
               protected route: ActivatedRoute,
               protected router: Router,
               protected config: ConfigService,
-              public pidHandler: pidHandler) {
-    super(injector, authenticationService, adaptersService, route, router, config, pidHandler);
+              public pidHandler: pidHandler,
+              public deduplicationService: DeduplicationService) {
+    super(injector, authenticationService, adaptersService, route, router, config, pidHandler, deduplicationService);
   }
 
   ngOnInit() {
