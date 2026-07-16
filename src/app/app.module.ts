@@ -20,6 +20,7 @@ import {AddFirstServiceComponent} from '../lib/pages/provider-resources/add-firs
 import {UpdateServiceProviderComponent} from '../lib/pages/provider/update-service-provider.component';
 import {ReusableComponentsModule} from '../lib/shared/reusablecomponents/reusable-components.module';
 import {ServiceProviderService} from '../lib/services/service-provider.service';
+import {DeduplicationService} from '../lib/services/deduplication.service';
 import {ServiceProvidersListComponent} from '../lib/pages/admin/service-providers-list.component';
 import {SupportModule} from '../lib/pages/support/support.module';
 import {ServiceStatsComponent} from '../lib/pages/provider/dashboard/resource-dashboard/service-stats.component';
@@ -145,6 +146,7 @@ export function highchartsFactory() {
         TrainingResourceService,
         DeployableServiceService,
         ServiceProviderService,
+        DeduplicationService,
         ServiceExtensionsService,
         GuidelinesService,
         CatalogueService,

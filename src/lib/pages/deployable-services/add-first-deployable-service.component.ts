@@ -8,6 +8,7 @@ import {NavigationService} from "../../services/navigation.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {DeployableServiceService} from "../../services/deployable-service.service";
 import {ConfigService} from "../../services/config.service";
+import {DeduplicationService} from "../../services/deduplication.service";
 
 @Component({
     selector: 'app-add-first-deployable-service',
@@ -25,8 +26,9 @@ export class AddFirstDeployableServiceComponent extends DeployableServiceForm im
               protected route: ActivatedRoute,
               protected navigator: NavigationService,
               public dynamicFormService: FormControlService,
-              public config: ConfigService) {
-    super(injector, authenticationService, deployableServiceService, route, dynamicFormService, config);
+              public config: ConfigService,
+              public deduplicationService: DeduplicationService) {
+    super(injector, authenticationService, deployableServiceService, route, dynamicFormService, config, deduplicationService);
     this.editMode = false;
   }
 

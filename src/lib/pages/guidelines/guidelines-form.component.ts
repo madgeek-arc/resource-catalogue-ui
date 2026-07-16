@@ -12,6 +12,7 @@ import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
+import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
 
 declare let UIkit: any;
 
@@ -31,6 +32,8 @@ export class GuidelinesFormComponent implements OnInit {
   errorMessage = '';
   guidelinesForm: UntypedFormGroup;
   editMode = false;
+  similarResources: SimilarResource[] = [];
+  formDataToSubmit: any = null;
   hasChanges = false;
   disable = false;
   showLoader = false;
@@ -45,7 +48,8 @@ export class GuidelinesFormComponent implements OnInit {
               public router: Router,
               public route: ActivatedRoute,
               public pidHandler: pidHandler,
-              public config: ConfigService) {
+              public config: ConfigService,
+              public deduplicationService: DeduplicationService) {
   }
 
   ngOnInit() {
@@ -154,6 +158,37 @@ export class GuidelinesFormComponent implements OnInit {
     // return invalid;
     console.log('findInvalidControls ', invalid);
   }
+
+  handleSubmit(formData: any) {
+    if (this.editMode) {
+      this.submitForm(formData);
+    } else {
+      this.checkDuplicatesAndProceed(formData);
+    }
+  }
+
+  checkDuplicatesAndProceed(formData: any) {
+    const value = FormControlService.cleanObjectInPlace({...formData.value?.interoperabilityRecord ?? formData});
+    this.deduplicationService.checkBeforeAdd('interoperability_record', value).subscribe({
+      next: similar => {
+        if (similar && similar.length > 0) {
+          this.similarResources = similar;
+          this.formDataToSubmit = formData;
+          UIkit.modal('#dupWarningModal').show();
+        } else {
+          this.submitForm(formData);
+        }
+      },
+      error: () => this.submitForm(formData)
+    });
+  }
+
+  proceedDespiteSimilar() {
+    UIkit.modal('#dupWarningModal').hide();
+    this.submitForm(this.formDataToSubmit);
+  }
+
+  copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
 
   protected readonly environment = environment;
   protected readonly isDevMode = isDevMode;
