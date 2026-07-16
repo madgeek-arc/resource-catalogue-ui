@@ -49,6 +49,20 @@
 
 
 
+## [6.3.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v6.2.0...v6.3.0) (2026-07-16)
+
+
+### Features
+
+* add copy id icon on resource deduplication modal, rename submit methods, and increase threshold on dedup api call ([4516f5c](https://github.com/madgeek-arc/resource-catalogue-ui/commit/4516f5c75116465bf1fef2af71d6dff30c79ed1f))
+* configuration template deletion ([76111f9](https://github.com/madgeek-arc/resource-catalogue-ui/commit/76111f90ade1fd8664c118741e769b3313f18ffe))
+
+
+### Bug Fixes
+
+* prevent double saves on configuration templates form builder ([8774a4f](https://github.com/madgeek-arc/resource-catalogue-ui/commit/8774a4ff6fc04cbd2c2362a04f9b66de86d26194))
+* rename resource to result on SimilarResource interface ([5ee4227](https://github.com/madgeek-arc/resource-catalogue-ui/commit/5ee4227e0f9e9e2f20aeaa5b5e454bd1cb4ca56e))
+
 ## [6.2.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v6.1.0...v6.2.0) (2026-07-06)
 
 
