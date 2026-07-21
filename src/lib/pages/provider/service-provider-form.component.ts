@@ -86,20 +86,6 @@ export class ServiceProviderFormComponent implements OnInit {
     formKey: 'organisation',
     fields: [
       {
-        fieldName: 'legal_status',
-        label: 'Legal Status',
-        type: 'radio',
-        vocabularyType: Type.LEGAL_STATUS,
-        formArrayName: 'legalStatus'
-      },
-      {
-        fieldName: 'country',
-        label: 'Country',
-        type: 'radio',
-        vocabularyType: Type.COUNTRY,
-        formArrayName: 'location.country'  // adjust if nested differently in your form
-      },
-      {
         fieldName: 'tags',
         label: 'Tags',
         type: 'checkbox',

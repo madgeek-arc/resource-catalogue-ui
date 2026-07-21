@@ -88,22 +88,22 @@ export class DatasourceFormComponent implements OnInit {
         fieldName: 'datasource_classification',
         label: 'Datasource Classification',
         type: 'radio',
-        vocabularyType: Type.DATASOURCE_CLASSIFICATION,
+        vocabularyType: Type.DS_CLASSIFICATION,
         formArrayName: 'datasourceClassification'
       },
       {
         fieldName: 'jurisdiction',
         label: 'Jurisdiction',
         type: 'radio',
-        vocabularyType: Type.JURISDICTION,
+        vocabularyType: Type.DS_JURISDICTION,
         formArrayName: 'jurisdiction'
       },
       {
         fieldName: 'research_entity_types',
         label: 'Research Entity Types',
         type: 'checkbox',
-        vocabularyType: Type.DS_RESEARCH_ACTIVITY,
-        formArrayName: 'researchEntityTypes'
+        vocabularyType: Type.DS_RESEARCH_ENTITY_TYPE,
+        formArrayName: 'researchProductTypes'
       },
       {
         fieldName: 'trl',
