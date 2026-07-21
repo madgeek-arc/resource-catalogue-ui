@@ -103,6 +103,15 @@
                 <div [class]="'uk-text-bold' + (first ? '' : ' uk-margin-medium-top')">
                   {{ section.label }}
                 </div>
+                <!-- No selection option for radio groups -->
+                <li *ngIf="section.type === 'radio'">
+                  <label>
+                    <input type="radio" [name]="section.fieldName" [value]="null"
+                           [checked]="!suggestionState.selections[section.fieldName]"
+                           (change)="onCheckboxChange($event, section.fieldName, section.type)">
+                    No selection
+                  </label>
+                </li>
                 <li *ngFor="let item of section.items">
                   <label>
                     <input
