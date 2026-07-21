@@ -23,6 +23,9 @@
           }
           <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end" style="min-height: 40px">
             <div>
+              <button class="uk-button uk-button-secondary uk-margin-left" (click)="showSuggestionsModal()">
+                Suggest
+              </button>
               <button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">
                 Submit
               </button>
@@ -37,3 +40,60 @@
 @if (isDevMode()) {
   <pre>{{this.payloadAnswer|json}}</pre>
 }
+
+<div id="suggestionsModal" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <h4 class="uk-text-center">Suggestions</h4>
+
+    <ng-container *ngIf="suggestionState.showLoader">
+      <div class="uk-flex uk-flex-center uk-margin">
+        <div uk-spinner="ratio: 2"></div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!suggestionState.showLoader">
+
+      <ng-container *ngIf="suggestionState.noSuggestionsCall">
+        <p class="uk-text-center uk-margin">Please fill in 'Name' and 'Description' fields before requesting suggestions.</p>
+        <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="button">OK</button>
+      </ng-container>
+
+      <ng-container *ngIf="suggestionState.noSuggestionsCall===false">
+        <p class="uk-text-center uk-margin">For better results make sure you have properly filled in 'Name' and 'Description' fields.</p>
+
+        <ng-container *ngIf="suggestionState.emptySuggestionResponse">
+          <p class="uk-text-center uk-margin">No suggestions found.</p>
+          <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="button">OK</button>
+        </ng-container>
+
+        <ng-container *ngIf="!suggestionState.emptySuggestionResponse">
+          <p class="uk-text-center uk-margin">Select the suggestions you want to add. Pressing 'Add' will autofill the form with the new values.</p>
+          <form>
+            <ul style="list-style: none;">
+              <!-- Dynamically render one section per field the API returned -->
+              <ng-container *ngFor="let section of suggestionState.sections; let first = first">
+                <div [class]="'uk-text-bold' + (first ? '' : ' uk-margin-medium-top')">
+                  {{ section.label }}
+                </div>
+                <li *ngFor="let item of section.items">
+                  <label>
+                    <input
+                      [type]="section.type === 'radio' ? 'radio' : 'checkbox'"
+                      [name]="section.type === 'radio' ? section.fieldName : 'suggestion'"
+                      [value]="item.id"
+                      (change)="onCheckboxChange($event, section.fieldName, section.type)">
+                    {{ item.name }}
+                  </label>
+                </li>
+              </ng-container>
+            </ul>
+          </form>
+
+          <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="submit" (click)="autocomplete()">Add</button>
+          <button class="uk-button uk-modal-close uk-align-right" type="button">Cancel</button>
+        </ng-container>
+
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

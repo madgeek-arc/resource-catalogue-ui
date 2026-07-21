@@ -1,9 +1,9 @@
-import {Component, isDevMode, OnInit, ViewChild} from '@angular/core';
+import {Component, Injector, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Vocabulary} from '../../domain/eic-model';
+import {Type, Vocabulary} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import {ConfigService} from '../../services/config.service';
 import {environment} from '../../../environments/environment';
@@ -13,6 +13,7 @@ import {NavigationService} from "../../services/navigation.service";
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {SuggestionConfig, SuggestionService, SuggestionState} from "../../services/suggestion.service";
 
 declare let UIkit: any;
 
@@ -79,6 +80,39 @@ export class ServiceProviderFormComponent implements OnInit {
 
   commentControl = new UntypedFormControl();
 
+  /** config for suggestions --> **/
+  suggestionConfig: SuggestionConfig = {
+    resourceType: 'organisation',
+    formKey: 'organisation',
+    fields: [
+      {
+        fieldName: 'legal_status',
+        label: 'Legal Status',
+        type: 'radio',
+        vocabularyType: Type.LEGAL_STATUS,
+        formArrayName: 'legalStatus'
+      },
+      {
+        fieldName: 'country',
+        label: 'Country',
+        type: 'radio',
+        vocabularyType: Type.COUNTRY,
+        formArrayName: 'location.country'  // adjust if nested differently in your form
+      },
+      {
+        fieldName: 'tags',
+        label: 'Tags',
+        type: 'checkbox',
+        vocabularyType: null,
+        formArrayName: 'tags'
+      }
+    ]
+  };
+
+  suggestionService: SuggestionService = this.injector.get(SuggestionService);
+  suggestionState: SuggestionState = this.suggestionService.getInitialState();
+  /** <--config for suggestions **/
+
   constructor(public fb: UntypedFormBuilder,
               public authService: AuthenticationService,
               public serviceProviderService: ServiceProviderService,
@@ -89,13 +123,17 @@ export class ServiceProviderFormComponent implements OnInit {
               public navigator: NavigationService,
               public pidHandler: pidHandler,
               public dynamicFormService: FormControlService,
-              public config: ConfigService) {
+              public config: ConfigService,
+              public injector: Injector) {
   }
 
   ngOnInit() {
     this.catalogueName = this.config.getProperty('catalogueName');
-
     this.showLoader = true;
+
+    this.resourceService.getAllVocabulariesByType().subscribe(vocabularies => {
+      this.vocabularies = vocabularies as Map<string, Vocabulary[]>;
+    });
 
     this.serviceProviderService.getFormModelById('m-b-organisation').subscribe(
       res => this.model = res,
@@ -308,4 +346,36 @@ export class ServiceProviderFormComponent implements OnInit {
     };
   }
 
+  /** Suggestions(Recommendations) Autocomplete--> **/
+  showSuggestionsModal() {
+    this.suggestionService.fetchSuggestions(
+      this.suggestionConfig,
+      this.child.form,
+      this.vocabularies,
+      this.suggestionState,
+      (newState) => {
+        this.suggestionState = newState;
+        UIkit.modal('#suggestionsModal').show(); // safe to call multiple times
+      }
+    );
+  }
+
+  onCheckboxChange(event: any, fieldName: string, type: 'checkbox' | 'radio') {
+    this.suggestionState.selections = this.suggestionService.toggleSelection(
+      this.suggestionState, fieldName, event.target.value, event.target.checked, type
+    );
+  }
+
+  autocomplete() {
+    this.suggestionService.autocomplete(
+      this.suggestionConfig,
+      this.child.form,
+      this.suggestionState,
+      this.vocabularies,
+      this.child,
+      this.dynamicFormService,
+      this.model
+    );
+  }
+  /** <--Suggestions(Recommendations) Autocomplete **/
 }

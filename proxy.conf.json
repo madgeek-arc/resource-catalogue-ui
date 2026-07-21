@@ -12,8 +12,8 @@
     "changeOrigin": true
   },
   "/v1/auto_completion": {
-    "target": "http://dl051.madgik.di.uoa.gr:4559/",
-    "secure": false,
+    "target": "https://providers.sandbox.eosc-beyond.eu/",
+    "secure": true,
     "logLevel": "debug",
     "changeOrigin": true
   }

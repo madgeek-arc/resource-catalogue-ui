@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Injector, OnInit} from '@angular/core';
 import {Provider, Type} from '../../domain/eic-model';
 import {ServiceProviderFormComponent} from './service-provider-form.component';
 import {ResourceService} from '../../services/resource.service';
@@ -33,8 +33,9 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
               public navigator: NavigationService,
               public pidHandler: pidHandler,
               public formService: FormControlService,
-              public config: ConfigService) {
-    super(fb, authService, serviceProviderService, resourceService, catalogueService, router, route, navigator, pidHandler, formService, config);
+              public config: ConfigService,
+              public injector: Injector) {
+    super(fb, authService, serviceProviderService, resourceService, catalogueService, router, route, navigator, pidHandler, formService, config, injector);
   }
 
   ngOnInit() {

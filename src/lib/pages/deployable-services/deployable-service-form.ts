@@ -3,7 +3,7 @@ import {Component, Injector, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {TrainingResourceService} from '../../services/training-resource.service';
-import {DeployableService, Provider, Service, Type} from '../../domain/eic-model';
+import {DeployableService, Provider, Service, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
 import {zip} from 'rxjs';
 import {ConfigService} from '../../services/config.service';
@@ -15,6 +15,7 @@ import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/sur
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {DeployableServiceService} from "../../services/deployable-service.service";
+import {SuggestionConfig, SuggestionService, SuggestionState} from "../../services/suggestion.service";
 
 declare let UIkit: any;
 
@@ -59,6 +60,36 @@ export class DeployableServiceForm implements OnInit {
 
   router: NavigationService = this.injector.get(NavigationService);
 
+  /** config for suggestions --> **/
+  suggestionConfig: SuggestionConfig = {
+    resourceType: 'deployable_application',
+    formKey: 'deployableApplication',
+    fields: [
+      {
+        fieldName: 'scientific_domains',
+        label: 'Scientific Subdomains',
+        type: 'checkbox',
+        vocabularyType: Type.SCIENTIFIC_SUBDOMAIN,
+        isComposite: true,
+        formArrayName: 'scientificDomains',
+        parentLookupField: 'scientificDomain',
+        childField: 'scientificSubdomain'
+      },
+      {
+        fieldName: 'tags',
+        label: 'Tags',
+        type: 'checkbox',
+        vocabularyType: null,
+        formArrayName: 'tags'
+      }
+    ]
+  };
+
+  suggestionService: SuggestionService = this.injector.get(SuggestionService);
+  suggestionState: SuggestionState = this.suggestionService.getInitialState();
+
+  vocabularies: Map<string, Vocabulary[]> = null;
+  /** <--config for suggestions **/
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -135,10 +166,12 @@ export class DeployableServiceForm implements OnInit {
     this.showLoader = true;
     zip(
       this.trainingResourceService.getProvidersNames('approved'),
-      this.deployableServiceService.getFormModelById('m-b-deployable')
+      this.deployableServiceService.getFormModelById('m-b-deployable'),
+      this.resourceService.getAllVocabulariesByType()
     ).subscribe(suc => {
         this.providersPage = <Paging<Provider>>suc[0];
         this.model = suc[1];
+        this.vocabularies = <Map<string, Vocabulary[]>>suc[2];
       },
       err => {
                 this.errorMessage =
@@ -239,6 +272,39 @@ export class DeployableServiceForm implements OnInit {
       return Object.assign(hash, {[obj[key]]: (hash[obj[key]] || []).concat(obj)});
     }, {});
   }
+
+  /** Suggestions(Recommendations) Autocomplete--> **/
+  showSuggestionsModal() {
+    this.suggestionService.fetchSuggestions(
+      this.suggestionConfig,
+      this.child.form,
+      this.vocabularies,
+      this.suggestionState,
+      (newState) => {
+        this.suggestionState = newState;
+        UIkit.modal('#suggestionsModal').show(); // safe to call multiple times
+      }
+    );
+  }
+
+  onCheckboxChange(event: any, fieldName: string, type: 'checkbox' | 'radio') {
+    this.suggestionState.selections = this.suggestionService.toggleSelection(
+      this.suggestionState, fieldName, event.target.value, event.target.checked, type
+    );
+  }
+
+  autocomplete() {
+    this.suggestionService.autocomplete(
+      this.suggestionConfig,
+      this.child.form,
+      this.suggestionState,
+      this.vocabularies,
+      this.child,
+      this.dynamicFormService,
+      this.model
+    );
+  }
+  /** <--Suggestions(Recommendations) Autocomplete **/
 
   protected readonly environment = environment;
   protected readonly isDevMode = isDevMode;
