@@ -26,9 +26,8 @@ export class UpdateAdaptersFormComponent extends AdaptersFormComponent implement
               protected route: ActivatedRoute,
               protected router: Router,
               protected config: ConfigService,
-              public pidHandler: pidHandler,
-              public dynamicFormService: FormControlService) {
-    super(injector, authenticationService, adaptersService, route, router, config, pidHandler, dynamicFormService);
+              public pidHandler: pidHandler) {
+    super(injector, authenticationService, adaptersService, route, router, config, pidHandler);
   }
 
   ngOnInit() {

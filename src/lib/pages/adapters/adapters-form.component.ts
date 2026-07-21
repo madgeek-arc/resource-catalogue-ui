@@ -11,10 +11,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
-import {zip} from "rxjs";
 import {AdaptersService} from "../../services/adapters.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
-import {SuggestionConfig, SuggestionService, SuggestionState} from "../../services/suggestion.service";
 
 declare let UIkit: any;
 
@@ -64,41 +62,13 @@ export class AdaptersFormComponent implements OnInit {
 
   protected readonly isDevMode = isDevMode;
 
-  /** config for suggestions --> **/
-  suggestionConfig: SuggestionConfig = {
-    resourceType: 'adapter',
-    formKey: 'adapter',
-    fields: [
-      {
-        fieldName: 'programming_language',
-        label: 'Programming Language',
-        type: 'checkbox',
-        vocabularyType: Type.PROGRAMMING_LANGUAGE,
-        formArrayName: 'programmingLanguage'
-      },
-      {
-        fieldName: 'tags',
-        label: 'Tags',
-        type: 'checkbox',
-        vocabularyType: null,
-        formArrayName: 'tags'
-      }
-    ]
-  };
-
-  suggestionService: SuggestionService = this.injector.get(SuggestionService);
-  suggestionState: SuggestionState = this.suggestionService.getInitialState();
-
-  vocabularies: Map<string, Vocabulary[]> = null;
-  /** <--config for suggestions **/
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
               protected adaptersService: AdaptersService,
               protected route: ActivatedRoute,
               protected router: Router,
               protected config: ConfigService,
-              public pidHandler: pidHandler,
-              public dynamicFormService: FormControlService
+              public pidHandler: pidHandler
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
@@ -133,10 +103,6 @@ export class AdaptersFormComponent implements OnInit {
     this.catalogueName = this.config.getProperty('catalogueName');
     // this.showLoader = true;
     this.getIdsFromCurrentPath();
-
-    this.resourceService.getAllVocabulariesByType().subscribe(vocabularies => {
-      this.vocabularies = vocabularies as Map<string, Vocabulary[]>;
-    });
 
     this.adaptersService.getFormModelById('m-b-adapter').subscribe(
       res => this.model = res,
@@ -185,37 +151,4 @@ export class AdaptersFormComponent implements OnInit {
       email: this.authenticationService.getUserEmail()
     };
   }
-
-  /** Suggestions(Recommendations) Autocomplete--> **/
-  showSuggestionsModal() {
-    this.suggestionService.fetchSuggestions(
-      this.suggestionConfig,
-      this.child.form,
-      this.vocabularies,
-      this.suggestionState,
-      (newState) => {
-        this.suggestionState = newState;
-        UIkit.modal('#suggestionsModal').show(); // safe to call multiple times
-      }
-    );
-  }
-
-  onCheckboxChange(event: any, fieldName: string, type: 'checkbox' | 'radio') {
-    this.suggestionState.selections = this.suggestionService.toggleSelection(
-      this.suggestionState, fieldName, event.target.value, event.target.checked, type
-    );
-  }
-
-  autocomplete() {
-    this.suggestionService.autocomplete(
-      this.suggestionConfig,
-      this.child.form,
-      this.suggestionState,
-      this.vocabularies,
-      this.child,
-      this.dynamicFormService,
-      this.model
-    );
-  }
-  /** <--Suggestions(Recommendations) Autocomplete **/
 }

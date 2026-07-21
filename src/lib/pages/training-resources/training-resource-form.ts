@@ -7,9 +7,7 @@ import {Provider, Service, TrainingResource, Type, Vocabulary} from '../../domai
 import {Paging} from '../../domain/paging';
 import {URLValidator} from '../../shared/validators/generic.validator';
 import {zip} from 'rxjs';
-import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {environment} from '../../../environments/environment';
-import BitSet from 'bitset';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ResourceService} from "../../services/resource.service";
@@ -52,35 +50,6 @@ export class TrainingResourceForm implements OnInit {
   tabs: boolean[] = [false, false, false, false, false, false, false, false, false, false, false, false];
   fb: UntypedFormBuilder = this.injector.get(UntypedFormBuilder);
   isPortalAdmin = false;
-
-  requiredOnTab0 = 4;
-  requiredOnTab1 = 3;
-  requiredOnTab2 = 3;
-  requiredOnTab3 = 2;
-  requiredOnTab4 = 1;
-  requiredOnTab5 = 1;
-
-  remainingOnTab0 = this.requiredOnTab0;
-  remainingOnTab1 = this.requiredOnTab1;
-  remainingOnTab2 = this.requiredOnTab2;
-  remainingOnTab3 = this.requiredOnTab3;
-  remainingOnTab4 = this.requiredOnTab4;
-  remainingOnTab5 = this.requiredOnTab5;
-
-  BitSetTab0 = new BitSet;
-  BitSetTab1 = new BitSet;
-  BitSetTab2 = new BitSet;
-  BitSetTab3 = new BitSet;
-  BitSetTab4 = new BitSet;
-  BitSetTab5 = new BitSet;
-
-  requiredTabs = 6;
-  completedTabs = 0;
-  completedTabsBitSet = new BitSet;
-
-  allRequiredFields = 17;
-  loaderBitSet = new BitSet;
-  loaderPercentage = 0;
 
   vocabularyEntryForm: UntypedFormGroup;
   suggestionsForm = {
@@ -727,150 +696,6 @@ export class TrainingResourceForm implements OnInit {
       }
     }
   }
-
-  /** BitSets -->**/
-  /** TODO: maybe timeout can be removed with subject **/
-  handleBitSets(tabNum: number, bitIndex: number, formControlName: string): void {
-    if (bitIndex === 0) {
-      this.serviceName = this.serviceForm.get(formControlName).value;
-    }
-    // this.serviceForm.get(formControlName).updateValueAndValidity();
-    if (this.serviceForm.get(formControlName).valid) {
-      this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-      this.loaderBitSet.set(bitIndex, 1);
-    } else if (this.serviceForm.get(formControlName).invalid) {
-      this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-      this.loaderBitSet.set(bitIndex, 0);
-    } else if (this.serviceForm.get(formControlName).pending) {
-      this.timeOut(300).then( () => this.handleBitSets(tabNum, bitIndex, formControlName));
-      return;
-    }
-    this.updateLoaderPercentage();
-  }
-
-  handleBitSetsOfGroups(tabNum: number, bitIndex: number, formControlName: string, group: string): void {
-    if (group === 'scientificDomains') {
-      for (const scientificDomain of this.scientificDomainArray.controls) {
-        if (scientificDomain.get('scientificSubdomain').value) {
-          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-          this.loaderBitSet.set(bitIndex - 1, 1);
-          this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-          this.loaderBitSet.set(bitIndex, 1);
-        } else {
-          this.increaseRemainingFieldsPerTab(tabNum, bitIndex - 1);
-          this.loaderBitSet.set(bitIndex - 1, 0);
-          this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-          this.loaderBitSet.set(bitIndex, 0);
-        }
-      }
-    } else {
-      this.serviceForm.controls[group].get(formControlName).updateValueAndValidity();
-      if (this.serviceForm.controls[group].get(formControlName).valid) {
-        this.decreaseRemainingFieldsPerTab(tabNum, bitIndex);
-        this.loaderBitSet.set(bitIndex, 1);
-      } else if (this.serviceForm.controls[group].get(formControlName).invalid) {
-        this.increaseRemainingFieldsPerTab(tabNum, bitIndex);
-        this.loaderBitSet.set(bitIndex, 0);
-      }
-    }
-    this.updateLoaderPercentage();
-  }
-
-  updateLoaderPercentage() {
-    // console.log(this.loaderBitSet.toString(2));
-    // console.log('cardinality: ', this.loaderBitSet.cardinality());
-    this.loaderPercentage = Math.round((this.loaderBitSet.cardinality() / this.allRequiredFields) * 100);
-    // console.log(this.loaderPercentage, '%');
-  }
-
-  decreaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
-    if (tabNum === 0) {
-      this.BitSetTab0.set(bitIndex, 1);
-      this.remainingOnTab0 = this.requiredOnTab0 - this.BitSetTab0.cardinality();
-      if (this.remainingOnTab0 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-        this.calcCompletedTabs(tabNum, 1);
-      }
-    } else if (tabNum === 1) {
-      this.BitSetTab1.set(bitIndex, 1);
-      this.remainingOnTab1 = this.requiredOnTab1 - this.BitSetTab1.cardinality();
-      if (this.remainingOnTab1 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-        this.calcCompletedTabs(tabNum, 1);
-      }
-    } else if (tabNum === 2) {  // Learning
-      this.BitSetTab2.set(bitIndex, 1);
-      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.cardinality();
-      if (this.remainingOnTab2 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-        this.calcCompletedTabs(tabNum, 1);
-      }
-    } else if (tabNum === 3) {
-      this.BitSetTab3.set(bitIndex, 1);
-      this.remainingOnTab3 = this.requiredOnTab3 - this.BitSetTab3.cardinality();
-      if (this.remainingOnTab3 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-        this.calcCompletedTabs(tabNum, 1);
-      }
-    } else if (tabNum === 4) { // Classification
-      this.BitSetTab4.set(bitIndex, 1);
-      this.remainingOnTab4 = this.requiredOnTab4 - this.BitSetTab4.get(13);
-      if (this.remainingOnTab4 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-        this.calcCompletedTabs(tabNum, 1);
-      }
-    } else if (tabNum === 5) { // Contact
-      this.BitSetTab5.set(bitIndex, 1);
-      const contactCardinality = this.BitSetTab5.slice(14, 16).cardinality();
-      this.remainingOnTab5 = this.requiredOnTab5 - +(contactCardinality === 3);
-      if (this.remainingOnTab5 === 0 && this.completedTabsBitSet.get(tabNum) !== 1) {
-        this.calcCompletedTabs(tabNum, 1);
-      }
-    }
-  }
-
-  increaseRemainingFieldsPerTab(tabNum: number, bitIndex: number) {
-    if (tabNum === 0) {
-      this.BitSetTab0.set(bitIndex, 0);
-      this.remainingOnTab0 = this.requiredOnTab0 - this.BitSetTab0.cardinality();
-      if (this.completedTabsBitSet.get(tabNum) !== 0) {
-        this.calcCompletedTabs(tabNum, 0);
-      }
-    } else if (tabNum === 1) {
-      this.BitSetTab1.set(bitIndex, 0);
-      this.remainingOnTab1 = this.requiredOnTab1 - this.BitSetTab1.cardinality();
-      if (this.completedTabsBitSet.get(tabNum) !== 0) {
-        this.calcCompletedTabs(tabNum, 0);
-      }
-    } else if (tabNum === 2) {  // Learning
-      this.BitSetTab2.set(bitIndex, 0);
-      this.remainingOnTab2 = this.requiredOnTab2 - this.BitSetTab2.cardinality();
-      if (this.completedTabsBitSet.get(tabNum) !== 0) {
-        this.calcCompletedTabs(tabNum, 0);
-      }
-    } else if (tabNum === 3) {
-      this.BitSetTab3.set(bitIndex, 0);
-      this.remainingOnTab3 = this.requiredOnTab3 - this.BitSetTab3.cardinality();
-      if (this.completedTabsBitSet.get(tabNum) !== 0) {
-        this.calcCompletedTabs(tabNum, 0);
-      }
-    } else if (tabNum === 4) { // Classification
-      this.BitSetTab4.set(bitIndex, 0);
-      this.remainingOnTab4 = this.requiredOnTab4 - this.BitSetTab4.get(13);
-      if (this.completedTabsBitSet.get(tabNum) !== 0) {
-        this.calcCompletedTabs(tabNum, 0);
-      }
-    } else if (tabNum === 5) { // Contact
-      this.BitSetTab5.set(bitIndex, 0);
-      const contactCardinality = this.BitSetTab5.slice(14, 16).cardinality();
-      this.remainingOnTab5 = this.requiredOnTab5 - +(contactCardinality === 3);
-      if (this.completedTabsBitSet.get(tabNum) !== 0) {
-        this.calcCompletedTabs(tabNum, 0);
-      }
-    }
-  }
-
-  calcCompletedTabs(tabNum: number, setValue: number) {
-    this.completedTabsBitSet.set(tabNum, setValue);
-    this.completedTabs = this.completedTabsBitSet.cardinality();
-  }
-
-  /** <--BitSets **/
 
   /** Modals--> **/
   showCommentModal(formData: any) {
