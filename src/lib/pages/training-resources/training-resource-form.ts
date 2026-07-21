@@ -169,10 +169,10 @@ export class TrainingResourceForm implements OnInit {
       },
       {
         fieldName: 'tags',
-        label: 'Tags',
+        label: 'Keywords',
         type: 'checkbox',
         vocabularyType: null,
-        formArrayName: 'tags'
+        formArrayName: 'keywords'
       }
     ]
   };
