@@ -292,7 +292,7 @@ export class DatasourceFormComponent implements OnInit {
       this.suggestionState,
       (newState) => {
         this.suggestionState = newState;
-        UIkit.modal('#suggestionsModal').show(); // safe to call multiple times
+        UIkit.modal('#suggestionsModal-datasource').show(); // safe to call multiple times
       }
     );
   }

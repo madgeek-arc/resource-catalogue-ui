@@ -282,7 +282,7 @@ export class DeployableServiceForm implements OnInit {
       this.suggestionState,
       (newState) => {
         this.suggestionState = newState;
-        UIkit.modal('#suggestionsModal').show(); // safe to call multiple times
+        UIkit.modal('#suggestionsModal-deployable').show(); // safe to call multiple times
       }
     );
   }

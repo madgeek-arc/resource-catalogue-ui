@@ -341,7 +341,7 @@ export class ServiceProviderFormComponent implements OnInit {
       this.suggestionState,
       (newState) => {
         this.suggestionState = newState;
-        UIkit.modal('#suggestionsModal').show(); // safe to call multiple times
+        UIkit.modal('#suggestionsModal-provider').show(); // safe to call multiple times
       }
     );
   }

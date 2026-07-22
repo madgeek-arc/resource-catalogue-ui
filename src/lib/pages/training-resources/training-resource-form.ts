@@ -765,7 +765,7 @@ export class TrainingResourceForm implements OnInit {
       this.suggestionState,
       (newState) => {
         this.suggestionState = newState;
-        UIkit.modal('#suggestionsModal').show(); // safe to call multiple times
+        UIkit.modal('#suggestionsModal-training').show(); // safe to call multiple times
       }
     );
   }
