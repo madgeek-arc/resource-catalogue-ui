@@ -24,6 +24,9 @@
           @if (!viewOnlyMode) {
             <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right justify-content-end" style="min-height: 40px">
               <div>
+                <button class="uk-button uk-button-secondary uk-margin-left" (click)="showSuggestionsModal()">
+                  Suggest
+                </button>
                 @if (saveAsDraftAvailable) {
                   <button
                     class="uk-button uk-button-secondary uk-margin-left" (click)="submitMode = 'draft'; child.parentSubmit()">
@@ -105,60 +108,69 @@
   }
 </div>
 
+<div [id]="suggestionModalId" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <h4 class="uk-text-center">Suggestions</h4>
 
-<!--<div id="suggestionsModal" uk-modal>
-<div *ngIf="!showLoader" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-  <h4 class="uk-text-center">Suggestions</h4>
-  <ng-container *ngIf="noSuggestionsCall">
-    <p class="uk-text-center uk-margin">Please fill in 'Name', 'Description' and 'Tagline' fields before requesting suggestions for your service.</p>
-    <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="button">OK</button>
-  </ng-container>
+    <ng-container *ngIf="suggestionState.showLoader">
+      <div class="uk-flex uk-flex-center uk-margin">
+        <div uk-spinner="ratio: 2"></div>
+      </div>
+    </ng-container>
 
-  <ng-container *ngIf="noSuggestionsCall===false">
-    <p *ngIf="emptySuggestionResponse" class="uk-text-center uk-margin">No suggestions found.</p>
-    <p class="uk-text-center uk-margin">For better results make sure you have properly filled in 'Name', 'Description' and 'Tagline' fields.</p>
-    <ng-container *ngIf="!emptySuggestionResponse">
-      <p class="uk-text-center uk-margin">Select the suggestions you want to add to your {{serviceORresource}}. Pressing 'Add' will autofill the form with the new values.</p>
-      <form>
-        <ul style="list-style: none;">
-          <div class="uk-text-bold">Scientific Subdomains</div>
-          <li *ngFor="let suggestion of filteredScientificSubDomainVocabulary">
-            <label>
-              <input type="checkbox"
-                name="suggestion"
-                [value]="suggestion.id"
-                (change)="onCheckboxChange($event, 'ScientificSubDomains')">
-              {{ suggestion.name }}
-            </label>
-          </li>
-          <div class="uk-text-bold uk-margin-medium-top">Subcategories</div>
-          <li *ngFor="let suggestion of filteredSubCategoriesVocabulary">
-            <label>
-              <input type="checkbox"
-                name="suggestion"
-                [value]="suggestion.id"
-                (change)="onCheckboxChange($event, 'SubCategories')">
-              {{ suggestion.name }}
-            </label>
-          </li>
-          <div class="uk-text-bold uk-margin-medium-top">Tags</div>
-          <li *ngFor="let suggestion of suggestedTags">
-            <label>
-              <input type="checkbox"
-                name="suggestion"
-                [value]="suggestion"
-                (change)="onCheckboxChange($event, 'Tags')">
-              {{ suggestion }}
-            </label>
-          </li>
-        </ul>
-      </form>
+    <ng-container *ngIf="!suggestionState.showLoader">
+
+      <ng-container *ngIf="suggestionState.noSuggestionsCall">
+        <p class="uk-text-center uk-margin">Please fill in 'Name' and 'Description' fields before requesting suggestions.</p>
+        <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="button">OK</button>
+      </ng-container>
+
+      <ng-container *ngIf="suggestionState.noSuggestionsCall===false">
+        <p class="uk-text-center uk-margin">For better results make sure you have properly filled in 'Name' and 'Description' fields.</p>
+
+        <ng-container *ngIf="suggestionState.emptySuggestionResponse">
+          <p class="uk-text-center uk-margin">No suggestions found.</p>
+          <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="button">OK</button>
+        </ng-container>
+
+        <ng-container *ngIf="!suggestionState.emptySuggestionResponse">
+          <p class="uk-text-center uk-margin">Select the suggestions you want to add. Pressing 'Add' will autofill the form with the new values.</p>
+          <form>
+            <ul style="list-style: none;">
+              <!-- Dynamically render one section per field the API returned -->
+              <ng-container *ngFor="let section of suggestionState.sections; let first = first">
+                <div [class]="'uk-text-bold' + (first ? '' : ' uk-margin-medium-top')">
+                  {{ section.label }}
+                </div>
+                <!-- No selection option for radio groups -->
+                <li *ngIf="section.type === 'radio'">
+                  <label>
+                    <input type="radio" [name]="section.fieldName" [value]="null"
+                           [checked]="!suggestionState.selections[section.fieldName]"
+                           (change)="onCheckboxChange($event, section.fieldName, section.type)">
+                    No selection
+                  </label>
+                </li>
+                <li *ngFor="let item of section.items">
+                  <label>
+                    <input
+                      [type]="section.type === 'radio' ? 'radio' : 'checkbox'"
+                      [name]="section.type === 'radio' ? section.fieldName : 'suggestion'"
+                      [value]="item.id"
+                      [checked]="isSuggestionSelected(section.fieldName, item.id, section.type)"
+                      (change)="onCheckboxChange($event, section.fieldName, section.type)">
+                    {{ item.name }}
+                  </label>
+                </li>
+              </ng-container>
+            </ul>
+          </form>
+
+          <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="submit" (click)="autocomplete()">Add</button>
+          <button class="uk-button uk-modal-close uk-align-right" type="button">Cancel</button>
+        </ng-container>
+
+      </ng-container>
     </ng-container>
-    <ng-container *ngIf="!emptySuggestionResponse">
-      <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="submit" (click)="autocomplete()">Add</button>
-      <button class="uk-button uk-modal-close uk-align-right" type="button">Cancel</button>
-    </ng-container>
-    <button *ngIf="emptySuggestionResponse" class="uk-button uk-button-primary uk-modal-close uk-align-right" type="button">OK</button>
-  </ng-container>
+  </div>
 </div>
-</div>-->

@@ -1,5 +1,5 @@
 import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {Component, Injector, isDevMode, OnInit, ViewChild} from '@angular/core';
+import {Component, Injector, isDevMode, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
@@ -17,6 +17,7 @@ import {FormControlService} from "../../../dynamic-catalogue/services/form-contr
 import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
 import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
+import {SuggestionConfig, SuggestionService, SuggestionState} from "../../services/suggestion.service";
 
 declare let UIkit: any;
 
@@ -26,7 +27,7 @@ declare let UIkit: any;
     providers: [FormControlService],
     standalone: false
 })
-export class ServiceFormComponent implements OnInit {
+export class ServiceFormComponent implements OnInit, OnDestroy {
   @ViewChild(SurveyComponent) child: SurveyComponent
   model: Model = null;
   vocabulariesMap: Map<string, object[]> = null;
@@ -88,21 +89,6 @@ export class ServiceFormComponent implements OnInit {
 
   commentControl = new UntypedFormControl();
 
-  noSuggestionsCall: boolean;
-  suggestedResponse: any;
-  emptySuggestionResponse: boolean;
-
-  suggestedScientificSubDomains: string[] = [];
-  suggestedSubCategories: string[] = [];
-  suggestedTags: string[] = [];
-
-  selectedSuggestionsForScientificSubDomains: string[] = [];
-  selectedSuggestionsForSubCategories: string[] = [];
-  selectedSuggestionsForTags: string[] = [];
-
-  public filteredSubCategoriesVocabulary: Vocabulary[] = null;
-  public filteredScientificSubDomainVocabulary: Vocabulary[] = null;
-
   providersPage: Paging<Provider>;
   requiredResources: any;
   providersAsVocs: any;
@@ -112,8 +98,63 @@ export class ServiceFormComponent implements OnInit {
   subVocabularies: Map<string, Vocabulary[]> = null;
   premiumSort = new PremiumSortPipe();
   resourceService: ResourceService = this.injector.get(ResourceService);
-
+  suggestionService: SuggestionService = this.injector.get(SuggestionService);
   navigator: NavigationService = this.injector.get(NavigationService);
+
+  /** config for suggestions --> **/
+  suggestionConfig: SuggestionConfig = {
+    resourceType: 'service',
+    formKey: 'service',
+    fields: [
+      {
+        fieldName: 'scientific_domains',
+        label: 'Scientific Subdomains',
+        type: 'checkbox',
+        vocabularyType: Type.SCIENTIFIC_SUBDOMAIN,
+        isComposite: true,
+        formArrayName: 'scientificDomains',
+        parentLookupField: 'scientificDomain',
+        childField: 'scientificSubdomain'
+      },
+      {
+        fieldName: 'categories',
+        label: 'Subcategories',
+        type: 'checkbox',
+        vocabularyType: Type.SUBCATEGORY,
+        isComposite: true,
+        formArrayName: 'categories',
+        parentLookupField: 'category',
+        childField: 'subcategory'
+      },
+      {
+        fieldName: 'access_types',
+        label: 'Access Types',
+        type: 'radio',
+        vocabularyType: Type.ACCESS_TYPE,
+        formArrayName: 'accessTypes'
+      },
+      {
+        fieldName: 'order_type',
+        label: 'Order Type',
+        type: 'radio',
+        vocabularyType: Type.ORDER_TYPE,
+        formArrayName: 'orderType'
+      },
+      {
+        fieldName: 'tags',
+        label: 'Tags',
+        type: 'checkbox',
+        vocabularyType: null,  // free text, no vocabulary lookup needed
+        formArrayName: 'tags'
+      }
+    ]
+  };
+
+  // state — flat object, easy to inspect
+  suggestionState: SuggestionState = this.suggestionService.getInitialState();
+  // unique per component instance so two 'service' forms can never collide on the same modal id
+  suggestionModalId: string = this.suggestionService.generateModalId(this.suggestionConfig.resourceType);
+  /** <--config for suggestions **/
 
   public fundingBodyVocabulary: Vocabulary[] = null;
   public fundingProgramVocabulary: Vocabulary[] = null;
@@ -351,12 +392,6 @@ export class ServiceFormComponent implements OnInit {
       timeout: 7000
     });
   }
-
-  showSuggestionsModal() {
-    this.emptySuggestionResponse = false;
-    UIkit.modal('#suggestionsModal').show();
-    // this.getSuggestions();
-  }
   /** <--Modals **/
 
   submitVocSuggestion(entryValueName, vocabulary, parent) {
@@ -391,6 +426,50 @@ export class ServiceFormComponent implements OnInit {
     this.displayedProviderName = (provider.name ? `| Provider: ${provider.name} ` : '');
   }
   /** <--Display Provider and Catalogue Names **/
+
+  /** Suggestions(Recommendations) Autocomplete--> **/
+  showSuggestionsModal() {
+    this.suggestionService.fetchSuggestions(
+      this.suggestionConfig,
+      this.child.form,
+      this.vocabularies,
+      this.suggestionState,
+      (newState) => {
+        this.suggestionState = newState;
+        UIkit.modal('#' + this.suggestionModalId).show(); // safe to call multiple times
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    // UIkit moves modal elements to <body> on init; destroying it here (rather than
+    // waiting for Angular's async view teardown) prevents it from briefly lingering
+    // in the DOM when navigating straight to another form of the same resource type.
+    UIkit.modal('#' + this.suggestionModalId)?.$destroy(true);
+  }
+
+  onCheckboxChange(event: any, fieldName: string, type: 'checkbox' | 'radio') {
+    this.suggestionState.selections = this.suggestionService.toggleSelection(
+      this.suggestionState, fieldName, event.target.value, event.target.checked, type
+    );
+  }
+
+  isSuggestionSelected(fieldName: string, itemId: string, type: 'checkbox' | 'radio'): boolean {
+    return this.suggestionService.isSelected(this.suggestionState, fieldName, itemId, type);
+  }
+
+  autocomplete() {
+    this.suggestionService.autocomplete(
+      this.suggestionConfig,
+      this.child.form,
+      this.suggestionState,
+      this.vocabularies,
+      this.child,
+      this.dynamicFormService,
+      this.model
+    );
+  }
+  /** <--Suggestions(Recommendations) Autocomplete **/
 
   copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
 

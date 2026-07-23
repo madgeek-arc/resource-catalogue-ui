@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Injector, OnInit} from '@angular/core';
         import {Catalogue} from '../../domain/eic-model';
 import {ResourceService} from '../../services/resource.service';
 import {UntypedFormBuilder} from '@angular/forms';
@@ -33,8 +33,9 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
               public dynamicFormService: FormControlService,
               public config: ConfigService,
               public pidhandler: pidHandler,
-              public deduplicationService: DeduplicationService) {
-    super(fb, authService, serviceProviderService, catalogueService, resourceService, router, route, dynamicFormService, config, pidhandler, deduplicationService);
+              public deduplicationService: DeduplicationService,
+              public injector: Injector) {
+    super(fb, authService, serviceProviderService, catalogueService, resourceService, router, route, dynamicFormService, config, pidhandler, deduplicationService, injector);
   }
 
   ngOnInit() {
