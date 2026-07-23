@@ -1,4 +1,4 @@
-import {Component, Injector, isDevMode, OnInit, ViewChild} from '@angular/core';
+import {Component, Injector, isDevMode, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
@@ -22,7 +22,7 @@ declare let UIkit: any;
     providers: [FormControlService],
     standalone: false
 })
-export class CatalogueFormComponent implements OnInit {
+export class CatalogueFormComponent implements OnInit, OnDestroy {
   @ViewChild(SurveyComponent) child: SurveyComponent
   model: Model = null;
   payloadAnswer: object = null;
@@ -100,6 +100,8 @@ export class CatalogueFormComponent implements OnInit {
 
   suggestionService: SuggestionService = this.injector.get(SuggestionService);
   suggestionState: SuggestionState = this.suggestionService.getInitialState();
+  // unique per component instance so two 'catalogue' forms can never collide on the same modal id
+  suggestionModalId: string = this.suggestionService.generateModalId(this.suggestionConfig.resourceType);
 
   vocabularies: Map<string, Vocabulary[]> = null;
   /** <--config for suggestions **/
@@ -251,15 +253,23 @@ export class CatalogueFormComponent implements OnInit {
       this.suggestionState,
       (newState) => {
         this.suggestionState = newState;
-        UIkit.modal('#suggestionsModal-catalogue').show(); // safe to call multiple times
+        UIkit.modal('#' + this.suggestionModalId).show(); // safe to call multiple times
       }
     );
+  }
+
+  ngOnDestroy() {
+    UIkit.modal('#' + this.suggestionModalId)?.$destroy(true);
   }
 
   onCheckboxChange(event: any, fieldName: string, type: 'checkbox' | 'radio') {
     this.suggestionState.selections = this.suggestionService.toggleSelection(
       this.suggestionState, fieldName, event.target.value, event.target.checked, type
     );
+  }
+
+  isSuggestionSelected(fieldName: string, itemId: string, type: 'checkbox' | 'radio'): boolean {
+    return this.suggestionService.isSelected(this.suggestionState, fieldName, itemId, type);
   }
 
   autocomplete() {

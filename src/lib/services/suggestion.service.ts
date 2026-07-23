@@ -74,6 +74,8 @@ export interface SuggestionState {
 @Injectable({ providedIn: 'root' })
 export class SuggestionService {
 
+  private static modalIdCounter = 0;
+
   constructor(private http: HttpClient) {}
 
   /**
@@ -89,6 +91,33 @@ export class SuggestionService {
       sections: [],
       selections: {}
     };
+  }
+
+  /**
+   * Returns a DOM id unique to this component instance (not just to the resource type).
+   * Two forms of the same resourceType can briefly coexist in the DOM during route
+   * transitions (e.g. navigating from one 'service' resource to another); if both used
+   * the same static id, `UIkit.modal('#id')` would resolve to whichever element the
+   * browser finds first, which can be the previous (about to be destroyed) instance.
+   * Call this once per component instance (e.g. as a field initializer) and bind it
+   * to the modal's [id] instead of a hardcoded string.
+   */
+  generateModalId(resourceType: string): string {
+    return `suggestionsModal-${resourceType}-${SuggestionService.modalIdCounter++}`;
+  }
+
+  /**
+   * Whether a given suggestion item is currently selected — drives the [checked]
+   * binding on each checkbox/radio input so the DOM's visual state always matches
+   * suggestionState.selections, instead of the browser tracking checked state on its
+   * own (which would survive a modal close/reopen even after selections is reset).
+   */
+  isSelected(state: SuggestionState, fieldName: string, itemId: string, type: 'checkbox' | 'radio'): boolean {
+    const selected = state.selections[fieldName];
+    if (type === 'radio') {
+      return selected === itemId;
+    }
+    return Array.isArray(selected) && selected.includes(itemId);
   }
 
   /**

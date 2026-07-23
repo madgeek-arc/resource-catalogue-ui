@@ -46,7 +46,7 @@
   </div>
 }
 
-<div id="suggestionsModal-datasource" uk-modal>
+<div [id]="suggestionModalId" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
     <h4 class="uk-text-center">Suggestions</h4>
 
@@ -95,6 +95,7 @@
                       [type]="section.type === 'radio' ? 'radio' : 'checkbox'"
                       [name]="section.type === 'radio' ? section.fieldName : 'suggestion'"
                       [value]="item.id"
+                      [checked]="isSuggestionSelected(section.fieldName, item.id, section.type)"
                       (change)="onCheckboxChange($event, section.fieldName, section.type)">
                     {{ item.name }}
                   </label>
