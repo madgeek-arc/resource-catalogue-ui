@@ -15,6 +15,7 @@ import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/sur
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {DeployableServiceService} from "../../services/deployable-service.service";
+import {DeduplicationService, SimilarResource} from "../../services/deduplication.service";
 import {SuggestionConfig, SuggestionService, SuggestionState} from "../../services/suggestion.service";
 
 declare let UIkit: any;
@@ -35,6 +36,7 @@ export class DeployableServiceForm implements OnInit, OnDestroy {
   firstServiceForm = false;
   showLoader = false;
   pendingResource = false;
+  similarResources: SimilarResource[] = [];
   catalogueId: string;
   providerId: string;
   viewOnlyMode = false;
@@ -98,7 +100,8 @@ export class DeployableServiceForm implements OnInit, OnDestroy {
               protected deployableServiceService: DeployableServiceService,
               protected route: ActivatedRoute,
               public dynamicFormService: FormControlService,
-              public config: ConfigService
+              public config: ConfigService,
+              public deduplicationService: DeduplicationService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.trainingResourceService = this.injector.get(TrainingResourceService);
@@ -240,13 +243,34 @@ export class DeployableServiceForm implements OnInit, OnDestroy {
   }
 
   /** Modals--> **/
-  showCommentModal(formData: any) {
+  handleSubmit(formData: any) {
     if (this.editMode && !this.pendingResource) {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
     } else {
-      this.submitForm(formData,false,false);
+      this.checkDuplicatesAndProceed(formData);
     }
+  }
+
+  checkDuplicatesAndProceed(formData: any) {
+    const value = FormControlService.cleanObjectInPlace({...formData.value?.deployableApplication ?? formData});
+    this.deduplicationService.checkBeforeAdd('deployable_application', value).subscribe({
+      next: similar => {
+        if (similar && similar.length > 0) {
+          this.similarResources = similar;
+          this.formDataToSubmit = formData;
+          UIkit.modal('#dupWarningModal').show();
+        } else {
+          this.submitForm(formData, false, false);
+        }
+      },
+      error: () => this.submitForm(formData, false, false)
+    });
+  }
+
+  proceedDespiteSimilar() {
+    UIkit.modal('#dupWarningModal').hide();
+    this.submitForm(this.formDataToSubmit, false, false);
   }
 
   openPreviewModal() {
@@ -315,6 +339,8 @@ export class DeployableServiceForm implements OnInit, OnDestroy {
     );
   }
   /** <--Suggestions(Recommendations) Autocomplete **/
+
+  copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
 
   protected readonly environment = environment;
   protected readonly isDevMode = isDevMode;

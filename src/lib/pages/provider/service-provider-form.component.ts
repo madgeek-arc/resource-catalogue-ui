@@ -13,6 +13,7 @@ import {NavigationService} from "../../services/navigation.service";
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {DeduplicationService, SimilarResource} from "../../services/deduplication.service";
 import {SuggestionConfig, SuggestionService, SuggestionState} from "../../services/suggestion.service";
 
 declare let UIkit: any;
@@ -51,6 +52,7 @@ export class ServiceProviderFormComponent implements OnInit, OnDestroy {
   saveAsDraftAvailable = false;
   disable = false;
   showLoader = false;
+  similarResources: SimilarResource[] = [];
   tabs: boolean[] = [false, false, false, false, false, false, false, false];
   isPortalAdmin = false;
 
@@ -112,6 +114,7 @@ export class ServiceProviderFormComponent implements OnInit, OnDestroy {
               public pidHandler: pidHandler,
               public dynamicFormService: FormControlService,
               public config: ConfigService,
+              public deduplicationService: DeduplicationService,
               public injector: Injector) {
   }
 
@@ -280,13 +283,34 @@ export class ServiceProviderFormComponent implements OnInit, OnDestroy {
   /** <--Terms Modal **/
 
   /** Submit Comment Modal--> **/
-  showCommentModal(formData: any) {
+  handleSubmit(formData: any) {
     if (this.editMode && !this.pendingProvider) {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
     } else {
-      this.submitForm(formData);
+      this.checkDuplicatesAndProceed(formData);
     }
+  }
+
+  checkDuplicatesAndProceed(formData: any) {
+    const providerValue = FormControlService.cleanObjectInPlace({...formData.value?.organisation ?? formData});
+    this.deduplicationService.checkBeforeAdd('organisation', providerValue).subscribe({
+      next: similar => {
+        if (similar && similar.length > 0) {
+          this.similarResources = similar;
+          this.formDataToSubmit = formData;
+          UIkit.modal('#dupWarningModal').show();
+        } else {
+          this.submitForm(formData);
+        }
+      },
+      error: () => this.submitForm(formData)
+    });
+  }
+
+  proceedDespiteSimilar() {
+    UIkit.modal('#dupWarningModal').hide();
+    this.submitForm(this.formDataToSubmit);
   }
 
   /** <--Submit Comment Modal **/
@@ -374,4 +398,7 @@ export class ServiceProviderFormComponent implements OnInit, OnDestroy {
     );
   }
   /** <--Suggestions(Recommendations) Autocomplete **/
+
+  copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
+
 }

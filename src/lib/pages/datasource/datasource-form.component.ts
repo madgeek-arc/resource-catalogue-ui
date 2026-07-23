@@ -13,6 +13,7 @@ import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {ConfigService} from "../../services/config.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {DeduplicationService, SimilarResource} from "../../services/deduplication.service";
 import {SuggestionConfig, SuggestionService, SuggestionState} from "../../services/suggestion.service";
 
 declare let UIkit: any;
@@ -32,6 +33,8 @@ export class DatasourceFormComponent implements OnInit, OnDestroy {
   firstServiceForm = false;
   showLoader = false;
   pendingResource = false;
+  similarResources: SimilarResource[] = [];
+  formDataToSubmit: any = null;
   saveAsDraftAvailable = false;
   addOpenAIRE = false; //on addOpenAIRE path
   openaireId: string = null; //datasource OA id
@@ -137,7 +140,8 @@ export class DatasourceFormComponent implements OnInit, OnDestroy {
               protected router: Router,
               public dynamicFormService: FormControlService,
               public config: ConfigService,
-              public pidHandler: pidHandler
+              public pidHandler: pidHandler,
+              public deduplicationService: DeduplicationService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.navigator = this.injector.get(NavigationService);
@@ -325,6 +329,39 @@ export class DatasourceFormComponent implements OnInit, OnDestroy {
     );
   }
   /** <--Suggestions(Recommendations) Autocomplete **/
+
+  handleSubmit(formData: any) {
+    if (this.editMode || this.pendingResource) {
+      this.submitForm(formData, false, this.pendingResource);
+    } else {
+      this.checkDuplicatesAndProceed(formData);
+    }
+  }
+
+  /** Deduptication--> **/
+  checkDuplicatesAndProceed(formData: any) {
+    const value = FormControlService.cleanObjectInPlace({...formData.value?.datasource ?? formData});
+    this.deduplicationService.checkBeforeAdd('datasource', value).subscribe({
+      next: similar => {
+        if (similar && similar.length > 0) {
+          this.similarResources = similar;
+          this.formDataToSubmit = formData;
+          UIkit.modal('#dupWarningModal').show();
+        } else {
+          this.submitForm(formData, false, false);
+        }
+      },
+      error: () => this.submitForm(formData, false, false)
+    });
+  }
+
+  proceedDespiteSimilar() {
+    UIkit.modal('#dupWarningModal').hide();
+    this.submitForm(this.formDataToSubmit, false, false);
+  }
+
+  copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
+  /** <-->Deduptication **/
 
   protected readonly environment = environment;
   protected readonly isDevMode = isDevMode;

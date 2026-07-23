@@ -10,6 +10,7 @@ import {TrainingResourceForm} from "./training-resource-form";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {environment} from '../../../environments/environment';
 import {ConfigService} from "../../services/config.service";
+import {DeduplicationService} from "../../services/deduplication.service";
 
 @Component({
     selector: 'app-update-training-resource',
@@ -28,8 +29,9 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
               public datePipe: DatePipe,
               public navigator: NavigationService,
               public dynamicFormService: FormControlService,
-              public config: ConfigService) {
-    super(injector, authenticationService, serviceProviderService, route, dynamicFormService, config);
+              public config: ConfigService,
+              public deduplicationService: DeduplicationService) {
+    super(injector, authenticationService, serviceProviderService, route, dynamicFormService, config, deduplicationService);
     this.editMode = true;
   }
 

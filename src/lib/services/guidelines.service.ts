@@ -171,21 +171,9 @@ export class GuidelinesService {
     }
   }
 
-  // saveModel(model: Model | null, editMode: boolean, guidelineId: string) {
-  //   if (editMode) {
-  //     return this.http.put(this.base + `/forms/models/${model?.id}`, model);
-  //   } else {
-  //     return this.http.post<{ id: string }>(this.base + '/forms/models', model).pipe(
-  //       switchMap((response) =>
-  //         this.http.post(this.base + '/configurationTemplate', {
-  //           interoperabilityRecordId: decodeURIComponent(guidelineId),
-  //           name: model?.name,
-  //           description: model?.description,
-  //           modelId: response.id
-  //         })
-  //       )
-  //     );
-  //   }
-  // }
+  deleteConfigurationTemplateWithModel(ctid: string) {
+    ctid = decodeURIComponent(ctid);
+    return this.http.delete(this.base + `/configurationTemplate/${ctid}/withModel`);
+  }
   /** <-- Configuration Templates **/
 }

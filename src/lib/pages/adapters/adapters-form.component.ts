@@ -13,6 +13,7 @@ import {FormControlService} from "../../../dynamic-catalogue/services/form-contr
 import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
 import {AdaptersService} from "../../services/adapters.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
 
 declare let UIkit: any;
 
@@ -36,6 +37,8 @@ export class AdaptersFormComponent implements OnInit {
   showLoader = false;
   pendingService = false;
   editMode = false;
+  similarResources: SimilarResource[] = [];
+  formDataToSubmit: any = null;
   hasChanges = false;
   serviceForm: UntypedFormGroup;
   provider: Provider;
@@ -68,7 +71,8 @@ export class AdaptersFormComponent implements OnInit {
               protected route: ActivatedRoute,
               protected router: Router,
               protected config: ConfigService,
-              public pidHandler: pidHandler
+              public pidHandler: pidHandler,
+              public deduplicationService: DeduplicationService
   ) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
@@ -151,4 +155,35 @@ export class AdaptersFormComponent implements OnInit {
       email: this.authenticationService.getUserEmail()
     };
   }
+
+  handleSubmit(formData: any) {
+    if (this.editMode) {
+      this.submitForm(formData);
+    } else {
+      this.checkDuplicatesAndProceed(formData);
+    }
+  }
+
+  checkDuplicatesAndProceed(formData: any) {
+    const value = FormControlService.cleanObjectInPlace({...formData.value?.adapter ?? formData});
+    this.deduplicationService.checkBeforeAdd('adapter', value).subscribe({
+      next: similar => {
+        if (similar && similar.length > 0) {
+          this.similarResources = similar;
+          this.formDataToSubmit = formData;
+          UIkit.modal('#dupWarningModal').show();
+        } else {
+          this.submitForm(formData);
+        }
+      },
+      error: () => this.submitForm(formData)
+    });
+  }
+
+  proceedDespiteSimilar() {
+    UIkit.modal('#dupWarningModal').hide();
+    this.submitForm(this.formDataToSubmit);
+  }
+
+  copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
 }

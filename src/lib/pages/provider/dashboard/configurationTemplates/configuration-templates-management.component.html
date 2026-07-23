@@ -102,14 +102,26 @@
 
                 </span>
 
-                <button
-                  type="button"
-                  class="uk-button uk-button-danger"
-                  disabled>
-                  <span class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined uk-margin-small-right">delete</span>Delete
-                  </span>
-                </button>
+                <span
+                  [attr.uk-tooltip]="(instanceCounts[template.id] ?? 0) > 0
+                  ? 'title: Cannot delete: active instances exist for this template'
+                  : null">
+
+                  <button
+                    type="button"
+                    class="uk-button uk-button-danger"
+                    [disabled]="(instanceCounts[template.id] ?? 0) > 0"
+                    [class.uk-disabled]="(instanceCounts[template.id] ?? 0) > 0"
+                    (click)="confirmDelete(template.id)">
+
+                    <span class="uk-flex uk-flex-middle">
+                      <span class="material-symbols-outlined uk-margin-small-right">delete</span>
+                      Delete
+                    </span>
+
+                  </button>
+
+                </span>
 
               </div>
 

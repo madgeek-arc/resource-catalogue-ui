@@ -49,6 +49,47 @@
 
 
 
+## [6.3.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v6.2.0...v6.3.0) (2026-07-16)
+
+
+### Features
+
+* add copy id icon on resource deduplication modal, rename submit methods, and increase threshold on dedup api call ([4516f5c](https://github.com/madgeek-arc/resource-catalogue-ui/commit/4516f5c75116465bf1fef2af71d6dff30c79ed1f))
+* configuration template deletion ([76111f9](https://github.com/madgeek-arc/resource-catalogue-ui/commit/76111f90ade1fd8664c118741e769b3313f18ffe))
+
+
+### Bug Fixes
+
+* prevent double saves on configuration templates form builder ([8774a4f](https://github.com/madgeek-arc/resource-catalogue-ui/commit/8774a4ff6fc04cbd2c2362a04f9b66de86d26194))
+* rename resource to result on SimilarResource interface ([5ee4227](https://github.com/madgeek-arc/resource-catalogue-ui/commit/5ee4227e0f9e9e2f20aeaa5b5e454bd1cb4ca56e))
+
+## [6.2.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v6.1.0...v6.2.0) (2026-07-06)
+
+
+### Features
+
+* add chain post call on saveModel ([6c5c849](https://github.com/madgeek-arc/resource-catalogue-ui/commit/6c5c8493cefe94cbedc9e4279accf5b3fdab890a))
+* add configuration template form builder wrapper ([353c8f7](https://github.com/madgeek-arc/resource-catalogue-ui/commit/353c8f7638ce943e2f66ac274fa0c519d8967b15))
+* add configuration templates management page ([526b0c1](https://github.com/madgeek-arc/resource-catalogue-ui/commit/526b0c13d2c772e9f6a29d7aeb01161a82986234))
+* determine if the configuration template save is for edit purposes or for new template ([4bde71a](https://github.com/madgeek-arc/resource-catalogue-ui/commit/4bde71aa15f1088453585a78fe5e1dd7f67dd97c))
+* edit configuration template models ([6991b9c](https://github.com/madgeek-arc/resource-catalogue-ui/commit/6991b9c4a01c3a9602cd4e667e6012b6a506f7c0))
+* hide footer when on form builder paths ([826dd9a](https://github.com/madgeek-arc/resource-catalogue-ui/commit/826dd9a10ddc3710e14fac26e3d9011c3054b55f))
+* hide headers and breadcrumbs when on form builder paths ([627151e](https://github.com/madgeek-arc/resource-catalogue-ui/commit/627151e98cd4b3fff8609991b417247809fd1efe))
+* improve form builder UI and refactor API requests ([d517b82](https://github.com/madgeek-arc/resource-catalogue-ui/commit/d517b82b1a13ac8edabf5c275877b8fdb22410f8))
+* update Configuration Templates Management page ([782732b](https://github.com/madgeek-arc/resource-catalogue-ui/commit/782732b0fc509816d5c0d5646a0c57d0883d26a6))
+
+
+### Bug Fixes
+
+* adjust template grid sizing ([3086eb4](https://github.com/madgeek-arc/resource-catalogue-ui/commit/3086eb43c0a9ea105e08b836c750285447fa94a3))
+* adjust z-index for header ([bf767d3](https://github.com/madgeek-arc/resource-catalogue-ui/commit/bf767d3ab5179d6cec754957697e2736e588f49e))
+* conditional display of app-external-header ([65a51ed](https://github.com/madgeek-arc/resource-catalogue-ui/commit/65a51edbe2b0ca6279fd699d88023e3ac2306c6c))
+* decode guidelineId ([f5e3576](https://github.com/madgeek-arc/resource-catalogue-ui/commit/f5e35764623025eaebfc5d4152197f0c0e802af9))
+* footer position ([12fc595](https://github.com/madgeek-arc/resource-catalogue-ui/commit/12fc595e5d2c76c136862d3d9c9fa8affc9fa7f6))
+* prevent false notification badge on user's own reply ([8cd0cbc](https://github.com/madgeek-arc/resource-catalogue-ui/commit/8cd0cbcfc357944c07591be0099a4b3564f272bf))
+* prevent false notification badge on user's own reply ([e248ff3](https://github.com/madgeek-arc/resource-catalogue-ui/commit/e248ff384d3c54505b3052ef35278aa7118b38d6))
+* remove Node  dependency from vocabulary validator ([ab9b51b](https://github.com/madgeek-arc/resource-catalogue-ui/commit/ab9b51be83e41ad8cd8ba1182729852623b5559d))
+
 ## [6.1.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v6.0.0...v6.1.0) (2026-06-05)
 
 

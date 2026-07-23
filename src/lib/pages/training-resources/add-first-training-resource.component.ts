@@ -9,6 +9,7 @@ import {NavigationService} from "../../services/navigation.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {config} from "rxjs";
 import {ConfigService} from "../../services/config.service";
+import {DeduplicationService} from "../../services/deduplication.service";
 
 @Component({
     selector: 'app-add-first-training-resource',
@@ -26,8 +27,9 @@ export class AddFirstTrainingResourceComponent extends TrainingResourceForm impl
               protected route: ActivatedRoute,
               protected navigator: NavigationService,
               public dynamicFormService: FormControlService,
-              public config: ConfigService) {
-    super(injector, authenticationService, serviceProviderService, route, dynamicFormService, config);
+              public config: ConfigService,
+              public deduplicationService: DeduplicationService) {
+    super(injector, authenticationService, serviceProviderService, route, dynamicFormService, config, deduplicationService);
     this.editMode = false;
   }
 

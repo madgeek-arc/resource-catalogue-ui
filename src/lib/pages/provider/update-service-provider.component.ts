@@ -11,6 +11,7 @@ import {NavigationService} from "../../services/navigation.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {ConfigService} from "../../services/config.service";
+import {DeduplicationService} from "../../services/deduplication.service";
 
 declare let UIkit: any;
 
@@ -34,8 +35,9 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
               public pidHandler: pidHandler,
               public formService: FormControlService,
               public config: ConfigService,
+              public deduplicationService: DeduplicationService,
               public injector: Injector) {
-    super(fb, authService, serviceProviderService, resourceService, catalogueService, router, route, navigator, pidHandler, formService, config, injector);
+    super(fb, authService, serviceProviderService, resourceService, catalogueService, router, route, navigator, pidHandler, formService, config, deduplicationService, injector);
   }
 
   ngOnInit() {

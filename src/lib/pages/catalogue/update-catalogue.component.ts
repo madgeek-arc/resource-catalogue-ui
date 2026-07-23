@@ -10,6 +10,7 @@ import {CatalogueService} from "../../services/catalogue.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {ConfigService} from "../../services/config.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {DeduplicationService} from "../../services/deduplication.service";
 
 declare let UIkit: any;
 
@@ -32,8 +33,9 @@ export class UpdateCatalogueComponent extends CatalogueFormComponent implements 
               public dynamicFormService: FormControlService,
               public config: ConfigService,
               public pidhandler: pidHandler,
+              public deduplicationService: DeduplicationService,
               public injector: Injector) {
-    super(fb, authService, serviceProviderService, catalogueService, resourceService, router, route, dynamicFormService, config, pidhandler, injector);
+    super(fb, authService, serviceProviderService, catalogueService, resourceService, router, route, dynamicFormService, config, pidhandler, deduplicationService, injector);
   }
 
   ngOnInit() {

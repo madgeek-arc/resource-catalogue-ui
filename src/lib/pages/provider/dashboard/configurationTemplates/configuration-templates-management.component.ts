@@ -12,6 +12,8 @@ import { GuidelinesService } from '../../../../services/guidelines.service';
 import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 import {FormBuilderService} from "../../../../../dynamic-catalogue/services/form-builder.service";
 
+import UIkit from 'uikit';
+
 export interface ConfigurationTemplate {
   id: string;
   configurationTemplate: {
@@ -97,6 +99,25 @@ export class ConfigurationTemplatesManagementComponent implements OnInit {
     this.router.navigate([
       'guidelines', this.guidelineId, 'model', configurationTemplateid, 'edit'
     ]);
+  }
+
+  confirmDelete(configurationTemplateId: string): void {
+    UIkit.modal.confirm(
+      `You are about to delete configuration template <strong>${configurationTemplateId}</strong>.<br><br>Are you sure?`
+    ).then(() => {
+      this.delete(configurationTemplateId);
+    });
+  }
+
+  delete(configurationTemplateId: string): void {
+    this.guidelinesService.deleteConfigurationTemplateWithModel(configurationTemplateId).subscribe({
+      next: () => {
+        window.location.reload();
+      },
+      error: (err) => {
+        this.error = err.error.detail;
+      }
+    });
   }
 
   // transformToModelId(templateId: string): string {

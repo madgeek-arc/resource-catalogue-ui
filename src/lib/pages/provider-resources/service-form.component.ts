@@ -15,6 +15,7 @@ import {CatalogueService} from "../../services/catalogue.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
+import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {SuggestionConfig, SuggestionService, SuggestionState} from "../../services/suggestion.service";
 
@@ -50,6 +51,7 @@ export class ServiceFormComponent implements OnInit, OnDestroy {
   submitMode: 'draft' | 'submit' = 'submit';
   editMode = false;
   hasChanges = false;
+  similarResources: SimilarResource[] = [];
   serviceForm: UntypedFormGroup;
   provider: Provider;
   service: Service;
@@ -183,7 +185,8 @@ export class ServiceFormComponent implements OnInit, OnDestroy {
               public pidHandler: pidHandler,
               public dynamicFormService: FormControlService,
               public router: Router,
-              public config: ConfigService) {
+              public config: ConfigService,
+              public deduplicationService: DeduplicationService) {
     this.resourceService = this.injector.get(ResourceService);
     this.fb = this.injector.get(UntypedFormBuilder);
     this.navigator = this.injector.get(NavigationService);
@@ -345,13 +348,34 @@ export class ServiceFormComponent implements OnInit, OnDestroy {
   }
 
   /** Modals--> **/
-  showCommentModal(formData: any) {
+  handleSubmit(formData: any) {
     if (this.editMode && !this.pendingService) {
       this.formDataToSubmit = formData;
       UIkit.modal('#commentModal').show();
     } else {
-      this.submitForm(formData);
+      this.checkDuplicatesAndProceed(formData);
     }
+  }
+
+  checkDuplicatesAndProceed(formData: any) {
+    const serviceValue = FormControlService.cleanObjectInPlace({...formData.value?.service ?? formData});
+    this.deduplicationService.checkBeforeAdd('service', serviceValue).subscribe({
+      next: similar => {
+        if (similar && similar.length > 0) {
+          this.similarResources = similar;
+          this.formDataToSubmit = formData;
+          UIkit.modal('#dupWarningModal').show();
+        } else {
+          this.submitForm(formData);
+        }
+      },
+      error: () => this.submitForm(formData)
+    });
+  }
+
+  proceedDespiteSimilar() {
+    UIkit.modal('#dupWarningModal').hide();
+    this.submitForm(this.formDataToSubmit);
   }
 
   openPreviewModal() {
@@ -401,7 +425,6 @@ export class ServiceFormComponent implements OnInit, OnDestroy {
     const provider = this.providersPage.results.find(provider => provider.id === providerId);
     this.displayedProviderName = (provider.name ? `| Provider: ${provider.name} ` : '');
   }
-
   /** <--Display Provider and Catalogue Names **/
 
   /** Suggestions(Recommendations) Autocomplete--> **/
@@ -447,4 +470,7 @@ export class ServiceFormComponent implements OnInit, OnDestroy {
     );
   }
   /** <--Suggestions(Recommendations) Autocomplete **/
+
+  copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
+
 }
