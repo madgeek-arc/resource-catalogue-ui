@@ -19,4 +19,9 @@ export class DeduplicationService {
   checkBeforeAdd(resourceType: string, resource: any, threshold = 0.95, quantity = 5): Observable<SimilarResource[]> {
     return this.http.post<SimilarResource[]>(`${this.base}/dedup/${resourceType}/check?threshold=${threshold}&quantity=${quantity}`, resource, this.options);
   }
+
+  findDuplicates(resourceType: string, id: string): Observable<SimilarResource[]> {
+    id = decodeURIComponent(id);
+    return this.http.get<SimilarResource[]>(`${this.base}/dedup/${resourceType}/${id}`, this.options);
+  }
 }

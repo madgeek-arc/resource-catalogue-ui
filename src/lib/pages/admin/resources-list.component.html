@@ -429,6 +429,13 @@
                                   </ng-container>
 
                                   <ng-container class="uk-margin-small-bottom">
+                                    <li (click)="searchForDuplicates(serviceBundle.id)">
+                                      <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">manage_search</span>Find Duplicates</a>
+                                    </li>
+                                    <li class="uk-nav-divider"></li>
+                                  </ng-container>
+
+                                  <ng-container class="uk-margin-small-bottom">
                                     <li (click)="showSendMailModal(serviceBundle)">
                                       <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">forward_to_inbox</span>Request Update</a>
                                     </li>

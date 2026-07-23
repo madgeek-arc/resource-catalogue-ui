@@ -20,6 +20,7 @@ import {NavigationService} from '../../services/navigation.service';
 import {Paging} from '../../domain/paging';
 import {ServiceExtensionsService} from '../../services/service-extensions.service';
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
+import {DeduplicationService} from "../../services/deduplication.service";
 
 declare let UIkit: any;
 
@@ -112,7 +113,8 @@ export class ResourcesListComponent implements OnInit {
               private fb: UntypedFormBuilder,
               private serviceExtensionsService: ServiceExtensionsService,
               public pidHandler: pidHandler,
-              public config: ConfigService
+              public config: ConfigService,
+              public deduplicationService: DeduplicationService
   ) {
   }
 
@@ -824,4 +826,18 @@ export class ResourcesListComponent implements OnInit {
   //   );
   // }
 
+  searchForDuplicates(id: string) {
+    this.loadingMessage = 'Searching...';
+    this.deduplicationService.findDuplicates('service', id).subscribe(
+      res => {
+        //if duplicates exist show them on a uikit modal (similar to this #dupWarningModal)
+        //else if there are no duplicates display a uikit notification
+        this.loadingMessage = '';
+      },
+      err => {
+        this.loadingMessage = '';
+        this.errorMessage = 'Something went bad. Server responded: ' + err.error.detail;
+      }
+    )
+  }
 }
