@@ -389,6 +389,11 @@
                                       (click)="showAuditForm('main', providerBundle)">
                                     <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">check_circle</span>Audit</a>
                                   </li>
+                                  <li class="uk-nav-divider"></li>
+                                  <li class="uk-margin-small-bottom"
+                                      (click)="searchForDuplicates(providerBundle)">
+                                    <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">manage_search</span>Find Duplicates</a>
+                                  </li>
                                 </ng-container>
                                 <li class="uk-nav-divider"></li>
                                 <li *ngIf="(providerBundle.suspended==false)"
@@ -428,6 +433,11 @@
                                   <li class="uk-margin-small-bottom"
                                       (click)="showAuditForm('main', providerBundle)">
                                     <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">check_circle</span>Audit</a>
+                                  </li>
+                                  <li class="uk-nav-divider"></li>
+                                  <li class="uk-margin-small-bottom"
+                                      (click)="searchForDuplicates(providerBundle)">
+                                    <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">manage_search</span>Find Duplicates</a>
                                   </li>
                                   <li class="uk-nav-divider"></li>
                                 </ng-container>
@@ -836,6 +846,11 @@
           </button>
           <div uk-dropdown="mode: click">
             <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+              <li *ngIf="providerBundle.status === 'approved'"
+                  (click)="searchForDuplicates(providerBundle)"
+                  class="uk-margin-small-top">
+                <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">manage_search</span>Find Duplicates</a>
+              </li>
               <li *ngIf="(providerBundle.status === 'approved') && (providerBundle.active)"
                   (click)="showActionModal(providerBundle, 'approved', false, false)"
                   class="uk-margin-small-top">
@@ -879,6 +894,150 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<div id="providerDuplicatesModal" class="uk-flex-top uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <h4 class="uk-text-warning">
+      <span uk-icon="warning"></span> Possible duplicate providers
+    </h4>
+    <p *ngIf="selectedProviderForDedup">
+      Similar catalogue records for
+      <strong>{{ selectedProviderForDedup.organisation?.name }}</strong>
+      ({{ selectedProviderForDedup.id }}):
+    </p>
+
+    <div *ngFor="let item of duplicateResults"
+         class="uk-card uk-card-default uk-card-small uk-card-body uk-margin-small-bottom">
+      <div class="uk-flex uk-flex-between uk-flex-middle uk-grid-small" uk-grid>
+        <div class="uk-width-expand">
+          <strong>{{ getDuplicateResource(item)?.name || 'Unknown' }}</strong>
+          <div class="uk-text-meta" *ngIf="getDuplicateResource(item)?.id">
+            ID: {{ getDuplicateResource(item)?.id }}
+          </div>
+          <p class="uk-text-small uk-margin-small-top uk-margin-remove-bottom"
+             *ngIf="getDuplicateResource(item)?.description">
+            {{ getDuplicateResource(item)?.description | slice:0:160 }}
+            <ng-container *ngIf="getDuplicateResource(item)?.description?.length > 160">...</ng-container>
+          </p>
+        </div>
+        <div class="uk-width-auto uk-text-right">
+          <span class="uk-label uk-text-nowrap" [ngClass]="getSimilarityLabelClass(item.score)">
+            {{ getSimilarityPercent(item.score).toFixed(0) }}% similar
+          </span>
+        </div>
+      </div>
+      <div class="uk-margin-small-top">
+        <a class="uk-text-small uk-link-muted" href="#"
+           (click)="openDuplicateDetail(item); $event.preventDefault()">
+          Show more
+        </a>
+      </div>
+    </div>
+
+    <div class="uk-flex uk-flex-between uk-flex-middle uk-flex-wrap uk-margin-top" *ngIf="allDuplicateResults?.length">
+      <p class="uk-text-meta uk-margin-remove">{{ getDuplicateRangeLabel() }}</p>
+      <ul class="uk-pagination uk-margin-remove" *ngIf="duplicatePageTotal > 1">
+        <li *ngIf="duplicatePage > 2 && duplicatePageTotal > 5">
+          <a (click)="goToDuplicatePage(1)"><span uk-pagination-previous></span><span uk-pagination-previous></span></a>
+        </li>
+        <li *ngIf="duplicatePage !== 1">
+          <a (click)="previousDuplicatePage()"><span uk-pagination-previous></span></a>
+        </li>
+        <li *ngFor="let i of duplicatePages" [ngClass]="i === duplicatePage ? 'uk-active' : ''">
+          <a (click)="goToDuplicatePage(i)">{{ i }}</a>
+        </li>
+        <li *ngIf="duplicatePage !== duplicatePageTotal">
+          <a (click)="nextDuplicatePage()"><span uk-pagination-next></span></a>
+        </li>
+        <li *ngIf="duplicatePage < duplicatePageTotal - 1 && duplicatePageTotal > 5">
+          <a (click)="goToDuplicatePage(duplicatePageTotal)"><span uk-pagination-next></span><span uk-pagination-next></span></a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="uk-text-right uk-margin-top">
+      <button class="uk-button uk-button-primary uk-modal-close" type="button">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="providerDuplicateDetailModal" class="uk-flex-top uk-modal-container" uk-modal="stack: true">
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical" *ngIf="selectedDuplicate as item">
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <h4 class="uk-text-warning">
+      <span uk-icon="info"></span> Duplicate provider details
+    </h4>
+    <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
+      <div>
+        <h5 class="uk-margin-remove">{{ getDuplicateResource(item)?.name || 'Unknown' }}</h5>
+        <div class="uk-text-meta" *ngIf="getDuplicateResource(item)?.id">
+          ID: {{ getDuplicateResource(item)?.id }}
+        </div>
+      </div>
+      <span class="uk-label uk-text-nowrap" [ngClass]="getSimilarityLabelClass(item.score)">
+        {{ getSimilarityPercent(item.score).toFixed(0) }}% similar
+      </span>
+    </div>
+
+    <dl class="uk-description-list uk-description-list-divider">
+      <ng-container *ngIf="getDuplicateResource(item)?.abbreviation as value">
+        <dt>Abbreviation</dt><dd>{{ value }}</dd>
+      </ng-container>
+      <ng-container *ngIf="getDuplicateResource(item)?.description as value">
+        <dt>Description</dt><dd class="uk-text-break">{{ value }}</dd>
+      </ng-container>
+      <ng-container *ngIf="getDuplicateResource(item)?.website as value">
+        <dt>Website</dt>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+      </ng-container>
+      <ng-container *ngIf="getDuplicateResource(item)?.logo as value">
+        <dt>Logo</dt>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+      </ng-container>
+      <ng-container *ngIf="getDuplicateResource(item)?.legalStatus as value">
+        <dt>Legal status</dt><dd>{{ value }}</dd>
+      </ng-container>
+      <ng-container *ngIf="getDuplicateResource(item)?.hostingLegalEntity as value">
+        <dt>Hosting legal entity</dt><dd>{{ value }}</dd>
+      </ng-container>
+      <ng-container *ngIf="getDuplicateResource(item)?.catalogueId as value">
+        <dt>Catalogue</dt><dd>{{ value }}</dd>
+      </ng-container>
+      <ng-container *ngIf="formatDuplicateValue(getDuplicateResource(item)?.scientificDomains) as value">
+        <dt>Scientific domains</dt><dd>{{ value }}</dd>
+      </ng-container>
+      <ng-container *ngIf="formatDuplicateValue(getDuplicateResource(item)?.tags) as value">
+        <dt>Tags</dt><dd>{{ value }}</dd>
+      </ng-container>
+      <ng-container *ngIf="formatDuplicateValue(getDuplicateResource(item)?.location) as value">
+        <dt>Location</dt><dd>{{ value }}</dd>
+      </ng-container>
+      <ng-container *ngIf="formatDuplicateValue(getDuplicateResource(item)?.participatingCountries) as value">
+        <dt>Participating countries</dt><dd>{{ value }}</dd>
+      </ng-container>
+      <ng-container *ngIf="formatDuplicateValue(getDuplicateResource(item)?.networks) as value">
+        <dt>Networks</dt><dd>{{ value }}</dd>
+      </ng-container>
+      <ng-container *ngIf="formatDuplicateValue(getDuplicateResource(item)?.affiliations) as value">
+        <dt>Affiliations</dt><dd>{{ value }}</dd>
+      </ng-container>
+      <ng-container *ngIf="getDuplicateResource(item)?.lifeCycleStatus as value">
+        <dt>Life cycle status</dt><dd>{{ value }}</dd>
+      </ng-container>
+      <ng-container *ngIf="formatDuplicateValue(getDuplicateResource(item)?.mainContact) as value">
+        <dt>Main contact</dt><dd>{{ value }}</dd>
+      </ng-container>
+      <ng-container *ngIf="formatDuplicateValue(getDuplicateResource(item)?.publicContacts) as value">
+        <dt>Public contacts</dt><dd>{{ value }}</dd>
+      </ng-container>
+    </dl>
+
+    <div class="uk-text-right uk-margin-top">
+      <button class="uk-button uk-button-primary uk-modal-close" type="button">Close</button>
+    </div>
   </div>
 </div>
 
