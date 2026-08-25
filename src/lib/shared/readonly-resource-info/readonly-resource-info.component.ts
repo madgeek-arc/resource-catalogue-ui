@@ -10,6 +10,10 @@ export class ReadonlyResourceInfoComponent {
   @Input() data!: any;    // resource data (catalogue or provider)
   @Input() vocs: any;
 
+  isArrayValue(value: any) {
+    return Array.isArray(value);
+  }
+
   getTabs() {
     return this.model?.sections?.[0]?.subSections ?? [];
   }
