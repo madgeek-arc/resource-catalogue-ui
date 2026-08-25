@@ -917,6 +917,9 @@
           <div class="uk-text-meta" *ngIf="getDuplicateResource(item)?.id">
             ID: {{ getDuplicateResource(item)?.id }}
           </div>
+          <div class="uk-text-meta" *ngIf="getDuplicateResource(item)?.nodePID">
+            Node PID: {{ getDuplicateResource(item)?.nodePID }}
+          </div>
           <p class="uk-text-small uk-margin-small-top uk-margin-remove-bottom"
              *ngIf="getDuplicateResource(item)?.description">
             {{ getDuplicateResource(item)?.description | slice:0:160 }}
@@ -975,6 +978,9 @@
         <h5 class="uk-margin-remove">{{ getDuplicateResource(item)?.name || 'Unknown' }}</h5>
         <div class="uk-text-meta" *ngIf="getDuplicateResource(item)?.id">
           ID: {{ getDuplicateResource(item)?.id }}
+        </div>
+        <div class="uk-text-meta" *ngIf="getDuplicateResource(item)?.nodePID">
+          Node PID: {{ getDuplicateResource(item)?.nodePID }}
         </div>
       </div>
       <span class="uk-label uk-text-nowrap" [ngClass]="getSimilarityLabelClass(item.score)">
