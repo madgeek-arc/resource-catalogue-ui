@@ -317,6 +317,8 @@ export class ServiceProviderService {
   }
 
   getFormModelByConfigurationTemplateId(id: string) {
-    return this.http.get<Model>(this.base + `/configurationTemplate/${id}/model`);
+    // federation=true: falls back to the owning node for a Configuration Template linked via a
+    // guideline hosted on another federation node.
+    return this.http.get<Model>(this.base + `/configurationTemplate/${id}/model?federation=true`);
   }
 }

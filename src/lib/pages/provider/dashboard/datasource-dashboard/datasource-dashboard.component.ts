@@ -6,7 +6,7 @@ import {ServiceExtensionsService} from '../../../../services/service-extensions.
 import {NavigationService} from '../../../../services/navigation.service';
 import {ConfigService} from "../../../../services/config.service";
 import {environment} from '../../../../../environments/environment';
-import {DatasourceBundle, InteroperabilityRecord, ResourceInteroperabilityRecord} from "../../../../domain/eic-model";
+import {DatasourceBundle, ResourceInteroperabilityRecord} from "../../../../domain/eic-model";
 import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 import {DatasourceService} from "../../../../services/datasource.service";
 import {GuidelinesService} from "../../../../services/guidelines.service";
@@ -30,7 +30,7 @@ export class DatasourceDashboardComponent implements OnInit {
   datasourceBundle: DatasourceBundle;
 
   resourceGuidelines: ResourceInteroperabilityRecord;
-  guidelines: InteroperabilityRecord[] = [];
+  guidelines: { id: string, name: string }[] = []; // {id, name} pairs, local + federation
 
   constructor(public authenticationService: AuthenticationService,
               public resourceService: ResourceService,
@@ -67,9 +67,11 @@ export class DatasourceDashboardComponent implements OnInit {
           },
           err => console.log(err),
           () => {
-            this.guidelinesService.getInteroperabilityRecords('0', '9999').subscribe(
+            // {id, name} pairs, local + federation, so linked guidelines hosted on another
+            // node still resolve to a name in getGuidelineName().
+            this.guidelinesService.getInteroperabilityRecordsForPicker().subscribe(
               res => {
-                if (res != null) this.guidelines = res['results'];
+                if (res != null) this.guidelines = res;
               }
             );
           }
