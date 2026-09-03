@@ -135,6 +135,9 @@
               (click)="copy(item.result?.id + '')">
               content_copy
             </span>
+            @if (item.result?.nodePID) {
+              <div class="uk-text-meta">Node PID: {{ item.result.nodePID }}</div>
+            }
           </div>
           <span class="uk-label uk-text-nowrap uk-label-danger">SIMILAR</span>
         </div>
