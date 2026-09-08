@@ -6,6 +6,7 @@ import {PremiumSortFacetsPipe, PremiumSortPipe} from './pipes/premium-sort.pipe'
 import {SafePipe} from './pipes/safe.pipe';
 import {StringArraySortPipe} from './pipes/sort.pipe';
 import {ValuesPipe} from './pipes/getValues.pipe';
+import {StripHtmlPipe} from './pipes/strip-html.pipe';
 import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { EmailModalComponent } from './email-modal/email-modal.component';
@@ -38,6 +39,7 @@ import {DraftDatasourcesComponent} from "../pages/provider/dashboard/draftDataso
     ReactiveFormsModule,
     RouterModule,
     HighchartsChartModule,
+    StripHtmlPipe,
     // MarkdownModule
   ],
   declarations: [
@@ -76,6 +78,7 @@ import {DraftDatasourcesComponent} from "../pages/provider/dashboard/draftDataso
     PremiumSortFacetsPipe,
     SafePipe,
     ValuesPipe,
+    StripHtmlPipe,
     EmailModalComponent,
     BreadcrumbsComponent,
     DashboardBreadcrumbsComponent,

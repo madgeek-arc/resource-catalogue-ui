@@ -116,7 +116,8 @@
           <span class="uk-label uk-text-nowrap uk-label-danger">SIMILAR</span>
         </div>
         @if (item.result?.description) {
-          <p class="uk-text-small uk-margin-small-top uk-margin-remove-bottom">{{ item.result.description | slice:0:200 }}{{ item.result.description.length > 200 ? '...' : '' }}</p>
+          @let strippedDescription = item.result.description | stripHtml;
+          <p class="uk-text-small uk-margin-small-top uk-margin-remove-bottom">{{ strippedDescription | slice:0:200 }}{{ strippedDescription.length > 200 ? '...' : '' }}</p>
         }
       </div>
     }
