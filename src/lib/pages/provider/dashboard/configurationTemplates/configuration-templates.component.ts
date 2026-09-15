@@ -69,7 +69,7 @@ export class ConfigurationTemplatesComponent implements OnInit {
     this.resourceId = serviceId || datasourceId;
     this.showLoader = true;
 
-    this.guidelinesService.getInteroperabilityRecordById(this.guidelineId).subscribe(
+    this.guidelinesService.getInteroperabilityRecordById(this.guidelineId, true).subscribe(
       res => this.currentResourceGuideline = res,
       err => console.log(err)
     )

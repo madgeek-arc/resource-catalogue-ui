@@ -213,6 +213,7 @@ export class Adapter implements Identifiable {
   id: string;
   name: string;
   node: string;
+  resourceOwner: string;
   catalogueId: string;
   description: string;
   linkedResource: LinkedResource;

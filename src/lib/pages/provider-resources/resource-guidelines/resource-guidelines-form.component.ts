@@ -2,7 +2,7 @@ import {UntypedFormArray, UntypedFormBuilder, UntypedFormGroup} from '@angular/f
 import {Component, Injector, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {NavigationService} from '../../../services/navigation.service';
-import {Service, ResourceInteroperabilityRecord, InteroperabilityRecord} from '../../../domain/eic-model';
+import {Service, ResourceInteroperabilityRecord} from '../../../domain/eic-model';
 import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProviderService} from '../../../services/service-provider.service';
@@ -28,7 +28,7 @@ export class ResourceGuidelinesFormComponent implements OnInit {
   serviceId: string = null;
   datasourceId: string = null;
   resourceGuidelines: ResourceInteroperabilityRecord;
-  guidelines: InteroperabilityRecord[] = [];
+  guidelines: { id: string, name: string }[] = []; // {id, name} pairs from /interoperabilityRecord/list?federation=true
   errorMessage = '';
   loadingMessage = '';
   successMessage: string = null;
@@ -76,10 +76,10 @@ export class ResourceGuidelinesFormComponent implements OnInit {
           this.guidelinesForm.patchValue(this.resourceGuidelines);
         }
         this.loadingMessage = 'Loading guidelines...';
-        this.guidelinesService.getInteroperabilityRecords('0', '9999', undefined, undefined, undefined, 'approved').subscribe( //get all
+        this.guidelinesService.getInteroperabilityRecordsForPicker().subscribe( //local + federation, {id, name} pairs
           res => {
             if (res != null) {
-              this.guidelines = res['results'];
+              this.guidelines = res;
             }
           },
           err => {

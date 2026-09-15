@@ -167,7 +167,9 @@
                       <div class="uk-width-1-4">
                         <div class="action-buttons">
                           <button class="uk-button uk-button-action uk-display-block uk-margin-small-top"
-                                  [routerLink]="['/guidelines/' + pidHandler.customEncodeURIComponent(irBundle.id) + '/configuration-templates-management']">
+                                  [disabled]="irBundle.status === 'pending'"
+                                  [attr.uk-tooltip]="irBundle.status === 'pending' ? 'Disabled until the guideline is approved.' : null"
+                                  [routerLink]="irBundle.status === 'pending' ? null : ['/guidelines/' + pidHandler.customEncodeURIComponent(irBundle.id) + '/configuration-templates-management']">
                             <i class="fa fa-tablet fa-lg" aria-hidden="true"></i> Manage Configuration Templates
                           </button>
                           <button

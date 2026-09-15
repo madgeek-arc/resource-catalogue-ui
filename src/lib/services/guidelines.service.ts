@@ -9,6 +9,7 @@ import {
 import {Paging} from "../domain/paging";
 import {ConfigService} from "./config.service";
 import {Model} from "../../dynamic-catalogue/domain/dynamic-form-model";
+import {map} from "rxjs/operators";
 
 @Injectable()
 export class GuidelinesService {
@@ -27,9 +28,10 @@ export class GuidelinesService {
     return this.http.put<InteroperabilityRecord>(this.base + '/interoperabilityRecord', interoperabilityRecord, this.options);
   }
 
-  getInteroperabilityRecordById(id: string) {
+  getInteroperabilityRecordById(id: string, federation: boolean = false) {
     id = decodeURIComponent(id);
-    return this.http.get<InteroperabilityRecord>(this.base + `/interoperabilityRecord/${id}`, this.options);
+    const query = federation ? '?federation=true' : '';
+    return this.http.get<InteroperabilityRecord>(this.base + `/interoperabilityRecord/${id}${query}`, this.options);
   }
 
   deleteInteroperabilityRecordById(id: string) {
@@ -46,6 +48,15 @@ export class GuidelinesService {
     if (keyword && keyword !== '') params = params.append('keyword', keyword);
     if (status && status !== '') params = params.append('status', status);
     return this.http.get(this.base + `/interoperabilityRecord/all`, {params});
+  }
+
+  /**
+   * id + name pairs for guideline pickers, merged with guidelines published on other
+   * federation nodes. Returns a bare array of {id, name} (no {results} wrapper).
+   */
+  getInteroperabilityRecordsForPicker() {
+    return this.http.get<{ id: string, name: string }[]>(
+      this.base + `/interoperabilityRecord/list?federation=true`, this.options);
   }
 
   /** new--> **/
@@ -122,12 +133,16 @@ export class GuidelinesService {
   /** Configuration Templates --> **/
   getTemplatesForGuideline(guidelineId: string) {
     guidelineId = decodeURIComponent(guidelineId);
-    return this.http.get<any>(this.base + `/configurationTemplate/getAllByInteroperabilityRecordId/${guidelineId}`, this.options);
+    return this.http.get<any>(this.base + `/configurationTemplate/getAllByInteroperabilityRecordId/${guidelineId}?federation=true`, this.options);
   }
 
   getTemplatesForGuidelineWithAuth(guidelineId: string) {
     guidelineId = decodeURIComponent(guidelineId);
-    return this.http.get<any>(this.base + `/configurationTemplate/bundle/getAllByInteroperabilityRecordId/${guidelineId}`, this.options);
+    // Falls back to the federation for a guideline owned by another node (the bundle/ variant
+    // is local + auth-scoped only). That endpoint returns a Paging; unwrap to a bare array so
+    // existing consumers keep working.
+    return this.http.get<any>(this.base + `/configurationTemplate/getAllByInteroperabilityRecordId/${guidelineId}?federation=true`, this.options)
+      .pipe(map((res: any) => res?.results ?? res ?? []));
   }
 
   getTemplatesForGuidelinesMapping() {
@@ -147,7 +162,7 @@ export class GuidelinesService {
   getInstanceOfTemplate(resourceId: string, templateId: string) {
     const resId = decodeURIComponent(resourceId);
     const ctId = decodeURIComponent(templateId);
-    return this.http.get<any>(this.base + `/configurationTemplateInstance/resources/${resId}/templates/${ctId}`, this.options);
+    return this.http.get<any>(this.base + `/configurationTemplateInstance/resources/${resId}/templates/${ctId}?federation=true`, this.options);
   }
 
   getInstancesByConfigurationTemplateId(ctId: string) {
@@ -155,7 +170,7 @@ export class GuidelinesService {
   }
 
   getExistingTemplate(id: string) {
-    return this.http.get<Model>(this.base + `/configurationTemplate/${id}/model`);
+    return this.http.get<Model>(this.base + `/configurationTemplate/${id}/model?federation=true`);
   }
 
   getBaseTemplate() {

@@ -97,6 +97,12 @@ export class AdaptersService {
       return this.http.patch(this.base + `/catalogue/${catalogueId}/adapter/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
   }
 
+  moveAdapterToProvider(adapterId: string, providerId: string, comment: string) {
+    adapterId = decodeURIComponent(adapterId);
+    providerId = decodeURIComponent(providerId);
+    return this.http.patch(this.base + `/adapter/changeResourceOwner/${adapterId}?newOwnerId=${providerId}&comment=${comment}`, this.options);
+  }
+
   hasAdminAcceptedTerms(id: string) {
     id = decodeURIComponent(id);
     return this.http.get<boolean>(this.base + `/adapter/hasAdminAcceptedTerms?id=${id}`);
