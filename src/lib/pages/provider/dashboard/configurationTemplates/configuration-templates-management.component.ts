@@ -13,6 +13,8 @@ import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 import {FormBuilderService} from "../../../../../dynamic-catalogue/services/form-builder.service";
 
 import UIkit from 'uikit';
+import {Paging} from '../../../../domain/paging';
+import {ConfigurationTemplateInstance} from '../../../../domain/eic-model';
 
 export interface ConfigurationTemplate {
   id: string;
@@ -67,8 +69,8 @@ export class ConfigurationTemplatesManagementComponent implements OnInit {
             this.guidelinesService
               .getInstancesByConfigurationTemplateId(template.id)
               .subscribe({
-                next: (instances: any[]) => {
-                  this.instanceCounts[template.id] = instances?.length ?? 0;
+                next: (results: Paging<ConfigurationTemplateInstance>) => {
+                  this.instanceCounts[template.id] = results.total ?? 0;
                 },
                 error: () => {
                   this.instanceCounts[template.id] = 0;

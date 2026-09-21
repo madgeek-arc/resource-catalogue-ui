@@ -166,7 +166,7 @@ export class GuidelinesService {
   }
 
   getInstancesByConfigurationTemplateId(ctId: string) {
-    return this.http.get<any>(this.base + `/configurationTemplateInstance/getAllByConfigurationTemplateId/${ctId}`, this.options);
+    return this.http.get<any>(this.base + `/configurationTemplateInstance/all?configuration_template_id=${ctId}`, this.options);
   }
 
   getExistingTemplate(id: string) {
