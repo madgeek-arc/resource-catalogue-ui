@@ -2,6 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {ActivationEnd, NavigationEnd, Router} from '@angular/router';
 import {toSignal} from "@angular/core/rxjs-interop";
 import {filter, map, startWith} from "rxjs/operators";
+import {AuthenticationService} from '../lib/services/authentication.service';
 
 @Component({
     selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent implements OnInit {
   breadcrumbs: string[] = [];
 
   protected router = inject(Router);
+  protected authenticationService = inject(AuthenticationService);
 
   hideAppShellSignal = toSignal(
     this.router.events.pipe(
@@ -45,5 +47,14 @@ export class AppComponent implements OnInit {
   isDashboardRoute() {
     // console.log('Is home route? Route is: ' + this.router.url);
     return (this.router.url.includes('dashboard'));
+  }
+
+  onHelpdeskClick() {
+    if (this.authenticationService.isLoggedIn()) {
+      this.router.navigate(['/helpdesk/create']);
+    } else {
+      this.authenticationService.setPostLoginRedirect('/helpdesk/create');
+      window.location.href = this.authenticationService.getLoginUrl('/helpdesk/create');
+    }
   }
 }

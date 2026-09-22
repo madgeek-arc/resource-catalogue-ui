@@ -27,6 +27,10 @@ export class AuthenticationService {
     return `${this.loginUrl}?continue=${continueUrl}`;
   }
 
+  public setPostLoginRedirect(path: string) {
+    sessionStorage.setItem('state.location', path);
+  }
+
   public getLogoutUrl(): string {
     return `${this.apiUrl}/logout`;
   }
