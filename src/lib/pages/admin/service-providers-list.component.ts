@@ -573,7 +573,13 @@ export class ServiceProvidersListComponent implements OnInit {
               Object.assign(this.providers[i], res);
             }
           },
-          err => console.log(err),
+          err => {
+            UIkit.modal('#approveModal').hide();
+            this.selectedProvider = null;
+            this.errorMessage = (err?.status >= 500 && err?.status < 600)
+                ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+                : `Something went bad, server responded: ${err?.error?.detail}`;
+          },
           () => {
             UIkit.modal('#approveModal').hide();
             this.selectedProvider = null;
@@ -601,7 +607,9 @@ export class ServiceProvidersListComponent implements OnInit {
         err => {
           UIkit.modal('#deletionModal').hide();
           this.loadingMessage = '';
-          console.log(err);
+          this.errorMessage = (err?.status >= 500 && err?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+              : `Something went bad, server responded: ${err?.error?.detail}`;
         },
         () => {
           this.loadingMessage = '';
@@ -667,7 +675,9 @@ export class ServiceProvidersListComponent implements OnInit {
           err => {
             UIkit.modal('#actionModal').hide();
             this.loadingMessage = '';
-            console.log(err);
+            this.errorMessage = (err?.status >= 500 && err?.status < 600)
+                ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+                : `Something went bad, server responded: ${err?.error?.detail}`;
           },
           () => {
             this.loadingMessage = '';
@@ -685,7 +695,9 @@ export class ServiceProvidersListComponent implements OnInit {
           err => {
             UIkit.modal('#actionModal').hide();
             this.loadingMessage = '';
-            console.log(err);
+            this.errorMessage = (err?.status >= 500 && err?.status < 600)
+                ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+                : `Something went bad, server responded: ${err?.error?.detail}`;
           },
           () => {
             this.loadingMessage = '';
@@ -701,7 +713,13 @@ export class ServiceProvidersListComponent implements OnInit {
     if (resourceType === 'service') {
       this.resourceService.verifyResource(templateId, active, status).subscribe(
         res => this.getProviders(),
-        err => UIkit.modal('#spinnerModal').hide(),
+        err => {
+          UIkit.modal('#spinnerModal').hide();
+          this.errorMessage = (err?.status >= 500 && err?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+              : `Something went bad, server responded: ${err?.error?.detail}`;
+          this.getProviders();
+        },
         () => {
           UIkit.modal('#spinnerModal').hide();
           location.reload();
@@ -710,7 +728,13 @@ export class ServiceProvidersListComponent implements OnInit {
     } else if (resourceType === 'trainingResource') {
       this.trainingResourceService.verifyTrainingResource(templateId, active, status).subscribe(
         res => this.getProviders(),
-        err => UIkit.modal('#spinnerModal').hide(),
+        err => {
+          UIkit.modal('#spinnerModal').hide();
+          this.errorMessage = (err?.status >= 500 && err?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+              : `Something went bad, server responded: ${err?.error?.detail}`;
+          this.getProviders();
+        },
         () => {
           UIkit.modal('#spinnerModal').hide();
           location.reload();
@@ -744,7 +768,11 @@ export class ServiceProvidersListComponent implements OnInit {
             this.getProviders();
           }
         },
-        err => { console.log(err); },
+        err => {
+          this.errorMessage = (err?.status >= 500 && err?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+              : `Something went bad, server responded: ${err?.error?.detail}`;
+        },
         () => {
           this.providersForAudit.forEach(
             p => {
@@ -767,7 +795,12 @@ export class ServiceProvidersListComponent implements OnInit {
       res => {
         this.resourcesUnderHLE = res;
       },
-      err => {this.loadingMessage = ''},
+      err => {
+        this.loadingMessage = '';
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+      },
       () => {
         this.loadingMessage = '';
         UIkit.modal('#HLEmodal').show();
@@ -906,7 +939,11 @@ export class ServiceProvidersListComponent implements OnInit {
       const resourceId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerBundleId)[0].serviceId;
       this.resourceService.getService(resourceId).subscribe(
         res => { this.resourceToPreview = res; },
-        error => console.log(error),
+        error => {
+          this.errorMessage = (error?.status >= 500 && error?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${error?.error?.traceId}`
+              : `Something went bad, server responded: ${error?.error?.detail}`;
+        },
         () => {
           UIkit.modal('#modal-preview').show();
         }

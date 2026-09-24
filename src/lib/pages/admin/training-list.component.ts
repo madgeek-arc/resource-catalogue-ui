@@ -631,7 +631,10 @@ export class TrainingListComponent implements OnInit {
       },
       err => {
         UIkit.modal('#spinnerModal').hide();
-        console.log(err);
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.getProviders();
       },
       () => {
         UIkit.modal('#spinnerModal').hide();
@@ -708,7 +711,11 @@ export class TrainingListComponent implements OnInit {
   sendMailForUpdate(id: string) {
     this.trainingResourceService.sendEmailForOutdatedTrainingResource(id).subscribe(
       res => {},
-      err => { console.log(err); }
+      err => {
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+      }
     );
   }
 

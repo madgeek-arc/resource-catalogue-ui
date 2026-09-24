@@ -333,7 +333,13 @@ export class GuidelinesListComponent implements OnInit {
     UIkit.modal('#spinnerModal').show();
     this.guidelinesService.verifyInteroperabilityRecord(id, active, status).subscribe(
       res => this.getGuidelines(),
-      err => UIkit.modal('#spinnerModal').hide(),
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.getGuidelines();
+      },
       () => {
         UIkit.modal('#spinnerModal').hide();
         location.reload();
@@ -346,7 +352,13 @@ export class GuidelinesListComponent implements OnInit {
     UIkit.modal('#spinnerModal').show();
     this.guidelinesService.activateInteroperabilityRecord(id, active).subscribe(
       res => this.getGuidelines(),
-      err => UIkit.modal('#spinnerModal').hide(),
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.getGuidelines();
+      },
       () => {
         UIkit.modal('#spinnerModal').hide();
         location.reload();

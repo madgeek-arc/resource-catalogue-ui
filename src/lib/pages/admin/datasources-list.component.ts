@@ -387,7 +387,13 @@ export class DatasourcesListComponent implements OnInit {
     UIkit.modal('#spinnerModal').show();
     this.datasourceService.verifyDatasource(id, active, status).subscribe(
       res => this.getDatasources(),
-      err => UIkit.modal('#spinnerModal').hide(),
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.getDatasources();
+      },
       () => {
         UIkit.modal('#spinnerModal').hide();
         location.reload();
