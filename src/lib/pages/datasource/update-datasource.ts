@@ -1,4 +1,5 @@
-import {Component, Injector, OnInit} from '@angular/core';
+import {Component, DestroyRef, Injector, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DatePipe} from '@angular/common';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -30,7 +31,8 @@ export class UpdateDatasource extends DatasourceFormComponent implements OnInit 
               public dynamicFormService: FormControlService,
               public config: ConfigService,
               public pidHandler: pidHandler,
-              public deduplicationService: DeduplicationService) {
+              public deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef) {
     super(injector, authenticationService, datasourceService, route, router, dynamicFormService, config, pidHandler, deduplicationService);
     this.editMode = true;
   }
@@ -40,7 +42,7 @@ export class UpdateDatasource extends DatasourceFormComponent implements OnInit 
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
     } else {
-      this.sub = this.route.params.subscribe(params => {
+      this.sub = this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
         // this.datasourceId = params['datasourceId'];
         this.datasourceId = this.route.snapshot.paramMap.get('datasourceId');
         const pathName = window.location.pathname;

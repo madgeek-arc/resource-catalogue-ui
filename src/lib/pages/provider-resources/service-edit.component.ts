@@ -1,4 +1,5 @@
-import {Component, Injector, OnInit} from '@angular/core';
+import {Component, DestroyRef, Injector, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DatePipe} from '@angular/common';
 import {ServiceFormComponent} from './service-form.component';
@@ -36,7 +37,8 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
               public dynamicFormService: FormControlService,
               public router: Router,
               public config: ConfigService,
-              public deduplicationService: DeduplicationService) {
+              public deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef) {
     super(injector, authenticationService, serviceProviderService, catalogueService, route, pidHandler, dynamicFormService, router, config, deduplicationService);
     this.editMode = true;
   }
@@ -48,7 +50,7 @@ export class ServiceEditComponent extends ServiceFormComponent implements OnInit
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
     } else {
-      this.sub = this.route.params.subscribe(params => {
+      this.sub = this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
         // this.serviceId = params['resourceId'];
         this.serviceId = this.route.snapshot.paramMap.get('resourceId');
         const pathName = window.location.pathname;

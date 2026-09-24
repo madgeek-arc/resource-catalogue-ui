@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ProviderBundle, VocabularyCuration, VocabularyEntryRequest} from '../../domain/eic-model';
@@ -59,7 +60,8 @@ export class VocabularyRequestsComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private navigator: NavigationService,
-              private fb: UntypedFormBuilder
+              private fb: UntypedFormBuilder,
+              private destroyRef: DestroyRef
   ) {
   }
 
@@ -71,6 +73,7 @@ export class VocabularyRequestsComponent implements OnInit {
 
       this.urlParams = [];
       this.route.queryParams
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(params => {
 
             for (const i in params) {

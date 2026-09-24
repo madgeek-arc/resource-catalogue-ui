@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, DestroyRef, Input, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ServiceBundle, Provider, ProviderBundle, Service, Datasource} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -49,7 +50,8 @@ export class PendingServicesComponent implements OnInit {
     private router: Router,
     private navigator: NavigationService,
     private providerService: ServiceProviderService,
-    private resourceService: ResourceService
+    private resourceService: ResourceService,
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
@@ -73,6 +75,7 @@ export class PendingServicesComponent implements OnInit {
     this.dataForm = this.fb.group(this.formPrepare);
     this.urlParams = [];
     this.route.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(params => {
           for (const i in params) {
             this.dataForm.get(i).setValue(params[i]);

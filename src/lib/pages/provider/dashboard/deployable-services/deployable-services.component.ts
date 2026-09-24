@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {DeployableServiceBundle, ProviderBundle} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -59,7 +60,8 @@ export class DeployableServicesComponent implements OnInit {
     private providerService: ServiceProviderService,
     private deployableServiceService: DeployableServiceService,
     public pidHandler: pidHandler,
-    public config: ConfigService
+    public config: ConfigService,
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +73,7 @@ export class DeployableServicesComponent implements OnInit {
     this.dataForm = this.fb.group(this.formPrepare);
     this.urlParams = [];
     this.route.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(params => {
           for (const i in params) {
             this.dataForm.get(i).setValue(params[i]);

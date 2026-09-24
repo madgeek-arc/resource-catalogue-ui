@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ActivatedRoute} from '@angular/router';
 import {forkJoin, Subscription} from 'rxjs';
 import {ResourceService} from '../../../../services/resource.service';
@@ -29,10 +30,11 @@ export class ServiceAccountingStatsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private resourceService: ResourceService,
-    private accountingStatsService: AccountingStatsService) {}
+    private accountingStatsService: AccountingStatsService,
+    private destroyRef: DestroyRef) {}
 
   ngOnInit() {
-    this.sub = this.route.parent.params.subscribe(params => {
+    this.sub = this.route.parent.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       this.resourceId = params['resourceId'];
       this.catalogueId = params['catalogueId'];
 

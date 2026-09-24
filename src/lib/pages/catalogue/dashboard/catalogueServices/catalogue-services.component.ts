@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {CatalogueBundle, ServiceBundle, Service, Datasource} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -59,7 +60,8 @@ export class CatalogueServicesComponent implements OnInit {
     private providerService: ServiceProviderService,
     private catalogueService: CatalogueService,
     private resourceService: ResourceService,
-    private config: ConfigService
+    private config: ConfigService,
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +73,7 @@ export class CatalogueServicesComponent implements OnInit {
     (this.dataForm.get('catalogue_id') as UntypedFormArray).push(new UntypedFormControl(this.catalogueId));
     this.urlParams = [];
     this.route.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(params => {
           for (const i in params) {
             this.dataForm.get(i).setValue(params[i]);
