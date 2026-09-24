@@ -722,9 +722,7 @@ export class ResourcesListComponent implements OnInit {
           this.servicesForAudit.forEach(
             s => {
               if (s.id === this.selectedService.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
+                s.latestAuditInfo = {...this.initLatestAuditInfo, date: Date.now().toString(), actionType: action};
               }
             }
           );

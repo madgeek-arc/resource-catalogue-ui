@@ -777,9 +777,7 @@ export class ServiceProvidersListComponent implements OnInit {
           this.providersForAudit.forEach(
             p => {
               if (p.id === this.selectedProvider.id) {
-                p.latestAuditInfo = this.initLatestAuditInfo;
-                p.latestAuditInfo.date = Date.now().toString();
-                p.latestAuditInfo.actionType = action;
+                p.latestAuditInfo = {...this.initLatestAuditInfo, date: Date.now().toString(), actionType: action};
               }
             }
           );

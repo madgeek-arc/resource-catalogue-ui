@@ -683,9 +683,7 @@ export class DeployableServicesListComponent implements OnInit {
           this.deployableServicesForAudit.forEach(
             s => {
               if (s.id === this.selectedDeployableService.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
+                s.latestAuditInfo = {...this.initLatestAuditInfo, date: Date.now().toString(), actionType: action};
               }
             }
           );

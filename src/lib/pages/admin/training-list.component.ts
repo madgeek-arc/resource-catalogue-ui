@@ -697,9 +697,7 @@ export class TrainingListComponent implements OnInit {
           this.trainingResourcesForAudit.forEach(
             s => {
               if (s.id === this.selectedTrainingResource.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
+                s.latestAuditInfo = {...this.initLatestAuditInfo, date: Date.now().toString(), actionType: action};
               }
             }
           );
