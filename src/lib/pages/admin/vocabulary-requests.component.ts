@@ -23,7 +23,7 @@ export class VocabularyRequestsComponent implements OnInit {
   formPrepare = {
     status: 'Pending',
     order: 'DESC',
-    sort: 'date_of_request',
+    sort: 'dateOfRequest',
     quantity: '10',
     from: '0',
     query: '',

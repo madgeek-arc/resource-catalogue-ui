@@ -816,7 +816,7 @@ export class ResourcesListComponent implements OnInit {
     const namesArray = [];
     if (idsArray) {
       for (let i=0; i<idsArray.length; i++) {
-        namesArray.push(this.providersPage.results.find( x => x.id == idsArray[i] )?.name);
+        namesArray.push(this.providersPage.results.find( x => x.id === idsArray[i] )?.name);
       }
     }
     return namesArray;

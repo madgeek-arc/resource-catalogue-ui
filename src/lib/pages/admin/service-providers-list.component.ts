@@ -865,7 +865,7 @@ export class ServiceProvidersListComponent implements OnInit {
     if (name === 'statuses') {
       const formArray: UntypedFormArray = this.dataForm.get('status') as UntypedFormArray;
       if (check) {
-        formArray.controls.length = 0;
+        formArray.clear();
         for (let i = 0; i < this.statuses.length; i++) {
           formArray.push(new UntypedFormControl(this.statuses[i]));
         }
@@ -877,7 +877,7 @@ export class ServiceProvidersListComponent implements OnInit {
     } else if (name === 'templateStatuses') {
       const formArray: UntypedFormArray = this.dataForm.get('templateStatus') as UntypedFormArray;
       if (check) {
-        formArray.controls.length = 0;
+        formArray.clear();
         for (let i = 0; i < this.templateStatuses.length; i++) {
           formArray.push(new UntypedFormControl(this.templateStatuses[i]));
         }
