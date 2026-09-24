@@ -56,10 +56,8 @@ export class DatasourcesListComponent implements OnInit {
   urlParams: URLParameter[] = [];
 
   commentAuditControl = new UntypedFormControl();
-  showSideAuditForm = false;
   showMainAuditForm = false;
   initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userFullName: '', userRole: '', type: '', comment: '', actionType: ''};
-  datasourcesForAudit: DatasourceBundle[] = [];
 
   errorMessage: string;
   loadingMessage = '';
@@ -564,18 +562,13 @@ export class DatasourcesListComponent implements OnInit {
   }
 
   /** Audit --> **/
-  showAuditForm(view: string, dsBundle: DatasourceBundle) {
+  showAuditForm(dsBundle: DatasourceBundle) {
     this.commentAuditControl.reset();
     this.selectedDatasource = dsBundle;
-    if (view === 'side') {
-      this.showSideAuditForm = true;
-    } else if (view === 'main') {
-      this.showMainAuditForm = true;
-    }
+    this.showMainAuditForm = true;
   }
 
   resetAuditView() {
-    this.showSideAuditForm = false;
     this.showMainAuditForm = false;
     this.commentAuditControl.reset();
   }
@@ -584,9 +577,7 @@ export class DatasourcesListComponent implements OnInit {
     this.datasourceService.auditDatasource(this.selectedDatasource.id, action, this.selectedDatasource.catalogueId, this.commentAuditControl.value)
       .subscribe(
         res => {
-          if (!this.showSideAuditForm) {
-            this.getDatasources();
-          }
+          this.getDatasources();
         },
         err => {
           this.errorMessage =
@@ -596,15 +587,6 @@ export class DatasourcesListComponent implements OnInit {
           window.scroll(0,0);
         },
         () => {
-          this.datasourcesForAudit.forEach(
-            s => {
-              if (s.id === this.selectedDatasource.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
-              }
-            }
-          );
           this.resetAuditView();
         }
       );

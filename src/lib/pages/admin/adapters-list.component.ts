@@ -58,7 +58,6 @@ export class AdaptersListComponent implements OnInit {
   adapters: AdapterBundle[] = [];
   selectedAdapterId: string;
   selectedAdapter: AdapterBundle;
-  adaptersForAudit: AdapterBundle[] = [];
 
   allDuplicateResults: SimilarResource[] = [];
   duplicateResults: SimilarResource[] = [];
@@ -441,15 +440,6 @@ export class AdaptersListComponent implements OnInit {
           window.scroll(0,0);
         },
         () => {
-          this.adaptersForAudit.forEach(
-            s => {
-              if (s.id === this.selectedAdapter.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
-              }
-            }
-          );
           this.resetAuditView();
         }
       );

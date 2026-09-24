@@ -56,7 +56,6 @@ export class GuidelinesListComponent implements OnInit {
   guidelines: InteroperabilityRecordBundle[] = [];
   selectedGuidelineId: string;
   selectedGuideline: InteroperabilityRecordBundle;
-  guidelinesForAudit: InteroperabilityRecordBundle[] = [];
 
   allDuplicateResults: SimilarResource[] = [];
   duplicateResults: SimilarResource[] = [];
@@ -390,15 +389,6 @@ export class GuidelinesListComponent implements OnInit {
           window.scroll(0,0);
         },
         () => {
-          this.guidelinesForAudit.forEach(
-            s => {
-              if (s.id === this.selectedGuideline.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
-              }
-            }
-          );
           this.resetAuditView();
         }
       );

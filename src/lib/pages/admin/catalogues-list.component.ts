@@ -63,9 +63,7 @@ export class CataloguesListComponent implements OnInit {
   loadingMessage = '';
 
   catalogues: CatalogueBundle[] = [];
-  cataloguesForAudit: CatalogueBundle[] = [];
   selectedCatalogue: CatalogueBundle;
-  selectedCataloguesForAudit: CatalogueBundle[] = [];
 
   allDuplicateResults: SimilarResource[] = [];
   duplicateResults: SimilarResource[] = [];
@@ -612,15 +610,6 @@ export class CataloguesListComponent implements OnInit {
           window.scroll(0,0);
         },
         () => {
-          this.selectedCataloguesForAudit.forEach(
-            s => {
-              if (s.id === this.selectedCatalogue.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
-              }
-            }
-          );
           this.resetAuditView();
         }
       );
