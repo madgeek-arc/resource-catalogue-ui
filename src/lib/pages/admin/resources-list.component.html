@@ -244,8 +244,8 @@
                           <div class="uk-label uk-align-right">Suspended</div>
                         </div>
 
-                        <div *ngIf="statusesOnView[i].status && serviceBundle.id === statusesOnView[i].serviceId && !showMainAuditForm" class="uk-position-bottom-right uk-margin-xlarge-bottom" style="padding-right: 40px">
-                          <span class="statusLabel">Monitoring Status: </span><span>{{statusesOnView[i].status}}</span>
+                        <div *ngIf="statusesOnView[i]?.status && serviceBundle.id === statusesOnView[i]?.serviceId && !showMainAuditForm" class="uk-position-bottom-right uk-margin-xlarge-bottom" style="padding-right: 40px">
+                          <span class="statusLabel">Monitoring Status: </span><span>{{statusesOnView[i]?.status}}</span>
                         </div>
 <!--                          <ng-container *ngIf="statusesOnView[i]==='OK'">-->
 <!--                            <span class="uk-badge" title="Monitoring Status" style="background: #28a745;">OK</span>-->

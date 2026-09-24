@@ -82,7 +82,6 @@ export class ResourcesListComponent implements OnInit {
   facets: any;
   searchFacet = '';
 
-  numberOfServicesOnView: number;
   statusesOnView: {serviceId: string, status: string}[];
 
   total: number;
@@ -340,9 +339,9 @@ export class ResourcesListComponent implements OnInit {
               this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                 res => {
                   if (res) {
-                    console.log(res);
+                    // console.log(res);
                     this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
-                    console.log(this.serviceTemplatePerProvider)
+                    // console.log(this.serviceTemplatePerProvider)
                   }
                 }
               );
@@ -397,7 +396,6 @@ export class ResourcesListComponent implements OnInit {
         this.services = res['results'];
         this.facets = res['facets'];
         this.total = res['total'];
-        this.numberOfServicesOnView = res['to']-res['from'];
         this.paginationInit();
       },
       err => {
@@ -407,16 +405,19 @@ export class ResourcesListComponent implements OnInit {
       },
       () => {
         this.loadingMessage = '';
-        this.statusesOnView = [];
-        for(let i = 0; i < this.numberOfServicesOnView; i++) {
-          this.statusesOnView.push({serviceId: '', status: ''});
+        const services = this.services;
+        const statusesOnView: {serviceId: string, status: string}[] = [];
+        for (let i = 0; i < services.length; i++) {
+          statusesOnView.push({serviceId: '', status: ''});
         }
-        for (let i = 0; i < this.numberOfServicesOnView; i++) {
-          this.serviceExtensionsService.getMonitoringStatus(this.services[i].id).subscribe(
+        this.statusesOnView = statusesOnView;
+        for (let i = 0; i < services.length; i++) {
+          const serviceId = services[i].id;
+          this.serviceExtensionsService.getMonitoringStatus(serviceId).subscribe(
             monitoringStatus => {
-              this.statusesOnView[i].serviceId = this.services[i].id;
-              if(monitoringStatus) { this.statusesOnView[i].status = monitoringStatus[0].value }
-              else {  this.statusesOnView[i].status = 'NA' } //no response hence Not Available status (NA)
+              statusesOnView[i].serviceId = serviceId;
+              if(monitoringStatus) { statusesOnView[i].status = monitoringStatus[0].value }
+              else {  statusesOnView[i].status = 'NA' } //no response hence Not Available status (NA)
               },
             err => { this.errorMessage = 'An error occurred while retrieving data for a service. ' + err.error; }
           );
@@ -648,7 +649,6 @@ export class ResourcesListComponent implements OnInit {
   templateAction(serviceBundle, active, status) {
     this.loadingMessage = '';
     UIkit.modal('#spinnerModal').show();
-    console.log(serviceBundle.service.resourceOwner);
     const providerId = serviceBundle.service.resourceOwner;
     const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerId)[0].serviceId;
     this.resourceService.verifyResource(templateId, active, status).subscribe(

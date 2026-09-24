@@ -571,7 +571,6 @@ export class CataloguesListComponent implements OnInit {
       }
     } else if (name === 'templateStatuses') {
       const formArray: UntypedFormArray = this.dataForm.get('templateStatus') as UntypedFormArray;
-      console.log('in');
       if (check) {
         formArray.controls.length = 0;
         for (let i = 0; i < this.templateStatuses.length; i++) {
