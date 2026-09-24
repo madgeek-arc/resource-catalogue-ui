@@ -85,8 +85,6 @@ export class CataloguesListComponent implements OnInit {
   pages: number[] = [];
   offset = 2;
 
-  serviceTemplatePerProvider: any[] = [];
-
   // statusList = statusList;
   // adminActionsMap = statusChangeMap;
 
@@ -386,20 +384,6 @@ export class CataloguesListComponent implements OnInit {
       },
       () => {
         this.loadingMessage = '';
-        this.catalogues.forEach(
-          p => {
-            // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
-            if (p.templateStatus === 'pending template') {
-              this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
-                res => {
-                  if (res) {
-                    this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
-                  }
-                }
-              );
-            }
-          }
-        );
       }
     );
   }

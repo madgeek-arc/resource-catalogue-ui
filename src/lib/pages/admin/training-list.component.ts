@@ -90,9 +90,6 @@ export class TrainingListComponent implements OnInit {
   pages: number[] = [];
   offset = 2;
 
-  pendingFirstServicePerProvider: any[] = [];
-  serviceTemplatePerProvider: any[] = [];
-
   providersFormPrepare = {
     resourceOrganisation: ''
   };
@@ -338,21 +335,6 @@ export class TrainingListComponent implements OnInit {
       err => {
         console.log(err);
         this.errorMessage = 'The list could not be retrieved';
-      },
-      () => {
-        this.providers.forEach(
-          p => {
-            if (p.templateStatus === 'pending template') {
-              this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
-                res => {
-                  if (res) {
-                    this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
-                  }
-                }
-              );
-            }
-          }
-        );
       }
     );
   }
@@ -715,22 +697,6 @@ export class TrainingListComponent implements OnInit {
             : `Something went bad, server responded: ${err?.error?.detail}`;
       }
     );
-  }
-
-  hasCreatedFirstService(id: string) {
-    return this.pendingFirstServicePerProvider.some(x => x.providerId === id);
-  }
-
-  getLinkToFirstService(id: string) {
-    if (this.hasCreatedFirstService(id)) {
-      return '/service/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
-    } else {
-      return '/provider/' + id + '/add-first-service';
-    }
-  }
-
-  getLinkToEditFirstService(id: string) {
-    return '/edit/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
   }
 
   editResourceInNewTab(providerId, trainingResourceId) {
