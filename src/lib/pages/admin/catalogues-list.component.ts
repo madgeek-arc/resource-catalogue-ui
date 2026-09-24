@@ -581,7 +581,7 @@ export class CataloguesListComponent implements OnInit {
     this.commentAuditControl.reset();
   }
 
-  auditResourceAction(action: string, bundle: CatalogueBundle) {
+  auditResourceAction(action: string) {
     this.catalogueService.auditCatalogue(this.selectedCatalogue.id, action, this.commentAuditControl.value)
       .subscribe(
         res => {this.getCatalogues();},

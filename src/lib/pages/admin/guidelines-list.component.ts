@@ -377,7 +377,7 @@ export class GuidelinesListComponent implements OnInit {
     this.commentAuditControl.reset();
   }
 
-  auditResourceAction(action: string, bundle: InteroperabilityRecordBundle) {
+  auditResourceAction(action: string) {
     this.guidelinesService.auditGuideline(this.selectedGuideline.id, action, this.selectedGuideline.catalogueId, this.commentAuditControl.value)
       .subscribe(
         res => {this.getGuidelines();},

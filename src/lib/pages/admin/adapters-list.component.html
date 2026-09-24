@@ -242,7 +242,7 @@
                                     <span class="statusLabel">ID: </span>{{ adapterBundle.id }}
                                   </div>
                                   <div class="uk-margin-small-top">
-                                    <span class="statusLabel">Linked Resource ID: </span>{{ adapterBundle.adapter.linkedResource.id }}
+                                    <span class="statusLabel">Linked Resource ID: </span>{{ adapterBundle.adapter.linkedResource?.id }}
                                   </div>
                                   @if (adapterBundle.adapter.resourceOwner) {
                                     <div class="uk-margin-small-top">
@@ -376,8 +376,8 @@
                                 </div>
                               </form>
                               <button class="uk-button uk-button-primary uk-align-left" type="button" (click)="resetAuditView()">Close</button>
-                              <button class="uk-button uk-button-secondary uk-align-right" type="submit" (click)="auditResourceAction('VALID', selectedAdapter)">Validate</button>
-                              <button class="uk-button uk-button-danger uk-align-right" type="submit" (click)="auditResourceAction('INVALID', selectedAdapter)">Invalidate</button>
+                              <button class="uk-button uk-button-secondary uk-align-right" type="submit" (click)="auditResourceAction('VALID')">Validate</button>
+                              <button class="uk-button uk-button-danger uk-align-right" type="submit" (click)="auditResourceAction('INVALID')">Invalidate</button>
                             </div>
                           }
                         }

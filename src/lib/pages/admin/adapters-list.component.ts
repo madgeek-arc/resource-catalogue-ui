@@ -428,7 +428,7 @@ export class AdaptersListComponent implements OnInit {
     this.commentAuditControl.reset();
   }
 
-  auditResourceAction(action: string, bundle: AdapterBundle) {
+  auditResourceAction(action: string) {
     this.adaptersService.auditAdapter(this.selectedAdapter.id, action, this.selectedAdapter.catalogueId, this.commentAuditControl.value)
       .subscribe(
         res => {this.getAdapters();},
