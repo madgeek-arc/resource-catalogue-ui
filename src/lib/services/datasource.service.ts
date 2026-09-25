@@ -121,7 +121,7 @@ export class DatasourceService {
 
   activateDatasource(id: string, active: boolean) { // toggles active/inactive datasource
     id = decodeURIComponent(id);
-    return this.http.patch(this.base + `/datasource/setActive/${id}?active=${active}`, this.options);
+    return this.http.patch(this.base + `/datasource/setActive/${id}?active=${active}`, {}, this.options);
   }
 
 /*  getDatasourceByServiceId(serviceId: string, catalogueId?:string){
@@ -185,9 +185,9 @@ export class DatasourceService {
   auditDatasource(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
     if (catalogueId == null)
-      return this.http.patch(this.base + `/datasource/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/datasource/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
     else
-      return this.http.patch(this.base + `/catalogue/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/catalogue/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
   }
 
   suspendDatasource(datasourceId: string, catalogueId: string, suspend: boolean) {

@@ -310,7 +310,7 @@ export class TrainingResourceService {
 
   moveTrainingResourceToProvider(resourceId: string, providerId: string, comment: string) {
     resourceId = decodeURIComponent(resourceId);
-    return this.http.put(this.base + `/trainingResource/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
+    return this.http.put(this.base + `/trainingResource/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, {}, this.options);
   }
 
   public handleError(error: HttpErrorResponse) {
@@ -334,15 +334,15 @@ export class TrainingResourceService {
 
   activateTrainingResource(id: string, active: boolean) { // toggles active/inactive service
     id = decodeURIComponent(id);
-    return this.http.patch(this.base + `/trainingResource/setActive/${id}?active=${active}`, this.options);
+    return this.http.patch(this.base + `/trainingResource/setActive/${id}?active=${active}`, {}, this.options);
   }
 
   auditTrainingResource(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
     if (catalogueId == null)
-      return this.http.patch(this.base + `/trainingResource/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/trainingResource/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
     else
-      return this.http.patch(this.base + `/catalogue/${catalogueId}/trainingResource/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/catalogue/${catalogueId}/trainingResource/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
   }
 
   suspendTrainingResource(trainingResourceId: string, catalogueId: string, suspend: boolean) {
