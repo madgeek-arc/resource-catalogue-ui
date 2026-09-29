@@ -31,8 +31,6 @@ export class ProviderStatsComponent implements OnInit {
 
   catalogueName: string | null = null;
   serviceORresource = environment.serviceORresource;
-  marketplaceServicesURL = environment.marketplaceServicesURL;
-  marketplaceDatasourcesURL = environment.marketplaceDatasourcesURL;
 
   catalogueId: string;
   providerId: string;

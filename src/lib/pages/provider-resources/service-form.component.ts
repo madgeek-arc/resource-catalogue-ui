@@ -37,7 +37,6 @@ export class ServiceFormComponent implements OnInit, OnDestroy {
 
   protected readonly isDevMode = isDevMode;
   protected readonly environment = environment;
-  protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
   serviceName = '';
   firstServiceForm = false;

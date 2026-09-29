@@ -24,7 +24,6 @@ const mapWorld = require('@highcharts/map-collection/custom/world.geo.json')
 export class ServiceStatsComponent implements OnInit, OnDestroy {
 
   catalogueName: string | null = null;
-  marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
 
   public service: Service;

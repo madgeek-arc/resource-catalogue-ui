@@ -19,7 +19,6 @@ import {GuidelinesService} from "../../../../services/guidelines.service";
 })
 export class DatasourceDashboardComponent implements OnInit {
   protected readonly environment = environment;
-  _marketplaceTrainingResourcesURL = environment.marketplaceTrainingResourcesURL;
 
   catalogueId: string;
   providerId: string;
