@@ -187,7 +187,7 @@ export class RejectedServicesComponent implements OnInit {
   }
 
   nextPage() {
-    if (this.currentPage < this.pageTotal - 1) {
+    if (this.currentPage < this.pageTotal) {
       this.currentPage++;
       this.dataForm.get('from').setValue(+this.dataForm.get('from').value + +this.itemsPerPage);
       this.handleChange();
