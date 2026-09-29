@@ -95,7 +95,7 @@
                   <div class="uk-margin-top uk-text-center">
                     @if (trainingResource && pidHandler) {
                       <a
-                        [routerLink]="['/dashboard/' + catalogueId + '/' + pidHandler.customEncodeURIComponent(trainingResource.resourceOwner) + '/training-resource-dashboard/' + pidHandler.customEncodeURIComponent(trainingResource.id) + '/fullHistory']"
+                        [routerLink]="['/dashboard/' + pidHandler.customEncodeURIComponent(trainingResource.resourceOwner) + '/training-resource-dashboard/' + pidHandler.customEncodeURIComponent(trainingResource.id) + '/fullHistory']"
                       class="uk-h3 uk-link">See more results ...</a>
                     }
                   </div>

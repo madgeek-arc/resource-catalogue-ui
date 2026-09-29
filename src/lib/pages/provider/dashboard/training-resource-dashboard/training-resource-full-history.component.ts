@@ -17,19 +17,16 @@ import {pidHandler} from "../../../../shared/pid-handler/pid-handler.service";
 
 export class TrainingResourceFullHistoryComponent implements OnInit, OnDestroy {
 
-  public catalogueId: string;
   public trainingResource: TrainingResource;
   public errorMessage: string;
   private sub: Subscription;
-  public pidHandler: pidHandler;
 
   trainingResourceHistory: LoggingInfo[];
 
-  constructor(private route: ActivatedRoute, private navigator: NavigationService, private trainingResourceService: TrainingResourceService) {
+  constructor(private route: ActivatedRoute, private navigator: NavigationService, private trainingResourceService: TrainingResourceService, public pidHandler: pidHandler) {
   }
 
   ngOnInit() {
-    this.catalogueId = window.location.href.split('dashboard/')[1].split('/')[0];
     // this.sub = this.route.params.subscribe(params => {
     this.sub = this.route.parent.params.subscribe(params => {
       zip(

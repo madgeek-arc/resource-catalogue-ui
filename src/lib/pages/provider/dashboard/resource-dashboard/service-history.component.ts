@@ -17,7 +17,6 @@ export class ServiceHistoryComponent implements OnInit, OnDestroy {
 
   serviceORresource = environment.serviceORresource;
 
-  public catalogueId: string;
   public service: Service;
   public errorMessage: string;
   private sub: Subscription;

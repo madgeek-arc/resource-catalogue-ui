@@ -96,7 +96,7 @@
                     <div class="uk-margin-top uk-text-center">
                       @if (service) {
                         <a
-                          [routerLink]="['/dashboard/' + catalogueId + '/' + encodeURIComponent(service.resourceOwner) + '/resource-dashboard/' + encodeURIComponent(service.id) + '/fullHistory']"
+                          [routerLink]="['/dashboard/' + encodeURIComponent(service.resourceOwner) + '/resource-dashboard/' + encodeURIComponent(service.id) + '/fullHistory']"
                         class="uk-h3 uk-link">See more results ...</a>
                       }
                     </div>
