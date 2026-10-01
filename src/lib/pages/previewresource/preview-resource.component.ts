@@ -101,8 +101,7 @@ export class PreviewResourceComponent implements OnInit, OnDestroy, OnChanges {
       this.fundingBodyVocabulary = this.vocabularies[Type.FUNDING_BODY];
       this.fundingProgramVocabulary = this.vocabularies[Type.FUNDING_PROGRAM];
       // this.placesVocabulary = this.vocabularies[Type.COUNTRY];
-      this.geographicalVocabulary = this.vocabularies[Type.REGION];
-      this.geographicalVocabulary.push(...this.vocabularies[Type.COUNTRY]);
+      this.geographicalVocabulary = [...(this.vocabularies[Type.REGION] || []), ...(this.vocabularies[Type.COUNTRY] || [])];
       this.languagesVocabulary = this.vocabularies[Type.LANGUAGE];
     }
   }
