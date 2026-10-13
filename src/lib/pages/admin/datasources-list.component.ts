@@ -1,4 +1,5 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, DestroyRef, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {
@@ -55,10 +56,8 @@ export class DatasourcesListComponent implements OnInit {
   urlParams: URLParameter[] = [];
 
   commentAuditControl = new UntypedFormControl();
-  showSideAuditForm = false;
   showMainAuditForm = false;
   initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userFullName: '', userRole: '', type: '', comment: '', actionType: ''};
-  datasourcesForAudit: DatasourceBundle[] = [];
 
   errorMessage: string;
   loadingMessage = '';
@@ -114,6 +113,7 @@ export class DatasourcesListComponent implements OnInit {
               public pidHandler: pidHandler,
               public config: ConfigService,
               private deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef
   ) {
   }
 
@@ -123,7 +123,7 @@ export class DatasourcesListComponent implements OnInit {
     } else {
       this.dataForm = this.fb.group(this.formPrepare);
 
-      this.dataForm.get('query').valueChanges.subscribe(val => {
+      this.dataForm.get('query').valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(val => {
         if (val && val !== '') {
           if (!this.sortUserSelected) {
             this.dataForm.get('sort').setValue('', { emitEvent: false }); // matches the Relevance option value
@@ -136,6 +136,7 @@ export class DatasourcesListComponent implements OnInit {
 
       this.urlParams = [];
       this.route.queryParams
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(params => {
 
             let foundStatus = false;
@@ -384,7 +385,13 @@ export class DatasourcesListComponent implements OnInit {
     UIkit.modal('#spinnerModal').show();
     this.datasourceService.verifyDatasource(id, active, status).subscribe(
       res => this.getDatasources(),
-      err => UIkit.modal('#spinnerModal').hide(),
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.getDatasources();
+      },
       () => {
         UIkit.modal('#spinnerModal').hide();
         location.reload();
@@ -555,18 +562,13 @@ export class DatasourcesListComponent implements OnInit {
   }
 
   /** Audit --> **/
-  showAuditForm(view: string, dsBundle: DatasourceBundle) {
+  showAuditForm(dsBundle: DatasourceBundle) {
     this.commentAuditControl.reset();
     this.selectedDatasource = dsBundle;
-    if (view === 'side') {
-      this.showSideAuditForm = true;
-    } else if (view === 'main') {
-      this.showMainAuditForm = true;
-    }
+    this.showMainAuditForm = true;
   }
 
   resetAuditView() {
-    this.showSideAuditForm = false;
     this.showMainAuditForm = false;
     this.commentAuditControl.reset();
   }
@@ -575,9 +577,7 @@ export class DatasourcesListComponent implements OnInit {
     this.datasourceService.auditDatasource(this.selectedDatasource.id, action, this.selectedDatasource.catalogueId, this.commentAuditControl.value)
       .subscribe(
         res => {
-          if (!this.showSideAuditForm) {
-            this.getDatasources();
-          }
+          this.getDatasources();
         },
         err => {
           this.errorMessage =
@@ -587,15 +587,6 @@ export class DatasourcesListComponent implements OnInit {
           window.scroll(0,0);
         },
         () => {
-          this.datasourcesForAudit.forEach(
-            s => {
-              if (s.id === this.selectedDatasource.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
-              }
-            }
-          );
           this.resetAuditView();
         }
       );

@@ -456,6 +456,7 @@ export class Datasource implements Identifiable {
   name: string;
   description: string;
   logo: URL;
+  webpage: URL;
   resourceOwner: string;
   catalogueId: string;
   submissionPolicyURL: URL;

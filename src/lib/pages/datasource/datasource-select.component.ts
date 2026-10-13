@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Datasource, ProviderBundle} from '../../domain/eic-model';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -57,7 +58,8 @@ export class DatasourceSelectComponent implements OnInit {
     private navigator: NavigationService,
     private providerService: ServiceProviderService,
     private service: ResourceService,
-    private datasourceService: DatasourceService
+    private datasourceService: DatasourceService,
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
@@ -70,6 +72,7 @@ export class DatasourceSelectComponent implements OnInit {
     this.dataForm = this.fb.group(this.formPrepare);
     this.urlParams = [];
     this.route.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(params => {
           for (const i in params) {
             this.dataForm.get(i).setValue(params[i]);

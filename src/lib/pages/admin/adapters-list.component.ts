@@ -1,4 +1,5 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, DestroyRef, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ProviderBundle, Adapter, AdapterBundle, LoggingInfo, Provider} from '../../domain/eic-model';
 import {ConfigService} from "../../services/config.service";
 import {environment} from '../../../environments/environment';
@@ -57,7 +58,6 @@ export class AdaptersListComponent implements OnInit {
   adapters: AdapterBundle[] = [];
   selectedAdapterId: string;
   selectedAdapter: AdapterBundle;
-  adaptersForAudit: AdapterBundle[] = [];
 
   allDuplicateResults: SimilarResource[] = [];
   duplicateResults: SimilarResource[] = [];
@@ -99,7 +99,8 @@ export class AdaptersListComponent implements OnInit {
               private fb: UntypedFormBuilder,
               public pidHandler: pidHandler,
               public config: ConfigService,
-              private deduplicationService: DeduplicationService
+              private deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef
   ) {
   }
 
@@ -110,7 +111,7 @@ export class AdaptersListComponent implements OnInit {
       this.dataForm = this.fb.group(this.formPrepare);
       this.providersDropdownForm = this.fb.group(this.providersFormPrepare);
 
-      this.dataForm.get('query').valueChanges.subscribe(val => {
+      this.dataForm.get('query').valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(val => {
         if (val && val !== '') {
           if (!this.sortUserSelected) {
             this.dataForm.get('sort').setValue('', { emitEvent: false }); // matches the Relevance option value
@@ -123,6 +124,7 @@ export class AdaptersListComponent implements OnInit {
 
       this.urlParams = [];
       this.route.queryParams
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(params => {
 
             for (const i in params) {
@@ -381,7 +383,13 @@ export class AdaptersListComponent implements OnInit {
     UIkit.modal('#spinnerModal').show();
     this.adaptersService.verifyAdapter(id, active, status).subscribe(
       res => this.getAdapters(),
-      err => UIkit.modal('#spinnerModal').hide(),
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.getAdapters();
+      },
       () => {
         UIkit.modal('#spinnerModal').hide();
         location.reload();
@@ -394,7 +402,13 @@ export class AdaptersListComponent implements OnInit {
     UIkit.modal('#spinnerModal').show();
     this.adaptersService.activateAdapter(id, active).subscribe(
       res => this.getAdapters(),
-      err => UIkit.modal('#spinnerModal').hide(),
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.getAdapters();
+      },
       () => {
         UIkit.modal('#spinnerModal').hide();
         location.reload();
@@ -414,7 +428,7 @@ export class AdaptersListComponent implements OnInit {
     this.commentAuditControl.reset();
   }
 
-  auditResourceAction(action: string, bundle: AdapterBundle) {
+  auditResourceAction(action: string) {
     this.adaptersService.auditAdapter(this.selectedAdapter.id, action, this.selectedAdapter.catalogueId, this.commentAuditControl.value)
       .subscribe(
         res => {this.getAdapters();},
@@ -426,15 +440,6 @@ export class AdaptersListComponent implements OnInit {
           window.scroll(0,0);
         },
         () => {
-          this.adaptersForAudit.forEach(
-            s => {
-              if (s.id === this.selectedAdapter.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
-              }
-            }
-          );
           this.resetAuditView();
         }
       );

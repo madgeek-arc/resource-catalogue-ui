@@ -1,4 +1,5 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, DestroyRef, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {resourceStatusChangeMap, statusList} from '../../domain/resource-status-list';
@@ -81,7 +82,6 @@ export class ResourcesListComponent implements OnInit {
   facets: any;
   searchFacet = '';
 
-  numberOfServicesOnView: number;
   statusesOnView: {serviceId: string, status: string}[];
 
   total: number;
@@ -122,7 +122,8 @@ export class ResourcesListComponent implements OnInit {
               private serviceExtensionsService: ServiceExtensionsService,
               public pidHandler: pidHandler,
               public config: ConfigService,
-              public deduplicationService: DeduplicationService
+              public deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef
   ) {
   }
 
@@ -133,7 +134,7 @@ export class ResourcesListComponent implements OnInit {
       this.dataForm = this.fb.group(this.formPrepare);
       this.providersDropdownForm = this.fb.group(this.providersFormPrepare);
 
-      this.dataForm.get('query').valueChanges.subscribe(val => {
+      this.dataForm.get('query').valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(val => {
         if (val && val !== '') {
           if (!this.sortUserSelected) {
             this.dataForm.get('sort').setValue('', { emitEvent: false }); // matches the Relevance option value
@@ -146,6 +147,7 @@ export class ResourcesListComponent implements OnInit {
 
       this.urlParams = [];
       this.route.queryParams
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(params => {
 
             let foundStatus = false;
@@ -337,9 +339,9 @@ export class ResourcesListComponent implements OnInit {
               this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                 res => {
                   if (res) {
-                    console.log(res);
+                    // console.log(res);
                     this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
-                    console.log(this.serviceTemplatePerProvider)
+                    // console.log(this.serviceTemplatePerProvider)
                   }
                 }
               );
@@ -394,7 +396,6 @@ export class ResourcesListComponent implements OnInit {
         this.services = res['results'];
         this.facets = res['facets'];
         this.total = res['total'];
-        this.numberOfServicesOnView = res['to']-res['from'];
         this.paginationInit();
       },
       err => {
@@ -404,16 +405,19 @@ export class ResourcesListComponent implements OnInit {
       },
       () => {
         this.loadingMessage = '';
-        this.statusesOnView = [];
-        for(let i = 0; i < this.numberOfServicesOnView; i++) {
-          this.statusesOnView.push({serviceId: '', status: ''});
+        const services = this.services;
+        const statusesOnView: {serviceId: string, status: string}[] = [];
+        for (let i = 0; i < services.length; i++) {
+          statusesOnView.push({serviceId: '', status: ''});
         }
-        for (let i = 0; i < this.numberOfServicesOnView; i++) {
-          this.serviceExtensionsService.getMonitoringStatus(this.services[i].id).subscribe(
+        this.statusesOnView = statusesOnView;
+        for (let i = 0; i < services.length; i++) {
+          const serviceId = services[i].id;
+          this.serviceExtensionsService.getMonitoringStatus(serviceId).subscribe(
             monitoringStatus => {
-              this.statusesOnView[i].serviceId = this.services[i].id;
-              if(monitoringStatus) { this.statusesOnView[i].status = monitoringStatus[0].value }
-              else {  this.statusesOnView[i].status = 'NA' } //no response hence Not Available status (NA)
+              statusesOnView[i].serviceId = serviceId;
+              if(monitoringStatus) { statusesOnView[i].status = monitoringStatus[0].value }
+              else {  statusesOnView[i].status = 'NA' } //no response hence Not Available status (NA)
               },
             err => { this.errorMessage = 'An error occurred while retrieving data for a service. ' + err.error; }
           );
@@ -645,7 +649,6 @@ export class ResourcesListComponent implements OnInit {
   templateAction(serviceBundle, active, status) {
     this.loadingMessage = '';
     UIkit.modal('#spinnerModal').show();
-    console.log(serviceBundle.service.resourceOwner);
     const providerId = serviceBundle.service.resourceOwner;
     const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerId)[0].serviceId;
     this.resourceService.verifyResource(templateId, active, status).subscribe(
@@ -654,7 +657,10 @@ export class ResourcesListComponent implements OnInit {
       },
       err => {
         UIkit.modal('#spinnerModal').hide();
-        console.log(err);
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.getProviders();
       },
       () => {
         UIkit.modal('#spinnerModal').hide();
@@ -716,9 +722,7 @@ export class ResourcesListComponent implements OnInit {
           this.servicesForAudit.forEach(
             s => {
               if (s.id === this.selectedService.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
+                s.latestAuditInfo = {...this.initLatestAuditInfo, date: Date.now().toString(), actionType: action};
               }
             }
           );
@@ -729,7 +733,12 @@ export class ResourcesListComponent implements OnInit {
 
   sendMailForUpdate(serviceBundle) {
     this.resourceService.sendEmailForOutdatedResource(serviceBundle.id).subscribe(
-      res => {}, err => { console.log(err); }
+      res => {},
+      err => {
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+      }
     );
   }
 
@@ -816,7 +825,7 @@ export class ResourcesListComponent implements OnInit {
     const namesArray = [];
     if (idsArray) {
       for (let i=0; i<idsArray.length; i++) {
-        namesArray.push(this.providersPage.results.find( x => x.id == idsArray[i] )?.name);
+        namesArray.push(this.providersPage.results.find( x => x.id === idsArray[i] )?.name);
       }
     }
     return namesArray;

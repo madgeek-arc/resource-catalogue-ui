@@ -1,4 +1,5 @@
-import {Component, Injector, OnInit} from '@angular/core';
+import {Component, DestroyRef, Injector, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ActivatedRoute} from '@angular/router';
 import {DatePipe} from '@angular/common';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -30,7 +31,8 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
               public navigator: NavigationService,
               public dynamicFormService: FormControlService,
               public config: ConfigService,
-              public deduplicationService: DeduplicationService) {
+              public deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef) {
     super(injector, authenticationService, serviceProviderService, route, dynamicFormService, config, deduplicationService);
     this.editMode = true;
   }
@@ -40,7 +42,7 @@ export class UpdateTrainingResource extends TrainingResourceForm implements OnIn
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
     } else {
-      this.sub = this.route.params.subscribe(params => {
+      this.sub = this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
         // this.trainingResourceId = params['trainingResourceId'];
         this.trainingResourceId = this.route.snapshot.paramMap.get('trainingResourceId');
         const pathName = window.location.pathname;

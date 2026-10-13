@@ -480,7 +480,7 @@ export class ResourceService {
 
   moveResourceToProvider(resourceId: string, providerId: string, comment: string) {
     resourceId = decodeURIComponent(resourceId);
-    return this.http.put(this.base + `/service/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
+    return this.http.put(this.base + `/service/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, {}, this.options);
   }
 
   public handleError(error: HttpErrorResponse) {
@@ -505,9 +505,9 @@ export class ResourceService {
   auditService(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
     if (catalogueId == null)
-      return this.http.patch(this.base + `/service/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/service/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
     else
-      return this.http.patch(this.base + `/catalogue/${catalogueId}/service/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/catalogue/${catalogueId}/service/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
   }
 
   suspendService(serviceId: string, catalogueId: string, suspend: boolean): Observable<any> {

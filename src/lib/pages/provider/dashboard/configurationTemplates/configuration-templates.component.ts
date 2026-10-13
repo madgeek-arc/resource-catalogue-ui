@@ -1,4 +1,5 @@
-import {Component, Injector, OnInit, ViewChild, isDevMode, ViewChildren, QueryList} from '@angular/core';
+import {Component, DestroyRef, Injector, OnInit, ViewChild, isDevMode, ViewChildren, QueryList} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ActivatedRoute} from '@angular/router';
 import {ConfigService} from "../../../../services/config.service";
 import {environment} from '../../../../../environments/environment';
@@ -52,11 +53,12 @@ export class ConfigurationTemplatesComponent implements OnInit {
               protected serviceExtensionsService: ServiceExtensionsService,
               protected route: ActivatedRoute,
               protected config: ConfigService,
-              public pidHandler: pidHandler
+              public pidHandler: pidHandler,
+              private destroyRef: DestroyRef
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       this.guidelineId = params['guidelineId'];
       this.ngOnInitWorkaround();
     });

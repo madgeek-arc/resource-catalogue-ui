@@ -17,21 +17,19 @@ import {DeployableServiceService} from "../../../../services/deployable-service.
 
 export class DeployableServiceFullHistoryComponent implements OnInit, OnDestroy {
 
-  public catalogueId: string;
   public deployableApplication: DeployableService;
   public errorMessage: string;
   private sub: Subscription;
-  public pidHandler: pidHandler;
 
   deployableServiceHistory: LoggingInfo[];
 
   constructor(private route: ActivatedRoute,
               private navigator: NavigationService,
-              private deployableServiceService: DeployableServiceService) {
+              private deployableServiceService: DeployableServiceService,
+              public pidHandler: pidHandler) {
   }
 
   ngOnInit() {
-    this.catalogueId = window.location.href.split('dashboard/')[1].split('/')[0];
     // this.sub = this.route.params.subscribe(params => {
     this.sub = this.route.parent.params.subscribe(params => {
       zip(

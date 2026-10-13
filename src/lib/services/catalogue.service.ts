@@ -181,7 +181,7 @@ export class CatalogueService {
   }
 
   auditCatalogue(id: string, action: string, comment: string) {
-    return this.http.patch(this.base + `/catalogue/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+    return this.http.patch(this.base + `/catalogue/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
   }
 
   getContactInfo() {
@@ -189,7 +189,7 @@ export class CatalogueService {
   }
 
   setContactInfoTransfer(bool: boolean, mail?: string) {
-    return this.http.put(this.base + `/contactInformation/updateContactInfoTransfer?acceptedTransfer=${bool}`, this.options);
+    return this.http.put(this.base + `/contactInformation/updateContactInfoTransfer?acceptedTransfer=${bool}`, {}, this.options);
   }
 
   getCatalogueLoggingInfoHistory(catalogueId: string) {
@@ -199,6 +199,6 @@ export class CatalogueService {
 
   activateCatalogue(id: string, active: boolean) { // toggles active/inactive catalogue
     id = decodeURIComponent(id);
-    return this.http.patch(this.base + `/catalogue/setActive/${id}?active=${active}`, this.options);
+    return this.http.patch(this.base + `/catalogue/setActive/${id}?active=${active}`, {}, this.options);
   }
 }

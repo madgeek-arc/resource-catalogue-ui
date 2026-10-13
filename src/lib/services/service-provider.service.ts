@@ -201,22 +201,22 @@ export class ServiceProviderService {
   activateService(id: string, version: string, active: boolean) { // toggles active/inactive service
     id = decodeURIComponent(id);
     if (version === null) {
-      return this.http.patch(this.base + `/service/setActive/${id}?active=${active}`, this.options);
+      return this.http.patch(this.base + `/service/setActive/${id}?active=${active}`, {}, this.options);
     }
-    return this.http.patch(this.base + `/service/setActive/${id}?active=${active}&version=${version}`, this.options); // copy for provider without version
+    return this.http.patch(this.base + `/service/setActive/${id}?active=${active}&version=${version}`, {}, this.options); // copy for provider without version
   }
 
   activateDatasource(id: string, version: string, active: boolean) { // toggles active/inactive datasource
     id = decodeURIComponent(id);
     if (version === null) {
-      return this.http.patch(this.base + `/datasource/setActive/${id}?active=${active}`, this.options);
+      return this.http.patch(this.base + `/datasource/setActive/${id}?active=${active}`, {}, this.options);
     }
-    return this.http.patch(this.base + `/datasource/setActive/${id}?active=${active}&version=${version}`, this.options); // copy for provider without version
+    return this.http.patch(this.base + `/datasource/setActive/${id}?active=${active}&version=${version}`, {}, this.options); // copy for provider without version
   }
 
   activateProvider(id: string, active: boolean) { // toggles active/inactive provider
     id = decodeURIComponent(id);
-    return this.http.patch(this.base + `/provider/setActive/${id}?active=${active}`, this.options);
+    return this.http.patch(this.base + `/provider/setActive/${id}?active=${active}`, {}, this.options);
   }
 
   temporarySaveProvider(provider: Provider, providerExists: boolean) {
@@ -238,7 +238,7 @@ export class ServiceProviderService {
 
   adminAcceptedTerms(id: string) {
     id = decodeURIComponent(id);
-    return this.http.put(this.base + `/provider/adminAcceptedTerms?id=${id}`, this.options);
+    return this.http.put(this.base + `/provider/adminAcceptedTerms?id=${id}`, {}, this.options);
   }
 
   validateUrl(url: string) {
@@ -295,9 +295,9 @@ export class ServiceProviderService {
   auditProvider(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
     if (catalogueId == null)
-      return this.http.patch(this.base + `/provider/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/provider/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
     else
-      return this.http.patch(this.base + `/catalogue/${catalogueId}/provider/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/catalogue/${catalogueId}/provider/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
   }
 
   suspendProvider(providerId: string, catalogueId: string, suspend: boolean) {

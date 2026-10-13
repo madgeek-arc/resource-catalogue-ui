@@ -1,4 +1,5 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, DestroyRef, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ProviderBundle, InteroperabilityRecord, InteroperabilityRecordBundle, LoggingInfo} from '../../domain/eic-model';
 import {ConfigService} from "../../services/config.service";
 import {environment} from '../../../environments/environment';
@@ -55,7 +56,6 @@ export class GuidelinesListComponent implements OnInit {
   guidelines: InteroperabilityRecordBundle[] = [];
   selectedGuidelineId: string;
   selectedGuideline: InteroperabilityRecordBundle;
-  guidelinesForAudit: InteroperabilityRecordBundle[] = [];
 
   allDuplicateResults: SimilarResource[] = [];
   duplicateResults: SimilarResource[] = [];
@@ -89,7 +89,8 @@ export class GuidelinesListComponent implements OnInit {
               private fb: UntypedFormBuilder,
               public pidHandler: pidHandler,
               public config: ConfigService,
-              private deduplicationService: DeduplicationService
+              private deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef
   ) {
   }
 
@@ -99,7 +100,7 @@ export class GuidelinesListComponent implements OnInit {
     } else {
       this.dataForm = this.fb.group(this.formPrepare);
 
-      this.dataForm.get('query').valueChanges.subscribe(val => {
+      this.dataForm.get('query').valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(val => {
         if (val && val !== '') {
           if (!this.sortUserSelected) {
             this.dataForm.get('sort').setValue('', { emitEvent: false }); // matches the Relevance option value
@@ -112,6 +113,7 @@ export class GuidelinesListComponent implements OnInit {
 
       this.urlParams = [];
       this.route.queryParams
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(params => {
 
           for (const i in params) {
@@ -330,7 +332,13 @@ export class GuidelinesListComponent implements OnInit {
     UIkit.modal('#spinnerModal').show();
     this.guidelinesService.verifyInteroperabilityRecord(id, active, status).subscribe(
       res => this.getGuidelines(),
-      err => UIkit.modal('#spinnerModal').hide(),
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.getGuidelines();
+      },
       () => {
         UIkit.modal('#spinnerModal').hide();
         location.reload();
@@ -343,7 +351,13 @@ export class GuidelinesListComponent implements OnInit {
     UIkit.modal('#spinnerModal').show();
     this.guidelinesService.activateInteroperabilityRecord(id, active).subscribe(
       res => this.getGuidelines(),
-      err => UIkit.modal('#spinnerModal').hide(),
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.getGuidelines();
+      },
       () => {
         UIkit.modal('#spinnerModal').hide();
         location.reload();
@@ -363,7 +377,7 @@ export class GuidelinesListComponent implements OnInit {
     this.commentAuditControl.reset();
   }
 
-  auditResourceAction(action: string, bundle: InteroperabilityRecordBundle) {
+  auditResourceAction(action: string) {
     this.guidelinesService.auditGuideline(this.selectedGuideline.id, action, this.selectedGuideline.catalogueId, this.commentAuditControl.value)
       .subscribe(
         res => {this.getGuidelines();},
@@ -375,15 +389,6 @@ export class GuidelinesListComponent implements OnInit {
           window.scroll(0,0);
         },
         () => {
-          this.guidelinesForAudit.forEach(
-            s => {
-              if (s.id === this.selectedGuideline.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
-              }
-            }
-          );
           this.resetAuditView();
         }
       );

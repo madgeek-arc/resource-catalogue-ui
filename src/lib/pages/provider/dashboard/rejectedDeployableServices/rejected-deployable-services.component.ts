@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ProviderBundle, DeployableServiceBundle} from '../../../../domain/eic-model';
 import {ServiceProviderService} from '../../../../services/service-provider.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -47,7 +48,8 @@ export class RejectedDeployableServicesComponent implements OnInit {
     private router: Router,
     private navigator: NavigationService,
     private providerService: ServiceProviderService,
-    private deployableServiceService: DeployableServiceService
+    private deployableServiceService: DeployableServiceService,
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +62,7 @@ export class RejectedDeployableServicesComponent implements OnInit {
     this.dataForm = this.fb.group(this.formPrepare);
     this.urlParams = [];
     this.route.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(params => {
           for (const i in params) {
             this.dataForm.get(i).setValue(params[i]);
@@ -180,7 +183,7 @@ export class RejectedDeployableServicesComponent implements OnInit {
   }
 
   nextPage() {
-    if (this.currentPage < this.pageTotal - 1) {
+    if (this.currentPage < this.pageTotal) {
       this.currentPage++;
       this.dataForm.get('from').setValue(+this.dataForm.get('from').value + +this.itemsPerPage);
       this.handleChange();

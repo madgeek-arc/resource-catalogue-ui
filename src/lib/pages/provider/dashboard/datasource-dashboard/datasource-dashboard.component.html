@@ -72,12 +72,14 @@
             </li>
           }
 
-          <li>
-            <a href="{{_marketplaceTrainingResourcesURL}}" target="_blank">
-              <img src="../../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">
-              View in Catalogue
-            </a>
-          </li>
+          @if (datasourceBundle?.datasource?.webpage) {
+            <li>
+              <a href="{{datasourceBundle.datasource.webpage}}" target="_blank">
+                <img src="../../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right"> Visit Website
+              </a>
+            </li>
+          }
+
           <li>
             <a [routerLink]="['/dashboard', pidHandler.customEncodeURIComponent(providerId)]">
               <img src="../../../../../assets/images/new-icons/stats.svg" class="uk-margin-small-right">

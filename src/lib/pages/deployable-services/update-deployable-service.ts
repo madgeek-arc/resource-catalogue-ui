@@ -1,4 +1,5 @@
-import {Component, Injector, OnInit} from '@angular/core';
+import {Component, DestroyRef, Injector, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ActivatedRoute} from '@angular/router';
 import {DatePipe} from '@angular/common';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -28,7 +29,8 @@ export class UpdateDeployableService extends DeployableServiceForm implements On
               public navigator: NavigationService,
               public dynamicFormService: FormControlService,
               public config: ConfigService,
-              public deduplicationService: DeduplicationService) {
+              public deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef) {
     super(injector, authenticationService, deployableServiceService, route, dynamicFormService, config, deduplicationService);
     this.editMode = true;
   }
@@ -40,7 +42,7 @@ export class UpdateDeployableService extends DeployableServiceForm implements On
     if (sessionStorage.getItem('service')) {
       sessionStorage.removeItem('service');
     } else {
-      this.sub = this.route.params.subscribe(params => {
+      this.sub = this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
         // this.deployableServiceId = params['deployableServiceId'];
         this.deployableServiceId = this.route.snapshot.paramMap.get('deployableServiceId');
         const pathName = window.location.pathname;

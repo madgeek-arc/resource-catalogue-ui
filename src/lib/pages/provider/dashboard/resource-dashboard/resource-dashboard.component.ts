@@ -20,7 +20,6 @@ declare let UIkit: any;
 })
 export class ResourceDashboardComponent implements OnInit {
 
-  _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceORresource = environment.serviceORresource;
   catalogueId: string;
   providerId: string;

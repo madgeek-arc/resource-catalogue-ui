@@ -1,4 +1,5 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, DestroyRef, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {resourceStatusChangeMap, statusList} from '../../domain/resource-status-list';
@@ -89,9 +90,6 @@ export class TrainingListComponent implements OnInit {
   pages: number[] = [];
   offset = 2;
 
-  pendingFirstServicePerProvider: any[] = [];
-  serviceTemplatePerProvider: any[] = [];
-
   providersFormPrepare = {
     resourceOrganisation: ''
   };
@@ -125,7 +123,8 @@ export class TrainingListComponent implements OnInit {
               private fb: UntypedFormBuilder,
               public pidHandler: pidHandler,
               public config: ConfigService,
-              private deduplicationService: DeduplicationService
+              private deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef
   ) {
   }
 
@@ -136,7 +135,7 @@ export class TrainingListComponent implements OnInit {
       this.dataForm = this.fb.group(this.formPrepare);
       this.providersDropdownForm = this.fb.group(this.providersFormPrepare);
 
-      this.dataForm.get('query').valueChanges.subscribe(val => {
+      this.dataForm.get('query').valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(val => {
         if (val && val !== '') {
           if (!this.sortUserSelected) {
             this.dataForm.get('sort').setValue('', { emitEvent: false }); // matches the Relevance option value
@@ -149,6 +148,7 @@ export class TrainingListComponent implements OnInit {
 
       this.urlParams = [];
       this.route.queryParams
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(params => {
 
             let foundStatus = false;
@@ -335,21 +335,6 @@ export class TrainingListComponent implements OnInit {
       err => {
         console.log(err);
         this.errorMessage = 'The list could not be retrieved';
-      },
-      () => {
-        this.providers.forEach(
-          p => {
-            if (p.templateStatus === 'pending template') {
-              this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
-                res => {
-                  if (res) {
-                    this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
-                  }
-                }
-              );
-            }
-          }
-        );
       }
     );
   }
@@ -628,7 +613,10 @@ export class TrainingListComponent implements OnInit {
       },
       err => {
         UIkit.modal('#spinnerModal').hide();
-        console.log(err);
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.getProviders();
       },
       () => {
         UIkit.modal('#spinnerModal').hide();
@@ -691,9 +679,7 @@ export class TrainingListComponent implements OnInit {
           this.trainingResourcesForAudit.forEach(
             s => {
               if (s.id === this.selectedTrainingResource.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
+                s.latestAuditInfo = {...this.initLatestAuditInfo, date: Date.now().toString(), actionType: action};
               }
             }
           );
@@ -705,24 +691,12 @@ export class TrainingListComponent implements OnInit {
   sendMailForUpdate(id: string) {
     this.trainingResourceService.sendEmailForOutdatedTrainingResource(id).subscribe(
       res => {},
-      err => { console.log(err); }
+      err => {
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+      }
     );
-  }
-
-  hasCreatedFirstService(id: string) {
-    return this.pendingFirstServicePerProvider.some(x => x.providerId === id);
-  }
-
-  getLinkToFirstService(id: string) {
-    if (this.hasCreatedFirstService(id)) {
-      return '/service/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
-    } else {
-      return '/provider/' + id + '/add-first-service';
-    }
-  }
-
-  getLinkToEditFirstService(id: string) {
-    return '/edit/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
   }
 
   editResourceInNewTab(providerId, trainingResourceId) {

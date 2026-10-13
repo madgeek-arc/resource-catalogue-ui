@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ProviderBundle, VocabularyCuration, VocabularyEntryRequest} from '../../domain/eic-model';
@@ -23,7 +24,7 @@ export class VocabularyRequestsComponent implements OnInit {
   formPrepare = {
     status: 'Pending',
     order: 'DESC',
-    sort: 'date_of_request',
+    sort: 'dateOfRequest',
     quantity: '10',
     from: '0',
     query: '',
@@ -59,7 +60,8 @@ export class VocabularyRequestsComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private navigator: NavigationService,
-              private fb: UntypedFormBuilder
+              private fb: UntypedFormBuilder,
+              private destroyRef: DestroyRef
   ) {
   }
 
@@ -71,6 +73,7 @@ export class VocabularyRequestsComponent implements OnInit {
 
       this.urlParams = [];
       this.route.queryParams
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(params => {
 
             for (const i in params) {
@@ -270,7 +273,9 @@ export class VocabularyRequestsComponent implements OnInit {
         err => {
           UIkit.modal('#approvalModal').hide();
           this.loadingMessage = '';
-          console.log(err);
+          this.errorMessage = (err?.status >= 500 && err?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+              : `Something went bad, server responded: ${err?.error?.detail}`;
         },
         () => {
           this.loadingMessage = '';
@@ -297,7 +302,9 @@ export class VocabularyRequestsComponent implements OnInit {
         err => {
           UIkit.modal('#rejectionModal').hide();
           this.loadingMessage = '';
-          console.log(err);
+          this.errorMessage = (err?.status >= 500 && err?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+              : `Something went bad, server responded: ${err?.error?.detail}`;
         },
         () => {
           (<HTMLInputElement>document.getElementById('reasonOfRejection')).value = '';

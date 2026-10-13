@@ -1,7 +1,8 @@
 /**
  * Created by stefania on 05/06/2018.
  */
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, NavigationEnd, Params, PRIMARY_OUTLET, Router} from '@angular/router';
 import {NavigationService} from '../../services/navigation.service';
 import {filter} from 'rxjs/operators';
@@ -28,7 +29,8 @@ export class BreadcrumbsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private navigation: NavigationService
+    private navigation: NavigationService,
+    private destroyRef: DestroyRef
   ) {
     this.breadcrumbs = [];
   }
@@ -41,9 +43,10 @@ export class BreadcrumbsComponent implements OnInit {
     // subscribe to the NavigationEnd event
     this.handleEvent({});
     this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
+      filter(event => event instanceof NavigationEnd),
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe(event => this.handleEvent(event));
-    this.navigation.breadcrumbs.subscribe(service => {
+    this.navigation.breadcrumbs.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(service => {
       this.breadcrumbs[this.breadcrumbs.length - 1].label = service;
     });
   }

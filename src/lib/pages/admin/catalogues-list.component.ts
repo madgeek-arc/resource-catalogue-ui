@@ -1,4 +1,5 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, DestroyRef, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {CatalogueService} from "../../services/catalogue.service";
@@ -62,9 +63,7 @@ export class CataloguesListComponent implements OnInit {
   loadingMessage = '';
 
   catalogues: CatalogueBundle[] = [];
-  cataloguesForAudit: CatalogueBundle[] = [];
   selectedCatalogue: CatalogueBundle;
-  selectedCataloguesForAudit: CatalogueBundle[] = [];
 
   allDuplicateResults: SimilarResource[] = [];
   duplicateResults: SimilarResource[] = [];
@@ -85,8 +84,6 @@ export class CataloguesListComponent implements OnInit {
   pageTotal: number;
   pages: number[] = [];
   offset = 2;
-
-  serviceTemplatePerProvider: any[] = [];
 
   // statusList = statusList;
   // adminActionsMap = statusChangeMap;
@@ -132,7 +129,8 @@ export class CataloguesListComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private fb: UntypedFormBuilder,
-              private deduplicationService: DeduplicationService
+              private deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef
   ) {
   }
 
@@ -142,7 +140,7 @@ export class CataloguesListComponent implements OnInit {
     } else {
       this.dataForm = this.fb.group(this.formPrepare);
 
-      this.dataForm.get('query').valueChanges.subscribe(val => {
+      this.dataForm.get('query').valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(val => {
         if (val && val !== '') {
           if (!this.sortUserSelected) {
             this.dataForm.get('sort').setValue('', { emitEvent: false }); // matches the Relevance option value
@@ -155,6 +153,7 @@ export class CataloguesListComponent implements OnInit {
 
       this.urlParams = [];
       this.route.queryParams
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(params => {
 
             let foundStatus = false;
@@ -385,20 +384,6 @@ export class CataloguesListComponent implements OnInit {
       },
       () => {
         this.loadingMessage = '';
-        this.catalogues.forEach(
-          p => {
-            // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
-            if (p.templateStatus === 'pending template') {
-              this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
-                res => {
-                  if (res) {
-                    this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
-                  }
-                }
-              );
-            }
-          }
-        );
       }
     );
   }
@@ -426,7 +411,9 @@ export class CataloguesListComponent implements OnInit {
         err => {
           UIkit.modal('#deletionModal').hide();
           this.loadingMessage = '';
-          console.log(err);
+          this.errorMessage = (err?.status >= 500 && err?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+              : `Something went bad, server responded: ${err?.error?.detail}`;
         },
         () => {
           this.loadingMessage = '';
@@ -496,7 +483,9 @@ export class CataloguesListComponent implements OnInit {
         err => {
           UIkit.modal('#actionModal').hide();
           this.loadingMessage = '';
-          console.log(err);
+          this.errorMessage = (err?.status >= 500 && err?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+              : `Something went bad, server responded: ${err?.error?.detail}`;
         },
         () => {
           this.loadingMessage = '';
@@ -566,7 +555,6 @@ export class CataloguesListComponent implements OnInit {
       }
     } else if (name === 'templateStatuses') {
       const formArray: UntypedFormArray = this.dataForm.get('templateStatus') as UntypedFormArray;
-      console.log('in');
       if (check) {
         formArray.controls.length = 0;
         for (let i = 0; i < this.templateStatuses.length; i++) {
@@ -593,7 +581,7 @@ export class CataloguesListComponent implements OnInit {
     this.commentAuditControl.reset();
   }
 
-  auditResourceAction(action: string, bundle: CatalogueBundle) {
+  auditResourceAction(action: string) {
     this.catalogueService.auditCatalogue(this.selectedCatalogue.id, action, this.commentAuditControl.value)
       .subscribe(
         res => {this.getCatalogues();},
@@ -605,15 +593,6 @@ export class CataloguesListComponent implements OnInit {
           window.scroll(0,0);
         },
         () => {
-          this.selectedCataloguesForAudit.forEach(
-            s => {
-              if (s.id === this.selectedCatalogue.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
-              }
-            }
-          );
           this.resetAuditView();
         }
       );

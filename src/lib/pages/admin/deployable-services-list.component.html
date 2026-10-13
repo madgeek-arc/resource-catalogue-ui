@@ -335,7 +335,7 @@
                       <hr class="uk-margin-top">
                       <div class="uk-align-right">
                         <button
-                          routerLink="/provider/{{dsBundle.catalogueId}}/{{dsBundle.deployableApplication.resourceOwner}}/deployable-service/view/{{dsBundle.id}}"
+                          routerLink="/provider/{{dsBundle.deployableApplication.resourceOwner}}/deployable-service/view/{{dsBundle.id}}"
                           class="uk-button uk-button-link" style="">
                           <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
                           View Deployable Application
@@ -407,6 +407,7 @@
                                 <ng-container class="uk-margin-small-bottom">
                                   <li (click)="showAuditForm('main', dsBundle)">
                                     <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">check_circle</span>Audit</a>
+                                  </li>
                                   <li class="uk-nav-divider"></li>
                                 </ng-container>
                               }

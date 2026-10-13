@@ -198,10 +198,10 @@
                                 <span class="statusLabel">Parent: </span>{{ curation.parent ? curation.parent : 'None' }}
                               </div>
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Resource Type: </span>{{ curation.vocabularyEntryRequests[0].resourceType | titlecase }}
+                                <span class="statusLabel">Resource Type: </span>{{ curation.vocabularyEntryRequests?.[0]?.resourceType | titlecase }}
                               </div>
                               <div class="uk-margin-small-top">
-                                <span class="statusLabel">Creation Date: </span>{{ curation.vocabularyEntryRequests[0].dateOfRequest | date }}
+                                <span class="statusLabel">Creation Date: </span>{{ curation.vocabularyEntryRequests?.[0]?.dateOfRequest | date }}
                               </div>
                               <div class="uk-margin-small-top">
                                 <span class="statusLabel">Modification Date: </span>{{ curation.resolutionDate ?  (curation.resolutionDate | date) : 'Pending' }}

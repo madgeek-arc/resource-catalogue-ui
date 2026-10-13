@@ -31,7 +31,6 @@ export class TrainingResourceForm implements OnInit, OnDestroy {
   payloadAnswer: object = null;
   formDataToSubmit: any = null;
 
-  protected _marketplaceServicesURL = environment.marketplaceServicesURL;
   serviceName = '';
   firstServiceForm = false;
   showLoader = false;

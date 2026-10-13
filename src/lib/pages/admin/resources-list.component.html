@@ -244,8 +244,8 @@
                           <div class="uk-label uk-align-right">Suspended</div>
                         </div>
 
-                        <div *ngIf="statusesOnView[i].status && serviceBundle.id === statusesOnView[i].serviceId && !showMainAuditForm" class="uk-position-bottom-right uk-margin-xlarge-bottom" style="padding-right: 40px">
-                          <span class="statusLabel">Monitoring Status: </span><span>{{statusesOnView[i].status}}</span>
+                        <div *ngIf="statusesOnView[i]?.status && serviceBundle.id === statusesOnView[i]?.serviceId && !showMainAuditForm" class="uk-position-bottom-right uk-margin-xlarge-bottom" style="padding-right: 40px">
+                          <span class="statusLabel">Monitoring Status: </span><span>{{statusesOnView[i]?.status}}</span>
                         </div>
 <!--                          <ng-container *ngIf="statusesOnView[i]==='OK'">-->
 <!--                            <span class="uk-badge" title="Monitoring Status" style="background: #28a745;">OK</span>-->
@@ -337,11 +337,11 @@
                                 <div>
                                   <div class="uk-margin-small-top">
                                     <span class="statusLabel">Creation Date: </span>
-                                    <ng-container *ngIf="serviceBundle.metadata.registeredAt; else noCreationDate">{{ serviceBundle.metadata.registeredAt | date }}</ng-container>
+                                    <ng-container *ngIf="serviceBundle.metadata?.registeredAt; else noCreationDate">{{ serviceBundle.metadata?.registeredAt | date }}</ng-container>
                                     <ng-template #noCreationDate><i>Unknown</i></ng-template>
                                   </div>
                                   <div class="uk-margin-small-top">
-                                    <span class="statusLabel">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}
+                                    <span class="statusLabel">Last Update: </span>{{ serviceBundle.metadata?.modifiedAt | date }}
                                   </div>
                                   <div class="uk-margin-small-top">
                                     <span class="statusLabel">Last Audit: </span>
@@ -945,11 +945,11 @@
 <!--              </div>-->
               <div class="uk-margin-small-top">
                 <span class="statusLabel">Creation Date: </span>
-                <ng-container *ngIf="serviceBundle.metadata.registeredAt; else noCreationDate">{{ serviceBundle.metadata.registeredAt | date }}</ng-container>
+                <ng-container *ngIf="serviceBundle.metadata?.registeredAt; else noCreationDate">{{ serviceBundle.metadata?.registeredAt | date }}</ng-container>
                 <ng-template #noCreationDate><i>Unknown</i></ng-template>
               </div>
               <div class="uk-margin-small-top">
-                <span class="statusLabel">Last Update: </span>{{ serviceBundle.metadata.modifiedAt | date }}
+                <span class="statusLabel">Last Update: </span>{{ serviceBundle.metadata?.modifiedAt | date }}
               </div>
               <div class="uk-margin-small-top">
                 <span class="statusLabel">Last Audit: </span>

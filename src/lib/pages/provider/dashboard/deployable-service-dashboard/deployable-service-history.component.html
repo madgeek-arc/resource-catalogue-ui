@@ -99,7 +99,7 @@
                   <div class="uk-margin-top uk-text-center">
                     @if (deployableApplication && pidHandler) {
                       <a
-                        [routerLink]="['/dashboard/' + catalogueId + '/' + pidHandler.customEncodeURIComponent(deployableApplication.resourceOwner) + '/deployable-service-dashboard/' + pidHandler.customEncodeURIComponent(deployableApplication.id) + '/fullHistory']"
+                        [routerLink]="['/dashboard/' + pidHandler.customEncodeURIComponent(deployableApplication.resourceOwner) + '/deployable-service-dashboard/' + pidHandler.customEncodeURIComponent(deployableApplication.id) + '/fullHistory']"
                       class="uk-h3 uk-link">See more results ...</a>
                     }
                   </div>

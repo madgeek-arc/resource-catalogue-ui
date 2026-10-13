@@ -99,7 +99,7 @@
                   <div class="uk-margin-top uk-text-center">
                     @if (datasource && pidHandler) {
                       <a
-                        [routerLink]="['/dashboard/' + catalogueId + '/' + pidHandler.customEncodeURIComponent(datasource.resourceOwner) + '/datasource-dashboard/' + pidHandler.customEncodeURIComponent(datasource.id) + '/fullHistory']"
+                        [routerLink]="['/dashboard/' + pidHandler.customEncodeURIComponent(datasource.resourceOwner) + '/datasource-dashboard/' + pidHandler.customEncodeURIComponent(datasource.id) + '/fullHistory']"
                       class="uk-h3 uk-link">See more results ...</a>
                     }
                   </div>

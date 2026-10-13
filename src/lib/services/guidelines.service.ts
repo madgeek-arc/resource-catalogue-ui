@@ -91,7 +91,7 @@ export class GuidelinesService {
 
   activateInteroperabilityRecord(id: string, active: boolean) { // toggles active/inactive provider
     // id = decodeURIComponent(id);
-    return this.http.patch(this.base + `/interoperabilityRecord/setActive/${id}?active=${active}`, this.options);
+    return this.http.patch(this.base + `/interoperabilityRecord/setActive/${id}?active=${active}`, {}, this.options);
   }
    /** <-- new **/
   /** <-- InteroperabilityRecords **/
@@ -125,9 +125,9 @@ export class GuidelinesService {
   auditGuideline(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
     if (catalogueId == null)
-      return this.http.patch(this.base + `/interoperabilityRecord/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/interoperabilityRecord/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
     else
-      return this.http.patch(this.base + `/catalogue/${catalogueId}/interoperabilityRecord/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/catalogue/${catalogueId}/interoperabilityRecord/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
   }
 
   /** Configuration Templates --> **/

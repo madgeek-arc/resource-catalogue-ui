@@ -78,7 +78,7 @@ export class AdaptersService {
 
   activateAdapter(id: string, active: boolean) { // toggles active/inactive provider
     // id = decodeURIComponent(id);
-    return this.http.patch(this.base + `/adapter/setActive/${id}?active=${active}`, this.options);
+    return this.http.patch(this.base + `/adapter/setActive/${id}?active=${active}`, {}, this.options);
   }
 
   suspendAdapter(adapterId: string, catalogueId: string, suspend: boolean) {
@@ -92,15 +92,15 @@ export class AdaptersService {
   auditAdapter(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
     if (catalogueId == null)
-      return this.http.patch(this.base + `/adapter/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/adapter/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
     else
-      return this.http.patch(this.base + `/catalogue/${catalogueId}/adapter/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/catalogue/${catalogueId}/adapter/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
   }
 
   moveAdapterToProvider(adapterId: string, providerId: string, comment: string) {
     adapterId = decodeURIComponent(adapterId);
     providerId = decodeURIComponent(providerId);
-    return this.http.patch(this.base + `/adapter/changeResourceOwner/${adapterId}?newOwnerId=${providerId}&comment=${comment}`, this.options);
+    return this.http.patch(this.base + `/adapter/changeResourceOwner/${adapterId}?newOwnerId=${providerId}&comment=${comment}`, {}, this.options);
   }
 
   hasAdminAcceptedTerms(id: string) {
@@ -110,7 +110,7 @@ export class AdaptersService {
 
   adminAcceptedTerms(id: string) {
     id = decodeURIComponent(id);
-    return this.http.put(this.base + `/adapter/adminAcceptedTerms?id=${id}`, this.options);
+    return this.http.put(this.base + `/adapter/adminAcceptedTerms?id=${id}`, {}, this.options);
   }
 
   // getResourcesAsVocs(catalogueId: string, resourceType?: string){
