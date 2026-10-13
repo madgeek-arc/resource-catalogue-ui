@@ -104,7 +104,7 @@
 
                     <div class="uk-margin-right">
                       <div class="">
-                        <label class="" for="quantity">Results per page </label>
+                        <label class="uk-margin-small-right" for="quantity">Results per page:</label>
                         <div class="uk-inline">
                           <select class="uk-input uk-select" id="quantity" (change)="handleChangeAndResetPage()" formControlName="quantity">
                             <option value="10" selected>10</option>
@@ -119,7 +119,7 @@
                     <div class="uk-margin-right">
 
                       <div class="uk-inline uk-margin-right">
-                        <label class="" for="order">Order </label>
+                        <label class="uk-margin-small-right" for="order">Order:</label>
                         <div class="uk-inline">
                           <select class="uk-input uk-select" id="order" (change)="handleChangeAndResetPage()" formControlName="order">
                             <option value="ASC" selected>Ascending</option>
@@ -129,7 +129,7 @@
                       </div>
 
                       <div class="uk-inline">
-                        <label for="sort">Sort by </label>
+                        <label class="uk-margin-small-right" for="sort">Sort by:</label>
                         <div class="uk-inline">
                           <select class="uk-input uk-select" id="sort" (change)="handleSortChange()" formControlName="sort">
                             <option *ngIf="isSearchActive()" value="">Relevance</option>
@@ -145,7 +145,7 @@
 
                     <div class="uk-inline">
                       <div class="uk-inline uk-margin-right">
-                        <label class="" for="active">Active </label>
+                        <label class="uk-margin-small-right" for="active">Active:</label>
                         <div class="uk-inline">
                           <select class="uk-input uk-select" id="active" (change)="handleChangeAndResetPage()" formControlName="active">
                             <option value="" selected></option>
@@ -157,7 +157,7 @@
                     </div>
 
                     <div class="uk-margin-right">
-                      <label class="" for="suspended">Suspended </label>
+                      <label class="uk-margin-small-right" for="suspended">Suspended:</label>
                       <div class="uk-inline">
                         <select class="uk-input uk-select" id="suspended" (change)="handleChangeAndResetPage()" formControlName="suspended">
                           <option value="" selected></option>
