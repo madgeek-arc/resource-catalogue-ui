@@ -11,7 +11,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
-import {zip} from "rxjs";
 import {AdaptersService} from "../../services/adapters.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';

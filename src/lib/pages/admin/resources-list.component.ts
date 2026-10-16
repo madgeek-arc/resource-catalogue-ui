@@ -1,4 +1,5 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, DestroyRef, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {resourceStatusChangeMap, statusList} from '../../domain/resource-status-list';
@@ -20,7 +21,7 @@ import {NavigationService} from '../../services/navigation.service';
 import {Paging} from '../../domain/paging';
 import {ServiceExtensionsService} from '../../services/service-extensions.service';
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
-
+import {DeduplicationService, SimilarResource} from "../../services/deduplication.service";
 declare let UIkit: any;
 
 @Component({
@@ -69,10 +70,18 @@ export class ResourcesListComponent implements OnInit {
   services: ServiceBundle[] = new Array<ServiceBundle>();
   servicesForAudit: ServiceBundle[] = [];
   selectedService: ServiceBundle;
+
+  allDuplicateResults: SimilarResource[] = [];
+  duplicateResults: SimilarResource[] = [];
+  selectedServiceForDedup: ServiceBundle = null;
+  selectedDuplicate: SimilarResource = null;
+  readonly duplicatesPageSize = 10;
+  duplicatePage = 1;
+  duplicatePageTotal = 0;
+  duplicatePages: number[] = [];
   facets: any;
   searchFacet = '';
 
-  numberOfServicesOnView: number;
   statusesOnView: {serviceId: string, status: string}[];
 
   total: number;
@@ -85,7 +94,7 @@ export class ResourcesListComponent implements OnInit {
   serviceTemplatePerProvider: any[] = [];
 
   providersFormPrepare = {
-    resourceOwner: ''
+    resourceOrganisation: ''
   };
   providersDropdownForm: UntypedFormGroup;
   providersPage: Paging<Provider>;
@@ -112,7 +121,9 @@ export class ResourcesListComponent implements OnInit {
               private fb: UntypedFormBuilder,
               private serviceExtensionsService: ServiceExtensionsService,
               public pidHandler: pidHandler,
-              public config: ConfigService
+              public config: ConfigService,
+              public deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef
   ) {
   }
 
@@ -123,7 +134,7 @@ export class ResourcesListComponent implements OnInit {
       this.dataForm = this.fb.group(this.formPrepare);
       this.providersDropdownForm = this.fb.group(this.providersFormPrepare);
 
-      this.dataForm.get('query').valueChanges.subscribe(val => {
+      this.dataForm.get('query').valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(val => {
         if (val && val !== '') {
           if (!this.sortUserSelected) {
             this.dataForm.get('sort').setValue('', { emitEvent: false }); // matches the Relevance option value
@@ -136,6 +147,7 @@ export class ResourcesListComponent implements OnInit {
 
       this.urlParams = [];
       this.route.queryParams
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(params => {
 
             let foundStatus = false;
@@ -327,9 +339,9 @@ export class ResourcesListComponent implements OnInit {
               this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
                 res => {
                   if (res) {
-                    console.log(res);
+                    // console.log(res);
                     this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
-                    console.log(this.serviceTemplatePerProvider)
+                    // console.log(this.serviceTemplatePerProvider)
                   }
                 }
               );
@@ -384,7 +396,6 @@ export class ResourcesListComponent implements OnInit {
         this.services = res['results'];
         this.facets = res['facets'];
         this.total = res['total'];
-        this.numberOfServicesOnView = res['to']-res['from'];
         this.paginationInit();
       },
       err => {
@@ -394,16 +405,19 @@ export class ResourcesListComponent implements OnInit {
       },
       () => {
         this.loadingMessage = '';
-        this.statusesOnView = [];
-        for(let i = 0; i < this.numberOfServicesOnView; i++) {
-          this.statusesOnView.push({serviceId: '', status: ''});
+        const services = this.services;
+        const statusesOnView: {serviceId: string, status: string}[] = [];
+        for (let i = 0; i < services.length; i++) {
+          statusesOnView.push({serviceId: '', status: ''});
         }
-        for (let i = 0; i < this.numberOfServicesOnView; i++) {
-          this.serviceExtensionsService.getMonitoringStatus(this.services[i].id).subscribe(
+        this.statusesOnView = statusesOnView;
+        for (let i = 0; i < services.length; i++) {
+          const serviceId = services[i].id;
+          this.serviceExtensionsService.getMonitoringStatus(serviceId).subscribe(
             monitoringStatus => {
-              this.statusesOnView[i].serviceId = this.services[i].id;
-              if(monitoringStatus) { this.statusesOnView[i].status = monitoringStatus[0].value }
-              else {  this.statusesOnView[i].status = 'NA' } //no response hence Not Available status (NA)
+              statusesOnView[i].serviceId = serviceId;
+              if(monitoringStatus) { statusesOnView[i].status = monitoringStatus[0].value }
+              else {  statusesOnView[i].status = 'NA' } //no response hence Not Available status (NA)
               },
             err => { this.errorMessage = 'An error occurred while retrieving data for a service. ' + err.error; }
           );
@@ -635,7 +649,6 @@ export class ResourcesListComponent implements OnInit {
   templateAction(serviceBundle, active, status) {
     this.loadingMessage = '';
     UIkit.modal('#spinnerModal').show();
-    console.log(serviceBundle.service.resourceOwner);
     const providerId = serviceBundle.service.resourceOwner;
     const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerId)[0].serviceId;
     this.resourceService.verifyResource(templateId, active, status).subscribe(
@@ -644,7 +657,10 @@ export class ResourcesListComponent implements OnInit {
       },
       err => {
         UIkit.modal('#spinnerModal').hide();
-        console.log(err);
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.getProviders();
       },
       () => {
         UIkit.modal('#spinnerModal').hide();
@@ -706,9 +722,7 @@ export class ResourcesListComponent implements OnInit {
           this.servicesForAudit.forEach(
             s => {
               if (s.id === this.selectedService.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
+                s.latestAuditInfo = {...this.initLatestAuditInfo, date: Date.now().toString(), actionType: action};
               }
             }
           );
@@ -719,7 +733,12 @@ export class ResourcesListComponent implements OnInit {
 
   sendMailForUpdate(serviceBundle) {
     this.resourceService.sendEmailForOutdatedResource(serviceBundle.id).subscribe(
-      res => {}, err => { console.log(err); }
+      res => {},
+      err => {
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+      }
     );
   }
 
@@ -806,7 +825,7 @@ export class ResourcesListComponent implements OnInit {
     const namesArray = [];
     if (idsArray) {
       for (let i=0; i<idsArray.length; i++) {
-        namesArray.push(this.providersPage.results.find( x => x.id == idsArray[i] )?.name);
+        namesArray.push(this.providersPage.results.find( x => x.id === idsArray[i] )?.name);
       }
     }
     return namesArray;
@@ -824,4 +843,173 @@ export class ResourcesListComponent implements OnInit {
   //   );
   // }
 
+  searchForDuplicates(bundle: ServiceBundle) {
+    if (!bundle?.id) {
+      return;
+    }
+    this.errorMessage = '';
+    this.allDuplicateResults = [];
+    this.duplicateResults = [];
+    this.selectedDuplicate = null;
+    this.duplicatePage = 1;
+    this.selectedServiceForDedup = bundle;
+
+    UIkit.notification({
+      message: 'Searching for duplicates...',
+      status: 'primary',
+      pos: 'top-center',
+      timeout: 3000
+    });
+
+    this.deduplicationService.findDuplicates('service', bundle.id).subscribe({
+      next: (similar) => {
+        this.loadingMessage = '';
+        const list = Array.isArray(similar) ? similar : [];
+        if (list.length > 0) {
+          this.allDuplicateResults = list;
+          this.applyDuplicatePage(1);
+          setTimeout(() => {
+            UIkit.modal('#duplicatesModal').show();
+          }, 0);
+        } else {
+          UIkit.notification({
+            message: 'No duplicate records found for this ' + this.serviceORresource.toLowerCase() + '.',
+            status: 'success',
+            pos: 'top-center',
+            timeout: 4000
+          });
+        }
+      },
+      error: (err) => {
+        this.loadingMessage = '';
+        this.errorMessage = 'Something went bad. Server responded: ' + (err?.error?.detail || err?.message || 'unknown error');
+        window.scroll(0, 0);
+      }
+    });
+  }
+
+  applyDuplicatePage(page: number) {
+    const total = this.allDuplicateResults.length;
+    this.duplicatePageTotal = Math.max(1, Math.ceil(total / this.duplicatesPageSize));
+    this.duplicatePage = Math.min(Math.max(page, 1), this.duplicatePageTotal);
+    const start = (this.duplicatePage - 1) * this.duplicatesPageSize;
+    this.duplicateResults = this.allDuplicateResults.slice(start, start + this.duplicatesPageSize);
+    this.duplicatePages = this.buildDuplicatePages();
+  }
+
+  buildDuplicatePages(): number[] {
+    const pages: number[] = [];
+    const total = this.duplicatePageTotal;
+    const current = this.duplicatePage;
+    const offset = 2;
+    for (let i = Math.max(1, current - offset); i <= Math.min(total, current + offset); i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  goToDuplicatePage(page: number) {
+    if (page < 1 || page > this.duplicatePageTotal || page === this.duplicatePage) {
+      return;
+    }
+    this.applyDuplicatePage(page);
+  }
+
+  previousDuplicatePage() {
+    this.goToDuplicatePage(this.duplicatePage - 1);
+  }
+
+  nextDuplicatePage() {
+    this.goToDuplicatePage(this.duplicatePage + 1);
+  }
+
+  getDuplicateRangeLabel(): string {
+    const total = this.allDuplicateResults.length;
+    if (!total) {
+      return '';
+    }
+    const from = (this.duplicatePage - 1) * this.duplicatesPageSize + 1;
+    const to = Math.min(this.duplicatePage * this.duplicatesPageSize, total);
+    return `Showing ${from}–${to} of ${total} match${total === 1 ? '' : 'es'}.`;
+  }
+
+  getDuplicateResource(item: SimilarResource): any {
+    if (!item?.result) {
+      return {};
+    }
+    return item.result.service || item.result;
+  }
+
+  getSimilarityPercent(score: number): number {
+    if (score == null || isNaN(score)) {
+      return 0;
+    }
+    return score <= 1 ? score * 100 : score;
+  }
+
+  getSimilarityLabelClass(score: number): string {
+    const pct = this.getSimilarityPercent(score);
+    if (pct >= 95) {
+      return 'uk-label-danger';
+    }
+    if (pct >= 86) {
+      return 'uk-label-warning';
+    }
+    if (pct >= 51) {
+      return 'uk-label-primary';
+    }
+    return 'uk-label-success';
+  }
+
+  formatDuplicateValue(value: any): string {
+    if (value == null || value === '') {
+      return '';
+    }
+    if (Array.isArray(value)) {
+      return value
+        .map(v => {
+          if (v == null) {
+            return '';
+          }
+          if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+            return String(v);
+          }
+          if (v.category || v.subcategory) {
+            return [v.category, v.subcategory].filter(Boolean).join(' / ');
+          }
+          if (v.scientificDomain || v.scientificSubdomain) {
+            return [v.scientificDomain, v.scientificSubdomain].filter(Boolean).join(' / ');
+          }
+          if (v.multimediaURL || v.multimediaName) {
+            return v.multimediaName || v.multimediaURL;
+          }
+          if (v.useCaseURL || v.useCaseName) {
+            return v.useCaseName || v.useCaseURL;
+          }
+          if (v.firstName || v.lastName || v.email) {
+            return [v.firstName, v.lastName, v.email ? `<${v.email}>` : ''].filter(Boolean).join(' ');
+          }
+          if (v.value) {
+            return String(v.value);
+          }
+          return JSON.stringify(v);
+        })
+        .filter(Boolean)
+        .join(', ');
+    }
+    if (typeof value === 'object') {
+      if (value.firstName || value.lastName || value.email) {
+        return [value.firstName, value.lastName, value.email ? `<${value.email}>` : ''].filter(Boolean).join(' ');
+      }
+      return JSON.stringify(value);
+    }
+    return String(value);
+  }
+
+  openDuplicateDetail(item: SimilarResource) {
+    this.selectedDuplicate = item;
+    setTimeout(() => {
+      UIkit.modal('#duplicateDetailModal').show();
+    }, 0);
+  }
 }

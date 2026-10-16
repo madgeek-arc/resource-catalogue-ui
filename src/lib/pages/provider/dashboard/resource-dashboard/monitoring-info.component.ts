@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../../../environments/environment';
 import {MonitoringStatus, Service} from '../../../../domain/eic-model';
@@ -36,11 +37,12 @@ export class MonitoringInfoComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private navigator: NavigationService,
               private resourceService: ResourceService,
-              private serviceExtensionsService: ServiceExtensionsService) {
+              private serviceExtensionsService: ServiceExtensionsService,
+              private destroyRef: DestroyRef) {
   }
 
   ngOnInit() {
-    this.sub = this.route.parent.params.subscribe(params => {
+    this.sub = this.route.parent.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       this.resourceService.getService(params['resourceId']).subscribe(
         suc => { this.service = suc },
         err => { this.errorMessage = 'An error occurred while retrieving data for this service. ' + err.error; },

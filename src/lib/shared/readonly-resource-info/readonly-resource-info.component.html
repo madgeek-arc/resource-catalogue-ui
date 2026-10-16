@@ -102,9 +102,20 @@
                     <div class="uk-width-3-4">
 
                       @if (field.typeInfo.type === 'url' && valueOf(field, data)) {
-                        <a [href]="valueOf(field, data)" target="_blank">
-                          {{ valueOf(field, data) }}
-                        </a>
+                        @if (isArrayValue(valueOf(field, data))) {
+                          <ul class="uk-list uk-list-collapse uk-margin-remove">
+                            @for (url of valueOf(field, data); track url) {
+                              <li>
+                                <a [href]="url" target="_blank">{{ url }}</a>
+                              </li>
+                            }
+                          </ul>
+                        }
+                        @else {
+                          <a [href]="valueOf(field, data)" target="_blank">
+                            {{ valueOf(field, data) }}
+                          </a>
+                        }
                       }
                       @else if (field.typeInfo.type === 'richText') {
                         <markdown [data]="valueOf(field, data)"></markdown>

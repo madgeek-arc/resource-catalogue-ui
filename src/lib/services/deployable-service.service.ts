@@ -256,7 +256,7 @@ export class DeployableServiceService {
 
   moveDeployableServiceToProvider(resourceId: string, providerId: string, comment: string) {
     resourceId = decodeURIComponent(resourceId);
-    return this.http.put(this.base + `/deployableApplication/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, this.options);
+    return this.http.put(this.base + `/deployableApplication/changeProvider?resourceId=${resourceId}&newProvider=${providerId}&comment=${comment}`, {}, this.options);
   }
 
   public handleError(error: HttpErrorResponse) {
@@ -280,15 +280,15 @@ export class DeployableServiceService {
 
   activateDeployableService(id: string, active: boolean) { // toggles active/inactive service
     id = decodeURIComponent(id);
-    return this.http.patch(this.base + `/deployableApplication/setActive/${id}?active=${active}`, this.options);
+    return this.http.patch(this.base + `/deployableApplication/setActive/${id}?active=${active}`, {}, this.options);
   }
 
   auditDeployableService(id: string, action: string, catalogueId: string, comment: string) {
     id = decodeURIComponent(id);
     if (catalogueId == null)
-      return this.http.patch(this.base + `/deployableApplication/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/deployableApplication/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
     else
-      return this.http.patch(this.base + `/catalogue/${catalogueId}/deployableApplication/audit/${id}?actionType=${action}&comment=${comment}`, this.options);
+      return this.http.patch(this.base + `/catalogue/${catalogueId}/deployableApplication/audit/${id}?actionType=${action}&comment=${comment}`, {}, this.options);
   }
 
   suspendDeployableService(deployableServiceId: string, catalogueId: string, suspend: boolean) {

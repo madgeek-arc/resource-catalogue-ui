@@ -478,9 +478,21 @@ a.remove-element i {
   border-radius: 4px;
   opacity: 1;
 
-  .ng-select-container {
-    height: @input-height;
+  // The ng-select default theme (imported in styles.less) draws its own 36px box on .ng-select-container
+  // the box lives on .ng-select here, so make the inner one fill it invisibly. Selectors mirror the theme's specificity so these win.
+  .ng-select-container,
+  &.ng-select-single .ng-select-container,
+  &.ng-select-opened > .ng-select-container {
+    height: 100%;
+    background: transparent;
+    border: none;
+  }
 
+  .ng-select-container:hover {
+    box-shadow: none;
+  }
+
+  .ng-select-container {
     .ng-value-container {
       .ng-input {
         height: @input-height;
@@ -503,10 +515,6 @@ a.remove-element i {
 
   &.ng-select-single .ng-select-container .ng-value-container .ng-input {
     height: @input-height;
-  }
-
-  .ng-clear-wrapper {
-    margin-top: 17px;
   }
 }
 

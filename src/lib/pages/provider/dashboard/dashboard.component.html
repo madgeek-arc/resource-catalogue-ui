@@ -355,6 +355,14 @@
         </li>
       }
 
+      @if (providerBundle?.organisation?.website) {
+        <li>
+          <a href="{{providerBundle.organisation.website}}" target="_blank">
+            <img src="../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right"> Visit Website
+          </a>
+        </li>
+      }
+
       <li>
         <a [routerLink]="['/developers']">
           <img src="../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right">Use API

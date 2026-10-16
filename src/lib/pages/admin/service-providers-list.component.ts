@@ -1,4 +1,5 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, DestroyRef, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {statusChangeMap, statusList} from '../../domain/service-provider-status-list';
@@ -14,6 +15,7 @@ import {zip} from 'rxjs';
 import {TrainingResourceService} from "../../services/training-resource.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {ConfigService} from '../../services/config.service';
+import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
 
 declare let UIkit: any;
 
@@ -65,6 +67,15 @@ export class ServiceProvidersListComponent implements OnInit {
   providers: ProviderBundle[] = [];
   providersForAudit: ProviderBundle[] = [];
   selectedProvider: ProviderBundle;
+
+  allDuplicateResults: SimilarResource[] = [];
+  duplicateResults: SimilarResource[] = [];
+  selectedProviderForDedup: ProviderBundle = null;
+  selectedDuplicate: SimilarResource = null;
+  readonly duplicatesPageSize = 10;
+  duplicatePage = 1;
+  duplicatePageTotal = 0;
+  duplicatePages: number[] = [];
   newStatus: string;
   pushedApprove: boolean;
   verify: boolean;
@@ -126,7 +137,9 @@ export class ServiceProvidersListComponent implements OnInit {
               private router: Router,
               private fb: UntypedFormBuilder,
               public pidHandler: pidHandler,
-              private config: ConfigService
+              private config: ConfigService,
+              private deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef
   ) {
   }
 
@@ -137,7 +150,7 @@ export class ServiceProvidersListComponent implements OnInit {
     } else {
       this.dataForm = this.fb.group(this.formPrepare);
 
-      this.dataForm.get('query').valueChanges.subscribe(val => {
+      this.dataForm.get('query').valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(val => {
         if (val && val !== '') {
           if (!this.sortUserSelected) {
             this.dataForm.get('sort').setValue('', { emitEvent: false }); // matches the Relevance option value
@@ -150,6 +163,7 @@ export class ServiceProvidersListComponent implements OnInit {
 
       this.urlParams = [];
       this.route.queryParams
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(params => {
 
             let foundStatus = false;
@@ -559,7 +573,13 @@ export class ServiceProvidersListComponent implements OnInit {
               Object.assign(this.providers[i], res);
             }
           },
-          err => console.log(err),
+          err => {
+            UIkit.modal('#approveModal').hide();
+            this.selectedProvider = null;
+            this.errorMessage = (err?.status >= 500 && err?.status < 600)
+                ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+                : `Something went bad, server responded: ${err?.error?.detail}`;
+          },
           () => {
             UIkit.modal('#approveModal').hide();
             this.selectedProvider = null;
@@ -587,7 +607,9 @@ export class ServiceProvidersListComponent implements OnInit {
         err => {
           UIkit.modal('#deletionModal').hide();
           this.loadingMessage = '';
-          console.log(err);
+          this.errorMessage = (err?.status >= 500 && err?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+              : `Something went bad, server responded: ${err?.error?.detail}`;
         },
         () => {
           this.loadingMessage = '';
@@ -653,7 +675,9 @@ export class ServiceProvidersListComponent implements OnInit {
           err => {
             UIkit.modal('#actionModal').hide();
             this.loadingMessage = '';
-            console.log(err);
+            this.errorMessage = (err?.status >= 500 && err?.status < 600)
+                ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+                : `Something went bad, server responded: ${err?.error?.detail}`;
           },
           () => {
             this.loadingMessage = '';
@@ -671,7 +695,9 @@ export class ServiceProvidersListComponent implements OnInit {
           err => {
             UIkit.modal('#actionModal').hide();
             this.loadingMessage = '';
-            console.log(err);
+            this.errorMessage = (err?.status >= 500 && err?.status < 600)
+                ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+                : `Something went bad, server responded: ${err?.error?.detail}`;
           },
           () => {
             this.loadingMessage = '';
@@ -687,7 +713,13 @@ export class ServiceProvidersListComponent implements OnInit {
     if (resourceType === 'service') {
       this.resourceService.verifyResource(templateId, active, status).subscribe(
         res => this.getProviders(),
-        err => UIkit.modal('#spinnerModal').hide(),
+        err => {
+          UIkit.modal('#spinnerModal').hide();
+          this.errorMessage = (err?.status >= 500 && err?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+              : `Something went bad, server responded: ${err?.error?.detail}`;
+          this.getProviders();
+        },
         () => {
           UIkit.modal('#spinnerModal').hide();
           location.reload();
@@ -696,7 +728,13 @@ export class ServiceProvidersListComponent implements OnInit {
     } else if (resourceType === 'trainingResource') {
       this.trainingResourceService.verifyTrainingResource(templateId, active, status).subscribe(
         res => this.getProviders(),
-        err => UIkit.modal('#spinnerModal').hide(),
+        err => {
+          UIkit.modal('#spinnerModal').hide();
+          this.errorMessage = (err?.status >= 500 && err?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+              : `Something went bad, server responded: ${err?.error?.detail}`;
+          this.getProviders();
+        },
         () => {
           UIkit.modal('#spinnerModal').hide();
           location.reload();
@@ -730,14 +768,16 @@ export class ServiceProvidersListComponent implements OnInit {
             this.getProviders();
           }
         },
-        err => { console.log(err); },
+        err => {
+          this.errorMessage = (err?.status >= 500 && err?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+              : `Something went bad, server responded: ${err?.error?.detail}`;
+        },
         () => {
           this.providersForAudit.forEach(
             p => {
               if (p.id === this.selectedProvider.id) {
-                p.latestAuditInfo = this.initLatestAuditInfo;
-                p.latestAuditInfo.date = Date.now().toString();
-                p.latestAuditInfo.actionType = action;
+                p.latestAuditInfo = {...this.initLatestAuditInfo, date: Date.now().toString(), actionType: action};
               }
             }
           );
@@ -753,7 +793,12 @@ export class ServiceProvidersListComponent implements OnInit {
       res => {
         this.resourcesUnderHLE = res;
       },
-      err => {this.loadingMessage = ''},
+      err => {
+        this.loadingMessage = '';
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+      },
       () => {
         this.loadingMessage = '';
         UIkit.modal('#HLEmodal').show();
@@ -854,7 +899,7 @@ export class ServiceProvidersListComponent implements OnInit {
     if (name === 'statuses') {
       const formArray: UntypedFormArray = this.dataForm.get('status') as UntypedFormArray;
       if (check) {
-        formArray.controls.length = 0;
+        formArray.clear();
         for (let i = 0; i < this.statuses.length; i++) {
           formArray.push(new UntypedFormControl(this.statuses[i]));
         }
@@ -866,7 +911,7 @@ export class ServiceProvidersListComponent implements OnInit {
     } else if (name === 'templateStatuses') {
       const formArray: UntypedFormArray = this.dataForm.get('templateStatus') as UntypedFormArray;
       if (check) {
-        formArray.controls.length = 0;
+        formArray.clear();
         for (let i = 0; i < this.templateStatuses.length; i++) {
           formArray.push(new UntypedFormControl(this.templateStatuses[i]));
         }
@@ -892,7 +937,11 @@ export class ServiceProvidersListComponent implements OnInit {
       const resourceId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerBundleId)[0].serviceId;
       this.resourceService.getService(resourceId).subscribe(
         res => { this.resourceToPreview = res; },
-        error => console.log(error),
+        error => {
+          this.errorMessage = (error?.status >= 500 && error?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${error?.error?.traceId}`
+              : `Something went bad, server responded: ${error?.error?.detail}`;
+        },
         () => {
           UIkit.modal('#modal-preview').show();
         }
@@ -909,6 +958,175 @@ export class ServiceProvidersListComponent implements OnInit {
         }
       );
     }*/
+  }
+
+  searchForDuplicates(bundle: ProviderBundle) {
+    if (!bundle?.id) {
+      return;
+    }
+    this.errorMessage = '';
+    this.allDuplicateResults = [];
+    this.duplicateResults = [];
+    this.selectedDuplicate = null;
+    this.duplicatePage = 1;
+    this.selectedProviderForDedup = bundle;
+
+    UIkit.notification({
+      message: 'Searching for duplicates...',
+      status: 'primary',
+      pos: 'top-center',
+      timeout: 3000
+    });
+
+    this.deduplicationService.findDuplicates('organisation', bundle.id).subscribe({
+      next: (similar) => {
+        this.loadingMessage = '';
+        const list = Array.isArray(similar) ? similar : [];
+        if (list.length > 0) {
+          this.allDuplicateResults = list;
+          this.applyDuplicatePage(1);
+          setTimeout(() => {
+            UIkit.modal('#providerDuplicatesModal').show();
+          }, 0);
+        } else {
+          UIkit.notification({
+            message: 'No duplicate records found for this provider.',
+            status: 'success',
+            pos: 'top-center',
+            timeout: 4000
+          });
+        }
+      },
+      error: (err) => {
+        this.loadingMessage = '';
+        this.errorMessage = 'Something went bad. Server responded: ' + (err?.error?.detail || err?.message || 'unknown error');
+        window.scroll(0, 0);
+      }
+    });
+  }
+
+  applyDuplicatePage(page: number) {
+    const total = this.allDuplicateResults.length;
+    this.duplicatePageTotal = Math.max(1, Math.ceil(total / this.duplicatesPageSize));
+    this.duplicatePage = Math.min(Math.max(page, 1), this.duplicatePageTotal);
+    const start = (this.duplicatePage - 1) * this.duplicatesPageSize;
+    this.duplicateResults = this.allDuplicateResults.slice(start, start + this.duplicatesPageSize);
+    this.duplicatePages = this.buildDuplicatePages();
+  }
+
+  buildDuplicatePages(): number[] {
+    const pages: number[] = [];
+    const total = this.duplicatePageTotal;
+    const current = this.duplicatePage;
+    const offset = 2;
+    for (let i = Math.max(1, current - offset); i <= Math.min(total, current + offset); i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  goToDuplicatePage(page: number) {
+    if (page < 1 || page > this.duplicatePageTotal || page === this.duplicatePage) {
+      return;
+    }
+    this.applyDuplicatePage(page);
+  }
+
+  previousDuplicatePage() {
+    this.goToDuplicatePage(this.duplicatePage - 1);
+  }
+
+  nextDuplicatePage() {
+    this.goToDuplicatePage(this.duplicatePage + 1);
+  }
+
+  getDuplicateRangeLabel(): string {
+    const total = this.allDuplicateResults.length;
+    if (!total) {
+      return '';
+    }
+    const from = (this.duplicatePage - 1) * this.duplicatesPageSize + 1;
+    const to = Math.min(this.duplicatePage * this.duplicatesPageSize, total);
+    return `Showing ${from}–${to} of ${total} match${total === 1 ? '' : 'es'}.`;
+  }
+
+  getDuplicateResource(item: SimilarResource): any {
+    if (!item?.result) {
+      return {};
+    }
+    return item.result.organisation || item.result.provider || item.result;
+  }
+
+  getSimilarityPercent(score: number): number {
+    if (score == null || isNaN(score)) {
+      return 0;
+    }
+    return score <= 1 ? score * 100 : score;
+  }
+
+  getSimilarityLabelClass(score: number): string {
+    const pct = this.getSimilarityPercent(score);
+    if (pct >= 95) {
+      return 'uk-label-danger';
+    }
+    if (pct >= 86) {
+      return 'uk-label-warning';
+    }
+    if (pct >= 51) {
+      return 'uk-label-primary';
+    }
+    return 'uk-label-success';
+  }
+
+  formatDuplicateValue(value: any): string {
+    if (value == null || value === '') {
+      return '';
+    }
+    if (Array.isArray(value)) {
+      return value
+        .map(v => {
+          if (v == null) {
+            return '';
+          }
+          if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+            return String(v);
+          }
+          if (v.scientificDomain || v.scientificSubdomain) {
+            return [v.scientificDomain, v.scientificSubdomain].filter(Boolean).join(' / ');
+          }
+          if (v.merilScientificDomain || v.merilScientificSubdomain) {
+            return [v.merilScientificDomain, v.merilScientificSubdomain].filter(Boolean).join(' / ');
+          }
+          if (v.firstName || v.lastName || v.email) {
+            return [v.firstName, v.lastName, v.email ? `<${v.email}>` : ''].filter(Boolean).join(' ');
+          }
+          if (v.value) {
+            return String(v.value);
+          }
+          return JSON.stringify(v);
+        })
+        .filter(Boolean)
+        .join(', ');
+    }
+    if (typeof value === 'object') {
+      if (value.firstName || value.lastName || value.email) {
+        return [value.firstName, value.lastName, value.email ? `<${value.email}>` : ''].filter(Boolean).join(' ');
+      }
+      if (value.streetNameAndNumber || value.city || value.country) {
+        return [value.streetNameAndNumber, value.postalCode, value.city, value.region, value.country]
+          .filter(Boolean)
+          .join(', ');
+      }
+      return JSON.stringify(value);
+    }
+    return String(value);
+  }
+
+  openDuplicateDetail(item: SimilarResource) {
+    this.selectedDuplicate = item;
+    setTimeout(() => {
+      UIkit.modal('#providerDuplicateDetailModal').show();
+    }, 0);
   }
 
 }

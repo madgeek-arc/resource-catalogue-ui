@@ -1,4 +1,5 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, DestroyRef, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {CatalogueService} from "../../services/catalogue.service";
@@ -21,6 +22,7 @@ import {URLParameter} from '../../domain/url-parameter';
 import {Paging} from '../../domain/paging';
 import {getLocaleDateFormat} from '@angular/common';
 import {zip} from 'rxjs';
+import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
 
 declare let UIkit: any;
 
@@ -61,9 +63,16 @@ export class CataloguesListComponent implements OnInit {
   loadingMessage = '';
 
   catalogues: CatalogueBundle[] = [];
-  cataloguesForAudit: CatalogueBundle[] = [];
   selectedCatalogue: CatalogueBundle;
-  selectedCataloguesForAudit: CatalogueBundle[] = [];
+
+  allDuplicateResults: SimilarResource[] = [];
+  duplicateResults: SimilarResource[] = [];
+  selectedCatalogueForDedup: CatalogueBundle = null;
+  selectedDuplicate: SimilarResource = null;
+  readonly duplicatesPageSize = 10;
+  duplicatePage = 1;
+  duplicatePageTotal = 0;
+  duplicatePages: number[] = [];
   newStatus: string;
   pushedApprove: boolean;
   verify: boolean;
@@ -75,8 +84,6 @@ export class CataloguesListComponent implements OnInit {
   pageTotal: number;
   pages: number[] = [];
   offset = 2;
-
-  serviceTemplatePerProvider: any[] = [];
 
   // statusList = statusList;
   // adminActionsMap = statusChangeMap;
@@ -121,7 +128,9 @@ export class CataloguesListComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               private router: Router,
-              private fb: UntypedFormBuilder
+              private fb: UntypedFormBuilder,
+              private deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef
   ) {
   }
 
@@ -131,7 +140,7 @@ export class CataloguesListComponent implements OnInit {
     } else {
       this.dataForm = this.fb.group(this.formPrepare);
 
-      this.dataForm.get('query').valueChanges.subscribe(val => {
+      this.dataForm.get('query').valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(val => {
         if (val && val !== '') {
           if (!this.sortUserSelected) {
             this.dataForm.get('sort').setValue('', { emitEvent: false }); // matches the Relevance option value
@@ -144,6 +153,7 @@ export class CataloguesListComponent implements OnInit {
 
       this.urlParams = [];
       this.route.queryParams
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(params => {
 
             let foundStatus = false;
@@ -374,20 +384,6 @@ export class CataloguesListComponent implements OnInit {
       },
       () => {
         this.loadingMessage = '';
-        this.catalogues.forEach(
-          p => {
-            // if ((p.templateStatus === 'pending template') || (p.templateStatus === 'rejected template')) {
-            if (p.templateStatus === 'pending template') {
-              this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
-                res => {
-                  if (res) {
-                    this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
-                  }
-                }
-              );
-            }
-          }
-        );
       }
     );
   }
@@ -415,7 +411,9 @@ export class CataloguesListComponent implements OnInit {
         err => {
           UIkit.modal('#deletionModal').hide();
           this.loadingMessage = '';
-          console.log(err);
+          this.errorMessage = (err?.status >= 500 && err?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+              : `Something went bad, server responded: ${err?.error?.detail}`;
         },
         () => {
           this.loadingMessage = '';
@@ -485,7 +483,9 @@ export class CataloguesListComponent implements OnInit {
         err => {
           UIkit.modal('#actionModal').hide();
           this.loadingMessage = '';
-          console.log(err);
+          this.errorMessage = (err?.status >= 500 && err?.status < 600)
+              ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+              : `Something went bad, server responded: ${err?.error?.detail}`;
         },
         () => {
           this.loadingMessage = '';
@@ -555,7 +555,6 @@ export class CataloguesListComponent implements OnInit {
       }
     } else if (name === 'templateStatuses') {
       const formArray: UntypedFormArray = this.dataForm.get('templateStatus') as UntypedFormArray;
-      console.log('in');
       if (check) {
         formArray.controls.length = 0;
         for (let i = 0; i < this.templateStatuses.length; i++) {
@@ -582,7 +581,7 @@ export class CataloguesListComponent implements OnInit {
     this.commentAuditControl.reset();
   }
 
-  auditResourceAction(action: string, bundle: CatalogueBundle) {
+  auditResourceAction(action: string) {
     this.catalogueService.auditCatalogue(this.selectedCatalogue.id, action, this.commentAuditControl.value)
       .subscribe(
         res => {this.getCatalogues();},
@@ -594,19 +593,176 @@ export class CataloguesListComponent implements OnInit {
           window.scroll(0,0);
         },
         () => {
-          this.selectedCataloguesForAudit.forEach(
-            s => {
-              if (s.id === this.selectedCatalogue.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
-              }
-            }
-          );
           this.resetAuditView();
         }
       );
   }
   /** <--Audit **/
+
+  searchForDuplicates(bundle: CatalogueBundle) {
+    if (!bundle?.id) {
+      return;
+    }
+    this.errorMessage = '';
+    this.allDuplicateResults = [];
+    this.duplicateResults = [];
+    this.selectedDuplicate = null;
+    this.duplicatePage = 1;
+    this.selectedCatalogueForDedup = bundle;
+
+    UIkit.notification({
+      message: 'Searching for duplicates...',
+      status: 'primary',
+      pos: 'top-center',
+      timeout: 3000
+    });
+
+    this.deduplicationService.findDuplicates('catalogue', bundle.id).subscribe({
+      next: (similar) => {
+        this.loadingMessage = '';
+        const list = Array.isArray(similar) ? similar : [];
+        if (list.length > 0) {
+          this.allDuplicateResults = list;
+          this.applyDuplicatePage(1);
+          setTimeout(() => {
+            UIkit.modal('#catalogueDuplicatesModal').show();
+          }, 0);
+        } else {
+          UIkit.notification({
+            message: 'No duplicate records found for this catalogue.',
+            status: 'success',
+            pos: 'top-center',
+            timeout: 4000
+          });
+        }
+      },
+      error: (err) => {
+        this.loadingMessage = '';
+        this.errorMessage = 'Something went bad. Server responded: ' + (err?.error?.detail || err?.message || 'unknown error');
+        window.scroll(0, 0);
+      }
+    });
+  }
+
+  applyDuplicatePage(page: number) {
+    const total = this.allDuplicateResults.length;
+    this.duplicatePageTotal = Math.max(1, Math.ceil(total / this.duplicatesPageSize));
+    this.duplicatePage = Math.min(Math.max(page, 1), this.duplicatePageTotal);
+    const start = (this.duplicatePage - 1) * this.duplicatesPageSize;
+    this.duplicateResults = this.allDuplicateResults.slice(start, start + this.duplicatesPageSize);
+    this.duplicatePages = this.buildDuplicatePages();
+  }
+
+  buildDuplicatePages(): number[] {
+    const pages: number[] = [];
+    const total = this.duplicatePageTotal;
+    const current = this.duplicatePage;
+    const offset = 2;
+    for (let i = Math.max(1, current - offset); i <= Math.min(total, current + offset); i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  goToDuplicatePage(page: number) {
+    if (page < 1 || page > this.duplicatePageTotal || page === this.duplicatePage) {
+      return;
+    }
+    this.applyDuplicatePage(page);
+  }
+
+  previousDuplicatePage() {
+    this.goToDuplicatePage(this.duplicatePage - 1);
+  }
+
+  nextDuplicatePage() {
+    this.goToDuplicatePage(this.duplicatePage + 1);
+  }
+
+  getDuplicateRangeLabel(): string {
+    const total = this.allDuplicateResults.length;
+    if (!total) {
+      return '';
+    }
+    const from = (this.duplicatePage - 1) * this.duplicatesPageSize + 1;
+    const to = Math.min(this.duplicatePage * this.duplicatesPageSize, total);
+    return `Showing ${from}–${to} of ${total} match${total === 1 ? '' : 'es'}.`;
+  }
+
+  getDuplicateResource(item: SimilarResource): any {
+    if (!item?.result) {
+      return {};
+    }
+    return item.result.catalogue || item.result;
+  }
+
+  getSimilarityPercent(score: number): number {
+    if (score == null || isNaN(score)) {
+      return 0;
+    }
+    return score <= 1 ? score * 100 : score;
+  }
+
+  getSimilarityLabelClass(score: number): string {
+    const pct = this.getSimilarityPercent(score);
+    if (pct >= 95) {
+      return 'uk-label-danger';
+    }
+    if (pct >= 86) {
+      return 'uk-label-warning';
+    }
+    if (pct >= 51) {
+      return 'uk-label-primary';
+    }
+    return 'uk-label-success';
+  }
+
+  formatDuplicateValue(value: any): string {
+    if (value == null || value === '') {
+      return '';
+    }
+    if (Array.isArray(value)) {
+      return value
+        .map(v => {
+          if (v == null) {
+            return '';
+          }
+          if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+            return String(v);
+          }
+          if (v.scientificDomain || v.scientificSubdomain) {
+            return [v.scientificDomain, v.scientificSubdomain].filter(Boolean).join(' / ');
+          }
+          if (v.firstName || v.lastName || v.email) {
+            return [v.firstName, v.lastName, v.email ? `<${v.email}>` : ''].filter(Boolean).join(' ');
+          }
+          if (v.value) {
+            return String(v.value);
+          }
+          return JSON.stringify(v);
+        })
+        .filter(Boolean)
+        .join(', ');
+    }
+    if (typeof value === 'object') {
+      if (value.firstName || value.lastName || value.email) {
+        return [value.firstName, value.lastName, value.email ? `<${value.email}>` : ''].filter(Boolean).join(' ');
+      }
+      if (value.streetNameAndNumber || value.city || value.country) {
+        return [value.streetNameAndNumber, value.postalCode, value.city, value.region, value.country]
+          .filter(Boolean)
+          .join(', ');
+      }
+      return JSON.stringify(value);
+    }
+    return String(value);
+  }
+
+  openDuplicateDetail(item: SimilarResource) {
+    this.selectedDuplicate = item;
+    setTimeout(() => {
+      UIkit.modal('#catalogueDuplicateDetailModal').show();
+    }, 0);
+  }
 
 }

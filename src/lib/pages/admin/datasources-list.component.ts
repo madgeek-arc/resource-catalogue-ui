@@ -1,4 +1,5 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, DestroyRef, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {
@@ -19,6 +20,7 @@ import {NavigationService} from '../../services/navigation.service';
 import {DatasourceService} from "../../services/datasource.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {Paging} from "../../domain/paging";
+import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
 
 declare let UIkit: any;
 
@@ -54,10 +56,8 @@ export class DatasourcesListComponent implements OnInit {
   urlParams: URLParameter[] = [];
 
   commentAuditControl = new UntypedFormControl();
-  showSideAuditForm = false;
   showMainAuditForm = false;
   initLatestAuditInfo: LoggingInfo =  {date: '', userEmail: '', userFullName: '', userRole: '', type: '', comment: '', actionType: ''};
-  datasourcesForAudit: DatasourceBundle[] = [];
 
   errorMessage: string;
   loadingMessage = '';
@@ -67,6 +67,15 @@ export class DatasourcesListComponent implements OnInit {
   datasources: DatasourceBundle[] = [];
   selectedDatasourceId: string;
   selectedDatasource: DatasourceBundle;
+
+  allDuplicateResults: SimilarResource[] = [];
+  duplicateResults: SimilarResource[] = [];
+  selectedDatasourceForDedup: DatasourceBundle = null;
+  selectedDuplicate: SimilarResource = null;
+  readonly duplicatesPageSize = 10;
+  duplicatePage = 1;
+  duplicatePageTotal = 0;
+  duplicatePages: number[] = [];
 
   // serviceIdsOnView = [];
   servicesOnView = [];
@@ -103,6 +112,8 @@ export class DatasourcesListComponent implements OnInit {
               private fb: UntypedFormBuilder,
               public pidHandler: pidHandler,
               public config: ConfigService,
+              private deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef
   ) {
   }
 
@@ -112,7 +123,7 @@ export class DatasourcesListComponent implements OnInit {
     } else {
       this.dataForm = this.fb.group(this.formPrepare);
 
-      this.dataForm.get('query').valueChanges.subscribe(val => {
+      this.dataForm.get('query').valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(val => {
         if (val && val !== '') {
           if (!this.sortUserSelected) {
             this.dataForm.get('sort').setValue('', { emitEvent: false }); // matches the Relevance option value
@@ -125,6 +136,7 @@ export class DatasourcesListComponent implements OnInit {
 
       this.urlParams = [];
       this.route.queryParams
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(params => {
 
             let foundStatus = false;
@@ -373,7 +385,13 @@ export class DatasourcesListComponent implements OnInit {
     UIkit.modal('#spinnerModal').show();
     this.datasourceService.verifyDatasource(id, active, status).subscribe(
       res => this.getDatasources(),
-      err => UIkit.modal('#spinnerModal').hide(),
+      err => {
+        UIkit.modal('#spinnerModal').hide();
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.getDatasources();
+      },
       () => {
         UIkit.modal('#spinnerModal').hide();
         location.reload();
@@ -544,18 +562,13 @@ export class DatasourcesListComponent implements OnInit {
   }
 
   /** Audit --> **/
-  showAuditForm(view: string, dsBundle: DatasourceBundle) {
+  showAuditForm(dsBundle: DatasourceBundle) {
     this.commentAuditControl.reset();
     this.selectedDatasource = dsBundle;
-    if (view === 'side') {
-      this.showSideAuditForm = true;
-    } else if (view === 'main') {
-      this.showMainAuditForm = true;
-    }
+    this.showMainAuditForm = true;
   }
 
   resetAuditView() {
-    this.showSideAuditForm = false;
     this.showMainAuditForm = false;
     this.commentAuditControl.reset();
   }
@@ -564,9 +577,7 @@ export class DatasourcesListComponent implements OnInit {
     this.datasourceService.auditDatasource(this.selectedDatasource.id, action, this.selectedDatasource.catalogueId, this.commentAuditControl.value)
       .subscribe(
         res => {
-          if (!this.showSideAuditForm) {
-            this.getDatasources();
-          }
+          this.getDatasources();
         },
         err => {
           this.errorMessage =
@@ -576,19 +587,171 @@ export class DatasourcesListComponent implements OnInit {
           window.scroll(0,0);
         },
         () => {
-          this.datasourcesForAudit.forEach(
-            s => {
-              if (s.id === this.selectedDatasource.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
-              }
-            }
-          );
           this.resetAuditView();
         }
       );
   }
   /** <-- Audit **/
+
+  searchForDuplicates(bundle: DatasourceBundle) {
+    if (!bundle?.id) {
+      return;
+    }
+    this.errorMessage = '';
+    this.allDuplicateResults = [];
+    this.duplicateResults = [];
+    this.selectedDuplicate = null;
+    this.duplicatePage = 1;
+    this.selectedDatasourceForDedup = bundle;
+
+    UIkit.notification({
+      message: 'Searching for duplicates...',
+      status: 'primary',
+      pos: 'top-center',
+      timeout: 3000
+    });
+
+    this.deduplicationService.findDuplicates('datasource', bundle.id).subscribe({
+      next: (similar) => {
+        this.loadingMessage = '';
+        const list = Array.isArray(similar) ? similar : [];
+        if (list.length > 0) {
+          this.allDuplicateResults = list;
+          this.applyDuplicatePage(1);
+          setTimeout(() => {
+            UIkit.modal('#datasourceDuplicatesModal').show();
+          }, 0);
+        } else {
+          UIkit.notification({
+            message: 'No duplicate records found for this datasource.',
+            status: 'success',
+            pos: 'top-center',
+            timeout: 4000
+          });
+        }
+      },
+      error: (err) => {
+        this.loadingMessage = '';
+        this.errorMessage = 'Something went bad. Server responded: ' + (err?.error?.detail || err?.message || 'unknown error');
+        window.scroll(0, 0);
+      }
+    });
+  }
+
+  applyDuplicatePage(page: number) {
+    const total = this.allDuplicateResults.length;
+    this.duplicatePageTotal = Math.max(1, Math.ceil(total / this.duplicatesPageSize));
+    this.duplicatePage = Math.min(Math.max(page, 1), this.duplicatePageTotal);
+    const start = (this.duplicatePage - 1) * this.duplicatesPageSize;
+    this.duplicateResults = this.allDuplicateResults.slice(start, start + this.duplicatesPageSize);
+    this.duplicatePages = this.buildDuplicatePages();
+  }
+
+  buildDuplicatePages(): number[] {
+    const pages: number[] = [];
+    const total = this.duplicatePageTotal;
+    const current = this.duplicatePage;
+    const offset = 2;
+    for (let i = Math.max(1, current - offset); i <= Math.min(total, current + offset); i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  goToDuplicatePage(page: number) {
+    if (page < 1 || page > this.duplicatePageTotal || page === this.duplicatePage) {
+      return;
+    }
+    this.applyDuplicatePage(page);
+  }
+
+  previousDuplicatePage() {
+    this.goToDuplicatePage(this.duplicatePage - 1);
+  }
+
+  nextDuplicatePage() {
+    this.goToDuplicatePage(this.duplicatePage + 1);
+  }
+
+  getDuplicateRangeLabel(): string {
+    const total = this.allDuplicateResults.length;
+    if (!total) {
+      return '';
+    }
+    const from = (this.duplicatePage - 1) * this.duplicatesPageSize + 1;
+    const to = Math.min(this.duplicatePage * this.duplicatesPageSize, total);
+    return `Showing ${from}–${to} of ${total} match${total === 1 ? '' : 'es'}.`;
+  }
+
+  getDuplicateResource(item: SimilarResource): any {
+    if (!item?.result) {
+      return {};
+    }
+    return item.result.datasource || item.result;
+  }
+
+  getSimilarityPercent(score: number): number {
+    if (score == null || isNaN(score)) {
+      return 0;
+    }
+    return score <= 1 ? score * 100 : score;
+  }
+
+  getSimilarityLabelClass(score: number): string {
+    const pct = this.getSimilarityPercent(score);
+    if (pct >= 95) {
+      return 'uk-label-danger';
+    }
+    if (pct >= 86) {
+      return 'uk-label-warning';
+    }
+    if (pct >= 51) {
+      return 'uk-label-primary';
+    }
+    return 'uk-label-success';
+  }
+
+  formatDuplicateValue(value: any): string {
+    if (value == null || value === '') {
+      return '';
+    }
+    if (Array.isArray(value)) {
+      return value
+        .map(v => {
+          if (v == null) {
+            return '';
+          }
+          if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+            return String(v);
+          }
+          if (v.researchProductLicenseName || v.researchProductLicenseURL) {
+            return v.researchProductLicenseName || v.researchProductLicenseURL;
+          }
+          if (v.persistentIdentityEntityType) {
+            return v.persistentIdentityEntityType;
+          }
+          if (v.value) {
+            return String(v.value);
+          }
+          return JSON.stringify(v);
+        })
+        .filter(Boolean)
+        .join(', ');
+    }
+    if (typeof value === 'object') {
+      if (value.researchProductMetadataLicenseName || value.researchProductMetadataLicenseURL) {
+        return value.researchProductMetadataLicenseName || value.researchProductMetadataLicenseURL;
+      }
+      return JSON.stringify(value);
+    }
+    return String(value);
+  }
+
+  openDuplicateDetail(item: SimilarResource) {
+    this.selectedDuplicate = item;
+    setTimeout(() => {
+      UIkit.modal('#datasourceDuplicateDetailModal').show();
+    }, 0);
+  }
 
 }

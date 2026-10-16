@@ -15,7 +15,7 @@
   </div>
 
   <div class="helpdesk-overlay uk-animation-scale-up">
-    <button class="uk-button helpdesk-overlay-button" [routerLink]="['/helpdesk/create']" type="button">
+    <button class="uk-button helpdesk-overlay-button" (click)="onHelpdeskClick()" type="button">
       <span class="helpdesk-span">
         <i class="material-symbols-outlined" style="font-size: 24px;">help</i>
         <span class="helpdesk-label">Helpdesk</span>

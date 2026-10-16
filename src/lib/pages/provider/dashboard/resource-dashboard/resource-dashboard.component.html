@@ -132,13 +132,13 @@
         </li>
       }
 
-      <li>
-        <!--            TODO: to check-->
-        <!--            <a href="{{_marketplaceServicesURL}}{{catalogueId}}.{{resourceId}}" target="_blank">-->
-        <a href="{{_marketplaceServicesURL}}" target="_blank">
-          <img src="../../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right"> View in Catalogue
-        </a>
-      </li>
+      @if (resourceBundle?.service?.webpage) {
+        <li>
+          <a href="{{resourceBundle.service.webpage}}" target="_blank">
+            <img src="../../../../../assets/images/new-icons/update-provider.svg" class="uk-margin-small-right"> Visit Website
+          </a>
+        </li>
+      }
       <li>
         <a [routerLink]="['/dashboard', pidHandler.customEncodeURIComponent(providerId)]">
           <img src="../../../../../assets/images/new-icons/stats.svg" class="uk-margin-small-right">

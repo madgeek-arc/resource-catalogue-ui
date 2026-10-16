@@ -213,6 +213,7 @@ export class Adapter implements Identifiable {
   id: string;
   name: string;
   node: string;
+  resourceOwner: string;
   catalogueId: string;
   description: string;
   linkedResource: LinkedResource;
@@ -455,6 +456,7 @@ export class Datasource implements Identifiable {
   name: string;
   description: string;
   logo: URL;
+  webpage: URL;
   resourceOwner: string;
   catalogueId: string;
   submissionPolicyURL: URL;
@@ -806,6 +808,16 @@ export const enum Type {
   SERVICE_CATEGORY = "SERVICE_CATEGORY",
   MARKETPLACE_LOCATION = "MARKETPLACE_LOCATION",
   NODE = "NODE",
+  DS_RESEARCH_ACTIVITY = "DS_RESEARCH_ACTIVITY",
+  QUALIFICATION = "QUALIFICATION",
+  EXPERTISE_LEVEL = "EXPERTISE_LEVEL",
+  LEARNING_RESOURCE_TYPE = "LEARNING_RESOURCE_TYPE",
+  CONTENT_RESOURCE_TYPE = "CONTENT_RESOURCE_TYPE",
+  ACCESS_RIGHT = "ACCESS_RIGHT",
+  LEGAL_STATUS = "LEGAL_STATUS",
+  EOSC_GUIDELINE_TYPE = "EOSC_GUIDELINE_TYPE",
+  INTEROPERABILITY_RECORD_STATUS = "INTEROPERABILITY_RECORD_STATUS",
+  ADAPTER_PROGRAMMING_LANGUAGE = "ADAPTER_PROGRAMMING_LANGUAGE"
 }
 
 /* HELPDESK --> */

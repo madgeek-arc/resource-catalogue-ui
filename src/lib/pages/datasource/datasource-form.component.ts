@@ -1,9 +1,9 @@
-import {Component, Injector, isDevMode, OnInit, ViewChild} from '@angular/core';
+import {Component, Injector, isDevMode, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NavigationService} from '../../services/navigation.service';
 import {ResourceService} from '../../services/resource.service';
 import {ServiceExtensionsService} from '../../services/service-extensions.service';
-import {Provider, Service, Datasource} from '../../domain/eic-model';
+import {Provider, Service, Datasource, Type, Vocabulary} from '../../domain/eic-model';
 import {Paging} from '../../domain/paging';
 import {environment} from '../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -13,7 +13,8 @@ import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {ConfigService} from "../../services/config.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
-import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
+import {DeduplicationService, SimilarResource} from "../../services/deduplication.service";
+import {SuggestionConfig, SuggestionService, SuggestionState} from "../../services/suggestion.service";
 
 declare let UIkit: any;
 
@@ -22,7 +23,7 @@ declare let UIkit: any;
     templateUrl: './datasource-form.component.html',
     standalone: false
 })
-export class DatasourceFormComponent implements OnInit {
+export class DatasourceFormComponent implements OnInit, OnDestroy {
   @ViewChild(SurveyComponent) child: SurveyComponent
   model: Model = null;
   payloadAnswer: object = null;
@@ -62,8 +63,75 @@ export class DatasourceFormComponent implements OnInit {
   providersPage: Paging<Provider>;
   resourceService: ResourceService = this.injector.get(ResourceService);
   serviceExtensionsService: ServiceExtensionsService = this.injector.get(ServiceExtensionsService);
-
   navigator: NavigationService = this.injector.get(NavigationService);
+
+  /** config for suggestions --> **/
+  suggestionConfig: SuggestionConfig = {
+    resourceType: 'datasource',
+    formKey: 'datasource',
+    fields: [
+      {
+        fieldName: 'scientific_domains',
+        label: 'Scientific Subdomains',
+        type: 'checkbox',
+        vocabularyType: Type.SCIENTIFIC_SUBDOMAIN,
+        isComposite: true,
+        formArrayName: 'scientificDomains',
+        parentLookupField: 'scientificDomain',
+        childField: 'scientificSubdomain'
+      },
+      {
+        fieldName: 'order_type',
+        label: 'Order Type',
+        type: 'radio',
+        vocabularyType: Type.ORDER_TYPE,
+        formArrayName: 'orderType'
+      },
+      {
+        fieldName: 'datasource_classification',
+        label: 'Datasource Classification',
+        type: 'radio',
+        vocabularyType: Type.DS_CLASSIFICATION,
+        formArrayName: 'datasourceClassification'
+      },
+      {
+        fieldName: 'jurisdiction',
+        label: 'Jurisdiction',
+        type: 'radio',
+        vocabularyType: Type.DS_JURISDICTION,
+        formArrayName: 'jurisdiction'
+      },
+      {
+        fieldName: 'research_entity_types',
+        label: 'Research Entity Types',
+        type: 'checkbox',
+        vocabularyType: Type.DS_RESEARCH_ENTITY_TYPE,
+        formArrayName: 'researchProductTypes'
+      },
+      {
+        fieldName: 'trl',
+        label: 'Technology Readiness Level',
+        type: 'radio',
+        vocabularyType: Type.TRL,
+        formArrayName: 'trl'
+      },
+      {
+        fieldName: 'tags',
+        label: 'Tags',
+        type: 'checkbox',
+        vocabularyType: null,
+        formArrayName: 'tags'
+      }
+    ]
+  };
+
+  suggestionService: SuggestionService = this.injector.get(SuggestionService);
+  suggestionState: SuggestionState = this.suggestionService.getInitialState();
+  // unique per component instance so two 'datasource' forms can never collide on the same modal id
+  suggestionModalId: string = this.suggestionService.generateModalId(this.suggestionConfig.resourceType);
+
+  vocabularies: Map<string, Vocabulary[]> = null;
+  /** <--config for suggestions **/
 
   constructor(protected injector: Injector,
               protected authenticationService: AuthenticationService,
@@ -137,6 +205,11 @@ export class DatasourceFormComponent implements OnInit {
   ngOnInit() {
     this.showLoader = true;
     const path = this.route.snapshot.routeConfig.path;
+
+    this.resourceService.getAllVocabulariesByType().subscribe(vocabularies => {
+      this.vocabularies = vocabularies as Map<string, Vocabulary[]>;
+    });
+
     if (path.includes('view/:datasourceId')) {
       this.viewOnlyMode = true;
     }
@@ -216,6 +289,47 @@ export class DatasourceFormComponent implements OnInit {
     );
   }
 
+  /** Suggestions(Recommendations) Autocomplete--> **/
+  showSuggestionsModal() {
+    this.suggestionService.fetchSuggestions(
+      this.suggestionConfig,
+      this.child.form,
+      this.vocabularies,
+      this.suggestionState,
+      (newState) => {
+        this.suggestionState = newState;
+        UIkit.modal('#' + this.suggestionModalId).show(); // safe to call multiple times
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    UIkit.modal('#' + this.suggestionModalId)?.$destroy(true);
+  }
+
+  onCheckboxChange(event: any, fieldName: string, type: 'checkbox' | 'radio') {
+    this.suggestionState.selections = this.suggestionService.toggleSelection(
+      this.suggestionState, fieldName, event.target.value, event.target.checked, type
+    );
+  }
+
+  isSuggestionSelected(fieldName: string, itemId: string, type: 'checkbox' | 'radio'): boolean {
+    return this.suggestionService.isSelected(this.suggestionState, fieldName, itemId, type);
+  }
+
+  autocomplete() {
+    this.suggestionService.autocomplete(
+      this.suggestionConfig,
+      this.child.form,
+      this.suggestionState,
+      this.vocabularies,
+      this.child,
+      this.dynamicFormService,
+      this.model
+    );
+  }
+  /** <--Suggestions(Recommendations) Autocomplete **/
+
   handleSubmit(formData: any) {
     if (this.editMode || this.pendingResource) {
       this.submitForm(formData, false, this.pendingResource);
@@ -224,6 +338,7 @@ export class DatasourceFormComponent implements OnInit {
     }
   }
 
+  /** Deduptication--> **/
   checkDuplicatesAndProceed(formData: any) {
     const value = FormControlService.cleanObjectInPlace({...formData.value?.datasource ?? formData});
     this.deduplicationService.checkBeforeAdd('datasource', value).subscribe({
@@ -246,6 +361,7 @@ export class DatasourceFormComponent implements OnInit {
   }
 
   copy = window.navigator.clipboard.writeText.bind(window.navigator.clipboard);
+  /** <-->Deduptication **/
 
   protected readonly environment = environment;
   protected readonly isDevMode = isDevMode;

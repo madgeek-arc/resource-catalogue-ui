@@ -40,14 +40,16 @@
             <div [ngClass]="{'uk-width-1-1': templates.length === 1, 'uk-width-1-2@m': templates.length > 1}">
                 <pre *ngIf="this.isDevMode()">{{ formModels[template.id]?.id | json }}</pre>
                 @if (formModels[template.id]) {
-                  @if (saveMessageMap[template.id]) {
+                  @if (saveMessageMap[template.id]; as saveMessage) {
                     <div [ngClass]="{
-                         'uk-alert-success': saveMessageMap[template.id].includes('success'),
-                         'uk-alert-danger': saveMessageMap[template.id].includes('fail'),
-                         'uk-alert': true
-                       }" uk-alert>
-                    <a class="uk-alert-close" uk-close (click)="saveMessageMap[template.id] = ''"></a>
-                    <p>{{ saveMessageMap[template.id] }}</p>
+                                       'uk-alert-success': saveMessage.includes('success'),
+                                       'uk-alert-danger': saveMessage.includes('fail'),
+                                       'uk-alert': true
+                                     }" uk-alert>
+                      <button type="button" class="uk-alert-close" uk-close aria-label="Close"
+                              (click)="saveMessageMap[template.id] = ''">
+                      </button>
+                      <p>{{ saveMessage }}</p>
                     </div>
                   }
                 <app-survey #survey

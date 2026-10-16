@@ -1,4 +1,5 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, DestroyRef, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../services/resource.service';
 import {
   DeployableServiceBundle,
@@ -16,6 +17,7 @@ import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {DeployableServiceService} from "../../services/deployable-service.service";
 import {environment} from '../../../environments/environment';
 import {ConfigService} from "../../services/config.service";
+import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
 
 declare let UIkit: any;
 
@@ -63,6 +65,15 @@ export class DeployableServicesListComponent implements OnInit {
   deployableServiceBundles: DeployableServiceBundle[] = [];
   deployableServicesForAudit: DeployableServiceBundle[] = [];
   selectedDeployableService: DeployableServiceBundle;
+
+  allDuplicateResults: SimilarResource[] = [];
+  duplicateResults: SimilarResource[] = [];
+  selectedDeployableServiceForDedup: DeployableServiceBundle = null;
+  selectedDuplicate: SimilarResource = null;
+  readonly duplicatesPageSize = 10;
+  duplicatePage = 1;
+  duplicatePageTotal = 0;
+  duplicatePages: number[] = [];
   facets: any;
   searchFacet = '';
 
@@ -71,9 +82,6 @@ export class DeployableServicesListComponent implements OnInit {
   pageTotal: number;
   pages: number[] = [];
   offset = 2;
-
-  pendingFirstServicePerProvider: any[] = [];
-  serviceTemplatePerProvider: any[] = [];
 
   providersFormPrepare = {
     resourceOrganisation: ''
@@ -99,7 +107,9 @@ export class DeployableServicesListComponent implements OnInit {
               private router: Router,
               private fb: UntypedFormBuilder,
               public pidHandler: pidHandler,
-              public config: ConfigService
+              public config: ConfigService,
+              private deduplicationService: DeduplicationService,
+              private destroyRef: DestroyRef
   ) {
   }
 
@@ -110,7 +120,7 @@ export class DeployableServicesListComponent implements OnInit {
       this.dataForm = this.fb.group(this.formPrepare);
       this.providersDropdownForm = this.fb.group(this.providersFormPrepare);
 
-      this.dataForm.get('query').valueChanges.subscribe(val => {
+      this.dataForm.get('query').valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(val => {
         if (val && val !== '') {
           if (!this.sortUserSelected) {
             this.dataForm.get('sort').setValue('', { emitEvent: false }); // matches the Relevance option value
@@ -123,6 +133,7 @@ export class DeployableServicesListComponent implements OnInit {
 
       this.urlParams = [];
       this.route.queryParams
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(params => {
 
             let foundStatus = false;
@@ -309,21 +320,6 @@ export class DeployableServicesListComponent implements OnInit {
       err => {
         console.log(err);
         this.errorMessage = 'The list could not be retrieved';
-      },
-      () => {
-        this.providers.forEach(
-          p => {
-            if (p.templateStatus === 'pending template') {
-              this.resourceService.getResourceTemplateOfProvider(p.id).subscribe(
-                res => {
-                  if (res) {
-                    this.serviceTemplatePerProvider.push({providerId: p.id, serviceId: JSON.parse(JSON.stringify(res)).id});
-                  }
-                }
-              );
-            }
-          }
-        );
       }
     );
   }
@@ -602,7 +598,10 @@ export class DeployableServicesListComponent implements OnInit {
       },
       err => {
         UIkit.modal('#spinnerModal').hide();
-        console.log(err);
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.getProviders();
       },
       () => {
         UIkit.modal('#spinnerModal').hide();
@@ -666,9 +665,7 @@ export class DeployableServicesListComponent implements OnInit {
           this.deployableServicesForAudit.forEach(
             s => {
               if (s.id === this.selectedDeployableService.id) {
-                s.latestAuditInfo = this.initLatestAuditInfo;
-                s.latestAuditInfo.date = Date.now().toString();
-                s.latestAuditInfo.actionType = action;
+                s.latestAuditInfo = {...this.initLatestAuditInfo, date: Date.now().toString(), actionType: action};
               }
             }
           );
@@ -680,24 +677,12 @@ export class DeployableServicesListComponent implements OnInit {
   sendMailForUpdate(id: string) {
     this.deployableServiceService.sendEmailForOutdatedDeployableService(id).subscribe(
       res => {},
-      err => { console.log(err); }
+      err => {
+        this.errorMessage = (err?.status >= 500 && err?.status < 600)
+            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
+            : `Something went bad, server responded: ${err?.error?.detail}`;
+      }
     );
-  }
-
-  hasCreatedFirstService(id: string) {
-    return this.pendingFirstServicePerProvider.some(x => x.providerId === id);
-  }
-
-  getLinkToFirstService(id: string) {
-    if (this.hasCreatedFirstService(id)) {
-      return '/service/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
-    } else {
-      return '/provider/' + id + '/add-first-service';
-    }
-  }
-
-  getLinkToEditFirstService(id: string) {
-    return '/edit/' + this.pendingFirstServicePerProvider.filter(x => x.providerId === id)[0].serviceId;
   }
 
   editResourceInNewTab(providerId, deployableServiceId) {
@@ -753,6 +738,164 @@ export class DeployableServicesListComponent implements OnInit {
 
   getProviderNameWithId(id: string) {
     return this.providersPage.results.find( x => x.id === id )?.name;
+  }
+
+  searchForDuplicates(bundle: DeployableServiceBundle) {
+    if (!bundle?.id) {
+      return;
+    }
+    this.errorMessage = '';
+    this.allDuplicateResults = [];
+    this.duplicateResults = [];
+    this.selectedDuplicate = null;
+    this.duplicatePage = 1;
+    this.selectedDeployableServiceForDedup = bundle;
+
+    UIkit.notification({
+      message: 'Searching for duplicates...',
+      status: 'primary',
+      pos: 'top-center',
+      timeout: 3000
+    });
+
+    this.deduplicationService.findDuplicates('deployable_application', bundle.id).subscribe({
+      next: (similar) => {
+        this.loadingMessage = '';
+        const list = Array.isArray(similar) ? similar : [];
+        if (list.length > 0) {
+          this.allDuplicateResults = list;
+          this.applyDuplicatePage(1);
+          setTimeout(() => {
+            UIkit.modal('#deployableDuplicatesModal').show();
+          }, 0);
+        } else {
+          UIkit.notification({
+            message: 'No duplicate records found for this deployable application.',
+            status: 'success',
+            pos: 'top-center',
+            timeout: 4000
+          });
+        }
+      },
+      error: (err) => {
+        this.loadingMessage = '';
+        this.errorMessage = 'Something went bad. Server responded: ' + (err?.error?.detail || err?.message || 'unknown error');
+        window.scroll(0, 0);
+      }
+    });
+  }
+
+  applyDuplicatePage(page: number) {
+    const total = this.allDuplicateResults.length;
+    this.duplicatePageTotal = Math.max(1, Math.ceil(total / this.duplicatesPageSize));
+    this.duplicatePage = Math.min(Math.max(page, 1), this.duplicatePageTotal);
+    const start = (this.duplicatePage - 1) * this.duplicatesPageSize;
+    this.duplicateResults = this.allDuplicateResults.slice(start, start + this.duplicatesPageSize);
+    this.duplicatePages = this.buildDuplicatePages();
+  }
+
+  buildDuplicatePages(): number[] {
+    const pages: number[] = [];
+    const total = this.duplicatePageTotal;
+    const current = this.duplicatePage;
+    const offset = 2;
+    for (let i = Math.max(1, current - offset); i <= Math.min(total, current + offset); i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  goToDuplicatePage(page: number) {
+    if (page < 1 || page > this.duplicatePageTotal || page === this.duplicatePage) {
+      return;
+    }
+    this.applyDuplicatePage(page);
+  }
+
+  previousDuplicatePage() {
+    this.goToDuplicatePage(this.duplicatePage - 1);
+  }
+
+  nextDuplicatePage() {
+    this.goToDuplicatePage(this.duplicatePage + 1);
+  }
+
+  getDuplicateRangeLabel(): string {
+    const total = this.allDuplicateResults.length;
+    if (!total) {
+      return '';
+    }
+    const from = (this.duplicatePage - 1) * this.duplicatesPageSize + 1;
+    const to = Math.min(this.duplicatePage * this.duplicatesPageSize, total);
+    return `Showing ${from}–${to} of ${total} match${total === 1 ? '' : 'es'}.`;
+  }
+
+  getDuplicateResource(item: SimilarResource): any {
+    if (!item?.result) {
+      return {};
+    }
+    return item.result.deployableApplication || item.result.deployableService || item.result;
+  }
+
+  getSimilarityPercent(score: number): number {
+    if (score == null || isNaN(score)) {
+      return 0;
+    }
+    return score <= 1 ? score * 100 : score;
+  }
+
+  getSimilarityLabelClass(score: number): string {
+    const pct = this.getSimilarityPercent(score);
+    if (pct >= 95) {
+      return 'uk-label-danger';
+    }
+    if (pct >= 86) {
+      return 'uk-label-warning';
+    }
+    if (pct >= 51) {
+      return 'uk-label-primary';
+    }
+    return 'uk-label-success';
+  }
+
+  formatDuplicateValue(value: any): string {
+    if (value == null || value === '') {
+      return '';
+    }
+    if (Array.isArray(value)) {
+      return value
+        .map(v => {
+          if (v == null) {
+            return '';
+          }
+          if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+            return String(v);
+          }
+          if (v.scientificDomain || v.scientificSubdomain) {
+            return [v.scientificDomain, v.scientificSubdomain].filter(Boolean).join(' / ');
+          }
+          if (v.givenName || v.familyName || v.creatorName) {
+            return [v.givenName, v.familyName].filter(Boolean).join(' ') || v.creatorName;
+          }
+          if (v.value) {
+            return String(v.value);
+          }
+          return JSON.stringify(v);
+        })
+        .filter(Boolean)
+        .join(', ');
+    }
+    if (typeof value === 'object') {
+      return JSON.stringify(value);
+    }
+    return String(value);
+  }
+
+  openDuplicateDetail(item: SimilarResource) {
+    this.selectedDuplicate = item;
+    setTimeout(() => {
+      UIkit.modal('#deployableDuplicateDetailModal').show();
+    }, 0);
   }
 
 }

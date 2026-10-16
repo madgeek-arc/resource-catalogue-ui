@@ -15,21 +15,19 @@ import {DatasourceService} from "../../../../services/datasource.service";
 
 export class DatasourceFullHistoryComponent implements OnInit, OnDestroy {
 
-  public catalogueId: string;
   public datasource: Datasource;
   public errorMessage: string;
   private sub: Subscription;
-  public pidHandler: pidHandler;
 
   datasourceHistory: LoggingInfo[];
 
   constructor(private route: ActivatedRoute,
               private navigator: NavigationService,
-              private datasourceService: DatasourceService,) {
+              private datasourceService: DatasourceService,
+              public pidHandler: pidHandler) {
   }
 
   ngOnInit() {
-    this.catalogueId = window.location.href.split('dashboard/')[1].split('/')[0];
     // this.sub = this.route.params.subscribe(params => {
     this.sub = this.route.parent.params.subscribe(params => {
       zip(

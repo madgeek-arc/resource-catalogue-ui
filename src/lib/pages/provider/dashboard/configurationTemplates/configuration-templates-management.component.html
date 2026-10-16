@@ -18,6 +18,18 @@
     </button>
   </div>
 
+  <div class="uk-alert-warning uk-margin-medium-bottom" uk-alert>
+    <p class="uk-text-bold">Before creating a new form, please note:</p>
+    <p>
+      The fields <strong>ID</strong>, <strong>Resource ID</strong>, <strong>Configuration Template ID</strong>, <strong>Node PID</strong>
+      are required for the instance to work properly. Do not delete or rename these fields.
+    </p>
+    <p>
+      Add any additional fields inside the <strong>&quot;Payload&quot;</strong> field only. Do not rename
+      &quot;Payload&quot;. Also, please avoid adding new Sections or Chapters.
+    </p>
+  </div>
+
   @if (loading) {
     <div class="uk-text-muted">
       Loading templates...

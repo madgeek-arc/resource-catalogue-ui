@@ -7,6 +7,7 @@ import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {ConfigService} from "../../services/config.service";
 import {AdaptersFormComponent} from "./adapters-form.component";
 import {AdaptersService} from "../../services/adapters.service";
+import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {DeduplicationService} from "../../services/deduplication.service";
 
 
