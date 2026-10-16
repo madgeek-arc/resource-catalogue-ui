@@ -132,7 +132,6 @@ export class ServiceProviderFormComponent implements OnInit, OnDestroy {
       () => {
         if (!this.editMode) { //prefill field(s)
           const currentUser = this.getCurrentUserInfo();
-          console.log(currentUser);
           this.payloadAnswer = {
             'answer': {
               organisation: {

@@ -106,11 +106,6 @@ export class AuthenticationService {
             sessionStorage.clear();
           },
           () => {
-            console.debug(`User is:
-              ${this.currentUserSubject.value.name} ${this.currentUserSubject.value.surname}
-              ${this.currentUserSubject.value.email}
-              ${this.currentUserSubject.value.roles}`
-            )
             if (sessionStorage.getItem('state.location')) {
               const state = sessionStorage.getItem('state.location');
               sessionStorage.removeItem('state.location');
