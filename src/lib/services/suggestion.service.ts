@@ -65,6 +65,7 @@ export interface SuggestionState {
   noSuggestionsCall: boolean | null; // null = not yet opened; true = name/description were empty
   showLoader: boolean;               // true while API call is in flight
   emptySuggestionResponse: boolean;  // true if API returned no usable suggestions
+  suggestionError: boolean;          // true if the API call failed
   sections: SuggestionSection[];     // dynamic sections to render in the modal
   selections: SuggestionSelections;  // what the user has checked so far
 }
@@ -88,6 +89,7 @@ export class SuggestionService {
       noSuggestionsCall: null,
       showLoader: false,
       emptySuggestionResponse: false,
+      suggestionError: false,
       sections: [],
       selections: {}
     };
@@ -156,7 +158,7 @@ export class SuggestionService {
     }
 
     // Signal the modal to show a spinner while the API call is in flight
-    onDone({ ...state, noSuggestionsCall: false, showLoader: true });
+    onDone({ ...state, noSuggestionsCall: false, showLoader: true, suggestionError: false });
 
     // Build the fields_to_suggest array from the config
     const fieldsToSuggest = config.fields.map(f => f.fieldName);
@@ -205,6 +207,7 @@ export class SuggestionService {
           ...state,
           noSuggestionsCall: false,
           showLoader: false,
+          suggestionError: false,
           selections: this.resetSelections(config),
           sections,
           emptySuggestionResponse: sections.length === 0
@@ -214,7 +217,7 @@ export class SuggestionService {
       },
       error: (err) => {
         console.error(err);
-        onDone({ ...state, showLoader: false });
+        onDone({ ...state, showLoader: false, suggestionError: true, emptySuggestionResponse: false, sections: [] });
       }
     });
   }
@@ -272,7 +275,9 @@ export class SuggestionService {
           formArray.removeAt(0);
         }
 
+        const existing = new Set(formArray.controls.map(c => c.get(fieldConfig.childField)?.value));
         for (const id of selectedIds) {
+          if (existing.has(id)) continue;
           const parentId = (vocabularies[fieldConfig.vocabularyType] || [])
             .find(v => v.id === id)?.parentId;
           if (parentId) {
@@ -298,11 +303,12 @@ export class SuggestionService {
           formArray.removeAt(0);
         }
 
+        const existing = new Set(formArray.controls.map(c => c.value));
         for (const id of selectedIds) {
+          if (existing.has(id)) continue;
           const field = surveyChild.getModelData(model.sections, formArrayName);
           const ctrl = dynamicFormService.createField(field);
           ctrl.setValue(id);
-          console.log(ctrl);
           formArray.push(ctrl);
         }
       }

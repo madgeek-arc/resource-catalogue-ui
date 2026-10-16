@@ -126,12 +126,17 @@
       <ng-container *ngIf="suggestionState.noSuggestionsCall===false">
         <p class="uk-text-center uk-margin">For better results make sure you have properly filled in 'Name' and 'Description' fields.</p>
 
+        <ng-container *ngIf="suggestionState.suggestionError">
+          <p class="uk-text-center uk-margin">Something went wrong while fetching suggestions. Please try again.</p>
+          <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="button">OK</button>
+        </ng-container>
+
         <ng-container *ngIf="suggestionState.emptySuggestionResponse">
           <p class="uk-text-center uk-margin">No suggestions found.</p>
           <button class="uk-button uk-button-primary uk-modal-close uk-align-right" type="button">OK</button>
         </ng-container>
 
-        <ng-container *ngIf="!suggestionState.emptySuggestionResponse">
+        <ng-container *ngIf="!suggestionState.emptySuggestionResponse && !suggestionState.suggestionError">
           <p class="uk-text-center uk-margin">Select the suggestions you want to add. Pressing 'Add' will autofill the form with the new values.</p>
           <form>
             <ul style="list-style: none;">
