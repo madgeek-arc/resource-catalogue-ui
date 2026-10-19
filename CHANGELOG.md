@@ -49,6 +49,50 @@
 
 
 
+## [6.4.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v6.3.0...v6.4.0) (2026-10-19)
+
+
+### Features
+
+* add instructions on creating configuration templates before opening form builder ([a19b244](https://github.com/madgeek-arc/resource-catalogue-ui/commit/a19b2441b1472b97a368ca372759a7180a6b0be1))
+* add move-to-provider action for adapters and remove it from services ([f1a8c9a](https://github.com/madgeek-arc/resource-catalogue-ui/commit/f1a8c9ad47f8f7a442735e0d3b8ee9a03fae66fd))
+* add suggestions and autofill on forms ([f1c3fe2](https://github.com/madgeek-arc/resource-catalogue-ui/commit/f1c3fe2685e8f6c046f958242a9c04187d8505c7))
+* display Node PID of each duplicate resource before form submission ([0f3c5e4](https://github.com/madgeek-arc/resource-catalogue-ui/commit/0f3c5e434021e3777a96db2bb3245e0424e91eee))
+* display node pid on duplicates modal ([cb34920](https://github.com/madgeek-arc/resource-catalogue-ui/commit/cb349208ab07494f51fac57fc6a08ad1c8612f14))
+* display the provider id instead of provider name in adapter cards on admin page ([6b7b8d4](https://github.com/madgeek-arc/resource-catalogue-ui/commit/6b7b8d4c42a6f6fdbc2a90794c318bec0184b31a))
+* prototype for duplicates search on epot pages ([d30a57f](https://github.com/madgeek-arc/resource-catalogue-ui/commit/d30a57f64485cf06470c1962a887148169bae4f4))
+* replace 'View in Catalogue' with 'Visit Website' on applicable dashboards ([b978016](https://github.com/madgeek-arc/resource-catalogue-ui/commit/b978016da4365d74dc5dc4efcf314ab1013b2ca3))
+* resource federation cross linkage initial commit ([eec0167](https://github.com/madgeek-arc/resource-catalogue-ui/commit/eec0167f90c932f260de999a29381376f6c39ac7))
+
+
+### Bug Fixes
+
+* add 'No selection' option on radio buttons of suggestion modal ([03aa233](https://github.com/madgeek-arc/resource-catalogue-ui/commit/03aa233c01896d1060e4b653b27cfe6fb7dbb125))
+* assign unique suggestion modal IDs per resource type ([29e8115](https://github.com/madgeek-arc/resource-catalogue-ui/commit/29e8115133669bae16df678e53c8962bde1fb28b))
+* broken History/Full History navigation across all resource dashboards ([fd5c0cc](https://github.com/madgeek-arc/resource-catalogue-ui/commit/fd5c0cc82c5e8bc84b36a0d010ecd64090ed3950))
+* change path && return type of method ([a261fc6](https://github.com/madgeek-arc/resource-catalogue-ui/commit/a261fc6da38f74b80bfb2b17d714e6232547997e))
+* correct form control name mismatch in move-service modal ([a29673b](https://github.com/madgeek-arc/resource-catalogue-ui/commit/a29673b3fe85fc4ec21c8634182b992318618ea5))
+* correct mislabeled "training resource" text on Rejected Datasources page ([9372b2f](https://github.com/madgeek-arc/resource-catalogue-ui/commit/9372b2f386e53f46f52f7f27f10a89ec52312445))
+* dedupe accepted suggestions, show error state in suggestions modal, drop debug log ([0f066d2](https://github.com/madgeek-arc/resource-catalogue-ui/commit/0f066d2cb24949a74eda2e14d3140f2b8d529ff5))
+* disable the manage configuration templates button for pending guidelines ([ae0f65a](https://github.com/madgeek-arc/resource-catalogue-ui/commit/ae0f65adfe529e3595726af171ec984ba3c00ccf))
+* fix vocabularies on suggested fields and remove some fields from suggestions ([1dffab7](https://github.com/madgeek-arc/resource-catalogue-ui/commit/1dffab7af8dd21521f64371ef2204ff1b2b7490f))
+* guard nullable template property accesses with optional chaining ([88ead92](https://github.com/madgeek-arc/resource-catalogue-ui/commit/88ead92f4fa10b21f5a53ba72ad36d192ec6e1a1))
+* match tag suggestion field to keyword model field ([4296096](https://github.com/madgeek-arc/resource-catalogue-ui/commit/4296096af2b92f728b287979de06e2be4e353adb))
+* off-by-one bug blocking the last page's Next button ([6845997](https://github.com/madgeek-arc/resource-catalogue-ui/commit/68459973d9fb7d124d37484ceb2fc6586fe7a533))
+* pass empty body to patch/put action endpoints instead of options ([eb5891b](https://github.com/madgeek-arc/resource-catalogue-ui/commit/eb5891b1dd41b779b2429b2910707f796f54e781))
+* prevent crash and stale-write race in resources-list monitoring status ([6d96dee](https://github.com/madgeek-arc/resource-catalogue-ui/commit/6d96deef97689c12099643530cb1f8aaf2092127))
+* proper URLs display on catalogue info page ([256554e](https://github.com/madgeek-arc/resource-catalogue-ui/commit/256554ef9ec4174bca11704d214384b1eb255df0))
+* redirect to login before helpdesk for logged-out users ([c888a2e](https://github.com/madgeek-arc/resource-catalogue-ui/commit/c888a2e7283e98aff151690aa6d777535ccf9593))
+* reset suggestion modal correctly ([4e82531](https://github.com/madgeek-arc/resource-catalogue-ui/commit/4e82531d3b6ed81dbf13cd2749e24280cb8db514))
+* resolve routing, form and template bugs in admin list pages ([f46a91b](https://github.com/madgeek-arc/resource-catalogue-ui/commit/f46a91bf9fdcc512622ba4fc221608f33f71f7de))
+* stop mutating shared vocabulary array in preview-resource component ([224d04b](https://github.com/madgeek-arc/resource-catalogue-ui/commit/224d04bd8d66b4784293dfcc040176e92b261cf5))
+* stop ng-select default theme drawing a second box inside select fields ([7602679](https://github.com/madgeek-arc/resource-catalogue-ui/commit/7602679fa5f12104787234bba0a8fbf9466fc53a))
+* stop sharing a single object reference for audit display info ([fe23e92](https://github.com/madgeek-arc/resource-catalogue-ui/commit/fe23e92f734b8cf253417ab6e0d348b010e53630))
+* strip HTML tags from resource descriptions in duplicate modals ([940b513](https://github.com/madgeek-arc/resource-catalogue-ui/commit/940b5132f0b69c686c1ac11e63fa6d7e9a29ceac))
+* surface error messages on failed admin actions ([ce24a45](https://github.com/madgeek-arc/resource-catalogue-ui/commit/ce24a459de20784cc3c58425224adeb6d781f6a1))
+* unsubscribe breadcrumbs component listeners on destroy ([e96df9d](https://github.com/madgeek-arc/resource-catalogue-ui/commit/e96df9d1f5e3454419c48858819a503d5c8950b3))
+* unsubscribe route param and form valueChanges listeners on component destroy ([404d621](https://github.com/madgeek-arc/resource-catalogue-ui/commit/404d621dc4f6b6e9ecd8cd873a004bea0236610b))
+
 ## [6.3.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v6.2.0...v6.3.0) (2026-07-16)
 
 
