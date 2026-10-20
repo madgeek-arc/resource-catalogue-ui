@@ -49,6 +49,13 @@
 
 
 
+## [6.4.1](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v6.4.0...v6.4.1) (2026-10-20)
+
+
+### Bug Fixes
+
+* update bindLabel on resource-guidelines-form ([65ba9c9](https://github.com/madgeek-arc/resource-catalogue-ui/commit/65ba9c93d59c8499bb0fa3abe910384ab771b217))
+
 ## [6.4.0](https://github.com/madgeek-arc/resource-catalogue-ui/compare/v6.3.0...v6.4.0) (2026-10-19)
 
 
