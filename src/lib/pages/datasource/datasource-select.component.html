@@ -18,9 +18,9 @@
     <div>
       <h5 class="uk-padding uk-padding-remove-left uk-margin-remove">
         Find and select your datasource via OpenAIRE from one of the registries
-        <a href="http://re3data.org/" target="_blank">re3data.org</a>,
-        <a href="https://v2.sherpa.ac.uk/opendoar/" target="_blank">OpenDOAR</a>, and
-        <a href="http://fairsharing.org/" target="_blank">fairsharing.org</a>
+        <a href="http://re3data.org/" target="_blank" rel="noopener noreferrer">re3data.org<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a>,
+        <a href="https://v2.sherpa.ac.uk/opendoar/" target="_blank" rel="noopener noreferrer">OpenDOAR<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a>, and
+        <a href="http://fairsharing.org/" target="_blank" rel="noopener noreferrer">fairsharing.org<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a>
         or create a new one by filling this <a [routerLink]="['/provider/' + providerId + ( isTemplate ? '/add-first-datasource' : '/datasource/add')]">form</a>.
         <!--        {{providerBundle?.provider?.name ? 'for ' + providerBundle?.provider?.name : ''}}-->
       </h5>

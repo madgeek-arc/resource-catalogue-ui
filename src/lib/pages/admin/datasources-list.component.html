@@ -628,7 +628,7 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.logo as value">
         <dt>Logo</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.resourceOwner as value">
         <dt>Resource owner</dt><dd>{{ value }}</dd>
@@ -650,11 +650,11 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.submissionPolicyURL as value">
         <dt>Submission policy</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.preservationPolicyURL as value">
         <dt>Preservation policy</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="formatDuplicateValue(getDuplicateResource(item)?.persistentIdentitySystems) as value">
         <dt>Persistent identity systems</dt><dd>{{ value }}</dd>
