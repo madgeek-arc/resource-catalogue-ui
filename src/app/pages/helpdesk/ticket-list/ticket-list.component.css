@@ -93,7 +93,7 @@
   padding: 60px 20px;
   color: #666;
   background: #f8f9fa;
-  border-radius: 10px;
+  border-radius: var(--card-radius);
   margin: 20px 0;
 }
 
@@ -163,7 +163,7 @@
   width: 100%;
   border-collapse: collapse;
   background: white;
-  border-radius: 8px;
+  border-radius: var(--card-radius);
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
@@ -282,7 +282,7 @@
 
 .ticket-card {
   background: white;
-  border-radius: 8px;
+  border-radius: var(--card-radius);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   cursor: pointer;
@@ -513,15 +513,15 @@
     gap: 15px;
     align-items: stretch;
   }
-  
+
   .tickets-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .status-filters {
     justify-content: center;
   }
-  
+
   .ticket-card {
     padding: 15px;
   }

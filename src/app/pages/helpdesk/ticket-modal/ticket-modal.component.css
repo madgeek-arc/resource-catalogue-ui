@@ -148,7 +148,7 @@
 /* Conversation */
 .ticket-conversation {
   padding: 16px;
-  border-radius: 12px;
+  border-radius: var(--card-radius);
   margin-bottom: 24px;
 }
 
@@ -191,7 +191,7 @@
 
 .conversation-item {
   padding: 16px;
-  border-radius: 8px;
+  border-radius: var(--card-radius);
   background: rgba(255, 255, 255, 0.7);
   transition: all 0.2s ease;
   max-width: 75%;
@@ -362,7 +362,7 @@
   margin-top: 24px;
   padding: 20px;
   background: #f8f9fa;
-  border-radius: 8px;
+  border-radius: var(--card-radius);
   border: 1px solid #e0e0e0;
 }
 
@@ -465,7 +465,7 @@
   padding: 20px;
   background: #fff3cd;
   border: 1px solid #ffc107;
-  border-radius: 8px;
+  border-radius: var(--card-radius);
   text-align: center;
   color: #856404;
 }

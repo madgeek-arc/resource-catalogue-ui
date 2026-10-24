@@ -46,7 +46,7 @@
   margin: 0 auto 3rem auto;
   padding: 2rem;
   background: #fff;
-  border-radius: 8px;
+  border-radius: var(--card-radius);
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
 
@@ -207,7 +207,7 @@ input[type="checkbox"] {
 .help-info {
   background: #f8f9fa;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: var(--card-radius);
   border-left: 4px solid #667eea;
 }
 
@@ -241,7 +241,7 @@ input[type="checkbox"] {
   margin-bottom: 2rem;
   padding: 1.5rem;
   background: #f8f9fa;
-  border-radius: 8px;
+  border-radius: var(--card-radius);
   border: 1px solid #e9ecef;
 }
 
@@ -269,13 +269,13 @@ input[type="checkbox"] {
   .ticket-form {
     padding: 20px;
   }
-  
+
   .form-actions {
     flex-direction: column;
   }
-  
+
   .btn {
     width: 100%;
     justify-content: center;
   }
-} 
+}

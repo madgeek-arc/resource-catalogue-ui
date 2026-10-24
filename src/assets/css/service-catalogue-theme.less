@@ -41,6 +41,7 @@
 
 // Sizing
 @input-height: 56px;
+@card-radius: 10px;
 @sidebar-width: 270px;
 @sidebar-top: 159px; // EOSC specific (use 80px for general)
 
@@ -119,6 +120,7 @@
   --button-primary-hover-background-color: @button-primary-hover-bg;
   --button-secondary-color: @button-secondary-color;
   --button-secondary-background-color: @button-secondary-bg;
+  --card-radius: @card-radius;
 }
 
 
@@ -368,6 +370,43 @@ ul.uk-pagination {
   border-left: none;
 }
 
+
+// ========================================================================
+//   Dynamic Forms / Form Builder (dynamic-catalogue submodule)
+// ========================================================================
+
+// Theme tokens read by dynamic-catalogue/assets/theme/form-builder.component.less
+:root {
+  --fb-primary: var(--primary-color);
+  --fb-primary-strong: color-mix(in srgb, var(--primary-color) 85%, #000);
+  --fb-primary-bright: color-mix(in srgb, var(--primary-color) 85%, #fff);
+  --fb-primary-tint: color-mix(in srgb, var(--primary-color) 12%, #fff);
+  --fb-text: @text-body;
+  --fb-ink: @text-dark;
+}
+
+app-survey,
+app-compare-surveys {
+  // Undo the global .uk-tab pill styling above for the subsection sidebar,
+  // the submodule draws its own tinted active state there
+  .uk-tab-left > * > a {
+    color: var(--fb-text) !important;
+    text-decoration: none !important;
+    opacity: 1;
+  }
+
+  .uk-tab-left > .uk-active > a {
+    color: var(--fb-primary-strong) !important;
+  }
+
+  // Action buttons sit inline in the survey header, not in a standalone bar
+  .titleAndActionsBar {
+    .box-shadow(none);
+    border-radius: 0;
+    padding: 0;
+  }
+}
+
 .tabsTitle {
   font-weight: 300;
   font-size: 20px;
@@ -413,7 +452,7 @@ ul.uk-pagination {
 .formContainer {
   background: @white 0% 0% no-repeat padding-box;
   .box-shadow(0px 3px 6px #0000001A);
-  border-radius: 4px;
+  border-radius: @card-radius;
   opacity: 1;
   padding: 20px;
 }
@@ -697,7 +736,7 @@ a.remove-element i {
 .titleAndActionsBar {
   background: var(--primary-color) 0% 0% no-repeat padding-box;
   .box-shadow(@shadow-sm);
-  border-radius: 4px;
+  border-radius: @card-radius;
   padding: 13px 20px;
   opacity: 1;
   color: @white;
@@ -716,12 +755,32 @@ a.remove-element i {
 
 
 // ========================================================================
+//   Component: Cards
+// ========================================================================
+
+// UIkit cards have no radius of their own, give every card the same one
+.uk-card,
+.uk-card-default {
+  border-radius: @card-radius;
+
+  > .uk-card-media-top {
+    border-radius: @card-radius @card-radius 0 0;
+    overflow: hidden;
+  }
+
+  > .uk-card-media-bottom {
+    border-radius: 0 0 @card-radius @card-radius;
+    overflow: hidden;
+  }
+}
+
+
+// ========================================================================
 //   Component: Provider Cards
 // ========================================================================
 
 .uk-card.provider-card {
   .box-shadow(@shadow-md);
-  border-radius: 4px;
   color: #1A1A1A;
 
   .providerName {
@@ -774,7 +833,7 @@ a.remove-element i {
   &.uk-label {
     text-transform: none;
     padding: 9px 18px;
-    border-radius: 4px 0;
+    border-radius: @card-radius 0;
   }
 }
 
@@ -833,7 +892,7 @@ a.remove-element i {
 
 .services-provider-container {
   background: @bg-light 0% 0% no-repeat padding-box;
-  border-radius: 6px;
+  border-radius: @card-radius;
   opacity: 1;
   padding: 25px 40px;
 
@@ -854,7 +913,6 @@ a.remove-element i {
 .uk-card.service-card {
   background: @white 0% 0% no-repeat padding-box;
   .box-shadow(@shadow-sm);
-  border-radius: 2px;
   opacity: 1;
 
   .action-buttons {
@@ -959,7 +1017,7 @@ a.remove-element i {
   padding: 25px;
   .box-shadow(0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23));
   position: relative;
-  border-radius: 4px;
+  border-radius: @card-radius;
 
   &::after {
     position: absolute;
@@ -1217,7 +1275,6 @@ a[class*="wk-"] {
 .chartCard.uk-card {
   .box-shadow(@shadow-audit);
   border: 1px solid #E0E0E0;
-  border-radius: 5px;
 }
 
 .stats {
@@ -2366,7 +2423,7 @@ li { list-style-type: none; }
 // Service box
 .service-box {
   border: 1px solid rgba(28, 49, 58, .1);
-  border-radius: 5px;
+  border-radius: @card-radius;
 
   .access-type, .badge {
     font-size: .8em;
@@ -2583,7 +2640,7 @@ a.badge-light {
 //   Details Box
 .details-box {
   border: 1px solid @preview-border;
-  border-radius: 3px;
+  border-radius: @card-radius;
   margin-bottom: 20px;
   background-color: #f7f7f7;
 
