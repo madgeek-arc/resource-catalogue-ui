@@ -9,7 +9,7 @@
 @link-color: #EE7444;
 @link-hover-color: #EE7444;
 @breadcrumb-active-color: #26C0E2;
-@button-primary-hover-bg: #EE7444;
+@button-primary-hover-bg: darken(@primary-color, 7%);
 @button-secondary-color: #3463AC;
 @button-secondary-bg: #fff;
 
@@ -35,6 +35,9 @@
 @status-incomplete-bg: #DBDBDB;
 @status-incomplete-label: #4D4D4D;
 
+// Floating overlay buttons (audit, helpdesk, back to top)
+@overlay-button-bg: fade(mix(@button-secondary-color, @white, 25%), 70%);
+
 // Typography
 @font-base: 'Inter', sans-serif;
 @font-timeline: 'Quicksand', sans-serif;
@@ -50,6 +53,7 @@
 @shadow-md: 0px 3px 6px #00000038;
 @shadow-card: 1px 10px 25px #00000026;
 @shadow-audit: 1px 10px 12px #00000026;
+@shadow-overlay-button: 0px 3px 12px #00000026;
 
 // Transitions
 @sidebar-transition: all 280ms cubic-bezier(.4, 0, .2, 1);
@@ -223,9 +227,26 @@ ul a, ol a {
   background-color: var(--primary-color);
   color: @white;
   border: 1px solid @white;
+  .transition(background-color 0.2s ease, box-shadow 0.2s ease;);
 
-  &:hover {
+  &:hover:not(:disabled),
+  &:focus-visible {
     background-color: var(--button-primary-hover-background-color);
+    color: @white;
+    .box-shadow(@shadow-sm);
+  }
+
+  // Pressed: a darker shade of the same color, instead of UIkit's blue default
+  &:active:not(:disabled),
+  &.uk-active {
+    background-color: color-mix(in srgb, var(--primary-color) 80%, #000);
+    color: @white;
+    .box-shadow(none);
+  }
+
+  // Keep disabled buttons inert, otherwise the submodule's cyan hover shows through
+  &:disabled {
+    background-color: transparent;
   }
 }
 
@@ -233,10 +254,28 @@ ul a, ol a {
   border: 2px solid var(--button-secondary-color);
   background-color: var(--button-secondary-background-color);
   color: var(--button-secondary-color);
+  .transition(background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;);
 
-  &:hover {
-    background-color: var(--button-secondary-background-color);
-    color: var(--button-secondary-color);
+  // Outline fills with the secondary color on hover / keyboard focus
+  &:hover:not(:disabled),
+  &:focus-visible {
+    background-color: var(--button-secondary-color);
+    color: @white;
+    .box-shadow(@shadow-sm);
+  }
+
+  // Pressed: a darker shade of the same color, instead of UIkit's near-black default
+  &:active:not(:disabled),
+  &.uk-active {
+    background-color: color-mix(in srgb, var(--button-secondary-color) 80%, #000);
+    border-color: color-mix(in srgb, var(--button-secondary-color) 80%, #000);
+    color: @white;
+    .box-shadow(none);
+  }
+
+  // Keep disabled buttons inert, otherwise the submodule's cyan hover shows through
+  &:disabled {
+    background-color: transparent;
   }
 }
 
@@ -380,9 +419,50 @@ ul.uk-pagination {
   --fb-primary: var(--primary-color);
   --fb-primary-strong: color-mix(in srgb, var(--primary-color) 85%, #000);
   --fb-primary-bright: color-mix(in srgb, var(--primary-color) 85%, #fff);
-  --fb-primary-tint: color-mix(in srgb, var(--primary-color) 12%, #fff);
+  --fb-primary-tint: color-mix(in srgb, var(--primary-color) 22%, #fff);
   --fb-text: @text-body;
   --fb-ink: @text-dark;
+}
+
+// Page wrapper of the forms rendering <app-survey>, keeps the form close to the page edges
+.survey-form-container {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 14px;
+  margin-right: 14px;
+}
+
+// Back-to-top button, styled like the audit and helpdesk overlay buttons
+app-survey .uk-totop {
+  display: inline-flex;
+  background-color: @overlay-button-bg;
+  .box-shadow(@shadow-overlay-button);
+  border-radius: 50%;
+  color: var(--primary-color);
+  .transition(transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;);
+
+  // Bolder chevron than UIkit's default 1.2 stroke, its rounded ends reach past the 18x10 viewBox
+  svg {
+    overflow: visible;
+  }
+
+  svg polyline {
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &:hover {
+    background-color: fade(@overlay-button-bg, 100%);
+    .box-shadow(0px 6px 16px #00000040);
+    .transform(translateY(-3px));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:hover {
+      .transform(none);
+    }
+  }
 }
 
 app-survey,
@@ -1324,9 +1404,9 @@ a[class*="wk-"] {
   padding: 0;
 
   span {
-    background: #C7DBF8B3 0% 0% no-repeat padding-box;
+    background: @overlay-button-bg 0% 0% no-repeat padding-box;
     padding: 14px;
-    .box-shadow(0px 3px 12px #00000026);
+    .box-shadow(@shadow-overlay-button);
     border-bottom-left-radius: 30px;
     border-top-left-radius: 30px;
 
@@ -1443,9 +1523,9 @@ a[class*="wk-"] {
 }
 
 .helpdesk-span {
-  background: #C7DBF8B3;
+  background: @overlay-button-bg;
   padding: 14px;
-  .box-shadow(0px 3px 12px #00000026);
+  .box-shadow(@shadow-overlay-button);
   border-bottom-left-radius: 30px;
   border-top-left-radius: 30px;
   display: inline-flex;
@@ -1575,7 +1655,7 @@ a[class*="wk-"] {
 .submenu-arrow {
   margin-left: auto;
   opacity: 0.45;
-  .transition(transform 0.2s ease, opacity 0.2s ease);
+  .transition(transform 0.2s ease, opacity 0.2s ease;);
   flex-shrink: 0;
 }
 
@@ -1605,7 +1685,7 @@ a[class*="wk-"] {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      .transition(background-color 0.15s ease, color 0.15s ease);
+      .transition(background-color 0.15s ease, color 0.15s ease;);
 
       &:hover {
         background-color: rgba(0, 0, 0, 0.05);
