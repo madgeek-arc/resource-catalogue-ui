@@ -46,7 +46,7 @@
 @input-height: 56px;
 @card-radius: 10px;
 @sidebar-width: 270px;
-@sidebar-top: 159px; // EOSC specific (use 80px for general)
+@sidebar-top: 100px; // EOSC specific (use 80px for general)
 
 // Shadows
 @shadow-sm: 0px 3px 6px #00000029;
@@ -1116,6 +1116,12 @@ a.remove-element i {
   }
 }
 
+// Wrapper of the history timelines, the "Today" badge is pinned to its top and the timeline starts below it
+.timeline-section {
+  position: relative;
+  padding: 48px 0 20px;
+}
+
 .al_timeline {
   position: relative;
   padding: 24px 20px 32px;
@@ -1441,7 +1447,7 @@ a[class*="wk-"] {
 .offcanvas-audit {
   left: 320px;
   z-index: 100;
-  margin-top: 158px;
+  margin-top: 139px;
 
   .uk-offcanvas-bar {
     &.uk-light {
@@ -2275,11 +2281,6 @@ a.signUp {
 @animation-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
 @animation-duration-short: 560ms;
 @animation-duration-long: 840ms;
-
-.section {
-  padding: 48px 0;
-  position: relative;
-}
 
 // UIkit animation base — collapsed from 3 duplicate blocks in original CSS
 [class*="uk-animation-"] {
