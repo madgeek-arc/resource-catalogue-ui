@@ -2065,6 +2065,12 @@ li.leaf {
     }
   }
 
+  // UIkit offsets bottom dropdowns by 15px; the container has no vertical
+  // padding to absorb it, so attach them flush to the navbar.
+  [class*='uk-navbar-dropdown-bottom'] {
+    margin-top: 0;
+  }
+
   .uk-navbar-dropdown li {
     &::before {
       content: '';
