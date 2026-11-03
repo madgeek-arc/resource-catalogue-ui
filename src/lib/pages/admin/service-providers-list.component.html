@@ -997,11 +997,11 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.website as value">
         <dt>Website</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.logo as value">
         <dt>Logo</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.legalStatus as value">
         <dt>Legal status</dt><dd>{{ value }}</dd>

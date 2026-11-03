@@ -795,11 +795,11 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.webpage as value">
         <dt>Webpage</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.logo as value">
         <dt>Logo</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="(getDuplicateResource(item)?.resourceOrganisation || getDuplicateResource(item)?.resourceOwner) as value">
         <dt>Organisation</dt><dd>{{ value }}</dd>
@@ -848,7 +848,7 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.helpdeskPage as value">
         <dt>Helpdesk page</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.orderType as value">
         <dt>Order type</dt><dd>{{ value }}</dd>

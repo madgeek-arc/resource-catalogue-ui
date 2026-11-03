@@ -764,7 +764,7 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.url as value">
         <dt>URL</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.urlType as value">
         <dt>URL type</dt><dd>{{ value }}</dd>

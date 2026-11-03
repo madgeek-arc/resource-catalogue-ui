@@ -624,7 +624,7 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.logo as value">
         <dt>Logo</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.node as value">
         <dt>Node</dt><dd>{{ value }}</dd>
@@ -637,11 +637,11 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.documentation as value">
         <dt>Documentation</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.repository as value">
         <dt>Repository</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="formatDuplicateValue(getDuplicateResource(item)?.releases) as value">
         <dt>Releases</dt><dd class="uk-text-break">{{ value }}</dd>
