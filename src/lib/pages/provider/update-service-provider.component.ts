@@ -57,6 +57,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
     this.serviceProviderService[(path === 'add/:providerId' ? 'getPendingProviderById' : 'getServiceProviderById')](this.providerId)
       .subscribe(
         provider => {
+          if (!provider) { this.errorMessage = 'Something went wrong.'; return; }
           this.provider = provider;
           const parsedProvider = {
             ...this.provider,
@@ -69,6 +70,7 @@ export class UpdateServiceProviderComponent extends ServiceProviderFormComponent
           this.errorMessage = 'Something went wrong.';
         },
         () => {
+          if (!this.provider) { return; }
           if(this.provider.users===null && this.provider.mainContact===null && path!=='add/:providerId') //in case of unauthorized access backend will not show sensitive info (drafts excluded)
             this.router.navigateByUrl('/forbidden')
           // console.log(Object.keys(this.provider));

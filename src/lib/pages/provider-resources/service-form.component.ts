@@ -18,6 +18,7 @@ import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/sur
 import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {SuggestionConfig, SuggestionService, SuggestionState} from "../../services/suggestion.service";
+import {buildHttpErrorMessage} from '../../shared/tools';
 
 declare let UIkit: any;
 
@@ -278,39 +279,43 @@ export class ServiceFormComponent implements OnInit, OnDestroy {
         this.model = suc[3];
       },
       err => {
-                this.errorMessage =
-          (err?.status >= 500 && err?.status < 600)
-            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
-            : `Something went bad while getting the data for page initialization: ${err?.error?.detail}`;
+        this.showLoader = false;
+        this.errorMessage = buildHttpErrorMessage(err, 'Something went bad while getting the data for page initialization');
       },
       () => {
-        this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'Worldwide']);
-        this.premiumSort.transform(this.languagesVocabulary, ['English']);
-        this.premiumSort.transform(this.serviceCategoryVocabulary, ['Compute', 'Data Source', 'Storage']);
-        this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
+        try {
+          this.premiumSort.transform(this.geographicalVocabulary, ['Europe', 'Worldwide']);
+          this.premiumSort.transform(this.languagesVocabulary, ['English']);
+          this.premiumSort.transform(this.serviceCategoryVocabulary, ['Compute', 'Data Source', 'Storage']);
+          this.providersPage.results.sort((a, b) => 0 - (a.name > b.name ? -1 : 1));
 
-        const voc: Vocabulary[] = this.vocabularies[Type.SUBCATEGORY].concat(this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN]);
-        this.subVocabularies = this.groupByKey(voc, 'parentId');
+          const voc: Vocabulary[] = this.vocabularies[Type.SUBCATEGORY].concat(this.vocabularies[Type.SCIENTIFIC_SUBDOMAIN]);
+          this.subVocabularies = this.groupByKey(voc, 'parentId');
 
-        this.providerId = this.route.snapshot.paramMap.get('providerId');
-        // if (this.editMode && this.catalogueName === 'EOSC' && !(this.route.snapshot.paramMap.get('resourceId').startsWith(this.providerId+'.'))) {
-        //   return this.router.go('/404');
-        // }
+          this.providerId = this.route.snapshot.paramMap.get('providerId');
+          // if (this.editMode && this.catalogueName === 'EOSC' && !(this.route.snapshot.paramMap.get('resourceId').startsWith(this.providerId+'.'))) {
+          //   return this.router.go('/404');
+          // }
 
-        this.showProviderName(decodeURIComponent(this.providerId));
-        // if(this.catalogueId == this.catalogueConfigId) this.displayedCatalogueName = `| Catalogue: ${this.config.getProperty('catalogueName')}`;
-        // else if(this.catalogueId) this.showCatalogueName(this.catalogueId);
+          this.showProviderName(decodeURIComponent(this.providerId));
+          // if(this.catalogueId == this.catalogueConfigId) this.displayedCatalogueName = `| Catalogue: ${this.config.getProperty('catalogueName')}`;
+          // else if(this.catalogueId) this.showCatalogueName(this.catalogueId);
 
-        if(!this.editMode){ //prefill field(s)
-          this.payloadAnswer = {'answer': { service:
-                {
-                  'resourceOwner': decodeURIComponent(this.providerId),
-                  'type': "Service",
-                  'nodePID': (this.config.getProperty('nodePidFixed')) ? this.config.getProperty('nodePid') : null
-                }
-          }};
+          if(!this.editMode){ //prefill field(s)
+            this.payloadAnswer = {'answer': { service:
+                  {
+                    'resourceOwner': decodeURIComponent(this.providerId),
+                    'type': "Service",
+                    'nodePID': (this.config.getProperty('nodePidFixed')) ? this.config.getProperty('nodePid') : null
+                  }
+            }};
+          }
+        } catch (e) {
+          console.log(e);
+          this.errorMessage = 'Something went wrong while preparing the form. Please try again later.';
+        } finally {
+          this.showLoader = false;
         }
-        this.showLoader = false;
       }
     );
 
