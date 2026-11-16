@@ -299,7 +299,7 @@
 .btn {
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: var(--button-radius);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;

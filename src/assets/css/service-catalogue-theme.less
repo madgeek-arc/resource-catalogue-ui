@@ -45,6 +45,7 @@
 // Sizing
 @input-height: 56px;
 @card-radius: 10px;
+@button-radius: 8px;
 @sidebar-width: 270px;
 @sidebar-top: 100px; // EOSC specific (use 80px for general)
 
@@ -125,6 +126,7 @@
   --button-secondary-color: @button-secondary-color;
   --button-secondary-background-color: @button-secondary-bg;
   --card-radius: @card-radius;
+  --button-radius: @button-radius;
 }
 
 
@@ -221,6 +223,7 @@ ul a, ol a {
 
 .uk-button {
   text-transform: none;
+  border-radius: @button-radius;
 }
 
 .uk-button-primary {
@@ -2502,7 +2505,7 @@ li { list-style-type: none; }
   padding: .375rem 2rem;
   font-size: 0.9rem;
   line-height: 1.5;
-  border-radius: 2rem;
+  border-radius: @button-radius;
   .transition(@btn-transition);
 }
 
