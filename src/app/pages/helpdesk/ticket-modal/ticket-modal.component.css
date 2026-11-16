@@ -336,7 +336,7 @@
 .btn {
   padding: 12px 24px;
   border: none;
-  border-radius: var(--button-radius);
+  border-radius: var(--control-radius);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;

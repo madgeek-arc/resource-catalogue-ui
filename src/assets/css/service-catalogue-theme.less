@@ -44,8 +44,8 @@
 
 // Sizing
 @input-height: 56px;
-@card-radius: 10px;
-@button-radius: 8px;
+@card-radius: 10px;   // containers (cards, panels, form containers, timelines, helpdesk boxes)
+@control-radius: 8px; // interactive elements (buttons, pagination, dropdowns, helpdesk buttons); keep ≤ @card-radius
 @sidebar-width: 270px;
 @sidebar-top: 100px; // EOSC specific (use 80px for general)
 
@@ -126,7 +126,7 @@
   --button-secondary-color: @button-secondary-color;
   --button-secondary-background-color: @button-secondary-bg;
   --card-radius: @card-radius;
-  --button-radius: @button-radius;
+  --control-radius: @control-radius;
 }
 
 
@@ -223,7 +223,7 @@ ul a, ol a {
 
 .uk-button {
   text-transform: none;
-  border-radius: @button-radius;
+  border-radius: @control-radius;
 }
 
 .uk-button-primary {
@@ -344,7 +344,7 @@ ul.uk-pagination {
     .box-sizing();
     text-shadow: none;
     color: @text-dark;
-    border-radius: @button-radius;
+    border-radius: @control-radius;
   }
 
   > a.pagination_arrow:hover {
@@ -2077,7 +2077,7 @@ li.leaf {
   // padding to absorb it, so attach them flush to the navbar.
   [class*='uk-navbar-dropdown-bottom'] {
     margin-top: 0;
-    border-radius: 0 0 @button-radius @button-radius;
+    border-radius: 0 0 @control-radius @control-radius;
     overflow: hidden;
   }
 
@@ -2507,7 +2507,7 @@ li { list-style-type: none; }
   padding: .375rem 2rem;
   font-size: 0.9rem;
   line-height: 1.5;
-  border-radius: @button-radius;
+  border-radius: @control-radius;
   .transition(@btn-transition);
 }
 
@@ -2814,6 +2814,6 @@ a.badge-light {
 }
 
 .uk-dropdown {
-  border-radius: @button-radius;
+  border-radius: @control-radius;
   overflow: hidden;
 }

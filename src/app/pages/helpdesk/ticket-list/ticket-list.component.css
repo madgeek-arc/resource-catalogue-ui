@@ -407,7 +407,7 @@
 .btn {
   padding: 10px 20px;
   border: none;
-  border-radius: var(--button-radius);
+  border-radius: var(--control-radius);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -475,7 +475,7 @@
   border: 1px solid #dee2e6;
   background: white;
   color: #495057;
-  border-radius: var(--button-radius);
+  border-radius: var(--control-radius);
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 14px;
