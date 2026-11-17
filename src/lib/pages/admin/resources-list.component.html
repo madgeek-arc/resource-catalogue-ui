@@ -473,10 +473,10 @@
 
                                 <ng-container *ngIf="serviceBundle.status==='pending'">
                                   <li class="uk-active" (click)="templateAction(serviceBundle, true, 'approved')">
-                                    <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_up</span>Approve First {{serviceORresource}}</a>
+                                    <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_up</span>Approve {{ config.isReviewFirst('service') ? 'First ' : '' }}{{serviceORresource}}</a>
                                   </li>
                                   <li class="uk-active" (click)="templateAction(serviceBundle, false, 'rejected')">
-                                    <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_down</span>Reject First {{serviceORresource}}</a>
+                                    <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_down</span>Reject {{ config.isReviewFirst('service') ? 'First ' : '' }}{{serviceORresource}}</a>
                                   </li>
                                 </ng-container>
 

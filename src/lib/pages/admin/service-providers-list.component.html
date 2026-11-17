@@ -49,6 +49,7 @@
                     </div>
                   </form>
 
+                  @if (config.isAnyReviewFirst()) {
                   <h5>First {{serviceORresource}} Status</h5>
                   <form [formGroup]="dataForm">
                     <div formArrayName="templateStatus" class="uk-padding uk-padding-remove-top">
@@ -66,6 +67,7 @@
                       <button type="button" class="uk-button uk-button-primary" (click)="checkAll(true, 'templateStatuses')"> Check All </button>
                     </div>
                   </form>
+                  }
 
                   <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
                     <ng-container *ngFor="let f of facets">
@@ -271,9 +273,11 @@
                                   <div class="uk-margin-small-top">
                                     <span class="statusLabel">Provider Status: </span>{{ labels[statuses.indexOf(providerBundle.status)] | titlecase }}
                                   </div>
+                                  @if (config.isAnyReviewFirst()) {
                                   <div class="uk-margin-small-top">
                                     <span class="statusLabel">First {{serviceORresource}} Status: </span>{{templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)]}}
                                   </div>
+                                  }
                                   @if (providerBundle.catalogueId != null) {
                                     <div class="uk-margin-small-top">
                                       <span class="statusLabel">Catalogue ID: </span>{{ providerBundle.catalogueId }}

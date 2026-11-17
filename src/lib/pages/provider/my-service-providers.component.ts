@@ -80,7 +80,9 @@ export class MyServiceProvidersComponent implements OnInit {
                         service: JSON.parse(JSON.stringify(res)).service,
                         datasource: JSON.parse(JSON.stringify(res)).datasource,
                         trainingResource: JSON.parse(JSON.stringify(res)).trainingResource,
-                        deployableApplication: JSON.parse(JSON.stringify(res)).deployableApplication
+                        deployableApplication: JSON.parse(JSON.stringify(res)).deployableApplication,
+                        adapter: JSON.parse(JSON.stringify(res)).adapter,
+                        interoperabilityRecord: JSON.parse(JSON.stringify(res)).interoperabilityRecord
                       });
                     }
                   }
@@ -285,6 +287,30 @@ export class MyServiceProvidersComponent implements OnInit {
       return '/provider/' + this.pidHandler.customEncodeURIComponent(id) + '/deployable-service/update/' + this.pidHandler.customEncodeURIComponent(this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId);
     } else {
       return '/provider/' + this.pidHandler.customEncodeURIComponent(id) + '/add-first-deployable-service';
+    }
+  }
+
+  hasCreatedFirstAdapter(providerId: string) {
+    return this.serviceTemplatePerProvider.some(x => x.providerId == providerId && x.adapter);
+  }
+
+  hasCreatedFirstGuideline(providerId: string) {
+    return this.serviceTemplatePerProvider.some(x => x.providerId == providerId && x.interoperabilityRecord);
+  }
+
+  getLinkToFirstAdapter(id: string) {
+    if (this.hasCreatedFirstAdapter(id)) {
+      return '/provider/' + this.pidHandler.customEncodeURIComponent(id) + '/adapter/update/' + this.pidHandler.customEncodeURIComponent(this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId);
+    } else {
+      return '/provider/' + this.pidHandler.customEncodeURIComponent(id) + '/adapter/add';
+    }
+  }
+
+  getLinkToFirstGuideline(id: string) {
+    if (this.hasCreatedFirstGuideline(id)) {
+      return '/guidelines/' + this.pidHandler.customEncodeURIComponent(id) + '/update/' + this.pidHandler.customEncodeURIComponent(this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId);
+    } else {
+      return '/guidelines/' + this.pidHandler.customEncodeURIComponent(id) + '/add';
     }
   }
 

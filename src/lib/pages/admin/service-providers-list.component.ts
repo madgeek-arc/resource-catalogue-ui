@@ -137,7 +137,7 @@ export class ServiceProvidersListComponent implements OnInit {
               private router: Router,
               private fb: UntypedFormBuilder,
               public pidHandler: pidHandler,
-              private config: ConfigService,
+              public config: ConfigService,
               private deduplicationService: DeduplicationService,
               private destroyRef: DestroyRef
   ) {

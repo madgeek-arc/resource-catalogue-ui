@@ -466,10 +466,10 @@
                             }
                             @if (dsBundle.status==='pending') {
                               <li class="uk-active" (click)="templateAction(dsBundle.id, true, 'approved')">
-                                <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_up</span>Approve first Deployable Application</a>
+                                <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_up</span>Approve {{ config.isReviewFirst('deployable_application') ? 'First ' : '' }}Deployable Application</a>
                               </li>
                               <li class="uk-active" (click)="templateAction(dsBundle.id, false, 'rejected')">
-                                <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_down</span>Reject first Deployable Application</a>
+                                <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_down</span>Reject {{ config.isReviewFirst('deployable_application') ? 'First ' : '' }}Deployable Application</a>
                               </li>
                             }
                           </ul>

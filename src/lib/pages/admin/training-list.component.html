@@ -466,10 +466,10 @@
                             }
                             @if (trBundle.status==='pending') {
                               <li class="uk-active" (click)="templateAction(trBundle.id, true, 'approved')">
-                                <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_up</span>Approve First Training Resource</a>
+                                <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_up</span>Approve {{ config.isReviewFirst('training_resource') ? 'First ' : '' }}Training Resource</a>
                               </li>
                               <li class="uk-active" (click)="templateAction(trBundle.id, false, 'rejected')">
-                                <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_down</span>Reject First Training Resource</a>
+                                <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_down</span>Reject {{ config.isReviewFirst('training_resource') ? 'First ' : '' }}Training Resource</a>
                               </li>
                             }
                           </ul>
