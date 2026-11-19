@@ -236,8 +236,8 @@
                         <div *ngIf="serviceBundle.active" class="approved">
                           <div class="uk-label uk-align-right">Active</div>
                         </div>
-                        <div *ngIf="!serviceBundle.active" class="rejected">
-                          <div class="uk-label uk-align-right">Inactive</div>
+                        <div *ngIf="!serviceBundle.active">
+                          <div class="uk-label uk-label-gray uk-align-right">Inactive</div>
                         </div>
 
                         <div *ngIf="serviceBundle.suspended" class="rejected">
@@ -901,8 +901,8 @@
         <div *ngIf="serviceBundle.active" class="approved">
           <div class="uk-label uk-align-right">Active</div>
         </div>
-        <div *ngIf="!serviceBundle.active" class="rejected">
-          <div class="uk-label uk-align-right">Inactive</div>
+        <div *ngIf="!serviceBundle.active">
+          <div class="uk-label uk-label-gray uk-align-right">Inactive</div>
         </div>
 
         <div *ngIf="serviceBundle.suspended" class="rejected">

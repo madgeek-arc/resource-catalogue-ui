@@ -221,8 +221,8 @@
                           </div>
                         }
                         @if (!adapterBundle.active) {
-                          <div class="rejected">
-                            <div class="uk-label uk-align-right" [ngClass]="adapterBundle.status === 'pending' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
+                          <div>
+                            <div class="uk-label uk-label-gray uk-align-right" [ngClass]="adapterBundle.status === 'pending' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
                           </div>
                         }
                         @if (adapterBundle.suspended) {

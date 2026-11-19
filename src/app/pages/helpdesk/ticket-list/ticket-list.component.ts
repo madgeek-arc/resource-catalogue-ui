@@ -178,17 +178,16 @@ export class TicketListComponent implements OnInit {
     const status = statusOrState?.toLowerCase() || "";
     switch (status) {
       case "new":
-        return "status-new";
+        return "uk-label-info";
       case "open":
-        return "status-open";
+        return "uk-label-danger";
       case "pending close":
-        return "status-pending-close";
       case "pending reminder":
-        return "status-pending-reminder";
+        return "uk-label-warning";
       case "closed":
-        return "status-closed";
+        return "uk-label-success";
       default:
-        return "status-default";
+        return "uk-label-gray";
     }
   }
 

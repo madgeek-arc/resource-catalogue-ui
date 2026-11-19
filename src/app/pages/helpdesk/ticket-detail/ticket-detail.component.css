@@ -77,38 +77,6 @@
   color: #333;
 }
 
-.status-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.status-open {
-  color: #dc3545;
-}
-
-.status-pending {
-  color: #ffc107;
-}
-
-.status-closed {
-  color: #28a745;
-}
-
-.status-escalated {
-  color: #fd7e14;
-}
-
-.status-default {
-  color: #6c757d;
-}
-
 .timeline-container {
   padding: 30px;
 }

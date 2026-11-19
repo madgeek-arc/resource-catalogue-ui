@@ -94,6 +94,18 @@ export class TicketModalComponent implements OnInit, OnChanges {
     }
   }
 
+  getStatusLabelClass(status: string | undefined): string {
+    const statusLower = status?.toLowerCase() || "";
+    switch (statusLower) {
+      case "new": return "uk-label-info";
+      case "open": return "uk-label-danger";
+      case "pending close":
+      case "pending reminder": return "uk-label-warning";
+      case "closed": return "uk-label-success";
+      default: return "uk-label-gray";
+    }
+  }
+
   getStatusIcon(status: string | undefined): string {
     const statusLower = status?.toLowerCase() || "";
     switch (statusLower) {

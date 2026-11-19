@@ -43,14 +43,9 @@
 
 // Status colors
 @status-approved-bg: @success-bg;
-@status-approved-label: @success-text;
 @status-pending-bg: @warning-bg;
-@status-pending-label: @warning-text;
-@status-pending-epot-label: @warning-text;
 @status-rejected-bg: @error-bg;
-@status-rejected-label: @error;
 @status-incomplete-bg: @neutral-bg;
-@status-incomplete-label: @stroke-dark;
 
 // Floating overlay buttons (audit, helpdesk, back to top)
 @overlay-button-bg: fade(mix(@button-secondary-color, @white, 25%), 70%);
@@ -125,8 +120,9 @@
   background-color: @bg;
 }
 
-.status-label-bg(@bg) {
-  background: @bg 0% 0% no-repeat padding-box;
+.label-variant(@bg, @text) {
+  background-color: @bg;
+  color: @text;
 }
 
 
@@ -980,11 +976,11 @@ a.remove-element i {
   }
 }
 
-.approved   .uk-label { .status-label-bg(@status-approved-label); }
-.pending    .uk-label { .status-label-bg(@status-pending-label); }
-.pending-EPOT .uk-label { .status-label-bg(@status-pending-epot-label); }
-.rejected   .uk-label { .status-label-bg(@status-rejected-label); }
-.incomplete .uk-label { .status-label-bg(@status-incomplete-label); }
+.approved     .uk-label { .label-variant(@success-bg, @success-text); }
+.pending      .uk-label,
+.pending-EPOT .uk-label { .label-variant(@warning-bg, @warning-text); }
+.rejected     .uk-label { .label-variant(@error, @neutral-bg); }
+.incomplete   .uk-label { .label-variant(@stroke-dark, @neutral-bg); }
 
 .provider-logo {
   width: 130px;
@@ -1621,9 +1617,20 @@ a[class*="wk-"] {
 //   Labels
 // ========================================================================
 
-.uk-label-gray {
-  background-color: #bbbbbb !important;
+.uk-label {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-transform: none;
+  .label-variant(@primary, @white); // plain uk-label isn't in the style guide; closest token
 }
+
+.uk-label-success { .label-variant(@success-bg, @success-text); }
+.uk-label-danger  { .label-variant(@error, @neutral-bg); }
+.uk-label-warning { .label-variant(@warning-bg, @warning-text); }
+.uk-label-gray    { .label-variant(@neutral-bg, @text-secondary); } // neutral (light)
+.uk-label-dark    { .label-variant(@stroke-dark, @neutral-bg); }    // neutral (dark)
+.uk-label-info    { .label-variant(@secondary, @primary); }         // not in the style guide; light blue from palette tokens
 
 
 // ========================================================================
@@ -1908,10 +1915,6 @@ a[class*="wk-"] {
     line-height: 35px;
     text-transform: none;
   }
-
-  .uk-label.uk-label-danger {
-    background-color: #bc2300;
-  }
 }
 
 .beta-badge-mobile {
@@ -1924,10 +1927,6 @@ a[class*="wk-"] {
     height: 25px;
     line-height: 25px;
     text-transform: none;
-  }
-
-  .uk-label.uk-label-danger {
-    background-color: #bc2300;
   }
 }
 

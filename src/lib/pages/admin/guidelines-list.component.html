@@ -221,8 +221,8 @@
                           </div>
                         }
                         @if (!guidelineBundle.active) {
-                          <div class="rejected">
-                            <div class="uk-label uk-align-right" [ngClass]="guidelineBundle.status === 'pending' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
+                          <div>
+                            <div class="uk-label uk-label-gray uk-align-right" [ngClass]="guidelineBundle.status === 'pending' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
                           </div>
                         }
                         @if (guidelineBundle.suspended) {

@@ -32,10 +32,9 @@
             </div>
           </div>
           <div class="ticket-status-section">
-            <div class="status-badge">
-              <i [class]="getStatusIcon(ticket.status)"></i>
-              <span [class]="getStatusClass(ticket.status)">{{ ticket.status }}</span>
-            </div>
+            <span class="uk-label" [class]="getStatusClass(ticket.status)">
+              <i class="uk-margin-small-right" [class]="getStatusIcon(ticket.status)"></i>{{ ticket.status }}
+            </span>
           </div>
         </div>
       </div>

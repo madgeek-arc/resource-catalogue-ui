@@ -52,7 +52,7 @@
           <th>Number</th>
           <th>Date</th>
           <th>Ticket Title</th>
-          <th>Status</th>
+          <th class="uk-text-center">Status</th>
         </tr>
       </thead>
       <tbody>
@@ -70,7 +70,7 @@
           </td>
           <td data-label="Status">
             <span
-              class="status-badge"
+              class="uk-label"
               [class]="getStatusClass(getTicketState(ticket))"
               >{{ getTicketState(ticket) }}</span
             >

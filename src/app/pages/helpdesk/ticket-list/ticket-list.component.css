@@ -234,46 +234,6 @@
   text-align: center;
 }
 
-.status-badge {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.status-new {
-  background: #e3f2fd;
-  color: #1565c0;
-}
-
-.status-open {
-  background: #ffe6e6;
-  color: #dc3545;
-}
-
-.status-pending-close {
-  background: #fff3cd;
-  color: #856404;
-}
-
-.status-pending-reminder {
-  background: #f3e5f5;
-  color: #7b1fa2;
-}
-
-.status-closed {
-  background: #d4edda;
-  color: #155724;
-}
-
-.status-default {
-  background: #e9ecef;
-  color: #6c757d;
-}
-
 .tickets-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));

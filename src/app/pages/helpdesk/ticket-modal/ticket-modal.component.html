@@ -15,10 +15,10 @@
       <div class="ticket-header-row">
         <span class="ticket-number">#{{ ticket.number }}</span>
         <span
-          class="status-badge"
-          [class]="getStatusClass(getTicketState(ticket))"
+          class="uk-label"
+          [class]="getStatusLabelClass(getTicketState(ticket))"
         >
-          <i [class]="getStatusIcon(getTicketState(ticket))"></i>
+          <i class="uk-margin-small-right" [class]="getStatusIcon(getTicketState(ticket))"></i>
           {{ getTicketState(ticket) }}
         </span>
       </div>
