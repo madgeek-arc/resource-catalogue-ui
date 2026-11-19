@@ -39,7 +39,7 @@
   gap: 10px;
 }
 
-.error-message .btn {
+.error-message .uk-button {
   margin-left: auto;
 }
 
@@ -362,46 +362,6 @@
   font-size: 3rem;
   color: #ddd;
   margin-bottom: 15px;
-}
-
-.btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: var(--control-radius);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-}
-
-.btn-primary {
-  background: #ee7444;
-  color: white;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-}
-
-.btn-outline {
-  background: transparent;
-  color: #667eea;
-  border: 2px solid #667eea;
-}
-
-.btn-outline:hover {
-  background: #667eea;
-  color: white;
-}
-
-.btn-sm {
-  padding: 6px 12px;
-  font-size: 12px;
 }
 
 /* Pagination Styles */

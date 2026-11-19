@@ -114,10 +114,10 @@
           <div class="form-actions">
             <button
               type="submit"
-              class="btn btn-primary"
+              class="uk-button uk-button-primary"
               [disabled]="replyForm.invalid || submittingReply"
             >
-              <span *ngIf="submittingReply" class="spinner"></span>
+              <span *ngIf="submittingReply" class="spinner uk-margin-small-right"></span>
               {{ submittingReply ? "Sending..." : "Update" }}
             </button>
           </div>
@@ -132,7 +132,7 @@
     </div>
 
     <div class="modal-footer">
-      <button class="btn btn-secondary" (click)="onClose()">Close</button>
+      <button class="uk-button uk-button-secondary" (click)="onClose()">Close</button>
     </div>
   </div>
 </div>

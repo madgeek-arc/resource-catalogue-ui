@@ -1,7 +1,7 @@
 <div class="ticket-detail-container">
   <div class="detail-header">
-    <button class="btn btn-secondary" (click)="goBack()">
-      <i class="fa fa-arrow-left"></i>
+    <button class="uk-button uk-button-secondary" (click)="goBack()">
+      <i class="fa fa-arrow-left uk-margin-small-right"></i>
       Back to Tickets
     </button>
   </div>
@@ -98,11 +98,11 @@
             <div class="form-actions">
               <button
                 type="submit"
-                class="btn btn-primary"
+                class="uk-button uk-button-primary"
                 [disabled]="replyForm.invalid || submittingReply"
                 >
                 @if (submittingReply) {
-                  <span class="spinner"></span>
+                  <span class="spinner uk-margin-small-right"></span>
                 }
                 {{ submittingReply ? 'Sending...' : 'Send Reply' }}
               </button>
@@ -116,7 +116,7 @@
             <i class="fas fa-lock"></i>
             <h4>This ticket is closed</h4>
             <p>This support ticket has been resolved and closed. If you need further assistance, please create a new ticket.</p>
-            <button class="btn btn-primary" (click)="router.navigate(['/helpdesk/create'])">
+            <button class="uk-button uk-button-primary" (click)="router.navigate(['/helpdesk/create'])">
               Create New Ticket
             </button>
           </div>
