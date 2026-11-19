@@ -109,12 +109,12 @@ export class TicketModalComponent implements OnInit, OnChanges {
   getStatusIcon(status: string | undefined): string {
     const statusLower = status?.toLowerCase() || "";
     switch (statusLower) {
-      case "new": return "fa fa-plus-circle";
-      case "open": return "fa fa-exclamation-circle";
-      case "pending close": return "fa fa-clock";
-      case "pending reminder": return "fa fa-bell";
-      case "closed": return "fa fa-check-circle";
-      default: return "fa fa-question-circle";
+      case "new": return "add_circle";
+      case "open": return "error";
+      case "pending close": return "schedule";
+      case "pending reminder": return "notifications";
+      case "closed": return "check_circle";
+      default: return "help";
     }
   }
 

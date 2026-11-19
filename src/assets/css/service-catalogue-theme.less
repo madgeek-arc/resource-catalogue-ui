@@ -693,7 +693,8 @@ a.add-new-element {
   }
 }
 
-a.remove-element i {
+a.remove-element i,
+a.remove-element .material-symbols-outlined {
   color: #B5B5B5;
   font-size: 25px;
 }
@@ -1519,6 +1520,7 @@ a[class*="wk-"] {
 .audit-overlay-button {
   background-color: @white;
   padding: 0;
+  color: var(--primary-color); // icon and hover text inherit it
 
   span {
     background: @overlay-button-bg 0% 0% no-repeat padding-box;
@@ -1526,10 +1528,6 @@ a[class*="wk-"] {
     .box-shadow(@shadow-overlay-button);
     border-bottom-left-radius: 30px;
     border-top-left-radius: 30px;
-
-    i {
-      color: var(--primary-color);
-    }
 
     &::after {
       content: '';
@@ -1542,7 +1540,6 @@ a[class*="wk-"] {
   &:hover span::after {
     content: ' Audit';
     font-weight: bold;
-    color: var(--primary-color, #6299EC);
     margin-left: 8px;
     opacity: 1;
     .transition(opacity 0.3s ease);
@@ -1630,6 +1627,7 @@ a[class*="wk-"] {
   background-color: @white;
   padding: 0;
   border: none;
+  color: var(--primary-color); // icon and label inherit it
 
   &:hover .helpdesk-label {
     opacity: 1;
@@ -1637,7 +1635,6 @@ a[class*="wk-"] {
   }
 
   i {
-    color: var(--primary-color);
     font-weight: bold;
     font-size: 16px;
     line-height: 1;
@@ -1665,7 +1662,6 @@ a[class*="wk-"] {
   margin-left: 6px;
   overflow: hidden;
   .transition(all 0.3s ease);
-  color: var(--primary-color);
   font-weight: bold;
 }
 
@@ -2467,7 +2463,32 @@ a.signUp {
   color: rgba(0, 0, 0, 0.54);
 }
 
-.material-icons.external-link-icon {
+// Material Symbols (style guide icon set): primary color by default,
+// the surrounding text color on buttons, labels, links and menu items
+.material-symbols-outlined {
+  color: @primary;
+  vertical-align: middle;
+}
+
+.uk-button,
+button,
+a,
+.uk-label,
+.uk-nav > li,
+.uk-alert {
+  .material-symbols-outlined {
+    color: inherit;
+  }
+}
+
+// Keep icons in labels from making the label taller
+.uk-label .material-symbols-outlined {
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+.material-icons.external-link-icon,
+.material-symbols-outlined.external-link-icon {
   font-size: 0.9em;
   margin-left: 2px;
   vertical-align: -0.1em;

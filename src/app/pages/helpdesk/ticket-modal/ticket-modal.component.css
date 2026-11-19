@@ -243,7 +243,7 @@
   margin-bottom: 24px;
 }
 
-.no-articles i {
+.no-articles .material-symbols-outlined {
   font-size: 48px;
   margin-bottom: 16px;
   opacity: 0.5;
@@ -377,7 +377,7 @@
   color: #856404;
 }
 
-.ticket-closed-notice i {
+.ticket-closed-notice .material-symbols-outlined {
   font-size: 24px;
   margin-bottom: 8px;
   display: block;

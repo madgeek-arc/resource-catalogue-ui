@@ -39,6 +39,10 @@
   gap: 10px;
 }
 
+.error-message .material-symbols-outlined {
+  color: inherit;
+}
+
 .error-message .uk-button {
   margin-left: auto;
 }
@@ -73,7 +77,7 @@
   color: #666;
 }
 
-.empty-state i {
+.empty-state .material-symbols-outlined {
   font-size: 4rem;
   color: #ddd;
   margin-bottom: 20px;
@@ -358,7 +362,7 @@
   color: #666;
 }
 
-.no-results i {
+.no-results .material-symbols-outlined {
   font-size: 3rem;
   color: #ddd;
   margin-bottom: 15px;
@@ -423,7 +427,7 @@
   opacity: 0.6;
 }
 
-.pagination-btn i {
+.pagination-btn .material-symbols-outlined {
   font-size: 12px;
 }
 

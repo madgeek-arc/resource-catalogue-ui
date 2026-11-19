@@ -77,14 +77,14 @@
                                     <div class="uk-margin-top cardActionButtons">
                                       <button class="uk-button uk-button-action"
                                               routerLink="/provider/update/{{pidHandler.customEncodeURIComponent(providerBundle.id)}}">
-                                        <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider
+                                        <span class="material-symbols-outlined uk-margin-small-right">edit_square</span>Update Provider
                                       </button>
                                       @if ((providerBundle.templateStatus !== 'approved template')) {
                                         @if (hasCreatedFirstService(providerBundle.id)) {
                                           <!--<ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
                                           <button class="uk-button uk-button-action uk-margin-small-left"
                                                   routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
-                                            <i class="fa fa-lg fa-edit"></i>
+                                            <span class="material-symbols-outlined">edit_square</span>
                                             Update First {{serviceORresource}}
                                           </button>
                                         }
@@ -92,7 +92,7 @@
                                           <!--<ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
                                           <button class="uk-button uk-button-action uk-margin-small-left"
                                                   routerLink="{{ getLinkToFirstDatasource(providerBundle.id) }}">
-                                            <i class="fa fa-lg fa-edit"></i>
+                                            <span class="material-symbols-outlined">edit_square</span>
                                             Update First Datasource
                                           </button>
                                         }
@@ -100,7 +100,7 @@
                                           <!--<ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
                                           <button class="uk-button uk-button-action uk-margin-small-left"
                                                   routerLink="{{ getLinkToFirstTrainingResource(providerBundle.id) }}">
-                                            <i class="fa fa-lg fa-edit"></i>
+                                            <span class="material-symbols-outlined">edit_square</span>
                                             Update First Training Resource
                                           </button>
                                         }
@@ -108,13 +108,13 @@
                                           <!--<ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
                                           <button class="uk-button uk-button-action uk-margin-small-left"
                                                   routerLink="{{ getLinkToFirstDeployableApplication(providerBundle.id) }}">
-                                            <i class="fa fa-lg fa-edit"></i>
+                                            <span class="material-symbols-outlined">edit_square</span>
                                             Update First Deployable Application
                                           </button>
                                         }
                                         @if (!hasCreatedFirstService(providerBundle.id) && !hasCreatedFirstDatasource(providerBundle.id) && !hasCreatedFirstTrainingResource(providerBundle.id) && !hasCreatedFirstDeployableApplication(providerBundle.id)) {
                                           <button class="uk-button uk-button-action uk-margin-small-left">
-                                            <i class="fa fa-plus"></i>
+                                            <span class="material-symbols-outlined">add</span>
                                             Add First Resource
                                           </button>
                                           <div uk-dropdown>
@@ -193,7 +193,7 @@
                                       }
                                       <button [disabled]="true" class="uk-button uk-margin-small-left uk-button-action"
                                               routerLink="">
-                                        <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More
+                                        <span class="material-symbols-outlined uk-margin-small-right">more_vert</span>More
                                       </button>
                                       <div uk-dropdown>
                                         <ul class="uk-nav uk-dropdown-nav">
@@ -235,11 +235,11 @@
                                     <div class="uk-margin-top cardActionButtons">
                                       <button class="uk-button uk-button-action"
                                               routerLink="/provider/view/{{pidHandler.customEncodeURIComponent(providerBundle.catalogueId)}}/{{pidHandler.customEncodeURIComponent(providerBundle.id)}}">
-                                        <i class="fa fa-lg fa-edit uk-margin-small-right"></i>View Provider
+                                        <span class="material-symbols-outlined uk-margin-small-right">edit_square</span>View Provider
                                       </button>
                                       <button [disabled]="true" class="uk-button uk-margin-small-left uk-button-action"
                                               routerLink="">
-                                        <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More
+                                        <span class="material-symbols-outlined uk-margin-small-right">more_vert</span>More
                                       </button>
                                       <div uk-dropdown>
                                         <ul class="uk-nav uk-dropdown-nav">
@@ -294,7 +294,7 @@
                                     <div class="uk-margin-top cardActionButtons">
                                       <button class="uk-button uk-button-action"
                                               routerLink="/provider/update/{{pidHandler.customEncodeURIComponent(providerBundle.id)}}">
-                                        <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider
+                                        <span class="material-symbols-outlined uk-margin-small-right">edit_square</span>Update Provider
                                       </button>
                                     </div>
                                   }
@@ -343,12 +343,12 @@
                                     <div class="uk-margin-top cardActionButtons">
                                       <button class="uk-button uk-button-action"
                                               routerLink="/provider/update/{{pidHandler.customEncodeURIComponent(providerBundle.id)}}">
-                                        <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider
+                                        <span class="material-symbols-outlined uk-margin-small-right">edit_square</span>Update Provider
                                       </button>
                                       @if (providerBundle.templateStatus === 'rejected template') {
                                         <button class="uk-button uk-button-action"
                                                 routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
-                                          <i class="fa fa-lg fa-edit"></i> Update First {{serviceORresource}}
+                                          <span class="material-symbols-outlined">edit_square</span> Update First {{serviceORresource}}
                                         </button>
                                       }
                                     </div>
@@ -391,7 +391,7 @@
                                     <div class="uk-margin-top cardActionButtons">
                                       <button class="uk-button uk-button-action"
                                               routerLink="/provider/add/{{pidHandler.customEncodeURIComponent(providerBundle.id)}}">
-                                        <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider
+                                        <span class="material-symbols-outlined uk-margin-small-right">edit_square</span>Update Provider
                                       </button>
                                     </div>
                                   }

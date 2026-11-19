@@ -163,10 +163,10 @@
                           <button
                             [routerLink]="['/provider/'+ pidHandler.customEncodeURIComponent(adapterBundle.adapter.resourceOwner) +'/adapter/update/'+ pidHandler.customEncodeURIComponent(adapterBundle.id)]"
                             class="uk-button uk-button-action uk-display-block uk-margin-small-top">
-                            <i class="fa fa-pencil fa-lg" aria-hidden="true"></i> Update Adapter
+                            <span class="material-symbols-outlined" aria-hidden="true">edit</span> Update Adapter
                           </button>
                           <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedAdapter(adapterBundle)">
-                            <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete Adapter
+                            <span class="material-symbols-outlined" aria-hidden="true">delete</span> Delete Adapter
                           </button>
                         </div>
                       </div>

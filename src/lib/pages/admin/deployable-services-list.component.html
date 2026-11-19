@@ -337,7 +337,7 @@
                         <button
                           routerLink="/provider/{{dsBundle.deployableApplication.resourceOwner}}/deployable-service/view/{{dsBundle.id}}"
                           class="uk-button uk-button-link" style="">
-                          <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                          <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">visibility</span>
                           View Deployable Application
                         </button>
                         <button class="uk-button uk-button-link uk-margin-medium-left">
@@ -768,11 +768,11 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.url as value">
         <dt>URL</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-symbols-outlined external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.logo as value">
         <dt>Logo</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-icons external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-symbols-outlined external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.resourceOwner as value">
         <dt>Resource owner</dt><dd>{{ value }}</dd>

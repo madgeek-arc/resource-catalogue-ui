@@ -10,7 +10,7 @@
   </div>
 
   <div *ngIf="error" class="error-message">
-    <i class="fa fa-exclamation-circle"></i>
+    <span class="material-symbols-outlined">error</span>
     <span>{{ error }}</span>
     <button class="uk-button uk-button-secondary uk-button-small" (click)="loadTickets()">
       Retry
@@ -23,7 +23,7 @@
   </div>
 
   <div *ngIf="!loading && (!tickets || tickets.length === 0)" class="empty-state">
-    <i class="fa fa-ticket"></i>
+    <span class="material-symbols-outlined">confirmation_number</span>
     <h3>No tickets found</h3>
     <p>You haven't created any support tickets yet.</p>
     <button class="uk-button uk-button-primary" (click)="createNewTicket()">
@@ -80,7 +80,7 @@
     </table>
 
     <div *ngIf="paginatedTickets.length === 0" class="no-results">
-      <i class="fa fa-search"></i>
+      <span class="material-symbols-outlined">search</span>
       <p>No tickets found with the selected filter.</p>
     </div>
 
@@ -101,7 +101,7 @@
           (click)="goToPage(1)"
           title="First page"
         >
-          <i class="fa fa-angle-double-left"></i>
+          <span class="material-symbols-outlined">keyboard_double_arrow_left</span>
         </button>
 
         <button
@@ -110,7 +110,7 @@
           (click)="goToPage(currentPage - 1)"
           title="Previous page"
         >
-          <i class="fa fa-angle-left"></i>
+          <span class="material-symbols-outlined">chevron_left</span>
         </button>
 
         <button
@@ -128,7 +128,7 @@
           (click)="goToPage(currentPage + 1)"
           title="Next page"
         >
-          <i class="fa fa-angle-right"></i>
+          <span class="material-symbols-outlined">chevron_right</span>
         </button>
 
         <button
@@ -137,7 +137,7 @@
           (click)="goToPage(totalPages)"
           title="Last page"
         >
-          <i class="fa fa-angle-double-right"></i>
+          <span class="material-symbols-outlined">keyboard_double_arrow_right</span>
         </button>
       </div>
     </div>

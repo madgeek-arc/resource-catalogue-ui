@@ -72,15 +72,15 @@ export class TicketDetailComponent implements OnInit {
   getStatusIcon(status: string): string {
     switch (status.toLowerCase()) {
       case "open":
-        return "fa fa-exclamation-circle";
+        return "error";
       case "pending":
-        return "fa fa-clock";
+        return "schedule";
       case "closed":
-        return "fa fa-check-circle";
+        return "check_circle";
       case "escalated":
-        return "fa fa-arrow-up";
+        return "arrow_upward";
       default:
-        return "fa fa-question-circle";
+        return "help";
     }
   }
 

@@ -247,7 +247,7 @@
   margin: 0 auto;
 }
 
-.closed-notice i {
+.closed-notice .material-symbols-outlined {
   font-size: 3rem;
   color: #6c757d;
   margin-bottom: 20px;

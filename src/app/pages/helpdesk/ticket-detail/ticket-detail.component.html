@@ -1,14 +1,14 @@
 <div class="ticket-detail-container">
   <div class="detail-header">
     <button class="uk-button uk-button-secondary" (click)="goBack()">
-      <i class="fa fa-arrow-left uk-margin-small-right"></i>
+      <span class="material-symbols-outlined uk-margin-small-right">arrow_back</span>
       Back to Tickets
     </button>
   </div>
 
   @if (error) {
     <div class="error-message">
-      <i class="fas fa-exclamation-circle"></i>
+      <span class="material-symbols-outlined">error</span>
       <span>{{ error }}</span>
     </div>
   }
@@ -33,7 +33,7 @@
           </div>
           <div class="ticket-status-section">
             <span class="uk-label" [class]="getStatusClass(ticket.status)">
-              <i class="uk-margin-small-right" [class]="getStatusIcon(ticket.status)"></i>{{ ticket.status }}
+              <span class="material-symbols-outlined uk-margin-small-right">{{ getStatusIcon(ticket.status) }}</span>{{ ticket.status }}
             </span>
           </div>
         </div>
@@ -49,10 +49,10 @@
               >
               <div class="timeline-marker">
                 @if (isUserMessage(article)) {
-                  <i class="fas fa-user"></i>
+                  <span class="material-symbols-outlined">person</span>
                 }
                 @if (!isUserMessage(article)) {
-                  <i class="fas fa-headset"></i>
+                  <span class="material-symbols-outlined">headset_mic</span>
                 }
               </div>
               <div class="timeline-content">
@@ -113,7 +113,7 @@
       @if (ticket.status === 'closed') {
         <div class="ticket-closed">
           <div class="closed-notice">
-            <i class="fas fa-lock"></i>
+            <span class="material-symbols-outlined">lock</span>
             <h4>This ticket is closed</h4>
             <p>This support ticket has been resolved and closed. If you need further assistance, please create a new ticket.</p>
             <button class="uk-button uk-button-primary" (click)="router.navigate(['/helpdesk/create'])">
