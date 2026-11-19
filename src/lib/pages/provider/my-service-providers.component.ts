@@ -29,6 +29,8 @@ export class MyServiceProvidersComponent implements OnInit {
   hasRejectedDatasources: { id: string, flag: boolean }[] = [];
   hasRejectedTrainingResources: { id: string, flag: boolean }[] = [];
   hasRejectedDeployableServices: { id: string, flag: boolean }[] = [];
+  hasRejectedAdapters: { id: string, flag: boolean }[] = [];
+  hasRejectedGuidelines: { id: string, flag: boolean }[] = [];
 
   myApprovedProviders: ProviderBundle[] = [];
   myPendingActionProviders: ProviderBundle[] = [];
@@ -148,6 +150,24 @@ export class MyServiceProvidersComponent implements OnInit {
                     }
                   }
                 );
+                this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'name', 'adapter').subscribe(
+                  res => {
+                    if (res.results?.length > 0) {
+                      this.hasRejectedAdapters.push({id: p.id, flag: true});
+                    } else {
+                      this.hasRejectedAdapters.push({id: p.id, flag: false});
+                    }
+                  }
+                );
+                this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'name', 'interoperability_record').subscribe(
+                  res => {
+                    if (res.results?.length > 0) {
+                      this.hasRejectedGuidelines.push({id: p.id, flag: true});
+                    } else {
+                      this.hasRejectedGuidelines.push({id: p.id, flag: false});
+                    }
+                  }
+                );
               }
               this.assignProviderToList(p);
             }
@@ -253,6 +273,24 @@ export class MyServiceProvidersComponent implements OnInit {
     for (let i = 0; i < this.hasRejectedDeployableServices.length; i++) {
       if (this.hasRejectedDeployableServices[i].id === id) {
         return this.hasRejectedDeployableServices[i].flag;
+      }
+    }
+    return false;
+  }
+
+  checkForRejectedAdapters(id: string): boolean {
+    for (let i = 0; i < this.hasRejectedAdapters.length; i++) {
+      if (this.hasRejectedAdapters[i].id === id) {
+        return this.hasRejectedAdapters[i].flag;
+      }
+    }
+    return false;
+  }
+
+  checkForRejectedGuidelines(id: string): boolean {
+    for (let i = 0; i < this.hasRejectedGuidelines.length; i++) {
+      if (this.hasRejectedGuidelines[i].id === id) {
+        return this.hasRejectedGuidelines[i].flag;
       }
     }
     return false;

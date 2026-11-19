@@ -188,7 +188,7 @@
                                                   </a>
                                                 </li>
                                               }
-                                              @if (checkForRejectedServices(providerBundle.id)) {
+                                              @if (config.isReviewFirst('service') && checkForRejectedServices(providerBundle.id)) {
                                                 <li class="uk-active">
                                                   <a
                                                     [routerLink]="['/provider/rejected-resources/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
@@ -196,7 +196,7 @@
                                                   </a>
                                                 </li>
                                               }
-                                              @if (checkForRejectedDatasources(providerBundle.id)) {
+                                              @if (config.isReviewFirst('datasource') && checkForRejectedDatasources(providerBundle.id)) {
                                                 <li class="uk-active">
                                                   <a
                                                     [routerLink]="['/provider/rejected-datasources/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
@@ -204,7 +204,7 @@
                                                   </a>
                                                 </li>
                                               }
-                                              @if (checkForRejectedTrainingResources(providerBundle.id)) {
+                                              @if (config.isReviewFirst('training_resource') && checkForRejectedTrainingResources(providerBundle.id)) {
                                                 <li class="uk-active">
                                                   <a
                                                     [routerLink]="['/provider/rejected-training-resources/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
@@ -212,11 +212,27 @@
                                                   </a>
                                                 </li>
                                               }
-                                              @if (checkForRejectedDeployableServices(providerBundle.id)) {
+                                              @if (config.isReviewFirst('deployable_application') && checkForRejectedDeployableServices(providerBundle.id)) {
                                                 <li class="uk-active">
                                                   <a
                                                     [routerLink]="['/provider/rejected-deployable-services/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
                                                     Select from rejected Deployable Application
+                                                  </a>
+                                                </li>
+                                              }
+                                              @if (config.isReviewFirst('adapter') && checkForRejectedAdapters(providerBundle.id)) {
+                                                <li class="uk-active">
+                                                  <a
+                                                    [routerLink]="['/provider/rejected-adapters/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
+                                                    Select from rejected adapters
+                                                  </a>
+                                                </li>
+                                              }
+                                              @if (config.isReviewFirst('interoperability_record') && checkForRejectedGuidelines(providerBundle.id)) {
+                                                <li class="uk-active">
+                                                  <a
+                                                    [routerLink]="['/provider/rejected-guidelines/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
+                                                    Select from rejected guidelines
                                                   </a>
                                                 </li>
                                               }

@@ -30,23 +30,25 @@
                 </div>
               </form>
 
-              <h5>Datasource Status</h5>
-              <form [formGroup]="dataForm">
-                <div formArrayName="status" class="uk-padding uk-padding-remove-top">
-                  <div *ngFor="let statusValue of statuses;" class="uk-margin-small-top">
-                    <label class="status-value uk-margin-small-left">
-                      <input #checkboxes class="uk-checkbox" type="checkbox" [value]="statusValue"
-                             (change)="onSelectionChange($event, 'status')" [checked]="isStatusChecked(statusValue)">
-                      {{labels[statuses.indexOf(statusValue)] | titlecase}}
-                    </label>
+              @if (config.isReviewed('datasource')) {
+                <h5>Datasource Status</h5>
+                <form [formGroup]="dataForm">
+                  <div formArrayName="status" class="uk-padding uk-padding-remove-top">
+                    <div *ngFor="let statusValue of statuses;" class="uk-margin-small-top">
+                      <label class="status-value uk-margin-small-left">
+                        <input #checkboxes class="uk-checkbox" type="checkbox" [value]="statusValue"
+                               (change)="onSelectionChange($event, 'status')" [checked]="isStatusChecked(statusValue)">
+                        {{labels[statuses.indexOf(statusValue)] | titlecase}}
+                      </label>
+                    </div>
                   </div>
-                </div>
-                <!--                    <div class="">-->
-                <!--                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(false)"> Uncheck All </button>-->
-                <!--                      &nbsp;-->
-                <!--                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(true)"> Check All </button>-->
-                <!--                    </div>-->
-              </form>
+                  <!--                    <div class="">-->
+                  <!--                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(false)"> Uncheck All </button>-->
+                  <!--                      &nbsp;-->
+                  <!--                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(true)"> Check All </button>-->
+                  <!--                    </div>-->
+                </form>
+              }
 
               @if (facets && facets.length>0) {
                 <div class="refineCategory uk-grid-margin">

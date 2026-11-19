@@ -52,6 +52,11 @@ export class ConfigService {
     return this.getOnboardingPolicy(resourceType) === 'review-first';
   }
 
+  /** False for review-none: resources are approved immediately, so no resource is ever pending or rejected. */
+  isReviewed(resourceType: string): boolean {
+    return this.getOnboardingPolicy(resourceType) !== 'review-none';
+  }
+
   /** True when at least one resource type has a template, i.e. when an Organisation's template status matters. */
   isAnyReviewFirst(): boolean {
     return Object.keys(LEGACY_ONBOARDING_POLICY).some(type => this.isReviewFirst(type));

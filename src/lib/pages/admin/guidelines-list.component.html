@@ -114,17 +114,19 @@
                     </div>
                   </div>
 
-                  <div class="uk-inline uk-margin-right">
-                    <label class="uk-margin-small-right" for="status">Status:</label>
-                    <div class="uk-inline">
-                      <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
-                        <option value="" selected>All</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
-                        <option value="pending">Pending</option>
-                      </select>
+                  @if (config.isReviewed('interoperability_record')) {
+                    <div class="uk-inline uk-margin-right">
+                      <label class="uk-margin-small-right" for="status">Status:</label>
+                      <div class="uk-inline">
+                        <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
+                          <option value="" selected>All</option>
+                          <option value="approved">Approved</option>
+                          <option value="rejected">Rejected</option>
+                          <option value="pending">Pending</option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
+                  }
 
                   <div class="uk-inline uk-margin-right">
                     <label class="uk-margin-small-right" for="active">Active:</label>

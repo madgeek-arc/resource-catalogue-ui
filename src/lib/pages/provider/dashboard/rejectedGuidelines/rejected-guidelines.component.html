@@ -1,0 +1,110 @@
+<div class="uk-section uk-section-xsmall">
+  <div class="uk-container uk-container-expand">
+
+    <div class="services-provider-container">
+      @if (providerBundle) {
+        <div class="uk-flex">
+          <div>
+            <img src="{{ providerBundle.organisation.logo ? providerBundle.organisation.logo : '/assets/images/broken_image-black-48dp.svg' }}" style="max-width: 200px">
+          </div>
+          <div class="uk-margin-medium-left">
+            <h3 class="uk-margin-remove">{{providerBundle.organisation.name}}</h3>
+            <div><span class="status-label">Status: </span>{{providerBundle.status | titlecase}}</div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="uk-margin-large-top">
+      @if (errorMessage) {
+        <div class="uk-alert uk-alert-danger">
+          <p>{{errorMessage}}</p>
+        </div>
+      }
+
+      @if (bundles && bundles?.results?.length === 0) {
+        <div>
+          <p>No rejected Guidelines found</p>
+        </div>
+      }
+
+      @if (bundles && bundles?.results?.length > 0) {
+        <div>
+          <div class="uk-flex uk-flex-middle uk-flex-between">
+            <div class="resultsInfo">
+              <span class="number">{{total}}</span> REJECTED GUIDELINES, PAGE <span class="number">{{currentPage}}</span> OF <span class="number">{{pageTotal}}</span>
+            </div>
+            <ul class="uk-pagination" uk-margin>
+              <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+              @for (i of pages; track i) {
+                <li [ngClass]="i === currentPage ? 'uk-active': ''">
+                  <a (click)="goToPage(i)">{{i}}</a>
+                </li>
+              }
+              <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+            </ul>
+          </div>
+          <hr class="adminResultsHeader">
+          <div class="uk-margin-medium-top">
+            @for (item of bundles.results; track item) {
+              <div class="uk-card uk-card-small uk-card-default uk-margin-bottom service-card">
+                <div class="uk-card-body">
+                  <div class="uk-grid uk-flex-middle">
+                    <!--                <div class="uk-width-1-6">-->
+                    <!--                  <img src="{{item.interoperabilityRecord.logo ? item.interoperabilityRecord.logo : '/assets/images/broken_image-black-48dp.svg'}}">-->
+                  <!--                </div>-->
+                  <div class="uk-width-2-3">
+                    <h4 class="uk-margin-remove">{{item.interoperabilityRecord.name}}</h4>
+                    @if (item.interoperabilityRecord.description) {
+                      <span class="uk-margin-small-top"><markdown [data]="item.interoperabilityRecord.description"></markdown></span>
+                    }
+                  </div>
+                  <div class="uk-width-1-6">
+                    <div class="action-buttons">
+                      <button class="uk-button uk-button-action uk-display-block" (click)="navigate(item.id)">
+                        <i class="fa fa-pencil fa-lg"></i> Edit guideline
+                      </button>
+                      <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedBundle(item)">
+                        <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete guideline
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+        <ul class="uk-pagination uk-flex-right" uk-margin>
+          <li><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+          @for (i of pages; track i) {
+            <li [ngClass]="i === currentPage ? 'uk-active': ''">
+              <a (click)="goToPage(i)">{{i}}</a>
+            </li>
+          }
+          <li><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+        </ul>
+      </div>
+    }
+
+    <div id="spinnerModal" uk-modal>
+      <div class="loader-small" style="text-align: center; padding-top: 170px; color: rgb(47, 64, 80); font-weight: bold;">
+      </div>
+    </div>
+  </div>
+
+
+</div>
+</div>
+
+
+<div id="actionModal" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    @if (selectedBundle) {
+      <h6>Are you sure you want to delete the guideline '{{selectedBundle.interoperabilityRecord.name}}'?</h6>
+    }
+    <div class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close uk-margin-small-right" type="button">Cancel</button>
+      <button class="uk-button uk-button-danger uk-modal-close" type="button" (click)="deleteBundle(selectedBundle.id)">Delete</button>
+    </div>
+  </div>
+</div>

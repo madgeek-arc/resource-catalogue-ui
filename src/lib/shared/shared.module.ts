@@ -31,6 +31,12 @@ import {
 import {
   RejectedDatasourcesComponent
 } from "../pages/provider/dashboard/rejectedDatasources/rejected-datasources.component";
+import {
+  RejectedAdaptersComponent
+} from "../pages/provider/dashboard/rejectedAdapters/rejected-adapters.component";
+import {
+  RejectedGuidelinesComponent
+} from "../pages/provider/dashboard/rejectedGuidelines/rejected-guidelines.component";
 import {DraftDatasourcesComponent} from "../pages/provider/dashboard/draftDatasources/draft-datasources.component";
 
 @NgModule({
@@ -64,6 +70,8 @@ import {DraftDatasourcesComponent} from "../pages/provider/dashboard/draftDataso
     RejectedDatasourcesComponent,
     RejectedTrainingResourcesComponent,
     RejectedDeployableServicesComponent,
+    RejectedAdaptersComponent,
+    RejectedGuidelinesComponent,
     PreviewResourceComponent,
     ExternalHeaderComponent,
     ExternalFooterComponent
@@ -89,6 +97,8 @@ import {DraftDatasourcesComponent} from "../pages/provider/dashboard/draftDataso
     RejectedDatasourcesComponent,
     RejectedTrainingResourcesComponent,
     RejectedDeployableServicesComponent,
+    RejectedAdaptersComponent,
+    RejectedGuidelinesComponent,
     PreviewResourceComponent,
     ExternalHeaderComponent,
     ExternalFooterComponent
