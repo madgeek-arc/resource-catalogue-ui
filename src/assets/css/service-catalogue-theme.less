@@ -4,36 +4,53 @@
 //   Variables
 // ========================================================================
 
-// Colors
-@primary-color: #EE7444;
-@link-color: #EE7444;
-@link-hover-color: #EE7444;
-@breadcrumb-active-color: #26C0E2;
-@button-primary-hover-bg: darken(@primary-color, 7%);
-@button-secondary-color: #3463AC;
-@button-secondary-bg: #fff;
+// Palette (style guide tokens): the only place hex values for the palette live
+@primary: #010E87;
+@primary-hover: #010B65;
+@secondary: #EDF4FF;
+@text-main: #020A20;
+@text-secondary: #4C505A;
+@error: #A7160C;
+@stroke-dark: #4C505A;
+@stroke-light: #D0D5DD;
+@success-bg: #CAF6D4;
+@success-text: #1D4E3B;
+@error-bg: #FFBBB5;
+@neutral-bg: #EFF1F6;
+// Not in the style guide; added for pending/warning statuses
+@warning-bg: #FFE8B3;
+@warning-text: #7A4B00;
 
-@text-dark: #212121;
-@text-body: #292929;
-@text-muted: #4D4D4D;
-@text-gray: #808080;
-@text-light: #333432;
-@border-color: #D1D1D1;
-@bg-light: #F0F5F5;
-@bg-input: #FAFAFA;
+// Colors (semantic aliases, mapped to the palette)
+@primary-color: @primary;
+@link-color: @primary;
+@link-hover-color: @primary-hover;
+@breadcrumb-active-color: @primary;
+@button-primary-hover-bg: @primary-hover;
+@button-secondary-color: @primary;
+@button-secondary-bg: @secondary;
+
+@text-dark: @text-main;
+@text-body: @text-main;
+@text-muted: @text-secondary;
+@text-gray: @text-secondary;
+@text-light: @text-main;
+@border-color: @stroke-light;
+@bg-light: @secondary;
+@bg-input: @white; // closest token to the old #FAFAFA
 @white: #fff;
 @black: #000;
 
 // Status colors
-@status-approved-bg: #def0e0;
-@status-approved-label: #3C9947;
-@status-pending-bg: #FFEDC9;
-@status-pending-label: #f5c400;
-@status-pending-epot-label: #f57200;
-@status-rejected-bg: #F9D2CC;
-@status-rejected-label: #C41C02;
-@status-incomplete-bg: #DBDBDB;
-@status-incomplete-label: #4D4D4D;
+@status-approved-bg: @success-bg;
+@status-approved-label: @success-text;
+@status-pending-bg: @warning-bg;
+@status-pending-label: @warning-text;
+@status-pending-epot-label: @warning-text;
+@status-rejected-bg: @error-bg;
+@status-rejected-label: @error;
+@status-incomplete-bg: @neutral-bg;
+@status-incomplete-label: @stroke-dark;
 
 // Floating overlay buttons (audit, helpdesk, back to top)
 @overlay-button-bg: fade(mix(@button-secondary-color, @white, 25%), 70%);
@@ -127,6 +144,38 @@
   --button-secondary-background-color: @button-secondary-bg;
   --card-radius: @card-radius;
   --control-radius: @control-radius;
+
+  // Palette tokens
+  --primary: @primary;
+  --primary-hover: @primary-hover;
+  --secondary: @secondary;
+  --text-main: @text-main;
+  --text-secondary: @text-secondary;
+  --error: @error;
+  --stroke-dark: @stroke-dark;
+  --stroke-light: @stroke-light;
+  --success-bg: @success-bg;
+  --success-text: @success-text;
+  --error-bg: @error-bg;
+  --neutral-bg: @neutral-bg;
+  --warning-bg: @warning-bg;
+  --warning-text: @warning-text;
+
+  // Form builder (submodule) retheming hooks, see dynamic-catalogue form-builder.component.less
+  --fb-primary: @primary;
+  --fb-primary-strong: @primary-hover;
+  --fb-primary-bright: @primary; // no lighter primary in the palette
+  --fb-primary-tint: @secondary;
+  --fb-text: @text-main;
+  --fb-ink: @text-main;
+  --fb-muted: @text-secondary;
+  --fb-muted-2: @text-secondary;
+  --fb-faint: @text-secondary; // no lighter text token in the palette
+  --fb-line: @stroke-light;
+  --fb-line-2: @stroke-light;
+  --fb-surface: @white;
+  --fb-surface-3: @neutral-bg;
+  --fb-bg: @neutral-bg;
 }
 
 
