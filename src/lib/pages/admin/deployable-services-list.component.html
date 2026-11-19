@@ -424,29 +424,27 @@
                                 <li class="uk-nav-divider"></li>
                               </ng-container>
                               @if (isProviderActive(dsBundle.deployableApplication.resourceOwner) ) {
-                                <div>
-                                  <li class="uk-button uk-button-link uk-padding-small"
+                                <li class="uk-margin-small-top"
                                     (click)="toggleService(dsBundle)">
+                                  <a>
                                     @if (dsBundle.active) {
-                                      <span class="material-symbols-outlined" style="vertical-align: middle;">close</span>Deactivate Deployable Application
+                                      <span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">close</span>Deactivate Deployable Application
+                                    } @else {
+                                      <span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">check</span>Activate Deployable Application
                                     }
-                                    @if (!dsBundle.active) {
-                                      <span class="material-symbols-outlined" style="vertical-align: middle;">check</span>Activate Deployable Application
-                                    }
-                                  </li>
-                                </div>
+                                  </a>
+                                </li>
                               } @else {
-                                <div uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
-                                  <li class="uk-button uk-button-link uk-disabled uk-padding-small"
-                                    (click)="toggleService(dsBundle)">
+                                <li class="uk-margin-small-top"
+                                    uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
+                                  <a class="uk-disabled uk-text-muted">
                                     @if (dsBundle.active) {
-                                      <span class="material-symbols-outlined" style="vertical-align: middle;">close</span>Deactivate Deployable Application
+                                      <span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">close</span>Deactivate Deployable Application
+                                    } @else {
+                                      <span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">check</span>Activate Deployable Application
                                     }
-                                    @if (!dsBundle.active) {
-                                      <span class="material-symbols-outlined" style="vertical-align: middle;">check</span>Activate Deployable Application
-                                    }
-                                  </li>
-                                </div>
+                                  </a>
+                                </li>
                               }
                               <li class="uk-nav-divider"></li>
                               @if ((dsBundle.suspended==false)) {

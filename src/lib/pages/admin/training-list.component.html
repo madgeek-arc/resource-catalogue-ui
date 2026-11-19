@@ -424,29 +424,27 @@
                                 <li class="uk-nav-divider"></li>
                               </ng-container>
                               @if (isProviderActive(trBundle.trainingResource.resourceOwner) ) {
-                                <div>
-                                  <li class="uk-button uk-button-link uk-padding-small"
+                                <li class="uk-margin-small-top"
                                     (click)="toggleService(trBundle)">
+                                  <a>
                                     @if (trBundle.active) {
-                                      <span class="material-symbols-outlined" style="vertical-align: middle;">close</span>Deactivate Training Resource
+                                      <span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">close</span>Deactivate Training Resource
+                                    } @else {
+                                      <span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">check</span>Activate Training Resource
                                     }
-                                    @if (!trBundle.active) {
-                                      <span class="material-symbols-outlined" style="vertical-align: middle;">check</span>Activate Training Resource
-                                    }
-                                  </li>
-                                </div>
+                                  </a>
+                                </li>
                               } @else {
-                                <div uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
-                                  <li class="uk-button uk-button-link uk-disabled uk-padding-small"
-                                    (click)="toggleService(trBundle)">
+                                <li class="uk-margin-small-top"
+                                    uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
+                                  <a class="uk-disabled uk-text-muted">
                                     @if (trBundle.active) {
-                                      <span class="material-symbols-outlined" style="vertical-align: middle;">close</span>Deactivate Deployable Application
+                                      <span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">close</span>Deactivate Training Resource
+                                    } @else {
+                                      <span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">check</span>Activate Training Resource
                                     }
-                                    @if (!trBundle.active) {
-                                      <span class="material-symbols-outlined" style="vertical-align: middle;">check</span>Activate Deployable Application
-                                    }
-                                  </li>
-                                </div>
+                                  </a>
+                                </li>
                               }
                               <li class="uk-nav-divider"></li>
                               @if ((trBundle.suspended==false)) {

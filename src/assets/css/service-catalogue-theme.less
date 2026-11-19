@@ -285,135 +285,141 @@ ul a, ol a {
   }
 }
 
-.uk-button {
-  text-transform: none;
-  border-radius: @control-radius;
-}
+// Wrapped in a mixin so it can be applied again inside UIkit's inverse
+// containers (see .offcanvas-audit), whose rules would otherwise win.
+.theme-buttons() {
+  .uk-button {
+    text-transform: none;
+    border-radius: @control-radius;
+  }
 
-.uk-button-small {
-  border-radius: 6px;
-}
+  .uk-button-small {
+    border-radius: 6px;
+  }
 
-.uk-button-primary {
-  background-color: var(--primary-color);
-  color: @white;
-  border: 1px solid transparent;
-  .transition(background-color 0.2s ease, box-shadow 0.2s ease;);
-  .button-focus(var(--primary-color), @white);
-
-  &:hover:not(:disabled) {
-    background-color: var(--button-primary-hover-background-color);
+  .uk-button-primary {
+    background-color: var(--primary-color);
     color: @white;
-    .box-shadow(@shadow-sm);
+    border: 1px solid transparent;
+    .transition(background-color 0.2s ease, box-shadow 0.2s ease;);
+    .button-focus(var(--primary-color), @white);
+
+    &:hover:not(:disabled) {
+      background-color: var(--button-primary-hover-background-color);
+      color: @white;
+      .box-shadow(@shadow-sm);
+    }
+
+    // Pressed: a darker shade of the same color, instead of UIkit's blue default
+    &:active:not(:disabled),
+    &.uk-active {
+      background-color: color-mix(in srgb, var(--primary-color) 80%, #000);
+      color: @white;
+      .box-shadow(none);
+    }
+
+    // Keep disabled buttons inert, otherwise the submodule's cyan hover shows through
+    &:disabled {
+      background-color: transparent;
+    }
   }
 
-  // Pressed: a darker shade of the same color, instead of UIkit's blue default
-  &:active:not(:disabled),
-  &.uk-active {
-    background-color: color-mix(in srgb, var(--primary-color) 80%, #000);
+  .uk-button-secondary {
+    border: 1px solid var(--button-secondary-color);
+    background-color: var(--button-secondary-background-color);
+    color: var(--button-secondary-color);
+    .transition(background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;);
+    .button-focus(var(--button-secondary-background-color), var(--button-secondary-color));
+
+    // Fills with the primary hover color on hover
+    &:hover:not(:disabled) {
+      background-color: var(--button-primary-hover-background-color);
+      border-color: var(--button-primary-hover-background-color);
+      color: @white;
+      .box-shadow(@shadow-sm);
+    }
+
+    // Pressed: a darker shade of the same color, instead of UIkit's near-black default
+    &:active:not(:disabled),
+    &.uk-active {
+      background-color: color-mix(in srgb, var(--button-primary-hover-background-color) 80%, #000);
+      border-color: color-mix(in srgb, var(--button-primary-hover-background-color) 80%, #000);
+      color: @white;
+      .box-shadow(none);
+    }
+
+    // Keep disabled buttons inert, otherwise the submodule's cyan hover shows through
+    &:disabled {
+      background-color: transparent;
+    }
+  }
+
+  // Not in the style guide: solid error color, darker shade on hover / press
+  .uk-button-danger {
+    background-color: @error;
     color: @white;
-    .box-shadow(none);
+    border: 1px solid transparent;
+    .transition(background-color 0.2s ease, box-shadow 0.2s ease;);
+    .button-focus(@error, @white);
+
+    &:hover:not(:disabled) {
+      background-color: color-mix(in srgb, @error 85%, #000);
+      color: @white;
+      .box-shadow(@shadow-sm);
+    }
+
+    &:active:not(:disabled),
+    &.uk-active {
+      background-color: color-mix(in srgb, @error 70%, #000);
+      color: @white;
+      .box-shadow(none);
+    }
   }
 
-  // Keep disabled buttons inert, otherwise the submodule's cyan hover shows through
-  &:disabled {
-    background-color: transparent;
-  }
-}
-
-.uk-button-secondary {
-  border: 1px solid var(--button-secondary-color);
-  background-color: var(--button-secondary-background-color);
-  color: var(--button-secondary-color);
-  .transition(background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;);
-  .button-focus(var(--button-secondary-background-color), var(--button-secondary-color));
-
-  // Fills with the primary hover color on hover
-  &:hover:not(:disabled) {
-    background-color: var(--button-primary-hover-background-color);
-    border-color: var(--button-primary-hover-background-color);
-    color: @white;
-    .box-shadow(@shadow-sm);
-  }
-
-  // Pressed: a darker shade of the same color, instead of UIkit's near-black default
-  &:active:not(:disabled),
-  &.uk-active {
-    background-color: color-mix(in srgb, var(--button-primary-hover-background-color) 80%, #000);
-    border-color: color-mix(in srgb, var(--button-primary-hover-background-color) 80%, #000);
-    color: @white;
-    .box-shadow(none);
-  }
-
-  // Keep disabled buttons inert, otherwise the submodule's cyan hover shows through
-  &:disabled {
-    background-color: transparent;
-  }
-}
-
-// Not in the style guide: solid error color, darker shade on hover / press
-.uk-button-danger {
-  background-color: @error;
-  color: @white;
-  border: 1px solid transparent;
-  .transition(background-color 0.2s ease, box-shadow 0.2s ease;);
-  .button-focus(@error, @white);
-
-  &:hover:not(:disabled) {
-    background-color: color-mix(in srgb, @error 85%, #000);
-    color: @white;
-    .box-shadow(@shadow-sm);
-  }
-
-  &:active:not(:disabled),
-  &.uk-active {
-    background-color: color-mix(in srgb, @error 70%, #000);
-    color: @white;
-    .box-shadow(none);
-  }
-}
-
-// Not in the style guide: neutral, lower emphasis than Secondary
-.uk-button-default {
-  border: 1px solid @stroke-light;
-  background-color: @white;
-  color: @text-secondary;
-  .transition(border-color 0.2s ease, color 0.2s ease;);
-  .button-focus(@white, @text-secondary);
-
-  &:hover:not(:disabled),
-  &:active:not(:disabled),
-  &.uk-active {
+  // Not in the style guide: neutral, lower emphasis than Secondary
+  .uk-button-default {
+    border: 1px solid @stroke-light;
     background-color: @white;
-    border-color: @primary;
-    color: @primary;
+    color: @text-secondary;
+    .transition(border-color 0.2s ease, color 0.2s ease;);
+    .button-focus(@white, @text-secondary);
+
+    &:hover:not(:disabled),
+    &:active:not(:disabled),
+    &.uk-active {
+      background-color: @white;
+      border-color: @primary;
+      color: @primary;
+    }
   }
-}
 
-.uk-button-action {
-  background: @white 0% 0% no-repeat padding-box;
-  .box-shadow(@shadow-md);
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0;
-  color: @text-secondary;
-  opacity: 1;
-  .button-focus(@white, @text-secondary);
-}
+  .uk-button-action {
+    background: @white 0% 0% no-repeat padding-box;
+    .box-shadow(@shadow-md);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: @text-secondary;
+    opacity: 1;
+    .button-focus(@white, @text-secondary);
+  }
 
-.button-gray {
-  background-color: @neutral-bg;
-  color: @text-main;
-  border: 1px solid transparent;
-  .button-focus(@neutral-bg, @text-main);
-
-  &:hover,
-  &:active,
-  &.uk-active {
-    background-color: @stroke-light;
+  .button-gray {
+    background-color: @neutral-bg;
     color: @text-main;
+    border: 1px solid transparent;
+    .button-focus(@neutral-bg, @text-main);
+
+    &:hover,
+    &:active,
+    &.uk-active {
+      background-color: @stroke-light;
+      color: @text-main;
+    }
   }
 }
+
+.theme-buttons();
 
 
 // ========================================================================
@@ -1026,19 +1032,7 @@ a.remove-element i {
   left: 0;
   right: unset;
   z-index: 1;
-
-  &.uk-label {
-    text-transform: none;
-    padding: 9px 18px;
-    border-radius: @card-radius 0;
-  }
 }
-
-.approved     .uk-label { .label-variant(@success-bg, @success-text); }
-.pending      .uk-label,
-.pending-EPOT .uk-label { .label-variant(@warning-bg, @warning-text); }
-.rejected     .uk-label { .label-variant(@error, @neutral-bg); }
-.incomplete   .uk-label { .label-variant(@stroke-dark, @neutral-bg); }
 
 .provider-logo {
   width: 130px;
@@ -1563,16 +1557,21 @@ a[class*="wk-"] {
   .uk-offcanvas-bar {
     &.uk-light {
       width: 800px;
-      background: #F9F9F9 0% 0% no-repeat padding-box;
+      background: @neutral-bg 0% 0% no-repeat padding-box; // closest token to the old #F9F9F9
       .box-shadow(@shadow-sm);
-      color: @black;
+      color: @text-main;
       opacity: 1;
     }
+
+    // UIkit styles everything in an off-canvas bar as inverse (light on dark),
+    // which outranks the theme. Re-apply the theme's buttons and labels here.
+    .theme-buttons();
+    .theme-labels();
 
     h4 {
       font: Bold 18px/24px "Quicksand";
       letter-spacing: 0;
-      color: @black;
+      color: @text-main;
       opacity: 0.8;
     }
 
@@ -1581,36 +1580,36 @@ a[class*="wk-"] {
       font-size: 18px;
       font-family: @font-timeline;
       letter-spacing: 0;
-      color: @black;
+      color: @text-main;
       opacity: 1;
     }
 
     a {
-      color: #6299EC;
+      color: @primary;
+
+      &:hover {
+        color: @primary-hover;
+      }
     }
 
     textarea {
-      color: @black !important;
+      color: @text-main !important;
     }
   }
 
   .uk-light {
     hr {
-      border-top-color: #ddd;
-    }
-
-    .uk-label {
-      color: @white;
+      border-top-color: @stroke-light;
     }
 
     .uk-button-link {
       &:hover, &:focus, &:active {
-        color: @black;
+        color: @primary-hover;
       }
     }
 
     .uk-textarea {
-      border-color: #cccccc;
+      border-color: @stroke-light;
     }
   }
 }
@@ -1675,20 +1674,39 @@ a[class*="wk-"] {
 //   Labels
 // ========================================================================
 
-.uk-label {
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-weight: 600;
-  text-transform: none;
-  .label-variant(@primary, @white); // plain uk-label isn't in the style guide; closest token
+// Wrapped in a mixin so it can be applied again inside UIkit's inverse
+// containers (see .offcanvas-audit), whose rules would otherwise win.
+.theme-labels() {
+  .uk-label {
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-transform: none;
+    .label-variant(@primary, @white); // plain uk-label isn't in the style guide; closest token
+  }
+
+  // Card corner badges keep their tab shape
+  .uk-card-badge.uk-label {
+    padding: 9px 18px;
+    border-radius: @card-radius 0;
+  }
+
+  .uk-label-success { .label-variant(@success-bg, @success-text); }
+  .uk-label-danger  { .label-variant(@error, @neutral-bg); }
+  .uk-label-warning { .label-variant(@warning-bg, @warning-text); }
+  .uk-label-gray    { .label-variant(@neutral-bg, @text-secondary); } // neutral (light)
+  .uk-label-dark    { .label-variant(@stroke-dark, @neutral-bg); }    // neutral (dark)
+  .uk-label-info    { .label-variant(@secondary, @primary); }         // not in the style guide; light blue from palette tokens
+
+  // Status wrappers
+  .approved     .uk-label { .label-variant(@success-bg, @success-text); }
+  .pending      .uk-label,
+  .pending-EPOT .uk-label { .label-variant(@warning-bg, @warning-text); }
+  .rejected     .uk-label { .label-variant(@error, @neutral-bg); }
+  .incomplete   .uk-label { .label-variant(@stroke-dark, @neutral-bg); }
 }
 
-.uk-label-success { .label-variant(@success-bg, @success-text); }
-.uk-label-danger  { .label-variant(@error, @neutral-bg); }
-.uk-label-warning { .label-variant(@warning-bg, @warning-text); }
-.uk-label-gray    { .label-variant(@neutral-bg, @text-secondary); } // neutral (light)
-.uk-label-dark    { .label-variant(@stroke-dark, @neutral-bg); }    // neutral (dark)
-.uk-label-info    { .label-variant(@secondary, @primary); }         // not in the style guide; light blue from palette tokens
+.theme-labels();
 
 
 // ========================================================================

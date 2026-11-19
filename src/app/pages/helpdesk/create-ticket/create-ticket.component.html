@@ -22,7 +22,7 @@
     <div class="form-section">
       <h3 class="section-title">Customer Information</h3>
       <p class="section-description">Your personal information is collected for form validation but will not be sent anywhere for GDPR compliance.</p>
-      
+
     <div class="form-group">
         <label for="customerFirstname">Customer Firstname <span class="required">*</span></label>
         <input id="customerFirstname" type="text" formControlName="customerFirstname" />
@@ -52,7 +52,7 @@
     <!-- Section 2: Ticket Information -->
     <div class="form-section">
       <h3 class="section-title">Ticket Information</h3>
-      
+
       <div class="form-group">
         <label for="title">Title <span class="required">*</span></label>
         <input id="title" type="text" formControlName="title" />
@@ -74,7 +74,7 @@
       </div>
     </div>
 
-    <button type="submit" [disabled]="loading || ticketForm.invalid">Submit Ticket</button>
+    <button class="uk-button uk-button-primary" type="submit" [disabled]="loading || ticketForm.invalid">Submit Ticket</button>
     @if (loading) {
       <div class="loading-message">Submitting...</div>
     }
@@ -90,4 +90,4 @@
       <li>Specify which service or resource you're having trouble with</li>
     </ul>
   </div>
-</div> 
+</div>
