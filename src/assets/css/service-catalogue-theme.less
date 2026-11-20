@@ -293,6 +293,21 @@ ul a, ol a {
     border-radius: @control-radius;
   }
 
+  // Links styled as buttons: the global `a` color is !important, so the
+  // button text colors have to be too, or the text matches the background.
+  a.uk-button-primary,
+  a.uk-button-danger,
+  a.uk-button-secondary:hover:not(:disabled),
+  a.uk-button-secondary:active:not(:disabled) {
+    color: @white !important;
+  }
+
+  a.uk-button-primary:focus-visible,
+  a.uk-button-danger:focus-visible,
+  a.uk-button-secondary:focus-visible {
+    color: @primary !important;
+  }
+
   .uk-button-small {
     border-radius: 6px;
   }
@@ -464,7 +479,7 @@ ul.uk-pagination {
   &.uk-active > a,
   &.uk-active > span {
     background: var(--primary-color);
-    color: @white;
+    color: @white !important; // beats the global !important link color
   }
 }
 
@@ -787,6 +802,9 @@ a.remove-element .material-symbols-outlined {
   background: @bg-light;
   .transition(@sidebar-transition);
 
+  // Neutral light would blend into this light background, use neutral dark
+  .uk-label-gray { .label-variant(@stroke-dark, @neutral-bg); }
+
   &, & *, & ::after, & ::before, &::after, &::before {
     .box-sizing();
   }
@@ -940,6 +958,11 @@ a.remove-element .material-symbols-outlined {
   color: @white;
   display: flex;
   justify-content: space-between;
+
+  // The hover fill is close to this bar's color, keep the button's edge visible
+  .uk-button-secondary:hover:not(:disabled) {
+    border-color: @white;
+  }
 }
 
 .pageTitle {
@@ -984,6 +1007,7 @@ a.remove-element .material-symbols-outlined {
 // ========================================================================
 
 .uk-card.provider-card {
+  background-color: @white; // was transparent, which hid neutral labels on tinted surfaces (audit panel)
   .box-shadow(@shadow-md);
   color: #1A1A1A;
 
@@ -1024,6 +1048,12 @@ a.remove-element .material-symbols-outlined {
   &.pending   { .card-media-status(@status-pending-bg); }
   &.rejected  { .card-media-status(@status-rejected-bg); }
   &.incomplete { .card-media-status(@status-incomplete-bg); }
+
+  // The header already uses the light status color, so the badge on it
+  // swaps to the dark one (text color as background) to stay visible.
+  // Rejected and incomplete badges are already dark.
+  &.approved .uk-label { .label-variant(@success-text, @success-bg); }
+  &.pending  .uk-label { .label-variant(@warning-text, @warning-bg); }
 }
 
 .uk-card-badge {
