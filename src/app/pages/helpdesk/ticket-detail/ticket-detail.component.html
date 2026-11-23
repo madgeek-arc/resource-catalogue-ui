@@ -15,7 +15,7 @@
 
   @if (loading) {
     <div class="loading-container">
-      <div class="spinner"></div>
+      <div class="uk-text-primary uk-margin-bottom" uk-spinner="ratio: 1.5"></div>
       <p>Loading ticket details...</p>
     </div>
   }
@@ -102,7 +102,7 @@
                 [disabled]="replyForm.invalid || submittingReply"
                 >
                 @if (submittingReply) {
-                  <span class="spinner uk-margin-small-right"></span>
+                  <span class="uk-margin-small-right" uk-spinner="ratio: 0.6"></span>
                 }
                 {{ submittingReply ? 'Sending...' : 'Send Reply' }}
               </button>

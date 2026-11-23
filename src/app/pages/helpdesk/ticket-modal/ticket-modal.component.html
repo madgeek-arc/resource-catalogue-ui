@@ -117,7 +117,7 @@
               class="uk-button uk-button-primary"
               [disabled]="replyForm.invalid || submittingReply"
             >
-              <span *ngIf="submittingReply" class="spinner uk-margin-small-right"></span>
+              <span *ngIf="submittingReply" class="uk-margin-small-right" uk-spinner="ratio: 0.6"></span>
               {{ submittingReply ? "Sending..." : "Update" }}
             </button>
           </div>
