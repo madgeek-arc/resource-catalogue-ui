@@ -770,6 +770,16 @@ a.remove-element .material-symbols-outlined {
   }
 }
 
+// dynamic-catalogue re-enables pointer events on the clear button, which punches through a field's
+// `uk-disabled` (set via display.cssClasses in the form model) and lets users wipe the value. Hide the
+// clear and per-value remove icons inside disabled containers.
+.uk-disabled .ng-select {
+  .ng-clear-wrapper,
+  .ng-value-icon {
+    display: none;
+  }
+}
+
 .ng-dropdown-panel {
   background: @white;
   .box-shadow(0 2px 5px rgba(0, 0, 0, .25));
