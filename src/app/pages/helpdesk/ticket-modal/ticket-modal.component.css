@@ -5,7 +5,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: color-mix(in srgb, var(--text-main) 60%, transparent);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,9 +15,9 @@
 
 /* Modal Container */
 .modal-container {
-  background: white;
+  background: var(--white);
   border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-card);
   max-width: 800px;
   width: 90%;
   max-height: 90vh;
@@ -32,9 +32,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px 32px;
-  border-bottom: 1px solid #e9ecef;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  border-bottom: 1px solid var(--stroke-light);
+  background: var(--primary);
+  color: var(--white);
 }
 
 .modal-header h2 {
@@ -52,7 +52,7 @@
 .close-btn {
   background: none;
   border: none;
-  color: white;
+  color: var(--white);
   font-size: 24px;
   cursor: pointer;
   padding: 8px;
@@ -61,7 +61,7 @@
 }
 
 .close-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: color-mix(in srgb, var(--white) 20%, transparent);
 }
 
 /* Modal Body */
@@ -82,7 +82,7 @@
 .ticket-number {
   font-family: "Courier New", monospace;
   font-weight: 600;
-  color: #667eea;
+  color: var(--primary);
   font-size: 18px;
 }
 
@@ -91,14 +91,14 @@
   margin: 0 0 24px 0;
   font-size: 24px;
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--text-main);
   line-height: 1.4;
 }
 
 /* Divider */
 .divider {
   height: 1px;
-  background-color: #e0e0e0;
+  background-color: var(--stroke-light);
   margin: 24px 0;
 }
 
@@ -110,34 +110,34 @@
 }
 
 .status-new-box {
-  background: #e3f2fd;
+  background: var(--secondary);
 }
 
 .status-open-box {
-  background: #ffe6e6;
+  background: var(--error-bg);
 }
 
 .status-pending-close-box {
-  background: #fff3cd;
+  background: var(--warning-bg);
 }
 
 .status-pending-reminder-box {
-  background: #f3e5f5;
+  background: var(--warning-bg);
 }
 
 .status-closed-box {
-  background: #d4edda;
+  background: var(--success-bg);
 }
 
 .status-default-box {
-  background: #f8f9fa;
+  background: var(--neutral-bg);
 }
 
 .conversation-header {
   font-size: 14px;
   font-weight: 600;
   margin: 0 0 12px 0;
-  color: #2c3e50;
+  color: var(--text-main);
 }
 
 .conversation-timeline {
@@ -149,38 +149,38 @@
 .conversation-item {
   padding: 16px;
   border-radius: var(--card-radius);
-  background: rgba(255, 255, 255, 0.7);
+  background: color-mix(in srgb, var(--white) 70%, transparent);
   transition: all 0.2s ease;
   max-width: 75%;
 }
 
 .conversation-item:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 /* User messages - left aligned */
 .message-user {
   align-self: flex-start;
-  background: rgba(255, 255, 255, 0.9);
+  background: color-mix(in srgb, var(--white) 90%, transparent);
 }
 
 .message-user:hover {
-  background: rgba(255, 255, 255, 1);
+  background: var(--white);
 }
 
-/* EPOT messages - right aligned with purple gradient */
+/* EPOT messages - right aligned, primary background */
 .message-epot {
   align-self: flex-end;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: var(--primary);
+  color: var(--white);
 }
 
 .message-epot:hover {
-  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  background: var(--primary-hover);
 }
 
 .message-epot .message-body p {
-  color: white;
+  color: var(--white);
 }
 
 /* Message originator label */
@@ -188,13 +188,13 @@
   font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
-  color: #9ca3af;
+  color: var(--text-secondary);
   margin-bottom: 6px;
   letter-spacing: 0.5px;
 }
 
 .message-epot .message-originator {
-  color: rgba(255, 255, 255, 0.8);
+  color: color-mix(in srgb, var(--white) 80%, transparent);
 }
 
 .message-header {
@@ -206,12 +206,12 @@
 
 .message-author {
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--text-main);
   font-size: 14px;
 }
 
 .message-time {
-  color: #6c757d;
+  color: var(--text-secondary);
   font-size: 12px;
 }
 
@@ -222,7 +222,7 @@
 .message-body p {
   margin: 0;
   line-height: 1.6;
-  color: #495057;
+  color: var(--text-main);
 }
 
 .message-footer {
@@ -231,7 +231,7 @@
 }
 
 .message-date {
-  color: #6c757d;
+  color: var(--text-secondary);
   font-size: 12px;
 }
 
@@ -239,7 +239,7 @@
 .no-articles {
   text-align: center;
   padding: 40px 20px;
-  color: #6c757d;
+  color: var(--text-secondary);
   margin-bottom: 24px;
 }
 
@@ -270,20 +270,20 @@
 
 .timeline-label {
   font-weight: 600;
-  color: #6c757d;
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
 .timeline-value {
-  color: #2c3e50;
+  color: var(--text-main);
   font-size: 14px;
 }
 
 /* Modal Footer */
 .modal-footer {
   padding: 24px 32px;
-  border-top: 1px solid #e9ecef;
-  background: #f8f9fa;
+  border-top: 1px solid var(--stroke-light);
+  background: var(--neutral-bg);
   display: flex;
   justify-content: flex-end;
   gap: 12px;
@@ -293,16 +293,16 @@
 .reply-section {
   margin-top: 24px;
   padding: 20px;
-  background: #f8f9fa;
+  background: var(--neutral-bg);
   border-radius: var(--card-radius);
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--stroke-light);
 }
 
 .reply-header {
   margin: 0 0 16px 0;
   font-size: 18px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-main);
 }
 
 .reply-form {
@@ -320,7 +320,7 @@
 .form-control {
   width: 100%;
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--stroke-light);
   border-radius: 4px;
   font-size: 14px;
   font-family: inherit;
@@ -330,16 +330,16 @@
 
 .form-control:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 20%, transparent);
 }
 
 .form-control.is-invalid {
-  border-color: #dc3545;
+  border-color: var(--error);
 }
 
 .error-text {
-  color: #dc3545;
+  color: var(--error);
   font-size: 12px;
   margin-top: 4px;
 }
@@ -354,8 +354,8 @@
   display: inline-block;
   width: 12px;
   height: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: white;
+  border: 2px solid color-mix(in srgb, var(--white) 30%, transparent);
+  border-top-color: var(--white);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
 }
@@ -370,11 +370,11 @@
 .ticket-closed-notice {
   margin-top: 24px;
   padding: 20px;
-  background: #fff3cd;
-  border: 1px solid #ffc107;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning-text);
   border-radius: var(--card-radius);
   text-align: center;
-  color: #856404;
+  color: var(--warning-text);
 }
 
 .ticket-closed-notice .material-symbols-outlined {
