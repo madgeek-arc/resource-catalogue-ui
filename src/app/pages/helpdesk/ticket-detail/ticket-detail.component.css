@@ -11,7 +11,7 @@
   background: var(--error-bg);
   color: var(--error);
   padding: 15px;
-  border-radius: 5px;
+  border-radius: var(--card-radius);
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -209,7 +209,7 @@
   width: 100%;
   padding: 12px 15px;
   border: 2px solid var(--stroke-light);
-  border-radius: 5px;
+  border-radius: var(--control-radius);
   font-size: 14px;
   transition: border-color 0.3s ease;
   box-sizing: border-box;

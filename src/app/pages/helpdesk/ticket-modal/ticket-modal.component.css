@@ -16,7 +16,7 @@
 /* Modal Container */
 .modal-container {
   background: var(--white);
-  border-radius: 12px;
+  border-radius: var(--card-radius);
   box-shadow: var(--shadow-card);
   max-width: 800px;
   width: 90%;
@@ -56,7 +56,7 @@
   font-size: 24px;
   cursor: pointer;
   padding: 8px;
-  border-radius: 6px;
+  border-radius: var(--control-radius);
   transition: background-color 0.2s ease;
 }
 
@@ -197,24 +197,6 @@
   color: color-mix(in srgb, var(--white) 80%, transparent);
 }
 
-.message-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.message-author {
-  font-weight: 600;
-  color: var(--text-main);
-  font-size: 14px;
-}
-
-.message-time {
-  color: var(--text-secondary);
-  font-size: 12px;
-}
-
 .message-body {
   margin-bottom: 12px;
 }
@@ -223,16 +205,6 @@
   margin: 0;
   line-height: 1.6;
   color: var(--text-main);
-}
-
-.message-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.message-date {
-  color: var(--text-secondary);
-  font-size: 12px;
 }
 
 /* No Articles */
@@ -321,7 +293,7 @@
   width: 100%;
   padding: 12px;
   border: 1px solid var(--stroke-light);
-  border-radius: 4px;
+  border-radius: var(--control-radius);
   font-size: 14px;
   font-family: inherit;
   resize: vertical;

@@ -41,7 +41,7 @@
   flex: 1;
   padding: 15px 20px;
   text-decoration: none;
-  color: var(--text-secondary);
+  color: var(--text-secondary) !important; /* beats the global link color */
   text-align: center;
   transition: all 0.3s ease;
   border-bottom: 3px solid transparent;
@@ -53,17 +53,14 @@
 
 .nav-link:hover {
   background-color: var(--neutral-bg);
-  color: var(--text-main);
+  color: var(--text-main) !important;
 }
 
 .nav-link.active {
-  color: var(--primary);
+  color: var(--primary) !important;
+  font-weight: 600;
   border-bottom-color: var(--primary);
   background-color: var(--neutral-bg);
-}
-
-.nav-link i {
-  font-size: 1.1rem;
 }
 
 .helpdesk-content {
@@ -72,11 +69,6 @@
   box-shadow: var(--shadow-sm);
   min-height: 400px;
   padding: 20px;
-}
-
-.btn-primary {
-  background: var(--primary);
-  color: var(--white);
 }
 
 @media (max-width: 768px) {
