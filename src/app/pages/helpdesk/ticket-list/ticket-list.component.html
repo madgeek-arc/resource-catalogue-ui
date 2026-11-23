@@ -4,29 +4,29 @@
       <h2>My Support Tickets</h2>
       <p>View and manage your support requests</p>
     </div>
-    <button class="btn btn-primary" (click)="createNewTicket()">
+    <button class="uk-button uk-button-primary" (click)="createNewTicket()">
       New Ticket
     </button>
   </div>
 
   <div *ngIf="error" class="error-message">
-    <i class="fa fa-exclamation-circle"></i>
+    <span class="material-symbols-outlined">error</span>
     <span>{{ error }}</span>
-    <button class="btn btn-sm btn-outline" (click)="loadTickets()">
+    <button class="uk-button uk-button-secondary uk-button-small" (click)="loadTickets()">
       Retry
     </button>
   </div>
 
   <div *ngIf="loading" class="loading-container">
-    <div class="spinner"></div>
+    <div class="uk-text-primary uk-margin-bottom" uk-spinner="ratio: 1.5"></div>
     <p>Loading your tickets...</p>
   </div>
 
   <div *ngIf="!loading && (!tickets || tickets.length === 0)" class="empty-state">
-    <i class="fa fa-ticket"></i>
+    <span class="material-symbols-outlined">confirmation_number</span>
     <h3>No tickets found</h3>
     <p>You haven't created any support tickets yet.</p>
-    <button class="btn btn-primary" (click)="createNewTicket()">
+    <button class="uk-button uk-button-primary" (click)="createNewTicket()">
       Create Your First Ticket
     </button>
   </div>
@@ -36,9 +36,9 @@
       <div class="status-filters">
         <button
           *ngFor="let status of ['all', 'new', 'open', 'closed']"
-          [class.active]="selectedStatus === status"
+          class="uk-button uk-button-small"
+          [ngClass]="selectedStatus === status ? 'uk-button-primary' : 'uk-button-default'"
           (click)="setStatusFilter(status)"
-          class="filter-btn"
         >
           {{ status.charAt(0).toUpperCase() + status.slice(1) }}
           <span class="count">({{ getTicketCount(status) }})</span>
@@ -52,7 +52,7 @@
           <th>Number</th>
           <th>Date</th>
           <th>Ticket Title</th>
-          <th>Status</th>
+          <th class="uk-text-center">Status</th>
         </tr>
       </thead>
       <tbody>
@@ -66,11 +66,11 @@
           <td data-label="Title">
             {{ ticket.title }}
             <span *ngIf="getUnreadCount(ticket) > 0"
-                  class="uk-badge uk-margin-small-left" style="background-color:#f0506e">{{ getUnreadCount(ticket) }}</span>
+                  class="uk-badge uk-margin-small-left" style="background-color: var(--error)">{{ getUnreadCount(ticket) }}</span>
           </td>
           <td data-label="Status">
             <span
-              class="status-badge"
+              class="uk-label"
               [class]="getStatusClass(getTicketState(ticket))"
               >{{ getTicketState(ticket) }}</span
             >
@@ -80,7 +80,7 @@
     </table>
 
     <div *ngIf="paginatedTickets.length === 0" class="no-results">
-      <i class="fa fa-search"></i>
+      <span class="material-symbols-outlined">search</span>
       <p>No tickets found with the selected filter.</p>
     </div>
 
@@ -94,52 +94,32 @@
         >
       </div>
 
-      <div class="pagination-controls">
-        <button
-          class="pagination-btn"
-          [disabled]="currentPage === 1"
-          (click)="goToPage(1)"
-          title="First page"
-        >
-          <i class="fa fa-angle-double-left"></i>
-        </button>
-
-        <button
-          class="pagination-btn"
-          [disabled]="currentPage === 1"
-          (click)="goToPage(currentPage - 1)"
-          title="Previous page"
-        >
-          <i class="fa fa-angle-left"></i>
-        </button>
-
-        <button
-          *ngFor="let page of getPageNumbers()"
-          class="pagination-btn"
-          [class.active]="page === currentPage"
-          (click)="goToPage(page)"
-        >
-          {{ page }}
-        </button>
-
-        <button
-          class="pagination-btn"
-          [disabled]="currentPage === totalPages"
-          (click)="goToPage(currentPage + 1)"
-          title="Next page"
-        >
-          <i class="fa fa-angle-right"></i>
-        </button>
-
-        <button
-          class="pagination-btn"
-          [disabled]="currentPage === totalPages"
-          (click)="goToPage(totalPages)"
-          title="Last page"
-        >
-          <i class="fa fa-angle-double-right"></i>
-        </button>
-      </div>
+      <!-- Same pattern as the admin lists: unavailable arrows are hidden -->
+      <ul class="uk-pagination uk-margin-remove">
+        <li *ngIf="currentPage > 1">
+          <a (click)="goToPage(1)" title="First page">
+            <span class="material-symbols-outlined">keyboard_double_arrow_left</span>
+          </a>
+        </li>
+        <li *ngIf="currentPage > 1">
+          <a (click)="goToPage(currentPage - 1)" title="Previous page">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </a>
+        </li>
+        <li *ngFor="let page of getPageNumbers()" [class.uk-active]="page === currentPage">
+          <a (click)="goToPage(page)">{{ page }}</a>
+        </li>
+        <li *ngIf="currentPage < totalPages">
+          <a (click)="goToPage(currentPage + 1)" title="Next page">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </a>
+        </li>
+        <li *ngIf="currentPage < totalPages">
+          <a (click)="goToPage(totalPages)" title="Last page">
+            <span class="material-symbols-outlined">keyboard_double_arrow_right</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 

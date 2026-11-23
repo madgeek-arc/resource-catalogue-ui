@@ -251,8 +251,8 @@
                             </div>
                           }
                           @if (!trBundle.active) {
-                            <div class="rejected">
-                              <div class="uk-label uk-align-right">Inactive</div>
+                            <div>
+                              <div class="uk-label uk-label-gray uk-align-right">Inactive</div>
                             </div>
                           }
                           @if (trBundle.suspended) {
@@ -339,7 +339,7 @@
                         <button
                           routerLink="/provider/{{trBundle.trainingResource.resourceOwner}}/training-resource/view/{{trBundle.id}}"
                           class="uk-button uk-button-link" style="">
-                          <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
+                          <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">visibility</span>
                           View Training Resource
                         </button>
                         <button class="uk-button uk-button-link uk-margin-medium-left">
@@ -426,29 +426,27 @@
                                 <li class="uk-nav-divider"></li>
                               </ng-container>
                               @if (isProviderActive(trBundle.trainingResource.resourceOwner) ) {
-                                <div>
-                                  <li class="uk-button uk-button-link uk-padding-small"
+                                <li class="uk-margin-small-top"
                                     (click)="toggleService(trBundle)">
+                                  <a>
                                     @if (trBundle.active) {
-                                      <span class="material-symbols-outlined" style="vertical-align: middle;">close</span>Deactivate Training Resource
+                                      <span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">close</span>Deactivate Training Resource
+                                    } @else {
+                                      <span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">check</span>Activate Training Resource
                                     }
-                                    @if (!trBundle.active) {
-                                      <span class="material-symbols-outlined" style="vertical-align: middle;">check</span>Activate Training Resource
-                                    }
-                                  </li>
-                                </div>
+                                  </a>
+                                </li>
                               } @else {
-                                <div uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
-                                  <li class="uk-button uk-button-link uk-disabled uk-padding-small"
-                                    (click)="toggleService(trBundle)">
+                                <li class="uk-margin-small-top"
+                                    uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
+                                  <a class="uk-disabled uk-text-muted">
                                     @if (trBundle.active) {
-                                      <span class="material-symbols-outlined" style="vertical-align: middle;">close</span>Deactivate Deployable Application
+                                      <span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">close</span>Deactivate Training Resource
+                                    } @else {
+                                      <span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">check</span>Activate Training Resource
                                     }
-                                    @if (!trBundle.active) {
-                                      <span class="material-symbols-outlined" style="vertical-align: middle;">check</span>Activate Deployable Application
-                                    }
-                                  </li>
-                                </div>
+                                  </a>
+                                </li>
                               }
                               <li class="uk-nav-divider"></li>
                               @if ((trBundle.suspended==false)) {
@@ -766,7 +764,7 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.url as value">
         <dt>URL</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-symbols-outlined external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.urlType as value">
         <dt>URL type</dt><dd>{{ value }}</dd>

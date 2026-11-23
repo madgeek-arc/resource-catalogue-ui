@@ -227,8 +227,8 @@
                         <div *ngIf="providerBundle.active" class="approved">
                           <div class="uk-label uk-align-right">Active</div>
                         </div>
-                        <div *ngIf="!providerBundle.active" class="rejected">
-                          <div class="uk-label uk-align-right">Inactive</div>
+                        <div *ngIf="!providerBundle.active">
+                          <div class="uk-label uk-label-gray uk-align-right">Inactive</div>
                         </div>
 
                         <div *ngIf="providerBundle.suspended" class="rejected">
@@ -380,7 +380,7 @@
                           <hr class="uk-margin-top">
                           <div class="uk-align-right">
                             <button [routerLink]="['/provider/view/', providerBundle.catalogueId, pidHandler.customEncodeURIComponent(providerBundle.id)]" class="uk-button uk-button-link">
-                              <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i> View Provider
+                              <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">visibility</span> View Provider
                             </button>
 
                             <button class="uk-button uk-button-link uk-margin-medium-left">
@@ -470,17 +470,17 @@
                                       <a *ngIf="catalogueName!=='EOSC'"
                                          routerLink="{{ getLinkToFirstService(pidHandler.customEncodeURIComponent(providerBundle.id)) }}"
                                          class="">
-                                        <i class="fa fa-eye"></i> View First {{serviceORresource}}
+                                        <span class="material-symbols-outlined">visibility</span> View First {{serviceORresource}}
                                       </a>
                                       <a *ngIf="catalogueName==='EOSC'" (click)="openPreviewModal(providerBundle.id, 'service')"
                                          class="">
-                                        <i class="fa fa-eye"></i> View First {{serviceORresource}}
+                                        <span class="material-symbols-outlined">visibility</span> View First {{serviceORresource}}
                                       </a>
                                     </li>
                                     <li class="uk-active">
                                       <a routerLink="{{ getLinkToEditFirstService(pidHandler.customEncodeURIComponent(providerBundle.id)) }}"
                                          class="uk-margin-small-top">
-                                        <i class="fa fa-pencil"></i> Edit First {{serviceORresource}}
+                                        <span class="material-symbols-outlined">edit</span> Edit First {{serviceORresource}}
                                       </a>
                                     </li>
                                     <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'approved', 'service')">
@@ -500,7 +500,7 @@
                                     <li class="uk-active">
                                       <a routerLink="{{ getLinkToEditFirstTrainingResource(pidHandler.customEncodeURIComponent(providerBundle.id)) }}"
                                          class="uk-margin-small-top">
-                                        <i class="fa fa-pencil"></i> Edit First Training Resource
+                                        <span class="material-symbols-outlined">edit</span> Edit First Training Resource
                                       </a>
                                     </li>
                                     <li class="uk-active" (click)="templateAction(providerBundle.id, true, 'approved', 'trainingResource')">
@@ -738,8 +738,8 @@
         <div *ngIf="providerBundle.active" class="approved">
           <div class="uk-label uk-align-right">Active</div>
         </div>
-        <div *ngIf="!providerBundle.active" class="rejected">
-          <div class="uk-label uk-align-right">Inactive</div>
+        <div *ngIf="!providerBundle.active">
+          <div class="uk-label uk-label-gray uk-align-right">Inactive</div>
         </div>
 
         <div *ngIf="providerBundle.suspended" class="rejected">
@@ -1001,11 +1001,11 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.website as value">
         <dt>Website</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-symbols-outlined external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.logo as value">
         <dt>Logo</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-symbols-outlined external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.legalStatus as value">
         <dt>Legal status</dt><dd>{{ value }}</dd>

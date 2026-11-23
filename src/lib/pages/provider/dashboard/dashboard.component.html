@@ -5,8 +5,8 @@
       <div class="menu_section uk-margin-medium-top">
 
         @if (providerBundle?.active === false) {
-          <div class="rejected">
-            <div class="uk-label uk-align-right uk-margin-right">Inactive</div>
+          <div>
+            <div class="uk-label uk-label-gray uk-align-right uk-margin-right">Inactive</div>
           </div>
         }
 
@@ -316,7 +316,7 @@
       @if (providerBundle.catalogueId != null) {
         <li>
           <a href="/provider/view/{{pidHandler.customEncodeURIComponent(providerBundle.catalogueId)}}/{{pidHandler.customEncodeURIComponent(providerBundle?.id)}}">
-            <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true" style="color: #26c0e2"></i> View Provider
+            <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">visibility</span> View Provider
           </a>
         </li>
       }

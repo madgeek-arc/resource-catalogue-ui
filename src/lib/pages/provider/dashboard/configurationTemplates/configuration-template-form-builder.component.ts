@@ -25,7 +25,8 @@ export class ConfigurationTemplateFormBuilderComponent implements OnInit {
 
   ngOnInit() {
     this.guidelineId = this.route.snapshot.paramMap.get('guidelineId')!;
-    this.backDestination = '/guidelines/'+this.guidelineId+'/configuration-templates-management';
+    // backDestination goes through navigateByUrl, which decodes the URL string, so the already-encoded id must be encoded once more to reach %252F
+    this.backDestination = '/guidelines/'+encodeURIComponent(this.guidelineId)+'/configuration-templates-management';
 
     const id = this.route.snapshot.paramMap.get('id');
     if (id) { // on edit

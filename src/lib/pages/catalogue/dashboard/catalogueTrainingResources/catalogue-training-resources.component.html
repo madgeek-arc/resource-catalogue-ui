@@ -151,8 +151,8 @@
                   </div>
                 }
                 @if (!bundle.active) {
-                  <div class="rejected">
-                    <div class="uk-label uk-align-right">Inactive</div>
+                  <div>
+                    <div class="uk-label uk-label-gray uk-align-right">Inactive</div>
                   </div>
                 }
                 @if (bundle.suspended) {
@@ -213,7 +213,7 @@
             <button
               routerLink="/provider/{{bundle.trainingResource.resourceOwner}}/training-resource/view/{{bundle.id}}"
               class="uk-button uk-button-link" style="">
-              <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
+              <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">visibility</span>
               View Training Resource
             </button>
           </div>

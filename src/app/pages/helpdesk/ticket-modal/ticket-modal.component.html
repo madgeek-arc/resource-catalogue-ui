@@ -6,7 +6,7 @@
         <span class="ticket-id-label" *ngIf="ticket?.id">(Ticket ID: {{ ticket.id }})</span>
       </h2>
       <button class="close-btn" (click)="onClose()">
-        <i class="fa fa-times"></i>
+        <span class="material-symbols-outlined">close</span>
       </button>
     </div>
 
@@ -15,10 +15,10 @@
       <div class="ticket-header-row">
         <span class="ticket-number">#{{ ticket.number }}</span>
         <span
-          class="status-badge"
-          [class]="getStatusClass(getTicketState(ticket))"
+          class="uk-label"
+          [class]="getStatusLabelClass(getTicketState(ticket))"
         >
-          <i [class]="getStatusIcon(getTicketState(ticket))"></i>
+          <span class="material-symbols-outlined uk-margin-small-right">{{ getStatusIcon(getTicketState(ticket)) }}</span>
           {{ getTicketState(ticket) }}
         </span>
       </div>
@@ -58,7 +58,7 @@
         *ngIf="!ticket.articles || ticket.articles.length === 0"
         class="no-articles"
       >
-        <i class="fa fa-comment"></i>
+        <span class="material-symbols-outlined">comment</span>
         <p>No conversation history available for this ticket.</p>
       </div>
 
@@ -114,10 +114,10 @@
           <div class="form-actions">
             <button
               type="submit"
-              class="btn btn-primary"
+              class="uk-button uk-button-primary"
               [disabled]="replyForm.invalid || submittingReply"
             >
-              <span *ngIf="submittingReply" class="spinner"></span>
+              <span *ngIf="submittingReply" class="uk-margin-small-right" uk-spinner="ratio: 0.6"></span>
               {{ submittingReply ? "Sending..." : "Update" }}
             </button>
           </div>
@@ -126,13 +126,13 @@
 
       <!-- Closed Ticket Message -->
       <div *ngIf="isTicketClosed()" class="ticket-closed-notice">
-        <i class="fa fa-lock"></i>
+        <span class="material-symbols-outlined">lock</span>
         <p>This ticket is closed. If you need further assistance, please create a new ticket.</p>
       </div>
     </div>
 
     <div class="modal-footer">
-      <button class="btn btn-secondary" (click)="onClose()">Close</button>
+      <button class="uk-button uk-button-secondary" (click)="onClose()">Close</button>
     </div>
   </div>
 </div>

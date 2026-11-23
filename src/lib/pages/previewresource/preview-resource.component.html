@@ -72,7 +72,7 @@
 
         <div class="uk-width-1-4 text-center vertical-center">
           <div class="vertical-center-inner access-type">
-            <a class="btn btn-primary d-block mb-3">Access the {{serviceORresource}}</a>
+            <a class="uk-button uk-button-primary uk-width-1-1 uk-margin-bottom">Access the {{serviceORresource}}</a>
             <i class="ordertype open_access"></i>
             Open Access
           </div>
@@ -88,31 +88,31 @@
               <ul>
                 @if (resource.webpage) {
 <li>
-                  <svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> -->
+                  <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">arrow_forward</span><!-- <i class="fas fa-arrow-right"></i> -->
                   <a href="{{resource.webpage}}">Webpage</a>
                 </li>
 }
                 @if (resource.helpdeskPage) {
 <li>
-                  <svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> -->
+                  <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">arrow_forward</span><!-- <i class="fas fa-arrow-right"></i> -->
                   <a href="{{resource.helpdeskPage}}">Helpdesk</a>
                 </li>
 }
                 @if (resource.helpdeskEmail) {
 <li>
-                  <svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> -->
+                  <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">arrow_forward</span><!-- <i class="fas fa-arrow-right"></i> -->
                   <a href="mailto:{{resource.helpdeskEmail}}">Helpdesk e-mail</a>
                 </li>
 }
                 @if (resource.userManual) {
 <li>
-                  <svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> -->
+                  <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">arrow_forward</span><!-- <i class="fas fa-arrow-right"></i> -->
                   <a href="{{resource.userManual}}">Manual</a>
                 </li>
 }
                 @if (resource.trainingInformation) {
 <li>
-                  <svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> -->
+                  <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">arrow_forward</span><!-- <i class="fas fa-arrow-right"></i> -->
                   <a href="{{resource.trainingInformation}}">Training information</a>
                 </li>
 }
@@ -508,7 +508,7 @@
                     </li>
                     @if (resource.order) {
 <li class="links">
-                      <svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> -->
+                      <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">arrow_forward</span><!-- <i class="fas fa-arrow-right"></i> -->
                       <a href="{{resource.order}}">Order url</a>
                     </li>
 }
@@ -606,31 +606,31 @@
                                           <ul class="list-group">
                                             @if (resource.helpdeskPage) {
                                               <li class="links">
-                                                <svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> -->
+                                                <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">arrow_forward</span><!-- <i class="fas fa-arrow-right"></i> -->
                                                 <a href="{{resource.helpdeskPage}}">Helpdesk</a>
                                               </li>
                                             }
                                             @if (resource.userManual) {
                                               <li class="links">
-                                                <svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> -->
+                                                <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">arrow_forward</span><!-- <i class="fas fa-arrow-right"></i> -->
                                                 <a href="{{resource.userManual}}">Manual</a>
                                               </li>
                                             }
                                             @if (resource.termsOfUse) {
                                               <li class="links">
-                                                <svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> -->
+                                                <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">arrow_forward</span><!-- <i class="fas fa-arrow-right"></i> -->
                                                 <a href="{{resource.termsOfUse}}">Terms of use</a>
                                               </li>
                                             }
                                             @if (resource.accessPolicy) {
                                               <li class="links">
-                                                <svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> -->
+                                                <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">arrow_forward</span><!-- <i class="fas fa-arrow-right"></i> -->
                                                 <a href="{{resource.accessPolicy}}">Access policies</a>
                                               </li>
                                             }
                                             @if (resource.trainingInformation) {
                                               <li class="links">
-                                                <svg class="svg-inline--fa fa-arrow-right fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg><!-- <i class="fas fa-arrow-right"></i> -->
+                                                <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">arrow_forward</span><!-- <i class="fas fa-arrow-right"></i> -->
                                                 <a href="{{resource.trainingInformation}}">Training information</a>
                                               </li>
                                             }

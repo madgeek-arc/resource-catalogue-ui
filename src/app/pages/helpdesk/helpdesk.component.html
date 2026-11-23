@@ -3,7 +3,7 @@
     <h1>EOSC Beyond Helpdesk</h1>
     <p>Get support for your EOSC Beyond services and resources</p>
   </div>
-  
+
   <div class="helpdesk-navigation">
     <nav class="nav-tabs">
       <a [routerLink]="['/helpdesk/create']" routerLinkActive="active" class="nav-link">
@@ -11,12 +11,12 @@
       </a>
       <a [routerLink]="['/helpdesk/tickets']" routerLinkActive="active" class="nav-link">
         My Tickets
-        <span *ngIf="totalUnread > 0" class="uk-badge uk-margin-small-left" style="background-color:#f0506e">{{ totalUnread }}</span>
+        <span *ngIf="totalUnread > 0" class="uk-badge uk-margin-small-left" style="background-color: var(--error)">{{ totalUnread }}</span>
       </a>
     </nav>
   </div>
-  
+
   <div class="helpdesk-content">
     <router-outlet></router-outlet>
   </div>
-</div> 
+</div>

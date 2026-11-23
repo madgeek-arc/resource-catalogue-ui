@@ -178,17 +178,16 @@ export class TicketListComponent implements OnInit {
     const status = statusOrState?.toLowerCase() || "";
     switch (status) {
       case "new":
-        return "status-new";
+        return "uk-label-info";
       case "open":
-        return "status-open";
+        return "uk-label-danger";
       case "pending close":
-        return "status-pending-close";
       case "pending reminder":
-        return "status-pending-reminder";
+        return "uk-label-warning";
       case "closed":
-        return "status-closed";
+        return "uk-label-success";
       default:
-        return "status-default";
+        return "uk-label-gray";
     }
   }
 
@@ -196,17 +195,17 @@ export class TicketListComponent implements OnInit {
     const status = statusOrState?.toLowerCase() || "";
     switch (status) {
       case "new":
-        return "fa fa-plus-circle";
+        return "add_circle";
       case "open":
-        return "fa fa-exclamation-circle";
+        return "error";
       case "pending close":
-        return "fa fa-clock";
+        return "schedule";
       case "pending reminder":
-        return "fa fa-bell";
+        return "notifications";
       case "closed":
-        return "fa fa-check-circle";
+        return "check_circle";
       default:
-        return "fa fa-question-circle";
+        return "help";
     }
   }
 

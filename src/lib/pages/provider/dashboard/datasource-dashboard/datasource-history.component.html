@@ -37,7 +37,7 @@
           @if (datasource) {
             <div class="uk-grid">
               <div class="uk-width-1-1">
-                <section class="section">
+                <section class="timeline-section">
                   <div class="uk-container uk-container-center">
                     <div class="uk-button uk-button-danger uk-disabled uk-position-top-center uk-margin-small-top todayBadge">Today</div>
                     <div class="al_timeline">
@@ -83,7 +83,7 @@
                                       </div>
                                       @if (history.comment && history.comment!=='null') {
                                         <div class="uk-margin-medium-top">
-                                          <span class="comment"><i class="fa fa-comment uk-margin-small-right"></i>{{history.comment}}</span>
+                                          <span class="comment"><span class="material-symbols-outlined uk-margin-small-right">comment</span>{{history.comment}}</span>
                                         </div>
                                       }
                                     </div>
