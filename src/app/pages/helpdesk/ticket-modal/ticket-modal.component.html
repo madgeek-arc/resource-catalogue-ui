@@ -32,7 +32,6 @@
       <!-- Message Body / Conversation -->
       <div
         class="ticket-conversation"
-        [class]="getStatusClass(getTicketState(ticket)) + '-box'"
         *ngIf="ticket.articles && ticket.articles.length > 0"
       >
         <h4 class="conversation-header">Ticket's Message</h4>

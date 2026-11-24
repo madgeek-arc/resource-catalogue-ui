@@ -82,18 +82,6 @@ export class TicketModalComponent implements OnInit, OnChanges {
     }
   }
 
-  getStatusClass(status: string | undefined): string {
-    const statusLower = status?.toLowerCase() || "";
-    switch (statusLower) {
-      case "new": return "status-new";
-      case "open": return "status-open";
-      case "pending close": return "status-pending-close";
-      case "pending reminder": return "status-pending-reminder";
-      case "closed": return "status-closed";
-      default: return "status-default";
-    }
-  }
-
   getStatusLabelClass(status: string | undefined): string {
     const statusLower = status?.toLowerCase() || "";
     switch (statusLower) {

@@ -104,33 +104,7 @@
 
 /* Conversation */
 .ticket-conversation {
-  padding: 16px;
-  border-radius: var(--card-radius);
   margin-bottom: 24px;
-}
-
-.status-new-box {
-  background: var(--secondary);
-}
-
-.status-open-box {
-  background: var(--error-bg);
-}
-
-.status-pending-close-box {
-  background: var(--warning-bg);
-}
-
-.status-pending-reminder-box {
-  background: var(--warning-bg);
-}
-
-.status-closed-box {
-  background: var(--success-bg);
-}
-
-.status-default-box {
-  background: var(--neutral-bg);
 }
 
 .conversation-header {
@@ -149,7 +123,7 @@
 .conversation-item {
   padding: 16px;
   border-radius: var(--card-radius);
-  background: color-mix(in srgb, var(--white) 70%, transparent);
+  background: var(--neutral-bg);
   transition: all 0.2s ease;
   max-width: 75%;
 }
@@ -161,11 +135,6 @@
 /* User messages - left aligned */
 .message-user {
   align-self: flex-start;
-  background: color-mix(in srgb, var(--white) 90%, transparent);
-}
-
-.message-user:hover {
-  background: var(--white);
 }
 
 /* EPOT messages - right aligned, primary background */
