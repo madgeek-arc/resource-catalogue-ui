@@ -258,24 +258,11 @@
   gap: 8px;
 }
 
-.form-control {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--stroke-light);
-  border-radius: var(--control-radius);
-  font-size: 14px;
-  font-family: inherit;
+.uk-textarea {
   resize: vertical;
-  min-height: 100px;
 }
 
-.form-control:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 20%, transparent);
-}
-
-.form-control.is-invalid {
+.uk-textarea.is-invalid {
   border-color: var(--error);
 }
 

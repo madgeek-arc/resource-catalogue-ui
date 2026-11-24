@@ -55,8 +55,7 @@
   flex-direction: column;
 }
 
-label {
-  font-weight: 500;
+.uk-form-label {
   margin-bottom: 0.5rem;
 }
 
@@ -65,25 +64,7 @@ label {
   font-size: 1.1em;
 }
 
-input[type="text"],
-input[type="email"],
-select,
-textarea {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--stroke-light);
-  border-radius: var(--control-radius);
-  font-size: 1rem;
-  transition: border-color 0.2s;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: var(--primary);
-  outline: none;
-}
-
-textarea {
+.uk-textarea {
   min-height: 200px;
   resize: vertical;
 }
@@ -98,10 +79,6 @@ textarea {
   color: var(--primary);
   font-size: 1em;
   margin-top: 1rem;
-}
-
-input[type="checkbox"] {
-  margin-right: 0.5em;
 }
 
 .help-info {

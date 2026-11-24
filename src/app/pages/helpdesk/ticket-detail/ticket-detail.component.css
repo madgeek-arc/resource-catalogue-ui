@@ -183,31 +183,16 @@
   margin-bottom: 20px;
 }
 
-.form-group label {
+.uk-form-label {
   display: block;
   margin-bottom: 8px;
-  font-weight: 600;
-  color: var(--text-main);
 }
 
-.form-control {
-  width: 100%;
-  padding: 12px 15px;
-  border: 2px solid var(--stroke-light);
-  border-radius: var(--control-radius);
-  font-size: 14px;
-  transition: border-color 0.3s ease;
-  box-sizing: border-box;
+.uk-textarea {
   resize: vertical;
 }
 
-.form-control:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
-}
-
-.form-control.is-invalid {
+.uk-textarea.is-invalid {
   border-color: var(--error);
 }
 

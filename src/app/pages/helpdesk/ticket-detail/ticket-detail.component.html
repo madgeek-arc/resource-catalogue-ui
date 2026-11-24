@@ -80,13 +80,13 @@
           <h3>Add a Reply</h3>
           <form [formGroup]="replyForm" (ngSubmit)="onSubmitReply()" class="reply-form">
             <div class="form-group">
-              <label for="replyBody">Your Message *</label>
+              <label class="uk-form-label" for="replyBody">Your Message *</label>
               <textarea
                 id="replyBody"
                 formControlName="body"
                 placeholder="Type your reply here..."
                 rows="5"
-                class="form-control"
+                class="uk-textarea"
                 [class.is-invalid]="replyForm.get('body')?.invalid && replyForm.get('body')?.touched"
               ></textarea>
               @if (replyForm.get('body')?.invalid && replyForm.get('body')?.touched) {
