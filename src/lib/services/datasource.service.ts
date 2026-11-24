@@ -66,7 +66,7 @@ export class DatasourceService {
         params = params.append('service_id', decodeURIComponent(serviceValue));
       }
     }
-    return this.http.get(this.base + `/datasource/adminPage/all`, {params});
+    return this.http.get(this.base + `/datasource/bundle/all`, {params});
   }
 
   getDatasourceBundleById(id: string) {
