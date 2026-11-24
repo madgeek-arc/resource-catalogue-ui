@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ResourceService} from '../../services/resource.service';
+import {DatasourceService} from '../../services/datasource.service';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ProviderBundle} from '../../domain/eic-model';
 import {zip} from 'rxjs';
@@ -48,6 +49,7 @@ export class MyServiceProvidersComponent implements OnInit {
   constructor(
     private serviceProviderService: ServiceProviderService,
     private resourceService: ResourceService,
+    private datasourceService: DatasourceService,
     public authenticationService: AuthenticationService,
     public pidHandler: pidHandler,
     public config: ConfigService
@@ -103,7 +105,7 @@ export class MyServiceProvidersComponent implements OnInit {
                     // console.log(this.hasDraftServices);
                   }
                 );
-                this.resourceService.getDraftServicesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
+                this.datasourceService.getDraftDatasourcesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
                   res => {
                     if (res.results?.length > 0) {
                       this.hasDraftDatasources.push({id: p.id, flag: true});

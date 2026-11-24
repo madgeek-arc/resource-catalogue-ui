@@ -194,6 +194,7 @@ export class ServiceProviderService {
   }
 
   getRejectedResourcesOfProvider(id: string, from: string, quantity: string, order: string, sort: string, resourceType: string) {
+    id = decodeURIComponent(id);
     return this.http.get<Paging<any>>(this.base +
       `/provider/resources/rejected/${id}?from=${from}&quantity=${quantity}&order=${order}&sort=${sort}&resourceType=${resourceType}`);
   }
