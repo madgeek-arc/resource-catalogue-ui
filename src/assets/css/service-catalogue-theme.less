@@ -2521,6 +2521,18 @@ a,
   }
 }
 
+// Legacy Material Icons (still used by the dynamic-catalogue submodule) take the
+// text color on buttons, labels and the form builder's title icon, instead of the
+// fixed gray above, which disappears on the primary color
+.uk-button,
+button,
+.uk-label,
+.fb-meta-icon {
+  .material-icons {
+    color: inherit;
+  }
+}
+
 // Keep icons in labels from making the label taller
 .uk-label .material-symbols-outlined {
   font-size: 1.2em;
