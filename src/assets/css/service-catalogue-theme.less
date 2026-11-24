@@ -2522,12 +2522,15 @@ a,
 }
 
 // Legacy Material Icons (still used by the dynamic-catalogue submodule) take the
-// text color on buttons, labels and the form builder's title icon, instead of the
-// fixed gray above, which disappears on the primary color
+// text color on buttons, labels, links and the form builder's title icon and
+// "+ Section" tab, instead of the fixed gray above, which disappears on the
+// primary color and mismatches the text next to it
 .uk-button,
 button,
+a,
 .uk-label,
-.fb-meta-icon {
+.fb-meta-icon,
+.fb-tab-add {
   .material-icons {
     color: inherit;
   }
